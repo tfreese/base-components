@@ -1,0 +1,1 @@
+INSERT INTO PERSON VALUES(1, 'Freese', 'Thomas');

@@ -1,0 +1,279 @@
+/**
+ *
+ */
+package de.freese.base.security.bouncycastle;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.bouncycastle.cms.CMSAlgorithm;
+import org.bouncycastle.cms.CMSEnvelopedData;
+import org.bouncycastle.cms.CMSEnvelopedDataGenerator;
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.cms.CMSProcessableByteArray;
+import org.bouncycastle.cms.CMSTypedData;
+import org.bouncycastle.cms.jcajce.JceCMSContentEncryptorBuilder;
+import org.bouncycastle.cms.jcajce.JceKeyTransRecipientInfoGenerator;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Verschlüsselt Verzeichnisse/Dateien mit einem {@link X509Certificate} des BouncyCastleProviders.
+ *
+ * @author Svetlana Margolina (eck*cellent)
+ * @author Thomas Freese
+ */
+public class EncryptFileBC
+{
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(EncryptFileBC.class);
+
+    /**
+     * Erstellt ein neues {@link EncryptFileBC} Objekt.
+     */
+    public EncryptFileBC()
+    {
+        super();
+
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
+        {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+    }
+
+    /**
+     * Verschlüsselt die Datei mit einem {@link X509Certificate}.
+     *
+     * @param decrytpedFile String
+     * @param encryptedFile String
+     * @param zertifikatFile String
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateException Falls was schief geht.
+     * @throws CMSException Falls was schief geht.
+     */
+    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String zertifikatFile)
+        throws CertificateException, IOException, CMSException
+    {
+        X509Certificate cert = getCertificate(zertifikatFile);
+
+        encryptX509File(decrytpedFile, encryptedFile, cert);
+    }
+
+    /**
+     * Verschlüsselt die Datei mit einem {@link X509Certificate}.
+     *
+     * @param decrytpedFile String
+     * @param encryptedFile String
+     * @param keystoreFile String
+     * @param keyStorePassword char[]
+     * @param alias String, Zertifikat
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateException Falls was schief geht.
+     * @throws NoSuchAlgorithmException Falls was schief geht.
+     * @throws KeyStoreException Falls was schief geht.
+     * @throws CMSException Falls was schief geht.
+     */
+    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
+                                final String alias)
+        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, CMSException
+    {
+        X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
+
+        encryptX509File(decrytpedFile, encryptedFile, cert);
+    }
+
+    /**
+     * Verschlüsselt die Datei mit einem {@link X509Certificate}.
+     *
+     * @param decrytpedFile String
+     * @param encryptedFile String
+     * @param cert {@link X509Certificate}
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateEncodingException Falls was schief geht.
+     * @throws CMSException Falls was schief geht.
+     */
+    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final X509Certificate cert)
+        throws IOException, CertificateEncodingException, CMSException
+    {
+        File file = new File(decrytpedFile);
+
+        if (file.isDirectory())
+        {
+            LOGGER.warn("Skipping Folder: {}", decrytpedFile);
+            return;
+        }
+
+        if (!file.canRead())
+        {
+            String msg = String.format("unable to read file %s", decrytpedFile);
+            throw new IOException(msg);
+        }
+
+        LOGGER.info("Encrypt File \"{}\" to \"{}\" with \"{}\"", new Object[]
+        {
+                decrytpedFile, encryptedFile, cert.getSubjectDN()
+        });
+
+        byte[] data = null;
+
+        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file)))
+        {
+            data = IOUtils.toByteArray(inputStream);
+            // data = new byte[(int) file.length()];
+            // inputStream.read(data);
+        }
+
+        CMSTypedData msg = new CMSProcessableByteArray(data);
+        CMSEnvelopedDataGenerator edGen = new CMSEnvelopedDataGenerator();
+        edGen.addRecipientInfoGenerator(new JceKeyTransRecipientInfoGenerator(cert));
+
+        CMSEnvelopedData ed =
+                edGen.generate(msg, new JceCMSContentEncryptorBuilder(CMSAlgorithm.DES_EDE3_CBC).setProvider(BouncyCastleProvider.PROVIDER_NAME).build());
+
+        FileUtils.writeByteArrayToFile(new File(encryptedFile), ed.getEncoded());
+    }
+
+    /**
+     * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
+     * OHNE Unterverzeichnise.
+     *
+     * @param inputFolder String
+     * @param outputFolder String
+     * @param zertifikatFile String
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateException Falls was schief geht.
+     * @throws CMSException Falls was schief geht.
+     */
+    public void encryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile)
+        throws CertificateException, IOException, CMSException
+    {
+        X509Certificate cert = getCertificate(zertifikatFile);
+
+        encryptX509Folder(inputFolder, outputFolder, cert);
+    }
+
+    /**
+     * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
+     * OHNE Unterverzeichnise.
+     *
+     * @param inputFolder String
+     * @param outputFolder String
+     * @param keystoreFile String
+     * @param keyStorePassword char[]
+     * @param alias String, Zertifikat
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateException Falls was schief geht.
+     * @throws NoSuchAlgorithmException Falls was schief geht.
+     * @throws KeyStoreException Falls was schief geht.
+     * @throws CMSException Falls was schief geht.
+     */
+    public void encryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
+                                  final String alias)
+        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, CMSException
+    {
+        X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
+
+        encryptX509Folder(inputFolder, outputFolder, cert);
+    }
+
+    /**
+     * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
+     * OHNE Unterverzeichnise.
+     *
+     * @param inputFolder String
+     * @param outputFolder String
+     * @param cert {@link X509Certificate}
+     * @throws CMSException Falls was schief geht.
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateEncodingException Falls was schief geht.
+     */
+    public void encryptX509Folder(final String inputFolder, final String outputFolder, final X509Certificate cert)
+        throws CertificateEncodingException, IOException, CMSException
+    {
+        File folder = new File(inputFolder);
+
+        if (!folder.canRead())
+        {
+            String msg = String.format("unable to read folder %s", inputFolder);
+            throw new IOException(msg);
+        }
+
+        String[] files = folder.list();
+
+        for (String name : files)
+        {
+            String inputFile = inputFolder + File.separator + name;
+            String encryptedFile = outputFolder + File.separator + "Encrypted_" + name;
+
+            encryptX509File(inputFile, encryptedFile, cert);
+        }
+    }
+
+    /**
+     * Laden des {@link X509Certificate}s.
+     *
+     * @param zertifikatFile String
+     * @return {@link X509Certificate}
+     * @throws CertificateException Falls was schief geht.
+     * @throws IOException Falls was schief geht.
+     */
+    private X509Certificate getCertificate(final String zertifikatFile) throws CertificateException, IOException
+    {
+        Certificate cert = null;
+
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(zertifikatFile)))
+        {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+            while (bis.available() > 0)
+            {
+                cert = cf.generateCertificate(bis);
+            }
+        }
+
+        return (X509Certificate) cert;
+    }
+
+    /**
+     * Laden des {@link X509Certificate}s.
+     *
+     * @param keystoreFile String
+     * @param keyStorePassword char[]
+     * @param alias String, Zertifikat
+     * @return {@link X509Certificate}
+     * @throws KeyStoreException Falls was schief geht.
+     * @throws IOException Falls was schief geht.
+     * @throws CertificateException Falls was schief geht.
+     * @throws NoSuchAlgorithmException Falls was schief geht.
+     */
+    private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias)
+        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
+    {
+        KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
+
+        try (FileInputStream fis = new FileInputStream(keystoreFile))
+        {
+            ks.load(fis, keyStorePassword);
+        }
+
+        Certificate cert = ks.getCertificate(alias);
+
+        return (X509Certificate) cert;
+    }
+}

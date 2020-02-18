@@ -1,0 +1,712 @@
+// 	 Mac-specific strings 
+AbstractButton.clickText 	 Klick 
+AbstractDocument.additionText 	 Zusatz 
+AbstractDocument.deletionText 	 Löschen 
+AbstractDocument.redoText 	 Wiederholen 
+AbstractDocument.styleChangeText 	 Stiländerung 
+AbstractDocument.undoText 	 Widerrufen 
+AbstractUndoableEdit.redoText 	 Wiederholen 
+AbstractUndoableEdit.undoText 	 Widerrufen 
+AuditoryCues.allAuditoryCues 	 [Ljava.lang.Object;@16bdb503 
+AuditoryCues.cueList 	 [Ljava.lang.Object;@16bdb503 
+AuditoryCues.noAuditoryCues 	 [Ljava.lang.Object;@b6e39f 
+Button.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+Button.border 	 com.apple.laf.AquaButtonBorder$Dynamic@38b5dac4 
+Button.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Button.defaultButtonFollowsFocus 	 true 
+Button.disabledText 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+Button.focusInputMap 	 javax.swing.plaf.InputMapUIResource@1d2940b3 
+Button.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+Button.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Button.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Button.light 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+Button.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=2,bottom=0,right=2] 
+Button.opaque 	 false 
+Button.select 	 javax.swing.plaf.ColorUIResource[r=255,g=102,b=102] 
+Button.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+Button.textIconGap 	 4 
+Button.textShiftOffset 	 0 
+ButtonUI 	 com.apple.laf.AquaButtonUI 
+CheckBox.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+CheckBox.border 	 com.apple.laf.AquaButtonBorder$Named@311671b2 
+CheckBox.disabledText 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+CheckBox.focusInputMap 	 javax.swing.plaf.InputMapUIResource@3882764b 
+CheckBox.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+CheckBox.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+CheckBox.icon 	 javax.swing.ImageIcon@5117f31e 
+CheckBox.margin 	 javax.swing.plaf.InsetsUIResource[top=1,left=1,bottom=0,right=1] 
+CheckBox.select 	 javax.swing.plaf.ColorUIResource[r=255,g=102,b=102] 
+CheckBox.textIconGap 	 4 
+CheckBox.textShiftOffset 	 0 
+CheckBoxMenuItem.acceleratorDelimiter 	  
+CheckBoxMenuItem.acceleratorFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+CheckBoxMenuItem.acceleratorForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+CheckBoxMenuItem.acceleratorSelectionForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+CheckBoxMenuItem.arrowIcon 	 javax.swing.plaf.basic.BasicIconFactory$MenuItemArrowIcon@1c5d9084 
+CheckBoxMenuItem.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+CheckBoxMenuItem.border 	 com.apple.laf.AquaMenuBorder@42bad8a8 
+CheckBoxMenuItem.borderPainted 	 true 
+CheckBoxMenuItem.checkIcon 	 com.apple.laf.AquaImageFactory$InvertableImageIcon@7ec5495e 
+CheckBoxMenuItem.dashIcon 	 com.apple.laf.AquaImageFactory$InvertableImageIcon@26914f6a 
+CheckBoxMenuItem.disabledBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+CheckBoxMenuItem.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+CheckBoxMenuItem.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+CheckBoxMenuItem.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+CheckBoxMenuItem.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+CheckBoxMenuItem.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+CheckBoxMenuItem.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+CheckBoxMenuItemUI 	 com.apple.laf.AquaMenuItemUI 
+CheckBoxUI 	 com.apple.laf.AquaButtonCheckBoxUI 
+ColorChooser.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ColorChooser.cancelText 	 Abbrechen 
+ColorChooser.font 	 javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12] 
+ColorChooser.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ColorChooser.hsbBlueText 	 B 
+ColorChooser.hsbBrightnessText 	 B 
+ColorChooser.hsbDisplayedMnemonicIndex 	 0 
+ColorChooser.hsbGreenText 	 G 
+ColorChooser.hsbHueText 	 H 
+ColorChooser.hsbMnemonic 	 72 
+ColorChooser.hsbNameText 	 HSB 
+ColorChooser.hsbRedText 	 R 
+ColorChooser.hsbSaturationText 	 S 
+ColorChooser.okText 	 OK 
+ColorChooser.previewText 	 Vorschau 
+ColorChooser.resetMnemonic 	 82 
+ColorChooser.resetText 	 Zurücksetzen 
+ColorChooser.rgbBlueMnemonic 	 66 
+ColorChooser.rgbBlueText 	 Blau 
+ColorChooser.rgbDisplayedMnemonicIndex 	 1 
+ColorChooser.rgbGreenMnemonic 	 78 
+ColorChooser.rgbGreenText 	 Grün 
+ColorChooser.rgbMnemonic 	 71 
+ColorChooser.rgbNameText 	 RGB 
+ColorChooser.rgbRedMnemonic 	 68 
+ColorChooser.rgbRedText 	 Rot 
+ColorChooser.sampleText 	 Beispieltext  Beispieltext 
+ColorChooser.swatchesDefaultRecentColor 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ColorChooser.swatchesDisplayedMnemonicIndex 	 0 
+ColorChooser.swatchesMnemonic 	 83 
+ColorChooser.swatchesNameText 	 Farbproben 
+ColorChooser.swatchesRecentSwatchSize 	 java.awt.Dimension[width=10,height=10] 
+ColorChooser.swatchesRecentText 	 Zuletzt benutzt: 
+ColorChooser.swatchesSwatchSize 	 java.awt.Dimension[width=10,height=10] 
+ColorChooserUI 	 javax.swing.plaf.basic.BasicColorChooserUI 
+ComboBox.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@7471dc3d 
+ComboBox.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ComboBox.buttonBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ComboBox.buttonDarkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ComboBox.buttonHighlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ComboBox.buttonShadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+ComboBox.disabledBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ComboBox.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+ComboBox.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+ComboBox.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ComboBox.isEnterSelectablePopup 	 false 
+ComboBox.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+ComboBox.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ComboBox.timeFactor 	 1000 
+ComboBox.togglePopupText 	 togglePopup 
+ComboBoxUI 	 com.apple.laf.AquaComboBoxUI 
+Desktop.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@1089cc5e 
+Desktop.background 	 javax.swing.plaf.ColorUIResource[r=65,g=105,b=170] 
+Desktop.minOnScreenInsets 	 javax.swing.plaf.InsetsUIResource[top=3,left=3,bottom=3,right=3] 
+DesktopIcon.border 	 javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@7e3bc473 
+DesktopIconUI 	 com.apple.laf.AquaInternalFrameDockIconUI 
+DesktopPaneUI 	 com.apple.laf.AquaInternalFramePaneUI 
+EditorPane.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+EditorPane.border 	 javax.swing.plaf.basic.BasicBorders$MarginBorder@5982bcde 
+EditorPane.caretBlinkRate 	 500 
+EditorPane.caretForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+EditorPane.focusInputMap 	 javax.swing.plaf.InputMapUIResource@163dc0bb 
+EditorPane.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+EditorPane.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+EditorPane.inactiveBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+EditorPane.inactiveForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+EditorPane.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+EditorPane.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+EditorPane.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+EditorPaneUI 	 com.apple.laf.AquaEditorPaneUI 
+FileChooser.acceptAllFileFilterText 	 Alle Dateien 
+FileChooser.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@30384065 
+FileChooser.byDateText 	 Geändert am 
+FileChooser.byNameText 	 Name 
+FileChooser.cancelButtonMnemonic 	 0 
+FileChooser.cancelButtonText 	 Abbrechen 
+FileChooser.chooseButtonText 	 Auswahl  
+FileChooser.createButtonText 	 Erstellen 
+FileChooser.desktopName 	 Schreibtisch 
+FileChooser.detailsViewIcon 	 javax.swing.plaf.IconUIResource@3d0bbf9e 
+FileChooser.directoryDescriptionText 	 Verzeichnis 
+FileChooser.directoryOpenButtonMnemonic 	 0 
+FileChooser.directoryOpenButtonText 	 Öffnen 
+FileChooser.fileDescriptionText 	 Allgemeine Datei 
+FileChooser.fileNameLabelMnemonic 	 0 
+FileChooser.fileNameLabelText 	 Datei: 
+FileChooser.fileSizeGigaBytes 	 {0} GB 
+FileChooser.fileSizeKiloBytes 	 {0} KB 
+FileChooser.fileSizeMegaBytes 	 {0} MB 
+FileChooser.filesOfTypeLabelMnemonic 	 0 
+FileChooser.filesOfTypeLabelText 	 Dateiformat: 
+FileChooser.helpButtonMnemonic 	 0 
+FileChooser.helpButtonText 	 Hilfe 
+FileChooser.homeFolderIcon 	 javax.swing.plaf.IconUIResource@4e513d61 
+FileChooser.listViewIcon 	 javax.swing.plaf.IconUIResource@3d0bbf9e 
+FileChooser.lookInLabelMnemonic 	 0 
+FileChooser.mac.newFolder 	 Neuer Ordner 
+FileChooser.mac.newFolder.subsequent 	 Neuer Ordner {0} 
+FileChooser.newFolderAccessibleName 	 Neuer Ordner 
+FileChooser.newFolderButtonText 	 Neuer Ordner 
+FileChooser.newFolderErrorSeparator 	 :  
+FileChooser.newFolderErrorText 	 Fehler bei Ordnererstellung 
+FileChooser.newFolderExistsErrorText 	 Name wird bereits verwendet 
+FileChooser.newFolderIcon 	 javax.swing.plaf.IconUIResource@3794d372 
+FileChooser.newFolderPromptText 	 Name des neuen Ordners: 
+FileChooser.newFolderTitleText 	 Neuer Ordner 
+FileChooser.openButtonMnemonic 	 0 
+FileChooser.openButtonText 	 Öffnen 
+FileChooser.openDialogTitleText 	 Öffnen 
+FileChooser.openTitleText 	 Öffnen 
+FileChooser.readOnly 	 false 
+FileChooser.saveButtonMnemonic 	 0 
+FileChooser.saveButtonText 	 Sichern 
+FileChooser.saveDialogFileNameLabelText 	 Sichern unter: 
+FileChooser.saveDialogTitleText 	 Sichern 
+FileChooser.saveTitleText 	 Sichern 
+FileChooser.untitledFileName 	 Ohne Titel 
+FileChooser.untitledFolderName 	 Neuer Ordner 
+FileChooser.upFolderIcon 	 javax.swing.plaf.IconUIResource@3794d372 
+FileChooser.updateButtonMnemonic 	 0 
+FileChooser.updateButtonText 	 Aktualisierung 
+FileChooser.useSystemExtensionHiding 	 false 
+FileChooser.usesSingleFilePane 	 false 
+FileChooserUI 	 com.apple.laf.AquaFileChooserUI 
+FileView.computerIcon 	 javax.swing.plaf.IconUIResource@4e513d61 
+FileView.directoryIcon 	 javax.swing.plaf.IconUIResource@3794d372 
+FileView.fileIcon 	 javax.swing.plaf.IconUIResource@bc5fde0 
+FileView.floppyDriveIcon 	 javax.swing.plaf.IconUIResource@739e8329 
+FileView.hardDriveIcon 	 javax.swing.plaf.IconUIResource@2bb5340c 
+Focus.color 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+FormView.browseFileButtonText 	 Suchen … 
+FormView.resetButtonText 	 Zurücksetzen 
+FormView.submitButtonText 	 Anfrage senden 
+FormattedTextField.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+FormattedTextField.border 	 com.apple.laf.AquaTextFieldBorder@42b307f0 
+FormattedTextField.caretBlinkRate 	 500 
+FormattedTextField.caretForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+FormattedTextField.focusInputMap 	 javax.swing.plaf.InputMapUIResource@77ce3fc5 
+FormattedTextField.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+FormattedTextField.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+FormattedTextField.inactiveBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+FormattedTextField.inactiveForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+FormattedTextField.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+FormattedTextField.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+FormattedTextField.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+FormattedTextFieldUI 	 com.apple.laf.AquaTextFieldFormattedUI 
+IconButton.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=11] 
+InsetBorder.aquaVariant 	 com.apple.laf.AquaGroupBorder$Titleless@60491c4c 
+InternalFrame.activeTitleBackground 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+InternalFrame.activeTitleForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+InternalFrame.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+InternalFrame.borderColor 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+InternalFrame.borderDarkShadow 	 java.awt.Color[r=0,g=255,b=0] 
+InternalFrame.borderHighlight 	 java.awt.Color[r=0,g=0,b=255] 
+InternalFrame.borderLight 	 java.awt.Color[r=255,g=255,b=0] 
+InternalFrame.borderShadow 	 java.awt.Color[r=255,g=0,b=0] 
+InternalFrame.closeButtonToolTip 	 Schließen 
+InternalFrame.closeIcon 	 com.apple.laf.AquaInternalFrameUI$AquaInternalFrameButtonIcon@2f242b11 
+InternalFrame.iconButtonToolTip 	 Im Dock ablegen 
+InternalFrame.iconifyIcon 	 com.apple.laf.AquaInternalFrameUI$AquaInternalFrameButtonIcon@2937d090 
+InternalFrame.inactiveTitleBackground 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+InternalFrame.inactiveTitleForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+InternalFrame.maxButtonToolTip 	 Maximieren 
+InternalFrame.maximizeIcon 	 com.apple.laf.AquaInternalFrameUI$AquaInternalFrameButtonIcon@5097eded 
+InternalFrame.minimizeIcon 	 com.apple.laf.AquaInternalFrameUI$AquaInternalFrameButtonIcon@2937d090 
+InternalFrame.opaque 	 false 
+InternalFrame.optionDialogBackground 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+InternalFrame.optionDialogTitleFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+InternalFrame.paletteBackground 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+InternalFrame.paletteTitleFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+InternalFrame.restoreButtonToolTip 	 Wiederherstellen 
+InternalFrame.titleFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+InternalFrame.windowBindings 	 [Ljava.lang.Object;@26858bf1 
+InternalFrameTitlePane.closeButtonAccessibleName 	 Schließen 
+InternalFrameTitlePane.closeButtonOpacity 	 true 
+InternalFrameTitlePane.closeButtonText 	 Schließen 
+InternalFrameTitlePane.iconifyButtonAccessibleName 	 Iconify 
+InternalFrameTitlePane.iconifyButtonOpacity 	 true 
+InternalFrameTitlePane.maximizeButtonAccessibleName 	 Maximieren 
+InternalFrameTitlePane.maximizeButtonOpacity 	 true 
+InternalFrameTitlePane.maximizeButtonText 	 Maximieren 
+InternalFrameTitlePane.minimizeButtonText 	 Im Dock ablegen 
+InternalFrameTitlePane.moveButtonText 	 Bewegen 
+InternalFrameTitlePane.restoreButtonText 	 Wiederherstellen 
+InternalFrameTitlePane.sizeButtonText 	 Größe 
+InternalFrameUI 	 com.apple.laf.AquaInternalFrameUI 
+IsindexView.prompt 	 Dies ist ein durchsuchbarer Index. Suchwörter eingeben: 
+Label.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+Label.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+Label.disabledShadow 	 javax.swing.plaf.ColorUIResource[r=64,g=64,b=64] 
+Label.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+Label.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Label.opaque 	 true 
+LabelUI 	 com.apple.laf.AquaLabelUI 
+List.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+List.cellRenderer 	 javax.swing.DefaultListCellRenderer$UIResource[List.cellRenderer,0,0,0x0,invalid,alignmentX=0.0,alignmentY=0.0,border=javax.swing.border.EmptyBorder@7455d93d,flags=25165832,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,horizontalAlignment=LEADING,horizontalTextPosition=TRAILING,iconTextGap=4,labelFor=,text=,verticalAlignment=CENTER,verticalTextPosition=CENTER] 
+List.dropLineColor 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+List.evenRowBackgroundPainter 	 com.apple.laf.AquaListUI$ComponentPainter@10d09ad3 
+List.focusCellHighlightBorder 	 javax.swing.plaf.BorderUIResource$LineBorderUIResource@6f649b44 
+List.focusInputMap 	 javax.swing.plaf.InputMapUIResource@360dc67e 
+List.focusInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@426295eb 
+List.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=12] 
+List.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+List.oddRowBackgroundPainter 	 com.apple.laf.AquaListUI$ComponentPainter@56609959 
+List.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=35,g=101,b=204] 
+List.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=255,g=255,b=255] 
+List.selectionInactiveBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=202,g=202,b=202] 
+List.selectionInactiveForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+List.sourceListBackgroundPainter 	 com.apple.laf.AquaListUI$ComponentPainter@5ff3ce5c 
+List.sourceListFocusedSelectionBackgroundPainter 	 com.apple.laf.AquaListUI$ComponentPainter@7f712b3a 
+List.sourceListSelectionBackgroundPainter 	 com.apple.laf.AquaListUI$ComponentPainter@5ecd2e33 
+List.timeFactor 	 1000 
+ListUI 	 com.apple.laf.AquaListUI 
+Menu.acceleratorFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+Menu.acceleratorForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Menu.acceleratorSelectionForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Menu.arrowIcon 	 com.apple.laf.AquaImageFactory$InvertableImageIcon@6a340101 
+Menu.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Menu.border 	 com.apple.laf.AquaMenuBorder@42bad8a8 
+Menu.borderPainted 	 false 
+Menu.checkIcon 	 javax.swing.plaf.basic.BasicIconFactory$MenuItemCheckIcon@37fd6bea 
+Menu.consumesTabs 	 true 
+Menu.crossMenuMnemonic 	 true 
+Menu.disabledBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Menu.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+Menu.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+Menu.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Menu.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+Menu.menuPopupOffsetX 	 0 
+Menu.menuPopupOffsetY 	 1 
+Menu.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+Menu.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Menu.shortcutKeys 	 [I@5eb7ec5d 
+Menu.submenuPopupOffsetX 	 0 
+Menu.submenuPopupOffsetY 	 -4 
+MenuBar.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuBar.backgroundPainter 	 com.apple.laf.AquaBorder$Default@7ac2b2f6 
+MenuBar.border 	 com.apple.laf.AquaMenuBarBorder@4737371 
+MenuBar.disabledBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuBar.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+MenuBar.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+MenuBar.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+MenuBar.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuBar.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=8,bottom=0,right=8] 
+MenuBar.selectedBackgroundPainter 	 com.apple.laf.AquaBorder$Default@69e328e0 
+MenuBar.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+MenuBar.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuBar.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+MenuBar.windowBindings 	 [Ljava.lang.Object;@4090c06f 
+MenuBarUI 	 com.apple.laf.AquaMenuBarUI 
+MenuItem.acceleratorDelimiter 	  
+MenuItem.acceleratorFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+MenuItem.acceleratorForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+MenuItem.acceleratorSelectionForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+MenuItem.arrowIcon 	 javax.swing.plaf.basic.BasicIconFactory$MenuItemArrowIcon@1c5d9084 
+MenuItem.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuItem.border 	 com.apple.laf.AquaMenuBorder@42bad8a8 
+MenuItem.borderPainted 	 true 
+MenuItem.checkIcon 	 javax.swing.plaf.basic.BasicIconFactory$MenuItemCheckIcon@37fd6bea 
+MenuItem.disabledBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuItem.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+MenuItem.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+MenuItem.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+MenuItem.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+MenuItem.selectedBackgroundPainter 	 com.apple.laf.AquaBorder$Default@69267649 
+MenuItem.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+MenuItem.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+MenuItemUI 	 com.apple.laf.AquaMenuItemUI 
+MenuUI 	 com.apple.laf.AquaMenuUI 
+OptionPane.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+OptionPane.border 	 javax.swing.plaf.BorderUIResource$EmptyBorderUIResource@5c1fe88d 
+OptionPane.buttonAreaBorder 	 javax.swing.plaf.BorderUIResource$EmptyBorderUIResource@32dcb03b 
+OptionPane.buttonClickThreshhold 	 500 
+OptionPane.buttonFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+OptionPane.cancelButtonMnemonic 	  
+OptionPane.cancelButtonText 	 Abbrechen 
+OptionPane.errorIcon 	 javax.swing.plaf.IconUIResource@7c6572b 
+OptionPane.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=bold,size=13] 
+OptionPane.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+OptionPane.informationIcon 	 javax.swing.plaf.IconUIResource@506f9b8e 
+OptionPane.inputDialogTitle 	 Eingabe 
+OptionPane.messageAreaBorder 	 javax.swing.plaf.BorderUIResource$EmptyBorderUIResource@4f4db0e3 
+OptionPane.messageDialogTitle 	 Nachricht 
+OptionPane.messageFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+OptionPane.messageForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+OptionPane.minimumSize 	 javax.swing.plaf.DimensionUIResource[width=262,height=90] 
+OptionPane.noButtonMnemonic 	  
+OptionPane.noButtonText 	 Nein 
+OptionPane.okButtonMnemonic 	  
+OptionPane.okButtonText 	 OK 
+OptionPane.questionIcon 	 javax.swing.plaf.IconUIResource@75982fc1 
+OptionPane.titleText 	 Option wählen 
+OptionPane.warningIcon 	 javax.swing.plaf.IconUIResource@4e4ee70b 
+OptionPane.windowBindings 	 [Ljava.lang.Object;@1e22ab57 
+OptionPane.yesButtonMnemonic 	  
+OptionPane.yesButtonText 	 Ja 
+OptionPaneUI 	 com.apple.laf.AquaOptionPaneUI 
+Panel.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+Panel.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+Panel.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Panel.opaque 	 true 
+PanelUI 	 com.apple.laf.AquaPanelUI 
+PasswordField.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+PasswordField.border 	 com.apple.laf.AquaTextFieldBorder@42b307f0 
+PasswordField.caretBlinkRate 	 500 
+PasswordField.caretForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+PasswordField.echoChar 	 ● 
+PasswordField.focusInputMap 	 javax.swing.plaf.InputMapUIResource@761eec35 
+PasswordField.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+PasswordField.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+PasswordField.inactiveBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+PasswordField.inactiveForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+PasswordField.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+PasswordField.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+PasswordField.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+PasswordFieldUI 	 com.apple.laf.AquaTextPasswordFieldUI 
+PopupMenu.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+PopupMenu.border 	 com.apple.laf.AquaMenuBorder@42bad8a8 
+PopupMenu.consumeEventOnClose 	 false 
+PopupMenu.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+PopupMenu.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+PopupMenu.selectedWindowInputMapBindings 	 [Ljava.lang.Object;@6825c828 
+PopupMenu.selectedWindowInputMapBindings.RightToLeft 	 [Ljava.lang.Object;@877ef83 
+PopupMenu.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+PopupMenu.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+PopupMenuSeparatorUI 	 com.apple.laf.AquaPopupMenuSeparatorUI 
+PopupMenuUI 	 com.apple.laf.AquaPopupMenuUI 
+PrintingDialog.abortButtonDisplayedMnemonicIndex 	 0 
+PrintingDialog.abortButtonMnemonic 	 65 
+PrintingDialog.abortButtonText 	 Abbruch 
+PrintingDialog.abortButtonToolTipText 	 Drucken abbrechen 
+PrintingDialog.contentAbortingText 	 Drucken abbrechen … 
+PrintingDialog.contentInitialText 	 Drucken … 
+PrintingDialog.contentProgressText 	 Gedruckte Seite {0} … 
+PrintingDialog.titleAbortingText 	 Drucken (Abbrechen) 
+PrintingDialog.titleProgressText 	 Drucken 
+ProgressBar.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ProgressBar.border 	 javax.swing.plaf.BorderUIResource@7a0d85cc 
+ProgressBar.cellLength 	 1 
+ProgressBar.cellSpacing 	 0 
+ProgressBar.cycleTime 	 3000 
+ProgressBar.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+ProgressBar.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ProgressBar.horizontalSize 	 javax.swing.plaf.DimensionUIResource[width=146,height=12] 
+ProgressBar.repaintInterval 	 20 
+ProgressBar.selectionBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ProgressBar.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ProgressBar.verticalSize 	 javax.swing.plaf.DimensionUIResource[width=12,height=146] 
+ProgressBarUI 	 com.apple.laf.AquaProgressBarUI 
+ProgressMonitor.progressText 	 Status … 
+RadioButton.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+RadioButton.border 	 com.apple.laf.AquaButtonBorder$Named@311671b2 
+RadioButton.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+RadioButton.disabledText 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+RadioButton.focusInputMap 	 javax.swing.plaf.InputMapUIResource@dcb52ae 
+RadioButton.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+RadioButton.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+RadioButton.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+RadioButton.icon 	 javax.swing.ImageIcon@6c01bde4 
+RadioButton.light 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+RadioButton.margin 	 javax.swing.plaf.InsetsUIResource[top=1,left=1,bottom=0,right=1] 
+RadioButton.select 	 javax.swing.plaf.ColorUIResource[r=255,g=102,b=102] 
+RadioButton.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+RadioButton.textIconGap 	 4 
+RadioButton.textShiftOffset 	 0 
+RadioButtonMenuItem.acceleratorDelimiter 	  
+RadioButtonMenuItem.acceleratorFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+RadioButtonMenuItem.acceleratorForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+RadioButtonMenuItem.acceleratorSelectionForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+RadioButtonMenuItem.arrowIcon 	 javax.swing.plaf.basic.BasicIconFactory$MenuItemArrowIcon@1c5d9084 
+RadioButtonMenuItem.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+RadioButtonMenuItem.border 	 com.apple.laf.AquaMenuBorder@42bad8a8 
+RadioButtonMenuItem.borderPainted 	 true 
+RadioButtonMenuItem.checkIcon 	 com.apple.laf.AquaImageFactory$InvertableImageIcon@77addb59 
+RadioButtonMenuItem.dashIcon 	 com.apple.laf.AquaImageFactory$InvertableImageIcon@6e79839 
+RadioButtonMenuItem.disabledBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+RadioButtonMenuItem.disabledForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+RadioButtonMenuItem.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=14] 
+RadioButtonMenuItem.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+RadioButtonMenuItem.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+RadioButtonMenuItem.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=75,g=137,b=208] 
+RadioButtonMenuItem.selectionForeground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+RadioButtonMenuItemUI 	 com.apple.laf.AquaMenuItemUI 
+RadioButtonUI 	 com.apple.laf.AquaButtonRadioUI 
+RootPane.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@4ebac9b9 
+RootPane.defaultButtonWindowKeyBindings 	 [Ljava.lang.Object;@4911b910 
+RootPaneUI 	 com.apple.laf.AquaRootPaneUI 
+ScrollBar.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@2a8ceeea 
+ScrollBar.ancestorInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@a995a79 
+ScrollBar.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ScrollBar.focusInputMap 	 javax.swing.plaf.InputMapUIResource@5a02c35e 
+ScrollBar.focusInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@6b687e7c 
+ScrollBar.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ScrollBar.maximumThumbSize 	 javax.swing.plaf.DimensionUIResource[width=4096,height=4096] 
+ScrollBar.minimumThumbSize 	 javax.swing.plaf.DimensionUIResource[width=8,height=8] 
+ScrollBar.thumb 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ScrollBar.thumbDarkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ScrollBar.thumbHighlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ScrollBar.thumbShadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+ScrollBar.track 	 javax.swing.plaf.ColorUIResource[r=154,g=154,b=154] 
+ScrollBar.trackHighlight 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ScrollBar.width 	 16 
+ScrollBarUI 	 com.apple.laf.AquaScrollBarUI 
+ScrollPane.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@194835fb 
+ScrollPane.ancestorInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@53cffeb4 
+ScrollPane.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ScrollPane.border 	 com.apple.laf.AquaScrollRegionBorder@3c50507 
+ScrollPane.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+ScrollPane.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ScrollPaneUI 	 com.apple.laf.AquaScrollPaneUI 
+Separator.foreground 	 javax.swing.plaf.ColorUIResource[r=212,g=212,b=212] 
+Separator.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Separator.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+SeparatorUI 	 com.apple.laf.AquaPopupMenuSeparatorUI 
+Slider.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+Slider.focus 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Slider.focusInputMap 	 javax.swing.plaf.InputMapUIResource@7bcd107f 
+Slider.focusInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@53f64158 
+Slider.focusInsets 	 javax.swing.plaf.InsetsUIResource[top=2,left=2,bottom=2,right=2] 
+Slider.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=11] 
+Slider.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Slider.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Slider.horizontalSize 	 java.awt.Dimension[width=200,height=21] 
+Slider.minimumHorizontalSize 	 java.awt.Dimension[width=36,height=21] 
+Slider.minimumVerticalSize 	 java.awt.Dimension[width=21,height=36] 
+Slider.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+Slider.tickColor 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+Slider.verticalSize 	 java.awt.Dimension[width=21,height=200] 
+SliderUI 	 com.apple.laf.AquaSliderUI 
+Spinner.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@4c3c2378 
+Spinner.arrowButtonSize 	 java.awt.Dimension[width=16,height=5] 
+Spinner.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+Spinner.editorAlignment 	 11 
+Spinner.editorBorderPainted 	 true 
+Spinner.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+Spinner.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+SpinnerUI 	 com.apple.laf.AquaSpinnerUI 
+SplitPane.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@3cc262 
+SplitPane.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+SplitPane.border 	 com.apple.laf.AquaScrollRegionBorder@3c50507 
+SplitPane.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+SplitPane.dividerSize 	 9 
+SplitPane.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+SplitPane.leftButtonText 	 Linke Taste 
+SplitPane.rightButtonText 	 Rechte Taste 
+SplitPane.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+SplitPaneDivider.draggingColor 	 javax.swing.plaf.ColorUIResource[r=64,g=64,b=64] 
+SplitPaneDivider.horizontalGradientVariant 	 com.apple.laf.AquaSplitPaneDividerUI$HorizontalSplitDividerGradientPainter@33589e56 
+SplitPaneUI 	 com.apple.laf.AquaSplitPaneUI 
+TabbedPane.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@7f033a6f 
+TabbedPane.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+TabbedPane.contentBorderInsets 	 javax.swing.plaf.InsetsUIResource[top=8,left=0,bottom=0,right=0] 
+TabbedPane.contentOpaque 	 true 
+TabbedPane.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TabbedPane.focus 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TabbedPane.focusInputMap 	 javax.swing.plaf.InputMapUIResource@2cf18e8e 
+TabbedPane.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+TabbedPane.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TabbedPane.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TabbedPane.leftTabInsets 	 javax.swing.plaf.InsetsUIResource[top=0,left=10,bottom=3,right=10] 
+TabbedPane.light 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+TabbedPane.opaque 	 true 
+TabbedPane.rightTabInsets 	 javax.swing.plaf.InsetsUIResource[top=0,left=10,bottom=3,right=10] 
+TabbedPane.selectedTabPadInsets 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+TabbedPane.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+TabbedPane.smallFont 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=11] 
+TabbedPane.tabAreaInsets 	 javax.swing.plaf.InsetsUIResource[top=3,left=9,bottom=-1,right=9] 
+TabbedPane.tabInsets 	 javax.swing.plaf.InsetsUIResource[top=0,left=10,bottom=3,right=10] 
+TabbedPane.tabRunOverlay 	 2 
+TabbedPane.tabsOpaque 	 true 
+TabbedPane.tabsOverlapBorder 	 true 
+TabbedPane.textIconGap 	 4 
+TabbedPane.useSmallLayout 	 false 
+TabbedPaneUI 	 com.apple.laf.AquaTabbedPaneUI 
+Table.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@26c623af 
+Table.ancestorInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@1a50ca0c 
+Table.ascendingSortIcon 	 sun.swing.icon.SortArrowIcon@3d5311bd 
+Table.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Table.descendingSortIcon 	 sun.swing.icon.SortArrowIcon@18b1aebf 
+Table.dropLineColor 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+Table.dropLineShortColor 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Table.focusCellBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+Table.focusCellForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+Table.focusCellHighlightBorder 	 javax.swing.plaf.BorderUIResource$LineBorderUIResource@6f649b44 
+Table.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=12] 
+Table.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Table.gridColor 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Table.scrollPaneBorder 	 com.apple.laf.AquaScrollRegionBorder@3c50507 
+Table.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=35,g=101,b=204] 
+Table.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=255,g=255,b=255] 
+Table.selectionInactiveBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=202,g=202,b=202] 
+Table.selectionInactiveForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+Table.sortIconColor 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+TableHeader.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@39478a43 
+TableHeader.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TableHeader.cellBorder 	 com.apple.laf.AquaTableHeaderBorder@7c65216 
+TableHeader.focusCellBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TableHeader.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=11] 
+TableHeader.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TableHeaderUI 	 com.apple.laf.AquaTableHeaderUI 
+TableUI 	 com.apple.laf.AquaTableUI 
+TextArea.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextArea.border 	 javax.swing.plaf.basic.BasicBorders$MarginBorder@6d372656 
+TextArea.caretBlinkRate 	 500 
+TextArea.caretForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextArea.focusInputMap 	 javax.swing.plaf.InputMapUIResource@3fb6101e 
+TextArea.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+TextArea.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextArea.inactiveBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextArea.inactiveForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+TextArea.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+TextArea.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+TextArea.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+TextAreaUI 	 com.apple.laf.AquaTextAreaUI 
+TextComponent.selectionBackgroundInactive 	 javax.swing.plaf.ColorUIResource[r=212,g=212,b=212] 
+TextField.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextField.border 	 com.apple.laf.AquaTextFieldBorder@42b307f0 
+TextField.caretBlinkRate 	 500 
+TextField.caretForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextField.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextField.focusInputMap 	 javax.swing.plaf.InputMapUIResource@49bdc9d8 
+TextField.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+TextField.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextField.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextField.inactiveBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextField.inactiveForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+TextField.light 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+TextField.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+TextField.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+TextField.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+TextField.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+TextFieldUI 	 com.apple.laf.AquaTextFieldUI 
+TextPane.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextPane.border 	 javax.swing.plaf.basic.BasicBorders$MarginBorder@4b0ea9ba 
+TextPane.caretBlinkRate 	 500 
+TextPane.caretForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextPane.focusInputMap 	 javax.swing.plaf.InputMapUIResource@2fa918d5 
+TextPane.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+TextPane.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+TextPane.inactiveBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+TextPane.inactiveForeground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+TextPane.margin 	 javax.swing.plaf.InsetsUIResource[top=0,left=0,bottom=0,right=0] 
+TextPane.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=164,g=205,b=254] 
+TextPane.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+TextPaneUI 	 com.apple.laf.AquaTextPaneUI 
+TitledBorder.aquaVariant 	 com.apple.laf.AquaGroupBorder$Titled@46238a47 
+TitledBorder.border 	 javax.swing.plaf.BorderUIResource$EtchedBorderUIResource@255d17d7 
+TitledBorder.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+TitledBorder.titleColor 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ToggleButton.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ToggleButton.border 	 com.apple.laf.AquaButtonBorder$Dynamic@38b5dac4 
+ToggleButton.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ToggleButton.disabledText 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+ToggleButton.focusInputMap 	 javax.swing.plaf.InputMapUIResource@2c8376b 
+ToggleButton.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+ToggleButton.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ToggleButton.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ToggleButton.light 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+ToggleButton.margin 	 javax.swing.plaf.InsetsUIResource[top=2,left=2,bottom=2,right=2] 
+ToggleButton.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+ToggleButton.textIconGap 	 4 
+ToggleButton.textShiftOffset 	 0 
+ToggleButtonUI 	 com.apple.laf.AquaButtonToggleUI 
+ToolBar.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@26ae533a 
+ToolBar.background 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ToolBar.border 	 com.apple.laf.AquaToolBarUI$ToolBarBorder@7ee49dcd 
+ToolBar.darkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ToolBar.dockingBackground 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ToolBar.dockingForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=35,g=101,b=204] 
+ToolBar.floatingBackground 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+ToolBar.floatingForeground 	 javax.swing.plaf.ColorUIResource[r=64,g=64,b=64] 
+ToolBar.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+ToolBar.foreground 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+ToolBar.highlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+ToolBar.light 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+ToolBar.shadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+ToolBarButton.insets 	 javax.swing.plaf.InsetsUIResource[top=1,left=1,bottom=1,right=1] 
+ToolBarButton.margin 	 javax.swing.plaf.InsetsUIResource[top=3,left=3,bottom=3,right=3] 
+ToolBarSeparatorUI 	 com.apple.laf.AquaToolBarSeparatorUI 
+ToolBarUI 	 com.apple.laf.AquaToolBarUI 
+ToolTip.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=204] 
+ToolTip.border 	 javax.swing.plaf.BorderUIResource$EmptyBorderUIResource@373c0b53 
+ToolTip.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=11] 
+ToolTip.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ToolTipManager.enableToolTipMode 	 allWindows 
+ToolTipUI 	 com.apple.laf.AquaToolTipUI 
+Tree.ancestorInputMap 	 javax.swing.plaf.InputMapUIResource@470b9279 
+Tree.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Tree.changeSelectionWithFocus 	 true 
+Tree.closedIcon 	 javax.swing.plaf.IconUIResource@3794d372 
+Tree.collapsedIcon 	 com.apple.laf.AquaIcon$2@1629ce8c 
+Tree.drawsFocusBorderAroundIcon 	 false 
+Tree.dropLineColor 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+Tree.editorBorder 	 javax.swing.plaf.BorderUIResource$LineBorderUIResource@12b754b2 
+Tree.expandedIcon 	 com.apple.laf.AquaIcon$2@17094d48 
+Tree.focusInputMap 	 javax.swing.plaf.InputMapUIResource@ffdadcd 
+Tree.focusInputMap.RightToLeft 	 javax.swing.plaf.InputMapUIResource@579d75ee 
+Tree.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=12] 
+Tree.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Tree.hash 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Tree.leafIcon 	 javax.swing.plaf.IconUIResource@bc5fde0 
+Tree.leftChildIndent 	 7 
+Tree.line 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Tree.lineTypeDashed 	 false 
+Tree.openIcon 	 javax.swing.plaf.IconUIResource@22a98932 
+Tree.paintLines 	 true 
+Tree.rightChildIndent 	 13 
+Tree.rightToLeftCollapsedIcon 	 com.apple.laf.AquaIcon$2@5f0ab09f 
+Tree.rowHeight 	 19 
+Tree.scrollsOnExpand 	 false 
+Tree.selectionBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=35,g=101,b=204] 
+Tree.selectionBorderColor 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=35,g=101,b=204] 
+Tree.selectionForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=255,g=255,b=255] 
+Tree.selectionInactiveBackground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=202,g=202,b=202] 
+Tree.selectionInactiveForeground 	 com.apple.laf.AquaImageFactory$SystemColorProxy[r=0,g=0,b=0] 
+Tree.textBackground 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Tree.textForeground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+Tree.timeFactor 	 1000 
+TreeUI 	 com.apple.laf.AquaTreeUI 
+Viewport.background 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+Viewport.font 	 com.apple.laf.AquaFonts$DerivedUIResourceFont[family=Lucida Grande,name=Lucida Grande,style=plain,size=13] 
+Viewport.foreground 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+ViewportUI 	 javax.swing.plaf.basic.BasicViewportUI 
+_SecurityDecisionIcon 	 javax.swing.plaf.IconUIResource@ee51b2c 
+activeCaption 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+activeCaptionBorder 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+activeCaptionText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+control 	 com.apple.laf.AquaNativeResources$CColorPaintUIResource[r=238,g=238,b=238] 
+controlDkShadow 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+controlHighlight 	 javax.swing.plaf.ColorUIResource[r=35,g=101,b=204] 
+controlLtHighlight 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+controlShadow 	 javax.swing.plaf.ColorUIResource[r=142,g=142,b=142] 
+controlText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+desktop 	 javax.swing.plaf.ColorUIResource[r=0,g=255,b=0] 
+html.missingImage 	 sun.swing.ImageIconUIResource@2880cac9 
+html.pendingImage 	 sun.swing.ImageIconUIResource@51b4a74b 
+inactiveCaption 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+inactiveCaptionBorder 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+inactiveCaptionText 	 javax.swing.plaf.ColorUIResource[r=128,g=128,b=128] 
+info 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+infoText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+java.lang.Object@2087c268 	 sun.swing.SwingUtilities2$AATextInfo@2b5356d5 
+menu 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+menuText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+scrollbar 	 javax.swing.plaf.ColorUIResource[r=154,g=154,b=154] 
+text 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+textHighlight 	 javax.swing.plaf.ColorUIResource[r=164,g=205,b=254] 
+textHighlightText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+textInactiveText 	 javax.swing.plaf.ColorUIResource[r=108,g=108,b=108] 
+textText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 
+window 	 javax.swing.plaf.ColorUIResource[r=255,g=255,b=255] 
+windowBorder 	 javax.swing.plaf.ColorUIResource[r=154,g=154,b=154] 
+windowText 	 javax.swing.plaf.ColorUIResource[r=0,g=0,b=0] 

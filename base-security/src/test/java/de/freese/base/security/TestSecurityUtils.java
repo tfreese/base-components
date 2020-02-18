@@ -1,0 +1,212 @@
+/**
+ * Created: 01.04.2012
+ */
+
+package de.freese.base.security;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.Security;
+import java.security.interfaces.RSAPublicKey;
+import javax.crypto.Cipher;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import de.freese.base.utils.SecurityUtils;
+
+/**
+ * @author Thomas Freese
+ */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+public class TestSecurityUtils
+{
+    /**
+     *
+     */
+    private static final boolean DEBUG = false;
+
+    /**
+     *
+     */
+    @BeforeAll
+    public static void beforeAll()
+    {
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
+        {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+    }
+
+    /**
+     * Erstellt ein neues {@link TestSecurityUtils} Object.
+     */
+    public TestSecurityUtils()
+    {
+        super();
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    public void createRsaKeyPair() throws Exception
+    {
+        // SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
+        //
+        // KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
+        // keyPairGenerator.initialize(4096, secureRandom);
+        //
+        // KeyPair keyPair = keyPairGenerator.genKeyPair();
+
+        KeyPair keyPair = SecurityUtils.createDefaultKeyPair();
+
+        System.out.println("Public key " + keyPair.getPublic());
+        System.out.println();
+        System.out.println("Private key " + keyPair.getPrivate());
+
+        RSAPublicKey rsaPub = (RSAPublicKey) keyPair.getPublic();
+        BigInteger publicKeyModulus = rsaPub.getModulus();
+        BigInteger publicKeyExponent = rsaPub.getPublicExponent();
+
+        System.out.println();
+        System.out.println("publicKeyModulus: " + publicKeyModulus);
+        System.out.println("publicKeyExponent: " + publicKeyExponent);
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testCipher()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("Cipher");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            try
+            {
+                System.out.println(value + ": MaxAllowedKeyLength=" + Cipher.getMaxAllowedKeyLength(value));
+            }
+            catch (Exception ex)
+            {
+                System.err.println(value + ": " + ex.getMessage());
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testKeyPairGenerator()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("KeyPairGenerator");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testMessageDigest()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("MessageDigest");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testProvider()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("Provider");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testServiceTypes()
+    {
+        String[] values = SecurityUtils.getServiceTypes();
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void testSignature()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("Signature");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+}

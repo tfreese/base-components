@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.freese</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>de.freese.base</groupId>
+    <artifactId>base</artifactId>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId} - ${project.artifactId}</name>
+    <description>Common Components for Development.</description>
+    <url>https://github.com/tfreese/base-components</url>
+    <inceptionYear>2011</inceptionYear>
+
+    <organization>
+        <name>Thomas Freese</name>
+        <url>https://github.com/tfreese/base-components</url>
+    </organization>
+
+    <scm>
+        <url>${project.url}</url>
+        <connection>scm:git:git://github.com/tfreese/base-components.git</connection>
+        <developerConnection>scm:git:https://github.com/tfreese/base-components.git</developerConnection>
+    </scm>
+
+    <properties>
+        <maven.test.skip>false</maven.test.skip>
+    </properties>
+
+    <modules>
+        <module>base-core</module>
+        <module>base-calendar</module>
+        <module>base-net</module>
+        <module>base-pool</module>
+        <module>base-persistence</module>
+        <module>base-reports</module>
+        <module>base-resourcemap</module>
+        <module>base-security</module>
+        <module>base-swing</module>
+        <module>base-swing-demo</module>
+    </modules>
+
+    <dependencies>
+        <!-- compile scope -->
+        <!-- runtime scope -->
+        <!-- provided scope -->
+        <!-- test scope -->
+    </dependencies>
+
+</project>

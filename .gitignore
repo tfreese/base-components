@@ -1,0 +1,12 @@
+/target/
+/base-core/target/
+/base-pool/target/
+/base-pool/derby.log
+/base-persistence/target/
+/base-reports/target/
+/base-resourcemap/target/
+/base-security/target/
+/base-swing/target/
+/base-swing-demo/target/
+/base-calendar/target/
+/base-net/target/

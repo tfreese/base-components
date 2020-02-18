@@ -1,0 +1,55 @@
+# Server Keystore anlegen:
+keytool -genkey -v -storetype PKCS12 -keystore server_keystore.p12 -alias localhost -keyalg RSA -keysize 4096 -validity 36500 \
+ -storepass storepass \
+ -dname "CN=Thomas Freese, OU=Development, O=Thomas Freese, L=Braunschweig, ST=Niedersachsen, C=DE"
+
+-keypass keypass: Bei PKCS12 keine Angabe möglich !
+
+# Öffentliches Certifikat für Clients exportieren:
+keytool -export -v -storetype PKCS12 -keystore server_keystore.p12 -alias localhost -file localhost.cert
+
+# Certifikat des Servers in TrtustStore des Clients importieren:
+keytool -import -v -storetype PKCS12 -keystore client_truststore.p12 -alias localhost -file localhost.cert
+
+
+# Im Keystore liegen die eigenen Zertifikate (Public-/Private-Key).
+# Im Truststore liegen fremde Public-Keys.
+keytool -list -v -keystore keystore.p12
+keytool -list -v -storetype PKCS12 -keystore keystore.p12
+
+
+# Private Key auslesen
+openssl pkcs12 [-nocerts] -nodes -in keystore.p12;
+
+# Zertifikat auslesen
+openssl x509 -noout -text -in certs/ca.cert.pem;
+
+
+# Migrate JKS -> PKCS12 und kopieren von Keystores
+keytool -importkeystore -v -srckeystore keystore.jks                     -destkeystore keystore.p12 -deststoretype PKCS12
+keytool -importkeystore -v -srckeystore keystore.jks -srcalias localhost -destkeystore keystore.p12 -deststoretype PKCS12
+
+# Kopieren in bestehenden Keystore
+keytool -importkeystore -v -srckeystore source.p12 -srcstoretype PKCS12 -srcstorepass 123456 -destkeystore destination.p12 -deststoretype PKCS12 -deststorepass 11223344
+
+# Import Certificate
+keytool -import -v -keystore keystore.p12 -alias localhost -file myCertificate.crt -storepass storepass
+
+
+# Von Apache HttpComponents
+# Use the following sequence of actions to generate a key-store file
+
+# Use JDK keytool utility to generate a new key
+keytool -genkey -v -alias "my client key" -validity 365 -keystore my.keystore
+
+# For simplicity use the same password for the key as that of the key-store
+# Issue a certificate signing request (CSR)
+keytool -certreq -v -alias "my client key" -file mycertreq.csr -keystore my.keystore
+
+# Send the certificate request to the trusted Certificate Authority for signature.
+# One may choose to act as her own CA and sign the certificate request using a PKI tool, such as OpenSSL.
+# Import the trusted CA root certificate
+keytool -import -v -alias "my trusted ca" -file caroot.crt -keystore my.keystore
+
+# Import the PKCS#7 file containing the complete certificate chain
+keytool -import -v -alias "my client key" -file mycert.p7 -keystore my.keystore
