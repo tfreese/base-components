@@ -1,0 +1,1 @@
+Alternative Calendar-API with multiple Variants for Grouping Days to Weeks, Months and Years.
