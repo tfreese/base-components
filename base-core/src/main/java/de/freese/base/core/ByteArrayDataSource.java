@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Objects;
-
 import javax.activation.DataSource;
 
 /**
@@ -131,9 +130,8 @@ public class ByteArrayDataSource implements DataSource, Serializable
         {
             mimeType = MIMETYPE_IMAGE_BMP;
         }
-        else if (resourceName.toLowerCase().endsWith(".jpeg") || resourceName.toLowerCase().endsWith(".jpg")
-                || resourceName.toLowerCase().endsWith(".jpe") || resourceName.toLowerCase().endsWith(".jfif")
-                || resourceName.toLowerCase().endsWith(".pjpeg") || resourceName.toLowerCase().endsWith(".pjp"))
+        else if (resourceName.toLowerCase().endsWith(".jpeg") || resourceName.toLowerCase().endsWith(".jpg") || resourceName.toLowerCase().endsWith(".jpe")
+                || resourceName.toLowerCase().endsWith(".jfif") || resourceName.toLowerCase().endsWith(".pjpeg") || resourceName.toLowerCase().endsWith(".pjp"))
         {
             mimeType = MIMETYPE_IMAGE_JPEG;
         }
@@ -194,6 +192,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @param mimeType String
      * @throws IOException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException
     {
         super();
