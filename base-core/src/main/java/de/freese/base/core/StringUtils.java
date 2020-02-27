@@ -414,6 +414,7 @@ public final class StringUtils
      * @param separator String
      * @see #padding(List, String)
      */
+    @SuppressWarnings("resource")
     public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String separator)
     {
         Objects.requireNonNull(rows, "rows required");
