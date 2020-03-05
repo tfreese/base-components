@@ -73,6 +73,7 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
+    @SuppressWarnings("resource")
     public static void commitTX() throws SQLException
     {
         get().commit();
@@ -100,6 +101,7 @@ public final class ConnectionHolder
      *
      * @return boolean
      */
+    @SuppressWarnings("resource")
     public static boolean isEmpty()
     {
         return THREAD_LOCAL.get() == null;
@@ -121,6 +123,7 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
+    @SuppressWarnings("resource")
     public static void rollbackTX() throws SQLException
     {
         get().rollback();
@@ -135,6 +138,7 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
+    @SuppressWarnings("resource")
     public static void set(final Connection connection) throws SQLException
     {
         if (THREAD_LOCAL.get() != null)

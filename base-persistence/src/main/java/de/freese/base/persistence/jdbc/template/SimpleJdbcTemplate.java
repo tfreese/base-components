@@ -1094,6 +1094,7 @@ public class SimpleJdbcTemplate
      * @param batchSize int
      * @return int[]; affectedRows
      */
+    @SuppressWarnings("resource")
     public <T> int[] updateBatch(final String sql, final ParameterizedPreparedStatementSetter<T> setter, final Collection<T> batchArgs, final int batchSize)
     {
         PreparedStatementCreator psc = con -> con.prepareStatement(sql);

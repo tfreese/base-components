@@ -39,6 +39,7 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
      * @param paramIndex int
      * @throws SQLException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     private static void setNull(final PreparedStatement ps, final int paramIndex) throws SQLException
     {
         boolean useSetObject = false;

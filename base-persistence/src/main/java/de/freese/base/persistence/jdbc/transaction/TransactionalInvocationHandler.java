@@ -7,9 +7,7 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Objects;
-
 import javax.sql.DataSource;
-
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -54,6 +52,7 @@ public class TransactionalInvocationHandler implements InvocationHandler
     /**
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
+    @SuppressWarnings("resource")
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
     {
@@ -71,8 +70,7 @@ public class TransactionalInvocationHandler implements InvocationHandler
 
         if (beanMethod == null)
         {
-            throw new RuntimeException(
-                    "no bean method found: " + method.getName() + " with " + Arrays.toString(method.getParameterTypes()));
+            throw new RuntimeException("no bean method found: " + method.getName() + " with " + Arrays.toString(method.getParameterTypes()));
         }
 
         // Transactional transactional = beanMethod.getAnnotation(Transactional.class);

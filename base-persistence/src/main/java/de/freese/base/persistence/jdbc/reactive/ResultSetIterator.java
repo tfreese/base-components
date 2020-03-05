@@ -50,14 +50,14 @@ public class ResultSetIterator<T> implements Iterator<T>
     {
         try
         {
-            boolean hasMore = !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
+            boolean hasNext = !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
 
-            // if (!hasMore)
+            // if (!hasNext)
             // {
             // close();
             // }
 
-            return hasMore;
+            return hasNext;
         }
         catch (SQLException ex)
         {

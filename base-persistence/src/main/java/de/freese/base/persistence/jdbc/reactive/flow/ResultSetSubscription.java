@@ -80,12 +80,20 @@ public class ResultSetSubscription<T> implements Subscription
     @Override
     public void cancel()
     {
-        // Do nothing
+        try
+        {
+            closeJdbcResources();
+        }
+        catch (SQLException sex)
+        {
+            getSubscriber().onError(sex);
+        }
     }
 
     /**
      * @throws SQLException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     protected void closeJdbcResources() throws SQLException
     {
         getLogger().debug("close jdbc publisher");
@@ -146,6 +154,7 @@ public class ResultSetSubscription<T> implements Subscription
     /**
      * @see java.util.concurrent.Flow.Subscription#request(long)
      */
+    @SuppressWarnings("resource")
     @Override
     public void request(final long n)
     {

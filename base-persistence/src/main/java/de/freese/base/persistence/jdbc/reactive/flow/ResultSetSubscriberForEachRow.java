@@ -6,32 +6,31 @@ package de.freese.base.persistence.jdbc.reactive.flow;
 
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  * @param <T> Entity-Type
  */
-public class ResultSetSubscriber<T> implements Subscriber<T>
+public class ResultSetSubscriberForEachRow<T> implements Subscriber<T>
 {
+    /**
+    *
+    */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForEachRow.class);
+
     /**
     *
     */
     private Subscription subscription = null;
 
     /**
-     * Erstellt ein neues {@link ResultSetSubscriber} Object.
+     * Erstellt ein neues {@link ResultSetSubscriberForEachRow} Object.
      */
-    public ResultSetSubscriber()
+    public ResultSetSubscriberForEachRow()
     {
         super();
-    }
-
-    /**
-     * @return {@link Subscription}
-     */
-    protected Subscription getSubscription()
-    {
-        return this.subscription;
     }
 
     /**
@@ -40,6 +39,7 @@ public class ResultSetSubscriber<T> implements Subscriber<T>
     @Override
     public void onComplete()
     {
+        LOGGER.debug("onComplete");
     }
 
     /**
@@ -57,8 +57,9 @@ public class ResultSetSubscriber<T> implements Subscriber<T>
     @Override
     public void onNext(final T item)
     {
-        System.out.println("#onNext: overwrite me ! " + item.toString());
-        getSubscription().request(1); // Nächstes Element anfordern.
+        LOGGER.debug("onNext: {}", item);
+
+        this.subscription.request(1); // Nächstes Element anfordern.
     }
 
     /**
@@ -69,14 +70,5 @@ public class ResultSetSubscriber<T> implements Subscriber<T>
     {
         this.subscription = subscription;
         this.subscription.request(1); // Erstes Element anfordern.
-        // this.subscription.request(Long.MAX_VALUE); // Alle Elemente anfordern.
-    }
-
-    /**
-     * @param subscription {@link Subscription}
-     */
-    protected void setSubscription(final Subscription subscription)
-    {
-        this.subscription = subscription;
     }
 }

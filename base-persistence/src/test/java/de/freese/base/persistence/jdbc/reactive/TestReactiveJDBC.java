@@ -222,6 +222,7 @@ public class TestReactiveJDBC
     /**
      * @throws SQLException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     @BeforeEach
     public void setup() throws SQLException
     {

@@ -722,6 +722,7 @@ public final class JdbcUtils
      * @return {@link List}
      * @throws SQLException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static List<String[]> toList(final ResultSet resultSet) throws SQLException
     {
         Objects.requireNonNull(resultSet, "resultSet required");

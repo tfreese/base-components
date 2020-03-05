@@ -5,7 +5,7 @@ import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
 import de.freese.base.persistence.jdbc.TestSuiteJdbc;
 import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberToList;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForList;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -750,7 +750,7 @@ public class TestSimpleJdbcTemplate
         Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
                 ps -> ps.setString(1, "Nachname%"));
 
-        ResultSetSubscriberToList<Person> toListSubscriber = new ResultSetSubscriberToList<>();
+        ResultSetSubscriberForList<Person> toListSubscriber = new ResultSetSubscriberForList<>();
         publisher.subscribe(toListSubscriber);
 
         List<Person> result = toListSubscriber.getRows();
@@ -777,7 +777,7 @@ public class TestSimpleJdbcTemplate
         Publisher<Person> publisher =
                 jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
 
-        ResultSetSubscriberToList<Person> toListSubscriber = new ResultSetSubscriberToList<>();
+        ResultSetSubscriberForList<Person> toListSubscriber = new ResultSetSubscriberForList<>();
         publisher.subscribe(toListSubscriber);
 
         List<Person> result = toListSubscriber.getRows();
@@ -804,7 +804,7 @@ public class TestSimpleJdbcTemplate
         Publisher<Map<String, Object>> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc",
                 new ColumnMapRowMapper(), ps -> ps.setString(1, "Nachname%"));
 
-        ResultSetSubscriberToList<Map<String, Object>> toListSubscriber = new ResultSetSubscriberToList<>();
+        ResultSetSubscriberForList<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForList<>();
         publisher.subscribe(toListSubscriber);
 
         List<Map<String, Object>> result = toListSubscriber.getRows();
@@ -839,7 +839,7 @@ public class TestSimpleJdbcTemplate
         Publisher<Map<String, Object>> publisher =
                 jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new ColumnMapRowMapper(), "Nachname%");
 
-        ResultSetSubscriberToList<Map<String, Object>> toListSubscriber = new ResultSetSubscriberToList<>();
+        ResultSetSubscriberForList<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForList<>();
         publisher.subscribe(toListSubscriber);
 
         List<Map<String, Object>> result = toListSubscriber.getRows();

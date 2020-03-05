@@ -5,8 +5,7 @@
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Objects;
+import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -21,14 +20,9 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 public class ResultSetSpliterator<T> extends Spliterators.AbstractSpliterator<T>
 {
     /**
-     *
-     */
-    private final ResultSet resultSet;
-
-    /**
     *
     */
-    private final RowMapper<T> rowMapper;
+    private final Iterator<T> iterator;
 
     /**
      * Erstellt ein neues {@link ResultSetSpliterator} Object.
@@ -40,8 +34,7 @@ public class ResultSetSpliterator<T> extends Spliterators.AbstractSpliterator<T>
     {
         super(Long.MAX_VALUE, Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL);
 
-        this.resultSet = Objects.requireNonNull(resultSet, "resultSet required");
-        this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
+        this.iterator = new ResultSetIterator<>(resultSet, rowMapper);
     }
 
     /**
@@ -50,24 +43,13 @@ public class ResultSetSpliterator<T> extends Spliterators.AbstractSpliterator<T>
     @Override
     public boolean tryAdvance(final Consumer<? super T> action)
     {
-        try
+        if (this.iterator.hasNext())
         {
-            boolean hasMore = !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
+            action.accept(this.iterator.next());
 
-            if (hasMore)
-            {
-                action.accept(this.rowMapper.mapRow(this.resultSet));
-
-                return true;
-            }
-        }
-        catch (SQLException sex)
-        {
-            // close();
-            throw new RuntimeException(sex);
+            return true;
         }
 
-        // close();
         return false;
     }
 }
