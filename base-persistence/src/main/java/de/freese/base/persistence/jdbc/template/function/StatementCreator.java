@@ -12,9 +12,10 @@ import java.sql.Statement;
  * Erzeugt ein {@link Statement}.
  *
  * @author Thomas Freese
+ * @param <S> Konkretes Statement
  */
 @FunctionalInterface
-public interface StatementCreator
+public interface StatementCreator<S extends Statement>
 {
     /**
      * Erzeugt ein {@link Statement}.
@@ -23,5 +24,5 @@ public interface StatementCreator
      * @return {@link Statement}
      * @throws SQLException Falls was schief geht.
      */
-    public Statement createStatement(Connection connection) throws SQLException;
+    public S createStatement(Connection connection) throws SQLException;
 }

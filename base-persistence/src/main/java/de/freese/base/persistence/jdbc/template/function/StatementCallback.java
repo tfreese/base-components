@@ -12,10 +12,11 @@ import java.sql.Statement;
  * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
  *
  * @author Thomas Freese
+ * @param <S> Konkretes Statement
  * @param <T> Konkreter Return-Typ
  */
 @FunctionalInterface
-public interface StatementCallback<T>
+public interface StatementCallback<S extends Statement, T>
 {
     /**
      * Ausführung von Code für ein {@link Statement}.
@@ -24,5 +25,5 @@ public interface StatementCallback<T>
      * @return Object
      * @throws SQLException Falls was schief geht.
      */
-    public T doInStatement(Statement statement) throws SQLException;
+    public T doInStatement(S statement) throws SQLException;
 }

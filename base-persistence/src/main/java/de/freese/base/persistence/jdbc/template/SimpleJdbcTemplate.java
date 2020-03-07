@@ -24,12 +24,8 @@ import de.freese.base.persistence.jdbc.JdbcUtils;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
-import de.freese.base.persistence.jdbc.template.function.CallableStatementCallback;
-import de.freese.base.persistence.jdbc.template.function.CallableStatementCreator;
 import de.freese.base.persistence.jdbc.template.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.template.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementCallback;
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementCreator;
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.template.function.ReactiveCallback;
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
@@ -135,17 +131,7 @@ public class SimpleJdbcTemplate
      */
     public void call(final String sql)
     {
-        CallableStatementCreator csc = con -> con.prepareCall(sql);
-        CallableStatementCallback<?> action = stmt -> {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug(String.format("call: %s", sql));
-            }
-
-            return stmt.execute();
-        };
-
-        execute(csc, action);
+        call(sql, null);
     }
 
     /**
@@ -155,23 +141,29 @@ public class SimpleJdbcTemplate
      *
      * @param sql String
      * @param setter {@link PreparedStatementSetter}
+     * @return boolean
+     * @see CallableStatement#execute(String)
      */
-    public void call(final String sql, final PreparedStatementSetter setter)
+    public boolean call(final String sql, final PreparedStatementSetter setter)
     {
-        CallableStatementCreator csc = con -> con.prepareCall(sql);
-        CallableStatementCallback<?> action = stmt -> {
+        StatementCreator<CallableStatement> sc = con -> con.prepareCall(sql);
+        StatementCallback<CallableStatement, Boolean> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("call: %s", sql));
             }
 
             stmt.clearParameters();
-            setter.setValues(stmt);
+
+            if (setter != null)
+            {
+                setter.setValues(stmt);
+            }
 
             return stmt.execute();
         };
 
-        execute(csc, action);
+        return execute(sc, action);
     }
 
     /**
@@ -270,32 +262,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * callableStatement.registerOutParameter(2, java.sql.Types.VARCHAR);<br>
-     * callableStatement.execute(); ODER executeUpdate();<br>
-     * callableStatement.getString(2);
-     *
-     * @param <T> Konkreter Return-Typ.
-     * @param csc {@link CallableStatementCreator}
-     * @param action {@link CallableStatementCallback}
-     * @return Object
-     */
-    public <T> T execute(final CallableStatementCreator csc, final CallableStatementCallback<T> action)
-    {
-        ConnectionCallback<T> cc = con -> {
-            try (CallableStatement cs = csc.createCallableStatement(con))
-            {
-                applyStatementSettings(cs);
-
-                T result = action.doInCallableStatement(cs);
-
-                return result;
-            }
-        };
-
-        return execute(cc);
-    }
-
-    /**
      * @param <T> Konkreter Return-Typ.
      * @param action {@link ConnectionCallback}
      * @return Object
@@ -324,37 +290,19 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param <T> Konkreter Return-Typ.
-     * @param psc {@link PreparedStatementCreator}
-     * @param action {@link PreparedStatementCallback}
-     * @return Object
-     */
-    public <T> T execute(final PreparedStatementCreator psc, final PreparedStatementCallback<T> action)
-    {
-        ConnectionCallback<T> cc = con -> {
-            try (PreparedStatement ps = psc.createPreparedStatement(con))
-            {
-                applyStatementSettings(ps);
-
-                T result = action.doInPreparedStatement(ps);
-
-                return result;
-            }
-        };
-
-        return execute(cc);
-    }
-
-    /**
+     * callableStatement.registerOutParameter(2, java.sql.Types.VARCHAR);<br>
+     * callableStatement.execute(); ODER executeUpdate();<br>
+     * callableStatement.getString(2);
+     *
      * @param sc {@link StatementCreator}
      * @param action {@link StatementCallback}
      * @param <T> Konkreter Return-Typ.
      * @return Object
      */
-    public <T> T execute(final StatementCreator sc, final StatementCallback<T> action)
+    public <S extends Statement, T> T execute(final StatementCreator<S> sc, final StatementCallback<S, T> action)
     {
         ConnectionCallback<T> cc = con -> {
-            try (Statement stmt = sc.createStatement(con))
+            try (S stmt = sc.createStatement(con))
             {
                 applyStatementSettings(stmt);
 
@@ -371,11 +319,13 @@ public class SimpleJdbcTemplate
      * Führt ein einfaches {@link Statement#execute(String)} aus.
      *
      * @param sql String
+     * @return boolean
+     * @see Statement#execute(String)
      */
-    public void execute(final String sql)
+    public boolean execute(final String sql)
     {
-        StatementCreator sc = Connection::createStatement;
-        StatementCallback<?> action = stmt -> {
+        StatementCreator<Statement> sc = Connection::createStatement;
+        StatementCallback<Statement, Boolean> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("execute: %s", sql));
@@ -384,7 +334,7 @@ public class SimpleJdbcTemplate
             return stmt.execute(sql);
         };
 
-        execute(sc, action);
+        return execute(sc, action);
     }
 
     /**
@@ -497,8 +447,8 @@ public class SimpleJdbcTemplate
      */
     public <T> T query(final String sql, final ResultSetExtractor<T> rse)
     {
-        StatementCreator sc = Connection::createStatement;
-        StatementCallback<T> action = stmt -> {
+        StatementCreator<Statement> sc = Connection::createStatement;
+        StatementCallback<Statement, T> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("query: %s", sql));
@@ -514,7 +464,7 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * Führt ein {@link Statement#executeQuery(String)} aus und extrahiert ein Objekt aus dem {@link ResultSet}.
+     * Führt ein {@link PreparedStatement#executeQuery(String)} aus und extrahiert ein Objekt aus dem {@link ResultSet}.
      *
      * @param <T> Konkreter Return-Typ
      * @param sql String
@@ -528,7 +478,7 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * Führt ein {@link Statement#executeQuery(String)} aus und extrahiert ein Objekt aus dem {@link ResultSet}.
+     * Führt ein {@link PreparedStatement#executeQuery(String)} aus und extrahiert ein Objekt aus dem {@link ResultSet}.
      *
      * @param <T> Konkreter Return-Typ
      * @param sql String
@@ -538,23 +488,23 @@ public class SimpleJdbcTemplate
      */
     public <T> T query(final String sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter setter)
     {
-        PreparedStatementCreator psc = con -> con.prepareStatement(sql);
-        PreparedStatementCallback<T> action = ps -> {
+        StatementCreator<PreparedStatement> sc = con -> con.prepareStatement(sql);
+        StatementCallback<PreparedStatement, T> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("query: %s", sql));
             }
 
-            ps.clearParameters();
-            setter.setValues(ps);
+            stmt.clearParameters();
+            setter.setValues(stmt);
 
-            try (ResultSet rs = ps.executeQuery())
+            try (ResultSet rs = stmt.executeQuery())
             {
                 return rse.extractData(rs);
             }
         };
 
-        return execute(psc, action);
+        return execute(sc, action);
     }
 
     /**
@@ -1019,8 +969,8 @@ public class SimpleJdbcTemplate
      */
     public int update(final String sql)
     {
-        StatementCreator sc = Connection::createStatement;
-        StatementCallback<Integer> action = stmt -> {
+        StatementCreator<Statement> sc = Connection::createStatement;
+        StatementCallback<Statement, Integer> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("update: %s", sql));
@@ -1033,7 +983,7 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * Führt ein {@link Statement#executeUpdate(String)} aus (INSERT, UPDATE, DELETE).
+     * Führt ein {@link PreparedStatement#executeUpdate(String)} aus (INSERT, UPDATE, DELETE).
      *
      * @param sql String
      * @param params Object[]; SQL-Parameter
@@ -1045,7 +995,7 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * Führt ein {@link Statement#executeUpdate(String)} aus (INSERT, UPDATE, DELETE).
+     * Führt ein {@link PreparedStatement#executeUpdate(String)} aus (INSERT, UPDATE, DELETE).
      *
      * @param sql String
      * @param setter {@link PreparedStatementSetter}
@@ -1053,24 +1003,24 @@ public class SimpleJdbcTemplate
      */
     public int update(final String sql, final PreparedStatementSetter setter)
     {
-        PreparedStatementCreator psc = con -> con.prepareStatement(sql);
-        PreparedStatementCallback<Integer> action = ps -> {
+        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql);
+        StatementCallback<PreparedStatement, Integer> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("update: %s", sql));
             }
 
-            ps.clearParameters();
-            setter.setValues(ps);
+            stmt.clearParameters();
+            setter.setValues(stmt);
 
-            return ps.executeUpdate();
+            return stmt.executeUpdate();
         };
 
         return execute(psc, action);
     }
 
     /**
-     * Führt ein {@link Statement#executeBatch()} aus (INSERT, UPDATE, DELETE).<br>
+     * Führt ein {@link PreparedStatement#executeBatch()} aus (INSERT, UPDATE, DELETE).<br>
      * Die Default Batch-Size beträgt 20.
      *
      * @param <T> Konkreter Row-Typ
@@ -1085,7 +1035,7 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * Führt ein {@link Statement#executeBatch()} aus (INSERT, UPDATE, DELETE).
+     * Führt ein {@link PreparedStatement#executeBatch()} aus (INSERT, UPDATE, DELETE).
      *
      * @param <T> Konkreter Row-Typ
      * @param sql String
@@ -1097,27 +1047,27 @@ public class SimpleJdbcTemplate
     @SuppressWarnings("resource")
     public <T> int[] updateBatch(final String sql, final ParameterizedPreparedStatementSetter<T> setter, final Collection<T> batchArgs, final int batchSize)
     {
-        PreparedStatementCreator psc = con -> con.prepareStatement(sql);
-        PreparedStatementCallback<int[]> action = ps -> {
+        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql);
+        StatementCallback<PreparedStatement, int[]> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
                 getLogger().debug(String.format("updateBatch: size=%d; %s", batchArgs.size(), sql));
             }
 
-            boolean supportsBatch = isBatchSupported(ps.getConnection());
+            boolean supportsBatch = isBatchSupported(stmt.getConnection());
 
             List<int[]> affectedRows = new ArrayList<>();
             int n = 0;
 
             for (T arg : batchArgs)
             {
-                ps.clearParameters();
-                setter.setValues(ps, arg);
+                stmt.clearParameters();
+                setter.setValues(stmt, arg);
                 n++;
 
                 if (supportsBatch)
                 {
-                    ps.addBatch();
+                    stmt.addBatch();
 
                     if (((n % batchSize) == 0) || (n == batchArgs.size()))
                     {
@@ -1128,14 +1078,14 @@ public class SimpleJdbcTemplate
                             getLogger().debug("Sending SQL batch update #{} with {} items", batchIndex, items);
                         }
 
-                        affectedRows.add(ps.executeBatch());
-                        ps.clearBatch();
+                        affectedRows.add(stmt.executeBatch());
+                        stmt.clearBatch();
                     }
                 }
                 else
                 {
                     // Batch nicht möglich -> direkt ausführen.
-                    int affectedRow = ps.executeUpdate();
+                    int affectedRow = stmt.executeUpdate();
 
                     affectedRows.add(new int[]
                     {
