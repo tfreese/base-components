@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import de.freese.base.core.model.grid.column.AbstractGridColumn;
+import de.freese.base.core.model.grid.column.GridColumn;
 
 /**
  * Dynamische Tabelle-Struktur.
@@ -58,7 +58,7 @@ public class Grid implements Serializable
     /**
      * @param column {@link AbstractGridColumn}
      */
-    public void addColumn(final AbstractGridColumn<?> column)
+    public void addColumn(final GridColumn<?> column)
     {
         getGridMetaData().addColumn(column);
     }
@@ -88,48 +88,73 @@ public class Grid implements Serializable
     }
 
     /**
-     * @param columnIndex int
-     * @return String
+     * @param index int
+     * @return {@link GridColumn}
      */
-    public String getColumnComment(final int columnIndex)
+    public GridColumn<?> getColumn(final int index)
     {
-        return getGridMetaData().getColumnComment(columnIndex);
+        return getGridMetaData().getColumn(index);
     }
 
     /**
-     * @param columnIndex int
+     * @param index int
+     * @return String
+     */
+    public String getComment(final int index)
+    {
+        return getColumn(index).getComment();
+    }
+
+    /**
+     * @param index int
      * @return int
      */
-    public int getColumnLength(final int columnIndex)
+    public int getLength(final int index)
     {
-        return getGridMetaData().getColumnLength(columnIndex);
+        return getColumn(index).getLength();
     }
 
     /**
-     * @param columnIndex int
+     * @param index int
      * @return String
      */
-    public String getColumnName(final int columnIndex)
+    public String getName(final int index)
     {
-        return getGridMetaData().getColumnName(columnIndex);
+        return getColumn(index).getName();
     }
 
     /**
-     * @param columnIndex int
+     * @param index int
      * @return Class
      */
-    public Class<?> getColumnObjectClazz(final int columnIndex)
+    public Class<?> getObjectClazz(final int index)
     {
-        return getGridMetaData().getColumnObjectClazz(columnIndex);
+        return getColumn(index).getObjectClazz();
     }
 
     /**
-     * @param columnIndex int
+     * @param index int
      * @return int
      */
-    public int getColumnPrecision(final int columnIndex)
+    public int getPrecision(final int index)
     {
-        return getGridMetaData().getColumnPrecision(columnIndex);
+        return getColumn(index).getPrecision();
+    }
+
+    /**
+     * @return {@link GridMetaData}
+     */
+    protected GridMetaData getGridMetaData()
+    {
+        return this.gridMetaData;
+    }
+
+    /**
+     * @return {@link List}
+     */
+    protected List<Object[]> getRows()
+    {
+        return this.rows;
     }
 
     /**
@@ -137,11 +162,12 @@ public class Grid implements Serializable
      * @param rowIndex int
      * @return String
      */
+    @SuppressWarnings("unchecked")
     public <T> T getValue(final int columnIndex, final int rowIndex)
     {
         Object[] row = getRows().get(rowIndex);
 
-        return getGridMetaData().getValue(columnIndex, row[columnIndex]);
+        return (T) getColumn(columnIndex).getValue(row[columnIndex]);
     }
 
     /**
@@ -153,16 +179,21 @@ public class Grid implements Serializable
      */
     public void read(final DataInput dataInput) throws IOException, ClassNotFoundException
     {
-        getGridMetaData().read(dataInput);
+        getGridMetaData().readMetaData(dataInput);
 
         // Anzahl Zeilen
         int rowCount = dataInput.readInt();
 
         for (int i = 0; i < rowCount; i++)
         {
-            Object[] row = getGridMetaData().readRow(dataInput);
+            Object[] row = new Object[columnCount()];
 
-            getRows().add(row);
+            for (int c = 0; c < columnCount(); c++)
+            {
+                row[c] = getColumn(c).read(dataInput);
+            }
+
+            addRow(row);
         }
     }
 
@@ -174,13 +205,18 @@ public class Grid implements Serializable
      */
     public void read(final ResultSet resultSet) throws SQLException
     {
-        getGridMetaData().read(resultSet.getMetaData());
+        getGridMetaData().readMetaData(resultSet.getMetaData());
 
         while (resultSet.next())
         {
-            Object[] row = getGridMetaData().readRow(resultSet);
+            Object[] row = new Object[columnCount()];
 
-            getRows().add(row);
+            for (int c = 1; c <= columnCount(); c++)
+            {
+                row[c - 1] = resultSet.getObject(c);
+            }
+
+            addRow(row);
         }
     }
 
@@ -188,7 +224,7 @@ public class Grid implements Serializable
      * @param columnIndex int
      * @return {@link AbstractGridColumn}
      */
-    public AbstractGridColumn<?> removeColumn(final int columnIndex)
+    public GridColumn<?> removeColumn(final int columnIndex)
     {
         return getGridMetaData().removeColumn(columnIndex);
     }
@@ -209,30 +245,17 @@ public class Grid implements Serializable
      */
     public void write(final DataOutput dataOutput) throws IOException
     {
-        getGridMetaData().write(dataOutput);
+        getGridMetaData().writeMetaData(dataOutput);
 
         // Anzahl Zeilen
         dataOutput.writeInt(rowCount());
 
         for (Object[] row : getRows())
         {
-            getGridMetaData().writeRow(dataOutput, row);
+            for (int c = 0; c < columnCount(); c++)
+            {
+                getColumn(c).write(dataOutput, row[c]);
+            }
         }
-    }
-
-    /**
-     * @return {@link GridMetaData}
-     */
-    protected GridMetaData getGridMetaData()
-    {
-        return this.gridMetaData;
-    }
-
-    /**
-     * @return {@link List}
-     */
-    protected List<Object[]> getRows()
-    {
-        return this.rows;
     }
 }

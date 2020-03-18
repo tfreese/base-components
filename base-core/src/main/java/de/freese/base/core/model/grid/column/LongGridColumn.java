@@ -26,11 +26,28 @@ public class LongGridColumn extends AbstractGridColumn<Long>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link LongGridColumn}.
+     *
+     * @param name String
+     */
+    public LongGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected Long getValueImpl(final Object object)
+    public Long getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return (Long) object;
     }
 

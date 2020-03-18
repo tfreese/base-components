@@ -4,7 +4,6 @@ package de.freese.base.core.model.grid;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,11 +25,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import de.freese.base.core.model.grid.column.AbstractGridColumn;
+import de.freese.base.core.model.grid.builder.GridBuilder;
 import de.freese.base.core.model.grid.column.BinaryGridColumn;
 import de.freese.base.core.model.grid.column.BooleanGridColumn;
 import de.freese.base.core.model.grid.column.DateGridColumn;
 import de.freese.base.core.model.grid.column.DoubleGridColumn;
+import de.freese.base.core.model.grid.column.GridColumn;
 import de.freese.base.core.model.grid.column.IntegerGridColumn;
 import de.freese.base.core.model.grid.column.LongGridColumn;
 import de.freese.base.core.model.grid.column.StringGridColumn;
@@ -61,76 +61,39 @@ public class TestGrid
     {
        //@formatter:off
        Grid grid = GridBuilder.create()
-               .column(new IntegerGridColumn().name("int"))
+               .column(new IntegerGridColumn("int"))
                .column(Long.class)
                    .name("long")
+                   .comment("long-column")
                .and()
                .column(Double.class)
                    .name("double")
+                   .comment("double-column")
                .build();
        //@formatter:on
 
         assertEquals(3, grid.columnCount());
         assertEquals(0, grid.rowCount());
 
-        assertEquals("int", grid.getColumnName(0));
-        assertEquals("long", grid.getColumnName(1));
-        assertEquals("double", grid.getColumnName(2));
+        assertEquals("int", grid.getName(0));
+        assertEquals("long", grid.getName(1));
+        assertEquals("double", grid.getName(2));
 
-        grid.addColumn(new BooleanGridColumn().name("boolean"));
+        grid.addColumn(new BooleanGridColumn("boolean"));
 
         assertEquals(4, grid.columnCount());
-        assertEquals("int", grid.getColumnName(0));
-        assertEquals("long", grid.getColumnName(1));
-        assertEquals("double", grid.getColumnName(2));
-        assertEquals("boolean", grid.getColumnName(3));
+        assertEquals("int", grid.getName(0));
+        assertEquals("long", grid.getName(1));
+        assertEquals("double", grid.getName(2));
+        assertEquals("boolean", grid.getName(3));
 
-        AbstractGridColumn<?> column = grid.removeColumn(1);
+        GridColumn<?> column = grid.removeColumn(1);
         assertNotNull(column);
         assertEquals("long", column.getName());
 
-        assertEquals("int", grid.getColumnName(0));
-        assertEquals("double", grid.getColumnName(1));
-        assertEquals("boolean", grid.getColumnName(2));
-    }
-
-    /**
-    *
-    */
-    @Test
-    public void testGridBuilderFail()
-    {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            //@formatter:off
-            GridBuilder.create()
-                .column(new IntegerGridColumn())
-                .column(Integer.class)
-                .build();
-            //@formatter:on
-        });
-
-        assertNotNull(exception);
-    }
-
-    /**
-     *
-     */
-    @Test
-    public void testGridMetaDataAddColumnFail()
-    {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            GridMetaData gmd = new GridMetaData();
-
-            gmd.addColumn(new IntegerGridColumn());
-            gmd.addColumn(new LongGridColumn());
-
-            assertEquals(2, gmd.columnCount());
-
-            // Fehler erwartet
-            gmd.addColumn(new IntegerGridColumn());
-        });
-
-        assertNotNull(exception);
+        assertEquals("int", grid.getName(0));
+        assertEquals("double", grid.getName(1));
+        assertEquals("boolean", grid.getName(2));
     }
 
     /**
@@ -140,20 +103,37 @@ public class TestGrid
     @Test
     public void testGridMetaSave() throws IOException, ClassNotFoundException
     {
-        GridMetaData gmd = new GridMetaData();
-        gmd.addColumn(new BinaryGridColumn());
-        gmd.addColumn(new BooleanGridColumn().name("boolean").comment("test-boolean"));
-        gmd.addColumn(new DateGridColumn().name("date").comment("test-date"));
-        gmd.addColumn(new DoubleGridColumn().name("double").comment("test-double"));
-        gmd.addColumn(new IntegerGridColumn());
-        gmd.addColumn(new LongGridColumn().length(13).precision(42));
-        gmd.addColumn(new StringGridColumn().name("string"));
+        //@formatter:off
+        Grid grid = GridBuilder.create()
+                .column(byte[].class)
+                .and()
+                .column(Boolean.class)
+                    .name("boolean")
+                    .comment("test-boolean")
+                .and()
+                .column(Date.class)
+                    .name("Date")
+                    .comment("test-date")
+                 .and()
+                 .column(Double.class)
+                     .name("double")
+                     .comment("test-double")
+                 .and()
+                 .column(Integer.class)
+                 .and()
+                 .column(Long.class)
+                     .length(13)
+                     .precision(42)
+                 .and()
+                 .column(String.class)
+                 .build();
+        //@formatter:on
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (DataOutputStream dos = new DataOutputStream(baos))
         {
-            gmd.write(dos);
+            grid.write(dos);
         }
 
         byte[] bytes = baos.toByteArray();
@@ -162,19 +142,19 @@ public class TestGrid
 
         try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes)))
         {
-            gmd2.read(dis);
+            gmd2.readMetaData(dis);
         }
 
-        assertEquals(7, gmd.columnCount());
-        assertEquals(gmd.columnCount(), gmd2.columnCount());
+        assertEquals(7, grid.columnCount());
+        assertEquals(grid.columnCount(), gmd2.columnCount());
 
-        for (int i = 0; i < gmd.columnCount(); i++)
+        for (int i = 0; i < grid.columnCount(); i++)
         {
-            assertEquals(gmd.getColumnObjectClazz(i), gmd2.getColumnObjectClazz(i));
-            assertEquals(gmd.getColumnName(i), gmd2.getColumnName(i));
-            assertEquals(gmd.getColumnComment(i), gmd2.getColumnComment(i));
-            assertEquals(gmd.getColumnLength(i), gmd2.getColumnLength(i));
-            assertEquals(gmd.getColumnPrecision(i), gmd2.getColumnPrecision(i));
+            assertEquals(grid.getObjectClazz(i), gmd2.getColumn(i).getObjectClazz());
+            assertEquals(grid.getName(i), gmd2.getColumn(i).getName());
+            assertEquals(grid.getComment(i), gmd2.getColumn(i).getComment());
+            assertEquals(grid.getLength(i), gmd2.getColumn(i).getLength());
+            assertEquals(grid.getPrecision(i), gmd2.getColumn(i).getPrecision());
         }
     }
 
@@ -238,23 +218,23 @@ public class TestGrid
         assertEquals(3, grid.columnCount());
         assertEquals(data.length, grid.rowCount());
 
-        assertEquals(Boolean.class, grid.getColumnObjectClazz(0));
-        assertEquals("boolean", grid.getColumnName(0));
-        assertEquals(null, grid.getColumnComment(0));
-        assertEquals(1, grid.getColumnLength(0));
-        assertEquals(1, grid.getColumnPrecision(0));
+        assertEquals(Boolean.class, grid.getObjectClazz(0));
+        assertEquals("boolean", grid.getName(0));
+        assertEquals(null, grid.getComment(0));
+        assertEquals(1, grid.getLength(0));
+        assertEquals(1, grid.getPrecision(0));
 
-        assertEquals(Double.class, grid.getColumnObjectClazz(1));
-        assertEquals("double", grid.getColumnName(1));
-        assertEquals(null, grid.getColumnComment(1));
-        assertEquals(3, grid.getColumnLength(1));
-        assertEquals(3, grid.getColumnPrecision(1));
+        assertEquals(Double.class, grid.getObjectClazz(1));
+        assertEquals("double", grid.getName(1));
+        assertEquals(null, grid.getComment(1));
+        assertEquals(3, grid.getLength(1));
+        assertEquals(3, grid.getPrecision(1));
 
-        assertEquals(String.class, grid.getColumnObjectClazz(2));
-        assertEquals("string", grid.getColumnName(2));
-        assertEquals(null, grid.getColumnComment(2));
-        assertEquals(10, grid.getColumnLength(2));
-        assertEquals(10, grid.getColumnPrecision(2));
+        assertEquals(String.class, grid.getObjectClazz(2));
+        assertEquals("string", grid.getName(2));
+        assertEquals(null, grid.getComment(2));
+        assertEquals(10, grid.getLength(2));
+        assertEquals(10, grid.getPrecision(2));
 
         for (int r = 0; r < grid.rowCount(); r++)
         {
@@ -322,11 +302,11 @@ public class TestGrid
 
         for (int i = 0; i < grid1.columnCount(); i++)
         {
-            assertEquals(grid1.getColumnObjectClazz(i), grid2.getColumnObjectClazz(i));
-            assertEquals(grid1.getColumnName(i), grid2.getColumnName(i));
-            assertEquals(grid1.getColumnComment(i), grid2.getColumnComment(i));
-            assertEquals(grid1.getColumnLength(i), grid2.getColumnLength(i));
-            assertEquals(grid1.getColumnPrecision(i), grid2.getColumnPrecision(i));
+            assertEquals(grid1.getObjectClazz(i), grid2.getObjectClazz(i));
+            assertEquals(grid1.getName(i), grid2.getName(i));
+            assertEquals(grid1.getComment(i), grid2.getComment(i));
+            assertEquals(grid1.getLength(i), grid2.getLength(i));
+            assertEquals(grid1.getPrecision(i), grid2.getPrecision(i));
         }
 
         for (int r = 0; r < grid1.rowCount(); r++)

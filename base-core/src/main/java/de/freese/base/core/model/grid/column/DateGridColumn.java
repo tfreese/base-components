@@ -27,11 +27,28 @@ public class DateGridColumn extends AbstractGridColumn<Date>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link DateGridColumn}.
+     *
+     * @param name String
+     */
+    public DateGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected Date getValueImpl(final Object object)
+    public Date getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return (Date) object;
     }
 

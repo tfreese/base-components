@@ -6,7 +6,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Function;
-
 import de.freese.base.core.function.ExceptionalBiConsumer;
 import de.freese.base.core.function.ExceptionalFunction;
 
@@ -46,8 +45,8 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
      * @param writer {@link ExceptionalBiConsumer}
      * @param reader {@link ExceptionalFunction}
      */
-    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper,
-            final ExceptionalBiConsumer<DataOutput, T, IOException> writer, final ExceptionalFunction<DataInput, T, IOException> reader)
+    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ExceptionalBiConsumer<DataOutput, T, IOException> writer,
+            final ExceptionalFunction<DataInput, T, IOException> reader)
     {
         super(Objects.requireNonNull(objectClazz, "objectClazz required"));
 
@@ -57,11 +56,16 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected T getValueImpl(final Object object)
+    public T getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return this.mapper.apply(object);
     }
 

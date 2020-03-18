@@ -26,36 +26,41 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#isNull(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link BinaryGridColumn}.
+     *
+     * @param name String
+     */
+    public BinaryGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public boolean isNull(final Object object)
+    public byte[] getValue(final Object object)
     {
         if (object == null)
         {
-            return true;
+            return null;
         }
 
-        byte[] value = getValueImpl(object);
+        byte[] value = (byte[]) object;
 
         if (value.length == 0)
         {
-            return true;
+            return null;
         }
 
-        return false;
+        return value;
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
-     */
-    @Override
-    protected byte[] getValueImpl(final Object object)
-    {
-        return (byte[]) object;
-    }
-
-    /**
+     * /**
+     *
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override

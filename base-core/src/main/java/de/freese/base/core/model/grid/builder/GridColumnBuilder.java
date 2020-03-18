@@ -1,7 +1,10 @@
 // Created: 25.01.2018
-package de.freese.base.core.model.grid;
+package de.freese.base.core.model.grid.builder;
 
-import de.freese.base.core.model.grid.column.AbstractGridColumn;
+import java.util.Objects;
+import de.freese.base.core.model.grid.Grid;
+import de.freese.base.core.model.grid.GridMetaData;
+import de.freese.base.core.model.grid.column.GridColumn;
 
 /**
  * @author Thomas Freese
@@ -16,7 +19,7 @@ public class GridColumnBuilder
     /**
      *
      */
-    private final GridBuilder gridBuilder;
+    private final GridMetaData gridMetaData;
 
     /**
     *
@@ -26,7 +29,7 @@ public class GridColumnBuilder
     /**
     *
     */
-    private String name = "";
+    private String name = null;
 
     /**
      *
@@ -41,13 +44,13 @@ public class GridColumnBuilder
     /**
      * Erzeugt eine neue Instanz von {@link GridColumnBuilder}.
      *
-     * @param gridBuilder {@link GridBuilder}
+     * @param gridMetaData {@link GridMetaData}
      */
-    GridColumnBuilder(final GridBuilder gridBuilder)
+    GridColumnBuilder(final GridMetaData gridMetaData)
     {
         super();
 
-        this.gridBuilder = gridBuilder;
+        this.gridMetaData = Objects.requireNonNull(gridMetaData, "gridMetaData required");
     }
 
     /**
@@ -57,15 +60,15 @@ public class GridColumnBuilder
      */
     public GridBuilder and()
     {
-        //@formatter:off
-        AbstractGridColumn<?> gc = GridMetaData.getColumnForType(this.objectClazz)
-                .comment(this.comment)
-                .length(this.length)
-                .name(this.name)
-                .precision(this.precision);
-        //@formatter:off
+        GridColumn<?> gc = this.gridMetaData.getGridColumnFactory().getColumnForType(this.objectClazz);
+        gc.setComment(this.comment);
+        gc.setLength(this.length);
+        gc.setName(this.name);
+        gc.setPrecision(this.precision);
 
-        return this.gridBuilder.column(gc);
+        this.gridMetaData.addColumn(gc);
+
+        return new GridBuilder(this.gridMetaData);
     }
 
     /**

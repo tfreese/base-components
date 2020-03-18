@@ -26,11 +26,28 @@ public class IntegerGridColumn extends AbstractGridColumn<Integer>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link IntegerGridColumn}.
+     *
+     * @param name String
+     */
+    public IntegerGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected Integer getValueImpl(final Object object)
+    public Integer getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return (Integer) object;
     }
 

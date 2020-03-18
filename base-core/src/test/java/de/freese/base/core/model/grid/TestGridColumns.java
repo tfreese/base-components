@@ -21,12 +21,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.base.core.function.ExceptionalBiConsumer;
 import de.freese.base.core.function.ExceptionalFunction;
-import de.freese.base.core.model.grid.column.AbstractGridColumn;
 import de.freese.base.core.model.grid.column.BinaryGridColumn;
 import de.freese.base.core.model.grid.column.BooleanGridColumn;
 import de.freese.base.core.model.grid.column.DateGridColumn;
 import de.freese.base.core.model.grid.column.DoubleGridColumn;
 import de.freese.base.core.model.grid.column.GenericGridColumn;
+import de.freese.base.core.model.grid.column.GridColumn;
 import de.freese.base.core.model.grid.column.IntegerGridColumn;
 import de.freese.base.core.model.grid.column.LongGridColumn;
 import de.freese.base.core.model.grid.column.StringGridColumn;
@@ -46,12 +46,12 @@ public class TestGridColumns
     }
 
     /**
-     * @param column {@link AbstractGridColumn}
+     * @param column {@link GridColumn}
      * @param bytes byte[]
      * @return Object
      * @throws IOException Falls was schief geht.
      */
-    private <T> T read(final AbstractGridColumn<T> column, final byte[] bytes) throws IOException
+    private <T> T read(final GridColumn<T> column, final byte[] bytes) throws IOException
     {
         T value = null;
 
@@ -248,12 +248,12 @@ public class TestGridColumns
     }
 
     /**
-     * @param column {@link AbstractGridColumn}
+     * @param column {@link GridColumn}
      * @param object Object
      * @return byte[]
      * @throws IOException Falls was schief geht.
      */
-    private <T> byte[] write(final AbstractGridColumn<T> column, final Object object) throws IOException
+    private <T> byte[] write(final GridColumn<T> column, final Object object) throws IOException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

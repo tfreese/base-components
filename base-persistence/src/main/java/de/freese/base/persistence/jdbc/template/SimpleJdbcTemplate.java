@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.concurrent.Flow.Publisher;
@@ -438,29 +439,15 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * Führt ein {@link Statement#executeQuery(String)} aus und extrahiert ein Objekt aus dem {@link ResultSet}.
+     * Führt ein {@link PreparedStatement#executeQuery(String)} aus und extrahiert pro Row des {@link ResultSet} eine Map mit den Spaltennamen (UPPSER_CASE) als
+     * Key .
      *
-     * @param <T> Konkreter Return-Typ
      * @param sql String
-     * @param rse {@link ResultSetExtractor}
-     * @return Object
+     * @return {@link List}
      */
-    public <T> T query(final String sql, final ResultSetExtractor<T> rse)
+    public List<Map<String, Object>> query(final String sql)
     {
-        StatementCreator<Statement> sc = Connection::createStatement;
-        StatementCallback<Statement, T> action = stmt -> {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug(String.format("query: %s", sql));
-            }
-
-            try (ResultSet rs = stmt.executeQuery(sql))
-            {
-                return rse.extractData(rs);
-            }
-        };
-
-        return execute(sc, action);
+        return query(sql, new ColumnMapRowMapper());
     }
 
     /**
@@ -496,7 +483,11 @@ public class SimpleJdbcTemplate
             }
 
             stmt.clearParameters();
-            setter.setValues(stmt);
+
+            if (setter != null)
+            {
+                setter.setValues(stmt);
+            }
 
             try (ResultSet rs = stmt.executeQuery())
             {
@@ -505,19 +496,6 @@ public class SimpleJdbcTemplate
         };
 
         return execute(sc, action);
-    }
-
-    /**
-     * Führt ein {@link Statement#executeQuery(String)} aus und erzeugt über den {@link RowMapper} eine Liste aus Entities.
-     *
-     * @param <T> Konkreter Row-Typ
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @return {@link List}
-     */
-    public <T> List<T> query(final String sql, final RowMapper<T> rowMapper)
-    {
-        return query(sql, new RowMapperResultSetExtractor<>(rowMapper));
     }
 
     /**
@@ -546,28 +524,6 @@ public class SimpleJdbcTemplate
     public <T> List<T> query(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter setter)
     {
         return query(sql, new RowMapperResultSetExtractor<>(rowMapper), setter);
-    }
-
-    /**
-     * Erzeugt über den {@link RowMapper} einen {@link Flux} aus Entities.<br>
-     * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Flux#doFinally}-Methode.<br>
-     * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Fluxes ist ebenfalls nicht möglich, da nach dem ersten mal bereits alle DB-Resourcen geschlossen sind.<br>
-     * Beispiel: <code>
-     * <pre>
-     * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper));
-     * flux.subscribe(System.out::println);
-     * </pre>
-     * </code>
-     *
-     * @param <T> Konkreter Return-Typ
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @return {@link Flux}
-     */
-    public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper)
-    {
-        return queryAsFlux(sql, rowMapper, (PreparedStatementSetter) null);
     }
 
     /**
@@ -687,28 +643,6 @@ public class SimpleJdbcTemplate
      *
      * @param sql String
      * @param rowMapper {@link RowMapper}
-     * @return {@link Publisher}
-     */
-    public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper)
-    {
-        return queryAsPublisher(sql, rowMapper, (PreparedStatementSetter) null);
-    }
-
-    /**
-     * Erzeugt einen {@link Publisher} aus dem {@link ResultSet}.<br>
-     * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der
-     * {@link ResultSetSubscription#closeJdbcResources}-Methode.<br>
-     * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Publisher ist ebenfalls nicht möglich, da nach dem ersten mal bereits alle DB-Resourcen geschlossen sind.<br>
-     * Beispiel: <code>
-     * <pre>
-     * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
-     * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
-     * </pre>
-     * </code>
-     *
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
      * @param params Object[]; SQL-Parameter
      * @return {@link Publisher}
      */
@@ -805,30 +739,6 @@ public class SimpleJdbcTemplate
         R reactive = action.doReactive(connection, statement, resultSet);
 
         return reactive;
-    }
-
-    /**
-     * Erzeugt über den {@link RowMapper} einen {@link Stream} aus Entities.<br>
-     * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Stream#onClose}-Methode.<br>
-     * Daher MUSS die {@link Stream#close}-Methode zwingend aufgerufen werden (try-resource).<br>
-     * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Beispiel: <code>
-     * <pre>
-     * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper))
-     * {
-     *     stream.forEach(System.out::println);
-     * }
-     * </pre>
-     * </code>
-     *
-     * @param <T> Konkreter Return-Typ
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @return {@link Stream}
-     */
-    public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper)
-    {
-        return queryAsStream(sql, rowMapper, (PreparedStatementSetter) null);
     }
 
     /**
@@ -959,27 +869,6 @@ public class SimpleJdbcTemplate
     public void setQueryTimeout(final int queryTimeout)
     {
         this.queryTimeout = queryTimeout;
-    }
-
-    /**
-     * Führt ein {@link Statement#executeUpdate(String)} aus (INSERT, UPDATE, DELETE).
-     *
-     * @param sql String
-     * @return int; affectedRows
-     */
-    public int update(final String sql)
-    {
-        StatementCreator<Statement> sc = Connection::createStatement;
-        StatementCallback<Statement, Integer> action = stmt -> {
-            if (getLogger().isDebugEnabled())
-            {
-                getLogger().debug(String.format("update: %s", sql));
-            }
-
-            return stmt.executeUpdate(sql);
-        };
-
-        return execute(sc, action);
     }
 
     /**

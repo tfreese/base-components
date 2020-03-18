@@ -1,25 +1,8 @@
 // Created: 12.01.2017
 package de.freese.base.persistence.jdbc.template;
 
-import de.freese.base.persistence.jdbc.Person;
-import de.freese.base.persistence.jdbc.PersonRowMapper;
-import de.freese.base.persistence.jdbc.TestSuiteJdbc;
-import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForList;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,11 +17,25 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
 import javax.sql.DataSource;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import de.freese.base.persistence.jdbc.Person;
+import de.freese.base.persistence.jdbc.PersonRowMapper;
+import de.freese.base.persistence.jdbc.TestSuiteJdbc;
+import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForList;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * TestCase des eigenen {@link SimpleJdbcTemplate}.
@@ -108,6 +105,27 @@ public class TestSimpleJdbcTemplate
     }
 
     /**
+     * @param sequence String
+     * @return long
+     * @throws SQLException Falls was schief geht.
+     */
+    private long getNextID(final String sequence) throws SQLException
+    {
+        String sql = "call next value for " + sequence;
+        long id = 0;
+
+        try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql))
+        {
+            rs.next();
+            id = rs.getLong(1);
+        }
+
+        return id;
+    }
+
+    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
@@ -138,8 +156,7 @@ public class TestSimpleJdbcTemplate
         personen.add(new Person(0, "Nachname1", "Vorname1"));
         personen.add(new Person(0, "Nachname2", "Vorname2"));
 
-        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), (ps, person) ->
-        {
+        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), (ps, person) -> {
             long id = getNextID("PERSON_SEQ");
             ps.setLong(1, id);
             ps.setString(2, person.getNachname());
@@ -160,7 +177,7 @@ public class TestSimpleJdbcTemplate
         StringBuilder sql = new StringBuilder();
         sql.append("select id, name, vorname from PERSON");
 
-        List<Map<String, Object>> results = jdbcTemplate.query(sql.toString(), new ColumnMapRowMapper());
+        List<Map<String, Object>> results = jdbcTemplate.query(sql.toString());
 
         assertNotNull(results);
         assertEquals(3, results.size());
@@ -314,8 +331,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.limit(1).forEach(p ->
-            {
+            stream.limit(1).forEach(p -> {
                 assertEquals(1, p.getId());
                 assertEquals("Freese", p.getNachname());
                 assertEquals("Thomas", p.getVorname());
@@ -324,8 +340,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(p ->
-            {
+            stream.skip(1).limit(1).forEach(p -> {
                 assertEquals(2, p.getId());
                 assertEquals("Nachname1", p.getNachname());
                 assertEquals("Vorname1", p.getVorname());
@@ -334,8 +349,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(2).limit(1).forEach(p ->
-            {
+            stream.skip(2).limit(1).forEach(p -> {
                 assertEquals(3, p.getId());
                 assertEquals("Nachname2", p.getNachname());
                 assertEquals("Vorname2", p.getVorname());
@@ -359,8 +373,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.limit(1).forEach(p ->
-            {
+            stream.limit(1).forEach(p -> {
                 assertEquals(3, p.getId());
                 assertEquals("Nachname2", p.getNachname());
                 assertEquals("Vorname2", p.getVorname());
@@ -369,8 +382,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(p ->
-            {
+            stream.skip(1).limit(1).forEach(p -> {
                 assertEquals(2, p.getId());
                 assertEquals("Nachname1", p.getNachname());
                 assertEquals("Vorname1", p.getVorname());
@@ -394,8 +406,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.limit(1).forEach(p ->
-            {
+            stream.limit(1).forEach(p -> {
                 assertEquals(3, p.getId());
                 assertEquals("Nachname2", p.getNachname());
                 assertEquals("Vorname2", p.getVorname());
@@ -404,8 +415,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(p ->
-            {
+            stream.skip(1).limit(1).forEach(p -> {
                 assertEquals(2, p.getId());
                 assertEquals("Nachname1", p.getNachname());
                 assertEquals("Vorname1", p.getVorname());
@@ -429,8 +439,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Map<String, Object>> stream = supplier.get())
         {
-            stream.forEach(m ->
-            {
+            stream.forEach(m -> {
                 // ColumnNames
                 Set<String> columnNames = m.keySet();
                 Iterator<String> nameIterator = columnNames.iterator();
@@ -443,8 +452,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Map<String, Object>> stream = supplier.get())
         {
-            stream.limit(1).forEach(m ->
-            {
+            stream.limit(1).forEach(m -> {
                 assertEquals("3", m.get("ID").toString());
                 assertEquals("Nachname2", m.get("NAME"));
                 assertEquals("Vorname2", m.get("VORNAME"));
@@ -453,8 +461,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Map<String, Object>> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(m ->
-            {
+            stream.skip(1).limit(1).forEach(m -> {
                 assertEquals("2", m.get("ID").toString());
                 assertEquals("Nachname1", m.get("NAME"));
                 assertEquals("Vorname1", m.get("VORNAME"));
@@ -478,8 +485,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Map<String, Object>> stream = supplier.get())
         {
-            stream.forEach(m ->
-            {
+            stream.forEach(m -> {
                 // ColumnNames
                 Set<String> columnNames = m.keySet();
                 Iterator<String> nameIterator = columnNames.iterator();
@@ -492,8 +498,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Map<String, Object>> stream = supplier.get())
         {
-            stream.limit(1).forEach(m ->
-            {
+            stream.limit(1).forEach(m -> {
                 assertEquals("3", m.get("ID").toString());
                 assertEquals("Nachname2", m.get("NAME"));
                 assertEquals("Vorname2", m.get("VORNAME"));
@@ -502,8 +507,7 @@ public class TestSimpleJdbcTemplate
 
         try (Stream<Map<String, Object>> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(m ->
-            {
+            stream.skip(1).limit(1).forEach(m -> {
                 assertEquals("2", m.get("ID").toString());
                 assertEquals("Nachname1", m.get("NAME"));
                 assertEquals("Vorname1", m.get("VORNAME"));
@@ -560,24 +564,21 @@ public class TestSimpleJdbcTemplate
         assertEquals(3, counter.get());
 
         flux = supplier.get();
-        flux.take(1).subscribe(p ->
-        {
+        flux.take(1).subscribe(p -> {
             assertEquals(1, p.getId());
             assertEquals("Freese", p.getNachname());
             assertEquals("Thomas", p.getVorname());
         });
 
         flux = supplier.get();
-        flux.skip(1).take(1).subscribe(p ->
-        {
+        flux.skip(1).take(1).subscribe(p -> {
             assertEquals(2, p.getId());
             assertEquals("Nachname1", p.getNachname());
             assertEquals("Vorname1", p.getVorname());
         });
 
         flux = supplier.get();
-        flux.skip(2).take(1).subscribe(p ->
-        {
+        flux.skip(2).take(1).subscribe(p -> {
             assertEquals(3, p.getId());
             assertEquals("Nachname2", p.getNachname());
             assertEquals("Vorname2", p.getVorname());
@@ -597,16 +598,14 @@ public class TestSimpleJdbcTemplate
         assertEquals(2, flux.count().block().longValue());
 
         flux = supplier.get();
-        flux.take(1).subscribe(p ->
-        {
+        flux.take(1).subscribe(p -> {
             assertEquals(3, p.getId());
             assertEquals("Nachname2", p.getNachname());
             assertEquals("Vorname2", p.getVorname());
         });
 
         flux = supplier.get();
-        flux.skip(1).take(1).subscribe(p ->
-        {
+        flux.skip(1).take(1).subscribe(p -> {
 
             assertEquals(2, p.getId());
             assertEquals("Nachname1", p.getNachname());
@@ -627,16 +626,14 @@ public class TestSimpleJdbcTemplate
         assertEquals(2, flux.count().block().longValue());
 
         flux = supplier.get();
-        flux.take(1).subscribe(p ->
-        {
+        flux.take(1).subscribe(p -> {
             assertEquals(3, p.getId());
             assertEquals("Nachname2", p.getNachname());
             assertEquals("Vorname2", p.getVorname());
         });
 
         flux = supplier.get();
-        flux.skip(1).take(1).subscribe(p ->
-        {
+        flux.skip(1).take(1).subscribe(p -> {
 
             assertEquals(2, p.getId());
             assertEquals("Nachname1", p.getNachname());
@@ -657,8 +654,7 @@ public class TestSimpleJdbcTemplate
         assertEquals(2, flux.count().block().longValue());
 
         flux = supplier.get();
-        flux.subscribe(m ->
-        {
+        flux.subscribe(m -> {
             // ColumnNames
             Set<String> columnNames = m.keySet();
             Iterator<String> nameIterator = columnNames.iterator();
@@ -669,16 +665,14 @@ public class TestSimpleJdbcTemplate
         });
 
         flux = supplier.get();
-        flux.take(1).subscribe(m ->
-        {
+        flux.take(1).subscribe(m -> {
             assertEquals("3", m.get("ID").toString());
             assertEquals("Nachname2", m.get("NAME"));
             assertEquals("Vorname2", m.get("VORNAME"));
         });
 
         flux = supplier.get();
-        flux.skip(1).take(1).subscribe(m ->
-        {
+        flux.skip(1).take(1).subscribe(m -> {
             assertEquals("2", m.get("ID").toString());
             assertEquals("Nachname1", m.get("NAME"));
             assertEquals("Vorname1", m.get("VORNAME"));
@@ -698,8 +692,7 @@ public class TestSimpleJdbcTemplate
         assertEquals(2, flux.count().block().longValue());
 
         flux = supplier.get();
-        flux.subscribe(m ->
-        {
+        flux.subscribe(m -> {
             // ColumnNames
             Set<String> columnNames = m.keySet();
             Iterator<String> nameIterator = columnNames.iterator();
@@ -710,16 +703,14 @@ public class TestSimpleJdbcTemplate
         });
 
         flux = supplier.get();
-        flux.take(1).subscribe(m ->
-        {
+        flux.take(1).subscribe(m -> {
             assertEquals("3", m.get("ID").toString());
             assertEquals("Nachname2", m.get("NAME"));
             assertEquals("Vorname2", m.get("VORNAME"));
         });
 
         flux = supplier.get();
-        flux.skip(1).take(1).subscribe(m ->
-        {
+        flux.skip(1).take(1).subscribe(m -> {
             assertEquals("2", m.get("ID").toString());
             assertEquals("Nachname1", m.get("NAME"));
             assertEquals("Vorname1", m.get("VORNAME"));
@@ -885,36 +876,12 @@ public class TestSimpleJdbcTemplate
 
         assertEquals(4L, id);
 
-        int affectedRows = jdbcTemplate.update(sql.toString(), ps ->
-        {
+        int affectedRows = jdbcTemplate.update(sql.toString(), ps -> {
             ps.setLong(1, id);
             ps.setString(2, "Freesee");
             ps.setString(3, "Thomass");
         });
 
         assertEquals(1, affectedRows);
-    }
-
-    /**
-     * @param sequence String
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schief geht.
-     */
-    private long getNextID(final String sequence) throws SQLException
-    {
-        String sql = "call next value for " + sequence;
-        long id = 0;
-
-        try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql))
-        {
-            rs.next();
-            id = rs.getLong(1);
-        }
-
-        return id;
     }
 }

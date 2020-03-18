@@ -10,31 +10,22 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
-import de.freese.base.core.model.grid.column.AbstractGridColumn;
-import de.freese.base.core.model.grid.column.BinaryGridColumn;
-import de.freese.base.core.model.grid.column.BooleanGridColumn;
-import de.freese.base.core.model.grid.column.DateGridColumn;
-import de.freese.base.core.model.grid.column.DoubleGridColumn;
-import de.freese.base.core.model.grid.column.IntegerGridColumn;
-import de.freese.base.core.model.grid.column.LongGridColumn;
-import de.freese.base.core.model.grid.column.StringGridColumn;
+import de.freese.base.core.model.grid.column.GridColumn;
+import de.freese.base.core.model.grid.factory.DefaultGridColumnFactory;
+import de.freese.base.core.model.grid.factory.GridColumnFactory;
 
 /**
- * Definiert die Struktur / Spalten des Grids.
+ * Definiert die Spalten des Grids.
  *
  * @author Thomas Freese
  */
-public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?>>
+public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
 {
     /**
      *
@@ -47,132 +38,48 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
     private static final long serialVersionUID = 4337541530394314432L;
 
     /**
-     * Liefert für den SQL-Type die entsprechende Column.
      *
-     * @param sqlType int
-     * @return {@link AbstractGridColumn}
      */
-    public static AbstractGridColumn<?> getColumnForSQL(final int sqlType)
-    {
-        AbstractGridColumn<?> column = null;
-
-        switch (sqlType)
-        {
-            case Types.BINARY:
-            case Types.VARBINARY:
-                column = new BinaryGridColumn();
-                break;
-
-            case Types.BOOLEAN:
-                column = new BooleanGridColumn();
-                break;
-
-            case Types.DATE:
-                column = new DateGridColumn();
-                break;
-
-            case Types.FLOAT:
-            case Types.DOUBLE:
-                column = new DoubleGridColumn();
-                break;
-
-            case Types.TINYINT:
-            case Types.SMALLINT:
-            case Types.INTEGER:
-                column = new IntegerGridColumn();
-                break;
-
-            case Types.BIGINT:
-            case Types.DECIMAL:
-            case Types.NUMERIC:
-                column = new LongGridColumn();
-                break;
-
-            case Types.VARCHAR:
-                column = new StringGridColumn();
-                break;
-
-            default:
-                throw new UnsupportedOperationException("sqlType " + sqlType + " is not supported");
-        }
-
-        return column;
-    }
-
-    /**
-     * Liefert für den Object-Typ die entsprechende Column.
-     *
-     * @param objectClazz Class
-     * @return {@link AbstractGridColumn}
-     */
-    public static AbstractGridColumn<?> getColumnForType(final Class<?> objectClazz)
-    {
-        AbstractGridColumn<?> column = null;
-
-        if (byte[].class.equals(objectClazz))
-        {
-            column = new BinaryGridColumn();
-        }
-        else if (Boolean.class.equals(objectClazz))
-        {
-            column = new BooleanGridColumn();
-        }
-        else if (Date.class.equals(objectClazz))
-        {
-            column = new DateGridColumn();
-        }
-        else if (Double.class.equals(objectClazz))
-        {
-            column = new DoubleGridColumn();
-        }
-        else if (Integer.class.equals(objectClazz))
-        {
-            column = new IntegerGridColumn();
-        }
-        else if (Long.class.equals(objectClazz))
-        {
-            column = new LongGridColumn();
-        }
-        else if (String.class.equals(objectClazz))
-        {
-            column = new StringGridColumn();
-        }
-        else
-        {
-            throw new UnsupportedOperationException("objectClass " + objectClazz.getName() + " is not supported");
-        }
-
-        return column;
-    }
+    private List<GridColumn<?>> columns = new ArrayList<>();
 
     /**
      *
      */
-    private List<AbstractGridColumn<?>> columns = new ArrayList<>();
+    private final GridColumnFactory gridColumnFactory;
 
     /**
      * Erstellt ein neues {@link GridMetaData} Object.
      */
     public GridMetaData()
     {
-        super();
+        this(new DefaultGridColumnFactory());
     }
 
     /**
-     * @param column {@link AbstractGridColumn}
+     * Erstellt ein neues {@link GridMetaData} Object.
+     *
+     * @param gridColumnFactory {@link GridColumnFactory}
      */
-    public void addColumn(final AbstractGridColumn<?> column)
+    public GridMetaData(final GridColumnFactory gridColumnFactory)
     {
-        Class<?> clazz = column.getObjectClazz();
+        super();
 
+        this.gridColumnFactory = Objects.requireNonNull(gridColumnFactory, "gridColumnFactory required");
+    }
+
+    /**
+     * @param column {@link GridColumn}
+     */
+    public void addColumn(final GridColumn<?> column)
+    {
         // StreamSupport.stream(spliterator(), false);
-        Optional<AbstractGridColumn<?>> optional = this.columns.stream().filter(c -> clazz.equals(c.getObjectClazz())).findAny();
-
-        if (optional.isPresent())
-        {
-            String msg = String.format("column for class %s already exist: %s", clazz.getName(), optional.get().getClass().getName());
-            throw new IllegalArgumentException(msg);
-        }
+        // boolean clazzExist = getColumns().stream().anyMatch(c -> column.getObjectClazz().equals(c.getObjectClazz()));
+        //
+        // if (clazzExist)
+        // {
+        // String msg = String.format("column for class %s already exist: %s", clazz.getName(), optional.get().getClass().getName());
+        // throw new IllegalArgumentException(msg);
+        // }
 
         getColumns().add(column);
     }
@@ -186,69 +93,38 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
     }
 
     /**
-     * @param columnIndex int
-     * @return String
+     * @param index int
+     * @return {@link GridColumn}
      */
-    public String getColumnComment(final int columnIndex)
+    public GridColumn<?> getColumn(final int index)
     {
-        return getColumns().get(columnIndex).getComment();
+        return getColumns().get(index);
     }
 
     /**
-     * @param columnIndex int
-     * @return int
+     * @return {@link List}
      */
-    public int getColumnLength(final int columnIndex)
+    protected List<GridColumn<?>> getColumns()
     {
-        return getColumns().get(columnIndex).getLength();
+        return this.columns;
     }
 
     /**
-     * @param columnIndex int
-     * @return String
+     * @return {@link GridColumnFactory}
      */
-    public String getColumnName(final int columnIndex)
+    public GridColumnFactory getGridColumnFactory()
     {
-        return getColumns().get(columnIndex).getName();
+        return this.gridColumnFactory;
     }
 
-    /**
-     * @param columnIndex int
-     * @return Class
-     */
-    public Class<?> getColumnObjectClazz(final int columnIndex)
-    {
-        return getColumns().get(columnIndex).getObjectClazz();
-    }
-
-    /**
-     * @param columnIndex int
-     * @return int
-     */
-    public int getColumnPrecision(final int columnIndex)
-    {
-        return getColumns().get(columnIndex).getPrecision();
-    }
-
-    /**
-     * @param columnIndex int
-     * @param object Object
-     * @return String
-     */
-    @SuppressWarnings("unchecked")
-    public <T> T getValue(final int columnIndex, final Object object)
-    {
-        return (T) getColumns().get(columnIndex).getValue(object);
-    }
-
-    /**
-     * @see java.lang.Iterable#iterator()
-     */
-    @Override
-    public Iterator<AbstractGridColumn<?>> iterator()
-    {
-        return getColumns().iterator();
-    }
+    // /**
+    // * @see java.lang.Iterable#iterator()
+    // */
+    // @Override
+    // public Iterator<GridColumn<?>> iterator()
+    // {
+    // return getColumns().iterator();
+    // }
 
     /**
      * Liest die Grid-Struktur aus dem Stream.
@@ -257,7 +133,7 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
      * @throws IOException Falls was schief geht.
      * @throws ClassNotFoundException Falls was schief geht.
      */
-    public void read(final DataInput dataInput) throws IOException, ClassNotFoundException
+    public void readMetaData(final DataInput dataInput) throws IOException, ClassNotFoundException
     {
         // Anzahl Spalten
         int columnCount = dataInput.readInt();
@@ -271,7 +147,7 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
 
             String objectClazzName = new String(bytes, DEFAULT_CHARSET);
             Class<?> objectClazz = Class.forName(objectClazzName);
-            AbstractGridColumn<?> column = getColumnForType(objectClazz);
+            GridColumn<?> column = this.gridColumnFactory.getColumnForType(objectClazz);
 
             getColumns().add(column);
 
@@ -317,14 +193,14 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
      * @param metaData {@link ResultSetMetaData}
      * @throws SQLException Falls was schief geht.
      */
-    public void read(final ResultSetMetaData metaData) throws SQLException
+    public void readMetaData(final ResultSetMetaData metaData) throws SQLException
     {
         // Anzahl Spalten
         int columnCount = metaData.getColumnCount();
 
         for (int c = 1; c <= columnCount; c++)
         {
-            AbstractGridColumn<?> column = getColumnForSQL(metaData.getColumnType(c));
+            GridColumn<?> column = this.gridColumnFactory.getColumnForSQL(metaData.getColumnType(c));
             column.setName(metaData.getColumnLabel(c));
             column.setLength(metaData.getColumnDisplaySize(c));
             column.setPrecision(metaData.getPrecision(c));
@@ -335,51 +211,12 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
     }
 
     /**
-     * Liest eine aus dem Stream.
-     *
-     * @param dataInput {@link DataInput}
-     * @return Object[]
-     * @throws IOException Falls was schief geht.
-     * @throws ClassNotFoundException Falls was schief geht.
-     */
-    public Object[] readRow(final DataInput dataInput) throws IOException, ClassNotFoundException
-    {
-        Object[] row = new Object[columnCount()];
-
-        for (int c = 0; c < columnCount(); c++)
-        {
-            row[c] = getColumns().get(c).read(dataInput);
-        }
-
-        return row;
-    }
-
-    /**
-     * Liest eine aus dem Stream.
-     *
-     * @param resultSet {@link ResultSet}
-     * @return Object[]
-     * @throws SQLException Falls was schief geht.
-     */
-    public Object[] readRow(final ResultSet resultSet) throws SQLException
-    {
-        Object[] row = new Object[columnCount()];
-
-        for (int c = 1; c <= columnCount(); c++)
-        {
-            row[c - 1] = resultSet.getObject(c);
-        }
-
-        return row;
-    }
-
-    /**
      * @param columnIndex int
-     * @return {@link AbstractGridColumn}
+     * @return {@link GridColumn}
      */
-    public AbstractGridColumn<?> removeColumn(final int columnIndex)
+    public GridColumn<?> removeColumn(final int columnIndex)
     {
-        AbstractGridColumn<?> column = getColumns().remove(columnIndex);
+        GridColumn<?> column = getColumns().remove(columnIndex);
 
         return column;
     }
@@ -390,12 +227,12 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
      * @param dataOutput {@link DataOutput}
      * @throws IOException Falls was schief geht.
      */
-    public void write(final DataOutput dataOutput) throws IOException
+    public void writeMetaData(final DataOutput dataOutput) throws IOException
     {
         // Anzahl Spalten
         dataOutput.writeInt(columnCount());
 
-        for (AbstractGridColumn<?> column : getColumns())
+        for (GridColumn<?> column : getColumns())
         {
             // Object-Class
             byte[] bytes = column.getObjectClazz().getName().getBytes(DEFAULT_CHARSET);
@@ -434,28 +271,5 @@ public class GridMetaData implements Serializable, Iterable<AbstractGridColumn<?
                 dataOutput.write(bytes);
             }
         }
-    }
-
-    /**
-     * Schreibt eine Row in den Stream.
-     *
-     * @param dataOutput {@link DataOutput}
-     * @param row Object[]
-     * @throws IOException Falls was schief geht.
-     */
-    public void writeRow(final DataOutput dataOutput, final Object[] row) throws IOException
-    {
-        for (int c = 0; c < columnCount(); c++)
-        {
-            getColumns().get(c).write(dataOutput, row[c]);
-        }
-    }
-
-    /**
-     * @return {@link List}
-     */
-    protected List<AbstractGridColumn<?>> getColumns()
-    {
-        return this.columns;
     }
 }

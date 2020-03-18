@@ -4,7 +4,6 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-
 import de.freese.base.core.model.grid.GridMetaData;
 
 /**
@@ -28,11 +27,28 @@ public class StringGridColumn extends AbstractGridColumn<String>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link StringGridColumn}.
+     *
+     * @param name String
+     */
+    public StringGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected String getValueImpl(final Object object)
+    public String getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return (String) object;
     }
 

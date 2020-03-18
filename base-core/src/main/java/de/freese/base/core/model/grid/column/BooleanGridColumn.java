@@ -26,11 +26,28 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link BooleanGridColumn}.
+     *
+     * @param name String
+     */
+    public BooleanGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected Boolean getValueImpl(final Object object)
+    public Boolean getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return (Boolean) object;
     }
 

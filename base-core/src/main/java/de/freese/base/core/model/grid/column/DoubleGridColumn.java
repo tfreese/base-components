@@ -26,11 +26,28 @@ public class DoubleGridColumn extends AbstractGridColumn<Double>
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#getValueImpl(java.lang.Object)
+     * Erzeugt eine neue Instanz von {@link DoubleGridColumn}.
+     *
+     * @param name String
+     */
+    public DoubleGridColumn(final String name)
+    {
+        super();
+
+        setName(name);
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    protected Double getValueImpl(final Object object)
+    public Double getValue(final Object object)
     {
+        if (object == null)
+        {
+            return null;
+        }
+
         return (Double) object;
     }
 
