@@ -140,6 +140,7 @@ public final class SecurityUtils
      * @return {@link Socket}
      * @throws IOException Falls was schief geht.
      */
+    @SuppressWarnings("resource")
     public static Socket startSSL(final Socket socket) throws IOException
     {
         InetAddress hostAddress = socket.getInetAddress();

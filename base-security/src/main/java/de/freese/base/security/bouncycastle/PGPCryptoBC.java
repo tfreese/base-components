@@ -160,9 +160,10 @@ class PGPCryptoBC
      */
     static void pubRingDump(final String file) throws Exception
     {
-        try (InputStream is = new FileInputStream(file))
+        try (InputStream inputStream = new FileInputStream(file);
+             InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream))
         {
-            PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(PGPUtil.getDecoderStream(is), new BcKeyFingerprintCalculator());
+            PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             Iterator<PGPPublicKeyRing> rIt = pubRings.getKeyRings();
 
@@ -368,7 +369,12 @@ class PGPCryptoBC
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
             PGPCompressedDataGenerator compressedDataGenerator = new PGPCompressedDataGenerator(CompressionAlgorithmTags.ZIP);
-            PGPUtil.writeFileToLiteralData(compressedDataGenerator.open(baos), PGPLiteralData.BINARY, new File(rawFile));
+
+            try (OutputStream dataOutputStream = compressedDataGenerator.open(baos))
+            {
+                PGPUtil.writeFileToLiteralData(dataOutputStream, PGPLiteralData.BINARY, new File(rawFile));
+            }
+
             compressedDataGenerator.close();
 
             BcPGPDataEncryptorBuilder encryptorBuilder = new BcPGPDataEncryptorBuilder(SymmetricKeyAlgorithmTags.AES_256);
@@ -475,10 +481,12 @@ class PGPCryptoBC
      */
     public PGPPrivateKey findPrivateKey(final InputStream keyIn, final long keyID, final char[] pass) throws Exception
     {
-        PGPSecretKeyRingCollection keyRingCollection = new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(keyIn), new BcKeyFingerprintCalculator());
+        try (InputStream decoderInputStream = PGPUtil.getDecoderStream(keyIn))
+        {
+            PGPSecretKeyRingCollection keyRingCollection = new PGPSecretKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
-        return findPrivateKey(keyRingCollection.getSecretKey(keyID), pass);
-
+            return findPrivateKey(keyRingCollection.getSecretKey(keyID), pass);
+        }
     }
 
     /**
@@ -528,9 +536,10 @@ class PGPCryptoBC
     {
         PGPPublicKey publicKey = null;
 
-        try (InputStream inputStream = new FileInputStream(keyIn))
+        try (InputStream inputStream = new FileInputStream(keyIn);
+             InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream))
         {
-            PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(PGPUtil.getDecoderStream(inputStream), new BcKeyFingerprintCalculator());
+            PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             Iterator<PGPPublicKeyRing> iteratorKeyrings = pubRings.getKeyRings();
 
@@ -671,10 +680,10 @@ class PGPCryptoBC
     {
         PGPSecretKey secretKey = null;
 
-        try (InputStream inputStream = new FileInputStream(keyIn))
+        try (InputStream inputStream = new FileInputStream(keyIn);
+             InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream))
         {
-            PGPSecretKeyRingCollection keyRingCollection =
-                    new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(inputStream), new BcKeyFingerprintCalculator());
+            PGPSecretKeyRingCollection keyRingCollection = new PGPSecretKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             // We just loop through the collection till we find a key suitable for signing.
             // In the real world you would probably want to be a bit smarter about this.

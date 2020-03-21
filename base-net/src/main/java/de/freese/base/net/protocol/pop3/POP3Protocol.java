@@ -24,7 +24,7 @@ import de.freese.base.net.protocol.GeneralCommand;
  *
  * @author Rhomas Freese
  */
-public class POP3Protocol extends AbstractProtocol implements POP3Command, AutoCloseable
+public class POP3Protocol extends AbstractProtocol implements POP3Command
 {
     /**
      *
@@ -146,9 +146,12 @@ public class POP3Protocol extends AbstractProtocol implements POP3Command, AutoC
     public void close() throws Exception
     {
         if (this.serverSocket != null)
-        { // Forgot to logout ?!
+        {
+            // Forgot to logout ?!
             quit();
         }
+
+        super.close();
     }
 
     /**
