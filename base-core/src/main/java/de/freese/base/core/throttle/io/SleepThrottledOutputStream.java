@@ -17,6 +17,11 @@ public class SleepThrottledOutputStream extends OutputStream
     /**
     *
     */
+    private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
+
+    /**
+    *
+    */
     private static final long SLEEP_DURATION_MS = 30;
 
     /**
@@ -97,14 +102,14 @@ public class SleepThrottledOutputStream extends OutputStream
      */
     public long getBytesPerSec()
     {
-        long elapsed = (System.nanoTime() - this.startTime) / 1000000000;
+        double elapsed = (System.nanoTime() - this.startTime) / ONE_SECOND_NANOS;
 
         if (elapsed == 0)
         {
             return this.bytesWrite;
         }
 
-        return this.bytesWrite / elapsed;
+        return (long) (this.bytesWrite / elapsed);
     }
 
     /**
@@ -136,10 +141,10 @@ public class SleepThrottledOutputStream extends OutputStream
                 TimeUnit.MILLISECONDS.sleep(SLEEP_DURATION_MS);
                 this.totalSleepTimeMillis += SLEEP_DURATION_MS;
             }
-            catch (InterruptedException e)
+            catch (InterruptedException ex)
             {
-                System.out.println("Thread interrupted" + e.getMessage());
-                throw new IOException("Thread interrupted", e);
+                System.out.println("Thread interrupted" + ex.getMessage());
+                throw new IOException("Thread interrupted", ex);
             }
         }
     }

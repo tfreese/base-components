@@ -15,6 +15,11 @@ import java.util.concurrent.TimeUnit;
 public class SleepThrottledInputStream extends InputStream
 {
     /**
+    *
+    */
+    private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
+
+    /**
      *
      */
     private static final long SLEEP_DURATION_MS = 30;
@@ -97,14 +102,14 @@ public class SleepThrottledInputStream extends InputStream
      */
     public long getBytesPerSec()
     {
-        long elapsed = (System.nanoTime() - this.startTime) / 1000000000;
+        double elapsed = (System.nanoTime() - this.startTime) / ONE_SECOND_NANOS;
 
-        if (elapsed == 0)
+        if (elapsed == 0.0D)
         {
             return this.bytesRead;
         }
 
-        return this.bytesRead / elapsed;
+        return (long) (this.bytesRead / elapsed);
     }
 
     /**
@@ -186,7 +191,6 @@ public class SleepThrottledInputStream extends InputStream
         {
             try
             {
-                // Thread.sleep(SLEEP_DURATION_MS);
                 TimeUnit.MILLISECONDS.sleep(SLEEP_DURATION_MS);
                 this.totalSleepTimeMillis += SLEEP_DURATION_MS;
             }

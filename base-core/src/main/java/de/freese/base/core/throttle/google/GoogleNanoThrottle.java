@@ -2,7 +2,7 @@
  * Created: 29.03.2020
  */
 
-package de.freese.base.core.throttle;
+package de.freese.base.core.throttle.google;
 
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
@@ -11,13 +11,15 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * @author Dimitris Andreou - Original author.
  * @author James P Edwards - Throttle project derivations.
+ * @see <a href=
+ *      "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
  */
-abstract class NanoThrottle implements Throttle
+abstract class GoogleNanoThrottle implements GoogleThrottle
 {
     /**
      * @author Thomas Freese
      */
-    static final class GoldFish extends NanoThrottle
+    static final class GoldFish extends GoogleNanoThrottle
     {
         /**
          *
@@ -71,7 +73,7 @@ abstract class NanoThrottle implements Throttle
     /**
      *
      */
-    static final double ONE_SECOND_NANOS = 1_000_000_000.0;
+    static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
 
     /**
      * @param permits int
@@ -135,12 +137,12 @@ abstract class NanoThrottle implements Throttle
     double storedPermits;
 
     /**
-     * Erstellt ein neues {@link NanoThrottle} Object.
+     * Erstellt ein neues {@link GoogleNanoThrottle} Object.
      *
      * @param permitsPerSecond double
      * @param fair boolean
      */
-    private NanoThrottle(final double permitsPerSecond, final boolean fair)
+    private GoogleNanoThrottle(final double permitsPerSecond, final boolean fair)
     {
         if ((permitsPerSecond <= 0.0) || !Double.isFinite(permitsPerSecond))
         {
@@ -311,7 +313,7 @@ abstract class NanoThrottle implements Throttle
      */
     protected void sleep(final long nanos) throws InterruptedException
     {
-        if (Throttle.sleepUninterruptibly)
+        if (GoogleThrottle.sleepUninterruptibly)
         {
             sleepUninterruptibly(nanos, TimeUnit.NANOSECONDS);
         }
@@ -389,7 +391,7 @@ abstract class NanoThrottle implements Throttle
     }
 
     /**
-     * @see de.freese.base.core.throttle.Throttle#tryAcquire(int)
+     * @see de.freese.base.core.throttle.google.GoogleThrottle#tryAcquire(int)
      */
     @Override
     public final boolean tryAcquire(final int permits)
@@ -417,7 +419,7 @@ abstract class NanoThrottle implements Throttle
     }
 
     /**
-     * @see de.freese.base.core.throttle.Throttle#tryAcquire(int, long, java.util.concurrent.TimeUnit)
+     * @see de.freese.base.core.throttle.google.GoogleThrottle#tryAcquire(int, long, java.util.concurrent.TimeUnit)
      */
     @Override
     public final boolean tryAcquire(final int permits, final long timeout, final TimeUnit unit) throws InterruptedException
@@ -435,7 +437,7 @@ abstract class NanoThrottle implements Throttle
     }
 
     /**
-     * @see de.freese.base.core.throttle.Throttle#tryAcquireDelayDuration(int, long, java.util.concurrent.TimeUnit)
+     * @see de.freese.base.core.throttle.google.GoogleThrottle#tryAcquireDelayDuration(int, long, java.util.concurrent.TimeUnit)
      */
     @Override
     public final long tryAcquireDelayDuration(final int permits, final long timeout, final TimeUnit unit)

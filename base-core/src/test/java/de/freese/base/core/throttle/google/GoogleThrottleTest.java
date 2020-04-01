@@ -2,7 +2,7 @@
  * Created: 29.03.2020
  */
 
-package de.freese.base.core.throttle;
+package de.freese.base.core.throttle.google;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,12 +20,12 @@ import org.junit.jupiter.api.Test;
 
 /**
  * The following tests were adapted directly from com.google.common.util.concurrent.RateLimiterTest. Changes were made to test the non-burst behavior of
- * Throttle, to ensure the rate limit is not exceeded over the period of one second.
+ * GoogleThrottle, to ensure the rate limit is not exceeded over the period of one second.
  *
  * @author Dimitris Andreou - Original RateLimiterTest author
  * @author James P Edwards
  */
-public class ThrottleTest
+public class GoogleThrottleTest
 {
     /**
      * 7ms
@@ -38,12 +38,12 @@ public class ThrottleTest
     private static final long SECOND_DELTA = 6;
 
     /**
-     * @param throttle {@link Throttle}
+     * @param throttle {@link GoogleThrottle}
      * @param permits int
      * @return long
      * @throws InterruptedException Falls was schief geht.
      */
-    private static long measureTotalTimeMillis(final Throttle throttle, int permits) throws InterruptedException
+    private static long measureTotalTimeMillis(final GoogleThrottle throttle, int permits) throws InterruptedException
     {
         final Random random = ThreadLocalRandom.current();
         final long startTime = System.nanoTime();
@@ -66,7 +66,7 @@ public class ThrottleTest
     @BeforeAll
     public static void warmup()
     {
-        Throttle.create(100.0);
+        GoogleThrottle.create(100.0);
     }
 
     /**
@@ -75,10 +75,13 @@ public class ThrottleTest
     @Test
     public void testAcquire() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(5.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(5.0);
         assertEquals(0.0, throttle.acquire(), 0.0);
         assertEquals(200, NANOSECONDS.toMillis(throttle.acquireUnchecked()), FIRST_DELTA);
         assertEquals(200, NANOSECONDS.toMillis(throttle.acquire()), SECOND_DELTA);
+
+        System.out.println("throttle.acquire(5000)");
+        System.out.println(throttle.acquire(5000));
     }
 
     /**
@@ -87,7 +90,7 @@ public class ThrottleTest
     @Test
     public void testAcquireAndUpdate() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(10.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(10.0);
         assertEquals(0.0, NANOSECONDS.toMillis(throttle.acquire(1)), 0.0);
         assertEquals(100, NANOSECONDS.toMillis(throttle.acquire(1)), FIRST_DELTA);
 
@@ -105,18 +108,18 @@ public class ThrottleTest
     @Test
     public void testAcquireDelayDuration() throws InterruptedException
     {
-        final NanoThrottle throttle = new NanoThrottle.GoldFish(5.0, 1.0, false);
+        final GoogleThrottle throttle = new GoogleNanoThrottle.GoldFish(5.0, 1.0, false);
         long sleep = throttle.acquireDelayDuration(1);
         TimeUnit.NANOSECONDS.sleep(sleep);
-        assertEquals(0.0, sleep / NanoThrottle.ONE_SECOND_NANOS, 0.0);
+        assertEquals(0.0, sleep / GoogleNanoThrottle.ONE_SECOND_NANOS, 0.0);
 
         sleep = throttle.acquireDelayDuration(1);
         TimeUnit.NANOSECONDS.sleep(sleep);
-        assertEquals(0.20, sleep / NanoThrottle.ONE_SECOND_NANOS, FIRST_DELTA);
+        assertEquals(0.20, sleep / GoogleNanoThrottle.ONE_SECOND_NANOS, FIRST_DELTA);
 
         sleep = throttle.acquireDelayDuration(1);
         TimeUnit.NANOSECONDS.sleep(sleep);
-        assertEquals(0.20, sleep / NanoThrottle.ONE_SECOND_NANOS, SECOND_DELTA);
+        assertEquals(0.20, sleep / GoogleNanoThrottle.ONE_SECOND_NANOS, SECOND_DELTA);
     }
 
     /**
@@ -125,7 +128,7 @@ public class ThrottleTest
     @Test
     public void testAcquireParameterValidation() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(999);
+        final GoogleThrottle throttle = GoogleThrottle.create(999);
 
         try
         {
@@ -188,7 +191,7 @@ public class ThrottleTest
     @Test
     public void testAcquireWeights() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(20.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(20.0);
         assertEquals(0.00, throttle.acquireUnchecked(1), FIRST_DELTA);
         assertEquals(50, NANOSECONDS.toMillis(throttle.acquire(1)), SECOND_DELTA);
         assertEquals(50, NANOSECONDS.toMillis(throttle.acquire(2)), SECOND_DELTA);
@@ -203,7 +206,7 @@ public class ThrottleTest
     @Test
     public void testAcquireWithDoubleWait() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertEquals(0.0, throttle.acquire(), 0.0);
 
         Thread.sleep(40);
@@ -218,7 +221,7 @@ public class ThrottleTest
     @Test
     public void testAcquireWithWait() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertEquals(0.0, throttle.acquire(), 0.0);
 
         Thread.sleep(20);
@@ -232,7 +235,7 @@ public class ThrottleTest
     @Test
     public void testDoubleMinValueCanAcquireExactlyOnce() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(Double.MIN_VALUE);
+        final GoogleThrottle throttle = GoogleThrottle.create(Double.MIN_VALUE);
         assertTrue(throttle.tryAcquire(), "Unable to acquire initial permit");
         assertFalse(throttle.tryAcquire(), "Capable of acquiring an additional permit");
 
@@ -248,48 +251,53 @@ public class ThrottleTest
     {
         try
         {
-            Throttle.create(Double.POSITIVE_INFINITY);
+            GoogleThrottle.create(Double.POSITIVE_INFINITY);
             fail();
         }
         catch (IllegalArgumentException expected)
         {
         }
+
         try
         {
-            Throttle.create(Double.NEGATIVE_INFINITY);
+            GoogleThrottle.create(Double.NEGATIVE_INFINITY);
             fail();
         }
         catch (IllegalArgumentException expected)
         {
         }
+
         try
         {
-            Throttle.create(Double.NaN);
+            GoogleThrottle.create(Double.NaN);
             fail();
         }
         catch (IllegalArgumentException expected)
         {
         }
+
         try
         {
-            Throttle.create(-.0000001);
+            GoogleThrottle.create(-.0000001);
             fail();
         }
         catch (IllegalArgumentException expected)
         {
         }
+
         try
         {
-            final Throttle throttle = Throttle.create(1.0);
+            final GoogleThrottle throttle = GoogleThrottle.create(1.0);
             throttle.setRate(Double.POSITIVE_INFINITY);
             fail();
         }
         catch (IllegalArgumentException expected)
         {
         }
+
         try
         {
-            final Throttle throttle = Throttle.create(1.0);
+            final GoogleThrottle throttle = GoogleThrottle.create(1.0);
             throttle.setRate(Double.NaN);
             fail();
         }
@@ -304,22 +312,22 @@ public class ThrottleTest
     @Test
     public void testImmediateTryAcquire() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(1.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(1.0);
         assertTrue(throttle.tryAcquire(), "Unable to acquire initial permit");
         assertFalse(throttle.tryAcquire(), "Capable of acquiring secondary permit");
     }
 
     /**
-     * Dieser Test schlägt felh, solange die Methode {@link Throttle#sleepUninterruptibly} true ist.
+     * Dieser Test schlägt felh, solange die Methode {@link GoogleThrottle#sleepUninterruptibly} true ist.
      *
      * @throws InterruptedException Falls was schief geht.
      */
     @Test
     public void testInterruptUnchecked() throws InterruptedException
     {
-        if (!Throttle.sleepUninterruptibly)
+        if (!GoogleThrottle.sleepUninterruptibly)
         {
-            final Throttle throttle = Throttle.create(1);
+            final GoogleThrottle throttle = GoogleThrottle.create(1);
             throttle.acquireUnchecked(10);
 
             final CompletableFuture<Throwable> futureEx = new CompletableFuture<>();
@@ -369,7 +377,7 @@ public class ThrottleTest
     @Test
     public void testManyPermits() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertEquals(0.0, NANOSECONDS.toMillis(throttle.acquire()), 0.0);
         assertEquals(20, NANOSECONDS.toMillis(throttle.acquire()), FIRST_DELTA);
         assertEquals(20, NANOSECONDS.toMillis(throttle.acquire(3)), SECOND_DELTA);
@@ -383,7 +391,7 @@ public class ThrottleTest
     @Test
     public void testMax() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(Double.MAX_VALUE);
+        final GoogleThrottle throttle = GoogleThrottle.create(Double.MAX_VALUE);
 
         assertEquals(0.0, throttle.acquire(Integer.MAX_VALUE / 4), 0.0);
         assertEquals(0.0, throttle.acquire(Integer.MAX_VALUE / 2), 0.0);
@@ -405,7 +413,7 @@ public class ThrottleTest
     @Test
     public void testSimpleRateUpdate()
     {
-        final Throttle throttle = Throttle.create(5.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(5.0);
         assertEquals(5.0, throttle.getRate(), 0.0);
         throttle.setRate(10.0);
         assertEquals(10.0, throttle.getRate(), 0.0);
@@ -436,7 +444,7 @@ public class ThrottleTest
     public void testStream()
     {
         final int qps = 1_024;
-        final Throttle throttle = Throttle.create(qps);
+        final GoogleThrottle throttle = GoogleThrottle.create(qps);
 
         // warm-up
         IntStream stream = IntStream.range(0, 128).parallel();
@@ -448,14 +456,14 @@ public class ThrottleTest
         long duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         assertTrue((duration >= 1000) && (duration < 1050), "Expected duration between 1,000 and 1,050ms. Observed " + duration);
 
-        final Throttle fairThrottle = Throttle.create(qps, true);
+        final GoogleThrottle fairGoogleThrottle = GoogleThrottle.create(qps, true);
 
         // warm-up
-        IntStream.range(0, 128).parallel().forEach(index -> fairThrottle.acquireUnchecked());
+        IntStream.range(0, 128).parallel().forEach(index -> fairGoogleThrottle.acquireUnchecked());
 
         stream = IntStream.range(0, qps + 1).parallel();
         start = System.nanoTime();
-        stream.forEach(index -> fairThrottle.tryAcquireUnchecked(200_000_000, TimeUnit.NANOSECONDS));
+        stream.forEach(index -> fairGoogleThrottle.tryAcquireUnchecked(200_000_000, TimeUnit.NANOSECONDS));
         duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         assertTrue((duration >= 1000) && (duration < 1050), "Expected duration between 1,000 and 1,050ms. Observed " + duration);
     }
@@ -466,9 +474,9 @@ public class ThrottleTest
     @Test
     public void testToString()
     {
-        final Throttle throttle = Throttle.create(100.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(100.0);
 
-        assertEquals("Throttle{rate=100.0}", throttle.toString());
+        assertEquals("GoogleThrottle{rate=100.0}", throttle.toString());
     }
 
     /**
@@ -477,7 +485,7 @@ public class ThrottleTest
     @Test
     public void testTryAcquire_negative() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire(5, 0, TimeUnit.SECONDS));
 
         Thread.sleep(90);
@@ -493,7 +501,7 @@ public class ThrottleTest
     @Test
     public void testTryAcquire_noWaitAllowed() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire());
         assertFalse(throttle.tryAcquireUnchecked(0, TimeUnit.SECONDS));
         assertFalse(throttle.tryAcquire(0, TimeUnit.SECONDS));
@@ -508,7 +516,7 @@ public class ThrottleTest
     @Test
     public void testTryAcquire_overflow() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire(0, TimeUnit.MICROSECONDS));
 
         Thread.sleep(10);
@@ -521,7 +529,7 @@ public class ThrottleTest
     @Test
     public void testTryAcquire_someWaitAllowed() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(50.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire(0, TimeUnit.SECONDS));
         assertTrue(throttle.tryAcquire(20, TimeUnit.MILLISECONDS));
         assertFalse(throttle.tryAcquire(10, TimeUnit.MILLISECONDS));
@@ -536,7 +544,7 @@ public class ThrottleTest
     @Test
     public void testWeNeverGetABurstMoreThanOneSec() throws InterruptedException
     {
-        final Throttle throttle = Throttle.create(100.0);
+        final GoogleThrottle throttle = GoogleThrottle.create(100.0);
         final int[] rates =
         {
                 10000, 100, 1000000, 1000, 100

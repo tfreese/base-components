@@ -2,7 +2,7 @@
  * Created: 29.03.2020
  */
 
-package de.freese.base.core.throttle;
+package de.freese.base.core.throttle.google;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
  */
 public class LongMathTest
 {
-
     /**
      *
      */
@@ -123,7 +122,7 @@ public class LongMathTest
         {
             for (final long b : ALL_LONG_CANDIDATES)
             {
-                assertOperationEquals(a, b, saturatedCast(BigInteger.valueOf(a).add(BigInteger.valueOf(b))), NanoThrottle.saturatedAdd(a, b));
+                assertOperationEquals(a, b, saturatedCast(BigInteger.valueOf(a).add(BigInteger.valueOf(b))), GoogleNanoThrottle.saturatedAdd(a, b));
             }
         }
     }

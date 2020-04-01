@@ -9,7 +9,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import org.junit.jupiter.api.Test;
 import de.freese.base.core.io.AbstractIoTest;
-import de.freese.base.core.throttle.Throttle;
+import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
  * @author Thomas Freese
@@ -23,7 +23,7 @@ public class ThrottleOutputStreamTest extends AbstractIoTest
     void test1() throws IOException
     {
         try (OutputStream os = Files.newOutputStream(createFile("file_Test1.txt"));
-             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, Throttle.create(2000)))
+             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, GoogleThrottle.create(2000)))
         {
             String str = "Hello World, Throttled Stream\n";
 
@@ -43,7 +43,7 @@ public class ThrottleOutputStreamTest extends AbstractIoTest
     void test2() throws IOException
     {
         try (OutputStream os = Files.newOutputStream(createFile("file_Test2.txt"));
-             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, Throttle.create(3000)))
+             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, GoogleThrottle.create(3000)))
         {
             String str = "Hello World, Throttled Stream\n";
 
