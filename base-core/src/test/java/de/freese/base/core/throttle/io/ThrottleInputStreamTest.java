@@ -10,8 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-import org.junit.jupiter.api.Test;
+import java.util.function.Function;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import de.freese.base.core.io.AbstractIoTest;
+import de.freese.base.core.throttle.Throttle;
+import de.freese.base.core.throttle.UnderstandableThrottle;
 import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
@@ -20,13 +26,29 @@ import de.freese.base.core.throttle.google.GoogleThrottle;
 public class ThrottleInputStreamTest extends AbstractIoTest
 {
     /**
+     * @return {@link Stream}
+     */
+    static Stream<Arguments> createThrottler()
+    {
+        // @formatter:off
+        return Stream.of(
+                Arguments.of("GoogleThrottle", (Function<Integer, Throttle>) (permits -> GoogleThrottle.create(permits)))
+                , Arguments.of("UnderstandableThrottle", (Function<Integer, Throttle>) (permits -> UnderstandableThrottle.create(permits)))
+                );
+        // @formatter:on
+    }
+
+    /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws IOException Falls was schief geht.
      */
-    @Test
-    void test1() throws IOException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    void test1(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
         try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
-             ThrottleInputStream throttledStream = new ThrottleInputStream(is, GoogleThrottle.create(2000)))
+             ThrottleInputStream throttledStream = new ThrottleInputStream(is, throttleFunction.apply(2000)))
         {
             // int data = 0;
             //
@@ -45,13 +67,16 @@ public class ThrottleInputStreamTest extends AbstractIoTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws IOException Falls was schief geht.
      */
-    @Test
-    void test2() throws IOException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    void test2(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
         try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
-             ThrottleInputStream throttledStream = new ThrottleInputStream(is, GoogleThrottle.create(3000));
+             ThrottleInputStream throttledStream = new ThrottleInputStream(is, throttleFunction.apply(3000));
              BufferedInputStream bufferedInputStream = new BufferedInputStream(throttledStream))
         {
             while (bufferedInputStream.read() != -1)
@@ -64,13 +89,16 @@ public class ThrottleInputStreamTest extends AbstractIoTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws IOException Falls was schief geht.
      */
-    @Test
-    void test3() throws IOException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    void test3(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
         try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
-             ThrottleInputStream throttledStream = new ThrottleInputStream(is, GoogleThrottle.create(4000));
+             ThrottleInputStream throttledStream = new ThrottleInputStream(is, throttleFunction.apply(4000));
              BufferedReader br = new BufferedReader(new InputStreamReader(throttledStream)))
         {
             while (br.readLine() != null)

@@ -2,7 +2,7 @@
  * Created: 29.03.2020
  */
 
-package de.freese.base.core.throttle.google;
+package de.freese.base.core.throttle;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,9 +14,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import de.freese.base.core.throttle.google.GoogleNanoThrottle;
+import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
  * The following tests were adapted directly from com.google.common.util.concurrent.RateLimiterTest. Changes were made to test the non-burst behavior of
@@ -25,25 +32,38 @@ import org.junit.jupiter.api.Test;
  * @author Dimitris Andreou - Original RateLimiterTest author
  * @author James P Edwards
  */
-public class GoogleThrottleTest
+public class ThrottleTest
 {
     /**
-     * 7ms
+     * 7 ms
      */
     private static final long FIRST_DELTA = 7;
 
     /**
-     * 6ms
+     * 6 ms
      */
     private static final long SECOND_DELTA = 6;
 
     /**
-     * @param throttle {@link GoogleThrottle}
+     * @return {@link Stream}
+     */
+    static Stream<Arguments> createThrottler()
+    {
+        // @formatter:off
+        return Stream.of(
+                Arguments.of("GoogleThrottle", (Function<Double, Throttle>) (permits -> GoogleThrottle.create(permits)))
+                , Arguments.of("UnderstandableThrottle", (Function<Double, Throttle>) (permits -> UnderstandableThrottle.create(permits)))
+                );
+        // @formatter:on
+    }
+
+    /**
+     * @param throttle {@link Throttle}
      * @param permits int
      * @return long
      * @throws InterruptedException Falls was schief geht.
      */
-    private static long measureTotalTimeMillis(final GoogleThrottle throttle, int permits) throws InterruptedException
+    private static long measureTotalTimeMillis(final Throttle throttle, int permits) throws InterruptedException
     {
         final Random random = ThreadLocalRandom.current();
         final long startTime = System.nanoTime();
@@ -70,12 +90,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testAcquire() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testAcquire(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(5.0);
+        final Throttle throttle = throttleFunction.apply(5.0D);
         assertEquals(0.0, throttle.acquire(), 0.0);
         assertEquals(200, NANOSECONDS.toMillis(throttle.acquireUnchecked()), FIRST_DELTA);
         assertEquals(200, NANOSECONDS.toMillis(throttle.acquire()), SECOND_DELTA);
@@ -85,12 +108,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testAcquireAndUpdate() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testAcquireAndUpdate(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(10.0);
+        final Throttle throttle = throttleFunction.apply(10.0D);
         assertEquals(0.0, NANOSECONDS.toMillis(throttle.acquire(1)), 0.0);
         assertEquals(100, NANOSECONDS.toMillis(throttle.acquire(1)), FIRST_DELTA);
 
@@ -108,18 +134,18 @@ public class GoogleThrottleTest
     @Test
     public void testAcquireDelayDuration() throws InterruptedException
     {
-        final GoogleThrottle throttle = new GoogleNanoThrottle.GoldFish(5.0, 1.0, false);
+        final Throttle throttle = new GoogleNanoThrottle.GoldFish(5.0, 1.0, false);
         long sleep = throttle.acquireDelayDuration(1);
         TimeUnit.NANOSECONDS.sleep(sleep);
-        assertEquals(0.0, sleep / GoogleNanoThrottle.ONE_SECOND_NANOS, 0.0);
+        assertEquals(0.0, sleep / Throttle.ONE_SECOND_NANOS, 0.0);
 
         sleep = throttle.acquireDelayDuration(1);
         TimeUnit.NANOSECONDS.sleep(sleep);
-        assertEquals(0.20, sleep / GoogleNanoThrottle.ONE_SECOND_NANOS, FIRST_DELTA);
+        assertEquals(0.20, sleep / Throttle.ONE_SECOND_NANOS, FIRST_DELTA);
 
         sleep = throttle.acquireDelayDuration(1);
         TimeUnit.NANOSECONDS.sleep(sleep);
-        assertEquals(0.20, sleep / GoogleNanoThrottle.ONE_SECOND_NANOS, SECOND_DELTA);
+        assertEquals(0.20, sleep / Throttle.ONE_SECOND_NANOS, SECOND_DELTA);
     }
 
     /**
@@ -186,12 +212,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testAcquireWeights() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testAcquireWeights(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(20.0);
+        final Throttle throttle = throttleFunction.apply(20.0D);
         assertEquals(0.00, throttle.acquireUnchecked(1), FIRST_DELTA);
         assertEquals(50, NANOSECONDS.toMillis(throttle.acquire(1)), SECOND_DELTA);
         assertEquals(50, NANOSECONDS.toMillis(throttle.acquire(2)), SECOND_DELTA);
@@ -201,12 +230,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testAcquireWithDoubleWait() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testAcquireWithDoubleWait(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
+        final Throttle throttle = throttleFunction.apply(50.0D);
         assertEquals(0.0, throttle.acquire(), 0.0);
 
         Thread.sleep(40);
@@ -216,12 +248,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testAcquireWithWait() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testAcquireWithWait(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
+        final Throttle throttle = throttleFunction.apply(50.0D);
         assertEquals(0.0, throttle.acquire(), 0.0);
 
         Thread.sleep(20);
@@ -372,12 +407,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testManyPermits() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testManyPermits(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(50.0);
+        final Throttle throttle = throttleFunction.apply(50.0D);
         assertEquals(0.0, NANOSECONDS.toMillis(throttle.acquire()), 0.0);
         assertEquals(20, NANOSECONDS.toMillis(throttle.acquire()), FIRST_DELTA);
         assertEquals(20, NANOSECONDS.toMillis(throttle.acquire(3)), SECOND_DELTA);
@@ -386,12 +424,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testMax() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testMax(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(Double.MAX_VALUE);
+        final Throttle throttle = throttleFunction.apply(Double.MAX_VALUE);
 
         assertEquals(0.0, throttle.acquire(Integer.MAX_VALUE / 4), 0.0);
         assertEquals(0.0, throttle.acquire(Integer.MAX_VALUE / 2), 0.0);
@@ -408,12 +449,14 @@ public class GoogleThrottleTest
     }
 
     /**
-     *
+     * @param name String
+     * @param throttleFunction {@link Function}
      */
-    @Test
-    public void testSimpleRateUpdate()
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testSimpleRateUpdate(final String name, final Function<Double, Throttle> throttleFunction)
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(5.0);
+        final Throttle throttle = throttleFunction.apply(5.0D);
         assertEquals(5.0, throttle.getRate(), 0.0);
         throttle.setRate(10.0);
         assertEquals(10.0, throttle.getRate(), 0.0);
@@ -438,13 +481,15 @@ public class GoogleThrottleTest
     }
 
     /**
-     *
+     * @param name String
+     * @param throttleFunction {@link Function}
      */
-    @Test
-    public void testStream()
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testStream(final String name, final Function<Double, Throttle> throttleFunction)
     {
         final int qps = 1_024;
-        final GoogleThrottle throttle = GoogleThrottle.create(qps);
+        final Throttle throttle = throttleFunction.apply((double) qps);
 
         // warm-up
         IntStream stream = IntStream.range(0, 128).parallel();
@@ -456,27 +501,16 @@ public class GoogleThrottleTest
         long duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
         assertTrue((duration >= 1000) && (duration < 1050), "Expected duration between 1,000 and 1,050ms. Observed " + duration);
 
-        final GoogleThrottle fairGoogleThrottle = GoogleThrottle.create(qps, true);
-
-        // warm-up
-        IntStream.range(0, 128).parallel().forEach(index -> fairGoogleThrottle.acquireUnchecked());
-
-        stream = IntStream.range(0, qps + 1).parallel();
-        start = System.nanoTime();
-        stream.forEach(index -> fairGoogleThrottle.tryAcquireUnchecked(200_000_000, TimeUnit.NANOSECONDS));
-        duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-        assertTrue((duration >= 1000) && (duration < 1050), "Expected duration between 1,000 and 1,050ms. Observed " + duration);
-    }
-
-    /**
-     *
-     */
-    @Test
-    public void testToString()
-    {
-        final GoogleThrottle throttle = GoogleThrottle.create(100.0);
-
-        assertEquals("GoogleThrottle{rate=100.0}", throttle.toString());
+        // final GoogleThrottle fairGoogleThrottle = GoogleThrottle.create(qps, true);
+        //
+        // // warm-up
+        // IntStream.range(0, 128).parallel().forEach(index -> fairGoogleThrottle.acquireUnchecked());
+        //
+        // stream = IntStream.range(0, qps + 1).parallel();
+        // start = System.nanoTime();
+        // stream.forEach(index -> fairGoogleThrottle.tryAcquireUnchecked(200_000_000, TimeUnit.NANOSECONDS));
+        // duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+        // assertTrue((duration >= 1000) && (duration < 1050), "Expected duration between 1,000 and 1,050ms. Observed " + duration);
     }
 
     /**
@@ -539,12 +573,15 @@ public class GoogleThrottleTest
     }
 
     /**
+     * @param name String
+     * @param throttleFunction {@link Function}
      * @throws InterruptedException Falls was schief geht.
      */
-    @Test
-    public void testWeNeverGetABurstMoreThanOneSec() throws InterruptedException
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    public void testWeNeverGetABurstMoreThanOneSec(final String name, final Function<Double, Throttle> throttleFunction) throws InterruptedException
     {
-        final GoogleThrottle throttle = GoogleThrottle.create(100.0);
+        final Throttle throttle = throttleFunction.apply(100.0);
         final int[] rates =
         {
                 10000, 100, 1000000, 1000, 100

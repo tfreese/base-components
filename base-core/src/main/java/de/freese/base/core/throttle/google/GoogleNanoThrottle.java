@@ -14,12 +14,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * @see <a href=
  *      "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
  */
-abstract class GoogleNanoThrottle implements GoogleThrottle
+public abstract class GoogleNanoThrottle implements GoogleThrottle
 {
     /**
      * @author Thomas Freese
      */
-    static final class GoldFish extends GoogleNanoThrottle
+    public static final class GoldFish extends GoogleNanoThrottle
     {
         /**
          *
@@ -33,7 +33,7 @@ abstract class GoogleNanoThrottle implements GoogleThrottle
          * @param maxBurstSeconds double
          * @param fair boolean
          */
-        GoldFish(final double permitsPerSecond, final double maxBurstSeconds, final boolean fair)
+        public GoldFish(final double permitsPerSecond, final double maxBurstSeconds, final boolean fair)
         {
             super(permitsPerSecond, fair);
 
@@ -69,11 +69,6 @@ abstract class GoogleNanoThrottle implements GoogleThrottle
             return 0L;
         }
     }
-
-    /**
-     *
-     */
-    static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
 
     /**
      * @param permits int
@@ -387,7 +382,12 @@ abstract class GoogleNanoThrottle implements GoogleThrottle
     @Override
     public String toString()
     {
-        return "Throttle{rate=" + getRate() + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(" [");
+        sb.append("rate=").append(getRate());
+        sb.append("]");
+
+        return sb.toString();
     }
 
     /**

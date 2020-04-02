@@ -7,6 +7,7 @@ package de.freese.base.core.throttle;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
+import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
  * Verständlich aufgebaute {@link Throttle}-Implementierung analog dem Google RateLimiter.
@@ -18,22 +19,45 @@ public class UnderstandableThrottle implements Throttle
     /**
     *
     */
-    private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
+    private static final boolean SLEEP_UNINTERRUPTIBLY = false;
+
+    /**
+     * @param permitsPerSecond double
+     * @return {@link GoogleThrottle}
+     */
+    public static UnderstandableThrottle create(final double permitsPerSecond)
+    {
+        return create(permitsPerSecond, false);
+    }
+
+    /**
+     * Creates a {@code Throttle} with the specified stable throughput, given as "permits per second" (commonly referred to as <i>QPS</i>, queries per second).
+     * <p>
+     * The returned {@code Throttle} ensures that on average no more than {@code
+     * permitsPerSecond} are issued during any given second, with sustained requests being smoothly spread over each second. When the incoming request rate
+     * exceeds {@code permitsPerSecond} the rate limiter will release one permit every {@code
+     * (1.0 / permitsPerSecond)} seconds. When the rate limiter is unused, bursts of up to {@code permitsPerSecond} permits will be allowed, with subsequent
+     * requests being smoothly limited at the stable rate of {@code permitsPerSecond}.
+     *
+     * @param permitsPerSecond the rate of the returned {@code Throttle}, measured in how many permits become available per second
+     * @param fair {@code true} if acquisition should use a fair ordering policy
+     * @return a new throttle instance
+     * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
+     */
+    static UnderstandableThrottle create(final double permitsPerSecond, final boolean fair)
+    {
+        return new UnderstandableThrottle(permitsPerSecond, fair);
+    }
 
     /**
     *
     */
-    private static final boolean SLEEP_UNINTERRUPTIBLY = false;
-
-    /**
-       *
-       */
     private final ReentrantLock lock;
 
     /**
     *
     */
-    private final long nanoStart;
+    private long nextFreeSlot = 0;
 
     /**
     *
@@ -50,7 +74,7 @@ public class UnderstandableThrottle implements Throttle
     {
         super();
 
-        this.nanoStart = System.nanoTime();
+        this.nextFreeSlot = System.nanoTime();
 
         this.lock = new ReentrantLock(fair);
 
@@ -76,8 +100,42 @@ public class UnderstandableThrottle implements Throttle
     @Override
     public long acquireDelayDuration(final int permits)
     {
-        // TODO Auto-generated method stub
-        return 0;
+        checkPermits(permits);
+
+        long delay = 0;
+        this.lock.lock();
+
+        try
+        {
+            long now = System.nanoTime();
+
+            // Aktueller Timestamp liegt noch vor dem nächsten verfügbaren Zeitfenster - warten.
+            if (now < this.nextFreeSlot)
+            {
+                delay = this.nextFreeSlot - now;
+            }
+
+            // Nächstes verfügbares Zeitfenster berechnen.
+            // this.nextFreeSlot = now + delay + (long) (permits * this.permitInterval);
+            this.nextFreeSlot = saturatedAdd(saturatedAdd(now, delay), (long) (permits * this.permitInterval));
+        }
+        finally
+        {
+            this.lock.unlock();
+        }
+
+        return delay;
+    }
+
+    /**
+     * @param permits int
+     */
+    protected void checkPermits(final int permits)
+    {
+        if (permits <= 0)
+        {
+            throw new IllegalArgumentException(String.format("Requested permits (%s) must be positive", permits));
+        }
     }
 
     /**
@@ -96,6 +154,26 @@ public class UnderstandableThrottle implements Throttle
         {
             this.lock.unlock();
         }
+    }
+
+    /**
+     * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
+     * returned, respectively.
+     *
+     * @param val1 long
+     * @param val2 long
+     * @return long
+     */
+    protected long saturatedAdd(final long val1, final long val2)
+    {
+        final long naiveSum = val1 + val2;
+
+        if (((val1 ^ val2) < 0) || ((val1 ^ naiveSum) >= 0))
+        {
+            return naiveSum;
+        }
+
+        return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
     }
 
     /**
@@ -127,6 +205,8 @@ public class UnderstandableThrottle implements Throttle
      */
     protected void sleep(final long nanos) throws InterruptedException
     {
+        // System.out.println("UnderstandableThrottle.sleep(): " + TimeUnit.NANOSECONDS.toMillis(nanos) + " ms");
+
         if (SLEEP_UNINTERRUPTIBLY)
         {
             sleepUninterruptibly(nanos, TimeUnit.NANOSECONDS);
@@ -181,5 +261,19 @@ public class UnderstandableThrottle implements Throttle
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(" [");
+        sb.append("rate=").append(getRate());
+        sb.append("]");
+
+        return sb.toString();
     }
 }

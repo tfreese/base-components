@@ -108,7 +108,8 @@ public class ThrottleOutputStream extends OutputStream
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("bytesWrite=").append(getTotalBytesWrite());
+        sb.append("throttle=").append(this.throttle);
+        sb.append(", bytesWrite=").append(getTotalBytesWrite());
         sb.append(", bytesPerSec=").append(getBytesPerSec());
         sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
         sb.append("]");

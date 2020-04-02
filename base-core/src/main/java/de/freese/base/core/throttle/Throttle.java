@@ -54,6 +54,11 @@ import java.util.concurrent.CompletionException;
 public interface Throttle
 {
     /**
+    *
+    */
+    public static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
+
+    /**
      * Acquires a single permit from this {@code Throttle}, blocking until the request can be granted. Tells the amount of time slept, if any.
      * <p>
      * This method is equivalent to {@code acquire(1)}.

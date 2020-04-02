@@ -161,7 +161,8 @@ public class ThrottleInputStream extends InputStream
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("bytesRead=").append(this.bytesRead);
+        sb.append("throttle=").append(this.throttle);
+        sb.append(", bytesRead=").append(this.bytesRead);
         sb.append(", bytesPerSec=").append(getBytesPerSec());
         sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
         sb.append("]");

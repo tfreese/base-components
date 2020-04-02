@@ -80,7 +80,7 @@ public interface GoogleThrottle extends Throttle
      * @param permitsPerSecond double
      * @return {@link GoogleThrottle}
      */
-    static GoogleThrottle create(final double permitsPerSecond)
+    public static GoogleThrottle create(final double permitsPerSecond)
     {
         return create(permitsPerSecond, false);
     }
@@ -99,7 +99,7 @@ public interface GoogleThrottle extends Throttle
      * @return a new throttle instance
      * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
      */
-    static GoogleThrottle create(final double permitsPerSecond, final boolean fair)
+    public static GoogleThrottle create(final double permitsPerSecond, final boolean fair)
     {
         return new GoogleNanoThrottle.GoldFish(permitsPerSecond, 0.1D, fair);
     }
@@ -111,7 +111,7 @@ public interface GoogleThrottle extends Throttle
      *
      * @return {@code true} if the permit was acquired, {@code false} otherwise
      */
-    default boolean tryAcquire()
+    public default boolean tryAcquire()
     {
         return tryAcquire(1);
     }
@@ -125,7 +125,7 @@ public interface GoogleThrottle extends Throttle
      * @return {@code true} if the permits were acquired, {@code false} otherwise
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      */
-    boolean tryAcquire(final int permits);
+    public boolean tryAcquire(final int permits);
 
     /**
      * Acquires the given number of permits from this {@code Throttle} if it can be obtained without exceeding the specified {@code timeout}, or returns
@@ -138,7 +138,7 @@ public interface GoogleThrottle extends Throttle
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      * @throws InterruptedException unchecked internally if thread is interrupted
      */
-    boolean tryAcquire(final int permits, final long timeout, final TimeUnit unit) throws InterruptedException;
+    public boolean tryAcquire(final int permits, final long timeout, final TimeUnit unit) throws InterruptedException;
 
     /**
      * Acquires a permit from this {@code Throttle} if it can be obtained without exceeding the specified {@code timeout}, or returns {@code false} immediately
@@ -152,7 +152,7 @@ public interface GoogleThrottle extends Throttle
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      * @throws InterruptedException unchecked internally if thread is interrupted
      */
-    default boolean tryAcquire(final long timeout, final TimeUnit unit) throws InterruptedException
+    public default boolean tryAcquire(final long timeout, final TimeUnit unit) throws InterruptedException
     {
         return tryAcquire(1, timeout, unit);
     }
@@ -168,7 +168,7 @@ public interface GoogleThrottle extends Throttle
      * @return The duration in nanosecond to wait to match the acquired permits, or -1 if no permits were acquired because the timeout would expire.
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      */
-    long tryAcquireDelayDuration(final int permits, final long timeout, final TimeUnit unit);
+    public long tryAcquireDelayDuration(final int permits, final long timeout, final TimeUnit unit);
 
     /**
      * Acquires the given number of permits from this {@code Throttle} if it can be obtained without exceeding the specified {@code timeout}, or returns
@@ -181,7 +181,7 @@ public interface GoogleThrottle extends Throttle
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      * @throws CompletionException if this Thread is interrupted. The cause is set to the caught InterruptedException and this Thread is re-interrupted
      */
-    default boolean tryAcquireUnchecked(final int permits, final long timeout, final TimeUnit unit)
+    public default boolean tryAcquireUnchecked(final int permits, final long timeout, final TimeUnit unit)
     {
         try
         {
@@ -199,7 +199,7 @@ public interface GoogleThrottle extends Throttle
      * @param unit {@link TimeUnit}
      * @return boolean
      */
-    default boolean tryAcquireUnchecked(final long timeout, final TimeUnit unit)
+    public default boolean tryAcquireUnchecked(final long timeout, final TimeUnit unit)
     {
         return tryAcquireUnchecked(1, timeout, unit);
     }
