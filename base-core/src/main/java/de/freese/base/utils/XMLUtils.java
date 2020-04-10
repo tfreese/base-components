@@ -1,4 +1,4 @@
-package de.freese.base.core;
+package de.freese.base.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ public final class XMLUtils
 {
     /**
      * Liefert das {@link Document} aus dem Byte-Array.
-     * 
+     *
      * @param bytes byte[]
      * @return {@link Document}
      * @throws Exception Falls was schief geht.
@@ -28,7 +28,7 @@ public final class XMLUtils
 
     /**
      * Liefert das {@link Document} aus der {@link InputSource}.
-     * 
+     *
      * @param inputSource {@link InputSource}
      * @return {@link Document}
      * @throws Exception Falls was schief geht.
@@ -45,7 +45,7 @@ public final class XMLUtils
 
     /**
      * Liefert das {@link Document} aus dem Stream.<br>
-     * 
+     *
      * @param inputStream {@link InputStream}
      * @return {@link Document}
      * @throws Exception Falls was schief geht.
@@ -57,7 +57,7 @@ public final class XMLUtils
 
     /**
      * Liefert das {@link Document} aus dem String.
-     * 
+     *
      * @param string String
      * @return {@link Document}
      * @throws Exception Falls was schief geht.
@@ -65,5 +65,13 @@ public final class XMLUtils
     public static Document getDocument(final String string) throws Exception
     {
         return getDocument(new InputSource(new StringReader(string)));
+    }
+
+    /**
+     * Erstellt ein neues {@link XMLUtils} Object.
+     */
+    private XMLUtils()
+    {
+        super();
     }
 }

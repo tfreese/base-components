@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import de.freese.base.net.utils.NetUtils;
+import de.freese.base.utils.NetUtils;
 
 /**
  * @author Thomas Freese

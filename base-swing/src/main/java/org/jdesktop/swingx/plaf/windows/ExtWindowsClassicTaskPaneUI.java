@@ -29,7 +29,7 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import org.jdesktop.swingx.JXTaskPane;
-import de.freese.base.core.ImageUtils;
+import de.freese.base.utils.ImageUtils;
 
 /**
  * Ueberschreibt den ContentPaneBorder der SwingX UI der TaskPane, damit der Content nur 2 Pixel Abstand hat und nicht 10.

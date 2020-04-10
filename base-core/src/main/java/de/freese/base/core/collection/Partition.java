@@ -19,32 +19,32 @@ public class Partition<T> extends AbstractList<List<T>>
     /**
      *
      */
-    private final int batchSize;
+    private final List<T> list;
 
     /**
      *
      */
-    private final List<T> list;
+    private final int sizeOfPartition;
 
     /**
      * Erstellt ein neues {@link Partition} Object.
      *
      * @param list {@link List}
-     * @param batchSize int; Anzahl der Elemente pro Partition
+     * @param sizeOfPartition int; Anzahl der Elemente pro Partition
      */
-    public Partition(final List<T> list, final int batchSize)
+    public Partition(final List<T> list, final int sizeOfPartition)
     {
 
         super();
 
         this.list = Objects.requireNonNull(list, "list required");
 
-        if (batchSize <= 0)
+        if (sizeOfPartition <= 0)
         {
             throw new IllegalArgumentException("Size must be greater than 0");
         }
 
-        this.batchSize = batchSize;
+        this.sizeOfPartition = sizeOfPartition;
     }
 
     /**
@@ -70,8 +70,8 @@ public class Partition<T> extends AbstractList<List<T>>
             throw new IndexOutOfBoundsException("Index " + index + " must be less than size " + listSize);
         }
 
-        final int start = index * this.batchSize;
-        final int end = Math.min(start + this.batchSize, this.list.size());
+        final int start = index * this.sizeOfPartition;
+        final int end = Math.min(start + this.sizeOfPartition, this.list.size());
 
         return this.list.subList(start, end);
     }
@@ -91,6 +91,6 @@ public class Partition<T> extends AbstractList<List<T>>
     @Override
     public int size()
     {
-        return ((this.list.size() + this.batchSize) - 1) / this.batchSize;
+        return ((this.list.size() + this.sizeOfPartition) - 1) / this.sizeOfPartition;
     }
 }

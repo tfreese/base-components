@@ -1,5 +1,5 @@
 // Created: 02.07.2009
-package de.freese.base.persistence.jdbc;
+package de.freese.base.utils;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -17,10 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import javax.sql.DataSource;
-import de.freese.base.core.StringUtils;
 
 /**
  * Utilklasse fuer das Arbeiten mit JDBC.
@@ -29,32 +27,6 @@ import de.freese.base.core.StringUtils;
  */
 public final class JdbcUtils
 {
-    /**
-     *
-     */
-    private static Function<DataSource, Connection> connectionProvider = null;
-
-    /**
-     *
-     */
-    private static BiConsumer<Connection, DataSource> connectionReleaser = null;
-
-    /**
-     *
-     */
-    static
-    {
-        try
-        {
-            // Falls Spring vorhanden ist, DataSourceUtils verwenden.
-            useSpring();
-        }
-        catch (Throwable th)
-        {
-            usePlainJDBC();
-        }
-    }
-
     /**
      * Schliesst die {@link Connection}.<br>
      *
@@ -276,25 +248,13 @@ public final class JdbcUtils
      * @return Object
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException
     {
-        Connection con = null;
-
-        try
+        try (Connection connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection())
         {
-            con = Objects.requireNonNull(connectionProvider.apply(dataSource), "connection required");
-
-            DatabaseMetaData metaData = Objects.requireNonNull(con.getMetaData(), "metaData required");
+            DatabaseMetaData metaData = Objects.requireNonNull(connection.getMetaData(), "metaData required");
 
             return callback.apply(metaData);
-        }
-        finally
-        {
-            if (con != null)
-            {
-                connectionReleaser.accept(con, dataSource);
-            }
         }
     }
 
@@ -816,68 +776,6 @@ public final class JdbcUtils
     }
 
     /**
-     * Default JDBC-Handling.
-     */
-    private static void usePlainJDBC()
-    {
-        connectionProvider = ds -> {
-            try
-            {
-                return ds.getConnection();
-            }
-            catch (SQLException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-        };
-
-        connectionReleaser = (con, ds) -> {
-            try
-            {
-                closeConnection(con);
-            }
-            catch (SQLException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-        };
-    }
-
-    /**
-     * Falls Spring vorhanden ist, DataSourceUtils verwenden.
-     *
-     * @throws Throwable Falls was schief geht.
-     */
-    private static void useSpring() throws Throwable
-    {
-        // wenn JdbcTemplate vorhanden ist, sind es auch die DataSourceUtils.
-        // new org.springframework.jdbc.core.JdbcTemplate();
-        Class.forName("org.springframework.jdbc.core.JdbcTemplate");
-
-        connectionProvider = ds -> {
-            try
-            {
-                return org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(ds);
-            }
-            catch (SQLException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-        };
-
-        connectionReleaser = (con, ds) -> {
-            try
-            {
-                org.springframework.jdbc.datasource.DataSourceUtils.doReleaseConnection(con, ds);
-            }
-            catch (SQLException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-        };
-    }
-
-    /**
      * Schreibt die Liste in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
      *
@@ -885,7 +783,6 @@ public final class JdbcUtils
      * @param rows {@link List}
      * @param ps {@link PrintStream}
      * @param delimiter String
-     * @see de.freese.base.core.StringUtils#padding(List, String)
      */
     public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String delimiter)
     {
@@ -962,5 +859,13 @@ public final class JdbcUtils
         {
             resultSet.first();
         }
+    }
+
+    /**
+     * Erstellt ein neues {@link JdbcUtils} Object.
+     */
+    private JdbcUtils()
+    {
+        super();
     }
 }

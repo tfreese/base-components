@@ -1,8 +1,8 @@
 /**
- * Created: 30.04.2018
+ * Created: 09.04.2020
  */
 
-package de.freese.base.core;
+package de.freese.base.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +12,26 @@ import java.util.stream.IntStream;
 import de.freese.base.core.collection.Partition;
 
 /**
- * Nützliches für Colelctions.
- *
  * @author Thomas Freese
  */
-public final class CollectionUtils
+public final class ListUtils
 {
     /**
      * @param list {@link List}
-     * @param batchSize int
-     * @return int
+     * @return boolean
      */
-    private static <T> int getNumberOfPartitions(final List<T> list, final int batchSize)
+    public static boolean isEmpty(final List<?> list)
     {
-        return ((list.size() + batchSize) - 1) / batchSize;
+        return CollectionUtils.isEmpty(list);
+    }
+
+    /**
+     * @param list {@link List}
+     * @return boolean
+     */
+    public static boolean isNotEmpty(final List<?> list)
+    {
+        return CollectionUtils.isNotEmpty(list);
     }
 
     /**
@@ -40,15 +46,15 @@ public final class CollectionUtils
      *
      * @param <T> the element type
      * @param list the list to return consecutive sublists of
-     * @param batchSize the desired size of each sublist (the last may be smaller)
+     * @param sizeOfPartition the desired size of each sublist (the last may be smaller)
      * @return a list of consecutive sublists
      * @throws NullPointerException if list is null
      * @throws IllegalArgumentException if size is not strictly positive
      * @since 4.0
      */
-    public static <T> List<List<T>> partitionsByApacheCommons(final List<T> list, final int batchSize)
+    public static <T> List<List<T>> partitionsByApacheCommons(final List<T> list, final int sizeOfPartition)
     {
-        return new Partition<>(list, batchSize);
+        return new Partition<>(list, sizeOfPartition);
     }
 
     /**
@@ -87,28 +93,38 @@ public final class CollectionUtils
         return partitionList;
     }
 
+    // /**
+    // * @param list {@link List}
+    // * @param sizeOfPartition int
+    // * @return {@link List}
+    // */
+    // public static <T> List<List<T>> partitionsByGuava(final List<T> list, final int sizeOfPartition)
+    // {
+    // return Lists.partition(list, sizeOfPartition);
+    // }
+
     /**
      * Partitioniert eine Liste in SubLists.<br>
-     * Jede SubList besitzt eine max. Länge von "batchSize".<br>
-     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch batchSize teilbar ist.
+     * Jede SubList besitzt eine max. Länge von "sizeOfPartition".<br>
+     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch sizeOfPartition teilbar ist.
      *
      * @param list {@link List}
-     * @param batchSize int; Anzahl der Elemente pro Partition
+     * @param sizeOfPartition int; Anzahl der Elemente pro Partition
      * @return {@link List}
      */
-    public static <T> List<List<T>> partitionsBySize(final List<T> list, final int batchSize)
+    public static <T> List<List<T>> partitionsBySize(final List<T> list, final int sizeOfPartition)
     {
         Objects.requireNonNull(list, "list required");
 
-        if (batchSize <= 0)
+        if (sizeOfPartition <= 0)
         {
-            throw new IllegalArgumentException("batchSize must be greater than 0");
+            throw new IllegalArgumentException("sizeOfPartition must be greater than 0");
         }
 
         List<List<T>> partitionList = new ArrayList<>();
 
         int fromIndex = 0;
-        int toIndex = batchSize;
+        int toIndex = sizeOfPartition;
 
         while (toIndex < list.size())
         {
@@ -116,7 +132,7 @@ public final class CollectionUtils
             partitionList.add(partition);
 
             fromIndex = toIndex;
-            toIndex = fromIndex + batchSize;
+            toIndex = fromIndex + sizeOfPartition;
         }
 
         List<T> partition = list.subList(fromIndex, list.size());
@@ -127,21 +143,29 @@ public final class CollectionUtils
 
     /**
      * Partitioniert eine Liste in SubLists durch Streams.<br>
-     * Jede SubList besitzt eine max. Länge von "batchSize".<br>
-     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch batchSize teilbar ist.
+     * Jede SubList besitzt eine max. Länge von "sizeOfPartition".<br>
+     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch sizeOfPartition teilbar ist.
      *
      * @param list {@link List}
-     * @param batchSize int; Anzahl der Elemente pro Partition
+     * @param sizeOfPartition int; Anzahl der Elemente pro Partition
      * @return {@link List} of {@link List}
      */
-    public static <T> List<List<T>> partitionsBySizeStream(final List<T> list, final int batchSize)
+    public static <T> List<List<T>> partitionsBySizeStream(final List<T> list, final int sizeOfPartition)
     {
         Objects.requireNonNull(list, "list required");
 
         // @formatter:off
-        return IntStream.range(0, getNumberOfPartitions(list, batchSize))
-                    .mapToObj(i -> list.subList(i * batchSize, Math.min((i + 1) * batchSize, list.size())))
+        return IntStream.range(0, CollectionUtils.getNumberOfPartitions(list, sizeOfPartition))
+                    .mapToObj(i -> list.subList(i * sizeOfPartition, Math.min((i + 1) * sizeOfPartition, list.size())))
                     .collect(Collectors.toList());
         // @formatter:on
+    }
+
+    /**
+     * Erstellt ein neues {@link ListUtils} Object.
+     */
+    private ListUtils()
+    {
+        super();
     }
 }

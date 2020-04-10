@@ -25,7 +25,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import de.freese.base.persistence.jdbc.JdbcUtils;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
 import de.freese.base.persistence.jdbc.TestSuiteJdbc;
@@ -33,6 +32,7 @@ import de.freese.base.persistence.jdbc.reactive.ResultSetIterable;
 import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.utils.JdbcUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 

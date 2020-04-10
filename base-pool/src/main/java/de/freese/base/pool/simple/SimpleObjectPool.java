@@ -319,8 +319,8 @@ public class SimpleObjectPool<T> implements ObjectPool<T>
             this.idle.addAll(this.busy);
             this.busy.clear();
 
-            String objectClass = createObject().getClass().getSimpleName();
-            LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", objectClass, getNumIdle(), getNumActive());
+            String objectClassName = createObject().getClass().getSimpleName();
+            LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", objectClassName, getNumIdle(), getNumActive());
 
             while (this.idle.size() > 0)
             {

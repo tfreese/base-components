@@ -1,7 +1,7 @@
 /**
  *
  */
-package de.freese.base.persistence.hibernate;
+package de.freese.base.utils;
 
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -9,9 +9,7 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
-
 import javax.persistence.metamodel.Metamodel;
-
 import org.hibernate.Cache;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
@@ -404,5 +402,13 @@ public final class HibernateUtils
         bigDecimal = bigDecimal.setScale(scale, RoundingMode.HALF_UP);
 
         return bigDecimal.doubleValue();
+    }
+
+    /**
+     * Erstellt ein neues {@link HibernateUtils} Object.
+     */
+    private HibernateUtils()
+    {
+        super();
     }
 }

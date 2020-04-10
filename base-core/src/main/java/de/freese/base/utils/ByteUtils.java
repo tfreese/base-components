@@ -1,4 +1,4 @@
-package de.freese.base.core;
+package de.freese.base.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -867,5 +867,14 @@ public final class ByteUtils
         }
 
         return a;
+    }
+
+    /**
+     * Erstellt ein neues {@link ByteUtils} Object.
+     *
+     */
+    private ByteUtils()
+    {
+        super();
     }
 }

@@ -6,8 +6,7 @@ package de.freese.base.core.property;
 import java.io.Serializable;
 
 import org.apache.commons.codec.binary.Base64;
-
-import de.freese.base.core.ByteUtils;
+import de.freese.base.utils.ByteUtils;
 
 /**
  * Konvertiert einen Propertywert in konkrete Objekte.

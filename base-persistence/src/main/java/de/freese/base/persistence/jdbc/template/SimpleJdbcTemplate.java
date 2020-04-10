@@ -21,7 +21,6 @@ import java.util.stream.StreamSupport;
 import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.persistence.jdbc.JdbcUtils;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
@@ -33,6 +32,7 @@ import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 import de.freese.base.persistence.jdbc.template.function.StatementCallback;
 import de.freese.base.persistence.jdbc.template.function.StatementCreator;
+import de.freese.base.utils.JdbcUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 

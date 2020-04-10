@@ -1,4 +1,4 @@
-package de.freese.base.core;
+package de.freese.base.utils;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -966,5 +966,13 @@ public final class ImageUtils
         BufferedImage bufferedImage = toBufferedImage(image);
 
         writeImage(bufferedImage, format, outputStream);
+    }
+
+    /**
+     * Erstellt ein neues {@link ImageUtils} Object.
+     */
+    private ImageUtils()
+    {
+        super();
     }
 }

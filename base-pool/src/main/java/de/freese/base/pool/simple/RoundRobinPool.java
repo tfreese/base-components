@@ -11,10 +11,8 @@ import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.freese.base.pool.ObjectPool;
 
 /**
@@ -98,8 +96,7 @@ public class RoundRobinPool<T> implements ObjectPool<T>
         }
 
         this.creator = creator;
-        this.destroyer = destroyer != null ? destroyer : obj ->
-        {
+        this.destroyer = destroyer != null ? destroyer : obj -> {
         };
         this.size = size;
         this.queue = new ArrayList<>(size);
@@ -158,6 +155,14 @@ public class RoundRobinPool<T> implements ObjectPool<T>
     }
 
     /**
+     * @return {@link List}
+     */
+    protected List<T> getQueue()
+    {
+        return this.queue;
+    }
+
+    /**
      * @see de.freese.base.pool.ObjectPool#getTotalSize()
      */
     @Override
@@ -185,12 +190,19 @@ public class RoundRobinPool<T> implements ObjectPool<T>
 
         try
         {
-            String objectClass = getQueue().get(0).getClass().getSimpleName();
-            LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", objectClass, getNumIdle(), getNumActive());
+            T object = getQueue().get(0);
+
+            if (object == null)
+            {
+                object = this.creator.get();
+            }
+
+            String objectClassName = object.getClass().getSimpleName();
+            LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", objectClassName, getNumIdle(), getNumActive());
 
             for (Iterator<T> iterator = getQueue().iterator(); iterator.hasNext();)
             {
-                T object = iterator.next();
+                object = iterator.next();
 
                 if (object == null)
                 {
@@ -208,13 +220,5 @@ public class RoundRobinPool<T> implements ObjectPool<T>
         {
             this.lock.unlock();
         }
-    }
-
-    /**
-     * @return {@link List}
-     */
-    protected List<T> getQueue()
-    {
-        return this.queue;
     }
 }

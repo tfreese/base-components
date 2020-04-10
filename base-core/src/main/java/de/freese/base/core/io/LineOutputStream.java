@@ -3,8 +3,7 @@ package de.freese.base.core.io;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import de.freese.base.core.ByteUtils;
+import de.freese.base.utils.ByteUtils;
 
 /**
  * This class is to support writing out Strings as a sequence of bytes terminated by a CRLF sequence. The String must contain only US-ASCII

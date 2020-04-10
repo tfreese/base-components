@@ -1,4 +1,4 @@
-package de.freese.base.core;
+package de.freese.base.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

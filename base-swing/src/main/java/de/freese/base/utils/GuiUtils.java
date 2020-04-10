@@ -15,14 +15,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Objects;
-
 import javax.activation.DataSource;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import de.freese.base.core.ByteArrayDataSource;
-import de.freese.base.core.ImageUtils;
 import de.freese.base.core.image.ImageFormat;
 
 /**
@@ -35,13 +31,13 @@ public final class GuiUtils
     /**
      * Selbstgebauter ToolBar Separator.<br>
      * Hat einen kleinen Strich und eine graue Flaeche.
-     * 
+     *
      * @author Thomas Freese
      */
     private static class ToolBarSeparator extends JPanel
     {
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = -7069549788210052499L;
 
@@ -67,9 +63,9 @@ public final class GuiUtils
     /**
      * Passt die Groesse des uebergebenen Fensters der aktuellen Bildschirmaufloesung an.<br>
      * <br>
-     * Solange das Fenster vollstaendig dargestellt werden kann, werden keine Aenderungen vorgenommen. Ansonsten wird das Fenster
-     * entsprechend der aktuellen Bildschirmaufloesung verkleinert.<br>
-     * 
+     * Solange das Fenster vollstaendig dargestellt werden kann, werden keine Aenderungen vorgenommen. Ansonsten wird das Fenster entsprechend der aktuellen
+     * Bildschirmaufloesung verkleinert.<br>
+     *
      * @param frame {@link JFrame}
      */
     public static void adjustFrame(final JFrame frame)
@@ -84,7 +80,7 @@ public final class GuiUtils
 
     /**
      * Liefert die Breite eines Strings in der uebergebenen Komponente.
-     * 
+     *
      * @param component {@link JComponent}
      * @param text {@link String}
      * @return int
@@ -96,7 +92,7 @@ public final class GuiUtils
 
     /**
      * Erzeugt einen PNG-Screenschot als {@link DataSource}.
-     * 
+     *
      * @return {@link DataSource}
      * @throws AWTException Falls was schief geht.
      * @throws IOException Falls was schief geht.
@@ -121,7 +117,7 @@ public final class GuiUtils
 
     /**
      * Erzeugt einen PNG-Screenschot einer {@link Component} als {@link DataSource}.
-     * 
+     *
      * @param c {@link Component}
      * @return String der Dateiname des ScreenShots
      * @throws AWTException Falls was schief geht.
@@ -153,7 +149,7 @@ public final class GuiUtils
 
     /**
      * Erzeugt einen PNG-Screenschot des Koordinatenbereichs als {@link DataSource}.
-     * 
+     *
      * @param x int
      * @param y int
      * @param width int
@@ -183,7 +179,7 @@ public final class GuiUtils
     /**
      * Findet in einer Componente eine andere Component mit der angegebene Klasse.<br>
      * Wird nichts gefunden, kommt null zurueck.
-     * 
+     *
      * @param comp {@link Component}
      * @param clazz Class
      * @return {@link Component}
@@ -215,7 +211,7 @@ public final class GuiUtils
     /**
      * Findet in einer Component eine andere Component mit dem angegebenen Namen.<br>
      * Wird nichts gefunden, kommt null zurueck.<br>
-     * 
+     *
      * @param comp {@link Component}
      * @param name String
      * @return {@link Component}
@@ -248,7 +244,7 @@ public final class GuiUtils
 
     /**
      * Gibt aktives Frame zurueck.
-     * 
+     *
      * @return {@link Frame}
      */
     public static Frame getActiveFrame()
@@ -269,7 +265,7 @@ public final class GuiUtils
 
     /**
      * Liefert default GridBagConstraints mit fill=BOTH, anchor=CENTER und Insets mit (5, 5, 5, 5).
-     * 
+     *
      * @param col int, siehe auch Konstanten in GridBagConstraints
      * @param row int, siehe auch Konstanten in GridBagConstraints
      * @return {@link GridBagConstraints}
@@ -281,7 +277,7 @@ public final class GuiUtils
 
     /**
      * Liefert default GridBagConstraints mit fill=BOTH, anchor=CENTER und Insets mit (5, 5, 5, 5).
-     * 
+     *
      * @param col int, siehe auch Konstanten in GridBagConstraints
      * @param row int, siehe auch Konstanten in GridBagConstraints
      * @param colWidth int, siehe auch Konstanten in GridBagConstraints
@@ -309,7 +305,7 @@ public final class GuiUtils
 
     /**
      * Gibt die Root-Komponente einer Komponente zurueck.
-     * 
+     *
      * @param component {@link Component}
      * @return {@link Component}
      */
@@ -327,7 +323,7 @@ public final class GuiUtils
 
     /**
      * Gibt die {@link Dimension} des Bildschirms in Pixel zurueck.<br>
-     * 
+     *
      * @return {@link Dimension}
      * @see Toolkit
      */
@@ -338,7 +334,7 @@ public final class GuiUtils
 
     /**
      * Liefert den selbstgebauten ToolBar Separator.
-     * 
+     *
      * @return {@link JPanel}
      */
     public static JPanel getToolBarSeparator()

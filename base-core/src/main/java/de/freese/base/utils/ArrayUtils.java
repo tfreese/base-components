@@ -2,7 +2,7 @@
  * Created: 02.07.2011
  */
 
-package de.freese.base.core;
+package de.freese.base.utils;
 
 import java.util.Arrays;
 
@@ -15,7 +15,7 @@ public final class ArrayUtils
 {
     /**
      * Liefert true, wenn in den ArrayElementen immer nur der Wert enthalten ist.
-     * 
+     *
      * @param values double[]
      * @param value double
      * @return boolean
@@ -35,7 +35,7 @@ public final class ArrayUtils
 
     /**
      * Füllt das Array mit den Replace-Wert, wenn alle Elemente 0 sind.
-     * 
+     *
      * @param values double[]
      * @param filler double
      * @return double[]
@@ -60,5 +60,41 @@ public final class ArrayUtils
         }
 
         return values;
+    }
+
+    /**
+     * @param array Object[]
+     * @return boolean
+     */
+    public static boolean isEmpty(final Object[] array)
+    {
+        return (array == null) || (array.length == 0);
+    }
+
+    /**
+     * @param array Object[]
+     * @return boolean
+     */
+    public static boolean isNotEmpty(final Object[] array)
+    {
+        return !isEmpty(array);
+    }
+
+    /**
+     * @param array Object[]
+     * @param separator String
+     * @return String
+     */
+    public static String join(final Object[] array, final String separator)
+    {
+        return StringUtils.join(array, separator);
+    }
+
+    /**
+     * Erstellt ein neues {@link ArrayUtils} Object.
+     */
+    private ArrayUtils()
+    {
+        super();
     }
 }

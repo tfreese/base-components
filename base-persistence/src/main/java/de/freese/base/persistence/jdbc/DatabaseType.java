@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
+import de.freese.base.utils.JdbcUtils;
 
 /**
  * Geklaut von org.springframework.data.jdbc.support.DatabaseType

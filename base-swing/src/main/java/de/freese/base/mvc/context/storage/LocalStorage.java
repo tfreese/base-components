@@ -19,7 +19,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import javax.activation.DataSource;
 import org.apache.commons.io.IOUtils;
-import de.freese.base.core.ByteArrayDataSource;
+import de.freese.base.utils.ByteArrayDataSource;
 
 /**
  * Klasse fuer lokalen Dateizugriff.<br>

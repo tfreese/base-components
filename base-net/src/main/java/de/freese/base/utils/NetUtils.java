@@ -1,4 +1,4 @@
-package de.freese.base.net.utils;
+package de.freese.base.utils;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -12,7 +12,7 @@ import org.apache.commons.net.ntp.TimeInfo;
  *
  * @author Thomas Freese
  */
-public class NetUtils
+public final class NetUtils
 {
     /**
      * Wandelt die binaere IP Addresse in ein lesbares Format um.
@@ -138,5 +138,13 @@ public class NetUtils
         }
 
         return isValid;
+    }
+
+    /**
+     * Erstellt ein neues {@link NetUtils} Object.
+     */
+    private NetUtils()
+    {
+        super();
     }
 }

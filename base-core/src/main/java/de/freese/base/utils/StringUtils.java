@@ -1,10 +1,10 @@
 /**
  * Created: 16.07.2011
  */
-package de.freese.base.core;
+package de.freese.base.utils;
 
-import static de.freese.base.core.ByteUtils.HEX_CHARS;
-import static de.freese.base.core.ByteUtils.HEX_INDEX;
+import static de.freese.base.utils.ByteUtils.HEX_CHARS;
+import static de.freese.base.utils.ByteUtils.HEX_INDEX;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -36,7 +36,7 @@ public final class StringUtils
     @SuppressWarnings("unchecked")
     public static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
     {
-        if ((rows == null) || rows.isEmpty())
+        if (ListUtils.isEmpty(rows))
         {
             return;
         }
@@ -60,36 +60,41 @@ public final class StringUtils
     }
 
     /**
-     * @param s String
-     * @return String
+     * @param text String
+     * @return String, not null
      */
-    public static String asciiToUnicode(final String s)
+    public static String asciiToUnicode(final String text)
     {
-        if ((s == null) || (s.indexOf("\\u") == -1))
+        if (isBlank(text))
         {
-            return s;
+            return "";
         }
 
-        int i = s.length();
+        if (text.indexOf("\\u") == -1)
+        {
+            return text;
+        }
+
+        int i = text.length();
         char[] ac = new char[i];
         int j = 0;
 
         for (int k = 0; k < i; k++)
         {
-            char c = s.charAt(k);
+            char c = text.charAt(k);
 
             if ((c == '\\') && (k < (i - 5)))
             {
-                char c1 = s.charAt(k + 1);
+                char c1 = text.charAt(k + 1);
 
                 if (c1 == 'u')
                 {
                     k++;
 
-                    int l = HEX_INDEX.indexOf(s.charAt(++k)) << 12;
-                    l += (HEX_INDEX.indexOf(s.charAt(++k)) << 8);
-                    l += (HEX_INDEX.indexOf(s.charAt(++k)) << 4);
-                    l += HEX_INDEX.indexOf(s.charAt(++k));
+                    int l = HEX_INDEX.indexOf(text.charAt(++k)) << 12;
+                    l += (HEX_INDEX.indexOf(text.charAt(++k)) << 8);
+                    l += (HEX_INDEX.indexOf(text.charAt(++k)) << 4);
+                    l += HEX_INDEX.indexOf(text.charAt(++k));
                     ac[j++] = (char) l;
                 }
                 else
@@ -107,16 +112,50 @@ public final class StringUtils
     }
 
     /**
+     * @param text String
+     * @return String
+     */
+    public static String capitalize(final String text)
+    {
+        return org.apache.commons.lang3.StringUtils.capitalize(text);
+    }
+
+    /**
+     * @param cs {@link CharSequence}
+     * @param search {@link CharSequence}
+     * @return boolean
+     */
+    public static boolean containsIgnoreCase(final CharSequence cs, final CharSequence search)
+    {
+        return org.apache.commons.lang3.StringUtils.containsIgnoreCase(cs, search);
+    }
+
+    /**
+     * @param text String
+     * @param defaultText String
+     * @return String
+     */
+    public static String defaultIfBlank(final String text, final String defaultText)
+    {
+        return isBlank(text) ? defaultText : text;
+    }
+
+    /**
      * Liefert die max. Zeichenbreite der Elemente.<br>
      * Leerzeichen werden ignoriert.
      *
-     * @param iterable String[]
+     * @param array String[]
      * @return int
      */
-    public static int getMaxWidth(final String[] iterable)
+    public static int getMaxWidth(final String[] array)
     {
+        if (ArrayUtils.isEmpty(array))
+        {
+            return 0;
+        }
+
         // @formatter:off
-        int width = Arrays.stream(iterable) // Stream.of
+        int width = Stream.of(array)
                 .parallel()
                 .map(s -> strip(s))
                 .filter(s -> isNotBlank(s))
@@ -130,13 +169,18 @@ public final class StringUtils
     }
 
     /**
-     * @param s {@link CharSequence}
-     * @return String
+     * @param cs {@link CharSequence}
+     * @return String, not null
      * @throws Exception Falls was schief geht.
      */
-    public static String hexStringToUnicode(final CharSequence s) throws Exception
+    public static String hexStringToUnicode(final CharSequence cs) throws Exception
     {
-        byte[] bytes = ByteUtils.hexToBytes(s);
+        if (isBlank(cs))
+        {
+            return "";
+        }
+
+        byte[] bytes = ByteUtils.hexToBytes(cs);
         String sign = null;
 
         try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes);
@@ -146,14 +190,13 @@ public final class StringUtils
         }
         catch (IOException ioexception)
         {
-            sign = null;
+            sign = "";
         }
 
         return sign;
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#isBlank(CharSequence)
      * @param cs {@link CharSequence}
      * @return boolean
      */
@@ -163,36 +206,73 @@ public final class StringUtils
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#isEmpty(CharSequence)
      * @param cs {@link CharSequence}
      * @return boolean
      */
     public static boolean isEmpty(final CharSequence cs)
     {
-        return org.apache.commons.lang3.StringUtils.isEmpty(cs);
+        return length(cs) == 0;
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#isNotBlank(CharSequence)
      * @param cs {@link CharSequence}
      * @return boolean
      */
     public static boolean isNotBlank(final CharSequence cs)
     {
-        return org.apache.commons.lang3.StringUtils.isNotBlank(cs);
+        return !isNotBlank(cs);
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#join(Object[], String)
+     * @param cs {@link CharSequence}
+     * @return boolean
+     */
+    public static boolean isNotEmpty(final CharSequence cs)
+    {
+        return !isEmpty(cs);
+    }
+
+    /**
+     * @param cs {@link CharSequence}
+     * @return String
+     */
+    public static boolean isNumeric(final CharSequence cs)
+    {
+        return org.apache.commons.lang3.StringUtils.isNumeric(cs);
+    }
+
+    /**
      * @param array Object[]
      * @param separator String
-     * @return String
+     * @return String, not null
      */
     public static String join(final Object[] array, final String separator)
     {
-        // Collector verwendet intern den StringJoiner.
-        // rows.forEach(r -> ps.println(Stream.of(r).collect(Collectors.joining(separator))));
-        return org.apache.commons.lang3.StringUtils.join(array, separator);
+        if (ArrayUtils.isEmpty(array))
+        {
+            return "";
+        }
+
+        return Stream.of(array).map(obj -> obj != null ? obj.toString() : "null").collect(Collectors.joining(separator));
+        // return Joiner.on(separator).join(array);
+    }
+
+    /**
+     * @param cs {@link CharSequence}
+     * @return String
+     */
+    public static int length(final CharSequence cs)
+    {
+        return cs == null ? 0 : cs.length();
+    }
+
+    /**
+     * @param text String
+     * @return String
+     */
+    public static String normalizeSpace(final String text)
+    {
+        return org.apache.commons.lang3.StringUtils.normalizeSpace(text);
     }
 
     /**
@@ -207,7 +287,7 @@ public final class StringUtils
     @SuppressWarnings("unchecked")
     public static <T extends CharSequence> void padding(final List<T[]> rows, final String padding)
     {
-        if ((rows == null) || rows.isEmpty())
+        if (ListUtils.isEmpty(rows))
         {
             return;
         }
@@ -244,33 +324,31 @@ public final class StringUtils
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#repeat(String, int)
-     * @param str String
+     * @param text String
      * @param repeat int
      * @return String
      */
-    public static String repeat(final String str, final int repeat)
+    public static String repeat(final String text, final int repeat)
     {
-        return org.apache.commons.lang3.StringUtils.repeat(str, repeat);
+        return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#rightPad(String, int, String)
-     * @param str String
+     * @param text String
      * @param size int
      * @param padStr String
      * @return String
      */
-    public static String rightPad(final String str, final int size, final String padStr)
+    public static String rightPad(final String text, final int size, final String padStr)
     {
-        return org.apache.commons.lang3.StringUtils.rightPad(str, size, padStr);
+        return org.apache.commons.lang3.StringUtils.rightPad(text, size, padStr);
     }
 
     /**
      * Trennt zusammengefuegte Woerter anhand unterschied Uppercase/Lowercase der Buchstaben<br>
      *
      * @param text String
-     * @return String
+     * @return String, not null
      */
     public static String splitAddedWords(final String text)
     {
@@ -301,20 +379,44 @@ public final class StringUtils
     }
 
     /**
-     * @see org.apache.commons.lang3.StringUtils#strip(String)
-     * @param str String
+     * @param text String
+     * @param separator String
+     * @return String[]
+     */
+    public static String[] splitByWholeSeparator(final String text, final String separator)
+    {
+        return org.apache.commons.lang3.StringUtils.splitByWholeSeparator(text, separator);
+    }
+
+    /**
+     * @param text String
+     * @return String, not null
+     */
+    public static String strip(final String text)
+    {
+        if (isEmpty(text))
+        {
+            return "";
+        }
+
+        return text.strip();
+    }
+
+    /**
+     * @param text String
+     * @param separator String
      * @return String
      */
-    public static String strip(final String str)
+    public static String substringBefore(final String text, final String separator)
     {
-        return org.apache.commons.lang3.StringUtils.strip(str);
+        return org.apache.commons.lang3.StringUtils.substringBefore(text, separator);
     }
 
     /**
      * Konvertiert mehrzeiligen Text in einen zeiligen Text.<br>
      *
      * @param text String
-     * @return Formatierter String oder null wenn String null war
+     * @return String, not null
      */
     public static String toSingleLine(final String text)
     {
@@ -338,26 +440,55 @@ public final class StringUtils
     }
 
     /**
-     * @param s {@link CharSequence}
+     * @param text String
+     * @return String,
+     */
+    public static String trim(final String text)
+    {
+        return text == null ? null : text.trim();
+    }
+
+    /**
+     * @param text String
+     * @return String, not null
+     */
+    public static String trimToEmpty(final String text)
+    {
+        return text == null ? "" : text.trim();
+    }
+
+    /**
+     * @param text String
      * @return String
      */
-    public static String unicodeToAscii(final CharSequence s)
+    public static String trimToNull(final String text)
     {
-        if ((s == null) || (s.length() == 0))
+        final String s = trim(text);
+
+        return isBlank(s) ? null : s;
+    }
+
+    /**
+     * @param cs {@link CharSequence}
+     * @return String, not null
+     */
+    public static String unicodeToAscii(final CharSequence cs)
+    {
+        if (isBlank(cs))
         {
-            return null;
+            return "";
         }
 
-        int i = s.length();
+        int i = cs.length();
         StringBuilder sb = new StringBuilder(i + 16);
 
         for (int j = 0; j < i; j++)
         {
-            char c = s.charAt(j);
+            char c = cs.charAt(j);
 
             if (c == '\\')
             {
-                if ((j < (i - 1)) && (s.charAt(j + 1) == 'u'))
+                if ((j < (i - 1)) && (cs.charAt(j + 1) == 'u'))
                 {
                     sb.append(c);
                     sb.append("u005c");
@@ -385,16 +516,16 @@ public final class StringUtils
     }
 
     /**
-     * @param s {@link CharSequence}
+     * @param cs {@link CharSequence}
      * @return String
      */
-    public static String unicodeToHexString(final CharSequence s)
+    public static String unicodeToHexString(final CharSequence cs)
     {
         ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 
         try (DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream))
         {
-            dataoutputstream.writeUTF(s.toString());
+            dataoutputstream.writeUTF(cs.toString());
         }
         catch (IOException ex)
         {

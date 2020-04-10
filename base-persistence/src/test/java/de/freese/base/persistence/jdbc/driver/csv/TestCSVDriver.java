@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import de.freese.base.persistence.jdbc.JdbcUtils;
+import de.freese.base.utils.JdbcUtils;
 
 /**
  * @author Thomas Freese

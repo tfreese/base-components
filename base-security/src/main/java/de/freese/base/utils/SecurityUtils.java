@@ -156,4 +156,12 @@ public final class SecurityUtils
 
         return sslSocket;
     }
+
+    /**
+     * Erstellt ein neues {@link SecurityUtils} Object.
+     */
+    private SecurityUtils()
+    {
+        super();
+    }
 }

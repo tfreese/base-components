@@ -25,6 +25,7 @@ import org.bouncycastle.bcpg.sig.KeyFlags;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPCompressedData;
 import org.bouncycastle.openpgp.PGPCompressedDataGenerator;
+import org.bouncycastle.openpgp.PGPEncryptedData;
 import org.bouncycastle.openpgp.PGPEncryptedDataGenerator;
 import org.bouncycastle.openpgp.PGPEncryptedDataList;
 import org.bouncycastle.openpgp.PGPException;
@@ -285,14 +286,13 @@ class PGPCryptoBC
         //
         // find the secret key
         //
-        @SuppressWarnings("unchecked")
-        Iterator<PGPPublicKeyEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
+        Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
         PGPPublicKeyEncryptedData encryptedData = null;
         PGPPrivateKey privateKey = null;
 
         while (it.hasNext())
         {
-            encryptedData = it.next();
+            encryptedData = (PGPPublicKeyEncryptedData) it.next();
             privateKey = findPrivateKey(keyIn, encryptedData.getKeyID(), password);
 
             if (privateKey != null)
