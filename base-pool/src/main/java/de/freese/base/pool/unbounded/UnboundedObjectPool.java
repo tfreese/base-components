@@ -7,11 +7,11 @@ package de.freese.base.pool.unbounded;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import de.freese.base.pool.ObjectPool;
+import de.freese.base.pool.AbstractObjectPool;
+import de.freese.base.pool.factory.ObjectFactory;
 
 /**
  * Einfacher ObjectPool ohne Limit.
@@ -19,17 +19,12 @@ import de.freese.base.pool.ObjectPool;
  * @author Thomas Freese
  * @param <T> Konkreter Typ
  */
-public class UnboundedObjectPool<T> implements ObjectPool<T>
+public class UnboundedObjectPool<T> extends AbstractObjectPool<T>
 {
-    /**
-    *
-    */
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnboundedObjectPool.class);
-
     /**
      *
      */
-    private final Consumer<T> activateFunction;
+    private final Consumer<T> activator;
 
     /**
      *
@@ -39,7 +34,13 @@ public class UnboundedObjectPool<T> implements ObjectPool<T>
     /**
      *
      */
-    private final Supplier<T> createFunction;
+    private final Supplier<T> creator;
+
+    /**
+    *
+    */
+    private final ReentrantLock lock = new ReentrantLock(true);
+
     /**
      *
      */
@@ -48,19 +49,27 @@ public class UnboundedObjectPool<T> implements ObjectPool<T>
     /**
      * Erstellt ein neues {@link UnboundedObjectPool} Object.
      *
-     * @param createFunction {@link Supplier}
-     * @param activateFunction {@link Consumer}
+     * @param objectFactory {@link ObjectFactory}
      */
-    public UnboundedObjectPool(final Supplier<T> createFunction, final Consumer<T> activateFunction)
+    public UnboundedObjectPool(final ObjectFactory<T> objectFactory)
+    {
+        this(objectFactory::create, objectFactory::activate);
+    }
+
+    /**
+     * Erstellt ein neues {@link UnboundedObjectPool} Object.
+     *
+     * @param creator {@link Supplier}
+     * @param activator {@link Consumer}
+     */
+    public UnboundedObjectPool(final Supplier<T> creator, final Consumer<T> activator)
     {
         super();
 
+        this.creator = Objects.requireNonNull(creator, "creator required");
+        this.activator = Objects.requireNonNull(activator, "activator required");
+
         this.queue = new LinkedList<>();
-
-        this.createFunction = Objects.requireNonNull(createFunction, "createFunction required");
-        this.activateFunction = Objects.requireNonNull(activateFunction, "activateFunction required");
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
     /**
@@ -69,41 +78,26 @@ public class UnboundedObjectPool<T> implements ObjectPool<T>
     @Override
     public synchronized T borrowObject()
     {
-        T object = getQueue().poll();
+        this.lock.lock();
 
-        if (object == null)
+        try
         {
-            object = getCreateFunction().get();
+            T object = getQueue().poll();
+
+            if (object == null)
+            {
+                object = this.creator.get();
+            }
+
+            this.activator.accept(object);
+            this.counterActive++;
+
+            return object;
         }
-
-        getActivateFunction().accept(object);
-        this.counterActive++;
-
-        return object;
-    }
-
-    /**
-     * @return {@link Consumer}
-     */
-    protected Consumer<T> getActivateFunction()
-    {
-        return this.activateFunction;
-    }
-
-    /**
-     * @return {@link Supplier}
-     */
-    protected Supplier<T> getCreateFunction()
-    {
-        return this.createFunction;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return LOGGER;
+        finally
+        {
+            this.lock.unlock();
+        }
     }
 
     /**
@@ -138,8 +132,17 @@ public class UnboundedObjectPool<T> implements ObjectPool<T>
     @Override
     public synchronized void returnObject(final T object)
     {
-        getQueue().offer(object);
-        this.counterActive--;
+        this.lock.lock();
+
+        try
+        {
+            getQueue().offer(object);
+            this.counterActive--;
+        }
+        finally
+        {
+            this.lock.unlock();
+        }
     }
 
     /**
@@ -148,27 +151,17 @@ public class UnboundedObjectPool<T> implements ObjectPool<T>
     @Override
     public void shutdown()
     {
-        T object = getQueue().peek();
+        this.lock.lock();
 
-        if (object == null)
+        try
         {
-            object = this.createFunction.get();
+            super.shutdown();
+
+            getQueue().clear();
         }
-
-        String objectClassName = object.getClass().getSimpleName();
-        getLogger().info("Close Pool<{}> with {} idle and {} aktive Objects", objectClassName, getNumIdle(), getNumActive());
-
-        getQueue().clear();
-        // while (getQueue().size() > 0)
-        // {
-        // T object = getQueue().poll();
-        //
-        // if (object == null)
-        // {
-        // continue;
-        // }
-        //
-        // // Object destroy
-        // }
+        finally
+        {
+            this.lock.unlock();
+        }
     }
 }

@@ -1,7 +1,7 @@
 /**
  * Created: 03.07.2011
  */
-package de.freese.base.pool.simple;
+package de.freese.base.pool.roundRobin;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,9 +11,8 @@ import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import de.freese.base.pool.ObjectPool;
+import de.freese.base.pool.AbstractObjectPool;
+import de.freese.base.pool.factory.ObjectFactory;
 
 /**
  * Ein stark vereinfachter ObjektPool.<br>
@@ -24,17 +23,12 @@ import de.freese.base.pool.ObjectPool;
  * @author Thomas Freese
  * @param <T> Konkreter Objekttyp
  */
-public class RoundRobinPool<T> implements ObjectPool<T>
+public class RoundRobinPool<T> extends AbstractObjectPool<T>
 {
     /**
      *
      */
     public static final int DEFAULT_SIZE = Runtime.getRuntime().availableProcessors() + 1;
-
-    /**
-    *
-    */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleObjectPool.class);
 
     /**
      *
@@ -69,36 +63,37 @@ public class RoundRobinPool<T> implements ObjectPool<T>
     /**
      * Erstellt ein neues {@link RoundRobinPool} Object.
      *
-     * @param creator {@link Supplier}
-     * @param destroyer {@link Consumer}; optional
+     * @param size int
+     * @param objectFactory {@link ObjectFactory}
      */
-    public RoundRobinPool(final Supplier<T> creator, final Consumer<T> destroyer)
+    public RoundRobinPool(final int size, final ObjectFactory<T> objectFactory)
     {
-        this(creator, destroyer, DEFAULT_SIZE);
+        this(size, objectFactory::create, objectFactory::destroy);
     }
 
     /**
      * Erstellt ein neues {@link RoundRobinPool} Object.
      *
+     * @param size int
      * @param creator {@link Supplier}
      * @param destroyer {@link Consumer}; optional
-     * @param size int
      */
-    public RoundRobinPool(final Supplier<T> creator, final Consumer<T> destroyer, final int size)
+    public RoundRobinPool(final int size, final Supplier<T> creator, final Consumer<T> destroyer)
     {
         super();
 
-        Objects.requireNonNull(creator, "creator required");
-
         if (size <= 0)
         {
-            throw new IllegalArgumentException("size: " + size + " (expected: positive integer)");
+            throw new IllegalArgumentException("size must be a positive number");
         }
 
-        this.creator = creator;
+        this.size = size;
+
+        this.creator = Objects.requireNonNull(creator, "creator required");
+
         this.destroyer = destroyer != null ? destroyer : obj -> {
         };
-        this.size = size;
+
         this.queue = new ArrayList<>(size);
     }
 
@@ -190,19 +185,11 @@ public class RoundRobinPool<T> implements ObjectPool<T>
 
         try
         {
-            T object = getQueue().get(0);
-
-            if (object == null)
-            {
-                object = this.creator.get();
-            }
-
-            String objectClassName = object.getClass().getSimpleName();
-            LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", objectClassName, getNumIdle(), getNumActive());
+            super.shutdown();
 
             for (Iterator<T> iterator = getQueue().iterator(); iterator.hasNext();)
             {
-                object = iterator.next();
+                T object = iterator.next();
 
                 if (object == null)
                 {

@@ -30,7 +30,7 @@ public class TestCompletableFuture
     /**
      * Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
      */
-    private static final int TEST_REPEATS = 3;
+    private static final int TEST_REPEATS = 5;
 
     /**
      *

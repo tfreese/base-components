@@ -5,10 +5,7 @@
 package de.freese.base.pool.erasoft;
 
 import java.util.NoSuchElementException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import de.freese.base.pool.AbstractObjectPool;
 import de.freese.base.pool.ObjectPool;
 import nf.fr.eraasoft.pool.PoolException;
 import nf.fr.eraasoft.pool.PoolSettings;
@@ -20,18 +17,8 @@ import nf.fr.eraasoft.pool.impl.AbstractPool;
  * @author Thomas Freese
  * @param <T> Konkreter ObjectTyp
  */
-public class ErasoftObjectPoolAdapter<T> implements ObjectPool<T>
+public class ErasoftObjectPoolAdapter<T> extends AbstractObjectPool<T>
 {
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErasoftObjectPoolAdapter.class);
-
-    /**
-     *
-     */
-    private String objectClass = null;
-
     /**
      *
      */
@@ -81,11 +68,6 @@ public class ErasoftObjectPoolAdapter<T> implements ObjectPool<T>
             throw new NoSuchElementException("Pool exhausted");
         }
 
-        if (this.objectClass == null)
-        {
-            this.objectClass = object.getClass().getSimpleName();
-        }
-
         return object;
     }
 
@@ -122,8 +104,7 @@ public class ErasoftObjectPoolAdapter<T> implements ObjectPool<T>
     @Override
     public void shutdown()
     {
-        LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", ErasoftObjectPoolAdapter.this.objectClass, getNumIdle(),
-                getNumActive());
+        super.shutdown();
 
         ErasoftObjectPoolAdapter.this.objectPool.clear();
         ErasoftObjectPoolAdapter.this.objectPool.destroy();

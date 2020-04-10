@@ -3,14 +3,12 @@
  */
 package de.freese.base.pool;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import java.util.concurrent.TimeUnit;
+import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
-
-import java.util.concurrent.TimeUnit;
-
-import javax.sql.DataSource;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * Erzeugt einen {@link ObjectPool} aus verschiedenen Implementierungen.<br>
@@ -39,8 +37,8 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
     public static ConnectionPoolBuilder create()
     {
         ConnectionPoolBuilder builder = new ConnectionPoolBuilder();
-        builder.min(1);
-        builder.max(10);
+        builder.coreSize(1);
+        builder.maxSize(10);
         builder.validateOnGet(true);
         builder.determineValidationQuery(true);
         builder.poolPreparedStatements(true);
@@ -85,9 +83,9 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
      * Liefert eine {@link BasicDataSource}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
+     * <li>{@link #coreSize}
+     * <li>{@link #maxSize}
      * <li>{@link #maxWait}
-     * <li>{@link #min}
      * <li>{@link #validateOnGet}
      * <li>{@link #validateOnReturn}
      * <li>{@link #driver}
@@ -96,18 +94,17 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
      * <li>{@link #validationQuery}
      * </ul>
      *
-     * @param user     String
+     * @param user String
      * @param password {@link CharSequence}
-     *
      * @return {@link DataSource}
      */
     public DataSource buildDBCP(final String user, final CharSequence password)
     {
         final BasicDataSource bds = new BasicDataSource();
-        bds.setMaxTotal(getMax() <= 0 ? DEFAULT_MAX : getMax());
+        bds.setMaxTotal(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
         bds.setMaxIdle(bds.getMaxTotal());
         bds.setMaxWaitMillis(getMaxWait());
-        bds.setMinIdle(getMin() <= 0 ? DEFAULT_MIN : getMin());
+        bds.setMinIdle(getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize());
         bds.setInitialSize(bds.getMinIdle());
         bds.setTestOnBorrow(isValidateOnGet());
         bds.setTestOnReturn(isValidateOnReturn());
@@ -132,8 +129,7 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
 
         if (isRegisterShutdownHook())
         {
-            Runtime.getRuntime().addShutdownHook(new Thread(() ->
-            {
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try
                 {
                     StringBuilder sb = new StringBuilder();
@@ -163,18 +159,17 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
      * Liefert eine {@link HikariDataSource}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
+     * <li>{@link #coreSize}
+     * <li>{@link #maxSize}
      * <li>{@link #maxWait}
-     * <li>{@link #min}
      * <li>{@link #driver}
      * <li>{@link #url}
      * <li>{@link #poolPreparedStatements}
      * <li>{@link #validationQuery}
      * </ul>
      *
-     * @param user     String
+     * @param user String
      * @param password {@link CharSequence}
-     *
      * @return {@link DataSource}
      */
     public DataSource buildHikari(final String user, final CharSequence password)
@@ -182,10 +177,10 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
         HikariConfig config = new HikariConfig();
 
         // Default = 10
-        config.setMaximumPoolSize(getMax() <= 0 ? DEFAULT_MAX : getMax());
+        config.setMaximumPoolSize(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
 
         // Default = 10
-        config.setMinimumIdle(getMin() <= 0 ? DEFAULT_MIN : getMin());
+        config.setMinimumIdle(getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize());
 
         config.setDriverClassName(getDriver());
         config.setJdbcUrl(getUrl());
@@ -259,8 +254,7 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
 
         if (isRegisterShutdownHook())
         {
-            Runtime.getRuntime().addShutdownHook(new Thread(() ->
-            {
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try
                 {
                     StringBuilder sb = new StringBuilder();
@@ -290,9 +284,9 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
      * Liefert eine {@link org.apache.tomcat.jdbc.pool.DataSource}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
+     * <li>{@link #coreSize}
+     * <li>{@link #maxSize}
      * <li>{@link #maxWait}
-     * <li>{@link #min}
      * <li>{@link #validateOnGet}
      * <li>{@link #validateOnReturn}
      * <li>{@link #driver}
@@ -300,17 +294,16 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
      * <li>{@link #validationQuery}
      * </ul>
      *
-     * @param user     String
+     * @param user String
      * @param password {@link CharSequence}
-     *
      * @return {@link DataSource}
      */
     public DataSource buildTomcat(final String user, final CharSequence password)
     {
         final PoolProperties poolProperties = new PoolProperties();
-        poolProperties.setMaxActive(getMax() <= 0 ? DEFAULT_MAX : getMax());
+        poolProperties.setMaxActive(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
         poolProperties.setMaxIdle(poolProperties.getMaxActive());
-        poolProperties.setMinIdle(getMin() <= 0 ? DEFAULT_MIN : getMin());
+        poolProperties.setMinIdle(getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize());
         poolProperties.setInitialSize(poolProperties.getMinIdle());
         poolProperties.setTestOnBorrow(isValidateOnGet());
         poolProperties.setTestOnReturn(isValidateOnReturn());
@@ -358,8 +351,7 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
 
         if (isRegisterShutdownHook())
         {
-            Runtime.getRuntime().addShutdownHook(new Thread(() ->
-            {
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try
                 {
                     StringBuilder sb = new StringBuilder();
@@ -389,7 +381,6 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
      * Automatische Ermittlung der ValidationQuery für die Datenbank, wenn keine gesetzt wurde.
      *
      * @param determineValidationQuery boolean
-     *
      * @return {@link ConnectionPoolBuilder}
      */
     public ConnectionPoolBuilder determineValidationQuery(final boolean determineValidationQuery)
@@ -400,58 +391,9 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
     }
 
     /**
-     * @param driver String
-     *
-     * @return {@link ConnectionPoolBuilder}
-     */
-    public ConnectionPoolBuilder driver(final String driver)
-    {
-        this.driver = driver;
-
-        return this;
-    }
-
-    /**
-     * @param poolPreparedStatements boolean
-     *
-     * @return {@link ConnectionPoolBuilder}
-     */
-    public ConnectionPoolBuilder poolPreparedStatements(final boolean poolPreparedStatements)
-    {
-        this.poolPreparedStatements = poolPreparedStatements;
-
-        return this;
-    }
-
-    /**
-     * @param url String
-     *
-     * @return {@link ConnectionPoolBuilder}
-     */
-    public ConnectionPoolBuilder url(final String url)
-    {
-        this.url = url;
-
-        return this;
-    }
-
-    /**
-     * @param validationQuery String
-     *
-     * @return {@link ConnectionPoolBuilder}
-     */
-    public ConnectionPoolBuilder validationQuery(final String validationQuery)
-    {
-        this.validationQuery = validationQuery;
-
-        return this;
-    }
-
-    /**
      * Versucht aus dem Driver die Datenbank zu ermitteln und die passende ValidationQuery zu liefern.
      *
      * @param driver String
-     *
      * @return String
      */
     protected String determineValidationQuery(final String driver)
@@ -490,6 +432,17 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
         }
 
         return query;
+    }
+
+    /**
+     * @param driver String
+     * @return {@link ConnectionPoolBuilder}
+     */
+    public ConnectionPoolBuilder driver(final String driver)
+    {
+        this.driver = driver;
+
+        return this;
     }
 
     /**
@@ -532,5 +485,38 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
     protected boolean isPoolPreparedStatements()
     {
         return this.poolPreparedStatements;
+    }
+
+    /**
+     * @param poolPreparedStatements boolean
+     * @return {@link ConnectionPoolBuilder}
+     */
+    public ConnectionPoolBuilder poolPreparedStatements(final boolean poolPreparedStatements)
+    {
+        this.poolPreparedStatements = poolPreparedStatements;
+
+        return this;
+    }
+
+    /**
+     * @param url String
+     * @return {@link ConnectionPoolBuilder}
+     */
+    public ConnectionPoolBuilder url(final String url)
+    {
+        this.url = url;
+
+        return this;
+    }
+
+    /**
+     * @param validationQuery String
+     * @return {@link ConnectionPoolBuilder}
+     */
+    public ConnectionPoolBuilder validationQuery(final String validationQuery)
+    {
+        this.validationQuery = validationQuery;
+
+        return this;
     }
 }

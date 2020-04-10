@@ -18,12 +18,17 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
     /**
      *
      */
-    public static final int DEFAULT_MAX = 10;
+    public static final int DEFAULT_CORE_SIZE = 1;
 
     /**
      *
      */
-    public static final int DEFAULT_MIN = 1;
+    public static final int DEFAULT_MAX_SIZE = 10;
+
+    /**
+     *
+     */
+    private int coreSize = -1;
 
     /**
      *
@@ -33,17 +38,12 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
     /**
      *
      */
-    private int max = -1;
+    private int maxSize = -1;
 
     /**
      * Milliseconds
      */
     private int maxWait = -1;
-
-    /**
-     *
-     */
-    private int min = -1;
 
     /**
      *
@@ -69,17 +69,92 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
     }
 
     /**
-     * @param max int
+     * @param coreSize int
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T max(final int max)
+    public T coreSize(final int coreSize)
     {
-        this.max = max;
+        this.coreSize = coreSize;
 
-        if ((this.max > 0) && (this.max < this.min))
+        if ((this.maxSize > 0) && (this.coreSize > this.maxSize))
         {
-            min(this.max);
+            maxSize(this.coreSize);
+        }
+
+        return (T) this;
+    }
+
+    /**
+     * @return int
+     */
+    protected int getCoreSize()
+    {
+        return this.coreSize;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
+     * @return int
+     */
+    protected int getMaxSize()
+    {
+        return this.maxSize;
+    }
+
+    /**
+     * Milliseconds
+     *
+     * @return int
+     */
+    protected int getMaxWait()
+    {
+        return this.maxWait;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected boolean isRegisterShutdownHook()
+    {
+        return this.registerShutdownHook;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected boolean isValidateOnGet()
+    {
+        return this.validateOnGet;
+    }
+
+    /**
+     * @return boolean
+     */
+    protected boolean isValidateOnReturn()
+    {
+        return this.validateOnReturn;
+    }
+
+    /**
+     * @param maxSize int
+     * @return {@link AbstractPoolBuilder}
+     */
+    @SuppressWarnings("unchecked")
+    public T maxSize(final int maxSize)
+    {
+        this.maxSize = maxSize;
+
+        if ((this.maxSize > 0) && (this.maxSize < this.coreSize))
+        {
+            coreSize(this.maxSize);
         }
 
         return (T) this;
@@ -95,23 +170,6 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
     public T maxWait(final int maxWait)
     {
         this.maxWait = maxWait;
-
-        return (T) this;
-    }
-
-    /**
-     * @param min int
-     * @return {@link AbstractPoolBuilder}
-     */
-    @SuppressWarnings("unchecked")
-    public T min(final int min)
-    {
-        this.min = min;
-
-        if ((this.max > 0) && (this.min > this.max))
-        {
-            max(this.min);
-        }
 
         return (T) this;
     }
@@ -150,63 +208,5 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
         this.validateOnReturn = validateOnReturn;
 
         return (T) this;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * @return int
-     */
-    protected int getMax()
-    {
-        return this.max;
-    }
-
-    /**
-     * Milliseconds
-     *
-     * @return int
-     */
-    protected int getMaxWait()
-    {
-        return this.maxWait;
-    }
-
-    /**
-     * @return int
-     */
-    protected int getMin()
-    {
-        return this.min;
-    }
-
-    /**
-     * @return boolean
-     */
-    protected boolean isRegisterShutdownHook()
-    {
-        return this.registerShutdownHook;
-    }
-
-    /**
-     * @return boolean
-     */
-    protected boolean isValidateOnGet()
-    {
-        return this.validateOnGet;
-    }
-
-    /**
-     * @return boolean
-     */
-    protected boolean isValidateOnReturn()
-    {
-        return this.validateOnReturn;
     }
 }

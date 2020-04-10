@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * Interface zur Kapselung eines ObjectPools.<br>
  *
  * @author Thomas Freese
- * @param <T> Konkreter ObjectTyp
+ * @param <T> Konkreter Typ
  */
 public interface ObjectPool<T>
 {

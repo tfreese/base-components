@@ -28,5 +28,10 @@ public enum ObjectPoolType
     /**
      *
      */
-    SIMPLE;
+    SIMPLE,
+
+    /**
+    *
+    */
+    UNBOUNDED;
 }

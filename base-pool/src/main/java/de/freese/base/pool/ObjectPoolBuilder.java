@@ -15,9 +15,9 @@ import de.freese.base.pool.erasoft.ErasoftObjectFactoryAdapter;
 import de.freese.base.pool.erasoft.ErasoftObjectPoolAdapter;
 import de.freese.base.pool.factory.FunctionalObjectFactory;
 import de.freese.base.pool.factory.ObjectFactory;
-import de.freese.base.pool.simple.RoundRobinPool;
+import de.freese.base.pool.roundRobin.RoundRobinPool;
 import de.freese.base.pool.simple.SimpleObjectPool;
-import de.freese.base.pool.simple.SimpleObjectPool.PoolConfig;
+import de.freese.base.pool.unbounded.UnboundedObjectPool;
 import nf.fr.eraasoft.pool.PoolSettings;
 
 /**
@@ -63,20 +63,24 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
 
         switch (type)
         {
-            case SIMPLE:
-                objectPool = buildSimplePool(objectFactory);
-                break;
-
-            case ROUND_ROBIN:
-                objectPool = buildRoundRobinPool(objectFactory);
-                break;
-
             case COMMONS:
                 objectPool = buildCommonsPool(objectFactory);
                 break;
 
             case ERASOFT:
                 objectPool = buildErasoftPool(objectFactory);
+                break;
+
+            case ROUND_ROBIN:
+                objectPool = buildRoundRobinPool(objectFactory);
+                break;
+
+            case SIMPLE:
+                objectPool = buildSimplePool(objectFactory);
+                break;
+
+            case UNBOUNDED:
+                objectPool = buildUnboundedPool(objectFactory);
                 break;
 
             default:
@@ -144,8 +148,8 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * Liefert einen {@link GenericObjectPool}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
-     * <li>{@link #min}
+     * <li>{@link #coreSize}
+     * <li>{@link #maxSize}
      * <li>{@link #validateOnGet}
      * <li>{@link #validateOnReturn}
      * </ul>
@@ -160,10 +164,10 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
         CommonsObjectFactoryAdapter<O> objectFactoryAdapter = new CommonsObjectFactoryAdapter<>(objectFactory);
 
         GenericObjectPoolConfig<O> config = new GenericObjectPoolConfig<>();
-        config.setMaxTotal(getMax() <= 0 ? DEFAULT_MAX : getMax());
+        config.setMaxTotal(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
         config.setMaxIdle(config.getMaxTotal());
         config.setMaxWaitMillis(getMaxWait() <= 0 ? -1 : getMaxWait());
-        config.setMinIdle(getMin() <= 0 ? DEFAULT_MIN : getMin());
+        config.setMinIdle(getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize());
         config.setTestOnBorrow(isValidateOnGet());
         config.setTestOnReturn(isValidateOnReturn());
         config.setTestWhileIdle(false);
@@ -188,9 +192,9 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * Liefert einen {@link ObjectPool}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
+     * <li>{@link #coreSize}
+     * <li>{@link #maxSize}
      * <li>{@link #maxWait}
-     * <li>{@link #min}
      * <li>{@link #validateOnReturn}
      * </ul>
      *
@@ -204,10 +208,10 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
         ErasoftObjectFactoryAdapter<O> objectFactoryAdapter = new ErasoftObjectFactoryAdapter<>(objectFactory);
 
         PoolSettings<O> settings = new PoolSettings<>(objectFactoryAdapter);
-        settings.max(getMax() <= 0 ? DEFAULT_MAX : getMax());
+        settings.max(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
         settings.maxIdle(settings.max());
         settings.maxWait(getMaxWait() <= 0 ? 0 : getMaxWait() / 1000);
-        settings.min(getMin() <= 0 ? DEFAULT_MIN : getMin());
+        settings.min(getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize());
         settings.validateWhenReturn(isValidateOnReturn());
 
         ObjectPool<O> objectPool = new ErasoftObjectPoolAdapter<>(settings);
@@ -224,7 +228,7 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * Liefert einen {@link RoundRobinPool}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
+     * <li>{@link #maxSize}
      * </ul>
      *
      * @param <O> Konkreter Typ der zu erzeugenden Objekte
@@ -245,7 +249,7 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * Liefert einen {@link RoundRobinPool}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
+     * <li>{@link #maxSize}
      * </ul>
      *
      * @param createSupplier {@link Supplier}
@@ -257,9 +261,9 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
     {
         Objects.requireNonNull(createSupplier, "createSupplier required");
 
-        int size = getMax() <= 0 ? RoundRobinPool.DEFAULT_SIZE : getMax();
+        int maxSize = getMaxSize() <= 0 ? RoundRobinPool.DEFAULT_SIZE : getMaxSize();
 
-        RoundRobinPool<O> objectPool = new RoundRobinPool<>(createSupplier, destroyConsumer, size);
+        RoundRobinPool<O> objectPool = new RoundRobinPool<>(maxSize, createSupplier, destroyConsumer);
 
         if (isRegisterShutdownHook())
         {
@@ -273,8 +277,8 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * Liefert einen {@link SimpleObjectPool}.<br>
      * Verwendete Attribute:
      * <ul>
-     * <li>{@link #max}
-     * <li>{@link #min}
+     * <li>{@link #coreSize}
+     * <li>{@link #maxSize}
      * </ul>
      *
      * @param <O> Konkreter Typ der zu erzeugenden Objekte
@@ -285,10 +289,31 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
     {
         Objects.requireNonNull(objectFactory, "objectFactory required");
 
-        PoolConfig config = new PoolConfig();
-        config.min(getMin() <= 0 ? DEFAULT_MIN : getMin()).max(getMax() <= 0 ? DEFAULT_MAX : getMax());
+        int coreSize = getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize();
+        int maxSize = getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize();
 
-        SimpleObjectPool<O> objectPool = new SimpleObjectPool<>(config, objectFactory);
+        SimpleObjectPool<O> objectPool = new SimpleObjectPool<>(coreSize, maxSize, objectFactory);
+
+        if (isRegisterShutdownHook())
+        {
+            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
+        }
+
+        return objectPool;
+    }
+
+    /**
+     * Liefert einen {@link UnboundedObjectPool}.<br>
+     *
+     * @param <O> Konkreter Typ der zu erzeugenden Objekte
+     * @param objectFactory {@link ObjectFactory}
+     * @return {@link ObjectPool}
+     */
+    public <O> ObjectPool<O> buildUnboundedPool(final ObjectFactory<O> objectFactory)
+    {
+        Objects.requireNonNull(objectFactory, "objectFactory required");
+
+        UnboundedObjectPool<O> objectPool = new UnboundedObjectPool<>(objectFactory::create, objectFactory::activate);
 
         if (isRegisterShutdownHook())
         {

@@ -7,8 +7,7 @@ package de.freese.base.pool.commons;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.freese.base.pool.AbstractObjectPool;
 import de.freese.base.pool.ObjectPool;
 
 /**
@@ -17,13 +16,8 @@ import de.freese.base.pool.ObjectPool;
  * @author Thomas Freese
  * @param <T> Konkreter ObjectTyp
  */
-public class CommonsObjectPoolAdapter<T> implements ObjectPool<T>
+public class CommonsObjectPoolAdapter<T> extends AbstractObjectPool<T>
 {
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonsObjectPoolAdapter.class);
-
     // /**
     // * @return {@link GenericObjectPoolConfig}
     // */
@@ -46,11 +40,6 @@ public class CommonsObjectPoolAdapter<T> implements ObjectPool<T>
     //
     // return config;
     // }
-
-    /**
-     *
-     */
-    private String objectClass = null;
 
     /**
      *
@@ -101,11 +90,6 @@ public class CommonsObjectPoolAdapter<T> implements ObjectPool<T>
             throw new RuntimeException(ex);
         }
 
-        if (this.objectClass == null)
-        {
-            this.objectClass = object.getClass().getSimpleName();
-        }
-
         return object;
     }
 
@@ -153,7 +137,7 @@ public class CommonsObjectPoolAdapter<T> implements ObjectPool<T>
     @Override
     public void shutdown()
     {
-        LOGGER.info("Close Pool<{}> with {} idle and {} aktive Objects", this.objectClass, getNumIdle(), getNumActive());
+        super.shutdown();
 
         try
         {
