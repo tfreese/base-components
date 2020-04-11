@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -94,10 +95,16 @@ public class TestObjectPoolBuilder
         ObjectPool<UUID> pool = ObjectPoolBuilder.create().maxSize(1).registerShutdownHook(true).build(poolType, createSupplier);
 
         UUID uuid1 = pool.borrowObject();
+        assertEquals(1, pool.getTotalSize());
+        assertEquals(1, pool.getNumActive());
+        assertEquals(0, pool.getNumIdle());
         assertNotNull(uuid1);
         pool.returnObject(uuid1);
 
         UUID uuid2 = pool.borrowObject();
+        assertEquals(1, pool.getTotalSize());
+        assertEquals(1, pool.getNumActive());
+        assertEquals(0, pool.getNumIdle());
         assertNotNull(uuid2);
         assertEquals(uuid1, uuid2);
         pool.returnObject(uuid2);
@@ -119,15 +126,22 @@ public class TestObjectPoolBuilder
             return;
         }
 
+        assertEquals(0, pool.getNumActive());
+
         UUID uuid1 = pool.borrowObject();
+
+        assertEquals(1, pool.getTotalSize());
+        assertEquals(1, pool.getNumActive());
+        assertEquals(0, pool.getNumIdle());
 
         try
         {
+            // 2. Aufruf bei Pool mit Größe 1 -> Fehler
             pool.borrowObject();
 
             assertTrue(false);
         }
-        catch (Exception ex)
+        catch (NoSuchElementException ex)
         {
             assertTrue(true);
             pool.returnObject(uuid1);

@@ -5,11 +5,6 @@
 package de.freese.base.pool.unbounded;
 
 import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import de.freese.base.pool.AbstractObjectPool;
 import de.freese.base.pool.factory.ObjectFactory;
 
@@ -24,27 +19,7 @@ public class UnboundedObjectPool<T> extends AbstractObjectPool<T>
     /**
      *
      */
-    private final Consumer<T> activator;
-
-    /**
-     *
-     */
     private int counterActive = 0;
-
-    /**
-     *
-     */
-    private final Supplier<T> creator;
-
-    /**
-    *
-    */
-    private final ReentrantLock lock = new ReentrantLock(true);
-
-    /**
-     *
-     */
-    private final Queue<T> queue;
 
     /**
      * Erstellt ein neues {@link UnboundedObjectPool} Object.
@@ -53,32 +28,18 @@ public class UnboundedObjectPool<T> extends AbstractObjectPool<T>
      */
     public UnboundedObjectPool(final ObjectFactory<T> objectFactory)
     {
-        this(objectFactory::create, objectFactory::activate);
-    }
+        super(objectFactory);
 
-    /**
-     * Erstellt ein neues {@link UnboundedObjectPool} Object.
-     *
-     * @param creator {@link Supplier}
-     * @param activator {@link Consumer}
-     */
-    public UnboundedObjectPool(final Supplier<T> creator, final Consumer<T> activator)
-    {
-        super();
-
-        this.creator = Objects.requireNonNull(creator, "creator required");
-        this.activator = Objects.requireNonNull(activator, "activator required");
-
-        this.queue = new LinkedList<>();
+        setQueue(new LinkedList<>());
     }
 
     /**
      * @see de.freese.base.pool.ObjectPool#borrowObject()
      */
     @Override
-    public synchronized T borrowObject()
+    public T borrowObject()
     {
-        this.lock.lock();
+        getLock().lock();
 
         try
         {
@@ -86,17 +47,17 @@ public class UnboundedObjectPool<T> extends AbstractObjectPool<T>
 
             if (object == null)
             {
-                object = this.creator.get();
+                object = getObjectFactory().create();
             }
 
-            this.activator.accept(object);
+            getObjectFactory().activate(object);
             this.counterActive++;
 
             return object;
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 
@@ -119,29 +80,28 @@ public class UnboundedObjectPool<T> extends AbstractObjectPool<T>
     }
 
     /**
-     * @return {@link Queue}<T>
-     */
-    protected Queue<T> getQueue()
-    {
-        return this.queue;
-    }
-
-    /**
      * @see de.freese.base.pool.ObjectPool#returnObject(java.lang.Object)
      */
     @Override
-    public synchronized void returnObject(final T object)
+    public void returnObject(final T object)
     {
-        this.lock.lock();
+        if (object == null)
+        {
+            return;
+        }
+
+        getLock().lock();
 
         try
         {
+            getObjectFactory().passivate(object);
+
             getQueue().offer(object);
             this.counterActive--;
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 
@@ -151,17 +111,17 @@ public class UnboundedObjectPool<T> extends AbstractObjectPool<T>
     @Override
     public void shutdown()
     {
-        this.lock.lock();
+        getLock().lock();
 
         try
         {
             super.shutdown();
 
-            getQueue().clear();
+            this.counterActive = 0;
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 }

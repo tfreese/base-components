@@ -30,7 +30,7 @@ public interface ObjectPool<T>
     public int getNumActive();
 
     /**
-     * Liefert die Anzahl der zur Verfügung stehenden, im Pool vorhandene, Objekte.
+     * Liefert die Anzahl der zur Verfügung stehenden, im Pool vorhandenen, Objekte.
      *
      * @return int
      */

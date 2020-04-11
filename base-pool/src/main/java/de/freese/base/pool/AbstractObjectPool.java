@@ -5,8 +5,13 @@
 package de.freese.base.pool;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.base.pool.factory.DummyObjectFactory;
+import de.freese.base.pool.factory.ObjectFactory;
 
 /**
  * Basis-Implementierung eones {@link ObjectPool}s.
@@ -19,6 +24,11 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     /**
     *
     */
+    private final ReentrantLock lock = new ReentrantLock(true);
+
+    /**
+    *
+    */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -27,11 +37,41 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     private Class<T> objectClazz = null;
 
     /**
+    *
+    */
+    private final ObjectFactory<T> objectFactory;
+
+    /**
+    *
+    */
+    private Queue<T> queue = null;
+
+    /**
      * Erstellt ein neues {@link AbstractObjectPool} Object.
      */
-    public AbstractObjectPool()
+    protected AbstractObjectPool()
+    {
+        this(new DummyObjectFactory<>());
+    }
+
+    /**
+     * Erstellt ein neues {@link AbstractObjectPool} Object.
+     *
+     * @param objectFactory {@link ObjectFactory}
+     */
+    public AbstractObjectPool(final ObjectFactory<T> objectFactory)
     {
         super();
+
+        this.objectFactory = Objects.requireNonNull(objectFactory, "objectFactory required");
+    }
+
+    /**
+     * @return {@link ReentrantLock}
+     */
+    protected ReentrantLock getLock()
+    {
+        return this.lock;
     }
 
     /**
@@ -71,11 +111,35 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     }
 
     /**
+     * @return {@link ObjectFactory}
+     */
+    protected ObjectFactory<T> getObjectFactory()
+    {
+        return this.objectFactory;
+    }
+
+    /**
+     * @return {@link Queue}
+     */
+    protected Queue<T> getQueue()
+    {
+        return this.queue;
+    }
+
+    /**
      * @param objectClazz Class<T>
      */
     protected void setObjectClazz(final Class<T> objectClazz)
     {
         this.objectClazz = objectClazz;
+    }
+
+    /**
+     * @param queue {@link Queue}
+     */
+    protected void setQueue(final Queue<T> queue)
+    {
+        this.queue = Objects.requireNonNull(queue, "queue required");
     }
 
     /**
@@ -87,6 +151,35 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
         String objectClazzName = getObjectClazz().getSimpleName();
 
         getLogger().info("Close Pool<{}> with {} idle and {} aktive Objects", objectClazzName, getNumIdle(), getNumActive());
+
+        if (getQueue() != null)
+        {
+            while (getQueue().size() > 0)
+            {
+                T object = getQueue().poll();
+
+                if (object == null)
+                {
+                    continue;
+                }
+
+                getObjectFactory().destroy(object);
+            }
+
+            // for (Iterator<T> iterator = getQueue().iterator(); iterator.hasNext();)
+            // {
+            // T object = iterator.next();
+            //
+            // if (object == null)
+            // {
+            // continue;
+            // }
+            //
+            // getObjectFactory().destroy(object);
+            //
+            // iterator.remove();
+            // }
+        }
     }
 
     /**

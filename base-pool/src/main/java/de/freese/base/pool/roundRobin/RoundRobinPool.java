@@ -3,14 +3,8 @@
  */
 package de.freese.base.pool.roundRobin;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import de.freese.base.pool.AbstractObjectPool;
 import de.freese.base.pool.factory.ObjectFactory;
 
@@ -31,34 +25,14 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     public static final int DEFAULT_SIZE = Runtime.getRuntime().availableProcessors() + 1;
 
     /**
-     *
-     */
-    private Supplier<T> creator = null;
-
-    /**
-     *
-     */
-    private Consumer<T> destroyer = null;
-
-    /**
     *
     */
     private int index = 0;
 
     /**
-    *
-    */
-    private final ReentrantLock lock = new ReentrantLock(true);
-
-    /**
      *
      */
-    private final List<T> queue;
-
-    /**
-     *
-     */
-    private int size = 5;
+    private int size = 0;
 
     /**
      * Erstellt ein neues {@link RoundRobinPool} Object.
@@ -68,19 +42,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
      */
     public RoundRobinPool(final int size, final ObjectFactory<T> objectFactory)
     {
-        this(size, objectFactory::create, objectFactory::destroy);
-    }
-
-    /**
-     * Erstellt ein neues {@link RoundRobinPool} Object.
-     *
-     * @param size int
-     * @param creator {@link Supplier}
-     * @param destroyer {@link Consumer}; optional
-     */
-    public RoundRobinPool(final int size, final Supplier<T> creator, final Consumer<T> destroyer)
-    {
-        super();
+        super(objectFactory);
 
         if (size <= 0)
         {
@@ -89,12 +51,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
 
         this.size = size;
 
-        this.creator = Objects.requireNonNull(creator, "creator required");
-
-        this.destroyer = destroyer != null ? destroyer : obj -> {
-        };
-
-        this.queue = new ArrayList<>(size);
+        setQueue(new LinkedList<>());
     }
 
     /**
@@ -103,7 +60,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     @Override
     public T borrowObject()
     {
-        this.lock.lock();
+        getLock().lock();
 
         try
         {
@@ -113,7 +70,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
             }
             else if (getNumActive() < getTotalSize())
             {
-                getQueue().add(this.creator.get());
+                getQueue().add(getObjectFactory().create());
             }
 
             T object = getQueue().get(this.index++);
@@ -127,7 +84,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 
@@ -137,7 +94,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     @Override
     public int getNumActive()
     {
-        return getQueue().size();
+        return this.size;
     }
 
     /**
@@ -150,20 +107,12 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     }
 
     /**
-     * @return {@link List}
-     */
-    protected List<T> getQueue()
-    {
-        return this.queue;
-    }
-
-    /**
-     * @see de.freese.base.pool.ObjectPool#getTotalSize()
+     * @see de.freese.base.pool.AbstractObjectPool#getQueue()
      */
     @Override
-    public int getTotalSize()
+    protected LinkedList<T> getQueue()
     {
-        return this.size;
+        return (LinkedList<T>) super.getQueue();
     }
 
     /**
@@ -181,31 +130,17 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     @Override
     public void shutdown()
     {
-        this.lock.lock();
+        getLock().lock();
 
         try
         {
             super.shutdown();
 
-            for (Iterator<T> iterator = getQueue().iterator(); iterator.hasNext();)
-            {
-                T object = iterator.next();
-
-                if (object == null)
-                {
-                    continue;
-                }
-
-                this.destroyer.accept(object);
-
-                iterator.remove();
-            }
-
             this.size = 0;
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 }

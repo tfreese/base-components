@@ -6,10 +6,7 @@ package de.freese.base.pool.simple;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 import de.freese.base.pool.AbstractObjectPool;
 import de.freese.base.pool.factory.ObjectFactory;
@@ -39,22 +36,7 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
     /**
      *
      */
-    private final Queue<T> idle = new LinkedList<>();
-
-    /**
-     *
-     */
-    private final ReentrantLock lock = new ReentrantLock(true);
-
-    /**
-     *
-     */
     private int maxSize = 0;
-
-    /**
-     *
-     */
-    private final ObjectFactory<T> objectFactory;
 
     /**
      * Erstellt ein neues {@link SimpleObjectPool} Object.
@@ -65,7 +47,7 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
      */
     public SimpleObjectPool(final int coreSize, final int maxSize, final ObjectFactory<T> objectFactory)
     {
-        super();
+        super(objectFactory);
 
         if (coreSize <= 0)
         {
@@ -81,10 +63,10 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
 
         this.maxSize = maxSize;
 
-        this.objectFactory = Objects.requireNonNull(objectFactory, "objectFactory required");
+        setQueue(new LinkedList<>());
 
         // Populate
-        IntStream.range(0, this.coreSize).mapToObj(i -> createObject()).forEach(this.idle::offer);
+        IntStream.range(0, this.coreSize).mapToObj(i -> createObject()).forEach(getQueue()::offer);
     }
 
     /**
@@ -93,28 +75,30 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
     @Override
     public T borrowObject()
     {
-        this.lock.lock();
+        getLock().lock();
 
         try
         {
+            if (getTotalSize() == 0)
+            {
+                throw new NoSuchElementException("pool exhausted");
+            }
+
             T object = null;
 
             while (object == null)
             {
-                object = this.idle.poll();
+                object = getQueue().poll();
 
                 if ((object == null) && (getTotalSize() < this.maxSize))
                 {
                     object = createObject();
                 }
-                else
+                else if (!getObjectFactory().validate(object))
                 {
-                    if (!getObjectFactory().validate(object))
-                    {
-                        getObjectFactory().destroy(object);
-                        object = null;
-                        continue;
-                    }
+                    getObjectFactory().destroy(object);
+                    object = null;
+                    continue;
                 }
 
                 if (object == null)
@@ -130,8 +114,9 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
             return object;
         }
         finally
+
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 
@@ -140,7 +125,7 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
      *
      * @return Object
      */
-    private T createObject()
+    protected T createObject()
     {
         T object = null;
 
@@ -174,15 +159,7 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
     @Override
     public int getNumIdle()
     {
-        return this.idle.size();
-    }
-
-    /**
-     * @return {@link ObjectFactory}
-     */
-    protected ObjectFactory<T> getObjectFactory()
-    {
-        return this.objectFactory;
+        return getQueue().size();
     }
 
     /**
@@ -191,18 +168,23 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
     @Override
     public void returnObject(final T object)
     {
-        this.lock.lock();
+        if (object == null)
+        {
+            return;
+        }
+
+        getLock().lock();
 
         try
         {
             getObjectFactory().passivate(object);
 
             this.busy.remove(object);
-            this.idle.offer(object);
+            getQueue().offer(object);
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 
@@ -212,33 +194,21 @@ public class SimpleObjectPool<T> extends AbstractObjectPool<T>
     @Override
     public void shutdown()
     {
-        this.lock.lock();
+        getLock().lock();
 
         try
         {
-            super.shutdown();
-
-            this.idle.addAll(this.busy);
+            getQueue().addAll(this.busy);
             this.busy.clear();
 
-            while (this.idle.size() > 0)
-            {
-                T object = this.idle.poll();
-
-                if (object == null)
-                {
-                    continue;
-                }
-
-                getObjectFactory().destroy(object);
-            }
+            super.shutdown();
 
             this.coreSize = 0;
             this.maxSize = 0;
         }
         finally
         {
-            this.lock.unlock();
+            getLock().unlock();
         }
     }
 }

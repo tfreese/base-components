@@ -122,10 +122,10 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
         Objects.requireNonNull(createSupplier, "createSupplier required");
 
         FunctionalObjectFactory<O> objectFactory = new FunctionalObjectFactory<>(createSupplier);
-        objectFactory.setActivateConsumer(activateConsumer);
-        objectFactory.setPassivateConsumer(passivateConsumer);
-        objectFactory.setDestroyConsumer(destroyConsumer);
-        objectFactory.setValidateFunction(validateFunction);
+        objectFactory.setActivator(activateConsumer);
+        objectFactory.setPassivator(passivateConsumer);
+        objectFactory.setDestroyer(destroyConsumer);
+        objectFactory.setValidator(validateFunction);
 
         return build(type, objectFactory);
     }
@@ -239,31 +239,9 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
     {
         Objects.requireNonNull(objectFactory, "objectFactory required");
 
-        Supplier<O> createSupplier = objectFactory::create;
-        Consumer<O> destroyConsumer = objectFactory::destroy;
-
-        return buildRoundRobinPool(createSupplier, destroyConsumer);
-    }
-
-    /**
-     * Liefert einen {@link RoundRobinPool}.<br>
-     * Verwendete Attribute:
-     * <ul>
-     * <li>{@link #maxSize}
-     * </ul>
-     *
-     * @param createSupplier {@link Supplier}
-     * @param destroyConsumer {@link Consumer}
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
-     * @return {@link ObjectPool}
-     */
-    public <O> ObjectPool<O> buildRoundRobinPool(final Supplier<O> createSupplier, final Consumer<O> destroyConsumer)
-    {
-        Objects.requireNonNull(createSupplier, "createSupplier required");
-
         int maxSize = getMaxSize() <= 0 ? RoundRobinPool.DEFAULT_SIZE : getMaxSize();
 
-        RoundRobinPool<O> objectPool = new RoundRobinPool<>(maxSize, createSupplier, destroyConsumer);
+        RoundRobinPool<O> objectPool = new RoundRobinPool<>(maxSize, objectFactory);
 
         if (isRegisterShutdownHook())
         {
@@ -313,7 +291,7 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
     {
         Objects.requireNonNull(objectFactory, "objectFactory required");
 
-        UnboundedObjectPool<O> objectPool = new UnboundedObjectPool<>(objectFactory::create, objectFactory::activate);
+        UnboundedObjectPool<O> objectPool = new UnboundedObjectPool<>(objectFactory);
 
         if (isRegisterShutdownHook())
         {

@@ -10,12 +10,12 @@ import de.freese.base.pool.ObjectPool;
  * Interface zur Kapselung der ObjectFactory eines {@link ObjectPool}.<br>
  *
  * @author Thomas Freese
- * @param <T> Konkreter ObjectTyp
+ * @param <T> Konkreter Typ
  */
 public interface ObjectFactory<T>
 {
     /**
-     * Wird aufgerufen nachdem das Objekt passiviert wurde und bevor es dem Caller geliefert wird.
+     * Wird vor {@link ObjectPool#borrowObject()} aufgerufen.
      *
      * @param t Object
      */
@@ -29,21 +29,21 @@ public interface ObjectFactory<T>
     public T create();
 
     /**
-     * Zerstört das Objekt, wenn es aus dem Pool entfernt wird.
+     * Zerstört ein Objekt, wenn es aus dem Pool entfernt wird oder {@link #validate(Object)} false ist.
      *
      * @param t Object
      */
     public void destroy(T t);
 
     /**
-     * Wird aufgerufen, wenn das Objekt in den Pool zurück kehrt.
+     * Wird nach {@link ObjectPool#returnObject(Object)} aufgerufen.
      *
      * @param t Object
      */
     public void passivate(T t);
 
     /**
-     * Wird aufgerufen VOR {@link #activate(Object)} und NACH {@link #passivate(Object)}.
+     * Wird vor {@link #activate(Object)} aufgerufen.
      *
      * @param t Object
      * @return boolean

@@ -20,38 +20,38 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     /**
     *
     */
-    private Consumer<T> activateConsumer = null;
+    private Consumer<T> activator = null;
 
     /**
      *
      */
-    private final Supplier<T> createSupplier;
+    private final Supplier<T> creator;
 
     /**
     *
     */
-    private Consumer<T> destroyConsumer = null;
+    private Consumer<T> destroyer = null;
 
     /**
     *
     */
-    private Consumer<T> passivateConsumer = null;
+    private Consumer<T> passivator = null;
 
     /**
     *
     */
-    private Function<T, Boolean> validateFunction = null;
+    private Function<T, Boolean> validator = null;
 
     /**
      * Erzeugt eine neue Instanz von {@link FunctionalObjectFactory}
      *
-     * @param createFunction {@link Supplier}
+     * @param creator {@link Supplier}
      */
-    public FunctionalObjectFactory(final Supplier<T> createFunction)
+    public FunctionalObjectFactory(final Supplier<T> creator)
     {
         super();
 
-        this.createSupplier = Objects.requireNonNull(createFunction, "createFunction required");
+        this.creator = Objects.requireNonNull(creator, "creator required");
     }
 
     /**
@@ -60,12 +60,12 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     @Override
     public void activate(final T t)
     {
-        if (this.activateConsumer == null)
+        if (this.activator == null)
         {
             return;
         }
 
-        this.activateConsumer.accept(t);
+        this.activator.accept(t);
     }
 
     /**
@@ -74,7 +74,7 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     @Override
     public T create()
     {
-        return this.createSupplier.get();
+        return this.creator.get();
     }
 
     /**
@@ -83,12 +83,12 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     @Override
     public void destroy(final T t)
     {
-        if (this.destroyConsumer == null)
+        if (this.destroyer == null)
         {
             return;
         }
 
-        this.destroyConsumer.accept(t);
+        this.destroyer.accept(t);
     }
 
     /**
@@ -97,45 +97,44 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     @Override
     public void passivate(final T t)
     {
-        if (this.passivateConsumer == null)
+        if (this.passivator == null)
         {
             return;
         }
 
-        this.passivateConsumer.accept(t);
+        this.passivator.accept(t);
     }
 
     /**
-     * @param activateConsumer {@link Consumer}
+     * @param activator {@link Consumer}
      */
-    public void setActivateConsumer(final Consumer<T> activateConsumer)
+    public void setActivator(final Consumer<T> activator)
     {
-        this.activateConsumer = activateConsumer;
-        ;
+        this.activator = activator;
     }
 
     /**
-     * @param destroyConsumer {@link Consumer}
+     * @param destroyer {@link Consumer}
      */
-    public void setDestroyConsumer(final Consumer<T> destroyConsumer)
+    public void setDestroyer(final Consumer<T> destroyer)
     {
-        this.destroyConsumer = destroyConsumer;
+        this.destroyer = destroyer;
     }
 
     /**
-     * @param passivateConsumer {@link Consumer}
+     * @param passivator {@link Consumer}
      */
-    public void setPassivateConsumer(final Consumer<T> passivateConsumer)
+    public void setPassivator(final Consumer<T> passivator)
     {
-        this.passivateConsumer = passivateConsumer;
+        this.passivator = passivator;
     }
 
     /**
-     * @param validateFunction {@link Function}
+     * @param validator {@link Function}
      */
-    public void setValidateFunction(final Function<T, Boolean> validateFunction)
+    public void setValidator(final Function<T, Boolean> validator)
     {
-        this.validateFunction = validateFunction;
+        this.validator = validator;
     }
 
     /**
@@ -144,11 +143,11 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     @Override
     public boolean validate(final T t)
     {
-        if (this.validateFunction == null)
+        if (this.validator == null)
         {
             return true;
         }
 
-        return this.validateFunction.apply(t);
+        return this.validator.apply(t);
     }
 }
