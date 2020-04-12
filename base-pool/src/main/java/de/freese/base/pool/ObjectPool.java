@@ -7,7 +7,7 @@ package de.freese.base.pool;
 import java.util.NoSuchElementException;
 
 /**
- * Interface zur Kapselung eines ObjectPools.<br>
+ * Interface für einen ObjectPool.<br>
  *
  * @author Thomas Freese
  * @param <T> Konkreter Typ
