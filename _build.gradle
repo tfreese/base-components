@@ -30,8 +30,6 @@ project("base-core") {
 project("base-calendar") {
 	description = "Common Classes for Calendar."
 	dependencies {
-		implementation("org.apache.commons:commons-lang3")
-    
 		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 		testImplementation("org.junit.jupiter:junit-jupiter-params")
 	}
@@ -83,12 +81,12 @@ project("base-persistence") {
 project("base-pool") {
 	description = "Builder für Object-/Connections Pools."
 	dependencies {
-		implementation("com.zaxxer:HikariCP")
-		implementation("nf.fr.eraasoft:objectpool")
-		implementation("org.apache.commons:commons-dbcp2")
-		implementation("org.apache.commons:commons-pool2")
-		implementation("org.apache.tomcat:tomcat-jdbc")
-
+		compileOnly("com.zaxxer:HikariCP")
+		compileOnly("nf.fr.eraasoft:objectpool")
+		compileOnly("org.apache.commons:commons-dbcp2")
+		compileOnly("org.apache.commons:commons-pool2")
+		compileOnly("org.apache.tomcat:tomcat-jdbc")
+		
 		runtimeOnly("org.slf4j:jcl-over-slf4j")
 
 		testImplementation("com.h2database:h2")
@@ -118,6 +116,8 @@ project("base-resourcemap") {
 	description = "ResoureMaps to use hierarchical ResourceBundles."
 	dependencies {
 		implementation(project(":base-core"))
+		
+		implementation("org.slf4j:slf4j-api")
 
 		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 		testImplementation("org.slf4j:slf4j-simple")
@@ -129,6 +129,8 @@ project("base-resourcemap") {
 project("base-security") {
 	description = "Common Classes for the Security Layer."
 	dependencies {
+		implementation(project(":base-core"))
+	
 		implementation("commons-io:commons-io")
 		implementation("org.bouncycastle:bcpg-jdk15on")
 		implementation("org.bouncycastle:bcmail-jdk15on")

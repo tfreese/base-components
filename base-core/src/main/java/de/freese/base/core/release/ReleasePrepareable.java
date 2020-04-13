@@ -6,15 +6,16 @@ package de.freese.base.core.release;
 
 /**
  * Vorbereitendes Interface fuer alles was Resourcen freigeben kann/muss.
- * 
+ *
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface ReleasePrepareable
 {
-	/**
-	 * Pruefung, ob das Release durchgefuehrt werden kann.
-	 * 
-	 * @throws ReleaseVetoException Falls was schief geht.
-	 */
-	public void prepareRelease() throws ReleaseVetoException;
+    /**
+     * Pruefung, ob das Release durchgefuehrt werden kann.
+     * 
+     * @throws ReleaseVetoException Falls was schief geht.
+     */
+    public void prepareRelease() throws ReleaseVetoException;
 }

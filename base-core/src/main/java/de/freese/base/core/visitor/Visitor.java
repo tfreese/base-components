@@ -3,6 +3,7 @@ package de.freese.base.core.visitor;
 /**
  * Interface eines Visitors des Visitor Patterns.
  */
+@FunctionalInterface
 public interface Visitor
 {
     /**
