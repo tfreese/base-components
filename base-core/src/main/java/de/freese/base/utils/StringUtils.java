@@ -26,6 +26,26 @@ import java.util.stream.Stream;
 public final class StringUtils
 {
     /**
+     * non-breaking space
+     */
+    public static final char ASCII_NON_BREAKING_SPACE = 160;
+
+    /**
+     *
+     */
+    public static final char ASCII_SPACE = 32;
+
+    /**
+     *
+     */
+    public static final String EMPTY = "";
+
+    /**
+     *
+     */
+    public static final String SPACE = " ";
+
+    /**
      * Fügt am Index 1 der Liste eine Trenn-Linie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      *
@@ -41,7 +61,7 @@ public final class StringUtils
             return;
         }
 
-        String sep = (separator == null) || separator.trim().isEmpty() ? "-" : separator;
+        String sep = (separator == null) || separator.strip().isEmpty() ? "-" : separator;
 
         int columnCount = rows.get(0).length;
 
@@ -67,7 +87,7 @@ public final class StringUtils
     {
         if (isBlank(text))
         {
-            return "";
+            return EMPTY;
         }
 
         if (text.indexOf("\\u") == -1)
@@ -112,6 +132,14 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.capitalize(null)  = null
+     * StringUtils.capitalize("")    = ""
+     * StringUtils.capitalize("cat") = "Cat"
+     * StringUtils.capitalize("cAt") = "CAt"
+     * StringUtils.capitalize("'cat'") = "'cat'"
+     * </pre>
+     *
      * @param text String
      * @return String
      */
@@ -121,6 +149,17 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.containsIgnoreCase(null, *) = false
+     * StringUtils.containsIgnoreCase(*, null) = false
+     * StringUtils.containsIgnoreCase("", "") = true
+     * StringUtils.containsIgnoreCase("abc", "") = true
+     * StringUtils.containsIgnoreCase("abc", "a") = true
+     * StringUtils.containsIgnoreCase("abc", "z") = false
+     * StringUtils.containsIgnoreCase("abc", "A") = true
+     * StringUtils.containsIgnoreCase("abc", "Z") = false
+     * </pre>
+     *
      * @param cs {@link CharSequence}
      * @param search {@link CharSequence}
      * @return boolean
@@ -131,6 +170,14 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.defaultIfBlank(null, "NULL")  = "NULL"
+     * StringUtils.defaultIfBlank("", "NULL")    = "NULL"
+     * StringUtils.defaultIfBlank(" ", "NULL")   = "NULL"
+     * StringUtils.defaultIfBlank("bat", "NULL") = "bat"
+     * StringUtils.defaultIfBlank("", null)      = null
+     * </pre>
+     *
      * @param text String
      * @param defaultText String
      * @return String
@@ -138,6 +185,24 @@ public final class StringUtils
     public static String defaultIfBlank(final String text, final String defaultText)
     {
         return isBlank(text) ? defaultText : text;
+    }
+
+    /**
+     * <pre>
+     * StringUtils.defaultIfEmpty(null, "NULL")  = "NULL"
+     * StringUtils.defaultIfEmpty("", "NULL")    = "NULL"
+     * StringUtils.defaultIfEmpty(" ", "NULL")   = " "
+     * StringUtils.defaultIfEmpty("bat", "NULL") = "bat"
+     * StringUtils.defaultIfEmpty("", null)      = null
+     * </pre>
+     *
+     * @param text String
+     * @param defaultText String
+     * @return String
+     */
+    public static <T extends CharSequence> T defaultIfEmpty(final T text, final T defaultText)
+    {
+        return isEmpty(text) ? defaultText : text;
     }
 
     /**
@@ -177,7 +242,7 @@ public final class StringUtils
     {
         if (isBlank(cs))
         {
-            return "";
+            return EMPTY;
         }
 
         byte[] bytes = ByteUtils.hexToBytes(cs);
@@ -190,22 +255,55 @@ public final class StringUtils
         }
         catch (IOException ioexception)
         {
-            sign = "";
+            sign = EMPTY;
         }
 
         return sign;
     }
 
     /**
+     * <pre>
+     * StringUtils.isBlank(null)      = true
+     * StringUtils.isBlank("")        = true
+     * StringUtils.isBlank(" ")       = true
+     * StringUtils.isBlank("bob")     = false
+     * StringUtils.isBlank("  bob  ") = false
+     * </pre>
+     *
      * @param cs {@link CharSequence}
      * @return boolean
      */
     public static boolean isBlank(final CharSequence cs)
     {
-        return org.apache.commons.lang3.StringUtils.isBlank(cs);
+        int strLen;
+
+        if ((cs == null) || ((strLen = cs.length()) == 0))
+        {
+            return true;
+        }
+
+        for (int i = 0; i < strLen; i++)
+        {
+            if (!Character.isWhitespace(cs.charAt(i)))
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+        // return org.apache.commons.lang3.StringUtils.isBlank(cs);
     }
 
     /**
+     * <pre>
+     * StringUtils.isEmpty(null)      = true
+     * StringUtils.isEmpty("")        = true
+     * StringUtils.isEmpty(" ")       = false
+     * StringUtils.isEmpty("bob")     = false
+     * StringUtils.isEmpty("  bob  ") = false
+     * </pre>
+     *
      * @param cs {@link CharSequence}
      * @return boolean
      */
@@ -215,6 +313,14 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.isNotBlank(null)      = false
+     * StringUtils.isNotBlank("")        = false
+     * StringUtils.isNotBlank(" ")       = false
+     * StringUtils.isNotBlank("bob")     = true
+     * StringUtils.isNotBlank("  bob  ") = true
+     * </pre>
+     *
      * @param cs {@link CharSequence}
      * @return boolean
      */
@@ -224,6 +330,14 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.isNotEmpty(null)      = false
+     * StringUtils.isNotEmpty("")        = false
+     * StringUtils.isNotEmpty(" ")       = true
+     * StringUtils.isNotEmpty("bob")     = true
+     * StringUtils.isNotEmpty("  bob  ") = true
+     * </pre>
+     *
      * @param cs {@link CharSequence}
      * @return boolean
      */
@@ -233,12 +347,43 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.isNumeric(null)   = false
+     * StringUtils.isNumeric("")     = false
+     * StringUtils.isNumeric("  ")   = false
+     * StringUtils.isNumeric("123")  = true
+     * StringUtils.isNumeric("\u0967\u0968\u0969")  = true
+     * StringUtils.isNumeric("12 3") = false
+     * StringUtils.isNumeric("ab2c") = false
+     * StringUtils.isNumeric("12-3") = false
+     * StringUtils.isNumeric("12.3") = false
+     * StringUtils.isNumeric("-123") = false
+     * StringUtils.isNumeric("+123") = false
+     * </pre>
+     *
      * @param cs {@link CharSequence}
      * @return String
      */
     public static boolean isNumeric(final CharSequence cs)
     {
-        return org.apache.commons.lang3.StringUtils.isNumeric(cs);
+        if (isEmpty(cs))
+        {
+            return false;
+        }
+
+        final int length = cs.length();
+
+        for (int i = 0; i < length; i++)
+        {
+            if (!Character.isDigit(cs.charAt(i)))
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+        // return org.apache.commons.lang3.StringUtils.isNumeric(cs);
     }
 
     /**
@@ -250,11 +395,34 @@ public final class StringUtils
     {
         if (ArrayUtils.isEmpty(array))
         {
-            return "";
+            return EMPTY;
         }
 
         return Stream.of(array).map(obj -> obj != null ? obj.toString() : "null").collect(Collectors.joining(separator));
         // return Joiner.on(separator).join(array);
+    }
+
+    /**
+     * <pre>
+     * StringUtils.leftPad(null, *, *)      = null
+     * StringUtils.leftPad("", 3, "z")      = "zzz"
+     * StringUtils.leftPad("bat", 3, "yz")  = "bat"
+     * StringUtils.leftPad("bat", 5, "yz")  = "yzbat"
+     * StringUtils.leftPad("bat", 8, "yz")  = "yzyzybat"
+     * StringUtils.leftPad("bat", 1, "yz")  = "bat"
+     * StringUtils.leftPad("bat", -1, "yz") = "bat"
+     * StringUtils.leftPad("bat", 5, null)  = "  bat"
+     * StringUtils.leftPad("bat", 5, "")    = "  bat"
+     * </pre>
+     *
+     * @param text String
+     * @param size int
+     * @param padStr String
+     * @return String
+     */
+    public static String leftPad(final String text, final int size, final String padStr)
+    {
+        return org.apache.commons.lang3.StringUtils.leftPad(text, size, padStr);
     }
 
     /**
@@ -267,12 +435,51 @@ public final class StringUtils
     }
 
     /**
-     * @param text String
+     * Entfernt mehrfach hintereinander auftretende Whitespace Characters und führt ein abschliesendes {@link String#strip()} durch.<br>
+     * ASCII 160 (non-breaking space) wird als Space interpretiert.
+     *
+     * @param cs {@link CharSequence}
      * @return String
+     * @see Character#isWhitespace
      */
-    public static String normalizeSpace(final String text)
+    public static String normalizeSpace(final CharSequence cs)
     {
-        return org.apache.commons.lang3.StringUtils.normalizeSpace(text);
+        if (isEmpty(cs))
+        {
+            return EMPTY;
+        }
+
+        final int size = cs.length();
+        final StringBuilder sb = new StringBuilder();
+        boolean lastWasWhitespace = false;
+
+        for (int i = 0; i < size; i++)
+        {
+            char actualChar = cs.charAt(i);
+            boolean isActualWhitespace = Character.isWhitespace(actualChar);
+
+            // ASCII 160 = non-breaking space
+            if (actualChar == ASCII_NON_BREAKING_SPACE)
+            {
+                actualChar = ASCII_SPACE;
+                isActualWhitespace = true;
+            }
+
+            if (!isActualWhitespace)
+            {
+                sb.append(actualChar);
+                lastWasWhitespace = false;
+            }
+            else if (!lastWasWhitespace && isActualWhitespace)
+            {
+                sb.append(ASCII_SPACE);
+                lastWasWhitespace = true;
+            }
+        }
+
+        return sb.toString().strip();
+
+        // return org.apache.commons.lang3.StringUtils.normalizeSpace(text);
     }
 
     /**
@@ -311,7 +518,7 @@ public final class StringUtils
         // @formatter:on
 
         // Strings pro Spalte formatieren und schreiben.
-        String pad = (padding == null) || padding.trim().isEmpty() ? " " : padding;
+        String pad = (padding == null) || padding.strip().isEmpty() ? SPACE : padding;
 
         rows.stream().parallel().forEach(r -> {
             for (int column = 0; column < columnCount; column++)
@@ -324,16 +531,61 @@ public final class StringUtils
     }
 
     /**
-     * @param text String
+     * <pre>
+     * StringUtils.repeat(null, 2) = null
+     * StringUtils.repeat("", 0)   = ""
+     * StringUtils.repeat("", 2)   = ""
+     * StringUtils.repeat("a", 3)  = "aaa"
+     * StringUtils.repeat("ab", 2) = "abab"
+     * StringUtils.repeat("a", -2) = ""
+     * </pre>
+     *
+     * @param cs {@link CharSequence}
      * @param repeat int
      * @return String
      */
-    public static String repeat(final String text, final int repeat)
+    public static String repeat(final CharSequence cs, final int repeat)
     {
-        return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
+        if (cs == null)
+        {
+            return null;
+        }
+
+        if (repeat <= 0)
+        {
+            return EMPTY;
+        }
+
+        if (cs.length() == 0)
+        {
+            return EMPTY;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < repeat; i++)
+        {
+            sb.append(cs);
+        }
+
+        return sb.toString();
+
+        // return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
     }
 
     /**
+     * <pre>
+     * StringUtils.rightPad(null, *, *)      = null
+     * StringUtils.rightPad("", 3, "z")      = "zzz"
+     * StringUtils.rightPad("bat", 3, "yz")  = "bat"
+     * StringUtils.rightPad("bat", 5, "yz")  = "batyz"
+     * StringUtils.rightPad("bat", 8, "yz")  = "batyzyzy"
+     * StringUtils.rightPad("bat", 1, "yz")  = "bat"
+     * StringUtils.rightPad("bat", -1, "yz") = "bat"
+     * StringUtils.rightPad("bat", 5, null)  = "bat  "
+     * StringUtils.rightPad("bat", 5, "")    = "bat  "
+     * </pre>
+     *
      * @param text String
      * @param size int
      * @param padStr String
@@ -354,10 +606,10 @@ public final class StringUtils
     {
         if (isBlank(text))
         {
-            return "";
+            return EMPTY;
         }
 
-        String m_Text = text.trim();
+        String m_Text = text.strip();
 
         StringBuilder sb = new StringBuilder();
 
@@ -379,6 +631,15 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.splitByWholeSeparator(null, *)               = null
+     * StringUtils.splitByWholeSeparator("", *)                 = []
+     * StringUtils.splitByWholeSeparator("ab de fg", null)      = ["ab", "de", "fg"]
+     * StringUtils.splitByWholeSeparator("ab   de fg", null)    = ["ab", "de", "fg"]
+     * StringUtils.splitByWholeSeparator("ab:cd:ef", ":")       = ["ab", "cd", "ef"]
+     * StringUtils.splitByWholeSeparator("ab-!-cd-!-ef", "-!-") = ["ab", "cd", "ef"]
+     * </pre>
+     *
      * @param text String
      * @param separator String
      * @return String[]
@@ -389,6 +650,8 @@ public final class StringUtils
     }
 
     /**
+     * Neue Methode mit Unicode-Standards als {@link String#trim()} Alternative.
+     *
      * @param text String
      * @return String, not null
      */
@@ -396,13 +659,60 @@ public final class StringUtils
     {
         if (isEmpty(text))
         {
-            return "";
+            return EMPTY;
         }
 
         return text.strip();
     }
 
     /**
+     * <pre>
+     * StringUtils.stripToEmpty(null)          = ""
+     * StringUtils.stripToEmpty("")            = ""
+     * StringUtils.stripToEmpty("     ")       = ""
+     * StringUtils.stripToEmpty("abc")         = "abc"
+     * StringUtils.stripToEmpty("    abc    ") = "abc"
+     * </pre>
+     *
+     * @param text String
+     * @return String, not null
+     */
+    public static String stripToEmpty(final String text)
+    {
+        return text == null ? EMPTY : text.strip();
+    }
+
+    /**
+     * <pre>
+     * StringUtils.stripToNull(null)          = null
+     * StringUtils.stripToNull("")            = null
+     * StringUtils.stripToNull("     ")       = null
+     * StringUtils.stripToNull("abc")         = "abc"
+     * StringUtils.stripToNull("    abc    ") = "abc"
+     * </pre>
+     *
+     * @param text String
+     * @return String
+     */
+    public static String stripToNull(final String text)
+    {
+        final String s = strip(text);
+
+        return isBlank(s) ? null : s;
+    }
+
+    /**
+     * <pre>
+     * StringUtils.substringBefore(null, *)      = null
+     * StringUtils.substringBefore("", *)        = ""
+     * StringUtils.substringBefore("abc", "a")   = ""
+     * StringUtils.substringBefore("abcba", "b") = "a"
+     * StringUtils.substringBefore("abc", "c")   = "ab"
+     * StringUtils.substringBefore("abc", "d")   = "abc"
+     * StringUtils.substringBefore("abc", "")    = ""
+     * StringUtils.substringBefore("abc", null)  = "abc"
+     * </pre>
+     *
      * @param text String
      * @param separator String
      * @return String
@@ -422,50 +732,32 @@ public final class StringUtils
     {
         if (isBlank(text))
         {
-            return "";
+            return EMPTY;
         }
 
         // @formatter:off
         String line = Stream.of(text)
-                .map(t -> t.replaceAll("\n", " ")) // Keine Zeilenumbrüche
-                .map(t -> t.replaceAll("\t", " ")) // Keine Tabulatoren
-                .map(t -> t.split(" "))
+                .map(t -> t.replaceAll("\n", SPACE)) // Keine Zeilenumbrüche
+                .map(t -> t.replaceAll("\t", SPACE)) // Keine Tabulatoren
+                .map(t -> t.split(SPACE))
                 .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
                 //.peek(System.out::println)
                 .filter(s -> isNotBlank(s)) // leere Strings filtern
-                .collect(Collectors.joining(" "));  // Strings wieder zusammenführen
+                .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
         // @formatter:on
 
         return line;
     }
 
     /**
-     * @param text String
-     * @return String,
-     */
-    public static String trim(final String text)
-    {
-        return text == null ? null : text.trim();
-    }
-
-    /**
-     * @param text String
-     * @return String, not null
-     */
-    public static String trimToEmpty(final String text)
-    {
-        return text == null ? "" : text.trim();
-    }
-
-    /**
+     * Verwendet intern die neue {@link String#strip()} Methode mit Unicode-Standards.
+     *
      * @param text String
      * @return String
      */
-    public static String trimToNull(final String text)
+    public static String trim(final String text)
     {
-        final String s = trim(text);
-
-        return isBlank(s) ? null : s;
+        return strip(text);
     }
 
     /**
@@ -476,7 +768,7 @@ public final class StringUtils
     {
         if (isBlank(cs))
         {
-            return "";
+            return EMPTY;
         }
 
         int i = cs.length();

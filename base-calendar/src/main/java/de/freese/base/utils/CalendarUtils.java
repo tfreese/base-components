@@ -2,7 +2,7 @@
  * Created: 12.02.2020
  */
 
-package de.freese.base.calendar;
+package de.freese.base.utils;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -10,13 +10,55 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Thomas Freese
  */
-public final class CalendarUtil
+public final class CalendarUtils
 {
+    /**
+     * Liefert einen Gregorianischen Kalender ohne Stunden, Minuten, Sekunden und Millisekunden.
+     *
+     * @return {@link Calendar}
+     */
+    public static Calendar calendarCreate()
+    {
+        return calendarCreate(new Date());
+    }
+
+    /**
+     * Liefert einen Gregorianischen Kalender ohne Stunden, Minuten, Sekunden und Millisekunden.
+     *
+     * @param date {@link Date}
+     * @return {@link Calendar}
+     */
+    public static Calendar calendarCreate(final Date date)
+    {
+        Calendar calendar = Calendar.getInstance(Locale.GERMAN);
+        // Calendar calendar = new GregorianCalendar(Locale.GERMAN);
+        calendar.setTime(date);
+
+        calendarTrim(calendar);
+
+        return calendar;
+    }
+
+    /**
+     * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
+     *
+     * @param calendar {@link Calendar}
+     */
+    public static void calendarTrim(final Calendar calendar)
+    {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+    }
+
     /**
      * @param localDate {@link LocalDate}
      * @return {@link Date}
@@ -226,9 +268,9 @@ public final class CalendarUtil
     }
 
     /**
-     * Erstellt ein neues {@link CalendarUtil} Object.
+     * Erstellt ein neues {@link CalendarUtils} Object.
      */
-    private CalendarUtil()
+    private CalendarUtils()
     {
         super();
     }

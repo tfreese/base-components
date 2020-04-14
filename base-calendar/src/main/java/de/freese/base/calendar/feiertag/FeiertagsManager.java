@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import de.freese.base.calendar.CalendarUtil;
+import de.freese.base.utils.CalendarUtils;
 
 /**
  * Liefert die Feiertage fuer ein bestimmtes Datum.
@@ -40,6 +40,7 @@ public final class FeiertagsManager
     private final void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag)
     {
         Map<String, InternerFeiertag> jahrMap = this.feiertagsMap.computeIfAbsent(jahr, key -> new HashMap<>());
+
         jahrMap.put(monat + "-" + tag, new InternerFeiertag(jahr, monat, tag, typ, berechneterFeiertag));
     }
 
@@ -157,7 +158,7 @@ public final class FeiertagsManager
      */
     public final Feiertag getFeiertag(final Date date)
     {
-        LocalDate localDate = CalendarUtil.toLocalDate(date);
+        LocalDate localDate = CalendarUtils.toLocalDate(date);
 
         Feiertag feiertag = getFeiertag(localDate);
 
