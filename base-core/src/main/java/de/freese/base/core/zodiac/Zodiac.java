@@ -1,5 +1,7 @@
 package de.freese.base.core.zodiac;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -94,7 +96,7 @@ public enum Zodiac
     }
 
     /**
-     * Liefert fuer ein Datum das passende Sternzeichen.
+     * Liefert für ein Datum das passende Sternzeichen.
      *
      * @param date {@link Date}
      * @return {@link Zodiac}
@@ -104,7 +106,19 @@ public enum Zodiac
         int monat = Integer.parseInt(String.format("%1$tm", date));
         int tag = Integer.parseInt(String.format("%1$td", date));
 
-        Integer monatTag = Integer.valueOf(monat + "" + tag);
+        return getZodiac(monat, tag);
+    }
+
+    /**
+     * Liefert für ein Datum das passende Sternzeichen.
+     *
+     * @param month int
+     * @param dayOfMonth int
+     * @return {@link Zodiac}
+     */
+    public static Zodiac getZodiac(final int month, final int dayOfMonth)
+    {
+        Integer monatTag = Integer.valueOf(month + "" + dayOfMonth);
 
         Entry<Integer, Zodiac> entry = ZODIAC_MAP.floorEntry(monatTag);
 
@@ -117,6 +131,28 @@ public enum Zodiac
         Zodiac zodiac = entry.getValue();
 
         return zodiac;
+    }
+
+    /**
+     * Liefert für ein Datum das passende Sternzeichen.
+     *
+     * @param localDate {@link LocalDate}
+     * @return {@link Zodiac}
+     */
+    public static Zodiac getZodiac(final LocalDate localDate)
+    {
+        return getZodiac(localDate.getMonthValue(), localDate.getDayOfMonth());
+    }
+
+    /**
+     * Liefert für ein Datum das passende Sternzeichen.
+     *
+     * @param localDateTime {@link LocalDateTime}
+     * @return {@link Zodiac}
+     */
+    public static Zodiac getZodiac(final LocalDateTime localDateTime)
+    {
+        return getZodiac(localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
     }
 
     /**

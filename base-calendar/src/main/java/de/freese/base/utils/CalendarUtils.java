@@ -128,7 +128,10 @@ public final class CalendarUtils
      */
     public static Instant toInstant(final LocalDate localDate)
     {
-        Instant instant = Instant.from(localDate);
+        // Da LocalDate keine Zeiten enthält, kommt es hier zu einer Exception.
+        // Instant instant = Instant.from(localDate);
+
+        Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
 
         return instant;
     }

@@ -37,19 +37,24 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>    		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!--dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<optional>true</optional>
-		</dependency>
+			</dependency -->
 
 		<!-- runtime scope -->
 		<!-- provided scope -->
@@ -58,6 +63,7 @@
 		<dependency>
 			<groupId>io.github.artsok</groupId>
 			<artifactId>rerunner-jupiter</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -78,7 +84,7 @@
 			<groupId>org.junit-pioneer</groupId>
 			<artifactId>junit-pioneer</artifactId>
 			<version>0.5.6</version>
-		</dependency-->
+			</dependency -->
 	</dependencies>
 
 </project>

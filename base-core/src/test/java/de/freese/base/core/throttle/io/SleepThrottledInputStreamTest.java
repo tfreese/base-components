@@ -4,28 +4,29 @@
 
 package de.freese.base.core.throttle.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.file.Files;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.base.core.io.AbstractIoTest;
 
 /**
  * @author Thomas Freese
  */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class SleepThrottledInputStreamTest extends AbstractIoTest
 {
     /**
+     * @param permits int
      * @throws IOException Falls was schief geht.
      */
-    @Test
-    void test1() throws IOException
+    private void doTest(final int permits) throws IOException
     {
         try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
-             SleepThrottledInputStream throttledStream = new SleepThrottledInputStream(is, 2000))
+             SleepThrottledInputStream throttledStream = new SleepThrottledInputStream(is, permits))
         {
             // int data = 0;
             //
@@ -39,7 +40,9 @@ public class SleepThrottledInputStreamTest extends AbstractIoTest
                 // NO-OP
             }
 
-            System.out.println("test1 : " + throttledStream.toString());
+            System.out.println(throttledStream.toString());
+
+            assertEquals(permits, throttledStream.getBytesPerSec(), permits * 0.02D); // Max. 2% Abweichung
         }
     }
 
@@ -47,37 +50,26 @@ public class SleepThrottledInputStreamTest extends AbstractIoTest
      * @throws IOException Falls was schief geht.
      */
     @Test
-    void test2() throws IOException
+    void test3000Permits() throws IOException
     {
-        try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
-             SleepThrottledInputStream throttledStream = new SleepThrottledInputStream(is, 3000);
-             BufferedInputStream bufferedInputStream = new BufferedInputStream(throttledStream))
-        {
-            while (bufferedInputStream.read() != -1)
-            {
-                // NO-OP
-            }
-
-            System.out.println("test2 : " + throttledStream.toString());
-        }
+        doTest(3000);
     }
 
     /**
      * @throws IOException Falls was schief geht.
      */
     @Test
-    void test3() throws IOException
+    void test4000Permits() throws IOException
     {
-        try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
-             SleepThrottledInputStream throttledStream = new SleepThrottledInputStream(is, 4000);
-             BufferedReader br = new BufferedReader(new InputStreamReader(throttledStream)))
-        {
-            while (br.readLine() != null)
-            {
-                // NO-OP
-            }
+        doTest(4000);
+    }
 
-            System.out.println("test3 : " + throttledStream.toString());
-        }
+    /**
+     * @throws IOException Falls was schief geht.
+     */
+    @Test
+    void test5000Permits() throws IOException
+    {
+        doTest(5000);
     }
 }

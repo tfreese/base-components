@@ -102,9 +102,7 @@ public class ThrottleTest
         assertEquals(0.0, throttle.acquire(), 0.0);
         assertEquals(200, NANOSECONDS.toMillis(throttle.acquireUnchecked()), FIRST_DELTA);
         assertEquals(200, NANOSECONDS.toMillis(throttle.acquire()), SECOND_DELTA);
-
-        System.out.println("throttle.acquire(5000)");
-        System.out.println(throttle.acquire(5000));
+        assertEquals(200, NANOSECONDS.toMillis(throttle.acquire(5000)), SECOND_DELTA);
     }
 
     /**
@@ -592,9 +590,9 @@ public class ThrottleTest
             throttle.setRate(oneSecWorthOfWork);
             final int oneHundredMillisWorthOfWork = (int) (oneSecWorthOfWork / 10.0);
             long durationMillis = measureTotalTimeMillis(throttle, oneHundredMillisWorthOfWork);
-            assertEquals(100.0, durationMillis, 15.0);
+            assertEquals(100.0, durationMillis, 20.0);
             durationMillis = measureTotalTimeMillis(throttle, oneHundredMillisWorthOfWork);
-            assertEquals(100.0, durationMillis, 15.0);
+            assertEquals(100.0, durationMillis, 20.0);
         }
     }
 }

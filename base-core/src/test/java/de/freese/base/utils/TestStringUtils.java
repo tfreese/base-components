@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-public class TestUtils
+public class TestStringUtils
 {
     /**
      *

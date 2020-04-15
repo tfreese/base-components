@@ -4,11 +4,14 @@
 
 package de.freese.base.core.throttle.io;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,6 +23,7 @@ import de.freese.base.core.throttle.google.GoogleThrottle;
 /**
  * @author Thomas Freese
  */
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class ThrottleOutputStreamTest extends AbstractIoTest
 {
     /**
@@ -36,25 +40,27 @@ public class ThrottleOutputStreamTest extends AbstractIoTest
     }
 
     /**
-     * @param name String
      * @param throttleFunction {@link Function}
+     * @param permits int
      * @throws IOException Falls was schief geht.
      */
-    @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("createThrottler")
-    void test1(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    private void doTest(final Function<Integer, Throttle> throttleFunction, final int permits) throws IOException
     {
         try (OutputStream os = Files.newOutputStream(createFile("file_Test1.txt"));
-             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, throttleFunction.apply(2000)))
+             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, throttleFunction.apply(permits)))
         {
             String str = "Hello World, Throttled Stream\n";
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 250; i++)
             {
                 throttledStream.write(str.getBytes());
             }
 
-            System.out.println("test1 : " + throttledStream.toString());
+            throttledStream.flush();
+
+            System.out.println(throttledStream.toString());
+
+            assertEquals(permits, throttledStream.getBytesPerSec(), permits * 0.02D); // Max. 2% Abweichung
         }
     }
 
@@ -65,20 +71,9 @@ public class ThrottleOutputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void test2(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void test3000Permits(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
-        try (OutputStream os = Files.newOutputStream(createFile("file_Test2.txt"));
-             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, throttleFunction.apply(3000)))
-        {
-            String str = "Hello World, Throttled Stream\n";
-
-            for (int i = 0; i < 500; i++)
-            {
-                throttledStream.write(str.getBytes());
-            }
-
-            System.out.println("test2 : " + throttledStream.toString());
-        }
+        doTest(throttleFunction, 3000);
     }
 
     /**
@@ -88,19 +83,20 @@ public class ThrottleOutputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void test3(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void test4000Permits(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
-        try (OutputStream os = Files.newOutputStream(createFile("file_Test2.txt"));
-             ThrottleOutputStream throttledStream = new ThrottleOutputStream(os, throttleFunction.apply(4000)))
-        {
-            String str = "Hello World, Throttled Stream\n";
+        doTest(throttleFunction, 4000);
+    }
 
-            for (int i = 0; i < 500; i++)
-            {
-                throttledStream.write(str.getBytes());
-            }
-
-            System.out.println("test2 : " + throttledStream.toString());
-        }
+    /**
+     * @param name String
+     * @param throttleFunction {@link Function}
+     * @throws IOException Falls was schief geht.
+     */
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createThrottler")
+    void test5000Permits(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    {
+        doTest(throttleFunction, 5000);
     }
 }

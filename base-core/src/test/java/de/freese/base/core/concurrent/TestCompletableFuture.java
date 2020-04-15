@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import io.github.artsok.RepeatedIfExceptionsTest;
@@ -19,7 +20,7 @@ import io.github.artsok.RepeatedIfExceptionsTest;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-// @Disabled // Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
+@Disabled // Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
 public class TestCompletableFuture
 {
     /**
