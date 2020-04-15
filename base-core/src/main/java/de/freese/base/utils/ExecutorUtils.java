@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.core.concurrent.pool.CustomizableThreadFactory;
+import de.freese.base.core.concurrent.pool.SimpleThreadFactory;
 
 /**
  * @author Thomas Freese
@@ -24,22 +24,41 @@ import de.freese.base.core.concurrent.pool.CustomizableThreadFactory;
 public final class ExecutorUtils
 {
     /**
-     * @param threadNamePrefix String
+     * <pre>
+     * Defaults:
+     * - coreSize = {@link Runtime#availableProcessors()}
+     * - maxSize = coreSize * 2
+     * - queueSize = maxSize * 10
+     * - keepAliveTime = 60
+     * - threadPriority = Thread.NORM_PRIORITY
+     * - rejectedExecutionHandler = ThreadPoolExecutor.AbortPolicy
+     * - allowCoreThreadTimeOut = false
+     * - exposeUnconfigurableExecutor = true
+     * </pre>
+     *
+     * @param threadNamePattern String; Beispiel: thread-%02d<br>
      * @return {@link ExecutorService}
      */
-    public static ExecutorService createThreadPool(final String threadNamePrefix)
+    public static ExecutorService createThreadPool(final String threadNamePattern)
     {
         int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
         int maxSize = coreSize * 2;
-        int queueSize = maxSize * 2;
+        int queueSize = maxSize * 10;
         int keepAliveSeconds = 60;
 
-        return createThreadPool(threadNamePrefix, coreSize, maxSize, queueSize, keepAliveSeconds, Thread.NORM_PRIORITY, new ThreadPoolExecutor.AbortPolicy(),
-                false, true);
+        return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds);
     }
 
     /**
-     * @param threadNamePrefix String
+     * <pre>
+     * Defaults:
+     * - threadPriority = Thread.NORM_PRIORITY
+     * - rejectedExecutionHandler = ThreadPoolExecutor.AbortPolicy
+     * - allowCoreThreadTimeOut = false
+     * - exposeUnconfigurableExecutor = true
+     * </pre>
+     *
+     * @param threadNamePattern String; Beispiel: thread-%02d<br>
      * @param coreSize int
      * @param maxSize int
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
@@ -47,15 +66,15 @@ public final class ExecutorUtils
      * @param keepAliveSeconds int
      * @return {@link ExecutorService}
      */
-    public static ExecutorService createThreadPool(final String threadNamePrefix, final int coreSize, final int maxSize, final int queueSize,
+    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
                                                    final int keepAliveSeconds)
     {
-        return createThreadPool(threadNamePrefix, coreSize, maxSize, queueSize, keepAliveSeconds, Thread.NORM_PRIORITY, new ThreadPoolExecutor.AbortPolicy(),
+        return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds, Thread.NORM_PRIORITY, new ThreadPoolExecutor.AbortPolicy(),
                 false, true);
     }
 
     /**
-     * @param threadNamePrefix String
+     * @param threadNamePattern String; Beispiel: thread-%02d
      * @param coreSize int
      * @param maxSize int
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
@@ -68,7 +87,7 @@ public final class ExecutorUtils
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      * @return {@link ExecutorService}
      */
-    public static ExecutorService createThreadPool(final String threadNamePrefix, final int coreSize, final int maxSize, final int queueSize,
+    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
                                                    final int keepAliveSeconds, final int threadPriority,
                                                    final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut,
                                                    final boolean exposeUnconfigurableExecutor)
@@ -84,7 +103,7 @@ public final class ExecutorUtils
             queue = new SynchronousQueue<>();
         }
 
-        ThreadFactory threadFactory = new CustomizableThreadFactory(threadNamePrefix, threadPriority);
+        ThreadFactory threadFactory = new SimpleThreadFactory(threadNamePattern, threadPriority);
 
         ThreadPoolExecutor threadPoolExecutor =
                 new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);

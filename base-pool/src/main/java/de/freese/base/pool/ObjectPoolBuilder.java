@@ -4,16 +4,12 @@
 package de.freese.base.pool;
 
 import java.util.Objects;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import de.freese.base.pool.commons.CommonsObjectFactoryAdapter;
 import de.freese.base.pool.commons.CommonsObjectPoolAdapter;
 import de.freese.base.pool.erasoft.ErasoftObjectFactoryAdapter;
 import de.freese.base.pool.erasoft.ErasoftObjectPoolAdapter;
-import de.freese.base.pool.factory.FunctionalObjectFactory;
 import de.freese.base.pool.factory.ObjectFactory;
 import de.freese.base.pool.roundRobin.RoundRobinPool;
 import de.freese.base.pool.simple.SimpleObjectPool;
@@ -25,123 +21,104 @@ import nf.fr.eraasoft.pool.PoolSettings;
  * Default Konfiguration ist ohne Objekt-Limits und ohne Validierungen.
  *
  * @author Thomas Freese
+ * @param <T> Typ des Objektes
  */
-public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
+public class ObjectPoolBuilder<T> extends AbstractPoolBuilder<ObjectPoolBuilder<T>, ObjectPool<T>>
 {
     /**
-     * Erzeugt einen neuen Builder.
+     * Enum für die Implementierungen des {@link ObjectPool}.
      *
-     * @return {@link ObjectPoolBuilder}
+     * @author Thomas Freese
      */
-    public static ObjectPoolBuilder create()
+    public enum ObjectPoolType
     {
-        return new ObjectPoolBuilder();
+        /**
+         *
+         */
+        COMMONS,
+
+        /**
+         *
+         */
+        ERASOFT,
+
+        /**
+        *
+        */
+        ROUND_ROBIN,
+
+        /**
+         *
+         */
+        SIMPLE,
+
+        /**
+        *
+        */
+        UNBOUNDED;
     }
+
+    /**
+     *
+     */
+    private ObjectFactory<T> objectFactory = null;
+
+    /**
+     *
+     */
+    private ObjectPoolType type = null;
 
     /**
      * Erzeugt eine neue Instanz von {@link ObjectPoolBuilder}
      */
-    protected ObjectPoolBuilder()
+    public ObjectPoolBuilder()
     {
         super();
     }
 
     /**
-     * Liefert einen {@link ObjectPool}.<br>
-     *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
-     * @param type {@link ObjectPoolType}
-     * @param objectFactory {@link ObjectFactory}
-     * @return {@link ObjectPool}
+     * @see de.freese.base.core.model.builder.Builder#build()
      */
-    public <O> ObjectPool<O> build(final ObjectPoolType type, final ObjectFactory<O> objectFactory)
+    @Override
+    public ObjectPool<T> build()
     {
-        Objects.requireNonNull(type, "type required");
-        Objects.requireNonNull(objectFactory, "objectFactory required");
+        Objects.requireNonNull(this.type, "ObjectPoolType required");
+        Objects.requireNonNull(this.objectFactory, "objectFactory required");
 
-        ObjectPool<O> objectPool = null;
+        ObjectPool<T> objectPool = null;
 
-        switch (type)
+        switch (this.type)
         {
             case COMMONS:
-                objectPool = buildCommonsPool(objectFactory);
+                objectPool = buildCommonsPool(this.objectFactory);
                 break;
 
             case ERASOFT:
-                objectPool = buildErasoftPool(objectFactory);
+                objectPool = buildErasoftPool(this.objectFactory);
                 break;
 
             case ROUND_ROBIN:
-                objectPool = buildRoundRobinPool(objectFactory);
+                objectPool = buildRoundRobinPool(this.objectFactory);
                 break;
 
             case SIMPLE:
-                objectPool = buildSimplePool(objectFactory);
+                objectPool = buildSimplePool(this.objectFactory);
                 break;
 
             case UNBOUNDED:
-                objectPool = buildUnboundedPool(objectFactory);
+                objectPool = buildUnboundedPool(this.objectFactory);
                 break;
 
             default:
-                throw new IllegalStateException("unexpected type: " + type);
+                throw new IllegalStateException("unexpected type: " + this.type);
+        }
+
+        if (isRegisterShutdownHook())
+        {
+            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
         }
 
         return objectPool;
-    }
-
-    /**
-     * Liefert einen {@link ObjectPool}.<br>
-     *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
-     * @param type {@link ObjectPoolType}
-     * @param createSupplier {@link Supplier}; muss gesetzt sein
-     * @return {@link ObjectPool}
-     */
-    public <O> ObjectPool<O> build(final ObjectPoolType type, final Supplier<O> createSupplier)
-    {
-        return build(type, createSupplier, null, null, null, null);
-    }
-
-    /**
-     * Liefert einen {@link ObjectPool}.<br>
-     *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
-     * @param type {@link ObjectPoolType}
-     * @param createSupplier {@link Supplier}; muss gesetzt sein
-     * @param activateConsumer {@link Consumer}; optional
-     * @param passivateConsumer {@link Consumer}; optional
-     * @param destroyConsumer {@link Consumer}; optional
-     * @param validateFunction {@link Function}; optional
-     * @return {@link ObjectPool}
-     */
-    public <O> ObjectPool<O> build(final ObjectPoolType type, final Supplier<O> createSupplier, final Consumer<O> activateConsumer,
-                                   final Consumer<O> passivateConsumer, final Consumer<O> destroyConsumer, final Function<O, Boolean> validateFunction)
-    {
-        Objects.requireNonNull(type, "type required");
-        Objects.requireNonNull(createSupplier, "createSupplier required");
-
-        FunctionalObjectFactory<O> objectFactory = new FunctionalObjectFactory<>(createSupplier);
-        objectFactory.setActivator(activateConsumer);
-        objectFactory.setPassivator(passivateConsumer);
-        objectFactory.setDestroyer(destroyConsumer);
-        objectFactory.setValidator(validateFunction);
-
-        return build(type, objectFactory);
-    }
-
-    /**
-     * Liefert einen {@link ObjectPool}.<br>
-     *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
-     * @param type {@link ObjectPoolType}
-     * @param createSupplier {@link Supplier}; muss gesetzt sein
-     * @param validateFunction {@link Function}; optional
-     * @return {@link ObjectPool}
-     */
-    public <O> ObjectPool<O> build(final ObjectPoolType type, final Supplier<O> createSupplier, final Function<O, Boolean> validateFunction)
-    {
-        return build(type, createSupplier, null, null, null, validateFunction);
     }
 
     /**
@@ -154,16 +131,14 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * <li>{@link #validateOnReturn}
      * </ul>
      *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
      * @param objectFactory {@link ObjectFactory}
      * @return {@link ObjectPool}
      */
-    public <O> ObjectPool<O> buildCommonsPool(final ObjectFactory<O> objectFactory)
+    private ObjectPool<T> buildCommonsPool(final ObjectFactory<T> objectFactory)
     {
-        Objects.requireNonNull(objectFactory, "objectFactory required");
-        CommonsObjectFactoryAdapter<O> objectFactoryAdapter = new CommonsObjectFactoryAdapter<>(objectFactory);
+        CommonsObjectFactoryAdapter<T> objectFactoryAdapter = new CommonsObjectFactoryAdapter<>(objectFactory);
 
-        GenericObjectPoolConfig<O> config = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<T> config = new GenericObjectPoolConfig<>();
         config.setMaxTotal(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
         config.setMaxIdle(config.getMaxTotal());
         config.setMaxWaitMillis(getMaxWait() <= 0 ? -1 : getMaxWait());
@@ -178,12 +153,7 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
         config.setTimeBetweenEvictionRunsMillis(-1);
         config.setBlockWhenExhausted(false);
 
-        ObjectPool<O> objectPool = new CommonsObjectPoolAdapter<>(config, objectFactoryAdapter);
-
-        if (isRegisterShutdownHook())
-        {
-            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
-        }
+        ObjectPool<T> objectPool = new CommonsObjectPoolAdapter<>(config, objectFactoryAdapter);
 
         return objectPool;
     }
@@ -198,28 +168,21 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * <li>{@link #validateOnReturn}
      * </ul>
      *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
      * @param objectFactory {@link ObjectFactory}
      * @return {@link ObjectPool}
      */
-    public <O> ObjectPool<O> buildErasoftPool(final ObjectFactory<O> objectFactory)
+    private ObjectPool<T> buildErasoftPool(final ObjectFactory<T> objectFactory)
     {
-        Objects.requireNonNull(objectFactory, "objectFactory required");
-        ErasoftObjectFactoryAdapter<O> objectFactoryAdapter = new ErasoftObjectFactoryAdapter<>(objectFactory);
+        ErasoftObjectFactoryAdapter<T> objectFactoryAdapter = new ErasoftObjectFactoryAdapter<>(objectFactory);
 
-        PoolSettings<O> settings = new PoolSettings<>(objectFactoryAdapter);
+        PoolSettings<T> settings = new PoolSettings<>(objectFactoryAdapter);
         settings.max(getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize());
         settings.maxIdle(settings.max());
         settings.maxWait(getMaxWait() <= 0 ? 0 : getMaxWait() / 1000);
         settings.min(getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize());
         settings.validateWhenReturn(isValidateOnReturn());
 
-        ObjectPool<O> objectPool = new ErasoftObjectPoolAdapter<>(settings);
-
-        if (isRegisterShutdownHook())
-        {
-            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
-        }
+        ObjectPool<T> objectPool = new ErasoftObjectPoolAdapter<>(settings);
 
         return objectPool;
     }
@@ -231,22 +194,14 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * <li>{@link #maxSize}
      * </ul>
      *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
      * @param objectFactory {@link ObjectFactory}
      * @return {@link ObjectPool}
      */
-    public <O> ObjectPool<O> buildRoundRobinPool(final ObjectFactory<O> objectFactory)
+    private ObjectPool<T> buildRoundRobinPool(final ObjectFactory<T> objectFactory)
     {
-        Objects.requireNonNull(objectFactory, "objectFactory required");
-
         int maxSize = getMaxSize() <= 0 ? RoundRobinPool.DEFAULT_SIZE : getMaxSize();
 
-        RoundRobinPool<O> objectPool = new RoundRobinPool<>(maxSize, objectFactory);
-
-        if (isRegisterShutdownHook())
-        {
-            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
-        }
+        RoundRobinPool<T> objectPool = new RoundRobinPool<>(maxSize, objectFactory);
 
         return objectPool;
     }
@@ -259,23 +214,15 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
      * <li>{@link #maxSize}
      * </ul>
      *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
      * @param objectFactory {@link ObjectFactory}
      * @return {@link ObjectPool}
      */
-    public <O> ObjectPool<O> buildSimplePool(final ObjectFactory<O> objectFactory)
+    private ObjectPool<T> buildSimplePool(final ObjectFactory<T> objectFactory)
     {
-        Objects.requireNonNull(objectFactory, "objectFactory required");
-
         int coreSize = getCoreSize() <= 0 ? DEFAULT_CORE_SIZE : getCoreSize();
         int maxSize = getMaxSize() <= 0 ? DEFAULT_MAX_SIZE : getMaxSize();
 
-        SimpleObjectPool<O> objectPool = new SimpleObjectPool<>(coreSize, maxSize, objectFactory);
-
-        if (isRegisterShutdownHook())
-        {
-            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
-        }
+        SimpleObjectPool<T> objectPool = new SimpleObjectPool<>(coreSize, maxSize, objectFactory);
 
         return objectPool;
     }
@@ -283,21 +230,35 @@ public class ObjectPoolBuilder extends AbstractPoolBuilder<ObjectPoolBuilder>
     /**
      * Liefert einen {@link UnboundedObjectPool}.<br>
      *
-     * @param <O> Konkreter Typ der zu erzeugenden Objekte
      * @param objectFactory {@link ObjectFactory}
      * @return {@link ObjectPool}
      */
-    public <O> ObjectPool<O> buildUnboundedPool(final ObjectFactory<O> objectFactory)
+    private ObjectPool<T> buildUnboundedPool(final ObjectFactory<T> objectFactory)
     {
-        Objects.requireNonNull(objectFactory, "objectFactory required");
-
-        UnboundedObjectPool<O> objectPool = new UnboundedObjectPool<>(objectFactory);
-
-        if (isRegisterShutdownHook())
-        {
-            Runtime.getRuntime().addShutdownHook(new Thread(objectPool::shutdown, objectPool.getClass().getSimpleName()));
-        }
+        UnboundedObjectPool<T> objectPool = new UnboundedObjectPool<>(objectFactory);
 
         return objectPool;
+    }
+
+    /**
+     * @param objectFactory {@link ObjectFactory}
+     * @return {@link ObjectPoolBuilder}
+     */
+    public ObjectPoolBuilder<T> objectFactory(final ObjectFactory<T> objectFactory)
+    {
+        this.objectFactory = objectFactory;
+
+        return this;
+    }
+
+    /**
+     * @param type {@link ObjectPoolType}
+     * @return {@link ObjectPoolBuilder}
+     */
+    public ObjectPoolBuilder<T> type(final ObjectPoolType type)
+    {
+        this.type = type;
+
+        return this;
     }
 }

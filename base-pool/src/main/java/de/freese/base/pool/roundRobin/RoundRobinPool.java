@@ -94,7 +94,7 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     @Override
     public int getNumActive()
     {
-        return this.size;
+        return getQueue().size();
     }
 
     /**
@@ -113,6 +113,15 @@ public class RoundRobinPool<T> extends AbstractObjectPool<T>
     protected LinkedList<T> getQueue()
     {
         return (LinkedList<T>) super.getQueue();
+    }
+
+    /**
+     * @see de.freese.base.pool.ObjectPool#getTotalSize()
+     */
+    @Override
+    public int getTotalSize()
+    {
+        return this.size;
     }
 
     /**

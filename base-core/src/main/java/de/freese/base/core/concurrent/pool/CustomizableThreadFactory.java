@@ -1,6 +1,8 @@
 package de.freese.base.core.concurrent.pool;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -10,24 +12,108 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CustomizableThreadFactory implements ThreadFactory
 {
     /**
-     *
+     * @author Thomas Freese
      */
-    private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
+    public static class Builder implements de.freese.base.core.model.builder.Builder<ThreadFactory>
+    {
+        /**
+         *
+         */
+        private String threadNamePattern = "thread-%02d";
+
+        /**
+         *
+         */
+        private int threadPriority = Thread.NORM_PRIORITY;
+
+        /**
+         *
+         */
+        private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = null;
+
+        /**
+         *
+         */
+        private ThreadFactory wrappedFactory = Executors.defaultThreadFactory();
+
+        /**
+         * @see de.freese.base.core.model.builder.Builder#build()
+         */
+        @Override
+        public ThreadFactory build()
+        {
+            ThreadFactory threadFactory = new CustomizableThreadFactory(this);
+
+            return threadFactory;
+        }
+
+        /**
+         * Default: thread-%02d
+         *
+         * @param threadNamePattern String
+         * @return {@link Builder}
+         */
+        public Builder threadNamePattern(final String threadNamePattern)
+        {
+            if ((threadNamePattern == null) || threadNamePattern.strip().isEmpty())
+            {
+                throw new IllegalArgumentException("threadNamePattern required");
+            }
+
+            this.threadNamePattern = threadNamePattern.strip();
+
+            return this;
+        }
+
+        /**
+         * Default: Thread.NORM_PRIORITY
+         *
+         * @param priority int
+         * @return {@link Builder}
+         */
+        public Builder threadPriority(final int priority)
+        {
+            if ((priority < Thread.MIN_PRIORITY) || (priority > Thread.MAX_PRIORITY))
+            {
+                throw new IllegalArgumentException("priority must be >= Thread.MIN_PRIORITY and <= Thread.MAX_PRIORITY");
+            }
+
+            this.threadPriority = priority;
+
+            return this;
+        }
+
+        /**
+         * Default: thread-%02d
+         *
+         * @param uncaughtExceptionHandler {@link UncaughtExceptionHandler}
+         * @return {@link Builder}
+         */
+        public Builder uncaughtExceptionHandler(final Thread.UncaughtExceptionHandler uncaughtExceptionHandler)
+        {
+            this.uncaughtExceptionHandler = Objects.requireNonNull(uncaughtExceptionHandler, "uncaughtExceptionHandler required");
+
+            return this;
+        }
+
+        /**
+         * Default: {@link Executors#defaultThreadFactory()}
+         *
+         * @param wrappedFactory {@link ThreadFactory}
+         * @return {@link Builder}
+         */
+        public Builder wrappedFactory(final ThreadFactory wrappedFactory)
+        {
+            this.wrappedFactory = Objects.requireNonNull(wrappedFactory, "wrappedFactory required");
+
+            return this;
+        }
+    }
 
     /**
      *
      */
-    private final String namePrefix;
-
-    /**
-     * Thread.NORM_PRIORITY
-     */
-    private final int priority;
-
-    /**
-     *
-     */
-    private final ThreadGroup threadGroup;
+    private final String threadNamePattern;
 
     /**
      *
@@ -35,44 +121,33 @@ public class CustomizableThreadFactory implements ThreadFactory
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
     /**
+     *
+     */
+    private final int threadPriority;
+
+    /**
+     *
+     */
+    private final Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+
+    /**
+    *
+    */
+    private final ThreadFactory wrappedFactory;
+
+    /**
      * Erzeugt eine neue Instanz von {@link CustomizableThreadFactory}
      *
-     * @param namePrefix String
-     * @param priority int
+     * @param builder {@link Builder}
      */
-    public CustomizableThreadFactory(final String namePrefix, final int priority)
+    private CustomizableThreadFactory(final Builder builder)
     {
         super();
 
-        this.namePrefix = Objects.requireNonNull(namePrefix, "namePrefix required");
-
-        if ((priority < Thread.MIN_PRIORITY) || (priority > Thread.MAX_PRIORITY))
-        {
-            throw new IllegalArgumentException("priority must be >= Thread.MIN_PRIORITY and <= Thread.MAX_PRIORITY");
-        }
-
-        this.priority = priority;
-
-        SecurityManager sm = System.getSecurityManager();
-        this.threadGroup = (sm != null) ? sm.getThreadGroup() : Thread.currentThread().getThreadGroup();
-
-        POOL_NUMBER.getAndIncrement();
-    }
-
-    /**
-     * @param namePrefix String
-     * @param poolNumber int
-     * @param threadNumber int
-     * @return String
-     */
-    protected String createThreadName(final String namePrefix, final int poolNumber, final int threadNumber)
-    {
-        // Klassisch: java.util.concurrent.Executors.DefaultThreadFactory.newThread(Runnable)
-        // String threadName = String.format("pool-%02d-thread-%02d", poolNumber, threadNumber);
-
-        String threadName = String.format("%s-%02d", namePrefix, threadNumber);
-
-        return threadName;
+        this.threadNamePattern = builder.threadNamePattern;
+        this.threadPriority = builder.threadPriority;
+        this.wrappedFactory = builder.wrappedFactory;
+        this.uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
     }
 
     /**
@@ -81,18 +156,25 @@ public class CustomizableThreadFactory implements ThreadFactory
     @Override
     public Thread newThread(final Runnable task)
     {
-        String threadName = createThreadName(this.namePrefix, POOL_NUMBER.get(), this.threadNumber.getAndIncrement());
+        final String threadName = String.format(this.threadNamePattern, this.threadNumber.getAndIncrement());
 
-        Thread thread = new Thread(this.threadGroup, task, threadName, 0);
+        final Thread thread = this.wrappedFactory.newThread(task);
+
+        thread.setName(threadName);
 
         if (thread.isDaemon())
         {
             thread.setDaemon(false);
         }
 
-        if (thread.getPriority() != this.priority)
+        if (thread.getPriority() != this.threadPriority)
         {
-            thread.setPriority(this.priority);
+            thread.setPriority(this.threadPriority);
+        }
+
+        if (this.uncaughtExceptionHandler != null)
+        {
+            thread.setUncaughtExceptionHandler(this.uncaughtExceptionHandler);
         }
 
         return thread;

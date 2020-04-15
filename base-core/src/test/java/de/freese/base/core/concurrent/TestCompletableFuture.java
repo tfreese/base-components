@@ -81,8 +81,8 @@ public class TestCompletableFuture
     @BeforeAll
     static void beforeAll()
     {
-        // executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
-        executorService = Executors.newFixedThreadPool(3);
+        executorService = Executors.newFixedThreadPool(4);
+        // executorService = Executors.newFixedThreadPool(4, new CustomizableThreadFactory.Builder().build());
     }
 
     /**

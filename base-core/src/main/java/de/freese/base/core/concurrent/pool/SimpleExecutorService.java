@@ -176,18 +176,17 @@ public class SimpleExecutorService extends AbstractExecutorService
 
     /**
      * Erstellt ein neues {@link SimpleExecutorService} Object.<br>
-     * <br>
-     * Defaults:<br>
-     * coreSize = {@link Runtime#availableProcessors()}<br>
-     * maxSize = coreSize * 2<br>
-     * queueSize = maxSize * 10<br>
-     * keepAliveTime = 60<br>
-     * timeUnit = TimeUnit.SECONDS<br>
-     * <br>
-     * Beispiel:<br>
-     * coreSize = 4<br>
-     * maxSize = 8<br>
-     * queueSize = 80<br>
+     *
+     * <pre>
+     * Defaults:
+     * - coreSize = {@link Runtime#availableProcessors()}
+     * - maxSize = coreSize * 2
+     * - queueSize = maxSize * 10
+     * - keepAliveTime = 60
+     * - timeUnit = TimeUnit.SECONDS
+     * - threadNamePattern = thread-%02d
+     * - threadPriority = Thread.NORM_PRIORITY
+     * </pre>
      */
     public SimpleExecutorService()
     {
@@ -202,7 +201,13 @@ public class SimpleExecutorService extends AbstractExecutorService
     }
 
     /**
-     * Erstellt ein neues {@link SimpleExecutorService} Object.
+     * Erstellt ein neues {@link SimpleExecutorService} Object.<br>
+     *
+     * <pre>
+     * Defaults:
+     * - threadNamePattern = thread-%02d
+     * - threadPriority = Thread.NORM_PRIORITY
+     * </pre>
      *
      * @param coreSize int
      * @param maxSize int
@@ -212,7 +217,7 @@ public class SimpleExecutorService extends AbstractExecutorService
      */
     public SimpleExecutorService(final int coreSize, final int maxSize, final int queueSize, final int keepAliveTime, final TimeUnit timeUnit)
     {
-        this(coreSize, maxSize, queueSize, keepAliveTime, timeUnit, new CustomizableThreadFactory("thread", Thread.NORM_PRIORITY));
+        this(coreSize, maxSize, queueSize, keepAliveTime, timeUnit, "thread-%02d", Thread.NORM_PRIORITY);
     }
 
     /**
@@ -223,29 +228,13 @@ public class SimpleExecutorService extends AbstractExecutorService
      * @param queueSize int
      * @param keepAliveTime int
      * @param timeUnit {@link TimeUnit}
-     * @param threadNamePrefix String
-     */
-    public SimpleExecutorService(final int coreSize, final int maxSize, final int queueSize, final int keepAliveTime, final TimeUnit timeUnit,
-            final String threadNamePrefix)
-    {
-        this(coreSize, maxSize, queueSize, keepAliveTime, timeUnit, new CustomizableThreadFactory(threadNamePrefix, Thread.NORM_PRIORITY));
-    }
-
-    /**
-     * Erstellt ein neues {@link SimpleExecutorService} Object.
-     *
-     * @param coreSize int
-     * @param maxSize int
-     * @param queueSize int
-     * @param keepAliveTime int
-     * @param timeUnit {@link TimeUnit}
-     * @param threadNamePrefix String
+     * @param threadNamePattern String; Beispiel: thread-%02d
      * @param threadPriority int
      */
     public SimpleExecutorService(final int coreSize, final int maxSize, final int queueSize, final int keepAliveTime, final TimeUnit timeUnit,
-            final String threadNamePrefix, final int threadPriority)
+            final String threadNamePattern, final int threadPriority)
     {
-        this(coreSize, maxSize, queueSize, keepAliveTime, timeUnit, new CustomizableThreadFactory(threadNamePrefix, threadPriority));
+        this(coreSize, maxSize, queueSize, keepAliveTime, timeUnit, new SimpleThreadFactory(threadNamePattern, threadPriority));
     }
 
     /**

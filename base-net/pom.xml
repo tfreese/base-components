@@ -56,6 +56,12 @@
 	<dependencies>
 		<!-- compile scope -->
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>base-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+				
+		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 		</dependency>
@@ -65,16 +71,8 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- runtime scope -->

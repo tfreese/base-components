@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  * @author Thomas Freese
  * @param <T> Konkreter Typ
  */
-public class FunctionalObjectFactory<T> implements ObjectFactory<T>
+public class DefaultObjectFactory<T> implements ObjectFactory<T>
 {
     /**
     *
@@ -43,11 +43,11 @@ public class FunctionalObjectFactory<T> implements ObjectFactory<T>
     private Function<T, Boolean> validator = null;
 
     /**
-     * Erzeugt eine neue Instanz von {@link FunctionalObjectFactory}
+     * Erzeugt eine neue Instanz von {@link DefaultObjectFactory}
      *
      * @param creator {@link Supplier}
      */
-    public FunctionalObjectFactory(final Supplier<T> creator)
+    public DefaultObjectFactory(final Supplier<T> creator)
     {
         super();
 

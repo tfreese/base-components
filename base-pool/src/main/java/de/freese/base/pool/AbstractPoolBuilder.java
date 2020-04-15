@@ -6,14 +6,16 @@ package de.freese.base.pool;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.base.core.model.builder.Builder;
 
 /**
  * Basisklasse eines PoolBuilders.
  *
  * @author Thomas Freese
- * @param <T> Konkreter Typ des Builders
+ * @param <B> Typ des Builders
+ * @param <T> Typ des Objektes
  */
-public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
+public abstract class AbstractPoolBuilder<B, T> implements Builder<T>
 {
     /**
      *
@@ -69,11 +71,13 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
     }
 
     /**
+     * Default: 1
+     *
      * @param coreSize int
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T coreSize(final int coreSize)
+    public B coreSize(final int coreSize)
     {
         this.coreSize = coreSize;
 
@@ -82,7 +86,7 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
             maxSize(this.coreSize);
         }
 
-        return (T) this;
+        return (B) this;
     }
 
     /**
@@ -144,11 +148,13 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
     }
 
     /**
+     * Default: 10
+     *
      * @param maxSize int
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T maxSize(final int maxSize)
+    public B maxSize(final int maxSize)
     {
         this.maxSize = maxSize;
 
@@ -157,7 +163,7 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
             coreSize(this.maxSize);
         }
 
-        return (T) this;
+        return (B) this;
     }
 
     /**
@@ -167,11 +173,11 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T maxWait(final int maxWait)
+    public B maxWait(final int maxWait)
     {
         this.maxWait = maxWait;
 
-        return (T) this;
+        return (B) this;
     }
 
     /**
@@ -179,11 +185,11 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T registerShutdownHook(final boolean register)
+    public B registerShutdownHook(final boolean register)
     {
         this.registerShutdownHook = register;
 
-        return (T) this;
+        return (B) this;
     }
 
     /**
@@ -191,11 +197,11 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T validateOnGet(final boolean validateOnGet)
+    public B validateOnGet(final boolean validateOnGet)
     {
         this.validateOnGet = validateOnGet;
 
-        return (T) this;
+        return (B) this;
     }
 
     /**
@@ -203,10 +209,10 @@ public abstract class AbstractPoolBuilder<T extends AbstractPoolBuilder<?>>
      * @return {@link AbstractPoolBuilder}
      */
     @SuppressWarnings("unchecked")
-    public T validateOnReturn(final boolean validateOnReturn)
+    public B validateOnReturn(final boolean validateOnReturn)
     {
         this.validateOnReturn = validateOnReturn;
 
-        return (T) this;
+        return (B) this;
     }
 }

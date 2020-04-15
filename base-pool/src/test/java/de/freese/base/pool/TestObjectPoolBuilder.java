@@ -19,6 +19,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import de.freese.base.pool.ObjectPoolBuilder.ObjectPoolType;
+import de.freese.base.pool.factory.DefaultObjectFactory;
 import de.freese.base.pool.roundRobin.RoundRobinPool;
 import de.freese.base.pool.unbounded.UnboundedObjectPool;
 
@@ -62,22 +64,15 @@ public class TestObjectPoolBuilder
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link TestObjectPoolBuilder}
-     */
-    public TestObjectPoolBuilder()
-    {
-        super();
-    }
-
-    /**
      * @param poolType {@link ObjectPoolType}
-     * @param createSupplier {@link Supplier}
+     * @param creator {@link Supplier}
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    public void test0100GetAndReturn(final ObjectPoolType poolType, final Supplier<UUID> createSupplier)
+    public void test0100GetAndReturn(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
-        ObjectPool<UUID> pool = ObjectPoolBuilder.create().maxSize(1).maxWait(1234).registerShutdownHook(true).build(poolType, createSupplier);
+        ObjectPool<UUID> pool = new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType)
+                .objectFactory(new DefaultObjectFactory<>(creator)).build();
 
         UUID uuid1 = pool.borrowObject();
         assertNotNull(uuid1);
@@ -86,13 +81,14 @@ public class TestObjectPoolBuilder
 
     /**
      * @param poolType {@link ObjectPoolType}
-     * @param createSupplier {@link Supplier}
+     * @param creator {@link Supplier}
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    public void test0200Equals(final ObjectPoolType poolType, final Supplier<UUID> createSupplier)
+    public void test0200Equals(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
-        ObjectPool<UUID> pool = ObjectPoolBuilder.create().maxSize(1).registerShutdownHook(true).build(poolType, createSupplier);
+        ObjectPool<UUID> pool = new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType)
+                .objectFactory(new DefaultObjectFactory<>(creator)).build();
 
         UUID uuid1 = pool.borrowObject();
         assertEquals(1, pool.getTotalSize());
@@ -112,13 +108,14 @@ public class TestObjectPoolBuilder
 
     /**
      * @param poolType {@link ObjectPoolType}
-     * @param createSupplier {@link Supplier}
+     * @param creator {@link Supplier}
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    public void test0300OverSize(final ObjectPoolType poolType, final Supplier<UUID> createSupplier)
+    public void test0300OverSize(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
-        ObjectPool<UUID> pool = ObjectPoolBuilder.create().maxSize(1).registerShutdownHook(true).build(poolType, createSupplier);
+        ObjectPool<UUID> pool = new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType)
+                .objectFactory(new DefaultObjectFactory<>(creator)).build();
 
         if ((pool instanceof RoundRobinPool) || (pool instanceof UnboundedObjectPool))
         {
