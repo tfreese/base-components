@@ -63,12 +63,66 @@ public final class ArrayUtils
     }
 
     /**
+     * @param array double[]
+     * @return boolean
+     */
+    public static boolean isEmpty(final double[] array)
+    {
+        return (array == null) || (array.length == 0);
+    }
+
+    /**
+     * @param array int[]
+     * @return boolean
+     */
+    public static boolean isEmpty(final int[] array)
+    {
+        return (array == null) || (array.length == 0);
+    }
+
+    /**
+     * @param array long[]
+     * @return boolean
+     */
+    public static boolean isEmpty(final long[] array)
+    {
+        return (array == null) || (array.length == 0);
+    }
+
+    /**
      * @param array Object[]
      * @return boolean
      */
     public static boolean isEmpty(final Object[] array)
     {
         return (array == null) || (array.length == 0);
+    }
+
+    /**
+     * @param array double[]
+     * @return boolean
+     */
+    public static boolean isNotEmpty(final double[] array)
+    {
+        return !isEmpty(array);
+    }
+
+    /**
+     * @param array int[]
+     * @return boolean
+     */
+    public static boolean isNotEmpty(final int[] array)
+    {
+        return !isEmpty(array);
+    }
+
+    /**
+     * @param array long[]
+     * @return boolean
+     */
+    public static boolean isNotEmpty(final long[] array)
+    {
+        return !isEmpty(array);
     }
 
     /**

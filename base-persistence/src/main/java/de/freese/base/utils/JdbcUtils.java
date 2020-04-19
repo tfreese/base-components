@@ -675,31 +675,30 @@ public final class JdbcUtils
     }
 
     /**
-     * Erzeugt aus dem {@link ResultSet} eine Liste mit den Column-Namen in der ersten Zeile und den Daten.<br>
+     * Erzeugt aus dem {@link ResultSet} eine {@link StringTable}.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      *
      * @param resultSet {@link ResultSet}
-     * @return {@link List}
+     * @return {@link StringTable}
      * @throws SQLException Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    public static List<String[]> toList(final ResultSet resultSet) throws SQLException
+    public static StringTable toStringTable(final ResultSet resultSet) throws SQLException
     {
         Objects.requireNonNull(resultSet, "resultSet required");
-
-        List<String[]> rows = new ArrayList<>();
 
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
 
         // Spaltennamen / Header
         String[] header = new String[columnCount];
-        rows.add(header);
 
         for (int column = 1; column <= columnCount; column++)
         {
             header[column - 1] = metaData.getColumnLabel(column).toUpperCase();
         }
+
+        List<String[]> rows = new ArrayList<>();
 
         // Daten
         while (resultSet.next())
@@ -734,21 +733,19 @@ public final class JdbcUtils
             resultSet.first();
         }
 
-        return rows;
+        return new StringTable(header, rows);
     }
 
     /**
-     * Erzeugt aus den {@link ResultSetMetaData} eine Liste mit den Column-Namen in der ersten Zeile und den Daten.<br>
+     * Erzeugt aus den {@link ResultSetMetaData} eine {@link StringTable}.<br>
      *
      * @param rsMeta {@link ResultSetMetaData}
-     * @return {@link List}
+     * @return {@link StringTable}
      * @throws SQLException Falls was schief geht.
      */
-    public static List<String[]> toList(final ResultSetMetaData rsMeta) throws SQLException
+    public static StringTable toStringTable(final ResultSetMetaData rsMeta) throws SQLException
     {
         Objects.requireNonNull(rsMeta, "resultSetMetaData required");
-
-        List<String[]> rows = new ArrayList<>();
 
         // Spaltennamen / Header
         String[] header = new String[5];
@@ -757,7 +754,8 @@ public final class JdbcUtils
         header[2] = "Typename";
         header[3] = "Type";
         header[4] = "Nullable";
-        rows.add(header);
+
+        List<String[]> rows = new ArrayList<>();
 
         // Daten
         for (int col = 1; col <= rsMeta.getColumnCount(); col++)
@@ -772,21 +770,7 @@ public final class JdbcUtils
             row[4] = "" + rsMeta.isNullable(col);
         }
 
-        return rows;
-    }
-
-    /**
-     * Schreibt die Liste in den PrintStream.<br>
-     * Der Stream wird nicht geschlossen.
-     *
-     * @param <T> Konkreter Typ von CharSequence
-     * @param rows {@link List}
-     * @param ps {@link PrintStream}
-     * @param delimiter String
-     */
-    public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String delimiter)
-    {
-        StringUtils.write(rows, ps, delimiter);
+        return new StringTable(header, rows);
     }
 
     /**
@@ -801,11 +785,9 @@ public final class JdbcUtils
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
-        List<String[]> rows = toList(resultSet);
-        StringUtils.padding(rows, " ");
-        StringUtils.addHeaderSeparator(rows, "-");
-
-        write(rows, ps, " | ");
+        StringTable stringTable = toStringTable(resultSet);
+        stringTable.rightpad(" ");
+        stringTable.write(ps, "-", " | ");
 
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
         {
@@ -822,11 +804,9 @@ public final class JdbcUtils
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException
     {
-        List<String[]> rows = toList(rsMeta);
-        StringUtils.padding(rows, " ");
-        StringUtils.addHeaderSeparator(rows, "-");
-
-        write(rows, ps, " | ");
+        StringTable stringTable = toStringTable(rsMeta);
+        stringTable.rightpad(" ");
+        stringTable.write(ps, "-", " | ");
     }
 
     /**
@@ -840,20 +820,9 @@ public final class JdbcUtils
      */
     public static void writeCSV(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
-        List<String[]> rows = toList(resultSet);
-        StringUtils.padding(rows, "");
-
-        // Values escapen.
-        int columnCount = rows.get(0).length;
-
-        rows.stream().parallel().forEach(r -> {
-            for (int column = 0; column < columnCount; column++)
-            {
-                r[column] = "\"" + r[column] + "\"";
-            }
-        });
-
-        write(rows, ps, ";");
+        StringTable stringTable = toStringTable(resultSet);
+        stringTable.escape('"');
+        stringTable.write(ps, "", ";");
 
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
         {

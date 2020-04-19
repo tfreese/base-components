@@ -47,13 +47,13 @@ public class TestStopWatch
         TimeUnit.MILLISECONDS.sleep(500);
         stopWatch.stop();
 
-        stopWatch.start("A-Task");
-        assertEquals("A-Task", stopWatch.getCurrentTaskName());
+        stopWatch.start("A Task");
+        assertEquals("A Task", stopWatch.getCurrentTaskName());
         TimeUnit.MILLISECONDS.sleep(750);
         stopWatch.stop();
 
-        stopWatch.start("B-Task");
-        assertEquals("B-Task", stopWatch.getCurrentTaskName());
+        stopWatch.start("Task with a really really long long Name");
+        assertEquals("Task with a really really long long Name", stopWatch.getCurrentTaskName());
         TimeUnit.MILLISECONDS.sleep(1000);
         stopWatch.stop();
 

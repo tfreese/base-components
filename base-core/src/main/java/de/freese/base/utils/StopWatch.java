@@ -87,7 +87,7 @@ public class StopWatch
             else
             {
                 printStream.println("----------------------------------------------------");
-                printStream.printf(" %s          | %s    |  %%  | Task name%n", TimeUnit.NANOSECONDS.toChronoUnit(), timeUnit.toChronoUnit());
+                printStream.printf(" %s          | %s    |  %%  | Task Name%n", TimeUnit.NANOSECONDS.toChronoUnit(), timeUnit.toChronoUnit());
                 printStream.println("----------------------------------------------------");
 
                 for (TaskInfo task : sw.getTaskList())
@@ -102,6 +102,70 @@ public class StopWatch
                             , task.getTaskName());
                     // @formatter:off
                 }
+            }
+        }
+    }
+
+    /**
+     * @author Thomas Freese
+     */
+    public static class TabularPrettyPrinter extends DefaultPrettyPrinter
+    {
+        /**
+         * Erstellt ein neues {@link TabularPrettyPrinter} Object.
+         *
+         * @param printStream {@link PrintStream}
+         */
+        public TabularPrettyPrinter(final PrintStream printStream)
+        {
+            super(printStream);
+        }
+
+        /**
+         * @see de.freese.base.utils.StopWatch.DefaultPrettyPrinter#printTasks(de.freese.base.utils.StopWatch, java.io.PrintStream, java.util.concurrent.TimeUnit)
+         */
+        @Override
+        protected void printTasks(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit)
+        {
+            if (!sw.isKeepTaskList())
+            {
+                printStream.println("No task info kept");
+            }
+            else
+            {
+
+
+                // Header
+                // @formatter:off
+                String[] header = new String[]{
+                        TimeUnit.NANOSECONDS.toChronoUnit().toString()
+                        ,timeUnit.toChronoUnit().toString()
+                        , " %"
+                        , "Task Name"
+                        };
+                // @formatter:on
+
+                List<String[]> rows = new ArrayList<>();
+
+                // Tasks
+                for (TaskInfo task : sw.getTaskList())
+                {
+                    long nanos = task.getTime(TimeUnit.NANOSECONDS);
+
+                    String[] row = new String[]
+                    {
+                            String.format("%,15d", nanos),
+                            String.format("%,9d", timeUnit.convert(nanos, TimeUnit.NANOSECONDS)),
+                            String.format("%3.0f", ((double) nanos / sw.getTotalTimeNanos()) * 100D),
+                            task.getTaskName()
+                    };
+
+                    rows.add(row);
+                }
+
+                StringTable stringTable = new StringTable(header, rows);
+                stringTable.rightpad(" ");
+                stringTable.write(printStream, "-", " | ");
             }
         }
     }
@@ -350,7 +414,7 @@ public class StopWatch
      */
     public void prettyPrint(final PrintStream printStream)
     {
-        prettyPrint(new DefaultPrettyPrinter(printStream));
+        prettyPrint(new TabularPrettyPrinter(printStream));
     }
 
     /**

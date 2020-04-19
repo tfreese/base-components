@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +47,7 @@ public final class StringUtils
     public static final String SPACE = " ";
 
     /**
-     * Fügt am Index 1 der Liste eine Trenn-Linie ein.<br>
+     * Fügt vor und nach dem ersten Eintrag der Liste eine Trenn-Linie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      *
      * @param <T> Konkreter Typ
@@ -61,7 +62,7 @@ public final class StringUtils
             return;
         }
 
-        String sep = (separator == null) || separator.strip().isEmpty() ? "-" : separator;
+        String sep = (separator == null) || separator.strip().isEmpty() ? "|" : separator;
 
         int columnCount = rows.get(0).length;
 
@@ -77,6 +78,7 @@ public final class StringUtils
         }
 
         rows.add(1, (T[]) row);
+        rows.add(0, (T[]) row);
     }
 
     /**
@@ -206,31 +208,95 @@ public final class StringUtils
     }
 
     /**
-     * Liefert die max. Zeichenbreite der Elemente.<br>
-     * Leerzeichen werden ignoriert.
-     *
-     * @param array String[]
-     * @return int
+     * @param list {@link List}
+     * @param escape char
      */
-    public static int getMaxWidth(final String[] array)
+    public static void escape(final List<String[]> list, final char escape)
+    {
+        if (ListUtils.isEmpty(list))
+        {
+            return;
+        }
+
+        int columnCount = list.get(0).length;
+
+        list.stream().parallel().forEach(r -> {
+            for (int column = 0; column < columnCount; column++)
+            {
+                r[column] = escape + r[column] + escape;
+            }
+        });
+    }
+
+    /**
+     * @param array String[]
+     * @param escape char
+     */
+    public static void escape(final String[] array, final char escape)
     {
         if (ArrayUtils.isEmpty(array))
         {
-            return 0;
+            return;
         }
 
+        for (int column = 0; column < array.length; column++)
+        {
+            array[column] = escape + array[column] + escape;
+        }
+    }
+
+    /**
+     * Liefert die Zeichenbreite der Elemente.<br>
+     *
+     * @param list {@link List}
+     * @return int[]
+     */
+    public static int[] getWidths(final List<String[]> list)
+    {
+        if (ListUtils.isEmpty(list))
+        {
+            return new int[0];
+        }
+
+        int columnCount = list.get(0).length;
+
+        int[] columnWidths = new int[columnCount];
+        Arrays.fill(columnWidths, 0);
+
         // @formatter:off
-        int width = Stream.of(array)
-                .parallel()
-                .map(s -> strip(s))
-                .filter(s -> isNotBlank(s))
-                //.peek(System.out::println)
-                .mapToInt(String::length)
-                .max()
-                .orElse(0);
+        IntStream.range(0, columnCount).forEach(column
+                ->
+                {
+                    columnWidths[column]  = list.stream()
+                            .parallel()
+                            .map(d -> d[column])
+                            .filter(Objects::nonNull)
+                            .mapToInt(CharSequence::length)
+                            .max()
+                            .orElse(0);
+                });
         // @formatter:on
 
-        return width;
+        return columnWidths;
+    }
+
+    /**
+     * Liefert die Zeichenbreite der Elemente.<br>
+     *
+     * @param array String[]
+     * @return int[]
+     */
+    public static int[] getWidths(final String[] array)
+    {
+        if (ArrayUtils.isEmpty(array))
+        {
+            return new int[0];
+        }
+
+        List<String[]> list = new ArrayList<>(1);
+        list.add(array);
+
+        return getWidths(list);
     }
 
     /**
@@ -483,54 +549,6 @@ public final class StringUtils
     }
 
     /**
-     * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
-     * Beim Padding werden die CharSequences durch Strings ersetzt.
-     *
-     * @param <T> Konkreter Typ
-     * @param rows {@link List}
-     * @param padding String
-     * @see #write(List, PrintStream, String)
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends CharSequence> void padding(final List<T[]> rows, final String padding)
-    {
-        if (ListUtils.isEmpty(rows))
-        {
-            return;
-        }
-
-        int columnCount = rows.get(0).length;
-
-        // Breite pro Spalte rausfinden.
-        int[] columnWidth = new int[columnCount];
-
-        // @formatter:off
-        IntStream.range(0, columnCount).forEach(column
-                ->
-                {
-                    columnWidth[column] = rows.stream()
-                            .parallel()
-                            .map(r -> r[column])
-                            .mapToInt(CharSequence::length)
-                            .max()
-                            .orElse(0);
-        });
-        // @formatter:on
-
-        // Strings pro Spalte formatieren und schreiben.
-        String pad = (padding == null) || padding.strip().isEmpty() ? SPACE : padding;
-
-        rows.stream().parallel().forEach(r -> {
-            for (int column = 0; column < columnCount; column++)
-            {
-                String value = rightPad(r[column].toString(), columnWidth[column], pad);
-
-                r[column] = (T) value;
-            }
-        });
-    }
-
-    /**
      * <pre>
      * StringUtils.repeat(null, 2) = null
      * StringUtils.repeat("", 0)   = ""
@@ -574,6 +592,78 @@ public final class StringUtils
     }
 
     /**
+     * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
+     * Ist das Padding null oder leer wird nichts gemacht.<br>
+     * Beim Padding werden die CharSequences durch Strings ersetzt.
+     *
+     * @param <T> Konkreter Typ
+     * @param list {@link List}
+     * @param widths int[]
+     * @param padding String
+     * @see #write(List, PrintStream, String)
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends CharSequence> void rightpad(final List<T[]> list, final int[] widths, final String padding)
+    {
+        if (ListUtils.isEmpty(list) || ArrayUtils.isEmpty(widths) || isEmpty(padding))
+        {
+            return;
+        }
+
+        if (list.get(0).length != widths.length)
+        {
+            throw new IllegalArgumentException("row element length != widths length");
+        }
+
+        int columnCount = widths.length;
+
+        // Strings pro Spalte formatieren und schreiben.
+        list.stream().parallel().forEach(r -> {
+            for (int column = 0; column < columnCount; column++)
+            {
+                String value = rightPad(r[column].toString(), widths[column], padding);
+
+                r[column] = (T) value;
+            }
+        });
+    }
+
+    /**
+     * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
+     * Ist das Padding null oder leer wird nichts gemacht.<br>
+     * Beim Padding werden die CharSequences durch Strings ersetzt.
+     *
+     * @param <T> Konkreter Typ
+     * @param array {@link CharSequence}[]
+     * @param widths int[]
+     * @param padding String
+     * @see #write(List, PrintStream, String)
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends CharSequence> void rightpad(final T[] array, final int[] widths, final String padding)
+    {
+        if (ArrayUtils.isEmpty(array) || ArrayUtils.isEmpty(widths) || isEmpty(padding))
+        {
+            return;
+        }
+
+        if (array.length != widths.length)
+        {
+            throw new IllegalArgumentException("array length != widths length");
+        }
+
+        int columnCount = widths.length;
+
+        // Strings pro Spalte formatieren und schreiben.
+        for (int column = 0; column < columnCount; column++)
+        {
+            String value = rightPad(array[column].toString(), widths[column], padding);
+
+            array[column] = (T) value;
+        }
+    }
+
+    /**
      * <pre>
      * StringUtils.rightPad(null, *, *)      = null
      * StringUtils.rightPad("", 3, "z")      = "zzz"
@@ -588,16 +678,16 @@ public final class StringUtils
      *
      * @param text String
      * @param size int
-     * @param padStr String
+     * @param padding String
      * @return String
      */
-    public static String rightPad(final String text, final int size, final String padStr)
+    public static String rightPad(final String text, final int size, final String padding)
     {
-        return org.apache.commons.lang3.StringUtils.rightPad(text, size, padStr);
+        return org.apache.commons.lang3.StringUtils.rightPad(text, size, padding);
     }
 
     /**
-     * Trennt zusammengefuegte Woerter anhand unterschied Uppercase/Lowercase der Buchstaben<br>
+     * Trennt zusammengefügte Wörter anhand unterschiedlicher Uppercase/Lowercase Schreibweise der Buchstaben<br>
      *
      * @param text String
      * @return String, not null
@@ -833,27 +923,44 @@ public final class StringUtils
      *
      * @param <T> Konkreter Typ von CharSequence
      * @param rows {@link List}
-     * @param ps {@link PrintStream}
+     * @param printStream {@link PrintStream}
      * @param separator String
-     * @see #padding(List, String)
      */
     @SuppressWarnings("resource")
-    public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream ps, final String separator)
+    public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream printStream, final String separator)
     {
         Objects.requireNonNull(rows, "rows required");
-        Objects.requireNonNull(ps, "printStream required");
+        Objects.requireNonNull(printStream, "printStream required");
 
         if (rows.isEmpty())
         {
             return;
         }
 
-        // int columnCount = rows.get(0).length;
+        // parallel() verfälscht die Reihenfolge.
+        rows.forEach(r -> printStream.println(join(r, separator)));
 
-        // Strings pro Spalte schreiben, parallel() verfälscht die Reihenfolge.
-        rows.forEach(r -> ps.println(join(r, separator)));
+        printStream.flush();
+    }
 
-        ps.flush();
+    /**
+     * Schreibt die Liste in den PrintStream.<br>
+     * Der Stream wird nicht geschlossen.
+     *
+     * @param <T> Konkreter Typ von CharSequence
+     * @param array {@link CharSequence}[]
+     * @param printStream {@link PrintStream}
+     * @param separator String
+     */
+    @SuppressWarnings("resource")
+    public static <T extends CharSequence> void write(final T[] array, final PrintStream printStream, final String separator)
+    {
+        Objects.requireNonNull(array, "rows required");
+        Objects.requireNonNull(printStream, "printStream required");
+
+        printStream.println(join(array, separator));
+
+        printStream.flush();
     }
 
     /**
