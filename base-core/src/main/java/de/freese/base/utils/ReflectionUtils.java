@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Geklaut von org.springframework.util.ReflectionUtils
+ * Geklaut von org.springframework.util.ReflectionUtils.
  *
  * @author Thomas Freese
  */

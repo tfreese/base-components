@@ -12,9 +12,15 @@ import de.freese.base.core.codegen.model.ClassModel;
  *
  * @author Thomas Freese
  */
-@FunctionalInterface
 public interface CodeWriter
 {
+    /**
+     * Liefert die Dateiendung.
+     *
+     * @return String
+     */
+    public abstract String getFileExtension();
+
     /**
      * Schreibt den Code einer Klasse.
      *

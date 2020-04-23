@@ -58,12 +58,22 @@ public class ClassModel extends AbstractModel
 
     /**
      * @param name String
-     * @param javaClazz Class
+     * @param fieldClazz Class
      * @return fieldModel {@link FieldModel}
      */
-    public FieldModel addField(final String name, final Class<?> javaClazz)
+    public FieldModel addField(final String name, final Class<?> fieldClazz)
     {
-        FieldModel fieldModel = new FieldModel(name, this, javaClazz);
+        return addField(name, fieldClazz.getName());
+    }
+
+    /**
+     * @param name String
+     * @param fieldClazzName String
+     * @return fieldModel {@link FieldModel}
+     */
+    public FieldModel addField(final String name, final String fieldClazzName)
+    {
+        FieldModel fieldModel = new FieldModel(name, this, fieldClazzName);
         this.fields.add(fieldModel);
 
         return fieldModel;
@@ -74,7 +84,15 @@ public class ClassModel extends AbstractModel
      */
     public void addImport(final Class<?> clazz)
     {
-        this.imports.add(clazz.getName());
+        addImport(clazz.getName());
+    }
+
+    /**
+     * @param clazzName String
+     */
+    public void addImport(final String clazzName)
+    {
+        this.imports.add(clazzName);
     }
 
     /**
@@ -103,9 +121,9 @@ public class ClassModel extends AbstractModel
 
         // @formatter:off
         getFields().stream()
-            .filter(field -> !field.getJavaClazz().isPrimitive())
-            .filter(field -> !field.getJavaClazz().isArray())
-            .forEach(field -> set.add(field.getJavaClazz().getName()))
+            .filter(field -> !field.isFieldClassPrimitive())
+            .filter(field -> !field.isFieldClassArray())
+            .forEach(field -> set.add(field.getFieldClazzName()))
             ;
         // @formatter:on
 

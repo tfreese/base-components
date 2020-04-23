@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javax.annotation.processing.Generated;
 import de.freese.base.core.codegen.model.ClassModel;
 import de.freese.base.core.codegen.model.FieldModel;
@@ -39,11 +40,10 @@ public abstract class AbstractCodeWriter implements CodeWriter
     }
 
     /**
-     * Liefert die Dateiendung.
-     *
-     * @return String
+     * @see de.freese.base.core.codegen.writer.CodeWriter#getFileExtension()
      */
-    protected abstract String getFileExtension();
+    @Override
+    public abstract String getFileExtension();
 
     /**
      * @see de.freese.base.core.codegen.writer.CodeWriter#write(de.freese.base.core.codegen.model.ClassModel, java.io.PrintStream)
@@ -69,7 +69,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
         writePackage(classModel, output);
         writeImports(classModel, output);
         writeClassHeader(classModel, output);
-        writeAttributes(classModel, output);
+        writeFields(classModel, output);
         writeConstructor(classModel, output);
         writeMethods(classModel, output);
         writeHashcode(classModel, output);
@@ -78,32 +78,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
         writeClassFooter(classModel, output);
 
         output.flush();
-    }
-
-    /**
-     * @param classModel {@link ClassModel}
-     * @param output {@link PrintStream}
-     */
-    protected void writeAttributes(final ClassModel classModel, final PrintStream output)
-    {
-        if (classModel.isSerializeable())
-        {
-            output.println();
-        }
-
-        for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext();)
-        {
-            FieldModel fieldModel = iterator.next();
-
-            writeJavaDoc(output, fieldModel.getComments(), TAB);
-            fieldModel.getAnnotations().forEach(i -> output.println(TAB + i));
-            output.printf(TAB + "private %s %s = %s;%n", fieldModel.getJavaClazz().getSimpleName(), fieldModel.getName(), fieldModel.getDefaultValueAsString());
-
-            if (iterator.hasNext())
-            {
-                output.println();
-            }
-        }
     }
 
     /**
@@ -176,7 +150,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
             writeJavaDoc(output, Arrays.asList("Full Constructor"), TAB, w -> {
                 for (FieldModel fieldModel : classModel.getFields())
                 {
-                    output.printf(TAB + " * @param %s %s%n", fieldModel.getName(), fieldModel.getJavaClazz().getSimpleName());
+                    output.printf(TAB + " * @param %s %s%n", fieldModel.getName(), fieldModel.getFieldClazzSimpleName());
                 }
             });
 
@@ -186,7 +160,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
             {
                 FieldModel fieldModel = iterator.next();
 
-                output.print(fieldModel.getJavaClazz().getSimpleName() + " " + fieldModel.getName());
+                output.print(fieldModel.getFieldClazzSimpleName() + " " + fieldModel.getName());
 
                 if (iterator.hasNext())
                 {
@@ -255,7 +229,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
             output.println();
 
-            if (fieldModel.getJavaClazz().isPrimitive())
+            if (fieldModel.isFieldClassPrimitive())
             {
                 output.printf(TAB + TAB + "if (this.%1$s != other.%1$s)%n", fieldName);
                 output.println(TAB + TAB + "{");
@@ -287,6 +261,41 @@ public abstract class AbstractCodeWriter implements CodeWriter
      * @param classModel {@link ClassModel}
      * @param output {@link PrintStream}
      */
+    protected void writeFields(final ClassModel classModel, final PrintStream output)
+    {
+        if (classModel.isSerializeable())
+        {
+            output.println();
+        }
+
+        for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext();)
+        {
+            FieldModel fieldModel = iterator.next();
+
+            writeJavaDoc(output, fieldModel.getComments(), TAB);
+            fieldModel.getAnnotations().forEach(i -> output.println(TAB + i));
+
+            if (fieldModel.isCollection())
+            {
+                output.printf(TAB + "private List<%s> %s = %s;%n", fieldModel.getFieldClazzSimpleName(), fieldModel.getName(),
+                        fieldModel.getDefaultValueAsString());
+            }
+            else
+            {
+                output.printf(TAB + "private %s %s = %s;%n", fieldModel.getFieldClazzSimpleName(), fieldModel.getName(), fieldModel.getDefaultValueAsString());
+            }
+
+            if (iterator.hasNext())
+            {
+                output.println();
+            }
+        }
+    }
+
+    /**
+     * @param classModel {@link ClassModel}
+     * @param output {@link PrintStream}
+     */
     protected void writeHashcode(final ClassModel classModel, final PrintStream output)
     {
         output.println();
@@ -301,7 +310,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
         // double vorhanden ?
         for (FieldModel fieldModel : classModel.getFields())
         {
-            if (fieldModel.getJavaClazz().equals(double.class))
+            if (fieldModel.getFieldClazz().equals(double.class))
             {
                 output.println(TAB + TAB + "long temp = 0L;");
                 break;
@@ -313,7 +322,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
         for (FieldModel fieldModel : classModel.getFields())
         {
             String fieldName = fieldModel.getName();
-            Class<?> clazz = fieldModel.getJavaClazz();
+            Class<?> clazz = fieldModel.getFieldClazz();
 
             if (clazz.equals(int.class))
             {
@@ -416,13 +425,22 @@ public abstract class AbstractCodeWriter implements CodeWriter
         for (FieldModel fieldModel : classModel.getFields())
         {
             String name = fieldModel.getName();
-            String typeName = fieldModel.getJavaClazz().getSimpleName();
+            String typeName = fieldModel.getFieldClazzSimpleName();
 
             // Setter
             output.println();
-            writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @param " + name + " " + typeName));
 
-            output.println(TAB + "public void set" + StringUtils.capitalize(name) + "(" + typeName + " " + name + ")");
+            if (fieldModel.isCollection())
+            {
+                writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @param " + name + " List<" + typeName + ">"));
+                output.println(TAB + "public void set" + StringUtils.capitalize(name) + "(List<" + typeName + "> " + name + ")");
+            }
+            else
+            {
+                writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @param " + name + " " + typeName));
+                output.println(TAB + "public void set" + StringUtils.capitalize(name) + "(" + typeName + " " + name + ")");
+            }
+
             output.println(TAB + "{");
 
             // if (fieldModel.getColumn().isNullable())
@@ -438,9 +456,18 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
             // Getter
             output.println();
-            writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @return " + typeName));
 
-            output.println(TAB + "public " + typeName + " get" + StringUtils.capitalize(name) + "()");
+            if (fieldModel.isCollection())
+            {
+                writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @return List<" + typeName + ">"));
+                output.println(TAB + "public List<" + typeName + "> get" + StringUtils.capitalize(name) + "()");
+            }
+            else
+            {
+                writeJavaDoc(output, fieldModel.getComments(), TAB, w -> w.println(TAB + " * @return " + typeName));
+                output.println(TAB + "public " + typeName + " get" + StringUtils.capitalize(name) + "()");
+            }
+
             output.println(TAB + "{");
             output.println(TAB + TAB + "return this." + name + ";");
             output.println(TAB + "}");
@@ -459,9 +486,10 @@ public abstract class AbstractCodeWriter implements CodeWriter
 
     /**
      * @param classModel {@link ClassModel}
+     * @param fields {@link ClassModel}
      * @param output {@link PrintStream}
      */
-    protected void writeToString(final ClassModel classModel, final PrintStream output)
+    protected void writeToString(final ClassModel classModel, final List<FieldModel> fields, final PrintStream output)
     {
         String className = classModel.getName();
 
@@ -474,13 +502,13 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.println(TAB + TAB + "StringBuilder sb = new StringBuilder();");
         output.println(TAB + TAB + "sb.append(\"" + className + " [\");");
 
-        for (Iterator<FieldModel> iterator = classModel.getFields().iterator(); iterator.hasNext();)
+        for (Iterator<FieldModel> iterator = fields.iterator(); iterator.hasNext();)
         {
             FieldModel fieldModel = iterator.next();
 
             String fieldName = fieldModel.getName();
 
-            if (fieldModel.getJavaClazz().isArray())
+            if (fieldModel.isFieldClassArray())
             {
                 output.printf(TAB + TAB + "sb.append(\"%1$s = \").append(Arrays.toString(this.%1$s))", fieldName);
             }
@@ -504,5 +532,14 @@ public abstract class AbstractCodeWriter implements CodeWriter
         output.println();
         output.println(TAB + TAB + "return sb.toString();");
         output.println(TAB + "}");
+    }
+
+    /**
+     * @param classModel {@link ClassModel}
+     * @param output {@link PrintStream}
+     */
+    protected void writeToString(final ClassModel classModel, final PrintStream output)
+    {
+        writeToString(classModel, classModel.getFields().stream().filter(f -> f.isUseForToStringMethod()).collect(Collectors.toList()), output);
     }
 }

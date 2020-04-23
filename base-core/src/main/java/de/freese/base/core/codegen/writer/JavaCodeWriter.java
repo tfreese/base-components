@@ -23,7 +23,7 @@ public class JavaCodeWriter extends AbstractCodeWriter
      * @see de.freese.base.core.codegen.writer.AbstractCodeWriter#getFileExtension()
      */
     @Override
-    protected String getFileExtension()
+    public String getFileExtension()
     {
         return ".java";
     }

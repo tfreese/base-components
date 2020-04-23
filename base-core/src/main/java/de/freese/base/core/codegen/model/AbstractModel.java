@@ -31,6 +31,11 @@ public abstract class AbstractModel
     public final String name;
 
     /**
+    *
+    */
+    public Object payload = null;
+
+    /**
      * Erstellt ein neues {@link AbstractModel} Object.
      *
      * @param name String
@@ -80,5 +85,22 @@ public abstract class AbstractModel
     public String getName()
     {
         return this.name;
+    }
+
+    /**
+     * @return Object
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T getPayload()
+    {
+        return (T) this.payload;
+    }
+
+    /**
+     * @param payload Object
+     */
+    public void setPayload(final Object payload)
+    {
+        this.payload = payload;
     }
 }
