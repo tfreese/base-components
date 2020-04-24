@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.border.EmptyBorder;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer einen {@link EmptyBorder}.
@@ -22,11 +22,11 @@ public class EmptyBorderStringResourceConverter extends AbstractResourceConverte
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public EmptyBorder parseString(final String key, final IResourceMap resourceMap)
+	public EmptyBorder parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		List<Double> tlbr =

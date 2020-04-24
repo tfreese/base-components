@@ -1,6 +1,6 @@
 package de.freese.base.swing.filter;
 
-import de.freese.base.core.model.SupportsPropertyChange;
+import de.freese.base.swing.SupportsPropertyChange;
 
 /**
  * Interface fuer eine Filterbedingung.

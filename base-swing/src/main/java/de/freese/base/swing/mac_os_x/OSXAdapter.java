@@ -29,8 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Adapter fuer Mac OS Menues.
- * 
+ * Adapter für Mac OS Menues.
+ *
  * @author Thomas Freese
  */
 public class OSXAdapter implements InvocationHandler
@@ -49,7 +49,7 @@ public class OSXAdapter implements InvocationHandler
      * Pass this method an Object and Method equipped to display application info.<br>
      * They will be called when the About menu item is selected from the application menu.
      * <p/>
-     * 
+     *
      * @param target Object
      * @param aboutHandler {@link Method}
      */
@@ -86,7 +86,7 @@ public class OSXAdapter implements InvocationHandler
      * Documents are registered with the Finder via the CFBundleDocumentTypes dictionary in the<br>
      * application bundle's Info.plist
      * <p/>
-     * 
+     *
      * @param target Object
      * @param fileHandler {@link Method}
      */
@@ -125,7 +125,7 @@ public class OSXAdapter implements InvocationHandler
     /**
      * setHandler creates a Proxy object from the passed OSXAdapter and adds it as an ApplicationListener
      * <p/>
-     * 
+     *
      * @param adapter {@link OSXAdapter}
      */
     public static void setHandler(final OSXAdapter adapter)
@@ -172,7 +172,7 @@ public class OSXAdapter implements InvocationHandler
      * Pass this method an Object and a Method equipped to display application options.<br>
      * They will be called when the Preferences menu item is selected from the application menu..
      * <p/>
-     * 
+     *
      * @param target Object
      * @param prefsHandler {@link Method}
      */
@@ -208,7 +208,7 @@ public class OSXAdapter implements InvocationHandler
      * Pass this method an Object and Method equipped to perform application shutdown logic.<br>
      * The method passed should return a boolean stating whether or not the quit should occur.
      * <p/>
-     * 
+     *
      * @param target Object
      * @param quitHandler {@link Method}
      */
@@ -220,7 +220,7 @@ public class OSXAdapter implements InvocationHandler
     /**
      *
      */
-    protected Object targetObject = null;
+    protected String proxySignature = null;
     /**
      *
      */
@@ -229,13 +229,13 @@ public class OSXAdapter implements InvocationHandler
     /**
      *
      */
-    protected String proxySignature = null;
+    protected Object targetObject = null;
 
     /**
      * Each OSXAdapter has the name of the EAWT method it intends to listen for (handleAbout, forexample),<br>
      * the Object that will ultimately perform the task, and the Method to be called on that Object Erstellt ein neues {@link OSXAdapter} Object.
      * <p/>
-     * 
+     *
      * @param proxySignature String
      * @param target Object
      * @param handler {@link Method}
@@ -254,7 +254,7 @@ public class OSXAdapter implements InvocationHandler
      * that comes with the various callbacks.<br>
      * See setFileHandler above for an example.
      * <p/>
-     * 
+     *
      * @param appleEvent Object
      *            <p/>
      * @return boolean
@@ -279,7 +279,7 @@ public class OSXAdapter implements InvocationHandler
      * This is the entry point for our proxy object; it is called every time an ApplicationListener<br>
      * method is invoked.
      * <p/>
-     * 
+     *
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
@@ -299,7 +299,7 @@ public class OSXAdapter implements InvocationHandler
      * Compare the method that was called to the intended method when the OSXAdapter instance was<br>
      * created (e.g. handleAbout, handleQuit, handleOpenFile, etc.).
      * <p/>
-     * 
+     *
      * @param method {@link Method}
      * @param args Object[]
      *            <p/>
@@ -314,7 +314,7 @@ public class OSXAdapter implements InvocationHandler
      * It is important to mark the ApplicationEvent as handled and cancel the default behavior.<br>
      * This method checks for a boolean result from the proxy method and sets the event accordingly.
      * <p/>
-     * 
+     *
      * @param event Object
      * @param handled boolean
      */

@@ -4,19 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-
 import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import de.freese.base.core.comparator.MayBeComparableComparator;
-
 /**
- * Implementierung einer eigenen Liste, welche bei Aenderungen Events feuert.<br>
- * Saemtliche Events werden im EDT gefeuert.<br>
- * Desweiteren ist es moeglich einen {@link Comparator} zu Uebergeben, welcher bei Aenderungen an der Liste automatisch die Sortierung
- * durchfuehrt, default ist {@link MayBeComparableComparator}.
+ * Implementierung einer eigenen Liste, welche bei Änderungen Events feuert.<br>
+ * Sämtliche Events werden im EDT gefeuert.<br>
  *
  * @author Thomas Freese
  * @param <E> Konkreter Typ der Listobjekte.
@@ -59,8 +54,6 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
     public EventList()
     {
         super();
-
-        this.comparator = new MayBeComparableComparator();
     }
 
     /**
@@ -194,6 +187,127 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
         {
             fireIntervalRemoved(0, oldSize - 1);
         }
+    }
+
+    /**
+     * Benachrichtigt die Listener, dass sich die Struktur geaendert hat.<br>
+     * Alle Listener werden im EDT benachrichtigt.
+     *
+     * @param startIndex int
+     * @param endIndex int
+     */
+    private void fireContentsChanged(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
+
+        Runnable runnable = () -> {
+            for (int i = listeners.length - 1; i >= 0; i--)
+            {
+                listeners[i].contentsChanged(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
+    }
+
+    /**
+     * Benachrichtigt die Listener, dass neue Daten hinzugekommen sind.<br>
+     * Alle Listener werden im EDT benachrichtigt.
+     *
+     * @param startIndex int
+     * @param endIndex int
+     */
+    private void fireIntervalAdded(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, start, end);
+
+        Runnable runnable = () -> {
+            for (int i = listeners.length - 1; i >= 0; i--)
+            {
+                listeners[i].intervalAdded(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
+    }
+
+    /**
+     * Benachrichtigt die Listener, dass Daten weggefallen sind.<br>
+     * Alle Listener werden im EDT benachrichtigt.
+     *
+     * @param startIndex int
+     * @param endIndex int
+     */
+    private void fireIntervalRemoved(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, start, end);
+
+        Runnable runnable = () -> {
+            for (int i = listeners.length - 1; i >= 0; i--)
+            {
+                listeners[i].intervalRemoved(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
+    }
+
+    /**
+     * Liefert den Comparator.
+     *
+     * @return {@link Comparator}<E>
+     */
+    private Comparator<? super E> getComparator()
+    {
+        return this.comparator;
     }
 
     /**
@@ -355,140 +469,6 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#update()
-     */
-    @Override
-    public void update()
-    {
-        sort();
-        fireContentsChanged(0, size() - 1);
-    }
-
-    /**
-     * Benachrichtigt die Listener, dass sich die Struktur geaendert hat.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
-     */
-    private void fireContentsChanged(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
-
-        Runnable runnable = () ->
-        {
-            for (int i = listeners.length - 1; i >= 0; i--)
-            {
-                listeners[i].contentsChanged(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
-    }
-
-    /**
-     * Benachrichtigt die Listener, dass neue Daten hinzugekommen sind.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
-     */
-    private void fireIntervalAdded(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, start, end);
-
-        Runnable runnable = () ->
-        {
-            for (int i = listeners.length - 1; i >= 0; i--)
-            {
-                listeners[i].intervalAdded(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
-    }
-
-    /**
-     * Benachrichtigt die Listener, dass Daten weggefallen sind.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
-     */
-    private void fireIntervalRemoved(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, start, end);
-
-        Runnable runnable = () ->
-        {
-            for (int i = listeners.length - 1; i >= 0; i--)
-            {
-                listeners[i].intervalRemoved(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
-    }
-
-    /**
-     * Liefert den Comparator.
-     *
-     * @return {@link Comparator}<E>
-     */
-    private Comparator<? super E> getComparator()
-    {
-        return this.comparator;
-    }
-
-    /**
      * Sortiert die Liste, wenn ein {@link Comparator} vorhanden ist.
      */
     private void sort()
@@ -501,5 +481,15 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
         this.isSorting = true;
         Collections.sort(this, getComparator());
         this.isSorting = false;
+    }
+
+    /**
+     * @see de.freese.base.swing.eventlist.IEventList#update()
+     */
+    @Override
+    public void update()
+    {
+        sort();
+        fireContentsChanged(0, size() - 1);
     }
 }

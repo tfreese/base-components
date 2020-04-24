@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer URLs.
@@ -21,11 +21,11 @@ public class URLStringResourceConverter extends AbstractResourceConverter<URL>
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public URL parseString(final String key, final IResourceMap resourceMap)
+	public URL parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		try

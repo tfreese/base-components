@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import de.freese.base.mvc.context.guistate.GuiStateManager;
 import de.freese.base.mvc.context.storage.LocalStorage;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.exception.DialogExceptionHandler;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 import de.freese.base.swing.task.TaskMonitor;
@@ -121,7 +121,7 @@ public final class ApplicationContext
 	/**
 	 * 
 	 */
-	private final Map<String, IResourceMap> resourceMaps = new HashMap<>();
+	private final Map<String, ResourceMap> resourceMaps = new HashMap<>();
 
 	/**
 	 * 
@@ -156,9 +156,9 @@ public final class ApplicationContext
 	 * Hinzufügen einer ResourceMap.
 	 * 
 	 * @param name String
-	 * @param resourceMap {@link IResourceMap}
+	 * @param resourceMap {@link ResourceMap}
 	 */
-	public void addResourceMap(final String name, final IResourceMap resourceMap)
+	public void addResourceMap(final String name, final ResourceMap resourceMap)
 	{
 		this.resourceMaps.put(name, resourceMap);
 	}
@@ -213,7 +213,7 @@ public final class ApplicationContext
 	 * @param name String
 	 * @return IResourceMap
 	 */
-	public IResourceMap getResourceMap(final String name)
+	public ResourceMap getResourceMap(final String name)
 	{
 		return this.resourceMaps.get(name);
 	}

@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Dimension;
 import java.util.List;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer eine {@link Dimension}.
@@ -21,11 +21,11 @@ public class DimensionStringResourceConverter extends AbstractResourceConverter<
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public Dimension parseString(final String key, final IResourceMap resourceMap)
+	public Dimension parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		List<Double> xy = parseDoubles(key, 2, "Invalid x,y Dimension string");

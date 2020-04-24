@@ -28,7 +28,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     private static final long serialVersionUID = -8037679488481229262L;
 
     /**
-     * The alpha level for this component.
+     *
      */
     private float alpha = 1.0f;
 
@@ -67,14 +67,14 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     private boolean oldOpaque;
 
     /**
-     * ms
+     *
      */
-    private int showDelay = 100;
+    private int showDelayMillies = 100;
 
     /**
-     * ms
+     *
      */
-    private int timerIncrement = 10;
+    private int timerIncrementMillies = 10;
 
     /**
      * Creates a new {@link TranslucentGlassPane} object.
@@ -100,7 +100,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         setAlpha(this.alphaStart);
         setBackground(Color.WHITE);
 
-        this.animateTimer = new Timer(getTimerIncrement(), event -> {
+        this.animateTimer = new Timer(getTimerIncrementMillies(), event -> {
             setAlpha(getAlpha() + TranslucentGlassPane.this.alphaIncrement);
         });
     }
@@ -139,23 +139,23 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     }
 
     /**
-     * Startverzoegerung fuer die Animation.
+     * Startverzögerung für die Animation in Millisekunden.
      *
-     * @return int, ms
+     * @return int
      */
-    public int getShowDelay()
+    public int getShowDelayMillies()
     {
-        return this.showDelay;
+        return this.showDelayMillies;
     }
 
     /**
-     * Zeitabstand zwischen den Animationen.
+     * Zeitabstand zwischen den Animationen in Millisekunden.
      *
-     * @return int, ms
+     * @return int
      */
-    public int getTimerIncrement()
+    public int getTimerIncrementMillies()
     {
-        return this.timerIncrement;
+        return this.timerIncrementMillies;
     }
 
     /**
@@ -330,7 +330,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
             repaint();
         }
 
-        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / (getShowDelay() / getTimerIncrement());
+        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / (getShowDelayMillies() / getTimerIncrementMillies());
     }
 
     // /**
@@ -346,23 +346,23 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     // }
 
     /**
-     * Startverzoegerung fuer die Animation.
+     * Startverzögerung für die Animation in Millisekunden.
      *
-     * @param showDelay int, ms
+     * @param showDelayMillies int
      */
-    public void setShowDelay(final int showDelay)
+    public void setShowDelayMillies(final int showDelayMillies)
     {
-        this.showDelay = showDelay;
+        this.showDelayMillies = showDelayMillies;
     }
 
     /**
-     * Zeitabstand zwischen den Animationen.
+     * Zeitabstand zwischen den Animationen in Millisekunden.
      *
-     * @param timerIncrement int, ms
+     * @param timerIncrementMillies int
      */
-    public void setTimerIncrement(final int timerIncrement)
+    public void setTimerIncrementMillies(final int timerIncrementMillies)
     {
-        this.timerIncrement = timerIncrement;
+        this.timerIncrementMillies = timerIncrementMillies;
     }
 
     /**

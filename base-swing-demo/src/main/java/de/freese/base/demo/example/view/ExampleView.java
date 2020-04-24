@@ -4,7 +4,7 @@ import de.freese.base.demo.task.DurationStatisikTask;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.process.BusinessProcess;
 import de.freese.base.mvc.view.AbstractView;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractTask;
 import de.freese.base.swing.task.DurationStatisikTaskListener;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
@@ -40,7 +40,7 @@ public class ExampleView extends AbstractView
      * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
      */
     @Override
-    protected IResourceMap getResourceMap()
+    protected ResourceMap getResourceMap()
     {
         return getContext().getResourceMap("example");
     }
@@ -57,7 +57,7 @@ public class ExampleView extends AbstractView
         setComponent(new ExamplePanel());
         getComponent().initialize();
 
-        IResourceMap resourceMap = getResourceMap();
+        ResourceMap resourceMap = getResourceMap();
 
         getComponent().getButtonTaskStatistik().setText(resourceMap.getString("example.button.task.statistik.text"));
 

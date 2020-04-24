@@ -13,17 +13,16 @@ import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import de.freese.base.core.model.Initializeable;
 import de.freese.base.mvc.context.ApplicationContext;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.TaskMonitor;
 import de.freese.base.utils.GuiUtils;
 
 /**
  * Diese StatusBar registriert sich als Listener am {@link TaskMonitor} und reagiert auf Events des aktuellen ForegroundTasks.<br>
- * Eine {@link IResourceMap} mit dem Namen "statusbar" muss im {@link ApplicationContext} vorhanden sein.
+ * Eine {@link ResourceMap} mit dem Namen "statusbar" muss im {@link ApplicationContext} vorhanden sein.
  */
-public class StatusBar extends JPanel implements PropertyChangeListener, Initializeable
+public class StatusBar extends JPanel implements PropertyChangeListener
 {
     /**
      *
@@ -90,7 +89,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener, Initial
     {
         super();
 
-        IResourceMap resourceMap = context.getResourceMap("statusbar");
+        ResourceMap resourceMap = context.getResourceMap("statusbar");
 
         Objects.requireNonNull(resourceMap, "resourceMap required");
 
@@ -130,9 +129,8 @@ public class StatusBar extends JPanel implements PropertyChangeListener, Initial
     }
 
     /**
-     * @see de.freese.base.core.model.Initializeable#initialize()
+     * Initialisiert die GUI.
      */
-    @Override
     public void initialize()
     {
         setLayout(new GridBagLayout());

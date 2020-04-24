@@ -17,11 +17,16 @@
 
     <dependencies>
         <!-- compile scope -->
-        <dependency>
+        <!--dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>base-core</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency-->
+        
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>        
 
         <!-- runtime scope -->
         <!-- provided scope -->

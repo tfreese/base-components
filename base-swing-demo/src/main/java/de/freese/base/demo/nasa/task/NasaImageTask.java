@@ -7,9 +7,9 @@ import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 
 import de.freese.base.demo.nasa.bp.IIOReadProgressAdapter;
-import de.freese.base.demo.nasa.bp.INasaBP;
-import de.freese.base.demo.nasa.view.INasaView;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.demo.nasa.bp.NasaBP;
+import de.freese.base.demo.nasa.view.NasaView;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractTask;
 
 /**
@@ -22,7 +22,7 @@ public class NasaImageTask extends AbstractTask<BufferedImage, Void>
 	/**
 	 *
 	 */
-	private final INasaBP nasaBP;
+	private final NasaBP nasaBP;
 
 	/**
 	 *
@@ -32,23 +32,23 @@ public class NasaImageTask extends AbstractTask<BufferedImage, Void>
 	/**
 	 *
 	 */
-	private final INasaView view;
+	private final NasaView view;
 
 	/**
 	 * 
 	 */
-	private final IResourceMap resourceMap;
+	private final ResourceMap resourceMap;
 
 	/**
 	 * Erstellt ein neues {@link NasaImageTask} Object.
 	 * 
-	 * @param nasaBP {@link INasaBP}
+	 * @param nasaBP {@link NasaBP}
 	 * @param url {@link URL}
-	 * @param view {@link INasaView}
-	 * @param resourceMap {@link IResourceMap}
+	 * @param view {@link NasaView}
+	 * @param resourceMap {@link ResourceMap}
 	 */
-	public NasaImageTask(final INasaBP nasaBP, final URL url, final INasaView view,
-			final IResourceMap resourceMap)
+	public NasaImageTask(final NasaBP nasaBP, final URL url, final NasaView view,
+			final ResourceMap resourceMap)
 	{
 		super();
 

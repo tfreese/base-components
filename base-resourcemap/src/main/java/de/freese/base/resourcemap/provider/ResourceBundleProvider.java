@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Thomas Freese
  */
-public final class ResourceBundleProvider implements IResourceProvider
+public final class ResourceBundleProvider implements ResourceProvider
 {
 	/**
 	 *
@@ -30,7 +30,7 @@ public final class ResourceBundleProvider implements IResourceProvider
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.provider.IResourceProvider#getResources(java.lang.String,
+	 * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String,
 	 *      java.util.Locale, java.lang.ClassLoader)
 	 */
 	@Override

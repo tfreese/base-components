@@ -16,13 +16,13 @@ import de.freese.base.swing.task.AbstractTask;
 public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker<Component>
 {
     /**
-     * 
+     *
      */
     private JComponent glassPane = null;
 
     /**
      * Erstellt ein neues {@link AbstractGlassPaneInputBlocker} Object.
-     * 
+     *
      * @param task {@link AbstractTask}
      * @param target {@link Component}
      */
@@ -52,8 +52,8 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
         if (this.glassPane == null)
         {
             TranslucentGlassPane gp = new TranslucentGlassPane();
-            gp.setShowDelay(100);
-            gp.setTimerIncrement(10);
+            gp.setShowDelayMillies(100);
+            gp.setTimerIncrementMillies(10);
 
             this.glassPane = gp;
         }
@@ -63,14 +63,14 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
 
     /**
      * Verarbeitet das Event des zur Zeit ausgefuehrten Tasks.
-     * 
+     *
      * @param evt {@link PropertyChangeEvent}
      */
     protected abstract void handleTaskEvent(PropertyChangeEvent evt);
 
     /**
      * Einblenden der GlassPane.
-     * 
+     *
      * @param visible boolean
      */
     protected void setGlassPaneVisible(final boolean visible)

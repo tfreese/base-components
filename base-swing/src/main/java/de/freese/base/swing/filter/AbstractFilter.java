@@ -56,7 +56,7 @@ public abstract class AbstractFilter implements Filter
 	}
 
 	/**
-	 * @see de.freese.base.core.model.SupportsPropertyChange#getPropertyChangeSupport()
+	 * @see de.freese.base.swing.SupportsPropertyChange#getPropertyChangeSupport()
 	 */
 	@Override
 	public final PropertyChangeSupport getPropertyChangeSupport()

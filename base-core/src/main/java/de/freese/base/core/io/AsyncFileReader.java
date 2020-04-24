@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import de.freese.base.core.model.GenericBuilder;
+import de.freese.base.core.model.builder.GenericBuilder;
 
 /**
  * Einlesen einer Datei über ein {@link AsynchronousFileChannel}.<br>

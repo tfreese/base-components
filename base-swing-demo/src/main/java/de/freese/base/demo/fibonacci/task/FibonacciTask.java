@@ -1,7 +1,7 @@
 package de.freese.base.demo.fibonacci.task;
 
-import de.freese.base.demo.fibonacci.bp.IFibonacciBP;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.demo.fibonacci.bp.FibonacciBP;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractTask;
 
 /**
@@ -14,12 +14,12 @@ public class FibonacciTask extends AbstractTask<Long, Void>
     /**
      *
      */
-    private final IFibonacciBP fibonacciBP;
+    private final FibonacciBP fibonacciBP;
 
     /**
      *
      */
-    private final IResourceMap resourceMap;
+    private final ResourceMap resourceMap;
 
     /**
      *
@@ -29,10 +29,10 @@ public class FibonacciTask extends AbstractTask<Long, Void>
     /**
      * Erstellt ein neues {@link FibonacciTask} Object.
      * 
-     * @param fibonacciBP {@link IFibonacciBP}
-     * @param resourceMap {@link IResourceMap}
+     * @param fibonacciBP {@link FibonacciBP}
+     * @param resourceMap {@link ResourceMap}
      */
-    public FibonacciTask(final IFibonacciBP fibonacciBP, final IResourceMap resourceMap)
+    public FibonacciTask(final FibonacciBP fibonacciBP, final ResourceMap resourceMap)
     {
         super();
 
@@ -66,7 +66,7 @@ public class FibonacciTask extends AbstractTask<Long, Void>
 
         setSubTitle(this.resourceMap.getString("fibonacci.start"));
 
-        final long operations = this.fibonacciBP.operations(this.value);
+        final long operations = this.fibonacciBP.getOperationCount(this.value);
         // System.out.println(this.operations);
 
         long result = this.fibonacciBP.fibonacci(this.value, value ->

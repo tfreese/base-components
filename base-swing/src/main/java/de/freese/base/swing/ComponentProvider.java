@@ -3,7 +3,7 @@
  */
 
 /**
- * 
+ *
  */
 package de.freese.base.swing;
 
@@ -11,15 +11,16 @@ import java.awt.Component;
 
 /**
  * Interface fuer alle Objekte, welche eine {@link Component} liefern koennen.
- * 
+ *
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface ComponentProvider
 {
-	/**
-	 * Liefert die GUI Componente eines Objektes.
-	 * 
-	 * @return {@link Component}
-	 */
-	public Component getComponent();
+    /**
+     * Liefert die GUI Componente eines Objektes.
+     * 
+     * @return {@link Component}
+     */
+    public Component getComponent();
 }

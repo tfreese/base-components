@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.Locale;
 
 /**
- * Diese {@link Exception} wird von einer {@link IResourceMap} geworfen, wenn eine Resource nicht
+ * Diese {@link Exception} wird von einer {@link ResourceMap} geworfen, wenn eine Resource nicht
  * gefunden wurde.
  * 
  * @author Thomas Freese

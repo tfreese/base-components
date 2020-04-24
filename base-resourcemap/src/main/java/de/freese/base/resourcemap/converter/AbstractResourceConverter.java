@@ -11,12 +11,12 @@ import java.util.Set;
 import javax.swing.ImageIcon;
 
 /**
- * Basisklasse eines {@link IResourceConverter}s.
+ * Basisklasse eines {@link ResourceConverter}s.
  * 
  * @author Thomas Freese
  * @param <T> Konkreter konvertierter Typ
  */
-public abstract class AbstractResourceConverter<T> implements IResourceConverter<T>
+public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>
 {
 	/**
 	 *
@@ -46,7 +46,7 @@ public abstract class AbstractResourceConverter<T> implements IResourceConverter
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#getSupportedTypes()
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#getSupportedTypes()
 	 */
 	@Override
 	public Set<Class<?>> getSupportedTypes()
@@ -128,7 +128,7 @@ public abstract class AbstractResourceConverter<T> implements IResourceConverter
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#supportsType(java.lang.Class)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#supportsType(java.lang.Class)
 	 */
 	@Override
 	public boolean supportsType(final Class<?> type)

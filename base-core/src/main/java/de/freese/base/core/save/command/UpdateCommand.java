@@ -5,15 +5,15 @@ import java.util.Collection;
 
 import de.freese.base.core.command.AbstractRemoteCommand;
 import de.freese.base.core.save.SaveContext;
-import de.freese.base.core.save.service.IUpdateService;
+import de.freese.base.core.save.service.UpdateService;
 
 /**
  * Basisklasse des Command-Patterns fuer ein Update-Kommando.<br>
  * Wird die {@link #execute()} Methode nicht ueberschrieben, wird versucht den CommandInvoker auf
- * {@link IUpdateService} zu casten.
+ * {@link UpdateService} zu casten.
  * 
  * @author Thomas Freese
- * @see IUpdateService
+ * @see UpdateService
  */
 public class UpdateCommand extends AbstractRemoteCommand
 {
@@ -39,7 +39,7 @@ public class UpdateCommand extends AbstractRemoteCommand
 	@Override
 	public void execute() throws Exception
 	{
-		IUpdateService service = (IUpdateService) getCommandInvoker();
+		UpdateService service = (UpdateService) getCommandInvoker();
 		SaveContext context = (SaveContext) getPayload();
 
 		if (getSource() instanceof Collection)

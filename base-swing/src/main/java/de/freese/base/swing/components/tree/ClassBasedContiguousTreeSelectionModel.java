@@ -2,12 +2,11 @@ package de.freese.base.swing.components.tree;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
 
 /**
- * Laesst nur fuer die uebergebenen Klassen die mehrfache Selektion zu.<br>
+ * Lässt nur für die übergebenen Klassen die mehrfache Selektion zu.<br>
  * Als Vergleichswert wird die LastPathComponent des {@link TreePath}s verwendet.<br>
  * Als Default wird intern DISCONTIGUOUS_TREE_SELECTION als SelectionMode verwendet.<br>
  *
@@ -36,11 +35,11 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
 
     /**
      * Erstellt ein neues {@link ClassBasedContiguousTreeSelectionModel} Object.
-     * 
+     *
      * @param clazz Class
      * @param clazzes Class[]; Optionale Klassen
      */
-    public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>... clazzes)
+    public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>...clazzes)
     {
         super();
 
@@ -115,8 +114,8 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
     }
 
     /**
-     * Liefert true, wenn die Klasse in dem KlassenArray enthalten ist.
-     * 
+     * Liefert true, wenn die Klasse in dem Klassen-Array enthalten ist.
+     *
      * @param clazz Class
      * @return boolean
      */

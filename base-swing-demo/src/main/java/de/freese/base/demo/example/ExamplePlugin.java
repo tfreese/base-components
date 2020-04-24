@@ -10,45 +10,45 @@ import de.freese.base.mvc.process.EmptyBusinessProcess;
 
 /**
  * Example Demo Plugin.
- * 
+ *
  * @author Thomas Freese
  */
 public class ExamplePlugin extends AbstractMVCPlugin
 {
-	/**
-	 * Erstellt ein neues {@link ExamplePlugin} Object.
-	 */
-	public ExamplePlugin()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link ExamplePlugin} Object.
+     */
+    public ExamplePlugin()
+    {
+        super();
+    }
 
-	/**
-	 * @see de.freese.base.mvc.AbstractMVCPlugin#getBundleName()
-	 */
-	@Override
-	protected String getBundleName()
-	{
-		return "bundles/example";
-	}
+    /**
+     * @see de.freese.base.mvc.AbstractMVCPlugin#getBundleName()
+     */
+    @Override
+    protected String getBundleName()
+    {
+        return "bundles/example";
+    }
 
-	/**
-	 * @see de.freese.base.core.model.NameProvider#getName()
-	 */
-	@Override
-	public String getName()
-	{
-		return "example";
-	}
+    /**
+     * @see de.freese.base.mvc.MVCPlugin#getName()
+     */
+    @Override
+    public String getName()
+    {
+        return "example";
+    }
 
-	/**
-	 * @see de.freese.base.core.model.Initializeable#initialize()
-	 */
-	@Override
-	public void initialize()
-	{
-		EmptyBusinessProcess process = new EmptyBusinessProcess();
-		ExampleView view = new ExampleView(process, getApplication().getContext());
-		setView(view);
-	}
+    /**
+     * @see de.freese.base.mvc.MVCPlugin#initialize()
+     */
+    @Override
+    public void initialize()
+    {
+        EmptyBusinessProcess process = new EmptyBusinessProcess();
+        ExampleView view = new ExampleView(process, getApplication().getContext());
+        setView(view);
+    }
 }

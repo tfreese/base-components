@@ -4,10 +4,10 @@ import java.util.Objects;
 import javax.swing.JComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.core.release.ReleaseVetoException;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.process.BusinessProcess;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.swing.exception.ReleaseVetoException;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 
 /**
@@ -88,11 +88,11 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * Liefert die {@link IResourceMap} dieser View.
+     * Liefert die {@link ResourceMap} dieser View.
      *
-     * @return {@link IResourceMap}
+     * @return {@link ResourceMap}
      */
-    protected abstract IResourceMap getResourceMap();
+    protected abstract ResourceMap getResourceMap();
 
     /**
      * @see de.freese.base.mvc.view.View#handleException(java.lang.Throwable)
@@ -102,7 +102,7 @@ public abstract class AbstractView implements View
     {
         SwingExceptionHandler exceptionHandler = getContext().getExceptionHandler();
 
-        exceptionHandler.handleException(throwable, getLogger(), getComponent(), getResourceMap());
+        exceptionHandler.handleException(throwable, getLogger(), getComponent(), (key, args) -> getResourceMap().getString(key, args));
 
         // getLogger().error(null, throwable);
         //
@@ -122,7 +122,7 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * @see de.freese.base.core.model.Initializeable#initialize()
+     * @see de.freese.base.mvc.view.View#initialize()
      */
     @Override
     public void initialize()
@@ -131,7 +131,7 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * @see de.freese.base.core.release.ReleasePrepareable#prepareRelease()
+     * @see de.freese.base.mvc.view.View#prepareRelease()
      */
     @Override
     public void prepareRelease() throws ReleaseVetoException
@@ -140,7 +140,7 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * @see de.freese.base.core.release.Releaseable#release()
+     * @see de.freese.base.mvc.view.View#release()
      */
     @Override
     public void release()

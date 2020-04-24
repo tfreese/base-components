@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer KeyStrokes.
@@ -21,10 +21,10 @@ public class KeyStrokeStringResourceConverter extends AbstractResourceConverter<
     }
 
     /**
-     * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String, de.freese.base.resourcemap.IResourceMap)
+     * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String, de.freese.base.resourcemap.ResourceMap)
      */
     @Override
-    public KeyStroke parseString(final String key, final IResourceMap resourceMap) throws ResourceConverterException
+    public KeyStroke parseString(final String key, final ResourceMap resourceMap) throws ResourceConverterException
     {
         String m_key = key;
 

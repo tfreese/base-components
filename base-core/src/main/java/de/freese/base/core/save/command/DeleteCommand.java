@@ -5,15 +5,15 @@ import java.util.Collection;
 
 import de.freese.base.core.command.AbstractRemoteCommand;
 import de.freese.base.core.save.SaveContext;
-import de.freese.base.core.save.service.IDeleteService;
+import de.freese.base.core.save.service.DeleteService;
 
 /**
  * Basisklasse des Command-Patterns fuer ein Delete-Kommando.<br>
  * Wird die {@link #execute()} Methode nicht ueberschrieben, wird versucht den CommandInvoker auf
- * {@link IDeleteService} zu casten.
+ * {@link DeleteService} zu casten.
  * 
  * @author Thomas Freese
- * @see IDeleteService
+ * @see DeleteService
  */
 public class DeleteCommand extends AbstractRemoteCommand
 {
@@ -39,7 +39,7 @@ public class DeleteCommand extends AbstractRemoteCommand
 	@Override
 	public void execute() throws Exception
 	{
-		IDeleteService service = (IDeleteService) getCommandInvoker();
+		DeleteService service = (DeleteService) getCommandInvoker();
 		SaveContext context = (SaveContext) getPayload();
 
 		if (getSource() instanceof Collection)

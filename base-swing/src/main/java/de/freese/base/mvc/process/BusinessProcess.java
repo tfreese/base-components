@@ -1,18 +1,33 @@
 package de.freese.base.mvc.process;
 
-import de.freese.base.core.model.Initializeable;
-import de.freese.base.core.release.ReleasePrepareable;
-import de.freese.base.core.release.Releaseable;
+import de.freese.base.swing.exception.ReleaseVetoException;
 
 /**
  * Interface eines BusinessProcesses.
- * 
+ *
  * @author Thomas Freese
  */
-public interface BusinessProcess extends Initializeable, Releaseable, ReleasePrepareable
+public interface BusinessProcess
 {
-	/**
-	 * Initialisiert von Daten.
-	 */
-	public void reload();
+    /**
+     * Initialisiert den Prozess.
+     */
+    public void initialize();
+
+    /**
+     * Pruefung, ob das Release durchgefuehrt werden kann.
+     *
+     * @throws ReleaseVetoException Falls was schief geht.
+     */
+    public void prepareRelease() throws ReleaseVetoException;
+
+    /**
+     * Freigeben verwendeter Resourcen.
+     */
+    public void release();
+
+    /**
+     * Reload von Daten.
+     */
+    public void reload();
 }

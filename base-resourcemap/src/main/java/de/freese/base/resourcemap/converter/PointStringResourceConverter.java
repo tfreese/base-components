@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Point;
 import java.util.List;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer einen {@link Point}.
@@ -21,11 +21,11 @@ public class PointStringResourceConverter extends AbstractResourceConverter<Poin
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public Point parseString(final String key, final IResourceMap resourceMap)
+	public Point parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		List<Double> xy = parseDoubles(key, 2, "Invalid x,y Point string");

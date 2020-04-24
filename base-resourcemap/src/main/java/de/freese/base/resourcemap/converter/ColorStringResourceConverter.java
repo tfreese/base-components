@@ -2,7 +2,7 @@ package de.freese.base.resourcemap.converter;
 
 import java.awt.Color;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * Konvertiert einen Text in ein {@link Color} Object.<br>
@@ -23,11 +23,11 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public Color parseString(final String key, final IResourceMap resourceMap)
+	public Color parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		Color color = null;

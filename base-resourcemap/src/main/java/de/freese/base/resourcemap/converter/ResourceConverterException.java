@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * Exception fuer {@link IResourceConverter}.
+ * Exception fuer {@link ResourceConverter}.
  * 
  * @author Thomas Freese
  */

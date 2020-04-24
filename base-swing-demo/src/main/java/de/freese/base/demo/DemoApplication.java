@@ -7,13 +7,10 @@ package de.freese.base.demo;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.nio.file.Paths;
-
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
-
 import de.freese.base.mvc.AbstractApplication;
 import de.freese.base.mvc.MVCPlugin;
-import de.freese.base.resourcemap.IResourceMap;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 
@@ -31,8 +28,7 @@ public class DemoApplication extends AbstractApplication
     {
         final AbstractApplication application = new DemoApplication();
 
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             application.initialize();
             application.getFrame().setVisible(true);
         });
@@ -87,7 +83,7 @@ public class DemoApplication extends AbstractApplication
         {
             Component component = plugin.getComponent();
 
-            IResourceMap resourceMap = plugin.getResourceMap();
+            ResourceMap resourceMap = plugin.getResourceMap();
             // IResourceMap resourceMap = getContext().getResourceMap(plugin.getName());
 
             getTabbedPane().addTab(resourceMap.getString(plugin.getName() + ".title"), component);
@@ -100,15 +96,12 @@ public class DemoApplication extends AbstractApplication
     @Override
     protected void initRecourceMapRoot()
     {
-        ResourceMap rootMap = new ResourceMap();
-        rootMap.setBaseName("bundles/demo");
-        rootMap.setResourceProvider(new ResourceBundleProvider());
+        ResourceMap rootMap = ResourceMap.create("bundles/demo", new ResourceBundleProvider());
         getContext().addResourceMap("root", rootMap);
 
         setResourceMapRoot(rootMap);
 
-        ResourceMap statusbarMap = new ResourceMap();
-        statusbarMap.setBaseName("bundles/statusbar");
+        ResourceMap statusbarMap = ResourceMap.create("bundles/statusbar");
         statusbarMap.setParent(rootMap);
         getContext().addResourceMap("statusbar", statusbarMap);
 

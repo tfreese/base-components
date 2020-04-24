@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * Laedt aus einem String (Path) ein Icon.
@@ -23,11 +23,11 @@ public class IconStringResourceConverter extends AbstractResourceConverter<Icon>
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public Icon parseString(final String key, final IResourceMap resourceMap)
+	public Icon parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		return loadImageIcon(key, resourceMap.getClassLoader());

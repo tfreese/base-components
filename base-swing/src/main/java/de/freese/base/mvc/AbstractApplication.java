@@ -16,17 +16,13 @@ import javax.swing.WindowConstants;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.core.model.Initializeable;
-import de.freese.base.core.model.NameProvider;
-import de.freese.base.core.release.ReleasePrepareable;
-import de.freese.base.core.release.ReleaseVetoException;
-import de.freese.base.core.release.Releaseable;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.context.guistate.GuiStateProvider;
 import de.freese.base.mvc.context.guistate.JsonGuiStateProvider;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.StatusBar;
 import de.freese.base.swing.components.ExtFrame;
+import de.freese.base.swing.exception.ReleaseVetoException;
 import de.freese.base.utils.UICustomization;
 
 /**
@@ -34,7 +30,7 @@ import de.freese.base.utils.UICustomization;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractApplication implements NameProvider, Initializeable, Releaseable, ReleasePrepareable
+public abstract class AbstractApplication
 {
     /**
      * WindowListener zum beenden.
@@ -93,7 +89,7 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     /**
      *
      */
-    private IResourceMap resourceMapRoot = null;
+    private ResourceMap resourceMapRoot = null;
 
     /**
      *
@@ -165,9 +161,8 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
      * Liefert den Namen der Application fuer den Titel der View.<br>
      * Dieser Name wird auch fuer den Daten-Ordner im User-Verzeichnis verwendet.
      *
-     * @see de.freese.base.core.model.NameProvider#getName()
+     * @return String
      */
-    @Override
     public abstract String getName();
 
     /**
@@ -196,11 +191,11 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     }
 
     /**
-     * Liefert die {@link IResourceMap} der Application.
+     * Liefert die {@link ResourceMap} der Application.
      *
-     * @return {@link IResourceMap}
+     * @return {@link ResourceMap}
      */
-    public IResourceMap getResourceMapRoot()
+    public ResourceMap getResourceMapRoot()
     {
         return this.resourceMapRoot;
     }
@@ -227,7 +222,7 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     {
         getLogger().info("Initialize Frame");
 
-        IResourceMap resourceMap = getResourceMapRoot();
+        ResourceMap resourceMap = getResourceMapRoot();
 
         JFrame frame = getFrame();
         frame.addWindowListener(new MainFrameListener());
@@ -248,9 +243,8 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     }
 
     /**
-     * @see de.freese.base.core.model.Initializeable#initialize()
+     * Initialisiert das PlugIns.
      */
-    @Override
     public void initialize()
     {
         getLogger().info("Start Application");
@@ -346,7 +340,7 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     }
 
     /**
-     * Liefert die {@link IResourceMap} der Application.
+     * Liefert die {@link ResourceMap} der Application.
      */
     protected abstract void initRecourceMapRoot();
 
@@ -401,9 +395,10 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     }
 
     /**
-     * @see de.freese.base.core.release.ReleasePrepareable#prepareRelease()
+     * Pruefung, ob das Release durchgefuehrt werden kann.
+     *
+     * @throws ReleaseVetoException Falls was schief geht.
      */
-    @Override
     public void prepareRelease() throws ReleaseVetoException
     {
         getLogger().info("Prepare Release");
@@ -422,9 +417,8 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     }
 
     /**
-     * @see de.freese.base.core.release.Releaseable#release()
+     * Freigeben verwendeter Resourcen.
      */
-    @Override
     public void release()
     {
         getLogger().info("Release");
@@ -451,11 +445,11 @@ public abstract class AbstractApplication implements NameProvider, Initializeabl
     }
 
     /**
-     * Setzt die {@link IResourceMap} der Application.
+     * Setzt die {@link ResourceMap} der Application.
      *
-     * @param resourceMapRoot {@link IResourceMap}
+     * @param resourceMapRoot {@link ResourceMap}
      */
-    protected void setResourceMapRoot(final IResourceMap resourceMapRoot)
+    protected void setResourceMapRoot(final ResourceMap resourceMapRoot)
     {
         this.resourceMapRoot = resourceMapRoot;
     }

@@ -14,7 +14,7 @@ public interface SwingExceptionHandler extends ExceptionHandler
 {
     /**
      * Verarbeitet ein Throwable und loggt die Fehlermeldung.
-     * 
+     *
      * @param throwable {@link Throwable}
      * @param logger {@link Logger}
      */
@@ -22,7 +22,7 @@ public interface SwingExceptionHandler extends ExceptionHandler
 
     /**
      * Verarbeitet ein Throwable, loggt die Fehlermeldung und nutzt die ParentComponent fuer einen FehlerDialog.
-     * 
+     *
      * @param throwable {@link Throwable}
      * @param logger {@link Logger}
      * @param parentComponent {@link Component}
@@ -31,11 +31,11 @@ public interface SwingExceptionHandler extends ExceptionHandler
 
     /**
      * Verarbeitet ein Throwable, loggt die Fehlermeldung und nutzt die ParentComponent fuer einen FehlerDialog.
-     * 
+     *
      * @param throwable {@link Throwable}
      * @param logger {@link Logger}
      * @param parentComponent {@link Component}
-     * @param translatorAdapter {@link Translator}
+     * @param translator {@link Translator}
      */
-    public void handleException(Throwable throwable, Logger logger, Component parentComponent, Translator translatorAdapter);
+    public void handleException(Throwable throwable, Logger logger, Component parentComponent, Translator translator);
 }

@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer URIs.
@@ -21,11 +21,11 @@ public class URIStringResourceConverter extends AbstractResourceConverter<URI>
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public URI parseString(final String key, final IResourceMap resourceMap)
+	public URI parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		try

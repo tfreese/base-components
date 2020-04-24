@@ -1,6 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * Basis Resourceconverter fuer Numbers.
@@ -30,11 +30,11 @@ public abstract class AbstractNumberResourceConverter<T extends Number> extends
 	protected abstract T parseString(String key, int radix) throws NumberFormatException;
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public T parseString(final String key, final IResourceMap resourceMap)
+	public T parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		try

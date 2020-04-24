@@ -32,7 +32,7 @@ public class TestResourceMap
     /**
      *
      */
-    private static IResourceMap resourceMap = null;
+    private static ResourceMap resourceMap = null;
 
     /**
      *
@@ -40,11 +40,9 @@ public class TestResourceMap
     @BeforeAll
     public static void beforeAll()
     {
-        ResourceMap parentRM = new ResourceMap();
-        parentRM.setBaseName("parentTest");
+        ResourceMap parentRM = ResourceMap.create("parentTest");
 
-        resourceMap = new ResourceMap();
-        resourceMap.setBaseName("resourcemap/test");
+        resourceMap = ResourceMap.create("resourcemap/test");
         resourceMap.setParent(parentRM);
     }
 

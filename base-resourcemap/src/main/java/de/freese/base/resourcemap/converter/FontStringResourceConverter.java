@@ -2,7 +2,7 @@ package de.freese.base.resourcemap.converter;
 
 import java.awt.Font;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * Laedt aus einem String einen Font.<br>
@@ -21,11 +21,11 @@ public class FontStringResourceConverter extends AbstractResourceConverter<Font>
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public Font parseString(final String key, final IResourceMap resourceMap)
+	public Font parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		return Font.decode(key);

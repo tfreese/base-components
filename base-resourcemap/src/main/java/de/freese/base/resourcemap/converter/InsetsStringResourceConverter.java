@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Insets;
 import java.util.List;
 
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer {@link Insets}.
@@ -21,11 +21,11 @@ public class InsetsStringResourceConverter extends AbstractResourceConverter<Ins
 	}
 
 	/**
-	 * @see de.freese.base.resourcemap.converter.IResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.IResourceMap)
+	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
+	 *      de.freese.base.resourcemap.ResourceMap)
 	 */
 	@Override
-	public Insets parseString(final String key, final IResourceMap resourceMap)
+	public Insets parseString(final String key, final ResourceMap resourceMap)
 		throws ResourceConverterException
 	{
 		List<Double> tlbr = parseDoubles(key, 4, "Invalid top,left,bottom,right Insets string");

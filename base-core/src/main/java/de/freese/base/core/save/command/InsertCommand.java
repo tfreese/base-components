@@ -5,15 +5,15 @@ import java.util.Collection;
 
 import de.freese.base.core.command.AbstractRemoteCommand;
 import de.freese.base.core.save.SaveContext;
-import de.freese.base.core.save.service.IInsertService;
+import de.freese.base.core.save.service.InsertService;
 
 /**
  * Basisklasse des Command-Patterns fuer ein Insert-Kommando.<br>
  * Wird die {@link #execute()} Methode nicht ueberschrieben, wird versucht den CommandInvoker auf
- * {@link IInsertService} zu casten.
+ * {@link InsertService} zu casten.
  * 
  * @author Thomas Freese
- * @see IInsertService
+ * @see InsertService
  */
 public class InsertCommand extends AbstractRemoteCommand
 {
@@ -39,7 +39,7 @@ public class InsertCommand extends AbstractRemoteCommand
 	@Override
 	public void execute() throws Exception
 	{
-		IInsertService service = (IInsertService) getCommandInvoker();
+		InsertService service = (InsertService) getCommandInvoker();
 		SaveContext context = (SaveContext) getPayload();
 
 		if (getSource() instanceof Collection)

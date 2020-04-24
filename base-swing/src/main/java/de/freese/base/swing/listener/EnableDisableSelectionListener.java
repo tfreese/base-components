@@ -12,7 +12,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * Diese Klasse dient als {@link ListSelectionListener} oder {@link TreeSelectionListener}. Sie deaktiviert oder aktiviert eine Componente/Action, je nachdem ob
+ * Diese Klasse dient als {@link ListSelectionListener} oder {@link TreeSelectionListener}.<br>
+ * Sie deaktiviert oder aktiviert eine Componente/Action, je nachdem ob<br>
  * eine Auswahl in einem {@link ListSelectionModel} oder {@link TreeSelectionListener} getroffen wurde.
  *
  * @author Thomas Freese

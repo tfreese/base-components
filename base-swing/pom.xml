@@ -19,11 +19,6 @@
 		<!-- compile scope -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>base-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>base-net</artifactId>
 			<version>${project.version}</version>
 		</dependency>

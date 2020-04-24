@@ -74,7 +74,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     }
 
     /**
-     * @see de.freese.base.core.model.SupportsPropertyChange#getPropertyChangeSupport()
+     * @see de.freese.base.swing.SupportsPropertyChange#getPropertyChangeSupport()
      */
     @Override
     public final PropertyChangeSupport getPropertyChangeSupport()

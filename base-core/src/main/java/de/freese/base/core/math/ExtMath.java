@@ -27,8 +27,42 @@ public final class ExtMath
      */
     public static final char[] CHAR_ARRAY =
     {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
-            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'O',
+            'P',
+            'Q',
+            'R',
+            'S',
+            'T',
+            'U',
+            'V',
+            'W',
+            'X',
+            'Y',
+            'Z'
     };
 
     /**
@@ -76,7 +110,7 @@ public final class ExtMath
 
         for (int i = 0; i < num_array.length; i++)
         {
-            result += (Arrays.binarySearch(CHAR_ARRAY, num_array[num_array.length - 1 - i]) * java.lang.Math.pow(base, i));
+            result += (Arrays.binarySearch(CHAR_ARRAY, num_array[num_array.length - 1 - i]) * Math.pow(base, i));
         }
 
         return result;
@@ -168,7 +202,7 @@ public final class ExtMath
             n = n.add(BigInteger.ONE);
         }
 
-        list.add(new String(bi.toString()));
+        list.add(bi.toString());
 
         return list;
     }
@@ -534,7 +568,7 @@ public final class ExtMath
             }
         }
 
-        list.add(new String(bi.toString()));
+        list.add(bi.toString());
 
         return list;
     }

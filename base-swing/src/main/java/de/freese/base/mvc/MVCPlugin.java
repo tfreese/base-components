@@ -4,32 +4,52 @@
 
 package de.freese.base.mvc;
 
-import de.freese.base.core.model.Initializeable;
-import de.freese.base.core.model.NameProvider;
-import de.freese.base.core.release.ReleasePrepareable;
-import de.freese.base.core.release.Releaseable;
-import de.freese.base.resourcemap.IResourceMap;
+import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.ComponentProvider;
+import de.freese.base.swing.exception.ReleaseVetoException;
 
 /**
  * Interface fuer ein Plugin des MVC Frameworks.
- * 
+ *
  * @author Thomas Freese
  */
-public interface MVCPlugin extends NameProvider, ComponentProvider, Initializeable,
-		Releaseable, ReleasePrepareable
+public interface MVCPlugin extends ComponentProvider
 {
-	/**
-	 * Liefert die ResourceMap des Plugins.
-	 * 
-	 * @return {@link IResourceMap}
-	 */
-	public IResourceMap getResourceMap();
+    /**
+     * Liefert den Namen des PlugIns.
+     *
+     * @return String
+     */
+    public String getName();
 
-	/**
-	 * Setzt die Application.
-	 * 
-	 * @param application {@link AbstractApplication}
-	 */
-	public void setApplication(AbstractApplication application);
+    /**
+     * Liefert die ResourceMap des PlugIns.
+     *
+     * @return {@link ResourceMap}
+     */
+    public ResourceMap getResourceMap();
+
+    /**
+     * Initialisiert das PlugIns.
+     */
+    public void initialize();
+
+    /**
+     * Pruefung, ob das Release durchgefuehrt werden kann.
+     *
+     * @throws ReleaseVetoException Falls was schief geht.
+     */
+    public void prepareRelease() throws ReleaseVetoException;
+
+    /**
+     * Freigeben verwendeter Resourcen.
+     */
+    public void release();
+
+    /**
+     * Setzt die Application.
+     *
+     * @param application {@link AbstractApplication}
+     */
+    public void setApplication(AbstractApplication application);
 }

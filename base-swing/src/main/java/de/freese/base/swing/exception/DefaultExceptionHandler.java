@@ -45,10 +45,10 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
      * Liefert die übersetzte Exception (HumanReadable).
      *
      * @param throwable {@link Throwable}
-     * @param translatorAdapter {@link Translator}
+     * @param translator {@link Translator}
      * @return String
      */
-    protected String getTranslatedMessage(final Throwable throwable, final Translator translatorAdapter)
+    protected String getTranslatedMessage(final Throwable throwable, final Translator translator)
     {
         String message = throwable.getLocalizedMessage();
 
@@ -68,7 +68,7 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
         else if (throwable instanceof AbstractValidationException)
         {
             AbstractValidationException ve = (AbstractValidationException) throwable;
-            Translator ta = translatorAdapter;
+            Translator ta = translator;
 
             if (ta == null)
             {
@@ -113,9 +113,9 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
      *      de.freese.base.core.i18n.Translator)
      */
     @Override
-    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translatorAdapter)
+    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translator)
     {
-        String message = getTranslatedMessage(throwable, translatorAdapter);
+        String message = getTranslatedMessage(throwable, translator);
 
         logger.error(message);
         logger.error(null, throwable);
