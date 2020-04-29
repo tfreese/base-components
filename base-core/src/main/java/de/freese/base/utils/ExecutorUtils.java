@@ -4,6 +4,8 @@
 
 package de.freese.base.utils;
 
+import java.io.IOException;
+import java.nio.channels.AsynchronousChannelGroup;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -113,6 +115,64 @@ public final class ExecutorUtils
         ExecutorService executorService = (exposeUnconfigurableExecutor ? Executors.unconfigurableExecutorService(threadPoolExecutor) : threadPoolExecutor);
 
         return executorService;
+    }
+
+    /**
+     * Shutdown der {@link AsynchronousChannelGroup}.
+     *
+     * @param channelGroup {@link AsynchronousChannelGroup}
+     * @param logger {@link Logger}
+     */
+    public static void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger)
+    {
+        logger.info("shutdown AsynchronousChannelGroup");
+
+        if (channelGroup == null)
+        {
+            return;
+        }
+
+        channelGroup.shutdown();
+
+        try
+        {
+            // Wait a while for existing tasks to terminate.
+            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS))
+            {
+                if (logger.isWarnEnabled())
+                {
+                    logger.warn("Timed out while waiting for channelGroup");
+                }
+
+                channelGroup.shutdownNow(); // Cancel currently executing tasks
+
+                // Wait a while for tasks to respond to being cancelled
+                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS))
+                {
+                    logger.error("ChannelGroup did not terminate");
+                }
+            }
+        }
+        catch (InterruptedException | IOException ex)
+        {
+            if (logger.isWarnEnabled())
+            {
+                logger.warn("Interrupted while waiting for ChannelGroup");
+            }
+
+            // (Re-)Cancel if current thread also interrupted
+            try
+            {
+                channelGroup.shutdownNow();
+            }
+            catch (IOException ex2)
+            {
+                logger.error("ChannelGroup did not terminate");
+            }
+
+            // Preserve interrupt status
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**

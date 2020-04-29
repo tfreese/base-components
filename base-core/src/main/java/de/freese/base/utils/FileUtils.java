@@ -18,6 +18,14 @@ import java.nio.file.attribute.BasicFileAttributes;
 public final class FileUtils
 {
     /**
+    *
+    */
+    private static final String[] SIZE_UNITS = new String[]
+    {
+            "B", "KB", "MB", "GB", "TB"
+    };
+
+    /**
      * Kopiert die bestehende Datei nach *.last.
      *
      * @param path {@link Path}
@@ -139,7 +147,10 @@ public final class FileUtils
             Files.delete(last);
         }
 
-        Files.move(path, last); // StandardCopyOption
+        if (Files.exists(path))
+        {
+            Files.move(path, last); // StandardCopyOption
+        }
     }
 
     /**
@@ -175,6 +186,21 @@ public final class FileUtils
         name = name.replace("__", "_");
 
         return name;
+    }
+
+    /**
+     * @param size long
+     * @return String, z.B. '___,___ MB'
+     */
+    public static String toHumanReadableSize(final long size)
+    {
+        int unitIndex = (int) (Math.log10(size) / 3);
+        double unitValue = 1 << (unitIndex * 10);
+
+        // String readableSize = new DecimalFormat("#,##0.#").format(size / unitValue) + " " + SIZE_UNITS[unitIndex];
+        String readableSize = String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);
+
+        return readableSize;
     }
 
     /**
