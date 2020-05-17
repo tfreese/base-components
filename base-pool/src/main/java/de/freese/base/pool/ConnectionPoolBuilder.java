@@ -496,6 +496,12 @@ public class ConnectionPoolBuilder extends AbstractPoolBuilder<ConnectionPoolBui
         }
         else
         {
+            // H2
+            // ingres
+            // mariaDB
+            // microsoft SQL Server
+            // mysql
+            // postgresql
             query = "select 1";
         }
 
