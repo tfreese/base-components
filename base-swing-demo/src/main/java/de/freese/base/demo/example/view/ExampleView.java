@@ -48,7 +48,6 @@ public class ExampleView extends AbstractView
     /**
      * @see de.freese.base.mvc.view.AbstractView#initialize()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void initialize()
     {
@@ -63,10 +62,10 @@ public class ExampleView extends AbstractView
 
         getComponent().getButtonTaskStatistik().addActionListener(event -> {
             AbstractTask<?, ?> task = new DurationStatisikTask();
-            task.setInputBlocker(new DefaultGlassPaneInputBlocker(task, getComponent()));
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(getComponent()));
 
-            // Koennte als konfigurierbare Funktion im Task implementiert werden
-            task.addTaskListener(new DurationStatisikTaskListener());
+            // Könnte als konfigurierbare Funktion im Task implementiert werden
+            task.addPropertyChangeListener(new DurationStatisikTaskListener());
 
             getContext().getTaskService().execute(task);
         });

@@ -15,6 +15,7 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.swing.task.SwingTask;
 import de.freese.base.swing.task.TaskMonitor;
 import de.freese.base.utils.GuiUtils;
 
@@ -81,7 +82,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
 
     /**
      * Erstellt ein neues {@link StatusBar} Object.<br>
-     * die StatusBar reagiert auf Events des aktuell im {@link TaskMonitor} enthaltenen ForegroundTasks.
+     * Die StatusBar reagiert auf Events des aktuell im {@link TaskMonitor} enthaltenen ForegroundTasks.
      *
      * @param context {@link ApplicationContext}
      */
@@ -173,18 +174,18 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     {
         String propertyName = evt.getPropertyName();
 
-        if ("started".equals(propertyName))
+        if (SwingTask.PROPERTY_STARTED.equals(propertyName))
         {
             showBusyAnimation();
             this.progressBar.setEnabled(true);
             this.progressBar.setIndeterminate(true);
         }
-        else if ("subtitle".equals(propertyName))
+        else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName))
         {
             String text = (String) (evt.getNewValue());
             setMessage(text);
         }
-        else if ("progress".equals(propertyName))
+        else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName))
         {
             int value = ((Integer) (evt.getNewValue())).intValue();
             this.progressBar.setEnabled(true);

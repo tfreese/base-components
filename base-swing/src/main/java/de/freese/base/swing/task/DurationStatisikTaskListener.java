@@ -1,5 +1,7 @@
 package de.freese.base.swing.task;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -13,8 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-@SuppressWarnings("rawtypes")
-public final class DurationStatisikTaskListener implements TaskListener
+public final class DurationStatisikTaskListener implements PropertyChangeListener
 {
     /**
      *
@@ -40,84 +41,6 @@ public final class DurationStatisikTaskListener implements TaskListener
     }
 
     /**
-     * @see de.freese.base.swing.task.TaskListener#cancelled(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void cancelled(final TaskEvent event)
-    {
-        stopTimer();
-    }
-
-    /**
-     * @see de.freese.base.swing.task.TaskListener#doInBackground(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void doInBackground(final TaskEvent event)
-    {
-        final AbstractTask task = event.getSource();
-        String taskName = task.getName();
-
-        if ((taskName == null) || (taskName.length() == 0))
-        {
-            LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
-            taskName = task.getClass().getName();
-        }
-
-        TaskStatistik taskStatistik = getTaskStatistik(taskName);
-        final long mittelwert = taskStatistik.getAvg();
-
-        if (mittelwert > 0)
-        {
-            this.timer = new Timer(250, e -> {
-                if (mittelwert <= 0)
-                {
-                    return;
-                }
-
-                long execution = task.getCurrentDuration(TimeUnit.MILLISECONDS);
-                float prozent = execution / (float) mittelwert;
-
-                if (prozent > 0.99)
-                {
-                    prozent = 0.99F;
-                }
-
-                task.setProgress(prozent);
-
-                if (prozent > 0.99)
-                {
-                    stopTimer();
-                }
-            });
-
-            this.timer.start();
-        }
-        // else
-        // {
-        // // Trigger Event
-        // task.setProgress(1);
-        // }
-    }
-
-    /**
-     * @see de.freese.base.swing.task.TaskListener#failed(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void failed(final TaskEvent event)
-    {
-        stopTimer();
-    }
-
-    /**
-     * @see de.freese.base.swing.task.TaskListener#finished(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void finished(final TaskEvent event)
-    {
-        stopTimer();
-    }
-
-    /**
      * Liefert die Statistiken fuer den Task.
      *
      * @param taskName String
@@ -138,30 +61,85 @@ public final class DurationStatisikTaskListener implements TaskListener
     }
 
     /**
-     * @see de.freese.base.swing.task.TaskListener#interrupted(de.freese.base.swing.task.TaskEvent)
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void interrupted(final TaskEvent event)
+    public void propertyChange(final PropertyChangeEvent event)
     {
-        stopTimer();
-    }
+        String propertyName = event.getPropertyName();
 
-    /**
-     * @see de.freese.base.swing.task.TaskListener#process(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void process(final TaskEvent event)
-    {
-        // LOGGER.info(event.getValue().toString());
-    }
+        if (SwingTask.PROPERTY_CANCELLED.equals(propertyName))
+        {
+            stopTimer();
+        }
+        else if (SwingTask.PROPERTY_FAILED.equals(propertyName))
+        {
+            stopTimer();
+        }
+        else if (SwingTask.PROPERTY_INTERRUPTED.equals(propertyName))
+        {
+            stopTimer();
+        }
+        else if (SwingTask.PROPERTY_FINISHED.equals(propertyName))
+        {
+            stopTimer();
+        }
+        else if (SwingTask.PROPERTY_STARTED.equals(propertyName))
+        {
+            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            String taskName = task.getName();
 
-    /**
-     * @see de.freese.base.swing.task.TaskListener#progress(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void progress(final TaskEvent event)
-    {
-        // LOGGER.info(event.getValue().toString());
+            if ((taskName == null) || (taskName.length() == 0))
+            {
+                LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
+                taskName = task.getClass().getName();
+            }
+
+            TaskStatistik taskStatistik = getTaskStatistik(taskName);
+            final long mittelwert = taskStatistik.getAvg();
+
+            if (mittelwert > 0)
+            {
+                this.timer = new Timer(250, e -> {
+                    if (mittelwert <= 0)
+                    {
+                        return;
+                    }
+
+                    long execution = task.getCurrentDuration(TimeUnit.MILLISECONDS);
+                    float prozent = execution / (float) mittelwert;
+
+                    if (prozent > 0.99)
+                    {
+                        prozent = 0.99F;
+                    }
+
+                    task.setProgress(prozent);
+
+                    if (prozent > 0.99)
+                    {
+                        stopTimer();
+                    }
+                });
+
+                this.timer.start();
+            }
+        }
+        else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
+        {
+            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            String taskName = task.getName();
+
+            if ((taskName == null) || (taskName.length() == 0))
+            {
+                LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
+                taskName = task.getClass().getName();
+            }
+
+            TaskStatistik taskStatistik = getTaskStatistik(taskName);
+            taskStatistik.measureDuration(task.getExecutionDuration(TimeUnit.MILLISECONDS));
+            updateTaskStatistik(taskStatistik);
+        }
     }
 
     /**
@@ -173,26 +151,6 @@ public final class DurationStatisikTaskListener implements TaskListener
         {
             this.timer.stop();
         }
-    }
-
-    /**
-     * @see de.freese.base.swing.task.TaskListener#succeeded(de.freese.base.swing.task.TaskEvent)
-     */
-    @Override
-    public void succeeded(final TaskEvent event)
-    {
-        AbstractTask<?, ?> task = event.getSource();
-        String taskName = task.getName();
-
-        if ((taskName == null) || (taskName.length() == 0))
-        {
-            LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
-            taskName = task.getClass().getName();
-        }
-
-        TaskStatistik taskStatistik = getTaskStatistik(taskName);
-        taskStatistik.measureDuration(task.getExecutionDuration(TimeUnit.MILLISECONDS));
-        updateTaskStatistik(taskStatistik);
     }
 
     /**

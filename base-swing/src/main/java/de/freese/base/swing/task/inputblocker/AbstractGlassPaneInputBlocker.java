@@ -1,12 +1,10 @@
 package de.freese.base.swing.task.inputblocker;
 
 import java.awt.Component;
-import java.beans.PropertyChangeEvent;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
 import de.freese.base.swing.TranslucentGlassPane;
-import de.freese.base.swing.task.AbstractTask;
 
 /**
  * InputBlocker der die gesamte Anwendung mit einer GlassPane blockiert.
@@ -23,16 +21,13 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
     /**
      * Erstellt ein neues {@link AbstractGlassPaneInputBlocker} Object.
      *
-     * @param task {@link AbstractTask}
      * @param target {@link Component}
      */
-    public AbstractGlassPaneInputBlocker(final AbstractTask<?, ?> task, final Component target)
+    public AbstractGlassPaneInputBlocker(final Component target)
     {
-        super(task, target);
+        super(target);
 
         setChangeMouseCursor(true);
-
-        task.addPropertyChangeListener(event -> handleTaskEvent(event));
     }
 
     /**
@@ -60,13 +55,6 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
 
         return this.glassPane;
     }
-
-    /**
-     * Verarbeitet das Event des zur Zeit ausgefuehrten Tasks.
-     *
-     * @param evt {@link PropertyChangeEvent}
-     */
-    protected abstract void handleTaskEvent(PropertyChangeEvent evt);
 
     /**
      * Einblenden der GlassPane.

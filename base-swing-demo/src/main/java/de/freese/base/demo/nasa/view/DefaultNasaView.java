@@ -3,14 +3,12 @@ package de.freese.base.demo.nasa.view;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-
 import de.freese.base.demo.nasa.bp.NasaBP;
 import de.freese.base.demo.nasa.task.NasaImageTask;
 import de.freese.base.mvc.context.ApplicationContext;
@@ -38,6 +36,17 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     /**
+     * @param button {@link JButton}
+     * @param resourceMap {@link ResourceMap}
+     * @param key String
+     */
+    private void decorate(final JButton button, final ResourceMap resourceMap, final String key)
+    {
+        button.setText(resourceMap.getString(key + ".text"));
+        button.setIcon(resourceMap.getIcon(key + ".icon"));
+    }
+
+    /**
      * @see de.freese.base.mvc.view.AbstractView#getComponent()
      */
     @Override
@@ -53,6 +62,15 @@ public class DefaultNasaView extends AbstractView implements NasaView
     public NasaBP getProcess()
     {
         return (NasaBP) super.getProcess();
+    }
+
+    /**
+     * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
+     */
+    @Override
+    protected ResourceMap getResourceMap()
+    {
+        return getContext().getResourceMap("nasa");
     }
 
     /**
@@ -72,8 +90,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
         decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
         decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
 
-        getComponent().getButtonPrevious().addActionListener(event ->
-        {
+        getComponent().getButtonPrevious().addActionListener(event -> {
             URL url = null;
 
             try
@@ -89,8 +106,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
 
             startTask(url);
         });
-        getComponent().getButtonNext().addActionListener(event ->
-        {
+        getComponent().getButtonNext().addActionListener(event -> {
             URL url = null;
 
             try
@@ -106,8 +122,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
 
             startTask(url);
         });
-        getComponent().getButtonCancel().addActionListener(event ->
-        {
+        getComponent().getButtonCancel().addActionListener(event -> {
             AbstractTask<?, ?> task = getContext().getTaskMonitor().getForegroundTask();
 
             if (task != null)
@@ -181,33 +196,13 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     /**
-     * @param button {@link JButton}
-     * @param resourceMap {@link ResourceMap}
-     * @param key String
-     */
-    private void decorate(final JButton button, final ResourceMap resourceMap, final String key)
-    {
-        button.setText(resourceMap.getString(key + ".text"));
-        button.setIcon(resourceMap.getIcon(key + ".icon"));
-    }
-
-    /**
      * @param url {@link URL}
      */
     private void startTask(final URL url)
     {
         NasaImageTask task = new NasaImageTask(getProcess(), url, this, getResourceMap());
-        task.setInputBlocker(new ComponentInputBlocker(task, getComponent()));
+        task.setInputBlocker(new ComponentInputBlocker(getComponent()));
 
         getContext().getTaskService().execute(task);
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
-     */
-    @Override
-    protected ResourceMap getResourceMap()
-    {
-        return getContext().getResourceMap("nasa");
     }
 }

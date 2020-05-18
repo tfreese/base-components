@@ -3,193 +3,179 @@ package de.freese.base.swing.task.inputblocker;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
+import java.beans.PropertyChangeEvent;
 import java.util.Arrays;
-
 import javax.swing.JRootPane;
 import javax.swing.RootPaneContainer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.swing.task.AbstractTask;
 import de.freese.base.utils.GuiUtils;
 
 /**
  * InputBlocker koennen fuer einen AbstractTask GUI-Elemente fuer die Eingabe blockieren.
- * 
+ *
  * @author Thomas Freese
  * @param <T> Konkreter Typ des Targets
  */
 public abstract class AbstractInputBlocker<T> implements InputBlocker
 {
-	/**
-	 *
-	 */
-	private boolean changeMouseCursor = false;
+    /**
+     *
+     */
+    private boolean changeMouseCursor = false;
 
-	/**
-	 *
-	 */
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	/**
-	 *
-	 */
-	private final T[] targets;
+    /**
+     *
+     */
+    private final T[] targets;
 
-	/**
-	 * 
-	 */
-	private final AbstractTask<?, ?> task;
+    /**
+     * Erstellt ein neues {@link AbstractInputBlocker} Object.
+     *
+     * @param target Object
+     * @param targets Object[]
+     */
+    @SuppressWarnings("unchecked")
+    public AbstractInputBlocker(final T target, final T...targets)
+    {
+        super();
 
-	/**
-	 * Erstellt ein neues {@link AbstractInputBlocker} Object.
-	 * 
-	 * @param task {@link AbstractTask}
-	 * @param target Object
-	 * @param targets Object[]
-	 */
-	@SuppressWarnings("unchecked")
-	public AbstractInputBlocker(final AbstractTask<?, ?> task, final T target, final T...targets)
-	{
-		super();
+        T[] temp = Arrays.copyOf(targets, targets.length + 1);
+        temp[targets.length] = target;
 
-		if (task == null)
-		{
-			throw new NullPointerException("task");
-		}
+        this.targets = temp;
+    }
 
-		T[] temp = Arrays.copyOf(targets, targets.length + 1);
-		temp[targets.length] = target;
+    /**
+     * Gibt die aktive {@link JRootPane} zurueck.
+     *
+     * @return {@link JRootPane}
+     */
+    protected JRootPane getActiveRootPane()
+    {
+        // Von den Targets holen
+        JRootPane rootPane = null;
 
-		this.task = task;
-		this.targets = temp;
-	}
+        for (T target : getTargets())
+        {
+            if (rootPane != null)
+            {
+                break;
+            }
 
-	/**
-	 * Gibt die aktive {@link JRootPane} zurueck.
-	 * 
-	 * @return {@link JRootPane}
-	 */
-	protected JRootPane getActiveRootPane()
-	{
-		// Von den Targets holen
-		JRootPane rootPane = null;
+            if (target instanceof Component)
+            {
+                Component root = (Component) target;
+                RootPaneContainer rpc = null;
 
-		for (T target : getTargets())
-		{
-			if (rootPane != null)
-			{
-				break;
-			}
+                while (root != null)
+                {
+                    if (root instanceof RootPaneContainer)
+                    {
+                        rpc = (RootPaneContainer) root;
+                        break;
+                    }
 
-			if (target instanceof Component)
-			{
-				Component root = (Component) target;
-				RootPaneContainer rpc = null;
+                    root = root.getParent();
+                }
 
-				while (root != null)
-				{
-					if (root instanceof RootPaneContainer)
-					{
-						rpc = (RootPaneContainer) root;
-						break;
-					}
+                // Das aktuelle Fenster holen
+                if (rpc == null)
+                {
+                    Frame activeFrame = GuiUtils.getActiveFrame();
 
-					root = root.getParent();
-				}
+                    if (activeFrame instanceof RootPaneContainer)
+                    {
+                        rpc = (RootPaneContainer) activeFrame;
+                    }
+                }
 
-				// Das aktuelle Fenster holen
-				if (rpc == null)
-				{
-					Frame activeFrame = GuiUtils.getActiveFrame();
+                rootPane = rpc != null ? rpc.getRootPane() : null;
+            }
+        }
 
-					if (activeFrame instanceof RootPaneContainer)
-					{
-						rpc = (RootPaneContainer) activeFrame;
-					}
-				}
+        if (rootPane == null)
+        {
+            getLogger().warn("Keine JRootPane gefunden");
+        }
 
-				rootPane = rpc != null ? rpc.getRootPane() : null;
-			}
-		}
+        return rootPane;
+        // if (rpc != null)
+        // {
+        // this.lastRootPane = rpc.getRootPane();
+        // }
+        //
+        // return this.lastRootPane;
+    }
 
-		if (rootPane == null)
-		{
-			getLogger().warn("Keine JRootPane gefunden");
-		}
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
 
-		return rootPane;
-		// if (rpc != null)
-		// {
-		// this.lastRootPane = rpc.getRootPane();
-		// }
-		//
-		// return this.lastRootPane;
-	}
+    /**
+     * Liefert die zu blockenden Objekte (JComponent, Action etc.).
+     *
+     * @return Object
+     */
+    protected T[] getTargets()
+    {
+        return this.targets;
+    }
 
-	/**
-	 * @return {@link Logger}
-	 */
-	protected Logger getLogger()
-	{
-		return this.logger;
-	}
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent event)
+    {
+        // NO-OP
+    }
 
-	/**
-	 * Liefert die zu blockenden Objekte (JComponent, Action etc.).
-	 * 
-	 * @return Object
-	 */
-	protected T[] getTargets()
-	{
-		return this.targets;
-	}
+    /**
+     * Wenn false, wird der Mousecursor nicht veraendert.
+     *
+     * @param changeMouseCursor boolean
+     */
+    protected void setChangeMouseCursor(final boolean changeMouseCursor)
+    {
+        this.changeMouseCursor = changeMouseCursor;
+    }
 
-	/**
-	 * @return {@link AbstractTask}
-	 */
-	protected AbstractTask<?, ?> getTask()
-	{
-		return this.task;
-	}
+    /**
+     * Aendert den MouseZeiger.
+     *
+     * @param busy boolean
+     */
+    protected void setMouseCursorBusy(final boolean busy)
+    {
+        if (!this.changeMouseCursor)
+        {
+            return;
+        }
 
-	/**
-	 * Wenn false, wird der Mousecursor nicht veraendert.
-	 * 
-	 * @param changeMouseCursor boolean
-	 */
-	protected void setChangeMouseCursor(final boolean changeMouseCursor)
-	{
-		this.changeMouseCursor = changeMouseCursor;
-	}
+        JRootPane rootPane = getActiveRootPane();
 
-	/**
-	 * Aendert den MouseZeiger.
-	 * 
-	 * @param busy boolean
-	 */
-	protected void setMouseCursorBusy(final boolean busy)
-	{
-		if (!this.changeMouseCursor)
-		{
-			return;
-		}
+        if (rootPane == null)
+        {
+            return;
+        }
 
-		JRootPane rootPane = getActiveRootPane();
-
-		if (rootPane == null)
-		{
-			return;
-		}
-
-		if (busy)
-		{
-			rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		}
-		else
-		{
-			rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		}
-	}
+        if (busy)
+        {
+            rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        }
+        else
+        {
+            rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
+    }
 }

@@ -13,12 +13,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class TaskStatistik implements Serializable
 {
     /**
-     * Anzahl Werte fuer die Statistik.
+     * Anzahl Werte für die Statistik.
      */
     private static final int MAX_SIZE = 10;
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1789042123984173851L;
 
@@ -34,7 +34,7 @@ public class TaskStatistik implements Serializable
     private Date lastAccess = new Date();
 
     /**
-     * 
+     *
      */
     private String taskName = "";
 
@@ -48,10 +48,10 @@ public class TaskStatistik implements Serializable
 
     /**
      * Hinzufuegen einer Zeit und ggf. entfernen der aeltesten Zeit aus der Liste.
-     * 
+     *
      * @param zeit long
      */
-    private void appendDuration(final long zeit)
+    protected void appendDuration(final long zeit)
     {
         this.durations.add(zeit);
 
@@ -64,7 +64,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Durchschnittliche Ausfuehrungszeit in ms.
-     * 
+     *
      * @return long
      */
     public long getAvg()
@@ -107,7 +107,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Datum des letzten Zugriffs.
-     * 
+     *
      * @return {@link Date}
      */
     public Date getLastAccess()
@@ -117,7 +117,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Maximale Ausfuehrungszeit in ms.
-     * 
+     *
      * @return long
      */
     public long getMax()
@@ -134,7 +134,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Minimale Ausfuehrungszeit in ms.
-     * 
+     *
      * @return long
      */
     public long getMin()
@@ -151,7 +151,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Name des Tasks.
-     * 
+     *
      * @return String
      */
     public String getTaskName()
@@ -161,7 +161,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Setzt neue gemessene Ausfuehrungszeit in ms.
-     * 
+     *
      * @param duration long
      */
     public void measureDuration(final long duration)
@@ -179,7 +179,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Setzt alle gemessenen Zeiten (ms).
-     * 
+     *
      * @param durations long[]
      */
     public void setDurations(final long[] durations)
@@ -192,7 +192,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Datum des letzten Zugriffs.
-     * 
+     *
      * @param lastAccess {@link Date}
      */
     public void setLastAccess(final Date lastAccess)
@@ -202,7 +202,7 @@ public class TaskStatistik implements Serializable
 
     /**
      * Name des Tasks.
-     * 
+     *
      * @param taskName String
      */
     public void setTaskName(final String taskName)

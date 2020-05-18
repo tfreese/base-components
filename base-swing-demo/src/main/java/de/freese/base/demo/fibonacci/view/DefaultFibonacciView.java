@@ -1,14 +1,14 @@
 package de.freese.base.demo.fibonacci.view;
 
 import java.awt.Component;
-import java.util.List;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import de.freese.base.demo.fibonacci.bp.FibonacciBP;
 import de.freese.base.demo.fibonacci.task.FibonacciTask;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.task.TaskEvent;
-import de.freese.base.swing.task.TaskListenerAdapter;
+import de.freese.base.swing.task.SwingTask;
 import de.freese.base.swing.task.inputblocker.ComponentInputBlocker;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
@@ -24,7 +24,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
      *
      * @author Thomas Freese
      */
-    private class FibonacciTaskListener extends TaskListenerAdapter<Long, Void>
+    private class FibonacciTaskListener implements PropertyChangeListener
     {
         /**
          * Erstellt ein neues {@link FibonacciTaskListener} Object.
@@ -35,68 +35,27 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
         }
 
         /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#cancelled(de.freese.base.swing.task.TaskEvent)
+         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */
         @Override
-        public void cancelled(final TaskEvent<Void> event)
+        public void propertyChange(final PropertyChangeEvent event)
         {
-            super.cancelled(event);
-        }
+            String propertyName = event.getPropertyName();
 
-        /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#doInBackground(de.freese.base.swing.task.TaskEvent)
-         */
-        @Override
-        public void doInBackground(final TaskEvent<Void> event)
-        {
-            super.doInBackground(event);
-        }
+            if (SwingTask.PROPERTY_FAILED.equals(propertyName))
+            {
+                handleException((Throwable) event.getNewValue());
+            }
+            else if (SwingTask.PROPERTY_INTERRUPTED.equals(propertyName))
+            {
+                handleException((Throwable) event.getNewValue());
+            }
+            else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
+            {
+                setResult((long) event.getNewValue());
 
-        /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#failed(de.freese.base.swing.task.TaskEvent)
-         */
-        @Override
-        public void failed(final TaskEvent<Throwable> event)
-        {
-            handleException(event.getValue());
-        }
-
-        /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#finished(de.freese.base.swing.task.TaskEvent)
-         */
-        @Override
-        public void finished(final TaskEvent<Void> event)
-        {
-            super.finished(event);
-        }
-
-        /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#interrupted(de.freese.base.swing.task.TaskEvent)
-         */
-        @Override
-        public void interrupted(final TaskEvent<InterruptedException> event)
-        {
-            super.interrupted(event);
-        }
-
-        /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#process(de.freese.base.swing.task.TaskEvent)
-         */
-        @Override
-        public void process(final TaskEvent<List<Void>> event)
-        {
-            super.process(event);
-        }
-
-        /**
-         * @see de.freese.base.swing.task.TaskListenerAdapter#succeeded(de.freese.base.swing.task.TaskEvent)
-         */
-        @Override
-        public void succeeded(final TaskEvent<Long> event)
-        {
-            setResult(event.getValue().longValue());
-
-            getLogger().info("Succeeded");
+                getLogger().info("Succeeded");
+            }
         }
     }
 
@@ -162,10 +121,10 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
 
             // Task mit GlassPaneInputBlocker
             FibonacciTask task = new FibonacciTask(getProcess(), getResourceMap());
-            task.setInputBlocker(new DefaultGlassPaneInputBlocker(task, getComponent()));
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(getComponent()));
 
             task.setValue(Integer.parseInt(getComponent().getTextField().getText()));
-            task.addTaskListener(new FibonacciTaskListener());
+            task.addPropertyChangeListener(new FibonacciTaskListener());
 
             getContext().getTaskService().execute(task);
         });
@@ -176,10 +135,10 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
 
             // Task mit ComponentInputBlocker
             FibonacciTask task = new FibonacciTask(getProcess(), getResourceMap());
-            task.setInputBlocker(new ComponentInputBlocker(task, (Component) event.getSource()));
+            task.setInputBlocker(new ComponentInputBlocker((Component) event.getSource()));
 
             task.setValue(Integer.parseInt(getComponent().getTextField().getText()));
-            task.addTaskListener(new FibonacciTaskListener());
+            task.addPropertyChangeListener(new FibonacciTaskListener());
 
             getContext().getTaskService().execute(task);
         });
