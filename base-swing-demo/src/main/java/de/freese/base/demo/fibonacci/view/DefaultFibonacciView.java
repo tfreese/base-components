@@ -46,10 +46,6 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
             {
                 handleException((Throwable) event.getNewValue());
             }
-            else if (SwingTask.PROPERTY_INTERRUPTED.equals(propertyName))
-            {
-                handleException((Throwable) event.getNewValue());
-            }
             else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
             {
                 setResult((long) event.getNewValue());
@@ -126,7 +122,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
             task.setValue(Integer.parseInt(getComponent().getTextField().getText()));
             task.addPropertyChangeListener(new FibonacciTaskListener());
 
-            getContext().getTaskService().execute(task);
+            getContext().getTaskManager().execute(task);
         });
 
         getComponent().getButtonComponentBlock().setText(resourceMap.getString("fibonacci.button.component.text"));
@@ -140,7 +136,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
             task.setValue(Integer.parseInt(getComponent().getTextField().getText()));
             task.addPropertyChangeListener(new FibonacciTaskListener());
 
-            getContext().getTaskService().execute(task);
+            getContext().getTaskManager().execute(task);
         });
     }
 

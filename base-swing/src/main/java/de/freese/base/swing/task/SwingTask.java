@@ -22,24 +22,9 @@ public interface SwingTask
     public static final String PROPERTY_CANCELLED = "cancelled";
 
     /**
-     * Nicht mehr in Ausführung.
-     */
-    public static final String PROPERTY_DONE = "done";
-
-    /**
      * Abbruch mit Fehler.
      */
     public static final String PROPERTY_FAILED = "failed";
-
-    /**
-     * Finale Methode, wird immer aufgerufen.
-     */
-    public static final String PROPERTY_FINISHED = "finished";
-
-    /**
-     * Abgebrochen durch Thread interrrupt.
-     */
-    public static final String PROPERTY_INTERRUPTED = "interrupted";
 
     /**
      * Ausführung von Zwischenergebnissen.

@@ -67,7 +67,7 @@ public class ExampleView extends AbstractView
             // Könnte als konfigurierbare Funktion im Task implementiert werden
             task.addPropertyChangeListener(new DurationStatisikTaskListener());
 
-            getContext().getTaskService().execute(task);
+            getContext().getTaskManager().execute(task);
         });
     }
 }

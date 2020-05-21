@@ -41,7 +41,7 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
     }
 
     /**
-     * Liefert die Statistiken fuer den Task.
+     * Liefert die Statistiken für den Task.
      *
      * @param taskName String
      * @return {@link TaskStatistik}
@@ -76,13 +76,20 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
         {
             stopTimer();
         }
-        else if (SwingTask.PROPERTY_INTERRUPTED.equals(propertyName))
+        else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
         {
-            stopTimer();
-        }
-        else if (SwingTask.PROPERTY_FINISHED.equals(propertyName))
-        {
-            stopTimer();
+            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            String taskName = task.getName();
+
+            if ((taskName == null) || (taskName.length() == 0))
+            {
+                LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
+                taskName = task.getClass().getName();
+            }
+
+            TaskStatistik taskStatistik = getTaskStatistik(taskName);
+            taskStatistik.measureDuration(task.getExecutionDuration(TimeUnit.MILLISECONDS));
+            updateTaskStatistik(taskStatistik);
         }
         else if (SwingTask.PROPERTY_STARTED.equals(propertyName))
         {
@@ -100,7 +107,7 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
 
             if (mittelwert > 0)
             {
-                this.timer = new Timer(250, e -> {
+                this.timer = new Timer(250, evt -> {
                     if (mittelwert <= 0)
                     {
                         return;
@@ -124,21 +131,6 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
 
                 this.timer.start();
             }
-        }
-        else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
-        {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
-            String taskName = task.getName();
-
-            if ((taskName == null) || (taskName.length() == 0))
-            {
-                LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
-                taskName = task.getClass().getName();
-            }
-
-            TaskStatistik taskStatistik = getTaskStatistik(taskName);
-            taskStatistik.measureDuration(task.getExecutionDuration(TimeUnit.MILLISECONDS));
-            updateTaskStatistik(taskStatistik);
         }
     }
 

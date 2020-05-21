@@ -1,0 +1,242 @@
+/**
+ * Created: 21.05.2020
+ */
+
+package de.freese.base.swing.task;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import javax.swing.event.SwingPropertyChangeSupport;
+
+/**
+ * Diese Klasse verwaltet die einzelnen {@link AbstractTask}s.
+ *
+ * @author Thomas Freese
+ */
+public class TaskManager
+{
+    /**
+     * PropertyChangeListener auf den aktuell aktiven Task.
+     *
+     * @author Thomas Freese
+     */
+    private class ForegroundTaskPCL implements PropertyChangeListener
+    {
+        /**
+         * Erstellt ein neues {@link TaskPCL} Object.
+         */
+        public ForegroundTaskPCL()
+        {
+            super();
+        }
+
+        /**
+         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+         */
+        @Override
+        public void propertyChange(final PropertyChangeEvent event)
+        {
+            // Event an die Listener des TaskManagers weiterleiten.
+            firePropertyChange(event);
+
+            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+
+            switch (event.getPropertyName())
+            {
+                case SwingTask.PROPERTY_CANCELLED:
+                case SwingTask.PROPERTY_FAILED:
+                case SwingTask.PROPERTY_SUCCEEDED:
+                    removeForegroundTask(task);
+                    return;
+                default:
+                    // NO-OP
+            }
+        }
+    }
+
+    /**
+     * PropertyChangeListener auf einen Task.
+     *
+     * @author Thomas Freese
+     */
+    private class TaskPCL implements PropertyChangeListener
+    {
+        /**
+         * Erstellt ein neues {@link TaskPCL} Object.
+         */
+        public TaskPCL()
+        {
+            super();
+        }
+
+        /**
+         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+         */
+        @Override
+        public void propertyChange(final PropertyChangeEvent event)
+        {
+            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+
+            if (SwingTask.PROPERTY_STARTED.equals(event.getPropertyName()))
+            {
+                setForegroundTask(task);
+            }
+        }
+    }
+
+    /**
+    *
+    */
+    private final ExecutorService executorService;
+
+    /**
+    *
+    */
+    private AbstractTask<?, ?> foregroundTask = null;
+
+    /**
+    *
+    */
+    private final PropertyChangeListener foregroundTaskPCL;
+
+    /**
+    *
+    */
+    private final PropertyChangeSupport propertyChangeSupport;
+
+    /**
+    *
+    */
+    private final PropertyChangeListener taskPCL;
+
+    /**
+     * Erstellt ein neues {@link TaskManager} Object.
+     *
+     * @param executorService {@link ExecutorService}
+     */
+    public TaskManager(final ExecutorService executorService)
+    {
+        super();
+
+        this.executorService = Objects.requireNonNull(executorService, "executorService required");
+        this.propertyChangeSupport = new SwingPropertyChangeSupport(this, true);
+        this.taskPCL = new TaskPCL();
+        this.foregroundTaskPCL = new ForegroundTaskPCL();
+    }
+
+    /**
+     * Hinzufügen eines PropertyChangeListeners.
+     *
+     * @param listener {@link PropertyChangeListener}
+     */
+    public void addPropertyChangeListener(final PropertyChangeListener listener)
+    {
+        this.propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Ausführen eines Tasks.
+     *
+     * @param task {@link AbstractTask}
+     */
+    public void execute(final AbstractTask<?, ?> task)
+    {
+        Objects.requireNonNull(task, "task required");
+
+        if (!task.isPending())
+        {
+            throw new IllegalStateException("task is running or has already been executed");
+        }
+
+        task.addPropertyChangeListener(this.taskPCL);
+
+        getExecutorService().execute(task);
+    }
+
+    /**
+     * Feuert ein PropertyChangeEvent.
+     *
+     * @param event {@link PropertyChangeEvent}
+     */
+    protected void firePropertyChange(final PropertyChangeEvent event)
+    {
+        this.propertyChangeSupport.firePropertyChange(event);
+    }
+
+    /**
+     * Feuert ein PropertyChangeEvent.
+     *
+     * @param propertyName String
+     * @param oldValue Object
+     * @param newValue Object
+     */
+    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
+    {
+        this.propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    }
+
+    /**
+     * @return {@link ExecutorService}
+     */
+    protected ExecutorService getExecutorService()
+    {
+        return this.executorService;
+    }
+
+    /**
+     * @return {@link AbstractTask}
+     */
+    public AbstractTask<?, ?> getForegroundTask()
+    {
+        return this.foregroundTask;
+    }
+
+    /**
+     * Entfernen des aktuell aktiven Tasks.
+     *
+     * @param task {@link AbstractTask}
+     */
+    protected void removeForegroundTask(final AbstractTask<?, ?> task)
+    {
+        if (this.foregroundTask != null)
+        {
+            this.foregroundTask.removePropertyChangeListener(this.foregroundTaskPCL);
+        }
+
+        this.foregroundTask = null;
+    }
+
+    /**
+     * Entfernen eines PropertyChangeListeners.
+     *
+     * @param listener {@link PropertyChangeListener}
+     */
+    public void removePropertyChangeListener(final PropertyChangeListener listener)
+    {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    /**
+     * Setzen des aktuell aktiven Tasks.
+     *
+     * @param task {@link AbstractTask}
+     */
+    protected void setForegroundTask(final AbstractTask<?, ?> task)
+    {
+        if (this.foregroundTask != null)
+        {
+            // Wenn es schon einen gibt, dann nicht neu zuweisen.
+            return;
+        }
+
+        this.foregroundTask = task;
+        this.foregroundTask.removePropertyChangeListener(this.taskPCL);
+        this.foregroundTask.addPropertyChangeListener(this.foregroundTaskPCL);
+
+        // Started Event wiederholen für die Listener des TaskManagers.
+        firePropertyChange(SwingTask.PROPERTY_STARTED, null, true);
+    }
+}

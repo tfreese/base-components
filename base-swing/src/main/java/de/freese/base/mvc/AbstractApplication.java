@@ -23,6 +23,7 @@ import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.StatusBar;
 import de.freese.base.swing.components.ExtFrame;
 import de.freese.base.swing.exception.ReleaseVetoException;
+import de.freese.base.utils.ExecutorUtils;
 import de.freese.base.utils.UICustomization;
 
 /**
@@ -251,7 +252,6 @@ public abstract class AbstractApplication
 
         initContext();
         initLaF();
-        initLaFSystem();
         initRecourceMapRoot();
         loadPlugins();
         initPlugins();
@@ -281,13 +281,7 @@ public abstract class AbstractApplication
         {
             getLogger().error(null, ex);
         }
-    }
 
-    /**
-     * Initialisiert LookAndFeel Besonderheiten fuer bestimmte Betriebssysteme.
-     */
-    protected void initLaFSystem()
-    {
         getLogger().info("Initialize System LookAndFeel");
 
         if (SystemUtils.IS_OS_MAC_OSX)
@@ -437,9 +431,9 @@ public abstract class AbstractApplication
             plugin.release();
         }
 
-        Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
+        ExecutorUtils.shutdown(getContext().getExecutorService(), getLogger());
 
-        getContext().getTaskService().shutdown();
+        Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
 
         System.exit(0);
     }

@@ -16,11 +16,11 @@ import javax.swing.border.EmptyBorder;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.SwingTask;
-import de.freese.base.swing.task.TaskMonitor;
+import de.freese.base.swing.task.TaskManager;
 import de.freese.base.utils.GuiUtils;
 
 /**
- * Diese StatusBar registriert sich als Listener am {@link TaskMonitor} und reagiert auf Events des aktuellen ForegroundTasks.<br>
+ * Diese StatusBar registriert sich als Listener am {@link TaskManager} und reagiert auf Events des aktuellen ForegroundTasks.<br>
  * Eine {@link ResourceMap} mit dem Namen "statusbar" muss im {@link ApplicationContext} vorhanden sein.
  */
 public class StatusBar extends JPanel implements PropertyChangeListener
@@ -82,7 +82,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
 
     /**
      * Erstellt ein neues {@link StatusBar} Object.<br>
-     * Die StatusBar reagiert auf Events des aktuell im {@link TaskMonitor} enthaltenen ForegroundTasks.
+     * Die StatusBar reagiert auf Events des aktuell im {@link TaskManager} enthaltenen ForegroundTasks.
      *
      * @param context {@link ApplicationContext}
      */
@@ -110,7 +110,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
             this.statusAnimationLabel.setIcon(this.busyIcons[this.busyIconIndex]);
         });
 
-        context.getTaskMonitor().addPropertyChangeListener(this);
+        context.getTaskManager().addPropertyChangeListener(this);
     }
 
     /**
@@ -192,26 +192,15 @@ public class StatusBar extends JPanel implements PropertyChangeListener
             this.progressBar.setIndeterminate(false);
             this.progressBar.setValue(value);
         }
-        else if ("foregroundTask".equals(propertyName))
+        else if (SwingTask.PROPERTY_CANCELLED.equals(propertyName) || SwingTask.PROPERTY_FAILED.equals(propertyName)
+                || SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
         {
-            if (evt.getNewValue() == null)
-            {
-                // Kein Task in Ausfuehrung
-                stopBusyAnimation();
-                this.progressBar.setIndeterminate(false);
-                this.progressBar.setEnabled(false);
-                this.progressBar.setValue(0);
-            }
+            // Kein Task in Ausführung
+            stopBusyAnimation();
+            this.progressBar.setIndeterminate(false);
+            this.progressBar.setEnabled(false);
+            this.progressBar.setValue(0);
         }
-        // else
-        // // if ("done".equals(propertyName))
-        // {
-        // // Fallback
-        // stopBusyAnimation();
-        // this.progressBar.setIndeterminate(false);
-        // this.progressBar.setEnabled(false);
-        // this.progressBar.setValue(0);
-        // }
     }
 
     /**

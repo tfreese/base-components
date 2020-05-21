@@ -123,7 +123,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
             startTask(url);
         });
         getComponent().getButtonCancel().addActionListener(event -> {
-            AbstractTask<?, ?> task = getContext().getTaskMonitor().getForegroundTask();
+            AbstractTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
 
             if (task != null)
             {
@@ -203,6 +203,6 @@ public class DefaultNasaView extends AbstractView implements NasaView
         NasaImageTask task = new NasaImageTask(getProcess(), url, this, getResourceMap());
         task.setInputBlocker(new ComponentInputBlocker(getComponent()));
 
-        getContext().getTaskService().execute(task);
+        getContext().getTaskManager().execute(task);
     }
 }

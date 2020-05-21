@@ -220,39 +220,39 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
     protected final void done()
     {
         Runnable runnable = () -> {
-            try
+            // try
+            // {
+            if (isCancelled())
             {
-                if (isCancelled())
+                firePropertyChange(SwingTask.PROPERTY_CANCELLED, null, true);
+                cancelled();
+            }
+            else
+            {
+                try
                 {
-                    firePropertyChange(SwingTask.PROPERTY_CANCELLED, null, true);
-                    cancelled();
-                }
-                else
-                {
-                    try
-                    {
-                        T result = get();
+                    T result = get();
 
-                        firePropertyChange(SwingTask.PROPERTY_SUCCEEDED, null, result);
-                        succeeded(result);
-                    }
-                    catch (InterruptedException ex)
-                    {
-                        firePropertyChange(SwingTask.PROPERTY_INTERRUPTED, null, ex);
-                        interrupted(ex);
-                    }
-                    catch (ExecutionException ex)
-                    {
-                        firePropertyChange(SwingTask.PROPERTY_FAILED, null, ex);
-                        failed(ex.getCause());
-                    }
+                    firePropertyChange(SwingTask.PROPERTY_SUCCEEDED, null, result);
+                    succeeded(result);
+                }
+                // catch (InterruptedException ex)
+                // {
+                // firePropertyChange(SwingTask.PROPERTY_INTERRUPTED, null, ex);
+                // interrupted(ex);
+                // }
+                catch (InterruptedException | ExecutionException ex)
+                {
+                    firePropertyChange(SwingTask.PROPERTY_FAILED, null, ex);
+                    failed(ex.getCause());
                 }
             }
-            finally
-            {
-                firePropertyChange(SwingTask.PROPERTY_FINISHED, null, true);
-                finished();
-            }
+            // }
+            // finally
+            // {
+            // firePropertyChange(SwingTask.PROPERTY_FINISHED, null, true);
+            // finished();
+            // }
         };
 
         SwingUtilities.invokeLater(runnable);
