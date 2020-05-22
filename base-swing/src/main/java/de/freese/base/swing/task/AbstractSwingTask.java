@@ -13,13 +13,12 @@ import org.slf4j.LoggerFactory;
 import de.freese.base.swing.task.inputblocker.InputBlocker;
 
 /**
- * Erweitert den {@link SwingWorker} um diverse Methoden und bietet die Moeglichkeit detailliertere Listener zu verwenden.<br>
+ * Erweitert den {@link SwingWorker} um diverse Methoden und bietet die Möglichkeit detailliertere Listener zu verwenden.<br>
  * Die {@link #done()} Methode ist NICHT nutzbar, diese wurde aufgeteilt in die Methoden:
  * <ul>
  * <li>{@link #succeeded(Object)}</li>
  * <li>{@link #failed(Throwable)}</li>
  * <li>{@link #cancelled()}</li>
- * <li>{@link #interrupted(InterruptedException)}</li>
  * </ul>
  * Es gibt weiterhin zusätzliche PropertyChangeEvents zu den "progress" und "state" des {@link SwingWorker}s:
  * <ul>
@@ -34,15 +33,10 @@ import de.freese.base.swing.task.inputblocker.InputBlocker;
  * @param <T> Typ der {@link #doInBackground()} Methode
  * @param <V> Typ der {@link #publish(Object...)} Methode
  */
-public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
+public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implements SwingTask
 {
     /**
      * PropertyChangeListener auf die Properties des {@link SwingWorker}s. Dieser wird durch den Swingworker im EDT gefeuert.<br>
-     * Moegliche PropertyChangeEvents:
-     * <ul>
-     * <li>progress</li>
-     * <li>state, @see {@link javax.swing.SwingWorker.StateValue}</li>
-     * </ul>
      *
      * @author Thomas Freese
      */
@@ -67,7 +61,7 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
             if ("state".equals(propertyName))
             {
                 StateValue state = (StateValue) event.getNewValue();
-                AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+                AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
                 switch (state)
                 {
@@ -81,23 +75,23 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
                         break;
                 }
             }
-            else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName))
+            else if (PROPERTY_PROGRESS.equals(propertyName))
             {
-                synchronized (AbstractTask.this)
+                synchronized (AbstractSwingTask.this)
                 {
-                    AbstractTask.this.progressPropertyIsValid = true;
+                    AbstractSwingTask.this.progressPropertyIsValid = true;
                 }
             }
         }
 
         /**
-         * @param task {@link AbstractTask}
+         * @param task {@link AbstractSwingTask}
          */
-        private void taskDone(final AbstractTask<?, ?> task)
+        private void taskDone(final AbstractSwingTask<?, ?> task)
         {
-            synchronized (AbstractTask.this)
+            synchronized (AbstractSwingTask.this)
             {
-                AbstractTask.this.doneTime = System.currentTimeMillis();
+                AbstractSwingTask.this.doneTime = System.currentTimeMillis();
             }
 
             try
@@ -114,16 +108,16 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
         }
 
         /**
-         * @param task {@link AbstractTask}
+         * @param task {@link AbstractSwingTask}
          */
-        private void taskStarted(final AbstractTask<?, ?> task)
+        private void taskStarted(final AbstractSwingTask<?, ?> task)
         {
-            synchronized (AbstractTask.this)
+            synchronized (AbstractSwingTask.this)
             {
-                AbstractTask.this.startTime = System.currentTimeMillis();
+                AbstractSwingTask.this.startTime = System.currentTimeMillis();
             }
 
-            firePropertyChange(SwingTask.PROPERTY_STARTED, null, true);
+            firePropertyChange(PROPERTY_STARTED, null, true);
 
             if (getInputBlocker() != null)
             {
@@ -173,19 +167,19 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
     private String title = null;
 
     /**
-     * Erstellt ein neues {@link AbstractTask} Object.
+     * Erstellt ein neues {@link AbstractSwingTask} Object.
      */
-    public AbstractTask()
+    public AbstractSwingTask()
     {
         this(null);
     }
 
     /**
-     * Erstellt ein neues {@link AbstractTask} Object.
+     * Erstellt ein neues {@link AbstractSwingTask} Object.
      *
      * @param name {@link String}, Systemweit Einheitliche ID oder aehnliches.
      */
-    public AbstractTask(final String name)
+    public AbstractSwingTask(final String name)
     {
         super();
 
@@ -224,7 +218,7 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
             // {
             if (isCancelled())
             {
-                firePropertyChange(SwingTask.PROPERTY_CANCELLED, null, true);
+                firePropertyChange(PROPERTY_CANCELLED, null, true);
                 cancelled();
             }
             else
@@ -233,24 +227,24 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
                 {
                     T result = get();
 
-                    firePropertyChange(SwingTask.PROPERTY_SUCCEEDED, null, result);
+                    firePropertyChange(PROPERTY_SUCCEEDED, null, result);
                     succeeded(result);
                 }
                 // catch (InterruptedException ex)
                 // {
-                // firePropertyChange(SwingTask.PROPERTY_INTERRUPTED, null, ex);
+                // firePropertyChange(PROPERTY_INTERRUPTED, null, ex);
                 // interrupted(ex);
                 // }
                 catch (InterruptedException | ExecutionException ex)
                 {
-                    firePropertyChange(SwingTask.PROPERTY_FAILED, null, ex);
+                    firePropertyChange(PROPERTY_FAILED, null, ex);
                     failed(ex.getCause());
                 }
             }
             // }
             // finally
             // {
-            // firePropertyChange(SwingTask.PROPERTY_FINISHED, null, true);
+            // firePropertyChange(PROPERTY_FINISHED, null, true);
             // finished();
             // }
         };
@@ -273,20 +267,20 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
         getLogger().error(null, cause);
     }
 
-    /**
-     * Called unconditionally (in a {@code finally} clause) after one of the completion methods, {@code succeeded}, {@code failed}, {@code cancelled}, or
-     * {@code interrupted}, runs. Subclasses can override this method to cleanup before the {@code done} method returns.
-     * <p>
-     * This method runs on the EDT. It does nothing by default.
-     *
-     * @see #done
-     * @see #get
-     * @see #failed
-     */
-    protected void finished()
-    {
-        // NO-OP
-    }
+    // /**
+    // * Called unconditionally (in a {@code finally} clause) after one of the completion methods, {@code succeeded}, {@code failed}, {@code cancelled}, or
+    // * {@code interrupted}, runs. Subclasses can override this method to cleanup before the {@code done} method returns.
+    // * <p>
+    // * This method runs on the EDT. It does nothing by default.
+    // *
+    // * @see #done
+    // * @see #get
+    // * @see #failed
+    // */
+    // protected void finished()
+    // {
+    // // NO-OP
+    // }
 
     /**
      * Liefert die Zeiteinheit, wie lange der Task bis jetzt laeuft.
@@ -377,7 +371,7 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
     }
 
     /**
-     * Liefert den Namen des Tasks, Systemweit Einheitliche ID oder aehnliches.
+     * Liefert den Namen des Tasks, Systemweit Einheitliche ID oder ähnliches.
      *
      * @return String
      */
@@ -406,20 +400,20 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
         return this.title;
     }
 
-    /**
-     * Called if the Task's Thread is interrupted but not explicitly cancelled.
-     * <p>
-     * This method runs on the EDT. It does nothing by default.
-     *
-     * @param ex the {@code InterruptedException} thrown by {@code get}
-     * @see #cancel
-     * @see #done
-     * @see #get
-     */
-    protected void interrupted(final InterruptedException ex)
-    {
-        getLogger().error(null, ex);
-    }
+    // /**
+    // * Called if the Task's Thread is interrupted but not explicitly cancelled.
+    // * <p>
+    // * This method runs on the EDT. It does nothing by default.
+    // *
+    // * @param ex the {@code InterruptedException} thrown by {@code get}
+    // * @see #cancel
+    // * @see #done
+    // * @see #get
+    // */
+    // protected void interrupted(final InterruptedException ex)
+    // {
+    // getLogger().error(null, ex);
+    // }
 
     /**
      * Equivalent to {@code getState() == StateValue.PENDING}.
@@ -468,7 +462,7 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
     @Override
     protected void process(final List<V> chunks)
     {
-        firePropertyChange(SwingTask.PROPERTY_PROCESS, null, chunks);
+        firePropertyChange(PROPERTY_PROCESS, null, chunks);
     }
 
     /**
@@ -592,7 +586,7 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
 
         this.subTitle = subTitle;
 
-        firePropertyChange(SwingTask.PROPERTY_SUBTITLE, old, this.subTitle);
+        firePropertyChange(PROPERTY_SUBTITLE, old, this.subTitle);
     }
 
     /**
@@ -606,7 +600,7 @@ public abstract class AbstractTask<T, V> extends SwingWorker<T, V>
 
         this.title = title;
 
-        firePropertyChange(SwingTask.PROPERTY_TITLE, old, this.title);
+        firePropertyChange(PROPERTY_TITLE, old, this.title);
     }
 
     /**

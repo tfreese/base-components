@@ -9,8 +9,8 @@ import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.SwingTask;
-import de.freese.base.swing.task.inputblocker.ComponentInputBlocker;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
+import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
 /**
  * Konkrete Implementierung der IView.
@@ -116,10 +116,10 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
             setResult(0);
 
             // Task mit GlassPaneInputBlocker
-            FibonacciTask task = new FibonacciTask(getProcess(), getResourceMap());
-            task.setInputBlocker(new DefaultGlassPaneInputBlocker(getComponent()));
+            int value = Integer.parseInt(getComponent().getTextField().getText());
 
-            task.setValue(Integer.parseInt(getComponent().getTextField().getText()));
+            FibonacciTask task = new FibonacciTask(value, getProcess(), getResourceMap());
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(getComponent()));
             task.addPropertyChangeListener(new FibonacciTaskListener());
 
             getContext().getTaskManager().execute(task);
@@ -130,10 +130,10 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
             setResult(0);
 
             // Task mit ComponentInputBlocker
-            FibonacciTask task = new FibonacciTask(getProcess(), getResourceMap());
-            task.setInputBlocker(new ComponentInputBlocker((Component) event.getSource()));
+            int value = Integer.parseInt(getComponent().getTextField().getText());
 
-            task.setValue(Integer.parseInt(getComponent().getTextField().getText()));
+            FibonacciTask task = new FibonacciTask(value, getProcess(), getResourceMap());
+            task.setInputBlocker(new DefaultInputBlocker().add((Component) event.getSource()));
             task.addPropertyChangeListener(new FibonacciTaskListener());
 
             getContext().getTaskManager().execute(task);

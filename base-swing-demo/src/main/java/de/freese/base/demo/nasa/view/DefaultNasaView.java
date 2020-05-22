@@ -3,6 +3,7 @@ package de.freese.base.demo.nasa.view;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+import java.util.concurrent.Callable;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,8 +15,8 @@ import de.freese.base.demo.nasa.task.NasaImageTask;
 import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.task.AbstractTask;
-import de.freese.base.swing.task.inputblocker.ComponentInputBlocker;
+import de.freese.base.swing.task.AbstractSwingTask;
+import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
 /**
  * Konkrete Implementierung der IView.
@@ -90,40 +91,10 @@ public class DefaultNasaView extends AbstractView implements NasaView
         decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
         decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
 
-        getComponent().getButtonPrevious().addActionListener(event -> {
-            URL url = null;
-
-            try
-            {
-                url = getProcess().getPreviousURL();
-            }
-            catch (Exception ex)
-            {
-                handleException(ex);
-
-                return;
-            }
-
-            startTask(url);
-        });
-        getComponent().getButtonNext().addActionListener(event -> {
-            URL url = null;
-
-            try
-            {
-                url = getProcess().getNextURL();
-            }
-            catch (Exception ex)
-            {
-                handleException(ex);
-
-                return;
-            }
-
-            startTask(url);
-        });
+        getComponent().getButtonPrevious().addActionListener(event -> startTask(() -> getProcess().getPreviousURL()));
+        getComponent().getButtonNext().addActionListener(event -> startTask(() -> getProcess().getNextURL()));
         getComponent().getButtonCancel().addActionListener(event -> {
-            AbstractTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
+            AbstractSwingTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
 
             if (task != null)
             {
@@ -196,12 +167,12 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     /**
-     * @param url {@link URL}
+     * @param urlCallable {@link Callable}
      */
-    private void startTask(final URL url)
+    private void startTask(final Callable<URL> urlCallable)
     {
-        NasaImageTask task = new NasaImageTask(getProcess(), url, this, getResourceMap());
-        task.setInputBlocker(new ComponentInputBlocker(getComponent()));
+        NasaImageTask task = new NasaImageTask(getProcess(), urlCallable, this, getResourceMap());
+        task.setInputBlocker(new DefaultInputBlocker().add(getComponent().getButtonNext(), getComponent().getButtonPrevious()));
 
         getContext().getTaskManager().execute(task);
     }

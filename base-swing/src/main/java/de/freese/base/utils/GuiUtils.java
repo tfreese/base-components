@@ -243,7 +243,7 @@ public final class GuiUtils
     }
 
     /**
-     * Gibt aktives Frame zurueck.
+     * Gibt das aktuell fokussierte Frame zurück, oder das erste Frame, welches gefunden wird.
      *
      * @return {@link Frame}
      */
@@ -258,6 +258,12 @@ public final class GuiUtils
             {
                 activeFrame = frame;
             }
+        }
+
+        // Fallback: Erstes Frame nehmen
+        if ((activeFrame == null) && (frames.length > 0))
+        {
+            activeFrame = frames[0];
         }
 
         return activeFrame;

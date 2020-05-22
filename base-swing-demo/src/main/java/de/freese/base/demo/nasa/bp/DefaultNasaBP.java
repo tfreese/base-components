@@ -2,9 +2,11 @@ package de.freese.base.demo.nasa.bp;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
@@ -18,13 +20,8 @@ import de.freese.base.mvc.process.AbstractBusinessProcess;
  */
 public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
 {
-    // /**
-    // *
-    // */
-    // private final Random random;
-
     /**
-     *
+     * Max. 12196 Bilder verfügbar
      */
     private final String imageDir = "https://photojournal.jpl.nasa.gov/jpeg/";
 
@@ -52,13 +49,43 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     private int index = -1;
 
     /**
+     *
+     */
+    private final Random random = new Random();
+
+    /**
      * Erstellt ein neues {@link DefaultNasaBP} Object.
      */
     public DefaultNasaBP()
     {
         super();
+    }
 
-        // this.random = new Random();
+    /**
+     * @param url {@link URL}
+     * @return boolean
+     */
+    protected boolean existUrl(final URL url)
+    {
+        try
+        {
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("HEAD");
+
+            int responseCode = httpURLConnection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK)
+            {
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Ignore
+            getLogger().warn("URL not exist: {}", url);
+        }
+
+        return false;
     }
 
     /**
@@ -68,11 +95,6 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     @Override
     public ImageReader findImageReader(final URL url) throws IOException
     {
-        // System.out.println(url.getFile());
-        // System.out.println(url.getPath());
-        // System.out.println(url.getRef());
-        // System.out.println(url.getFile().substring(url.getFile().lastIndexOf('.') + 1));
-
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
         // ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
 
@@ -101,18 +123,24 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     @Override
     public URL getNextURL() throws MalformedURLException
     {
-        // Max. 12196 Bilder verfuegbar
-        // int index = this.random.nextInt(12196) + 1;
-        // String url = String.format("%sPIA%05d.jpg", imageDir, index);
-
         if (++this.index == this.imageNames.length)
         {
             this.index = 0;
         }
 
-        getLogger().debug("Index: {}", Integer.valueOf(this.index));
+        // String url = this.imageDir + this.imageNames[this.index];
+        String urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
 
-        return new URL(this.imageDir + this.imageNames[this.index]);
+        getLogger().debug("URL: {}", urlString);
+
+        URL url = new URL(urlString);
+
+        if (!existUrl(url))
+        {
+            url = getNextURL();
+        }
+
+        return url;
     }
 
     /**
@@ -126,9 +154,19 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
             this.index = this.imageNames.length - 1;
         }
 
-        getLogger().info("Index: {}", Integer.valueOf(this.index));
+        // String url = this.imageDir + this.imageNames[this.index];
+        String urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
 
-        return new URL(this.imageDir + this.imageNames[this.index]);
+        getLogger().info("URL: {}", urlString);
+
+        URL url = new URL(urlString);
+
+        if (!existUrl(url))
+        {
+            url = getPreviousURL();
+        }
+
+        return url;
     }
 
     /**

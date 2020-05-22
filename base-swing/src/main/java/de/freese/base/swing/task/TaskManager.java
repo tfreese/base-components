@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
- * Diese Klasse verwaltet die einzelnen {@link AbstractTask}s.
+ * Diese Klasse verwaltet die einzelnen {@link AbstractSwingTask}s.
  *
  * @author Thomas Freese
  */
@@ -42,7 +42,7 @@ public class TaskManager
             // Event an die Listener des TaskManagers weiterleiten.
             firePropertyChange(event);
 
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             switch (event.getPropertyName())
             {
@@ -78,7 +78,7 @@ public class TaskManager
         @Override
         public void propertyChange(final PropertyChangeEvent event)
         {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (SwingTask.PROPERTY_STARTED.equals(event.getPropertyName()))
             {
@@ -95,7 +95,7 @@ public class TaskManager
     /**
     *
     */
-    private AbstractTask<?, ?> foregroundTask = null;
+    private AbstractSwingTask<?, ?> foregroundTask = null;
 
     /**
     *
@@ -140,9 +140,9 @@ public class TaskManager
     /**
      * Ausführen eines Tasks.
      *
-     * @param task {@link AbstractTask}
+     * @param task {@link AbstractSwingTask}
      */
-    public void execute(final AbstractTask<?, ?> task)
+    public void execute(final AbstractSwingTask<?, ?> task)
     {
         Objects.requireNonNull(task, "task required");
 
@@ -187,9 +187,9 @@ public class TaskManager
     }
 
     /**
-     * @return {@link AbstractTask}
+     * @return {@link AbstractSwingTask}
      */
-    public AbstractTask<?, ?> getForegroundTask()
+    public AbstractSwingTask<?, ?> getForegroundTask()
     {
         return this.foregroundTask;
     }
@@ -197,9 +197,9 @@ public class TaskManager
     /**
      * Entfernen des aktuell aktiven Tasks.
      *
-     * @param task {@link AbstractTask}
+     * @param task {@link AbstractSwingTask}
      */
-    protected void removeForegroundTask(final AbstractTask<?, ?> task)
+    protected void removeForegroundTask(final AbstractSwingTask<?, ?> task)
     {
         if (this.foregroundTask != null)
         {
@@ -222,9 +222,9 @@ public class TaskManager
     /**
      * Setzen des aktuell aktiven Tasks.
      *
-     * @param task {@link AbstractTask}
+     * @param task {@link AbstractSwingTask}
      */
-    protected void setForegroundTask(final AbstractTask<?, ?> task)
+    protected void setForegroundTask(final AbstractSwingTask<?, ?> task)
     {
         if (this.foregroundTask != null)
         {

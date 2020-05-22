@@ -9,7 +9,8 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
-import de.freese.base.swing.task.AbstractTask;
+import de.freese.base.swing.task.AbstractSwingTask;
+import de.freese.base.swing.task.SwingTask;
 import de.freese.base.utils.GuiUtils;
 
 /**
@@ -84,9 +85,9 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
     {
         String propertyName = event.getPropertyName();
 
-        if ("progress".equals(propertyName))
+        if (SwingTask.PROPERTY_PROGRESS.equals(propertyName))
         {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (task.isDone())
             {
@@ -109,9 +110,9 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
             // this.progressBar.setString(sb.toString());
 
         }
-        else if ("title".equals(propertyName))
+        else if (SwingTask.PROPERTY_TITLE.equals(propertyName))
         {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (task.isDone())
             {
@@ -120,9 +121,9 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
 
             this.labelTitle.setText(task.getTitle() == null ? "" : task.getTitle());
         }
-        else if ("subtitle".equals(propertyName))
+        else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName))
         {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (task.isDone())
             {

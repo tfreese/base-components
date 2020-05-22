@@ -1,6 +1,6 @@
 package de.freese.base.demo.task;
 
-import de.freese.base.swing.task.AbstractTask;
+import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatisikTaskListener;
 
 /**
@@ -8,7 +8,7 @@ import de.freese.base.swing.task.DurationStatisikTaskListener;
  *
  * @author Thomas Freese
  */
-public class DurationStatisikTask extends AbstractTask<Void, Void>
+public class DurationStatisikTask extends AbstractSwingTask<Void, Void>
 {
     /**
      * Erstellt ein neues {@link DurationStatisikTask} Object.

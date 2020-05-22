@@ -1,15 +1,16 @@
 package de.freese.base.demo.fibonacci.task;
 
+import java.util.Objects;
 import de.freese.base.demo.fibonacci.bp.FibonacciBP;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.task.AbstractTask;
+import de.freese.base.swing.task.AbstractSwingTask;
 
 /**
- * Task fuer die Fibonacci Demo.
+ * Task für die Fibonacci Demo.
  *
  * @author Thomas Freese
  */
-public class FibonacciTask extends AbstractTask<Long, Void>
+public class FibonacciTask extends AbstractSwingTask<Long, Void>
 {
     /**
      *
@@ -24,31 +25,24 @@ public class FibonacciTask extends AbstractTask<Long, Void>
     /**
      *
      */
-    private int value = 0;
+    private final int value;
 
     /**
      * Erstellt ein neues {@link FibonacciTask} Object.
-     * 
+     *
+     * @param value int
      * @param fibonacciBP {@link FibonacciBP}
      * @param resourceMap {@link ResourceMap}
      */
-    public FibonacciTask(final FibonacciBP fibonacciBP, final ResourceMap resourceMap)
+    public FibonacciTask(final int value, final FibonacciBP fibonacciBP, final ResourceMap resourceMap)
     {
         super();
 
-        this.fibonacciBP = fibonacciBP;
-        this.resourceMap = resourceMap;
-        setTitle(this.resourceMap.getString("fibonacci.title"));
-    }
-
-    /**
-     * Setzt den Wert fuer die Fibonacci Berechnung.
-     * 
-     * @param value int
-     */
-    public void setValue(final int value)
-    {
         this.value = value;
+        this.fibonacciBP = Objects.requireNonNull(fibonacciBP, "fibonacciBP required");
+        this.resourceMap = Objects.requireNonNull(resourceMap, "resourceMap required");
+
+        setTitle(this.resourceMap.getString("fibonacci.title"));
     }
 
     /**
@@ -69,8 +63,7 @@ public class FibonacciTask extends AbstractTask<Long, Void>
         final long operations = this.fibonacciBP.getOperationCount(this.value);
         // System.out.println(this.operations);
 
-        long result = this.fibonacciBP.fibonacci(this.value, value ->
-        {
+        long result = this.fibonacciBP.fibonacci(this.value, value -> {
             setProgress(value, 0, operations);
 
             // Etwas auf die Bremse treten, damit die Demo etwas dauert.

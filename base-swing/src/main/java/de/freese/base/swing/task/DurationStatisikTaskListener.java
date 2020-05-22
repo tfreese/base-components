@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TaskListener, der dessen Ausfuehrungsdauer protokolliert und daraus ueber einen {@link Timer} den Progresswert zyklisch setzt.<br>
- * Bei der ersten Ausfuehrung wird nur die Zeit gemessen.
+ * TaskListener, der dessen Ausführungsdauer protokolliert und daraus über einen {@link Timer} den Progresswert zyklisch setzt.<br>
+ * Bei der ersten Ausführung wird nur die Zeit gemessen.
  *
  * @author Thomas Freese
  */
@@ -78,7 +78,7 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
         }
         else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
         {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
             if ((taskName == null) || (taskName.length() == 0))
@@ -93,7 +93,7 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
         }
         else if (SwingTask.PROPERTY_STARTED.equals(propertyName))
         {
-            AbstractTask<?, ?> task = (AbstractTask<?, ?>) event.getSource();
+            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
             if ((taskName == null) || (taskName.length() == 0))

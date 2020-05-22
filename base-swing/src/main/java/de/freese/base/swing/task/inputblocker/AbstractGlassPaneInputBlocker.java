@@ -25,8 +25,9 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
      */
     public AbstractGlassPaneInputBlocker(final Component target)
     {
-        super(target);
+        super();
 
+        addTarget(target);
         setChangeMouseCursor(true);
     }
 
@@ -63,7 +64,7 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
      */
     protected void setGlassPaneVisible(final boolean visible)
     {
-        JRootPane rootPane = getActiveRootPane();
+        JRootPane rootPane = getRootPane();
 
         if (rootPane == null)
         {

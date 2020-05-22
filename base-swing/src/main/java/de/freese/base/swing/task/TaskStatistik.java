@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Enthaelt Informationen ueber die Ausfaehrungszeiten von {@link AbstractTask}s.
+ * Enthält Informationen über die Ausführungszeiten von {@link AbstractSwingTask}s.
  *
  * @author Thomas Freese
  */
@@ -25,7 +25,6 @@ public class TaskStatistik implements Serializable
     /**
      * Immer N Werte vorhalten.
      */
-    // @XmlElementWrapper(name = "durations")
     private Queue<Long> durations = new ConcurrentLinkedQueue<>();
 
     /**
@@ -47,7 +46,7 @@ public class TaskStatistik implements Serializable
     }
 
     /**
-     * Hinzufuegen einer Zeit und ggf. entfernen der aeltesten Zeit aus der Liste.
+     * Hinzufügen einer Zeit und ggf. entfernen der ältesten Zeit aus der Liste.
      *
      * @param zeit long
      */
@@ -57,7 +56,6 @@ public class TaskStatistik implements Serializable
 
         if (this.durations.size() > MAX_SIZE)
         {
-            // this.durations.removeFirst();
             this.durations.poll();
         }
     }
@@ -160,7 +158,7 @@ public class TaskStatistik implements Serializable
     }
 
     /**
-     * Setzt neue gemessene Ausfuehrungszeit in ms.
+     * Setzt neue gemessene Ausführungszeit in ms.
      *
      * @param duration long
      */
@@ -168,7 +166,7 @@ public class TaskStatistik implements Serializable
     {
         long avg = getAvg();
 
-        // Neue Zeiten nur beruecksichtigen, wenn sie >= 10% des Durchschnitts sind
+        // Neue Zeiten nur berücksichtigen, wenn sie >= 10% des Durchschnitts sind
         if (duration >= (avg * 0.1F))
         {
             appendDuration(duration);

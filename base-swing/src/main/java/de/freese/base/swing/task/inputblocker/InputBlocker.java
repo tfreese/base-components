@@ -1,10 +1,11 @@
 package de.freese.base.swing.task.inputblocker;
 
 import java.beans.PropertyChangeListener;
+import de.freese.base.swing.task.AbstractSwingTask;
 
 /**
- * Interface fuer einen InputBlocker eines AbstractTasks.<br>
- * InputBlocker koennen fuer einen Task GUI-Elemente fuer die Eingabe blockieren.
+ * Interface für einen InputBlocker eines {@link AbstractSwingTask}.<br>
+ * InputBlocker können für einen Task GUI-Elemente für die Eingabe blockieren.
  *
  * @author Thomas Freese
  */

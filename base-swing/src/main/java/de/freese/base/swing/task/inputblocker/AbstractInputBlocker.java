@@ -4,15 +4,17 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
 import java.beans.PropertyChangeEvent;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JRootPane;
 import javax.swing.RootPaneContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.utils.GuiUtils;
 
 /**
- * InputBlocker koennen fuer einen AbstractTask GUI-Elemente fuer die Eingabe blockieren.
+ * InputBlocker können für einen {@link AbstractSwingTask} die GUI-Elemente für die Eingabe blockieren.
  *
  * @author Thomas Freese
  * @param <T> Konkreter Typ des Targets
@@ -32,38 +34,41 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     /**
      *
      */
-    private final T[] targets;
+    private JRootPane rootPane = null;
+
+    /**
+     *
+     */
+    private final List<T> targets = new ArrayList<>();
 
     /**
      * Erstellt ein neues {@link AbstractInputBlocker} Object.
-     *
-     * @param target Object
-     * @param targets Object[]
      */
-    @SuppressWarnings("unchecked")
-    public AbstractInputBlocker(final T target, final T...targets)
+    public AbstractInputBlocker()
     {
         super();
-
-        T[] temp = Arrays.copyOf(targets, targets.length + 1);
-        temp[targets.length] = target;
-
-        this.targets = temp;
     }
 
     /**
-     * Gibt die aktive {@link JRootPane} zurueck.
+     * @param target Object
+     */
+    protected void addTarget(final T target)
+    {
+        this.targets.add(target);
+    }
+
+    /**
+     * Gibt die aktive {@link JRootPane} zurück.
      *
      * @return {@link JRootPane}
      */
-    protected JRootPane getActiveRootPane()
+    protected JRootPane detectRootPane()
     {
-        // Von den Targets holen
-        JRootPane rootPane = null;
+        JRootPane rp = null;
 
         for (T target : getTargets())
         {
-            if (rootPane != null)
+            if (rp != null)
             {
                 break;
             }
@@ -84,33 +89,27 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
                     root = root.getParent();
                 }
 
-                // Das aktuelle Fenster holen
-                if (rpc == null)
-                {
-                    Frame activeFrame = GuiUtils.getActiveFrame();
-
-                    if (activeFrame instanceof RootPaneContainer)
-                    {
-                        rpc = (RootPaneContainer) activeFrame;
-                    }
-                }
-
-                rootPane = rpc != null ? rpc.getRootPane() : null;
+                rp = rpc != null ? rpc.getRootPane() : null;
             }
         }
 
-        if (rootPane == null)
+        // Fallback: Das aktuelle Fenster holen.
+        if (rp == null)
+        {
+            Frame activeFrame = GuiUtils.getActiveFrame();
+
+            if (activeFrame instanceof RootPaneContainer)
+            {
+                rp = ((RootPaneContainer) activeFrame).getRootPane();
+            }
+        }
+
+        if (rp == null)
         {
             getLogger().warn("Keine JRootPane gefunden");
         }
 
-        return rootPane;
-        // if (rpc != null)
-        // {
-        // this.lastRootPane = rpc.getRootPane();
-        // }
-        //
-        // return this.lastRootPane;
+        return rp;
     }
 
     /**
@@ -122,11 +121,25 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     }
 
     /**
+     * @return {@link JRootPane}
+     */
+    protected JRootPane getRootPane()
+    {
+        if (this.rootPane != null)
+        {
+            return this.rootPane;
+        }
+
+        // Fallback: Von den Targets holen
+        return detectRootPane();
+    }
+
+    /**
      * Liefert die zu blockenden Objekte (JComponent, Action etc.).
      *
-     * @return Object
+     * @return {@link List}
      */
-    protected T[] getTargets()
+    protected List<T> getTargets()
     {
         return this.targets;
     }
@@ -151,7 +164,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     }
 
     /**
-     * Aendert den MouseZeiger.
+     * Ändert den Mousecursor.
      *
      * @param busy boolean
      */
@@ -162,7 +175,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
             return;
         }
 
-        JRootPane rootPane = getActiveRootPane();
+        JRootPane rootPane = getRootPane();
 
         if (rootPane == null)
         {
@@ -177,5 +190,13 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
         {
             rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
+    }
+
+    /**
+     * @param rootPane {@link JRootPane}
+     */
+    public void setRootPane(final JRootPane rootPane)
+    {
+        this.rootPane = rootPane;
     }
 }

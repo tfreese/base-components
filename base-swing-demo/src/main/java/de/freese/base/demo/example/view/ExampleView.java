@@ -5,7 +5,7 @@ import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.process.BusinessProcess;
 import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.task.AbstractTask;
+import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatisikTaskListener;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
@@ -61,7 +61,7 @@ public class ExampleView extends AbstractView
         getComponent().getButtonTaskStatistik().setText(resourceMap.getString("example.button.task.statistik.text"));
 
         getComponent().getButtonTaskStatistik().addActionListener(event -> {
-            AbstractTask<?, ?> task = new DurationStatisikTask();
+            AbstractSwingTask<?, ?> task = new DurationStatisikTask();
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(getComponent()));
 
             // Könnte als konfigurierbare Funktion im Task implementiert werden
