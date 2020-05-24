@@ -20,14 +20,19 @@ import de.freese.base.mvc.process.AbstractBusinessProcess;
  */
 public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
 {
+    // /**
+    // *
+    // */
+    // private final Cache cache = new FileCache();
+
     /**
      * Max. 12196 Bilder verfügbar
      */
     private final String imageDir = "https://photojournal.jpl.nasa.gov/jpeg/";
 
     /**
-     *
-     */
+    *
+    */
     private String[] imageNames =
     {
             "PIA03623.jpg",
@@ -128,7 +133,7 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
             this.index = 0;
         }
 
-        // String url = this.imageDir + this.imageNames[this.index];
+        // String urlString = this.imageDir + this.imageNames[this.index];
         String urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
 
         getLogger().debug("URL: {}", urlString);
@@ -154,7 +159,7 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
             this.index = this.imageNames.length - 1;
         }
 
-        // String url = this.imageDir + this.imageNames[this.index];
+        // String urlString = this.imageDir + this.imageNames[this.index];
         String urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
 
         getLogger().info("URL: {}", urlString);
@@ -209,5 +214,16 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
         }
 
         return image;
+    }
+
+    /**
+     * @see de.freese.base.mvc.process.AbstractBusinessProcess#release()
+     */
+    @Override
+    public void release()
+    {
+        super.release();
+
+        // this.cache.clear();
     }
 }

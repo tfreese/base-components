@@ -80,9 +80,14 @@ public class TaskManager
         {
             AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
-            if (SwingTask.PROPERTY_STARTED.equals(event.getPropertyName()))
+            switch (event.getPropertyName())
             {
-                setForegroundTask(task);
+                case SwingTask.PROPERTY_STARTED:
+                case SwingTask.PROPERTY_PROGRESS:
+                    setForegroundTask(task);
+                    return;
+                default:
+                    // NO-OP
             }
         }
     }
@@ -236,7 +241,10 @@ public class TaskManager
         this.foregroundTask.removePropertyChangeListener(this.taskPCL);
         this.foregroundTask.addPropertyChangeListener(this.foregroundTaskPCL);
 
-        // Started Event wiederholen für die Listener des TaskManagers.
+        // Events wiederholen für die Listener des TaskManagers.
         firePropertyChange(SwingTask.PROPERTY_STARTED, null, true);
+        firePropertyChange(SwingTask.PROPERTY_TITLE, null, task.getTitle());
+        firePropertyChange(SwingTask.PROPERTY_SUBTITLE, null, task.getSubTitle());
+        firePropertyChange(SwingTask.PROPERTY_PROGRESS, null, task.getProgress());
     }
 }
