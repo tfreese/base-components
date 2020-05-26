@@ -33,7 +33,7 @@ public class FibonacciPlugin extends AbstractMVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#getName()
+     * @see de.freese.base.mvc.MvcPlugin#getName()
      */
     @Override
     public String getName()
@@ -42,7 +42,7 @@ public class FibonacciPlugin extends AbstractMVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#initialize()
+     * @see de.freese.base.mvc.MvcPlugin#initialize()
      */
     @Override
     public void initialize()

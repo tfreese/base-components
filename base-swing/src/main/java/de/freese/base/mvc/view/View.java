@@ -13,7 +13,7 @@ import de.freese.base.swing.exception.ReleaseVetoException;
 public interface View extends ComponentProvider
 {
     /**
-     * Liefert den IBusinessProcess.
+     * Liefert den BusinessProcess.
      *
      * @return {@link BusinessProcess}
      */

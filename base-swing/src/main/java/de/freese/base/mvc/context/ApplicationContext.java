@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JFrame;
 import de.freese.base.mvc.context.guistate.GuiStateManager;
 import de.freese.base.mvc.context.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
@@ -17,11 +18,11 @@ import de.freese.base.swing.exception.SwingExceptionHandler;
 import de.freese.base.swing.task.TaskManager;
 
 /**
- * Context fuer eine oder mehrere Anwendungen.
+ * Context für eine oder mehrere Anwendungen.
  *
  * @author Thomas Freese
  */
-public final class ApplicationContext
+public class ApplicationContext
 {
     /**
      *
@@ -47,6 +48,11 @@ public final class ApplicationContext
      *
      */
     private final LocalStorage localStorage;
+
+    /**
+    *
+    */
+    private JFrame mainFrame = null;
 
     /**
      *
@@ -152,6 +158,14 @@ public final class ApplicationContext
     }
 
     /**
+     * @return {@link JFrame}
+     */
+    public JFrame getMainFrame()
+    {
+        return this.mainFrame;
+    }
+
+    /**
      * Liefert eine ResourceMap.
      *
      * @param name String
@@ -184,6 +198,14 @@ public final class ApplicationContext
         }
 
         return this.userID;
+    }
+
+    /**
+     * @param mainFrame {@link JFrame}
+     */
+    public void setMainFrame(final JFrame mainFrame)
+    {
+        this.mainFrame = Objects.requireNonNull(mainFrame, "mainFrame required");
     }
 
     /**

@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,8 +84,8 @@ public abstract class AbstractResourceCache implements ResourceCache
     protected String generateKey(final URL url)
     {
         String urlString = url.toString();
-        byte[] digest = getMessageDigest().digest(urlString.getBytes());
-        String hex = Hex.encodeHexString(digest);
+        byte[] digest = getMessageDigest().digest(urlString.getBytes(StandardCharsets.UTF_8));
+        String hex = Hex.encodeHexString(digest, false);
 
         return hex;
     }

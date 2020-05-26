@@ -4,15 +4,9 @@
 
 package de.freese.base.mvc;
 
-import java.awt.BorderLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ServiceLoader;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +14,6 @@ import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.context.guistate.GuiStateProvider;
 import de.freese.base.mvc.context.guistate.JsonGuiStateProvider;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.StatusBar;
-import de.freese.base.swing.components.ExtFrame;
 import de.freese.base.swing.exception.ReleaseVetoException;
 import de.freese.base.utils.ExecutorUtils;
 import de.freese.base.utils.UICustomization;
@@ -34,43 +26,11 @@ import de.freese.base.utils.UICustomization;
 public abstract class AbstractApplication
 {
     /**
-     * WindowListener zum beenden.
-     *
-     * @author Thomas Freese
-     */
-    private class MainFrameListener extends WindowAdapter
-    {
-        /**
-         * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-         */
-        @Override
-        public void windowClosing(final WindowEvent e)
-        {
-            try
-            {
-                prepareRelease();
-                release();
-            }
-            catch (ReleaseVetoException ex)
-            {
-                // getLogger().error(null, ex);
-            }
-            catch (Exception ex)
-            {
-                getLogger().error(null, ex);
-            }
-        }
-    }
-
-    /**
      *
      */
     private ApplicationContext context = null;
 
-    /**
-     *
-     */
-    private JFrame frame = null;
+    ;
 
     /**
      *
@@ -80,12 +40,7 @@ public abstract class AbstractApplication
     /**
      *
      */
-    private JPanel panel = null;
-
-    /**
-     *
-     */
-    private ServiceLoader<MVCPlugin> plugins;
+    private ServiceLoader<MvcPlugin> plugins;
 
     /**
      *
@@ -106,26 +61,6 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Erzeugt den konkreten {@link JFrame}.
-     *
-     * @return {@link JFrame}
-     */
-    protected JFrame createFrame()
-    {
-        return new ExtFrame();
-    }
-
-    /**
-     * Erzeugt das konkrete {@link JPanel}.
-     *
-     * @return {@link JPanel}
-     */
-    protected JPanel createPanel()
-    {
-        return new JPanel();
-    }
-
-    /**
      * Liefert den {@link ApplicationContext}.
      *
      * @return {@link ApplicationContext}
@@ -133,21 +68,6 @@ public abstract class AbstractApplication
     public ApplicationContext getContext()
     {
         return this.context;
-    }
-
-    /**
-     * Liefert den {@link JFrame} der Application.
-     *
-     * @return {@link JFrame}
-     */
-    public JFrame getFrame()
-    {
-        if (this.frame == null)
-        {
-            this.frame = createFrame();
-        }
-
-        return this.frame;
     }
 
     /**
@@ -167,26 +87,11 @@ public abstract class AbstractApplication
     public abstract String getName();
 
     /**
-     * Liefert das Panel der Application.
-     *
-     * @return {@link JPanel}
-     */
-    public JPanel getPanel()
-    {
-        if (this.panel == null)
-        {
-            this.panel = createPanel();
-        }
-
-        return this.panel;
-    }
-
-    /**
      * Liefert den {@link ServiceLoader} fuer die Plugins.
      *
      * @return {@link ServiceLoader}
      */
-    public ServiceLoader<MVCPlugin> getPlugins()
+    public ServiceLoader<MvcPlugin> getPlugins()
     {
         return this.plugins;
     }
@@ -217,31 +122,9 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Initialisiert die View der Application.
+     * Konfiguration der Gui.
      */
-    protected void initFrame()
-    {
-        getLogger().info("Initialize Frame");
-
-        ResourceMap resourceMap = getResourceMapRoot();
-
-        JFrame frame = getFrame();
-        frame.addWindowListener(new MainFrameListener());
-        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.setTitle(resourceMap.getString("application.title"));
-        frame.add(getPanel());
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-
-        try
-        {
-            getContext().getGuiStateManager().restore(getFrame(), "ApplicationFrame");
-        }
-        catch (Exception ex)
-        {
-            getLogger().error(null, ex);
-        }
-    }
+    protected abstract void initFrameAndGui();
 
     /**
      * Initialisiert das PlugIns.
@@ -251,13 +134,12 @@ public abstract class AbstractApplication
         getLogger().info("Start Application");
 
         initContext();
+        initRecourceMap();
         initLaF();
-        initRecourceMapRoot();
         loadPlugins();
         initPlugins();
+        initFrameAndGui();
         initShutdownHook();
-        initPanel();
-        initFrame();
     }
 
     /**
@@ -305,28 +187,13 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Konfiguration des Panels.
-     */
-    protected void initPanel()
-    {
-        getLogger().info("Initialize Panel");
-
-        JPanel panel = getPanel();
-        panel.setLayout(new BorderLayout());
-
-        StatusBar statusBar = new StatusBar(getContext());
-        statusBar.initialize();
-        panel.add(statusBar, BorderLayout.SOUTH);
-    }
-
-    /**
      * Initialisiert die Plugins.
      */
     protected void initPlugins()
     {
         getLogger().info("Initialize Plugins");
 
-        for (MVCPlugin plugin : getPlugins())
+        for (MvcPlugin plugin : getPlugins())
         {
             plugin.setApplication(this);
             plugin.initialize();
@@ -336,7 +203,7 @@ public abstract class AbstractApplication
     /**
      * Liefert die {@link ResourceMap} der Application.
      */
-    protected abstract void initRecourceMapRoot();
+    protected abstract void initRecourceMap();
 
     /**
      * Initialisiert den ShutdownHook.
@@ -385,11 +252,11 @@ public abstract class AbstractApplication
     {
         getLogger().info("Load Plugins");
 
-        this.plugins = ServiceLoader.load(MVCPlugin.class);
+        this.plugins = ServiceLoader.load(MvcPlugin.class);
     }
 
     /**
-     * Pruefung, ob das Release durchgefuehrt werden kann.
+     * Pruefung, ob das Release durchgeführt werden kann.
      *
      * @throws ReleaseVetoException Falls was schief geht.
      */
@@ -397,14 +264,14 @@ public abstract class AbstractApplication
     {
         getLogger().info("Prepare Release");
 
-        int option = JOptionPane.showConfirmDialog(getFrame(), "Really Exit?");
+        int option = JOptionPane.showConfirmDialog(getContext().getMainFrame(), "Really Exit?");
 
         if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
         {
             throw new ReleaseVetoException(this, "no exit");
         }
 
-        for (MVCPlugin plugin : getPlugins())
+        for (MvcPlugin plugin : getPlugins())
         {
             plugin.prepareRelease();
         }
@@ -419,14 +286,14 @@ public abstract class AbstractApplication
 
         try
         {
-            getContext().getGuiStateManager().store(getFrame(), "ApplicationFrame");
+            getContext().getGuiStateManager().store(getContext().getMainFrame(), "ApplicationFrame");
         }
         catch (Exception ex)
         {
             getLogger().error(null, ex);
         }
 
-        for (MVCPlugin plugin : getPlugins())
+        for (MvcPlugin plugin : getPlugins())
         {
             plugin.release();
         }

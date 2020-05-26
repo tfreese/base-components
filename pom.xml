@@ -32,6 +32,8 @@
 
     <properties>
         <maven.test.skip>false</maven.test.skip>
+        
+        <version.java>13</version.java>
     </properties>
 
     <modules>

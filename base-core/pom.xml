@@ -15,6 +15,9 @@
 
 	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>Common Classes, Patterns and Interfaces.</description>
+	
+	<properties>
+	</properties>
 
 	<dependencies>
 		<!-- compile scope -->

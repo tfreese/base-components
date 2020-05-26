@@ -13,7 +13,7 @@ import de.freese.base.swing.exception.ReleaseVetoException;
  *
  * @author Thomas Freese
  */
-public interface MVCPlugin extends ComponentProvider
+public interface MvcPlugin extends ComponentProvider
 {
     /**
      * Liefert den Namen des PlugIns.

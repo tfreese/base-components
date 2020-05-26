@@ -3,7 +3,7 @@ package de.freese.base.swing;
 import java.beans.PropertyChangeSupport;
 
 /**
- * Interface fuer ein Objekt, welches ein {@link PropertyChangeSupport} unterstuetzt.
+ * Interface für ein Objekt, welches ein {@link PropertyChangeSupport} unterstützt.
  *
  * @author Thomas Freese
  */

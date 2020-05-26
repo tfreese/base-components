@@ -12,8 +12,6 @@ import java.util.Objects;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 
 /**
@@ -32,11 +30,6 @@ public final class UICustomization
      *
      */
     private static final String COLOR_LIGHT_GRAY = "color.lightgray";
-
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(UICustomization.class);
 
     /**
      * Alternierende Hintergrundfarbe.
@@ -77,8 +70,6 @@ public final class UICustomization
      */
     private static void installDefaults()
     {
-        LOGGER.info("Konfiguriere Oberflaechenlayout");
-
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 
         UIManager.put("FileChooser.useSystemIcons", Boolean.TRUE);

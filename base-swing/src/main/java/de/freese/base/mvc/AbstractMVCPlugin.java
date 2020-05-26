@@ -14,7 +14,7 @@ import de.freese.base.swing.exception.ReleaseVetoException;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractMVCPlugin implements MVCPlugin
+public abstract class AbstractMVCPlugin implements MvcPlugin
 {
     /**
      *
@@ -64,7 +64,7 @@ public abstract class AbstractMVCPlugin implements MVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#getResourceMap()
+     * @see de.freese.base.mvc.MvcPlugin#getResourceMap()
      */
     @Override
     public ResourceMap getResourceMap()
@@ -89,7 +89,7 @@ public abstract class AbstractMVCPlugin implements MVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#prepareRelease()
+     * @see de.freese.base.mvc.MvcPlugin#prepareRelease()
      */
     @Override
     public void prepareRelease() throws ReleaseVetoException
@@ -99,7 +99,7 @@ public abstract class AbstractMVCPlugin implements MVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#release()
+     * @see de.freese.base.mvc.MvcPlugin#release()
      */
     @Override
     public void release()
@@ -108,7 +108,7 @@ public abstract class AbstractMVCPlugin implements MVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#setApplication(de.freese.base.mvc.AbstractApplication)
+     * @see de.freese.base.mvc.MvcPlugin#setApplication(de.freese.base.mvc.AbstractApplication)
      */
     @Override
     public void setApplication(final AbstractApplication application)

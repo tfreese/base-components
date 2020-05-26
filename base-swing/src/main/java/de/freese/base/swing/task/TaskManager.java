@@ -243,8 +243,8 @@ public class TaskManager
 
         // Events wiederholen für die Listener des TaskManagers.
         firePropertyChange(SwingTask.PROPERTY_STARTED, null, true);
-        firePropertyChange(SwingTask.PROPERTY_TITLE, null, task.getTitle());
-        firePropertyChange(SwingTask.PROPERTY_SUBTITLE, null, task.getSubTitle());
-        firePropertyChange(SwingTask.PROPERTY_PROGRESS, null, task.getProgress());
+        firePropertyChange(SwingTask.PROPERTY_TITLE, null, this.foregroundTask.getTitle());
+        firePropertyChange(SwingTask.PROPERTY_SUBTITLE, null, this.foregroundTask.getSubTitle());
+        firePropertyChange(SwingTask.PROPERTY_PROGRESS, null, this.foregroundTask.getProgress());
     }
 }

@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
@@ -204,7 +205,7 @@ public final class LocalStorage
     /**
      * Basisverzeichniss.
      *
-     * @return Path
+     * @return {@link Path}
      */
     public Path getDirectory()
     {
@@ -268,35 +269,44 @@ public final class LocalStorage
     }
 
     /**
-     * Liefert den InputStream einer Datei.
+     * Liefert den InputStream einer Datei.<br>
+     * If no options are present then it is equivalent to opening the file with the {@link StandardOpenOption#READ READ} option
      *
      * @param fileName String, relativ zum Basisverzeichnis
+     * @param options {@link OpenOption}[]
      * @return {@link InputStream}
      * @throws IOException Falls was schief geht.
      */
-    public InputStream getInputStream(final String fileName) throws IOException
+    public InputStream getInputStream(final String fileName, final OpenOption...options) throws IOException
     {
         validateFileName(fileName);
 
         Path path = getDirectory().resolve(fileName);
 
-        return new BufferedInputStream(Files.newInputStream(path, StandardOpenOption.READ));
+        createDirectories(path.getParent());
+
+        return new BufferedInputStream(Files.newInputStream(path, options));
     }
 
     /**
-     * Liefert den {@link OutputStream} einer Datei.
+     * Liefert den {@link OutputStream} einer Datei.<br>
+     * If no options are present then this method works as if the {@link StandardOpenOption#CREATE CREATE}, {@link StandardOpenOption#TRUNCATE_EXISTING
+     * TRUNCATE_EXISTING}, and {@link StandardOpenOption#WRITE WRITE} options are present.
      *
      * @param fileName {@link String}, relativ zum Basisverzeichnis
+     * @param options {@link OpenOption}[]
      * @return {@link OutputStream}
      * @throws IOException Falls was schief geht.
      */
-    public OutputStream getOutputStream(final String fileName) throws IOException
+    public OutputStream getOutputStream(final String fileName, final OpenOption...options) throws IOException
     {
         validateFileName(fileName);
 
         Path path = getDirectory().resolve(fileName);
 
-        return new BufferedOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND));
+        createDirectories(path.getParent());
+
+        return new BufferedOutputStream(Files.newOutputStream(path, options));
     }
 
     /**
@@ -363,11 +373,11 @@ public final class LocalStorage
         validateFileName(fileName);
         fileName = removeIllegalChars(fileName);
 
-        // File file = new File(getDirectory(), fileName);
-        Path file = getDirectory().resolve(fileName);
+        Path path = getDirectory().resolve(fileName);
 
-        // try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file)))
-        try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(file, StandardOpenOption.CREATE, StandardOpenOption.APPEND));
+        createDirectories(path.getParent());
+
+        try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND));
              InputStream inputStream = dataSource.getInputStream())
         {
             copy(inputStream, outputStream);

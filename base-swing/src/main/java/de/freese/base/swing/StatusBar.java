@@ -204,7 +204,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     }
 
     /**
-     * Nachricht in der FussLeiste.
+     * Nachricht in der Fußleiste.
      *
      * @param s String
      */

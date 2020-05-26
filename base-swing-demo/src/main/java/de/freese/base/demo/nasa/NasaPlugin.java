@@ -33,7 +33,7 @@ public class NasaPlugin extends AbstractMVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#getName()
+     * @see de.freese.base.mvc.MvcPlugin#getName()
      */
     @Override
     public String getName()
@@ -42,12 +42,12 @@ public class NasaPlugin extends AbstractMVCPlugin
     }
 
     /**
-     * @see de.freese.base.mvc.MVCPlugin#initialize()
+     * @see de.freese.base.mvc.MvcPlugin#initialize()
      */
     @Override
     public void initialize()
     {
-        DefaultNasaBP process = new DefaultNasaBP();
+        DefaultNasaBP process = new DefaultNasaBP(getApplication().getContext());
         DefaultNasaView view = new DefaultNasaView(process, getApplication().getContext());
         setView(view);
     }

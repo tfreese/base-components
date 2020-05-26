@@ -83,6 +83,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
 
         this.url = this.urlCallable.call();
 
+        this.view.setMessage("nasa.load.start", this.url, null);
         setSubTitle(this.resourceMap.getString("nasa.load.start", this.url));
 
         IIOReadProgressListener rpl = new IIOReadProgressAdapter()
@@ -97,9 +98,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
             }
         };
 
-        ImageReader imageReader = this.nasaBP.findImageReader(this.url);
-
-        return this.nasaBP.loadImage(imageReader, rpl);
+        return this.nasaBP.loadImage(this.url, rpl);
     }
 
     /**

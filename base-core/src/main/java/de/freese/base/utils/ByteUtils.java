@@ -38,6 +38,17 @@ public final class ByteUtils
      */
     public static String bytesToHex(final byte[] bytes)
     {
+        // final int l = bytes.length;
+        // final char[] out = new char[l << 1];
+        //
+        // // two characters form the hex value.
+        // for (int i = 0, j = 0; i < l; i++) {
+        // out[j++] = HEX_CHARS[(0xF0 & bytes[i]) >>> 4];
+        // out[j++] = HEX_CHARS[0x0F & bytes[i]];
+        // }
+        //
+        // return out;
+
         StringBuilder sbuf = new StringBuilder(bytes.length * 2);
 
         for (byte b : bytes)
