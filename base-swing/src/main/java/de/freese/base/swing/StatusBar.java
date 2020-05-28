@@ -13,7 +13,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import de.freese.base.mvc.context.ApplicationContext;
+import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.SwingTask;
 import de.freese.base.swing.task.TaskManager;

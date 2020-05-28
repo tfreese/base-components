@@ -25,7 +25,7 @@ public class GbcBuilder extends GridBagConstraints
      * <ul>
      * <li>anchor = WEST</li>
      * <li>fill = NONE</li>
-     * <li>insets = new Insets(2, 2, 2, 2)</li>
+     * <li>insets = new Insets(5, 5, 5, 5)</li>
      * <li>weightx = 0.0D</li>
      * <li>weighty = 0.0D</li>
      * </ul>
@@ -41,7 +41,7 @@ public class GbcBuilder extends GridBagConstraints
         this.gridy = gridy;
 
         anchorWest();
-        insets(2, 2, 2, 2);
+        insets(5, 5, 5, 5);
     }
 
     /**
@@ -70,6 +70,26 @@ public class GbcBuilder extends GridBagConstraints
     public GbcBuilder anchorNorth()
     {
         this.anchor = NORTH;
+
+        return this;
+    }
+
+    /**
+     * @return {@link GbcBuilder}
+     */
+    public GbcBuilder anchorNorthEast()
+    {
+        this.anchor = NORTHEAST;
+
+        return this;
+    }
+
+    /**
+     * @return {@link GbcBuilder}
+     */
+    public GbcBuilder anchorNorthWest()
+    {
+        this.anchor = NORTHWEST;
 
         return this;
     }
@@ -169,6 +189,17 @@ public class GbcBuilder extends GridBagConstraints
     public GbcBuilder gridwidth(final int gridwidth)
     {
         this.gridwidth = gridwidth;
+
+        return this;
+    }
+
+    /**
+     * @param insets {@link Insets}
+     * @return {@link GbcBuilder}
+     */
+    public GbcBuilder insets(final Insets insets)
+    {
+        this.insets = insets;
 
         return this;
     }

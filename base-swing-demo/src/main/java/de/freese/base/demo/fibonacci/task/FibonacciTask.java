@@ -1,7 +1,7 @@
 package de.freese.base.demo.fibonacci.task;
 
 import java.util.Objects;
-import de.freese.base.demo.fibonacci.bp.FibonacciBP;
+import de.freese.base.demo.fibonacci.controller.FibonacciController;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 
@@ -15,7 +15,7 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
     /**
      *
      */
-    private final FibonacciBP fibonacciBP;
+    private final FibonacciController controller;
 
     /**
      *
@@ -31,15 +31,15 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
      * Erstellt ein neues {@link FibonacciTask} Object.
      *
      * @param value int
-     * @param fibonacciBP {@link FibonacciBP}
+     * @param controller {@link FibonacciController}
      * @param resourceMap {@link ResourceMap}
      */
-    public FibonacciTask(final int value, final FibonacciBP fibonacciBP, final ResourceMap resourceMap)
+    public FibonacciTask(final int value, final FibonacciController controller, final ResourceMap resourceMap)
     {
         super();
 
         this.value = value;
-        this.fibonacciBP = Objects.requireNonNull(fibonacciBP, "fibonacciBP required");
+        this.controller = Objects.requireNonNull(controller, "controller required");
         this.resourceMap = Objects.requireNonNull(resourceMap, "resourceMap required");
 
         setTitle(this.resourceMap.getString("fibonacci.title"));
@@ -60,10 +60,10 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
 
         setSubTitle(this.resourceMap.getString("fibonacci.start"));
 
-        final long operations = this.fibonacciBP.getOperationCount(this.value);
+        final long operations = this.controller.getOperationCount(this.value);
         // System.out.println(this.operations);
 
-        long result = this.fibonacciBP.fibonacci(this.value, value -> {
+        long result = this.controller.fibonacci(this.value, value -> {
             setProgress(value, 0, operations);
 
             // Etwas auf die Bremse treten, damit die Demo etwas dauert.

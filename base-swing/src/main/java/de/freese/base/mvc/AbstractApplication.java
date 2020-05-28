@@ -4,17 +4,17 @@
 
 package de.freese.base.mvc;
 
-import java.util.ServiceLoader;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.mvc.context.ApplicationContext;
 import de.freese.base.mvc.context.guistate.GuiStateProvider;
 import de.freese.base.mvc.context.guistate.JsonGuiStateProvider;
+import de.freese.base.mvc.controller.Controller;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.exception.ReleaseVetoException;
 import de.freese.base.utils.ExecutorUtils;
 import de.freese.base.utils.UICustomization;
 
@@ -30,22 +30,15 @@ public abstract class AbstractApplication
      */
     private ApplicationContext context = null;
 
-    ;
+    /**
+     *
+     */
+    private final List<Controller> controller = new ArrayList<>();
 
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     *
-     */
-    private ServiceLoader<MvcPlugin> plugins;
-
-    /**
-     *
-     */
-    private ResourceMap resourceMapRoot = null;
 
     /**
      *
@@ -71,6 +64,14 @@ public abstract class AbstractApplication
     }
 
     /**
+     * @return {@link List}<Controller>
+     */
+    protected List<Controller> getController()
+    {
+        return this.controller;
+    }
+
+    /**
      * @return {@link Logger}
      */
     public Logger getLogger()
@@ -87,39 +88,24 @@ public abstract class AbstractApplication
     public abstract String getName();
 
     /**
-     * Liefert den {@link ServiceLoader} fuer die Plugins.
-     *
-     * @return {@link ServiceLoader}
-     */
-    public ServiceLoader<MvcPlugin> getPlugins()
-    {
-        return this.plugins;
-    }
-
-    /**
-     * Liefert die {@link ResourceMap} der Application.
-     *
-     * @return {@link ResourceMap}
-     */
-    public ResourceMap getResourceMapRoot()
-    {
-        return this.resourceMapRoot;
-    }
-
-    /**
      * Initialisiert den {@link ApplicationContext} der Application.
      */
     protected void initContext()
     {
         getLogger().info("Initialize ApplicationContext");
 
-        this.context = new ApplicationContext();
+        setContext(new ApplicationContext());
 
         // GuiStateProvider guiStateProvider = new XMLGuiStateProvider(this.context.getLocalStorage(), this.context.getGuiStateManager());
         GuiStateProvider guiStateProvider = new JsonGuiStateProvider(this.context.getLocalStorage(), this.context.getGuiStateManager());
 
-        this.context.getGuiStateManager().setStateProvider(guiStateProvider);
+        getContext().getGuiStateManager().setStateProvider(guiStateProvider);
     }
+
+    /**
+     * Definition der Controller.
+     */
+    protected abstract void initController();
 
     /**
      * Konfiguration der Gui.
@@ -136,8 +122,7 @@ public abstract class AbstractApplication
         initContext();
         initRecourceMap();
         initLaF();
-        loadPlugins();
-        initPlugins();
+        initController();
         initFrameAndGui();
         initShutdownHook();
     }
@@ -187,20 +172,6 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Initialisiert die Plugins.
-     */
-    protected void initPlugins()
-    {
-        getLogger().info("Initialize Plugins");
-
-        for (MvcPlugin plugin : getPlugins())
-        {
-            plugin.setApplication(this);
-            plugin.initialize();
-        }
-    }
-
-    /**
      * Liefert die {@link ResourceMap} der Application.
      */
     protected abstract void initRecourceMap();
@@ -244,45 +215,20 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Laden der Plugins.
-     *
-     * @see ServiceLoader
-     */
-    protected void loadPlugins()
-    {
-        getLogger().info("Load Plugins");
-
-        this.plugins = ServiceLoader.load(MvcPlugin.class);
-    }
-
-    /**
-     * Pruefung, ob das Release durchgeführt werden kann.
-     *
-     * @throws ReleaseVetoException Falls was schief geht.
-     */
-    public void prepareRelease() throws ReleaseVetoException
-    {
-        getLogger().info("Prepare Release");
-
-        int option = JOptionPane.showConfirmDialog(getContext().getMainFrame(), "Really Exit?");
-
-        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
-        {
-            throw new ReleaseVetoException(this, "no exit");
-        }
-
-        for (MvcPlugin plugin : getPlugins())
-        {
-            plugin.prepareRelease();
-        }
-    }
-
-    /**
      * Freigeben verwendeter Resourcen.
      */
     public void release()
     {
         getLogger().info("Release");
+
+        int option = JOptionPane.showConfirmDialog(getContext().getMainFrame(), "Really Exit ?");
+
+        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
+        {
+            getLogger().info("Release aborted");
+
+            return;
+        }
 
         try
         {
@@ -293,9 +239,9 @@ public abstract class AbstractApplication
             getLogger().error(null, ex);
         }
 
-        for (MvcPlugin plugin : getPlugins())
+        for (Controller controller : getController())
         {
-            plugin.release();
+            controller.release();
         }
 
         ExecutorUtils.shutdown(getContext().getExecutorService(), getLogger());
@@ -306,12 +252,20 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Setzt die {@link ResourceMap} der Application.
+     * @param context {@link ApplicationContext}
+     */
+    protected void setContext(final ApplicationContext context)
+    {
+        this.context = context;
+    }
+
+    /**
+     * Setzt die Root-{@link ResourceMap} der Application.
      *
      * @param resourceMapRoot {@link ResourceMap}
      */
     protected void setResourceMapRoot(final ResourceMap resourceMapRoot)
     {
-        this.resourceMapRoot = resourceMapRoot;
+        getContext().setResourceMapRoot(resourceMapRoot);
     }
 }

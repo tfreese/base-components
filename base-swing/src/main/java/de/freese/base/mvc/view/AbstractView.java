@@ -1,22 +1,26 @@
 package de.freese.base.mvc.view;
 
+import java.awt.Component;
 import java.util.Objects;
-import javax.swing.JComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.mvc.context.ApplicationContext;
-import de.freese.base.mvc.process.BusinessProcess;
+import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.exception.ReleaseVetoException;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 
 /**
  * BasisImplementierung einer IView.
  *
  * @author Thomas Freese
+ * @param <C> Typ der Komponente
  */
-public abstract class AbstractView implements View
+public abstract class AbstractView<C extends Component> implements View<C>
 {
+    /**
+     *
+     */
+    private C component = null;
+
     /**
      *
      */
@@ -28,26 +32,14 @@ public abstract class AbstractView implements View
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     *
-     */
-    private final BusinessProcess process;
-
-    /**
-     *
-     */
-    private JComponent viewComponent = null;
-
-    /**
      * Erstellt ein neues {@link AbstractView} Object.
      *
-     * @param process {@link BusinessProcess}
      * @param context {@link ApplicationContext}
      */
-    public AbstractView(final BusinessProcess process, final ApplicationContext context)
+    public AbstractView(final ApplicationContext context)
     {
         super();
 
-        this.process = Objects.requireNonNull(process, "process required");
         this.context = Objects.requireNonNull(context, "context required");
     }
 
@@ -55,9 +47,9 @@ public abstract class AbstractView implements View
      * @see de.freese.base.mvc.view.View#getComponent()
      */
     @Override
-    public JComponent getComponent()
+    public C getComponent()
     {
-        return this.viewComponent;
+        return this.component;
     }
 
     /**
@@ -76,15 +68,6 @@ public abstract class AbstractView implements View
     protected Logger getLogger()
     {
         return this.logger;
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.View#getProcess()
-     */
-    @Override
-    public BusinessProcess getProcess()
-    {
-        return this.process;
     }
 
     /**
@@ -122,33 +105,6 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#initialize()
-     */
-    @Override
-    public void initialize()
-    {
-        getProcess().initialize();
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.View#prepareRelease()
-     */
-    @Override
-    public void prepareRelease() throws ReleaseVetoException
-    {
-        // Empty
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.View#release()
-     */
-    @Override
-    public void release()
-    {
-        getProcess().release();
-    }
-
-    /**
      * @see de.freese.base.mvc.view.View#restoreState()
      */
     @Override
@@ -167,11 +123,10 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#setComponent(javax.swing.JComponent)
+     * @param component {@link Component}
      */
-    @Override
-    public void setComponent(final JComponent component)
+    protected void setComponent(final C component)
     {
-        this.viewComponent = Objects.requireNonNull(component, "component required");
+        this.component = Objects.requireNonNull(component, "component required");
     }
 }

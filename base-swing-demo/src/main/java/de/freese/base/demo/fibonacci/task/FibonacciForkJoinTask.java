@@ -1,11 +1,12 @@
 /**
  * Created: 12.05.2012
  */
-package de.freese.base.demo.fibonacci.bp;
+package de.freese.base.demo.fibonacci.task;
 
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
+import de.freese.base.demo.fibonacci.controller.FibonacciController;
 
 /**
  * {@link RecursiveTask} für Fibonacci Algorithmus.
@@ -68,7 +69,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
     @Override
     protected Long compute()
     {
-        Long value = DefaultFibonacciBP.FIBONACCI_CACHE.get(this.n);
+        Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);
 
         if ((value != null) && (value > 0))
         {
@@ -95,7 +96,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
 
         if (this.enableCache)
         {
-            DefaultFibonacciBP.FIBONACCI_CACHE.put(this.n, result);
+            FibonacciController.FIBONACCI_CACHE.put(this.n, result);
         }
 
         return Long.valueOf(result);

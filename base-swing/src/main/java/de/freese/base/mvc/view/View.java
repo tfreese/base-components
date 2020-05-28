@@ -1,23 +1,26 @@
 package de.freese.base.mvc.view;
 
-import javax.swing.JComponent;
-import de.freese.base.mvc.process.BusinessProcess;
-import de.freese.base.swing.ComponentProvider;
-import de.freese.base.swing.exception.ReleaseVetoException;
+import java.awt.Component;
 
 /**
- * Interface einer IView.
+ * Interface einer View.
  *
  * @author Thomas Freese
+ * @param <C> Typ der Komponente
  */
-public interface View extends ComponentProvider
+public interface View<C extends Component>
 {
     /**
-     * Liefert den BusinessProcess.
-     *
-     * @return {@link BusinessProcess}
+     * Aufbau der GUI.
      */
-    public BusinessProcess getProcess();
+    public void createGUI();
+
+    /**
+     * Liefert die Komponente der View.
+     *
+     * @return {@link Component}
+     */
+    public C getComponent();
 
     /**
      * Fehlerbehandlung.
@@ -27,36 +30,12 @@ public interface View extends ComponentProvider
     public void handleException(Throwable throwable);
 
     /**
-     * Initialisiert die Viewt.
-     */
-    public void initialize();
-
-    /**
-     * Pruefung, ob das Release durchgefuehrt werden kann.
-     *
-     * @throws ReleaseVetoException Falls was schief geht.
-     */
-    public void prepareRelease() throws ReleaseVetoException;
-
-    /**
-     * Freigeben verwendeter Resourcen.
-     */
-    public void release();
-
-    /**
-     * Setzt den Status der IView.
+     * Setzt den Status der View.
      */
     public void restoreState();
 
     /**
-     * Speichert den Status der IView.
+     * Speichert den Status der View.
      */
     public void saveState();
-
-    /**
-     * Setzt die Komponente der IView.
-     *
-     * @param component {@link JComponent}
-     */
-    public void setComponent(JComponent component);
 }

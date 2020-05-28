@@ -1,4 +1,4 @@
-package de.freese.base.mvc.context;
+package de.freese.base.mvc;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -53,6 +53,11 @@ public class ApplicationContext
     *
     */
     private JFrame mainFrame = null;
+
+    /**
+    *
+    */
+    private ResourceMap resourceMapRoot = null;
 
     /**
      *
@@ -177,6 +182,16 @@ public class ApplicationContext
     }
 
     /**
+     * Liefert die Root-{@link ResourceMap} der Application.
+     *
+     * @return {@link ResourceMap}
+     */
+    public ResourceMap getResourceMapRoot()
+    {
+        return this.resourceMapRoot;
+    }
+
+    /**
      * @return {@link TaskManager}
      */
     public TaskManager getTaskManager()
@@ -206,6 +221,16 @@ public class ApplicationContext
     public void setMainFrame(final JFrame mainFrame)
     {
         this.mainFrame = Objects.requireNonNull(mainFrame, "mainFrame required");
+    }
+
+    /**
+     * Setzt die Root-{@link ResourceMap} der Application.
+     *
+     * @param resourceMapRoot {@link ResourceMap}
+     */
+    void setResourceMapRoot(final ResourceMap resourceMapRoot)
+    {
+        this.resourceMapRoot = resourceMapRoot;
     }
 
     /**

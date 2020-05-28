@@ -15,7 +15,7 @@ public interface BusinessProcess
     public void initialize();
 
     /**
-     * Prüfung, ob das Release durchgefuehrt werden kann.
+     * Prüfung, ob das Release durchgeführt werden kann.
      *
      * @throws ReleaseVetoException Falls was schief geht.
      */

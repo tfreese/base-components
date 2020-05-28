@@ -14,14 +14,16 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+import de.freese.base.demo.example.controller.ExampleController;
+import de.freese.base.demo.fibonacci.controller.FibonacciController;
+import de.freese.base.demo.nasa.controller.NasaController;
 import de.freese.base.mvc.AbstractApplication;
-import de.freese.base.mvc.MvcPlugin;
 import de.freese.base.mvc.context.storage.LocalStorage;
+import de.freese.base.mvc.controller.Controller;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.swing.StatusBar;
 import de.freese.base.swing.components.ExtFrame;
-import de.freese.base.swing.exception.ReleaseVetoException;
 
 /**
  * Demo Anwendung.
@@ -45,12 +47,7 @@ public class DemoApplication extends AbstractApplication
         {
             try
             {
-                prepareRelease();
                 release();
-            }
-            catch (ReleaseVetoException ex)
-            {
-                // getLogger().error(null, ex);
             }
             catch (Exception ex)
             {
@@ -87,6 +84,7 @@ public class DemoApplication extends AbstractApplication
     public String getName()
     {
         return "Demo Application";
+        // return getContext().getResourceMapRoot().getString("application.title");
     }
 
     /**
@@ -99,6 +97,25 @@ public class DemoApplication extends AbstractApplication
 
         LocalStorage localStorage = getContext().getLocalStorage();
         localStorage.setDirectory(Paths.get(System.getProperty("user.home"), ".java-apps", getName().replace(' ', '_')));
+    }
+
+    /**
+     * @see de.freese.base.mvc.AbstractApplication#initController()
+     */
+    @Override
+    protected void initController()
+    {
+        Controller controller = new NasaController(getContext());
+        controller.initialize();
+        getController().add(controller);
+
+        controller = new FibonacciController(getContext());
+        controller.initialize();
+        getController().add(controller);
+
+        controller = new ExampleController(getContext());
+        controller.initialize();
+        getController().add(controller);
     }
 
     /**
@@ -120,18 +137,17 @@ public class DemoApplication extends AbstractApplication
         JTabbedPane tabbedPane = new JTabbedPane();
         panel.add(tabbedPane, BorderLayout.CENTER);
 
-        for (MvcPlugin plugin : getPlugins())
+        for (Controller controller : getController())
         {
-            Component component = plugin.getComponent();
+            Component component = controller.getView().getComponent();
 
-            ResourceMap resourceMap = plugin.getResourceMap();
-            // ResourceMap resourceMap = getContext().getResourceMap(plugin.getName());
+            ResourceMap resourceMap = controller.getResourceMap();
 
-            tabbedPane.addTab(resourceMap.getString(plugin.getName() + ".title"), component);
+            tabbedPane.addTab(resourceMap.getString(controller.getName() + ".title"), component);
         }
 
         // Main-Frame
-        ResourceMap resourceMap = getResourceMapRoot();
+        ResourceMap resourceMap = getContext().getResourceMapRoot();
 
         JFrame frame = new ExtFrame();
         getContext().setMainFrame(frame);
@@ -162,9 +178,8 @@ public class DemoApplication extends AbstractApplication
     protected void initRecourceMap()
     {
         ResourceMap rootMap = ResourceMap.create("bundles/demo", new ResourceBundleProvider());
-        getContext().addResourceMap("root", rootMap);
-
         setResourceMapRoot(rootMap);
+        // getContext().addResourceMap("root", rootMap);
 
         ResourceMap statusbarMap = ResourceMap.create("bundles/statusbar");
         statusbarMap.setParent(rootMap);

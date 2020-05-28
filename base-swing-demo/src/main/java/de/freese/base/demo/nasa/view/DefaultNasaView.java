@@ -3,37 +3,47 @@ package de.freese.base.demo.nasa.view;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import java.util.concurrent.Callable;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import de.freese.base.demo.nasa.bp.NasaBP;
-import de.freese.base.demo.nasa.task.NasaImageTask;
-import de.freese.base.mvc.context.ApplicationContext;
+import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.swing.task.AbstractSwingTask;
-import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
 /**
  * Konkrete Implementierung der IView.
  *
  * @author Thomas Freese
  */
-public class DefaultNasaView extends AbstractView implements NasaView
+public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
 {
     /**
      * Erstellt ein neues {@link DefaultNasaView} Object.
      *
-     * @param process {@link NasaBP}
      * @param context {@link ApplicationContext}
      */
-    public DefaultNasaView(final NasaBP process, final ApplicationContext context)
+    public DefaultNasaView(final ApplicationContext context)
     {
-        super(process, context);
+        super(context);
+    }
+
+    /**
+     * @see de.freese.base.mvc.view.View#createGUI()
+     */
+    @Override
+    public void createGUI()
+    {
+        setComponent(new NasaPanel());
+        getComponent().initialize();
+
+        ResourceMap resourceMap = getResourceMap();
+
+        decorate(getComponent().getButtonPrevious(), resourceMap, "nasa.button.previous");
+        decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
+        decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
     }
 
     /**
@@ -48,59 +58,12 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     /**
-     * @see de.freese.base.mvc.view.AbstractView#getComponent()
-     */
-    @Override
-    public NasaPanel getComponent()
-    {
-        return (NasaPanel) super.getComponent();
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.AbstractView#getProcess()
-     */
-    @Override
-    public NasaBP getProcess()
-    {
-        return (NasaBP) super.getProcess();
-    }
-
-    /**
      * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
      */
     @Override
     protected ResourceMap getResourceMap()
     {
         return getContext().getResourceMap("nasa");
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.AbstractView#initialize()
-     */
-    @Override
-    public void initialize()
-    {
-        super.initialize();
-
-        setComponent(new NasaPanel());
-        getComponent().initialize();
-
-        ResourceMap resourceMap = getResourceMap();
-
-        decorate(getComponent().getButtonPrevious(), resourceMap, "nasa.button.previous");
-        decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
-        decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
-
-        getComponent().getButtonPrevious().addActionListener(event -> startTask(() -> getProcess().getPreviousURL()));
-        getComponent().getButtonNext().addActionListener(event -> startTask(() -> getProcess().getNextURL()));
-        getComponent().getButtonCancel().addActionListener(event -> {
-            AbstractSwingTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
-
-            if (task != null)
-            {
-                task.cancel(true);
-            }
-        });
     }
 
     /**
@@ -164,16 +127,5 @@ public class DefaultNasaView extends AbstractView implements NasaView
         {
             handleException(throwable);
         }
-    }
-
-    /**
-     * @param urlCallable {@link Callable}
-     */
-    private void startTask(final Callable<URL> urlCallable)
-    {
-        NasaImageTask task = new NasaImageTask(getProcess(), urlCallable, this, getResourceMap());
-        task.setInputBlocker(new DefaultInputBlocker().add(getComponent().getButtonNext(), getComponent().getButtonPrevious()));
-
-        getContext().getTaskManager().execute(task);
     }
 }

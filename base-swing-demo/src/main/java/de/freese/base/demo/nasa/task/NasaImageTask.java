@@ -6,8 +6,8 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
-import de.freese.base.demo.nasa.bp.IIOReadProgressAdapter;
-import de.freese.base.demo.nasa.bp.NasaBP;
+import de.freese.base.demo.nasa.controller.IIOReadProgressAdapter;
+import de.freese.base.demo.nasa.controller.NasaController;
 import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
@@ -22,7 +22,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
     /**
      *
      */
-    private final NasaBP nasaBP;
+    private final NasaController nasaController;
 
     /**
      *
@@ -47,16 +47,16 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
     /**
      * Erstellt ein neues {@link NasaImageTask} Object.
      *
-     * @param nasaBP {@link NasaBP}
+     * @param nasaController {@link NasaController}
      * @param urlCallable {@link Callable}
      * @param view {@link NasaView}
      * @param resourceMap {@link ResourceMap}
      */
-    public NasaImageTask(final NasaBP nasaBP, final Callable<URL> urlCallable, final NasaView view, final ResourceMap resourceMap)
+    public NasaImageTask(final NasaController nasaController, final Callable<URL> urlCallable, final NasaView view, final ResourceMap resourceMap)
     {
         super();
 
-        this.nasaBP = Objects.requireNonNull(nasaBP, "nasaBP required");
+        this.nasaController = Objects.requireNonNull(nasaController, "nasaController required");
         this.urlCallable = Objects.requireNonNull(urlCallable, "urlCallable required");
         this.view = Objects.requireNonNull(view, "view required");
         this.resourceMap = Objects.requireNonNull(resourceMap, "resourceMap required");
@@ -89,7 +89,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
         IIOReadProgressListener rpl = new IIOReadProgressAdapter()
         {
             /**
-             * @see de.freese.base.demo.nasa.bp.IIOReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
+             * @see de.freese.base.demo.nasa.controller.IIOReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
              */
             @Override
             public void imageProgress(final ImageReader source, final float percentageDone)
@@ -98,7 +98,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
             }
         };
 
-        return this.nasaBP.loadImage(this.url, rpl);
+        return this.nasaController.loadImage(this.url, rpl);
     }
 
     /**

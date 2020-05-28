@@ -1,16 +1,15 @@
 package de.freese.base.demo.fibonacci.view;
 
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import de.freese.base.swing.layout.GbcBuilder;
 
 /**
- * Panel fuer die Fibonacci Demo.
+ * Panel für die Fibonacci Demo.
  *
  * @author Thomas Freese
  */
@@ -127,59 +126,10 @@ public class FibonacciPanel extends JPanel
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder());
 
-        Insets insets = new Insets(5, 5, 5, 5);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.insets = insets;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(getLabel(), gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weightx = 1;
-        gbc.weighty = 0;
-        gbc.insets = insets;
-        gbc.gridwidth = 3;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(getTextField(), gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1;
-        gbc.weighty = 0;
-        gbc.gridwidth = 2;
-        gbc.insets = insets;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(getButtonGlassPaneBlock(), gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        gbc.weightx = 1;
-        gbc.weighty = 0;
-        gbc.gridwidth = 2;
-        gbc.insets = insets;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(getButtonComponentBlock(), gbc);
-
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0;
-        gbc.weighty = 1;
-        gbc.gridwidth = 2;
-        gbc.insets = insets;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        add(getLabelResult(), gbc);
+        add(getLabel(), new GbcBuilder(0, 0));
+        add(getTextField(), new GbcBuilder(1, 0).gridwidth(3).anchorWest().fillHorizontal());
+        add(getButtonGlassPaneBlock(), new GbcBuilder(0, 1).gridwidth(2).fillHorizontal());
+        add(getButtonComponentBlock(), new GbcBuilder(2, 1).gridwidth(2).fillHorizontal());
+        add(getLabelResult(), new GbcBuilder(0, 2).gridwidth(4).anchorCenter().fillVertical());
     }
 }

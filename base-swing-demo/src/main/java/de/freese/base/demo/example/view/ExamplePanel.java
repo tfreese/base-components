@@ -32,8 +32,13 @@ public class ExamplePanel extends JPanel
     /**
      * @return {@link JButton}
      */
-    protected JButton getButtonTaskStatistik()
+    public JButton getButtonTaskStatistik()
     {
+        if (this.buttonTaskStatistik == null)
+        {
+            this.buttonTaskStatistik = new JButton();
+        }
+
         return this.buttonTaskStatistik;
     }
 
@@ -44,7 +49,6 @@ public class ExamplePanel extends JPanel
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        this.buttonTaskStatistik = new JButton();
-        add(this.buttonTaskStatistik);
+        add(getButtonTaskStatistik());
     }
 }

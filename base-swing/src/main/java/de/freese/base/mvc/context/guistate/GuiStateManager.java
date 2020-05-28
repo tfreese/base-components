@@ -97,9 +97,8 @@ public final class GuiStateManager
      *
      * @param componentClass Class
      * @return {@link GUIState}
-     * @throws GuiStateException Falls was schief geht.
      */
-    private synchronized GUIState getState(final Class<? extends Component> componentClass) throws GuiStateException
+    protected synchronized GUIState getState(final Class<? extends Component> componentClass)
     {
         for (Class<? extends GUIState> stateClass : this.guiStates)
         {
@@ -113,7 +112,12 @@ public final class GuiStateManager
                 }
                 catch (Exception ex)
                 {
-                    throw new GuiStateException(ex);
+                    if (ex instanceof RuntimeException)
+                    {
+                        throw (RuntimeException) ex;
+                    }
+
+                    throw new RuntimeException(ex);
                 }
 
                 this.instanceMap.put(stateClass, state);
@@ -130,22 +134,16 @@ public final class GuiStateManager
 
     /**
      * @return {@link GuiStateProvider}
-     * @throws GuiStateException Falls StateProvider = null.
      */
-    private GuiStateProvider getStateProvider() throws GuiStateException
+    protected GuiStateProvider getStateProvider()
     {
-        if (this.stateProvider == null)
-        {
-            throw new GuiStateException("GuiStateProvider is null !");
-        }
-
         return this.stateProvider;
     }
 
     /**
      * Registrieren von DefaultGuiStates etc.
      */
-    private void initDefaults()
+    protected void initDefaults()
     {
         addGUIState(ButtonGuiState.class);
         addGUIState(ComboBoxGuiState.class);
@@ -176,10 +174,9 @@ public final class GuiStateManager
      *
      * @param component {@link Component}
      * @param name String
-     * @throws GuiStateException Falls was schief geht.
      */
     @SuppressWarnings("unchecked")
-    public void restore(final Component component, final String name) throws GuiStateException
+    public void restore(final Component component, final String name)
     {
         GUIState stateTemplate = getState(component.getClass());
 
@@ -208,9 +205,8 @@ public final class GuiStateManager
      *
      * @param component {@link Component}
      * @param name String
-     * @throws GuiStateException Falls was schief geht.
      */
-    public void store(final Component component, final String name) throws GuiStateException
+    public void store(final Component component, final String name)
     {
         GUIState state = getState(component.getClass());
 

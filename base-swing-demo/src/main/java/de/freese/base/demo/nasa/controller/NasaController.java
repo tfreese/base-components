@@ -1,4 +1,4 @@
-package de.freese.base.demo.nasa.bp;
+package de.freese.base.demo.nasa.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -10,22 +10,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
 import org.apache.commons.io.FilenameUtils;
-import de.freese.base.mvc.context.ApplicationContext;
-import de.freese.base.mvc.process.AbstractBusinessProcess;
+import de.freese.base.demo.nasa.task.NasaImageTask;
+import de.freese.base.demo.nasa.view.DefaultNasaView;
+import de.freese.base.demo.nasa.view.NasaPanel;
+import de.freese.base.demo.nasa.view.NasaView;
+import de.freese.base.mvc.ApplicationContext;
+import de.freese.base.mvc.controller.AbstractController;
+import de.freese.base.mvc.controller.Controller;
+import de.freese.base.swing.task.AbstractSwingTask;
+import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
 /**
- * Konkreter IBusinessProcess des Nasa Beispiels.
+ * {@link Controller} des Nasa Beispiels.
  *
  * @author Thomas Freese
  */
-public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
+public class NasaController extends AbstractController
 {
     // /**
     // * Erzeugt einen MessageDigest.<br>
@@ -61,11 +67,6 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     // *
     // */
     // private final Cache cache = new FileCache();
-
-    /**
-     *
-     */
-    private final ApplicationContext context;
 
     /**
      * Max. 12196 Bilder verfügbar
@@ -106,16 +107,22 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     private final Random random = new Random();
 
     /**
-     * Erstellt ein neues {@link DefaultNasaBP} Object.
+     *
+     */
+    private final NasaView view;
+
+    /**
+     * Erstellt ein neues {@link NasaController} Object.
      *
      * @param context {@link ApplicationContext}
      */
-    public DefaultNasaBP(final ApplicationContext context)
+    public NasaController(final ApplicationContext context)
     {
-        super();
+        super(context);
 
-        this.context = Objects.requireNonNull(context, "context required");
         // this.messageDigest = createMessageDigest();
+
+        this.view = new DefaultNasaView(context);
     }
 
     /**
@@ -146,9 +153,27 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     }
 
     /**
-     * @see de.freese.base.demo.nasa.bp.NasaBP#getNextURL()
+     * @see de.freese.base.mvc.controller.AbstractController#getBundleName()
      */
     @Override
+    protected String getBundleName()
+    {
+        return "bundles/nasa";
+    }
+
+    /**
+     * @see de.freese.base.mvc.controller.Controller#getName()
+     */
+    @Override
+    public String getName()
+    {
+        return "nasa";
+    }
+
+    /**
+     * @return {@link URL}
+     * @throws MalformedURLException Falls was schief geht.
+     */
     public URL getNextURL() throws MalformedURLException
     {
         if (++this.index == this.imageNames.length)
@@ -173,9 +198,9 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     }
 
     /**
-     * @see de.freese.base.demo.nasa.bp.NasaBP#getPreviousURL()
+     * @return {@link URL}
+     * @throws MalformedURLException Falls was schief geht.
      */
-    @Override
     public URL getPreviousURL() throws MalformedURLException
     {
         if (--this.index < 0)
@@ -200,10 +225,56 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
     }
 
     /**
-     * @see de.freese.base.demo.nasa.bp.NasaBP#loadImage(java.net.URL, javax.imageio.event.IIOReadProgressListener)
+     * @see de.freese.base.mvc.controller.Controller#getView()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public NasaView getView()
+    {
+        return this.view;
+    }
+
+    /**
+     * @see de.freese.base.mvc.controller.AbstractController#initialize()
+     */
+    @Override
+    public void initialize()
+    {
+        super.initialize();
+
+        NasaPanel nasaPanel = getView().getComponent();
+
+        nasaPanel.getButtonPrevious().addActionListener(event -> {
+            NasaImageTask task = new NasaImageTask(this, () -> getPreviousURL(), getView(), getResourceMap());
+            task.setInputBlocker(new DefaultInputBlocker().add(nasaPanel.getButtonNext(), nasaPanel.getButtonPrevious()));
+
+            getContext().getTaskManager().execute(task);
+        });
+
+        nasaPanel.getButtonNext().addActionListener(event -> {
+            NasaImageTask task = new NasaImageTask(this, () -> getNextURL(), getView(), getResourceMap());
+            task.setInputBlocker(new DefaultInputBlocker().add(nasaPanel.getButtonNext(), nasaPanel.getButtonPrevious()));
+
+            getContext().getTaskManager().execute(task);
+        });
+
+        nasaPanel.getButtonCancel().addActionListener(event -> {
+            AbstractSwingTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
+
+            if (task != null)
+            {
+                task.cancel(true);
+            }
+        });
+    }
+
+    /**
+     * @param url {@link URL}
+     * @param listener {@link IIOReadProgressListener}
+     * @return {@link BufferedImage}
+     * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
-    @Override
     public BufferedImage loadImage(final URL url, final IIOReadProgressListener listener) throws Exception
     {
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
@@ -214,7 +285,7 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
         String extension = FilenameUtils.getExtension(fileName);
         // Optional.ofNullable(fileName).filter(f -> f.contains(".")).map(f -> f.substring(fileName.lastIndexOf(".") + 1));
         String cachedFileName = "images/" + fileName;
-        Path cachePath = this.context.getLocalStorage().getPath(cachedFileName);
+        Path cachePath = getContext().getLocalStorage().getPath(cachedFileName);
 
         boolean cacheFileExist = Files.exists(cachePath);
 
@@ -223,7 +294,7 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
         if (cacheFileExist)
         {
             getLogger().info("URL load from: {}", cachePath);
-            inputStream = this.context.getLocalStorage().getInputStream(cachedFileName);
+            inputStream = getContext().getLocalStorage().getInputStream(cachedFileName);
         }
         else
         {
@@ -270,7 +341,7 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
 
         if ((image != null) && !cacheFileExist)
         {
-            try (OutputStream outputStream = this.context.getLocalStorage().getOutputStream(cachedFileName))
+            try (OutputStream outputStream = getContext().getLocalStorage().getOutputStream(cachedFileName))
             {
                 ImageIO.write(image, extension, outputStream);
 
@@ -283,16 +354,5 @@ public class DefaultNasaBP extends AbstractBusinessProcess implements NasaBP
         inputStream.close();
 
         return image;
-    }
-
-    /**
-     * @see de.freese.base.mvc.process.AbstractBusinessProcess#release()
-     */
-    @Override
-    public void release()
-    {
-        super.release();
-
-        // this.cache.clear();
     }
 }
