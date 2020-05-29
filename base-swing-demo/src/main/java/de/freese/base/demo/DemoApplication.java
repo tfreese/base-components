@@ -18,8 +18,9 @@ import de.freese.base.demo.example.controller.ExampleController;
 import de.freese.base.demo.fibonacci.controller.FibonacciController;
 import de.freese.base.demo.nasa.controller.NasaController;
 import de.freese.base.mvc.AbstractApplication;
-import de.freese.base.mvc.context.storage.LocalStorage;
-import de.freese.base.mvc.controller.Controller;
+import de.freese.base.mvc.Controller;
+import de.freese.base.mvc.ControllerBuilder;
+import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.swing.StatusBar;
@@ -105,15 +106,15 @@ public class DemoApplication extends AbstractApplication
     @Override
     protected void initController()
     {
-        Controller controller = new NasaController(getContext());
+        Controller controller = ControllerBuilder.create(getContext()).name("nasa").bundleName("bundles/nasa").clazz(NasaController.class).build();
         controller.initialize();
         getController().add(controller);
 
-        controller = new FibonacciController(getContext());
+        controller = ControllerBuilder.create(getContext()).name("fibonacci").bundleName("bundles/fibonacci").clazz(FibonacciController.class).build();
         controller.initialize();
         getController().add(controller);
 
-        controller = new ExampleController(getContext());
+        controller = ControllerBuilder.create(getContext()).name("example").bundleName("bundles/example").clazz(ExampleController.class).build();
         controller.initialize();
         getController().add(controller);
     }
@@ -178,6 +179,7 @@ public class DemoApplication extends AbstractApplication
     protected void initRecourceMap()
     {
         ResourceMap rootMap = ResourceMap.create("bundles/demo", new ResourceBundleProvider());
+        // rootMap.setResourceProvider(( baseName, locale, classLoader) -> Make DB-Query for Text);
         setResourceMapRoot(rootMap);
         // getContext().addResourceMap("root", rootMap);
 

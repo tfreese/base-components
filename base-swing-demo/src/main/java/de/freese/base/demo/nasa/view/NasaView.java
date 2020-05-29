@@ -2,7 +2,7 @@ package de.freese.base.demo.nasa.view;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
-import de.freese.base.mvc.view.View;
+import de.freese.base.mvc.View;
 
 /**
  * @author Thomas Freese

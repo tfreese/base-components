@@ -14,9 +14,8 @@ import de.freese.base.demo.fibonacci.view.DefaultFibonacciView;
 import de.freese.base.demo.fibonacci.view.FibonacciPanel;
 import de.freese.base.demo.fibonacci.view.FibonacciTaskListener;
 import de.freese.base.demo.fibonacci.view.FibonacciView;
-import de.freese.base.mvc.ApplicationContext;
-import de.freese.base.mvc.controller.AbstractController;
-import de.freese.base.mvc.controller.Controller;
+import de.freese.base.mvc.AbstractController;
+import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
@@ -49,14 +48,12 @@ public class FibonacciController extends AbstractController
 
     /**
      * Erstellt ein neues {@link FibonacciController} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public FibonacciController(final ApplicationContext context)
+    public FibonacciController()
     {
-        super(context);
+        super();
 
-        this.view = new DefaultFibonacciView(context);
+        this.view = new DefaultFibonacciView();
     }
 
     /**
@@ -100,24 +97,6 @@ public class FibonacciController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.controller.AbstractController#getBundleName()
-     */
-    @Override
-    protected String getBundleName()
-    {
-        return "bundles/fibonacci";
-    }
-
-    /**
-     * @see de.freese.base.mvc.controller.Controller#getName()
-     */
-    @Override
-    public String getName()
-    {
-        return "fibonacci";
-    }
-
-    /**
      * Liefert die Anzahl der benötigten mathematischen Operationen zurück.<br>
      * ACHTUNG: Dieser Wert ist bedeutend grösser als das Ergebnis !
      *
@@ -145,7 +124,7 @@ public class FibonacciController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.controller.Controller#getView()
+     * @see de.freese.base.mvc.Controller#getView()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -155,14 +134,15 @@ public class FibonacciController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.controller.AbstractController#initialize()
+     * @see de.freese.base.mvc.AbstractController#initialize()
      */
     @Override
     public void initialize()
     {
         super.initialize();
 
-        this.forkJoinPool = new ForkJoinPool();
+        // this.forkJoinPool = new ForkJoinPool();
+        this.forkJoinPool = ForkJoinPool.commonPool();
 
         FibonacciPanel panel = getView().getComponent();
 
@@ -198,7 +178,7 @@ public class FibonacciController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.process.AbstractBusinessProcess#release()
+     * @see de.freese.base.mvc.AbstractController#release()
      */
     @Override
     public void release()

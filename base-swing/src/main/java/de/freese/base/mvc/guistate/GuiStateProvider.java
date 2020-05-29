@@ -1,4 +1,4 @@
-package de.freese.base.mvc.context.guistate;
+package de.freese.base.mvc.guistate;
 
 import de.freese.base.swing.state.GUIState;
 

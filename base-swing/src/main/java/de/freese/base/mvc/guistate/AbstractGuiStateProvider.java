@@ -1,10 +1,10 @@
-package de.freese.base.mvc.context.guistate;
+package de.freese.base.mvc.guistate;
 
 import java.util.Objects;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.mvc.context.storage.LocalStorage;
+import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
 /**

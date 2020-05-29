@@ -7,9 +7,8 @@ package de.freese.base.demo.example.controller;
 import de.freese.base.demo.example.view.ExamplePanel;
 import de.freese.base.demo.example.view.ExampleView;
 import de.freese.base.demo.task.DurationStatisikTask;
-import de.freese.base.mvc.ApplicationContext;
-import de.freese.base.mvc.controller.AbstractController;
-import de.freese.base.mvc.controller.Controller;
+import de.freese.base.mvc.AbstractController;
+import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatisikTaskListener;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
@@ -28,36 +27,16 @@ public class ExampleController extends AbstractController
 
     /**
      * Erstellt ein neues {@link ExampleController} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public ExampleController(final ApplicationContext context)
+    public ExampleController()
     {
-        super(context);
+        super();
 
-        this.view = new ExampleView(context);
+        this.view = new ExampleView();
     }
 
     /**
-     * @see de.freese.base.mvc.controller.AbstractController#getBundleName()
-     */
-    @Override
-    protected String getBundleName()
-    {
-        return "bundles/example";
-    }
-
-    /**
-     * @see de.freese.base.mvc.controller.Controller#getName()
-     */
-    @Override
-    public String getName()
-    {
-        return "example";
-    }
-
-    /**
-     * @see de.freese.base.mvc.controller.Controller#getView()
+     * @see de.freese.base.mvc.Controller#getView()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -67,7 +46,7 @@ public class ExampleController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.controller.AbstractController#initialize()
+     * @see de.freese.base.mvc.AbstractController#initialize()
      */
     @Override
     public void initialize()

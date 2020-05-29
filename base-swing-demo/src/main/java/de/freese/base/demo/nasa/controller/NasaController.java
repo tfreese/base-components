@@ -20,9 +20,8 @@ import de.freese.base.demo.nasa.task.NasaImageTask;
 import de.freese.base.demo.nasa.view.DefaultNasaView;
 import de.freese.base.demo.nasa.view.NasaPanel;
 import de.freese.base.demo.nasa.view.NasaView;
-import de.freese.base.mvc.ApplicationContext;
-import de.freese.base.mvc.controller.AbstractController;
-import de.freese.base.mvc.controller.Controller;
+import de.freese.base.mvc.AbstractController;
+import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
@@ -113,16 +112,14 @@ public class NasaController extends AbstractController
 
     /**
      * Erstellt ein neues {@link NasaController} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public NasaController(final ApplicationContext context)
+    public NasaController()
     {
-        super(context);
+        super();
 
         // this.messageDigest = createMessageDigest();
 
-        this.view = new DefaultNasaView(context);
+        this.view = new DefaultNasaView();
     }
 
     /**
@@ -150,24 +147,6 @@ public class NasaController extends AbstractController
         }
 
         return false;
-    }
-
-    /**
-     * @see de.freese.base.mvc.controller.AbstractController#getBundleName()
-     */
-    @Override
-    protected String getBundleName()
-    {
-        return "bundles/nasa";
-    }
-
-    /**
-     * @see de.freese.base.mvc.controller.Controller#getName()
-     */
-    @Override
-    public String getName()
-    {
-        return "nasa";
     }
 
     /**
@@ -225,7 +204,7 @@ public class NasaController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.controller.Controller#getView()
+     * @see de.freese.base.mvc.Controller#getView()
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -235,7 +214,7 @@ public class NasaController extends AbstractController
     }
 
     /**
-     * @see de.freese.base.mvc.controller.AbstractController#initialize()
+     * @see de.freese.base.mvc.AbstractController#initialize()
      */
     @Override
     public void initialize()

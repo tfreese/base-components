@@ -1,6 +1,6 @@
 package de.freese.base.demo.fibonacci.view;
 
-import de.freese.base.mvc.view.View;
+import de.freese.base.mvc.View;
 
 /**
  * Viewinterface für die Fibonacci Demo.

@@ -1,10 +1,10 @@
-package de.freese.base.mvc.context.guistate;
+package de.freese.base.mvc.guistate;
 
 import java.nio.file.Path;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import de.freese.base.mvc.context.storage.LocalStorage;
+import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
 /**
@@ -53,7 +53,7 @@ public final class XMLGuiStateProvider extends AbstractGuiStateProvider
     }
 
     /**
-     * @see de.freese.base.mvc.context.guistate.GuiStateProvider#load(java.lang.String, java.lang.Class)
+     * @see de.freese.base.mvc.guistate.GuiStateProvider#load(java.lang.String, java.lang.Class)
      */
     @Override
     public GUIState load(final String filePrefix, final Class<GUIState> stateClazz)
@@ -78,7 +78,7 @@ public final class XMLGuiStateProvider extends AbstractGuiStateProvider
     }
 
     /**
-     * @see de.freese.base.mvc.context.guistate.GuiStateProvider#save(java.lang.String, de.freese.base.swing.state.GUIState)
+     * @see de.freese.base.mvc.guistate.GuiStateProvider#save(java.lang.String, de.freese.base.swing.state.GUIState)
      */
     @Override
     public void save(final String filePrefix, final GUIState state)

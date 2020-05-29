@@ -1,5 +1,5 @@
 // Created: 26.01.2018
-package de.freese.base.mvc.context.guistate;
+package de.freese.base.mvc.guistate;
 
 import java.nio.file.Path;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import de.freese.base.mvc.context.storage.LocalStorage;
+import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
 /**
@@ -55,7 +55,7 @@ public class JsonGuiStateProvider extends AbstractGuiStateProvider
     }
 
     /**
-     * @see de.freese.base.mvc.context.guistate.GuiStateProvider#load(java.lang.String, java.lang.Class)
+     * @see de.freese.base.mvc.guistate.GuiStateProvider#load(java.lang.String, java.lang.Class)
      */
     @Override
     public GUIState load(final String filePrefix, final Class<GUIState> stateClazz)
@@ -84,7 +84,7 @@ public class JsonGuiStateProvider extends AbstractGuiStateProvider
     }
 
     /**
-     * @see de.freese.base.mvc.context.guistate.GuiStateProvider#save(java.lang.String, de.freese.base.swing.state.GUIState)
+     * @see de.freese.base.mvc.guistate.GuiStateProvider#save(java.lang.String, de.freese.base.swing.state.GUIState)
      */
     @Override
     public void save(final String filePrefix, final GUIState state)

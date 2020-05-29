@@ -1,4 +1,4 @@
-package de.freese.base.mvc.view;
+package de.freese.base.mvc;
 
 import java.awt.Component;
 

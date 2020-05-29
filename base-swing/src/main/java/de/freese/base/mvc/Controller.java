@@ -2,10 +2,9 @@
  * Created: 27.05.2020
  */
 
-package de.freese.base.mvc.controller;
+package de.freese.base.mvc;
 
 import java.awt.Component;
-import de.freese.base.mvc.view.View;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**

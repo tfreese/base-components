@@ -1,7 +1,6 @@
 package de.freese.base.demo.fibonacci.view;
 
-import de.freese.base.mvc.ApplicationContext;
-import de.freese.base.mvc.view.AbstractView;
+import de.freese.base.mvc.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -13,16 +12,14 @@ public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implement
 {
     /**
      * Erstellt ein neues {@link DefaultFibonacciView} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public DefaultFibonacciView(final ApplicationContext context)
+    public DefaultFibonacciView()
     {
-        super(context);
+        super();
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#createGUI()
+     * @see de.freese.base.mvc.View#createGUI()
      */
     @Override
     public void createGUI()
@@ -41,7 +38,7 @@ public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implement
     }
 
     /**
-     * @see de.freese.base.mvc.view.AbstractView#getComponent()
+     * @see de.freese.base.mvc.AbstractView#getComponent()
      */
     @Override
     public FibonacciPanel getComponent()
@@ -50,16 +47,7 @@ public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implement
     }
 
     /**
-     * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
-     */
-    @Override
-    protected ResourceMap getResourceMap()
-    {
-        return getContext().getResourceMap("fibonacci");
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.AbstractView#restoreState()
+     * @see de.freese.base.mvc.AbstractView#restoreState()
      */
     @Override
     public void restoreState()
@@ -68,7 +56,7 @@ public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implement
     }
 
     /**
-     * @see de.freese.base.mvc.view.AbstractView#saveState()
+     * @see de.freese.base.mvc.AbstractView#saveState()
      */
     @Override
     public void saveState()

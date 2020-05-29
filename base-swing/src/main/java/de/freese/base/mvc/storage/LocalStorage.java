@@ -1,4 +1,4 @@
-package de.freese.base.mvc.context.storage;
+package de.freese.base.mvc.storage;
 
 import java.awt.Desktop;
 import java.io.BufferedInputStream;

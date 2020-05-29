@@ -1,10 +1,9 @@
-package de.freese.base.mvc.view;
+package de.freese.base.mvc;
 
 import java.awt.Component;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 
@@ -24,27 +23,28 @@ public abstract class AbstractView<C extends Component> implements View<C>
     /**
      *
      */
-    private final ApplicationContext context;
+    private ApplicationContext context = null;
 
     /**
-     *
-     */
+    *
+    */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
+    *
+    */
+    private ResourceMap resourceMap = null;
+
+    /**
      * Erstellt ein neues {@link AbstractView} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public AbstractView(final ApplicationContext context)
+    public AbstractView()
     {
         super();
-
-        this.context = Objects.requireNonNull(context, "context required");
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#getComponent()
+     * @see de.freese.base.mvc.View#getComponent()
      */
     @Override
     public C getComponent()
@@ -53,7 +53,7 @@ public abstract class AbstractView<C extends Component> implements View<C>
     }
 
     /**
-     * Liefert den {@link ApplicationContext}.
+     * Liefert den {@link ApplicationContext} dieser View.
      *
      * @return {@link ApplicationContext}
      */
@@ -75,10 +75,13 @@ public abstract class AbstractView<C extends Component> implements View<C>
      *
      * @return {@link ResourceMap}
      */
-    protected abstract ResourceMap getResourceMap();
+    protected ResourceMap getResourceMap()
+    {
+        return this.resourceMap;
+    }
 
     /**
-     * @see de.freese.base.mvc.view.View#handleException(java.lang.Throwable)
+     * @see de.freese.base.mvc.View#handleException(java.lang.Throwable)
      */
     @Override
     public void handleException(final Throwable throwable)
@@ -105,7 +108,7 @@ public abstract class AbstractView<C extends Component> implements View<C>
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#restoreState()
+     * @see de.freese.base.mvc.View#restoreState()
      */
     @Override
     public void restoreState()
@@ -114,7 +117,7 @@ public abstract class AbstractView<C extends Component> implements View<C>
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#saveState()
+     * @see de.freese.base.mvc.View#saveState()
      */
     @Override
     public void saveState()
@@ -128,5 +131,25 @@ public abstract class AbstractView<C extends Component> implements View<C>
     protected void setComponent(final C component)
     {
         this.component = Objects.requireNonNull(component, "component required");
+    }
+
+    /**
+     * Setzt den {@link ApplicationContext} dieser View
+     *
+     * @param context {@link ApplicationContext}
+     */
+    void setContext(final ApplicationContext context)
+    {
+        this.context = context;
+    }
+
+    /**
+     * Setzt die {@link ResourceMap} dieser View.
+     *
+     * @param resourceMap {@link ResourceMap}
+     */
+    void setResourceMap(final ResourceMap resourceMap)
+    {
+        this.resourceMap = resourceMap;
     }
 }

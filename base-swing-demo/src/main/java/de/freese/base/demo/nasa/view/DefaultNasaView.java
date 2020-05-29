@@ -9,8 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
-import de.freese.base.mvc.ApplicationContext;
-import de.freese.base.mvc.view.AbstractView;
+import de.freese.base.mvc.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -22,16 +21,14 @@ public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
 {
     /**
      * Erstellt ein neues {@link DefaultNasaView} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public DefaultNasaView(final ApplicationContext context)
+    public DefaultNasaView()
     {
-        super(context);
+        super();
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#createGUI()
+     * @see de.freese.base.mvc.View#createGUI()
      */
     @Override
     public void createGUI()
@@ -55,15 +52,6 @@ public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
     {
         button.setText(resourceMap.getString(key + ".text"));
         button.setIcon(resourceMap.getIcon(key + ".icon"));
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
-     */
-    @Override
-    protected ResourceMap getResourceMap()
-    {
-        return getContext().getResourceMap("nasa");
     }
 
     /**

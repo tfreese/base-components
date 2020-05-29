@@ -1,7 +1,6 @@
 package de.freese.base.demo.example.view;
 
-import de.freese.base.mvc.ApplicationContext;
-import de.freese.base.mvc.view.AbstractView;
+import de.freese.base.mvc.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -13,16 +12,14 @@ public class ExampleView extends AbstractView<ExamplePanel>
 {
     /**
      * Erstellt ein neues {@link ExampleView} Object.
-     *
-     * @param context {@link ApplicationContext}
      */
-    public ExampleView(final ApplicationContext context)
+    public ExampleView()
     {
-        super(context);
+        super();
     }
 
     /**
-     * @see de.freese.base.mvc.view.View#createGUI()
+     * @see de.freese.base.mvc.View#createGUI()
      */
     @Override
     public void createGUI()
@@ -36,20 +33,11 @@ public class ExampleView extends AbstractView<ExamplePanel>
     }
 
     /**
-     * @see de.freese.base.mvc.view.AbstractView#getComponent()
+     * @see de.freese.base.mvc.AbstractView#getComponent()
      */
     @Override
     public ExamplePanel getComponent()
     {
         return super.getComponent();
-    }
-
-    /**
-     * @see de.freese.base.mvc.view.AbstractView#getResourceMap()
-     */
-    @Override
-    protected ResourceMap getResourceMap()
-    {
-        return getContext().getResourceMap("example");
     }
 }
