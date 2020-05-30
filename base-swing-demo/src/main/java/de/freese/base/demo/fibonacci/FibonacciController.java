@@ -1,4 +1,4 @@
-package de.freese.base.demo.fibonacci.controller;
+package de.freese.base.demo.fibonacci;
 
 import java.awt.Component;
 import java.util.HashMap;

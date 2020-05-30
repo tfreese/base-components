@@ -33,7 +33,7 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
-import de.freese.base.utils.GuiUtils;
+import de.freese.base.swing.layout.GbcBuilder;
 
 /**
  * Resizeable Dialog, bei dem das ActionHandling der Buttons manuell erfolgen kann, um Validierungen moeglich zu machen.<br>
@@ -56,17 +56,9 @@ public class ExtDialog
         config.setMessage("Beispieltextdddddddddddddddddddddd<br>dddddddddddddddddddddddddddddddd");
         config.setOwner(null);
         // config.setModal(true);
-        config.setButtonActionListener(0, new ActionListener()
-        {
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            @Override
-            public void actionPerformed(final ActionEvent e)
-            {
-                System.out.println("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
-                Toolkit.getDefaultToolkit().beep();
-            }
+        config.setButtonActionListener(0, event -> {
+            System.out.println("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
+            Toolkit.getDefaultToolkit().beep();
         });
 
         ExtDialog dialog = new ExtDialog();
@@ -82,12 +74,12 @@ public class ExtDialog
     private JButton[] buttons = null;
 
     /**
-     * 
+     *
      */
     private JDialog dialog = null;
 
     /**
-     * 
+     *
      */
     private int optionClicked = JOptionPane.CLOSED_OPTION;
 
@@ -101,7 +93,7 @@ public class ExtDialog
 
     /**
      * Konfiguriert den {@link ExtDialog}.
-     * 
+     *
      * @param config {@link ExtDialogConfig}
      */
     public void configure(final ExtDialogConfig config)
@@ -149,7 +141,7 @@ public class ExtDialog
 
     /**
      * Konfiguriert die Buttons fuer den Dialog.
-     * 
+     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -231,16 +223,13 @@ public class ExtDialog
             buttonPanel.add(button);
         }
 
-        GridBagConstraints gbc = GuiUtils.getGBC(0, 2);
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.gridwidth = 2;
-        gbc.weighty = 0;
+        GridBagConstraints gbc = new GbcBuilder(0, 2).gridwidth(2).insets(10, 10, 10, 10);
         this.dialog.add(buttonPanel, gbc);
     }
 
     /**
      * Erster Button reagiert auf ENTER, letzter Button reagiert auf ESC (wenn vorhanden).
-     * 
+     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -255,7 +244,7 @@ public class ExtDialog
         actionMap.put("enter", new AbstractAction()
         {
             /**
-             * 
+             *
              */
             private static final long serialVersionUID = -1121213878070135406L;
 
@@ -280,7 +269,7 @@ public class ExtDialog
             actionMap.put("esc", new AbstractAction()
             {
                 /**
-                 * 
+                 *
                  */
                 private static final long serialVersionUID = -1982802474829843159L;
 
@@ -298,18 +287,13 @@ public class ExtDialog
 
     /**
      * Konfiguriert das Icon fuer den Dialog.
-     * 
+     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
     private void configureIcon(final JDialog dialog, final ExtDialogConfig config)
     {
-        GridBagConstraints gbc = GuiUtils.getGBC(0, 0);
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.fill = GridBagConstraints.NONE;
+        GridBagConstraints gbc = new GbcBuilder(0, 0).insets(null).anchorNorthWest();
 
         Icon icon = config.getIcon();
 
@@ -328,7 +312,7 @@ public class ExtDialog
 
     /**
      * Konfiguriert die Listener fuer den Dialog.
-     * 
+     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -376,7 +360,7 @@ public class ExtDialog
 
     /**
      * Konfiguriert die Message fuer den Dialog.
-     * 
+     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -405,11 +389,7 @@ public class ExtDialog
             messageComponent = (Component) config.getMessage();
         }
 
-        GridBagConstraints gbc = GuiUtils.getGBC(1, 0);
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.gridheight = 2;
-        // gbc.weighty = 2;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
+        GridBagConstraints gbc = new GbcBuilder(1, 0).insets(10, 10, 10, 10).gridheight(2).anchorNorthWest();
         this.dialog.add(messageComponent, gbc);
     }
 
@@ -425,7 +405,7 @@ public class ExtDialog
 
     /**
      * Liefert den Text fuer einen Button.
-     * 
+     *
      * @param buttonIndex int
      * @param uiKey String
      * @param locale {@link Locale}
@@ -444,7 +424,7 @@ public class ExtDialog
 
     /**
      * Returns the icon to use for the passed in type.
-     * 
+     *
      * @param messageType int, {@link JOptionPane}
      * @return {@link Icon}
      */
@@ -521,7 +501,7 @@ public class ExtDialog
 
     /**
      * Liefert true, wenn {@link JOptionPane#CANCEL_OPTION} gewaehlt wurde.
-     * 
+     *
      * @return boolean
      */
     public boolean isCancel()
@@ -536,7 +516,7 @@ public class ExtDialog
 
     /**
      * Liefert true, wenn {@link JOptionPane#CLOSED_OPTION} gewaehlt wurde.
-     * 
+     *
      * @return boolean
      */
     public boolean isClosed()
@@ -551,7 +531,7 @@ public class ExtDialog
 
     /**
      * Liefert true, wenn {@link JOptionPane#NO_OPTION} gewaehlt wurde.
-     * 
+     *
      * @return boolean
      */
     public boolean isNo()
@@ -566,7 +546,7 @@ public class ExtDialog
 
     /**
      * Liefert true, wenn {@link JOptionPane#YES_OPTION} oder {@link JOptionPane#OK_OPTION} gewaehlt wurde.
-     * 
+     *
      * @return boolean
      */
     public boolean isYesOrOK()

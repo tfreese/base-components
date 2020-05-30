@@ -1,17 +1,16 @@
 package de.freese.base.swing.task.inputblocker;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
+import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.SwingTask;
-import de.freese.base.utils.GuiUtils;
 
 /**
  * Blockiert die gesamte Anwendung mit einer GlassPane und zeigt den Titel des Tasks und den Progress-Wert an.
@@ -52,29 +51,32 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
         this.progressBar.setStringPainted(false);
         this.progressBar.setMinimum(0);
         this.progressBar.setMaximum(100);
+
         this.labelTitle = new JLabel();
         this.labelTitle.setFont(defaultFont.deriveFont(Font.BOLD, defaultFont.getSize() * 2));
+
         this.labelSubTitle = new JLabel();
+        this.labelSubTitle.setForeground(Color.BLACK);
 
         getGlassPane().setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = GuiUtils.getGBC(0, 0);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weighty = 0;
-        gbc.insets = new Insets(5, 5, 0, 5);
-        getGlassPane().add(this.labelTitle, gbc);
+        // GridBagConstraints gbc = GuiUtils.getGBC(0, 0);
+        // gbc.fill = GridBagConstraints.NONE;
+        // gbc.weighty = 0;
+        // gbc.insets = new Insets(5, 5, 0, 5);
+        getGlassPane().add(this.labelTitle, new GbcBuilder(0, 0));
 
-        gbc = GuiUtils.getGBC(0, 1);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weighty = 0;
-        gbc.insets = new Insets(0, 5, 0, 5);
-        getGlassPane().add(this.progressBar, gbc);
+        // gbc = GuiUtils.getGBC(0, 1);
+        // gbc.fill = GridBagConstraints.NONE;
+        // gbc.weighty = 0;
+        // gbc.insets = new Insets(0, 5, 0, 5);
+        getGlassPane().add(this.progressBar, new GbcBuilder(0, 1));
 
-        gbc = GuiUtils.getGBC(0, 2);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weighty = 0;
-        gbc.insets = new Insets(0, 5, 0, 5);
-        getGlassPane().add(this.labelSubTitle, gbc);
+        // gbc = GuiUtils.getGBC(0, 2);
+        // gbc.fill = GridBagConstraints.NONE;
+        // gbc.weighty = 0;
+        // gbc.insets = new Insets(0, 5, 0, 5);
+        getGlassPane().add(this.labelSubTitle, new GbcBuilder(0, 2));
     }
 
     /**

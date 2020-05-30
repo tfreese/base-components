@@ -6,8 +6,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -267,46 +265,6 @@ public final class GuiUtils
         }
 
         return activeFrame;
-    }
-
-    /**
-     * Liefert default GridBagConstraints mit fill=BOTH, anchor=CENTER und Insets mit (5, 5, 5, 5).
-     *
-     * @param col int, siehe auch Konstanten in GridBagConstraints
-     * @param row int, siehe auch Konstanten in GridBagConstraints
-     * @return {@link GridBagConstraints}
-     */
-    public static GridBagConstraints getGBC(final int col, final int row)
-    {
-        return GuiUtils.getGBC(col, row, 1, 1);
-    }
-
-    /**
-     * Liefert default GridBagConstraints mit fill=BOTH, anchor=CENTER und Insets mit (5, 5, 5, 5).
-     *
-     * @param col int, siehe auch Konstanten in GridBagConstraints
-     * @param row int, siehe auch Konstanten in GridBagConstraints
-     * @param colWidth int, siehe auch Konstanten in GridBagConstraints
-     * @param rowWidth int, siehe auch Konstanten in GridBagConstraints
-     * @return {@link GridBagConstraints}
-     */
-    public static GridBagConstraints getGBC(final int col, final int row, final int colWidth, final int rowWidth)
-    {
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        constraints.gridx = col;
-        constraints.gridy = row;
-        constraints.gridwidth = colWidth;
-        constraints.gridheight = rowWidth;
-        constraints.weightx = 1.0;
-        constraints.weighty = 1.0;
-        constraints.ipadx = 0;
-        constraints.ipady = 0;
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.insets = new Insets(5, 5, 5, 5);
-
-        return constraints;
     }
 
     /**

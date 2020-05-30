@@ -23,11 +23,10 @@ public class GbcBuilder extends GridBagConstraints
      * Erstellt ein neues {@link GbcBuilder} Object.<br>
      * Defaults:
      * <ul>
-     * <li>anchor = WEST</li>
      * <li>fill = NONE</li>
-     * <li>insets = new Insets(5, 5, 5, 5)</li>
      * <li>weightx = 0.0D</li>
      * <li>weighty = 0.0D</li>
+     * <li>insets = new Insets(5, 5, 5, 5)</li>
      * </ul>
      *
      * @param gridx int
@@ -40,7 +39,7 @@ public class GbcBuilder extends GridBagConstraints
         this.gridx = gridx;
         this.gridy = gridy;
 
-        anchorWest();
+        fillNone();
         insets(5, 5, 5, 5);
     }
 
@@ -147,6 +146,25 @@ public class GbcBuilder extends GridBagConstraints
         this.fill = HORIZONTAL;
 
         weightx(1.0D);
+        weighty(0.0D);
+
+        return this;
+    }
+
+    /**
+     * Defaults:
+     * <ul>
+     * <li>weightx = 0.0D</li>
+     * <li>weighty = 0.0D</li>
+     * </ul>
+     *
+     * @return {@link GbcBuilder}
+     */
+    public GbcBuilder fillNone()
+    {
+        this.fill = NONE;
+
+        weightx(0.0D);
         weighty(0.0D);
 
         return this;

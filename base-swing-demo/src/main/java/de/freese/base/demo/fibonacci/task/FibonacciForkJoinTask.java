@@ -6,7 +6,7 @@ package de.freese.base.demo.fibonacci.task;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
-import de.freese.base.demo.fibonacci.controller.FibonacciController;
+import de.freese.base.demo.fibonacci.FibonacciController;
 
 /**
  * {@link RecursiveTask} für Fibonacci Algorithmus.

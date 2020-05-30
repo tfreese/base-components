@@ -15,9 +15,9 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.swing.task.SwingTask;
 import de.freese.base.swing.task.TaskManager;
-import de.freese.base.utils.GuiUtils;
 
 /**
  * Diese StatusBar registriert sich als Listener am {@link TaskManager} und reagiert auf Events des aktuellen ForegroundTasks.<br>
@@ -114,28 +114,12 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     }
 
     /**
-     * Liefert den naechsten Satz der {@link GridBagConstraints}.
-     *
-     * @return {@link GridBagConstraints}
-     */
-    private GridBagConstraints getGBC()
-    {
-        GridBagConstraints gbc = GuiUtils.getGBC(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0.0;
-        gbc.weighty = 0.0;
-        gbc.insets = this.zeroInsets;
-
-        return gbc;
-    }
-
-    /**
      * Initialisiert die GUI.
      */
     public void initialize()
     {
         setLayout(new GridBagLayout());
-        setBorder(new EmptyBorder(this.zeroInsets)); // top, left, bottom, right
+        setBorder(new EmptyBorder(this.zeroInsets));
 
         this.messageLabel = new JLabel();
 
@@ -145,25 +129,14 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         this.statusAnimationLabel = new JLabel();
         this.statusAnimationLabel.setIcon(this.idleIcon);
 
-        GridBagConstraints gbc = getGBC();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
-        add(new JSeparator(), gbc);
+        add(new JSeparator(), new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal()
+                .insets(this.zeroInsets));
 
-        gbc = getGBC();
-        gbc.insets = new Insets(2, 6, 2, 3); // top, left, bottom, right;
-        gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(this.messageLabel, gbc);
+        add(this.messageLabel, new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
 
-        gbc = getGBC();
-        gbc.insets = new Insets(2, 3, 2, 3); // top, left, bottom, right;
-        add(this.progressBar, gbc);
+        add(this.progressBar, new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 3));
 
-        gbc = getGBC();
-        gbc.insets = new Insets(2, 3, 2, 6); // top, left, bottom, right;
-        add(this.statusAnimationLabel, gbc);
+        add(this.statusAnimationLabel, new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 6));
     }
 
     /**

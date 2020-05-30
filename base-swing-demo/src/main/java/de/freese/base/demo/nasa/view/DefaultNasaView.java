@@ -101,15 +101,16 @@ public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
         // JViewport viewport = getViewComponent().getScrollPane().getViewport();
         // getLogger().info(viewport.getViewPosition().toString());
 
-        String msg = getResourceMap().getString(key, url);
+        // Wird schon von der GlasPane übernommen.
+        // String msg = getResourceMap().getString(key, url);
 
-        JLabel label = getComponent().getLabelImage();
-        label.setToolTipText("");
-        label.setText(msg);
-        label.setIcon(null);
-
-        label = getComponent().getLabelURL();
-        label.setText(null);
+        // JLabel label = getComponent().getLabelImage();
+        // label.setToolTipText("");
+        // label.setText(msg);
+        // label.setIcon(null);
+        //
+        // label = getComponent().getLabelURL();
+        // label.setText(null);
 
         if (throwable != null)
         {

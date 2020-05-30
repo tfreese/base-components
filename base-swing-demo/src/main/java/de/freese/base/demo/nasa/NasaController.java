@@ -1,4 +1,4 @@
-package de.freese.base.demo.nasa.controller;
+package de.freese.base.demo.nasa;
 
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -9,21 +9,22 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
 import org.apache.commons.io.FilenameUtils;
-import de.freese.base.demo.nasa.task.NasaImageTask;
 import de.freese.base.demo.nasa.view.DefaultNasaView;
 import de.freese.base.demo.nasa.view.NasaPanel;
 import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.mvc.AbstractController;
 import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.AbstractSwingTask;
-import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
+import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
 /**
  * {@link Controller} des Nasa Beispiels.
@@ -98,12 +99,17 @@ public class NasaController extends AbstractController
     /**
      *
      */
-    private int index = -1;
+    private final Random random = new Random();
 
     /**
      *
      */
-    private final Random random = new Random();
+    private final List<URL> urlHistory = new ArrayList<>();
+
+    /**
+     *
+     */
+    private int urlHistoryCurrentIndex = -1;
 
     /**
      *
@@ -150,18 +156,25 @@ public class NasaController extends AbstractController
     }
 
     /**
+     * Erzeugt die nächste {@link URL}, zufällig oder basierend auf #imageNames.
+     *
      * @return {@link URL}
      * @throws MalformedURLException Falls was schief geht.
      */
-    public URL getNextURL() throws MalformedURLException
+    protected URL generateUrl() throws MalformedURLException
     {
-        if (++this.index == this.imageNames.length)
-        {
-            this.index = 0;
-        }
+        String urlString = null;
+        boolean randomUrls = true;
 
-        // String urlString = this.imageDir + this.imageNames[this.index];
-        String urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
+        if (!randomUrls)
+        {
+            int index = this.random.nextInt(this.imageNames.length);
+            urlString = this.imageDir + this.imageNames[index];
+        }
+        else
+        {
+            urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
+        }
 
         getLogger().info("URL: {}", urlString);
 
@@ -170,7 +183,41 @@ public class NasaController extends AbstractController
         if (!existUrl(url))
         {
             getLogger().warn("URL not exist: {}", url);
-            url = getNextURL();
+            url = generateUrl();
+        }
+
+        if (!existUrl(url))
+        {
+            getLogger().warn("URL not exist: {}", url);
+            url = generateUrl();
+        }
+
+        return url;
+    }
+
+    /**
+     * @return {@link URL}
+     * @throws MalformedURLException Falls was schief geht.
+     */
+    public URL getNextURL() throws MalformedURLException
+    {
+        // if (++this.urlHistoryCurrentIndex == this.imageNames.length)
+        // {
+        // this.urlHistoryCurrentIndex = 0;
+        // }
+
+        this.urlHistoryCurrentIndex++;
+        URL url = null;
+
+        // Bin ich am Ende der URL-History ?
+        if (this.urlHistoryCurrentIndex < this.urlHistory.size())
+        {
+            url = this.urlHistory.get(this.urlHistoryCurrentIndex);
+        }
+        else
+        {
+            url = generateUrl();
+            this.urlHistory.add(url);
         }
 
         return url;
@@ -182,22 +229,24 @@ public class NasaController extends AbstractController
      */
     public URL getPreviousURL() throws MalformedURLException
     {
-        if (--this.index < 0)
+        // if (--this.urlHistoryCurrentIndex < 0)
+        // {
+        // this.urlHistoryCurrentIndex = this.imageNames.length - 1;
+        // }
+
+        this.urlHistoryCurrentIndex--;
+        URL url = null;
+
+        // Bin ich am Anfang der URL-History ?
+        if (this.urlHistoryCurrentIndex >= 0)
         {
-            this.index = this.imageNames.length - 1;
+            url = this.urlHistory.get(this.urlHistoryCurrentIndex);
         }
-
-        // String urlString = this.imageDir + this.imageNames[this.index];
-        String urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
-
-        getLogger().info("URL: {}", urlString);
-
-        URL url = new URL(urlString);
-
-        if (!existUrl(url))
+        else
         {
-            getLogger().warn("URL not exist: {}", url);
-            url = getPreviousURL();
+            url = generateUrl();
+            this.urlHistory.add(0, url);
+            this.urlHistoryCurrentIndex = 0;
         }
 
         return url;
@@ -221,23 +270,25 @@ public class NasaController extends AbstractController
     {
         super.initialize();
 
-        NasaPanel nasaPanel = getView().getComponent();
+        NasaPanel panel = getView().getComponent();
 
-        nasaPanel.getButtonPrevious().addActionListener(event -> {
+        panel.getButtonPrevious().addActionListener(event -> {
             NasaImageTask task = new NasaImageTask(this, () -> getPreviousURL(), getView(), getResourceMap());
-            task.setInputBlocker(new DefaultInputBlocker().add(nasaPanel.getButtonNext(), nasaPanel.getButtonPrevious()));
+            // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
 
             getContext().getTaskManager().execute(task);
         });
 
-        nasaPanel.getButtonNext().addActionListener(event -> {
+        panel.getButtonNext().addActionListener(event -> {
             NasaImageTask task = new NasaImageTask(this, () -> getNextURL(), getView(), getResourceMap());
-            task.setInputBlocker(new DefaultInputBlocker().add(nasaPanel.getButtonNext(), nasaPanel.getButtonPrevious()));
+            // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
 
             getContext().getTaskManager().execute(task);
         });
 
-        nasaPanel.getButtonCancel().addActionListener(event -> {
+        panel.getButtonCancel().addActionListener(event -> {
             AbstractSwingTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
 
             if (task != null)

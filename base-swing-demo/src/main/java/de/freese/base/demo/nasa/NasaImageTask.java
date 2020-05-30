@@ -1,4 +1,4 @@
-package de.freese.base.demo.nasa.task;
+package de.freese.base.demo.nasa;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -6,8 +6,6 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
-import de.freese.base.demo.nasa.controller.IIOReadProgressAdapter;
-import de.freese.base.demo.nasa.controller.NasaController;
 import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
@@ -89,7 +87,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
         IIOReadProgressListener rpl = new IIOReadProgressAdapter()
         {
             /**
-             * @see de.freese.base.demo.nasa.controller.IIOReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
+             * @see de.freese.base.demo.nasa.IIOReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
              */
             @Override
             public void imageProgress(final ImageReader source, final float percentageDone)

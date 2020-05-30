@@ -2,11 +2,10 @@
  * Created: 28.05.2020
  */
 
-package de.freese.base.demo.example.controller;
+package de.freese.base.demo.example;
 
 import de.freese.base.demo.example.view.ExamplePanel;
 import de.freese.base.demo.example.view.ExampleView;
-import de.freese.base.demo.task.DurationStatisikTask;
 import de.freese.base.mvc.AbstractController;
 import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.AbstractSwingTask;

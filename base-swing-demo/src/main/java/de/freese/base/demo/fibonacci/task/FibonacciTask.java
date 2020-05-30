@@ -1,7 +1,7 @@
 package de.freese.base.demo.fibonacci.task;
 
 import java.util.Objects;
-import de.freese.base.demo.fibonacci.controller.FibonacciController;
+import de.freese.base.demo.fibonacci.FibonacciController;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 

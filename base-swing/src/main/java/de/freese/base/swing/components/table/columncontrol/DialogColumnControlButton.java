@@ -5,7 +5,6 @@ package de.freese.base.swing.components.table.columncontrol;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -31,7 +30,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
 import de.freese.base.swing.components.dialog.DialogFactory;
 import de.freese.base.swing.components.dialog.ExtDialog;
 import de.freese.base.swing.components.table.ExtTable;
-import de.freese.base.utils.GuiUtils;
+import de.freese.base.swing.layout.GbcBuilder;
 
 /**
  * Button für einen Dialog/Popup der Tabelleneigenschaften der {@link ExtTable}.
@@ -67,7 +66,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Erstellt ein neues {@link DialogColumnControlButton} Objekt.
-     * 
+     *
      * @param table {@link JXTable}
      */
     public DialogColumnControlButton(final JXTable table)
@@ -86,7 +85,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Diese Methode bietet die Möglichkeit die Komponenten der Spalten spezifisch anzupassen.
-     * 
+     *
      * @param panel {@link JPanel}
      * @param columnComponentMap {@link Map}
      */
@@ -97,7 +96,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Erzeugt die Komponente für die Spalte.
-     * 
+     *
      * @param column {@link TableColumnExt}
      * @return {@link JComponent}
      */
@@ -162,7 +161,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Erzeugt die Action für den ExcelExport.
-     * 
+     *
      * @return {@link Action}
      */
     protected Action createExcelExportAction()
@@ -211,7 +210,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     /**
      * Liefert die Anzahl der Spalten, welche untereinander dargestellt werden sollen.<br>
      * Dieser Wert steuert dadurch die Höhe des Dialoges/Popup.
-     * 
+     *
      * @return int, Default 15
      */
     public int getGroupedColumnCount()
@@ -259,7 +258,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Liefert true, wenn die Sichtbarkeit der Spalte verändert werden darf.
-     * 
+     *
      * @param column {@link TableColumnExt}
      * @return boolean
      */
@@ -277,7 +276,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Setzt zusätzliche Komponenten unterhalb der Spalten in das Panel.
-     * 
+     *
      * @param panel {@link JPanel}
      */
     protected void populateAdditionalComponents(final JPanel panel)
@@ -288,7 +287,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Setzt die Komponenten der Spalten in das Panel.
-     * 
+     *
      * @param panel {@link JPanel}
      * @param columnComponentMap {@link Map}
      */
@@ -311,9 +310,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
             columnComponentMap.put(columnExt, component);
 
-            GridBagConstraints gbc = GuiUtils.getGBC(gbcCol, GridBagConstraints.RELATIVE);
-            gbc.weightx = 0;
-            gbc.weighty = 0;
+            GridBagConstraints gbc = new GbcBuilder(gbcCol, GridBagConstraints.RELATIVE);
             panel.add(component, gbc);
 
             col++;
@@ -327,34 +324,26 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Setzen der "Excel Export" Action.
-     * 
+     *
      * @param panel {@link JPanel}
      */
     protected void populateExcelExort(final JPanel panel)
     {
         Action action = createExcelExportAction();
 
-        GridBagConstraints gbc = GuiUtils.getGBC(0, GridBagConstraints.RELATIVE);
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        GridBagConstraints gbc = new GbcBuilder(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER);
         panel.add(new JButton(action), gbc);
     }
 
     /**
      * Setzen der "Pack all" Action.
-     * 
+     *
      * @param panel {@link JPanel}
      */
     protected void populatePackAll(final JPanel panel)
     {
         Action action = getTable().getActionMap().get(JXTable.PACKALL_ACTION_COMMAND);
-        GridBagConstraints gbc = GuiUtils.getGBC(0, GridBagConstraints.RELATIVE);
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.insets = new Insets(5, 5, 0, 5);
+        GridBagConstraints gbc = new GbcBuilder(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
         panel.add(new JButton(action), gbc);
     }
 
@@ -373,7 +362,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     /**
      * Setzt die Anzahl der Spalten, welche untereinander dargestellt werden sollen.<br>
      * Dieser Wert steuert dadurch die Höhe des Dialoges/Popup.
-     * 
+     *
      * @param groupedColumnCount int
      */
     public void setGroupedColumnCount(final int groupedColumnCount)
@@ -425,7 +414,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Ändert die Sichtbarkeit der einzelnen Spalten.
-     * 
+     *
      * @param columnComponentMap {@link Map}
      */
     protected void toggleColumnVisibility(final Map<TableColumnExt, JComponent> columnComponentMap)
@@ -453,7 +442,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     /**
      * Ändert die Sichtbarkeit der Spalte und liefert ein Flag, ob der alte und neue Zustand identisch sind.
-     * 
+     *
      * @param column {@link TableColumnExt}
      * @param component {@link JComponent}
      * @return boolean; true=Sichtbarkeit geändert, false=nicht geändert

@@ -4,9 +4,7 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.datatransfer.Clipboard;
@@ -15,7 +13,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
 import java.util.logging.Level;
-
 import javax.activation.DataSource;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -30,11 +27,10 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
-
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.LoggerFactory;
-
 import de.freese.base.net.mail.MailWrapper;
+import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.utils.GuiUtils;
 
 /**
@@ -52,12 +48,12 @@ public class ErrorPane extends JPanel
     /**
      *
      */
-    private static final Dimension SIZE_DETAIL = new Dimension(450, 350);
+    private static final Dimension SIZE_DETAIL = new Dimension(6400, 350);
 
     /**
      *
      */
-    private static final Dimension SIZE_MESSAGE = new Dimension(450, 130);
+    private static final Dimension SIZE_MESSAGE = new Dimension(640, 130);
 
     /**
      * @param args String[]
@@ -88,8 +84,8 @@ public class ErrorPane extends JPanel
      */
     public static final void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail)
     {
-        JOptionPane pane = new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE,
-                JOptionPane.DEFAULT_OPTION, null, new String[] {});
+        JOptionPane pane =
+                new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new String[] {});
 
         JDialog dialog = pane.createDialog(owner, errorInfo.getTitle());
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -170,6 +166,21 @@ public class ErrorPane extends JPanel
     }
 
     /**
+     * Formatiert Sonderzeichen in HTML Zeichen.
+     *
+     * @param input String
+     * @return String
+     */
+    protected String escapeXml(final String input)
+    {
+        String s = (input == null) ? "" : input.replace("&", "&amp;");
+        s = s.replace("<", "&lt;");
+        s = s.replace(">", "&gt;");
+
+        return s;
+    }
+
+    /**
      * Button zum kopieren der Exception in die Zwischenablage.
      *
      * @return {@link JButton}
@@ -189,8 +200,7 @@ public class ErrorPane extends JPanel
                 this.buttonClipboard.setText("Copy to Clipboard");
             }
 
-            this.buttonClipboard.addActionListener(event ->
-            {
+            this.buttonClipboard.addActionListener(event -> {
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
                 getEditorPaneDetails().selectAll();
@@ -276,8 +286,7 @@ public class ErrorPane extends JPanel
                 }
             });
 
-            this.buttonClose.addActionListener(event ->
-            {
+            this.buttonClose.addActionListener(event -> {
                 Component owner = getOwner();
 
                 if (owner instanceof Window)
@@ -319,8 +328,7 @@ public class ErrorPane extends JPanel
                 }
             });
 
-            this.buttonDetails.addActionListener(event ->
-            {
+            this.buttonDetails.addActionListener(event -> {
                 Dimension newSize = null;
 
                 Component owner = getOwner();
@@ -368,8 +376,7 @@ public class ErrorPane extends JPanel
                 this.buttonSend.setText("Send");
             }
 
-            this.buttonSend.addActionListener(event ->
-            {
+            this.buttonSend.addActionListener(event -> {
                 // TODO Noch nich ganz fertich
                 // String userID = Context.getUser().getUserId();
 
@@ -471,171 +478,13 @@ public class ErrorPane extends JPanel
 
             JScrollPane scrollPane = new JScrollPane(getEditorPaneDetails());
 
-            GridBagConstraints gbc = GuiUtils.getGBC(0, 0);
-            gbc.insets = new Insets(5, 5, 5, 0);
-            this.detailPanel.add(scrollPane, gbc);
+            this.detailPanel.add(scrollPane, new GbcBuilder(0, 0).fillBoth());
+            this.detailPanel.add(getButtonClipboard(), new GbcBuilder(0, 1).anchorCenter());
 
-            gbc = GuiUtils.getGBC(0, 1);
-            gbc.fill = GridBagConstraints.NONE;
-            gbc.anchor = GridBagConstraints.EAST;
-            gbc.weighty = 0;
-            gbc.insets = new Insets(5, 5, 5, 0);
-            this.detailPanel.add(getButtonClipboard(), gbc);
-
-            // detailPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
             this.detailPanel.setVisible(false);
         }
 
         return this.detailPanel;
-    }
-
-    /**
-     * JEditorPane fuer die Fehlermeldung.
-     *
-     * @return {@link JEditorPane}
-     */
-    private JEditorPane getEditorPaneDetails()
-    {
-        if (this.editorPaneDetails == null)
-        {
-            this.editorPaneDetails = new JEditorPane();
-
-            this.editorPaneDetails.setEditable(false);
-            this.editorPaneDetails.setContentType("text/html");
-            this.editorPaneDetails.setEditorKitForContentType("text/plain", new StyledEditorKit());
-            this.editorPaneDetails.setEditorKitForContentType("text/html", new HTMLEditorKit());
-
-            // editorPaneDetails.setOpaque(false);
-            setMessage(this.editorPaneDetails, getDetailsAsHTML(getErrorInfo()));
-        }
-
-        return this.editorPaneDetails;
-    }
-
-    /**
-     * JEditorPane fuer die Fehlermeldung.
-     *
-     * @return {@link JEditorPane}
-     */
-    private JEditorPane getEditorPaneMessage()
-    {
-        if (this.editorPaneMessage == null)
-        {
-            this.editorPaneMessage = new JEditorPane();
-
-            this.editorPaneMessage.setEditable(false);
-            this.editorPaneMessage.setContentType("text/html");
-            this.editorPaneMessage.setEditorKitForContentType("text/plain", new StyledEditorKit());
-            this.editorPaneMessage.setEditorKitForContentType("text/html", new HTMLEditorKit());
-            this.editorPaneMessage.setOpaque(false);
-
-            setMessage(this.editorPaneMessage, getErrorInfo().getBasicErrorMessage());
-
-            // this.editorPaneMessage.setMinimumSize(SIZE_MESSAGE);
-            // this.editorPaneMessage.setPreferredSize(SIZE_MESSAGE);
-            // this.editorPaneMessage.setMaximumSize(SIZE_MESSAGE);
-
-            // editorPaneMessage.setBorder(BorderFactory.createLineBorder(Color.RED));
-        }
-
-        return this.editorPaneMessage;
-    }
-
-    /**
-     * Label fuer das Icon.
-     *
-     * @return {@link JLabel}
-     */
-    private JLabel getLabelIcon()
-    {
-        if (this.labelIcon == null)
-        {
-            this.labelIcon = new JLabel();
-
-            this.labelIcon.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-        }
-
-        return this.labelIcon;
-    }
-
-    /**
-     * @return {@link JScrollPane}
-     */
-    private JScrollPane getScrollPaneMessage()
-    {
-        if (this.scrollPaneMessage == null)
-        {
-            this.scrollPaneMessage = new JScrollPane(getEditorPaneMessage());
-            this.scrollPaneMessage.setBorder(null);
-
-            this.scrollPaneMessage.setMinimumSize(SIZE_MESSAGE);
-            this.scrollPaneMessage.setPreferredSize(SIZE_MESSAGE);
-            this.scrollPaneMessage.setMaximumSize(SIZE_MESSAGE);
-        }
-
-        return this.scrollPaneMessage;
-    }
-
-    /**
-     * @param enableSendMail boolean
-     */
-    private void initialize(final boolean enableSendMail)
-    {
-        setLayout(new GridBagLayout());
-
-        GridBagConstraints gbc = GuiUtils.getGBC(0, 0);
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
-        gbc.insets = new Insets(10, 10, 10, 20);
-        add(getLabelIcon(), gbc);
-
-        gbc = GuiUtils.getGBC(1, 0);
-        gbc.gridwidth = 4;
-        add(getScrollPaneMessage(), gbc);
-
-        gbc = GuiUtils.getGBC(1, 1);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.WEST;
-        add(getButtonClose(), gbc);
-
-        gbc = GuiUtils.getGBC(2, 1);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.CENTER;
-        add(getButtonSend(), gbc);
-        getButtonSend().setEnabled(enableSendMail);
-
-        gbc = GuiUtils.getGBC(3, 1);
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.EAST;
-        add(getButtonDetails(), gbc);
-
-        gbc = GuiUtils.getGBC(0, 2);
-        gbc.gridwidth = 4;
-        add(getDetailPanel(), gbc);
-
-        getDetailPanel().setVisible(false);
-
-        SwingUtilities.invokeLater(() ->
-        {
-            getButtonClose().setSelected(true);
-            getButtonClose().requestFocus();
-        });
-    }
-
-    /**
-     * Formatiert Sonderzeichen in HTML Zeichen.
-     *
-     * @param input String
-     * @return String
-     */
-    protected String escapeXml(final String input)
-    {
-        String s = (input == null) ? "" : input.replace("&", "&amp;");
-        s = s.replace("<", "&lt;");
-        s = s.replace(">", "&gt;");
-
-        return s;
     }
 
     /**
@@ -691,6 +540,56 @@ public class ErrorPane extends JPanel
     }
 
     /**
+     * JEditorPane fuer die Fehlermeldung.
+     *
+     * @return {@link JEditorPane}
+     */
+    private JEditorPane getEditorPaneDetails()
+    {
+        if (this.editorPaneDetails == null)
+        {
+            this.editorPaneDetails = new JEditorPane();
+
+            this.editorPaneDetails.setEditable(false);
+            this.editorPaneDetails.setContentType("text/html");
+            this.editorPaneDetails.setEditorKitForContentType("text/plain", new StyledEditorKit());
+            this.editorPaneDetails.setEditorKitForContentType("text/html", new HTMLEditorKit());
+
+            // editorPaneDetails.setOpaque(false);
+            setMessage(this.editorPaneDetails, getDetailsAsHTML(getErrorInfo()));
+        }
+
+        return this.editorPaneDetails;
+    }
+
+    /**
+     * JEditorPane fuer die Fehlermeldung.
+     *
+     * @return {@link JEditorPane}
+     */
+    private JEditorPane getEditorPaneMessage()
+    {
+        if (this.editorPaneMessage == null)
+        {
+            this.editorPaneMessage = new JEditorPane();
+
+            this.editorPaneMessage.setEditable(false);
+            this.editorPaneMessage.setContentType("text/html");
+            this.editorPaneMessage.setEditorKitForContentType("text/plain", new StyledEditorKit());
+            this.editorPaneMessage.setEditorKitForContentType("text/html", new HTMLEditorKit());
+            this.editorPaneMessage.setOpaque(false);
+
+            setMessage(this.editorPaneMessage, getErrorInfo().getBasicErrorMessage());
+
+            // this.editorPaneMessage.setMinimumSize(SIZE_MESSAGE);
+            // this.editorPaneMessage.setPreferredSize(SIZE_MESSAGE);
+            // this.editorPaneMessage.setMaximumSize(SIZE_MESSAGE);
+        }
+
+        return this.editorPaneMessage;
+    }
+
+    /**
      * Liefert den Inhalt der Fehlermeldung.
      *
      * @return {@link ErrorInfo}
@@ -701,7 +600,24 @@ public class ErrorPane extends JPanel
     }
 
     /**
-     * Eigentuemer des Panels.
+     * Label für das Icon.
+     *
+     * @return {@link JLabel}
+     */
+    private JLabel getLabelIcon()
+    {
+        if (this.labelIcon == null)
+        {
+            this.labelIcon = new JLabel();
+
+            this.labelIcon.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+        }
+
+        return this.labelIcon;
+    }
+
+    /**
+     * Eigentümer des Panels.
      *
      * @return {@link Component}
      */
@@ -726,6 +642,55 @@ public class ErrorPane extends JPanel
         }
 
         return this.owner;
+    }
+
+    /**
+     * @return {@link JScrollPane}
+     */
+    private JScrollPane getScrollPaneMessage()
+    {
+        if (this.scrollPaneMessage == null)
+        {
+            this.scrollPaneMessage = new JScrollPane(getEditorPaneMessage());
+            this.scrollPaneMessage.setBorder(null);
+
+            this.scrollPaneMessage.setMinimumSize(SIZE_MESSAGE);
+            this.scrollPaneMessage.setPreferredSize(SIZE_MESSAGE);
+            this.scrollPaneMessage.setMaximumSize(SIZE_MESSAGE);
+        }
+
+        return this.scrollPaneMessage;
+    }
+
+    /**
+     * @param enableSendMail boolean
+     */
+    private void initialize(final boolean enableSendMail)
+    {
+        setLayout(new GridBagLayout());
+
+        add(getLabelIcon(), new GbcBuilder(0, 0).anchorNorthWest().insets(10, 10, 10, 20));
+
+        add(getScrollPaneMessage(), new GbcBuilder(1, 0).gridwidth(3).fillHorizontal());
+
+        add(getButtonClose(), new GbcBuilder(1, 1).weightx(1));
+        // getButtonClose().setBorder(BorderFactory.createLineBorder(Color.RED));
+
+        add(getButtonSend(), new GbcBuilder(2, 1).weightx(1));
+        getButtonSend().setEnabled(enableSendMail);
+        // getButtonSend().setBorder(BorderFactory.createLineBorder(Color.GREEN));
+
+        add(getButtonDetails(), new GbcBuilder(3, 1).weightx(1));
+        // getButtonDetails().setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
+        add(getDetailPanel(), new GbcBuilder(1, 2).gridwidth(3).fillBoth());
+
+        getDetailPanel().setVisible(false);
+
+        SwingUtilities.invokeLater(() -> {
+            getButtonClose().setSelected(true);
+            getButtonClose().requestFocus();
+        });
     }
 
     /**

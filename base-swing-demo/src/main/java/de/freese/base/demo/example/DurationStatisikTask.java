@@ -1,4 +1,4 @@
-package de.freese.base.demo.task;
+package de.freese.base.demo.example;
 
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatisikTaskListener;
