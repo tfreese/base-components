@@ -5,8 +5,12 @@ package de.freese.base.net;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.Date;
+import java.util.Enumeration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -33,7 +37,7 @@ public class TestNetUtils
      */
     public static void enableProxy()
     {
-        String proxy = "192.168.155.23";
+        String proxy = "...";
         // DNS-Auflösung konfigurieren.
         // System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
         // System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
@@ -93,8 +97,37 @@ public class TestNetUtils
     @Test
     public void test010LocalHost() throws Exception
     {
-        InetAddress localhost = InetAddress.getLocalHost();
-        assertNotNull(localhost);
+        String hostName = null;
+
+        // hostName = InetAddress.getLocalHost().getHostName();
+
+        // Cross Platform (Windows, Linux, Unix, Mac)
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())))
+        {
+            hostName = br.readLine();
+        }
+
+        assertNotNull(hostName);
+
+        // List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+
+        while (interfaces.hasMoreElements())
+        {
+            NetworkInterface nic = interfaces.nextElement();
+            Enumeration<InetAddress> addresses = nic.getInetAddresses();
+
+            while (addresses.hasMoreElements())
+            {
+                InetAddress address = addresses.nextElement();
+
+                if (!address.isLoopbackAddress())
+                {
+                    hostName = address.getHostName();
+                    assertNotNull(hostName);
+                }
+            }
+        }
     }
 
     /**
