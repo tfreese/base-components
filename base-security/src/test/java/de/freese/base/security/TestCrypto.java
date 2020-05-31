@@ -168,7 +168,7 @@ public class TestCrypto
         // @formatter:off
          Crypto crypto = AlgorythmConfigBuilder.symetric()
              .algorythm("AES")
-             .algorythmCipher("AES/GCM/PKCS5Padding") // "AES/GCM/NoPadding"
+             .algorythmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
              .initVector(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
              .keySize(256)
              .build()
@@ -186,7 +186,8 @@ public class TestCrypto
     @Test
     public void symetricAesGcmPlain() throws GeneralSecurityException, IOException
     {
-        String cipherTransformation = "AES/GCM/PKCS5Padding";
+        // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
+        String cipherTransformation = "AES/GCM/NoPadding";
 
         byte[] initVector = new byte[512];
 
