@@ -55,7 +55,7 @@ public final class NetUtils
         }
         catch (Exception ex)
         {
-            // Bei Betriebssystemen ohne DNS-Konfiguration fuinktioniert InetAddress.getLocalHost nicht !
+            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
         }
 
         if (hostName == null)
