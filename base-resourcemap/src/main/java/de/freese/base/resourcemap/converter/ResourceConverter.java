@@ -1,37 +1,52 @@
 package de.freese.base.resourcemap.converter;
 
-import java.util.Set;
-
-import de.freese.base.resourcemap.ResourceMap;
+import java.util.function.BiFunction;
 
 /**
  * Konvertiert aus einen String das konkrete Object.
- * 
+ *
  * @author Thomas Freese
  * @param <T> Konkreter konvertierter Typ
  */
-public interface ResourceConverter<T>
+@FunctionalInterface
+public interface ResourceConverter<T> extends BiFunction<String, String, T>
 {
-	/**
-	 * @return {@link Set}
-	 */
-	public Set<Class<?>> getSupportedTypes();
+    /**
+     * @see java.util.function.BiFunction#apply(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public default T apply(final String t, final String u)
+    {
+        return convert(t, u);
+    }
 
-	/**
-	 * Liefert für einen Key das entsprechende Object.
-	 * 
-	 * @param key {@link String}
-	 * @param resourceMap {@link ResourceMap}
-	 * @return Object
-	 * @throws ResourceConverterException Falls was schief geht.
-	 */
-	public T parseString(String key, ResourceMap resourceMap) throws ResourceConverterException;
+    /**
+     * @param key String
+     * @param value String
+     * @return @return Object
+     */
+    public T convert(String key, String value);
 
-	/**
-	 * Liefert true wenn der Konverter diesen Typ unterstützt.
-	 * 
-	 * @param type Class
-	 * @return boolean
-	 */
-	public boolean supportsType(final Class<?> type);
+    // /**
+    // * @return {@link Set}
+    // */
+    // public Set<Class<?>> getSupportedTypes();
+    //
+    // /**
+    // * Liefert für einen Key das entsprechende Object.
+    // *
+    // * @param key {@link String}
+    // * @param resourceMap {@link ResourceMap}
+    // * @return Object
+    // * @throws ResourceConverterException Falls was schief geht.
+    // */
+    // public T parseString(String key, ResourceMap resourceMap) throws ResourceConverterException;
+    //
+    // /**
+    // * Liefert true wenn der Konverter diesen Typ unterstützt.
+    // *
+    // * @param type Class
+    // * @return boolean
+    // */
+    // public boolean supportsType(final Class<?> type);
 }

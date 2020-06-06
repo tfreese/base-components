@@ -3,9 +3,11 @@ package de.freese.base.resourcemap;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -15,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.converter.ResourceConverter;
-import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
@@ -84,7 +85,30 @@ public interface ResourceMap
      */
     public static ResourceMap create(final String baseName)
     {
-        return new DefaultResourceMap(baseName);
+        return create(baseName, DefaultResourceMap.class.getClassLoader());
+    }
+
+    /**
+     * @param baseName String
+     * @param classLoader {@link ClassLoader}
+     * @return {@link ResourceMap}
+     */
+    public static ResourceMap create(final String baseName, final ClassLoader classLoader)
+    {
+        return create(baseName, classLoader, null);
+    }
+
+    /**
+     * @param baseName String
+     * @param classLoader {@link ClassLoader}
+     * @param resourceProvider {@link ResourceProvider}
+     * @return {@link ResourceMap}
+     */
+    public static ResourceMap create(final String baseName, final ClassLoader classLoader, final ResourceProvider resourceProvider)
+    {
+        ResourceMap resourceMap = new DefaultResourceMap(baseName, classLoader, resourceProvider);
+
+        return resourceMap;
     }
 
     /**
@@ -94,19 +118,17 @@ public interface ResourceMap
      */
     public static ResourceMap create(final String baseName, final ResourceProvider resourceProvider)
     {
-        ResourceMap resourceMap = new DefaultResourceMap(baseName);
-        resourceMap.setResourceProvider(resourceProvider);
-
-        return resourceMap;
+        return create(baseName, DefaultResourceMap.class.getClassLoader(), resourceProvider);
     }
 
     /**
      * Hinzufügen eines neuen {@link ResourceConverter}s.<br>
      * Die Converter der Parent ResourceMaps vererben sich auf ihre Kinder.
      *
+     * @param supportedType Class
      * @param converter {@link ResourceConverter}
      */
-    public void addResourceConverter(final ResourceConverter<?> converter);
+    public void addResourceConverter(Class<?> supportedType, final ResourceConverter<?> converter);
 
     /**
      * Liefert den BaseName der {@link ResourceMap}.
@@ -142,13 +164,6 @@ public interface ResourceMap
     {
         return getObject(key, Byte.class);
     }
-
-    /**
-     * Liefert den ClassLoader der ResourceMap.
-     *
-     * @return {@link ClassLoader}
-     */
-    public ClassLoader getClassLoader();
 
     /**
      * Liefert das Value des Keys als Color.<br>
@@ -282,6 +297,25 @@ public interface ResourceMap
     public default Icon getIcon(final String key)
     {
         return getObject(key, Icon.class);
+    }
+
+    /**
+     * Liefert das Value des Keys als BufferedImage.<br>
+     * Format:
+     *
+     * <pre>
+     * openIcon = myOpenIcon.png
+     * </pre>
+     *
+     * @param key String
+     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
+     * @throws IllegalArgumentException wenn key null ist
+     * @return {@link BufferedImage}
+     * @see #getObject
+     */
+    public default Image getImage(final String key)
+    {
+        return getObject(key, BufferedImage.class);
     }
 
     /**
@@ -432,9 +466,8 @@ public interface ResourceMap
     public ResourceConverter<?> getResourceConverter(final Class<?> type);
 
     /**
-     * Liefert den gesetzten {@link ResourceProvider}.<br>
-     * Sollte diese ResourceMap keinen passenden ResourceProvider enthalten, wird der Parent befraget, wenn vorhanden oder ein {@link ResourceBundleProvider}
-     * als Default erzeugt.
+     * Liefert den verwendeten {@link ResourceProvider}.<br>
+     * Sollte diese ResourceMap keinen eigenen ResourceProvider besitzen, wird der vorhandene Parent befragt.
      *
      * @return {@link ResourceProvider}
      */
@@ -530,23 +563,9 @@ public interface ResourceMap
     }
 
     /**
-     * Setzt den ClassLoader der ResourceMap.
-     *
-     * @param classLoader {@link ClassLoader} optional, getClass().getClassLoader() ist default
-     */
-    public void setClassLoader(ClassLoader classLoader);
-
-    /**
      * Setzt den Parent der ResourceMap.
      *
      * @param parent {@link ResourceMap} optional
      */
     public void setParent(ResourceMap parent);
-
-    /**
-     * Setzt den ResourceProvider der ResourceMap.
-     *
-     * @param resourceProvider {@link ResourceProvider} optional, {@link ResourceBundleProvider} ist default
-     */
-    public void setResourceProvider(ResourceProvider resourceProvider);
 }

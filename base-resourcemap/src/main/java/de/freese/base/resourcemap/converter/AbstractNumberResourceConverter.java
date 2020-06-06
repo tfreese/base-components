@@ -1,52 +1,47 @@
 package de.freese.base.resourcemap.converter;
 
-import de.freese.base.resourcemap.ResourceMap;
-
 /**
  * Basis Resourceconverter fuer Numbers.
- * 
+ *
  * @author Thomas Freese
  * @param <T> Konkreter konvertierter Typ
  */
-public abstract class AbstractNumberResourceConverter<T extends Number> extends
-		AbstractResourceConverter<T>
+public abstract class AbstractNumberResourceConverter<T extends Number> extends AbstractResourceConverter<T>
 {
-	/**
-	 * Erstellt ein neues {@link AbstractNumberResourceConverter} Object.
-	 */
-	public AbstractNumberResourceConverter()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link AbstractNumberResourceConverter} Object.
+     */
+    public AbstractNumberResourceConverter()
+    {
+        super();
+    }
 
-	/**
-	 * Konvertiert den String in eine Zahl.
-	 * 
-	 * @param key String
-	 * @param radix int
-	 * @return {@link Number}
-	 * @throws NumberFormatException Falls was schief geht.
-	 */
-	protected abstract T parseString(String key, int radix) throws NumberFormatException;
+    /**
+     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
+     */
+    @Override
+    public T convert(final String key, final String value)
+    {
+        try
+        {
+            String[] splits = value.split("&"); // number ampersand radix
+            int radix = (splits.length == 2) ? Integer.parseInt(splits[1]) : -1;
 
-	/**
-	 * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String,
-	 *      de.freese.base.resourcemap.ResourceMap)
-	 */
-	@Override
-	public T parseString(final String key, final ResourceMap resourceMap)
-		throws ResourceConverterException
-	{
-		try
-		{
-			String[] splits = key.split("&"); // number ampersand radix
-			int radix = (splits.length == 2) ? Integer.parseInt(splits[1]) : -1;
+            return parseString(splits[0], radix);
+        }
+        catch (NumberFormatException ex)
+        {
+            throw new ResourceConverterException("invalid Type", key, ex);
+        }
+    }
 
-			return parseString(splits[0], radix);
-		}
-		catch (NumberFormatException ex)
-		{
-			throw new ResourceConverterException("invalid Type", key, ex);
-		}
-	}
+    /**
+     * Konvertiert den String in eine Zahl.
+     * 
+     * @param key String
+     * @param radix int
+     * @return {@link Number}
+     * @throws NumberFormatException Falls was schief geht.
+     */
+    protected abstract T parseString(String key, int radix) throws NumberFormatException;
 }

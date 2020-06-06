@@ -23,6 +23,7 @@ import de.freese.base.mvc.ControllerBuilder;
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
+import de.freese.base.resourcemap.provider.ResourceProvider;
 import de.freese.base.swing.StatusBar;
 import de.freese.base.swing.components.ExtFrame;
 
@@ -178,8 +179,9 @@ public class DemoApplication extends AbstractApplication
     @Override
     protected void initRecourceMap()
     {
-        ResourceMap rootMap = ResourceMap.create("bundles/demo", new ResourceBundleProvider());
-        // rootMap.setResourceProvider(( baseName, locale, classLoader) -> Make DB-Query for Text);
+        ResourceProvider resourceProvider = new ResourceBundleProvider();
+        // ResourceProvider resourceProvider = (baseName, locale, classLoader) -> Make DB-Query for Text;
+        ResourceMap rootMap = ResourceMap.create("bundles/demo", resourceProvider);
         setResourceMapRoot(rootMap);
         // getContext().addResourceMap("root", rootMap);
 

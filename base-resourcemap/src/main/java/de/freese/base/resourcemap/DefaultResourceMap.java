@@ -1,5 +1,15 @@
 package de.freese.base.resourcemap;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.net.URI;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,6 +17,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import de.freese.base.resourcemap.converter.BooleanStringResourceConverter;
@@ -17,7 +31,6 @@ import de.freese.base.resourcemap.converter.DoubleStringResourceConverter;
 import de.freese.base.resourcemap.converter.EmptyBorderStringResourceConverter;
 import de.freese.base.resourcemap.converter.FloatStringResourceConverter;
 import de.freese.base.resourcemap.converter.FontStringResourceConverter;
-import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.converter.IconStringResourceConverter;
 import de.freese.base.resourcemap.converter.ImageStringResourceConverter;
 import de.freese.base.resourcemap.converter.InsetsStringResourceConverter;
@@ -26,12 +39,12 @@ import de.freese.base.resourcemap.converter.KeyStrokeStringResourceConverter;
 import de.freese.base.resourcemap.converter.LongStringResourceConverter;
 import de.freese.base.resourcemap.converter.PointStringResourceConverter;
 import de.freese.base.resourcemap.converter.RectangleStringResourceConverter;
+import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.converter.ResourceConverterException;
 import de.freese.base.resourcemap.converter.ShortStringResourceConverter;
 import de.freese.base.resourcemap.converter.URIStringResourceConverter;
 import de.freese.base.resourcemap.converter.URLStringResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
-import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 
 /**
  * ResourceMap zum laden und verarbeiten lokalisierter Texte.
@@ -58,7 +71,7 @@ public class DefaultResourceMap implements ResourceMap
     /**
      *
      */
-    private ClassLoader classLoader = null;
+    private final ClassLoader classLoader;
 
     /**
      *
@@ -87,10 +100,12 @@ public class DefaultResourceMap implements ResourceMap
 
     /**
      * Erstellt ein neues {@link DefaultResourceMap} Object.
-     * 
+     *
      * @param baseName String
+     * @param classLoader {@link ClassLoader}
+     * @param resourceProvider {@link ResourceProvider}; Optional, Parent wird verwendet, wenn nicht vorhanden.
      */
-    protected DefaultResourceMap(final String baseName)
+    protected DefaultResourceMap(final String baseName, final ClassLoader classLoader, final ResourceProvider resourceProvider)
     {
         super();
 
@@ -102,46 +117,20 @@ public class DefaultResourceMap implements ResourceMap
         }
 
         this.baseName = baseName.trim();
+        this.classLoader = Objects.requireNonNull(classLoader, "classLoader required");
 
-        addResourceConverter(new ColorStringResourceConverter());
-        addResourceConverter(new IconStringResourceConverter());
-        addResourceConverter(new ImageStringResourceConverter());
-        addResourceConverter(new FontStringResourceConverter());
-        addResourceConverter(new ByteStringResourceConverter());
-        addResourceConverter(new ShortStringResourceConverter());
-        addResourceConverter(new IntegerStringResourceConverter());
-        addResourceConverter(new LongStringResourceConverter());
-        addResourceConverter(new DoubleStringResourceConverter());
-        addResourceConverter(new FloatStringResourceConverter());
-        addResourceConverter(new BooleanStringResourceConverter("true", "on", "yes", "1"));
-        addResourceConverter(new KeyStrokeStringResourceConverter());
-        addResourceConverter(new URLStringResourceConverter());
-        addResourceConverter(new URIStringResourceConverter());
-        addResourceConverter(new EmptyBorderStringResourceConverter());
-        addResourceConverter(new DimensionStringResourceConverter());
-        addResourceConverter(new InsetsStringResourceConverter());
-        addResourceConverter(new PointStringResourceConverter());
-        addResourceConverter(new RectangleStringResourceConverter());
+        this.resourceProvider = resourceProvider;
+
+        initDefaultConverter();
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#addResourceConverter(de.freese.base.resourcemap.converter.ResourceConverter)
+     * @see de.freese.base.resourcemap.ResourceMap#addResourceConverter(java.lang.Class, de.freese.base.resourcemap.converter.ResourceConverter)
      */
     @Override
-    public void addResourceConverter(final ResourceConverter<?> converter)
+    public void addResourceConverter(final Class<?> supportedType, final ResourceConverter<?> converter)
     {
-        Set<Class<?>> converterTypes = converter.getSupportedTypes();
-
-        // Prüfen, ob die Typen schon von anderen Convertern abgedeckt sind
-        if (!Collections.disjoint(this.converters.keySet(), converterTypes))
-        {
-            throw new IllegalArgumentException("Type(s) for converter are already supported by another converter");
-        }
-
-        for (Class<?> supportedType : converterTypes)
-        {
-            this.converters.put(supportedType, converter);
-        }
+        this.converters.put(supportedType, converter);
     }
 
     /**
@@ -255,16 +244,12 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#getClassLoader()
+     * Liefert den ClassLoader der ResourceMap.
+     *
+     * @return {@link ClassLoader}
      */
-    @Override
-    public ClassLoader getClassLoader()
+    protected ClassLoader getClassLoader()
     {
-        if (this.classLoader == null)
-        {
-            this.classLoader = getClass().getClassLoader();
-        }
-
         return this.classLoader;
     }
 
@@ -377,7 +362,7 @@ public class DefaultResourceMap implements ResourceMap
                 {
                     try
                     {
-                        value = stringConverter.parseString(stringValue, this);
+                        value = stringConverter.convert(key, stringValue);
                     }
                     catch (ResourceConverterException ex)
                     {
@@ -442,10 +427,6 @@ public class DefaultResourceMap implements ResourceMap
             {
                 this.resourceProvider = getParent().getResourceProvider();
             }
-            else
-            {
-                this.resourceProvider = new ResourceBundleProvider();
-            }
         }
 
         return this.resourceProvider;
@@ -495,6 +476,53 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
+     *
+     */
+    protected void initDefaultConverter()
+    {
+        addResourceConverter(Boolean.class, new BooleanStringResourceConverter("true", "on", "yes", "1"));
+        addResourceConverter(boolean.class, new BooleanStringResourceConverter("true", "on", "yes", "1"));
+        addResourceConverter(Byte.class, new ByteStringResourceConverter());
+        addResourceConverter(byte.class, getResourceConverter(Byte.class));
+
+        addResourceConverter(Color.class, new ColorStringResourceConverter());
+
+        addResourceConverter(Dimension.class, new DimensionStringResourceConverter());
+        addResourceConverter(Double.class, new DoubleStringResourceConverter());
+        addResourceConverter(double.class, getResourceConverter(Double.class));
+
+        addResourceConverter(EmptyBorder.class, new EmptyBorderStringResourceConverter());
+
+        addResourceConverter(Float.class, new FloatStringResourceConverter());
+        addResourceConverter(float.class, getResourceConverter(Float.class));
+        addResourceConverter(Font.class, new FontStringResourceConverter());
+
+        addResourceConverter(Icon.class, new IconStringResourceConverter(getClassLoader()));
+        addResourceConverter(ImageIcon.class, getResourceConverter(Icon.class));
+        addResourceConverter(Image.class, new ImageStringResourceConverter(getClassLoader()));
+        addResourceConverter(BufferedImage.class, getResourceConverter(Image.class));
+        addResourceConverter(Integer.class, new IntegerStringResourceConverter());
+        addResourceConverter(int.class, getResourceConverter(Integer.class));
+
+        addResourceConverter(Insets.class, new InsetsStringResourceConverter());
+
+        addResourceConverter(KeyStroke.class, new KeyStrokeStringResourceConverter());
+
+        addResourceConverter(Long.class, new LongStringResourceConverter());
+        addResourceConverter(long.class, getResourceConverter(Long.class));
+
+        addResourceConverter(Point.class, new PointStringResourceConverter());
+
+        addResourceConverter(Rectangle.class, new RectangleStringResourceConverter());
+
+        addResourceConverter(Short.class, new ShortStringResourceConverter());
+        addResourceConverter(short.class, getResourceConverter(Short.class));
+
+        addResourceConverter(URL.class, new URLStringResourceConverter());
+        addResourceConverter(URI.class, new URIStringResourceConverter());
+    }
+
+    /**
      * Laden der Resources, falls für aktuelles Locale noch nicht vorhanden.
      *
      * @param locale {@link Locale}
@@ -532,30 +560,12 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#setClassLoader(java.lang.ClassLoader)
-     */
-    @Override
-    public void setClassLoader(final ClassLoader classLoader)
-    {
-        this.classLoader = classLoader;
-    }
-
-    /**
      * @see de.freese.base.resourcemap.ResourceMap#setParent(de.freese.base.resourcemap.ResourceMap)
      */
     @Override
     public void setParent(final ResourceMap parent)
     {
         this.parent = parent;
-    }
-
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#setResourceProvider(de.freese.base.resourcemap.provider.ResourceProvider)
-     */
-    @Override
-    public void setResourceProvider(final ResourceProvider resourceProvider)
-    {
-        this.resourceProvider = resourceProvider;
     }
 
     /**

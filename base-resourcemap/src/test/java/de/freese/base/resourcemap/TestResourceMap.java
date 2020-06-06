@@ -1,17 +1,25 @@
 package de.freese.base.resourcemap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
@@ -20,6 +28,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 
 /**
  * Testklasse der ResourceMap.
@@ -40,7 +49,7 @@ public class TestResourceMap
     @BeforeAll
     public static void beforeAll()
     {
-        ResourceMap parentRM = ResourceMap.create("parentTest");
+        ResourceMap parentRM = ResourceMap.create("parentTest", new ResourceBundleProvider());
 
         resourceMap = ResourceMap.create("resourcemap/test");
         resourceMap.setParent(parentRM);
@@ -184,6 +193,75 @@ public class TestResourceMap
     }
 
     /**
+     * Gegeben sind die folgenden Resourcen:
+     *
+     * <pre>
+     *  hello = Hello
+     *  world = World
+     *  place = ${hello} ${world}
+     * </pre>
+     *
+     * Der Wert von evaluateStringExpression("place") wäre "Hello World". Der Wert von einem ${null} ist null.
+     */
+    @Test
+    public void testEvaluateStringExpression()
+    {
+        String expression = "${hello} in my ${world} guest";
+
+        // Split
+        if (expression.contains("${"))
+        {
+            List<String> keys = new ArrayList<>();
+
+            String[] splits = expression.split("\\$\\{");
+            System.out.println(Arrays.toString(splits));
+
+            for (String split : splits)
+            {
+                int lastIndex = split.lastIndexOf("}");
+
+                if (lastIndex <= 0)
+                {
+                    continue;
+                }
+
+                String key = split.substring(0, lastIndex);
+                keys.add(key);
+            }
+
+            // System.out.println(keys);
+            assertLinesMatch(List.of("hello", "world"), keys);
+        }
+
+        // Iteration
+        if (expression.contains("${"))
+        {
+            List<String> keys = new ArrayList<>();
+            int startIndex = 0;
+            int lastEndIndex = 0;
+
+            expression.indexOf("${", 0);
+            expression.indexOf("}", 0);
+
+            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1)
+            {
+                int endIndex = expression.indexOf("}", startIndex);
+
+                if (endIndex != -1)
+                {
+                    String key = expression.substring(startIndex + 2, endIndex);
+                    keys.add(key);
+
+                    lastEndIndex = endIndex;
+                }
+            }
+
+            // System.out.println(keys);
+            assertLinesMatch(List.of("hello", "world"), keys);
+        }
+    }
+
+    /**
      *
      */
     @Test
@@ -219,7 +297,28 @@ public class TestResourceMap
     {
         Icon value = resourceMap.getIcon("test.icon");
 
+        URL url = ClassLoader.getSystemResource("icons/next.png");
+        ImageIcon ref = new ImageIcon(url);
+
         assertNotNull(value);
+        assertNotNull(ref);
+        assertEquals(ref.getIconHeight(), value.getIconHeight());
+        assertEquals(ref.getIconWidth(), value.getIconWidth());
+    }
+
+    /**
+     * @throws IOException Falls was schief geht.
+     */
+    @Test
+    public void testImage() throws IOException
+    {
+        Image value = resourceMap.getImage("test.icon");
+
+        URL url = ClassLoader.getSystemResource("icons/next.png");
+        BufferedImage ref = ImageIO.read(url);
+
+        assertNotNull(value);
+        assertNotNull(ref);
     }
 
     /**
@@ -440,7 +539,7 @@ public class TestResourceMap
     {
         URI value = resourceMap.getURI("test.uri");
 
-        URI ref = new URI("http://www.javadesktop.org");
+        URI ref = new URI("http://www.google.de");
 
         assertNotNull(value);
         assertEquals(ref, value);
@@ -454,9 +553,21 @@ public class TestResourceMap
     {
         URL value = resourceMap.getURL("test.url");
 
-        URL ref = new URL("http://www.javadesktop.org");
+        URL ref = new URL("http://www.google.de");
 
         assertNotNull(value);
         assertEquals(ref, value);
+    }
+
+    /**
+    *
+    */
+    @Test
+    public void testWrongKey()
+    {
+        String value = resourceMap.getString("not.exist");
+
+        assertNotNull(value);
+        // assertEquals(ref, value);
     }
 }

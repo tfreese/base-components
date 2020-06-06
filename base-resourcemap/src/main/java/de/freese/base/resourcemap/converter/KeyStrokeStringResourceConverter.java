@@ -3,7 +3,6 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
-import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * IResourceConverter fuer KeyStrokes.
@@ -21,12 +20,12 @@ public class KeyStrokeStringResourceConverter extends AbstractResourceConverter<
     }
 
     /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#parseString(java.lang.String, de.freese.base.resourcemap.ResourceMap)
+     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override
-    public KeyStroke parseString(final String key, final ResourceMap resourceMap) throws ResourceConverterException
+    public KeyStroke convert(final String key, final String value)
     {
-        String m_key = key;
+        String m_key = value;
 
         if (m_key.contains("shortcut"))
         {
