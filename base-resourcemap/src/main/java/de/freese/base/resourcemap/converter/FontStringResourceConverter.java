@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Font;
 
 /**
- * Laedt aus einem String einen Font.<br>
+ * {@link ResourceConverter} für {@link Font}.<br>
  * Typical string is: face-STYLE-size, for example "Arial-PLAIN-12".
  *
  * @author Thomas Freese

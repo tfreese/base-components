@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * IResourceConverter fuer Booleans.
+ * {@link ResourceConverter} für Booleans.
  *
  * @author Thomas Freese
  */

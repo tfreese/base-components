@@ -3,9 +3,9 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Color;
 
 /**
- * Konvertiert einen Text in ein {@link Color} Object.<br>
- * An improved version of Color.decode() that supports colors with an alpha channel and comma separated RGB[A] values. Legal format for color resources are:
- * "#RRGGBB", "#AARRGGBB", "R, G, B", "R, G, B, A".
+ * {@link ResourceConverter} für {@link Color}.<br>
+ * An improved version of Color.decode() that supports colors with an alpha channel and comma separated RGB[A] values.<br>
+ * Legal format for color resources are: "#RRGGBB", "#AARRGGBB", "R, G, B", "R, G, B, A".
  *
  * @author Thomas Freese
  */
@@ -45,7 +45,7 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
 
                     break;
                 default:
-                    throw new ResourceConverterException("invalid #RRGGBB or #AARRGGBB color string", value);
+                    throwException(key, value, "invalid #RRGGBB or #AARRGGBB color string");
             }
         }
         else
@@ -54,7 +54,7 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
 
             if ((parts.length < 3) || (parts.length > 4))
             {
-                throw new ResourceConverterException("invalid R, G, B[, A] color string", value);
+                throwException(key, value, "invalid R, G, B[, A] color string");
             }
 
             try
@@ -78,7 +78,7 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
             }
             catch (NumberFormatException ex)
             {
-                throw new ResourceConverterException("invalid R, G, B[, A] color string", key, ex);
+                throwException(key, value, "invalid R, G, B[, A] color string");
             }
         }
 

@@ -6,7 +6,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
- * Laedt aus einem String (Path) ein {@link Icon}.
+ * {@link ResourceConverter} für {@link Icon}.
  *
  * @author Thomas Freese
  */
@@ -35,29 +35,27 @@ public class IconStringResourceConverter extends AbstractResourceConverter<Icon>
     @Override
     public Icon convert(final String key, final String value)
     {
-        return loadIcon(value, this.classLoader);
+        return loadIcon(key, value, this.classLoader);
     }
 
     /**
-     * @param imagePath String
+     * @param key String
+     * @param value String
      * @param classLoader {@link ClassLoader}
      * @return {@link ImageIcon}
-     * @throws ResourceConverterException Falls was schief geht.
      */
-    protected ImageIcon loadIcon(final String imagePath, final ClassLoader classLoader) throws ResourceConverterException
+    protected ImageIcon loadIcon(final String key, final String value, final ClassLoader classLoader)
     {
-        if (imagePath == null)
+        if (value == null)
         {
-            String msg = String.format("invalid image/icon path \"%s\"", imagePath);
-
-            throw new ResourceConverterException(msg, null);
+            throwException(key, "null", "path is null");
         }
 
-        URL url = classLoader.getResource(imagePath);
+        URL url = classLoader.getResource(value);
 
         if (url == null)
         {
-            url = Thread.currentThread().getContextClassLoader().getResource(imagePath);
+            url = Thread.currentThread().getContextClassLoader().getResource(value);
         }
 
         if (url != null)
@@ -65,8 +63,8 @@ public class IconStringResourceConverter extends AbstractResourceConverter<Icon>
             return new ImageIcon(url);
         }
 
-        String msg = String.format("couldn't find Icon resource \"%s\"", imagePath);
+        throwException(key, value, "couldn't find resource");
 
-        throw new ResourceConverterException(msg, imagePath);
+        return null;
     }
 }

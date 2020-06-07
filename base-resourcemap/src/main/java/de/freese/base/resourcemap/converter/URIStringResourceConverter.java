@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * IResourceConverter fuer URIs.
+ * {@link ResourceConverter} für {@link URI}.
  *
  * @author Thomas Freese
  */
@@ -30,7 +30,9 @@ public class URIStringResourceConverter extends AbstractResourceConverter<URI>
         }
         catch (URISyntaxException ex)
         {
-            throw new ResourceConverterException("Invalid URI", key, ex);
+            throwException(key, value, "Invalid URI");
         }
+
+        return null;
     }
 }

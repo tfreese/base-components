@@ -4,7 +4,7 @@ import java.awt.Insets;
 import java.util.List;
 
 /**
- * IResourceConverter fuer {@link Insets}.
+ * {@link ResourceConverter} für {@link Insets}.
  *
  * @author Thomas Freese
  */
@@ -24,7 +24,7 @@ public class InsetsStringResourceConverter extends AbstractResourceConverter<Ins
     @Override
     public Insets convert(final String key, final String value)
     {
-        List<Double> tlbr = parseDoubles(value, 4, "Invalid top,left,bottom,right Insets string");
+        List<Double> tlbr = parseDoubles(key, value, 4, "Invalid top,left,bottom,right Insets string");
 
         return new Insets(tlbr.get(0).intValue(), tlbr.get(1).intValue(), tlbr.get(2).intValue(), tlbr.get(3).intValue());
     }

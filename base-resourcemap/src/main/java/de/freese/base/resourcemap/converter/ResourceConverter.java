@@ -26,27 +26,4 @@ public interface ResourceConverter<T> extends BiFunction<String, String, T>
      * @return @return Object
      */
     public T convert(String key, String value);
-
-    // /**
-    // * @return {@link Set}
-    // */
-    // public Set<Class<?>> getSupportedTypes();
-    //
-    // /**
-    // * Liefert für einen Key das entsprechende Object.
-    // *
-    // * @param key {@link String}
-    // * @param resourceMap {@link ResourceMap}
-    // * @return Object
-    // * @throws ResourceConverterException Falls was schief geht.
-    // */
-    // public T parseString(String key, ResourceMap resourceMap) throws ResourceConverterException;
-    //
-    // /**
-    // * Liefert true wenn der Konverter diesen Typ unterstützt.
-    // *
-    // * @param type Class
-    // * @return boolean
-    // */
-    // public boolean supportsType(final Class<?> type);
 }

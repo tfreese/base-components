@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
 
 /**
- * IResourceConverter fuer KeyStrokes.
+ * {@link ResourceConverter} für {@link KeyStroke}.
  *
  * @author Thomas Freese
  */
@@ -30,7 +30,7 @@ public class KeyStrokeStringResourceConverter extends AbstractResourceConverter<
         if (m_key.contains("shortcut"))
         {
             int k = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
-            m_key = m_key.replaceAll("shortcut", (k == KeyEvent.VK_META) ? "meta" : "control");
+            m_key = m_key.replace("shortcut", (k == KeyEvent.VK_META) ? "meta" : "control");
         }
 
         return KeyStroke.getKeyStroke(m_key);

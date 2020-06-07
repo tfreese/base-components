@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * Resourceconverter fuer Shorts.
+ * {@link ResourceConverter} für Shorts.
  *
  * @author Thomas Freese
  */
@@ -16,11 +16,11 @@ public class ShortStringResourceConverter extends AbstractNumberResourceConverte
     }
 
     /**
-     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#parseString(java.lang.String, int)
+     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override
-    protected Short parseString(final String key, final int radix) throws NumberFormatException
+    protected Short convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Short.decode(key) : Short.valueOf(key, radix);
+        return (radix == -1) ? Short.decode(value) : Short.valueOf(value, radix);
     }
 }

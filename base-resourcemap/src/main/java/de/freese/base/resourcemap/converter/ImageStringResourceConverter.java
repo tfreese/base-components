@@ -7,7 +7,7 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 
 /**
- * Laedt aus einem String (Path) ein {@link BufferedImage}.
+ * {@link ResourceConverter} für {@link BufferedImage}.
  *
  * @author Thomas Freese
  */
@@ -36,29 +36,27 @@ public class ImageStringResourceConverter extends AbstractResourceConverter<Buff
     @Override
     public BufferedImage convert(final String key, final String value)
     {
-        return loadImage(value, this.classLoader);
+        return loadImage(key, value, this.classLoader);
     }
 
     /**
-     * @param imagePath String
+     * @param key String
+     * @param value String
      * @param classLoader {@link ClassLoader}
      * @return {@link BufferedImage}
-     * @throws ResourceConverterException Falls was schief geht.
      */
-    protected BufferedImage loadImage(final String imagePath, final ClassLoader classLoader) throws ResourceConverterException
+    protected BufferedImage loadImage(final String key, final String value, final ClassLoader classLoader)
     {
-        if (imagePath == null)
+        if (value == null)
         {
-            String msg = String.format("invalid image/icon path \"%s\"", imagePath);
-
-            throw new ResourceConverterException(msg, null);
+            throwException(key, "null", "path is null");
         }
 
-        URL url = classLoader.getResource(imagePath);
+        URL url = classLoader.getResource(value);
 
         if (url == null)
         {
-            url = Thread.currentThread().getContextClassLoader().getResource(imagePath);
+            url = Thread.currentThread().getContextClassLoader().getResource(value);
         }
 
         if (url != null)
@@ -69,12 +67,12 @@ public class ImageStringResourceConverter extends AbstractResourceConverter<Buff
             }
             catch (IOException ex)
             {
-                throw new ResourceConverterException("", imagePath, ex);
+                throwException(key, value, ex);
             }
         }
 
-        String msg = String.format("couldn't find Icon resource \"%s\"", imagePath);
+        throwException(key, value, "couldn't find resource");
 
-        throw new ResourceConverterException(msg, imagePath);
+        return null;
     }
 }

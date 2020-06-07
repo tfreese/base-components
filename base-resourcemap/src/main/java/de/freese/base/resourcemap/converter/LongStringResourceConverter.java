@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * Resourceconverter fuer Longs.
+ * {@link ResourceConverter} für Longs.
  *
  * @author Thomas Freese
  */
@@ -16,11 +16,11 @@ public class LongStringResourceConverter extends AbstractNumberResourceConverter
     }
 
     /**
-     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#parseString(java.lang.String, int)
+     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override
-    protected Long parseString(final String key, final int radix) throws NumberFormatException
+    protected Long convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Long.decode(key) : Long.valueOf(key, radix);
+        return (radix == -1) ? Long.decode(value) : Long.valueOf(value, radix);
     }
 }

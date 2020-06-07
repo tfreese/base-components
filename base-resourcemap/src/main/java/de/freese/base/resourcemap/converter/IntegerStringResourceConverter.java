@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * Resourceconverter fuer Integers.
+ * {@link ResourceConverter} für Integers.
  *
  * @author Thomas Freese
  */
@@ -16,11 +16,11 @@ public class IntegerStringResourceConverter extends AbstractNumberResourceConver
     }
 
     /**
-     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#parseString(java.lang.String, int)
+     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override
-    protected Integer parseString(final String key, final int radix) throws NumberFormatException
+    protected Integer convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Integer.decode(key) : Integer.valueOf(key, radix);
+        return (radix == -1) ? Integer.decode(value) : Integer.valueOf(value, radix);
     }
 }

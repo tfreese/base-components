@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * Basis Resourceconverter fuer Numbers.
+ * Basis {@link ResourceConverter} für Numbers.
  *
  * @author Thomas Freese
  * @param <T> Konkreter konvertierter Typ
@@ -22,26 +22,19 @@ public abstract class AbstractNumberResourceConverter<T extends Number> extends 
     @Override
     public T convert(final String key, final String value)
     {
-        try
-        {
-            String[] splits = value.split("&"); // number ampersand radix
-            int radix = (splits.length == 2) ? Integer.parseInt(splits[1]) : -1;
+        String[] splits = value.split("&"); // number ampersand radix
+        int radix = (splits.length == 2) ? Integer.parseInt(splits[1]) : -1;
 
-            return parseString(splits[0], radix);
-        }
-        catch (NumberFormatException ex)
-        {
-            throw new ResourceConverterException("invalid Type", key, ex);
-        }
+        return convertString(splits[0], radix);
     }
 
     /**
      * Konvertiert den String in eine Zahl.
-     * 
-     * @param key String
+     *
+     * @param value String
      * @param radix int
      * @return {@link Number}
      * @throws NumberFormatException Falls was schief geht.
      */
-    protected abstract T parseString(String key, int radix) throws NumberFormatException;
+    protected abstract T convertString(String value, int radix) throws NumberFormatException;
 }

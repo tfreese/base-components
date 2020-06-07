@@ -11,7 +11,9 @@ import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Set;
+import java.util.function.Supplier;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
@@ -80,57 +82,6 @@ public interface ResourceMap
     }
 
     /**
-     * @param baseName String
-     * @return {@link ResourceMap}
-     */
-    public static ResourceMap create(final String baseName)
-    {
-        return create(baseName, DefaultResourceMap.class.getClassLoader());
-    }
-
-    /**
-     * @param baseName String
-     * @param classLoader {@link ClassLoader}
-     * @return {@link ResourceMap}
-     */
-    public static ResourceMap create(final String baseName, final ClassLoader classLoader)
-    {
-        return create(baseName, classLoader, null);
-    }
-
-    /**
-     * @param baseName String
-     * @param classLoader {@link ClassLoader}
-     * @param resourceProvider {@link ResourceProvider}
-     * @return {@link ResourceMap}
-     */
-    public static ResourceMap create(final String baseName, final ClassLoader classLoader, final ResourceProvider resourceProvider)
-    {
-        ResourceMap resourceMap = new DefaultResourceMap(baseName, classLoader, resourceProvider);
-
-        return resourceMap;
-    }
-
-    /**
-     * @param baseName String
-     * @param resourceProvider {@link ResourceProvider}
-     * @return {@link ResourceMap}
-     */
-    public static ResourceMap create(final String baseName, final ResourceProvider resourceProvider)
-    {
-        return create(baseName, DefaultResourceMap.class.getClassLoader(), resourceProvider);
-    }
-
-    /**
-     * Hinzufügen eines neuen {@link ResourceConverter}s.<br>
-     * Die Converter der Parent ResourceMaps vererben sich auf ihre Kinder.
-     *
-     * @param supportedType Class
-     * @param converter {@link ResourceConverter}
-     */
-    public void addResourceConverter(Class<?> supportedType, final ResourceConverter<?> converter);
-
-    /**
      * Liefert den BaseName der {@link ResourceMap}.
      *
      * @return String
@@ -138,11 +89,7 @@ public interface ResourceMap
     public String getBaseName();
 
     /**
-     * Liefert das Value des Keys als Boolean.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Boolean
      * @see #getObject
      */
@@ -152,11 +99,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Byte.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Byte
      * @see #getObject
      */
@@ -166,19 +109,17 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Color.<br>
+     * Liefert das Value des Keys als {@link Color}.<br>
      * Mögliche Formate:
      *
      * <pre>
-     * myHexRGBColor = #RRGGBB
-     * myHexAlphaRGBColor = #AARRGGBB
-     * myRGBColor = R, G, B
-     * myAlphaRGBColor = R, G, B, A
+     * hexRGBColor = #RRGGBB
+     * hexAlphaRGBColor = #AARRGGBB
+     * rgbColor = R, G, B
+     * alphaRGBColor = R, G, B, A
      * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Color}
      * @see #getObject
      */
@@ -188,11 +129,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Dimension.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Dimension}
      */
     public default Dimension getDimension(final String key)
@@ -201,11 +138,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Double.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Double
      * @see #getObject
      */
@@ -215,11 +148,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als EmptyBorder.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link EmptyBorder}
      */
     public default EmptyBorder getEmptyBorder(final String key)
@@ -228,11 +157,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Float.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Float
      * @see #getObject
      */
@@ -242,16 +167,14 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Font.<br>
+     * Liefert das Value des Keys als {@link Font}.<br>
      * Format:
      *
      * <pre>
-     * <code>myFont = Arial-PLAIN-12</code>
+     * <code>font = Arial-PLAIN-12</code>
      * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Font}
      * @see #getObject
      * @see Font#decode
@@ -262,35 +185,31 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Icon.<br>
+     * Liefert das Value des Keys als {@link Icon}.<br>
      * Format PropertyKey: enum.ENUMKLASSE.ENUMNAME.icon
      *
      * <pre>
-     * openIcon = myOpenIcon.png
+     * icon = myIcon.png
      * </pre>
      *
      * @param enumValue {@link Enum}
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Icon}
      * @see #getObject
      */
     public default Icon getIcon(final Enum<?> enumValue)
     {
-        return getObject(EnumResourceType.ICON.getEnumKey(enumValue), ImageIcon.class);
+        return getObject(EnumResourceType.ICON.getEnumKey(enumValue), Icon.class);
     }
 
     /**
-     * Liefert das Value des Keys als Icon.<br>
+     * Liefert das Value des Keys als {@link Icon}.<br>
      * Format:
      *
      * <pre>
-     * openIcon = myOpenIcon.png
+     * icon = myIcon.png
      * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Icon}
      * @see #getObject
      */
@@ -300,16 +219,14 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als BufferedImage.<br>
+     * Liefert das Value des Keys als {@link BufferedImage}.<br>
      * Format:
      *
      * <pre>
-     * openIcon = myOpenIcon.png
+     * image = myIcon.png
      * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link BufferedImage}
      * @see #getObject
      */
@@ -319,16 +236,14 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als ImageIcon.<br>
+     * Liefert das Value des Keys als {@link ImageIcon}.<br>
      * Format:
      *
      * <pre>
-     * openIcon = myOpenIcon.png
+     * image = myIcon.png
      * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link ImageIcon}
      * @see #getObject
      */
@@ -338,11 +253,14 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Insets.
+     * Liefert das Value des Keys als {@link Insets}.<br>
+     * Format:
+     *
+     * <pre>
+     * inset = top,left,bottom,right
+     * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Insets}
      */
     public default Insets getInsets(final String key)
@@ -351,11 +269,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Integer.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Integer
      * @see #getObject
      */
@@ -365,13 +279,16 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Integer.
+     * Liefert das Value des {@link KeyStroke} als Integer.<br>
+     * Format:
+     *
+     * <pre>
+     * keyCode = control T
+     * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Integer
-     * @see #getObject
+     * @see #getKeyStroke
      */
     public default Integer getKeyCode(final String key)
     {
@@ -389,11 +306,14 @@ public interface ResourceMap
     public Set<String> getKeys();
 
     /**
-     * Liefert das Value des Keys als KeyStroke.
+     * Liefert das Value des Keys als {@link KeyStroke}.<br>
+     * Format:
+     *
+     * <pre>
+     * keyStroke = control T
+     * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link KeyStroke}
      * @see #getObject
      * @see KeyStroke#getKeyStroke
@@ -404,11 +324,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Long.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Long
      * @see #getObject
      */
@@ -424,18 +340,19 @@ public interface ResourceMap
      * @param <T> Objeckttyp
      * @param key String
      * @param type resource type
-     * @throws LookupException wenn kein Converter für Typ, String konvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Object
      */
     public <T> T getObject(final String key, final Class<T> type);
 
     /**
-     * Liefert das Value des Keys als Point.
+     * Liefert das Value des Keys als {@link Point}.<br>
+     * Format:
+     *
+     * <pre>
+     * point = 100,200
+     * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Point}
      */
     public default Point getPoint(final String key)
@@ -444,26 +361,20 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als Rectangle.
+     * Liefert das Value des Keys als {@link Rectangle}.<br>
+     * Format:
+     *
+     * <pre>
+     * rectangle = 5,5,5,5
+     * </pre>
      *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link Rectangle}
      */
     public default Rectangle getRectangle(final String key)
     {
         return getObject(key, Rectangle.class);
     }
-
-    /**
-     * Liefert den {@link ResourceConverter} für den Typ.<br>
-     * Sollte diese ResourceMap keinen passenden Converter enthalten, wird der Parent befraget, wenn vorhanden.
-     *
-     * @param type {@link Class}
-     * @return {@link ResourceConverter}
-     */
-    public ResourceConverter<?> getResourceConverter(final Class<?> type);
 
     /**
      * Liefert den verwendeten {@link ResourceProvider}.<br>
@@ -474,11 +385,7 @@ public interface ResourceMap
     public ResourceProvider getResourceProvider();
 
     /**
-     * Liefert das Value des Keys als Shorts.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return Short
      * @see #getObject
      */
@@ -511,7 +418,7 @@ public interface ResourceMap
      * </code>
      * </pre>
      *
-     * Für Angabe einen Stringformats kann die ältere {} Notation oder die Java 1.5 Variante verwendet werden:
+     * Für Angabe einen StringFormats kann die ältere {} Notation oder die Java 1.5 Variante verwendet werden:
      *
      * <pre>
      * <code>hello = Hello {0}</code>
@@ -527,8 +434,6 @@ public interface ResourceMap
      *
      * @param key String
      * @param args Object
-     * @throws LookupException wenn kein Converter für Typ, String konvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return String
      * @see #getObject
      * @see String#format(String, Object...)
@@ -537,11 +442,7 @@ public interface ResourceMap
     public String getString(final String key, final Object...args);
 
     /**
-     * Liefert das Value des Keys als URI.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link URI}
      */
     public default URI getURI(final String key)
@@ -550,11 +451,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als URL.
-     *
      * @param key String
-     * @throws LookupException wenn kein Converter für Typ, Stringkonvertierung fehlgeschlagen oder Wert nicht gefunden
-     * @throws IllegalArgumentException wenn key null ist
      * @return {@link URL}
      */
     public default URL getURL(final String key)
@@ -563,9 +460,11 @@ public interface ResourceMap
     }
 
     /**
-     * Setzt den Parent der ResourceMap.
+     * Setzt den {@link Supplier} des aktuellen {@link Locale}.<br>
+     * Für Parent: Default = Locale.getDefault<br>
+     * Für Childs optional: Default = parent#getLocale
      *
-     * @param parent {@link ResourceMap} optional
+     * @param localeSupplier {@link Supplier}
      */
-    public void setParent(ResourceMap parent);
+    public void setLocaleSupplier(Supplier<Locale> localeSupplier);
 }

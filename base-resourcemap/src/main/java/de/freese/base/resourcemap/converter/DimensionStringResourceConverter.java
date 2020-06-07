@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.util.List;
 
 /**
- * IResourceConverter fuer eine {@link Dimension}.
+ * {@link ResourceConverter} für {@link Dimension}.
  *
  * @author Thomas Freese
  */
@@ -24,7 +24,7 @@ public class DimensionStringResourceConverter extends AbstractResourceConverter<
     @Override
     public Dimension convert(final String key, final String value)
     {
-        List<Double> xy = parseDoubles(value, 2, "Invalid x,y Dimension string");
+        List<Double> xy = parseDoubles(key, value, 2, "Invalid x,y Dimension string");
 
         Dimension dimension = new Dimension();
         dimension.setSize(xy.get(0).doubleValue(), xy.get(1).doubleValue());

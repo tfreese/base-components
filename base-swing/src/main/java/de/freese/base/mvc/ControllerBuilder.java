@@ -6,6 +6,7 @@ package de.freese.base.mvc;
 
 import java.util.Objects;
 import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.resourcemap.ResourceMapBuilder;
 
 /**
  * @author Thomas Freese
@@ -66,8 +67,7 @@ public final class ControllerBuilder
 
         try
         {
-            ResourceMap resourceMap = ResourceMap.create(this.bundleName);
-            resourceMap.setParent(this.context.getResourceMapRoot());
+            ResourceMap resourceMap = ResourceMapBuilder.create(this.bundleName).parent(this.context.getResourceMapRoot()).build();
             this.context.addResourceMap(this.name, resourceMap);
 
             controller = this.controllerClazz.getDeclaredConstructor().newInstance();
@@ -97,7 +97,7 @@ public final class ControllerBuilder
      */
     public ControllerBuilder bundleName(final String bundleName)
     {
-        this.bundleName = bundleName;
+        this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
 
         return this;
     }
@@ -110,7 +110,7 @@ public final class ControllerBuilder
      */
     public ControllerBuilder clazz(final Class<? extends AbstractController> controllerClazz)
     {
-        this.controllerClazz = controllerClazz;
+        this.controllerClazz = Objects.requireNonNull(controllerClazz, "controllerClazz required");
 
         return this;
     }
@@ -123,7 +123,7 @@ public final class ControllerBuilder
      */
     public ControllerBuilder name(final String name)
     {
-        this.name = name;
+        this.name = Objects.requireNonNull(name, "name required");
 
         return this;
     }

@@ -1,7 +1,7 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * Resourceconverter fuer Doubles.
+ * {@link ResourceConverter} für Doubles.
  *
  * @author Thomas Freese
  */
@@ -16,11 +16,11 @@ public class DoubleStringResourceConverter extends AbstractNumberResourceConvert
     }
 
     /**
-     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#parseString(java.lang.String, int)
+     * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override
-    protected Double parseString(final String key, final int radix) throws NumberFormatException
+    protected Double convertString(final String value, final int radix) throws NumberFormatException
     {
-        return Double.valueOf(key.replaceAll(",", "."));
+        return Double.valueOf(value.replace(",", "."));
     }
 }

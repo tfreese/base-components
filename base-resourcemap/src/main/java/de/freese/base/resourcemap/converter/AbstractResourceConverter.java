@@ -33,34 +33,52 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * substring can't be parsed. The format of the numbers is specified by Double.valueOf().
      *
      * @param key String
+     * @param value String
      * @param n int
-     * @param errorMsg String
+     * @param message String
      * @return {@link List}
-     * @throws ResourceConverterException Falls was schief geht.
+     * @throws RuntimeException Falls was schief geht.
      */
-    protected List<Double> parseDoubles(final String key, final int n, final String errorMsg) throws ResourceConverterException
+    protected List<Double> parseDoubles(final String key, final String value, final int n, final String message) throws RuntimeException
     {
-        String[] splits = key.split(",", n + 1);
+        String[] splits = value.split(",", n + 1);
 
         if (splits.length != n)
         {
-            throw new ResourceConverterException(errorMsg, key);
+            throwException(key, value, message);
         }
 
         List<Double> doubles = new ArrayList<>(n);
 
         for (String doubleString : splits)
         {
-            try
-            {
-                doubles.add(Double.valueOf(doubleString));
-            }
-            catch (NumberFormatException ex)
-            {
-                throw new ResourceConverterException(errorMsg, key, ex);
-            }
+            doubles.add(Double.valueOf(doubleString));
         }
 
         return doubles;
+    }
+
+    /**
+     * @param key String
+     * @param value String
+     * @param message String
+     * @throws RuntimeException Falls was schief geht.
+     */
+    protected void throwException(final String key, final String value, final String message) throws RuntimeException
+    {
+        String msg = String.format("%s = %s: %s", key, value, message);
+        throw new RuntimeException(msg);
+    }
+
+    /**
+     * @param key String
+     * @param value String
+     * @param cause {@link Throwable}
+     * @throws RuntimeException Falls was schief geht.
+     */
+    protected void throwException(final String key, final String value, final Throwable cause) throws RuntimeException
+    {
+        String msg = String.format("%s = %s", key, value);
+        throw new RuntimeException(msg, cause);
     }
 }

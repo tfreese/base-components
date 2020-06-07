@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -49,10 +48,10 @@ public class TestResourceMap
     @BeforeAll
     public static void beforeAll()
     {
-        ResourceMap parentRM = ResourceMap.create("parentTest", new ResourceBundleProvider());
+        ResourceMap parentRM = ResourceMapBuilder.create("parentTest").resourceProvider(new ResourceBundleProvider())
+                .classLoader(TestResourceMap.class.getClassLoader()).build();
 
-        resourceMap = ResourceMap.create("resourcemap/test");
-        resourceMap.setParent(parentRM);
+        resourceMap = ResourceMapBuilder.create("resourcemap/test").parent(parentRM).build();
     }
 
     /**
@@ -214,7 +213,7 @@ public class TestResourceMap
             List<String> keys = new ArrayList<>();
 
             String[] splits = expression.split("\\$\\{");
-            System.out.println(Arrays.toString(splits));
+            // System.out.println(Arrays.toString(splits));
 
             for (String split : splits)
             {
@@ -239,9 +238,6 @@ public class TestResourceMap
             List<String> keys = new ArrayList<>();
             int startIndex = 0;
             int lastEndIndex = 0;
-
-            expression.indexOf("${", 0);
-            expression.indexOf("}", 0);
 
             while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1)
             {
@@ -567,7 +563,7 @@ public class TestResourceMap
     {
         String value = resourceMap.getString("not.exist");
 
-        assertNotNull(value);
+        assertNull(value);
         // assertEquals(ref, value);
     }
 }

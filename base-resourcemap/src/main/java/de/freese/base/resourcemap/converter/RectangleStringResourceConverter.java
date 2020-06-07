@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.util.List;
 
 /**
- * IResourceConverter fuer ein {@link Rectangle}.
+ * {@link ResourceConverter} für {@link Rectangle}.
  *
  * @author Thomas Freese
  */
@@ -24,7 +24,7 @@ public class RectangleStringResourceConverter extends AbstractResourceConverter<
     @Override
     public Rectangle convert(final String key, final String value)
     {
-        List<Double> xywh = parseDoubles(value, 4, "Invalid x,y,width,height Rectangle string");
+        List<Double> xywh = parseDoubles(key, value, 4, "Invalid x,y,width,height Rectangle string");
 
         Rectangle rectangle = new Rectangle();
         rectangle.setFrame(xywh.get(0).doubleValue(), xywh.get(1).doubleValue(), xywh.get(2).doubleValue(), xywh.get(3).doubleValue());

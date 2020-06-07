@@ -22,6 +22,7 @@ import de.freese.base.mvc.Controller;
 import de.freese.base.mvc.ControllerBuilder;
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.resourcemap.ResourceMapBuilder;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 import de.freese.base.swing.StatusBar;
@@ -181,12 +182,13 @@ public class DemoApplication extends AbstractApplication
     {
         ResourceProvider resourceProvider = new ResourceBundleProvider();
         // ResourceProvider resourceProvider = (baseName, locale, classLoader) -> Make DB-Query for Text;
-        ResourceMap rootMap = ResourceMap.create("bundles/demo", resourceProvider);
+
+        ResourceMap rootMap =
+                ResourceMapBuilder.create("bundles/demo").resourceProvider(resourceProvider).classLoader(DemoApplication.class.getClassLoader()).build();
         setResourceMapRoot(rootMap);
         // getContext().addResourceMap("root", rootMap);
 
-        ResourceMap statusbarMap = ResourceMap.create("bundles/statusbar");
-        statusbarMap.setParent(rootMap);
+        ResourceMap statusbarMap = ResourceMapBuilder.create("bundles/statusbar").parent(rootMap).build();
         getContext().addResourceMap("statusbar", statusbarMap);
     }
 }

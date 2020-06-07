@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * IResourceConverter fuer URLs.
+ * {@link ResourceConverter} für {@link URL}.
  *
  * @author Thomas Freese
  */
@@ -30,7 +30,9 @@ public class URLStringResourceConverter extends AbstractResourceConverter<URL>
         }
         catch (MalformedURLException ex)
         {
-            throw new ResourceConverterException("Invalid URL", key, ex);
+            throwException(key, value, "Invalid URL");
         }
+
+        return null;
     }
 }

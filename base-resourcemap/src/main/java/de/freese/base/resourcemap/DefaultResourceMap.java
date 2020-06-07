@@ -11,12 +11,18 @@ import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
@@ -40,14 +46,13 @@ import de.freese.base.resourcemap.converter.LongStringResourceConverter;
 import de.freese.base.resourcemap.converter.PointStringResourceConverter;
 import de.freese.base.resourcemap.converter.RectangleStringResourceConverter;
 import de.freese.base.resourcemap.converter.ResourceConverter;
-import de.freese.base.resourcemap.converter.ResourceConverterException;
 import de.freese.base.resourcemap.converter.ShortStringResourceConverter;
 import de.freese.base.resourcemap.converter.URIStringResourceConverter;
 import de.freese.base.resourcemap.converter.URLStringResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
- * ResourceMap zum laden und verarbeiten lokalisierter Texte.
+ * {@link ResourceMap} zum laden und verarbeiten lokalisierter Texte.
  *
  * @author Thomas Freese
  */
@@ -56,12 +61,7 @@ public class DefaultResourceMap implements ResourceMap
     /**
      *
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(DefaultResourceMap.class);
-
-    /**
-     *
-     */
-    private final static Object nullResource = new String("null resource");
+    private final static Object NULL_VALUE = "null value";
 
     /**
      *
@@ -69,14 +69,14 @@ public class DefaultResourceMap implements ResourceMap
     private final String baseName;
 
     /**
-     *
+     * Enthält alle bereits geparsten Resourcen die keine Strings sind.
      */
-    private final ClassLoader classLoader;
+    private final Map<Locale, Map<Class<?>, Map<String, Object>>> cache = new HashMap<>();
 
     /**
      *
      */
-    private final Map<Class<?>, ResourceConverter<?>> converters = new HashMap<>();
+    private final ClassLoader classLoader;
 
     /**
      * Enthält alle bereits geladenen Resourcen pro Locale.
@@ -84,53 +84,57 @@ public class DefaultResourceMap implements ResourceMap
     private final Map<Locale, Map<String, String>> localeResources = new HashMap<>();
 
     /**
-     * Enthält alle bereits geparsten Resourcen.
+     *
      */
-    private final Map<Locale, Map<Class<?>, Map<String, Object>>> localeResourcesCache = new HashMap<>();
+    private Supplier<Locale> localeSupplier = () -> getParent() != null ? ((DefaultResourceMap) getParent()).getLocale() : Locale.getDefault();
 
     /**
      *
      */
-    private ResourceMap parent = null;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      *
      */
-    private ResourceProvider resourceProvider = null;
+    private final ResourceMap parent;
+
+    /**
+     *
+     */
+    private final Map<Class<?>, ResourceConverter<?>> resourceConverters = new HashMap<>();
+
+    /**
+     *
+     */
+    private final ResourceProvider resourceProvider;
 
     /**
      * Erstellt ein neues {@link DefaultResourceMap} Object.
      *
      * @param baseName String
+     * @param parent {@link ResourceMap}
      * @param classLoader {@link ClassLoader}
-     * @param resourceProvider {@link ResourceProvider}; Optional, Parent wird verwendet, wenn nicht vorhanden.
+     * @param resourceProvider {@link ResourceProvider}
      */
-    protected DefaultResourceMap(final String baseName, final ClassLoader classLoader, final ResourceProvider resourceProvider)
+    protected DefaultResourceMap(final String baseName, final ResourceMap parent, final ClassLoader classLoader, final ResourceProvider resourceProvider)
     {
         super();
 
-        Objects.requireNonNull(baseName, "baseName required");
-
-        if (baseName.trim().length() == 0)
-        {
-            throw new IllegalArgumentException("baseName length = 0");
-        }
-
-        this.baseName = baseName.trim();
-        this.classLoader = Objects.requireNonNull(classLoader, "classLoader required");
-
+        this.baseName = Objects.requireNonNull(baseName, "baseName required");
+        this.parent = parent;
+        this.classLoader = classLoader;
         this.resourceProvider = resourceProvider;
 
         initDefaultConverter();
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#addResourceConverter(java.lang.Class, de.freese.base.resourcemap.converter.ResourceConverter)
+     * @param supportedType Class
+     * @param converter {@link ResourceConverter}
      */
-    @Override
-    public void addResourceConverter(final Class<?> supportedType, final ResourceConverter<?> converter)
+    protected void addResourceConverter(final Class<?> supportedType, final ResourceConverter<?> converter)
     {
-        this.converters.put(supportedType, converter);
+        this.resourceConverters.put(supportedType, converter);
     }
 
     /**
@@ -142,67 +146,57 @@ public class DefaultResourceMap implements ResourceMap
      *  place = ${hello} ${world}
      * </pre>
      *
-     * Der Wert von evaluateStringExpression("place") wäre "Hello World". Der Wert von einem ${null} ist null.
+     * Der Wert von "place" wäre "Hello World".<br>
+     * Der Wert von einem ${null} ist null.
      *
-     * @param expr String
      * @param locale {@link Locale}
-     * @return String
+     * @param resources {@link Map}
      */
-    protected final String evaluateStringExpression(final String expr, final Locale locale)
+    protected final void evaluateStringExpressions(final Locale locale, final Map<String, String> resources)
     {
-        if (expr.trim().equals("${null}"))
+        // Finde alle Values mit '${' Expression.
+        List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
+
+        for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext();)
         {
-            return null;
-        }
+            Entry<String, String> entry = iterator.next();
+            String expression = entry.getValue();
 
-        StringBuilder value = new StringBuilder();
+            List<String> keys = new ArrayList<>();
+            int startIndex = 0;
+            int lastEndIndex = 0;
 
-        int firstIndex = 0;
-        int indexStart$Brace = 0;
-
-        while ((indexStart$Brace = expr.indexOf("${", firstIndex)) != -1)
-        {
-            if ((indexStart$Brace == 0) || ((indexStart$Brace > 0) && (expr.charAt(indexStart$Brace - 1) != '\\')))
+            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1)
             {
-                int indexEndBrace = expr.indexOf("}", indexStart$Brace);
+                int endIndex = expression.indexOf("}", startIndex);
 
-                if ((indexEndBrace != -1) && (indexEndBrace > (indexStart$Brace + 2)))
+                if (endIndex != -1)
                 {
-                    String k = expr.substring(indexStart$Brace + 2, indexEndBrace);
-                    String v = getObject(k, String.class);
-                    value.append(expr.substring(firstIndex, indexStart$Brace));
+                    String key = expression.substring(startIndex + 2, endIndex);
+                    keys.add(key);
 
-                    if (v != null)
-                    {
-                        value.append(v);
-                    }
-                    else
-                    {
-                        throw new LookupException(getBaseName(), k, String.class, locale, "no value");
-                    }
-
-                    // skip trailing "}"
-                    firstIndex = indexEndBrace + 1;
-                }
-                else
-                {
-                    throw new LookupException(getBaseName(), expr, String.class, locale, "no closing brace");
+                    lastEndIndex = endIndex;
                 }
             }
-            else
+
+            // Expressions ersetzen.
+            for (String key : keys)
             {
-                // we've found an escaped variable - "\${"
-                value.append(expr.substring(firstIndex, indexStart$Brace - 1));
-                value.append("${");
+                String value = getObject(key, String.class);
 
-                // skip past "${"
-                firstIndex = indexStart$Brace + 2;
+                if (value == null)
+                {
+                    continue;
+                }
+
+                expression = expression.replace("${" + key + "}", value);
             }
+
+            // Aufgelöste Expression wieder in die Map stecken.
+            resources.put(entry.getKey(), expression);
+
+            iterator.remove();
         }
-
-        value.append(expr.substring(firstIndex));
-
-        return value.toString();
     }
 
     /**
@@ -224,23 +218,16 @@ public class DefaultResourceMap implements ResourceMap
      */
     protected Object getCachedResource(final Locale locale, final Class<?> type, final String key)
     {
-        Map<Class<?>, Map<String, Object>> localeResources = this.localeResourcesCache.get(locale);
-
-        if (localeResources == null)
+        if (type == String.class)
         {
-            localeResources = new HashMap<>();
-            this.localeResourcesCache.put(locale, localeResources);
+            // Reine Strings sind ja schon in der localeResources Map.
+            return this.localeResources.computeIfAbsent(locale, k -> new HashMap<>()).get(key);
         }
 
-        Map<String, Object> typeResources = localeResources.get(type);
+        Map<Class<?>, Map<String, Object>> cachedLocaleResources = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
+        Map<String, Object> cachedTypeResources = cachedLocaleResources.computeIfAbsent(type, k -> new HashMap<>());
 
-        if (typeResources == null)
-        {
-            typeResources = new HashMap<>();
-            localeResources.put(type, typeResources);
-        }
-
-        return typeResources.get(key);
+        return cachedTypeResources.get(key);
     }
 
     /**
@@ -250,6 +237,11 @@ public class DefaultResourceMap implements ResourceMap
      */
     protected ClassLoader getClassLoader()
     {
+        if ((this.classLoader == null) && (getParent() != null))
+        {
+            return ((DefaultResourceMap) getParent()).getClassLoader();
+        }
+
         return this.classLoader;
     }
 
@@ -280,7 +272,15 @@ public class DefaultResourceMap implements ResourceMap
      */
     protected Locale getLocale()
     {
-        return Locale.getDefault();
+        return this.localeSupplier.get();
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
     }
 
     /**
@@ -290,15 +290,8 @@ public class DefaultResourceMap implements ResourceMap
     @Override
     public final <T> T getObject(final String key, final Class<T> type)
     {
-        if (key == null)
-        {
-            throw new IllegalArgumentException("null key");
-        }
-
-        if (type == null)
-        {
-            throw new IllegalArgumentException("null type");
-        }
+        Objects.requireNonNull(key, "key required");
+        Objects.requireNonNull(type, "type required");
 
         Locale locale = getLocale();
 
@@ -306,17 +299,20 @@ public class DefaultResourceMap implements ResourceMap
 
         Object value = null;
 
-        // Cache prüfen
+        // Object-Cache prüfen
         value = getCachedResource(locale, type, key);
 
         if (value != null)
         {
+            if (value == NULL_VALUE)
+            {
+                return null;
+            }
+
             return (T) value;
         }
 
-        Map<String, String> resources = this.localeResources.get(locale);
-
-        String stringValue = resources.get(key);
+        String stringValue = (String) getCachedResource(locale, String.class, key);
 
         if (stringValue == null)
         {
@@ -327,66 +323,47 @@ public class DefaultResourceMap implements ResourceMap
                 {
                     value = getParent().getObject(key, type);
                 }
-                catch (LookupException ex)
+                catch (Exception ex)
                 {
-                    // Exceptions vom Parent kapseln, um am Ende der Methode eigene Exception zu
-                    // werfen.
-                    value = null;
+                    getLogger().warn(null, ex);
                 }
             }
-
-            // if (value == null)
-            // {
-            // value = nullResource;
-            // }
         }
         else
         {
-            if (type == String.class)
+            ResourceConverter<?> stringConverter = getResourceConverter(type);
+
+            if (stringConverter != null)
             {
-                // Wenn ${key} Variablen existieren diese ersetzten
-                if (stringValue.contains("${"))
+                try
                 {
-                    value = evaluateStringExpression(stringValue, locale);
+                    value = stringConverter.convert(key, stringValue);
                 }
-                else
+                catch (Exception ex)
                 {
-                    value = stringValue;
+                    getLogger().warn(null, ex);
                 }
             }
             else
             {
-                ResourceConverter<?> stringConverter = getResourceConverter(type);
-
-                if (stringConverter != null)
-                {
-                    try
-                    {
-                        value = stringConverter.convert(key, stringValue);
-                    }
-                    catch (ResourceConverterException ex)
-                    {
-                        LookupException lfe = new LookupException(getBaseName(), key, type, locale, "string conversion failed");
-                        lfe.initCause(ex);
-
-                        throw lfe;
-                    }
-                }
-                else
-                {
-                    throw new LookupException(getBaseName(), key, type, locale, "no StringConverter for required type");
-                }
+                getLogger().warn("{} - {}: No ResourceConverter found for required type {}", key, value, type.getSimpleName());
             }
         }
 
         if (value == null)
         {
-            throw new LookupException(getBaseName(), key, type, locale, "no value");
+            getLogger().warn("Key {}: no resource found", key);
+            value = NULL_VALUE;
         }
 
         putCachedResource(locale, type, key, value);
 
-        return (T) (value == nullResource ? null : value);
+        if (value == NULL_VALUE)
+        {
+            return null;
+        }
+
+        return (T) value;
     }
 
     /**
@@ -400,16 +377,19 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#getResourceConverter(java.lang.Class)
+     * Liefert den {@link ResourceConverter} für den Typ.<br>
+     * Sollte diese ResourceMap keinen passenden Converter enthalten, wird der Parent befraget, wenn vorhanden.
+     *
+     * @param supportedType {@link Class}
+     * @return {@link ResourceConverter}
      */
-    @Override
-    public ResourceConverter<?> getResourceConverter(final Class<?> type)
+    protected ResourceConverter<?> getResourceConverter(final Class<?> supportedType)
     {
-        ResourceConverter<?> converter = this.converters.get(type);
+        ResourceConverter<?> converter = this.resourceConverters.get(supportedType);
 
         if ((converter == null) && (getParent() != null))
         {
-            converter = getParent().getResourceConverter(type);
+            converter = ((DefaultResourceMap) getParent()).getResourceConverter(supportedType);
         }
 
         return converter;
@@ -421,12 +401,9 @@ public class DefaultResourceMap implements ResourceMap
     @Override
     public ResourceProvider getResourceProvider()
     {
-        if (this.resourceProvider == null)
+        if ((this.resourceProvider == null) && (getParent() != null))
         {
-            if (getParent() != null)
-            {
-                this.resourceProvider = getParent().getResourceProvider();
-            }
+            return getParent().getResourceProvider();
         }
 
         return this.resourceProvider;
@@ -467,7 +444,7 @@ public class DefaultResourceMap implements ResourceMap
         }
         catch (LookupException ex)
         {
-            LOGGER.warn(null, ex);
+            getLogger().warn(null, ex);
 
             value = "#" + key;
         }
@@ -541,6 +518,8 @@ public class DefaultResourceMap implements ResourceMap
             }
 
             this.localeResources.put(locale, resources);
+
+            evaluateStringExpressions(locale, resources);
         }
     }
 
@@ -554,18 +533,24 @@ public class DefaultResourceMap implements ResourceMap
      */
     protected void putCachedResource(final Locale locale, final Class<?> type, final String key, final Object object)
     {
-        Map<Class<?>, Map<String, Object>> localeResources = this.localeResourcesCache.get(locale);
-        Map<String, Object> typeResources = localeResources.get(type);
-        typeResources.put(key, object);
+        if (type == String.class)
+        {
+            // Reine Strings sind ja schon in der localeResources Map.
+            return;
+        }
+
+        Map<Class<?>, Map<String, Object>> cachedLocaleResources = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
+        Map<String, Object> cachedTypeResources = cachedLocaleResources.computeIfAbsent(type, k -> new HashMap<>());
+        cachedTypeResources.put(key, object);
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#setParent(de.freese.base.resourcemap.ResourceMap)
+     * @see de.freese.base.resourcemap.ResourceMap#setLocaleSupplier(java.util.function.Supplier)
      */
     @Override
-    public void setParent(final ResourceMap parent)
+    public void setLocaleSupplier(final Supplier<Locale> localeSupplier)
     {
-        this.parent = parent;
+        this.localeSupplier = Objects.requireNonNull(localeSupplier, "localeSupplier required");
     }
 
     /**
