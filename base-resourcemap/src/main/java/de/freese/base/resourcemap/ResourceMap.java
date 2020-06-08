@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.converter.ResourceConverter;
-import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
  * Interface einer ResourceMap zum laden und verarbeiten lokalisierter Texte.
@@ -82,13 +81,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert den BaseName der {@link ResourceMap}.
-     *
-     * @return String
-     */
-    public String getBaseName();
-
-    /**
      * @param key String
      * @return Boolean
      * @see #getObject
@@ -97,6 +89,13 @@ public interface ResourceMap
     {
         return getObject(key, Boolean.class);
     }
+
+    /**
+     * Liefert den Namen der {@link ResourceMap}.
+     *
+     * @return String
+     */
+    public String getBundleName();
 
     /**
      * @param key String
@@ -337,7 +336,7 @@ public interface ResourceMap
      * Liefert das konvertierte Objekt aus dem String.<br>
      * Das Objekt wird durch einen {@link ResourceConverter} erzeugt, der mit dem Klassentyp verknüpft ist.<br>
      *
-     * @param <T> Objeckttyp
+     * @param <T> Type
      * @param key String
      * @param type resource type
      * @return Object
@@ -375,14 +374,6 @@ public interface ResourceMap
     {
         return getObject(key, Rectangle.class);
     }
-
-    /**
-     * Liefert den verwendeten {@link ResourceProvider}.<br>
-     * Sollte diese ResourceMap keinen eigenen ResourceProvider besitzen, wird der vorhandene Parent befragt.
-     *
-     * @return {@link ResourceProvider}
-     */
-    public ResourceProvider getResourceProvider();
 
     /**
      * @param key String

@@ -32,13 +32,13 @@ public final class ResourceBundleProvider implements ResourceProvider
      * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale, java.lang.ClassLoader)
      */
     @Override
-    public Map<String, String> getResources(final String baseName, final Locale locale, final ClassLoader classLoader)
+    public Map<String, String> getResources(final String bundleName, final Locale locale, final ClassLoader classLoader)
     {
         Map<String, String> bundles = new HashMap<>();
 
         try
         {
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(baseName, locale, classLoader);
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale, classLoader);
 
             Enumeration<String> keys = resourceBundle.getKeys();
 

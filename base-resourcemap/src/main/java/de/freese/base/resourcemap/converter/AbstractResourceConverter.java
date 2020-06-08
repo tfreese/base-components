@@ -11,11 +11,6 @@ import java.util.List;
  */
 public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>
 {
-    // /**
-    // *
-    // */
-    // private final Set<Class<?>> supportedTypes = new HashSet<>();
-
     /**
      * Erstellt ein neues {@link AbstractResourceConverter} Object.
      */
@@ -67,6 +62,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
     protected void throwException(final String key, final String value, final String message) throws RuntimeException
     {
         String msg = String.format("%s = %s: %s", key, value, message);
+
         throw new RuntimeException(msg);
     }
 
@@ -79,6 +75,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
     protected void throwException(final String key, final String value, final Throwable cause) throws RuntimeException
     {
         String msg = String.format("%s = %s", key, value);
+
         throw new RuntimeException(msg, cause);
     }
 }

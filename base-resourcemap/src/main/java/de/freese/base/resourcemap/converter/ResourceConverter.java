@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
  * Konvertiert aus einen String das konkrete Object.
  *
  * @author Thomas Freese
- * @param <T> Konkreter konvertierter Typ
+ * @param <T> Type
  */
 @FunctionalInterface
 public interface ResourceConverter<T> extends BiFunction<String, String, T>

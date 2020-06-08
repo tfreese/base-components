@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -72,24 +71,6 @@ public class TestResourceMap
 
         assertNotNull(value);
         assertEquals(Boolean.FALSE, value);
-    }
-
-    /**
-     *
-     */
-    @Test
-    public void testBooleanNotExist()
-    {
-        try
-        {
-            Boolean value = resourceMap.getBoolean("test.boolean.notexsist");
-
-            assertNull(value);
-        }
-        catch (Exception ex)
-        {
-            assertTrue(ex instanceof LookupException);
-        }
     }
 
     /**

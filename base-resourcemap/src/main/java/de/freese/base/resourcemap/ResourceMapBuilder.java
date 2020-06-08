@@ -7,6 +7,8 @@ package de.freese.base.resourcemap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import de.freese.base.resourcemap.cache.PerEachResourceMapCache;
+import de.freese.base.resourcemap.cache.ResourceMapCache;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.resourcemap.provider.ResourceProvider;
@@ -17,18 +19,23 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
 public class ResourceMapBuilder
 {
     /**
-     * @param baseName String
+     * @param bundleName String
      * @return {@link ResourceMapBuilder}
      */
-    public static ResourceMapBuilder create(final String baseName)
+    public static ResourceMapBuilder create(final String bundleName)
     {
-        return new ResourceMapBuilder(baseName);
+        return new ResourceMapBuilder(bundleName);
     }
 
     /**
      *
      */
-    private final String baseName;
+    private final String bundleName;
+
+    /**
+     *
+     */
+    private ResourceMapCache cache = null;
 
     /**
      *
@@ -38,7 +45,7 @@ public class ResourceMapBuilder
     /**
     *
     */
-    private ResourceMap parent;
+    private ResourceMap parent = null;
 
     /**
     *
@@ -48,18 +55,18 @@ public class ResourceMapBuilder
     /**
      *
      */
-    private ResourceProvider resourceProvider;
+    private ResourceProvider resourceProvider = null;
 
     /**
      * Erstellt ein neues {@link ResourceMapBuilder} Object.
      *
-     * @param baseName String
+     * @param bundleName String
      */
-    private ResourceMapBuilder(final String baseName)
+    private ResourceMapBuilder(final String bundleName)
     {
         super();
 
-        this.baseName = Objects.requireNonNull(baseName, "baseName required");
+        this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
     }
 
     /**
@@ -67,9 +74,9 @@ public class ResourceMapBuilder
      */
     public ResourceMap build()
     {
-        if (this.baseName.trim().length() == 0)
+        if (this.bundleName.trim().length() == 0)
         {
-            throw new IllegalArgumentException("baseName length = 0");
+            throw new IllegalArgumentException("bundleName length = 0");
         }
 
         // Muss für Parent zwingend gesetzt werden !
@@ -78,11 +85,18 @@ public class ResourceMapBuilder
             this.classLoader = DefaultResourceMap.class.getClassLoader();
         }
 
+        if (this.cache == null)
+        {
+            this.cache = new PerEachResourceMapCache();
+        }
+
         DefaultResourceMap resourceMap = null;
 
         try
         {
-            resourceMap = new DefaultResourceMap(this.baseName.trim(), this.parent, this.classLoader, this.resourceProvider);
+            resourceMap = new DefaultResourceMap(this.bundleName.trim(), this.parent, this.classLoader, this.resourceProvider);
+
+            resourceMap.setCache(this.cache);
 
             if (this.resourceConverters != null)
             {
@@ -100,6 +114,19 @@ public class ResourceMapBuilder
         }
 
         return resourceMap;
+    }
+
+    /**
+     * Default: {@link PerEachResourceMapCache}
+     *
+     * @param cache {@link ResourceMapCache}
+     * @return {@link ResourceMapBuilder}
+     */
+    public ResourceMapBuilder cache(final ResourceMapCache cache)
+    {
+        this.cache = Objects.requireNonNull(cache, "cache required");
+
+        return this;
     }
 
     /**

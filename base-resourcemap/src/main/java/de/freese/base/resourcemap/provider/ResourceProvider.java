@@ -13,11 +13,11 @@ public interface ResourceProvider
 {
     /**
      * Laden der Daten von Resourcen für die Internationalisierung.
-     * 
-     * @param baseName String
+     *
+     * @param bundleName String
      * @param locale {@link Locale}
      * @param classLoader {@link ClassLoader}
      * @return {@link Map}
      */
-    public Map<String, String> getResources(String baseName, Locale locale, ClassLoader classLoader);
+    public Map<String, String> getResources(String bundleName, Locale locale, ClassLoader classLoader);
 }
