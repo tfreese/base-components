@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import de.freese.base.resourcemap.cache.PerEachResourceMapCache;
 import de.freese.base.resourcemap.cache.ResourceMapCache;
+import de.freese.base.resourcemap.cache.StaticResourceMapCache;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.resourcemap.provider.ResourceProvider;
@@ -125,6 +126,18 @@ public class ResourceMapBuilder
     public ResourceMapBuilder cache(final ResourceMapCache cache)
     {
         this.cache = Objects.requireNonNull(cache, "cache required");
+
+        return this;
+    }
+
+    /**
+     * Default: {@link StaticResourceMapCache}
+     *
+     * @return {@link ResourceMapBuilder}
+     */
+    public ResourceMapBuilder cacheStatic()
+    {
+        this.cache = StaticResourceMapCache.getInstance();
 
         return this;
     }

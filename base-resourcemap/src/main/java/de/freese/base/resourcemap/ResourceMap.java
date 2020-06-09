@@ -12,7 +12,6 @@ import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.Set;
 import java.util.function.Supplier;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -296,13 +295,13 @@ public interface ResourceMap
         return (ks != null) ? Integer.valueOf(ks.getKeyCode()) : null;
     }
 
-    /**
-     * Liefert alle Keys der {@link ResourceMap}.<br>
-     * Die Bundles werden, wenn noch nicht vorhanden, geladen.
-     *
-     * @return {@link Set}
-     */
-    public Set<String> getKeys();
+    // /**
+    // * Liefert alle Keys der {@link ResourceMap}.<br>
+    // * Die Bundles werden, wenn noch nicht vorhanden, geladen.
+    // *
+    // * @return {@link Set}
+    // */
+    // public Set<String> getKeys();
 
     /**
      * Liefert das Value des Keys als {@link KeyStroke}.<br>

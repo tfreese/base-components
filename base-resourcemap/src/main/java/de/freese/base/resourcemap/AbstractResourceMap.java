@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javax.swing.Icon;
@@ -218,25 +216,25 @@ public abstract class AbstractResourceMap implements ResourceMap
         return this.classLoader;
     }
 
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#getKeys()
-     */
-    @Override
-    public final Set<String> getKeys()
-    {
-        Locale locale = getLocale();
-
-        loadResourcesIfAbsent(locale);
-
-        Map<String, String> resources = getCache().getValues(getBundleName(), locale, String.class);
-
-        if (resources == null)
-        {
-            return Collections.emptySet();
-        }
-
-        return resources.keySet();
-    }
+    // /**
+    // * @see de.freese.base.resourcemap.ResourceMap#getKeys()
+    // */
+    // @Override
+    // public final Set<String> getKeys()
+    // {
+    // Locale locale = getLocale();
+    //
+    // loadResourcesIfAbsent(locale);
+    //
+    // Map<String, String> resources = getCache().getValues(getBundleName(), locale, String.class);
+    //
+    // if (resources == null)
+    // {
+    // return Collections.emptySet();
+    // }
+    //
+    // return resources.keySet();
+    // }
 
     /**
      * Liefert das {@link Locale}.
