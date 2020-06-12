@@ -549,6 +549,57 @@ public final class StringUtils
     }
 
     /**
+     * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
+     * Ausgenommen: ASCII 09 (HorizontalTab), ASCII 10 (LineFeed), ASCII 13 (CarriageReturn).<br>
+     *
+     * @param input input
+     * @return String
+     * @see org.apache.commons.lang3.StringUtils#remove(String, char)
+     */
+    public static String removeControlCharacters(final String input)
+    {
+        if (isBlank(input))
+        {
+            return input;
+        }
+
+        int pos = 0;
+        char[] chars = input.toCharArray();
+        // StringBuilder sb = new StringBuilder();
+
+        for (char c : chars)
+        {
+            if (c < 32)
+            {
+                // if (!((c == 9) || (c == 10) || (c == 13)))
+                // {
+                // continue;
+                // }
+
+                switch (c)
+                {
+                    case 9: // ASCII 09 (HorizontalTab)
+                    case 10: // ASCII 10 (LineFeed)
+                    case 13: // ASCII 13 (CarriageReturn)
+                        break;
+                    default:
+                        continue;
+                }
+            }
+            else if (c > 126)
+            {
+                continue;
+            }
+
+            chars[pos++] = c;
+            // sb.append(c);
+        }
+
+        return new String(chars, 0, pos);
+        // return sb.toString();
+    }
+
+    /**
      * <pre>
      * StringUtils.repeat(null, 2) = null
      * StringUtils.repeat("", 0)   = ""

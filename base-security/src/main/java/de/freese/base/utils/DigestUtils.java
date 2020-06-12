@@ -22,7 +22,15 @@ public final class DigestUtils
     /**
      *
      */
-    public static final int BUFFER_SIZE = 8 * 1024;
+    public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
+
+    /**
+     * @return {@link MessageDigest}
+     */
+    public static MessageDigest createMd5Digest()
+    {
+        return createMessageDigest("MD5");
+    }
 
     /**
      * Erzeugt den {@link MessageDigest} für die Generierung der Prüfsumme.<br>
@@ -51,9 +59,27 @@ public final class DigestUtils
     /**
      * @return {@link MessageDigest}
      */
+    public static MessageDigest createSha1Digest()
+    {
+        return createMessageDigest("SHA-1");
+    }
+
+    /**
+     * @return {@link MessageDigest}
+     */
     public static MessageDigest createSha256Digest()
     {
         return createMessageDigest("SHA-256");
+    }
+
+    /**
+     * @param messageDigest {@link MessageDigest}
+     * @param bytes byte[]
+     * @return byte[]
+     */
+    public static byte[] digest(final MessageDigest messageDigest, final byte[] bytes)
+    {
+        return messageDigest.digest(bytes);
     }
 
     /**
@@ -75,39 +101,16 @@ public final class DigestUtils
     }
 
     /**
-     * @param messageDigest {@link MessageDigest}
-     * @return String
-     */
-    public static String digestAsHex(final MessageDigest messageDigest)
-    {
-        final byte[] digest = messageDigest.digest();
-        final String hex = ByteUtils.bytesToHex(digest);
-
-        return hex;
-    }
-
-    /**
-     * @param bytes byte[]
-     * @return byte[]
-     */
-    public static byte[] sha256Digest(final byte[] bytes)
-    {
-        final MessageDigest messageDigest = createSha256Digest();
-
-        return messageDigest.digest(bytes);
-    }
-
-    /**
      * Der {@link InputStream} wird NICHT geschlossen !
      *
+     * @param messageDigest {@link MessageDigest}
      * @param inputStream {@link InputStream}
      * @return byte[]
      * @throws IOException Falls was schief geht.
      */
-    public static byte[] sha256Digest(final InputStream inputStream) throws IOException
+    public static byte[] digest(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
     {
-        final MessageDigest messageDigest = createSha256Digest();
-        final byte[] buffer = new byte[BUFFER_SIZE];
+        final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
         int bytesRead = -1;
 
@@ -120,19 +123,18 @@ public final class DigestUtils
     }
 
     /**
+     * @param messageDigest {@link MessageDigest}
      * @param file {@link Path}
-     * @param bufferSize int
      * @return byte[]
      * @throws IOException Falls was schief geht.
      */
-    public static byte[] sha256Digest(final Path file, final int bufferSize) throws IOException
+    public static byte[] digest(final MessageDigest messageDigest, final Path file) throws IOException
     {
-        final MessageDigest messageDigest = createSha256Digest();
         byte[] bytes = null;
 
         try (ReadableByteChannel channel = Files.newByteChannel(file, StandardOpenOption.READ))
         {
-            final ByteBuffer buffer = ByteBuffer.allocateDirect(bufferSize);
+            final ByteBuffer buffer = ByteBuffer.allocateDirect(DEFAULT_BUFFER_SIZE);
 
             while (channel.read(buffer) != -1)
             {
@@ -150,14 +152,43 @@ public final class DigestUtils
     }
 
     /**
-     * @param file {@link Path}
-     * @param bufferSize int
+     * @param messageDigest {@link MessageDigest}
+     * @return String
+     */
+    public static String digestAsHex(final MessageDigest messageDigest)
+    {
+        final byte[] digest = messageDigest.digest();
+        final String hex = de.freese.base.utils.ByteUtils.bytesToHex(digest);
+
+        return hex;
+    }
+
+    /**
+     * Der {@link InputStream} wird NICHT geschlossen !
+     *
+     * @param messageDigest {@link MessageDigest}
+     * @param inputStream {@link InputStream}
      * @return String
      * @throws IOException Falls was schief geht.
      */
-    public static String sha256DigestAsHex(final Path file, final int bufferSize) throws IOException
+    public static String digestAsHex(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
     {
-        final byte[] bytes = sha256Digest(file, bufferSize);
+        final byte[] bytes = digest(messageDigest, inputStream);
+
+        final String hex = de.freese.base.utils.ByteUtils.bytesToHex(bytes);
+
+        return hex;
+    }
+
+    /**
+     * @param messageDigest {@link MessageDigest}
+     * @param file {@link Path}
+     * @return String
+     * @throws IOException Falls was schief geht.
+     */
+    public static String digestAsHex(final MessageDigest messageDigest, final Path file) throws IOException
+    {
+        final byte[] bytes = digest(messageDigest, file);
 
         final String hex = de.freese.base.utils.ByteUtils.bytesToHex(bytes);
 
