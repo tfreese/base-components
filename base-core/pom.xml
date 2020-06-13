@@ -7,7 +7,7 @@
 		<groupId>de.freese.base</groupId>
 		<artifactId>base</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<artifactId>base-core</artifactId>
@@ -15,7 +15,7 @@
 
 	<name>${project.groupId} - ${project.artifactId}</name>
 	<description>Common Classes, Patterns and Interfaces.</description>
-	
+
 	<properties>
 	</properties>
 
@@ -42,6 +42,10 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
@@ -62,6 +66,12 @@
 
 		<!-- runtime scope -->
 		<!-- provided scope -->
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 
 		<!-- test scope -->
 		<dependency>

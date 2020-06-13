@@ -341,6 +341,8 @@ public final class StringUtils
      */
     public static boolean isBlank(final CharSequence cs)
     {
+        // return org.apache.commons.lang3.StringUtils.isBlank(cs);
+
         int strLen;
 
         if ((cs == null) || ((strLen = cs.length()) == 0))
@@ -357,8 +359,6 @@ public final class StringUtils
         }
 
         return true;
-
-        // return org.apache.commons.lang3.StringUtils.isBlank(cs);
     }
 
     /**
@@ -432,6 +432,8 @@ public final class StringUtils
      */
     public static boolean isNumeric(final CharSequence cs)
     {
+        // return org.apache.commons.lang3.StringUtils.isNumeric(cs);
+
         if (isEmpty(cs))
         {
             return false;
@@ -448,8 +450,6 @@ public final class StringUtils
         }
 
         return true;
-
-        // return org.apache.commons.lang3.StringUtils.isNumeric(cs);
     }
 
     /**
@@ -510,6 +510,8 @@ public final class StringUtils
      */
     public static String normalizeSpace(final CharSequence cs)
     {
+        // return org.apache.commons.lang3.StringUtils.normalizeSpace(text);
+
         if (isEmpty(cs))
         {
             return EMPTY;
@@ -544,13 +546,11 @@ public final class StringUtils
         }
 
         return sb.toString().strip();
-
-        // return org.apache.commons.lang3.StringUtils.normalizeSpace(text);
     }
 
     /**
      * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
-     * Ausgenommen: ASCII 09 (HorizontalTab), ASCII 10 (LineFeed), ASCII 13 (CarriageReturn).<br>
+     * Ausgenommen: ASCII 09 (Horizontal Tab), ASCII 10 (Line Feed), ASCII 13 (Carriage Return).<br>
      *
      * @param input input
      * @return String
@@ -565,7 +565,6 @@ public final class StringUtils
 
         int pos = 0;
         char[] chars = input.toCharArray();
-        // StringBuilder sb = new StringBuilder();
 
         for (char c : chars)
         {
@@ -578,9 +577,9 @@ public final class StringUtils
 
                 switch (c)
                 {
-                    case 9: // ASCII 09 (HorizontalTab)
-                    case 10: // ASCII 10 (LineFeed)
-                    case 13: // ASCII 13 (CarriageReturn)
+                    case 9: // ASCII 09 (Horizontal Tab)
+                    case 10: // ASCII 10 (Line Feed)
+                    case 13: // ASCII 13 (Carriage Return)
                         break;
                     default:
                         continue;
@@ -592,11 +591,9 @@ public final class StringUtils
             }
 
             chars[pos++] = c;
-            // sb.append(c);
         }
 
         return new String(chars, 0, pos);
-        // return sb.toString();
     }
 
     /**
@@ -615,6 +612,8 @@ public final class StringUtils
      */
     public static String repeat(final CharSequence cs, final int repeat)
     {
+        // return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
+
         if (cs == null)
         {
             return null;
@@ -638,8 +637,6 @@ public final class StringUtils
         }
 
         return sb.toString();
-
-        // return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
     }
 
     /**
