@@ -11,13 +11,20 @@ project("base-core") {
 	apply plugin: 'java-library'
 	description = "Common Classes, Patterns and Interfaces."
 	dependencies {
+		// api =  scope compile
 		api("commons-codec:commons-codec")
 		api("io.projectreactor:reactor-core")
 		api("javax.xml.bind:jaxb-api")
 		api("org.apache.commons:commons-collections4")
-		api('org.apache.commons:commons-lang3')		
-		api("org.springframework.boot:spring-boot-starter")
+		api('org.apache.commons:commons-lang3')
+		api("org.slf4j:slf4j-api")
+		api("org.springframework:spring-context")
+		
+		// implementation = scope runtime
+		implementation("org.openjdk.jmh:jmh-core")
+		implementation("org.openjdk.jmh:jmh-generator-annprocess")
 
+		// runtimeOnly = scope runtime
 		runtimeOnly("org.slf4j:jcl-over-slf4j")
 
 		testImplementation("io.github.artsok:rerunner-jupiter")
@@ -28,6 +35,7 @@ project("base-core") {
 }
 
 project("base-calendar") {
+	apply plugin: 'java-library'
 	description = "Common Classes for Calendar."
 	dependencies {
 		testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -36,13 +44,15 @@ project("base-calendar") {
 }
 
 project("base-net") {
+	apply plugin: 'java-library'
 	description = "Common Protocols and Classes for the Network Layer."
 	dependencies {
-		implementation("com.jcraft:jsch")
-		implementation("com.sun.mail:jakarta.mail")
-		implementation("commons-codec:commons-codec")
-		implementation("commons-net:commons-net")
-		implementation("org.slf4j:slf4j-api")
+		api(project(":base-core"))
+	
+		api("com.jcraft:jsch")
+		api("com.sun.mail:jakarta.mail")
+		api("commons-net:commons-net")
+		api("org.slf4j:slf4j-api")
     
 		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 		testImplementation("org.slf4j:slf4j-simple")
@@ -50,15 +60,16 @@ project("base-net") {
 }
 
 project("base-persistence") {
+	apply plugin: 'java-library'
 	description = "Common Patterns and Classes for the Persistence Layer."
 	dependencies {
-		implementation(project(":base-core"))
+		api(project(":base-core"))
 		
-		implementation("org.apache.poi:poi-ooxml")
-		implementation("org.apache.commons:commons-dbcp2")
-		implementation("org.apache.tomcat:tomcat-jdbc")
-		implementation("org.springframework.boot:spring-boot-starter-jdbc")
-		implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+		api("org.apache.poi:poi-ooxml")
+		api("org.apache.commons:commons-dbcp2")
+		api("org.apache.tomcat:tomcat-jdbc")
+		api("org.springframework.boot:spring-boot-starter-jdbc")
+		api("org.springframework.boot:spring-boot-starter-data-jpa")
 
 		compileOnly("javax.servlet:javax.servlet-api")
 
@@ -79,13 +90,16 @@ project("base-persistence") {
 }
 
 project("base-pool") {
+	apply plugin: 'java-library'
 	description = "Builder für Object-/Connections Pools."
 	dependencies {
-		compileOnly("com.zaxxer:HikariCP")
-		compileOnly("nf.fr.eraasoft:objectpool")
-		compileOnly("org.apache.commons:commons-dbcp2")
-		compileOnly("org.apache.commons:commons-pool2")
-		compileOnly("org.apache.tomcat:tomcat-jdbc")
+		api(project(":base-core"))
+		
+		api("com.zaxxer:HikariCP")
+		api("nf.fr.eraasoft:objectpool")
+		api("org.apache.commons:commons-dbcp2")
+		api("org.apache.commons:commons-pool2")
+		api("org.apache.tomcat:tomcat-jdbc")
 		
 		runtimeOnly("org.slf4j:jcl-over-slf4j")
 
@@ -99,23 +113,27 @@ project("base-pool") {
 }
 
 project("base-reports") {
+	apply plugin: 'java-library'
 	description = "Common Classes for creating Reports or import Office Documents."
 	dependencies {
-		implementation(project(":base-core"))
+		api(project(":base-core"))
 		
-		implementation("com.itextpdf:itextpdf")
-		implementation("commons-io:commons-io")
-		implementation("org.jfree:jfreechart")
-		implementation("org.apache.poi:poi-ooxml")
-		implementation("org.springframework:spring-core")
-		implementation("net.sourceforge.jexcelapi:jxl")
+		api("com.itextpdf:itextpdf")
+		api("commons-io:commons-io")
+		api("org.jfree:jfreechart")
+		api("org.apache.poi:poi-ooxml")
+		api("org.springframework:spring-core")
+		api("net.sourceforge.jexcelapi:jxl")
+		
+		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 	}
 }
 
 project("base-resourcemap") {
+	apply plugin: 'java-library'
 	description = "ResoureMaps to use hierarchical ResourceBundles."
 	dependencies {
-		implementation(project(":base-core"))
+		api(project(":base-core"))
 		
 		implementation("org.slf4j:slf4j-api")
 
@@ -127,14 +145,15 @@ project("base-resourcemap") {
 }
 
 project("base-security") {
+	apply plugin: 'java-library'
 	description = "Common Classes for the Security Layer."
 	dependencies {
-		implementation(project(":base-core"))
+		api(project(":base-core"))
 	
-		implementation("commons-io:commons-io")
-		implementation("org.bouncycastle:bcpg-jdk15on")
-		implementation("org.bouncycastle:bcmail-jdk15on")
-		implementation("org.slf4j:slf4j-api")
+		api("commons-io:commons-io")
+		api("org.bouncycastle:bcpg-jdk15on")
+		api("org.bouncycastle:bcmail-jdk15on")
+		api("org.slf4j:slf4j-api")
 
 		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 		testImplementation("org.slf4j:slf4j-simple")
@@ -142,19 +161,32 @@ project("base-security") {
 }
 
 project("base-swing") {
+	apply plugin: 'java-library'
 	description = "Components and Classes for Swing."
 	dependencies {
-		implementation(project(":base-core"))
-		implementation(project(":base-net"))
-		implementation(project(":base-resourcemap"))
+		api(project(":base-net"))
+		api(project(":base-resourcemap"))
+		
+		/*def currentOS = org.gradle.internal.os.OperatingSystem.current()
+		def platform = null
+		
+		if (currentOS.isWindows()) {
+		    platform = 'win'
+		} else if (currentOS.isLinux()) {
+		    platform = 'linux'
+		} else if (currentOS.isMacOsX()) {
+		    platform = 'mac'
+		}*/
 
-		implementation("commons-io:commons-io")
-		implementation("com.fasterxml.jackson.core:jackson-databind")
-		implementation("com.sun.mail:jakarta.mail")
-		implementation("javax.xml.bind:jaxb-api")
-		implementation("org.apache.commons:commons-collections4")
-		implementation("org.openjfx:javafx-controls")
-		implementation("org.swinglabs.swingx:swingx-core")
+		api("commons-io:commons-io")
+		api("com.fasterxml.jackson.core:jackson-databind")
+		api("com.sun.mail:jakarta.mail")
+		api("javax.xml.bind:jaxb-api")
+		api("org.apache.commons:commons-collections4")
+		api("org.openjfx:javafx-controls")
+		//api("org.openjfx:javafx-graphics:${platform}")
+		//api("org.openjfx:javafx-base:${platform}")
+		api("org.swinglabs.swingx:swingx-core")
 	}
 }
 
