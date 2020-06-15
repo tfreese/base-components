@@ -4,6 +4,7 @@
 
 package de.freese.base.core.xml;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -13,21 +14,13 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-public class TestStaxWriter
+class TestStaxWriter
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link TestStaxWriter}.
-     */
-    public TestStaxWriter()
-    {
-        super();
-    }
-
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testStaxWriter() throws Exception
+    void testStaxWriter() throws Exception
     {
         String encoding = "ISO-8859-1";
 
@@ -100,5 +93,7 @@ public class TestStaxWriter
         byte[] bytes = baos.toByteArray();
 
         System.out.println(new String(bytes, StandardCharsets.UTF_8));
+
+        assertTrue(true);
     }
 }

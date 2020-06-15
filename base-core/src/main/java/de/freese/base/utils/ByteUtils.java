@@ -20,15 +20,15 @@ public final class ByteUtils
     /**
      *
      */
-    public static final char[] HEX_CHARS =
+    protected static final char[] HEX_CHARS =
     {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
     /**
-     *
-     */
-    public static String HEX_INDEX = "0123456789abcdefABCDEF";
+    *
+    */
+    protected static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
     /**
      * Wandlet das Array in einen HEX-String um.
@@ -76,7 +76,7 @@ public final class ByteUtils
     {
         if (bytes == null)
         {
-            return null;
+            return new byte[0];
         }
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -127,7 +127,7 @@ public final class ByteUtils
     {
         if (bytes == null)
         {
-            return null;
+            return new byte[0];
         }
 
         byte[] decompressed = null;
@@ -242,7 +242,7 @@ public final class ByteUtils
     {
         if (object == null)
         {
-            return null;
+            return new byte[0];
         }
 
         byte[] bytes = SerializationUtils.serialize(object);
@@ -308,7 +308,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;
@@ -346,7 +346,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;
@@ -398,7 +398,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;
@@ -446,7 +446,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;
@@ -493,7 +493,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;
@@ -544,7 +544,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;
@@ -589,7 +589,7 @@ public final class ByteUtils
     {
         if (a == null)
         {
-            return null;
+            return new byte[0];
         }
 
         int n = a.length;

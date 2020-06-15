@@ -209,13 +209,13 @@ public final class ImageUtils
         private final Color foreground;
 
         /**
-         *
-         */
+        *
+        */
         private final int height;
 
         /**
-         *
-         */
+        *
+        */
         private final int width;
 
         /**

@@ -14,21 +14,13 @@ import de.freese.base.core.model.builder.GenericBuilder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestGenericBuilder
+class TestGenericBuilder
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link TestGenericBuilder}.
-     */
-    public TestGenericBuilder()
-    {
-        super();
-    }
-
     /**
      *
      */
     @Test
-    public void test010WithConsumer()
+    void test010WithConsumer()
     {
         //@formatter:off
         List<String> list = GenericBuilder.of(ArrayList<String>::new)
@@ -47,7 +39,7 @@ public class TestGenericBuilder
      *
      */
     @Test
-    public void test020WithBiConsumer()
+    void test020WithBiConsumer()
     {
         //@formatter:off
         List<String> list = GenericBuilder.of(ArrayList<String>::new)
@@ -66,7 +58,7 @@ public class TestGenericBuilder
     *
     */
     @Test
-    public void test030WithMix()
+    void test030WithMix()
     {
        //@formatter:off
        List<String> list = GenericBuilder.of(ArrayList<String>::new)
@@ -85,7 +77,7 @@ public class TestGenericBuilder
     *
     */
     @Test
-    public void test040Multiple()
+    void test040Multiple()
     {
         // 3 Objekte bauen
         int n = 3;

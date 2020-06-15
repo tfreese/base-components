@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * @author Louis Wasserman - Original LongMathTest author
  * @author James P Edwards
  */
-public class LongMathTest
+class LongMathTest
 {
     /**
      *
@@ -116,7 +116,7 @@ public class LongMathTest
      *
      */
     @Test
-    public void testSaturatedAdd()
+    void testSaturatedAdd()
     {
         for (final long a : ALL_LONG_CANDIDATES)
         {

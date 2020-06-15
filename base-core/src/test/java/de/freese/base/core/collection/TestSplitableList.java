@@ -32,7 +32,7 @@ import de.freese.base.core.collection.stream.SplitableList;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestSplitableList
+class TestSplitableList
 {
     /**
      *
@@ -78,20 +78,12 @@ public class TestSplitableList
     }
 
     /**
-     * Erstellt ein neues {@link TestSplitableList} Object.
-     */
-    public TestSplitableList()
-    {
-        super();
-    }
-
-    /**
      * @param splitableListName String
      * @param splitableListSupplier {@link Supplier}
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test010List(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
+    void test010List(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
     {
         SplitableList<Integer> list = splitableListSupplier.get();
 
@@ -109,7 +101,7 @@ public class TestSplitableList
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test020Iterator(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
+    void test020Iterator(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
     {
         SplitableList<Integer> list = splitableListSupplier.get();
 
@@ -133,7 +125,7 @@ public class TestSplitableList
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test030Stream(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
+    void test030Stream(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
     {
         SplitableList<Integer> list = splitableListSupplier.get();
 
@@ -147,7 +139,7 @@ public class TestSplitableList
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test040Stats(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
+    void test040Stats(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
     {
         SplitableList<Integer> list = splitableListSupplier.get();
 
@@ -172,7 +164,7 @@ public class TestSplitableList
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test050SubList(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
+    void test050SubList(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
     {
         SplitableList<Integer> list = splitableListSupplier.get();
 
@@ -223,7 +215,7 @@ public class TestSplitableList
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test060Set(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
+    void test060Set(final String splitableListName, final Supplier<SplitableList<Integer>> splitableListSupplier)
     {
         SplitableList<Integer> list = splitableListSupplier.get();
 

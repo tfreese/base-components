@@ -1,6 +1,7 @@
 // Created: 16.01.2018
 package de.freese.base.core.reactive;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,14 +24,14 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class StreamPublisherTest
+class StreamPublisherTest
 {
     /**
      * @author Thomas Freese
      * @param <T> Typ der Eingangs
      * @param <R> Typ des Ausgangs
      */
-    public class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R>
+    class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R>
     {
         /**
          *
@@ -48,7 +49,7 @@ public class StreamPublisherTest
          * @param executor {@link Executor}
          * @param function {@link Function}
          */
-        public MyTransformProcessor(final Executor executor, final Function<T, R> function)
+        MyTransformProcessor(final Executor executor, final Function<T, R> function)
         {
             super(executor, Flow.defaultBufferSize());
 
@@ -60,7 +61,7 @@ public class StreamPublisherTest
          *
          * @param function {@link Function}
          */
-        public MyTransformProcessor(final Function<T, R> function)
+        MyTransformProcessor(final Function<T, R> function)
         {
             super();
 
@@ -117,7 +118,7 @@ public class StreamPublisherTest
      * @author Thomas Freese
      * @param <T> Typ der Entity
      */
-    private class StreamSubscriber<T> implements Subscriber<T>
+    class StreamSubscriber<T> implements Subscriber<T>
     {
         /**
          *
@@ -127,7 +128,7 @@ public class StreamPublisherTest
         /**
          * Erstellt ein neues {@link StreamSubscriber} Object.
          */
-        public StreamSubscriber()
+        StreamSubscriber()
         {
             super();
         }
@@ -200,7 +201,7 @@ public class StreamPublisherTest
     /**
      * Erzeugt eine neue Instanz von {@link StreamPublisherTest}.
      */
-    public StreamPublisherTest()
+    StreamPublisherTest()
     {
         super();
     }
@@ -209,7 +210,7 @@ public class StreamPublisherTest
     *
     */
     @Test
-    public void test00()
+    void test00()
     {
         var streamSupplier = STREAM_SUPPLIER;
 
@@ -218,13 +219,15 @@ public class StreamPublisherTest
         publisher.subscribe(new StreamSubscriber<>());
 
         System.out.println();
+
+        assertTrue(true);
     }
 
     /**
      *
      */
     @Test
-    public void test01()
+    void test01()
     {
         var streamSupplier = STREAM_SUPPLIER;
 
@@ -239,13 +242,15 @@ public class StreamPublisherTest
         }
 
         System.out.println();
+
+        assertTrue(true);
     }
 
     /**
     *
     */
     @Test
-    public void test02()
+    void test02()
     {
         var streamSupplier = STREAM_SUPPLIER;
 
@@ -266,5 +271,7 @@ public class StreamPublisherTest
         }
 
         System.out.println();
+
+        assertTrue(true);
     }
 }

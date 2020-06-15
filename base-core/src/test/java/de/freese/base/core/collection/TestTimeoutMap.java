@@ -17,21 +17,13 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestTimeoutMap
+class TestTimeoutMap
 {
-    /**
-     * Erstellt ein neues {@link TestTimeoutMap} Object.
-     */
-    public TestTimeoutMap()
-    {
-        super();
-    }
-
     /**
      *
      */
     @Test
-    public void test010TimeoutValue()
+    void test010TimeoutValue()
     {
         TimeoutMap<String, String> map = new TimeoutMap<>(3, TimeUnit.SECONDS);
 
@@ -44,13 +36,13 @@ public class TestTimeoutMap
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test020PutGet() throws Exception
+    void test020PutGet() throws Exception
     {
         TimeoutMap<String, String> map = new TimeoutMap<>(3, TimeUnit.SECONDS);
 
         map.put("key", "value");
 
-        Thread.sleep(2000);
+        TimeUnit.MILLISECONDS.sleep(2000);
 
         assertEquals("value", map.get("key"));
         assertEquals(1, map.size());
@@ -60,7 +52,7 @@ public class TestTimeoutMap
         assertTrue(map.containsKey("key"));
         assertTrue(map.containsValue("value"));
 
-        Thread.sleep(1001);
+        TimeUnit.MILLISECONDS.sleep(1001);
 
         assertNull(map.get("key"));
         assertEquals(0, map.size());

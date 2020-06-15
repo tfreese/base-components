@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import javax.activation.DataSource;
 
@@ -249,7 +250,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
             // Assumption that the string contains only ASCII
             // characters! Otherwise just pass a charset into this
             // constructor and use it in getBytes()
-            this.data = data.getBytes("ISO-8859-1");
+            this.data = data.getBytes(StandardCharsets.ISO_8859_1);
         }
 
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");

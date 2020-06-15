@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-public class TestStringUtils
+class TestStringUtils
 {
     /**
      *
      */
     @Test
-    public void testRemoveControlCharacters()
+    void testRemoveControlCharacters()
     {
         StringBuilder sb = new StringBuilder();
         sb.append((char) 97); // a
@@ -38,7 +38,7 @@ public class TestStringUtils
      *
      */
     @Test
-    public void testStringUtilsNormalizeSpace()
+    void testStringUtilsNormalizeSpace()
     {
         String text = "  ab c  d    efg ";
         String result = StringUtils.normalizeSpace(text);

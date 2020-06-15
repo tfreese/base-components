@@ -266,15 +266,14 @@ public final class StringUtils
         // @formatter:off
         IntStream.range(0, columnCount).forEach(column
                 ->
-                {
                     columnWidths[column]  = list.stream()
                             .parallel()
                             .map(d -> d[column])
                             .filter(Objects::nonNull)
                             .mapToInt(CharSequence::length)
                             .max()
-                            .orElse(0);
-                });
+                            .orElse(0)
+                );
         // @formatter:on
 
         return columnWidths;
@@ -538,7 +537,7 @@ public final class StringUtils
                 sb.append(actualChar);
                 lastWasWhitespace = false;
             }
-            else if (!lastWasWhitespace && isActualWhitespace)
+            else if (!lastWasWhitespace)
             {
                 sb.append(ASCII_SPACE);
                 lastWasWhitespace = true;
@@ -747,23 +746,23 @@ public final class StringUtils
             return EMPTY;
         }
 
-        String m_Text = text.strip();
+        String mText = text.strip();
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < (m_Text.length() - 1); i++)
+        for (int i = 0; i < (mText.length() - 1); i++)
         {
-            char c = m_Text.charAt(i);
+            char c = mText.charAt(i);
             sb.append(c);
 
-            if ((Character.isLowerCase(c) && Character.isUpperCase(m_Text.charAt(i + 1))))
+            if ((Character.isLowerCase(c) && Character.isUpperCase(mText.charAt(i + 1))))
             {
                 sb.append(" ");
             }
         }
 
         // Das letzte Zeichen nicht vergessen.
-        sb.append(m_Text.charAt(m_Text.length() - 1));
+        sb.append(mText.charAt(mText.length() - 1));
 
         return sb.toString();
     }
@@ -880,7 +879,7 @@ public final class StringUtils
                 .map(t -> t.split(SPACE))
                 .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
                 //.peek(System.out::println)
-                .filter(s -> isNotBlank(s)) // leere Strings filtern
+                .filter(StringUtils::isNotBlank) // leere Strings filtern
                 .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
         // @formatter:on
 

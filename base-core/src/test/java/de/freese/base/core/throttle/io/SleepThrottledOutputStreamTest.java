@@ -17,7 +17,7 @@ import de.freese.base.core.io.AbstractIoTest;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class SleepThrottledOutputStreamTest extends AbstractIoTest
+class SleepThrottledOutputStreamTest extends AbstractIoTest
 {
     /**
      * @param permits int

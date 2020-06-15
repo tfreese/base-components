@@ -21,7 +21,7 @@ import io.github.artsok.RepeatedIfExceptionsTest;
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Disabled // Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
-public class TestCompletableFuture
+class TestCompletableFuture
 {
     /**
      *
@@ -87,14 +87,6 @@ public class TestCompletableFuture
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link TestCompletableFuture}.
-     */
-    public TestCompletableFuture()
-    {
-        super();
-    }
-
-    /**
      * @return String
      */
     String getCurrentThreadName()
@@ -113,7 +105,7 @@ public class TestCompletableFuture
     {
         try
         {
-            Thread.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(100);
         }
         catch (Exception ex)
         {
@@ -126,7 +118,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test010RunAsyncThenAccept() throws Exception
+    void test010RunAsyncThenAccept() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -149,7 +141,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test011RunAsyncThenAcceptAsync() throws Exception
+    void test011RunAsyncThenAcceptAsync() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -172,7 +164,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test012RunAsyncThenApply() throws Exception
+    void test012RunAsyncThenApply() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -196,7 +188,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test013RunAsyncThenApplyAsync() throws Exception
+    void test013RunAsyncThenApplyAsync() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -220,7 +212,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test014RunAsyncThenRun() throws Exception
+    void test014RunAsyncThenRun() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -243,7 +235,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test015RunAsyncThenRunAsync() throws Exception
+    void test015RunAsyncThenRunAsync() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -266,7 +258,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test020SupplyAsyncThenAccept() throws Exception
+    void test020SupplyAsyncThenAccept() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -290,7 +282,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test021SupplyAsyncThenAcceptAsync() throws Exception
+    void test021SupplyAsyncThenAcceptAsync() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -314,7 +306,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test022SupplyAsyncThenApplyThenAccept() throws Exception
+    void test022SupplyAsyncThenApplyThenAccept() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -343,7 +335,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test023SupplyAsyncThenApplyAsyncThenAccept() throws Exception
+    void test023SupplyAsyncThenApplyAsyncThenAccept() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
@@ -372,7 +364,7 @@ public class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
-    public void test024SupplyAsyncThenApplyAsyncThenAcceptAsync() throws Exception
+    void test024SupplyAsyncThenApplyAsyncThenAcceptAsync() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");

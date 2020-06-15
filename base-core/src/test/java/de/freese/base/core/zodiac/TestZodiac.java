@@ -4,7 +4,7 @@
 
 package de.freese.base.core.zodiac;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -20,178 +20,170 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestZodiac
+class TestZodiac
 {
-    /**
-     * Erstellt ein neues {@link TestZodiac} Object.
-     */
-    public TestZodiac()
-    {
-        super();
-    }
-
     /**
      * Wassermann, 21.01. - 19.02.
      */
     @Test
-    public void testAquarius()
+    void testAquarius()
     {
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.MONTH, Calendar.JANUARY);
         calendar.set(Calendar.DAY_OF_MONTH, 21);
         Zodiac zodiac = Zodiac.getZodiac(calendar.getTime());
-        assertTrue(Zodiac.AQUARIUS.equals(zodiac));
+        assertEquals(Zodiac.AQUARIUS, zodiac);
 
         calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
         calendar.set(Calendar.DAY_OF_MONTH, 19);
         zodiac = Zodiac.getZodiac(calendar.getTime());
-        assertTrue(Zodiac.AQUARIUS.equals(zodiac));
+        assertEquals(Zodiac.AQUARIUS, zodiac);
     }
 
     /**
      * Widder, 21.03. - 20.04.
      */
     @Test
-    public void testAries()
+    void testAries()
     {
         LocalDate localDate = LocalDate.now().withMonth(Month.MARCH.getValue()).withDayOfMonth(21);
         Zodiac zodiac = Zodiac.getZodiac(localDate);
-        assertTrue(Zodiac.ARIES.equals(zodiac));
+        assertEquals(Zodiac.ARIES, zodiac);
 
         localDate = localDate.withMonth(Month.APRIL.getValue()).withDayOfMonth(20);
         zodiac = Zodiac.getZodiac(localDate);
-        assertTrue(Zodiac.ARIES.equals(zodiac));
+        assertEquals(Zodiac.ARIES, zodiac);
     }
 
     /**
      * Krebs, 22.06. - 22.07.
      */
     @Test
-    public void testCancer()
+    void testCancer()
     {
         LocalDateTime localDateTime = LocalDateTime.now().withMonth(Month.JUNE.getValue()).withDayOfMonth(22);
         Zodiac zodiac = Zodiac.getZodiac(localDateTime);
-        assertTrue(Zodiac.CANCER.equals(zodiac));
+        assertEquals(Zodiac.CANCER, zodiac);
 
         localDateTime = localDateTime.withMonth(Month.JULY.getValue()).withDayOfMonth(22);
         zodiac = Zodiac.getZodiac(localDateTime);
-        assertTrue(Zodiac.CANCER.equals(zodiac));
+        assertEquals(Zodiac.CANCER, zodiac);
     }
 
     /**
      * Steinbock, 22.12. - 20.01.
      */
     @Test
-    public void testCapricorn()
+    void testCapricorn()
     {
         Zodiac zodiac = Zodiac.getZodiac(Month.DECEMBER.getValue(), 22);
-        assertTrue(Zodiac.CAPRICORN.equals(zodiac));
+        assertEquals(Zodiac.CAPRICORN, zodiac);
 
         zodiac = Zodiac.getZodiac(Month.JANUARY.getValue(), 20);
-        assertTrue(Zodiac.CAPRICORN.equals(zodiac));
+        assertEquals(Zodiac.CAPRICORN, zodiac);
     }
 
     /**
      * Zwillinge, 21.05. - 21.06.
      */
     @Test
-    public void testGemini()
+    void testGemini()
     {
         Zodiac zodiac = Zodiac.getZodiac(5, 21);
-        assertTrue(Zodiac.GEMINI.equals(zodiac));
+        assertEquals(Zodiac.GEMINI, zodiac);
 
         zodiac = Zodiac.getZodiac(6, 21);
-        assertTrue(Zodiac.GEMINI.equals(zodiac));
+        assertEquals(Zodiac.GEMINI, zodiac);
     }
 
     /**
      * Loewe, 23.07. - 23.08.
      */
     @Test
-    public void testLeo()
+    void testLeo()
     {
         Zodiac zodiac = Zodiac.getZodiac(7, 23);
-        assertTrue(Zodiac.LEO.equals(zodiac));
+        assertEquals(Zodiac.LEO, zodiac);
 
         zodiac = Zodiac.getZodiac(8, 23);
-        assertTrue(Zodiac.LEO.equals(zodiac));
+        assertEquals(Zodiac.LEO, zodiac);
     }
 
     /**
      * Waage, 24.09. - 23.10.
      */
     @Test
-    public void testLibra()
+    void testLibra()
     {
         Zodiac zodiac = Zodiac.getZodiac(9, 24);
-        assertTrue(Zodiac.LIBRA.equals(zodiac));
+        assertEquals(Zodiac.LIBRA, zodiac);
 
         zodiac = Zodiac.getZodiac(10, 23);
-        assertTrue(Zodiac.LIBRA.equals(zodiac));
+        assertEquals(Zodiac.LIBRA, zodiac);
     }
 
     /**
      * Fische, 20.02. - 20.03.
      */
     @Test
-    public void testPisces()
+    void testPisces()
     {
         Zodiac zodiac = Zodiac.getZodiac(2, 20);
-        assertTrue(Zodiac.PISCES.equals(zodiac));
+        assertEquals(Zodiac.PISCES, zodiac);
 
         zodiac = Zodiac.getZodiac(3, 20);
-        assertTrue(Zodiac.PISCES.equals(zodiac));
+        assertEquals(Zodiac.PISCES, zodiac);
     }
 
     /**
      * Schuetze, 23.11. - 21.12.
      */
     @Test
-    public void testSagittarius()
+    void testSagittarius()
     {
         Zodiac zodiac = Zodiac.getZodiac(11, 23);
-        assertTrue(Zodiac.SAGITTARIUS.equals(zodiac));
+        assertEquals(Zodiac.SAGITTARIUS, zodiac);
 
         zodiac = Zodiac.getZodiac(12, 21);
-        assertTrue(Zodiac.SAGITTARIUS.equals(zodiac));
+        assertEquals(Zodiac.SAGITTARIUS, zodiac);
     }
 
     /**
      * Skorpion, 24.10. - 22.11.
      */
     @Test
-    public void testScorpio()
+    void testScorpio()
     {
         Zodiac zodiac = Zodiac.getZodiac(10, 24);
-        assertTrue(Zodiac.SCORPIO.equals(zodiac));
+        assertEquals(Zodiac.SCORPIO, zodiac);
 
         zodiac = Zodiac.getZodiac(11, 22);
-        assertTrue(Zodiac.SCORPIO.equals(zodiac));
+        assertEquals(Zodiac.SCORPIO, zodiac);
     }
 
     /**
      * Stier, 21.04. - 20.05.
      */
     @Test
-    public void testTaurus()
+    void testTaurus()
     {
         Zodiac zodiac = Zodiac.getZodiac(4, 21);
-        assertTrue(Zodiac.TAURUS.equals(zodiac));
+        assertEquals(Zodiac.TAURUS, zodiac);
 
         zodiac = Zodiac.getZodiac(5, 20);
-        assertTrue(Zodiac.TAURUS.equals(zodiac));
+        assertEquals(Zodiac.TAURUS, zodiac);
     }
 
     /**
      * Jungfrau, 24.08. - 23.09.
      */
     @Test
-    public void testVirgo()
+    void testVirgo()
     {
         Zodiac zodiac = Zodiac.getZodiac(8, 24);
-        assertTrue(Zodiac.VIRGO.equals(zodiac));
+        assertEquals(Zodiac.VIRGO, zodiac);
 
         zodiac = Zodiac.getZodiac(9, 23);
-        assertTrue(Zodiac.VIRGO.equals(zodiac));
+        assertEquals(Zodiac.VIRGO, zodiac);
     }
 }

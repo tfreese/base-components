@@ -3,6 +3,7 @@ package de.freese.base.utils;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringReader;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -36,6 +37,11 @@ public final class XMLUtils
     public static Document getDocument(final InputSource inputSource) throws Exception
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        // Protect against to XXE attacks.
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
+
         factory.setValidating(false);
 
         Document document = factory.newDocumentBuilder().parse(inputSource);

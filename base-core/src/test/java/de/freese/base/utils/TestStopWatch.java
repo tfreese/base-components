@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-public class TestStopWatch
+class TestStopWatch
 {
     /**
      *
      */
     @Test
-    public void testNanoConvert()
+    void testNanoConvert()
     {
         long nanos = 1_000_000_000L;
 
@@ -32,7 +32,7 @@ public class TestStopWatch
      * @throws InterruptedException Falls was schief geht.
      */
     @Test
-    public void testPrettyPrint() throws InterruptedException
+    void testPrettyPrint() throws InterruptedException
     {
         StopWatch stopWatch = new StopWatch();
         assertEquals("StopWatch-1", stopWatch.getId());

@@ -20,7 +20,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestResourceCache
+class TestResourceCache
 {
     /**
      *
@@ -41,7 +41,7 @@ public class TestResourceCache
      *
      */
     @AfterAll
-    public static void afterAll()
+    static void afterAll()
     {
         CACHE.clear();
     }
@@ -50,7 +50,7 @@ public class TestResourceCache
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    public static void beforeAll() throws Exception
+    static void beforeAll() throws Exception
     {
         // CACHE = new FileCache();
         CACHE = new MemoryResourceCache();
@@ -59,18 +59,10 @@ public class TestResourceCache
     }
 
     /**
-     * Erstellt ein neues {@link TestResourceCache} Object.
-     */
-    public TestResourceCache()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @AfterEach
-    public void afterEach()
+    void afterEach()
     {
         // Empty
     }
@@ -79,7 +71,7 @@ public class TestResourceCache
      *
      */
     @BeforeEach
-    public void beforeEach()
+    void beforeEach()
     {
         // Empty
     }
@@ -89,7 +81,7 @@ public class TestResourceCache
      */
     @SuppressWarnings("resource")
     @Test
-    public void test0010FileCache()
+    void test0010FileCache()
     {
         Optional<InputStream> optional = CACHE.getResource(URL_FILE);
         assertNotNull(optional);
@@ -106,7 +98,7 @@ public class TestResourceCache
      */
     @SuppressWarnings("resource")
     @Test
-    public void test0020URLCache()
+    void test0020URLCache()
     {
         Optional<InputStream> optional = CACHE.getResource(URL_IMAGE);
         assertNotNull(optional);

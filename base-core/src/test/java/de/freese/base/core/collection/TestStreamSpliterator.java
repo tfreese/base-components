@@ -33,7 +33,7 @@ import de.freese.base.core.collection.stream.spliterator.SplitableListSpliterato
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestStreamSpliterator
+class TestStreamSpliterator
 {
     /**
      * Summe 55
@@ -74,20 +74,12 @@ public class TestStreamSpliterator
     }
 
     /**
-     * Erstellt ein neues {@link TestStreamSpliterator} Object.
-     */
-    public TestStreamSpliterator()
-    {
-        super();
-    }
-
-    /**
      * @param spliteratorName String
      * @param spliterator {@link Supplier}
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test010Summe(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
+    void test010Summe(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
     {
         assertEquals(55, StreamSupport.stream(spliterator.get(), false).mapToInt(n -> n).sum());
         assertEquals(55, StreamSupport.stream(spliterator.get(), true).parallel().mapToInt(n -> n).sum());
@@ -99,7 +91,7 @@ public class TestStreamSpliterator
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test020ToString(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
+    void test020ToString(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
     {
         Function<Integer, String> intToString = (n) -> Integer.toString(n);
 
@@ -113,7 +105,7 @@ public class TestStreamSpliterator
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    public void test030Stats(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
+    void test030Stats(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
     {
         IntSummaryStatistics stats = StreamSupport.stream(spliterator.get(), false).mapToInt(n -> n).summaryStatistics();
         assertEquals(10, stats.getCount());

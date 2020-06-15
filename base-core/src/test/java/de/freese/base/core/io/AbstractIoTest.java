@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * @author Thomas Freese
  */
-public class AbstractIoTest
+public abstract class AbstractIoTest
 {
     /**
      * Paths.get(System.getProperty("java.io.tmpdir"), "jsync")<br>

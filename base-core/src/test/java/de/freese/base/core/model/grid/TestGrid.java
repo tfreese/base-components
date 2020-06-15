@@ -43,21 +43,13 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class TestGrid
+class TestGrid
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link TestGrid}.
-     */
-    public TestGrid()
-    {
-        super();
-    }
-
     /**
     *
     */
     @Test
-    public void testGridBuilder()
+    void testGridBuilder()
     {
        //@formatter:off
        Grid grid = GridBuilder.create()
@@ -101,7 +93,7 @@ public class TestGrid
      * @throws ClassNotFoundException Falls was schief geht.
      */
     @Test
-    public void testGridMetaSave() throws IOException, ClassNotFoundException
+    void testGridMetaSave() throws IOException, ClassNotFoundException
     {
         //@formatter:off
         Grid grid = GridBuilder.create()
@@ -162,7 +154,7 @@ public class TestGrid
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void testGridResultSet() throws SQLException
+    void testGridResultSet() throws SQLException
     {
         Object[][] data = new Object[][]
         {
@@ -250,7 +242,7 @@ public class TestGrid
      * @throws ClassNotFoundException Falls was schief geht.
      */
     @Test
-    public void testGridSave() throws IOException, ClassNotFoundException
+    void testGridSave() throws IOException, ClassNotFoundException
     {
         Grid grid1 = new Grid();
         grid1.addColumn(new BinaryGridColumn());

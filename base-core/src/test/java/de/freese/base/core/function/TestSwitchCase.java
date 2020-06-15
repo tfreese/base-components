@@ -14,21 +14,13 @@ import de.freese.base.core.function.usecase.Switch.Case;
 /**
  * @author Thomas Freese
  */
-public class TestSwitchCase
+class TestSwitchCase
 {
-    /**
-     * Erstellt ein neues {@link TestSwitchCase} Object.
-     */
-    public TestSwitchCase()
-    {
-        super();
-    }
-
     /**
      *
      */
     @Test
-    public void testUseCase()
+    void testUseCase()
     {
         for (int j = 0; j < 5; j++)
         {

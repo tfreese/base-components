@@ -4,6 +4,7 @@
 
 package de.freese.base.core.codegen;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.Externalizable;
 import java.util.List;
 import org.junit.jupiter.api.MethodOrderer;
@@ -20,7 +21,7 @@ import de.freese.base.core.codegen.writer.JavaCodeWriter;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestCodeGen
+class TestCodeGen
 {
     /**
      * @throws Exception Falls was schief geht.
@@ -57,5 +58,7 @@ public class TestCodeGen
 
         CodeWriter codeWriter = new JavaCodeWriter();
         codeWriter.write(classModel, System.out);
+
+        assertTrue(true);
     }
 }

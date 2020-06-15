@@ -35,16 +35,8 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestGridColumns
+class TestGridColumns
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link TestGridColumns}.
-     */
-    public TestGridColumns()
-    {
-        super();
-    }
-
     /**
      * @param column {@link GridColumn}
      * @param bytes byte[]
@@ -67,7 +59,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testBinary() throws IOException
+    void testBinary() throws IOException
     {
         BinaryGridColumn column = new BinaryGridColumn();
 
@@ -89,7 +81,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testBoolean() throws IOException
+    void testBoolean() throws IOException
     {
         BooleanGridColumn column = new BooleanGridColumn();
 
@@ -108,7 +100,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testDate() throws IOException
+    void testDate() throws IOException
     {
         DateGridColumn column = new DateGridColumn();
 
@@ -130,7 +122,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testDouble() throws IOException
+    void testDouble() throws IOException
     {
         DoubleGridColumn column = new DoubleGridColumn();
 
@@ -149,7 +141,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testGeneric() throws IOException
+    void testGeneric() throws IOException
     {
         ZoneId zoneId = ZoneId.systemDefault();
         // ZoneId zoneId = ZoneId.of("Europe/Berlin");
@@ -194,7 +186,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testInteger() throws IOException
+    void testInteger() throws IOException
     {
         IntegerGridColumn column = new IntegerGridColumn();
 
@@ -213,7 +205,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testLong() throws IOException
+    void testLong() throws IOException
     {
         LongGridColumn column = new LongGridColumn();
 
@@ -232,7 +224,7 @@ public class TestGridColumns
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testString() throws IOException
+    void testString() throws IOException
     {
         StringGridColumn column = new StringGridColumn();
 
