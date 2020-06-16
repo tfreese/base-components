@@ -136,8 +136,8 @@ public class FileResourceCache extends AbstractResourceCache
     {
         //@formatter:off
         return Stream.of(url)
-                .map(u -> generateKey(u))
-                .map(key -> this.cacheDirectory.resolve(key))
+                .map(this::generateKey)
+                .map(this.cacheDirectory::resolve)
                 .map(path -> {
                     try
                     {

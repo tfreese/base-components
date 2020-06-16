@@ -15,7 +15,7 @@ public class NamePreservingRunnable implements Runnable
     /**
      *
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(NamePreservingRunnable.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NamePreservingRunnable.class);
 
     /**
      *

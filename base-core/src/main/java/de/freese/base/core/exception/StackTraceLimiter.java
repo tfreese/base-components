@@ -59,7 +59,7 @@ public class StackTraceLimiter
      */
     public static void printStackTrace(final Throwable th, final PrintStream ps, final int elements)
     {
-        printStackTrace(th, obj -> ps.println(obj), elements);
+        printStackTrace(th, ps::println, elements);
     }
 
     /**
@@ -71,7 +71,7 @@ public class StackTraceLimiter
      */
     public static void printStackTrace(final Throwable th, final PrintWriter pw, final int elements)
     {
-        printStackTrace(th, obj -> pw.println(obj), elements);
+        printStackTrace(th, pw::println, elements);
     }
 
     /**

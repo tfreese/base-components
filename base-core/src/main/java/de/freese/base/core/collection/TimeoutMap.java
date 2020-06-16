@@ -21,19 +21,19 @@ import java.util.stream.Collectors;
 public class TimeoutMap<K, V> implements Map<K, V>
 {
     /**
+    *
+    */
+    private final Map<K, V> backend;
+
+    /**
      * Millisekunden, Default = 24 Stunden
      */
-    private long timeoutInMillis = 1000 * 60 * 60 * 24;
+    private long timeoutInMillis = 1000 * 60 * 60 * 24L;
 
     /**
      *
      */
     private final Map<K, Long> timestampMap;
-
-    /**
-    *
-    */
-    private final Map<K, V> backend;
 
     /**
      * Erstellt ein neues {@link TimeoutMap} Object mit einer {@link HashMap} als Backend.

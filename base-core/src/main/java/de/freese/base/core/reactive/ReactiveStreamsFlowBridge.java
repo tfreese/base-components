@@ -45,7 +45,7 @@ public final class ReactiveStreamsFlowBridge
                 return;
             }
 
-            this.reactiveStreams.subscribe(new ReactiveToFlowSubscriber<T>(flow));
+            this.reactiveStreams.subscribe(new ReactiveToFlowSubscriber<>(flow));
         }
     }
 
@@ -120,7 +120,7 @@ public final class ReactiveStreamsFlowBridge
                 return;
             }
 
-            this.reactiveStreams.subscribe(new ReactiveToFlowSubscriber<U>(s));
+            this.reactiveStreams.subscribe(new ReactiveToFlowSubscriber<>(s));
         }
     }
 
@@ -257,7 +257,7 @@ public final class ReactiveStreamsFlowBridge
                 return;
             }
 
-            this.flow.subscribe(new FlowToReactiveSubscriber<T>(reactive));
+            this.flow.subscribe(new FlowToReactiveSubscriber<>(reactive));
         }
     }
 
@@ -333,7 +333,7 @@ public final class ReactiveStreamsFlowBridge
                 return;
             }
 
-            this.flow.subscribe(new FlowToReactiveSubscriber<U>(s));
+            this.flow.subscribe(new FlowToReactiveSubscriber<>(s));
         }
     }
 

@@ -100,7 +100,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
         writeJavaDoc(output, classModel.getComments(), "");
 
         // Class-Annotations
-        classModel.getAnnotations().forEach(i -> output.println(i));
+        classModel.getAnnotations().forEach(output::println);
 
         output.print("public class " + classModel.getName());
 
@@ -180,9 +180,9 @@ public abstract class AbstractCodeWriter implements CodeWriter
                 // output.printf(TAB + TAB + "this.%1$s = %1$s;%n", fieldModel.getName());
                 // }
                 // else
-                {
-                    output.printf(TAB + TAB + "this.%1$s = Objects.requireNonNull(%1$s, \"not null value: %1$s required\");%n", fieldModel.getName());
-                }
+                // {
+                output.printf(TAB + TAB + "this.%1$s = Objects.requireNonNull(%1$s, \"not null value: %1$s required\");%n", fieldModel.getName());
+                // }
             }
 
             output.println(TAB + "}");
@@ -444,9 +444,9 @@ public abstract class AbstractCodeWriter implements CodeWriter
             output.println(TAB + "{");
 
             // if (fieldModel.getColumn().isNullable())
-            {
-                output.printf(TAB + TAB + "this.%1$s = %1$s;%n", name);
-            }
+            // {
+            output.printf(TAB + TAB + "this.%1$s = %1$s;%n", name);
+            // }
             // else
             // {
             // output.printf(TAB + TAB + "this.%1$s = Objects.requireNonNull(%1$s, \"not null value: %1$s required\");%n", fieldName);

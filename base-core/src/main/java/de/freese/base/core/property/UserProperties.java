@@ -45,6 +45,26 @@ public class UserProperties
     }
 
     /**
+     * Erzeugt ein neues UserProperty fuer einen Key und einen {@link PropertyType}.
+     *
+     * @param key String
+     * @param type {@link PropertyType}
+     * @return {@link UserProperty}
+     */
+    private UserProperty createProperty(final String key, final PropertyType type)
+    {
+        UserProperty property = new UserProperty();
+        property.setUserName(this.userID);
+        property.setType(type);
+        property.setKey(key);
+        property.setCreated(true);
+
+        this.cache.get(type).put(key, property);
+
+        return property;
+    }
+
+    /**
      * Liefert den boolean Wert des Propertys fuer einen Key und {@link PropertyType}.
      *
      * @param key String
@@ -188,6 +208,18 @@ public class UserProperties
         }
 
         return properties;
+    }
+
+    /**
+     * Liefert das {@link UserProperty} fuer den Key und den Typen.
+     *
+     * @param key String
+     * @param type {@link PropertyType}
+     * @return {@link UserProperty}; kann auch null sein
+     */
+    private UserProperty getProperty(final String key, final PropertyType type)
+    {
+        return this.cache.computeIfAbsent(type, k -> new HashMap<>()).get(key);
     }
 
     /**
@@ -421,7 +453,7 @@ public class UserProperties
         // TypeCache aufbauen
         for (PropertyType type : PropertyType.values())
         {
-            this.cache.put(type, new HashMap<String, UserProperty>());
+            this.cache.put(type, new HashMap<>());
         }
 
         // PropertyCache aufbauen
@@ -469,45 +501,5 @@ public class UserProperties
     public void setUserID(final String userID)
     {
         this.userID = userID;
-    }
-
-    /**
-     * Erzeugt ein neues UserProperty fuer einen Key und einen {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @return {@link UserProperty}
-     */
-    private UserProperty createProperty(final String key, final PropertyType type)
-    {
-        UserProperty property = new UserProperty();
-        property.setUserName(this.userID);
-        property.setType(type);
-        property.setKey(key);
-        property.setCreated(true);
-
-        this.cache.get(type).put(key, property);
-
-        return property;
-    }
-
-    /**
-     * Liefert das {@link UserProperty} fuer den Key und den Typen.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @return {@link UserProperty}; kann auch null sein
-     */
-    private UserProperty getProperty(final String key, final PropertyType type)
-    {
-        Map<String, UserProperty> typeCache = this.cache.get(type);
-
-        if (typeCache == null)
-        {
-            typeCache = new HashMap<>();
-            this.cache.put(type, typeCache);
-        }
-
-        return typeCache.get(key);
     }
 }

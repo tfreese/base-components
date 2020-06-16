@@ -5,120 +5,112 @@ import java.util.Map;
 
 /**
  * Klasse fuer temporaere Daten, welche waehrend des Speichervorgangs benoetigt werden.
- * 
+ *
  * @author Thomas Freese
  */
 public class SaveContext
 {
-	/**
-	 * 
-	 */
-	private transient Map<Object, Object> attributes = new HashMap<>();
+    /**
+     * 
+     */
+    private transient Map<Object, Object> attributes = new HashMap<>();
 
-	/**
-	 * 
-	 */
-	private Map<Class<?>, Map<Long, Long>> primaryKeyMap = new HashMap<>();
+    /**
+     * 
+     */
+    private Map<Class<?>, Map<Long, Long>> primaryKeyMap = new HashMap<>();
 
-	/**
-	 * Erstellt ein neues {@link SaveContext} Object.
-	 */
-	public SaveContext()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link SaveContext} Object.
+     */
+    public SaveContext()
+    {
+        super();
+    }
 
-	/**
-	 * Aufraeumen.
-	 */
-	public void clear()
-	{
-		this.primaryKeyMap.clear();
-		this.primaryKeyMap = null;
+    /**
+     * Aufraeumen.
+     */
+    public void clear()
+    {
+        this.primaryKeyMap.clear();
+        this.primaryKeyMap = null;
 
-		this.attributes.clear();
-		this.attributes = null;
-	}
+        this.attributes.clear();
+        this.attributes = null;
+    }
 
-	/**
-	 * Liefert das Value fuer den Key oder null.
-	 * 
-	 * @param key Object
-	 * @return Object
-	 */
-	public Object getAttribute(final Object key)
-	{
-		return this.attributes.get(key);
-	}
+    /**
+     * Liefert das Value fuer den Key oder null.
+     * 
+     * @param key Object
+     * @return Object
+     */
+    public Object getAttribute(final Object key)
+    {
+        return this.attributes.get(key);
+    }
 
-	/**
-	 * Liefert die Map der temporaeren und konkreten PrimaryKeys einer Klasse.
-	 * 
-	 * @param clazz Class
-	 * @return {@link Map}
-	 */
-	private Map<Long, Long> getClazzMap(final Class<?> clazz)
-	{
-		Map<Long, Long> clazzMap = this.primaryKeyMap.get(clazz);
+    /**
+     * Liefert die Map der temporaeren und konkreten PrimaryKeys einer Klasse.
+     * 
+     * @param clazz Class
+     * @return {@link Map}
+     */
+    private Map<Long, Long> getClazzMap(final Class<?> clazz)
+    {
+        return this.primaryKeyMap.computeIfAbsent(clazz, key -> new HashMap<>());
+    }
 
-		if (clazzMap == null)
-		{
-			clazzMap = new HashMap<>();
-			this.primaryKeyMap.put(clazz, clazzMap);
-		}
+    /**
+     * Liefert fuer eine Klasse und einer OID den konkreten PrimaryKey.<br>
+     * Existiert kein konkreter PrimaryKey wird die OID geliefert.
+     * 
+     * @param clazz Class
+     * @param oid Long
+     * @return Long
+     */
+    public long getPrimaryKey(final Class<?> clazz, final Long oid)
+    {
+        Map<Long, Long> clazzMap = getClazzMap(clazz);
 
-		return clazzMap;
-	}
+        Long pk = clazzMap.get(oid);
 
-	/**
-	 * Liefert fuer eine Klasse und einer OID den konkreten PrimaryKey.<br>
-	 * Existiert kein konkreter PrimaryKey wird die OID geliefert.
-	 * 
-	 * @param clazz Class
-	 * @param oid Long
-	 * @return Long
-	 */
-	public long getPrimaryKey(final Class<?> clazz, final Long oid)
-	{
-		Map<Long, Long> clazzMap = getClazzMap(clazz);
+        return pk != null ? pk.longValue() : oid.longValue();
+    }
 
-		Long pk = clazzMap.get(oid);
+    /**
+     * Liefert die Map fuer das Mapping der Temporaeren- zu den DB-PrimaryKeys.
+     * 
+     * @return {@link Map}
+     */
+    public Map<Class<?>, Map<Long, Long>> getPrimaryKeyMap()
+    {
+        return this.primaryKeyMap;
+    }
 
-		return pk != null ? pk.longValue() : oid.longValue();
-	}
+    /**
+     * Setzt das Value fuer den Key.
+     * 
+     * @param key Object
+     * @param value Object
+     */
+    public void putAttribute(final Object key, final Object value)
+    {
+        this.attributes.put(key, value);
+    }
 
-	/**
-	 * Liefert die Map fuer das Mapping der Temporaeren- zu den DB-PrimaryKeys.
-	 * 
-	 * @return {@link Map}
-	 */
-	public Map<Class<?>, Map<Long, Long>> getPrimaryKeyMap()
-	{
-		return this.primaryKeyMap;
-	}
+    /**
+     * Setzt fuer eine Klasse und einer temporaeren OID den konkreten PrimaryKey.
+     * 
+     * @param clazz Class
+     * @param tempOID Long
+     * @param oid long
+     */
+    public void putPrimaryKey(final Class<?> clazz, final Long tempOID, final long oid)
+    {
+        Map<Long, Long> clazzMap = getClazzMap(clazz);
 
-	/**
-	 * Setzt das Value fuer den Key.
-	 * 
-	 * @param key Object
-	 * @param value Object
-	 */
-	public void putAttribute(final Object key, final Object value)
-	{
-		this.attributes.put(key, value);
-	}
-
-	/**
-	 * Setzt fuer eine Klasse und einer temporaeren OID den konkreten PrimaryKey.
-	 * 
-	 * @param clazz Class
-	 * @param tempOID Long
-	 * @param oid long
-	 */
-	public void putPrimaryKey(final Class<?> clazz, final Long tempOID, final long oid)
-	{
-		Map<Long, Long> clazzMap = getClazzMap(clazz);
-
-		clazzMap.put(tempOID, Long.valueOf(oid));
-	}
+        clazzMap.put(tempOID, Long.valueOf(oid));
+    }
 }

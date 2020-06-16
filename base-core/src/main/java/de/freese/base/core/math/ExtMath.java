@@ -105,12 +105,12 @@ public final class ExtMath
             return -1;
         }
 
-        char[] num_array = number.trim().toCharArray();
+        char[] numArray = number.trim().toCharArray();
         long result = 0;
 
-        for (int i = 0; i < num_array.length; i++)
+        for (int i = 0; i < numArray.length; i++)
         {
-            result += (Arrays.binarySearch(CHAR_ARRAY, num_array[num_array.length - 1 - i]) * Math.pow(base, i));
+            result += (Arrays.binarySearch(CHAR_ARRAY, numArray[numArray.length - 1 - i]) * Math.pow(base, i));
         }
 
         return result;
@@ -146,7 +146,7 @@ public final class ExtMath
             return null;
         }
 
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder sbuf = new StringBuilder();
         double tmp = 0.0D;
         long number = value;
 
@@ -188,13 +188,13 @@ public final class ExtMath
         BigInteger bi = value;
 
         List<String> list = new ArrayList<>();
-        BigInteger n = new BigInteger("2");
+        BigInteger n = BigInteger.valueOf(2);
 
         while (!bi.isProbablePrime(certainty))
         {
             if ((bi.mod(n)).equals(BigInteger.ZERO)) // Teiler gefunden
             {
-                list.add(new String(n.toString()));
+                list.add(n.toString());
                 bi = bi.divide(n);
                 n = BigInteger.ONE;
             }
@@ -562,7 +562,7 @@ public final class ExtMath
 
             if ((bi.mod(n)).equals(BigInteger.ZERO)) // Prim-Teiler gefunden
             {
-                list.add(new String(n.toString()));
+                list.add(n.toString());
                 bi = bi.divide(n);
                 n = (n.subtract(BigInteger.ONE)).subtract(BigInteger.ONE);
             }
@@ -603,7 +603,7 @@ public final class ExtMath
             return 0.0D;
         }
 
-        BigDecimal bigDecimal = new BigDecimal(value);
+        BigDecimal bigDecimal = BigDecimal.valueOf(value);
         bigDecimal = bigDecimal.setScale(scale, roundingMode);
 
         return bigDecimal.doubleValue();

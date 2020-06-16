@@ -333,6 +333,7 @@ public class SimpleExecutorService extends AbstractExecutorService
      */
     protected void afterExecute(final Runnable task, final Throwable throwable)
     {
+        // Empty
     }
 
     /**
@@ -370,6 +371,7 @@ public class SimpleExecutorService extends AbstractExecutorService
      */
     protected void beforeExecute(final Thread thread, final Runnable task)
     {
+        // Empty
     }
 
     /**
@@ -429,8 +431,6 @@ public class SimpleExecutorService extends AbstractExecutorService
             {
                 // Queue voll.
                 reject(command);
-
-                return;
             }
         }
         finally
@@ -510,7 +510,7 @@ public class SimpleExecutorService extends AbstractExecutorService
         }
         catch (InterruptedException iex)
         {
-            // Ignore
+            // Empty
         }
 
         return task;

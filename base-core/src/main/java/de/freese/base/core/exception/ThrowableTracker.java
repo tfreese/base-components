@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.freese.base.core.exception;
 
@@ -11,77 +11,77 @@ import java.util.Map;
 
 /**
  * Diese Klasse sammelt Exceptions ein, um diese geschlossen zu verarbeiten.<br>
- * 
+ *
  * @author Thomas Freese
  */
 public class ThrowableTracker implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8095454479589758508L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8095454479589758508L;
 
-	/**
-	 * Map verhindert Exceptions mit gleichen Messages.
-	 */
-	private Map<String, Throwable> throwables = new LinkedHashMap<>();
+    /**
+     * Map verhindert Exceptions mit gleichen Messages.
+     */
+    private Map<String, Throwable> throwables = new LinkedHashMap<>();
 
-	/**
-	 * Erstellt ein neues {@link ThrowableTracker} Objekt.
-	 */
-	public ThrowableTracker()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link ThrowableTracker} Objekt.
+     */
+    public ThrowableTracker()
+    {
+        super();
+    }
 
-	/**
-	 * Hinzufuegen eines {@link Throwable}.
-	 * 
-	 * @param th {@link Throwable}
-	 */
-	public void addThrowable(final Throwable th)
-	{
-		this.throwables.put(th.getMessage(), th);
-	}
+    /**
+     * Hinzufuegen eines {@link Throwable}.
+     * 
+     * @param th {@link Throwable}
+     */
+    public void addThrowable(final Throwable th)
+    {
+        this.throwables.put(th.getMessage(), th);
+    }
 
-	/**
-	 * Liefert den ersten {@link Throwable}.
-	 * 
-	 * @return {@link Throwable}.
-	 */
-	public Throwable getFirstThrowable()
-	{
-		return getThrowables().get(0);
-	}
+    /**
+     * Liefert den ersten {@link Throwable}.
+     * 
+     * @return {@link Throwable}.
+     */
+    public Throwable getFirstThrowable()
+    {
+        return getThrowables().get(0);
+    }
 
-	/**
-	 * Liefert den letzten {@link Throwable}.
-	 * 
-	 * @return {@link Throwable}.
-	 */
-	public Throwable getLastThrowable()
-	{
-		List<Throwable> throwables = getThrowables();
+    /**
+     * Liefert den letzten {@link Throwable}.
+     * 
+     * @return {@link Throwable}.
+     */
+    public Throwable getLastThrowable()
+    {
+        List<Throwable> ths = getThrowables();
 
-		return throwables.get(throwables.size() - 1);
-	}
+        return ths.get(ths.size() - 1);
+    }
 
-	/**
-	 * Liefert die Liste der {@link Throwable} in der Reihenfolge in der diese aufgetreten sind.
-	 * 
-	 * @return {@link List}
-	 */
-	public List<Throwable> getThrowables()
-	{
-		return new ArrayList<>(this.throwables.values());
-	}
+    /**
+     * Liefert die Liste der {@link Throwable} in der Reihenfolge in der diese aufgetreten sind.
+     * 
+     * @return {@link List}
+     */
+    public List<Throwable> getThrowables()
+    {
+        return new ArrayList<>(this.throwables.values());
+    }
 
-	/**
-	 * @return boolean
-	 * @see List#isEmpty()
-	 */
-	public boolean isEmpty()
-	{
-		return this.throwables.isEmpty();
-	}
+    /**
+     * @return boolean
+     * @see List#isEmpty()
+     */
+    public boolean isEmpty()
+    {
+        return this.throwables.isEmpty();
+    }
 }

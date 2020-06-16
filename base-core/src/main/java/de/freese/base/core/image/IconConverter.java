@@ -36,4 +36,12 @@ public class IconConverter
             output.write("});");
         }
     }
+
+    /**
+     * Erstellt ein neues {@link IconConverter} Object.
+     */
+    private IconConverter()
+    {
+        super();
+    }
 }

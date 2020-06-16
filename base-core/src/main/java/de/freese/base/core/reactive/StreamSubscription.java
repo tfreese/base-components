@@ -161,7 +161,7 @@ class StreamSubscription<T> implements Subscription
 
         if (!this.iterator.hasNext() && !terminate())
         {
-            getExecutor().execute(() -> this.subscriber.onComplete());
+            getExecutor().execute(this.subscriber::onComplete);
         }
     }
 

@@ -117,16 +117,12 @@ public class AsyncFileReader<CH>
     /**
      *
      */
-    private static final Supplier<StringBuilder> DEFAULT_CONTENT_HOLDER_SUPPLIER = () -> {
-        return new StringBuilder(4096);
-    };
+    private static final Supplier<StringBuilder> DEFAULT_CONTENT_HOLDER_SUPPLIER = () -> new StringBuilder(4096);
 
     /**
     *
     */
-    private static final BiConsumer<StringBuilder, byte[]> DEFAULT_DATA_CONSUMER = (sb, data) -> {
-        sb.append(new String(data, StandardCharsets.UTF_8));
-    };
+    private static final BiConsumer<StringBuilder, byte[]> DEFAULT_DATA_CONSUMER = (sb, data) -> sb.append(new String(data, StandardCharsets.UTF_8));
 
     /**
      * @param args String[]
