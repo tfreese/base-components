@@ -1,6 +1,8 @@
 // Tasks im SubModul ausführen: gradle MODUL:clean build
 
 subprojects {
+	apply plugin: 'java'
+	
     dependencies {
         implementation(platform("de.freese:maven-bom:$version_mavenBom"))
         //implementation("org.springframework.boot:spring-boot-starter")
@@ -162,31 +164,31 @@ project("base-security") {
 
 project("base-swing") {
 	apply plugin: 'java-library'
+	apply plugin: 'org.openjfx.javafxplugin'
+	apply plugin: 'com.github.ben-manes.versions'
+	/*plugins {
+		id 'java-library'
+		id 'org.openjfx.javafxplugin' version '0.0.8'
+	}*/
 	description = "Components and Classes for Swing."
 	dependencies {
 		api(project(":base-net"))
 		api(project(":base-resourcemap"))
 		
-		/*def currentOS = org.gradle.internal.os.OperatingSystem.current()
-		def platform = null
-		
-		if (currentOS.isWindows()) {
-		    platform = 'win'
-		} else if (currentOS.isLinux()) {
-		    platform = 'linux'
-		} else if (currentOS.isMacOsX()) {
-		    platform = 'mac'
-		}*/
+		javafx {
+			version = "14"
+			modules = [ 'javafx.controls' ]
+		}		
 
 		api("commons-io:commons-io")
 		api("com.fasterxml.jackson.core:jackson-databind")
 		api("com.sun.mail:jakarta.mail")
 		api("javax.xml.bind:jaxb-api")
 		api("org.apache.commons:commons-collections4")
-		api("org.openjfx:javafx-controls")
-		//api("org.openjfx:javafx-graphics:${platform}")
-		//api("org.openjfx:javafx-base:${platform}")
+		//api("org.openjfx:javafx-controls")
 		api("org.swinglabs.swingx:swingx-core")
+		
+		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 	}
 }
 
