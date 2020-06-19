@@ -20,7 +20,20 @@ import java.util.Locale;
 public final class CalendarUtils
 {
     /**
-     * Liefert einen Gregorianischen Kalender ohne Stunden, Minuten, Sekunden und Millisekunden.
+     * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
+     *
+     * @param calendar {@link Calendar}
+     */
+    public static void calendarAtStartOfDay(final Calendar calendar)
+    {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+    }
+
+    /**
+     * Liefert einen Gregorianischen Kalender.
      *
      * @return {@link Calendar}
      */
@@ -30,7 +43,7 @@ public final class CalendarUtils
     }
 
     /**
-     * Liefert einen Gregorianischen Kalender ohne Stunden, Minuten, Sekunden und Millisekunden.
+     * Liefert einen Gregorianischen Kalender.
      *
      * @param date {@link Date}
      * @return {@link Calendar}
@@ -41,22 +54,7 @@ public final class CalendarUtils
         // Calendar calendar = new GregorianCalendar(Locale.GERMAN);
         calendar.setTime(date);
 
-        calendarTrim(calendar);
-
         return calendar;
-    }
-
-    /**
-     * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
-     *
-     * @param calendar {@link Calendar}
-     */
-    public static void calendarTrim(final Calendar calendar)
-    {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
     }
 
     /**
