@@ -74,7 +74,7 @@ public interface ReactiveSpringJdbcCrudRepository<T, ID> extends ReactiveCrudRep
     @Override
     public default Mono<Void> deleteAll(final Iterable<? extends T> entities)
     {
-        entities.forEach(e -> delete(e));
+        entities.forEach(this::delete);
 
         return Mono.empty();
     }
@@ -87,7 +87,7 @@ public interface ReactiveSpringJdbcCrudRepository<T, ID> extends ReactiveCrudRep
     {
         // throw new NotImplementedException("Publisher is not implemented");
 
-        entityStream.subscribe((JdbcSubscriber<T>) e -> delete(e));
+        entityStream.subscribe((JdbcSubscriber<T>) this::delete);
 
         return Mono.empty();
     }
@@ -100,7 +100,7 @@ public interface ReactiveSpringJdbcCrudRepository<T, ID> extends ReactiveCrudRep
     {
         // throw new NotImplementedException("Publisher is not implemented");
 
-        id.subscribe((JdbcSubscriber<ID>) i -> deleteById(i));
+        id.subscribe((JdbcSubscriber<ID>) this::deleteById);
 
         return Mono.empty();
     }
@@ -113,7 +113,7 @@ public interface ReactiveSpringJdbcCrudRepository<T, ID> extends ReactiveCrudRep
     {
         // throw new NotImplementedException("Publisher is not implemented");
 
-        id.subscribe((JdbcSubscriber<ID>) i -> existsById(i));
+        id.subscribe((JdbcSubscriber<ID>) this::existsById);
 
         return Mono.empty();
     }
@@ -156,7 +156,7 @@ public interface ReactiveSpringJdbcCrudRepository<T, ID> extends ReactiveCrudRep
     {
         // throw new NotImplementedException("Publisher is not implemented");
 
-        id.subscribe((JdbcSubscriber<ID>) i -> findById(i));
+        id.subscribe((JdbcSubscriber<ID>) this::findById);
 
         return Mono.empty();
     }

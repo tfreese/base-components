@@ -37,7 +37,7 @@ import reactor.core.publisher.SynchronousSink;
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class TestReactiveJDBC
+class TestReactiveJdbcMock
 {
     /**
      * @author Thomas Freese
@@ -212,19 +212,11 @@ public class TestReactiveJDBC
     private PreparedStatement statement = null;
 
     /**
-     * Erstellt ein neues {@link TestReactiveJDBC} Object.
-     */
-    public TestReactiveJDBC()
-    {
-        super();
-    }
-
-    /**
      * @throws SQLException Falls was schief geht.
      */
     @SuppressWarnings("resource")
     @BeforeEach
-    public void setup() throws SQLException
+    void setup() throws SQLException
     {
         this.resultSetIndex = -1;
 
@@ -255,7 +247,7 @@ public class TestReactiveJDBC
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void test01ResultSetStream() throws SQLException
+    void test01ResultSetStream() throws SQLException
     {
         try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply).spliterator(), false).onClose(() -> {
             System.out.println("close stream");
@@ -280,7 +272,7 @@ public class TestReactiveJDBC
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void test02ResultSetFlux() throws SQLException
+    void test02ResultSetFlux() throws SQLException
     {
         // @formatter:off
         Flux<City> flux = Flux.fromIterable(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply))
@@ -307,7 +299,7 @@ public class TestReactiveJDBC
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    public void test02ResultSetFluxSynchronousSink() throws SQLException
+    void test02ResultSetFluxSynchronousSink() throws SQLException
     {
         // @formatter:off
         Flux<City> flux = Flux.generate((final SynchronousSink<ResultSet> sink) ->

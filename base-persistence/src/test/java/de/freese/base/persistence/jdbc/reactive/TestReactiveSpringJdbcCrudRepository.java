@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono;
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class TestReactiveSpringJdbcCrudRepository
+class TestReactiveSpringJdbcCrudRepository
 {
     /**
      * @author Thomas Freese
@@ -88,6 +88,7 @@ public class TestReactiveSpringJdbcCrudRepository
      *
      */
     private AtomicInteger counter = null;
+
     /**
      *
      */
@@ -99,18 +100,10 @@ public class TestReactiveSpringJdbcCrudRepository
     private ReactiveSpringJdbcCrudRepository<Entity, Integer> repo = null;
 
     /**
-     * Erzeugt eine neue Instanz von {@link TestReactiveSpringJdbcCrudRepository}.
-     */
-    public TestReactiveSpringJdbcCrudRepository()
-    {
-        super();
-    }
-
-    /**
      * @throws SQLException Falls was schief geht.
      */
     @AfterEach
-    public void after() throws SQLException
+    void after() throws SQLException
     {
         System.out.println();
     }
@@ -120,7 +113,7 @@ public class TestReactiveSpringJdbcCrudRepository
      */
     @SuppressWarnings("unchecked")
     @BeforeEach
-    public void setup() throws SQLException
+    void setup() throws SQLException
     {
         this.counter = new AtomicInteger(0);
 
@@ -147,7 +140,7 @@ public class TestReactiveSpringJdbcCrudRepository
      *
      */
     @Test
-    public void test010Delete()
+    void test010Delete()
     {
         this.repo.delete(this.data.get(0));
 
@@ -158,7 +151,7 @@ public class TestReactiveSpringJdbcCrudRepository
      *
      */
     @Test
-    public void test011DeleteIterable()
+    void test011DeleteIterable()
     {
         this.repo.deleteAll(this.data);
 
@@ -169,7 +162,7 @@ public class TestReactiveSpringJdbcCrudRepository
      *
      */
     @Test
-    public void test012DeleteMono()
+    void test012DeleteMono()
     {
         Mono<Entity> mono = Mono.just(this.data.get(0));
 
@@ -182,7 +175,7 @@ public class TestReactiveSpringJdbcCrudRepository
     *
     */
     @Test
-    public void test013DeleteFlux()
+    void test013DeleteFlux()
     {
         Flux<Entity> flux = Flux.fromIterable(this.data);
 
@@ -195,7 +188,7 @@ public class TestReactiveSpringJdbcCrudRepository
     *
     */
     @Test
-    public void test014DeleteByID()
+    void test014DeleteByID()
     {
         Flux<Integer> flux = Flux.fromIterable(this.data).map(Entity::getId);
 

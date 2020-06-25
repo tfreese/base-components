@@ -38,7 +38,7 @@ public final class ConnectionPoolConfigurer
         basicDataSource.setDriverClassName(driverClassName);
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(userName);
-        basicDataSource.setPassword(null);
+        basicDataSource.setPassword(password);
 
         basicDataSource.setMaxTotal(3);
         basicDataSource.setMaxIdle(3);
@@ -46,7 +46,7 @@ public final class ConnectionPoolConfigurer
         basicDataSource.setInitialSize(1);
 
         // Max. 5 Sekunden warten auf Connection.
-        basicDataSource.setMaxWaitMillis(5 * 1000);
+        basicDataSource.setMaxWaitMillis(5 * 1000L);
 
         basicDataSource.setDefaultAutoCommit(Boolean.FALSE);
         basicDataSource.setDefaultReadOnly(Boolean.FALSE);
@@ -69,14 +69,14 @@ public final class ConnectionPoolConfigurer
         }
 
         // 60 Sekunden: Zeit nach der eine Connection als "Idle" markiert wird.
-        basicDataSource.setMinEvictableIdleTimeMillis(60 * 1000);
+        basicDataSource.setMinEvictableIdleTimeMillis(60 * 1000L);
 
         // Alle 60 Sekunden auf Idle-Connections prüfen.
-        basicDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000);
+        basicDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000L);
         basicDataSource.setNumTestsPerEvictionRun(1);
 
         // Eine Connection darf max. 1 Stunde alt werden, 0 = keine Alterung.
-        basicDataSource.setMaxConnLifetimeMillis(1 * 60 * 60 * 1000);
+        basicDataSource.setMaxConnLifetimeMillis(1 * 60 * 60 * 1000L);
 
         // Entfernen von verwaisten (Timeout) Connections/Langläufern.
         basicDataSource.setAbandonedUsageTracking(true);
@@ -116,10 +116,10 @@ public final class ConnectionPoolConfigurer
         config.setMinimumIdle(1);
 
         // Max. 5 Sekunden warten auf Connection.
-        config.setConnectionTimeout(5 * 1000);
+        config.setConnectionTimeout(5 * 1000L);
 
         // 60 Sekunden: Zeit nach der eine Connection als "Idle" markiert wird.
-        config.setIdleTimeout(60 * 1000);
+        config.setIdleTimeout(60 * 1000L);
         config.setMaxLifetime(config.getIdleTimeout() * 3);
 
         config.setAutoCommit(false);
@@ -130,7 +130,7 @@ public final class ConnectionPoolConfigurer
             config.setConnectionTestQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
-            config.setValidationTimeout(3 * 1000);
+            config.setValidationTimeout(3 * 1000L);
         }
 
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -198,7 +198,7 @@ public final class ConnectionPoolConfigurer
             poolProperties.setValidationQueryTimeout(3);
 
             // Wurde eine Connection vor 60 Sekunden validiert, nicht nochmal validieren.
-            poolProperties.setValidationInterval(60 * 1000);
+            poolProperties.setValidationInterval(60 * 1000L);
 
             // Connections prüfen, die IDLE sind.
             poolProperties.setTestWhileIdle(true);
@@ -217,7 +217,7 @@ public final class ConnectionPoolConfigurer
         poolProperties.setTimeBetweenEvictionRunsMillis(60 * 1000);
 
         // Eine Connection darf max. 1 Stunde alt werden, 0 = keine Alterung.
-        poolProperties.setMaxAge(1 * 60 * 60 * 1000);
+        poolProperties.setMaxAge(1 * 60 * 60 * 1000L);
 
         // Entfernen von verwaisten (Timeout) Connections/Langläufern.
         poolProperties.setRemoveAbandoned(true);

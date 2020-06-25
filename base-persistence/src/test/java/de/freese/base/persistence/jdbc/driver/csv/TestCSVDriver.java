@@ -19,7 +19,7 @@ import de.freese.base.utils.JdbcUtils;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestCSVDriver
+class TestCSVDriver
 {
     /**
      *
@@ -30,7 +30,7 @@ public class TestCSVDriver
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    public static void setUp() throws Exception
+    static void setUp() throws Exception
     {
         Class.forName(CSVDriver.class.getName());
 
@@ -41,7 +41,7 @@ public class TestCSVDriver
      * @throws Exception Falls was schief geht.
      */
     @AfterAll
-    public static void shutdown() throws Exception
+    static void shutdown() throws Exception
     {
         PRINT_STREAM.flush();
     }
@@ -49,7 +49,7 @@ public class TestCSVDriver
     /**
      * Erzeugt eine neue Instanz von {@link TestCSVDriver}
      */
-    public TestCSVDriver()
+    TestCSVDriver()
     {
         super();
     }
@@ -58,7 +58,7 @@ public class TestCSVDriver
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test01CSVDriver() throws Exception
+    void test01CSVDriver() throws Exception
     {
         // Struktur
         StringBuilder file1 = new StringBuilder();
@@ -96,7 +96,7 @@ public class TestCSVDriver
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test02CSVDriver() throws Exception
+    void test02CSVDriver() throws Exception
     {
         // Struktur
         StringBuilder file1 = new StringBuilder();

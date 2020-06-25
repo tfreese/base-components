@@ -23,7 +23,7 @@ import de.freese.base.utils.JdbcUtils;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestHsqldbTextTables
+class TestHsqldbTextTables
 {
     /**
      *
@@ -34,7 +34,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    public static void setUp() throws Exception
+    static void setUp() throws Exception
     {
         Class.forName("org.hsqldb.jdbc.JDBCDriver");
 
@@ -45,17 +45,9 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @AfterAll
-    public static void shutdown() throws Exception
+    static void shutdown() throws Exception
     {
         PRINT_STREAM.flush();
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestHsqldbTextTables}
-     */
-    public TestHsqldbTextTables()
-    {
-        super();
     }
 
     /**
@@ -131,7 +123,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test01TextTableBuilder() throws Exception
+    void test01TextTableBuilder() throws Exception
     {
         // @formatter:off
         HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
@@ -161,7 +153,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test02TextTableBuilder() throws Exception
+    void test02TextTableBuilder() throws Exception
     {
         // @formatter:off
         HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
@@ -186,7 +178,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test03TextTableBuilder() throws Exception
+    void test03TextTableBuilder() throws Exception
     {
         // @formatter:off
         HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
@@ -212,7 +204,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test04TextTableBuilder() throws Exception
+    void test04TextTableBuilder() throws Exception
     {
         // @formatter:off
         HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
@@ -238,7 +230,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test05TextTableBuilder() throws Exception
+    void test05TextTableBuilder() throws Exception
     {
         // @formatter:off
         HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
@@ -265,7 +257,7 @@ public class TestHsqldbTextTables
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test06TextTableBuilder() throws Exception
+    void test06TextTableBuilder() throws Exception
     {
         // @formatter:off
         HsqldbTextTableBuilder builder1 = HsqldbTextTableBuilder.create()

@@ -7,6 +7,7 @@ package de.freese.base.persistence.jdbc.reactive;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
@@ -59,10 +60,10 @@ public class ResultSetIterator<T> implements Iterator<T>
 
             return hasNext;
         }
-        catch (SQLException ex)
+        catch (SQLException sex)
         {
             // close();
-            throw new RuntimeException(ex);
+            throw new NoSuchElementException(sex.getMessage());
         }
     }
 
@@ -81,7 +82,7 @@ public class ResultSetIterator<T> implements Iterator<T>
         catch (SQLException sex)
         {
             // close();
-            throw new RuntimeException(sex);
+            throw new NoSuchElementException(sex.getMessage());
         }
     }
 }

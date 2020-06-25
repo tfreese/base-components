@@ -4,10 +4,17 @@
  */
 package de.freese.base.persistence.jdbc.driver.logging;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import de.freese.base.persistence.jdbc.TestSuiteJdbc;
-import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
+import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -17,44 +24,17 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
-import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import de.freese.base.persistence.jdbc.TestSuiteJdbc;
+import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestLoggingJdbcDriver
+class TestLoggingJdbcDriver
 {
-    /**
-     * @author Thomas Freese
-     */
-    private static interface ConnectionPool
-    {
-        /**
-         * @throws SQLException Falls was schief geht.
-         */
-        public void close() throws SQLException;
-
-        /**
-         * @return {@link Connection}
-         *
-         * @throws SQLException Falls was schief geht.
-         */
-        public Connection getConnection() throws SQLException;
-    }
-
     /**
      * @author Thomas Freese
      */
@@ -68,7 +48,7 @@ public class TestLoggingJdbcDriver
         /**
          * Erstellt ein neues {@link BasicDataSourceConnectionPool} Object.
          */
-        public BasicDataSourceConnectionPool()
+        BasicDataSourceConnectionPool()
         {
             super();
 
@@ -101,12 +81,29 @@ public class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
+    private static interface ConnectionPool
+    {
+        /**
+         * @throws SQLException Falls was schief geht.
+         */
+        void close() throws SQLException;
+
+        /**
+         * @return {@link Connection}
+         * @throws SQLException Falls was schief geht.
+         */
+        Connection getConnection() throws SQLException;
+    }
+
+    /**
+     * @author Thomas Freese
+     */
     private static class DriverManagerConnectionPool implements ConnectionPool
     {
         /**
          * Erstellt ein neues {@link DriverManagerConnectionPool} Object.
          */
-        public DriverManagerConnectionPool()
+        DriverManagerConnectionPool()
         {
             super();
         }
@@ -143,7 +140,7 @@ public class TestLoggingJdbcDriver
         /**
          * Erstellt ein neues {@link HikariConnectionPool} Object.
          */
-        public HikariConnectionPool()
+        HikariConnectionPool()
         {
             super();
 
@@ -187,7 +184,7 @@ public class TestLoggingJdbcDriver
         /**
          * Erstellt ein neues {@link SpringSingleConnectionDataSource} Object.
          */
-        public SpringSingleConnectionDataSource()
+        SpringSingleConnectionDataSource()
         {
             super();
 
@@ -229,7 +226,7 @@ public class TestLoggingJdbcDriver
         /**
          * Erstellt ein neues {@link TomcatConnectionPool} Object.
          */
-        public TomcatConnectionPool()
+        TomcatConnectionPool()
         {
             super();
 
@@ -279,7 +276,7 @@ public class TestLoggingJdbcDriver
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    public static void beforeAll() throws Exception
+    static void beforeAll() throws Exception
     {
         // Backend-Treiber: Wird durch App-Server oder Datasource erledigt.
         // Class.forName(DRIVER, true, ClassUtils.getDefaultClassLoader());
@@ -315,21 +312,33 @@ public class TestLoggingJdbcDriver
     // }
 
     /**
-     * Erstellt ein neues {@link TestLoggingJdbcDriver} Object.
+     * @return {@link Stream}
      */
-    public TestLoggingJdbcDriver()
+    @TestFactory
+    Stream<DynamicNode> connectionPools()
     {
-        super();
+        // @formatter:off
+        return POOLS.stream()
+                .map(cp -> dynamicContainer(cp.getClass().getSimpleName(),
+                        Stream.of(
+                                dynamicTest("testDriver", () -> test010Driver(cp)),
+                                dynamicTest("Close Pool", () -> test020Close(cp))
+//                                dynamicContainer("Close",
+//                                        Stream.of(dynamicTest("Close Pool", () -> test020Close(cp))
+//                                        )
+//                                )
+                        )
+                    )
+                )
+                ;
+        // @formatter:on
     }
 
     /**
      * @param connectionPool {@link ConnectionPool}
-     *
      * @throws Exception Falls was schief geht.
      */
-    // @ParameterizedTest
-    // @MethodSource("getPools")
-    public void test010Driver(final ConnectionPool connectionPool) throws Exception
+    void test010Driver(final ConnectionPool connectionPool) throws Exception
     {
         // "jdbc:logger:jdbc:generic:file:/home/tommy/db/generic/generic;create=false;shutdown=true"
         try (Connection connection = connectionPool.getConnection())
@@ -356,36 +365,12 @@ public class TestLoggingJdbcDriver
 
     /**
      * @param connectionPool {@link ConnectionPool}
-     *
      * @throws Exception Falls was schief geht.
      */
-    // @ParameterizedTest
-    // @MethodSource("getPools")
-    public void test020Close(final ConnectionPool connectionPool) throws Exception
+    void test020Close(final ConnectionPool connectionPool) throws Exception
     {
         connectionPool.close();
 
         assertTrue(true);
-    }
-
-    /**
-     * @return {@link Stream}
-     */
-    @TestFactory
-    public Stream<DynamicNode> testConnectionPools()
-    {
-        // @formatter:off
-        return POOLS.stream()
-                .map(cp -> dynamicContainer(cp.getClass().getSimpleName(),
-                        Stream.of(dynamicTest("testDriver", () -> test010Driver(cp)),
-                                dynamicContainer("Close",
-                                        Stream.of(dynamicTest("Close Pool", () -> test020Close(cp))
-                                        )
-                                )
-                        )
-                    )
-                )
-                ;
-        // @formatter:on
     }
 }

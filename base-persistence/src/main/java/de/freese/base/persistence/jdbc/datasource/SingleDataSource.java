@@ -13,9 +13,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
-
 import org.slf4j.LoggerFactory;
 
 /**
@@ -104,6 +102,26 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      *
      */
+    private void closeConnection()
+    {
+        if (this.connection != null)
+        {
+            this.proxyConnection = null;
+
+            try
+            {
+                this.connection.close();
+            }
+            catch (final Throwable th)
+            {
+                LOGGER.warn("Could not close shared JDBC Connection", th);
+            }
+        }
+    }
+
+    /**
+     *
+     */
     public void destroy()
     {
         this.reentrantLock.lock();
@@ -116,6 +134,26 @@ public class SingleDataSource implements DataSource, AutoCloseable
         {
             this.reentrantLock.unlock();
         }
+    }
+
+    /**
+     * @return Boolean
+     */
+    private Boolean getAutoCommitValue()
+    {
+        return this.autoCommit;
+    }
+
+    /**
+     * @param connection {@link Connection}
+     * @return {@link Connection}
+     */
+    private Connection getCloseSuppressingConnectionProxy(final Connection connection)
+    {
+        return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), new Class<?>[]
+        {
+                Connection.class
+        }, new ConnectionNotClosingInvocationHandler(connection));
     }
 
     /**
@@ -162,6 +200,63 @@ public class SingleDataSource implements DataSource, AutoCloseable
     }
 
     /**
+     * @param props {@link Properties}
+     * @return {@link Connection}
+     * @throws SQLException Falls was schief geht.
+     */
+    private Connection getConnectionFromDriver(final Properties props) throws SQLException
+    {
+        final String _url = getUrl();
+
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("Creating new JDBC DriverManager Connection to [{}]", _url);
+        }
+
+        return getConnectionFromDriverManager(_url, props);
+    }
+
+    /**
+     * @param username String
+     * @param password String
+     * @return {@link Connection}
+     * @throws SQLException Falls was schief geht.
+     */
+    private Connection getConnectionFromDriver(final String username, final String password) throws SQLException
+    {
+        final Properties mergedProps = new Properties();
+        final Properties connProps = getConnectionProperties();
+
+        if (connProps != null)
+        {
+            mergedProps.putAll(connProps);
+        }
+
+        if (username != null)
+        {
+            mergedProps.setProperty("user", username);
+        }
+
+        if (password != null)
+        {
+            mergedProps.setProperty("password", password);
+        }
+
+        return getConnectionFromDriver(mergedProps);
+    }
+
+    /**
+     * @param url String
+     * @param props {@link Properties}
+     * @return {@link Connection}
+     * @throws SQLException Falls was schief geht.
+     */
+    private Connection getConnectionFromDriverManager(final String url, final Properties props) throws SQLException
+    {
+        return DriverManager.getConnection(url, props);
+    }
+
+    /**
      * @return {@link Properties}
      */
     public Properties getConnectionProperties()
@@ -205,6 +300,14 @@ public class SingleDataSource implements DataSource, AutoCloseable
     }
 
     /**
+     * @return Boolean
+     */
+    private Boolean getReadOnlyValue()
+    {
+        return this.readOnly;
+    }
+
+    /**
      * @return String
      */
     public String getUrl()
@@ -221,12 +324,56 @@ public class SingleDataSource implements DataSource, AutoCloseable
     }
 
     /**
+     * @throws SQLException Falls was schief geht.
+     */
+    private void initConnection() throws SQLException
+    {
+        if (getUrl() == null)
+        {
+            throw new IllegalStateException("'url' property is required for lazily initializing a Connection");
+        }
+
+        closeConnection();
+
+        this.connection = getConnectionFromDriver(getUsername(), getPassword());
+        prepareConnection(this.connection);
+
+        if (LOGGER.isInfoEnabled())
+        {
+            LOGGER.info("Established shared JDBC Connection: {}", this.connection);
+        }
+
+        this.proxyConnection = getCloseSuppressingConnectionProxy(this.connection);
+    }
+
+    /**
      * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
      */
     @Override
     public boolean isWrapperFor(final Class<?> iface) throws SQLException
     {
         return iface.isInstance(this);
+    }
+
+    /**
+     * @param con {@link Connection}
+     * @throws SQLException Falls was schief geht.
+     */
+    private void prepareConnection(final Connection con) throws SQLException
+    {
+        final Boolean _readOnly = getReadOnlyValue();
+
+        if ((_readOnly != null) && (con.isReadOnly() != _readOnly))
+        {
+            con.setReadOnly(_readOnly);
+        }
+
+        final Boolean _autoCommit = getAutoCommitValue();
+
+        if ((_autoCommit != null) && (con.getAutoCommit() != _autoCommit))
+        {
+            con.setAutoCommit(_autoCommit);
+        }
     }
 
     /**
@@ -267,7 +414,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
 
         if (LOGGER.isInfoEnabled())
         {
-            LOGGER.info("Loaded JDBC driver: " + driverClassNameToUse);
+            LOGGER.info("Loaded JDBC driver: {}", driverClassNameToUse);
         }
     }
 
@@ -340,154 +487,5 @@ public class SingleDataSource implements DataSource, AutoCloseable
         }
 
         throw new SQLException("DataSource of type [" + getClass().getName() + "] cannot be unwrapped as [" + iface.getName() + "]");
-    }
-
-    /**
-     *
-     */
-    private void closeConnection()
-    {
-        if (this.connection != null)
-        {
-            this.proxyConnection = null;
-
-            try
-            {
-                this.connection.close();
-            }
-            catch (final Throwable th)
-            {
-                LOGGER.warn("Could not close shared JDBC Connection", th);
-            }
-        }
-    }
-
-    /**
-     * @return Boolean
-     */
-    private Boolean getAutoCommitValue()
-    {
-        return this.autoCommit;
-    }
-
-    /**
-     * @param connection {@link Connection}
-     * @return {@link Connection}
-     */
-    private Connection getCloseSuppressingConnectionProxy(final Connection connection)
-    {
-        return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), new Class<?>[]
-        {
-                Connection.class
-        }, new ConnectionNotClosingInvocationHandler(connection));
-    }
-
-    /**
-     * @param props {@link Properties}
-     * @return {@link Connection}
-     * @throws SQLException Falls was schief geht.
-     */
-    private Connection getConnectionFromDriver(final Properties props) throws SQLException
-    {
-        final String _url = getUrl();
-
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("Creating new JDBC DriverManager Connection to [{}]", _url);
-        }
-
-        return getConnectionFromDriverManager(_url, props);
-    }
-
-    /**
-     * @param username String
-     * @param password String
-     * @return {@link Connection}
-     * @throws SQLException Falls was schief geht.
-     */
-    private Connection getConnectionFromDriver(final String username, final String password) throws SQLException
-    {
-        final Properties mergedProps = new Properties();
-        final Properties connProps = getConnectionProperties();
-
-        if (connProps != null)
-        {
-            mergedProps.putAll(connProps);
-        }
-
-        if (username != null)
-        {
-            mergedProps.setProperty("user", username);
-        }
-
-        if (password != null)
-        {
-            mergedProps.setProperty("password", password);
-        }
-
-        return getConnectionFromDriver(mergedProps);
-    }
-
-    /**
-     * @param url String
-     * @param props {@link Properties}
-     * @return {@link Connection}
-     * @throws SQLException Falls was schief geht.
-     */
-    private Connection getConnectionFromDriverManager(final String url, final Properties props) throws SQLException
-    {
-        return DriverManager.getConnection(url, props);
-    }
-
-    /**
-     * @return Boolean
-     */
-    private Boolean getReadOnlyValue()
-    {
-        return this.readOnly;
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    private void initConnection() throws SQLException
-    {
-        if (getUrl() == null)
-        {
-            throw new IllegalStateException("'url' property is required for lazily initializing a Connection");
-        }
-
-        closeConnection();
-
-        this.connection = getConnectionFromDriver(getUsername(), getPassword());
-        prepareConnection(this.connection);
-
-        if (LOGGER.isInfoEnabled())
-        {
-            LOGGER.info("Established shared JDBC Connection: " + this.connection);
-        }
-
-        this.proxyConnection = getCloseSuppressingConnectionProxy(this.connection);
-    }
-
-    /**
-     * @param con {@link Connection}
-     * @throws SQLException Falls was schief geht.
-     */
-    private void prepareConnection(final Connection con) throws SQLException
-    {
-        final Boolean _readOnly = getReadOnlyValue();
-
-        if ((_readOnly != null) && (con.isReadOnly() != _readOnly))
-        {
-            con.setReadOnly(_readOnly);
-        }
-
-        final Boolean _autoCommit = getAutoCommitValue();
-
-        if ((_autoCommit != null) && (con.getAutoCommit() != _autoCommit))
-        {
-            con.setAutoCommit(_autoCommit);
-        }
     }
 }

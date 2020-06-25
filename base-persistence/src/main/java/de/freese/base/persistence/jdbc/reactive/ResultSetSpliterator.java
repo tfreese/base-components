@@ -7,7 +7,6 @@ package de.freese.base.persistence.jdbc.reactive;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.function.Consumer;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
@@ -17,7 +16,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  * @param <T> Type of Entity
  */
-public class ResultSetSpliterator<T> extends Spliterators.AbstractSpliterator<T>
+public class ResultSetSpliterator<T> implements Spliterator<T> // extends Spliterators.AbstractSpliterator<T>
 {
     /**
     *
@@ -32,9 +31,27 @@ public class ResultSetSpliterator<T> extends Spliterators.AbstractSpliterator<T>
      */
     public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper)
     {
-        super(Long.MAX_VALUE, Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL);
+        super();
 
         this.iterator = new ResultSetIterator<>(resultSet, rowMapper);
+    }
+
+    /**
+     * @see java.util.Spliterator#characteristics()
+     */
+    @Override
+    public int characteristics()
+    {
+        return Spliterator.ORDERED;
+    }
+
+    /**
+     * @see java.util.Spliterator#estimateSize()
+     */
+    @Override
+    public long estimateSize()
+    {
+        return Long.MAX_VALUE;
     }
 
     /**
@@ -51,5 +68,16 @@ public class ResultSetSpliterator<T> extends Spliterators.AbstractSpliterator<T>
         }
 
         return false;
+    }
+
+    /**
+     * Keine Parallelität.
+     *
+     * @see java.util.Spliterator#trySplit()
+     */
+    @Override
+    public Spliterator<T> trySplit()
+    {
+        return null;
     }
 }

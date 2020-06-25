@@ -23,7 +23,7 @@ import reactor.core.publisher.Flux;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestReactiveSpringJdbcTemplate
+class TestReactiveSpringJdbcTemplate
 {
     /**
      *
@@ -44,7 +44,7 @@ public class TestReactiveSpringJdbcTemplate
      *
      */
     @AfterAll
-    public static void afterClass()
+    static void afterClass()
     {
         dataSource.destroy();
     }
@@ -53,7 +53,7 @@ public class TestReactiveSpringJdbcTemplate
      *
      */
     @BeforeAll
-    public static void beforeClass()
+    static void beforeClass()
     {
         dataSource = new SingleConnectionDataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
@@ -73,18 +73,10 @@ public class TestReactiveSpringJdbcTemplate
     }
 
     /**
-     * Erstellt ein neues {@link TestReactiveSpringJdbcTemplate} Object.
-     */
-    public TestReactiveSpringJdbcTemplate()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test01Stream() throws Exception
+    void test01Stream() throws Exception
     {
         try (Stream<Person> stream = jdbcTemplate.queryAsStream("select * from person", springRowMapper))
         {
@@ -100,7 +92,7 @@ public class TestReactiveSpringJdbcTemplate
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test02Stream() throws Exception
+    void test02Stream() throws Exception
     {
         try (Stream<Person> stream = jdbcTemplate.queryAsStream("select * from person where name = ?", springRowMapper, "reese"))
         {
@@ -112,7 +104,7 @@ public class TestReactiveSpringJdbcTemplate
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test03Flux() throws Exception
+    void test03Flux() throws Exception
     {
         Flux<Person> flux = jdbcTemplate.queryAsFlux("select * from person", springRowMapper).doOnNext(person -> {
             assertTrue(person.getId() > 0);
@@ -125,7 +117,7 @@ public class TestReactiveSpringJdbcTemplate
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test04Flux() throws Exception
+    void test04Flux() throws Exception
     {
         Flux<Person> testFlux = jdbcTemplate.queryAsFlux("select * from person where name = ?", springRowMapper, "reese");
 

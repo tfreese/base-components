@@ -53,8 +53,8 @@ public class CSVDriver implements java.sql.Driver
 
             try
             {
-                // HSQLDB registrieren.
-                Class.forName("org.hsqldb.jdbc.JDBCDriver");
+                // HSQLDB registrieren, ist bei JDBC 4.0 nicht mehr notwending.
+                // Class.forName("org.hsqldb.jdbc.JDBCDriver");
 
                 // Den CSVDriver registrieren.
                 DriverManager.registerDriver(INSTANCE);

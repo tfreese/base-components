@@ -1,6 +1,7 @@
 // Erzeugt: 25.03.2015
 package de.freese.base.persistence.jdbc.sqlite;
 
+import static org.junit.Assert.assertTrue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,30 +23,22 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestSqLite
+class TestSqLite
 {
     /**
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    public static void setUp() throws Exception
+    static void setUp() throws Exception
     {
         Class.forName("org.sqlite.JDBC");
-    }
-
-    /**
-     * Erstellt ein neues {@link TestSqLite} Object.
-     */
-    public TestSqLite()
-    {
-        super();
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testSqliteJDBC() throws Exception
+    void testSqliteJDBC() throws Exception
     {
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:target/sqlite.db"))
         {
@@ -108,13 +101,15 @@ public class TestSqLite
                 }
             }
         }
+
+        assertTrue(true);
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testSqliteSpring() throws Exception
+    void testSqliteSpring() throws Exception
     {
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
@@ -174,5 +169,7 @@ public class TestSqLite
         });
 
         dataSource.destroy();
+
+        assertTrue(true);
     }
 }

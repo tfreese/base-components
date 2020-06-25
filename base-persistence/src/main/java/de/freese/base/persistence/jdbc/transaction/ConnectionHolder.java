@@ -84,12 +84,11 @@ public final class ConnectionHolder
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
      * @return {@link Connection}
-     * @throws SQLException Falls was schief geht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
     @SuppressWarnings("resource")
-    public static Connection get() throws SQLException
+    public static Connection get()
     {
         Connection connection = THREAD_LOCAL.get();
 
@@ -134,12 +133,11 @@ public final class ConnectionHolder
      * Wirft eine {@link IllegalStateException}, wenn der aktuelle Thread bereits eine {@link Connection} hat.
      *
      * @param connection {@link Connection}
-     * @throws SQLException Falls was schief geht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
     @SuppressWarnings("resource")
-    public static void set(final Connection connection) throws SQLException
+    public static void set(final Connection connection)
     {
         if (THREAD_LOCAL.get() != null)
         {
@@ -149,5 +147,13 @@ public final class ConnectionHolder
         Objects.requireNonNull(connection, "connection required");
 
         THREAD_LOCAL.set(connection);
+    }
+
+    /**
+     * Erstellt ein neues {@link ConnectionHolder} Object.
+     */
+    private ConnectionHolder()
+    {
+        super();
     }
 }

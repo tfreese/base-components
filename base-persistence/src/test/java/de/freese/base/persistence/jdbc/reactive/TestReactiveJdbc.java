@@ -2,8 +2,9 @@
  * Created: 09.04.2019
  */
 
-package de.freese.base.persistence.jdbc.template;
+package de.freese.base.persistence.jdbc.reactive;
 
+import static org.junit.Assert.assertTrue;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,9 +29,6 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
 import de.freese.base.persistence.jdbc.TestSuiteJdbc;
-import de.freese.base.persistence.jdbc.reactive.ResultSetIterable;
-import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
-import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 import de.freese.base.utils.JdbcUtils;
 import reactor.core.publisher.Flux;
@@ -40,7 +38,7 @@ import reactor.core.scheduler.Schedulers;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestReactiveParallel
+class TestReactiveJdbc
 {
     /**
      *
@@ -134,19 +132,11 @@ public class TestReactiveParallel
     }
 
     /**
-     * Erstellt ein neues {@link TestReactiveParallel} Object.
-     */
-    public TestReactiveParallel()
-    {
-        super();
-    }
-
-    /**
      * @throws SQLException Falls was schief geht.
      */
     @SuppressWarnings("resource")
     @Test
-    public void flux() throws SQLException
+    void flux() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.flux()");
@@ -164,6 +154,8 @@ public class TestReactiveParallel
         });
 
         flux.subscribe(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
+
+        assertTrue(true);
     }
 
     /**
@@ -171,7 +163,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void fluxParallel() throws SQLException
+    void fluxParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.fluxParallel()");
@@ -193,6 +185,8 @@ public class TestReactiveParallel
             .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
             .subscribe(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         // @formatter:on
+
+        assertTrue(true);
     }
 
     /**
@@ -200,7 +194,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void streamIterable() throws SQLException
+    void streamIterable() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.streamIterable()");
@@ -212,13 +206,15 @@ public class TestReactiveParallel
 
         RowMapper<Person> rowMapper = new PersonRowMapper();
 
-        try (Stream<Person> stream = StreamSupport.stream(new ResultSetIterable<>(resultSet, rowMapper).spliterator(), true).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(new ResultSetIterable<>(resultSet, rowMapper).spliterator(), false).onClose(() -> {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.forEach(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         }
+
+        assertTrue(true);
     }
 
     /**
@@ -226,7 +222,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void streamIterableParallel() throws SQLException
+    void streamIterableParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.streamIterableParallel()");
@@ -245,6 +241,8 @@ public class TestReactiveParallel
         {
             stream.parallel().forEach(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         }
+
+        assertTrue(true);
     }
 
     /**
@@ -252,7 +250,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void streamIterator() throws SQLException
+    void streamIterator() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.streamIterator()");
@@ -267,13 +265,15 @@ public class TestReactiveParallel
         int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
         Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(new ResultSetIterator<>(resultSet, rowMapper), characteristics);
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.forEach(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         }
+
+        assertTrue(true);
     }
 
     /**
@@ -281,7 +281,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void streamIteratorParallel() throws SQLException
+    void streamIteratorParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.streamIteratorParallel()");
@@ -303,6 +303,8 @@ public class TestReactiveParallel
         {
             stream.parallel().forEach(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         }
+
+        assertTrue(true);
     }
 
     /**
@@ -310,7 +312,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void streamSpliterator() throws SQLException
+    void streamSpliterator() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.streamSpliterator()");
@@ -324,13 +326,15 @@ public class TestReactiveParallel
 
         Spliterator<Person> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.forEach(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         }
+
+        assertTrue(true);
     }
 
     /**
@@ -338,7 +342,7 @@ public class TestReactiveParallel
      */
     @SuppressWarnings("resource")
     @Test
-    public void streamSpliteratorParallel() throws SQLException
+    void streamSpliteratorParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveParallel.streamResultSetSpliteratorParallel()");
@@ -359,5 +363,7 @@ public class TestReactiveParallel
         {
             stream.parallel().forEach(p -> System.out.printf("%s: %s%n", Thread.currentThread().getName(), p));
         }
+
+        assertTrue(true);
     }
 }

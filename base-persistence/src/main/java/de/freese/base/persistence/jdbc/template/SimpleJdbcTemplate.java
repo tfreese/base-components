@@ -607,18 +607,13 @@ public class SimpleJdbcTemplate
                         }
                         catch (SQLException sex)
                         {
+                            closeResultSet(resultSet);
+                            closeStatement(statement);
+                            closeConnection(connection);
+
                             sink.error(sex);
                         }
                      })
-                    //.map(rowMapper::mapRow)
-                    //.onErrorMap(SQLException.class, ExceptionFactory::create)
-//                  .doFinally(state -> {
-//                      getLogger().debug("close jdbc flux");
-//
-//                      closeResultSet(resultSet);
-//                      closeStatement(statement);
-//                      closeConnection(connection);
-//                  })
                     ;
             // @formatter:on
         };

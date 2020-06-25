@@ -1,6 +1,7 @@
 // Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.csv;
 
+import static org.junit.Assert.assertTrue;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestExceltoCsv
+class TestExceltoCsv
 {
     /**
      *
@@ -26,24 +27,16 @@ public class TestExceltoCsv
      * @throws Exception Falls was schief geht.
      */
     @AfterAll
-    public static void shutdown() throws Exception
+    static void shutdown() throws Exception
     {
         PRINT_STREAM.flush();
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link TestExceltoCsv}
-     */
-    public TestExceltoCsv()
-    {
-        super();
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test01ExcelToCsv() throws Exception
+    void test01ExcelToCsv() throws Exception
     {
         // Path excelSource = Paths.get(System.getProperty("user.home"), "Downloads", "test1.xlsx");
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
@@ -69,13 +62,15 @@ public class TestExceltoCsv
         toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM));
 
         PRINT_STREAM.println();
+
+        assertTrue(true);
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test02ExcelToCsv() throws Exception
+    void test02ExcelToCsv() throws Exception
     {
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
         // Path csvDest = Files.createTempFile("tmp-exceltocsv-" + System.currentTimeMillis(), ".csv");
@@ -101,5 +96,7 @@ public class TestExceltoCsv
         toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM));
 
         PRINT_STREAM.println();
+
+        assertTrue(true);
     }
 }
