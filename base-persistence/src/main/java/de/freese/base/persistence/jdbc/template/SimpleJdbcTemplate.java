@@ -101,25 +101,25 @@ public class SimpleJdbcTemplate
      */
     protected void applyStatementSettings(final Statement statement) throws SQLException
     {
-        int fetchSize = getFetchSize();
+        int fs = getFetchSize();
 
-        if (fetchSize != -1)
+        if (fs != -1)
         {
-            statement.setFetchSize(fetchSize);
+            statement.setFetchSize(fs);
         }
 
-        int maxRows = getMaxRows();
+        int mr = getMaxRows();
 
-        if (maxRows != -1)
+        if (mr != -1)
         {
-            statement.setMaxRows(maxRows);
+            statement.setMaxRows(mr);
         }
 
-        int queryTimeout = getQueryTimeout();
+        int qt = getQueryTimeout();
 
-        if (queryTimeout != -1)
+        if (qt != -1)
         {
-            statement.setQueryTimeout(queryTimeout);
+            statement.setQueryTimeout(qt);
         }
     }
 
@@ -181,11 +181,11 @@ public class SimpleJdbcTemplate
         }
         catch (SQLException sex)
         {
-            getLogger().debug("Could not close JDBC Connection", sex);
+            getLogger().error("Could not close JDBC Connection", sex);
         }
         catch (Throwable ex)
         {
-            getLogger().debug("Unexpected exception on closing JDBC Connection", ex);
+            getLogger().error("Unexpected exception on closing JDBC Connection", ex);
         }
     }
 
@@ -203,11 +203,11 @@ public class SimpleJdbcTemplate
         }
         catch (SQLException sex)
         {
-            getLogger().trace("Could not close JDBC ResultSet", sex);
+            getLogger().error("Could not close JDBC ResultSet", sex);
         }
         catch (Throwable ex)
         {
-            getLogger().trace("Unexpected exception on closing JDBC ResultSet", ex);
+            getLogger().error("Unexpected exception on closing JDBC ResultSet", ex);
         }
     }
 
@@ -225,11 +225,11 @@ public class SimpleJdbcTemplate
         }
         catch (SQLException sex)
         {
-            getLogger().trace("Could not close JDBC Statement", sex);
+            getLogger().error("Could not close JDBC Statement", sex);
         }
         catch (Throwable ex)
         {
-            getLogger().trace("Unexpected exception on closing JDBC Statement", ex);
+            getLogger().error("Unexpected exception on closing JDBC Statement", ex);
         }
     }
 

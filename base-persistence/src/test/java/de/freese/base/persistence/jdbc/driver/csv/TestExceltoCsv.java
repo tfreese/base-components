@@ -1,7 +1,7 @@
 // Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.csv;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;

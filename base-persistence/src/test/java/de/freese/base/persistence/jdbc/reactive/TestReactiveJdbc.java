@@ -4,7 +4,7 @@
 
 package de.freese.base.persistence.jdbc.reactive;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -4,9 +4,11 @@
 
 package de.freese.base.persistence.jdbc.reactive;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -30,7 +32,7 @@ import reactor.core.scheduler.Schedulers;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 // @Disabled // Häufige API-Änderungen lassen den Test fehlschlagen.
-public class TestR2DBC
+class TestR2DBC
 {
     /**
      *
@@ -55,7 +57,7 @@ public class TestR2DBC
     {
         if (connectionFactory instanceof ConnectionPool)
         {
-            Thread.sleep(300);
+            TimeUnit.MILLISECONDS.sleep(300);
 
             ConnectionPool pool = (ConnectionPool) connectionFactory;
 
@@ -65,7 +67,7 @@ public class TestR2DBC
             }
         }
 
-        Thread.sleep(300);
+        TimeUnit.MILLISECONDS.sleep(300);
 
         scheduler.dispose();
     }
@@ -121,21 +123,13 @@ public class TestR2DBC
     }
 
     /**
-     * Erstellt ein neues {@link TestR2DBC} Object.
-     */
-    public TestR2DBC()
-    {
-        super();
-    }
-
-    /**
      * !!! Ohne subscribe erfolgt keine Ausführung !!!
      *
      * @throws SQLException Falls was schief geht.
      */
     @Test
     @Order(1)
-    public void create() throws SQLException
+    void create() throws SQLException
     {
         // @formatter:off
         r2dbc.withHandle(handle -> handle
@@ -145,6 +139,8 @@ public class TestR2DBC
             .subscribe(affectedRows -> System.out.printf("create [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
             ;
         // @formatter:on
+
+        assertTrue(true);
     }
 
     /**
@@ -154,7 +150,7 @@ public class TestR2DBC
      */
     @Test
     @Order(2)
-    public void insert() throws SQLException
+    void insert() throws SQLException
     {
         // @formatter:off
         r2dbc.inTransaction(handle -> handle
@@ -164,6 +160,8 @@ public class TestR2DBC
             .subscribe(affectedRows -> System.out.printf("insert [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
             ;
         // @formatter:on
+
+        assertTrue(true);
     }
 
     /**
@@ -173,7 +171,7 @@ public class TestR2DBC
      */
     @Test
     @Order(4)
-    public void insertBatch() throws SQLException
+    void insertBatch() throws SQLException
     {
         // @formatter:off
         r2dbc.inTransaction(handle -> handle
@@ -187,6 +185,8 @@ public class TestR2DBC
             .subscribe(affectedRows -> System.out.printf("insertBatch [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
             ;
         // @formatter:on
+
+        assertTrue(true);
     }
 
     /**
@@ -196,7 +196,7 @@ public class TestR2DBC
      */
     @Test
     @Order(10)
-    public void select() throws SQLException
+    void select() throws SQLException
     {
         // @formatter:off
         r2dbc.withHandle(h -> h
@@ -212,6 +212,8 @@ public class TestR2DBC
             //.collectList().block().forEach(System.out::println)
             ;
         // @formatter:on
+
+        assertTrue(true);
     }
 
     /**
@@ -221,7 +223,7 @@ public class TestR2DBC
      */
     @Test
     @Order(3)
-    public void update() throws SQLException
+    void update() throws SQLException
     {
         // @formatter:off
         r2dbc.inTransaction(handle -> handle
@@ -234,5 +236,7 @@ public class TestR2DBC
             .subscribe(affectedRows -> System.out.printf("update [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
             ;
         // @formatter:on
+
+        assertTrue(true);
     }
 }

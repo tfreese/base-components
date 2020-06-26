@@ -312,33 +312,21 @@ class TestLoggingJdbcDriver
     // }
 
     /**
-     * @return {@link Stream}
+     * @param connectionPool {@link ConnectionPool}
+     * @throws Exception Falls was schief geht.
      */
-    @TestFactory
-    Stream<DynamicNode> connectionPools()
+    void close(final ConnectionPool connectionPool) throws Exception
     {
-        // @formatter:off
-        return POOLS.stream()
-                .map(cp -> dynamicContainer(cp.getClass().getSimpleName(),
-                        Stream.of(
-                                dynamicTest("testDriver", () -> test010Driver(cp)),
-                                dynamicTest("Close Pool", () -> test020Close(cp))
-//                                dynamicContainer("Close",
-//                                        Stream.of(dynamicTest("Close Pool", () -> test020Close(cp))
-//                                        )
-//                                )
-                        )
-                    )
-                )
-                ;
-        // @formatter:on
+        connectionPool.close();
+
+        assertTrue(true);
     }
 
     /**
      * @param connectionPool {@link ConnectionPool}
      * @throws Exception Falls was schief geht.
      */
-    void test010Driver(final ConnectionPool connectionPool) throws Exception
+    void driver(final ConnectionPool connectionPool) throws Exception
     {
         // "jdbc:logger:jdbc:generic:file:/home/tommy/db/generic/generic;create=false;shutdown=true"
         try (Connection connection = connectionPool.getConnection())
@@ -364,13 +352,25 @@ class TestLoggingJdbcDriver
     }
 
     /**
-     * @param connectionPool {@link ConnectionPool}
-     * @throws Exception Falls was schief geht.
+     * @return {@link Stream}
      */
-    void test020Close(final ConnectionPool connectionPool) throws Exception
+    @TestFactory
+    Stream<DynamicNode> testConnectionPools()
     {
-        connectionPool.close();
-
-        assertTrue(true);
+        // @formatter:off
+        return POOLS.stream()
+                .map(cp -> dynamicContainer(cp.getClass().getSimpleName(),
+                        Stream.of(
+                                dynamicTest("Test Driver", () -> driver(cp)),
+                                dynamicTest("Close Pool", () -> close(cp))
+//                                dynamicContainer("Close",
+//                                        Stream.of(dynamicTest("Close Pool", () -> test020Close(cp))
+//                                        )
+//                                )
+                        )
+                    )
+                )
+                ;
+        // @formatter:on
     }
 }

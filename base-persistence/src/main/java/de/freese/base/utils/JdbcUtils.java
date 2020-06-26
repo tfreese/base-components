@@ -19,6 +19,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utilklasse fuer das Arbeiten mit JDBC.
@@ -27,6 +29,11 @@ import javax.sql.DataSource;
  */
 public final class JdbcUtils
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcUtils.class);
+
     /**
      * Schliesst die {@link Connection}.<br>
      *
@@ -58,8 +65,14 @@ public final class JdbcUtils
         {
             closeConnection(connection);
         }
-        catch (Exception ignore)
+        catch (SQLException ex)
         {
+            LOGGER.error("Could not close JDBC Connection", ex);
+        }
+        catch (Throwable ex)
+        {
+            // We don't trust the JDBC driver: It might throw RuntimeException or Error.
+            LOGGER.error("Unexpected exception on closing JDBC Connection", ex);
         }
     }
 
@@ -94,8 +107,14 @@ public final class JdbcUtils
         {
             closeResultSet(resultSet);
         }
-        catch (Exception ignore)
+        catch (SQLException ex)
         {
+            LOGGER.error("Could not close JDBC ResultSet", ex);
+        }
+        catch (Throwable ex)
+        {
+            // We don't trust the JDBC driver: It might throw RuntimeException or Error.
+            LOGGER.error("Unexpected exception on closing JDBC ResultSet", ex);
         }
     }
 
@@ -133,10 +152,16 @@ public final class JdbcUtils
     {
         try
         {
-            closeStatementSilent(statement);
+            closeStatement(statement);
         }
-        catch (Exception ignore)
+        catch (SQLException ex)
         {
+            LOGGER.error("Could not close JDBC Statement", ex);
+        }
+        catch (Throwable ex)
+        {
+            // We don't trust the JDBC driver: It might throw RuntimeException or Error.
+            LOGGER.error("Unexpected exception on closing JDBC Statement", ex);
         }
     }
 

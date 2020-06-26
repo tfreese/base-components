@@ -1,7 +1,7 @@
 // Erzeugt: 25.03.2015
 package de.freese.base.persistence.jdbc.sqlite;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

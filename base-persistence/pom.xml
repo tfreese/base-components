@@ -151,7 +151,8 @@
 			<artifactId>junit-jupiter-params</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- runner & suite-api nur für TestSuites auf Basis JUnit4. -->
+		<!--dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
 			<scope>test</scope>
@@ -160,12 +161,7 @@
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-suite-api</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<!--dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<scope>test</scope>
-			</dependency -->
+		</dependency-->
 		<!--dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>

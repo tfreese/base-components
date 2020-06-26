@@ -13,9 +13,8 @@ import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.datasource.DataSourceUtils;
-import org.springframework.jdbc.support.JdbcUtils;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.utils.JdbcUtils;
 
 /**
  * @author Thomas Freese
@@ -80,27 +79,20 @@ public class ResultSetSubscription<T> implements Subscription
     @Override
     public void cancel()
     {
-        try
-        {
-            closeJdbcResources();
-        }
-        catch (SQLException sex)
-        {
-            getSubscriber().onError(sex);
-        }
+        closeJdbcResources();
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     *
      */
     @SuppressWarnings("resource")
-    protected void closeJdbcResources() throws SQLException
+    protected void closeJdbcResources()
     {
         getLogger().debug("close jdbc publisher");
 
-        JdbcUtils.closeResultSet(getResultSet());
-        JdbcUtils.closeStatement(getStatement());
-        DataSourceUtils.releaseConnection(getConnection(), null);
+        JdbcUtils.closeResultSetSilent(getResultSet());
+        JdbcUtils.closeStatementSilent(getStatement());
+        JdbcUtils.closeConnectionSilent(getConnection());
     }
 
     /**
@@ -174,14 +166,15 @@ public class ResultSetSubscription<T> implements Subscription
                 }
                 else
                 {
-                    getSubscriber().onComplete();
                     closeJdbcResources();
+                    getSubscriber().onComplete();
                     break;
                 }
             }
         }
         catch (SQLException sex)
         {
+            closeJdbcResources();
             getSubscriber().onError(sex);
         }
     }
