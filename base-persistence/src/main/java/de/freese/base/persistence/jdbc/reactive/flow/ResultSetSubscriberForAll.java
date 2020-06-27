@@ -13,47 +13,49 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * {@link Subscriber} der alle Objekte auf einmal anfordert.
+ *
  * @author Thomas Freese
  * @param <T> Entity-Type
  */
-public class ResultSetSubscriberForList<T> implements Subscriber<T>
+public class ResultSetSubscriberForAll<T> implements Subscriber<T>
 {
     /**
     *
     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForList.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForAll.class);
 
     /**
      *
      */
-    private final List<T> rows;
+    private final List<T> data;
 
     /**
-     * Erstellt ein neues {@link ResultSetSubscriberForList} Object.
+     * Erstellt ein neues {@link ResultSetSubscriberForAll} Object.
      */
-    public ResultSetSubscriberForList()
+    public ResultSetSubscriberForAll()
     {
         this(ArrayList::new);
     }
 
     /**
-     * Erstellt ein neues {@link ResultSetSubscriberForList} Object.
+     * Erstellt ein neues {@link ResultSetSubscriberForAll} Object.
      *
      * @param listSupplier {@link Supplier}; default ArrayList::new
      */
-    public ResultSetSubscriberForList(final Supplier<List<T>> listSupplier)
+    public ResultSetSubscriberForAll(final Supplier<List<T>> listSupplier)
     {
         super();
 
-        this.rows = listSupplier.get();
+        this.data = listSupplier.get();
     }
 
     /**
      * @return {@link List}<T>
      */
-    public List<T> getRows()
+    public List<T> getData()
     {
-        return this.rows;
+        return this.data;
     }
 
     /**
@@ -72,23 +74,29 @@ public class ResultSetSubscriberForList<T> implements Subscriber<T>
     public void onError(final Throwable throwable)
     {
         throwable.printStackTrace();
+
+        // Wird bereits im ResultSetSubscription verarbeitet.
+        // this.subscription.cancel();
     }
 
     /**
-     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachRow#onNext(java.lang.Object)
+     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onNext(java.lang.Object)
      */
     @Override
     public void onNext(final T item)
     {
-        this.rows.add(item);
+        LOGGER.debug("onNext: {}", item);
+
+        this.data.add(item);
     }
 
     /**
-     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachRow#onSubscribe(java.util.concurrent.Flow.Subscription)
+     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onSubscribe(java.util.concurrent.Flow.Subscription)
      */
     @Override
     public void onSubscribe(final Subscription subscription)
     {
-        subscription.request(Long.MAX_VALUE); // Alle Elemente anfordern.
+        // Alle Elemente anfordern, Gefahr durch OutOfMemory.
+        subscription.request(Long.MAX_VALUE);
     }
 }

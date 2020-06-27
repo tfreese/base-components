@@ -15,8 +15,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
-import de.freese.base.persistence.jdbc.TestSuiteJdbc;
 import io.r2dbc.client.R2dbc;
 import io.r2dbc.h2.H2ConnectionFactoryProvider;
 import io.r2dbc.pool.ConnectionPool;
@@ -85,7 +85,7 @@ class TestR2DBC
         ConnectionFactory connectionFactoryDB = ConnectionFactories.get(ConnectionFactoryOptions.builder()
                 .option(ConnectionFactoryOptions.DRIVER, H2ConnectionFactoryProvider.H2_DRIVER)
                 .option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_MEM)
-                .option(ConnectionFactoryOptions.DATABASE, "test" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement())
+                .option(ConnectionFactoryOptions.DATABASE, "" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
                 //.option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_FILE)
                 //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement())
                 .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=-1")

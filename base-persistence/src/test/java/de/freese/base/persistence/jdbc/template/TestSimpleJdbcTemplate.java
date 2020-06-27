@@ -18,23 +18,18 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-import javax.sql.DataSource;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
-import de.freese.base.persistence.jdbc.TestSuiteJdbc;
 import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForList;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -52,22 +47,10 @@ class TestSimpleJdbcTemplate
     private static SimpleJdbcTemplate jdbcTemplate = null;
 
     /**
-     *
-     */
-    @AfterAll
-    static void afterClass()
-    {
-        DataSource dataSource = jdbcTemplate.getDataSource();
-
-        if (dataSource instanceof SingleConnectionDataSource)
-        {
-            ((SingleConnectionDataSource) dataSource).destroy();
-        }
-        else if (dataSource instanceof EmbeddedDatabase)
-        {
-            ((EmbeddedDatabase) dataSource).shutdown();
-        }
-    }
+    *
+    */
+    @RegisterExtension
+    static final DbServerExtension SERVER = new DbServerExtension();
 
     /**
      *
@@ -75,25 +58,12 @@ class TestSimpleJdbcTemplate
     @BeforeAll
     static void beforeClass()
     {
-        EmbeddedDatabase database =
-                new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).setName("" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement()).build();
-
-        // SingleConnectionDataSource singleConnectionDataSource = new SingleConnectionDataSource();
-        // singleConnectionDataSource.setDriverClassName("org.generic.jdbc.JDBCDriver");
-        // singleConnectionDataSource.setUrl("jdbc:generic:mem:" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement());
-        // // singleConnectionDataSource.setUrl("jdbc:generic:file:db/generic/generic;create=false;shutdown=true");
-        // singleConnectionDataSource.setSuppressClose(true);
-        // singleConnectionDataSource.setAutoCommit(true);
-
-        // DataSource dataSource = singleConnectionDataSource;
-        DataSource dataSource = database;
-
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
         // populator.addScript(new ClassPathResource("generic-data.sql"));
-        populator.execute(dataSource);
+        populator.execute(SERVER.getDataSource());
 
-        jdbcTemplate = new SimpleJdbcTemplate(dataSource);
+        jdbcTemplate = new SimpleJdbcTemplate(SERVER.getDataSource());
         jdbcTemplate.setFetchSize(1);
     }
 
@@ -738,10 +708,10 @@ class TestSimpleJdbcTemplate
         Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
                 ps -> ps.setString(1, "Nachname%"));
 
-        ResultSetSubscriberForList<Person> toListSubscriber = new ResultSetSubscriberForList<>();
+        ResultSetSubscriberForAll<Person> toListSubscriber = new ResultSetSubscriberForAll<>();
         publisher.subscribe(toListSubscriber);
 
-        List<Person> result = toListSubscriber.getRows();
+        List<Person> result = toListSubscriber.getData();
 
         assertEquals(2, result.size());
 
@@ -765,10 +735,10 @@ class TestSimpleJdbcTemplate
         Publisher<Person> publisher =
                 jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
 
-        ResultSetSubscriberForList<Person> toListSubscriber = new ResultSetSubscriberForList<>();
+        ResultSetSubscriberForAll<Person> toListSubscriber = new ResultSetSubscriberForAll<>();
         publisher.subscribe(toListSubscriber);
 
-        List<Person> result = toListSubscriber.getRows();
+        List<Person> result = toListSubscriber.getData();
 
         assertEquals(2, result.size());
 
@@ -792,10 +762,10 @@ class TestSimpleJdbcTemplate
         Publisher<Map<String, Object>> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc",
                 new ColumnMapRowMapper(), ps -> ps.setString(1, "Nachname%"));
 
-        ResultSetSubscriberForList<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForList<>();
+        ResultSetSubscriberForAll<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForAll<>();
         publisher.subscribe(toListSubscriber);
 
-        List<Map<String, Object>> result = toListSubscriber.getRows();
+        List<Map<String, Object>> result = toListSubscriber.getData();
 
         assertEquals(2, result.size());
 
@@ -827,10 +797,10 @@ class TestSimpleJdbcTemplate
         Publisher<Map<String, Object>> publisher =
                 jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new ColumnMapRowMapper(), "Nachname%");
 
-        ResultSetSubscriberForList<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForList<>();
+        ResultSetSubscriberForAll<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForAll<>();
         publisher.subscribe(toListSubscriber);
 
-        List<Map<String, Object>> result = toListSubscriber.getRows();
+        List<Map<String, Object>> result = toListSubscriber.getData();
 
         assertEquals(2, result.size());
 

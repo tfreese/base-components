@@ -37,6 +37,7 @@ class TestHsqldbTextTables
     static void setUp() throws Exception
     {
         Class.forName("org.hsqldb.jdbc.JDBCDriver");
+        // Class.forName(JDBCDriver.class.getName());
 
         DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
     }

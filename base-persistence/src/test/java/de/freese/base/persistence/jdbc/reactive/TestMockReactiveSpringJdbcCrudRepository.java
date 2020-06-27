@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono;
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
 @MockitoSettings(strictness = Strictness.LENIENT)
-class TestReactiveSpringJdbcCrudRepository
+class TestMockReactiveSpringJdbcCrudRepository
 {
     /**
      * @author Thomas Freese

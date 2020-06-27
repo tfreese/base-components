@@ -175,6 +175,8 @@ public class SimpleJdbcTemplate
      */
     protected void closeConnection(final Connection connection)
     {
+        getLogger().debug("close connection");
+
         try
         {
             JdbcUtils.closeConnection(connection);
@@ -197,6 +199,8 @@ public class SimpleJdbcTemplate
      */
     protected void closeResultSet(final ResultSet resultSet)
     {
+        getLogger().debug("close resultSet");
+
         try
         {
             JdbcUtils.closeResultSet(resultSet);
@@ -219,6 +223,8 @@ public class SimpleJdbcTemplate
      */
     protected void closeStatement(final Statement statement)
     {
+        getLogger().debug("close statement");
+
         try
         {
             JdbcUtils.closeStatement(statement);
@@ -596,24 +602,21 @@ public class SimpleJdbcTemplate
                             }
                             else
                             {
-                                getLogger().debug("close jdbc flux");
-
-                                closeResultSet(resultSet);
-                                closeStatement(statement);
-                                closeConnection(connection);
-
                                 sink.complete();
                             }
                         }
                         catch (SQLException sex)
                         {
-                            closeResultSet(resultSet);
-                            closeStatement(statement);
-                            closeConnection(connection);
-
                             sink.error(sex);
                         }
                      })
+                    .doFinally(state -> {
+                        getLogger().debug("close jdbc flux");
+
+                        closeResultSet(resultSet);
+                        closeStatement(statement);
+                        closeConnection(connection);
+                    })
                     ;
             // @formatter:on
         };

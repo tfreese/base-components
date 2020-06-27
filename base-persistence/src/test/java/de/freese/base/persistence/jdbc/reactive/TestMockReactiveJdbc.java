@@ -37,7 +37,7 @@ import reactor.core.publisher.SynchronousSink;
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
 @MockitoSettings(strictness = Strictness.LENIENT)
-class TestReactiveJdbcMock
+class TestMockReactiveJdbc
 {
     /**
      * @author Thomas Freese

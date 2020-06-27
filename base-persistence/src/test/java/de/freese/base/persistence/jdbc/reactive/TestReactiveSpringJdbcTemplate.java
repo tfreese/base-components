@@ -6,17 +6,16 @@ package de.freese.base.persistence.jdbc.reactive;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
-import de.freese.base.persistence.jdbc.TestSuiteJdbc;
 import reactor.core.publisher.Flux;
 
 /**
@@ -28,12 +27,13 @@ class TestReactiveSpringJdbcTemplate
     /**
      *
      */
-    private static SingleConnectionDataSource dataSource = null;
+    private static ReactiveSpringJdbcTemplate jdbcTemplate = null;
 
     /**
-     *
-     */
-    private static ReactiveSpringJdbcTemplate jdbcTemplate = null;
+    *
+    */
+    @RegisterExtension
+    static final DbServerExtension SERVER = new DbServerExtension();
 
     /**
      *
@@ -43,30 +43,15 @@ class TestReactiveSpringJdbcTemplate
     /**
      *
      */
-    @AfterAll
-    static void afterClass()
-    {
-        dataSource.destroy();
-    }
-
-    /**
-     *
-     */
     @BeforeAll
     static void beforeClass()
     {
-        dataSource = new SingleConnectionDataSource();
-        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        dataSource.setUrl("jdbc:hsqldb:mem:" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement());
-        // dataSource.setUrl("jdbc:hsqldb:file:db/generic/generic;create=false;shutdown=true");
-        dataSource.setSuppressClose(true);
-
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
         populator.addScript(new ClassPathResource("hsqldb-data.sql"));
-        populator.execute(dataSource);
+        populator.execute(SERVER.getDataSource());
 
-        jdbcTemplate = new ReactiveSpringJdbcTemplate(dataSource);
+        jdbcTemplate = new ReactiveSpringJdbcTemplate(SERVER.getDataSource());
 
         PersonRowMapper prm = new PersonRowMapper();
         springRowMapper = (rs, row) -> prm.mapRow(rs);

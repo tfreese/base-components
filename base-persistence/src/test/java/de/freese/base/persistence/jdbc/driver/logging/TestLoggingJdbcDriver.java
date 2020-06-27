@@ -26,7 +26,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.freese.base.persistence.jdbc.TestSuiteJdbc;
+import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 
 /**
@@ -270,7 +270,7 @@ class TestLoggingJdbcDriver
     /**
      *
      */
-    private static final String URL = "jdbc:logger:jdbc:hsqldb:mem:" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement();
+    private static final String URL = "jdbc:logger:jdbc:hsqldb:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement();
 
     /**
      * @throws Exception Falls was schief geht.

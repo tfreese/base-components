@@ -79,6 +79,8 @@ public class ResultSetSubscription<T> implements Subscription
     @Override
     public void cancel()
     {
+        getLogger().debug("close jdbc subscription");
+
         closeJdbcResources();
     }
 
@@ -88,7 +90,7 @@ public class ResultSetSubscription<T> implements Subscription
     @SuppressWarnings("resource")
     protected void closeJdbcResources()
     {
-        getLogger().debug("close jdbc publisher");
+        getLogger().debug("close jdbc resources");
 
         JdbcUtils.closeResultSetSilent(getResultSet());
         JdbcUtils.closeStatementSilent(getStatement());
@@ -150,6 +152,8 @@ public class ResultSetSubscription<T> implements Subscription
     @Override
     public void request(final long n)
     {
+        getLogger().debug("request next {} objects", n);
+
         try
         {
             if (getResultSet().isClosed())
