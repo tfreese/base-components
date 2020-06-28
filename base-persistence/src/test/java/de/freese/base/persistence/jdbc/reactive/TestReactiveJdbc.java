@@ -392,8 +392,8 @@ class TestReactiveJdbc
         System.out.println("TestReactiveJdbc.subscriberForAll()");
 
         Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement();
-        statement.setFetchSize(1);
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(10);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
@@ -415,8 +415,8 @@ class TestReactiveJdbc
         System.out.println("TestReactiveJdbc.subscriberForEachObject()");
 
         Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement();
-        statement.setFetchSize(1);
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(10);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
@@ -438,8 +438,8 @@ class TestReactiveJdbc
         System.out.println("TestReactiveJdbc.subscriberForFetchSize()");
 
         Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement();
-        statement.setFetchSize(1);
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(10);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());

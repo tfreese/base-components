@@ -26,7 +26,7 @@ public class LoggingJdbcDriverServletContextListener implements ServletContextLi
     @Override
     public void contextDestroyed(final ServletContextEvent sce)
     {
-        // NOOP
+        // Empty
     }
 
     /**

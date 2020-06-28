@@ -40,6 +40,13 @@ class TestSqLite
     @Test
     void testSqliteJDBC() throws Exception
     {
+        // Native Libraries deaktivieren für den Zugriff auf die Dateien.
+        // System.setProperty("sqlite.purejava", "true");
+
+        // Pfade für native Libraries.
+        // System.setProperty("org.sqlite.lib.path", "/home/tommy");
+        // System.setProperty("org.sqlite.lib.name", "sqlite-libsqlitejdbc.so");
+
         try (Connection connection = DriverManager.getConnection("jdbc:sqlite:target/sqlite.db"))
         {
             System.out.println("Opened database successfully");

@@ -47,6 +47,26 @@ public final class StringUtils
     public static final String SPACE = " ";
 
     /**
+     * <pre>
+     * StringUtils.abbreviate(null, *)      = null
+     * StringUtils.abbreviate("", 4)        = ""
+     * StringUtils.abbreviate("abcdefg", 6) = "abc..."
+     * StringUtils.abbreviate("abcdefg", 7) = "abcdefg"
+     * StringUtils.abbreviate("abcdefg", 8) = "abcdefg"
+     * StringUtils.abbreviate("abcdefg", 4) = "a..."
+     * StringUtils.abbreviate("abcdefg", 3) = IllegalArgumentException
+     * </pre>
+     *
+     * @param str String
+     * @param maxWidth int
+     * @return String
+     */
+    public static String abbreviate(final String str, final int maxWidth)
+    {
+        return org.apache.commons.lang3.StringUtils.abbreviate(str, "...", 0, maxWidth);
+    }
+
+    /**
      * Fügt vor und nach dem ersten Eintrag der Liste eine Trenn-Linie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      *

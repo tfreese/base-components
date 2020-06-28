@@ -10,7 +10,6 @@ import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Set;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -21,7 +20,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingJdbcDriver.class);
+    private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
 
     /**
      *
@@ -36,7 +35,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
     /**
      * Erstellt ein neues {@link LoggingJdbcInvocationHandler} Object.
      *
-     * @param target     Object
+     * @param target Object
      * @param logMethods {@link Set}
      */
     LoggingJdbcInvocationHandler(final Object target, final Set<String> logMethods)
@@ -60,7 +59,8 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
             // if (LOGGER.isDebugEnabled())
             if (logMethod)
             {
-                LOGGER.info(String.format("Invoke %s#%s: %s", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : ""));
+                LOGGER.info(
+                        String.format("Invoke %s#%s: %s", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : ""));
             }
 
             // long start = System.currentTimeMillis();
@@ -80,8 +80,8 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
             if (method.getReturnType().isInterface())
             {
                 return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]
-                                      {
-                                          method.getReturnType()
+                {
+                        method.getReturnType()
                 }, new LoggingJdbcInvocationHandler(result, this.logMethods));
             }
 

@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -38,6 +39,11 @@ public class LoggingJdbcDriver implements Driver
      *
      */
     private static final Set<String> LOG_METHODS = new HashSet<>();
+
+    /**
+    *
+    */
+    static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoggingJdbcDriver.class);
     /**
      *
      */

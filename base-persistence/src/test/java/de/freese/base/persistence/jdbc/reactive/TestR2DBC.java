@@ -4,13 +4,16 @@
 
 package de.freese.base.persistence.jdbc.reactive;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -78,7 +81,7 @@ class TestR2DBC
     @BeforeAll
     static void beforeAll()
     {
-        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors());
+        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
 
         // Connection Factory Discovery (Client-API)
         // @formatter:off
@@ -87,15 +90,15 @@ class TestR2DBC
                 .option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_MEM)
                 .option(ConnectionFactoryOptions.DATABASE, "" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
                 //.option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_FILE)
-                //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement())
-                .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=-1")
+                //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
+                .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=-1") // ;DB_CLOSE_DELAY=-1 // DB bleibt nach letzter Connection erhalten.
                 .build());
         // @formatter:on
 
         // Programmatisch
         // @formatter:off
 //        ConnectionFactory connectionFactoryDB = new H2ConnectionFactory(H2ConnectionConfiguration.builder()
-//                 .inMemory("test" + TestSuiteJdbc.ATOMIC_INTEGER.getAndIncrement())
+//                 .inMemory("" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
 //                 .build());
         // @formatter:on
 
@@ -123,6 +126,15 @@ class TestR2DBC
     }
 
     /**
+     *
+     */
+    @BeforeEach
+    void beforeEach()
+    {
+        DbServerExtension.showMemory();
+    }
+
+    /**
      * !!! Ohne subscribe erfolgt keine Ausführung !!!
      *
      * @throws SQLException Falls was schief geht.
@@ -136,11 +148,12 @@ class TestR2DBC
                 .execute("CREATE TABLE PERSON(ID BIGINT NOT NULL, NAME VARCHAR(25) NOT NULL, VORNAME VARCHAR(25))")
                 )
             //.subscribeOn(scheduler)
-            .subscribe(affectedRows -> System.out.printf("create [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
+            .subscribe(affectedRows -> {
+                System.out.printf("create [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                assertEquals(0, affectedRows);
+                })
             ;
         // @formatter:on
-
-        assertTrue(true);
     }
 
     /**
@@ -157,11 +170,12 @@ class TestR2DBC
                 .execute("INSERT INTO PERSON (ID, NAME, VORNAME) VALUES ($1, $2, $3)", 1, "Freese" ,"Thomas")
                 )
             //.subscribeOn(scheduler)
-            .subscribe(affectedRows -> System.out.printf("insert [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
+            .subscribe(affectedRows -> {
+                System.out.printf("insert [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                assertEquals(1, affectedRows);
+                })
             ;
         // @formatter:on
-
-        assertTrue(true);
     }
 
     /**
@@ -182,11 +196,14 @@ class TestR2DBC
                     .execute()
                 )
             //.subscribeOn(scheduler)
-            .subscribe(affectedRows -> System.out.printf("insertBatch [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
+            .subscribe(affectedRows -> {
+                System.out.printf("insertBatch [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+
+                // Hier sollte eigentlch affectedRows = 2 sein ?!?!?!
+                assertEquals(1, affectedRows);
+                })
             ;
         // @formatter:on
-
-        assertTrue(true);
     }
 
     /**
@@ -198,9 +215,11 @@ class TestR2DBC
     @Order(10)
     void select() throws SQLException
     {
+        List<Person> list = new ArrayList<>();
+
         // @formatter:off
-        r2dbc.withHandle(h -> h
-                .select("SELECT * FROM PERSON")
+        r2dbc.withHandle(handle -> handle
+                .select("SELECT * FROM PERSON ORDER BY ID ASC")
                         .mapResult(result -> result.map((row, rowMetadata) -> {
                             System.out.printf("map [%s]%n", Thread.currentThread().getName());
                             return new Person(row.get("ID", Long.class), row.get("NAME", String.class), row.get("VORNAME", String.class));
@@ -208,12 +227,27 @@ class TestR2DBC
                         ))
                 )
             //.subscribeOn(scheduler)
-            .subscribe(person -> System.out.printf("select [%s]: person = %s%n", Thread.currentThread().getName(), person.toString()))
+            .subscribe(person -> {
+                list.add(person);
+                System.out.printf("select [%s]: person = %s%n", Thread.currentThread().getName(), person.toString());
+                })
             //.collectList().block().forEach(System.out::println)
             ;
         // @formatter:on
 
-        assertTrue(true);
+        assertEquals(3, list.size());
+
+        assertEquals(1, list.get(0).getId());
+        assertEquals("Freese", list.get(0).getNachname());
+        assertEquals("Hugo", list.get(0).getVorname());
+
+        assertEquals(2, list.get(1).getId());
+        assertEquals("NAME_A", list.get(1).getNachname());
+        assertEquals("VORNAME_A", list.get(1).getVorname());
+
+        assertEquals(3, list.get(2).getId());
+        assertEquals("NAME_B", list.get(2).getNachname());
+        assertEquals("VORNAME_B", list.get(2).getVorname());
     }
 
     /**
@@ -233,10 +267,11 @@ class TestR2DBC
                     .execute()
                 )
             //.subscribeOn(scheduler)
-            .subscribe(affectedRows -> System.out.printf("update [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows))
+            .subscribe(affectedRows -> {
+                System.out.printf("update [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                assertEquals(1, affectedRows);
+                })
             ;
         // @formatter:on
-
-        assertTrue(true);
     }
 }

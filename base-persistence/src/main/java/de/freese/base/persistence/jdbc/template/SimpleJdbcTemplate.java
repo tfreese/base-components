@@ -38,6 +38,14 @@ import reactor.core.publisher.SynchronousSink;
 
 /**
  * Analog-Implementierung vom org.springframework.jdbc.core.JdbcTemplate.<br>
+ * <ul>
+ * <li>negative FETCH_SIZE möglich
+ * <li>Statements werden mit ResultSet.TYPE_FORWARD_ONLY und ResultSet.CONCUR_READ_ONLY erzeugt
+ * <li>queryAsFlux
+ * <li>queryAsStream
+ * </ul>
+ * Durch diese Unterschiede wird das {@link ResultSet} nicht komplett in den RAM geladen, sondern die Daten werden Zeilenweise vom DB-Server geholt.<br>
+ * Dadurch ergibt sich eine enorme Einsparung im Speicherverbrauch gerade bei größeren Datenmengen.<br>
  *
  * @author Thomas Freese
  */
@@ -331,7 +339,7 @@ public class SimpleJdbcTemplate
      */
     public boolean execute(final String sql)
     {
-        StatementCreator<Statement> sc = Connection::createStatement;
+        StatementCreator<Statement> sc = con -> con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         StatementCallback<Statement, Boolean> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
@@ -481,7 +489,7 @@ public class SimpleJdbcTemplate
      */
     public <T> T query(final String sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter setter)
     {
-        StatementCreator<PreparedStatement> sc = con -> con.prepareStatement(sql);
+        StatementCreator<PreparedStatement> sc = con -> con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         StatementCallback<PreparedStatement, T> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
@@ -890,7 +898,7 @@ public class SimpleJdbcTemplate
      */
     public int update(final String sql, final PreparedStatementSetter setter)
     {
-        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql);
+        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         StatementCallback<PreparedStatement, Integer> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
@@ -934,7 +942,7 @@ public class SimpleJdbcTemplate
     @SuppressWarnings("resource")
     public <T> int[] updateBatch(final String sql, final ParameterizedPreparedStatementSetter<T> setter, final Collection<T> batchArgs, final int batchSize)
     {
-        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql);
+        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         StatementCallback<PreparedStatement, int[]> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {

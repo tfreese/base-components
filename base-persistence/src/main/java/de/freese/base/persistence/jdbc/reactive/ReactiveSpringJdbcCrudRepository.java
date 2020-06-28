@@ -35,7 +35,7 @@ public interface ReactiveSpringJdbcCrudRepository<T, ID> extends ReactiveCrudRep
         @Override
         public default void onComplete()
         {
-            // NOOP
+            // Empty
         }
 
         /**

@@ -289,6 +289,9 @@ public class SingleDataSource implements DataSource, AutoCloseable
     public Logger getParentLogger() throws SQLFeatureNotSupportedException
     {
         return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+        // return null;
+        // throw new SQLFeatureNotSupportedException();
     }
 
     /**

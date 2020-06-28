@@ -7,6 +7,7 @@
 
 package de.freese.base.persistence.jdbc;
 
+import java.text.NumberFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -34,6 +35,26 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DbServerExtension.class);
+
+    /**
+     *
+     */
+    public static void showMemory()
+    {
+        Runtime runtime = Runtime.getRuntime();
+        NumberFormat format = NumberFormat.getInstance();
+
+        long maxMemory = runtime.maxMemory();
+        long allocatedMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+        long divider = 1024 * 1024;
+        String unit = "MB";
+
+        LOGGER.info("Free memory: " + format.format(freeMemory / divider) + unit);
+        LOGGER.info("Allocated memory: " + format.format(allocatedMemory / divider) + unit);
+        LOGGER.info("Max memory: " + format.format(maxMemory / divider) + unit);
+        LOGGER.info("Total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
+    }
 
     /**
      *
@@ -111,10 +132,15 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         // ;MVCC=true;LOCK_MODE=0
 
         this.dataSource = new HikariDataSource();
+
         // this.dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        // this.dataSource.setJdbcUrl("jdbc:hsqldb:mem:" + System.nanoTime());
+        // this.dataSource.setJdbcUrl("jdbc:hsqldb:mem:" + System.nanoTime() + ";shutdown=true");
+        // ;shutdown=true schliesst die DB nach Ende der letzten Connection.
+
         this.dataSource.setDriverClassName("org.h2.Driver");
         this.dataSource.setJdbcUrl("jdbc:h2:mem:" + System.nanoTime());
+        // ;DB_CLOSE_DELAY=-1 schliesst NICHT die DB nach Ende der letzten Connection.
+
         this.dataSource.setUsername("sa");
         this.dataSource.setPassword("");
 
