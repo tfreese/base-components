@@ -17,6 +17,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import de.freese.base.utils.JdbcUtils;
 
 /**
@@ -26,9 +28,15 @@ import de.freese.base.utils.JdbcUtils;
 class TestHsqldbTextTables
 {
     /**
+    *
+    */
+    static final Logger LOGGER = LoggerFactory.getLogger(TestHsqldbTextTables.class);
+
+    /**
      *
      */
     private static PrintStream PRINT_STREAM = System.out;
+    // private static PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
      * @throws Exception Falls was schief geht.

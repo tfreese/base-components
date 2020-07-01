@@ -3,20 +3,10 @@
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
 
     <!--Levels are ordered: TRACE < DEBUG < INFO < WARN < ERROR -->
-    <!-- ${PID} -->
     <!--property name="pattern" value="%date{yyyy-MM-dd HH:mm:ss.SSS} - %-5level[%thread] - %logger{0}[%method] - %message%n" /-->
     <!--property name="pattern" value="%date{HH:mm:ss.SSS} - %clr(%.-1level){yellow}[%-12thread] - %logger{0} - %message%n" /-->
-    <property name="pattern" value="%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'} - %message%n" />
-    <!--property name="log.dir" value="${user.dir}/log" /-->
-    <!--property name="log.dir" value="${user.home}/log" /-->
+    <property name="pattern" value="%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'}[%method] - %message%n" />
 
-    <!--if condition='isNull("log.dir")'>
-        <then>
-            <property name="log.dir" value="${user.home}/logs/base-persistence" />
-        </then>
-        <else>
-        </else>
-    </if-->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
@@ -44,29 +34,6 @@
         </filter>
     </appender>
 
-    <!--appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.dir}/base-persistence.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.dir}/base-persistence.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${pattern}</pattern>
-            <outputPatternAsHeader>false</outputPatternAsHeader>
-            <immediateFlush>true</immediateFlush>
-        </encoder>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>DENY</onMatch>
-            <onMismatch>ACCEPT</onMismatch>
-        </filter>
-    </appender>
-    
-    <appender name="FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="FILE" />
-    </appender-->
-
     <logger name="com.zaxxer.hikari" level="OFF" />
     <logger name="de.freese.base.persistence.jdbc" level="DEBUG" />
     <logger name="org.springframework.jdbc" level="INFO" />
@@ -74,6 +41,5 @@
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="STDERR" />
-        <!--appender-ref ref="FILE_ASYNC" /-->
     </root>
 </configuration>

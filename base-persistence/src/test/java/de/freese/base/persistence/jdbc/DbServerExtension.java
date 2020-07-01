@@ -42,18 +42,19 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     public static void showMemory()
     {
         Runtime runtime = Runtime.getRuntime();
-        NumberFormat format = NumberFormat.getInstance();
-
         long maxMemory = runtime.maxMemory();
         long allocatedMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
+
         long divider = 1024 * 1024;
         String unit = "MB";
 
-        LOGGER.info("Free memory: " + format.format(freeMemory / divider) + unit);
-        LOGGER.info("Allocated memory: " + format.format(allocatedMemory / divider) + unit);
-        LOGGER.info("Max memory: " + format.format(maxMemory / divider) + unit);
-        LOGGER.info("Total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
+        NumberFormat format = NumberFormat.getInstance();
+
+        LOGGER.debug("Free memory: " + format.format(freeMemory / divider) + unit);
+        LOGGER.debug("Allocated memory: " + format.format(allocatedMemory / divider) + unit);
+        LOGGER.debug("Max memory: " + format.format(maxMemory / divider) + unit);
+        LOGGER.debug("Total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
     }
 
     /**
