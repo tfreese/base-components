@@ -1,27 +1,25 @@
 // Created: 15.09.2016
 package de.freese.base.core.collection.stream.spliterator;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
-import de.freese.base.core.collection.stream.SplitableList;
 
 /**
- * {@link Spliterator} für eine {@link SplitableList}.<br>
- * Performantere Alternative zum {@link Spliterators}.IteratorSpliterator.
+ * Performantere Alternative zum {@link Spliterators}.IteratorSpliterator.<br>
+ * Basiert auf {@link Spliterators}.ArraySpliterator, jedoch als abstrakte Implementierung.
  *
  * @author Thomas Freese
  * @param <T> Konkreter Typ
  * @see Spliterators (ArraySpliterator)
  */
-public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
+public abstract class AbstractTunedSpliterator<T> implements Spliterator<T>
 {
     /**
      * Element-Größe ab der nicht mehr gesplitted wird.
      */
-    private static final int DEFAULT_SPLIT_THRESHOLD = Optional.ofNullable(System.getProperty("split_threshold")).map(Integer::parseInt).orElse(5);
+    private static final int DEFAULT_SPLIT_THRESHOLD = Optional.ofNullable(System.getProperty("split.threshold")).map(Integer::parseInt).orElse(5);
 
     /**
      *
@@ -31,7 +29,7 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
     /**
      *
      */
-    private final int fence;
+    private final int endIndex;
 
     /**
      *
@@ -44,30 +42,30 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
     private int splitThreshold = DEFAULT_SPLIT_THRESHOLD;
 
     /**
-     * Erzeugt eine neue Instanz von {@link AbstractSplitableSpliterator}
+     * Erzeugt eine neue Instanz von {@link AbstractTunedSpliterator}
      *
-     * @param index int; untere Grenze
-     * @param fence int; obere Grenze
+     * @param index int; Inklusive
+     * @param endIndex int; Exklusive
      */
-    public AbstractSplitableSpliterator(final int index, final int fence)
+    public AbstractTunedSpliterator(final int index, final int endIndex)
     {
-        this(index, fence, 0);
+        this(index, endIndex, Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.ORDERED | Spliterator.NONNULL);
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link AbstractSplitableSpliterator}
+     * Erzeugt eine neue Instanz von {@link AbstractTunedSpliterator}
      *
-     * @param index int; untere Grenze
-     * @param fence int; obere Grenze
+     * @param index int; Inklusive
+     * @param endIndex int; Exklusive
      * @param characteristics int
      */
-    public AbstractSplitableSpliterator(final int index, final int fence, final int characteristics)
+    public AbstractTunedSpliterator(final int index, final int endIndex, final int characteristics)
     {
         super();
 
         this.index = index;
-        this.fence = fence;
-        this.characteristics = characteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+        this.endIndex = endIndex;
+        this.characteristics = characteristics;
     }
 
     /**
@@ -80,14 +78,14 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
     }
 
     /**
-     * Liefert den {@link Spliterator} für den List-Bereich.
+     * Liefert den {@link Spliterator} für den Bereich.
      *
      * @param index int
-     * @param fence int
+     * @param endIndex int
      * @param characteristics int
      * @return {@link Spliterator}
      */
-    protected abstract Spliterator<T> createSplit(final int index, int fence, int characteristics);
+    protected abstract Spliterator<T> createSplit(final int index, int endIndex, int characteristics);
 
     /**
      * @see java.util.Spliterator#estimateSize()
@@ -95,32 +93,28 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
     @Override
     public long estimateSize()
     {
-        return (long) this.fence - this.index;
+        return (long) this.endIndex - this.index;
     }
 
-    /**
-     * Zur Performance-Optimierung wird hier nicht die Default-Implementierung verwendet.
-     *
-     * @see java.util.Spliterator#forEachRemaining(java.util.function.Consumer)
-     */
-    @Override
-    public void forEachRemaining(final Consumer<? super T> action)
-    {
-        // Spliterator.super.forEachRemaining(action);
-
-        Objects.requireNonNull(action, "action required");
-
-        int i = 0;
-
-        if ((getMaxSize() >= this.fence) && ((i = this.index) >= 0) && (i < (this.index = this.fence)))
-        {
-            do
-            {
-                action.accept(get(i));
-            }
-            while (++i < this.fence);
-        }
-    }
+    // /**
+    // * Zur Performance-Optimierung wird hier nicht die Default-Implementierung verwendet.
+    // *
+    // * @see java.util.Spliterator#forEachRemaining(java.util.function.Consumer)
+    // */
+    // @Override
+    // public void forEachRemaining(final Consumer<? super T> action)
+    // {
+    // int i = 0;
+    //
+    // if ((getMaxSize() >= this.endIndex) && ((i = this.index) >= 0) && (i < (this.index = this.endIndex)))
+    // {
+    // do
+    // {
+    // action.accept(get(i));
+    // }
+    // while (++i < this.endIndex);
+    // }
+    // }
 
     /**
      * Liefert das Objekt am Index.
@@ -142,7 +136,7 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
      *
      * @return int
      */
-    public int getSplitThreshold()
+    protected int getSplitThreshold()
     {
         return this.splitThreshold;
     }
@@ -163,9 +157,7 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
     @Override
     public boolean tryAdvance(final Consumer<? super T> action)
     {
-        Objects.requireNonNull(action, "action required");
-
-        if ((this.index >= 0) && (this.index < this.fence))
+        if ((this.index >= 0) && (this.index < this.endIndex))
         {
             T element = get(this.index++);
             action.accept(element);
@@ -183,14 +175,23 @@ public abstract class AbstractSplitableSpliterator<T> implements Spliterator<T>
     public Spliterator<T> trySplit()
     {
         // Wenn Rest kleiner als n Elemente -> nicht mehr Splitten.
-        if ((this.fence - this.index) < getSplitThreshold())
+        if ((this.endIndex - this.index) < getSplitThreshold())
         {
             return null;
         }
 
-        int lo = this.index;
-        int mid = (lo + this.fence) >>> 1; // (index + fence) / 2)
+        int from = this.index;
+        int to = (from + this.endIndex) >>> 1; // (index + fence) / 2)
 
-        return (lo >= mid) ? null : createSplit(lo, this.index = mid, this.characteristics);
+        if (from >= to)
+        {
+            return null;
+        }
+
+        Spliterator<T> spliterator = createSplit(from, to, this.characteristics);
+
+        this.index = to;
+
+        return spliterator;
     }
 }

@@ -2,13 +2,12 @@
  * Created: 30.04.2020
  */
 
-package de.freese.base.utils;
+package de.freese.base.benchmark;
 
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import de.freese.base.MaxMemoryProfiler;
 
 /**
  * @author Thomas Freese
@@ -26,11 +25,11 @@ public class BaseCoreBenchmarks
         // Der Builder überschreibt die Klassen-Annotationen.
         // @formatter:off
         Options options = new OptionsBuilder()
-                .include(RemoveControlCharactersBenchmark.class.getSimpleName())
-                //.include(OtherBenchmark.class.getSimpleName())
+                //.include(RemoveControlCharactersBenchmark.class.getSimpleName())
+                .include(SpliteratorBenchmark.class.getSimpleName())
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)
-                .addProfiler(MaxMemoryProfiler.class)
+                //.addProfiler(MaxMemoryProfiler.class)
                 //.mode(Mode.Throughput)
                 //.mode(Mode.AverageTime).timeUnit(TimeUnit.MICROSECONDS)
                 //.warmupIterations(1).warmupTime(TimeValue.seconds(1))

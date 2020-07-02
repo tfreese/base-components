@@ -21,9 +21,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import de.freese.base.core.collection.stream.spliterator.GenericSplitableSpliterator;
-import de.freese.base.core.collection.stream.spliterator.SplitableArraySpliterator;
-import de.freese.base.core.collection.stream.spliterator.SplitableListSpliterator;
+import de.freese.base.core.collection.stream.spliterator.TunedArraySpliterator;
+import de.freese.base.core.collection.stream.spliterator.TunedListSpliterator;
 
 /**
  * TestCase für die {@link Spliterator} Implementierungen.<br>
@@ -33,7 +32,7 @@ import de.freese.base.core.collection.stream.spliterator.SplitableListSpliterato
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-class TestStreamSpliterator
+class TestTunedSpliterator
 {
     /**
      * Summe 55
@@ -54,15 +53,11 @@ class TestStreamSpliterator
     @BeforeAll
     static void beforeAll()
     {
-        Supplier<Spliterator<Integer>> supplierArray = () -> new SplitableArraySpliterator<>(INTEGERS_SUPPLIER.get());
-        Supplier<Spliterator<Integer>> supplierList = () -> new SplitableListSpliterator<>(Arrays.asList(INTEGERS_SUPPLIER.get()));
-        Supplier<Spliterator<Integer>> supplierGenericArray = () -> new GenericSplitableSpliterator<>(INTEGERS_SUPPLIER.get());
-        Supplier<Spliterator<Integer>> supplierGenericList = () -> new GenericSplitableSpliterator<>(Arrays.asList(INTEGERS_SUPPLIER.get()));
+        Supplier<Spliterator<Integer>> supplierArray = () -> new TunedArraySpliterator<>(INTEGERS_SUPPLIER.get());
+        Supplier<Spliterator<Integer>> supplierList = () -> new TunedListSpliterator<>(Arrays.asList(INTEGERS_SUPPLIER.get()));
 
-        SPLITTERATORS.add(Arguments.of(SplitableArraySpliterator.class.getSimpleName(), supplierArray));
-        SPLITTERATORS.add(Arguments.of(SplitableListSpliterator.class.getSimpleName(), supplierList));
-        SPLITTERATORS.add(Arguments.of(GenericSplitableSpliterator.class.getSimpleName() + "-Array", supplierGenericArray));
-        SPLITTERATORS.add(Arguments.of(GenericSplitableSpliterator.class.getSimpleName() + "-List", supplierGenericList));
+        SPLITTERATORS.add(Arguments.of(TunedArraySpliterator.class.getSimpleName(), supplierArray));
+        SPLITTERATORS.add(Arguments.of(TunedListSpliterator.class.getSimpleName(), supplierList));
     }
 
     /**
@@ -82,7 +77,7 @@ class TestStreamSpliterator
     void test010Summe(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
     {
         assertEquals(55, StreamSupport.stream(spliterator.get(), false).mapToInt(n -> n).sum());
-        assertEquals(55, StreamSupport.stream(spliterator.get(), true).parallel().mapToInt(n -> n).sum());
+        assertEquals(55, StreamSupport.stream(spliterator.get(), true).mapToInt(n -> n).sum());
     }
 
     /**
@@ -96,7 +91,7 @@ class TestStreamSpliterator
         Function<Integer, String> intToString = (n) -> Integer.toString(n);
 
         assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), false).map(intToString).collect(Collectors.joining(",")));
-        assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), true).parallel().map(intToString).collect(Collectors.joining(",")));
+        assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), true).map(intToString).collect(Collectors.joining(",")));
     }
 
     /**
@@ -114,7 +109,7 @@ class TestStreamSpliterator
         assertEquals(10, stats.getMax());
         assertEquals(5.5D, stats.getAverage(), 0);
 
-        stats = StreamSupport.stream(spliterator.get(), true).parallel().mapToInt(n -> n).summaryStatistics();
+        stats = StreamSupport.stream(spliterator.get(), true).mapToInt(n -> n).summaryStatistics();
         assertEquals(10, stats.getCount());
         assertEquals(55, stats.getSum());
         assertEquals(1, stats.getMin());
