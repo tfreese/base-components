@@ -50,6 +50,7 @@ class TestTunedSpliterator
     /**
     *
     */
+    @SuppressWarnings("deprecation")
     @BeforeAll
     static void beforeAll()
     {

@@ -197,6 +197,8 @@ public final class ExecutorUtils
 
         if (executorService == null)
         {
+            logger.warn("ExecutorService is null");
+
             return;
         }
 
@@ -207,10 +209,7 @@ public final class ExecutorUtils
             // Wait a while for existing tasks to terminate.
             if (!executorService.awaitTermination(10, TimeUnit.SECONDS))
             {
-                if (logger.isWarnEnabled())
-                {
-                    logger.warn("Timed out while waiting for executorService");
-                }
+                logger.warn("Timed out while waiting for ExecutorService");
 
                 // Cancel currently executing tasks.
                 for (Runnable remainingTask : executorService.shutdownNow())
@@ -221,19 +220,24 @@ public final class ExecutorUtils
                     }
                 }
 
-                // Wait a while for tasks to respond to being cancelled
+                // Wait a while for tasks to respond to being cancelled.
                 if (!executorService.awaitTermination(5, TimeUnit.SECONDS))
                 {
-                    logger.error("Pool did not terminate");
+                    logger.error("ExecutorService did not terminate");
                 }
+                else
+                {
+                    logger.info("ExecutorService terminated");
+                }
+            }
+            else
+            {
+                logger.info("ExecutorService terminated");
             }
         }
         catch (InterruptedException iex)
         {
-            if (logger.isWarnEnabled())
-            {
-                logger.warn("Interrupted while waiting for executorService");
-            }
+            logger.warn("Interrupted while waiting for ExecutorService");
 
             // (Re-)Cancel if current thread also interrupted.
             executorService.shutdownNow();
