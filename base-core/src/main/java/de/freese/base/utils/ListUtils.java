@@ -6,7 +6,6 @@ package de.freese.base.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import de.freese.base.core.collection.Partition;
@@ -58,37 +57,23 @@ public final class ListUtils
     }
 
     /**
-     * Liefert eine List aus n SubLists.
+     * Liefert eine List aus n SubLists.<br>
+     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch <code>partitions</code> teilbar ist.
      *
      * @param list {@link List}
-     * @param partitions Anzahl der Partitionen
+     * @param numOfPartitions Anzahl der Partitionen
      * @return {@link List}
      */
-    public static <T> List<List<T>> partitionsByCount(final List<T> list, final int partitions)
+    public static <T> List<List<T>> partitionsByCount(final List<T> list, final int numOfPartitions)
     {
-        Objects.requireNonNull(list, "list required");
-
-        if (partitions <= 0)
+        if (numOfPartitions <= 0)
         {
             throw new IllegalArgumentException("partitions must be greater than 0");
         }
 
-        List<List<T>> partitionList = new ArrayList<>();
+        int size = list.size() / numOfPartitions;
 
-        int size = list.size() / partitions;
-        int fromIndex = 0;
-
-        for (int p = 0; p < (partitions - 1); p++)
-        {
-            int toIndex = fromIndex + size;
-            List<T> partition = list.subList(fromIndex, toIndex);
-            partitionList.add(partition);
-
-            fromIndex = toIndex;
-        }
-
-        List<T> partition = list.subList(fromIndex, list.size());
-        partitionList.add(partition);
+        List<List<T>> partitionList = partitionsBySize(list, size);
 
         return partitionList;
     }
@@ -105,8 +90,8 @@ public final class ListUtils
 
     /**
      * Partitioniert eine Liste in SubLists.<br>
-     * Jede SubList besitzt eine max. Länge von "sizeOfPartition".<br>
-     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch sizeOfPartition teilbar ist.
+     * Jede SubList besitzt eine max. Länge von <code>sizeOfPartition</code>.<br>
+     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch <code>sizeOfPartition</code> teilbar ist.
      *
      * @param list {@link List}
      * @param sizeOfPartition int; Anzahl der Elemente pro Partition
@@ -114,8 +99,6 @@ public final class ListUtils
      */
     public static <T> List<List<T>> partitionsBySize(final List<T> list, final int sizeOfPartition)
     {
-        Objects.requireNonNull(list, "list required");
-
         if (sizeOfPartition <= 0)
         {
             throw new IllegalArgumentException("sizeOfPartition must be greater than 0");
@@ -123,28 +106,18 @@ public final class ListUtils
 
         List<List<T>> partitionList = new ArrayList<>();
 
-        int fromIndex = 0;
-        int toIndex = sizeOfPartition;
-
-        while (toIndex < list.size())
+        for (int i = 0; i < list.size(); i += sizeOfPartition)
         {
-            List<T> partition = list.subList(fromIndex, toIndex);
-            partitionList.add(partition);
-
-            fromIndex = toIndex;
-            toIndex = fromIndex + sizeOfPartition;
+            partitionList.add(list.subList(i, Math.min(i + sizeOfPartition, list.size())));
         }
-
-        List<T> partition = list.subList(fromIndex, list.size());
-        partitionList.add(partition);
 
         return partitionList;
     }
 
     /**
      * Partitioniert eine Liste in SubLists durch Streams.<br>
-     * Jede SubList besitzt eine max. Länge von "sizeOfPartition".<br>
-     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch sizeOfPartition teilbar ist.
+     * Jede SubList besitzt eine max. Länge von <code>sizeOfPartition</code>.<br>
+     * Die letzte SubList wird kürzer sein, falls die Gesamtlänge nicht durch <code>sizeOfPartition</code> teilbar ist.
      *
      * @param list {@link List}
      * @param sizeOfPartition int; Anzahl der Elemente pro Partition
@@ -152,8 +125,6 @@ public final class ListUtils
      */
     public static <T> List<List<T>> partitionsBySizeStream(final List<T> list, final int sizeOfPartition)
     {
-        Objects.requireNonNull(list, "list required");
-
         // @formatter:off
         return IntStream.range(0, CollectionUtils.getNumberOfPartitions(list, sizeOfPartition))
                     .mapToObj(i -> list.subList(i * sizeOfPartition, Math.min((i + 1) * sizeOfPartition, list.size())))

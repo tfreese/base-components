@@ -91,6 +91,7 @@ public class Partition<T> extends AbstractList<List<T>>
     @Override
     public int size()
     {
+        // Math.ceil(
         return ((this.list.size() + this.sizeOfPartition) - 1) / this.sizeOfPartition;
     }
 }

@@ -31,6 +31,7 @@ import de.freese.base.core.collection.stream.spliterator.TunedListSpliterator;
  *
  * @author Thomas Freese
  */
+@SuppressWarnings("deprecation")
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class TestTunedSpliterator
 {
@@ -50,7 +51,6 @@ class TestTunedSpliterator
     /**
     *
     */
-    @SuppressWarnings("deprecation")
     @BeforeAll
     static void beforeAll()
     {

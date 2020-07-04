@@ -14,6 +14,8 @@ import java.util.Collection;
 public final class CollectionUtils
 {
     /**
+     * Wie viele Partitionen enthält die Collection, wenn jede nur <code>sizeOfPartition</code> groß sein darf.
+     * 
      * @param collection {@link Collection}
      * @param sizeOfPartition int
      * @return int
