@@ -500,13 +500,11 @@ public final class ExtMath
      * @param value double
      * @param max double
      * @param min double
-     * @param maxNorm double
-     * @param minNorm double
      * @return double
      */
-    public static double normalize(final double value, final double max, final double min, final double maxNorm, final double minNorm)
+    public static double normalize(final double value, final double max, final double min)
     {
-        return (((value - min) * (maxNorm - minNorm)) / (max - min)) + minNorm;
+        return (value - min) / (max - min);
     }
 
     /**
@@ -571,6 +569,21 @@ public final class ExtMath
         list.add(bi.toString());
 
         return list;
+    }
+
+    /**
+     * Skaliert einen Wert (Wikipedia).<br>
+     *
+     * @param value double, aktueller Wert
+     * @param min double; min. aller Werte
+     * @param max double; max. Wert aller Werte
+     * @param minNorm double; neuer min. Wert
+     * @param maxNorm double; neuer max. Wert
+     * @return double
+     */
+    public static double reScale(final double value, final double min, final double max, final double minNorm, final double maxNorm)
+    {
+        return minNorm + (((value - min) * (maxNorm - minNorm)) / (max - min));
     }
 
     /**
