@@ -85,7 +85,7 @@ public class ImageColorChannelInfo
 
     /**
      * Erstellt ein neues {@link ImageColorChannelInfo} Object.
-     * 
+     *
      * @param bufferedImage {@link BufferedImage}
      * @param colorChannel {@link ColorChannel}
      */
@@ -95,12 +95,14 @@ public class ImageColorChannelInfo
 
         this.bufferedImage = bufferedImage;
         this.colorChannel = colorChannel;
+
+        calculate();
     }
 
     /**
      * Berechnen aller Werte des Farbkanals.
      */
-    public void calculate()
+    private void calculate()
     {
         ColorModel colorModel = this.bufferedImage.getColorModel();
         int width = this.bufferedImage.getWidth();
@@ -191,7 +193,7 @@ public class ImageColorChannelInfo
     /**
      * Liefert die "Grauwertübergangsmatrix".<br>
      * Zählt wie oft Farbwerte nebeneinander auftreten.
-     * 
+     *
      * @return int[][]
      */
     public int[][] getCoOccurenceMatrix()
@@ -225,7 +227,7 @@ public class ImageColorChannelInfo
 
     /**
      * Homogenität.
-     * 
+     *
      * @return double
      */
     public double getInverseDifferenz()
@@ -283,7 +285,7 @@ public class ImageColorChannelInfo
 
     /**
      * Energie.
-     * 
+     *
      * @return double
      */
     public double getUniformitaet()

@@ -72,7 +72,7 @@ public final class ImageUtils
         /**
          * Creates a new {@link EmptyIcon} object.
          */
-        public EmptyIcon()
+        private EmptyIcon()
         {
             this(16, 16);
         }
@@ -83,7 +83,7 @@ public final class ImageUtils
          * @param width int
          * @param height int
          */
-        public EmptyIcon(final int width, final int height)
+        private EmptyIcon(final int width, final int height)
         {
             super();
 
@@ -139,7 +139,7 @@ public final class ImageUtils
         /**
          * Creates a new {@link MissingIcon} object.
          */
-        public MissingIcon()
+        private MissingIcon()
         {
             super();
 
@@ -224,7 +224,7 @@ public final class ImageUtils
          *
          * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
          */
-        public Triangle(final int direction)
+        private Triangle(final int direction)
         {
             this(16, 16, direction, Color.BLACK);
         }
@@ -238,7 +238,7 @@ public final class ImageUtils
          * @param foreground {@link Color}
          * @throws IllegalArgumentException Falls Direction ungültig
          */
-        public Triangle(final int width, final int height, final int direction, final Color foreground)
+        private Triangle(final int width, final int height, final int direction, final Color foreground)
         {
             super();
 
@@ -348,7 +348,7 @@ public final class ImageUtils
     /**
      * Alle Icons in hoher Qualität.
      */
-    public static final Map<Key, Object> RENDERING_HINTS = new HashMap<>();
+    private static final Map<Key, Object> RENDERING_HINTS = new HashMap<>();
 
     static
     {
