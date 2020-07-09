@@ -5,20 +5,17 @@
 package de.freese.base.security.ssl;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Factory für einen {@link SSLContext}.
@@ -32,13 +29,13 @@ public final class SSLContextFactory
      */
     public static final TrustManager[] X509_TRUST_ALL_MANAGER = new TrustManager[]
     {
-            new javax.net.ssl.X509TrustManager()
+            new X509TrustManager()
             {
                 /**
                  * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
                  */
                 @Override
-                public void checkClientTrusted(final java.security.cert.X509Certificate[] certs, final String authType)
+                public void checkClientTrusted(final X509Certificate[] certs, final String authType)
                 {
                     // Empty
                 }
@@ -47,7 +44,7 @@ public final class SSLContextFactory
                  * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
                  */
                 @Override
-                public void checkServerTrusted(final java.security.cert.X509Certificate[] certs, final String authType)
+                public void checkServerTrusted(final X509Certificate[] certs, final String authType)
                 {
                     // Empty
                 }
@@ -56,7 +53,7 @@ public final class SSLContextFactory
                  * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
                  */
                 @Override
-                public java.security.cert.X509Certificate[] getAcceptedIssuers()
+                public X509Certificate[] getAcceptedIssuers()
                 {
                     return null;
                 }
@@ -86,47 +83,123 @@ public final class SSLContextFactory
     // }
 
     /**
-     * @param serverKeyStoreFile String
-     * @param serverKeyStorePassword char[]
-     * @param clientTrustStoreFile String
-     * @param clientTrustStorePassword char[]
+     * HttpsURLConnection.setDefaultHostnameVerifier<br>
+     * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())
+     *
+     * @return {@link HostnameVerifier}
+     */
+    public static HostnameVerifier createHostnameVerifier1()
+    {
+        String invokeHost = "remotehost";
+        boolean trustLocalHost = true;
+
+        final HostnameVerifier defaultHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+
+        return (hostname, session) -> {
+            // Localhost immer vertrauen
+            if ((trustLocalHost && hostname.contains("localhost")) || hostname.contains(invokeHost))
+            {
+                return true;
+            }
+
+            return defaultHostnameVerifier.verify(hostname, session);
+        };
+    }
+
+    /**
+     * KeyStore = Chain der Root-Authority und das eigene Zertifikat mit Private-Key.<br>
+     * TrustStore = Public-Keys angeschlossener Systeme <br>
+     * <br>
+     * SSLContext.setDefault(sslContext);<br>
+     * HttpsURLConnection.setDefaultSSLSocketFactory(SSLContext.getDefault().getSocketFactory());<br>
+     * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())<br>
+     *
+     * @param keyStoreFile String
+     * @param keyStorePassword char[]
+     * @param trustStoreFile String
+     * @param trustStorePassword char[]
      * @param certPassword char[]
      * @return {@link SSLContext}
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyManagementException Falls was schief geht.
-     * @throws NoSuchProviderException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     * @throws FileNotFoundException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public static SSLContext createTrusted(final String serverKeyStoreFile, final char[] serverKeyStorePassword, final String clientTrustStoreFile,
-                                           final char[] clientTrustStorePassword, final char[] certPassword)
-        throws NoSuchAlgorithmException, KeyManagementException, NoSuchProviderException, KeyStoreException, CertificateException, FileNotFoundException,
-        IOException, UnrecoverableKeyException
+    public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile,
+                                              final char[] trustStorePassword, final char[] certPassword)
+        throws Exception
     {
-        KeyStore serverKeyStore = KeyStore.getInstance("JKS", "SUN");
-        KeyStore clientTrustStore = KeyStore.getInstance("JKS", "SUN");
+        // KeyStore.getInstance("JKS", "SUN")
+        KeyStore keyStore = KeyStore.getInstance("JKS");
 
-        SSLContext sslContext = null;
-
-        try (InputStream serverKeyStoreIS = new FileInputStream(serverKeyStoreFile);
-             InputStream clientTrustStoreIS = new FileInputStream(clientTrustStoreFile))
+        try (InputStream inputStream = new FileInputStream(keyStoreFile))
         {
-            serverKeyStore.load(serverKeyStoreIS, serverKeyStorePassword);
-            clientTrustStore.load(clientTrustStoreIS, clientTrustStorePassword);
-
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("SunX509", "SunJSSE");
-            trustManagerFactory.init(clientTrustStore);
-
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("SunX509", "SunJSSE");
-            keyManagerFactory.init(serverKeyStore, certPassword);
-
-            // SSLContext sslContext = SSLContext.getInstance("TLSv1", "SunJSSE");
-            sslContext = SSLContext.getInstance("SSLv3", "SunJSSE");
-            sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+            keyStore.load(inputStream, keyStorePassword);
         }
+
+        // KeyManagerFactory.getInstance("SunX509", "SunJSSE")
+        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        keyManagerFactory.init(keyStore, certPassword);
+
+        KeyStore trustStore = KeyStore.getInstance("JKS");
+
+        try (InputStream inputStream = new FileInputStream(trustStoreFile))
+        {
+            trustStore.load(inputStream, trustStorePassword);
+        }
+
+        // TrustManagerFactory.getInstance("SunX509", "SunJSSE")
+        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+        trustManagerFactory.init(trustStore);
+
+        // Localhost immer vertrauen
+        boolean trustLocalHost = true;
+        TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+
+        for (int i = 0; i < trustManagers.length; i++)
+        {
+            final TrustManager tm = trustManagers[i];
+
+            if (tm instanceof X509TrustManager)
+            {
+                trustManagers[i] = new X509TrustManager()
+                {
+                    /**
+                     * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
+                     */
+                    @Override
+                    public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException
+                    {
+                        if (!trustLocalHost)
+                        {
+                            ((X509TrustManager) tm).checkClientTrusted(chain, authType);
+                        }
+                    }
+
+                    /**
+                     * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
+                     */
+                    @Override
+                    public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException
+                    {
+                        if (!trustLocalHost)
+                        {
+                            ((X509TrustManager) tm).checkServerTrusted(chain, authType);
+                        }
+                    }
+
+                    /**
+                     * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
+                     */
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers()
+                    {
+                        return trustLocalHost ? null : ((X509TrustManager) tm).getAcceptedIssuers();
+                    }
+                };
+            }
+        }
+
+        // SSLContext.getInstance("TLSv1.3", "SunJSSE")
+        SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
+        sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
 
         return sslContext;
     }
