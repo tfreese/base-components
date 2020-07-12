@@ -6,7 +6,7 @@ import de.freese.base.swing.eventlist.EventList;
 import de.freese.base.swing.eventlist.IEventList;
 
 /**
- * TableModel das Intern eine {@link EventList} verwendet.
+ * TableModel das intern eine {@link EventList} verwendet.
  *
  * @author Thomas Freese
  * @param <T> Konkreter Typ der List-Objekte.
@@ -15,7 +15,7 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
 {
     /**
      * Listener auf der {@link EventList}.
-     * 
+     *
      * @author Thomas Freese
      */
     private class EventListListener implements ListDataListener
@@ -69,13 +69,13 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     }
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4124337499231623139L;
 
     /**
      * Erstellt ein neues {@link AbstractEventListTableModel} Objekt.
-     * 
+     *
      * @param columnCount int
      * @param list {@link IEventList}
      */

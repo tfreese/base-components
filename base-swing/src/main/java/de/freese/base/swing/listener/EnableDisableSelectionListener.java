@@ -48,7 +48,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
     {
         super();
 
-        this.adapter = value -> action.setEnabled(value);
+        this.adapter = action::setEnabled;
 
         this.adapter.setEnabled(false);
     }
@@ -62,7 +62,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
     {
         super();
 
-        this.adapter = value -> component.setEnabled(value);
+        this.adapter = component::setEnabled;
 
         this.adapter.setEnabled(false);
     }

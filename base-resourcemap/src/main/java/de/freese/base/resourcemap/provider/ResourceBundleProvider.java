@@ -18,7 +18,7 @@ public final class ResourceBundleProvider implements ResourceProvider
     /**
      *
      */
-    private final static Logger LOGGER = LoggerFactory.getLogger(ResourceBundleProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceBundleProvider.class);
 
     /**
      * Erstellt ein neues {@link ResourceBundleProvider} Object.

@@ -75,7 +75,7 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
 
                 fireTableRowsDeleted(firstRow, lastRow);
             }
-            else if (change.wasRemoved())
+            else if (change.wasUpdated())
             {
                 int firstRow = change.getFrom();
                 int lastRow = change.getTo();

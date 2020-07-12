@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * TableModel das Intern eine Liste verwendet.
+ * TableModel das intern eine Liste verwendet.
  *
  * @author Thomas Freese
  * @param <T> Konkreter Typ der List-Objekte.
@@ -40,7 +40,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      */
     public AbstractListTableModel(final int columnCount)
     {
-        this(columnCount, new ArrayList<T>());
+        this(columnCount, new ArrayList<>());
     }
 
     /**
@@ -70,7 +70,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      */
     public AbstractListTableModel(final List<String> columnNames)
     {
-        this(columnNames, new ArrayList<T>());
+        this(columnNames, new ArrayList<>());
     }
 
     /**
