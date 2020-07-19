@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -123,7 +124,76 @@ class TestReactiveJdbc
      */
     @SuppressWarnings("resource")
     @Test
-    void flux() throws SQLException
+    void flowResultSetPublisher() throws SQLException
+    {
+        System.out.println();
+        System.out.println("TestReactiveJdbc.subscriberForAll()");
+
+        Connection connection = SERVER.getDataSource().getConnection();
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(10);
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+
+        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
+
+        ResultSetSubscriberForAll<Person> subscriber = new ResultSetSubscriberForAll<>();
+        publisher.subscribe(subscriber);
+
+        assertData(subscriber.getData());
+    }
+
+    /**
+     * @throws SQLException Falls was schief geht.
+     */
+    @SuppressWarnings("resource")
+    @Test
+    void flowResultSetPublisherForEachObject() throws SQLException
+    {
+        System.out.println();
+        System.out.println("TestReactiveJdbc.subscriberForEachObject()");
+
+        Connection connection = SERVER.getDataSource().getConnection();
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(10);
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+
+        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
+
+        ResultSetSubscriberForEachObject<Person> subscriber = new ResultSetSubscriberForEachObject<>();
+        publisher.subscribe(subscriber);
+
+        assertData(subscriber.getData());
+    }
+
+    /**
+     * @throws SQLException Falls was schief geht.
+     */
+    @SuppressWarnings("resource")
+    @Test
+    void flowResultSetPublisherForFetchSize() throws SQLException
+    {
+        System.out.println();
+        System.out.println("TestReactiveJdbc.subscriberForFetchSize()");
+
+        Connection connection = SERVER.getDataSource().getConnection();
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(10);
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+
+        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
+
+        ResultSetSubscriberForFetchSize<Person> subscriber = new ResultSetSubscriberForFetchSize<>(ArrayList::new, 2);
+        publisher.subscribe(subscriber);
+
+        assertData(subscriber.getData());
+    }
+
+    /**
+     * @throws SQLException Falls was schief geht.
+     */
+    @SuppressWarnings("resource")
+    @Test
+    void fluxResultSetIterable() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.flux()");
@@ -135,7 +205,9 @@ class TestReactiveJdbc
         statement.setFetchSize(1);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
-        Flux<Person> flux = Flux.fromIterable(new ResultSetIterable<>(resultSet, new PersonRowMapper())).doFinally(state -> {
+        Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
+
+        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         });
@@ -153,7 +225,7 @@ class TestReactiveJdbc
      */
     @SuppressWarnings("resource")
     @Test
-    void fluxParallel() throws SQLException
+    void fluxResultSetIterableParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.fluxParallel()");
@@ -165,7 +237,9 @@ class TestReactiveJdbc
         statement.setFetchSize(1);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
-        Flux<Person> flux = Flux.fromIterable(new ResultSetIterable<>(resultSet, new PersonRowMapper())).doFinally(state -> {
+        Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
+
+        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         });
@@ -188,7 +262,7 @@ class TestReactiveJdbc
      */
     @SuppressWarnings("resource")
     @Test
-    void streamIterable() throws SQLException
+    void streamResultSetIterable() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamIterable()");
@@ -200,70 +274,7 @@ class TestReactiveJdbc
         statement.setFetchSize(1);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
-        try (Stream<Person> stream = StreamSupport.stream(new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator(), false).onClose(() -> {
-            System.out.println("close jdbc stream");
-            close(connection, statement, resultSet);
-        }))
-        {
-            stream.forEach(p -> {
-                result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
-            });
-        }
-
-        assertData(result);
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    @SuppressWarnings("resource")
-    @Test
-    void streamIterableParallel() throws SQLException
-    {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.streamIterableParallel()");
-
-        List<Person> result = new ArrayList<>();
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        try (Stream<Person> stream = StreamSupport.stream(new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator(), true).onClose(() -> {
-            System.out.println("close jdbc stream");
-            close(connection, statement, resultSet);
-        }))
-        {
-            stream.parallel().forEach(p -> {
-                result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
-            });
-        }
-
-        assertEquals(3, result.size());
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    @SuppressWarnings("resource")
-    @Test
-    void streamIterator() throws SQLException
-    {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.streamIterator()");
-
-        List<Person> result = new ArrayList<>();
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
-        Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(new ResultSetIterator<>(resultSet, new PersonRowMapper()), characteristics);
+        Spliterator<Person> spliterator = new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator();
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
             System.out.println("close jdbc stream");
@@ -284,10 +295,10 @@ class TestReactiveJdbc
      */
     @SuppressWarnings("resource")
     @Test
-    void streamIteratorParallel() throws SQLException
+    void streamResultSetIterableParallel() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamIteratorParallel()");
+        System.out.println("TestReactiveJdbc.streamIterableParallel()");
 
         List<Person> result = new ArrayList<>();
 
@@ -296,8 +307,7 @@ class TestReactiveJdbc
         statement.setFetchSize(1);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
 
-        int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
-        Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(new ResultSetIterator<>(resultSet, new PersonRowMapper()), characteristics);
+        Spliterator<Person> spliterator = new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator();
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
             System.out.println("close jdbc stream");
@@ -318,7 +328,79 @@ class TestReactiveJdbc
      */
     @SuppressWarnings("resource")
     @Test
-    void streamSpliterator() throws SQLException
+    void streamResultSetIterator() throws SQLException
+    {
+        System.out.println();
+        System.out.println("TestReactiveJdbc.streamIterator()");
+
+        List<Person> result = new ArrayList<>();
+
+        Connection connection = SERVER.getDataSource().getConnection();
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(1);
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+
+        Iterator<Person> iterator = new ResultSetIterator<>(resultSet, new PersonRowMapper());
+
+        int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
+        Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(iterator, characteristics);
+
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
+            System.out.println("close jdbc stream");
+            close(connection, statement, resultSet);
+        }))
+        {
+            stream.forEach(p -> {
+                result.add(p);
+                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+            });
+        }
+
+        assertData(result);
+    }
+
+    /**
+     * @throws SQLException Falls was schief geht.
+     */
+    @SuppressWarnings("resource")
+    @Test
+    void streamResultSetIteratorParallel() throws SQLException
+    {
+        System.out.println();
+        System.out.println("TestReactiveJdbc.streamIteratorParallel()");
+
+        List<Person> result = new ArrayList<>();
+
+        Connection connection = SERVER.getDataSource().getConnection();
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        statement.setFetchSize(1);
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+
+        Iterator<Person> iterator = new ResultSetIterator<>(resultSet, new PersonRowMapper());
+
+        int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
+        Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(iterator, characteristics);
+
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
+            System.out.println("close jdbc stream");
+            close(connection, statement, resultSet);
+        }))
+        {
+            stream.parallel().forEach(p -> {
+                result.add(p);
+                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+            });
+        }
+
+        assertEquals(3, result.size());
+    }
+
+    /**
+     * @throws SQLException Falls was schief geht.
+     */
+    @SuppressWarnings("resource")
+    @Test
+    void streamResultSetSpliterator() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamSpliterator()");
@@ -351,7 +433,7 @@ class TestReactiveJdbc
      */
     @SuppressWarnings("resource")
     @Test
-    void streamSpliteratorParallel() throws SQLException
+    void streamResultSetSpliteratorParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamSpliteratorParallel()");
@@ -379,74 +461,5 @@ class TestReactiveJdbc
         }
 
         assertData(result);
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    @SuppressWarnings("resource")
-    @Test
-    void subscriberForAll() throws SQLException
-    {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.subscriberForAll()");
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(10);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
-
-        ResultSetSubscriberForAll<Person> subscriber = new ResultSetSubscriberForAll<>();
-        publisher.subscribe(subscriber);
-
-        assertData(subscriber.getData());
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    @SuppressWarnings("resource")
-    @Test
-    void subscriberForEachObject() throws SQLException
-    {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.subscriberForEachObject()");
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(10);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
-
-        ResultSetSubscriberForEachObject<Person> subscriber = new ResultSetSubscriberForEachObject<>();
-        publisher.subscribe(subscriber);
-
-        assertData(subscriber.getData());
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    @SuppressWarnings("resource")
-    @Test
-    void subscriberForFetchSize() throws SQLException
-    {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.subscriberForFetchSize()");
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(10);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
-
-        ResultSetSubscriberForFetchSize<Person> subscriber = new ResultSetSubscriberForFetchSize<>(ArrayList::new, 2);
-        publisher.subscribe(subscriber);
-
-        assertData(subscriber.getData());
     }
 }
