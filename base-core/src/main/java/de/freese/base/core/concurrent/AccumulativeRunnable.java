@@ -15,8 +15,6 @@
 
 package de.freese.base.core.concurrent;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,10 +33,10 @@ import javax.swing.SwingUtilities;
  * Here is how one can do this using {@code AccumulativeRunnable}:
  *
  * <pre>
- * AccumulativeRunnable<String> doSetTextImpl =
- * new  AccumulativeRunnable<String>() {
- *     @Override
- *     protected void run(List&lt;String&gt; args) {
+ * {@code AccumulativeRunnable<String> doSetTextImpl =
+ *  new  AccumulativeRunnable<String>()} {
+ *    {@literal @Override}
+ *    {@code protected void run(List<String> args)} {
  *         //set to the last string being passed
  *         setTextImpl(args.get(args.size() - 1));
  *     }
@@ -49,35 +47,31 @@ import javax.swing.SwingUtilities;
  * }
  * </pre>
  * <p>
- * Say we want want to implement addDirtyRegion(Rectangle rect) which sends this region to the handleDirtyRegions(List<Rect> regiouns) on the EDT.
+ * Say we want to implement addDirtyRegion(Rectangle rect) which sends this region to the {@code handleDirtyRegions(List<Rect> regiouns)} on the EDT.
  * addDirtyRegions better be accumulated before handling on the EDT.
  * <p>
  * Here is how it can be implemented using AccumulativeRunnable:
  *
  * <pre>
- * AccumulativeRunnable&lt;Rectangle&gt; doHandleDirtyRegions = new AccumulativeRunnable&lt;Rectangle&gt;()
- * {
- *     &#064;Override
- *     protected void run(List&lt;Rectangle&gt; args)
- *     {
- *         handleDirtyRegions(args);
- *     }
- * };
- *
- * void addDirtyRegion(Rectangle rect)
- * {
- *     doHandleDirtyRegions.add(rect);
- * }
+ * {@code AccumulativeRunnable<Rectangle> doHandleDirtyRegions =}
+ *    {@code new AccumulativeRunnable<Rectangle>()} {
+ *        {@literal @Override}
+ *        {@code protected void run(List<Rectangle> args)} {
+ *             handleDirtyRegions(args);
+ *         }
+ *     };
+ *  void addDirtyRegion(Rectangle rect) {
+ *      doHandleDirtyRegions.add(rect);
+ *  }
  * </pre>
  *
  * @author Igor Kushnirskiy
  * @author Thomas Freese
- * @version 1.9 05/05/07
  * @param <T> the type this {@code Runnable} accumulates
  * @since 1.6
  * @see "sun.swing.AccumulativeRunnable"
  */
-public abstract class AccumulativeRunnable<T> implements Runnable, ActionListener
+public abstract class AccumulativeRunnable<T> implements Runnable
 {
     /**
      *
@@ -90,15 +84,6 @@ public abstract class AccumulativeRunnable<T> implements Runnable, ActionListene
     public AccumulativeRunnable()
     {
         super();
-    }
-
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(final ActionEvent e)
-    {
-        run();
     }
 
     /**
@@ -116,14 +101,20 @@ public abstract class AccumulativeRunnable<T> implements Runnable, ActionListene
             return;
         }
 
+        boolean isSubmitted = true;
+
         if (this.arguments == null)
         {
+            isSubmitted = false;
             this.arguments = new ArrayList<>();
         }
 
         Collections.addAll(this.arguments, args);
 
-        submit();
+        if (!isSubmitted)
+        {
+            submit();
+        }
     }
 
     /**
@@ -140,9 +131,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable, ActionListene
     }
 
     /**
-     * {@inheritDoc}
-     * <p>
-     * This implementation calls {@code run(List<T> args)} mehtod with the list of accumulated arguments.
+     * This implementation calls {@code run(List<T> args)} method with the list of accumulated arguments.
      */
     @Override
     public final void run()
