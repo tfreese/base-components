@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
@@ -84,14 +85,14 @@ public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
     {
         if (this.scheduledExecutor != null)
         {
-            this.scheduledExecutor.schedule(this, this.delay, TimeUnit.MILLISECONDS);
+            this.scheduledExecutor.schedule(() -> SwingUtilities.invokeLater(this), this.delay, TimeUnit.MILLISECONDS);
 
             // LoggerFactory.getLogger(getClass()).info("ActiveCount: {}", ((ScheduledThreadPoolExecutor) this.scheduledExecutor).getActiveCount());
             // LoggerFactory.getLogger(getClass()).info("PoolSize: {}", ((ScheduledThreadPoolExecutor) this.scheduledExecutor).getPoolSize());
         }
         else
         {
-            Timer timer = new Timer(this.delay, event -> run());
+            Timer timer = new Timer(this.delay, event -> SwingUtilities.invokeLater(this));
             timer.setRepeats(false);
             timer.start();
         }
