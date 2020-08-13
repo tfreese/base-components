@@ -40,11 +40,6 @@ public class ScheduledFutureAwareRunnable implements Runnable
     /**
     *
     */
-    private final Runnable task;
-
-    /**
-    *
-    */
     private final BooleanSupplier exitCondition;
 
     /**
@@ -55,7 +50,12 @@ public class ScheduledFutureAwareRunnable implements Runnable
     /**
     *
     */
-    private ScheduledFuture<?> scheduledFuture = null;
+    private ScheduledFuture<?> scheduledFuture;
+
+    /**
+    *
+    */
+    private final Runnable task;
 
     /**
      * Erstellt ein neues {@link ScheduledFutureAwareRunnable} Object.

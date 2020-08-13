@@ -29,7 +29,8 @@ public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
     /**
      *
      */
-    private Consumer<List<T>> submitConsumer = null;
+    private Consumer<List<T>> submitConsumer = chunks -> {
+    };
 
     /**
      * Erstellt ein neues {@link ScheduledAccumulativeRunnable} Object.
@@ -69,11 +70,6 @@ public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
     @Override
     protected void run(final List<T> args)
     {
-        if (this.submitConsumer == null)
-        {
-            return;
-        }
-
         this.submitConsumer.accept(args);
     }
 

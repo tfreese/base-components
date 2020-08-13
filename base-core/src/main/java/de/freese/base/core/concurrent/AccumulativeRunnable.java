@@ -76,7 +76,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     /**
      *
      */
-    private List<T> arguments = null;
+    private List<T> arguments;
 
     /**
      * Erstellt ein neues {@link AccumulativeRunnable} Object.
@@ -118,6 +118,15 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     }
 
     /**
+     * This implementation calls {@code run(List<T> args)} method with the list of accumulated arguments.
+     */
+    @Override
+    public final void run()
+    {
+        run(flush());
+    }
+
+    /**
      * Returns accumulated arguments and flashes the arguments storage.
      *
      * @return accumulated arguments
@@ -128,15 +137,6 @@ public abstract class AccumulativeRunnable<T> implements Runnable
         this.arguments = null;
 
         return list;
-    }
-
-    /**
-     * This implementation calls {@code run(List<T> args)} method with the list of accumulated arguments.
-     */
-    @Override
-    public final void run()
-    {
-        run(flush());
     }
 
     /**
