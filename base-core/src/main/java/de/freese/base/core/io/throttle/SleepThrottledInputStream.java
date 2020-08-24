@@ -2,19 +2,28 @@
  * Created: 29.03.2020
  */
 
-package de.freese.base.core.throttle.io;
+package de.freese.base.core.io.throttle;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import de.freese.base.core.throttle.Throttle;
 
 /**
  * @author Thomas Freese
  */
-public class ThrottleInputStream extends InputStream
+public class SleepThrottledInputStream extends InputStream
 {
+    /**
+    *
+    */
+    private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
+
+    /**
+     *
+     */
+    private static final long SLEEP_DURATION_MS = 30;
+
     /**
      *
      */
@@ -28,25 +37,46 @@ public class ThrottleInputStream extends InputStream
     /**
      *
      */
-    private final Throttle throttle;
+    private final long maxBytesPerSec;
 
     /**
      *
      */
-    private long totalSleepTimeNanos = 0;
+    private final long startTime = System.nanoTime();
 
     /**
-     * Erstellt ein neues {@link ThrottleInputStream} Object.
+     *
+     */
+    private long totalSleepTimeMillis = 0;
+
+    /**
+     * Erstellt ein neues {@link SleepThrottledInputStream} Object.
      *
      * @param inputStream {@link InputStream}
-     * @param throttle {@link Throttle}
      */
-    public ThrottleInputStream(final InputStream inputStream, final Throttle throttle)
+    public SleepThrottledInputStream(final InputStream inputStream)
+    {
+        this(inputStream, Long.MAX_VALUE);
+    }
+
+    /**
+     * Erstellt ein neues {@link SleepThrottledInputStream} Object.
+     *
+     * @param inputStream {@link InputStream}
+     * @param maxBytesPerSec long
+     */
+    public SleepThrottledInputStream(final InputStream inputStream, final long maxBytesPerSec)
     {
         super();
 
         this.inputStream = Objects.requireNonNull(inputStream, "inputStream required");
-        this.throttle = Objects.requireNonNull(throttle, "throttle required");
+
+        if (maxBytesPerSec < 0)
+        {
+            throw new IllegalArgumentException("maxBytesPerSec should be greater than zero");
+        }
+
+        this.maxBytesPerSec = maxBytesPerSec;
     }
 
     /**
@@ -68,11 +98,18 @@ public class ThrottleInputStream extends InputStream
     }
 
     /**
-     * @return double
+     * @return long
      */
-    public double getBytesPerSec()
+    public long getBytesPerSec()
     {
-        return this.throttle.getRate();
+        double elapsed = (System.nanoTime() - this.startTime) / ONE_SECOND_NANOS;
+
+        if (elapsed == 0.0D)
+        {
+            return this.bytesRead;
+        }
+
+        return (long) (this.bytesRead / elapsed);
     }
 
     /**
@@ -86,9 +123,9 @@ public class ThrottleInputStream extends InputStream
     /**
      * @return long
      */
-    public long getTotalSleepTimeNanos()
+    public long getTotalSleepTimeMillis()
     {
-        return this.totalSleepTimeNanos;
+        return this.totalSleepTimeMillis;
     }
 
     /**
@@ -97,7 +134,7 @@ public class ThrottleInputStream extends InputStream
     @Override
     public int read() throws IOException
     {
-        throttle(1);
+        throttle();
 
         int data = this.inputStream.read();
 
@@ -115,7 +152,7 @@ public class ThrottleInputStream extends InputStream
     @Override
     public int read(final byte[] b) throws IOException
     {
-        throttle(b.length);
+        throttle();
 
         int readLen = this.inputStream.read(b);
 
@@ -133,7 +170,7 @@ public class ThrottleInputStream extends InputStream
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException
     {
-        throttle(len);
+        throttle();
 
         int readLen = this.inputStream.read(b, off, len);
 
@@ -146,11 +183,22 @@ public class ThrottleInputStream extends InputStream
     }
 
     /**
-     * @param permits int
+     * @throws IOException Falls was schief geht.
      */
-    protected void throttle(final int permits)
+    protected void throttle() throws IOException
     {
-        this.totalSleepTimeNanos += this.throttle.acquireUnchecked(permits);
+        while (getBytesPerSec() > this.maxBytesPerSec)
+        {
+            try
+            {
+                TimeUnit.MILLISECONDS.sleep(SLEEP_DURATION_MS);
+                this.totalSleepTimeMillis += SLEEP_DURATION_MS;
+            }
+            catch (InterruptedException ex)
+            {
+                throw new IOException("Thread interrupted", ex);
+            }
+        }
     }
 
     /**
@@ -161,10 +209,10 @@ public class ThrottleInputStream extends InputStream
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("throttle=").append(this.throttle);
-        sb.append(", bytesRead=").append(this.bytesRead);
+        sb.append("bytesRead=").append(getTotalBytesRead());
+        sb.append(", maxBytesPerSec=").append(this.maxBytesPerSec);
         sb.append(", bytesPerSec=").append(getBytesPerSec());
-        sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
+        sb.append(", totalSleepTimeMillis=").append(getTotalSleepTimeMillis());
         sb.append("]");
 
         return sb.toString();

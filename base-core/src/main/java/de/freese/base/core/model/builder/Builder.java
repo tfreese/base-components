@@ -60,6 +60,7 @@ package de.freese.base.core.model.builder;
  *
  * @param <T> the type of object that the builder will construct or compute.
  */
+@FunctionalInterface
 public interface Builder<T>
 {
     /**

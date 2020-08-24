@@ -14,7 +14,7 @@ import de.freese.base.core.throttle.google.GoogleThrottle;
  *
  * @author Thomas Freese
  */
-public class UnderstandableThrottle implements Throttle
+public final class UnderstandableThrottle implements Throttle
 {
     /**
     *
@@ -57,12 +57,12 @@ public class UnderstandableThrottle implements Throttle
     /**
     *
     */
-    private long nextFreeSlot = 0;
+    private long nextFreeSlot;
 
     /**
     *
     */
-    private double permitInterval = 0.0D;
+    private double permitInterval;
 
     /**
      * Erstellt ein neues {@link UnderstandableThrottle} Object.
@@ -128,17 +128,6 @@ public class UnderstandableThrottle implements Throttle
     }
 
     /**
-     * @param permits int
-     */
-    protected void checkPermits(final int permits)
-    {
-        if (permits <= 0)
-        {
-            throw new IllegalArgumentException(String.format("Requested permits (%s) must be positive", permits));
-        }
-    }
-
-    /**
      * @see de.freese.base.core.throttle.Throttle#getRate()
      */
     @Override
@@ -154,26 +143,6 @@ public class UnderstandableThrottle implements Throttle
         {
             this.lock.unlock();
         }
-    }
-
-    /**
-     * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
-     * returned, respectively.
-     *
-     * @param val1 long
-     * @param val2 long
-     * @return long
-     */
-    protected long saturatedAdd(final long val1, final long val2)
-    {
-        final long naiveSum = val1 + val2;
-
-        if (((val1 ^ val2) < 0) || ((val1 ^ naiveSum) >= 0))
-        {
-            return naiveSum;
-        }
-
-        return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
     }
 
     /**
@@ -197,6 +166,51 @@ public class UnderstandableThrottle implements Throttle
         {
             this.lock.unlock();
         }
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(" [");
+        sb.append("rate=").append(getRate());
+        sb.append("]");
+
+        return sb.toString();
+    }
+
+    /**
+     * @param permits int
+     */
+    protected void checkPermits(final int permits)
+    {
+        if (permits <= 0)
+        {
+            throw new IllegalArgumentException(String.format("Requested permits (%s) must be positive", permits));
+        }
+    }
+
+    /**
+     * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
+     * returned, respectively.
+     *
+     * @param val1 long
+     * @param val2 long
+     * @return long
+     */
+    protected long saturatedAdd(final long val1, final long val2)
+    {
+        final long naiveSum = val1 + val2;
+
+        if (((val1 ^ val2) < 0) || ((val1 ^ naiveSum) >= 0))
+        {
+            return naiveSum;
+        }
+
+        return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
     }
 
     /**
@@ -261,19 +275,5 @@ public class UnderstandableThrottle implements Throttle
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("rate=").append(getRate());
-        sb.append("]");
-
-        return sb.toString();
     }
 }

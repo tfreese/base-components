@@ -16,6 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import de.freese.base.core.io.AbstractIoTest;
+import de.freese.base.core.io.throttle.ThrottleInputStream;
 import de.freese.base.core.throttle.Throttle;
 import de.freese.base.core.throttle.UnderstandableThrottle;
 import de.freese.base.core.throttle.google.GoogleThrottle;

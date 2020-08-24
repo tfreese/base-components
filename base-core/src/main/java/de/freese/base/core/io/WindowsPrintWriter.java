@@ -24,11 +24,11 @@ public class WindowsPrintWriter extends PrintWriter
     /**
      *
      */
-    private boolean autoFlush = false;
+    private boolean autoFlush;
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param file {@link File}
      * @throws FileNotFoundException Falls was schief geht.
      */
@@ -39,7 +39,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param file {@link File}
      * @param csn String
      * @throws FileNotFoundException Falls was schief geht.
@@ -52,7 +52,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param out {@link OutputStream}
      */
     public WindowsPrintWriter(final OutputStream out)
@@ -62,7 +62,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param out {@link OutputStream}
      * @param autoFlush boolean
      */
@@ -75,7 +75,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param fileName {@link String}
      * @throws FileNotFoundException Falls was schief geht.
      */
@@ -86,7 +86,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param fileName String
      * @param csn String
      * @throws FileNotFoundException Falls was schief geht.
@@ -99,7 +99,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param out {@link Writer}
      */
     public WindowsPrintWriter(final Writer out)
@@ -109,7 +109,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     * 
+     *
      * @param out {@link Writer}
      * @param autoFlush boolean
      */
@@ -122,7 +122,7 @@ public class WindowsPrintWriter extends PrintWriter
 
     /**
      * Implementierung entspricht PrintWriter.newLine Methode.
-     * 
+     *
      * @see java.io.PrintWriter#println()
      */
     @Override

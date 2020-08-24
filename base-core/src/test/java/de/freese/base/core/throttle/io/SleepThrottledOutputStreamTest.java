@@ -12,6 +12,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.base.core.io.AbstractIoTest;
+import de.freese.base.core.io.throttle.SleepThrottledOutputStream;
 
 /**
  * @author Thomas Freese
