@@ -13,6 +13,15 @@ import java.util.Objects;
 public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 {
     /**
+     * Siehe jdk.internal.util.ArraysSupport#MAX_ARRAY_LENGTH<br>
+     * <br>
+     * The maximum length of array to allocate (unless necessary).<br>
+     * Some VMs reserve some header words in an array. Attempts to allocate larger<br>
+     * arrays may result in {@code OutOfMemoryError: Requested array size exceeds VM limit}
+     */
+    private static final int MAX_ARRAY_LENGTH = Integer.MAX_VALUE - 8;
+
+    /**
      * Liefert den nächst größen Wert, der ein Vielfaches von "power of 2" ist.<br>
      * Ist der neue Wert = 0, wird 1024 geliefert.
      *
@@ -23,13 +32,30 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     {
         if (requestedCapacity <= 0)
         {
-            return 1024;
+            throw new IllegalArgumentException("requestedCapacity must be > 0");
         }
 
-        int newCapacity = Integer.highestOneBit(requestedCapacity);
-        newCapacity <<= (newCapacity < requestedCapacity ? 1 : 0);
+        // ArraysSupport.MAX_ARRAY_LENGTH
+        if (requestedCapacity > MAX_ARRAY_LENGTH)
+        {
+            throw new OutOfMemoryError("Required array length too large");
+        }
 
-        // return newCapacity < 0 ? Integer.MAX_VALUE : newCapacity;
+        // Liefert den höchsten Wert (power of 2), der kleiner als requestedCapacity ist.
+        int newCapacity = Integer.highestOneBit(requestedCapacity);
+
+        // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
+        // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,
+        if (newCapacity < requestedCapacity)
+        {
+            newCapacity <<= 1;
+        }
+
+        if (newCapacity > MAX_ARRAY_LENGTH)
+        {
+            throw new OutOfMemoryError("Required array length too large");
+        }
+
         return newCapacity;
     }
 
@@ -52,7 +78,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     {
         super();
 
-        setBuffer(buffer);
+        this.buffer = Objects.requireNonNull(buffer, "buffer required");
     }
 
     /**
@@ -237,41 +263,46 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     /**
      * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
      *
-     * @param pos int
+     * @param position int
      * @param expectedRemaining int
      */
-    protected void autoExpand(final int pos, final int expectedRemaining)
+    protected void autoExpand(final int position, final int expectedRemaining)
     {
-        // TODO Optimierung
-        int end = pos + expectedRemaining;
-        int newCapacity = normalizeCapacity(end);
+        int newLimit = position + expectedRemaining;
 
-        if (newCapacity > capacity())
+        if (newLimit > capacity())
         {
             // Buffer muss erweitert werden.
-            setBuffer(createNewBuffer(getBuffer(), newCapacity, this.mark));
+            int newCapacity = normalizeCapacity(newLimit);
+
+            B newBuffer = createNewBuffer(getBuffer(), newCapacity);
+
+            // Alten Zustand wiederherstellen.
+            newBuffer.limit(newCapacity);
+
+            if (this.mark >= 0)
+            {
+                newBuffer.position(this.mark);
+                newBuffer.mark();
+            }
+
+            newBuffer.position(position);
+
+            this.buffer = newBuffer;
         }
 
-        if (end > limit())
+        if (newLimit > limit())
         {
             // Limit setzen, um StackOverflowError zu vermeiden.
-            getBuffer().limit(end);
+            this.buffer.limit(newLimit);
         }
     }
 
     /**
      * @param buffer {@link Buffer}
      * @param newCapacity int
-     * @param mark int
      * @return {@link Buffer}
      */
-    protected abstract B createNewBuffer(final B buffer, final int newCapacity, final int mark);
+    protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
-    /**
-     * @param buffer {@link Buffer}
-     */
-    protected void setBuffer(final B buffer)
-    {
-        this.buffer = Objects.requireNonNull(buffer, "buffer required");
-    }
 }

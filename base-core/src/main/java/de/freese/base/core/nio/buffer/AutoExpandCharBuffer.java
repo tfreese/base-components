@@ -8,39 +8,21 @@ import java.nio.charset.CharsetEncoder;
 
 /**
  * Adapter für den {@link CharBuffer} mit AutoExpand-Funktion.<br>
- * Der carriage return line feed (crlf) wird automatisch bei jeder put-Methode angefügt.
  *
  * @author Thomas Freese
  */
-public final class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
+public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 {
     /**
-     * Default: CRLF = "\r\n"
-     *
      * @param capacity int
      * @return {@link AutoExpandCharBuffer}
      */
     public static AutoExpandCharBuffer of(final int capacity)
     {
-        return of(capacity, "\r\n");
-    }
-
-    /**
-     * @param capacity int
-     * @param crlf String
-     * @return {@link AutoExpandCharBuffer}
-     */
-    public static AutoExpandCharBuffer of(final int capacity, final String crlf)
-    {
         CharBuffer charBuffer = CharBuffer.allocate(capacity);
 
-        return new AutoExpandCharBuffer(charBuffer, crlf);
+        return new AutoExpandCharBuffer(charBuffer);
     }
-
-    /**
-     *
-     */
-    private final String crlf;
 
     /**
      * Erzeugt eine neue Instanz von {@link AutoExpandCharBuffer}.<br>
@@ -51,13 +33,10 @@ public final class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuf
      * </pre>
      *
      * @param buffer {@link CharBuffer}
-     * @param crlf String
      */
-    private AutoExpandCharBuffer(final CharBuffer buffer, final String crlf)
+    AutoExpandCharBuffer(final CharBuffer buffer)
     {
         super(buffer);
-
-        this.crlf = crlf;
     }
 
     /**
@@ -68,6 +47,92 @@ public final class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuf
     public ByteBuffer encode(final CharsetEncoder encoder) throws CharacterCodingException
     {
         return encoder.reset().encode(getBuffer());
+    }
+
+    /**
+     * @return char
+     * @see CharBuffer#get()
+     */
+    public char get()
+    {
+        return getBuffer().get();
+    }
+
+    /**
+     * @param dst char[]
+     * @return {@link AutoExpandCharBuffer}
+     * @see CharBuffer#get(char[])
+     */
+    public AutoExpandCharBuffer get(final char[] dst)
+    {
+        getBuffer().get(dst);
+
+        return this;
+    }
+
+    /**
+     * @param dst char[]
+     * @param offset int
+     * @param length int
+     * @return {@link AutoExpandCharBuffer}
+     * @see CharBuffer#get(char[], int, int)
+     */
+    public AutoExpandCharBuffer get(final char[] dst, final int offset, final int length)
+    {
+        getBuffer().get(dst, offset, length);
+
+        return this;
+    }
+
+    /**
+     * @param index int
+     * @return char
+     * @see CharBuffer#get(int)
+     */
+    public char get(final int index)
+    {
+        return getBuffer().get(index);
+    }
+
+    /**
+     * @param index int
+     * @param dst char[]
+     * @return {@link AutoExpandCharBuffer}
+     * @see CharBuffer#get(int, char[])
+     */
+    public AutoExpandCharBuffer get(final int index, final char[] dst)
+    {
+        getBuffer().get(index, dst);
+
+        return this;
+    }
+
+    /**
+     * @param index int
+     * @param length int
+     * @return String
+     */
+    public String getString(final int index, final int length)
+    {
+        char[] dst = new char[length];
+
+        get(index, dst);
+
+        return String.valueOf(dst);
+    }
+
+    /**
+     * @param c char
+     * @return {@link AutoExpandCharBuffer}
+     * @see CharBuffer#put(char)
+     */
+    public AutoExpandCharBuffer put(final char c)
+    {
+        autoExpand(1);
+
+        getBuffer().put(c);
+
+        return this;
     }
 
     /**
@@ -93,90 +158,20 @@ public final class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuf
 
         getBuffer().put(src.toString(), start, end);
 
-        appendCRLF();
-
         return this;
     }
 
     /**
-     * @param format String
-     * @param args Object[]
-     * @return {@link AutoExpandCharBuffer}
-     * @see String#format(String, Object...)
-     */
-    public AutoExpandCharBuffer putf(final String format, final Object...args)
-    {
-        String s = String.format(format, args);
-
-        return put(s, 0, s.length());
-    }
-
-    /**
-     * Fügt eine Leerzeile hinzu.<br>
-     * Default: "\r\n"
-     *
-     * @return {@link AutoExpandCharBuffer}
-     */
-    public AutoExpandCharBuffer putln()
-    {
-        appendCRLF();
-
-        return this;
-    }
-
-    /**
-     * Fügt CRLF an, wenn dieser != null.
-     */
-    private void appendCRLF()
-    {
-        if (getCRLF() != null)
-        {
-            autoExpand(getCRLF().length());
-            getBuffer().put(getCRLF());
-        }
-    }
-
-    /**
-     * carriage return line feed (NETASCII_EOL)
-     *
-     * @return String
-     */
-    private String getCRLF()
-    {
-        return this.crlf;
-    }
-
-    /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int, int)
+     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
      */
     @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity, final int mark)
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
     {
-        if (newCapacity > buffer.capacity())
-        {
-            // Alten Zustand speichern.
-            int pos = buffer.position();
+        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
 
-            // // Reallocate.
-            CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+        buffer.flip();
+        newBuffer.put(buffer);
 
-            buffer.flip();
-            newBuffer.put(buffer);
-
-            // Alten Zustand wiederherstellen.
-            newBuffer.limit(newCapacity);
-
-            if (mark >= 0)
-            {
-                newBuffer.position(mark);
-                newBuffer.mark();
-            }
-
-            newBuffer.position(pos);
-
-            return newBuffer;
-        }
-
-        return buffer;
+        return newBuffer;
     }
 }

@@ -27,45 +27,20 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      */
     public static AutoExpandByteBuffer of(final int capacity)
     {
-        return of(capacity, true, new byte[]
-        {
-                0x0D, 0x0A
-        });
+        return of(capacity, true);
     }
 
     /**
-     * Default:<br>
-     * - crlf = [0x0D, 0x0A]
-     *
      * @param capacity int
      * @param direct boolean
      * @return {@link AutoExpandByteBuffer}
      */
     public static AutoExpandByteBuffer of(final int capacity, final boolean direct)
     {
-        return of(capacity, direct, new byte[]
-        {
-                0x0D, 0x0A
-        });
-    }
-
-    /**
-     * @param capacity int
-     * @param direct boolean
-     * @param crlf byte[]
-     * @return {@link AutoExpandByteBuffer}
-     */
-    public static AutoExpandByteBuffer of(final int capacity, final boolean direct, final byte[] crlf)
-    {
         ByteBuffer byteBuffer = direct ? ByteBuffer.allocateDirect(capacity) : ByteBuffer.allocate(capacity);
 
-        return new AutoExpandByteBuffer(byteBuffer, crlf);
+        return new AutoExpandByteBuffer(byteBuffer);
     }
-
-    /**
-     *
-     */
-    private final byte[] crlf;
 
     /**
      * Erzeugt eine neue Instanz von {@link AutoExpandByteBuffer}.<br>
@@ -76,13 +51,10 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * </pre>
      *
      * @param buffer {@link ByteBuffer}
-     * @param crlf byte[]
      */
-    private AutoExpandByteBuffer(final ByteBuffer buffer, final byte[] crlf)
+    private AutoExpandByteBuffer(final ByteBuffer buffer)
     {
         super(buffer);
-
-        this.crlf = crlf;
     }
 
     /**
@@ -238,16 +210,32 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param dst byte[]
+     * @see ByteBuffer#get(byte[])
+     */
+    public void get(final byte[] dst)
+    {
+        getBuffer().get(dst);
+    }
+
+    /**
+     * @param dst byte[]
      * @param offset int
      * @param length int
-     * @return {@link AutoExpandByteBuffer}
      * @see ByteBuffer#get(byte[], int, int)
      */
-    public AutoExpandByteBuffer get(final byte[] dst, final int offset, final int length)
+    public void get(final byte[] dst, final int offset, final int length)
     {
         getBuffer().get(dst, offset, length);
+    }
 
-        return this;
+    /**
+     * @param index int
+     * @return byte
+     * @see ByteBuffer#get(int)
+     */
+    public byte get(final int index)
+    {
+        return getBuffer().get(index);
     }
 
     /**
@@ -260,6 +248,16 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     /**
+     * @param index int
+     * @return char
+     * @see ByteBuffer#getChar(int)
+     */
+    public char getChar(final int index)
+    {
+        return getBuffer().getChar(index);
+    }
+
+    /**
      * @return double
      * @see ByteBuffer#getDouble()
      */
@@ -269,12 +267,32 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     /**
+     * @param index int
+     * @return double
+     * @see ByteBuffer#getDouble(int)
+     */
+    public double getDouble(final int index)
+    {
+        return getBuffer().getDouble(index);
+    }
+
+    /**
      * @return float
      * @see ByteBuffer#getFloat()
      */
     public float getFloat()
     {
         return getBuffer().getFloat();
+    }
+
+    /**
+     * @param index int
+     * @return float
+     * @see ByteBuffer#getFloat(int)
+     */
+    public float getFloat(final int index)
+    {
+        return getBuffer().getFloat(index);
     }
 
     /**
@@ -363,6 +381,16 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     /**
+     * @param index int
+     * @return int
+     * @see ByteBuffer#getInt(int)
+     */
+    public int getInt(final int index)
+    {
+        return getBuffer().getInt(index);
+    }
+
+    /**
      * @return long
      * @see ByteBuffer#getLong()
      */
@@ -372,12 +400,32 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     /**
+     * @param index int
+     * @return long
+     * @see ByteBuffer#getLong(int)
+     */
+    public long getLong(final int index)
+    {
+        return getBuffer().getLong(index);
+    }
+
+    /**
      * @return short
      * @see ByteBuffer#getShort()
      */
     public short getShort()
     {
         return getBuffer().getShort();
+    }
+
+    /**
+     * @param index int
+     * @return short
+     * @see ByteBuffer#getShort(int)
+     */
+    public short getShort(final int index)
+    {
+        return getBuffer().getShort(index);
     }
 
     /**
@@ -428,6 +476,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     public AutoExpandByteBuffer put(final ByteBuffer src)
     {
         autoExpand(src.remaining());
+
         getBuffer().put(src);
 
         return this;
@@ -490,17 +539,6 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     /**
-     * Fügt eine Leerzeile hinzu.<br>
-     * Default: "\r\n"
-     *
-     * @return {@link AutoExpandByteBuffer}
-     */
-    public AutoExpandByteBuffer putln()
-    {
-        return put(getCRLF(), 0, getCRLF().length);
-    }
-
-    /**
      * @param value long
      * @return {@link AutoExpandByteBuffer}
      * @see ByteBuffer#putLong(long)
@@ -529,48 +567,20 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     /**
-     * carriage return line feed (NETASCII_EOL)
-     *
-     * @return byte[]
-     */
-    private byte[] getCRLF()
-    {
-        return this.crlf;
-    }
-
-    /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int, int)
+     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
      */
     @Override
-    protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity, final int mark)
+    protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity)
     {
-        if (newCapacity > buffer.capacity())
-        {
-            // Alten Zustand speichern.
-            int pos = buffer.position();
-            ByteOrder bo = buffer.order();
+        ByteOrder bo = buffer.order();
 
-            // // Reallocate.
-            ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);
+        ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);
 
-            buffer.flip();
-            newBuffer.put(buffer);
+        buffer.flip();
+        newBuffer.put(buffer);
 
-            // Alten Zustand wiederherstellen.
-            newBuffer.limit(newCapacity);
+        newBuffer.order(bo);
 
-            if (mark >= 0)
-            {
-                newBuffer.position(mark);
-                newBuffer.mark();
-            }
-
-            newBuffer.position(pos);
-            newBuffer.order(bo);
-
-            return newBuffer;
-        }
-
-        return buffer;
+        return newBuffer;
     }
 }
