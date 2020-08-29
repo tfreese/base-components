@@ -3,9 +3,10 @@ package de.freese.base.core.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 /**
- * ByteArrayOutputStream mit direkten Zugriff auf das ByteArray ohne es zu kopieren.
+ * ByteArrayOutputStream mit direkten Zugriff auf das ByteArray über einen {@link ByteBuffer} ohne es zu kopieren.
  *
  * @author Thomas Freese
  */
@@ -30,11 +31,13 @@ public class SharedByteArrayOutputStream extends ByteArrayOutputStream
     }
 
     /**
-     * @return byte[]
+     * Kapselt das ByteArray.
+     *
+     * @return {@link ByteBuffer}
      */
-    public byte[] getArray()
+    public ByteBuffer toByteBuffer()
     {
-        return this.buf;
+        return ByteBuffer.wrap(this.buf, 0, this.count);
     }
 
     /**
@@ -43,5 +46,25 @@ public class SharedByteArrayOutputStream extends ByteArrayOutputStream
     public InputStream toStream()
     {
         return new SharedByteArrayInputStream(this.buf, 0, this.count);
+    }
+
+    /**
+     * @param buffer {@link ByteBuffer}
+     */
+    public void write(final ByteBuffer buffer)
+    {
+        write(buffer, buffer.remaining());
+    }
+
+    /**
+     * @param buffer {@link ByteBuffer}
+     * @param length int
+     */
+    public void write(final ByteBuffer buffer, final int length)
+    {
+        byte[] data = new byte[length];
+        buffer.get(data);
+
+        writeBytes(data);
     }
 }
