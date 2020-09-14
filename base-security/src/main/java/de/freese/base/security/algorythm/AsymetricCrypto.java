@@ -22,17 +22,17 @@ public class AsymetricCrypto extends AbstractCrypto
     /**
     *
     */
-    private KeyPair keyPair = null;
+    private KeyPair keyPair;
 
     /**
     *
     */
-    private Supplier<Signature> signatureSignSupplier = null;
+    private Supplier<Signature> signatureSignSupplier;
 
     /**
     *
     */
-    private Supplier<Signature> signatureVerifySupplier = null;
+    private Supplier<Signature> signatureVerifySupplier;
 
     /**
      * Erstellt ein neues {@link AsymetricCrypto} Object.
@@ -40,7 +40,6 @@ public class AsymetricCrypto extends AbstractCrypto
     public AsymetricCrypto()
     {
         super();
-
     }
 
     /**

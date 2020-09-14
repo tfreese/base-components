@@ -151,7 +151,7 @@ public final class SecurityUtils
         sslSocket = (SSLSocket) socketFactory.createSocket(hostAddress, port);
         sslSocket.setEnabledProtocols(new String[]
         {
-                "TLSv1"
+                "TLSv1.3"
         });
 
         return sslSocket;

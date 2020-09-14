@@ -119,7 +119,7 @@ public class TestCrypto
         Crypto crypto = AlgorythmConfigBuilder.symetric()
             //.provider("SunJCE")
             .algorythm("AES")
-            .algorythmCipher("AES/CBC/PKCS5Padding")
+            .algorythmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
             .initVector(Arrays.copyOf(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 16))
             .keySize(256)
             .build()
