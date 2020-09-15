@@ -22,7 +22,7 @@ import de.freese.base.utils.SecurityUtils;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestSecurityUtils
+class TestSecurityUtils
 {
     /**
      *
@@ -42,18 +42,10 @@ public class TestSecurityUtils
     }
 
     /**
-     * Erstellt ein neues {@link TestSecurityUtils} Object.
-     */
-    public TestSecurityUtils()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void createRsaKeyPair() throws Exception
+    void createRsaKeyPair() throws Exception
     {
         // SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
         //
@@ -81,7 +73,7 @@ public class TestSecurityUtils
      *
      */
     @Test
-    public void testCipher()
+    void testCipher()
     {
         String[] values = SecurityUtils.getCryptoImpls("Cipher");
         assertNotNull(values);
@@ -109,7 +101,7 @@ public class TestSecurityUtils
      *
      */
     @Test
-    public void testKeyPairGenerator()
+    void testKeyPairGenerator()
     {
         String[] values = SecurityUtils.getCryptoImpls("KeyPairGenerator");
         assertNotNull(values);
@@ -130,7 +122,7 @@ public class TestSecurityUtils
      *
      */
     @Test
-    public void testMessageDigest()
+    void testMessageDigest()
     {
         String[] values = SecurityUtils.getCryptoImpls("MessageDigest");
         assertNotNull(values);
@@ -151,7 +143,7 @@ public class TestSecurityUtils
      *
      */
     @Test
-    public void testProvider()
+    void testProvider()
     {
         String[] values = SecurityUtils.getCryptoImpls("Provider");
         assertNotNull(values);
@@ -172,7 +164,7 @@ public class TestSecurityUtils
      *
      */
     @Test
-    public void testServiceTypes()
+    void testServiceTypes()
     {
         String[] values = SecurityUtils.getServiceTypes();
         assertNotNull(values);
@@ -193,7 +185,7 @@ public class TestSecurityUtils
      *
      */
     @Test
-    public void testSignature()
+    void testSignature()
     {
         String[] values = SecurityUtils.getCryptoImpls("Signature");
         assertNotNull(values);

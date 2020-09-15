@@ -32,7 +32,7 @@ import de.freese.base.security.algorythm.Crypto;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestCrypto
+class TestCrypto
 {
     /**
      *
@@ -50,19 +50,11 @@ public class TestCrypto
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     /**
-     * Erstellt ein neues {@link TestCrypto} Object.
-     */
-    public TestCrypto()
-    {
-        super();
-    }
-
-    /**
      * @throws GeneralSecurityException Falls was schief geht.
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void asymetricRsa() throws GeneralSecurityException, IOException
+    void asymetricRsa() throws GeneralSecurityException, IOException
     {
         // @formatter:off
          Crypto crypto = AlgorythmConfigBuilder.asymetric()
@@ -86,7 +78,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void asymetricRsaBc() throws GeneralSecurityException, IOException
+    void asymetricRsaBc() throws GeneralSecurityException, IOException
     {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
         {
@@ -113,7 +105,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void symetricAesCbc() throws GeneralSecurityException, IOException
+    void symetricAesCbc() throws GeneralSecurityException, IOException
     {
         // @formatter:off
         Crypto crypto = AlgorythmConfigBuilder.symetric()
@@ -135,7 +127,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void symetricAesCbcBC() throws GeneralSecurityException, IOException
+    void symetricAesCbcBC() throws GeneralSecurityException, IOException
     {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
         {
@@ -163,7 +155,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void symetricAesGcm() throws GeneralSecurityException, IOException
+    void symetricAesGcm() throws GeneralSecurityException, IOException
     {
         // @formatter:off
          Crypto crypto = AlgorythmConfigBuilder.symetric()
@@ -184,7 +176,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void symetricAesGcmPlain() throws GeneralSecurityException, IOException
+    void symetricAesGcmPlain() throws GeneralSecurityException, IOException
     {
         // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
         String cipherTransformation = "AES/GCM/NoPadding";
@@ -225,7 +217,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void symetricBlowfish() throws GeneralSecurityException, IOException
+    void symetricBlowfish() throws GeneralSecurityException, IOException
     {
         // @formatter:off
         Crypto crypto = AlgorythmConfigBuilder.symetric()
@@ -246,7 +238,7 @@ public class TestCrypto
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void symetricDes() throws GeneralSecurityException, IOException
+    void symetricDes() throws GeneralSecurityException, IOException
     {
         // @formatter:off
         Crypto crypto = AlgorythmConfigBuilder.symetric()
