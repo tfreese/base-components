@@ -9,6 +9,7 @@ import java.util.Objects;
  * Der carriage return line feed (crlf) wird automatisch bei jeder put-Methode angefügt.
  *
  * @author Thomas Freese
+ * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
 {
@@ -56,6 +57,39 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
         super(buffer);
 
         this.crlf = Objects.requireNonNull(crlf, "crlf required");
+    }
+
+    /**
+     * Fügt CRLF an, wenn dieser != null.
+     */
+    private void appendCRLF()
+    {
+        autoExpand(getCRLF().length());
+        getBuffer().put(getCRLF());
+    }
+
+    /**
+     * @see AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
+     */
+    @Override
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
+    {
+        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+
+        buffer.flip();
+        newBuffer.put(buffer);
+
+        return newBuffer;
+    }
+
+    /**
+     * carriage return line feed (NETASCII_EOL)
+     *
+     * @return String
+     */
+    private String getCRLF()
+    {
+        return this.crlf;
     }
 
     /**
@@ -113,38 +147,5 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
         appendCRLF();
 
         return this;
-    }
-
-    /**
-     * Fügt CRLF an, wenn dieser != null.
-     */
-    private void appendCRLF()
-    {
-        autoExpand(getCRLF().length());
-        getBuffer().put(getCRLF());
-    }
-
-    /**
-     * carriage return line feed (NETASCII_EOL)
-     *
-     * @return String
-     */
-    private String getCRLF()
-    {
-        return this.crlf;
-    }
-
-    /**
-     * @see AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
-    @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
-    {
-        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
-
-        buffer.flip();
-        newBuffer.put(buffer);
-
-        return newBuffer;
     }
 }

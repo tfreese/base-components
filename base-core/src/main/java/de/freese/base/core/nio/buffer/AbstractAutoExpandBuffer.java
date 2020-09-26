@@ -9,9 +9,15 @@ import java.util.Objects;
  *
  * @param <B> Konkreter Buffer
  * @author Thomas Freese
+ * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 {
+    /**
+     * 4 MB
+     */
+    private static final int CALCULATE_THRESHOLD = 1024 * 1024 * 4;
+
     /**
      * Siehe jdk.internal.util.ArraysSupport#MAX_ARRAY_LENGTH<br>
      * <br>
@@ -19,44 +25,73 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
      * Some VMs reserve some header words in an array. Attempts to allocate larger<br>
      * arrays may result in {@code OutOfMemoryError: Requested array size exceeds VM limit}
      */
-    private static final int MAX_ARRAY_LENGTH = Integer.MAX_VALUE - 8;
+    private static final int MAX_CAPACITY = Integer.MAX_VALUE - 8;
 
     /**
-     * Liefert den nächst größen Wert, der ein Vielfaches von "power of 2" ist.<br>
-     * Ist der neue Wert = 0, wird 1024 geliefert.
+     * Berechnet die neue Größe des Buffers..<br>
      *
-     * @param requestedCapacity int
+     * @param neededCapacity int
      * @return int
+     * @see "io.netty.buffer.AbstractByteBufAllocator.calculateNewCapacity(int, int)"
+     * @see "org.springframework.core.io.buffer.DefaultDataBuffer.calculateCapacity(int)"
      */
-    public static int normalizeCapacity(final int requestedCapacity)
+    public static int calculateNewCapacity(final int neededCapacity)
     {
-        if (requestedCapacity <= 0)
+        if (neededCapacity <= 0)
         {
-            throw new IllegalArgumentException("requestedCapacity must be > 0");
+            throw new IllegalArgumentException("neededCapacity must be > 0");
         }
 
-        // ArraysSupport.MAX_ARRAY_LENGTH
-        if (requestedCapacity > MAX_ARRAY_LENGTH)
+        if (neededCapacity == CALCULATE_THRESHOLD)
         {
-            throw new OutOfMemoryError("Required array length too large");
+            return CALCULATE_THRESHOLD;
         }
 
-        // Liefert den höchsten Wert (power of 2), der kleiner als requestedCapacity ist.
-        int newCapacity = Integer.highestOneBit(requestedCapacity);
+        // Über dem Schwellenwert: die neue Größe nicht einfach verdoppeln, sondern um Schwellenwert vergrößern.
+        if (neededCapacity > CALCULATE_THRESHOLD)
+        {
+            int newCapacity = (neededCapacity / CALCULATE_THRESHOLD) * CALCULATE_THRESHOLD;
 
-        // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
-        // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,
-        if (newCapacity < requestedCapacity)
+            if (newCapacity > (MAX_CAPACITY - CALCULATE_THRESHOLD))
+            {
+                newCapacity = MAX_CAPACITY;
+            }
+            else
+            {
+                newCapacity += CALCULATE_THRESHOLD;
+            }
+
+            return newCapacity;
+        }
+
+        // Nicht über dem Schwellenwert: bis auf Schwellenwert vergrößern in "power of 2" Schritten, angefangen bei 64.
+        int newCapacity = 64;
+
+        while (newCapacity < neededCapacity)
         {
             newCapacity <<= 1;
         }
 
-        if (newCapacity > MAX_ARRAY_LENGTH)
-        {
-            throw new OutOfMemoryError("Required array length too large");
-        }
+        return Math.min(newCapacity, MAX_CAPACITY);
 
-        return newCapacity;
+        // Liefert den nächst größeren Wert, der ein Vielfaches von "power of 2" ist.
+        //
+        // Liefert den höchsten Wert (power of 2), der kleiner als requestedCapacity ist.
+        // int newCapacity = Integer.highestOneBit(neededCapacity);
+        //
+        // // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
+        // // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,
+        // if (newCapacity < neededCapacity)
+        // {
+        // newCapacity <<= 1;
+        // }
+        //
+        // if (newCapacity > MAX_CAPACITY)
+        // {
+        // throw new OutOfMemoryError("Required array length too large");
+        // }
+        //
+        // return newCapacity;
     }
 
     /**
@@ -82,6 +117,54 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     }
 
     /**
+     * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
+     *
+     * @param expectedRemaining int
+     */
+    protected void autoExpand(final int expectedRemaining)
+    {
+        autoExpand(position(), expectedRemaining);
+    }
+
+    /**
+     * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
+     *
+     * @param position int
+     * @param expectedRemaining int
+     */
+    protected void autoExpand(final int position, final int expectedRemaining)
+    {
+        int newLimit = position + expectedRemaining;
+
+        if (newLimit > capacity())
+        {
+            // Buffer muss erweitert werden.
+            int newCapacity = calculateNewCapacity(newLimit);
+
+            B newBuffer = createNewBuffer(getBuffer(), newCapacity);
+
+            // Alten Zustand wiederherstellen.
+            newBuffer.limit(newCapacity);
+
+            if (this.mark >= 0)
+            {
+                newBuffer.position(this.mark);
+                newBuffer.mark();
+            }
+
+            newBuffer.position(position);
+
+            this.buffer = newBuffer;
+        }
+
+        if (newLimit > limit())
+        {
+            // Limit setzen, um StackOverflowError zu vermeiden.
+            this.buffer.limit(newLimit);
+        }
+    }
+
+    /**
      * @return int
      * @see Buffer#capacity()
      */
@@ -102,6 +185,13 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
         return this;
     }
+
+    /**
+     * @param buffer {@link Buffer}
+     * @param newCapacity int
+     * @return {@link Buffer}
+     */
+    protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
     /**
      * @return {@link AbstractAutoExpandBuffer}
@@ -249,60 +339,5 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
         return position(position() + size);
     }
-
-    /**
-     * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     *
-     * @param expectedRemaining int
-     */
-    protected void autoExpand(final int expectedRemaining)
-    {
-        autoExpand(position(), expectedRemaining);
-    }
-
-    /**
-     * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     *
-     * @param position int
-     * @param expectedRemaining int
-     */
-    protected void autoExpand(final int position, final int expectedRemaining)
-    {
-        int newLimit = position + expectedRemaining;
-
-        if (newLimit > capacity())
-        {
-            // Buffer muss erweitert werden.
-            int newCapacity = normalizeCapacity(newLimit);
-
-            B newBuffer = createNewBuffer(getBuffer(), newCapacity);
-
-            // Alten Zustand wiederherstellen.
-            newBuffer.limit(newCapacity);
-
-            if (this.mark >= 0)
-            {
-                newBuffer.position(this.mark);
-                newBuffer.mark();
-            }
-
-            newBuffer.position(position);
-
-            this.buffer = newBuffer;
-        }
-
-        if (newLimit > limit())
-        {
-            // Limit setzen, um StackOverflowError zu vermeiden.
-            this.buffer.limit(newLimit);
-        }
-    }
-
-    /**
-     * @param buffer {@link Buffer}
-     * @param newCapacity int
-     * @return {@link Buffer}
-     */
-    protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
 }

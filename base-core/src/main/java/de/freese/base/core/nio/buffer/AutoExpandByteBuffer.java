@@ -14,6 +14,7 @@ import java.nio.charset.CharsetDecoder;
  * Adapter für den {@link ByteBuffer} mit AutoExpand-Funktion.<br>
  *
  * @author Thomas Freese
+ * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuffer>
 {
@@ -187,6 +188,24 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
                 AutoExpandByteBuffer.this.put((byte) b);
             }
         };
+    }
+
+    /**
+     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
+     */
+    @Override
+    protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity)
+    {
+        ByteOrder bo = buffer.order();
+
+        ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);
+
+        buffer.flip();
+        newBuffer.put(buffer);
+
+        newBuffer.order(bo);
+
+        return newBuffer;
     }
 
     /**
@@ -564,23 +583,5 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         getBuffer().putShort(value);
 
         return this;
-    }
-
-    /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
-    @Override
-    protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity)
-    {
-        ByteOrder bo = buffer.order();
-
-        ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);
-
-        buffer.flip();
-        newBuffer.put(buffer);
-
-        newBuffer.order(bo);
-
-        return newBuffer;
     }
 }
