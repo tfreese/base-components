@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.function.BiConsumer;
-
+import java.util.function.LongConsumer;
 import javax.swing.ProgressMonitorInputStream;
 
 /**
@@ -19,37 +19,42 @@ public class MonitorInputStream extends InputStream
     /**
     *
     */
-    private final InputStream delegate;
+    private long bytesRead = 0;
+
+    /**
+       *
+       */
+    private final LongConsumer bytesReadConsumer;
 
     /**
     *
     */
-    private final BiConsumer<Long, Long> monitor;
-
-    /**
-     * Anzahl Bytes (Größe) des gesamten Channels.
-     */
-    private final long size;
-
-    /**
-     * Anzahl gelesener Bytes.
-     */
-    private long sizeRead = 0;
+    private final InputStream delegate;
 
     /**
      * Erzeugt eine neue Instanz von {@link MonitorInputStream}
      *
      * @param delegate {@link InputStream}
-     * @param monitor {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
+     * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    public MonitorInputStream(final InputStream delegate, final BiConsumer<Long, Long> monitor, final long size)
+    public MonitorInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size)
+    {
+        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size));
+    }
+
+    /**
+     * Erzeugt eine neue Instanz von {@link MonitorInputStream}
+     *
+     * @param delegate {@link InputStream}
+     * @param bytesReadConsumer {@link LongConsumer}
+     */
+    public MonitorInputStream(final InputStream delegate, final LongConsumer bytesReadConsumer)
     {
         super();
 
-        this.delegate = Objects.requireNonNull(delegate, () -> "delegate required");
-        this.monitor = Objects.requireNonNull(monitor, () -> "monitor required");
-        this.size = size;
+        this.delegate = Objects.requireNonNull(delegate, "delegate required");
+        this.bytesReadConsumer = Objects.requireNonNull(bytesReadConsumer, "bytesReadConsumer required");
     }
 
     /**
@@ -96,9 +101,9 @@ public class MonitorInputStream extends InputStream
     {
         int read = this.delegate.read();
 
-        this.sizeRead++;
+        this.bytesRead++;
 
-        this.monitor.accept(this.sizeRead, this.size);
+        this.bytesReadConsumer.accept(this.bytesRead);
 
         return read;
     }
@@ -113,9 +118,9 @@ public class MonitorInputStream extends InputStream
 
         if (readCount > 0)
         {
-            this.sizeRead += readCount;
+            this.bytesRead += readCount;
 
-            this.monitor.accept(this.sizeRead, this.size);
+            this.bytesReadConsumer.accept(this.bytesRead);
         }
 
         return readCount;
@@ -131,9 +136,9 @@ public class MonitorInputStream extends InputStream
 
         if (readCount > 0)
         {
-            this.sizeRead += readCount;
+            this.bytesRead += readCount;
 
-            this.monitor.accept(this.sizeRead, this.size);
+            this.bytesReadConsumer.accept(this.bytesRead);
         }
 
         return readCount;
@@ -147,9 +152,9 @@ public class MonitorInputStream extends InputStream
     {
         this.delegate.reset();
 
-        this.sizeRead = this.size - this.delegate.available();
+        this.bytesRead -= this.delegate.available();
 
-        this.monitor.accept(this.sizeRead, this.size);
+        this.bytesReadConsumer.accept(this.bytesRead);
     }
 
     /**
@@ -162,9 +167,9 @@ public class MonitorInputStream extends InputStream
 
         if (readCount > 0)
         {
-            this.sizeRead += readCount;
+            this.bytesRead += readCount;
 
-            this.monitor.accept(this.sizeRead, this.size);
+            this.bytesReadConsumer.accept(this.bytesRead);
         }
 
         return readCount;

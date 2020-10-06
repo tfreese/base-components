@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.LongConsumer;
 
 /**
  * {@link WritableByteChannel} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
@@ -17,37 +18,42 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
     /**
      *
      */
-    private final WritableByteChannel delegate;
+    private long bytesWritten = 0;
 
     /**
     *
     */
-    private final BiConsumer<Long, Long> monitor;
+    private final LongConsumer bytesWrittenConsumer;
 
     /**
-     * Anzahl Bytes (Größe) des gesamten Channels.
+     *
      */
-    private final long size;
-
-    /**
-     * Anzahl geschriebene Bytes.
-     */
-    private long sizeWritten = 0;
+    private final WritableByteChannel delegate;
 
     /**
      * Erzeugt eine neue Instanz von {@link MonitoringWritableByteChannel}
      *
      * @param delegate {@link WritableByteChannel}
-     * @param monitor {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
+     * @param bytesWrittenConsumer {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final BiConsumer<Long, Long> monitor, final long size)
+    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size)
+    {
+        this(delegate, bytesWritten -> bytesWrittenConsumer.accept(bytesWritten, size));
+    }
+
+    /**
+     * Erzeugt eine neue Instanz von {@link MonitoringWritableByteChannel}
+     *
+     * @param delegate {@link WritableByteChannel}
+     * @param bytesWrittenConsumer {@link LongConsumer}
+     */
+    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final LongConsumer bytesWrittenConsumer)
     {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
-        this.monitor = Objects.requireNonNull(monitor, "monitor required");
-        this.size = size;
+        this.bytesWrittenConsumer = Objects.requireNonNull(bytesWrittenConsumer, "bytesWrittenConsumer required");
     }
 
     /**
@@ -78,9 +84,9 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
 
         if (writeCount > 0)
         {
-            this.sizeWritten += writeCount;
+            this.bytesWritten += writeCount;
 
-            this.monitor.accept(this.sizeWritten, this.size);
+            this.bytesWrittenConsumer.accept(this.bytesWritten);
         }
 
         return writeCount;

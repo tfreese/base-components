@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.LongConsumer;
 
 /**
  * {@link ReadableByteChannel} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
@@ -15,39 +16,44 @@ import java.util.function.BiConsumer;
 public class MonitoringReadableByteChannel implements ReadableByteChannel
 {
     /**
+     *
+     */
+    private long bytesRead = 0;
+
+    /**
+    *
+    */
+    private final LongConsumer bytesReadConsumer;
+
+    /**
     *
     */
     private final ReadableByteChannel delegate;
 
     /**
-    *
-    */
-    private final BiConsumer<Long, Long> monitor;
-
-    /**
-     * Anzahl Bytes (Größe) des gesamten Channels.
+     * Erzeugt eine neue Instanz von {@link MonitoringReadableByteChannel}
+     *
+     * @param delegate {@link ReadableByteChannel}
+     * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
+     * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    private final long size;
-
-    /**
-     * Anzahl gelesener Bytes.
-     */
-    private long sizeRead = 0;
+    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size)
+    {
+        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size));
+    }
 
     /**
      * Erzeugt eine neue Instanz von {@link MonitoringReadableByteChannel}
      *
      * @param delegate {@link ReadableByteChannel}
-     * @param monitor {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
-     * @param size long; Anzahl Bytes (Größe) des gesamten Channels
+     * @param bytesReadConsumer {@link LongConsumer}
      */
-    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final BiConsumer<Long, Long> monitor, final long size)
+    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final LongConsumer bytesReadConsumer)
     {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
-        this.monitor = Objects.requireNonNull(monitor, "monitor required");
-        this.size = size;
+        this.bytesReadConsumer = Objects.requireNonNull(bytesReadConsumer, "bytesReadConsumer required");
     }
 
     /**
@@ -78,9 +84,9 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
 
         if (readCount > 0)
         {
-            this.sizeRead += readCount;
+            this.bytesRead += readCount;
 
-            this.monitor.accept(this.sizeRead, this.size);
+            this.bytesReadConsumer.accept(this.bytesRead);
         }
 
         return readCount;

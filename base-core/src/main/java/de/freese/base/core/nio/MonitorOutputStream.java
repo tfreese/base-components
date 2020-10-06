@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.LongConsumer;
 
 /**
  * {@link OutputStream} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
@@ -16,37 +17,42 @@ public class MonitorOutputStream extends OutputStream
     /**
     *
     */
-    private final OutputStream delegate;
+    private long bytesWritten = 0;
+
+    /**
+       *
+       */
+    private final LongConsumer bytesWrittenConsumer;
 
     /**
     *
     */
-    private final BiConsumer<Long, Long> monitor;
-
-    /**
-     * Anzahl Bytes (Größe) des gesamten Channels.
-     */
-    private final long size;
-
-    /**
-     * Anzahl geschriebene Bytes.
-     */
-    private long sizeWritten = 0;
+    private final OutputStream delegate;
 
     /**
      * Erzeugt eine neue Instanz von {@link MonitorOutputStream}
      *
      * @param delegate {@link OutputStream}
-     * @param monitor {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
+     * @param bytesWrittenConsumer {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    public MonitorOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> monitor, final long size)
+    public MonitorOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size)
+    {
+        this(delegate, bytesWritten -> bytesWrittenConsumer.accept(bytesWritten, size));
+    }
+
+    /**
+     * Erzeugt eine neue Instanz von {@link MonitorOutputStream}
+     *
+     * @param delegate {@link OutputStream}
+     * @param bytesWrittenConsumer {@link LongConsumer}
+     */
+    public MonitorOutputStream(final OutputStream delegate, final LongConsumer bytesWrittenConsumer)
     {
         super();
 
-        this.delegate = Objects.requireNonNull(delegate, () -> "delegate required");
-        this.monitor = Objects.requireNonNull(monitor, () -> "monitor required");
-        this.size = size;
+        this.delegate = Objects.requireNonNull(delegate, "delegate required");
+        this.bytesWrittenConsumer = Objects.requireNonNull(bytesWrittenConsumer, "bytesWrittenConsumer required");
     }
 
     /**
@@ -75,9 +81,9 @@ public class MonitorOutputStream extends OutputStream
     {
         this.delegate.write(b);
 
-        this.sizeWritten += b.length;
+        this.bytesWritten += b.length;
 
-        this.monitor.accept(this.sizeWritten, this.size);
+        this.bytesWrittenConsumer.accept(this.bytesWritten);
     }
 
     /**
@@ -88,9 +94,9 @@ public class MonitorOutputStream extends OutputStream
     {
         this.delegate.write(b, off, len);
 
-        this.sizeWritten += len;
+        this.bytesWritten += len;
 
-        this.monitor.accept(this.sizeWritten, this.size);
+        this.bytesWrittenConsumer.accept(this.bytesWritten);
     }
 
     /**
@@ -101,8 +107,8 @@ public class MonitorOutputStream extends OutputStream
     {
         this.delegate.write(b);
 
-        this.sizeWritten++;
+        this.bytesWritten++;
 
-        this.monitor.accept(this.sizeWritten, this.size);
+        this.bytesWrittenConsumer.accept(this.bytesWritten);
     }
 }
