@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
+ * Die {@link #get()}-Methode blockiert so lange bis {@link #setResponse(Object)} aufgerufen wird.
+ *
  * @author Thomas Freese
  * @param <T> Type of Response
  */
