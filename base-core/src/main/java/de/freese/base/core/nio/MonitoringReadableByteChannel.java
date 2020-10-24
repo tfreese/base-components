@@ -28,6 +28,11 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
     /**
     *
     */
+    private final boolean closeDelegate;
+
+    /**
+    *
+    */
     private final ReadableByteChannel delegate;
 
     /**
@@ -36,10 +41,12 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
      * @param delegate {@link ReadableByteChannel}
      * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
+     * @param closeDelegate boolean
      */
-    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size)
+    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size,
+            final boolean closeDelegate)
     {
-        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size));
+        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size), closeDelegate);
     }
 
     /**
@@ -47,13 +54,15 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
      *
      * @param delegate {@link ReadableByteChannel}
      * @param bytesReadConsumer {@link LongConsumer}
+     * @param closeDelegate boolean
      */
-    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final LongConsumer bytesReadConsumer)
+    public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final LongConsumer bytesReadConsumer, final boolean closeDelegate)
     {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
         this.bytesReadConsumer = Objects.requireNonNull(bytesReadConsumer, "bytesReadConsumer required");
+        this.closeDelegate = closeDelegate;
     }
 
     /**
@@ -62,7 +71,10 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
     @Override
     public void close() throws IOException
     {
-        this.delegate.close();
+        if (this.closeDelegate)
+        {
+            this.delegate.close();
+        }
     }
 
     /**
