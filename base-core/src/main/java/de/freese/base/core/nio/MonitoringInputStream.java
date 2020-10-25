@@ -14,7 +14,7 @@ import javax.swing.ProgressMonitorInputStream;
  * @see ProgressMonitorInputStream
  * @author Thomas Freese
  */
-public class MonitorInputStream extends InputStream
+public class MonitoringInputStream extends InputStream
 {
     /**
     *
@@ -29,32 +29,40 @@ public class MonitorInputStream extends InputStream
     /**
     *
     */
+    private final boolean closeDelegate;
+
+    /**
+    *
+    */
     private final InputStream delegate;
 
     /**
-     * Erzeugt eine neue Instanz von {@link MonitorInputStream}
+     * Erzeugt eine neue Instanz von {@link MonitoringInputStream}
      *
      * @param delegate {@link InputStream}
      * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
+     * @param closeDelegate boolean
      */
-    public MonitorInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size)
+    public MonitoringInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size, final boolean closeDelegate)
     {
-        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size));
+        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size), closeDelegate);
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link MonitorInputStream}
+     * Erzeugt eine neue Instanz von {@link MonitoringInputStream}
      *
      * @param delegate {@link InputStream}
      * @param bytesReadConsumer {@link LongConsumer}
+     * @param closeDelegate boolean
      */
-    public MonitorInputStream(final InputStream delegate, final LongConsumer bytesReadConsumer)
+    public MonitoringInputStream(final InputStream delegate, final LongConsumer bytesReadConsumer, final boolean closeDelegate)
     {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
         this.bytesReadConsumer = Objects.requireNonNull(bytesReadConsumer, "bytesReadConsumer required");
+        this.closeDelegate = closeDelegate;
     }
 
     /**
@@ -72,7 +80,10 @@ public class MonitorInputStream extends InputStream
     @Override
     public void close() throws IOException
     {
-        this.delegate.close();
+        if (this.closeDelegate)
+        {
+            this.delegate.close();
+        }
     }
 
     /**

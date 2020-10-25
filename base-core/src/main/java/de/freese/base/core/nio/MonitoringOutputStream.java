@@ -12,7 +12,7 @@ import java.util.function.LongConsumer;
  *
  * @author Thomas Freese
  */
-public class MonitorOutputStream extends OutputStream
+public class MonitoringOutputStream extends OutputStream
 {
     /**
     *
@@ -27,32 +27,40 @@ public class MonitorOutputStream extends OutputStream
     /**
     *
     */
+    private final boolean closeDelegate;
+
+    /**
+    *
+    */
     private final OutputStream delegate;
 
     /**
-     * Erzeugt eine neue Instanz von {@link MonitorOutputStream}
+     * Erzeugt eine neue Instanz von {@link MonitoringOutputStream}
      *
      * @param delegate {@link OutputStream}
      * @param bytesWrittenConsumer {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
+     * @param closeDelegate boolean
      */
-    public MonitorOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size)
+    public MonitoringOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size, final boolean closeDelegate)
     {
-        this(delegate, bytesWritten -> bytesWrittenConsumer.accept(bytesWritten, size));
+        this(delegate, bytesWritten -> bytesWrittenConsumer.accept(bytesWritten, size), closeDelegate);
     }
 
     /**
-     * Erzeugt eine neue Instanz von {@link MonitorOutputStream}
+     * Erzeugt eine neue Instanz von {@link MonitoringOutputStream}
      *
      * @param delegate {@link OutputStream}
      * @param bytesWrittenConsumer {@link LongConsumer}
+     * @param closeDelegate boolean
      */
-    public MonitorOutputStream(final OutputStream delegate, final LongConsumer bytesWrittenConsumer)
+    public MonitoringOutputStream(final OutputStream delegate, final LongConsumer bytesWrittenConsumer, final boolean closeDelegate)
     {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
         this.bytesWrittenConsumer = Objects.requireNonNull(bytesWrittenConsumer, "bytesWrittenConsumer required");
+        this.closeDelegate = closeDelegate;
     }
 
     /**
@@ -61,7 +69,10 @@ public class MonitorOutputStream extends OutputStream
     @Override
     public void close() throws IOException
     {
-        this.delegate.close();
+        if (this.closeDelegate)
+        {
+            this.delegate.close();
+        }
     }
 
     /**
