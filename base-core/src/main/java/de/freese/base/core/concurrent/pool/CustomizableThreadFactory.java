@@ -17,6 +17,11 @@ public class CustomizableThreadFactory implements ThreadFactory
     public static class Builder implements de.freese.base.core.model.builder.Builder<ThreadFactory>
     {
         /**
+        *
+        */
+        private boolean daemon = true;
+
+        /**
          *
          */
         private String threadNamePattern = "thread-%02d";
@@ -29,7 +34,7 @@ public class CustomizableThreadFactory implements ThreadFactory
         /**
          *
          */
-        private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = null;
+        private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
 
         /**
          *
@@ -45,6 +50,19 @@ public class CustomizableThreadFactory implements ThreadFactory
             ThreadFactory threadFactory = new CustomizableThreadFactory(this);
 
             return threadFactory;
+        }
+
+        /**
+         * Default: true
+         *
+         * @param daemon boolean
+         * @return {@link Builder}
+         */
+        public Builder daemon(final boolean daemon)
+        {
+            this.daemon = daemon;
+
+            return this;
         }
 
         /**
@@ -111,6 +129,11 @@ public class CustomizableThreadFactory implements ThreadFactory
     }
 
     /**
+    *
+    */
+    private final boolean daemon;
+
+    /**
      *
      */
     private final String threadNamePattern;
@@ -148,6 +171,7 @@ public class CustomizableThreadFactory implements ThreadFactory
         this.threadPriority = builder.threadPriority;
         this.wrappedFactory = builder.wrappedFactory;
         this.uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
+        this.daemon = builder.daemon;
     }
 
     /**
@@ -162,10 +186,10 @@ public class CustomizableThreadFactory implements ThreadFactory
 
         thread.setName(threadName);
 
-        if (thread.isDaemon())
-        {
-            thread.setDaemon(false);
-        }
+        // if (thread.isDaemon())
+        // {
+        thread.setDaemon(this.daemon);
+        // }
 
         if (thread.getPriority() != this.threadPriority)
         {

@@ -13,6 +13,11 @@ public class SimpleThreadFactory implements ThreadFactory
     /**
      *
      */
+    private final boolean daemon;
+
+    /**
+     *
+     */
     private final ThreadGroup threadGroup;
 
     /**
@@ -37,6 +42,7 @@ public class SimpleThreadFactory implements ThreadFactory
      * Defaults:
      * - namingPattern = thread-%02d
      * - threadPriority = Thread.NORM_PRIORITY
+     * - daemon = true
      * </pre>
      */
     public SimpleThreadFactory()
@@ -47,13 +53,28 @@ public class SimpleThreadFactory implements ThreadFactory
     /**
      * Erzeugt eine neue Instanz von {@link SimpleThreadFactory}
      *
+     * <pre>
+     * Defaults:
+     * - daemon = true
+     * </pre>
+     *
      * @param threadNamePattern String; Beispiel: thread-%02d
      * @param threadPriority int
      */
     public SimpleThreadFactory(final String threadNamePattern, final int threadPriority)
     {
-        super();
+        this(threadNamePattern, threadPriority, true);
+    }
 
+    /**
+     * Erzeugt eine neue Instanz von {@link SimpleThreadFactory}
+     *
+     * @param threadNamePattern String; Beispiel: thread-%02d
+     * @param threadPriority int
+     * @param daemon boolean
+     */
+    public SimpleThreadFactory(final String threadNamePattern, final int threadPriority, final boolean daemon)
+    {
         if ((threadNamePattern == null) || threadNamePattern.strip().isEmpty())
         {
             throw new IllegalArgumentException("threadNamePattern required");
@@ -66,10 +87,10 @@ public class SimpleThreadFactory implements ThreadFactory
 
         this.threadNamePattern = threadNamePattern;
         this.threadPriority = threadPriority;
+        this.daemon = daemon;
 
         SecurityManager sm = System.getSecurityManager();
         this.threadGroup = (sm != null) ? sm.getThreadGroup() : Thread.currentThread().getThreadGroup();
-
     }
 
     /**
@@ -82,10 +103,10 @@ public class SimpleThreadFactory implements ThreadFactory
 
         final Thread thread = new Thread(this.threadGroup, task, threadName, 0);
 
-        if (thread.isDaemon())
-        {
-            thread.setDaemon(false);
-        }
+        // if (thread.isDaemon())
+        // {
+        thread.setDaemon(this.daemon);
+        // }
 
         if (thread.getPriority() != this.threadPriority)
         {
