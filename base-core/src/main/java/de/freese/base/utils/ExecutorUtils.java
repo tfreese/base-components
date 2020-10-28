@@ -32,7 +32,6 @@ public final class ExecutorUtils
      * - maxSize = coreSize * 2
      * - queueSize = maxSize * 10
      * - keepAliveTime = 60
-     * - threadPriority = Thread.NORM_PRIORITY
      * - rejectedExecutionHandler = ThreadPoolExecutor.AbortPolicy
      * - allowCoreThreadTimeOut = false
      * - exposeUnconfigurableExecutor = true
@@ -54,7 +53,6 @@ public final class ExecutorUtils
     /**
      * <pre>
      * Defaults:
-     * - threadPriority = Thread.NORM_PRIORITY
      * - rejectedExecutionHandler = ThreadPoolExecutor.AbortPolicy
      * - allowCoreThreadTimeOut = false
      * - exposeUnconfigurableExecutor = true
@@ -71,8 +69,7 @@ public final class ExecutorUtils
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
                                                    final int keepAliveSeconds)
     {
-        return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds, Thread.NORM_PRIORITY, new ThreadPoolExecutor.AbortPolicy(),
-                false, true);
+        return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds, new ThreadPoolExecutor.AbortPolicy(), false, true);
     }
 
     /**
@@ -82,7 +79,6 @@ public final class ExecutorUtils
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
      *            other value will lead to a SynchronousQueue instance.
      * @param keepAliveSeconds int
-     * @param threadPriority int
      * @param rejectedExecutionHandler {@link RejectedExecutionHandler}
      * @param allowCoreThreadTimeOut boolean If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out
      *            waiting for work.
@@ -90,9 +86,8 @@ public final class ExecutorUtils
      * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
-                                                   final int keepAliveSeconds, final int threadPriority,
-                                                   final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut,
-                                                   final boolean exposeUnconfigurableExecutor)
+                                                   final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler,
+                                                   final boolean allowCoreThreadTimeOut, final boolean exposeUnconfigurableExecutor)
     {
         BlockingQueue<Runnable> queue = null;
 
@@ -105,7 +100,7 @@ public final class ExecutorUtils
             queue = new SynchronousQueue<>();
         }
 
-        ThreadFactory threadFactory = new SimpleThreadFactory(threadNamePattern, threadPriority);
+        ThreadFactory threadFactory = new SimpleThreadFactory(threadNamePattern, true);
 
         ThreadPoolExecutor threadPoolExecutor =
                 new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
