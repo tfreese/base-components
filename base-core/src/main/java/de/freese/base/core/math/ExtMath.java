@@ -64,11 +64,10 @@ public final class ExtMath
             'Y',
             'Z'
     };
-
     /**
      *
      */
-    public static final double logE = Math.log(Math.E);
+    public static final double LOG_E = Math.log(Math.E);
 
     /**
      * @param n long
@@ -146,7 +145,7 @@ public final class ExtMath
             return null;
         }
 
-        StringBuilder sbuf = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         double tmp = 0.0D;
         long number = value;
 
@@ -157,12 +156,12 @@ public final class ExtMath
             tmp -= number;
             tmp = Math.round(tmp * base);
 
-            sbuf.append(CHAR_ARRAY[(int) tmp]);
+            sb.append(CHAR_ARRAY[(int) tmp]);
         }
 
-        sbuf.reverse();
+        sb.reverse();
 
-        return sbuf.toString();
+        return sb.toString();
     }
 
     /**
@@ -267,13 +266,12 @@ public final class ExtMath
      */
     public static String getRomanNumber(final int value)
     {
-        StringBuilder sb = new StringBuilder();
-
         if ((value < 1) || (value > 3999))
         {
             throw new IllegalArgumentException("Die eingegebene Zahl muss zwischen 1 und 3999 liegen!");
         }
 
+        StringBuilder sb = new StringBuilder();
         int val = value;
 
         while ((val / 1000) >= 1)
@@ -491,7 +489,7 @@ public final class ExtMath
      */
     public static final double ln(final double x)
     {
-        return Math.log(x) / logE;
+        return Math.log(x) / LOG_E;
     }
 
     /**
@@ -808,5 +806,13 @@ public final class ExtMath
         long bValue = (b == null) ? 0 : b.longValue();
 
         return Long.valueOf(aValue + bValue);
+    }
+
+    /**
+     * Erstellt ein neues {@link ExtMath} Object.
+     */
+    private ExtMath()
+    {
+        super();
     }
 }

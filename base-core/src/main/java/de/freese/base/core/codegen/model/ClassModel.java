@@ -19,7 +19,7 @@ public class ClassModel extends AbstractModel
     /**
     *
     */
-    private boolean addFullConstructor = false;
+    private boolean addFullConstructor;
 
     /**
     *
@@ -39,7 +39,7 @@ public class ClassModel extends AbstractModel
     /**
     *
     */
-    private String packageName = null;
+    private String packageName;
 
     /**
     *

@@ -10,30 +10,30 @@ public enum ImageFormat
 	/**
 	 * 
 	 */
-	bmp,
+	BMP,
 
 	/**
 	 * Graphics Interchange Format - lossless, but 256 colour restriction
 	 */
-	gif,
+	GIF,
 	
 	/**
 	 * Joint Photographic Experts Group format - lossy
 	 */
-	jpeg,
+	JPEG,
 
 	/**
 	 * 
 	 */
-	jpg,
+	JPG,
 	
 	/**
 	 * Portable Network Graphics - lossless
 	 */
-	png,
+	PNG,
 	
 	/**
 	 * 
 	 */
-	wbmp;
+	WBMP;
 }

@@ -12,11 +12,11 @@ public abstract class AbstractCommand implements Command
     /**
      *
      */
-    private Object source = null;
+    private Object source;
 
     /**
      * Creates a new {@link AbstractCommand} object.
-     * 
+     *
      * @param source {@link Object}
      */
     public AbstractCommand(final Object source)

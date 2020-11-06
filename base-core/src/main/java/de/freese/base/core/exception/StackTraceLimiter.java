@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  *
  * @author Thomas Freese
  */
-public class StackTraceLimiter
+public final class StackTraceLimiter
 {
     /**
      * Liefert die ersten n Elemente des StackTraces.

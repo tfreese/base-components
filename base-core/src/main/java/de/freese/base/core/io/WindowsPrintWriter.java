@@ -1,13 +1,12 @@
 package de.freese.base.core.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.charset.Charset;
 
 /**
  * {@link PrintWriter} mit festcodiertem LineSeparator (println) fuer Windows.
@@ -30,34 +29,12 @@ public class WindowsPrintWriter extends PrintWriter
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
      *
      * @param file {@link File}
-     * @throws FileNotFoundException Falls was schief geht.
+     * @param charset {@link Charset}
+     * @throws IOException Falls was schief geht.
      */
-    public WindowsPrintWriter(final File file) throws FileNotFoundException
+    public WindowsPrintWriter(final File file, final Charset charset) throws IOException
     {
-        super(file);
-    }
-
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param file {@link File}
-     * @param csn String
-     * @throws FileNotFoundException Falls was schief geht.
-     * @throws UnsupportedEncodingException Falls was schief geht.
-     */
-    public WindowsPrintWriter(final File file, final String csn) throws FileNotFoundException, UnsupportedEncodingException
-    {
-        super(file, csn);
-    }
-
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param out {@link OutputStream}
-     */
-    public WindowsPrintWriter(final OutputStream out)
-    {
-        super(out);
+        super(file, charset);
     }
 
     /**
@@ -65,10 +42,11 @@ public class WindowsPrintWriter extends PrintWriter
      *
      * @param out {@link OutputStream}
      * @param autoFlush boolean
+     * @param charset {@link Charset}
      */
-    public WindowsPrintWriter(final OutputStream out, final boolean autoFlush)
+    public WindowsPrintWriter(final OutputStream out, final boolean autoFlush, final Charset charset)
     {
-        super(out, autoFlush);
+        super(out, autoFlush, charset);
 
         this.autoFlush = autoFlush;
     }
@@ -76,35 +54,13 @@ public class WindowsPrintWriter extends PrintWriter
     /**
      * Erstellt ein neues {@link WindowsPrintWriter} Object.
      *
-     * @param fileName {@link String}
-     * @throws FileNotFoundException Falls was schief geht.
-     */
-    public WindowsPrintWriter(final String fileName) throws FileNotFoundException
-    {
-        super(fileName);
-    }
-
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
      * @param fileName String
-     * @param csn String
-     * @throws FileNotFoundException Falls was schief geht.
-     * @throws UnsupportedEncodingException Falls was schief geht.
+     * @param charset {@link Charset}
+     * @throws IOException Falls was schief geht.
      */
-    public WindowsPrintWriter(final String fileName, final String csn) throws FileNotFoundException, UnsupportedEncodingException
+    public WindowsPrintWriter(final String fileName, final Charset charset) throws IOException
     {
-        super(fileName, csn);
-    }
-
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param out {@link Writer}
-     */
-    public WindowsPrintWriter(final Writer out)
-    {
-        super(out);
+        super(fileName, charset);
     }
 
     /**

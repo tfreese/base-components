@@ -23,12 +23,12 @@ public class TextComponentOutputStream extends OutputStream
     /**
      *
      */
-    private OutputStream out = null;
+    private OutputStream out;
 
     /**
      *
      */
-    private JTextComponent textComponent = null;
+    private JTextComponent textComponent;
 
     /**
      * Creates a new {@link TextComponentOutputStream} object.

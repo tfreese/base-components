@@ -150,11 +150,11 @@ class StreamSubscription<T> implements Subscription
             {
                 getExecutor().execute(() -> this.subscriber.onNext(this.iterator.next()));
             }
-            catch (Throwable e)
+            catch (Throwable th)
             {
                 if (!terminate())
                 {
-                    getExecutor().execute(() -> this.subscriber.onError(e));
+                    getExecutor().execute(() -> this.subscriber.onError(th));
                 }
             }
         }

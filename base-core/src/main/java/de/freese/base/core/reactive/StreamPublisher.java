@@ -27,7 +27,7 @@ public class StreamPublisher<T> implements Publisher<T>
     /**
      *
      */
-    final Supplier<Stream<? extends T>> streamSupplier;
+    private final Supplier<Stream<? extends T>> streamSupplier;
 
     /**
      * Erzeugt eine neue Instanz von {@link StreamPublisher}.

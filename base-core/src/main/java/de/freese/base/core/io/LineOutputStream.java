@@ -6,8 +6,7 @@ import java.io.OutputStream;
 import de.freese.base.utils.ByteUtils;
 
 /**
- * This class is to support writing out Strings as a sequence of bytes terminated by a CRLF sequence. The String must contain only US-ASCII
- * characters.
+ * This class is to support writing out Strings as a sequence of bytes terminated by a CRLF sequence. The String must contain only US-ASCII characters.
  * <p>
  * The expected use is to write out RFC822 style headers to an output stream.
  * </p>
@@ -17,20 +16,16 @@ import de.freese.base.utils.ByteUtils;
 public class LineOutputStream extends FilterOutputStream
 {
     /**
-     * 
+     *
      */
-    private static byte[] newline = null;
-
-    static
+    private static final byte[] NEW_LINE = new byte[]
     {
-        newline = new byte[2];
-        newline[0] = (byte) '\r';
-        newline[1] = (byte) '\n';
-    }
+            (byte) '\r', (byte) '\n'
+    };
 
     /**
      * Creates a new {@link LineOutputStream} object.
-     * 
+     *
      * @param out {@link OutputStream}
      */
     public LineOutputStream(final OutputStream out)
@@ -43,7 +38,7 @@ public class LineOutputStream extends FilterOutputStream
      */
     public void writeln() throws IOException
     {
-        this.out.write(newline);
+        this.out.write(NEW_LINE);
     }
 
     /**
@@ -54,6 +49,6 @@ public class LineOutputStream extends FilterOutputStream
     {
         byte[] bytes = ByteUtils.toByteArray(s);
         this.out.write(bytes);
-        this.out.write(newline);
+        this.out.write(NEW_LINE);
     }
 }

@@ -466,7 +466,7 @@ public final class ImageUtils
         }
         catch (InterruptedException ex)
         {
-            // Ignore
+            // Empty
         }
 
         ColorModel cm = pg.getColorModel();
@@ -808,7 +808,7 @@ public final class ImageUtils
         // Sobel Operator, horizontal & vertikal
         float[] matrix = new float[]
         {
-                0.0f, -1.0f, 0.0f, -1.0f, 4.0f, -1.0f, 0.0f, -1.0f, 0.0f
+                0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F
         };
 
         // // Sobel Operator, horizontal
@@ -902,7 +902,7 @@ public final class ImageUtils
     {
         float[] matrix = new float[]
         {
-                0.0f, -1.0f, 0.0f, -1.0f, 5.0f, -1.0f, 0.0f, -1.0f, 0.0f
+                0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F
         };
 
         // Kantenglaettung

@@ -26,7 +26,7 @@ public class ImageColorChannelInfo
     /**
      *
      */
-    private int[][] coOccurenceMatrix = null;
+    private int[][] coOccurenceMatrix;
 
     /**
      *
@@ -41,7 +41,7 @@ public class ImageColorChannelInfo
     /**
      *
      */
-    private int[] histogramm = null;
+    private int[] histogramm;
 
     /**
      *
@@ -168,7 +168,7 @@ public class ImageColorChannelInfo
                 final double c = this.coOccurenceMatrix[x][y];
                 final double d = x - y;
 
-                if (c != 0.0)
+                if (c != 0.0D)
                 {
                     this.entrophie += (c * Math.log(c));
                 }

@@ -37,69 +37,6 @@ import de.freese.base.core.model.builder.GenericBuilder;
 public class AsyncFileReader<CH>
 {
     /**
-     *
-     */
-    private static final Supplier<StringBuilder> DEFAULT_CONTENT_HOLDER_SUPPLIER = () -> new StringBuilder(4096);
-
-    /**
-    *
-    */
-    private static final BiConsumer<StringBuilder, byte[]> DEFAULT_DATA_CONSUMER = (sb, data) -> sb.append(new String(data, StandardCharsets.UTF_8));
-
-    /**
-     * @param args String[]
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        Supplier<StringBuilder> contentHolderSupplier = DEFAULT_CONTENT_HOLDER_SUPPLIER;
-        BiConsumer<StringBuilder, byte[]> dataConsumer = DEFAULT_DATA_CONSUMER;
-
-        // AsyncFileReader<StringBuilder> reader = new AsyncFileReader<>();
-        // reader.setDebug(true);
-        // // reader.setContentHolderSupplier(StringBuilder::new);
-        // reader.setContentHolderSupplier(contentHolderSupplier);
-        // reader.setDataConsumer(dataConsumer);
-
-        //@formatter:off
-        AsyncFileReader<StringBuilder> reader = GenericBuilder.
-                of(AsyncFileReader<StringBuilder>::new)
-                .with(AsyncFileReader::setDebug, true)
-                .with(r -> r.setContentHolderSupplier(contentHolderSupplier))
-                .with(r -> r.setDataConsumer(dataConsumer))
-                .build();
-        //@formatter:on
-
-        Path path = Paths.get(System.getProperty("user.dir"), "pom.xml");
-        System.out.println("Reading file " + path);
-
-        // 2x parallel auslesen.
-        long startTime1 = System.currentTimeMillis();
-        CompletableFuture<StringBuilder> future1 = reader.readFile(path);
-
-        long startTime2 = System.currentTimeMillis();
-        CompletableFuture<StringBuilder> future2 = reader.readFile(path);
-
-        System.out.println("Read in progress...");
-
-        BiConsumer<Long, CharSequence> printer = (startTime, cs) -> {
-            long duration = System.currentTimeMillis() - startTime;
-
-            // System.out.println("\n" + cs);
-            System.out.printf("[%s] Read %d bytes in %d ms.%n", Thread.currentThread().getName(), cs.length(), duration);
-        };
-
-        future1.thenAcceptAsync(cs -> printer.accept(startTime1, cs));
-        future2.thenAccept(cs -> printer.accept(startTime2, cs));
-
-        // StringBuilder contentHolder = future2.get(30, TimeUnit.SECONDS);
-        // printer.accept(contentHolder);
-
-        // Dient nur dazu, damit das Programm nicht vorzeitig beendet wird
-        Thread.sleep(1000);
-    }
-
-    /**
      * Interne Klasse als Attachement der {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.
      *
      * @param <CH> Typ des ContentHolders
@@ -178,6 +115,69 @@ public class AsyncFileReader<CH>
     }
 
     /**
+     *
+     */
+    private static final Supplier<StringBuilder> DEFAULT_CONTENT_HOLDER_SUPPLIER = () -> new StringBuilder(4096);
+
+    /**
+    *
+    */
+    private static final BiConsumer<StringBuilder, byte[]> DEFAULT_DATA_CONSUMER = (sb, data) -> sb.append(new String(data, StandardCharsets.UTF_8));
+
+    /**
+     * @param args String[]
+     * @throws Exception Falls was schief geht.
+     */
+    public static void main(final String[] args) throws Exception
+    {
+        Supplier<StringBuilder> contentHolderSupplier = DEFAULT_CONTENT_HOLDER_SUPPLIER;
+        BiConsumer<StringBuilder, byte[]> dataConsumer = DEFAULT_DATA_CONSUMER;
+
+        // AsyncFileReader<StringBuilder> reader = new AsyncFileReader<>();
+        // reader.setDebug(true);
+        // // reader.setContentHolderSupplier(StringBuilder::new);
+        // reader.setContentHolderSupplier(contentHolderSupplier);
+        // reader.setDataConsumer(dataConsumer);
+
+        //@formatter:off
+        AsyncFileReader<StringBuilder> reader = GenericBuilder.
+                of(AsyncFileReader<StringBuilder>::new)
+                .with(AsyncFileReader::setDebug, true)
+                .with(r -> r.setContentHolderSupplier(contentHolderSupplier))
+                .with(r -> r.setDataConsumer(dataConsumer))
+                .build();
+        //@formatter:on
+
+        Path path = Paths.get(System.getProperty("user.dir"), "pom.xml");
+        System.out.println("Reading file " + path);
+
+        // 2x parallel auslesen.
+        long startTime1 = System.currentTimeMillis();
+        CompletableFuture<StringBuilder> future1 = reader.readFile(path);
+
+        long startTime2 = System.currentTimeMillis();
+        CompletableFuture<StringBuilder> future2 = reader.readFile(path);
+
+        System.out.println("Read in progress...");
+
+        BiConsumer<Long, CharSequence> printer = (startTime, cs) -> {
+            long duration = System.currentTimeMillis() - startTime;
+
+            // System.out.println("\n" + cs);
+            System.out.printf("[%s] Read %d bytes in %d ms.%n", Thread.currentThread().getName(), cs.length(), duration);
+        };
+
+        future1.thenAcceptAsync(cs -> printer.accept(startTime1, cs));
+        future2.thenAccept(cs -> printer.accept(startTime2, cs));
+
+        // StringBuilder contentHolder = future2.get(30, TimeUnit.SECONDS);
+        // printer.accept(contentHolder);
+
+        // Dient nur dazu, damit das Programm nicht vorzeitig beendet wird
+        Thread.sleep(1000);
+    }
+
+    /**
      * Blockgröße pro Lese-Operation.
      */
     private int byteBufferSize = 1024;
@@ -187,6 +187,7 @@ public class AsyncFileReader<CH>
      */
     @SuppressWarnings("unchecked")
     private Supplier<CH> contentHolderSupplier = (Supplier<CH>) DEFAULT_CONTENT_HOLDER_SUPPLIER;
+
     /**
      * Nimmt die gelesenen Daten entgegen.
      */
@@ -209,6 +210,129 @@ public class AsyncFileReader<CH>
     public AsyncFileReader()
     {
         super();
+    }
+
+    /**
+     * Erzeugt den Handler für die {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.
+     *
+     * @param contentHolderSupplier Object; Erzeugt das Objekt um die gelesenen Daten aufzunehmen.
+     * @param dataConsumer {@link BiConsumer}; Nimmt die gelesenen Daten entgegen.
+     * @return {@link CompletionHandler}
+     */
+    private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer)
+    {
+        CH contextHolder = contentHolderSupplier.get();
+
+        return new CompletionHandler<>()
+        {
+            /**
+             * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
+             */
+            @Override
+            public void completed(final Integer count, final ReadContext<CH> context)
+            {
+                if (isDebug())
+                {
+                    System.out.printf("[%s] Read completed%n", Thread.currentThread().getName());
+                }
+
+                if (count < 0)
+                {
+                    // Dateiende erreicht.
+                    context.close();
+                    context.future.complete(contextHolder);
+                }
+                else
+                {
+                    context.buffer.flip();
+
+                    // byte[] data = context.buffer.array(); // Funktioniert nicht.
+                    byte[] data = new byte[count];
+                    context.buffer.get(data);
+
+                    dataConsumer.accept(contextHolder, data);
+
+                    context.position += count;
+
+                    readBlock(context);
+                }
+            }
+
+            /**
+             * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
+             */
+            @Override
+            public void failed(final Throwable exc, final ReadContext<CH> context)
+            {
+                context.fail(exc);
+            }
+        };
+    }
+
+    /**
+     * Blockgröße pro Lese-Operation.<br>
+     * Default: 1024
+     *
+     * @return int
+     */
+    protected int getByteBufferSize()
+    {
+        return this.byteBufferSize;
+    }
+
+    /**
+     * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.<br>
+     * Default: new StringBuilder(4096);
+     *
+     * @return {@link Supplier}
+     */
+    protected Supplier<CH> getContentHolderSupplier()
+    {
+        return this.contentHolderSupplier;
+    }
+
+    /**
+     * Nimmt die gelesenen Daten entgegen.<br>
+     * Default: StringBuilder.append(new String(data));
+     *
+     * @return {@link BiConsumer}
+     */
+    protected BiConsumer<CH, byte[]> getDataConsumer()
+    {
+        return this.dataConsumer;
+    }
+
+    /**
+     * Führt die parallelen Lese-Operationen aus.<br>
+     * Default: ForkJoinPool.commonPool()
+     *
+     * @return {@link ExecutorService}
+     */
+    protected ExecutorService getExecutorService()
+    {
+        return this.executorService;
+    }
+
+    /**
+     * Für Debug-Ausgaben.<br>
+     * Default: false
+     *
+     * @return boolean
+     */
+    protected boolean isDebug()
+    {
+        return this.debug;
+    }
+
+    /**
+     * Liest den nächsten Dateblock.
+     *
+     * @param context {@link ReadContext}
+     */
+    private void readBlock(final ReadContext<CH> context)
+    {
+        context.buffer.clear();
+        context.channel.read(context.buffer, context.position, context, context.handler);
     }
 
     /**
@@ -301,128 +425,5 @@ public class AsyncFileReader<CH>
     public void setExecutorService(final ExecutorService executorService)
     {
         this.executorService = Objects.requireNonNull(executorService, "executorService required");
-    }
-
-    /**
-     * Erzeugt den Handler für die {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.
-     *
-     * @param contentHolderSupplier Object; Erzeugt das Objekt um die gelesenen Daten aufzunehmen.
-     * @param dataConsumer {@link BiConsumer}; Nimmt die gelesenen Daten entgegen.
-     * @return {@link CompletionHandler}
-     */
-    private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer)
-    {
-        CH contextHolder = contentHolderSupplier.get();
-
-        return new CompletionHandler<>()
-        {
-            /**
-             * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
-             */
-            @Override
-            public void completed(final Integer count, final ReadContext<CH> context)
-            {
-                if (isDebug())
-                {
-                    System.out.printf("[%s] Read completed%n", Thread.currentThread().getName());
-                }
-
-                if (count < 0)
-                {
-                    // Dateiende erreicht.
-                    context.close();
-                    context.future.complete(contextHolder);
-                }
-                else
-                {
-                    context.buffer.flip();
-
-                    // byte[] data = context.buffer.array(); // Funktioniert nicht.
-                    byte[] data = new byte[count];
-                    context.buffer.get(data);
-
-                    dataConsumer.accept(contextHolder, data);
-
-                    context.position += count;
-
-                    readBlock(context);
-                }
-            }
-
-            /**
-             * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
-             */
-            @Override
-            public void failed(final Throwable exc, final ReadContext<CH> context)
-            {
-                context.fail(exc);
-            }
-        };
-    }
-
-    /**
-     * Liest den nächsten Dateblock.
-     *
-     * @param context {@link ReadContext}
-     */
-    private void readBlock(final ReadContext<CH> context)
-    {
-        context.buffer.clear();
-        context.channel.read(context.buffer, context.position, context, context.handler);
-    }
-
-    /**
-     * Blockgröße pro Lese-Operation.<br>
-     * Default: 1024
-     *
-     * @return int
-     */
-    protected int getByteBufferSize()
-    {
-        return this.byteBufferSize;
-    }
-
-    /**
-     * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.<br>
-     * Default: new StringBuilder(4096);
-     *
-     * @return {@link Supplier}
-     */
-    protected Supplier<CH> getContentHolderSupplier()
-    {
-        return this.contentHolderSupplier;
-    }
-
-    /**
-     * Nimmt die gelesenen Daten entgegen.<br>
-     * Default: StringBuilder.append(new String(data));
-     *
-     * @return {@link BiConsumer}
-     */
-    protected BiConsumer<CH, byte[]> getDataConsumer()
-    {
-        return this.dataConsumer;
-    }
-
-    /**
-     * Führt die parallelen Lese-Operationen aus.<br>
-     * Default: ForkJoinPool.commonPool()
-     *
-     * @return {@link ExecutorService}
-     */
-    protected ExecutorService getExecutorService()
-    {
-        return this.executorService;
-    }
-
-    /**
-     * Für Debug-Ausgaben.<br>
-     * Default: false
-     *
-     * @return boolean
-     */
-    protected boolean isDebug()
-    {
-        return this.debug;
     }
 }

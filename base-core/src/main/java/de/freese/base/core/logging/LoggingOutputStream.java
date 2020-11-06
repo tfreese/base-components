@@ -7,6 +7,7 @@ package de.freese.base.core.logging;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
@@ -55,7 +56,7 @@ public class LoggingOutputStream extends OutputStream
     {
         if (b == '\n')
         {
-            String line = this.baos.toString();
+            String line = this.baos.toString(StandardCharsets.UTF_8);
             this.baos.reset();
 
             switch (this.level)

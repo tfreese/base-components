@@ -26,14 +26,14 @@ import java.util.stream.Stream;
  * @author Thomas Freese
  * @param <T> Typ des Rückgabe-Wertes
  */
-public class Switch<T>
+public final class Switch<T>
 {
     /**
      * @see Switch
      * @author Thomas Freese
      * @param <T> Typ des Rückgabe-Wertes
      */
-    public static class Case<T>
+    public static final class Case<T>
     {
         /**
          * @param condition {@link BooleanSupplier}

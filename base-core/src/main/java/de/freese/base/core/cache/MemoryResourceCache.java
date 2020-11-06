@@ -75,14 +75,12 @@ public class MemoryResourceCache extends AbstractResourceCache
                     this.map.put(key, content);
                 }
             }
+            catch (RuntimeException ex)
+            {
+                throw ex;
+            }
             catch (final Exception ex)
             {
-                // getLogger().error(null, ex);
-                if (ex instanceof RuntimeException)
-                {
-                    throw (RuntimeException) ex;
-                }
-
                 throw new RuntimeException(ex);
             }
         }

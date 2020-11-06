@@ -22,12 +22,12 @@ public class FieldModel extends AbstractModel
     /**
     *
     */
-    private String defaultValueAsString = null;
+    private String defaultValueAsString;
 
     /**
      *
      */
-    private transient Class<?> fieldClazz = null;
+    private Class<?> fieldClazz;
 
     /**
      *
@@ -37,12 +37,12 @@ public class FieldModel extends AbstractModel
     /**
      *
      */
-    private boolean isAssoziation = false;
+    private boolean isAssoziation;
 
     /**
      *
      */
-    private boolean isCollection = false;
+    private boolean isCollection;
 
     /**
     *

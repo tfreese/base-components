@@ -27,7 +27,7 @@ public class BlackWhiteOp implements BufferedImageOp
     /**
      *
      */
-    private RenderingHints hints = null;
+    private RenderingHints hints;
 
     /**
      * Creates a new {@link BlackWhiteOp} object.
@@ -50,7 +50,7 @@ public class BlackWhiteOp implements BufferedImageOp
     /**
      * Creates a new {@link BlackWhiteOp} object.
      *
-     * @param hints      {@link RenderingHints}
+     * @param hints {@link RenderingHints}
      * @param colorLimit int, Wenn eine Farbe > colorLimit wird sie als Weiß interpretiert
      */
     public BlackWhiteOp(final RenderingHints hints, final int colorLimit)
@@ -132,7 +132,7 @@ public class BlackWhiteOp implements BufferedImageOp
 
                 if ((red > this.colorLimit) || (green > this.colorLimit) || (blue > this.colorLimit))
                 {
-					//
+                    //
                     // int rgb = ((255 & 0xFF) << 24) | ((255 & 0xFF) << 16) | ((255 & 0xFF) << 8) |
                     // ((255 & 0xFF) << 0);
                     destImage.setRGB(x, y, rgbWhite);

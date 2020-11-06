@@ -3,13 +3,14 @@ package de.freese.base.core.image;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Mit Hilfe dieser Klasse kann man eine Grafikdatei in Java-Quellcode konvertieren.
  *
  * @author Thomas Freese
  */
-public class IconConverter
+public final class IconConverter
 {
     /**
      * Liest die Grafik aus der Quelldatei und generiert dafür Java-Quellcode in der Zieldatei
@@ -21,7 +22,7 @@ public class IconConverter
     public static void convert(final String source, final String destination) throws IOException
     {
         try (FileInputStream input = new FileInputStream(source);
-             FileWriter output = new FileWriter(destination))
+             FileWriter output = new FileWriter(destination, StandardCharsets.UTF_8))
         {
             int i = 0;
 

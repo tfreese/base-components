@@ -26,17 +26,17 @@ public class ImageInfo
     /**
     *
     */
-    private BufferedImage coOccurenceMatrixImage = null;
+    private BufferedImage coOccurenceMatrixImage;
 
     /**
     *
     */
-    private double[] infoVector = null;
+    private double[] infoVector;
 
     /**
     *
     */
-    private double[] infoVectorReScaled = null;
+    private double[] infoVectorReScaled;
 
     /**
      * Erstellt ein neues {@link ImageInfo} Object.

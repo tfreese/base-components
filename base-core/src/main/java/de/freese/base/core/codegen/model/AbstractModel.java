@@ -33,7 +33,7 @@ public abstract class AbstractModel
     /**
     *
     */
-    public Object payload = null;
+    public Object payload;
 
     /**
      * Erstellt ein neues {@link AbstractModel} Object.

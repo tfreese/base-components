@@ -115,15 +115,12 @@ public class FileResourceCache extends AbstractResourceCache
                 }
             });
         }
-        catch (Exception ex)
+        catch (RuntimeException ex)
         {
-            // getLogger().error(null, ex);
-
-            if (ex instanceof RuntimeException)
-            {
-                throw (RuntimeException) ex;
-            }
-
+            throw ex;
+        }
+        catch (final Exception ex)
+        {
             throw new RuntimeException(ex);
         }
     }
@@ -151,15 +148,12 @@ public class FileResourceCache extends AbstractResourceCache
 
                         return Files.newInputStream(path, StandardOpenOption.READ);
                     }
+                    catch (RuntimeException ex)
+                    {
+                        throw ex;
+                    }
                     catch (final Exception ex)
                     {
-//                        getLogger().error(null, ex);
-
-                        if (ex instanceof RuntimeException)
-                        {
-                            throw (RuntimeException) ex;
-                        }
-
                         throw new RuntimeException(ex);
                     }
                 }).findFirst();

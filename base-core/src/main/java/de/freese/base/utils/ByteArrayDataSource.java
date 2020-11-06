@@ -160,7 +160,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     /**
      * Daten
      */
-    private byte[] data = null;
+    private byte[] data;
 
     /**
      * content-type

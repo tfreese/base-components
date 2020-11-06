@@ -30,10 +30,9 @@ public final class ReflectionUtils
          * Perform an operation using the given field.
          *
          * @param field the field to operate on
-         * @throws IllegalArgumentException Falls was schief geht.
          * @throws IllegalAccessException Falls was schief geht.
          */
-        public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException;
+        public void doWith(Field field) throws IllegalAccessException;
     }
 
     /**
@@ -61,10 +60,9 @@ public final class ReflectionUtils
          * Perform an operation using the given method.
          *
          * @param method the method to operate on
-         * @throws IllegalArgumentException Falls was schief geht.
          * @throws IllegalAccessException Falls was schief geht.
          */
-        public void doWith(Method method) throws IllegalArgumentException, IllegalAccessException;
+        public void doWith(Method method) throws IllegalAccessException;
     }
 
     /**

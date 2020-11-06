@@ -27,7 +27,7 @@ public class SleepThrottledOutputStream extends OutputStream
     /**
     *
     */
-    private long bytesWrite = 0;
+    private long bytesWrite = 0L;
 
     /**
     *
@@ -47,7 +47,7 @@ public class SleepThrottledOutputStream extends OutputStream
     /**
      *
      */
-    private long totalSleepTimeMillis = 0;
+    private long totalSleepTimeMillis = 0L;
 
     /**
      * Erstellt ein neues {@link SleepThrottledOutputStream} Object.
@@ -104,7 +104,7 @@ public class SleepThrottledOutputStream extends OutputStream
     {
         double elapsed = (System.nanoTime() - this.startTime) / ONE_SECOND_NANOS;
 
-        if (elapsed == 0)
+        if (elapsed == 0.0D)
         {
             return this.bytesWrite;
         }

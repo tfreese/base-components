@@ -9,7 +9,6 @@ package de.freese.base.utils;
  */
 public final class SystemUtils
 {
-
     /**
      * @return String
      */

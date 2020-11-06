@@ -27,7 +27,7 @@ public class SleepThrottledInputStream extends InputStream
     /**
      *
      */
-    private long bytesRead = 0;
+    private long bytesRead = 0L;
 
     /**
      *
@@ -47,7 +47,7 @@ public class SleepThrottledInputStream extends InputStream
     /**
      *
      */
-    private long totalSleepTimeMillis = 0;
+    private long totalSleepTimeMillis = 0L;
 
     /**
      * Erstellt ein neues {@link SleepThrottledInputStream} Object.

@@ -9,7 +9,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
@@ -56,7 +55,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     /**
      *
      */
-    private String lineSeparator = null;
+    private String lineSeparator;
 
     /**
      *
@@ -83,8 +82,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @throws FactoryConfigurationError if an instance of this factory cannot be loaded
      * @throws XMLStreamException Falls was schief geht.
      */
-    public PrettyPrintXMLStreamWriter(final OutputStream outputStream, final String encoding)
-            throws XMLStreamException, FactoryConfigurationError
+    public PrettyPrintXMLStreamWriter(final OutputStream outputStream, final String encoding) throws XMLStreamException, FactoryConfigurationError
     {
         this(XMLOutputFactory.newInstance().createXMLStreamWriter(outputStream, encoding));
     }
@@ -122,6 +120,22 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     }
 
     /**
+     * @return {@link XMLStreamWriter}
+     */
+    protected XMLStreamWriter getDelegate()
+    {
+        return this.delegate;
+    }
+
+    /**
+     * @return int
+     */
+    protected int getDepth()
+    {
+        return this.depth;
+    }
+
+    /**
      * @return int
      */
     public int getIndentAmount()
@@ -155,6 +169,14 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     }
 
     /**
+     * @return {@link Map}<Integer,Boolean>
+     */
+    protected Map<Integer, Boolean> getNodeStates()
+    {
+        return this.nodeStates;
+    }
+
+    /**
      * @see javax.xml.stream.XMLStreamWriter#getPrefix(java.lang.String)
      */
     @Override
@@ -167,9 +189,78 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#getProperty(java.lang.String)
      */
     @Override
-    public Object getProperty(final String name) throws IllegalArgumentException
+    public Object getProperty(final String name)
     {
         return getDelegate().getProperty(name);
+    }
+
+    /**
+     * @throws XMLStreamException Falls was schief geht.
+     */
+    protected void handleWriteEmptyElement() throws XMLStreamException
+    {
+        if (this.depth > 0)
+        {
+            getNodeStates().put(getDepth() - 1, true);
+        }
+
+        getDelegate().writeCharacters(getLineSeparator());
+        getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
+    }
+
+    /**
+     * @throws XMLStreamException Falls was schief geht.
+     */
+    protected void handleWriteEndElement() throws XMLStreamException
+    {
+        this.depth--;
+
+        if (getNodeStates().get(getDepth()) == true)
+        {
+            getDelegate().writeCharacters(getLineSeparator());
+            getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
+        }
+    }
+
+    /**
+     * @throws XMLStreamException Falls was schief geht.
+     */
+    protected void handleWriteStartElement() throws XMLStreamException
+    {
+        if (this.depth > 0)
+        {
+            getNodeStates().put(getDepth() - 1, true);
+        }
+
+        getNodeStates().put(getDepth(), false);
+
+        getDelegate().writeCharacters(getLineSeparator());
+        getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
+
+        this.depth++;
+    }
+
+    /**
+     * @param depth int
+     * @param amount int
+     * @param filler char
+     * @return String
+     */
+    protected String repeat(final int depth, final int amount, final char filler)
+    {
+        if (depth == 0)
+        {
+            return null;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < (depth * amount); i++)
+        {
+            sb.append(filler);
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -179,6 +270,14 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     public void setDefaultNamespace(final String uri) throws XMLStreamException
     {
         getDelegate().setDefaultNamespace(uri);
+    }
+
+    /**
+     * @param depth int
+     */
+    protected void setDepth(final int depth)
+    {
+        this.depth = depth;
     }
 
     /**
@@ -245,8 +344,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void writeAttribute(final String prefix, final String namespaceURI, final String localName, final String value)
-            throws XMLStreamException
+    public void writeAttribute(final String prefix, final String namespaceURI, final String localName, final String value) throws XMLStreamException
     {
         getDelegate().writeAttribute(prefix, namespaceURI, localName, value);
     }
@@ -445,106 +543,5 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     {
         handleWriteStartElement();
         getDelegate().writeStartElement(prefix, localName, namespaceURI);
-    }
-
-    /**
-     * @return {@link XMLStreamWriter}
-     */
-    protected XMLStreamWriter getDelegate()
-    {
-        return this.delegate;
-    }
-
-    /**
-     * @return int
-     */
-    protected int getDepth()
-    {
-        return this.depth;
-    }
-
-    /**
-     * @return {@link Map}<Integer,Boolean>
-     */
-    protected Map<Integer, Boolean> getNodeStates()
-    {
-        return this.nodeStates;
-    }
-
-    /**
-     * @throws XMLStreamException Falls was schief geht.
-     */
-    protected void handleWriteEmptyElement() throws XMLStreamException
-    {
-        if (this.depth > 0)
-        {
-            getNodeStates().put(getDepth() - 1, true);
-        }
-
-        getDelegate().writeCharacters(getLineSeparator());
-        getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
-    }
-
-    /**
-     * @throws XMLStreamException Falls was schief geht.
-     */
-    protected void handleWriteEndElement() throws XMLStreamException
-    {
-        this.depth--;
-
-        if (getNodeStates().get(getDepth()) == true)
-        {
-            getDelegate().writeCharacters(getLineSeparator());
-            getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
-        }
-    }
-
-    /**
-     * @throws XMLStreamException Falls was schief geht.
-     */
-    protected void handleWriteStartElement() throws XMLStreamException
-    {
-        if (this.depth > 0)
-        {
-            getNodeStates().put(getDepth() - 1, true);
-        }
-
-        getNodeStates().put(getDepth(), false);
-
-        getDelegate().writeCharacters(getLineSeparator());
-        getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
-
-        this.depth++;
-    }
-
-    /**
-     * @param depth int
-     * @param amount int
-     * @param filler char
-     * @return String
-     */
-    protected String repeat(final int depth, final int amount, final char filler)
-    {
-        if (depth == 0)
-        {
-            return null;
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < (depth * amount); i++)
-        {
-            sb.append(filler);
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * @param depth int
-     */
-    protected void setDepth(final int depth)
-    {
-        this.depth = depth;
     }
 }

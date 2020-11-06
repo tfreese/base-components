@@ -11,12 +11,12 @@ import java.util.Map;
 public class SaveContext
 {
     /**
-     * 
+     *
      */
-    private transient Map<Object, Object> attributes = new HashMap<>();
+    private Map<Object, Object> attributes = new HashMap<>();
 
     /**
-     * 
+     *
      */
     private Map<Class<?>, Map<Long, Long>> primaryKeyMap = new HashMap<>();
 
@@ -42,7 +42,7 @@ public class SaveContext
 
     /**
      * Liefert das Value fuer den Key oder null.
-     * 
+     *
      * @param key Object
      * @return Object
      */
@@ -53,7 +53,7 @@ public class SaveContext
 
     /**
      * Liefert die Map der temporaeren und konkreten PrimaryKeys einer Klasse.
-     * 
+     *
      * @param clazz Class
      * @return {@link Map}
      */
@@ -65,7 +65,7 @@ public class SaveContext
     /**
      * Liefert fuer eine Klasse und einer OID den konkreten PrimaryKey.<br>
      * Existiert kein konkreter PrimaryKey wird die OID geliefert.
-     * 
+     *
      * @param clazz Class
      * @param oid Long
      * @return Long
@@ -81,7 +81,7 @@ public class SaveContext
 
     /**
      * Liefert die Map fuer das Mapping der Temporaeren- zu den DB-PrimaryKeys.
-     * 
+     *
      * @return {@link Map}
      */
     public Map<Class<?>, Map<Long, Long>> getPrimaryKeyMap()
@@ -91,7 +91,7 @@ public class SaveContext
 
     /**
      * Setzt das Value fuer den Key.
-     * 
+     *
      * @param key Object
      * @param value Object
      */
@@ -102,7 +102,7 @@ public class SaveContext
 
     /**
      * Setzt fuer eine Klasse und einer temporaeren OID den konkreten PrimaryKey.
-     * 
+     *
      * @param clazz Class
      * @param tempOID Long
      * @param oid long

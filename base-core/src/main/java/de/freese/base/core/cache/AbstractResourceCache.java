@@ -29,9 +29,8 @@ public abstract class AbstractResourceCache implements ResourceCache
      * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
      *
      * @return {@link MessageDigest}
-     * @throws RuntimeException Falls was schief geht.
      */
-    protected static MessageDigest createMessageDigest() throws RuntimeException
+    protected static MessageDigest createMessageDigest()
     {
         MessageDigest messageDigest = null;
 
@@ -53,11 +52,6 @@ public abstract class AbstractResourceCache implements ResourceCache
 
         return messageDigest;
     }
-
-    // /**
-    // *
-    // */
-    // private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      *
@@ -131,14 +125,6 @@ public abstract class AbstractResourceCache implements ResourceCache
 
         return length;
     }
-
-    // /**
-    // * @return {@link Logger}
-    // */
-    // protected Logger getLogger()
-    // {
-    // return this.logger;
-    // }
 
     /**
      * @return {@link MessageDigest}

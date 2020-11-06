@@ -40,12 +40,6 @@ public abstract class AbstractCodeWriter implements CodeWriter
     }
 
     /**
-     * @see de.freese.base.core.codegen.writer.CodeWriter#getFileExtension()
-     */
-    @Override
-    public abstract String getFileExtension();
-
-    /**
      * @see de.freese.base.core.codegen.writer.CodeWriter#write(de.freese.base.core.codegen.model.ClassModel, java.io.PrintStream)
      */
     @Override

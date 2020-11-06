@@ -15,8 +15,9 @@ import java.util.function.Supplier;
  *
  * @author Thomas Freese
  */
-public class LambdaExceptions
+public final class LambdaExceptions
 {
+
     /**
      * Default Exception-Handler.<br>
      * Exceptions werden mit "throws" geworfen.
@@ -386,6 +387,14 @@ public class LambdaExceptions
 
             return null;
         };
+    }
+
+    /**
+     * Erstellt ein neues {@link LambdaExceptions} Object.
+     */
+    private LambdaExceptions()
+    {
+        super();
     }
 
     // /**
