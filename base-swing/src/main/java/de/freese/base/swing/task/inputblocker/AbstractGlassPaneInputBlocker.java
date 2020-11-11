@@ -16,7 +16,7 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
     /**
      *
      */
-    private JComponent glassPane = null;
+    private JComponent glassPane;
 
     /**
      * Erstellt ein neues {@link AbstractGlassPaneInputBlocker} Object.

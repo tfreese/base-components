@@ -164,7 +164,7 @@ public final class GuiUtils
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
-            ImageUtils.writeImage(shot, ImageFormat.png, baos);
+            ImageUtils.writeImage(shot, ImageFormat.PNG, baos);
 
             baos.flush();
 

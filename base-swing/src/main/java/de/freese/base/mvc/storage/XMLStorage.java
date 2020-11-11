@@ -25,7 +25,7 @@ public final class XMLStorage
         /**
         *
         */
-        public Exception exception = null;
+        public Exception exception;
 
         /**
          * Erstellt ein neues {@link XMLExceptionListener} Object.

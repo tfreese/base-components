@@ -27,7 +27,7 @@ public class ApplicationContext
     /**
      *
      */
-    private Clipboard clipboard = null;
+    private Clipboard clipboard;
 
     /**
      *
@@ -52,12 +52,12 @@ public class ApplicationContext
     /**
     *
     */
-    private JFrame mainFrame = null;
+    private JFrame mainFrame;
 
     /**
     *
     */
-    private ResourceMap resourceMapRoot = null;
+    private ResourceMap resourceMapRoot;
 
     /**
      *
@@ -72,7 +72,7 @@ public class ApplicationContext
     /**
      *
      */
-    private String userID = null;
+    private String userID;
 
     /**
      * Erstellt ein neues {@link ApplicationContext} Object.

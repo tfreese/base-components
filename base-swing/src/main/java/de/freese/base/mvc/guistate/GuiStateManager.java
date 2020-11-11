@@ -46,7 +46,7 @@ public final class GuiStateManager
     /**
      *
      */
-    private GuiStateProvider stateProvider = null;
+    private GuiStateProvider stateProvider;
 
     /**
      * Erstellt ein neues {@link GuiStateManager} Object.

@@ -8,7 +8,7 @@ import javax.swing.JWindow;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import de.freese.base.swing.components.ExtFrame;
+import de.freese.base.swing.components.frame.ExtFrame;
 
 /**
  * State eines Frames.

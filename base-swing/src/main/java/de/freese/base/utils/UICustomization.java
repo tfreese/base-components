@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Formatter;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Objects;
 import javax.swing.UIDefaults;
@@ -222,7 +224,7 @@ public final class UICustomization
         // Formatter formatter = new Formatter(os);
 
         try (Formatter formatterConsole = new Formatter(System.out);
-             Formatter formatterFile = new Formatter(outputStream))
+             Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN))
         {
             UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
 
@@ -230,14 +232,15 @@ public final class UICustomization
 
             // @formatter:off
             uiDefaults.entrySet().stream()
-            .sorted((e1, e2) -> e1.getKey().toString().compareTo(e2.getKey().toString()))
-            .forEach(entry -> {
-                String key = entry.getKey().toString();
-                String value = Objects.toString(entry.getValue(), "NULL");
+                .sorted((e1, e2) -> e1.getKey().toString().compareTo(e2.getKey().toString()))
+                .forEach(entry -> {
+                    String key = entry.getKey().toString();
+                    String value = Objects.toString(entry.getValue(), "NULL");
 
-                formatterConsole.format(format, key, value);
-                formatterFile.format(format, key, value);
-                });
+                    formatterConsole.format(format, key, value);
+                    formatterFile.format(format, key, value);
+                })
+                ;
             // @formatter:on
 
             formatterConsole.flush();

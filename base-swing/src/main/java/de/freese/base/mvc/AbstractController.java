@@ -14,7 +14,7 @@ public abstract class AbstractController implements Controller
     /**
      *
      */
-    private ApplicationContext context = null;
+    private ApplicationContext context;
 
     /**
      *
@@ -24,12 +24,12 @@ public abstract class AbstractController implements Controller
     /**
      *
      */
-    private String name = null;
+    private String name;
 
     /**
      *
      */
-    private ResourceMap resourceMap = null;
+    private ResourceMap resourceMap;
 
     /**
      * Erstellt ein neues {@link AbstractController} Object.
@@ -120,7 +120,7 @@ public abstract class AbstractController implements Controller
 
     /**
      * Setzt den Namen dieses Controllers.
-     * 
+     *
      * @param name String
      */
     void setName(final String name)

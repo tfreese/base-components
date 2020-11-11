@@ -1,15 +1,14 @@
-package de.freese.base.swing.table;
+package de.freese.base.swing.components.table;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
-import de.freese.base.swing.components.table.AbstractEventListTableModel;
-import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.ExtTableColumnModelListenerAdapter;
 import de.freese.base.swing.eventlist.EventList;
@@ -119,7 +118,7 @@ public class TableExample0
                             i, 2, 3, 4, 5
                     });
 
-                    Thread.sleep(2000);
+                    TimeUnit.MILLISECONDS.sleep(2000);
                 }
 
                 return null;

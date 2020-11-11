@@ -26,12 +26,12 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
     /**
      *
      */
-    private Comparator<? super E> comparator = null;
+    private Comparator<? super E> comparator;
 
     /**
      * True, wenn der Comparator in Gange ist.
      */
-    private boolean isSorting = false;
+    private boolean isSorting;
 
     /**
      *
@@ -46,7 +46,7 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
     /**
      *
      */
-    private Object owner = null;
+    private Object owner;
 
     /**
      * Erstellt ein neues {@link EventList} Object.

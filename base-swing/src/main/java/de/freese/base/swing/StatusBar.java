@@ -58,7 +58,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private JLabel messageLabel = null;
+    private JLabel messageLabel;
 
     /**
      *
@@ -68,12 +68,12 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private JProgressBar progressBar = null;
+    private JProgressBar progressBar;
 
     /**
      *
      */
-    private JLabel statusAnimationLabel = null;
+    private JLabel statusAnimationLabel;
 
     /**
      *

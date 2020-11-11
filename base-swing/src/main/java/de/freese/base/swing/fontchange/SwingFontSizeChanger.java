@@ -41,13 +41,13 @@ import de.freese.base.utils.UICustomization;
 public final class SwingFontSizeChanger
 {
     /**
-     * 
+     *
      */
     private static SwingFontSizeChanger INSTANCE = new SwingFontSizeChanger();
 
     /**
      * Liefert die Instanz.
-     * 
+     *
      * @return {@link SwingFontSizeChanger}
      */
     public static final SwingFontSizeChanger getInstance()
@@ -57,7 +57,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Verknuepft ein oder mehrere Objecte mit einem Listener, der bei Font-Aenderungen reagiert.
-     * 
+     *
      * @param object Object
      * @param others Object[]
      */
@@ -72,17 +72,17 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * 
+     *
      */
-    private Font font = null;
+    private Font font;
 
     /**
-     * 
+     *
      */
     private final Map<Class<?>, FontChangeHandler> handler = new HashMap<>();
 
     /**
-     * 
+     *
      */
     private final PropertyChangeSupport propertyChangeSupport;
 
@@ -118,7 +118,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Hinzufuegen eines neuen Handlers fuer eine {@link Component}.
-     * 
+     *
      * @param componenClass {@link Class}
      * @param handler {@link FontChangeHandler}
      */
@@ -129,7 +129,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Hinzufuegen eines neuen Listeners.
-     * 
+     *
      * @param listener {@link PropertyChangeListener}
      */
     public void addPropertyChangeListener(final PropertyChangeListener listener)
@@ -139,7 +139,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Liefert den aktuellen Font.
-     * 
+     *
      * @return {@link Font}
      */
     public Font getFont()
@@ -149,7 +149,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Liefert die Fontfamilie.
-     * 
+     *
      * @return String
      */
     public String getFontFamily()
@@ -159,7 +159,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Liefert die Fontgroesse.
-     * 
+     *
      * @return int
      */
     public int getFontSize()
@@ -169,7 +169,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Liefert die Fontart.
-     * 
+     *
      * @return int; z.B. Font.PLAIN
      */
     public int getFontStyle()
@@ -179,7 +179,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Verknuepft ein Object mit einem Listener, der bei Font-Aenderungen reagiert.
-     * 
+     *
      * @param object Object
      */
     public void register(final Object object)
@@ -204,7 +204,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Entfernen eines neuen Listeners.
-     * 
+     *
      * @param listener {@link PropertyChangeListener}
      */
     public void removePropertyChangeListener(final PropertyChangeListener listener)
@@ -214,7 +214,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Setzt den neuen Font.
-     * 
+     *
      * @param font {@link Font}
      */
     public void setFont(final Font font)
@@ -230,7 +230,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Setzt eine neue Fontfamilie.
-     * 
+     *
      * @param fontFamily String
      * @deprecated Entfaellt
      */
@@ -249,7 +249,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Setzt eine neue Fontgroesse.
-     * 
+     *
      * @param fontSize float
      */
     public void setFontSize(final float fontSize)
@@ -268,7 +268,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Setzt die Art des Fonts.
-     * 
+     *
      * @param fontStyle int; {zB Font.PLAIN}
      * @deprecated Entfaellt
      */
@@ -287,7 +287,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Aktualisiert eine {@link Component} mit einem neuen Font.
-     * 
+     *
      * @param newFont {@link Font}
      * @param component {@link JComponent}
      */
@@ -298,7 +298,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Aktualisiert einen {@link Container} mit einem neuen Font.
-     * 
+     *
      * @param newFont {@link Font}
      * @param container {@link Container}
      */
@@ -327,7 +327,7 @@ public final class SwingFontSizeChanger
 
     /**
      * Setzt in ein Object einem neuen Font.
-     * 
+     *
      * @param newFont {@link Font}
      * @param object Object
      */

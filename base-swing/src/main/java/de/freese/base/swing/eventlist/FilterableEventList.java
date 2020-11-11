@@ -75,7 +75,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      *
      */
-    private FilterCondition filter = null;
+    private FilterCondition filter;
 
     /**
      *
@@ -85,7 +85,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      *
      */
-    private final transient EventListenerList listenerList = new EventListenerList();
+    private final EventListenerList listenerList = new EventListenerList();
 
     /**
      * Erstellt ein neues {@link FilterableEventList} Object.

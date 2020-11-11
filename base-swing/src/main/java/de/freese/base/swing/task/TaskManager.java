@@ -100,7 +100,7 @@ public class TaskManager
     /**
     *
     */
-    private AbstractSwingTask<?, ?> foregroundTask = null;
+    private AbstractSwingTask<?, ?> foregroundTask;
 
     /**
     *

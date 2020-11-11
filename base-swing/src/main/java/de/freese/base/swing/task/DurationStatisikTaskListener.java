@@ -30,7 +30,7 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
     /**
      *
      */
-    private Timer timer = null;
+    private Timer timer;
 
     /**
      * Erstellt ein neues {@link DurationStatisikTaskListener} Object.
@@ -48,7 +48,6 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
      */
     private TaskStatistik getTaskStatistik(final String taskName)
     {
-        // TODO Hier speicherbar machen.
         TaskStatistik taskStatistik = CACHE.get(taskName);
 
         if (taskStatistik == null)
@@ -152,7 +151,6 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
      */
     private void updateTaskStatistik(final TaskStatistik taskStatistik)
     {
-        // TODO Hier speicherbar machen.
         CACHE.put(taskStatistik.getTaskName(), taskStatistik);
     }
 }

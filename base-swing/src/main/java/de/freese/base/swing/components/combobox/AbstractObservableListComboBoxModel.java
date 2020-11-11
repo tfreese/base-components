@@ -2,7 +2,6 @@
 package de.freese.base.swing.components.combobox;
 
 import javax.swing.ComboBoxModel;
-
 import de.freese.base.swing.components.list.model.AbstractObservableListListModel;
 import javafx.collections.ObservableList;
 
@@ -17,7 +16,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
     /**
      * Das momentan selektierte Objekt, in der ComboBox.
      */
-    private Object selectedObject = null;
+    private Object selectedObject;
 
     /**
      * Erzeugt eine neue Instanz von {@link AbstractObservableListComboBoxModel}.
@@ -27,6 +26,31 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
     public AbstractObservableListComboBoxModel(final ObservableList<T> list)
     {
         super(list);
+    }
+
+    /**
+     * @see de.freese.base.swing.components.list.model.AbstractObservableListListModel#fireContentsChanged(java.lang.Object, int, int)
+     */
+    @Override
+    protected void fireContentsChanged(final Object source, final int index0, final int index1)
+    {
+        this.selectedObject = null;
+
+        super.fireContentsChanged(source, index0, index1);
+    }
+
+    /**
+     * @see de.freese.base.swing.components.list.model.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
+     */
+    @Override
+    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
+    {
+        if (this.selectedObject != null)
+        {
+            setSelectedItem(null);
+        }
+
+        super.fireIntervalRemoved(source, index0, index1);
     }
 
     /**
@@ -56,30 +80,5 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         }
 
         fireContentsChanged(this, index, index);
-    }
-
-    /**
-     * @see de.freese.base.swing.components.list.model.AbstractObservableListListModel#fireContentsChanged(java.lang.Object, int, int)
-     */
-    @Override
-    protected void fireContentsChanged(final Object source, final int index0, final int index1)
-    {
-        this.selectedObject = null;
-
-        super.fireContentsChanged(source, index0, index1);
-    }
-
-    /**
-     * @see de.freese.base.swing.components.list.model.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
-     */
-    @Override
-    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
-    {
-        if (this.selectedObject != null)
-        {
-            setSelectedItem(null);
-        }
-
-        super.fireIntervalRemoved(source, index0, index1);
     }
 }

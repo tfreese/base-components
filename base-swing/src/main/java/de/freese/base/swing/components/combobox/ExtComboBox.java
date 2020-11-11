@@ -150,7 +150,7 @@ public class ExtComboBox<T> extends JComboBox<T>
     /**
      *
      */
-    private boolean fireOnNull = false;
+    private boolean fireOnNull;
 
     /**
      * Erstellt ein neues {@link ExtComboBox} Objekt.

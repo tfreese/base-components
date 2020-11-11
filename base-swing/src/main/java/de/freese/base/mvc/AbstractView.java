@@ -18,12 +18,12 @@ public abstract class AbstractView<C extends Component> implements View<C>
     /**
      *
      */
-    private C component = null;
+    private C component;
 
     /**
      *
      */
-    private ApplicationContext context = null;
+    private ApplicationContext context;
 
     /**
     *
@@ -33,7 +33,7 @@ public abstract class AbstractView<C extends Component> implements View<C>
     /**
     *
     */
-    private ResourceMap resourceMap = null;
+    private ResourceMap resourceMap;
 
     /**
      * Erstellt ein neues {@link AbstractView} Object.

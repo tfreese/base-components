@@ -30,7 +30,7 @@ public class MemoryMonitorComponent extends JComponent
     /**
      *
      */
-    private final static Font FONT = new Font("Arial", Font.PLAIN, 11);
+    private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
 
     /**
      *
@@ -40,7 +40,7 @@ public class MemoryMonitorComponent extends JComponent
     /**
      *
      */
-    private BufferedImage bufferedImage = null;
+    private BufferedImage bufferedImage;
 
     /**
      *
@@ -50,27 +50,27 @@ public class MemoryMonitorComponent extends JComponent
     /**
      *
      */
-    private Color graphColor = null;
+    private Color graphColor;
 
     /**
      *
      */
-    private Graphics2D graphics2D = null;
+    private Graphics2D graphics2D;
 
     /**
      *
      */
-    private Color memoryFreeColor = null;
+    private Color memoryFreeColor;
 
     /**
      *
      */
-    private Rectangle2D memoryFreeRect = null;
+    private Rectangle2D memoryFreeRect;
 
     /**
      *
      */
-    private Rectangle2D memoryUsedRect = null;
+    private Rectangle2D memoryUsedRect;
 
     /**
      *
@@ -80,7 +80,7 @@ public class MemoryMonitorComponent extends JComponent
     /**
      *
      */
-    private int[] pts = null;
+    private int[] pts;
 
     /**
      *
@@ -95,7 +95,7 @@ public class MemoryMonitorComponent extends JComponent
     /**
      *
      */
-    private ScheduledFuture<?> scheduledFuture = null;
+    private ScheduledFuture<?> scheduledFuture;
 
     /**
      * Erstellt ein neues {@link MemoryMonitorComponent} Object.

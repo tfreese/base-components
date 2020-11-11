@@ -1,17 +1,16 @@
 /*
- * Created on 23.08.2004 To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * Created on 23.08.2004 To change the template for this generated file go to Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
  */
 package de.freese.base.swing.components.watermark;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -23,208 +22,208 @@ import javax.swing.WindowConstants;
 
 /**
  * Beispiel Panel fuer Watermarks.
- * 
+ *
  * @author Thomas Freese
  */
 public class WatermarkExample extends JPanel implements ActionListener
 {
-	/**
-     * 
-     */
-	private static final long serialVersionUID = -4609321404275287633L;
-
-	/**
-     * 
-     */
-	private JButton jButton = null;
-
-	/**
-     * 
-     */
-	private JLabel jLabel = new JLabel();
-
-	/**
-     * 
-     */
-	private JPanel jPanel = null;
-
-	/**
-     * 
-     */
-	private JPanel jPanel1 = null;
-
-	/**
-	 * 
-	 */
-	private JSplitPane jSplitPane = null;
-
-	/**
-     * 
-     */
-	private WatermarkTable watermarkTable = null;
-
-	/**
+    /**
      *
      */
-	private WatermarkTree watermarkTree = null;
+    private static final long serialVersionUID = -4609321404275287633L;
 
-	/**
-	 * This is the default constructor
-	 */
-	public WatermarkExample()
-	{
-		super();
+    /**
+     * @param args String[]
+     */
+    public static void main(final String[] args)
+    {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(new WatermarkExample());
+        frame.addWindowListener(new WindowAdapter()
+        {
+            /**
+             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
+             */
+            @Override
+            public void windowClosing(final WindowEvent e)
+            {
+                Window win = e.getWindow();
+                win.setVisible(false);
+                win.dispose();
+                System.exit(0);
+            }
+        });
 
-		initialize();
-	}
+        frame.pack();
+        frame.setVisible(true);
+    }
 
-	/**
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
-	@Override
-	public void actionPerformed(final ActionEvent ae)
-	{
-		JFileChooser chooser = new JFileChooser();
-		int option = chooser.showOpenDialog(this);
+    /**
+     *
+     */
+    private JButton jButton;
 
-		if (option != JFileChooser.CANCEL_OPTION)
-		{
-			File curFile = chooser.getSelectedFile();
-			this.jLabel.setText(curFile.getAbsolutePath());
+    /**
+     *
+     */
+    private JLabel jLabel = new JLabel();
 
-			ImageIcon image = new javax.swing.ImageIcon(curFile.getAbsolutePath());
-			getWatermarkTable().setWatermark(image);
-			getWatermarkTree().setWatermark(image);
-		}
-	}
+    /**
+     *
+     */
+    private JPanel jPanel;
 
-	/**
-	 * @param args String[]
-	 */
-	public static void main(final String[] args)
-	{
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		frame.getContentPane().add(new WatermarkExample());
-		frame.addWindowListener(new WindowAdapter()
-		{
-			/**
-			 * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-			 */
-			@Override
-			public void windowClosing(final WindowEvent e)
-			{
-				Window win = e.getWindow();
-				win.setVisible(false);
-				win.dispose();
-				System.exit(0);
-			}
-		});
+    /**
+     *
+     */
+    private JPanel jPanel1;
 
-		frame.pack();
-		frame.setVisible(true);
-	}
+    /**
+     *
+     */
+    private JSplitPane jSplitPane;
 
-	/**
-	 * @return {@link JButton}
-	 */
-	private JButton getJButton()
-	{
-		if (this.jButton == null)
-		{
-			this.jButton = new JButton();
-			this.jButton.setText("Change ...");
-			this.jButton.addActionListener(this);
-		}
+    /**
+     *
+     */
+    private WatermarkTable watermarkTable;
 
-		return this.jButton;
-	}
+    /**
+     *
+     */
+    private WatermarkTree watermarkTree;
 
-	/**
-	 * @return {@link JPanel}
-	 */
-	private JPanel getJPanel()
-	{
-		if (this.jPanel == null)
-		{
-			this.jPanel = new JPanel();
-			this.jPanel.setLayout(new BorderLayout());
-			this.jPanel.add(getJSplitPane(), java.awt.BorderLayout.CENTER);
-			this.jPanel.add(getJPanel1(), java.awt.BorderLayout.NORTH);
-		}
+    /**
+     * This is the default constructor
+     */
+    public WatermarkExample()
+    {
+        super();
 
-		return this.jPanel;
-	}
+        initialize();
+    }
 
-	/**
-	 * @return {@link JPanel}
-	 */
-	private JPanel getJPanel1()
-	{
-		if (this.jPanel1 == null)
-		{
-			javax.swing.JLabel jLabel1 = new JLabel();
-			this.jPanel1 = new JPanel();
-			this.jLabel.setText("None");
-			this.jLabel.setFont(new java.awt.Font("MS Sans Serif", java.awt.Font.ITALIC, 11));
-			jLabel1.setText("Icon :");
-			jLabel1.setFont(new java.awt.Font("MS Sans Serif", java.awt.Font.BOLD, 11));
-			this.jPanel1.add(jLabel1, null);
-			this.jPanel1.add(this.jLabel, null);
-			this.jPanel1.add(getJButton(), null);
-		}
+    /**
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    @Override
+    public void actionPerformed(final ActionEvent ae)
+    {
+        JFileChooser chooser = new JFileChooser();
+        int option = chooser.showOpenDialog(this);
 
-		return this.jPanel1;
-	}
+        if (option != JFileChooser.CANCEL_OPTION)
+        {
+            File curFile = chooser.getSelectedFile();
+            this.jLabel.setText(curFile.getAbsolutePath());
 
-	/**
-	 * @return {@link JSplitPane}
-	 */
-	private JSplitPane getJSplitPane()
-	{
-		if (this.jSplitPane == null)
-		{
-			this.jSplitPane = new JSplitPane();
-			this.jSplitPane.setLeftComponent(getWatermarkTree());
-			this.jSplitPane.setRightComponent(getWatermarkTable());
-		}
+            ImageIcon image = new ImageIcon(curFile.getAbsolutePath());
+            getWatermarkTable().setWatermark(image);
+            getWatermarkTree().setWatermark(image);
+        }
+    }
 
-		return this.jSplitPane;
-	}
+    /**
+     * @return {@link JButton}
+     */
+    private JButton getJButton()
+    {
+        if (this.jButton == null)
+        {
+            this.jButton = new JButton();
+            this.jButton.setText("Change ...");
+            this.jButton.addActionListener(this);
+        }
 
-	/**
-	 * @return {@link WatermarkTable}
-	 */
-	private WatermarkTable getWatermarkTable()
-	{
-		if (this.watermarkTable == null)
-		{
-			this.watermarkTable = new WatermarkTable();
-		}
+        return this.jButton;
+    }
 
-		return this.watermarkTable;
-	}
+    /**
+     * @return {@link JPanel}
+     */
+    private JPanel getJPanel()
+    {
+        if (this.jPanel == null)
+        {
+            this.jPanel = new JPanel();
+            this.jPanel.setLayout(new BorderLayout());
+            this.jPanel.add(getJSplitPane(), BorderLayout.CENTER);
+            this.jPanel.add(getJPanel1(), BorderLayout.NORTH);
+        }
 
-	/**
-	 * @return {@link WatermarkTree}
-	 */
-	private WatermarkTree getWatermarkTree()
-	{
-		if (this.watermarkTree == null)
-		{
-			this.watermarkTree = new WatermarkTree();
-		}
+        return this.jPanel;
+    }
 
-		return this.watermarkTree;
-	}
+    /**
+     * @return {@link JPanel}
+     */
+    private JPanel getJPanel1()
+    {
+        if (this.jPanel1 == null)
+        {
+            JLabel jLabel1 = new JLabel();
+            this.jPanel1 = new JPanel();
+            this.jLabel.setText("None");
+            this.jLabel.setFont(new Font("MS Sans Serif", Font.ITALIC, 11));
+            jLabel1.setText("Icon :");
+            jLabel1.setFont(new Font("MS Sans Serif", Font.BOLD, 11));
+            this.jPanel1.add(jLabel1, null);
+            this.jPanel1.add(this.jLabel, null);
+            this.jPanel1.add(getJButton(), null);
+        }
 
-	/**
-	 * 
-	 */
-	private void initialize()
-	{
-		this.setLayout(new BorderLayout());
-		this.setSize(400, 300);
-		this.add(getJPanel(), java.awt.BorderLayout.CENTER);
-	}
+        return this.jPanel1;
+    }
+
+    /**
+     * @return {@link JSplitPane}
+     */
+    private JSplitPane getJSplitPane()
+    {
+        if (this.jSplitPane == null)
+        {
+            this.jSplitPane = new JSplitPane();
+            this.jSplitPane.setLeftComponent(getWatermarkTree());
+            this.jSplitPane.setRightComponent(getWatermarkTable());
+        }
+
+        return this.jSplitPane;
+    }
+
+    /**
+     * @return {@link WatermarkTable}
+     */
+    private WatermarkTable getWatermarkTable()
+    {
+        if (this.watermarkTable == null)
+        {
+            this.watermarkTable = new WatermarkTable();
+        }
+
+        return this.watermarkTable;
+    }
+
+    /**
+     * @return {@link WatermarkTree}
+     */
+    private WatermarkTree getWatermarkTree()
+    {
+        if (this.watermarkTree == null)
+        {
+            this.watermarkTree = new WatermarkTree();
+        }
+
+        return this.watermarkTree;
+    }
+
+    /**
+     *
+     */
+    private void initialize()
+    {
+        setLayout(new BorderLayout());
+        this.setSize(400, 300);
+        this.add(getJPanel(), BorderLayout.CENTER);
+    }
 }

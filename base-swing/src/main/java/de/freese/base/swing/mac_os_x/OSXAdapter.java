@@ -113,7 +113,7 @@ public class OSXAdapter implements InvocationHandler
                     }
                     catch (Exception ex)
                     {
-                        // Ignore
+                        // Empty
                     }
                 }
 
@@ -220,16 +220,16 @@ public class OSXAdapter implements InvocationHandler
     /**
      *
      */
-    protected String proxySignature = null;
+    protected String proxySignature;
     /**
      *
      */
-    protected Method targetMethod = null;
+    protected Method targetMethod;
 
     /**
      *
      */
-    protected Object targetObject = null;
+    protected Object targetObject;
 
     /**
      * Each OSXAdapter has the name of the EAWT method it intends to listen for (handleAbout, forexample),<br>

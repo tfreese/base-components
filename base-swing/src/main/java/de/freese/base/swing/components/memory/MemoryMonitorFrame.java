@@ -3,6 +3,7 @@ package de.freese.base.swing.components.memory;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  * GUI fuer den Memory-Monitor.
@@ -23,7 +24,9 @@ public class MemoryMonitorFrame extends JFrame
     {
         JFrame frame = new MemoryMonitorFrame();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -50,7 +53,7 @@ public class MemoryMonitorFrame extends JFrame
         }
         catch (Throwable ex)
         {
-            // Ignore
+            // Empty
         }
 
         setResizable(true);

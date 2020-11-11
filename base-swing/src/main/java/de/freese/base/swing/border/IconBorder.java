@@ -26,12 +26,12 @@ public class IconBorder implements Border, Serializable
     /**
      *
      */
-    private Insets borderInsets = null;
+    private Insets borderInsets;
 
     /**
      *
      */
-    private Icon icon = null;
+    private Icon icon;
 
     /**
      *
@@ -45,7 +45,7 @@ public class IconBorder implements Border, Serializable
 
     /**
      * Erstellt ein neues {@link IconBorder} Object.
-     * 
+     *
      * @param icon {@link Icon}
      */
     public IconBorder(final Icon icon)
@@ -55,7 +55,7 @@ public class IconBorder implements Border, Serializable
 
     /**
      * Creates a new {@link IconBorder} object.
-     * 
+     *
      * @param icon {@link Icon}
      * @param iconPosition int
      */
@@ -112,7 +112,7 @@ public class IconBorder implements Border, Serializable
 
     /**
      * JButton
-     * 
+     *
      * @return {@link JButton}
      */
     public JButton getIconButton()
@@ -197,7 +197,7 @@ public class IconBorder implements Border, Serializable
 
     /**
      * Icon
-     * 
+     *
      * @param icon {@link Icon}
      */
     public void setIcon(final Icon icon)
@@ -215,7 +215,7 @@ public class IconBorder implements Border, Serializable
 
     /**
      * Exception, wenn falsche Position.
-     * 
+     *
      * @param position int
      * @throws IllegalArgumentException Falls was schief geht.
      */

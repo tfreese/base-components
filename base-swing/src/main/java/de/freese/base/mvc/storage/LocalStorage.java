@@ -33,7 +33,7 @@ public final class LocalStorage
     /**
      *
      */
-    private Path directory = null;
+    private Path directory;
 
     /**
      * Erstellt ein neues {@link LocalStorage} Object.

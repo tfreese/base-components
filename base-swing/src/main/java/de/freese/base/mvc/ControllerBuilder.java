@@ -25,7 +25,7 @@ public final class ControllerBuilder
     /**
        *
        */
-    private String bundleName = null;
+    private String bundleName;
 
     /**
      *
@@ -35,12 +35,12 @@ public final class ControllerBuilder
     /**
     *
     */
-    private Class<? extends AbstractController> controllerClazz = null;
+    private Class<? extends AbstractController> controllerClazz;
 
     /**
     *
     */
-    private String name = null;
+    private String name;
 
     /**
      * Erstellt ein neues {@link ControllerBuilder} Object.

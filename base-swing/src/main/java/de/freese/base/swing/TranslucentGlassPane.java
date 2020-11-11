@@ -30,32 +30,32 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private float alpha = 1.0f;
+    private float alpha = 1.0F;
 
     /**
      *
      */
-    private float alphaEnd = 0.6f;
+    private float alphaEnd = 0.6F;
 
     /**
      *
      */
-    private float alphaIncrement = 0.02f;
+    private float alphaIncrement = 0.02F;
 
     /**
      *
      */
-    private float alphaStart = 0.0f;
+    private float alphaStart = 0.0F;
 
     /**
      *
      */
-    private Timer animateTimer = null;
+    private Timer animateTimer;
 
     /**
      *
      */
-    private List<Component> dispatchList = null;
+    private List<Component> dispatchList;
 
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
@@ -307,7 +307,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
             float oldAlpha = this.alpha;
             this.alpha = alpha;
 
-            if ((alpha > 0f) && (alpha < 1f))
+            if ((alpha > 0F) && (alpha < 1F))
             {
                 if (oldAlpha == 1)
                 {
@@ -316,7 +316,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
                     setOpaque(false);
                 }
             }
-            else if (alpha == 1)
+            else if (alpha == 1F)
             {
                 // restore the oldOpaque if it was true (since opaque is false
                 // now)

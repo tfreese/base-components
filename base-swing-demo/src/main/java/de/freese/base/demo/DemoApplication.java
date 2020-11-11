@@ -26,7 +26,7 @@ import de.freese.base.resourcemap.ResourceMapBuilder;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 import de.freese.base.swing.StatusBar;
-import de.freese.base.swing.components.ExtFrame;
+import de.freese.base.swing.components.frame.ExtFrame;
 
 /**
  * Demo Anwendung.

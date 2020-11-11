@@ -17,12 +17,12 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     /**
      *
      */
-    private List<FilterCondition> filter = null;
+    private List<FilterCondition> filter;
 
     /**
      *
      */
-    private transient PropertyChangeSupport propertyChangeSupport = null;
+    private PropertyChangeSupport propertyChangeSupport;
 
     /**
      * Erstellt ein neues {@link AndFilter} Object.

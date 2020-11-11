@@ -43,10 +43,10 @@ public class BusySanduhrLabel extends JLabel
     /**
      *
      */
-    private Timer animateTimer = null;
+    private Timer animateTimer;
 
     /**
-     * 
+     *
      */
     private final ImageIcon[] icons;
 
@@ -65,7 +65,7 @@ public class BusySanduhrLabel extends JLabel
 
     /**
      * Creates a new {@link BusySanduhrLabel} object.
-     * 
+     *
      * @param text String
      */
     public BusySanduhrLabel(final String text)

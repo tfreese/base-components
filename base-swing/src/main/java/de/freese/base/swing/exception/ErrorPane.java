@@ -96,37 +96,37 @@ public class ErrorPane extends JPanel
     /**
      *
      */
-    private JButton buttonClipboard = null;
+    private JButton buttonClipboard;
 
     /**
      *
      */
-    private JButton buttonClose = null;
+    private JButton buttonClose;
 
     /**
      *
      */
-    private JButton buttonDetails = null;
+    private JButton buttonDetails;
 
     /**
      *
      */
-    private JButton buttonSend = null;
+    private JButton buttonSend;
 
     /**
      *
      */
-    private JPanel detailPanel = null;
+    private JPanel detailPanel;
 
     /**
      *
      */
-    private JEditorPane editorPaneDetails = null;
+    private JEditorPane editorPaneDetails;
 
     /**
      *
      */
-    private JEditorPane editorPaneMessage = null;
+    private JEditorPane editorPaneMessage;
 
     /**
      *
@@ -136,7 +136,7 @@ public class ErrorPane extends JPanel
     /**
      *
      */
-    private JLabel labelIcon = null;
+    private JLabel labelIcon;
 
     /**
      *
@@ -146,7 +146,7 @@ public class ErrorPane extends JPanel
     /**
      *
      */
-    private JScrollPane scrollPaneMessage = null;
+    private JScrollPane scrollPaneMessage;
 
     /**
      * Creates a new {@link ErrorPane} object.
@@ -287,11 +287,11 @@ public class ErrorPane extends JPanel
             });
 
             this.buttonClose.addActionListener(event -> {
-                Component owner = getOwner();
+                Component c = getOwner();
 
-                if (owner instanceof Window)
+                if (c instanceof Window)
                 {
-                    ((Window) owner).dispose();
+                    ((Window) c).dispose();
                 }
             });
         }
@@ -382,12 +382,12 @@ public class ErrorPane extends JPanel
 
                 try
                 {
-                    Component owner = getOwner();
-                    Component ownerParent = SwingUtilities.getAncestorOfClass(Dialog.class, owner);
+                    Component x = getOwner();
+                    Component ownerParent = SwingUtilities.getAncestorOfClass(Dialog.class, x);
 
                     if (ownerParent == null)
                     {
-                        ownerParent = SwingUtilities.getAncestorOfClass(Frame.class, owner);
+                        ownerParent = SwingUtilities.getAncestorOfClass(Frame.class, x);
                     }
 
                     DataSource dataSource = GuiUtils.createScreenShot(ownerParent);
@@ -497,7 +497,7 @@ public class ErrorPane extends JPanel
     {
         if (errorInfo.getErrorException() != null)
         {
-            StringBuffer html = new StringBuffer("<html>");
+            StringBuilder html = new StringBuilder("<html>");
             html.append("<h2>" + escapeXml(errorInfo.getTitle()) + "</h2>");
             html.append("<HR size='1' noshade>");
             html.append("<div></div>");

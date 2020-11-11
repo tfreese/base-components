@@ -134,7 +134,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      *
      */
-    private InputBlocker inputBlocker = null;
+    private InputBlocker inputBlocker;
 
     /**
      *
@@ -149,7 +149,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      *
      */
-    private boolean progressPropertyIsValid = false;
+    private boolean progressPropertyIsValid;
 
     /**
      *
@@ -159,12 +159,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      * Untertitel des Tasks fuer ProgressBars oder aehnliches,.
      */
-    private String subTitle = null;
+    private String subTitle;
 
     /**
      * Titel des Tasks fuer ProgressBars oder aehnliches,.
      */
-    private String title = null;
+    private String title;
 
     /**
      * Erstellt ein neues {@link AbstractSwingTask} Object.
@@ -204,7 +204,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     protected void cancelled()
     {
-        // NO-OP
+        // Empty
     }
 
     /**

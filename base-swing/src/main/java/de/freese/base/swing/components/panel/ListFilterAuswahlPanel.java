@@ -27,22 +27,22 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
     /**
      *
      */
-    private JLabel filterLabel = null;
+    private JLabel filterLabel;
 
     /**
      *
      */
-    private JTextField filterTextField = null;
+    private JTextField filterTextField;
 
     /**
      *
      */
-    private JList<T> list = null;
+    private JList<T> list;
 
     /**
      *
      */
-    private JScrollPane scrollPane = null;
+    private JScrollPane scrollPane;
 
     /**
      * Erstellt ein neues {@link ListFilterAuswahlPanel} Object.

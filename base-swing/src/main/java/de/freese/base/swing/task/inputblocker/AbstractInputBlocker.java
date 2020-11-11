@@ -24,7 +24,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     /**
      *
      */
-    private boolean changeMouseCursor = false;
+    private boolean changeMouseCursor;
 
     /**
      *
@@ -34,7 +34,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     /**
      *
      */
-    private JRootPane rootPane = null;
+    private JRootPane rootPane;
 
     /**
      *
@@ -175,20 +175,20 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
             return;
         }
 
-        JRootPane rootPane = getRootPane();
+        JRootPane rp = getRootPane();
 
-        if (rootPane == null)
+        if (rp == null)
         {
             return;
         }
 
         if (busy)
         {
-            rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            rp.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         }
         else
         {
-            rootPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            rp.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }
 

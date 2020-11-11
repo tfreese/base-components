@@ -32,7 +32,7 @@ public class SortRendererComponent extends JPanel
     /**
      * Label mit dem Sortiericon und der Sortierprioritaet
      */
-    private JLabel jLabelIcon = null;
+    private JLabel jLabelIcon;
 
     /**
      * MainComponent
@@ -46,7 +46,7 @@ public class SortRendererComponent extends JPanel
 
     /**
      * Erstellt ein neues {@link SortRendererComponent} Objekt.
-     * 
+     *
      * @param mainComponent {@link JComponent}
      * @param sortIcon {@link Icon}
      * @param priority String
@@ -71,7 +71,7 @@ public class SortRendererComponent extends JPanel
 
     /**
      * Liefert die Hauptkomponente
-     * 
+     *
      * @return {@link Component}
      */
     private Component getMainComponent()
@@ -81,7 +81,7 @@ public class SortRendererComponent extends JPanel
 
     /**
      * Liefert das Label fuer die Sortierung.
-     * 
+     *
      * @return {@link JLabel}
      */
     private JLabel getSortLabel()
@@ -114,7 +114,7 @@ public class SortRendererComponent extends JPanel
 
     /**
      * Setzt das Icon, dass die Sortierrichtung angibt.
-     * 
+     *
      * @param icon {@link Icon}
      */
     private void setSortIcon(final Icon icon)
@@ -124,7 +124,7 @@ public class SortRendererComponent extends JPanel
 
     /**
      * Setzt die Prioritaet in der Sortierreihenfolge.
-     * 
+     *
      * @param priority String
      */
     private void setSortPriority(final String priority)

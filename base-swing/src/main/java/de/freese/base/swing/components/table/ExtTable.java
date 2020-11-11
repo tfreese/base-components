@@ -36,24 +36,24 @@ import de.freese.base.utils.TableUtils;
 public class ExtTable extends JTable implements IExtTableColumnModelListener
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4454292369350861849L;
 
     /**
      *
      */
-    private ColumnControlButton columnControlButton = null;
+    private ColumnControlButton columnControlButton;
 
     /**
      *
      */
-    private JComponent columnHeaderReplacement = null;
+    private JComponent columnHeaderReplacement;
 
     /**
-     * 
+     *
      */
-    private JComponent rowHeaderReplacement = null;
+    private JComponent rowHeaderReplacement;
 
     /**
      * Gibt an, ob ein alternativer Header vewendet werden soll.
@@ -75,7 +75,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Creates a new {@link ExtTable} object.
-     * 
+     *
      * @param showHeader Gibt an, ob die FilterZeile angezeigt wird
      */
     public ExtTable(final boolean showHeader)
@@ -165,7 +165,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Ueberschrieben um den Tableheader nicht zu zeigen.
-     * 
+     *
      * @see javax.swing.JTable#configureEnclosingScrollPane()
      */
     @Override
@@ -203,7 +203,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Erzeugt eine neue Komponente zur Spaltenkontrolle.
-     * 
+     *
      * @return {@link ColumnControlButton}
      */
     protected JComponent createDefaultColumnControl()
@@ -252,7 +252,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Liefert die Komponente fuer die Spaltenkontrolle.
-     * 
+     *
      * @return {@link ColumnControlButton}
      */
     public ColumnControlButton getColumnControl()
@@ -267,7 +267,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Liefert das erweiterte {@link IExtTableColumnModel}.
-     * 
+     *
      * @return {@link IExtTableColumnModel}
      */
     public IExtTableColumnModel getColumnModelExt()
@@ -367,7 +367,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Sichtbarkeit der Komponente fuer die Spaltenkontrolle.
-     * 
+     *
      * @return boolean
      */
     public boolean isColumnControlVisible()
@@ -377,7 +377,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Sortierung aktiviert ?
-     * 
+     *
      * @return boolean
      */
     public boolean isSortable()
@@ -387,7 +387,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Anpassen der Spaltenbreiten.
-     * 
+     *
      * @param margin int, -1 als default
      */
     public void packAll(final int margin)
@@ -397,7 +397,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Anpassen der Spaltenbreite.
-     * 
+     *
      * @param columnIndex int
      * @param margin int, -1 als default
      */
@@ -408,7 +408,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Anpassen der Spaltenbreite.
-     * 
+     *
      * @param columnIndex int
      * @param margin int, -1 als default
      * @param max int, -1 als default
@@ -444,7 +444,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Sichtbarkeit der Komponente fuer die Spaltenkontrolle.
-     * 
+     *
      * @param visible boolean
      */
     public void setColumnControlVisible(final boolean visible)
@@ -454,7 +454,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Sortierung aktiviert ?
-     * 
+     *
      * @param sortable boolean
      */
     public void setSortable(final boolean sortable)
@@ -464,7 +464,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
     /**
      * Gibt an, ob ein FilterHeader verwendet wird.
-     * 
+     *
      * @return <code>true</code> wenn vorhanden, sonst <code>false</code>
      */
     protected boolean showHeader()

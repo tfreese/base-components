@@ -27,7 +27,7 @@ public abstract class AbstractApplication
     /**
      *
      */
-    private ApplicationContext context = null;
+    private ApplicationContext context;
 
     /**
      *
@@ -42,7 +42,7 @@ public abstract class AbstractApplication
     /**
      *
      */
-    private Thread shutdownHook = null;
+    private Thread shutdownHook;
 
     /**
      * Erstellt ein neues {@link AbstractApplication} Object.

@@ -71,12 +71,12 @@ public class ExtDialog
     /**
      *
      */
-    private JButton[] buttons = null;
+    private JButton[] buttons;
 
     /**
      *
      */
-    private JDialog dialog = null;
+    private JDialog dialog;
 
     /**
      *

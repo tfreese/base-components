@@ -1,4 +1,4 @@
-package de.freese.base.swing.tree;
+package de.freese.base.swing.components.tree;
 
 import java.awt.BorderLayout;
 import java.util.List;

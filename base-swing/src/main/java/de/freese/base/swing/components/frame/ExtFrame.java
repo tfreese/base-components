@@ -1,4 +1,4 @@
-package de.freese.base.swing.components;
+package de.freese.base.swing.components.frame;
 
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
