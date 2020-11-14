@@ -8,7 +8,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestAutoExpandBuffer
 {
     /**

@@ -24,8 +24,8 @@ import de.freese.base.pool.ConnectionPoolBuilder.ConnectionPoolType;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestConnectionPoolBuilder
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestConnectionPoolBuilder
 {
     /**
      *

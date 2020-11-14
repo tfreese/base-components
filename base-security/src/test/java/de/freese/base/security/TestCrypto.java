@@ -31,7 +31,7 @@ import de.freese.base.security.algorythm.Crypto;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCrypto
 {
     /**

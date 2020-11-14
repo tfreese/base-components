@@ -22,7 +22,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSqLite
 {
     /**

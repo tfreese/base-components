@@ -24,7 +24,7 @@ import de.freese.base.core.throttle.google.GoogleThrottle;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class ThrottleInputStreamTest extends AbstractIoTest
 {
     /**

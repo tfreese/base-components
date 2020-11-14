@@ -34,7 +34,7 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestGridColumns
 {
     /**

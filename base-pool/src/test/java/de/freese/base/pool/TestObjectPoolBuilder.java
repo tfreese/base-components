@@ -29,8 +29,8 @@ import de.freese.base.pool.unbounded.UnboundedObjectPool;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestObjectPoolBuilder
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestObjectPoolBuilder
 {
     /**
      *
@@ -69,10 +69,10 @@ public class TestObjectPoolBuilder
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    public void test0100GetAndReturn(final ObjectPoolType poolType, final Supplier<UUID> creator)
+    void test0100GetAndReturn(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
-        ObjectPool<UUID> pool = new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType)
-                .objectFactory(new DefaultObjectFactory<>(creator)).build();
+        ObjectPool<UUID> pool =
+                new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
 
         UUID uuid1 = pool.borrowObject();
         assertNotNull(uuid1);
@@ -85,10 +85,10 @@ public class TestObjectPoolBuilder
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    public void test0200Equals(final ObjectPoolType poolType, final Supplier<UUID> creator)
+    void test0200Equals(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
-        ObjectPool<UUID> pool = new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType)
-                .objectFactory(new DefaultObjectFactory<>(creator)).build();
+        ObjectPool<UUID> pool =
+                new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
 
         UUID uuid1 = pool.borrowObject();
         assertEquals(1, pool.getTotalSize());
@@ -112,10 +112,10 @@ public class TestObjectPoolBuilder
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    public void test0300OverSize(final ObjectPoolType poolType, final Supplier<UUID> creator)
+    void test0300OverSize(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
-        ObjectPool<UUID> pool = new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType)
-                .objectFactory(new DefaultObjectFactory<>(creator)).build();
+        ObjectPool<UUID> pool =
+                new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
 
         if ((pool instanceof RoundRobinPool) || (pool instanceof UnboundedObjectPool))
         {

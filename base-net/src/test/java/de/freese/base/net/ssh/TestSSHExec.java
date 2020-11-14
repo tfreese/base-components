@@ -16,9 +16,9 @@ import org.junit.jupiter.api.TestMethodOrder;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @Disabled
-public class TestSSHExec
+class TestSSHExec
 {
     /**
      *
@@ -29,7 +29,7 @@ public class TestSSHExec
      *
      */
     @AfterAll
-    public static void afterAll()
+    static void afterAll()
     {
         if (sshExec != null)
         {
@@ -42,7 +42,7 @@ public class TestSSHExec
      *
      */
     @BeforeAll
-    public static void beforeAll()
+    static void beforeAll()
     {
         if (sshExec == null)
         {
@@ -62,24 +62,16 @@ public class TestSSHExec
     /**
      * @return {@link SSHExec}
      */
-    public static SSHExec getSshExec()
+    static SSHExec getSshExec()
     {
         return sshExec;
-    }
-
-    /**
-     * Erstellt ein neues {@link TestSSHExec} Object.
-     */
-    public TestSSHExec()
-    {
-        super();
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test01SSH() throws Exception
+    void test01SSH() throws Exception
     {
         List<String> result = sshExec.execute("df -h");
 
@@ -93,7 +85,7 @@ public class TestSSHExec
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test02SSHAsync() throws Exception
+    void test02SSHAsync() throws Exception
     {
         Future<List<String>> resultFuture = sshExec.execute("df -h", ForkJoinPool.commonPool());
         List<String> result = resultFuture.get();

@@ -13,7 +13,7 @@ import de.freese.base.core.model.builder.GenericBuilder;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestGenericBuilder
 {
     /**

@@ -32,7 +32,7 @@ import de.freese.base.core.collection.stream.spliterator.TunedListSpliterator;
  * @author Thomas Freese
  */
 @SuppressWarnings("deprecation")
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestTunedSpliterator
 {
     /**

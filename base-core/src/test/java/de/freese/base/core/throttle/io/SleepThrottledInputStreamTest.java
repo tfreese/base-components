@@ -17,7 +17,7 @@ import de.freese.base.core.io.throttle.SleepThrottledInputStream;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class SleepThrottledInputStreamTest extends AbstractIoTest
 {
     /**

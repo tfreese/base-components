@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @ExtendWith(MockitoExtension.class)
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.

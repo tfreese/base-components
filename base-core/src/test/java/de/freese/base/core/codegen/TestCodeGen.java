@@ -20,7 +20,7 @@ import de.freese.base.core.codegen.writer.JavaCodeWriter;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCodeGen
 {
     /**

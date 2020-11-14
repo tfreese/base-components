@@ -32,7 +32,7 @@ import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestLoggingJdbcDriver
 {
     /**

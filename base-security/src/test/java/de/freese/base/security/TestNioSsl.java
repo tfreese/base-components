@@ -33,7 +33,7 @@ import de.freese.base.security.ssl.nio.SSLSocketChannel;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @Disabled
 class TestNioSsl
 {

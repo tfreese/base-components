@@ -20,7 +20,7 @@ import de.freese.base.utils.JdbcUtils;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCSVDriver
 {
     /**

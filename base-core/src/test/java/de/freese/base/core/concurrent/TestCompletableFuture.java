@@ -19,7 +19,7 @@ import io.github.artsok.RepeatedIfExceptionsTest;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 @Disabled // Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
 class TestCompletableFuture
 {

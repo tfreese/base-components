@@ -14,6 +14,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
+ * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html
+ * 
  * @author Thomas Freese
  */
 public class ShapedWindowDemo extends JFrame

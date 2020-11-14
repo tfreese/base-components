@@ -21,14 +21,14 @@ import de.freese.base.utils.NetUtils;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
-public class TestNetUtils
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class TestNetUtils
 {
     /**
      *
      */
     @BeforeAll
-    public static void beforeAll()
+    static void beforeAll()
     {
         // enableProxy();
     }
@@ -36,7 +36,7 @@ public class TestNetUtils
     /**
      * Aktiviert die Proxy-Kommunikation.
      */
-    public static void enableProxy()
+    static void enableProxy()
     {
         String proxy = "...";
         // DNS-Auflösung konfigurieren.
@@ -85,18 +85,10 @@ public class TestNetUtils
     }
 
     /**
-     * Erstellt ein neues {@link TestNetUtils} Object.
-     */
-    public TestNetUtils()
-    {
-        super();
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test010LocalHost() throws Exception
+    void test010LocalHost() throws Exception
     {
         String hostName = null;
 
@@ -174,7 +166,7 @@ public class TestNetUtils
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test020ValidHost() throws Exception
+    void test020ValidHost() throws Exception
     {
         boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
         assertTrue(validHost);
@@ -184,7 +176,7 @@ public class TestNetUtils
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void test030PTBZeit() throws Exception
+    void test030PTBZeit() throws Exception
     {
         Date ptbDate = NetUtils.getPTBZeit();
         assertNotNull(ptbDate);

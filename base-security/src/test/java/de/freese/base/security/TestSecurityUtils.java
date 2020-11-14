@@ -21,7 +21,7 @@ import de.freese.base.utils.SecurityUtils;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSecurityUtils
 {
     /**
@@ -33,7 +33,7 @@ class TestSecurityUtils
      *
      */
     @BeforeAll
-    public static void beforeAll()
+    static void beforeAll()
     {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
         {

@@ -33,7 +33,7 @@ import de.freese.base.resourcemap.provider.ResourceBundleProvider;
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TestResourceMap
 {
     /**
@@ -45,7 +45,7 @@ public class TestResourceMap
      *
      */
     @BeforeAll
-    public static void beforeAll()
+    static void beforeAll()
     {
         ResourceMap parentRM = ResourceMapBuilder.create("parentTest").resourceProvider(new ResourceBundleProvider())
                 .classLoader(TestResourceMap.class.getClassLoader()).build();
@@ -54,18 +54,10 @@ public class TestResourceMap
     }
 
     /**
-     * Erstellt ein neues {@link TestResourceMap} Object.
-     */
-    public TestResourceMap()
-    {
-        super();
-    }
-
-    /**
      *
      */
     @Test
-    public void testBoolean()
+    void testBoolean()
     {
         Boolean value = resourceMap.getBoolean("test.boolean");
 
@@ -77,7 +69,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testByte()
+    void testByte()
     {
         Byte value = resourceMap.getByte("test.byte");
 
@@ -89,7 +81,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testColor()
+    void testColor()
     {
         Color value = resourceMap.getColor("test.color");
 
@@ -103,7 +95,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testColorAlpha()
+    void testColorAlpha()
     {
         Color value = resourceMap.getColor("test.colorAlpha");
 
@@ -120,7 +112,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testColorHex()
+    void testColorHex()
     {
         Color value = resourceMap.getColor("test.colorHex");
 
@@ -134,7 +126,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testDimension()
+    void testDimension()
     {
         Dimension value = resourceMap.getDimension("test.dimension");
 
@@ -148,7 +140,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testDouble()
+    void testDouble()
     {
         Double value = resourceMap.getDouble("test.double");
 
@@ -162,7 +154,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testEmptyBorder()
+    void testEmptyBorder()
     {
         EmptyBorder value = resourceMap.getEmptyBorder("test.emptyborder");
 
@@ -184,7 +176,7 @@ public class TestResourceMap
      * Der Wert von evaluateStringExpression("place") wäre "Hello World". Der Wert von einem ${null} ist null.
      */
     @Test
-    public void testEvaluateStringExpression()
+    void testEvaluateStringExpression()
     {
         String expression = "${hello} in my ${world} guest";
 
@@ -242,7 +234,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testFloat()
+    void testFloat()
     {
         Float value = resourceMap.getFloat("test.float");
 
@@ -256,7 +248,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testFont()
+    void testFont()
     {
         Font value = resourceMap.getFont("test.font");
 
@@ -270,7 +262,7 @@ public class TestResourceMap
      * @see TestResourceMap#testImageIcon()
      */
     @Test
-    public void testIcon()
+    void testIcon()
     {
         Icon value = resourceMap.getIcon("test.icon");
 
@@ -287,7 +279,7 @@ public class TestResourceMap
      * @throws IOException Falls was schief geht.
      */
     @Test
-    public void testImage() throws IOException
+    void testImage() throws IOException
     {
         Image value = resourceMap.getImage("test.icon");
 
@@ -302,7 +294,7 @@ public class TestResourceMap
      * @see TestResourceMap#testIcon()
      */
     @Test
-    public void testImageIcon()
+    void testImageIcon()
     {
         ImageIcon value = resourceMap.getImageIcon("test.icon");
 
@@ -317,7 +309,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testInsets()
+    void testInsets()
     {
         Insets value = resourceMap.getInsets("test.insets");
 
@@ -331,7 +323,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testInteger()
+    void testInteger()
     {
         Integer value = resourceMap.getInteger("test.integer");
 
@@ -345,7 +337,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testKeyCode()
+    void testKeyCode()
     {
         Integer value = resourceMap.getKeyCode("test.keycode");
 
@@ -359,7 +351,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testKeyStroke()
+    void testKeyStroke()
     {
         KeyStroke value = resourceMap.getKeyStroke("test.keystroke");
 
@@ -373,7 +365,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testLong()
+    void testLong()
     {
         Long value = resourceMap.getLong("test.long");
 
@@ -387,7 +379,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testParentString()
+    void testParentString()
     {
         String value = resourceMap.getString("test.parent.version");
 
@@ -399,7 +391,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testPoint()
+    void testPoint()
     {
         Point value = resourceMap.getPoint("test.point");
 
@@ -413,7 +405,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testRectangle()
+    void testRectangle()
     {
         Rectangle value = resourceMap.getRectangle("test.rectangle");
 
@@ -427,7 +419,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testShort()
+    void testShort()
     {
         Short value = resourceMap.getShort("test.short");
 
@@ -442,7 +434,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testString1()
+    void testString1()
     {
         String value = resourceMap.getString("test.string.1");
 
@@ -456,7 +448,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testString2()
+    void testString2()
     {
         String value = resourceMap.getString("test.string.2", "ist", "Test");
 
@@ -470,7 +462,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testString3()
+    void testString3()
     {
         String value = resourceMap.getString("test.string.3", "ist", "Test");
 
@@ -484,7 +476,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testString4()
+    void testString4()
     {
         String value = resourceMap.getString("test.string.4");
 
@@ -498,7 +490,7 @@ public class TestResourceMap
      *
      */
     @Test
-    public void testStringEmpty()
+    void testStringEmpty()
     {
         String value = resourceMap.getString("test.string.empty");
 
@@ -512,7 +504,7 @@ public class TestResourceMap
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testURI() throws Exception
+    void testURI() throws Exception
     {
         URI value = resourceMap.getURI("test.uri");
 
@@ -526,7 +518,7 @@ public class TestResourceMap
      * @throws Exception Falls was schief geht.
      */
     @Test
-    public void testURL() throws Exception
+    void testURL() throws Exception
     {
         URL value = resourceMap.getURL("test.url");
 
@@ -540,7 +532,7 @@ public class TestResourceMap
     *
     */
     @Test
-    public void testWrongKey()
+    void testWrongKey()
     {
         String value = resourceMap.getString("not.exist");
 
