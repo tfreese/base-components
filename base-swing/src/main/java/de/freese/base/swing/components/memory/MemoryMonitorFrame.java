@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 /**
- * GUI fuer den Memory-Monitor.
+ * GUI für den Memory-Monitor.
  *
  * @author Thomas Freese
  */
@@ -23,9 +23,30 @@ public class MemoryMonitorFrame extends JFrame
     public static void main(final String[] args)
     {
         JFrame frame = new MemoryMonitorFrame();
-
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        try
+        {
+            URL iconURL = ClassLoader.getSystemResource("icons/memory.gif");
+
+            if (iconURL == null)
+            {
+                iconURL = MemoryMonitorFrame.class.getResource("icons/memory.gif");
+            }
+
+            if (iconURL != null)
+            {
+                frame.setIconImage(new ImageIcon(iconURL).getImage());
+            }
+        }
+        catch (Throwable ex)
+        {
+            // Empty
+        }
+
+        frame.setResizable(true);
+        frame.getContentPane().add(new MemoryMonitorComponent());
+        frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -36,30 +57,5 @@ public class MemoryMonitorFrame extends JFrame
     public MemoryMonitorFrame()
     {
         super("Memory Monitor");
-
-        try
-        {
-            URL iconURL = ClassLoader.getSystemResource("icons/memory.gif");
-
-            if (iconURL == null)
-            {
-                iconURL = getClass().getResource("icons/memory.gif");
-            }
-
-            if (iconURL != null)
-            {
-                setIconImage(new ImageIcon(iconURL).getImage());
-            }
-        }
-        catch (Throwable ex)
-        {
-            // Empty
-        }
-
-        setResizable(true);
-
-        getContentPane().add("Center", new MemoryMonitorComponent());
-
-        pack();
     }
 }

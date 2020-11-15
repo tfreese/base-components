@@ -179,7 +179,7 @@ public class MemoryMonitorComponent extends JComponent
         });
 
         // SwingUtilities.invokeLater(this::start);
-        this.scheduledExecutorService.schedule(this::start, 1, TimeUnit.SECONDS);
+        this.scheduledExecutorService.schedule(this::start, 500, TimeUnit.MILLISECONDS);
     }
 
     /**
