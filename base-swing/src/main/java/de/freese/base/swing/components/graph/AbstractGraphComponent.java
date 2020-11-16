@@ -1,7 +1,6 @@
 // Created: 15.11.2020
 package de.freese.base.swing.components.graph;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,8 +8,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
+import java.util.Objects;
 import javax.swing.SwingUtilities;
+import de.freese.base.swing.components.graph.model.AbstractGraphModel;
+import de.freese.base.swing.components.graph.model.DefaultGraphModel;
+import de.freese.base.swing.components.graph.model.GraphModel;
+import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
 
 /**
  * @author Thomas Freese
@@ -25,26 +28,25 @@ public abstract class AbstractGraphComponent extends Component
     /**
      *
      */
-    private BufferedImage bufferedImage;
-
-    /**
-     *
-     */
-    private Graphics2D graphics2D;
-
-    /**
-     *
-     */
     private final GraphModel graphModel;
 
     /**
-     * Erstellt ein neues {@link AbstractGraphComponent} Object.
+     *
      */
-    public AbstractGraphComponent()
+    private final AbstractGraphPainter painter;
+
+    /**
+     * Erstellt ein neues {@link AbstractGraphComponent} Object.
+     *
+     * @param painter {@link AbstractGraphPainter}
+     */
+    public AbstractGraphComponent(final AbstractGraphPainter painter)
     {
         super();
 
-        this.graphModel = new GraphModel();
+        this.painter = Objects.requireNonNull(painter, "painter required");
+
+        this.graphModel = new DefaultGraphModel();
 
         addComponentListener(new ComponentAdapter()
         {
@@ -90,23 +92,7 @@ public abstract class AbstractGraphComponent extends Component
     }
 
     /**
-     * @return {@link BufferedImage}
-     */
-    protected BufferedImage getBufferedImage()
-    {
-        return this.bufferedImage;
-    }
-
-    /**
-     * @return {@link Graphics2D}
-     */
-    protected Graphics2D getGraphics2D()
-    {
-        return this.graphics2D;
-    }
-
-    /**
-     * @return {@link GraphModel}
+     * @return {@link AbstractGraphModel}
      */
     protected GraphModel getGraphModel()
     {
@@ -126,8 +112,6 @@ public abstract class AbstractGraphComponent extends Component
      */
     protected void onComponentResized(final ComponentEvent event)
     {
-        setBufferedImage((BufferedImage) createImage(getWidth(), getHeight()));
-
         getGraphModel().setNewSize(getWidth());
     }
 
@@ -153,69 +137,11 @@ public abstract class AbstractGraphComponent extends Component
     @Override
     public void paint(final Graphics g)
     {
-        if (getBufferedImage() == null)
-        {
-            return;
-        }
+        // g.drawImage(getBufferedImage(), 0, 0, this);
 
-        g.drawImage(getBufferedImage(), 0, 0, this);
-        // g.drawImage(getBufferedImage(), 0, 0, getWidth(), getHeight(), null);
-    }
+        Graphics2D g2d = (Graphics2D) g;
 
-    /**
-     * @param g {@link Graphics2D}
-     */
-    protected void paintGraph(final Graphics2D g)
-    {
-        if ((g == null) || (getGraphModel().size() < 2))
-        {
-            return;
-        }
-
-        // Koordinatenursprung ist nach unten links verlegt.
-        // siehe #setBufferedImage
-
-        g.setBackground(getBackground());
-        g.clearRect(0, 0, getWidth(), getHeight());
-
-        int yStart = 0;
-        int xStart = getWidth() - getGraphModel().size() - 1; // Diagramm von rechts aufbauen.
-        // int xStart = 0; // Diagramm von links aufbauen.
-        int graphHeight = getHeight();
-
-        g.setColor(Color.GREEN);
-        g.drawRect(0, 1, getWidth() - 1, graphHeight - 1);
-
-        g.setColor(Color.YELLOW);
-
-        float yValueLast = getGraphModel().getYKoordinate(0, graphHeight);
-
-        for (int i = 1; i < getGraphModel().size(); i++)
-        {
-            // float yValue = yStart + (graphHeight * getValues().get(i));
-
-            float yValue = getGraphModel().getYKoordinate(i, graphHeight);
-
-            g.drawLine((xStart + i) - 1, (int) yValueLast, xStart + i, (int) yValue);
-
-            yValueLast = yValue;
-        }
-
-        repaint();
-    }
-
-    /**
-     * @param bufferedImage {@link BufferedImage}
-     */
-    protected void setBufferedImage(final BufferedImage bufferedImage)
-    {
-        this.bufferedImage = bufferedImage;
-
-        this.graphics2D = this.bufferedImage.createGraphics();
-
-        // Koordinatenursprung von oben links nach unten links verlegen.
-        this.graphics2D.scale(1.0D, -1.0D); // Kippt die Y-Achse nach oben.
-        this.graphics2D.translate(0, -getHeight()); // Verschiebt die 0-0 Koordinate nach unten.
+        this.painter.paint(g2d, getGraphModel(), getWidth(), getHeight());
     }
 
     /**
@@ -227,11 +153,11 @@ public abstract class AbstractGraphComponent extends Component
 
         if (SwingUtilities.isEventDispatchThread())
         {
-            paintGraph(getGraphics2D());
+            repaint();
         }
         else
         {
-            SwingUtilities.invokeLater(() -> paintGraph(getGraphics2D()));
+            SwingUtilities.invokeLater(this::repaint);
         }
     }
 }

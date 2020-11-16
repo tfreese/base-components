@@ -11,7 +11,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html
+ * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html<br>
+ * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
+ * PERPIXEL_TRANSLUCENT – The underlying platform supports windows with per-pixel translucency. This capability is required to implement windows that fade
+ * away.<br>
+ * PERPIXEL_TRANSPARENT – The underlying platform supports shaped windows.<br>
  *
  * @author Thomas Freese
  */
@@ -31,8 +35,10 @@ public class TranslucentWindowDemo extends JFrame
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
 
+        boolean isWindowTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+
         // If translucent windows aren't supported, exit.
-        if (!gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT))
+        if (!isWindowTranslucencySupported)
         {
             System.err.println("Translucency is not supported");
             System.exit(0);
@@ -61,7 +67,7 @@ public class TranslucentWindowDemo extends JFrame
 
         setLayout(new GridBagLayout());
 
-        setSize(300, 200);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

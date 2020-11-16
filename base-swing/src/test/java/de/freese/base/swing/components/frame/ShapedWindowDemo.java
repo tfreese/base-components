@@ -14,8 +14,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html
- * 
+ * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html<br>
+ * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
+ * PERPIXEL_TRANSLUCENT – The underlying platform supports windows with per-pixel translucency. This capability is required to implement windows that fade
+ * away.<br>
+ * PERPIXEL_TRANSPARENT – The underlying platform supports shaped windows.<br>
+ *
  * @author Thomas Freese
  */
 public class ShapedWindowDemo extends JFrame
@@ -33,10 +37,12 @@ public class ShapedWindowDemo extends JFrame
         // Determine what the GraphicsDevice can support.
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
-        final boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
+
+        boolean isWindowTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+        boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If shaped windows aren't supported, exit.
-        if (!gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSPARENT))
+        if (!isWindowTranslucencySupported)
         {
             System.err.println("Shaped windows are not supported");
             System.exit(0);
@@ -56,7 +62,7 @@ public class ShapedWindowDemo extends JFrame
             // Set the window to 70% translucency, if supported.
             if (isTranslucencySupported)
             {
-                sw.setOpacity(0.7f);
+                sw.setOpacity(0.7F);
             }
 
             // Display the window.
@@ -87,7 +93,7 @@ public class ShapedWindowDemo extends JFrame
         });
 
         setUndecorated(true);
-        setSize(300, 200);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

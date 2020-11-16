@@ -18,7 +18,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html
+ * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html<br>
+ * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
+ * PERPIXEL_TRANSLUCENT – The underlying platform supports windows with per-pixel translucency. This capability is required to implement windows that fade
+ * away.<br>
+ * PERPIXEL_TRANSPARENT – The underlying platform supports shaped windows.<br>
  *
  * @author Thomas Freese
  */
@@ -37,6 +41,7 @@ public class GradientTranslucentWindowDemo extends JFrame
         // Determine what the GraphicsDevice can support.
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
+
         boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
         // If translucent windows aren't supported, exit.
@@ -46,6 +51,7 @@ public class GradientTranslucentWindowDemo extends JFrame
             System.exit(0);
         }
 
+        // Sonst kommt Exception: The frame is decorated
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create the GUI on the event-dispatching thread
@@ -65,7 +71,7 @@ public class GradientTranslucentWindowDemo extends JFrame
         super("GradientTranslucentWindow");
 
         setBackground(new Color(0, 0, 0, 0));
-        setSize(new Dimension(300, 200));
+        setSize(new Dimension(600, 400));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,9 +94,10 @@ public class GradientTranslucentWindowDemo extends JFrame
                     final int G = 240;
                     final int B = 240;
 
-                    Paint p = new GradientPaint(0.0f, 0.0f, new Color(R, G, B, 0), 0.0f, getHeight(), new Color(R, G, B, 255), true);
+                    Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
+                    // Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
                     Graphics2D g2d = (Graphics2D) g;
-                    g2d.setPaint(p);
+                    g2d.setPaint(paint);
                     g2d.fillRect(0, 0, getWidth(), getHeight());
                 }
             }
