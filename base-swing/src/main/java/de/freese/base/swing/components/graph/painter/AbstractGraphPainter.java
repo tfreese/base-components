@@ -69,6 +69,16 @@ public abstract class AbstractGraphPainter implements Painter<GraphModel>
     }
 
     /**
+     * @param y float
+     * @param height float
+     * @return float
+     */
+    protected float getY(final float y, final float height)
+    {
+        return height - y;
+    }
+
+    /**
      * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
      */
     @Override
@@ -79,7 +89,7 @@ public abstract class AbstractGraphPainter implements Painter<GraphModel>
             return;
         }
 
-        translateCoordinates(g, height);
+        // translateCoordinates(g, height);
         configureGraphics(g);
         configureBackground(g, width, height);
 
@@ -90,11 +100,11 @@ public abstract class AbstractGraphPainter implements Painter<GraphModel>
 
     /**
      * @param g {@link Graphics2D}
-     * @param model {@link GraphModel}
+     * @param graphModel {@link GraphModel}
      * @param width int
      * @param height int
      */
-    protected abstract void paintGraph(final Graphics2D g, final GraphModel model, final int width, final int height);
+    protected abstract void paintGraph(final Graphics2D g, final GraphModel graphModel, final int width, final int height);
 
     /**
      * Color, GradientPaint

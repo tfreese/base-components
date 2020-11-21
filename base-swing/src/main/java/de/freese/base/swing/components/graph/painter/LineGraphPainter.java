@@ -46,26 +46,33 @@ public class LineGraphPainter extends AbstractGraphPainter
      *      de.freese.base.swing.components.graph.model.GraphModel, int, int)
      */
     @Override
-    protected void paintGraph(final Graphics2D g, final GraphModel model, final int width, final int height)
+    protected void paintGraph(final Graphics2D g, final GraphModel graphModel, final int width, final int height)
     {
-        int xStart = width - model.size(); // Diagramm von rechts aufbauen.
-        // int xStart = 0; // Diagramm von links aufbauen.
+        float[] values = graphModel.getValues(width);
 
-        g.setPaint(new GradientPaint(0, 0, Color.GREEN, 0, height, Color.RED));
+        int xOffset = width - values.length; // Diagramm von rechts aufbauen.
+        // int xOffset = 0; // Diagramm von links aufbauen.
 
-        float yValueLast = model.getYKoordinate(0, height);
+        g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
-        for (int i = 1; i < model.size(); i++)
+        float yLast = graphModel.getYKoordinate(values[0], height);
+
+        for (int i = 1; i < values.length; i++)
         {
-            // float yValue = yStart + (graphHeight * getValues().get(i));
+            float value = values[i];
+            // float y = xOffset + (height * value);
 
-            float yValue = model.getYKoordinate(i, height);
+            float x = graphModel.getXKoordinate(value, i, width);
+            float y = graphModel.getYKoordinate(value, height);
 
-            this.line2d.setLine((xStart + i) - 1, yValueLast, xStart + i, yValue);
+            x += xOffset;
+            y = getY(y, height);
+
+            this.line2d.setLine(x - 1, yLast, x, y);
             g.draw(this.line2d);
-            // g.drawLine((xStart + i) - 1, (int) yValueLast, xStart + i, (int) yValue);
+            // g.drawLine(x - 1, (int) yLast, x, (int) y);
 
-            yValueLast = yValue;
+            yLast = y;
         }
     }
 }

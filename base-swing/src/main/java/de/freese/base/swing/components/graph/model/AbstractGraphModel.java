@@ -3,12 +3,23 @@ package de.freese.base.swing.components.graph.model;
 
 import java.util.LinkedList;
 import java.util.TreeSet;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author Thomas Freese
  */
 public abstract class AbstractGraphModel implements GraphModel
 {
+    /**
+     *
+     */
+    private final ReentrantLock lock = new ReentrantLock(true);
+
+    /**
+     *
+     */
+    private int size;
+
     /**
     *
     */
@@ -17,7 +28,7 @@ public abstract class AbstractGraphModel implements GraphModel
     /**
     *
     */
-    private final LinkedList<Float> values = new LinkedList<>();
+    private final LinkedList<Float> valueList = new LinkedList<>();
 
     /**
      * Erstellt ein neues {@link AbstractGraphModel} Object.
@@ -28,15 +39,36 @@ public abstract class AbstractGraphModel implements GraphModel
     }
 
     /**
-     * @see de.freese.base.swing.components.graph.model.GraphModel#addValue(float, int)
+     * @param value float
      */
-    @Override
-    public void addValue(final float value, final int size)
+    protected void addValue(final float value)
     {
-        setNewSize(size);
+        getLock().lock();
 
-        getValues().add(value);
-        getTreeSet().add(value);
+        try
+        {
+            while (getValueList().size() > size())
+            {
+                float oldValue = getValueList().removeFirst();
+
+                getTreeSet().remove(oldValue);
+            }
+
+            getValueList().add(value);
+            getTreeSet().add(value);
+        }
+        finally
+        {
+            getLock().unlock();
+        }
+    }
+
+    /**
+     * @return {@link ReentrantLock}
+     */
+    protected ReentrantLock getLock()
+    {
+        return this.lock;
     }
 
     /**
@@ -70,23 +102,45 @@ public abstract class AbstractGraphModel implements GraphModel
     /**
      * @return LinkedList<Float>
      */
-    protected LinkedList<Float> getValues()
+    protected LinkedList<Float> getValueList()
     {
-        return this.values;
+        return this.valueList;
     }
 
     /**
-     * @see de.freese.base.swing.components.graph.model.GraphModel#setNewSize(int)
+     * @see de.freese.base.swing.components.graph.model.GraphModel#getValues(int)
      */
     @Override
-    public void setNewSize(final int size)
+    public float[] getValues(final int count)
     {
-        while (getValues().size() > size)
-        {
-            float value = getValues().removeFirst();
+        getLock().lock();
 
-            getTreeSet().remove(value);
+        try
+        {
+            int n = Math.min(count, getValueList().size());
+
+            float[] values = new float[n];
+
+            for (int i = n - 1; i >= 0; i--)
+            {
+                values[i] = getValueList().get(i);
+            }
+
+            return values;
         }
+        finally
+        {
+            getLock().unlock();
+        }
+    }
+
+    /**
+     * @see de.freese.base.swing.components.graph.model.GraphModel#setSize(int)
+     */
+    @Override
+    public void setSize(final int size)
+    {
+        this.size = size;
     }
 
     /**
@@ -95,6 +149,6 @@ public abstract class AbstractGraphModel implements GraphModel
     @Override
     public int size()
     {
-        return getValues().size();
+        return Math.min(this.size, getValueList().size());
     }
 }

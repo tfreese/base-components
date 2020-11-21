@@ -9,9 +9,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
+import javax.swing.Painter;
 import javax.swing.SwingUtilities;
 import de.freese.base.swing.components.graph.model.AbstractGraphModel;
-import de.freese.base.swing.components.graph.model.DefaultGraphModel;
 import de.freese.base.swing.components.graph.model.GraphModel;
 import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
 
@@ -33,21 +33,45 @@ public abstract class AbstractGraphComponent extends Component
     /**
      *
      */
-    private final AbstractGraphPainter painter;
+    private final Painter<GraphModel> painter;
 
     /**
      * Erstellt ein neues {@link AbstractGraphComponent} Object.
      *
+     * @param graphModel {@link GraphModel}
      * @param painter {@link AbstractGraphPainter}
      */
-    public AbstractGraphComponent(final AbstractGraphPainter painter)
+    public AbstractGraphComponent(final GraphModel graphModel, final Painter<GraphModel> painter)
     {
         super();
 
+        this.graphModel = Objects.requireNonNull(graphModel, "graphModel required");
         this.painter = Objects.requireNonNull(painter, "painter required");
 
-        this.graphModel = new DefaultGraphModel();
+        init();
+    }
 
+    /**
+     * @return {@link AbstractGraphModel}
+     */
+    protected GraphModel getGraphModel()
+    {
+        return this.graphModel;
+    }
+
+    /**
+     * @return {@link Painter}<GraphModel>
+     */
+    protected Painter<GraphModel> getPainter()
+    {
+        return this.painter;
+    }
+
+    /**
+     *
+     */
+    protected void init()
+    {
         addComponentListener(new ComponentAdapter()
         {
             /**
@@ -92,14 +116,6 @@ public abstract class AbstractGraphComponent extends Component
     }
 
     /**
-     * @return {@link AbstractGraphModel}
-     */
-    protected GraphModel getGraphModel()
-    {
-        return this.graphModel;
-    }
-
-    /**
      * @param event {@link ComponentEvent}
      */
     protected void onComponentHidden(final ComponentEvent event)
@@ -112,7 +128,7 @@ public abstract class AbstractGraphComponent extends Component
      */
     protected void onComponentResized(final ComponentEvent event)
     {
-        getGraphModel().setNewSize(getWidth());
+        getGraphModel().setSize(getWidth());
     }
 
     /**
@@ -120,7 +136,7 @@ public abstract class AbstractGraphComponent extends Component
      */
     protected void onComponentShown(final ComponentEvent event)
     {
-        // Empty
+        getGraphModel().setSize(getWidth());
     }
 
     /**
@@ -141,16 +157,14 @@ public abstract class AbstractGraphComponent extends Component
 
         Graphics2D g2d = (Graphics2D) g;
 
-        this.painter.paint(g2d, getGraphModel(), getWidth(), getHeight());
+        getPainter().paint(g2d, getGraphModel(), getWidth(), getHeight());
     }
 
     /**
-     * @param value float
+     * Führt den Repaint immer im EDT aus.
      */
-    public void setValue(final float value)
+    public void paintGraph()
     {
-        getGraphModel().addValue(value, getWidth());
-
         if (SwingUtilities.isEventDispatchThread())
         {
             repaint();

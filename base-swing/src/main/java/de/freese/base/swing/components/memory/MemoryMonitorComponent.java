@@ -222,6 +222,8 @@ public class MemoryMonitorComponent extends JComponent
 
         g.drawImage(this.bufferedImage, 0, 0, this);
         // g.drawImage(this.bufferedImage, 0, 0, getWidth(), getHeight(), null);
+
+        g.dispose();
     }
 
     /**

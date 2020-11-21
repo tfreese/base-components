@@ -13,8 +13,8 @@ import de.freese.base.swing.components.graph.model.GraphModel;
 public class BarGraphPainter extends AbstractGraphPainter
 {
     /**
-     *
-     */
+    *
+    */
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
     /**
@@ -23,6 +23,7 @@ public class BarGraphPainter extends AbstractGraphPainter
     public BarGraphPainter()
     {
         super();
+
     }
 
     /**
@@ -30,20 +31,28 @@ public class BarGraphPainter extends AbstractGraphPainter
      *      de.freese.base.swing.components.graph.model.GraphModel, int, int)
      */
     @Override
-    protected void paintGraph(final Graphics2D g, final GraphModel model, final int width, final int height)
+    protected void paintGraph(final Graphics2D g, final GraphModel graphModel, final int width, final int height)
     {
-        int xStart = width - model.size(); // Diagramm von rechts aufbauen.
-        // int xStart = 0; // Diagramm von links aufbauen.
+        float[] values = graphModel.getValues(width);
 
-        g.setPaint(new GradientPaint(0, 0, Color.GREEN, 0, height, Color.RED));
+        int xOffset = width - values.length; // Diagramm von rechts aufbauen.
+        // int xOffset = 0; // Diagramm von links aufbauen.
 
-        for (int i = 0; i < model.size(); i++)
+        g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
+
+        for (int i = 0; i < values.length; i++)
         {
-            float yValue = model.getYKoordinate(i, height);
+            float value = values[i];
 
-            // g.fillRect(xStart + i, -1, 1, (int) yValue);
+            float x = graphModel.getXKoordinate(value, i, width);
+            float y = graphModel.getYKoordinate(value, height);
 
-            this.rectangle2d.setRect(xStart + i, -1, 1, yValue);
+            x += xOffset;
+            y = getY(y, height);
+
+            // g.fillRect(y, 0, 1, (int) y);
+
+            this.rectangle2d.setRect(x, y, 1, height);
             g.fill(this.rectangle2d);
         }
     }

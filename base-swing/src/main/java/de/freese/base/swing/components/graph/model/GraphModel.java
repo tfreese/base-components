@@ -7,22 +7,37 @@ package de.freese.base.swing.components.graph.model;
 public interface GraphModel
 {
     /**
-     * @param value float
-     * @param size int; max. Anzahl der Daten
+     * Neuen Wert erzeugen.
      */
-    public void addValue(float value, int size);
+    public void generateValue();
 
     /**
-     * @param index int
+     * Liefert max. die letzten n Values.
+     *
+     * @param count int
+     * @return float[]
+     */
+    public float[] getValues(int count);
+
+    /**
+     * @param value float
+     * @param index int; the n-th Value
+     * @param graphWitdh float
+     * @return float
+     */
+    public float getXKoordinate(float value, int index, float graphWitdh);
+
+    /**
+     * @param value float
      * @param graphHeight float
      * @return float
      */
-    public float getYKoordinate(int index, float graphHeight);
+    public float getYKoordinate(float value, float graphHeight);
 
     /**
      * @param size int; max. Anzahl der Daten
      */
-    public void setNewSize(int size);
+    public void setSize(int size);
 
     /**
      * @return int
