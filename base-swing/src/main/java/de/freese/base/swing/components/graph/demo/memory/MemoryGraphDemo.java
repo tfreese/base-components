@@ -6,10 +6,8 @@ import java.net.URL;
 import java.util.concurrent.Executors;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.Painter;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import de.freese.base.swing.components.graph.model.GraphModel;
 
 /**
  * @author Thomas Freese
@@ -21,10 +19,7 @@ public final class MemoryGraphDemo
      */
     public static void main(final String[] args)
     {
-        MemoryGraphModel graphModel = new MemoryGraphModel();
-        Painter<GraphModel> graphPainter = new MemoryGraphPainter();
-
-        MemoryGraphComponent memoryGraph = new MemoryGraphComponent(graphModel, graphPainter, Executors.newScheduledThreadPool(2));
+        MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
         memoryGraph.setBackground(Color.BLACK);
 
         JFrame frame = new JFrame("Memory Monitor");

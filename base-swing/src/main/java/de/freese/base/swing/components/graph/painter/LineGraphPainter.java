@@ -2,10 +2,13 @@
 package de.freese.base.swing.components.graph.painter;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import de.freese.base.swing.components.graph.model.GraphModel;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
@@ -17,56 +20,58 @@ public class LineGraphPainter extends AbstractGraphPainter
     */
     private final Line2D line2d = new Line2D.Float();
 
-    // /**
-    // * Color, GradientPaint
-    // */
-    // private final Paint paint;
+    /**
+    *
+    */
+    private final Supplier<Float> valueSupplier;
 
     /**
      * Erstellt ein neues {@link LineGraphPainter} Object.
+     *
+     * @param valueSupplier {@link Supplier}
      */
-    public LineGraphPainter()
+    public LineGraphPainter(final Supplier<Float> valueSupplier)
     {
         super();
+
+        this.valueSupplier = Objects.requireNonNull(valueSupplier, "valueSupplier required");
     }
 
-    // /**
-    // * Erstellt ein neues {@link LineGraphPainter} Object.
-    // * @param paint {@link Paint}
-    // */
-    // public LineGraphPainter(final Paint paint)
-    // {
-    // super();
-    //
-    // this.paint = Objects.requireNonNull(paint, "paint required");
-    // }
-
     /**
-     * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D,
-     *      de.freese.base.swing.components.graph.model.GraphModel, int, int)
+     * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#generateValue(int)
      */
     @Override
-    protected void paintGraph(final Graphics2D g, final GraphModel graphModel, final int width, final int height)
+    protected void generateValue(final int width)
     {
-        float[] values = graphModel.getValues(width);
+        float value = this.valueSupplier.get();
 
-        int xOffset = width - values.length; // Diagramm von rechts aufbauen.
-        // int xOffset = 0; // Diagramm von links aufbauen.
+        addValue(value, width);
+    }
+
+    /**
+     * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
+     */
+    @Override
+    protected void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
+    {
+        List<Float> values = getLastValues((int) width);
+
+        float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
+        // float xOffset = 0F; // Diagramm von links aufbauen.
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
-        float yLast = graphModel.getYKoordinate(values[0], height);
+        float yLast = getYKoordinate(values.get(0), height);
 
-        for (int i = 1; i < values.length; i++)
+        for (int i = 1; i < values.size(); i++)
         {
-            float value = values[i];
+            float value = values.get(i);
             // float y = xOffset + (height * value);
 
-            float x = graphModel.getXKoordinate(value, i, width);
-            float y = graphModel.getYKoordinate(value, height);
+            float x = getXKoordinate(value, i, width);
+            float y = getYKoordinate(value, height);
 
             x += xOffset;
-            y = getY(y, height);
 
             this.line2d.setLine(x - 1, yLast, x, y);
             g.draw(this.line2d);

@@ -2,16 +2,17 @@
 package de.freese.base.swing.components.graph.painter;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import javax.swing.Painter;
-import de.freese.base.swing.components.graph.model.GraphModel;
+import de.freese.base.swing.components.graph.model.AbstractPainterModel;
 
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractGraphPainter implements Painter<GraphModel>
+public abstract class AbstractGraphPainter extends AbstractPainterModel implements Painter<Component>
 {
     /**
      * Color, GradientPaint
@@ -69,42 +70,28 @@ public abstract class AbstractGraphPainter implements Painter<GraphModel>
     }
 
     /**
-     * @param y float
-     * @param height float
-     * @return float
-     */
-    protected float getY(final float y, final float height)
-    {
-        return height - y;
-    }
-
-    /**
      * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
      */
     @Override
-    public void paint(final Graphics2D g, final GraphModel model, final int width, final int height)
+    public void paint(final Graphics2D g, final Component parent, final int width, final int height)
     {
-        if (model.size() == 0)
-        {
-            return;
-        }
+        generateValue(width);
 
-        // translateCoordinates(g, height);
         configureGraphics(g);
         configureBackground(g, width, height);
 
-        paintGraph(g, model, width, height);
+        paintGraph(g, parent, width, height);
 
-        g.dispose();
+        g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
     }
 
     /**
      * @param g {@link Graphics2D}
-     * @param graphModel {@link GraphModel}
-     * @param width int
-     * @param height int
+     * @param parent {@link Component}
+     * @param width float
+     * @param height float
      */
-    protected abstract void paintGraph(final Graphics2D g, final GraphModel graphModel, final int width, final int height);
+    protected abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
 
     /**
      * Color, GradientPaint
