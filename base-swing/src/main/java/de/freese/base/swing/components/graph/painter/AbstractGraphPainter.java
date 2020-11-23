@@ -4,7 +4,6 @@ package de.freese.base.swing.components.graph.painter;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.RenderingHints;
 import javax.swing.Painter;
 import de.freese.base.swing.components.graph.model.AbstractPainterModel;
@@ -14,11 +13,6 @@ import de.freese.base.swing.components.graph.model.AbstractPainterModel;
  */
 public abstract class AbstractGraphPainter extends AbstractPainterModel implements Painter<Component>
 {
-    /**
-     * Color, GradientPaint
-     */
-    private Paint backgroundPaint;
-
     /**
      * Erstellt ein neues {@link AbstractGraphPainter} Object.
      */
@@ -34,22 +28,16 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
      */
     protected void configureBackground(final Graphics2D g, final int width, final int height)
     {
+        // Paint = Color, GradientPaint, ...
+
         // final int R = 240;
         // final int G = 240;
         // final int B = 240;
         // GradientPaint translucentPaint = new GradientPaint(0, 0, new Color(R, G, B, 0), 0, height, new Color(R, G, B, 150));
         // g.setPaint(translucentPaint);
 
-        if (getBackgroundPaint() != null)
-        {
-            g.setPaint(new Color(0, 0, 0, 0));
-            g.fillRect(0, 0, width, height);
-        }
-        else
-        {
-            g.setBackground(Color.BLACK);
-            g.clearRect(0, 0, width, height);
-        }
+        g.setBackground(Color.BLACK);
+        g.clearRect(0, 0, width, height);
     }
 
     /**
@@ -59,14 +47,6 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-    }
-
-    /**
-     * @return {@link Paint}
-     */
-    protected Paint getBackgroundPaint()
-    {
-        return this.backgroundPaint;
     }
 
     /**
@@ -92,16 +72,6 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
      * @param height float
      */
     protected abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
-
-    /**
-     * Color, GradientPaint
-     *
-     * @param backgroundPaint {@link Paint}
-     */
-    public void setBackgroundPaint(final Paint backgroundPaint)
-    {
-        this.backgroundPaint = backgroundPaint;
-    }
 
     /**
      * Koordinatenursprung von oben links nach unten links verlegen.

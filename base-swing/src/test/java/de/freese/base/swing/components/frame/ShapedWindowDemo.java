@@ -38,11 +38,11 @@ public class ShapedWindowDemo extends JFrame
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-        boolean isWindowTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+        boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
         boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If shaped windows aren't supported, exit.
-        if (!isWindowTranslucencySupported)
+        if (!isPerPixelTranslucencySupported)
         {
             System.err.println("Shaped windows are not supported");
             System.exit(0);

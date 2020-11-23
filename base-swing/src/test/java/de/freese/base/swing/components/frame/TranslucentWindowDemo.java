@@ -35,10 +35,10 @@ public class TranslucentWindowDemo extends JFrame
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-        boolean isWindowTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+        boolean translucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If translucent windows aren't supported, exit.
-        if (!isWindowTranslucencySupported)
+        if (!translucencySupported)
         {
             System.err.println("Translucency is not supported");
             System.exit(0);

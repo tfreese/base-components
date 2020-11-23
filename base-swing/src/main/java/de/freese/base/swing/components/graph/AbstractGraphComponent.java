@@ -20,6 +20,16 @@ public abstract class AbstractGraphComponent extends Component
      */
     private static final long serialVersionUID = -7006824316195250962L;
 
+    // /**
+    // *
+    // */
+    // private BufferedImage bufferedImage;
+    //
+    // /**
+    // *
+    // */
+    // private Graphics2D bufferedImageGraphic2d;
+
     /**
      *
      */
@@ -74,17 +84,49 @@ public abstract class AbstractGraphComponent extends Component
     }
 
     /**
+     * Nur verwenden wenn Klasse von Component vererbt !!!
+     *
      * @see java.awt.Component#paint(java.awt.Graphics)
      */
     @Override
     public void paint(final Graphics g)
     {
-        // g.drawImage(getBufferedImage(), 0, 0, this);
+        // super.paint(g);
+
+        // if (this.bufferedImage == null)
+        // {
+        // // this.bufferedImage = (BufferedImage) createImage(getWidth(), getHeight());
+        // // this.bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        // this.bufferedImage = getGraphicsConfiguration().createCompatibleImage(getWidth(), getHeight(), Transparency.TRANSLUCENT);
+        // this.bufferedImageGraphic2d = this.bufferedImage.createGraphics();
+        // }
+        //
+        // getPainter().paint(this.bufferedImageGraphic2d, this, getWidth(), getHeight());
+        // g.drawImage(this.bufferedImage, 0, 0, this);
 
         Graphics2D g2d = (Graphics2D) g;
 
         getPainter().paint(g2d, this, getWidth(), getHeight());
     }
+
+    // /**
+    // * Nur verwenden wenn Klasse von JComponent vererbt !!!
+    // *
+    // * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+    // */
+    // @Override
+    // protected void paintComponent(final Graphics g)
+    // {
+    // // super.paintComponent(g);
+    //
+    // System.out.println("AbstractGraphComponent.paintComponent(): " + getBackground());
+    //
+    // // g.drawImage(getBufferedImage(), 0, 0, this);
+    //
+    // Graphics2D g2d = (Graphics2D) g;
+    //
+    // getPainter().paint(g2d, this, getWidth(), getHeight());
+    // }
 
     /**
      * Führt den Repaint immer im EDT aus.
