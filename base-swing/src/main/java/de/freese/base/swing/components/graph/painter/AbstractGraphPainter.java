@@ -1,7 +1,6 @@
 // Created: 16.11.2020
 package de.freese.base.swing.components.graph.painter;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -22,6 +21,8 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     }
 
     /**
+     * Der Default-Background wird vom Panel/Frame entnommen.
+     *
      * @param g {@link Graphics2D}
      * @param width int
      * @param height int
@@ -36,8 +37,15 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         // GradientPaint translucentPaint = new GradientPaint(0, 0, new Color(R, G, B, 0), 0, height, new Color(R, G, B, 150));
         // g.setPaint(translucentPaint);
 
-        g.setBackground(Color.BLACK);
+        // Ohne transparenten Background reicht ein clear.
         g.clearRect(0, 0, width, height);
+
+        // Für transparenten Background bei BufferedImage.
+        // g.setComposite(AlphaComposite.Clear);
+        // g.fillRect(0, 0, width, height);
+
+        // Für Foreground bei BufferedImage.
+        // g.setComposite(AlphaComposite.Src);
     }
 
     /**
@@ -62,7 +70,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
 
         paintGraph(g, parent, width, height);
 
-        g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
+        // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
     }
 
     /**

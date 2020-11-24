@@ -20,10 +20,17 @@ public final class MemoryGraphDemo
     public static void main(final String[] args)
     {
         MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
-        memoryGraph.setBackground(Color.BLACK);
 
         JFrame frame = new JFrame("Memory Monitor");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setBackground(Color.BLACK);
+
+        // frame.setUndecorated(true);
+        // frame.setOpacity(0.55F);
+        frame.setResizable(true);
+        frame.add(memoryGraph);
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
 
         try
         {
@@ -43,12 +50,6 @@ public final class MemoryGraphDemo
         {
             // Empty
         }
-        // frame.setUndecorated(true);
-        // frame.setOpacity(0.55F);
-        frame.setResizable(true);
-        frame.getContentPane().add(memoryGraph);
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null);
 
         SwingUtilities.invokeLater(() -> {
             frame.setVisible(true);

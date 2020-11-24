@@ -6,8 +6,6 @@ import java.awt.GridLayout;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -25,21 +23,7 @@ public final class RandomGraphDemo
      */
     public static void main(final String[] args)
     {
-        // Damit beide Diagramme den gleichen Wert darstellen.
-        AtomicReference<Float> ref = new AtomicReference<>();
-
-        // Werte-Bereich: 0 - 1
-        Supplier<Float> valueSupplier = () -> {
-
-            if (ref.get() == null)
-            {
-                ref.set((float) Math.random());
-            }
-
-            return ref.get();
-        };
-
-        DefaultGraphComponent barGraph = new DefaultGraphComponent(new BarGraphPainter(valueSupplier)
+        DefaultGraphComponent barGraph = new DefaultGraphComponent(new BarGraphPainter(new SinusValueSupplier())
         {
             /**
              * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
@@ -47,13 +31,17 @@ public final class RandomGraphDemo
             @Override
             protected float getYKoordinate(final float value, final float height)
             {
-                // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
-                return value * height;
+                // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
+                // return value * height;
+
+                // Sinus: X-Achse auf halber Höhe
+                float middle = height / 2F;
+
+                return (value * middle) + middle;
             }
         });
-        barGraph.setBackground(Color.BLACK);
 
-        DefaultGraphComponent lineGraph = new DefaultGraphComponent(new LineGraphPainter(valueSupplier)
+        DefaultGraphComponent lineGraph = new DefaultGraphComponent(new LineGraphPainter(new SinusValueSupplier())
         {
             /**
              * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
@@ -61,18 +49,20 @@ public final class RandomGraphDemo
             @Override
             protected float getYKoordinate(final float value, final float height)
             {
-                // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
-                return value * height;
+                // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
+                // return value * height;
+
+                // Sinus: X-Achse auf halber Höhe
+                float middle = height / 2F;
+
+                return (value * middle) + middle;
             }
         });
-        lineGraph.setBackground(Color.BLACK);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         scheduledExecutorService.scheduleWithFixedDelay(() -> {
             lineGraph.paintGraph();
             barGraph.paintGraph();
-
-            SwingUtilities.invokeLater(() -> ref.set(null));
         }, 500, 40, TimeUnit.MILLISECONDS);
 
         JFrame frame = new JFrame("Random Monitor");
@@ -80,10 +70,11 @@ public final class RandomGraphDemo
         // frame.setUndecorated(true);
         // frame.setOpacity(0.55F);
         frame.setResizable(true);
+        frame.setBackground(Color.BLACK);
 
         frame.setLayout(new GridLayout(2, 1));
-        frame.getContentPane().add(lineGraph);
-        frame.getContentPane().add(barGraph);
+        frame.add(lineGraph);
+        frame.add(barGraph);
         frame.setSize(600, 800);
         frame.setLocationRelativeTo(null);
 

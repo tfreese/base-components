@@ -14,10 +14,12 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import de.freese.base.swing.components.graph.DefaultGraphComponent;
+import de.freese.base.swing.components.graph.demo.SinusValueSupplier;
 import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
 
 /**
@@ -36,25 +38,24 @@ public final class JConky
         private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
         /**
+         *
+         */
+        private final Supplier<Float> valueSupplier = new SinusValueSupplier();
+
+        /**
          * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#configureBackground(java.awt.Graphics2D, int, int)
          */
         @Override
         protected void configureBackground(final Graphics2D g, final int width, final int height)
         {
-            // Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0F, height, new Color(100, 100, 100, 100), true);
-            // g.setPaint(paint);
+            super.configureBackground(g, width, height);
+
+            // // Für transparenten Background bei BufferedImage.
+            // g.setComposite(AlphaComposite.Clear);
             // g.fillRect(0, 0, width, height);
 
-            // System.out.println("JConky.JConkyPainter.configureBackground(): " + g.getBackground());
-
-            // g.setPaint(COLOR_FRAME_BACKGROUND);
-            g.clearRect(0, 0, width, height);
-
-            // g.setColor(COLOR_FRAME_BACKGROUND);
-            // g.setBackground(COLOR_FRAME_BACKGROUND);
-            // g.fillRect(0, 0, width, height);
-
-            // super.configureBackground(g, width, height);
+            // // Für Foreground bei BufferedImage.
+            // g.setComposite(AlphaComposite.Src);
         }
 
         /**
@@ -63,9 +64,21 @@ public final class JConky
         @Override
         protected void generateValue(final int width)
         {
-            float value = (float) Math.random();
+            float value = this.valueSupplier.get();
 
             addValue(value, width);
+        }
+
+        /**
+         * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
+         */
+        @Override
+        protected float getYKoordinate(final float value, final float height)
+        {
+            // Sinus: X-Achse auf halber Höhe
+            float middle = height / 2F;
+
+            return (value * middle) + middle;
         }
 
         /**
@@ -74,8 +87,6 @@ public final class JConky
         @Override
         protected void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
         {
-            // System.out.println("JConky.JConkyPainter.paintGraph(): " + g.getBackground());
-
             List<Float> values = getLastValues((int) width);
 
             float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
@@ -101,11 +112,6 @@ public final class JConky
     }
 
     /**
-     *
-     */
-    private static final Color COLOR_FRAME_BACKGROUND = new Color(0, 0, 0, 75);
-
-    /**
      * @param args String[]
      */
     public static void main(final String[] args)
@@ -127,16 +133,18 @@ public final class JConky
             }
         }
 
-        DefaultGraphComponent graph = new DefaultGraphComponent(new JConkyPainter());
-        // graph.setDoubleBuffered(true);
-        // graph.setOpaque(true);
-        // graph.setBackground(COLOR_FRAME_BACKGROUNF);
+        JConkyPainter painter = new JConkyPainter();
+        DefaultGraphComponent graph = new DefaultGraphComponent(painter);
+        graph.useBufferedImage(false);
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        scheduledExecutorService.scheduleWithFixedDelay(graph::paintGraph, 500, 100, TimeUnit.MILLISECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            // painter.generateValue(graph.getWidth());
+            graph.paintGraph();
+        }, 500, 3000, TimeUnit.MILLISECONDS);
 
         // jConky immer auf dem 2. Monitor.
-        final GraphicsDevice graphicsDevice = gds[0];
+        final GraphicsDevice graphicsDevice = gds[1];
         GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
 
         // Sonst kommt Exception: The frame is decorated
@@ -146,7 +154,8 @@ public final class JConky
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(335, 1060);
         frame.setResizable(true);
-        frame.setBackground(COLOR_FRAME_BACKGROUND);
+        frame.setBackground(new Color(0, 0, 0, 75));
+        // frame.setBackground(Color.BLACK);
         // frame.setUndecorated(true);
         // frame.setOpacity(0.55F);
 

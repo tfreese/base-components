@@ -10,6 +10,11 @@ import java.util.TreeSet;
  */
 public abstract class AbstractPainterModel
 {
+    // /**
+    // *
+    // */
+    // private final LinkedList<Float> paintList = new LinkedList<>();
+
     /**
     *
     */
@@ -45,6 +50,14 @@ public abstract class AbstractPainterModel
         getTreeSet().add(value);
     }
 
+    // /**
+    // * Neuen Wert erzeugen.
+    // */
+    // public void generateValue()
+    // {
+    // generateValue(Integer.MAX_VALUE);
+    // }
+
     /**
      * Neuen Wert erzeugen.
      *
@@ -61,6 +74,36 @@ public abstract class AbstractPainterModel
     protected List<Float> getLastValues(final int count)
     {
         int n = Math.min(count, getValues().size());
+
+        // final int valuesChanged = this.valuesAdded;
+        //
+        // int oldPaintListsize = this.paintList.size();
+        //
+        // // Alte Werte seit dem letzten Paint entfernen.
+        // if (this.paintList.size() > valuesChanged)
+        // {
+        // for (int i = 0; i < this.valuesAdded; i++)
+        // {
+        // this.paintList.removeFirst();
+        // }
+        // }
+        //
+        // // Neue Werte seit dem letzten Paint hinzufügen.
+        // for (int i = this.paintList.size(); i < n; i++)
+        // {
+        // this.paintList.add(getValues().get((oldPaintListsize + i) - 1));
+        // }
+        //
+        // this.valuesAdded = 0;
+
+        // this.paintList.clear();
+        //
+        // for (int i = 0; i < n; i++)
+        // {
+        // this.paintList.add(getValues().get(i));
+        // }
+
+        // return this.paintList;
 
         return getValues().subList(getValues().size() - n, getValues().size());
     }
