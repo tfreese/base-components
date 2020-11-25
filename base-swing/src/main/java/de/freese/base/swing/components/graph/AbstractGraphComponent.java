@@ -115,7 +115,7 @@ public abstract class AbstractGraphComponent extends Component
     /**
      * @return boolean
      */
-    protected boolean isUseBufferedImage()
+    public boolean isUseBufferedImage()
     {
         return this.useBufferedImage;
     }

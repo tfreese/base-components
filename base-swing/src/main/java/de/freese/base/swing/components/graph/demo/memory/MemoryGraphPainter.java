@@ -58,10 +58,9 @@ public class MemoryGraphPainter extends AbstractGraphPainter
     }
 
     /**
-     * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#generateValue(int)
+     *
      */
-    @Override
-    protected void generateValue(final int width)
+    public void generateValue()
     {
         float freeMemory = getFreeMemory();
         float totalMemory = getTotalMemory();
@@ -69,7 +68,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         // Used Memory in %.
         float value = 1F - (freeMemory / totalMemory);
 
-        addValue(value, width);
+        addValue(value);
     }
 
     /**
@@ -183,6 +182,11 @@ public class MemoryGraphPainter extends AbstractGraphPainter
     private void paintPlot(final Graphics2D g, final float width, final float height)
     {
         List<Float> values = getLastValues((int) width);
+
+        if (values.isEmpty())
+        {
+            return;
+        }
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 

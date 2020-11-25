@@ -10,10 +10,10 @@ import java.util.TreeSet;
  */
 public abstract class AbstractPainterModel
 {
-    // /**
-    // *
-    // */
-    // private final LinkedList<Float> paintList = new LinkedList<>();
+    /**
+    *
+    */
+    private LinkedList<Float> newValues;
 
     /**
     *
@@ -35,35 +35,16 @@ public abstract class AbstractPainterModel
 
     /**
      * @param value float
-     * @param width int: Breite des Graphen
      */
-    protected void addValue(final float value, final int width)
+    public final synchronized void addValue(final float value)
     {
-        while (getValues().size() > width)
+        if (this.newValues == null)
         {
-            float oldValue = getValues().removeFirst();
-
-            getTreeSet().remove(oldValue);
+            this.newValues = new LinkedList<>();
         }
 
-        getValues().add(value);
-        getTreeSet().add(value);
+        this.newValues.add(value);
     }
-
-    // /**
-    // * Neuen Wert erzeugen.
-    // */
-    // public void generateValue()
-    // {
-    // generateValue(Integer.MAX_VALUE);
-    // }
-
-    /**
-     * Neuen Wert erzeugen.
-     *
-     * @param width int: Breite des Graphen
-     */
-    protected abstract void generateValue(int width);
 
     /**
      * Liefert die letzten n Werte.<br>
@@ -71,41 +52,40 @@ public abstract class AbstractPainterModel
      * @param count int
      * @return List<Float>
      */
-    protected List<Float> getLastValues(final int count)
+    protected final synchronized List<Float> getLastValues(final int count)
     {
+        final List<Float> lastValues = this.newValues;
+        this.newValues = null;
+
+        if (lastValues != null)
+        {
+            // Neue Werte hinzufügen.
+            for (Float value : lastValues)
+            {
+                getValues().add(value);
+            }
+        }
+
+        // Alte Werte entfernen.
         int n = Math.min(count, getValues().size());
 
-        // final int valuesChanged = this.valuesAdded;
-        //
-        // int oldPaintListsize = this.paintList.size();
-        //
-        // // Alte Werte seit dem letzten Paint entfernen.
-        // if (this.paintList.size() > valuesChanged)
-        // {
-        // for (int i = 0; i < this.valuesAdded; i++)
-        // {
-        // this.paintList.removeFirst();
-        // }
-        // }
-        //
-        // // Neue Werte seit dem letzten Paint hinzufügen.
-        // for (int i = this.paintList.size(); i < n; i++)
-        // {
-        // this.paintList.add(getValues().get((oldPaintListsize + i) - 1));
-        // }
-        //
-        // this.valuesAdded = 0;
+        while (getValues().size() > n)
+        {
+            float oldValue = getValues().removeFirst();
 
-        // this.paintList.clear();
-        //
-        // for (int i = 0; i < n; i++)
-        // {
-        // this.paintList.add(getValues().get(i));
-        // }
+            getTreeSet().remove(oldValue);
+        }
 
-        // return this.paintList;
+        if (lastValues != null)
+        {
+            // Neue Werte für min.-/max. hinzufügen.
+            for (Float value : lastValues)
+            {
+                getTreeSet().add(value);
+            }
+        }
 
-        return getValues().subList(getValues().size() - n, getValues().size());
+        return getValues();
     }
 
     /**

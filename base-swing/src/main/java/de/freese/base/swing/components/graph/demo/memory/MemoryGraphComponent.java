@@ -1,14 +1,12 @@
 // Created: 21.11.2020
 package de.freese.base.swing.components.graph.demo.memory;
 
-import java.awt.Component;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import javax.swing.Painter;
 import de.freese.base.swing.components.graph.AbstractGraphComponent;
 
 /**
@@ -34,10 +32,10 @@ public class MemoryGraphComponent extends AbstractGraphComponent
     /**
      * Erstellt ein neues {@link MemoryGraphComponent} Object.
      *
-     * @param painter {@link Painter}
+     * @param painter {@link MemoryGraphPainter}
      * @param scheduledExecutorService {@link ScheduledExecutorService}
      */
-    public MemoryGraphComponent(final Painter<Component> painter, final ScheduledExecutorService scheduledExecutorService)
+    public MemoryGraphComponent(final MemoryGraphPainter painter, final ScheduledExecutorService scheduledExecutorService)
     {
         super(painter);
 
@@ -69,7 +67,10 @@ public class MemoryGraphComponent extends AbstractGraphComponent
      */
     public void start()
     {
-        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(this::paintGraph, 500, 40, TimeUnit.MILLISECONDS);
+        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            ((MemoryGraphPainter) getPainter()).generateValue();
+            paintGraph();
+        }, 500, 40, TimeUnit.MILLISECONDS);
     }
 
     /**

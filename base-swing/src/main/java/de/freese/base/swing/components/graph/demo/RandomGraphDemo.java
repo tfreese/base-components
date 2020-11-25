@@ -2,10 +2,14 @@
 package de.freese.base.swing.components.graph.demo;
 
 import java.awt.Color;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsDevice.WindowTranslucency;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -23,7 +27,22 @@ public final class RandomGraphDemo
      */
     public static void main(final String[] args)
     {
-        DefaultGraphComponent barGraph = new DefaultGraphComponent(new BarGraphPainter(new SinusValueSupplier())
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+        GraphicsDevice[] gds = ge.getScreenDevices();
+
+        for (GraphicsDevice gd : gds)
+        {
+            boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+
+            if (!isPerPixelTranslucencySupported)
+            {
+                System.out.println("Per-pixel translucency is not supported on device " + gd.getIDstring());
+                System.exit(0);
+            }
+        }
+
+        LineGraphPainter linePainter = new LineGraphPainter()
         {
             /**
              * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
@@ -39,9 +58,10 @@ public final class RandomGraphDemo
 
                 return (value * middle) + middle;
             }
-        });
+        };
+        DefaultGraphComponent lineGraph = new DefaultGraphComponent(linePainter);
 
-        DefaultGraphComponent lineGraph = new DefaultGraphComponent(new LineGraphPainter(new SinusValueSupplier())
+        BarGraphPainter barPainter = new BarGraphPainter()
         {
             /**
              * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
@@ -57,10 +77,17 @@ public final class RandomGraphDemo
 
                 return (value * middle) + middle;
             }
-        });
+        };
+        DefaultGraphComponent barGraph = new DefaultGraphComponent(barPainter);
+
+        Supplier<Float> valueSupplier = new SinusValueSupplier();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         scheduledExecutorService.scheduleWithFixedDelay(() -> {
+            float value = valueSupplier.get();
+            linePainter.addValue(value);
+            barPainter.addValue(value);
+
             lineGraph.paintGraph();
             barGraph.paintGraph();
         }, 500, 40, TimeUnit.MILLISECONDS);

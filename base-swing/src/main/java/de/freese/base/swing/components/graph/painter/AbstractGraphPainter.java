@@ -1,10 +1,12 @@
 // Created: 16.11.2020
 package de.freese.base.swing.components.graph.painter;
 
+import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.Painter;
+import de.freese.base.swing.components.graph.AbstractGraphComponent;
 import de.freese.base.swing.components.graph.model.AbstractPainterModel;
 
 /**
@@ -24,10 +26,11 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
      * Der Default-Background wird vom Panel/Frame entnommen.
      *
      * @param g {@link Graphics2D}
+     * @param parent {@link Component}
      * @param width int
      * @param height int
      */
-    protected void configureBackground(final Graphics2D g, final int width, final int height)
+    protected void configureBackground(final Graphics2D g, final Component parent, final int width, final int height)
     {
         // Paint = Color, GradientPaint, ...
 
@@ -37,21 +40,28 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         // GradientPaint translucentPaint = new GradientPaint(0, 0, new Color(R, G, B, 0), 0, height, new Color(R, G, B, 150));
         // g.setPaint(translucentPaint);
 
-        // Ohne transparenten Background reicht ein clear.
-        g.clearRect(0, 0, width, height);
+        if ((parent instanceof AbstractGraphComponent) && ((AbstractGraphComponent) parent).isUseBufferedImage())
+        {
+            // Für transparenten Background bei BufferedImage.
+            g.setComposite(AlphaComposite.Clear);
+            g.fillRect(0, 0, width, height);
 
-        // Für transparenten Background bei BufferedImage.
-        // g.setComposite(AlphaComposite.Clear);
-        // g.fillRect(0, 0, width, height);
-
-        // Für Foreground bei BufferedImage.
-        // g.setComposite(AlphaComposite.Src);
+            // Für Foreground bei BufferedImage.
+            g.setComposite(AlphaComposite.Src);
+        }
+        else
+        {
+            // Ohne transparenten Background reicht ein clear.
+            // g.setBackground(parent.getBackground());
+            g.clearRect(0, 0, width, height);
+        }
     }
 
     /**
      * @param g {@link Graphics2D}
+     * @param parent {@link Component}
      */
-    protected void configureGraphics(final Graphics2D g)
+    protected void configureGraphics(final Graphics2D g, final Component parent)
     {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -63,10 +73,8 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     @Override
     public void paint(final Graphics2D g, final Component parent, final int width, final int height)
     {
-        generateValue(width);
-
-        configureGraphics(g);
-        configureBackground(g, width, height);
+        configureGraphics(g, parent);
+        configureBackground(g, parent, width, height);
 
         paintGraph(g, parent, width, height);
 

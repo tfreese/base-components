@@ -7,8 +7,6 @@ import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
@@ -21,31 +19,11 @@ public class BarGraphPainter extends AbstractGraphPainter
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
     /**
-     *
-     */
-    private final Supplier<Float> valueSupplier;
-
-    /**
      * Erstellt ein neues {@link BarGraphPainter} Object.
-     *
-     * @param valueSupplier {@link Supplier}
      */
-    public BarGraphPainter(final Supplier<Float> valueSupplier)
+    public BarGraphPainter()
     {
         super();
-
-        this.valueSupplier = Objects.requireNonNull(valueSupplier, "valueSupplier required");
-    }
-
-    /**
-     * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#generateValue(int)
-     */
-    @Override
-    protected void generateValue(final int width)
-    {
-        float value = this.valueSupplier.get();
-
-        addValue(value, width);
     }
 
     /**
@@ -55,6 +33,11 @@ public class BarGraphPainter extends AbstractGraphPainter
     protected void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
     {
         List<Float> values = getLastValues((int) width);
+
+        if (values.isEmpty())
+        {
+            return;
+        }
 
         float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
         // float xOffset = 0F; // Diagramm von links aufbauen.
