@@ -53,7 +53,7 @@ public final class JConky
          * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
          */
         @Override
-        protected void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
+        public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
         {
             List<Float> values = getLastValues((int) width);
 

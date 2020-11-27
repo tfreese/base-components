@@ -36,7 +36,7 @@ public abstract class AbstractPainterModel
     /**
      * @param value float
      */
-    public final synchronized void addValue(final float value)
+    public synchronized void addValue(final float value)
     {
         if (this.newValues == null)
         {
@@ -52,7 +52,7 @@ public abstract class AbstractPainterModel
      * @param count int
      * @return List<Float>
      */
-    protected final synchronized List<Float> getLastValues(final int count)
+    protected synchronized List<Float> getLastValues(final int count)
     {
         final List<Float> lastValues = this.newValues;
         this.newValues = null;

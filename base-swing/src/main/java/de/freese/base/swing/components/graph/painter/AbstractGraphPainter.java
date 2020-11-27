@@ -87,7 +87,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
      * @param width float
      * @param height float
      */
-    protected abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
+    public abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
 
     /**
      * Koordinatenursprung von oben links nach unten links verlegen.
