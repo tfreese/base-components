@@ -44,17 +44,17 @@ public class LineGraphPainter extends AbstractGraphPainter
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
-        float yLast = getYKoordinate(values.get(0), height);
+        // Sinus: X-Achse auf halber Höhe
+        float middle = height / 2F;
+        float yLast = middle - (values.get(0) * middle);
 
         for (int i = 1; i < values.size(); i++)
         {
             float value = values.get(i);
             // float y = xOffset + (height * value);
 
-            float x = getXKoordinate(value, i, width);
-            float y = getYKoordinate(value, height);
-
-            x += xOffset;
+            float x = i + xOffset;
+            float y = middle - (value * middle);
 
             this.line2d.setLine(x - 1, yLast, x, y);
             g.draw(this.line2d);

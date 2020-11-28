@@ -44,18 +44,25 @@ public class BarGraphPainter extends AbstractGraphPainter
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
+        // Sinus: X-Achse auf halber Höhe
+        float middle = height / 2F;
+
         for (int i = 0; i < values.size(); i++)
         {
             float value = values.get(i);
 
-            float x = getXKoordinate(value, i, width);
-            float y = getYKoordinate(value, height);
+            float x = i + xOffset;
+            float y = Math.abs(value * middle);
 
-            x += xOffset;
+            if (value > 0F)
+            {
+                this.rectangle2d.setRect(x, middle - y, 1, y);
+            }
+            else
+            {
+                this.rectangle2d.setRect(x, middle, 1, y);
+            }
 
-            // g.fillRect(y, 0, 1, (int) y);
-
-            this.rectangle2d.setRect(x, y, 1, height);
             g.fill(this.rectangle2d);
         }
     }
