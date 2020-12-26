@@ -44,7 +44,7 @@ public class Segment7 extends Canvas
     /**
      *
      */
-    private int digit = 0;
+    private int digit;
 
     /**
      *
@@ -85,7 +85,7 @@ public class Segment7 extends Canvas
     };
 
     /**
-     * D
+     *
      */
     private boolean hasfocus;
 
@@ -164,6 +164,7 @@ public class Segment7 extends Canvas
 
         this.digit = digit;
         this.hasfocus = false;
+
         enableEvents(AWTEvent.COMPONENT_EVENT_MASK);
         enableEvents(AWTEvent.FOCUS_EVENT_MASK);
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
@@ -225,8 +226,8 @@ public class Segment7 extends Canvas
         }
 
         for (int i = 0; i < 7; ++i)
-        { // alle Segmente
-
+        {
+            // alle Segmente
             if (this.digits[this.digit][i] == 1)
             {
                 Polygon poly = new Polygon();
