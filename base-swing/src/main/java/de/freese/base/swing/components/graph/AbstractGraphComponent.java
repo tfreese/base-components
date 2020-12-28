@@ -49,7 +49,7 @@ public abstract class AbstractGraphComponent extends Component
      *
      * @param painter {@link Painter}
      */
-    public AbstractGraphComponent(final Painter<Component> painter)
+    protected AbstractGraphComponent(final Painter<Component> painter)
     {
         super();
 

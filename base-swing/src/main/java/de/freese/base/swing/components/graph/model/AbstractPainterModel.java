@@ -28,7 +28,7 @@ public abstract class AbstractPainterModel
     /**
      * Erstellt ein neues {@link AbstractPainterModel} Object.
      */
-    public AbstractPainterModel()
+    protected AbstractPainterModel()
     {
         super();
     }

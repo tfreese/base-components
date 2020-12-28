@@ -17,7 +17,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     /**
      * Erstellt ein neues {@link AbstractGraphPainter} Object.
      */
-    public AbstractGraphPainter()
+    protected AbstractGraphPainter()
     {
         super();
     }
