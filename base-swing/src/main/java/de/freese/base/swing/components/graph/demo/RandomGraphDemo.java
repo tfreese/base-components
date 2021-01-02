@@ -60,6 +60,7 @@ public final class RandomGraphDemo
             }
         };
         DefaultGraphComponent lineGraph = new DefaultGraphComponent(linePainter);
+        lineGraph.useBufferedImage(false);
 
         BarGraphPainter barPainter = new BarGraphPainter()
         {
@@ -79,25 +80,69 @@ public final class RandomGraphDemo
             }
         };
         DefaultGraphComponent barGraph = new DefaultGraphComponent(barPainter);
+        barGraph.useBufferedImage(false);
 
         Supplier<Float> valueSupplier = new SinusValueSupplier();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         scheduledExecutorService.scheduleWithFixedDelay(() -> {
             float value = valueSupplier.get();
-            linePainter.addValue(value);
-            barPainter.addValue(value);
+            linePainter.getValues().addValue(value);
+            barPainter.getValues().addValue(value);
 
             lineGraph.paintGraph();
             barGraph.paintGraph();
         }, 500, 40, TimeUnit.MILLISECONDS);
+
+        boolean translucency = false;
+
+        if (translucency)
+        {
+            // Sonst kommt Exception: The frame is decorated
+            JFrame.setDefaultLookAndFeelDecorated(true);
+        }
 
         JFrame frame = new JFrame("Random Monitor");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // frame.setUndecorated(true);
         // frame.setOpacity(0.55F);
         frame.setResizable(true);
-        frame.setBackground(Color.BLACK);
+
+        if (translucency)
+        {
+            frame.setBackground(new Color(0, 0, 0, 0));
+            frame.setIgnoreRepaint(true);
+        }
+        else
+        {
+            frame.setBackground(Color.BLACK);
+        }
+
+        // if (frame.getGraphicsConfiguration().getBufferCapabilities().isPageFlipping())
+        // {
+        // try
+        // { // no pageflipping available with opengl
+        // BufferCapabilities cap =
+        // new BufferCapabilities(new ImageCapabilities(true), new ImageCapabilities(true), BufferCapabilities.FlipContents.BACKGROUND);
+        // // ExtendedBufferCapabilities is supposed to do a vsync
+        // ExtendedBufferCapabilities ebc = new ExtendedBufferCapabilities(cap, ExtendedBufferCapabilities.VSyncType.VSYNC_ON);
+        //
+        // if (!VSyncedBSManager.vsyncAllowed(ebc))
+        // {
+        // ebc = ebc.derive(ExtendedBufferCapabilities.VSyncType.VSYNC_DEFAULT);
+        // }
+        //
+        // frame.createBufferStrategy(2, ebc);
+        // }
+        // catch (AWTException ex)
+        // {
+        // ex.printStackTrace();
+        // }
+        // }
+        // else
+        // {
+        // frame.createBufferStrategy(2);
+        // }
 
         frame.setLayout(new GridLayout(2, 1));
         frame.add(lineGraph);

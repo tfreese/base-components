@@ -68,7 +68,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         // Used Memory in %.
         float value = 1F - (freeMemory / totalMemory);
 
-        addValue(value);
+        getValues().addValue(value);
     }
 
     /**
@@ -181,7 +181,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter
      */
     private void paintPlot(final Graphics2D g, final float width, final float height)
     {
-        List<Float> values = getLastValues((int) width);
+        List<Float> values = getValues().getLastValues((int) width);
 
         if (values.isEmpty())
         {

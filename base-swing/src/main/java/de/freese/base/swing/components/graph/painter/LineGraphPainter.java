@@ -32,7 +32,7 @@ public class LineGraphPainter extends AbstractGraphPainter
     @Override
     public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
     {
-        List<Float> values = getLastValues((int) width);
+        List<Float> values = getValues().getLastValues((int) width);
 
         if (values.isEmpty())
         {

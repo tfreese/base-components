@@ -1,10 +1,6 @@
 // Created: 15.11.2020
 package de.freese.base.swing.components.graph.model;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
-
 /**
  * @author Thomas Freese
  */
@@ -13,17 +9,7 @@ public abstract class AbstractPainterModel
     /**
     *
     */
-    private LinkedList<Float> newValues;
-
-    /**
-    *
-    */
-    private final TreeSet<Float> treeSet = new TreeSet<>();
-
-    /**
-    *
-    */
-    private final LinkedList<Float> valueList = new LinkedList<>();
+    private final Values<Float> values = new Values<>();
 
     /**
      * Erstellt ein neues {@link AbstractPainterModel} Object.
@@ -34,94 +20,11 @@ public abstract class AbstractPainterModel
     }
 
     /**
-     * @param value float
+     * @return {@link Values}
      */
-    public synchronized void addValue(final float value)
+    public Values<Float> getValues()
     {
-        if (this.newValues == null)
-        {
-            this.newValues = new LinkedList<>();
-        }
-
-        this.newValues.add(value);
-    }
-
-    /**
-     * Liefert die letzten n Werte.<br>
-     *
-     * @param count int
-     * @return List<Float>
-     */
-    protected synchronized List<Float> getLastValues(final int count)
-    {
-        final List<Float> lastValues = this.newValues;
-        this.newValues = null;
-
-        if (lastValues != null)
-        {
-            // Neue Werte hinzufügen.
-            for (Float value : lastValues)
-            {
-                getValues().add(value);
-            }
-        }
-
-        // Alte Werte entfernen.
-        int n = Math.min(count, getValues().size());
-
-        while (getValues().size() > n)
-        {
-            float oldValue = getValues().removeFirst();
-
-            getTreeSet().remove(oldValue);
-        }
-
-        if (lastValues != null)
-        {
-            // Neue Werte für min.-/max. hinzufügen.
-            for (Float value : lastValues)
-            {
-                getTreeSet().add(value);
-            }
-        }
-
-        return getValues();
-    }
-
-    /**
-     * @return float
-     */
-    protected float getMaxValue()
-    {
-        float maxValue = getTreeSet().last();
-
-        return maxValue;
-    }
-
-    /**
-     * @return float
-     */
-    protected float getMinValue()
-    {
-        float minValue = getTreeSet().first();
-
-        return minValue;
-    }
-
-    /**
-     * @return {@link TreeSet}<Float>
-     */
-    private TreeSet<Float> getTreeSet()
-    {
-        return this.treeSet;
-    }
-
-    /**
-     * @return LinkedList<Float>
-     */
-    private LinkedList<Float> getValues()
-    {
-        return this.valueList;
+        return this.values;
     }
 
     /**
@@ -147,8 +50,8 @@ public abstract class AbstractPainterModel
      */
     protected float getYKoordinate(final float value, final float height)
     {
-        float minValue = getMinValue();
-        float maxValue = getMaxValue();
+        float minValue = getValues().getMinValue();
+        float maxValue = getValues().getMaxValue();
         float minNorm = 0.0F;
         float maxNorm = height;
 
