@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import de.freese.base.core.io.WindowsPrintWriter;
 import de.freese.base.core.progress.ProgressCallback;
 import de.freese.base.reports.exporter.AbstractExporter;
@@ -21,7 +22,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
     /**
      * Erstellt ein neues {@link AbstractCSVExporter} Objekt.
      */
-    public AbstractCSVExporter()
+    protected AbstractCSVExporter()
     {
         super();
     }
@@ -32,7 +33,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
     @Override
     public void export(final OutputStream outputStream, final ProgressCallback progressCallback, final Object model) throws Exception
     {
-        try (PrintWriter pw = new WindowsPrintWriter(outputStream))
+        try (PrintWriter pw = new WindowsPrintWriter(outputStream, true, StandardCharsets.UTF_8))
         {
             export(pw, progressCallback, model);
         }
@@ -40,7 +41,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
 
     /**
      * Erzeugt das Dokument und schreibt es in den {@link PrintWriter}.
-     * 
+     *
      * @param pw {@link PrintWriter}
      * @param progressCallback {@link ProgressCallback}, optional
      * @param model Object
@@ -50,7 +51,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
 
     /**
      * Erzeugt das Dokument und schreibt es in den {@link StringBuffer}.
-     * 
+     *
      * @param progressCallback {@link ProgressCallback}, optional
      * @param model Object
      * @return {@link StringBuffer}
@@ -61,7 +62,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
         StringWriter sw = new StringWriter();
         BufferedWriter bw = new BufferedWriter(sw);
 
-        try (PrintWriter pw = new WindowsPrintWriter(bw))
+        try (PrintWriter pw = new WindowsPrintWriter(bw, true))
         {
             export(pw, progressCallback, model);
         }
