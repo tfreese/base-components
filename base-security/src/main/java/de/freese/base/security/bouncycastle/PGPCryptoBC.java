@@ -437,7 +437,7 @@ class PGPCryptoBC
             while (it.hasNext() && firstTime)
             {
                 PGPSignatureSubpacketGenerator spGen = new PGPSignatureSubpacketGenerator();
-                spGen.setSignerUserID(false, it.next());
+                spGen.addSignerUserID(false, it.next());
                 signatureGenerator.setHashedSubpackets(spGen.generate());
                 // Exit the loop after the first iteration
                 firstTime = false;
