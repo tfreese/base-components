@@ -11,7 +11,7 @@ public final class Distribution
 {
     /**
      * Teilt den Wert durch die gewünschte Anzahl.
-     * 
+     *
      * @param anzahl int
      * @param wert double[]
      * @return double[]
@@ -23,7 +23,7 @@ public final class Distribution
 
     /**
      * Teilt den Wert durch die gewünschte Anzahl.
-     * 
+     *
      * @param anzahl int
      * @param wert double[]
      * @param nachkommaStellen int
@@ -41,7 +41,7 @@ public final class Distribution
     /**
      * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente ohne Nachkommastelle.<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
-     * 
+     *
      * @param faktoren double[]
      * @param wert double
      * @return double[]
@@ -54,7 +54,7 @@ public final class Distribution
     /**
      * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente mit Nachkommastellen.<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
-     * 
+     *
      * @param faktoren double[]
      * @param wert double[]
      * @param nachkommaStellen int
@@ -66,7 +66,7 @@ public final class Distribution
         double[] daten = new double[faktoren.length];
         Arrays.fill(daten, 0.0D);
 
-        if (Double.isNaN(mWert) || Double.isInfinite(mWert) || (mWert == 0))
+        if (Double.isNaN(mWert) || Double.isInfinite(mWert) || (mWert == 0.0D))
         {
             return daten;
         }
@@ -111,7 +111,7 @@ public final class Distribution
     /**
      * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente ohne Nachkommastellen<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
-     * 
+     *
      * @param faktoren Double[]
      * @param wert double
      * @return double[]

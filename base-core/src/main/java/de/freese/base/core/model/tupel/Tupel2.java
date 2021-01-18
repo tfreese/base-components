@@ -19,12 +19,12 @@ public class Tupel2<A, B> implements Serializable
     /**
      *
      */
-    private A valueA = null;
+    private A valueA;
 
     /**
      *
      */
-    private B valueB = null;
+    private B valueB;
 
     /**
      * Erstellt ein neues {@link Tupel2} Object.

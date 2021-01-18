@@ -19,7 +19,7 @@ public abstract class AbstractCommand implements Command
      *
      * @param source {@link Object}
      */
-    public AbstractCommand(final Object source)
+    protected AbstractCommand(final Object source)
     {
         super();
 

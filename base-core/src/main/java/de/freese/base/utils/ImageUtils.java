@@ -52,7 +52,7 @@ public final class ImageUtils
      *
      * @author Thomas Freese
      */
-    private static class EmptyIcon extends ImageIcon
+    private static final class EmptyIcon extends ImageIcon
     {
         /**
          *
@@ -129,7 +129,7 @@ public final class ImageUtils
      *
      * @author Thomas Freese
      */
-    private static class MissingIcon extends ImageIcon
+    private static final class MissingIcon extends ImageIcon
     {
         /**
          *
@@ -191,7 +191,7 @@ public final class ImageUtils
      *
      * @author Thomas Freese
      */
-    private static class Triangle extends ImageIcon
+    private static final class Triangle extends ImageIcon
     {
         /**
          *

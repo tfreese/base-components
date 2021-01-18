@@ -10,7 +10,7 @@ import de.freese.base.core.i18n.Translator;
 public abstract class AbstractValidationException extends Exception
 {
     /**
-     *  
+     *
      */
     private static final long serialVersionUID = 9102013053396263064L;
 
@@ -26,44 +26,44 @@ public abstract class AbstractValidationException extends Exception
 
     /**
      * Creates a new {@link AbstractValidationException} object.
-     * 
+     *
      * @param message String
      */
-    public AbstractValidationException(final String message)
+    protected AbstractValidationException(final String message)
     {
         this(message, null, null);
     }
 
     /**
      * Creates a new {@link AbstractValidationException} object.
-     * 
+     *
      * @param message String
      * @param appendMessage String
      */
-    public AbstractValidationException(final String message, final String appendMessage)
+    protected AbstractValidationException(final String message, final String appendMessage)
     {
         this(message, null, appendMessage);
     }
 
     /**
      * Creates a new {@link AbstractValidationException} object.
-     * 
+     *
      * @param message String
      * @param parameters String[]
      */
-    public AbstractValidationException(final String message, final String[] parameters)
+    protected AbstractValidationException(final String message, final String[] parameters)
     {
         this(message, parameters, null);
     }
 
     /**
      * Creates a new {@link AbstractValidationException} object.
-     * 
+     *
      * @param message String
      * @param parameters String[]
      * @param appendMessage String
      */
-    public AbstractValidationException(final String message, final String[] parameters, final String appendMessage)
+    protected AbstractValidationException(final String message, final String[] parameters, final String appendMessage)
     {
         super(message);
 
@@ -73,7 +73,7 @@ public abstract class AbstractValidationException extends Exception
 
     /**
      * Zusatztext.
-     * 
+     *
      * @return String
      */
     public String getAppendMessage()
@@ -83,7 +83,7 @@ public abstract class AbstractValidationException extends Exception
 
     /**
      * Zusatzparameter.
-     * 
+     *
      * @return String[]
      */
     public String[] getParameters()
@@ -93,7 +93,7 @@ public abstract class AbstractValidationException extends Exception
 
     /**
      * Uebersetzt den Inhalt der Exception.
-     * 
+     *
      * @param translatorAdapter {@link Translator}
      * @return String
      */

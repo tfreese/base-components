@@ -19,7 +19,7 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C>
     /**
      *
      */
-    private D valueD = null;
+    private D valueD;
 
     /**
      * Erstellt ein neues {@link Tupel4} Object.

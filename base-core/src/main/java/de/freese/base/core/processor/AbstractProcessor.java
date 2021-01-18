@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractProcessor<C> implements Processor<C>
 {
     /**
-     * 
+     *
      */
     private boolean enabled = true;
 
@@ -27,9 +27,17 @@ public abstract class AbstractProcessor<C> implements Processor<C>
     /**
      * Creates a new {@link AbstractProcessor} object.
      */
-    public AbstractProcessor()
+    protected AbstractProcessor()
     {
         super();
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected final Logger getLogger()
+    {
+        return this.logger;
     }
 
     /**
@@ -48,13 +56,5 @@ public abstract class AbstractProcessor<C> implements Processor<C>
     public void setEnabled(final boolean enabled)
     {
         this.enabled = enabled;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected final Logger getLogger()
-    {
-        return this.logger;
     }
 }

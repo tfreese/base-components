@@ -26,7 +26,7 @@ public class UserProperties
     /**
      *
      */
-    private String userID = null;
+    private String userID;
 
     /**
      * Erstellt ein neues {@link UserProperties} Object.

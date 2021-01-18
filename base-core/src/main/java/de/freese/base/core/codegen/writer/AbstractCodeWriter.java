@@ -34,7 +34,7 @@ public abstract class AbstractCodeWriter implements CodeWriter
     /**
      * Erstellt ein neues {@link AbstractCodeWriter} Object.
      */
-    public AbstractCodeWriter()
+    protected AbstractCodeWriter()
     {
         super();
     }

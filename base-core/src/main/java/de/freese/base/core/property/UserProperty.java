@@ -27,17 +27,17 @@ public class UserProperty extends Property
     /**
      *
      */
-    private Date lastAccess = null;
+    private Date lastAccess;
 
     /**
      *
      */
-    private PropertyType typ = null;
+    private PropertyType typ;
 
     /**
      *
      */
-    private String userName = null;
+    private String userName;
 
     /**
      * Erstellt ein neues {@link UserProperty} Object.

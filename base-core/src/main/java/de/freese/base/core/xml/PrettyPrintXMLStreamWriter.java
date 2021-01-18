@@ -215,7 +215,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     {
         this.depth--;
 
-        if (getNodeStates().get(getDepth()) == true)
+        if (getNodeStates().get(getDepth()))
         {
             getDelegate().writeCharacters(getLineSeparator());
             getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));

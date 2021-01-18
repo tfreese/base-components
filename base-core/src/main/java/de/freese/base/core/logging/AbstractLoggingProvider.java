@@ -20,7 +20,7 @@ public abstract class AbstractLoggingProvider implements LoggingProvider
     /**
      * Erstellt ein neues {@link AbstractLoggingProvider} Object.
      */
-    public AbstractLoggingProvider()
+    protected AbstractLoggingProvider()
     {
         super();
     }

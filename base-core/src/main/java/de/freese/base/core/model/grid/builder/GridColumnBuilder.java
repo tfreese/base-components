@@ -14,7 +14,7 @@ public class GridColumnBuilder
     /**
     *
     */
-    private String comment = null;
+    private String comment;
 
     /**
      *
@@ -29,12 +29,12 @@ public class GridColumnBuilder
     /**
     *
     */
-    private String name = null;
+    private String name;
 
     /**
      *
      */
-    private Class<?> objectClazz = null;
+    private Class<?> objectClazz;
 
     /**
     *

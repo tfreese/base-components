@@ -20,7 +20,7 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
     /**
      *
      */
-    private E valueE = null;
+    private E valueE;
 
     /**
      * Erstellt ein neues {@link Tupel5} Object.
@@ -32,7 +32,7 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
 
     /**
      * Erstellt ein neues {@link Tupel5} Object.
-     * 
+     *
      * @param valueA Object
      * @param valueB Object
      * @param valueC Object

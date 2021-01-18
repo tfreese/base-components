@@ -23,7 +23,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
     /**
     *
     */
-    private String comment = null;
+    private String comment;
 
     /**
     *
@@ -33,7 +33,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
     /**
     *
     */
-    private String name = null;
+    private String name;
 
     /**
      *
@@ -49,7 +49,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
      * Erzeugt eine neue Instanz von {@link AbstractGridColumn}.
      */
     @SuppressWarnings("unchecked")
-    public AbstractGridColumn()
+    protected AbstractGridColumn()
     {
         super();
 
@@ -65,7 +65,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
      *
      * @param objectClazz Class
      */
-    public AbstractGridColumn(final Class<T> objectClazz)
+    protected AbstractGridColumn(final Class<T> objectClazz)
     {
         super();
 

@@ -5,147 +5,147 @@ import java.util.Date;
 
 /**
  * Klasse fuer Object-Informationen.
- * 
+ *
  * @author Thomas Freese
  */
 public class AuditInfo implements Serializable
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 146275334726328864L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 146275334726328864L;
 
-	/**
-	 * Wann wurde das Objekt erstellt.
-	 */
-	private Date erstelltAm = null;
+    /**
+     * Wann wurde das Objekt erstellt.
+     */
+    private Date erstelltAm;
 
-	/**
-	 * Wer hat das Objekt erstellt.
-	 */
-	private String erstelltVon = "";
+    /**
+     * Wer hat das Objekt erstellt.
+     */
+    private String erstelltVon = "";
 
-	/**
-	 * Wann wurde das Objekt geaendert.
-	 */
-	private Date geaendertAm = null;
+    /**
+     * Wann wurde das Objekt geaendert.
+     */
+    private Date geaendertAm;
 
-	/**
-	 * Wer hat das Objekt geaendert.
-	 */
-	private String geaendertVon = "";
+    /**
+     * Wer hat das Objekt geaendert.
+     */
+    private String geaendertVon = "";
 
-	/**
-	 * Bis wann ist das Objekt gueltig.
-	 */
-	private Date gueltigBis = null;
+    /**
+     * Bis wann ist das Objekt gueltig.
+     */
+    private Date gueltigBis;
 
-	/**
-	 * Ab wann ist das Objekt gueltig.
-	 */
-	private Date gueltigVon = null;
+    /**
+     * Ab wann ist das Objekt gueltig.
+     */
+    private Date gueltigVon;
 
-	/**
-	 * Erstellt ein neues {@link AuditInfo} Object.
-	 */
-	public AuditInfo()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link AuditInfo} Object.
+     */
+    public AuditInfo()
+    {
+        super();
+    }
 
-	/**
-	 * @return {@link Date}
-	 */
-	public Date getErstelltAm()
-	{
-		return this.erstelltAm;
-	}
+    /**
+     * @return {@link Date}
+     */
+    public Date getErstelltAm()
+    {
+        return this.erstelltAm;
+    }
 
-	/**
-	 * @return String
-	 */
-	public String getErstelltVon()
-	{
-		return this.erstelltVon;
-	}
+    /**
+     * @return String
+     */
+    public String getErstelltVon()
+    {
+        return this.erstelltVon;
+    }
 
-	/**
-	 * @return {@link Date}
-	 */
-	public Date getGeaendertAm()
-	{
-		return this.geaendertAm;
-	}
+    /**
+     * @return {@link Date}
+     */
+    public Date getGeaendertAm()
+    {
+        return this.geaendertAm;
+    }
 
-	/**
-	 * @return String
-	 */
-	public String getGeaendertVon()
-	{
-		return this.geaendertVon;
-	}
+    /**
+     * @return String
+     */
+    public String getGeaendertVon()
+    {
+        return this.geaendertVon;
+    }
 
-	/**
-	 * @return {@link Date}
-	 */
-	public Date getGueltigBis()
-	{
-		return this.gueltigBis;
-	}
+    /**
+     * @return {@link Date}
+     */
+    public Date getGueltigBis()
+    {
+        return this.gueltigBis;
+    }
 
-	/**
-	 * @return {@link Date}
-	 */
-	public Date getGueltigVon()
-	{
-		return this.gueltigVon;
-	}
+    /**
+     * @return {@link Date}
+     */
+    public Date getGueltigVon()
+    {
+        return this.gueltigVon;
+    }
 
-	/**
-	 * @param erstelltAm {@link Date}
-	 */
-	public void setErstelltAm(final Date erstelltAm)
-	{
-		this.erstelltAm = erstelltAm;
-	}
+    /**
+     * @param erstelltAm {@link Date}
+     */
+    public void setErstelltAm(final Date erstelltAm)
+    {
+        this.erstelltAm = erstelltAm;
+    }
 
-	/**
-	 * @param erstelltVon String
-	 */
-	public void setErstelltVon(final String erstelltVon)
-	{
-		this.erstelltVon = erstelltVon;
-	}
+    /**
+     * @param erstelltVon String
+     */
+    public void setErstelltVon(final String erstelltVon)
+    {
+        this.erstelltVon = erstelltVon;
+    }
 
-	/**
-	 * @param geaendertAm {@link Date}
-	 */
-	public void setGeaendertAm(final Date geaendertAm)
-	{
-		this.geaendertAm = geaendertAm;
-	}
+    /**
+     * @param geaendertAm {@link Date}
+     */
+    public void setGeaendertAm(final Date geaendertAm)
+    {
+        this.geaendertAm = geaendertAm;
+    }
 
-	/**
-	 * @param geaendertVon String
-	 */
-	public void setGeaendertVon(final String geaendertVon)
-	{
-		this.geaendertVon = geaendertVon;
-	}
+    /**
+     * @param geaendertVon String
+     */
+    public void setGeaendertVon(final String geaendertVon)
+    {
+        this.geaendertVon = geaendertVon;
+    }
 
-	/**
-	 * @param gueltigBis {@link Date}
-	 */
-	public void setGueltigBis(final Date gueltigBis)
-	{
-		this.gueltigBis = gueltigBis;
-	}
+    /**
+     * @param gueltigBis {@link Date}
+     */
+    public void setGueltigBis(final Date gueltigBis)
+    {
+        this.gueltigBis = gueltigBis;
+    }
 
-	/**
-	 * @param gueltigVon {@link Date}
-	 */
-	public void setGueltigVon(final Date gueltigVon)
-	{
-		this.gueltigVon = gueltigVon;
-	}
+    /**
+     * @param gueltigVon {@link Date}
+     */
+    public void setGueltigVon(final Date gueltigVon)
+    {
+        this.gueltigVon = gueltigVon;
+    }
 }

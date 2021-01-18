@@ -57,7 +57,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
         {
             final double oldMaxPermits = this.maxPermits;
             this.maxPermits = this.maxBurstSeconds * permitsPerSecond;
-            this.storedPermits = oldMaxPermits == 0.0 ? 0.0 : (this.storedPermits * this.maxPermits) / oldMaxPermits;
+            this.storedPermits = oldMaxPermits == 0.0D ? 0.0D : (this.storedPermits * this.maxPermits) / oldMaxPermits;
         }
 
         /**

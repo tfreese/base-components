@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
 
 /**
  * Erstellt ein reines Schwarz/Weiß Bild, indem alle Pixel die NICHT Schwarz sind in Weiß umgewandelt werden.
@@ -74,12 +73,10 @@ public class BlackWhiteOp implements BufferedImageOp
         if (colorModel == null)
         {
             colorModel = src.getColorModel();
-
-            // Not much support for ICM
-            if (destCM instanceof IndexColorModel)
-            {
-                colorModel = ColorModel.getRGBdefault();
-            }
+        }
+        else
+        {
+            colorModel = ColorModel.getRGBdefault();
         }
 
         int w = src.getWidth();

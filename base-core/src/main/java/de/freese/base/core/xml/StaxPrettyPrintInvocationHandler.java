@@ -87,7 +87,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
         {
             this.depth--;
 
-            if (this.hasChildElement.get(this.depth) == true)
+            if (this.hasChildElement.get(this.depth))
             {
                 this.target.writeCharacters(this.lineSeparator);
                 this.target.writeCharacters(repeat(this.depth, INDENT_CHAR));

@@ -292,6 +292,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
 
         try
@@ -301,6 +302,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
 
         try
@@ -310,6 +312,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
 
         try
@@ -319,6 +322,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
 
         try
@@ -329,6 +333,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
 
         try
@@ -339,6 +344,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
     }
 
@@ -469,6 +475,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
 
         try
@@ -478,6 +485,7 @@ class ThrottleTest
         }
         catch (IllegalArgumentException expected)
         {
+            // Empty
         }
     }
 

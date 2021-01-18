@@ -48,6 +48,32 @@ public class Partition<T> extends AbstractList<List<T>>
     }
 
     /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+
+        if (!super.equals(obj))
+        {
+            return false;
+        }
+
+        if (!(obj instanceof Partition))
+        {
+            return false;
+        }
+
+        Partition<?> other = (Partition<?>) obj;
+
+        return Objects.equals(this.list, other.list) && (this.sizeOfPartition == other.sizeOfPartition);
+    }
+
+    /**
      * @see java.util.AbstractList#get(int)
      */
     @Override
@@ -74,6 +100,20 @@ public class Partition<T> extends AbstractList<List<T>>
         final int end = Math.min(start + this.sizeOfPartition, this.list.size());
 
         return this.list.subList(start, end);
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = super.hashCode();
+
+        result = (prime * result) + Objects.hash(this.list, this.sizeOfPartition);
+
+        return result;
     }
 
     /**

@@ -10,33 +10,33 @@ import java.io.Serializable;
 public abstract class AbstractRemoteCommand extends AbstractCommand implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4744210429650586724L;
 
     /**
-     * 
+     *
      */
     private transient Object commandInvoker;
 
     /**
-     * 
+     *
      */
     private transient Object payload;
 
     /**
      * Erstellt ein neues {@link AbstractRemoteCommand} Object.
-     * 
+     *
      * @param source {@link Serializable}
      */
-    public AbstractRemoteCommand(final Serializable source)
+    protected AbstractRemoteCommand(final Serializable source)
     {
         super(source);
     }
 
     /**
      * Liefert das Objekt fuer die Verarbeitung des Kommandos.
-     * 
+     *
      * @return Object
      */
     protected Object getCommandInvoker()
@@ -46,7 +46,7 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Liefert das Objekt, welches dem CommandInvoker uebergeben werden kann.
-     * 
+     *
      * @param <T> Konkreter Typ
      * @return Object
      */
@@ -67,7 +67,7 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Setzt das Objekt fuer die Verarbeitung des Kommandos.
-     * 
+     *
      * @param commandInvoker Object
      */
     public void setCommandInvoker(final Object commandInvoker)
@@ -77,7 +77,7 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Setzt das Objekt, welches dem CommandInvoker uebergeben werden kann.
-     * 
+     *
      * @param payload Object
      */
     public void setPayload(final Object payload)

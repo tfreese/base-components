@@ -47,7 +47,7 @@ public abstract class AbstractTunedSpliterator<T> implements Spliterator<T>
      * @param index int; Inklusive
      * @param endIndex int; Exklusive
      */
-    public AbstractTunedSpliterator(final int index, final int endIndex)
+    protected AbstractTunedSpliterator(final int index, final int endIndex)
     {
         this(index, endIndex, Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.ORDERED | Spliterator.NONNULL);
     }
@@ -59,7 +59,7 @@ public abstract class AbstractTunedSpliterator<T> implements Spliterator<T>
      * @param endIndex int; Exklusive
      * @param characteristics int
      */
-    public AbstractTunedSpliterator(final int index, final int endIndex, final int characteristics)
+    protected AbstractTunedSpliterator(final int index, final int endIndex, final int characteristics)
     {
         super();
 

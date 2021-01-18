@@ -61,7 +61,7 @@ public abstract class AbstractResourceCache implements ResourceCache
     /**
      * Erstellt ein neues {@link AbstractResourceCache} Object.
      */
-    public AbstractResourceCache()
+    protected AbstractResourceCache()
     {
         super();
 

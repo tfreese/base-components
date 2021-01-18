@@ -253,7 +253,7 @@ public class StopWatch
     /**
      *
      */
-    private TaskInfo lastTaskInfo = null;
+    private TaskInfo lastTaskInfo;
 
     /**
      * Start time of the current task.

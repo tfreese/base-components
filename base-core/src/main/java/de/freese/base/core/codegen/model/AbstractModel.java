@@ -28,19 +28,19 @@ public abstract class AbstractModel
     /**
     *
     */
-    public final String name;
+    private final String name;
 
     /**
     *
     */
-    public Object payload;
+    private Object payload;
 
     /**
      * Erstellt ein neues {@link AbstractModel} Object.
      *
      * @param name String
      */
-    public AbstractModel(final String name)
+    protected AbstractModel(final String name)
     {
         super();
 

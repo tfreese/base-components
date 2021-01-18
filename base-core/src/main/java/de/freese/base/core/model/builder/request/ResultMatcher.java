@@ -4,6 +4,7 @@ package de.freese.base.core.model.builder.request;
 /**
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface ResultMatcher
 {
     /**

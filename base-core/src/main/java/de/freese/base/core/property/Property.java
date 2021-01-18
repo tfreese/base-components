@@ -8,14 +8,14 @@ package de.freese.base.core.property;
 public class Property
 {
     /**
-     * 
+     *
      */
-    private String key = null;
+    private String key;
 
     /**
-     * 
+     *
      */
-    private String value = null;
+    private String value;
 
     /**
      * Erstellt ein neues {@link Property} Object.
@@ -150,6 +150,14 @@ public class Property
     }
 
     /**
+     * @return String
+     */
+    protected String getValue()
+    {
+        return this.value;
+    }
+
+    /**
      * Setzt das Property als boolean.
      *
      * @param value boolean
@@ -227,14 +235,6 @@ public class Property
     public void setString(final String value)
     {
         setValue(PropertyConverter.toString(value));
-    }
-
-    /**
-     * @return String
-     */
-    protected String getValue()
-    {
-        return this.value;
     }
 
     /**
