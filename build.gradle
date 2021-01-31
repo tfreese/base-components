@@ -151,7 +151,7 @@ project("base-security") {
 	description = "Common Classes for the Security Layer."
 	dependencies {
 		api(project(":base-core"))
-	
+
 		api("commons-io:commons-io")
 		api("org.bouncycastle:bcpg-jdk15on")
 		api("org.bouncycastle:bcmail-jdk15on")
@@ -168,7 +168,7 @@ project("base-swing") {
 	apply plugin: 'com.github.ben-manes.versions'
 	/*plugins {
 		id 'java-library'
-		id 'org.openjfx.javafxplugin' version '0.0.8'
+		id 'org.openjfx.javafxplugin' version '0.0.9'
 	}*/
 	description = "Components and Classes for Swing."
 	dependencies {
@@ -176,9 +176,9 @@ project("base-swing") {
 		api(project(":base-resourcemap"))
 		
 		javafx {
-			version = "14"
+			version = "15"
 			modules = [ 'javafx.controls' ]
-		}		
+		}
 
 		api("commons-io:commons-io")
 		api("com.fasterxml.jackson.core:jackson-databind")
@@ -187,7 +187,7 @@ project("base-swing") {
 		api("org.apache.commons:commons-collections4")
 		//api("org.openjfx:javafx-controls")
 		api("org.swinglabs.swingx:swingx-core")
-		
+
 		testImplementation("org.junit.jupiter:junit-jupiter-engine")
 	}
 }
