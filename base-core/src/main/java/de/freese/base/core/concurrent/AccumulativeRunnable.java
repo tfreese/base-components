@@ -79,14 +79,6 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     private List<T> arguments;
 
     /**
-     * Erstellt ein neues {@link AccumulativeRunnable} Object.
-     */
-    protected AccumulativeRunnable()
-    {
-        super();
-    }
-
-    /**
      * appends arguments and sends this {@link Runnable} for the execution if needed.
      * <p>
      * This implementation uses {@link #submit()} to send this {@code Runnable} for execution.

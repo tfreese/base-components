@@ -29,14 +29,6 @@ public class UserProperties
     private String userID;
 
     /**
-     * Erstellt ein neues {@link UserProperties} Object.
-     */
-    public UserProperties()
-    {
-        super();
-    }
-
-    /**
      * Leeren der Properties.
      */
     public void clear()

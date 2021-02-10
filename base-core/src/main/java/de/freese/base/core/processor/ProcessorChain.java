@@ -26,14 +26,6 @@ public final class ProcessorChain<C> implements Processor<C>
     private final List<Processor<C>> processors = new LinkedList<>();
 
     /**
-     * Creates a new {@link ProcessorChain} object.
-     */
-    public ProcessorChain()
-    {
-        super();
-    }
-
-    /**
      * Hinzufügen eines {@link Processor} in die Chain.
      *
      * @param processor {@link Processor}

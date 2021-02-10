@@ -17,7 +17,7 @@ import java.util.Map;
 public class ThrowableTracker implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8095454479589758508L;
 
@@ -27,16 +27,8 @@ public class ThrowableTracker implements Serializable
     private Map<String, Throwable> throwables = new LinkedHashMap<>();
 
     /**
-     * Erstellt ein neues {@link ThrowableTracker} Objekt.
-     */
-    public ThrowableTracker()
-    {
-        super();
-    }
-
-    /**
      * Hinzufuegen eines {@link Throwable}.
-     * 
+     *
      * @param th {@link Throwable}
      */
     public void addThrowable(final Throwable th)
@@ -46,7 +38,7 @@ public class ThrowableTracker implements Serializable
 
     /**
      * Liefert den ersten {@link Throwable}.
-     * 
+     *
      * @return {@link Throwable}.
      */
     public Throwable getFirstThrowable()
@@ -56,7 +48,7 @@ public class ThrowableTracker implements Serializable
 
     /**
      * Liefert den letzten {@link Throwable}.
-     * 
+     *
      * @return {@link Throwable}.
      */
     public Throwable getLastThrowable()
@@ -68,7 +60,7 @@ public class ThrowableTracker implements Serializable
 
     /**
      * Liefert die Liste der {@link Throwable} in der Reihenfolge in der diese aufgetreten sind.
-     * 
+     *
      * @return {@link List}
      */
     public List<Throwable> getThrowables()

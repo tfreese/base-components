@@ -27,7 +27,7 @@ public class SleepThrottledOutputStream extends OutputStream
     /**
     *
     */
-    private long bytesWrite = 0L;
+    private long bytesWrite;
 
     /**
     *
@@ -47,7 +47,7 @@ public class SleepThrottledOutputStream extends OutputStream
     /**
      *
      */
-    private long totalSleepTimeMillis = 0L;
+    private long totalSleepTimeMillis;
 
     /**
      * Erstellt ein neues {@link SleepThrottledOutputStream} Object.

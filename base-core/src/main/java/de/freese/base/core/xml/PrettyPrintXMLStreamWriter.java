@@ -40,7 +40,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     /**
      *
      */
-    private int depth = 0;
+    private int depth;
 
     /**
      *

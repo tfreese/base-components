@@ -42,14 +42,6 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
     private static final long serialVersionUID = 4992566896817015389L;
 
     /**
-     * Erstellt ein neues {@link TunedThreadPoolExecutorFactoryBean} Object.
-     */
-    public TunedThreadPoolExecutorFactoryBean()
-    {
-        super();
-    }
-
-    /**
      * @see org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean#createExecutor(int, int, int, java.util.concurrent.BlockingQueue,
      *      java.util.concurrent.ThreadFactory, java.util.concurrent.RejectedExecutionHandler)
      */

@@ -18,7 +18,7 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
     /**
      *
      */
-    private long bytesWritten = 0;
+    private long bytesWritten;
 
     /**
     *

@@ -28,7 +28,7 @@ public class ArrayIterator<T> implements Iterator<T>
     /**
      *
      */
-    private int position = 0;
+    private int position;
 
     /**
      * Erstellt ein neues {@link ArrayIterator} Objekt.

@@ -12,7 +12,7 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
     /**
      *
      */
-    private int startIndex = 0;
+    private int startIndex;
 
     /**
      * Erstellt ein neues {@link SharedByteArrayInputStream} Object.

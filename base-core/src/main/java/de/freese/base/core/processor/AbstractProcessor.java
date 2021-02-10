@@ -25,14 +25,6 @@ public abstract class AbstractProcessor<C> implements Processor<C>
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * Creates a new {@link AbstractProcessor} object.
-     */
-    protected AbstractProcessor()
-    {
-        super();
-    }
-
-    /**
      * @return {@link Logger}
      */
     protected final Logger getLogger()

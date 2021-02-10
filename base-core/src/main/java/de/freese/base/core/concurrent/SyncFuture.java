@@ -31,14 +31,6 @@ public class SyncFuture<T> implements Future<T>
     private final long startTime = System.currentTimeMillis();
 
     /**
-     * Erstellt ein neues {@link SyncFuture} Object.
-     */
-    public SyncFuture()
-    {
-        super();
-    }
-
-    /**
      * @see java.util.concurrent.Future#cancel(boolean)
      */
     @Override

@@ -18,7 +18,7 @@ public class ThrottleOutputStream extends OutputStream
     /**
     *
     */
-    private long bytesWrite = 0;
+    private long bytesWrite;
 
     /**
     *
@@ -33,7 +33,7 @@ public class ThrottleOutputStream extends OutputStream
     /**
      *
      */
-    private long totalSleepTimeNanos = 0L;
+    private long totalSleepTimeNanos;
 
     /**
      * Erstellt ein neues {@link ThrottleOutputStream} Object.

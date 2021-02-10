@@ -28,14 +28,6 @@ public class BuilderGenerator
     }
 
     /**
-     * Erstellt ein neues {@link BuilderGenerator} Object.
-     */
-    public BuilderGenerator()
-    {
-        super();
-    }
-
-    /**
      * @param clazz Class
      * @param withSuperAttributes boolean
      * @param printStream {@link PrintStream}

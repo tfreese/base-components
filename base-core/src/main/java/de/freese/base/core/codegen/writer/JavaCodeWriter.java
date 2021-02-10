@@ -12,14 +12,6 @@ package de.freese.base.core.codegen.writer;
 public class JavaCodeWriter extends AbstractCodeWriter
 {
     /**
-     * Erstellt ein neues {@link JavaCodeWriter} Object.
-     */
-    public JavaCodeWriter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.core.codegen.writer.AbstractCodeWriter#getFileExtension()
      */
     @Override

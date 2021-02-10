@@ -18,14 +18,6 @@ public class Property
     private String value;
 
     /**
-     * Erstellt ein neues {@link Property} Object.
-     */
-    public Property()
-    {
-        super();
-    }
-
-    /**
      * Liefert das Property als boolean.
      *
      * @return boolean

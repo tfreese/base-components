@@ -18,7 +18,7 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
     /**
      *
      */
-    private long bytesRead = 0;
+    private long bytesRead;
 
     /**
     *

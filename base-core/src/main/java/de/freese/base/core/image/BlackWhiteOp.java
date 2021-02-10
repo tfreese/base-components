@@ -21,7 +21,7 @@ public class BlackWhiteOp implements BufferedImageOp
     /**
      *
      */
-    private int colorLimit = 0;
+    private int colorLimit;
 
     /**
      *

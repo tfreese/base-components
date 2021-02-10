@@ -20,14 +20,6 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 public class DefaultGridColumnFactory implements GridColumnFactory
 {
     /**
-     * Erstellt ein neues {@link DefaultGridColumnFactory} Object.
-     */
-    public DefaultGridColumnFactory()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.core.model.grid.factory.GridColumnFactory#getColumnForType(java.lang.Class)
      */
     @Override

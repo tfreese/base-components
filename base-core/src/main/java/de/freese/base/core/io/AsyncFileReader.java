@@ -66,7 +66,7 @@ public class AsyncFileReader<CH>
         /**
          * Aktuelle Lese-Position
          */
-        private int position = 0;
+        private int position;
 
         /**
          * Erstellt ein neues {@link de.freese.base.core.io.AsyncFileReader.ReadContext} Object.
@@ -203,14 +203,6 @@ public class AsyncFileReader<CH>
      * Führt die parallelen Lese-Operationen aus.
      */
     private ExecutorService executorService = ForkJoinPool.commonPool();
-
-    /**
-     * Erstellt ein neues {@link AsyncFileReader} Object.
-     */
-    public AsyncFileReader()
-    {
-        super();
-    }
 
     /**
      * Erzeugt den Handler für die {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.

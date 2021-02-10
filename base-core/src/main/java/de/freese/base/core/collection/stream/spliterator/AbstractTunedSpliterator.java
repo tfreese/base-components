@@ -34,7 +34,7 @@ public abstract class AbstractTunedSpliterator<T> implements Spliterator<T>
     /**
      *
      */
-    private int index = 0;
+    private int index;
 
     /**
      * Element-Größe ab der nicht mehr gesplitted wird.

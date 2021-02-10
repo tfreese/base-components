@@ -11,7 +11,7 @@ import java.util.Date;
 public class AuditInfo implements Serializable
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 146275334726328864L;
 
@@ -44,14 +44,6 @@ public class AuditInfo implements Serializable
      * Ab wann ist das Objekt gueltig.
      */
     private Date gueltigVon;
-
-    /**
-     * Erstellt ein neues {@link AuditInfo} Object.
-     */
-    public AuditInfo()
-    {
-        super();
-    }
 
     /**
      * @return {@link Date}

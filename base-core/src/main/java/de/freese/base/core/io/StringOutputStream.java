@@ -12,14 +12,6 @@ import java.nio.charset.StandardCharsets;
 public class StringOutputStream extends ByteArrayOutputStream
 {
     /**
-     * Erstellt ein neues {@link StringOutputStream} Object.
-     */
-    public StringOutputStream()
-    {
-        super();
-    }
-
-    /**
      * @param value {@link CharSequence}
      * @throws IOException Falls was schief geht.
      */

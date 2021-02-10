@@ -18,7 +18,7 @@ public class ThrottleInputStream extends InputStream
     /**
      *
      */
-    private long bytesRead = 0;
+    private long bytesRead;
 
     /**
      *
@@ -33,7 +33,7 @@ public class ThrottleInputStream extends InputStream
     /**
      *
      */
-    private long totalSleepTimeNanos = 0L;
+    private long totalSleepTimeNanos;
 
     /**
      * Erstellt ein neues {@link ThrottleInputStream} Object.

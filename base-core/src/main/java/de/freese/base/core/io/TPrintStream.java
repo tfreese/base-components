@@ -1,6 +1,7 @@
 package de.freese.base.core.io;
 
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Schreibt die Daten in beide PrintStreams.
@@ -23,7 +24,7 @@ public class TPrintStream extends PrintStream
      */
     public TPrintStream(final PrintStream out1, final PrintStream out2, final boolean autoFlush1)
     {
-        super(out1, autoFlush1);
+        super(out1, autoFlush1, StandardCharsets.UTF_8);
 
         this.out2 = out2;
     }

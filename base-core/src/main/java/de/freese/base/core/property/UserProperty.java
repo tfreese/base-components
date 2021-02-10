@@ -12,17 +12,17 @@ public class UserProperty extends Property
     /**
      *
      */
-    private boolean changed = false;
+    private boolean changed;
 
     /**
      *
      */
-    private boolean created = false;
+    private boolean created;
 
     /**
      *
      */
-    private boolean deleted = false;
+    private boolean deleted;
 
     /**
      *
@@ -38,14 +38,6 @@ public class UserProperty extends Property
      *
      */
     private String userName;
-
-    /**
-     * Erstellt ein neues {@link UserProperty} Object.
-     */
-    public UserProperty()
-    {
-        super();
-    }
 
     /**
      * @see java.lang.Object#equals(java.lang.Object)

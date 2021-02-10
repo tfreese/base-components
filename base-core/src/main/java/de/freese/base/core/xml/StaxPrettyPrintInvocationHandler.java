@@ -25,7 +25,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
     /**
      *
      */
-    private int depth = 0;
+    private int depth;
 
     /**
      *

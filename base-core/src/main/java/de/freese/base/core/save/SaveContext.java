@@ -21,14 +21,6 @@ public class SaveContext
     private Map<Class<?>, Map<Long, Long>> primaryKeyMap = new HashMap<>();
 
     /**
-     * Erstellt ein neues {@link SaveContext} Object.
-     */
-    public SaveContext()
-    {
-        super();
-    }
-
-    /**
      * Aufraeumen.
      */
     public void clear()

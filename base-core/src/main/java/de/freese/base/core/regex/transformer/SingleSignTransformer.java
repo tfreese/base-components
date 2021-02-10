@@ -8,14 +8,6 @@ package de.freese.base.core.regex.transformer;
 public class SingleSignTransformer implements RegExTransformer
 {
     /**
-     * Erstellt ein neues {@link EscapeBracketTransformer} Object.
-     */
-    public SingleSignTransformer()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.core.regex.transformer.RegExTransformer#regExToWildcard(java.lang.String)
      */
     @Override
