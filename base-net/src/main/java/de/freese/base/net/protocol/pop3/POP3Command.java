@@ -7,37 +7,17 @@ import de.freese.base.net.protocol.GeneralCommand;
  *
  * @author Thomas Freese
  */
-public interface POP3Command extends GeneralCommand
+public final class POP3Command
 {
     /**
-     * Send user name.
+     * Authorization.
      */
-    public static final String USER = "USER";
+    public static final String APOP = "APOP";
 
     /**
-     * Send password.
+     *
      */
-    public static final String PASS = "PASS";
-
-    /**
-     * Quit session.
-     */
-    public static final String QUIT = "QUIT";
-
-    /**
-     * Get status.
-     */
-    public static final String STAT = "STAT";
-
-    /**
-     * List message(s).
-     */
-    public static final String LIST = "LIST";
-
-    /**
-     * Retrieve message(s).
-     */
-    public static final String RETR = "RETR";
+    public static final String CRLF = GeneralCommand.CRLF;
 
     /**
      * Delete message(s).
@@ -45,9 +25,49 @@ public interface POP3Command extends GeneralCommand
     public static final String DELE = "DELE";
 
     /**
+     * Error Response.
+     */
+    public static final String ERR = "-ERR";
+
+    /**
+     * List message(s).
+     */
+    public static final String LIST = "LIST";
+
+    /**
+     *
+     */
+    public static final String NETASCII_EOL = GeneralCommand.NETASCII_EOL;
+
+    /**
      * No operation. Used as a session keepalive.
      */
     public static final String NOOP = "NOOP";
+
+    /**
+     * OK Response.
+     */
+    public static final String OK = "+OK";
+
+    /**
+     * Send password.
+     */
+    public static final String PASS = "PASS";
+
+    /**
+     * Standard POP3 port
+     */
+    public static final int POP3_PORT = 110;
+
+    /**
+     * Quit session.
+     */
+    public static final String QUIT = "QUIT";
+
+    /**
+     * Retrieve message(s).
+     */
+    public static final String RETR = "RETR";
 
     /**
      * Reset session.
@@ -55,9 +75,9 @@ public interface POP3Command extends GeneralCommand
     public static final String RSET = "RSET";
 
     /**
-     * Authorization.
+     * Get status.
      */
-    public static final String APOP = "APOP";
+    public static final String STAT = "STAT";
 
     /**
      * Retrieve top number lines from message.
@@ -70,27 +90,25 @@ public interface POP3Command extends GeneralCommand
     public static final String UIDL = "UIDL";
 
     /**
-     * OK Response.
+     * Send user name.
      */
-    public static final String OK = "+OK";
+    public static final String USER = "USER";
+
+    // /**
+    // * OK Response Code.
+    // */
+    // public static final int OK_Code = 0;
+    //
+    // /**
+    // * ERROR Response Code.
+    // */
+    // public static final int ERR_Code = 1;
 
     /**
-     * Error Response.
+     * Erstellt ein neues {@link POP3Command} Object.
      */
-    public static final String ERR = "-ERR";
-
-    /**
-     * Standard POP3 port
-     */
-    public static final int POP3_PORT = 110;
-
-    //    /**
-    //     * OK Response Code.
-    //     */
-    //    public static final int OK_Code = 0;
-    //    
-    //    /**
-    //     * ERROR Response Code.
-    //     */
-    //    public static final int ERR_Code = 1;
+    private POP3Command()
+    {
+        super();
+    }
 }

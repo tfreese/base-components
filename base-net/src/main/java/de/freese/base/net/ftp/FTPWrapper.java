@@ -9,7 +9,7 @@ import java.io.OutputStream;
  * 
  * @author Thomas Freese
  */
-public interface IFTPWrapper
+public interface FTPWrapper
 {
 	/**
 	 * Wechselt das Arbeitsverzeichniss (relativ).

@@ -17,19 +17,18 @@ import javax.net.ssl.SSLSocketFactory;
 import com.sun.mail.util.LineInputStream;
 import com.sun.mail.util.SharedByteArrayOutputStream;
 import de.freese.base.net.protocol.AbstractProtocol;
-import de.freese.base.net.protocol.GeneralCommand;
 
 /**
  * Diese Klasse implementiert das POP3-Protokoll.
  *
  * @author Rhomas Freese
  */
-public class POP3Protocol extends AbstractProtocol implements POP3Command
+public class POP3Protocol extends AbstractProtocol
 {
     /**
      *
      */
-    private String apopChallenge = null;
+    private String apopChallenge;
 
     /**
      *
@@ -58,33 +57,33 @@ public class POP3Protocol extends AbstractProtocol implements POP3Command
      */
     public POP3Protocol(final String host, final int port, final Properties props, final String propPrefix, final boolean isSSL) throws IOException
     {
-        super(props);
+        super();
 
-        Properties m_props = props;
-        int m_port = port;
+        Properties mProps = props;
+        int mPort = port;
 
-        if (m_props == null)
+        if (mProps == null)
         {
-            m_props = new Properties();
+            mProps = new Properties();
         }
 
         Response r = new Response();
-        String apop = m_props.getProperty(propPrefix + ".apop.enable");
+        String apop = mProps.getProperty(propPrefix + ".apop.enable");
         boolean enableAPOP = (apop != null) && apop.equalsIgnoreCase("true");
 
         try
         {
-            if (m_port == -1)
+            if (mPort == -1)
             {
-                m_port = POP3Command.POP3_PORT;
+                mPort = POP3Command.POP3_PORT;
             }
 
-            debug("DEBUG POP3: connecting to host \"" + host + "\", port " + m_port + ", isSSL " + isSSL);
+            debug("DEBUG POP3: connecting to host \"" + host + "\", port " + mPort + ", isSSL " + isSSL);
 
             if (isSSL)
             {
                 SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                this.serverSocket = socketFactory.createSocket(host, m_port);
+                this.serverSocket = socketFactory.createSocket(host, mPort);
                 ((SSLSocket) this.serverSocket).setEnabledProtocols(new String[]
                 {
                         "TLSv1"
@@ -92,7 +91,7 @@ public class POP3Protocol extends AbstractProtocol implements POP3Command
             }
             else
             {
-                this.serverSocket = new Socket(host, m_port);
+                this.serverSocket = new Socket(host, mPort);
             }
 
             this.inputReader = new BufferedReader(new InputStreamReader(this.serverSocket.getInputStream(), "iso-8859-1"));
@@ -401,17 +400,17 @@ public class POP3Protocol extends AbstractProtocol implements POP3Command
     {
         if (this.serverSocket == null)
         {
-            throw new IOException("Folder is closed"); // XXX
+            throw new IOException("Folder is closed");
         }
 
-        String m_cmd = cmd;
+        String mCmd = cmd;
 
-        if (m_cmd != null)
+        if (mCmd != null)
         {
-            debug("C: " + m_cmd);
+            debug("C: " + mCmd);
 
-            m_cmd += GeneralCommand.CRLF;
-            this.outputWriter.write(m_cmd);
+            mCmd += POP3Command.CRLF;
+            this.outputWriter.write(mCmd);
             this.outputWriter.flush();
         }
 
@@ -574,15 +573,15 @@ final class Response
     /**
      * all the bytes from a multi-line response
      */
-    InputStream bytes = null;
+    InputStream bytes;
 
     /**
      * rest of line after "+OK" or "-ERR"
      */
-    String data = null;
+    String data;
 
     /**
      * true if "+OK"
      */
-    boolean ok = false;
+    boolean ok;
 }

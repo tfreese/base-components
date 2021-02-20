@@ -1,10 +1,9 @@
 package de.freese.base.net.protocol;
 
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Properties;
 import org.apache.commons.codec.binary.Hex;
 
 /**
@@ -17,22 +16,12 @@ public abstract class AbstractProtocol implements AutoCloseable
     /**
      *
      */
-    private PrintStream debugStream = null;
+    private PrintStream debugStream;
 
     /**
      *
      */
-    private boolean isDebug = false;
-
-    /**
-     * Erstellt ein neues {@link AbstractProtocol} Object.
-     *
-     * @param props {@link Properties}
-     */
-    public AbstractProtocol(final Properties props)
-    {
-        super();
-    }
+    private boolean isDebug;
 
     /**
      * @see java.lang.AutoCloseable#close()
@@ -103,14 +92,10 @@ public abstract class AbstractProtocol implements AutoCloseable
 
         try
         {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            digest = md.digest(key.getBytes("iso-8859-1"));
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            digest = md.digest(key.getBytes(StandardCharsets.UTF_8));
         }
-        catch (NoSuchAlgorithmException nsae)
-        {
-            return null;
-        }
-        catch (UnsupportedEncodingException uee)
+        catch (NoSuchAlgorithmException ex)
         {
             return null;
         }

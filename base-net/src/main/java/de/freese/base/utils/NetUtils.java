@@ -7,6 +7,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Enumeration;
 import org.apache.commons.net.ntp.NTPUDPClient;
@@ -27,19 +28,19 @@ public final class NetUtils
      */
     public static String convertAddressToDotRepresentation(final byte[] ipAddr)
     {
-        String ipAddrStr = "";
+        StringBuilder ipAddrStr = new StringBuilder();
 
         for (int i = 0; i < ipAddr.length; i++)
         {
             if (i > 0)
             {
-                ipAddrStr += ".";
+                ipAddrStr.append(".");
             }
 
-            ipAddrStr += (ipAddr[i] & 0xFF);
+            ipAddrStr.append(ipAddr[i] & 0xFF);
         }
 
-        return ipAddrStr;
+        return ipAddrStr.toString();
     }
 
     /**
@@ -61,7 +62,7 @@ public final class NetUtils
         if (hostName == null)
         {
             // Cross Platform (Windows, Linux, Unix, Mac)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())))
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream(), StandardCharsets.UTF_8)))
             {
                 hostName = br.readLine();
             }

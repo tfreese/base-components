@@ -55,12 +55,12 @@ public class SSHExec
     /**
      *
      */
-    private Session session = null;
+    private Session session;
 
     /**
      *
      */
-    private int timeOut = 0;
+    private int timeOut;
 
     /**
      *
@@ -196,9 +196,9 @@ public class SSHExec
                 // result.add(line);
                 // }
             }
-            catch (IOException ioex)
+            catch (IOException ex)
             {
-                throw new UncheckedIOException(ioex);
+                throw new UncheckedIOException(ex);
             }
 
             return result;
