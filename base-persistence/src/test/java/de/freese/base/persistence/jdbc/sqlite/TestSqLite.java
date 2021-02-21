@@ -2,10 +2,14 @@
 package de.freese.base.persistence.jdbc.sqlite;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -26,12 +30,35 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 class TestSqLite
 {
     /**
+     * Paths.get(System.getProperty("user.dir"), "target")<br>
+     * Paths.get(System.getProperty("java.io.tmpdir"), "java")
+     */
+    private static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java", TestSqLite.class.getSimpleName());
+
+    /**
+     * Verzeichnis-Struktur zum Testen löschen.
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    @AfterAll
+    protected static void afterAll() throws Exception
+    {
+        // Würde auch die Dateien anderer Tests löschen.
+        // deleteDirectoryRecursiv(PATH_TEST);
+    }
+
+    /**
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    static void setUp() throws Exception
+    protected static void beforeAll() throws Exception
     {
         Class.forName("org.sqlite.JDBC");
+
+        if (Files.notExists(PATH_TEST))
+        {
+            Files.createDirectories(PATH_TEST);
+        }
     }
 
     /**
@@ -47,7 +74,7 @@ class TestSqLite
         // System.setProperty("org.sqlite.lib.path", "/home/tommy");
         // System.setProperty("org.sqlite.lib.name", "sqlite-libsqlitejdbc.so");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:target/sqlite.db"))
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db"))
         {
             System.out.println("Opened database successfully");
 
@@ -120,7 +147,7 @@ class TestSqLite
     {
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setUrl("jdbc:sqlite:target/sqlite.db");
+        dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");
         dataSource.setSuppressClose(true);
         // dataSource.setUsername(this.user);
         // dataSource.setPassword(this.password);

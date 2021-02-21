@@ -20,21 +20,26 @@ import org.junit.jupiter.api.BeforeAll;
  */
 public abstract class AbstractIoTest
 {
+    // /**
+    // *
+    // */
+    // private static final AtomicInteger COUNTER = new AtomicInteger(0);
+
     /**
-     * Paths.get(System.getProperty("java.io.tmpdir"), "jsync")<br>
-     * Paths.get(System.getProperty("user.dir"), "target")
+     * Paths.get(System.getProperty("user.dir"), "target")<br>
+     * Paths.get(System.getProperty("java.io.tmpdir"), "java")
      */
-    protected static final Path PATH_BASE = Paths.get(System.getProperty("java.io.tmpdir"), "java");
+    protected static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java");
 
     /**
      *
      */
-    protected static final Path PATH_FILE_100kB = createFile("smallFile100kB.bin");
+    protected static final long SIZE_100kb = 1024 * 100;
 
     /**
-    *
-    */
-    protected static final Path PATH_FILE_10kB = createFile("smallFile10kB.bin");
+     *
+     */
+    protected static final long SIZE_10kb = 1024 * 10;
 
     /**
      * Verzeichnis-Struktur zum Testen löschen.
@@ -44,7 +49,8 @@ public abstract class AbstractIoTest
     @AfterAll
     protected static void afterAll() throws Exception
     {
-        deleteDirectoryRecursiv(PATH_BASE);
+        // Würde auch die Dateien andere IO-Tests löschen.
+        // deleteDirectoryRecursiv(PATH_TEST);
     }
 
     /**
@@ -53,41 +59,10 @@ public abstract class AbstractIoTest
     @BeforeAll
     protected static void beforeAll() throws IOException
     {
-        // Dummy-Datei anlegen.
-        Path path = PATH_BASE;
-        Path pathFile = PATH_FILE_10kB;
-
-        if (Files.notExists(pathFile))
+        if (Files.notExists(PATH_TEST))
         {
-            Files.createDirectories(path);
-
-            try (RandomAccessFile raf = new RandomAccessFile(pathFile.toFile(), "rw"))
-            {
-                raf.setLength(1024 * 10);
-            }
+            Files.createDirectories(PATH_TEST);
         }
-
-        path = PATH_BASE;
-        pathFile = PATH_FILE_100kB;
-
-        if (Files.notExists(pathFile))
-        {
-            Files.createDirectories(path);
-
-            try (RandomAccessFile raf = new RandomAccessFile(pathFile.toFile(), "rw"))
-            {
-                raf.setLength(1024 * 100);
-            }
-        }
-    }
-
-    /**
-     * @param fileName String
-     * @return {@link Path}
-     */
-    protected static Path createFile(final String fileName)
-    {
-        return PATH_BASE.resolve(fileName);
     }
 
     /**
@@ -130,5 +105,45 @@ public abstract class AbstractIoTest
                 return FileVisitResult.CONTINUE;
             }
         });
+    }
+
+    /**
+     * @param size long
+     * @return {@link Path}
+     * @throws IOException Falls was schief geht.
+     */
+    protected Path createFile(final long size) throws IOException
+    {
+        // Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile." + COUNTER.incrementAndGet());
+        Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile.bin");
+
+        if (Files.notExists(path))
+        {
+            Files.createDirectories(path.getParent());
+
+            try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw"))
+            {
+                raf.setLength(size);
+            }
+        }
+
+        return path;
+    }
+
+    /**
+     * @param fileName String
+     * @return {@link Path}
+     * @throws IOException Falls was schief geht.
+     */
+    protected Path createFile(final String fileName) throws IOException
+    {
+        Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(fileName);
+
+        if (Files.notExists(path))
+        {
+            Files.createDirectories(path.getParent());
+        }
+
+        return path;
     }
 }

@@ -1,17 +1,59 @@
 // Tasks im SubModul ausführen: gradle MODUL:clean build
 
 subprojects {
-	apply plugin: 'java'
-	
-    dependencies {
-        implementation(platform("de.freese:maven-bom:$version_mavenBom"))
-        //implementation("org.springframework.boot:spring-boot-starter")
-    }
+    apply plugin: "java"
+    apply plugin: "maven-publish"
+    apply plugin: "de.freese.gradle.conventions"
+    apply plugin: "io.spring.dependency-management"
+
+    //dependencies {
+    //  implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+    //implementation("org.springframework.boot:spring-boot-starter")
+    //}
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
+        }
+
+        dependencies {
+            dependency "com.itextpdf:itextpdf:$version_itext"
+            dependency "com.jcraft:jsch:$version_jsch"
+            dependency "commons-io:commons-io:$version_commonsIo"
+            dependency "commons-net:commons-net:$version_commonsNet"
+
+            dependency "io.github.artsok:rerunner-jupiter:$version_rerunnerJupiter"
+            dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
+
+            dependency("net.sourceforge.jexcelapi:jxl:$version_jexcelapi") {
+                exclude "log4j:log4j"
+            }
+            dependency "nf.fr.eraasoft:objectpool:$version_EraasoftPool"
+
+            dependency "org.bouncycastle:bcpg-jdk15on:$version_bouncycastle"
+            dependency "org.bouncycastle:bcmail-jdk15on:$version_bouncycastle"
+
+            dependency "org.apache.commons:commons-collections4:$version_commonsCollections"
+            dependency "org.apache.poi:poi-ooxml:$version_poi"
+
+            dependency("org.jfree:jfreechart:$version_jfreechart") {
+                exclude "com.lowagie:itext"
+                exclude "xml-apis:xml-apis"
+            }
+
+            dependency "org.openjdk.jmh:jmh-core:$version_jmh"
+            dependency "org.openjdk.jmh:jmh-generator-annprocess:$version_jmh"
+            dependency "org.openjfx:javafx-controls:$version_javafx"
+
+            dependency "org.swinglabs.swingx:swingx-core:$version_swingx"
+        }
+    } 
 }
 
-project("base-core") {
-	apply plugin: 'java-library'
+/*project("base-core") {
+	apply plugin: "java-library"
 	description = "Common Classes, Patterns and Interfaces."
+
 	dependencies {
 		// api =  scope compile
 		api("commons-codec:commons-codec")
@@ -34,169 +76,165 @@ project("base-core") {
 		testImplementation("org.junit.jupiter:junit-jupiter-params")
 		testImplementation("org.mockito:mockito-junit-jupiter")
 	}
-}
+}*/
 
 project("base-calendar") {
-	apply plugin: 'java-library'
-	description = "Common Classes for Calendar."
-	dependencies {
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.junit.jupiter:junit-jupiter-params")
-	}
+    apply plugin: "java-library"
+    description = "Common Classes for Calendar."
+    dependencies {
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+    }
 }
 
 project("base-net") {
-	apply plugin: 'java-library'
-	description = "Common Protocols and Classes for the Network Layer."
-	dependencies {
-		api(project(":base-core"))
-	
-		api("com.jcraft:jsch")
-		api("com.sun.mail:jakarta.mail")
-		api("commons-net:commons-net")
-		api("org.slf4j:slf4j-api")
-    
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.slf4j:slf4j-simple")
-	}
+    apply plugin: "java-library"
+    description = "Common Protocols and Classes for the Network Layer."
+    dependencies {
+        api(project(":base-core"))
+
+        api("com.jcraft:jsch")
+        api("com.sun.mail:jakarta.mail")
+        api("commons-net:commons-net")
+        api("org.slf4j:slf4j-api")
+
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.slf4j:slf4j-simple")
+    }
 }
 
 project("base-persistence") {
-	apply plugin: 'java-library'
-	description = "Common Patterns and Classes for the Persistence Layer."
-	dependencies {
-		api(project(":base-core"))
-		
-		api("org.apache.poi:poi-ooxml")
-		api("org.apache.commons:commons-dbcp2")
-		api("org.apache.tomcat:tomcat-jdbc")
-		api("org.springframework.boot:spring-boot-starter-jdbc")
-		api("org.springframework.boot:spring-boot-starter-data-jpa")
+    apply plugin: "java-library"
+    description = "Common Patterns and Classes for the Persistence Layer."
+    dependencies {
+        api(project(":base-core"))
 
-		compileOnly("javax.servlet:javax.servlet-api")
+        api("org.apache.poi:poi-ooxml")
+        api("org.apache.commons:commons-dbcp2")
+        api("org.apache.tomcat:tomcat-jdbc")
+        api("org.springframework.boot:spring-boot-starter-jdbc")
+        api("org.springframework.boot:spring-boot-starter-data-jpa")
 
-		testImplementation("com.h2database:h2")
-		testImplementation("io.r2dbc:r2dbc-client")
-		testImplementation("io.r2dbc:r2dbc-h2")
-		testImplementation("io.r2dbc:r2dbc-pool")
-		testImplementation("org.assertj:assertj-core")
-		testImplementation("org.apache.derby:derby")
-		testImplementation("org.hsqldb:hsqldb")
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.junit.jupiter:junit-jupiter-params")
-		testImplementation("org.junit.platform:junit-platform-runner")
-		testImplementation("org.junit.platform:junit-platform-suite-api")
-		testImplementation("org.mockito:mockito-junit-jupiter")
-		testImplementation("org.xerial:sqlite-jdbc")
-	}
+        compileOnly("javax.servlet:javax.servlet-api")
+
+        testImplementation("com.h2database:h2")
+        testImplementation("io.r2dbc:r2dbc-client")
+        testImplementation("io.r2dbc:r2dbc-h2")
+        testImplementation("io.r2dbc:r2dbc-pool")
+        testImplementation("org.assertj:assertj-core")
+        testImplementation("org.apache.derby:derby")
+        testImplementation("org.hsqldb:hsqldb")
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.junit.platform:junit-platform-runner")
+        testImplementation("org.junit.platform:junit-platform-suite-api")
+        testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("org.xerial:sqlite-jdbc")
+    }
 }
 
 project("base-pool") {
-	apply plugin: 'java-library'
-	description = "Builder für Object-/Connections Pools."
-	dependencies {
-		api(project(":base-core"))
-		
-		api("com.zaxxer:HikariCP")
-		api("nf.fr.eraasoft:objectpool")
-		api("org.apache.commons:commons-dbcp2")
-		api("org.apache.commons:commons-pool2")
-		api("org.apache.tomcat:tomcat-jdbc")
-		
-		runtimeOnly("org.slf4j:jcl-over-slf4j")
+    apply plugin: "java-library"
+    description = "Builder für Object-/Connections Pools."
+    dependencies {
+        api(project(":base-core"))
 
-		testImplementation("com.h2database:h2")
-		testImplementation("org.apache.derby:derby")
-		testImplementation("org.hsqldb:hsqldb")
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.junit.jupiter:junit-jupiter-params")
-		testImplementation("org.slf4j:slf4j-simple")
-	}
+        api("com.zaxxer:HikariCP")
+        api("nf.fr.eraasoft:objectpool")
+        api("org.apache.commons:commons-dbcp2")
+        api("org.apache.commons:commons-pool2")
+        api("org.apache.tomcat:tomcat-jdbc")
+
+        runtimeOnly("org.slf4j:jcl-over-slf4j")
+
+        testImplementation("com.h2database:h2")
+        testImplementation("org.apache.derby:derby")
+        testImplementation("org.hsqldb:hsqldb")
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.slf4j:slf4j-simple")
+    }
 }
 
 project("base-reports") {
-	apply plugin: 'java-library'
-	description = "Common Classes for creating Reports or import Office Documents."
-	dependencies {
-		api(project(":base-core"))
-		
-		api("com.itextpdf:itextpdf")
-		api("commons-io:commons-io")
-		api("org.jfree:jfreechart")
-		api("org.apache.poi:poi-ooxml")
-		api("org.springframework:spring-core")
-		api("net.sourceforge.jexcelapi:jxl")
-		
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-	}
+    apply plugin: "java-library"
+    description = "Common Classes for creating Reports or import Office Documents."
+    dependencies {
+        api(project(":base-core"))
+
+        api("com.itextpdf:itextpdf")
+        api("commons-io:commons-io")
+        api("org.jfree:jfreechart")
+        api("org.apache.poi:poi-ooxml")
+        api("org.springframework:spring-core")
+        api("net.sourceforge.jexcelapi:jxl")
+
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    }
 }
 
 project("base-resourcemap") {
-	apply plugin: 'java-library'
-	description = "ResoureMaps to use hierarchical ResourceBundles."
-	dependencies {
-		api(project(":base-core"))
-		
-		implementation("org.slf4j:slf4j-api")
+    apply plugin: "java-library"
+    description = "ResoureMaps to use hierarchical ResourceBundles."
+    dependencies {
+        api(project(":base-core"))
 
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.slf4j:slf4j-simple")
-		testImplementation("org.slf4j:jcl-over-slf4j")
-		testImplementation("org.springframework:spring-core")
-	}
+        implementation("org.slf4j:slf4j-api")
+
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.slf4j:slf4j-simple")
+        testImplementation("org.slf4j:jcl-over-slf4j")
+        testImplementation("org.springframework:spring-core")
+    }
 }
 
 project("base-security") {
-	apply plugin: 'java-library'
-	description = "Common Classes for the Security Layer."
-	dependencies {
-		api(project(":base-core"))
+    apply plugin: "java-library"
+    description = "Common Classes for the Security Layer."
+    dependencies {
+        api(project(":base-core"))
 
-		api("commons-io:commons-io")
-		api("org.bouncycastle:bcpg-jdk15on")
-		api("org.bouncycastle:bcmail-jdk15on")
-		api("org.slf4j:slf4j-api")
+        api("commons-io:commons-io")
+        api("org.bouncycastle:bcpg-jdk15on")
+        api("org.bouncycastle:bcmail-jdk15on")
+        api("org.slf4j:slf4j-api")
 
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.slf4j:slf4j-simple")
-	}
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.slf4j:slf4j-simple")
+    }
 }
 
 project("base-swing") {
-	apply plugin: 'java-library'
-	apply plugin: 'org.openjfx.javafxplugin'
-	apply plugin: 'com.github.ben-manes.versions'
-	/*plugins {
-		id 'java-library'
-		id 'org.openjfx.javafxplugin' version '0.0.9'
-	}*/
-	description = "Components and Classes for Swing."
-	dependencies {
-		api(project(":base-net"))
-		api(project(":base-resourcemap"))
-		
-		javafx {
-			version = "15"
-			modules = [ 'javafx.controls' ]
-		}
+    apply plugin: "java-library"
+    apply plugin: "org.openjfx.javafxplugin"
+    description = "Components and Classes for Swing."
+    dependencies {
+        api(project(":base-net"))
+        api(project(":base-resourcemap"))
 
-		api("commons-io:commons-io")
-		api("com.fasterxml.jackson.core:jackson-databind")
-		api("com.sun.mail:jakarta.mail")
-		api("javax.xml.bind:jaxb-api")
-		api("org.apache.commons:commons-collections4")
-		//api("org.openjfx:javafx-controls")
-		api("org.swinglabs.swingx:swingx-core")
+        javafx {
+            version = "15"
+            modules = ["javafx.controls"]
+        }
 
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-	}
+        api("commons-io:commons-io")
+        api("com.fasterxml.jackson.core:jackson-databind")
+        api("com.sun.mail:jakarta.mail")
+        api("javax.xml.bind:jaxb-api")
+        api("org.apache.commons:commons-collections4")
+        //api("org.openjfx:javafx-controls")
+        api("org.swinglabs.swingx:swingx-core")
+
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    }
 }
 
 project("base-swing-demo") {
-	description = "Demo for the Swing Components."
-	dependencies {
-		implementation(project(":base-swing"))
+    apply plugin: "java"
+    description = "Demo for the Swing Components."
+    dependencies {
+        implementation(project(":base-swing"))
 
-		runtimeOnly("org.slf4j:slf4j-simple")
-	}
+        runtimeOnly("org.slf4j:slf4j-simple")
+    }
 }

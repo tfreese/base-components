@@ -26,7 +26,7 @@ class SleepThrottledInputStreamTest extends AbstractIoTest
      */
     private void doTest(final int permits) throws IOException
     {
-        try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
+        try (InputStream is = Files.newInputStream(createFile(SIZE_10kb));
              SleepThrottledInputStream throttledStream = new SleepThrottledInputStream(is, permits))
         {
             // int data = 0;

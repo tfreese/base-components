@@ -63,14 +63,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     private HikariDataSource dataSource;
 
     /**
-     * Erstellt ein neues {@link DbServerExtension} Object.
-     */
-    public DbServerExtension()
-    {
-        super();
-    }
-
-    /**
      * @see org.junit.jupiter.api.extension.AfterAllCallback#afterAll(org.junit.jupiter.api.extension.ExtensionContext)
      */
     @Override

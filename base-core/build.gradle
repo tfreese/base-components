@@ -1,0 +1,28 @@
+plugins {
+	id "java-library"
+}
+
+description = "Common Classes, Patterns and Interfaces."
+
+	dependencies {
+		// api =  scope compile
+		api("commons-codec:commons-codec")
+		api("io.projectreactor:reactor-core")
+		api("javax.xml.bind:jaxb-api")
+		api("org.apache.commons:commons-collections4")
+		api('org.apache.commons:commons-lang3')
+		api("org.slf4j:slf4j-api")
+		api("org.springframework:spring-context")
+		
+		// implementation = scope runtime
+		implementation("org.openjdk.jmh:jmh-core")
+		implementation("org.openjdk.jmh:jmh-generator-annprocess")
+
+		// runtimeOnly = scope runtime
+		runtimeOnly("org.slf4j:jcl-over-slf4j")
+
+		testImplementation("io.github.artsok:rerunner-jupiter")
+		testImplementation("org.junit.jupiter:junit-jupiter-engine")
+		testImplementation("org.junit.jupiter:junit-jupiter-params")
+		testImplementation("org.mockito:mockito-junit-jupiter")
+}

@@ -47,7 +47,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
      */
     private void doTest(final Function<Integer, Throttle> throttleFunction, final int permits) throws IOException
     {
-        try (InputStream is = Files.newInputStream(PATH_FILE_10kB);
+        try (InputStream is = Files.newInputStream(createFile(SIZE_10kb));
              ThrottleInputStream throttledStream = new ThrottleInputStream(is, throttleFunction.apply(permits)))
         {
             // int data = 0;
