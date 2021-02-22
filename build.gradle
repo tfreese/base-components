@@ -47,7 +47,11 @@ subprojects {
 
             dependency "org.swinglabs.swingx:swingx-core:$version_swingx"
         }
-    } 
+    }
+    
+	dependencies {
+		//testImplementation("org.junit.jupiter:junit-jupiter-engine")
+	}
 }
 
 /*project("base-core") {
