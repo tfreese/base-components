@@ -4,11 +4,6 @@ subprojects {
     apply plugin: "java"
     apply plugin: "io.spring.dependency-management"
 
-    //dependencies {
-    //  implementation(platform("de.freese:maven-bom:$version_mavenBom"))
-    //implementation("org.springframework.boot:spring-boot-starter")
-    //}
-
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
@@ -48,6 +43,7 @@ subprojects {
     }
     
 	dependencies {
+		//implementation(platform("de.freese:maven-bom:$version_mavenBom"))
 		//testImplementation("org.junit.jupiter:junit-jupiter-engine")
 	}
 }
@@ -215,7 +211,7 @@ project("base-swing") {
         api(project(":base-resourcemap"))
 
         javafx {
-            version = "15"
+        	version = "$version_javafxBase"
             modules = ["javafx.controls"]
         }
 
