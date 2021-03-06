@@ -50,25 +50,17 @@ public abstract class AbstractPoolBuilder<B, T> implements Builder<T>
     /**
      *
      */
-    private boolean registerShutdownHook = false;
+    private boolean registerShutdownHook;
 
     /**
      *
      */
-    private boolean validateOnGet = false;
+    private boolean validateOnGet;
 
     /**
      *
      */
-    private boolean validateOnReturn = false;
-
-    /**
-     * Erstellt ein neues {@link AbstractPoolBuilder} Object.
-     */
-    public AbstractPoolBuilder()
-    {
-        super();
-    }
+    private boolean validateOnReturn;
 
     /**
      * Default: 1

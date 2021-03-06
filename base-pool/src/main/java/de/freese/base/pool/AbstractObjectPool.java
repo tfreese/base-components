@@ -34,7 +34,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     /**
     *
     */
-    private Class<T> objectClazz = null;
+    private Class<T> objectClazz;
 
     /**
     *
@@ -44,7 +44,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     /**
     *
     */
-    private Queue<T> queue = null;
+    private Queue<T> queue;
 
     /**
      * Erstellt ein neues {@link AbstractObjectPool} Object.
@@ -59,7 +59,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      *
      * @param objectFactory {@link ObjectFactory}
      */
-    public AbstractObjectPool(final ObjectFactory<T> objectFactory)
+    protected AbstractObjectPool(final ObjectFactory<T> objectFactory)
     {
         super();
 
@@ -154,7 +154,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 
         if (getQueue() != null)
         {
-            while (getQueue().size() > 0)
+            while (!getQueue().isEmpty())
             {
                 T object = getQueue().poll();
 
@@ -184,7 +184,15 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 
     /**
      * Das hier funktioniert nur, wenn die erbende Klasse nicht auch generisch ist !<br>
-     * Z.B.: public class MyObjectPool extends AbstractObjectPool<Integer><br>
+     * Z.B.:
+     *
+     * <pre>
+     * {@code
+     * public class MyObjectPool extends AbstractObjectPool<Integer>
+     * }
+     * </pre>
+     *
+     * <br>
      *
      * @return Class
      * @throws ClassCastException Falls was schief geht.

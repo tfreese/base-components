@@ -61,20 +61,12 @@ public class ObjectPoolBuilder<T> extends AbstractPoolBuilder<ObjectPoolBuilder<
     /**
      *
      */
-    private ObjectFactory<T> objectFactory = null;
+    private ObjectFactory<T> objectFactory;
 
     /**
      *
      */
-    private ObjectPoolType type = null;
-
-    /**
-     * Erzeugt eine neue Instanz von {@link ObjectPoolBuilder}
-     */
-    public ObjectPoolBuilder()
-    {
-        super();
-    }
+    private ObjectPoolType type;
 
     /**
      * @see de.freese.base.core.model.builder.Builder#build()
@@ -85,33 +77,16 @@ public class ObjectPoolBuilder<T> extends AbstractPoolBuilder<ObjectPoolBuilder<
         Objects.requireNonNull(this.type, "ObjectPoolType required");
         Objects.requireNonNull(this.objectFactory, "objectFactory required");
 
-        ObjectPool<T> objectPool = null;
-
-        switch (this.type)
+        ObjectPool<T> objectPool = switch (this.type)
         {
-            case COMMONS:
-                objectPool = buildCommonsPool(this.objectFactory);
-                break;
+            case COMMONS -> buildCommonsPool(this.objectFactory);
+            case ERASOFT -> buildErasoftPool(this.objectFactory);
+            case ROUND_ROBIN -> buildRoundRobinPool(this.objectFactory);
+            case SIMPLE -> buildSimplePool(this.objectFactory);
+            case UNBOUNDED -> buildUnboundedPool(this.objectFactory);
 
-            case ERASOFT:
-                objectPool = buildErasoftPool(this.objectFactory);
-                break;
-
-            case ROUND_ROBIN:
-                objectPool = buildRoundRobinPool(this.objectFactory);
-                break;
-
-            case SIMPLE:
-                objectPool = buildSimplePool(this.objectFactory);
-                break;
-
-            case UNBOUNDED:
-                objectPool = buildUnboundedPool(this.objectFactory);
-                break;
-
-            default:
-                throw new IllegalStateException("unexpected type: " + this.type);
-        }
+            default -> throw new IllegalStateException("unexpected type: " + this.type);
+        };
 
         if (isRegisterShutdownHook())
         {

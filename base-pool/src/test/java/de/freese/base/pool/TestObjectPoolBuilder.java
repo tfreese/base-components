@@ -69,23 +69,7 @@ class TestObjectPoolBuilder
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    void test0100GetAndReturn(final ObjectPoolType poolType, final Supplier<UUID> creator)
-    {
-        ObjectPool<UUID> pool =
-                new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
-
-        UUID uuid1 = pool.borrowObject();
-        assertNotNull(uuid1);
-        pool.returnObject(uuid1);
-    }
-
-    /**
-     * @param poolType {@link ObjectPoolType}
-     * @param creator {@link Supplier}
-     */
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("getObjectPoolTypes")
-    void test0200Equals(final ObjectPoolType poolType, final Supplier<UUID> creator)
+    void testEquals(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
         ObjectPool<UUID> pool =
                 new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
@@ -112,7 +96,23 @@ class TestObjectPoolBuilder
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getObjectPoolTypes")
-    void test0300OverSize(final ObjectPoolType poolType, final Supplier<UUID> creator)
+    void testGetAndReturn(final ObjectPoolType poolType, final Supplier<UUID> creator)
+    {
+        ObjectPool<UUID> pool =
+                new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
+
+        UUID uuid1 = pool.borrowObject();
+        assertNotNull(uuid1);
+        pool.returnObject(uuid1);
+    }
+
+    /**
+     * @param poolType {@link ObjectPoolType}
+     * @param creator {@link Supplier}
+     */
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("getObjectPoolTypes")
+    void testOverSize(final ObjectPoolType poolType, final Supplier<UUID> creator)
     {
         ObjectPool<UUID> pool =
                 new ObjectPoolBuilder<UUID>().registerShutdownHook(true).maxSize(1).type(poolType).objectFactory(new DefaultObjectFactory<>(creator)).build();
