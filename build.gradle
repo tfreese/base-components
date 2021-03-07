@@ -21,7 +21,6 @@ subprojects {
             dependency("net.sourceforge.jexcelapi:jxl:$version_jexcelapi") {
                 exclude "log4j:log4j"
             }
-            dependency "nf.fr.eraasoft:objectpool:$version_EraasoftPool"
 
             dependency "org.bouncycastle:bcpg-jdk15on:$version_bouncycastle"
             dependency "org.bouncycastle:bcmail-jdk15on:$version_bouncycastle"
@@ -128,29 +127,6 @@ project("base-persistence") {
         testImplementation("org.junit.platform:junit-platform-suite-api")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("org.xerial:sqlite-jdbc")
-    }
-}
-
-project("base-pool") {
-    apply plugin: "java-library"
-    description = "Builder für Object-/Connections Pools."
-    dependencies {
-        api(project(":base-core"))
-
-        api("com.zaxxer:HikariCP")
-        api("nf.fr.eraasoft:objectpool")
-        api("org.apache.commons:commons-dbcp2")
-        api("org.apache.commons:commons-pool2")
-        api("org.apache.tomcat:tomcat-jdbc")
-
-        runtimeOnly("org.slf4j:jcl-over-slf4j")
-
-        testImplementation("com.h2database:h2")
-        testImplementation("org.apache.derby:derby")
-        testImplementation("org.hsqldb:hsqldb")
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
-        testImplementation("org.slf4j:slf4j-simple")
     }
 }
 

@@ -38,7 +38,6 @@
         <module>base-core</module>
         <module>base-calendar</module>
         <module>base-net</module>
-        <module>base-pool</module>
         <module>base-persistence</module>
         <module>base-reports</module>
         <module>base-resourcemap</module>
