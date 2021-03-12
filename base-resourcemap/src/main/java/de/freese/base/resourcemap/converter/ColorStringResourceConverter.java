@@ -12,14 +12,6 @@ import java.awt.Color;
 public class ColorStringResourceConverter extends AbstractResourceConverter<Color>
 {
     /**
-     * Erstellt ein neues {@link ColorStringResourceConverter} Object.
-     */
-    public ColorStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

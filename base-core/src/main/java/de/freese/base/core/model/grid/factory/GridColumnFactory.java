@@ -21,47 +21,18 @@ public interface GridColumnFactory
      */
     public default GridColumn<?> getColumnForSQL(final int sqlType)
     {
-        Class<?> objectClazz = null;
-
-        switch (sqlType)
+        Class<?> objectClazz = switch (sqlType)
         {
-            case Types.BINARY:
-            case Types.VARBINARY:
-                objectClazz = byte[].class;
-                break;
+            case Types.BINARY, Types.VARBINARY -> byte[].class;
+            case Types.BOOLEAN -> Boolean.class;
+            case Types.DATE -> Date.class;
+            case Types.FLOAT, Types.DOUBLE -> Double.class;
+            case Types.TINYINT, Types.SMALLINT, Types.INTEGER -> Integer.class;
+            case Types.BIGINT, Types.DECIMAL, Types.NUMERIC -> Long.class;
+            case Types.VARCHAR -> String.class;
 
-            case Types.BOOLEAN:
-                objectClazz = Boolean.class;
-                break;
-
-            case Types.DATE:
-                objectClazz = Date.class;
-                break;
-
-            case Types.FLOAT:
-            case Types.DOUBLE:
-                objectClazz = Double.class;
-                break;
-
-            case Types.TINYINT:
-            case Types.SMALLINT:
-            case Types.INTEGER:
-                objectClazz = Integer.class;
-                break;
-
-            case Types.BIGINT:
-            case Types.DECIMAL:
-            case Types.NUMERIC:
-                objectClazz = Long.class;
-                break;
-
-            case Types.VARCHAR:
-                objectClazz = String.class;
-                break;
-
-            default:
-                throw new UnsupportedOperationException("sqlType is not supported: " + sqlType);
-        }
+            default -> throw new UnsupportedOperationException("sqlType is not supported: " + sqlType);
+        };
 
         GridColumn<?> gridColumn = getColumnForType(objectClazz);
 

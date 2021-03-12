@@ -24,7 +24,7 @@ public class ExcelImplDelegator implements IExcelImport
     /**
      * @author Thomas Freese
      */
-    private class NotClosingInputStream extends ProxyInputStream
+    private static class NotClosingInputStream extends ProxyInputStream
     {
         /**
          * Erstellt ein neues {@link NotClosingInputStream} Object.
@@ -59,25 +59,17 @@ public class ExcelImplDelegator implements IExcelImport
     /**
      *
      */
-    private IExcelImport excelImpl = null;
+    private IExcelImport excelImpl;
 
     /**
      *
      */
-    private InputStream inputStream = null;
+    private InputStream inputStream;
 
     /**
      *
      */
     private boolean throwExcelException = true;
-
-    /**
-     * Creates a new {@link ExcelImplDelegator} object.
-     */
-    public ExcelImplDelegator()
-    {
-        super();
-    }
 
     /**
      * @see de.freese.base.reports.importer.excel.IExcelImport#closeExcelFile()
@@ -258,7 +250,7 @@ public class ExcelImplDelegator implements IExcelImport
         if (lastException != null)
         {
             StringBuilder sb = new StringBuilder();
-            StackTraceLimiter.printStackTrace(lastException, sb, 4);
+            StackTraceLimiter.printStackTrace(lastException, 4, sb);
             LOGGER.warn(sb.toString());
 
             throw lastException;

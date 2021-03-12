@@ -17,7 +17,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     /**
      *
      */
-    private List<FilterCondition> filter;
+    private List<FilterCondition> filters;
 
     /**
      *
@@ -41,9 +41,9 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     {
         for (FilterCondition filter : filters)
         {
-            if (!getFilter().contains(filter))
+            if (!getFilters().contains(filter))
             {
-                getFilter().add(filter);
+                getFilters().add(filter);
                 filter.getPropertyChangeSupport().addPropertyChangeListener(this);
             }
         }
@@ -52,14 +52,14 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     /**
      * @return {@link List}<IFilter>
      */
-    protected List<FilterCondition> getFilter()
+    protected List<FilterCondition> getFilters()
     {
-        if (this.filter == null)
+        if (this.filters == null)
         {
-            this.filter = new ArrayList<>();
+            this.filters = new ArrayList<>();
         }
 
-        return this.filter;
+        return this.filters;
     }
 
     /**
@@ -70,7 +70,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
      */
     public FilterCondition getFilter(final int index)
     {
-        return getFilter().get(index);
+        return getFilters().get(index);
     }
 
     /**
@@ -94,7 +94,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
      */
     public int getSize()
     {
-        return getFilter().size();
+        return getFilters().size();
     }
 
     /**
@@ -117,7 +117,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
      */
     public void removeFilter(final Filter filter)
     {
-        getFilter().remove(filter);
+        getFilters().remove(filter);
         filter.getPropertyChangeSupport().removePropertyChangeListener(this);
     }
 
@@ -127,7 +127,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     @Override
     public boolean test(final Object object)
     {
-        for (FilterCondition filterCondition : getFilter())
+        for (FilterCondition filterCondition : getFilters())
         {
             if (!filterCondition.test(object))
             {

@@ -48,7 +48,7 @@ class SleepThrottledOutputStreamTest extends AbstractIoTest
      * @throws IOException Falls was schief geht.
      */
     @Test
-    void test3000Permits() throws IOException
+    void testPermits3000() throws IOException
     {
         doTest(3000);
     }
@@ -57,7 +57,7 @@ class SleepThrottledOutputStreamTest extends AbstractIoTest
      * @throws IOException Falls was schief geht.
      */
     @Test
-    void test4000Permits() throws IOException
+    void testPermits4000() throws IOException
     {
         doTest(4000);
     }
@@ -66,7 +66,7 @@ class SleepThrottledOutputStreamTest extends AbstractIoTest
      * @throws IOException Falls was schief geht.
      */
     @Test
-    void test5000Permits() throws IOException
+    void testPermits5000() throws IOException
     {
         doTest(5000);
     }

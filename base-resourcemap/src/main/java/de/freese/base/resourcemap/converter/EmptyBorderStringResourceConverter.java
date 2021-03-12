@@ -11,14 +11,6 @@ import javax.swing.border.EmptyBorder;
 public class EmptyBorderStringResourceConverter extends AbstractResourceConverter<EmptyBorder>
 {
     /**
-     * Erstellt ein neues {@link EmptyBorderStringResourceConverter} Object.
-     */
-    public EmptyBorderStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

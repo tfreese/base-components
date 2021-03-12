@@ -34,7 +34,7 @@ import de.freese.base.resourcemap.provider.ResourceBundleProvider;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class TestResourceMap
+class TestResourceMap
 {
     /**
      *

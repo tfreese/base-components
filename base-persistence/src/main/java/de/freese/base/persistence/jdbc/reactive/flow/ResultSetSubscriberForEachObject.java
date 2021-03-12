@@ -1,7 +1,6 @@
 /**
  * Created: 10.06.2019
  */
-
 package de.freese.base.persistence.jdbc.reactive.flow;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
     /**
     *
     */
-    private Subscription subscription = null;
+    private Subscription subscription;
 
     /**
      * Erstellt ein neues {@link ResultSetSubscriberForEachObject} Object.

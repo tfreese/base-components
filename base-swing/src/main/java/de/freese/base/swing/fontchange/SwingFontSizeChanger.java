@@ -43,7 +43,7 @@ public final class SwingFontSizeChanger
     /**
      *
      */
-    private static SwingFontSizeChanger INSTANCE = new SwingFontSizeChanger();
+    private static final SwingFontSizeChanger INSTANCE = new SwingFontSizeChanger();
 
     /**
      * Liefert die Instanz.
@@ -79,7 +79,7 @@ public final class SwingFontSizeChanger
     /**
      *
      */
-    private final Map<Class<?>, FontChangeHandler> handler = new HashMap<>();
+    private final Map<Class<?>, FontChangeHandler> handlers = new HashMap<>();
 
     /**
      *
@@ -124,7 +124,7 @@ public final class SwingFontSizeChanger
      */
     private void addFontChangeHandler(final Class<?> componenClass, final FontChangeHandler handler)
     {
-        this.handler.put(componenClass, handler);
+        this.handlers.put(componenClass, handler);
     }
 
     /**
@@ -228,24 +228,24 @@ public final class SwingFontSizeChanger
         UICustomization.setDefaultFont(font);
     }
 
-    /**
-     * Setzt eine neue Fontfamilie.
-     *
-     * @param fontFamily String
-     * @deprecated Entfaellt
-     */
-    @Deprecated
-    protected void setFontFamily(final String fontFamily)
-    {
-        if (getFontFamily().equals(fontFamily))
-        {
-            return;
-        }
-
-        Font newFont = new Font(fontFamily, this.font.getStyle(), this.font.getSize());
-
-        setFont(newFont);
-    }
+    // /**
+    // * Setzt eine neue Fontfamilie.
+    // *
+    // * @param fontFamily String
+    // * @deprecated Entfaellt
+    // */
+    // @Deprecated
+    // private void setFontFamily(final String fontFamily)
+    // {
+    // if (getFontFamily().equals(fontFamily))
+    // {
+    // return;
+    // }
+    //
+    // Font newFont = new Font(fontFamily, this.font.getStyle(), this.font.getSize());
+    //
+    // setFont(newFont);
+    // }
 
     /**
      * Setzt eine neue Fontgroesse.
@@ -266,24 +266,24 @@ public final class SwingFontSizeChanger
         setFont(newFont);
     }
 
-    /**
-     * Setzt die Art des Fonts.
-     *
-     * @param fontStyle int; {zB Font.PLAIN}
-     * @deprecated Entfaellt
-     */
-    @Deprecated
-    protected void setFontStyle(final int fontStyle)
-    {
-        if (getFontStyle() == fontStyle)
-        {
-            return;
-        }
-
-        Font newFont = this.font.deriveFont(fontStyle);
-
-        setFont(newFont);
-    }
+    // /**
+    // * Setzt die Art des Fonts.
+    // *
+    // * @param fontStyle int; {zB Font.PLAIN}
+    // * @deprecated Entfaellt
+    // */
+    // @Deprecated
+    // private void setFontStyle(final int fontStyle)
+    // {
+    // if (getFontStyle() == fontStyle)
+    // {
+    // return;
+    // }
+    //
+    // Font newFont = this.font.deriveFont(fontStyle);
+    //
+    // setFont(newFont);
+    // }
 
     /**
      * Aktualisiert eine {@link Component} mit einem neuen Font.
@@ -338,7 +338,7 @@ public final class SwingFontSizeChanger
 
         while (clazz != Object.class)
         {
-            handler = this.handler.get(clazz);
+            handler = this.handlers.get(clazz);
 
             if (handler != null)
             {

@@ -147,7 +147,7 @@ public class OSXAdapter implements InvocationHandler
 
             // Create a proxy object around this handler that can be reflectively added as an Apple
             // ApplicationListener
-            Object osxAdapterProxy = Proxy.newProxyInstance(OSXAdapter.class.getClassLoader(), new Class<?>[]
+            Object osxAdapterProxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
             {
                     applicationListenerClass
             }, adapter);
@@ -259,10 +259,9 @@ public class OSXAdapter implements InvocationHandler
      *            <p/>
      * @return boolean
      *         <p/>
-     * @throws InvocationTargetException Falls was schief geht.
-     * @throws IllegalAccessException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public boolean callTarget(final Object appleEvent) throws InvocationTargetException, IllegalAccessException
+    public boolean callTarget(final Object appleEvent) throws Exception
     {
         Object result = this.targetMethod.invoke(this.targetObject, (Object[]) null);
 
@@ -271,7 +270,7 @@ public class OSXAdapter implements InvocationHandler
             return true;
         }
 
-        return Boolean.valueOf(result.toString()).booleanValue();
+        return Boolean.parseBoolean(result.toString());
     }
 
     /**

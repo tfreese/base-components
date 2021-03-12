@@ -38,7 +38,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private int busyIconIndex = 0;
+    private int busyIconIndex;
 
     /**
      *

@@ -106,11 +106,11 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
 
             if (booleanAsLong)
             {
-                ps.setLong(paramIndex, ((Boolean) value) ? 1 : 0);
+                ps.setLong(paramIndex, ((boolean) value) ? 1L : 0L);
             }
             else
             {
-                ps.setBoolean(paramIndex, (Boolean) value);
+                ps.setBoolean(paramIndex, (boolean) value);
             }
         }
         else if (value instanceof BigDecimal)

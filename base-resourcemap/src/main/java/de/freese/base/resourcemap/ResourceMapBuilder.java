@@ -17,7 +17,7 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
 /**
  * @author Thomas Freese
  */
-public class ResourceMapBuilder
+public final class ResourceMapBuilder
 {
     /**
      * @param bundleName String
@@ -36,17 +36,17 @@ public class ResourceMapBuilder
     /**
      *
      */
-    private ResourceMapCache cache = null;
+    private ResourceMapCache cache;
 
     /**
      *
      */
-    private ClassLoader classLoader = null;
+    private ClassLoader classLoader;
 
     /**
     *
     */
-    private ResourceMap parent = null;
+    private ResourceMap parent;
 
     /**
     *
@@ -56,7 +56,7 @@ public class ResourceMapBuilder
     /**
      *
      */
-    private ResourceProvider resourceProvider = null;
+    private ResourceProvider resourceProvider;
 
     /**
      * Erstellt ein neues {@link ResourceMapBuilder} Object.
@@ -83,7 +83,7 @@ public class ResourceMapBuilder
         // Muss für Parent zwingend gesetzt werden !
         if ((this.classLoader == null) && (this.parent == null))
         {
-            this.classLoader = DefaultResourceMap.class.getClassLoader();
+            this.classLoader = Thread.currentThread().getContextClassLoader();
         }
 
         if (this.cache == null)
@@ -99,10 +99,7 @@ public class ResourceMapBuilder
 
             resourceMap.setCache(this.cache);
 
-            if (this.resourceConverters != null)
-            {
-                this.resourceConverters.forEach(resourceMap::addResourceConverter);
-            }
+            this.resourceConverters.forEach(resourceMap::addResourceConverter);
         }
         catch (Exception ex)
         {

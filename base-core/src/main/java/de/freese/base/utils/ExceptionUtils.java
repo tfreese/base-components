@@ -3,8 +3,9 @@
  */
 package de.freese.base.utils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Nuetzliches fuer Exceptions.
@@ -14,95 +15,94 @@ import java.sql.SQLException;
 public final class ExceptionUtils
 {
     /**
-     * Liefert den Cause der {@link InvocationTargetException}.<br>
-     * Es wird als default nur 10 Hierarchien geprueft.
-     * 
-     * @param ite {@link InvocationTargetException}
-     * @return {@link Throwable}, kann auch eine InvocationTargetException sein
-     */
-    public static Throwable getCause(final InvocationTargetException ite)
-    {
-        Throwable th = ite;
-        int counter = 0;
-
-        while (th instanceof InvocationTargetException)
-        {
-            th = (th.getCause() != null) ? th.getCause() : th;
-
-            if (counter++ == 10)
-            {
-                // Rekursion vermeiden
-                break;
-            }
-        }
-
-        return th;
-    }
-
-    /**
-     * Liefert den Cause der {@link RuntimeException}.<br>
-     * Es wird als default nur 10 Hierarchien geprueft.
-     * 
-     * @param re {@link RuntimeException}
-     * @return {@link Throwable}, kann auch eine RuntimeException sein
-     */
-    public static Throwable getCause(final RuntimeException re)
-    {
-        Throwable th = re;
-        int counter = 0;
-
-        while (th instanceof RuntimeException)
-        {
-            th = (th.getCause() != null) ? th.getCause() : th;
-
-            if (counter++ == 10)
-            {
-                // Rekursion vermeiden
-                break;
-            }
-        }
-
-        return th;
-    }
-
-    /**
-     * Liefert die enthaltene SQL-Exception oder wieder die Parameter-Exception.<br>
-     * 
+     * Liefert den Cause des Typs, falls vorhanden.<br>
+     *
+     * @param <T> Type
      * @param throwable {@link Throwable}
-     * @return {@link Throwable}, kann auch null sein
+     * @param type {@link Class}
+     * @return {@link Exception}, kann auch null sein
      */
-    public static Throwable getSQLException(final Throwable throwable)
+    @SuppressWarnings("unchecked")
+    public static <T extends Exception> T findCause(final Throwable throwable, final Class<T> type)
     {
-        if (throwable == null)
+        if (type.isInstance(throwable))
         {
-            return null;
+            return (T) throwable;
         }
 
-        if (throwable instanceof SQLException)
+        final List<Throwable> list = getThrowableList(throwable);
+
+        return list.stream().filter(type::isInstance).map(type::cast).findFirst().orElse(null);
+    }
+
+    /**
+     * Liefert die enthaltene SQL-Exception, falls vorhanden.<br>
+     *
+     * @param throwable {@link Throwable}
+     * @return {@link SQLException}, kann auch null sein
+     */
+    public static SQLException findSQLException(final Throwable throwable)
+    {
+        return findCause(throwable, SQLException.class);
+        // if (throwable instanceof SQLException)
+        // {
+        // return (SQLException) throwable;
+        // }
+        //
+        // final List<Throwable> list = getThrowableList(throwable);
+        //
+        // return list.stream().filter(SQLException.class::isInstance).map(SQLException.class::cast).findFirst().orElse(null);
+    }
+
+    /**
+     * <p>
+     * Introspects the {@code Throwable} to obtain the root cause.
+     * </p>
+     * <p>
+     * This method walks through the exception chain to the last element, "root" of the tree, using {@link Throwable#getCause()}, and returns that exception.
+     * </p>
+     * <p>
+     * This method handles recursive cause structures that might otherwise cause infinite loops. If the throwable parameter has a cause of itself, then null
+     * will be returned. If the throwable parameter cause chain loops, the last element in the chain before the loop is returned.
+     * </p>
+     *
+     * @param throwable the throwable to get the root cause for, may be null
+     * @return the root cause of the {@code Throwable}, {@code null} if null throwable input
+     */
+    public static Throwable getRootCause(final Throwable throwable)
+    {
+        final List<Throwable> list = getThrowableList(throwable);
+
+        return list.isEmpty() ? null : list.get(list.size() - 1);
+    }
+
+    /**
+     * <p>
+     * Returns the list of {@code Throwable} objects in the exception chain.
+     * </p>
+     * <p>
+     * A throwable without cause will return a list containing one element - the input throwable. A throwable with one cause will return a list containing two
+     * elements. - the input throwable and the cause throwable. A {@code null} throwable will return a list of size zero.
+     * </p>
+     * <p>
+     * This method handles recursive cause structures that might otherwise cause infinite loops. The cause chain is processed until the end is reached, or until
+     * the next item in the chain is already in the result set.
+     * </p>
+     *
+     * @param throwable the throwable to inspect, may be null
+     * @return the list of throwables, never null
+     */
+    public static List<Throwable> getThrowableList(Throwable throwable)
+    {
+        final List<Throwable> list = new ArrayList<>();
+
+        while ((throwable != null) && !list.contains(throwable))
         {
-            return throwable;
+            list.add(throwable);
+            throwable = throwable.getCause();
         }
 
-        Throwable th = throwable.getCause() != null ? throwable.getCause() : throwable;
-        int counter = 0;
-
-        while (!(th instanceof SQLException))
-        {
-            if (th == null)
-            {
-                break;
-            }
-
-            th = th.getCause();
-
-            // Rekursion verhindern
-            if (counter++ == 10)
-            {
-                break;
-            }
-        }
-
-        return th;
+        return list;
     }
 
     /**

@@ -33,18 +33,18 @@ public enum ColorChannel
     RED(16, Color.RED);
 
     /**
-     *	
+     *
      */
     private final int bitOperator;
 
     /**
-     *	
+     *
      */
     private final Color color;
 
     /**
      * Erstellt ein neues {@link ColorChannel} Object.
-     * 
+     *
      * @param bitOperator int
      * @param color {@link Color}
      */
@@ -61,7 +61,7 @@ public enum ColorChannel
      * int red = (pixel1 >> 16) & 0xFF;<br>
      * int green = (pixel >> 8) & 0xFF;<br>
      * int blue = (pixel >> 0) & 0xFF;
-     * 
+     *
      * @return int
      * @see #getValue(int)
      */
@@ -80,7 +80,7 @@ public enum ColorChannel
 
     /**
      * Liefert den Farbwert aus dem Pixel.
-     * 
+     *
      * @param pixel int
      * @return int
      */

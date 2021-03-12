@@ -41,7 +41,7 @@ public class SplitPDF
         try (OutputStream os1 = new FileOutputStream("Test_1-1.pdf");
              OutputStream os2 = new FileOutputStream("Test_2-3.pdf");
              OutputStream os3 = new FileOutputStream("Test_5-11.pdf");
-             OutputStream os4 = new FileOutputStream("Test_Bundle.pdf");)
+             OutputStream os4 = new FileOutputStream("Test_Bundle.pdf"))
         {
             OutputStream[] outputStreams = new OutputStream[]
             {
@@ -56,12 +56,12 @@ public class SplitPDF
     /**
      *
      */
-    private byte[] pdfFile = null;
+    private byte[] pdfFile;
 
     /**
      *
      */
-    private String pdfFileName = null;
+    private String pdfFileName;
 
     /**
      * Creates a new {@link SplitPDF} object.
@@ -138,7 +138,7 @@ public class SplitPDF
         // OriginalPDF
         PdfReader pdfReader = getPDFReader();
         int pages = pdfReader.getNumberOfPages();
-        LOGGER.info("There are " + pages + " pages in the original file.");
+        LOGGER.info("There are {} pages in the original file.", pages);
 
         // Neues Dokument erzeugen.
         Document newDoc = new Document(pdfReader.getPageSizeWithRotation(1));
@@ -168,12 +168,12 @@ public class SplitPDF
 
             if ((startPage > pages) || (endPage > pages))
             {
-                LOGGER.error("Start-/Endpage " + range + " reaches total Pagesize " + pages + ", skip splitting.");
+                LOGGER.error("Start-/Endpage {} reaches total Pagesize {}, skip splitting.", range, pages);
 
                 continue;
             }
 
-            LOGGER.info("Splitting Range " + range);
+            LOGGER.info("Splitting Range {}", range);
 
             // Inhalt des Originals holen.
             PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
@@ -235,7 +235,7 @@ public class SplitPDF
         // OriginalPDF
         PdfReader pdfReader = getPDFReader();
         int pages = pdfReader.getNumberOfPages();
-        LOGGER.info("There are " + pages + " pages in the original file.");
+        LOGGER.info("There are {} pages in the original file.", pages);
 
         // Durch das RangeArray gehen.
         for (int r = 0; r < ranges.length; r++)
@@ -250,12 +250,12 @@ public class SplitPDF
 
             if ((startPage > pages) || (endPage > pages))
             {
-                LOGGER.error("Start-/Endpage " + ranges[r] + " reaches total Pagesize " + pages + ", skip splitting.");
+                LOGGER.error("Start-/Endpage {} reaches total Pagesize {}, skip splitting.", ranges[r], pages);
 
                 continue;
             }
 
-            LOGGER.info("Splitting Range " + range);
+            LOGGER.info("Splitting Range {}", range);
 
             // Neues Dokument erzeugen.
             Document newDoc = new Document(pdfReader.getPageSizeWithRotation(1));

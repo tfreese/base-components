@@ -33,7 +33,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class HsqldbTextTableBuilder
+public final class HsqldbTextTableBuilder
 {
     /**
      * Erzeugt einen neuen Builder.
@@ -103,12 +103,12 @@ public class HsqldbTextTableBuilder
     /**
      *
      */
-    private Path path = null;
+    private Path path;
 
     /**
      *
      */
-    private String tableName = null;
+    private String tableName;
 
     /**
      * Erzeugt eine neue Instanz von {@link HsqldbTextTableBuilder}
@@ -308,7 +308,7 @@ public class HsqldbTextTableBuilder
     {
         this.fieldSeparator = Objects.requireNonNull(fieldSeparator, "fieldSeparator required");
 
-        if (this.fieldSeparator.equals("\\comma"))
+        if ("\\comma".equals(this.fieldSeparator))
         {
             this.fieldSeparator = ",";
         }

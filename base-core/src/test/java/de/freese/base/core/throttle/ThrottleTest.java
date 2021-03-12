@@ -290,7 +290,7 @@ class ThrottleTest
             GoogleThrottle.create(Double.POSITIVE_INFINITY);
             fail();
         }
-        catch (IllegalArgumentException expected)
+        catch (RuntimeException expected)
         {
             // Empty
         }
@@ -300,7 +300,7 @@ class ThrottleTest
             GoogleThrottle.create(Double.NEGATIVE_INFINITY);
             fail();
         }
-        catch (IllegalArgumentException expected)
+        catch (RuntimeException expected)
         {
             // Empty
         }
@@ -310,7 +310,7 @@ class ThrottleTest
             GoogleThrottle.create(Double.NaN);
             fail();
         }
-        catch (IllegalArgumentException expected)
+        catch (RuntimeException expected)
         {
             // Empty
         }
@@ -320,7 +320,7 @@ class ThrottleTest
             GoogleThrottle.create(-.0000001);
             fail();
         }
-        catch (IllegalArgumentException expected)
+        catch (RuntimeException expected)
         {
             // Empty
         }
@@ -331,7 +331,7 @@ class ThrottleTest
             throttle.setRate(Double.POSITIVE_INFINITY);
             fail();
         }
-        catch (IllegalArgumentException expected)
+        catch (RuntimeException expected)
         {
             // Empty
         }
@@ -342,7 +342,7 @@ class ThrottleTest
             throttle.setRate(Double.NaN);
             fail();
         }
-        catch (IllegalArgumentException expected)
+        catch (RuntimeException expected)
         {
             // Empty
         }
@@ -526,7 +526,7 @@ class ThrottleTest
      * @throws InterruptedException Falls was schief geht.
      */
     @Test
-    void testTryAcquire_negative() throws InterruptedException
+    void testTryAcquireNegative() throws InterruptedException
     {
         final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire(5, 0, TimeUnit.SECONDS));
@@ -542,7 +542,7 @@ class ThrottleTest
      * @throws InterruptedException Falls was schief geht.
      */
     @Test
-    void testTryAcquire_noWaitAllowed() throws InterruptedException
+    void testTryAcquireNoWaitAllowed() throws InterruptedException
     {
         final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire());
@@ -557,7 +557,7 @@ class ThrottleTest
      * @throws InterruptedException Falls was schief geht.
      */
     @Test
-    void testTryAcquire_overflow() throws InterruptedException
+    void testTryAcquireOverflow() throws InterruptedException
     {
         final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire(0, TimeUnit.MICROSECONDS));
@@ -570,7 +570,7 @@ class ThrottleTest
      * @throws InterruptedException Falls was schief geht.
      */
     @Test
-    void testTryAcquire_someWaitAllowed() throws InterruptedException
+    void testTryAcquireSomeWaitAllowed() throws InterruptedException
     {
         final GoogleThrottle throttle = GoogleThrottle.create(50.0);
         assertTrue(throttle.tryAcquire(0, TimeUnit.SECONDS));

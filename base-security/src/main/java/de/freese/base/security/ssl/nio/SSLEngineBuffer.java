@@ -230,6 +230,7 @@ class SSLEngineBuffer
      * @return int
      * @throws IOException Falls was schief geht.
      */
+    @SuppressWarnings("incomplete-switch")
     private int doWrap(final ByteBuffer applicationOutboundBuffer) throws IOException
     {
         getLogger().debug("wrap:");

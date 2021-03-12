@@ -7,123 +7,122 @@ import javax.swing.SwingConstants;
 
 /**
  * Implementierung eines LayoutElementes fuer Linien.
- * 
+ *
  * @author Thomas Freese
  */
 public class LineLayoutElement extends AbstractLayoutElement
 {
-	/**
-	 * !
-	 */
-	private int orientation = -1;
-
-	/**
-     * 
+    /**
+     *
      */
-	private int thickness = 1;
+    private int orientation = -1;
 
-	/**
-	 * Creates a new LineLayoutElement object.
-	 */
-	public LineLayoutElement()
-	{
-		this(SwingConstants.HORIZONTAL);
-	}
+    /**
+     *
+     */
+    private int thickness = 1;
 
-	/**
-	 * Creates a new LineLayoutElement object.
-	 * 
-	 * @param orientation <code>SwingConstants</code>: <code>VERTICAL</code>, oder
-	 *            <code>HORIZONTAL</code>
-	 */
-	public LineLayoutElement(final int orientation)
-	{
-		super();
+    /**
+     * Creates a new LineLayoutElement object.
+     */
+    public LineLayoutElement()
+    {
+        this(SwingConstants.HORIZONTAL);
+    }
 
-		this.orientation = orientation;
-	}
+    /**
+     * Creates a new LineLayoutElement object.
+     *
+     * @param orientation <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
+     */
+    public LineLayoutElement(final int orientation)
+    {
+        super();
 
-	/**
-	 * @see de.freese.base.reports.layout.AbstractLayoutElement#getHeight()
-	 */
-	@Override
-	public float getHeight()
-	{
-		float height = -1;
+        this.orientation = orientation;
+    }
 
-		switch (getOrientation())
-		{
-			case SwingConstants.HORIZONTAL:
-				height = getThickness();
+    /**
+     * @see de.freese.base.reports.layout.AbstractLayoutElement#getHeight()
+     */
+    @Override
+    public float getHeight()
+    {
+        float height = -1;
 
-				break;
+        switch (getOrientation())
+        {
+            case SwingConstants.HORIZONTAL:
+                height = getThickness();
 
-			case SwingConstants.VERTICAL:
-				height = super.getHeight();
+                break;
 
-				break;
+            case SwingConstants.VERTICAL:
+                height = super.getHeight();
 
-			default:
-				break;
-		}
+                break;
 
-		return height;
-	}
+            default:
+                break;
+        }
 
-	/**
-	 * Ausrichting der Linie.
-	 * 
-	 * @return int; <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
-	 */
-	public int getOrientation()
-	{
-		return this.orientation;
-	}
+        return height;
+    }
 
-	/**
-	 * Dicke der Linie.
-	 * 
-	 * @param thickness int
-	 */
-	public void setThickness(final int thickness)
-	{
-		this.thickness = thickness;
-	}
+    /**
+     * Ausrichting der Linie.
+     *
+     * @return int; <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
+     */
+    public int getOrientation()
+    {
+        return this.orientation;
+    }
 
-	/**
-	 * Dicke der Linie.
-	 * 
-	 * @return int
-	 */
-	public int getThickness()
-	{
-		return this.thickness;
-	}
+    /**
+     * Dicke der Linie.
+     *
+     * @return int
+     */
+    public int getThickness()
+    {
+        return this.thickness;
+    }
 
-	/**
-	 * @see de.freese.base.reports.layout.AbstractLayoutElement#getWidth()
-	 */
-	@Override
-	public float getWidth()
-	{
-		float width = -1;
+    /**
+     * @see de.freese.base.reports.layout.AbstractLayoutElement#getWidth()
+     */
+    @Override
+    public float getWidth()
+    {
+        float width = -1;
 
-		switch (getOrientation())
-		{
-			case SwingConstants.HORIZONTAL:
-				width = super.getWidth();
+        switch (getOrientation())
+        {
+            case SwingConstants.HORIZONTAL:
+                width = super.getWidth();
 
-				break;
+                break;
 
-			case SwingConstants.VERTICAL:
-				width = getThickness();
+            case SwingConstants.VERTICAL:
+                width = getThickness();
 
-				break;
+                break;
 
-			default:
-				break;
-		}
+            default:
+                break;
+        }
 
-		return width;
-	}
+        return width;
+    }
+
+    /**
+     * Dicke der Linie.
+     *
+     * @param thickness int
+     */
+    public void setThickness(final int thickness)
+    {
+        this.thickness = thickness;
+    }
 }

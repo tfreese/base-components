@@ -11,14 +11,6 @@ import java.awt.Font;
 public class FontStringResourceConverter extends AbstractResourceConverter<Font>
 {
     /**
-     * Erstellt ein neues {@link FontStringResourceConverter} Object.
-     */
-    public FontStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

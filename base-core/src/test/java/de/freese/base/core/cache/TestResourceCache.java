@@ -25,17 +25,17 @@ class TestResourceCache
     /**
      *
      */
-    private static ResourceCache CACHE = null;
+    private static ResourceCache CACHE;
 
     /**
      *
      */
-    private static URL URL_FILE = null;
+    private static URL URL_FILE;
 
     /**
      *
      */
-    private static URL URL_IMAGE = null;
+    private static URL URL_IMAGE;
 
     /**
      *
@@ -79,9 +79,8 @@ class TestResourceCache
     /**
      *
      */
-    @SuppressWarnings("resource")
     @Test
-    void test0010FileCache()
+    void testFileCache()
     {
         Optional<InputStream> optional = CACHE.getResource(URL_FILE);
         assertNotNull(optional);
@@ -96,9 +95,8 @@ class TestResourceCache
     /**
      *
      */
-    @SuppressWarnings("resource")
     @Test
-    void test0020URLCache()
+    void testURLCache()
     {
         Optional<InputStream> optional = CACHE.getResource(URL_IMAGE);
         assertNotNull(optional);

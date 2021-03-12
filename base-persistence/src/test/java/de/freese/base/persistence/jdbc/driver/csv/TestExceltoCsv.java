@@ -44,7 +44,7 @@ class TestExceltoCsv
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test01ExcelToCsv() throws Exception
+    void testExcelToCsv01() throws Exception
     {
         // Path excelSource = Paths.get(System.getProperty("user.home"), "Downloads", "test1.xlsx");
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
@@ -78,7 +78,7 @@ class TestExceltoCsv
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test02ExcelToCsv() throws Exception
+    void testExcelToCsv02() throws Exception
     {
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
         // Path csvDest = Files.createTempFile("tmp-exceltocsv-" + System.currentTimeMillis(), ".csv");

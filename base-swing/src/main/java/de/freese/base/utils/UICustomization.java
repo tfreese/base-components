@@ -216,9 +216,8 @@ public final class UICustomization
      * Schreibt die UI-KLonstanten in eine Datei.
      *
      * @param outputStream {@link OutputStream}
-     * @throws Exception Falls was schief geht.
      */
-    private static void writeUIDefaults(final OutputStream outputStream) throws Exception
+    private static void writeUIDefaults(final OutputStream outputStream)
     {
         // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
         // Formatter formatter = new Formatter(os);

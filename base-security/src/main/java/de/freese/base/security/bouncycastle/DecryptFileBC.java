@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.security.bouncycastle;
 
 import java.io.BufferedInputStream;
@@ -8,16 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.Security;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -26,7 +19,6 @@ import java.util.List;
 import javax.security.auth.x500.X500Principal;
 import org.apache.commons.io.FileUtils;
 import org.bouncycastle.cms.CMSEnvelopedData;
-import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.RecipientInformation;
 import org.bouncycastle.cms.RecipientInformationStore;
 import org.bouncycastle.cms.jcajce.JceKeyTransEnvelopedRecipient;
@@ -66,10 +58,9 @@ public class DecryptFileBC
      * @param encryptedFile String
      * @param decryptedFile String
      * @param privateKey {@link PrivateKey}
-     * @throws CMSException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws CMSException, IOException
+    public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws Exception
     {
         File file = new File(encryptedFile);
 
@@ -126,16 +117,9 @@ public class DecryptFileBC
      * @param decryptedFile String
      * @param zertifikatFile String
      * @param password char[]
-     * @throws IOException Falls was schief geht.
-     * @throws NoSuchProviderException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, NoSuchProviderException, IOException, CMSException
+    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password) throws Exception
     {
         PrivateKey privateKey = getPrivateKey(zertifikatFile, password);
 
@@ -151,16 +135,11 @@ public class DecryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
-     * @throws IOException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias, final char[] aliasPassword)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, IOException, CMSException
+        throws Exception
     {
         PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
@@ -173,10 +152,9 @@ public class DecryptFileBC
      * @param inputFolder String
      * @param outputFolder String
      * @param privateKey {@link PrivateKey}
-     * @throws IOException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws CMSException, IOException
+    public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception
     {
         File folder = new File(inputFolder);
         String[] files = folder.list();
@@ -197,16 +175,9 @@ public class DecryptFileBC
      * @param outputFolder String
      * @param zertifikatFile String
      * @param password char[]
-     * @throws IOException Falls was schief geht.
-     * @throws NoSuchProviderException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, NoSuchProviderException, IOException, CMSException
+    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password) throws Exception
     {
         PrivateKey privateKey = getPrivateKey(zertifikatFile, password);
 
@@ -222,16 +193,11 @@ public class DecryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
-     * @throws IOException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias, final char[] aliasPassword)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, IOException, CMSException
+        throws Exception
     {
         PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
@@ -244,15 +210,9 @@ public class DecryptFileBC
      * @param zertifikatFile String
      * @param password char[]
      * @return {@link PrivateKey}
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
-     * @throws NoSuchProviderException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException, NoSuchProviderException
+    private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception
     {
         KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
 
@@ -291,14 +251,9 @@ public class DecryptFileBC
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
      * @return {@link PrivateKey}
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException
+    private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception
     {
         KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
 
@@ -315,11 +270,9 @@ public class DecryptFileBC
     /**
      * @param ks {@link KeyStore}
      * @param password char[]
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws UnrecoverableKeyException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException
+    protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception
     {
         LOGGER.info("Start printKeyStoreInfo.");
 
@@ -341,7 +294,7 @@ public class DecryptFileBC
 
         while (aliases.hasMoreElements())
         {
-            ksAlias = aliases.nextElement().toString();
+            ksAlias = aliases.nextElement();
             LOGGER.info("Key-Store-Alias is: {}", ksAlias);
         }
 
@@ -364,7 +317,7 @@ public class DecryptFileBC
                 // to the password required to load the KeyStore.
                 PrivateKey key = (PrivateKey) ks.getKey(alias, password);
                 LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
-                LOGGER.info("Key Endcoded: {}", new String(key.getEncoded()));
+                LOGGER.info("Key Endcoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
 
                 // Now retrieve the certificate chain for this key.
                 // The first element is the certificate for this key.
@@ -375,13 +328,13 @@ public class DecryptFileBC
                 {
                     X509Certificate cert = (X509Certificate) cert2;
                     X500Principal subject = cert.getSubjectX500Principal();
-                    LOGGER.info("Subject: {}", subject.toString());
+                    LOGGER.info("Subject: {}", subject);
                 }
             }
             else if (ks.isCertificateEntry(alias))
             {
                 Certificate cert = ks.getCertificate(alias);
-                LOGGER.info("Trusted Certificate Entry: {}", cert.toString());
+                LOGGER.info("Trusted Certificate Entry: {}", cert);
             }
         }
 

@@ -32,30 +32,22 @@ abstract class AbstractCrypto implements Crypto
     /**
     *
     */
-    private Supplier<Cipher> cipherDecryptSupplier = null;
+    private Supplier<Cipher> cipherDecryptSupplier;
 
     /**
      *
      */
-    private Supplier<Cipher> cipherEncryptSupplier = null;
+    private Supplier<Cipher> cipherEncryptSupplier;
 
     /**
      *
      */
-    private MessageDigest messageDigest = null;
+    private MessageDigest messageDigest;
 
     /**
      *
      */
-    private SecureRandom secureRandom = null;
-
-    /**
-     * Erstellt ein neues {@link AbstractCrypto} Object.
-     */
-    AbstractCrypto()
-    {
-        super();
-    }
+    private SecureRandom secureRandom;
 
     /**
      * @see de.freese.base.security.algorythm.Crypto#decrypt(byte[])
@@ -138,7 +130,7 @@ abstract class AbstractCrypto implements Crypto
      * @see de.freese.base.security.algorythm.Crypto#digest(java.io.InputStream)
      */
     @Override
-    public byte[] digest(final InputStream in) throws GeneralSecurityException, IOException
+    public byte[] digest(final InputStream in) throws Exception
     {
         MessageDigest messageDigest = getMessageDigest();
 
@@ -151,10 +143,9 @@ abstract class AbstractCrypto implements Crypto
      * @param messageDigest {@link MessageDigest}
      * @param in {@link InputStream}
      * @return byte[]
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public byte[] digest(final MessageDigest messageDigest, final InputStream in) throws GeneralSecurityException, IOException
+    public byte[] digest(final MessageDigest messageDigest, final InputStream in) throws Exception
     {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int numRead = 0;
@@ -166,7 +157,6 @@ abstract class AbstractCrypto implements Crypto
 
         byte[] digest = messageDigest.digest();
         messageDigest.reset();
-        buffer = null;
 
         return digest;
     }
@@ -175,7 +165,7 @@ abstract class AbstractCrypto implements Crypto
      * @see de.freese.base.security.algorythm.Crypto#encrypt(byte[])
      */
     @Override
-    public byte[] encrypt(final byte[] bytes) throws GeneralSecurityException
+    public byte[] encrypt(final byte[] bytes) throws Exception
     {
         Cipher cipher = getCipherEncrypt();
 
@@ -188,9 +178,9 @@ abstract class AbstractCrypto implements Crypto
      * @param cipher cipher {@link Cipher}
      * @param bytes byte[]
      * @return byte[]
-     * @throws GeneralSecurityException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected byte[] encrypt(final Cipher cipher, final byte[] bytes) throws GeneralSecurityException
+    protected byte[] encrypt(final Cipher cipher, final byte[] bytes) throws Exception
     {
         byte[] encrypted = cipher.doFinal(bytes);
 
@@ -201,9 +191,9 @@ abstract class AbstractCrypto implements Crypto
      * @param cipher {@link Cipher}
      * @param in {@link InputStream}
      * @param out {@link OutputStream}
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected void encrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws IOException
+    protected void encrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception
     {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
@@ -225,7 +215,7 @@ abstract class AbstractCrypto implements Crypto
      * @see de.freese.base.security.algorythm.Crypto#encrypt(java.io.InputStream, java.io.OutputStream)
      */
     @Override
-    public void encrypt(final InputStream in, final OutputStream out) throws GeneralSecurityException, IOException
+    public void encrypt(final InputStream in, final OutputStream out) throws Exception
     {
         Cipher cipher = getCipherEncrypt();
 
@@ -302,10 +292,9 @@ abstract class AbstractCrypto implements Crypto
      * @param signature {@link Signature}
      * @param in {@link InputStream}, Verschlüsselt
      * @param out {@link OutputStream};
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected void sign(final Signature signature, final InputStream in, final OutputStream out) throws GeneralSecurityException, IOException
+    protected void sign(final Signature signature, final InputStream in, final OutputStream out) throws Exception
     {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int numRead = 0;
@@ -320,7 +309,6 @@ abstract class AbstractCrypto implements Crypto
         out.write(sig);
 
         out.flush();
-        buffer = null;
     }
 
     /**
@@ -330,10 +318,9 @@ abstract class AbstractCrypto implements Crypto
      * @param in {@link InputStream}; Verschlüsselt
      * @param signIn {@link InputStream}
      * @return boolean
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected boolean verify(final Signature signature, final InputStream in, final InputStream signIn) throws GeneralSecurityException, IOException
+    protected boolean verify(final Signature signature, final InputStream in, final InputStream signIn) throws Exception
     {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int numRead = 0;

@@ -80,7 +80,7 @@ public class ApplicationContext
     public ApplicationContext()
     {
         // this(Executors.newCachedThreadPool());
-        this(new ThreadPoolExecutor(1, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>()));
+        this(new ThreadPoolExecutor(1, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>()));
     }
 
     /**

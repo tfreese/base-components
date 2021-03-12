@@ -30,7 +30,7 @@ public abstract class AbstractGuiState implements GUIState
     /**
      *
      */
-    private transient final Class<?>[] supportedTypes;
+    private final transient Class<?>[] supportedTypes;
 
     /**
      *
@@ -42,7 +42,7 @@ public abstract class AbstractGuiState implements GUIState
      *
      * @param supportedTypes Class[]
      */
-    public AbstractGuiState(final Class<?>...supportedTypes)
+    protected AbstractGuiState(final Class<?>...supportedTypes)
     {
         super();
 

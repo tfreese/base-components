@@ -11,14 +11,6 @@ import de.freese.base.resourcemap.ResourceMap;
 public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implements FibonacciView
 {
     /**
-     * Erstellt ein neues {@link DefaultFibonacciView} Object.
-     */
-    public DefaultFibonacciView()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.mvc.View#createGUI()
      */
     @Override

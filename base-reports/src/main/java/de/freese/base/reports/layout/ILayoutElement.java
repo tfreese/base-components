@@ -10,176 +10,176 @@ import java.awt.Insets;
 
 /**
  * Interface eines LayoutElementes des Berichtswesens.
- * 
+ *
  * @author Thomas Freese
  */
 public interface ILayoutElement
 {
-	/**
-     * 
+    /**
+     *
      */
-	public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 11);
+    public static final Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 11);
 
-	/**
-	 * Hintergrundfarbe des Elements.
-	 * 
-	 * @param color {@link Color}
-	 */
-	public void setBackground(Color color);
+    /**
+     * ChildElement hinzufuegen.
+     * 
+     * @param element {@link ILayoutElement}
+     */
+    public void addElement(ILayoutElement element);
 
-	/**
-	 * Hintergrundfarbe des Elements.
-	 * 
-	 * @return {@link Color}
-	 */
-	public Color getBackground();
+    /**
+     * Hintergrundfarbe des Elements.
+     * 
+     * @return {@link Color}
+     */
+    public Color getBackground();
 
-	/**
-	 * Liefert das ChildElement am Index.
-	 * 
-	 * @param index int
-	 * @return {@link ILayoutElement}
-	 */
-	public ILayoutElement getElementAt(int index);
+    /**
+     * Liefert das ChildElement am Index.
+     * 
+     * @param index int
+     * @return {@link ILayoutElement}
+     */
+    public ILayoutElement getElementAt(int index);
 
-	/**
-	 * Anzahl der ChildElemente.
-	 * 
-	 * @return int
-	 */
-	public int getElementCount();
+    /**
+     * Anzahl der ChildElemente.
+     * 
+     * @return int
+     */
+    public int getElementCount();
 
-	/**
-	 * Font des Elements.
-	 * 
-	 * @param font {@link Font}
-	 */
-	public void setFont(Font font);
+    /**
+     * Font des Elements.
+     * 
+     * @return {@link Font}
+     */
+    public Font getFont();
 
-	/**
-	 * Font des Elements.
-	 * 
-	 * @return {@link Font}
-	 */
-	public Font getFont();
+    /**
+     * Vordergrundfarbe des Elements.
+     * 
+     * @return {@link Color}
+     */
+    public Color getForeground();
 
-	/**
-	 * Vordergrundfarbe des Elements.
-	 * 
-	 * @param color {@link Color}
-	 */
-	public void setForeground(Color color);
+    /**
+     * Hoehe des Elements.
+     * 
+     * @return float
+     */
+    public float getHeight();
 
-	/**
-	 * Vordergrundfarbe des Elements.
-	 * 
-	 * @return {@link Color}
-	 */
-	public Color getForeground();
+    /**
+     * Insets des Elements.
+     * 
+     * @return {@link Insets}
+     */
+    public Insets getInsets();
 
-	/**
-	 * Hoehe des Elements.
-	 * 
-	 * @param height float
-	 */
-	public void setHeight(float height);
+    /**
+     * Parent des Elements.
+     * 
+     * @return {@link ILayoutElement}
+     */
+    public ILayoutElement getParent();
 
-	/**
-	 * Hoehe des Elements.
-	 * 
-	 * @return float
-	 */
-	public float getHeight();
+    /**
+     * Breite des Elements.
+     * 
+     * @return float
+     */
+    public float getWidth();
 
-	/**
-	 * Insets des Elements.
-	 * 
-	 * @param insets {@link Insets}
-	 */
-	public void setInsets(Insets insets);
+    /**
+     * X-Koordinate des Elements. X-Koordinate des Parents wird beruecktsichtigt.
+     * 
+     * @return float
+     */
+    public float getX();
 
-	/**
-	 * Insets des Elements.
-	 * 
-	 * @return {@link Insets}
-	 */
-	public Insets getInsets();
+    /**
+     * Y-Koordinate des Elements. Y-Koordinate des Parents wird beruecktsichtigt.
+     * 
+     * @return float
+     */
+    public float getY();
 
-	/**
-	 * Parent des Elements.
-	 * 
-	 * @param parent {@link ILayoutElement}
-	 */
-	public void setParent(ILayoutElement parent);
+    /**
+     * Malt das Layout in des GraphicContext.
+     * 
+     * @param g2d {@link Graphics2D}
+     */
+    public void paint(Graphics2D g2d);
 
-	/**
-	 * Parent des Elements.
-	 * 
-	 * @return {@link ILayoutElement}
-	 */
-	public ILayoutElement getParent();
+    /**
+     * ChildElement loeschen.
+     * 
+     * @param element {@link ILayoutElement}
+     * @return true, wenn das Element vorhanden war
+     */
+    public boolean removeElement(ILayoutElement element);
 
-	/**
-	 * Breite des Elements.
-	 * 
-	 * @param width float
-	 */
-	public void setWidth(float width);
+    /**
+     * Hintergrundfarbe des Elements.
+     * 
+     * @param color {@link Color}
+     */
+    public void setBackground(Color color);
 
-	/**
-	 * Breite des Elements.
-	 * 
-	 * @return float
-	 */
-	public float getWidth();
+    /**
+     * Font des Elements.
+     * 
+     * @param font {@link Font}
+     */
+    public void setFont(Font font);
 
-	/**
-	 * X-Koordinate des Elements.
-	 * 
-	 * @param x float
-	 */
-	public void setX(float x);
+    /**
+     * Vordergrundfarbe des Elements.
+     * 
+     * @param color {@link Color}
+     */
+    public void setForeground(Color color);
 
-	/**
-	 * X-Koordinate des Elements. X-Koordinate des Parents wird beruecktsichtigt.
-	 * 
-	 * @return float
-	 */
-	public float getX();
+    /**
+     * Hoehe des Elements.
+     * 
+     * @param height float
+     */
+    public void setHeight(float height);
 
-	/**
-	 * Y-Koordinate des Elements.
-	 * 
-	 * @param y float
-	 */
-	public void setY(float y);
+    /**
+     * Insets des Elements.
+     * 
+     * @param insets {@link Insets}
+     */
+    public void setInsets(Insets insets);
 
-	/**
-	 * Y-Koordinate des Elements. Y-Koordinate des Parents wird beruecktsichtigt.
-	 * 
-	 * @return float
-	 */
-	public float getY();
+    /**
+     * Parent des Elements.
+     * 
+     * @param parent {@link ILayoutElement}
+     */
+    public void setParent(ILayoutElement parent);
 
-	/**
-	 * ChildElement hinzufuegen.
-	 * 
-	 * @param element {@link ILayoutElement}
-	 */
-	public void addElement(ILayoutElement element);
+    /**
+     * Breite des Elements.
+     * 
+     * @param width float
+     */
+    public void setWidth(float width);
 
-	/**
-	 * Malt das Layout in des GraphicContext.
-	 * 
-	 * @param g2d {@link Graphics2D}
-	 */
-	public void paint(Graphics2D g2d);
+    /**
+     * X-Koordinate des Elements.
+     * 
+     * @param x float
+     */
+    public void setX(float x);
 
-	/**
-	 * ChildElement loeschen.
-	 * 
-	 * @param element {@link ILayoutElement}
-	 * @return true, wenn das Element vorhanden war
-	 */
-	public boolean removeElement(ILayoutElement element);
+    /**
+     * Y-Koordinate des Elements.
+     * 
+     * @param y float
+     */
+    public void setY(float y);
 }

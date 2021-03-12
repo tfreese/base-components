@@ -58,7 +58,7 @@ class TestCSVDriver
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test01CSVDriver() throws Exception
+    void testCSVDriver01() throws Exception
     {
         // Struktur
         StringBuilder file1 = new StringBuilder();
@@ -96,7 +96,7 @@ class TestCSVDriver
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test02CSVDriver() throws Exception
+    void testCSVDriver02() throws Exception
     {
         // Struktur
         StringBuilder file1 = new StringBuilder();

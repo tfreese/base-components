@@ -30,7 +30,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
     /**
     *
     */
-    private URL url = null;
+    private URL url;
 
     /**
      *
@@ -92,7 +92,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
             @Override
             public void imageProgress(final ImageReader source, final float percentageDone)
             {
-                setProgress(percentageDone, 0.0f, 100.0f);
+                setProgress(percentageDone, 0.0F, 100.0F);
             }
         };
 

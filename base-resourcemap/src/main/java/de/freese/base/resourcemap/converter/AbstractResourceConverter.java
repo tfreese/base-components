@@ -14,7 +14,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
     /**
      * Erstellt ein neues {@link AbstractResourceConverter} Object.
      */
-    public AbstractResourceConverter()
+    protected AbstractResourceConverter()
     {
         super();
 

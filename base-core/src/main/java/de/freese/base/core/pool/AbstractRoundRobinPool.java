@@ -50,7 +50,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      *
      * @param size int
      */
-    public AbstractRoundRobinPool(final int size)
+    protected AbstractRoundRobinPool(final int size)
     {
         super();
 

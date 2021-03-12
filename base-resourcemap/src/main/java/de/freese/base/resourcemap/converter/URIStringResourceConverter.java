@@ -11,14 +11,6 @@ import java.net.URISyntaxException;
 public class URIStringResourceConverter extends AbstractResourceConverter<URI>
 {
     /**
-     * Erstellt ein neues {@link URIStringResourceConverter} Object.
-     */
-    public URIStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

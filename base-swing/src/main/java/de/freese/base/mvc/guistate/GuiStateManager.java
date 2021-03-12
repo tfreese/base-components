@@ -98,7 +98,7 @@ public final class GuiStateManager
      * @param componentClass Class
      * @return {@link GUIState}
      */
-    protected synchronized GUIState getState(final Class<? extends Component> componentClass)
+    private synchronized GUIState getState(final Class<? extends Component> componentClass)
     {
         for (Class<? extends GUIState> stateClass : this.guiStates)
         {
@@ -135,7 +135,7 @@ public final class GuiStateManager
     /**
      * @return {@link GuiStateProvider}
      */
-    protected GuiStateProvider getStateProvider()
+    private GuiStateProvider getStateProvider()
     {
         return this.stateProvider;
     }
@@ -143,7 +143,7 @@ public final class GuiStateManager
     /**
      * Registrieren von DefaultGuiStates etc.
      */
-    protected void initDefaults()
+    private void initDefaults()
     {
         addGUIState(ButtonGuiState.class);
         addGUIState(ComboBoxGuiState.class);

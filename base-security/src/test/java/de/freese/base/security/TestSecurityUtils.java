@@ -42,34 +42,6 @@ class TestSecurityUtils
     }
 
     /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void createRsaKeyPair() throws Exception
-    {
-        // SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
-        //
-        // KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
-        // keyPairGenerator.initialize(4096, secureRandom);
-        //
-        // KeyPair keyPair = keyPairGenerator.genKeyPair();
-
-        KeyPair keyPair = SecurityUtils.createDefaultKeyPair();
-
-        System.out.println("Public key " + keyPair.getPublic());
-        System.out.println();
-        System.out.println("Private key " + keyPair.getPrivate());
-
-        RSAPublicKey rsaPub = (RSAPublicKey) keyPair.getPublic();
-        BigInteger publicKeyModulus = rsaPub.getModulus();
-        BigInteger publicKeyExponent = rsaPub.getPublicExponent();
-
-        System.out.println();
-        System.out.println("publicKeyModulus: " + publicKeyModulus);
-        System.out.println("publicKeyExponent: " + publicKeyExponent);
-    }
-
-    /**
      *
      */
     @Test
@@ -95,6 +67,36 @@ class TestSecurityUtils
                 System.err.println(value + ": " + ex.getMessage());
             }
         }
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testCreateRsaKeyPair() throws Exception
+    {
+        // SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
+        //
+        // KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
+        // keyPairGenerator.initialize(4096, secureRandom);
+        //
+        // KeyPair keyPair = keyPairGenerator.genKeyPair();
+
+        KeyPair keyPair = SecurityUtils.createDefaultKeyPair();
+
+        System.out.println("Public key " + keyPair.getPublic());
+        System.out.println();
+        System.out.println("Private key " + keyPair.getPrivate());
+
+        RSAPublicKey rsaPub = (RSAPublicKey) keyPair.getPublic();
+        BigInteger publicKeyModulus = rsaPub.getModulus();
+        BigInteger publicKeyExponent = rsaPub.getPublicExponent();
+
+        System.out.println();
+        System.out.println("publicKeyModulus: " + publicKeyModulus);
+        System.out.println("publicKeyExponent: " + publicKeyExponent);
+
+        assertTrue(true);
     }
 
     /**

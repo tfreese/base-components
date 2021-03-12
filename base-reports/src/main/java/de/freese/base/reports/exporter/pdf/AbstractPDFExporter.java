@@ -9,6 +9,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,19 +30,19 @@ import de.freese.base.reports.exporter.AbstractExporter;
 public abstract class AbstractPDFExporter extends AbstractExporter
 {
     /**
-     * 
+     *
      */
-    private BaseFont baseFont = null;
-
-    /**
-     * 
-     */
-    private BaseFont baseFontBold = null;
+    private BaseFont baseFont;
 
     /**
      *
      */
-    private Document document = null;
+    private BaseFont baseFontBold;
+
+    /**
+     *
+     */
+    private Document document;
 
     /**
      *
@@ -49,26 +50,18 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * 
+     *
      */
-    private OutputStream outputStreamIntern = null;
+    private OutputStream outputStreamIntern;
 
     /**
      *
      */
-    private PdfWriter writer = null;
-
-    /**
-     * Erstellt ein neues {@link AbstractPDFExporter} Object.
-     */
-    public AbstractPDFExporter()
-    {
-        super();
-    }
+    private PdfWriter writer;
 
     /**
      * Schliesst das {@link Document} und den {@link PdfWriter}.
-     * 
+     *
      * @throws Exception Falls was schief geht.
      */
     public void closeDocumentAndWriter() throws Exception
@@ -85,7 +78,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     /**
      * Konfiguriert das Dokument und den Writer.<br>
      * Defaults: A4 Portrait, Margins (40, 20, 20, 20)
-     * 
+     *
      * @param document {@link Document}
      * @param writer {@link PdfWriter}
      * @param metaData {@link DocumentMetaData}
@@ -107,7 +100,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Erzeugt das {@link Document} und den {@link PdfWriter} und ruft die {@link #configure(Document, PdfWriter, DocumentMetaData)} Methode auf.
-     * 
+     *
      * @param outputStream {@link OutputStream}
      * @param metaData {@link DocumentMetaData}
      * @throws DocumentException Falls was schief geht.
@@ -129,7 +122,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Erstellt die Fusszeile mit ErstellDatum und Telefonnummern des Informationsbueros.
-     * 
+     *
      * @param xOffset float
      * @param yOffset float
      * @param text String, muss DatumsFormat enthalten String.format(...)
@@ -153,7 +146,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Malt eine Linie mit optionaler Angabe der Farbe.
-     * 
+     *
      * @param x1 float
      * @param y1 float
      * @param x2 float
@@ -178,7 +171,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Malt ein Rechteck mit optionaler Angabe der Farben.
-     * 
+     *
      * @param x float
      * @param y float
      * @param width float
@@ -215,7 +208,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Malt den Text mit der vorher gesetzten Farbe und dem Default-Font.
-     * 
+     *
      * @param text String
      * @param x float
      * @param y float
@@ -231,7 +224,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Malt den Text mit der vorher gesetzten Farbe.
-     * 
+     *
      * @param text String
      * @param x float
      * @param y float
@@ -261,7 +254,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert den {@link BaseFont}
-     * 
+     *
      * @return {@link BaseFont}
      * @throws IOException Falls was schief geht.
      * @throws DocumentException Falls was schief geht.
@@ -278,7 +271,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert den Bold {@link BaseFont}
-     * 
+     *
      * @return {@link BaseFont}
      * @throws IOException Falls was schief geht.
      * @throws DocumentException Falls was schief geht.
@@ -311,7 +304,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die groesste X Koordinate unter Beruecksichtigung des rechten Randes.
-     * 
+     *
      * @return float
      */
     protected final float getMaxX()
@@ -321,7 +314,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die groesste Y Koordinate unter Beruecksichtigung des oberen Randes.
-     * 
+     *
      * @return float
      */
     protected final float getMaxY()
@@ -331,7 +324,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die kleinste X Koordinate unter Beruecksichtigung des linken Randes.
-     * 
+     *
      * @return float
      */
     protected final float getMinX()
@@ -341,7 +334,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die kleinste Y Koordinate unter Beruecksichtigung des unteren Randes.
-     * 
+     *
      * @return float
      */
     protected final float getMinY()
@@ -359,7 +352,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die X Koordinate absolut zum Ursprung (minX).
-     * 
+     *
      * @param offset int
      * @return float
      */
@@ -370,7 +363,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die X Koordinate relativ zum Ursprung (minX).
-     * 
+     *
      * @param prozent float, 0...100
      * @return float
      */
@@ -381,7 +374,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die Y Koordinate absolut zum Ursprung (minY).
-     * 
+     *
      * @param offset int
      * @return float
      */
@@ -392,7 +385,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Liefert die Y Koordinate relativ zum Ursprung (minY).
-     * 
+     *
      * @param prozent float, 0...100
      * @return float
      */
@@ -403,7 +396,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Mit Passwort versehen und Rechte einschraenken.
-     * 
+     *
      * @param writer {@link PdfWriter}
      * @param userPassword String, null = Keine Abfrage beim oeffnen
      * @param ownerPassword String, Abfrage beim Andern
@@ -412,10 +405,10 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     protected void secure(final PdfWriter writer, final String userPassword, final String ownerPassword) throws DocumentException
     {
         // UserPassword: null = Keine Abfrage beim oeffnen
-        byte[] userPwd = userPassword != null ? userPassword.getBytes() : null;
+        byte[] userPwd = userPassword != null ? userPassword.getBytes(StandardCharsets.UTF_8) : null;
 
         // OwnerPassword: Abfrage beim Andern
-        byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes() : null;
+        byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes(StandardCharsets.UTF_8) : null;
 
         // Wegen Informationsbuero deaktiviert
         writer.setEncryption(userPwd, ownerPwd, PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS, PdfWriter.ENCRYPTION_AES_128);
@@ -423,7 +416,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Setzt bestehendes {@link Document}.
-     * 
+     *
      * @param document {@link Document}
      * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
      */
@@ -434,7 +427,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
 
     /**
      * Setzt bestehenden {@link PdfWriter}.
-     * 
+     *
      * @param writer {@link PdfWriter}
      * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
      */

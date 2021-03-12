@@ -169,7 +169,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      * Erstellt ein neues {@link AbstractSwingTask} Object.
      */
-    public AbstractSwingTask()
+    protected AbstractSwingTask()
     {
         this(null);
     }
@@ -179,7 +179,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @param name {@link String}, Systemweit Einheitliche ID oder aehnliches.
      */
-    public AbstractSwingTask(final String name)
+    protected AbstractSwingTask(final String name)
     {
         super();
 
@@ -290,15 +290,16 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     public long getCurrentDuration(final TimeUnit unit)
     {
-        long startTime, currentTime = 0L;
+        long sTime;
+        long currentTime;
 
         synchronized (this)
         {
-            startTime = this.startTime;
+            sTime = this.startTime;
             currentTime = System.currentTimeMillis();
         }
 
-        return getDuration(unit, startTime, currentTime);
+        return getDuration(unit, sTime, currentTime);
     }
 
     /**
@@ -311,7 +312,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     private long getDuration(final TimeUnit unit, final long startTime, final long endTime)
     {
-        long dt = 0L;
+        long dt;
 
         if (startTime == -1L)
         {
@@ -343,15 +344,16 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     public long getExecutionDuration(final TimeUnit unit)
     {
-        long startTime, doneTime = 0L;
+        long sTime;
+        long dTime;
 
         synchronized (this)
         {
-            startTime = this.startTime;
-            doneTime = this.doneTime;
+            sTime = this.startTime;
+            dTime = this.doneTime;
         }
 
-        return getDuration(unit, startTime, doneTime);
+        return getDuration(unit, sTime, dTime);
     }
 
     /**
@@ -488,7 +490,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid percentage");
         }
 
-        setProgress(Math.round(percentage * 100.0f));
+        setProgress(Math.round(percentage * 100.0F));
     }
 
     /**
@@ -516,7 +518,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         }
 
         float percentage = (value - min) / (max - min);
-        setProgress(Math.round(percentage * 100.0f));
+        setProgress(Math.round(percentage * 100.0F));
     }
 
     /**
@@ -544,7 +546,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         }
 
         float percentage = (float) (value - min) / (float) (max - min);
-        setProgress(Math.round(percentage * 100.0f));
+        setProgress(Math.round(percentage * 100.0F));
     }
 
     /**
@@ -572,7 +574,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         }
 
         float percentage = (float) (value - min) / (float) (max - min);
-        setProgress(Math.round(percentage * 100.0f));
+        setProgress(Math.round(percentage * 100.0F));
     }
 
     /**

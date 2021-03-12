@@ -3,334 +3,330 @@ package de.freese.base.swing.desktop;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
-
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
- * An extension of JDesktopPane that supports often used MDI functionality. This class also handles
- * setting scroll bars for when windows move too far to the left or bottom, providing the
- * MDIDesktopPane is in a ScrollPane.<br>
+ * An extension of JDesktopPane that supports often used MDI functionality. This class also handles setting scroll bars for when windows move too far to the
+ * left or bottom, providing the MDIDesktopPane is in a ScrollPane.<br>
  * <br>
  * Quelle: http://www.javaworld.com/javaworld/jw-05-2001/jw-0525-mdi.html?page=1
- * 
+ *
  * @author Thomas Freese
  */
 public final class MDIDesktopPane extends JDesktopPane
 {
-	/**
+    /**
      *
      */
-	private static int FRAME_OFFSET = 20;
+    private static final int FRAME_OFFSET = 20;
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -1067444001367381670L;
-
-	/**
+    /**
      *
      */
-	private final MDIDesktopManager manager;
+    private static final long serialVersionUID = -1067444001367381670L;
 
-	/**
-	 * Erstellt ein neues {@link MDIDesktopPane} Object.
-	 */
-	public MDIDesktopPane()
-	{
-		super();
+    /**
+     *
+     */
+    private final MDIDesktopManager manager;
 
-		this.manager = new MDIDesktopManager(this);
-		setDesktopManager(this.manager);
-		setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-	}
+    /**
+     * Erstellt ein neues {@link MDIDesktopPane} Object.
+     */
+    public MDIDesktopPane()
+    {
+        super();
 
-	/**
-	 * Liefert die Hoehe des Titels.
-	 * 
-	 * @return int
-	 */
-	public int getTitleHeight()
-	{
-		try
-		{
-			for (JInternalFrame frame : getAllFrames())
-			{
-				Dimension dimension =
-						((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
+        this.manager = new MDIDesktopManager(this);
+        setDesktopManager(this.manager);
+        setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+    }
 
-				return dimension.height;
-			}
-		}
-		catch (Exception ex)
-		{
-			// Ignore
-		}
+    /**
+     * Cascade all internal frames.
+     */
+    public void cascadeFrames()
+    {
+        cascadeFrames(100, getTitleHeight());
+    }
 
-		return 23;
-	}
+    // /**
+    // * @param frame {@link JInternalFrame}
+    // * @return {@link Component}
+    // * @see java.awt.Container#add(java.awt.Component)
+    // */
+    // public Component add(final JInternalFrame frame)
+    // {
+    // JInternalFrame[] allFrames = getAllFrames();
+    // Point p = null;
+    // int w = 0;
+    // int h = 0;
+    //
+    // Component retval = super.add(frame);
+    //
+    // checkDesktopSize();
+    //
+    // if (allFrames.length > 0)
+    // {
+    // p = allFrames[0].getLocation();
+    // p.x = p.x + FRAME_OFFSET;
+    // p.y = p.y + FRAME_OFFSET;
+    // }
+    // else
+    // {
+    // p = new Point(0, 0);
+    // }
+    //
+    // frame.setLocation(p.x, p.y);
+    //
+    // if (frame.isResizable())
+    // {
+    // w = getWidth() - (getWidth() / 3);
+    // h = getHeight() - (getHeight() / 3);
+    //
+    // if (w < frame.getMinimumSize().getWidth())
+    // {
+    // w = (int) frame.getMinimumSize().getWidth();
+    // }
+    //
+    // if (h < frame.getMinimumSize().getHeight())
+    // {
+    // h = (int) frame.getMinimumSize().getHeight();
+    // }
+    //
+    // frame.setSize(w, h);
+    // }
+    //
+    // moveToFront(frame);
+    // frame.setVisible(true);
+    //
+    // try
+    // {
+    // frame.setSelected(true);
+    // }
+    // catch (PropertyVetoException ex)
+    // {
+    // frame.toBack();
+    // }
+    //
+    // return retval;
+    // }
 
-	// /**
-	// * @param frame {@link JInternalFrame}
-	// * @return {@link Component}
-	// * @see java.awt.Container#add(java.awt.Component)
-	// */
-	// public Component add(final JInternalFrame frame)
-	// {
-	// JInternalFrame[] allFrames = getAllFrames();
-	// Point p = null;
-	// int w = 0;
-	// int h = 0;
-	//
-	// Component retval = super.add(frame);
-	//
-	// checkDesktopSize();
-	//
-	// if (allFrames.length > 0)
-	// {
-	// p = allFrames[0].getLocation();
-	// p.x = p.x + FRAME_OFFSET;
-	// p.y = p.y + FRAME_OFFSET;
-	// }
-	// else
-	// {
-	// p = new Point(0, 0);
-	// }
-	//
-	// frame.setLocation(p.x, p.y);
-	//
-	// if (frame.isResizable())
-	// {
-	// w = getWidth() - (getWidth() / 3);
-	// h = getHeight() - (getHeight() / 3);
-	//
-	// if (w < frame.getMinimumSize().getWidth())
-	// {
-	// w = (int) frame.getMinimumSize().getWidth();
-	// }
-	//
-	// if (h < frame.getMinimumSize().getHeight())
-	// {
-	// h = (int) frame.getMinimumSize().getHeight();
-	// }
-	//
-	// frame.setSize(w, h);
-	// }
-	//
-	// moveToFront(frame);
-	// frame.setVisible(true);
-	//
-	// try
-	// {
-	// frame.setSelected(true);
-	// }
-	// catch (PropertyVetoException ex)
-	// {
-	// frame.toBack();
-	// }
-	//
-	// return retval;
-	// }
+    /**
+     * Cascade all internal frames.
+     * 
+     * @param minWidth int
+     * @param minHeight int
+     */
+    private void cascadeFrames(final int minWidth, final int minHeight)
+    {
+        JInternalFrame allFrames[] = getAllFrames();
+        int x = 0;
+        int y = 0;
 
-	/**
-	 * Cascade all internal frames.
-	 */
-	public void cascadeFrames()
-	{
-		cascadeFrames(100, getTitleHeight());
-	}
+        this.manager.setNormalSize();
+        int frameHeight = (getHeight() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
+        int frameWidth = (getWidth() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
 
-	/**
-	 * Cascade all internal frames.
-	 * 
-	 * @param minWidth int
-	 * @param minHeight int
-	 */
-	private void cascadeFrames(final int minWidth, final int minHeight)
-	{
-		JInternalFrame allFrames[] = getAllFrames();
-		int x = 0;
-		int y = 0;
+        frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
+        frameWidth = frameWidth < minWidth ? minWidth : frameWidth;
 
-		this.manager.setNormalSize();
-		int frameHeight = (getHeight() + FRAME_OFFSET) - allFrames.length * FRAME_OFFSET;
-		int frameWidth = (getWidth() + FRAME_OFFSET) - allFrames.length * FRAME_OFFSET;
+        for (int i = allFrames.length - 1; i >= 0; i--)
+        {
+            allFrames[i].setSize(frameWidth, frameHeight);
+            allFrames[i].setLocation(x, y);
+            x = x + FRAME_OFFSET;
+            y = y + FRAME_OFFSET;
+        }
 
-		frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
-		frameWidth = frameWidth < minWidth ? minWidth : frameWidth;
+        checkDesktopSize();
+    }
 
-		for (int i = allFrames.length - 1; i >= 0; i--)
-		{
-			allFrames[i].setSize(frameWidth, frameHeight);
-			allFrames[i].setLocation(x, y);
-			x = x + FRAME_OFFSET;
-			y = y + FRAME_OFFSET;
-		}
+    /**
+     * 
+     */
+    private void checkDesktopSize()
+    {
+        if ((getParent() != null) && isVisible())
+        {
+            this.manager.resizeDesktop();
+        }
+    }
 
-		checkDesktopSize();
-	}
+    /**
+     * Liefert die Hoehe des Titels.
+     * 
+     * @return int
+     */
+    public int getTitleHeight()
+    {
+        try
+        {
+            for (JInternalFrame frame : getAllFrames())
+            {
+                Dimension dimension = ((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
 
-	/**
-	 * @see java.awt.Container#remove(java.awt.Component)
-	 */
-	@Override
-	public void remove(final Component comp)
-	{
-		super.remove(comp);
+                return dimension.height;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Ignore
+        }
 
-		checkDesktopSize();
-	}
+        return 23;
+    }
 
-	/**
-	 * Sets all component size properties ( maximum, minimum, preferred) to the given dimension.
-	 * 
-	 * @param d {@link Dimension}
-	 */
-	public void setAllSize(final Dimension d)
-	{
-		setMinimumSize(d);
-		setMaximumSize(d);
-		setPreferredSize(d);
-	}
+    /**
+     * @see java.awt.Container#remove(java.awt.Component)
+     */
+    @Override
+    public void remove(final Component comp)
+    {
+        super.remove(comp);
 
-	/**
-	 * Sets all component size properties ( maximum, minimum, preferred) to the given width and
-	 * height.
-	 * 
-	 * @param width int
-	 * @param height int
-	 */
-	public void setAllSize(final int width, final int height)
-	{
-		setAllSize(new Dimension(width, height));
-	}
+        checkDesktopSize();
+    }
 
-	/**
-	 * @see java.awt.Component#setBounds(int, int, int, int)
-	 */
-	@Override
-	public void setBounds(final int x, final int y, final int width, final int height)
-	{
-		super.setBounds(x, y, width, height);
+    /**
+     * Sets all component size properties ( maximum, minimum, preferred) to the given dimension.
+     * 
+     * @param d {@link Dimension}
+     */
+    public void setAllSize(final Dimension d)
+    {
+        setMinimumSize(d);
+        setMaximumSize(d);
+        setPreferredSize(d);
+    }
 
-		checkDesktopSize();
-	}
+    /**
+     * Sets all component size properties ( maximum, minimum, preferred) to the given width and height.
+     * 
+     * @param width int
+     * @param height int
+     */
+    public void setAllSize(final int width, final int height)
+    {
+        setAllSize(new Dimension(width, height));
+    }
 
-	/**
-	 * Tile all internal frames.
-	 * 
-	 * @param minWidth int
-	 * @param minHeight int
-	 */
-	private void tileFrames(final int minWidth, final int minHeight)
-	{
-		JInternalFrame allFrames[] = getAllFrames();
-		this.manager.setNormalSize();
+    /**
+     * @see java.awt.Component#setBounds(int, int, int, int)
+     */
+    @Override
+    public void setBounds(final int x, final int y, final int width, final int height)
+    {
+        super.setBounds(x, y, width, height);
 
-		// count frames that aren't iconized
-		int frameCount = 0;
+        checkDesktopSize();
+    }
 
-		for (int i = 0; i < allFrames.length; i++)
-		{
-			if (!allFrames[i].isIcon())
-			{
-				frameCount++;
-			}
-		}
+    /**
+     * Tile all internal frames in flat style.
+     */
+    public void tileFrames()
+    {
+        tileFrames(100, getTitleHeight());
+    }
 
-		int rows = (int) Math.sqrt(frameCount);
-		int cols = frameCount / rows;
-		int extra = frameCount % rows;
-		// number of columns with an extra row
+    /**
+     * Tile all internal frames.
+     * 
+     * @param minWidth int
+     * @param minHeight int
+     */
+    private void tileFrames(final int minWidth, final int minHeight)
+    {
+        JInternalFrame allFrames[] = getAllFrames();
+        this.manager.setNormalSize();
 
-		int width = getWidth() / cols;
-		width = width < minWidth ? minWidth : width;
-		int height = getHeight() / rows;
-		height = height < minHeight ? minHeight : height;
-		int r = 0;
-		int c = 0;
+        // count frames that aren't iconized
+        int frameCount = 0;
 
-		for (int i = 0; i < allFrames.length; i++)
-		{
-			if (!allFrames[i].isIcon())
-			{
-				try
-				{
-					allFrames[i].setMaximum(false);
-					allFrames[i].reshape(c * width, r * height, width, height);
-					r++;
+        for (JInternalFrame frame : allFrames)
+        {
+            if (!frame.isIcon())
+            {
+                frameCount++;
+            }
+        }
 
-					if (r == rows)
-					{
-						r = 0;
-						c++;
+        int rows = (int) Math.sqrt(frameCount);
+        int cols = frameCount / rows;
+        int extra = frameCount % rows;
+        // number of columns with an extra row
 
-						if (c == cols - extra)
-						{ // start adding an extra row
-							rows++;
-							height = getHeight() / rows;
-						}
-					}
-				}
-				catch (PropertyVetoException ex)
-				{
-					// Ignore
-				}
-			}
-		}
+        int width = getWidth() / cols;
+        width = width < minWidth ? minWidth : width;
+        int height = getHeight() / rows;
+        height = height < minHeight ? minHeight : height;
+        int r = 0;
+        int c = 0;
 
-		checkDesktopSize();
-	}
+        for (JInternalFrame frame : allFrames)
+        {
+            if (!frame.isIcon())
+            {
+                try
+                {
+                    frame.setMaximum(false);
+                    frame.reshape(c * width, r * height, width, height);
+                    r++;
 
-	/**
-	 * Tile all internal frames in flat style.
-	 */
-	public void tileFrames()
-	{
-		tileFrames(100, getTitleHeight());
-	}
+                    if (r == rows)
+                    {
+                        r = 0;
+                        c++;
 
-	/**
-	 * Tile all internal frames in flat style.
-	 */
-	public void tileFramesFlat()
-	{
-		tileFramesFlat(getTitleHeight());
-	}
+                        if (c == (cols - extra))
+                        { // start adding an extra row
+                            rows++;
+                            height = getHeight() / rows;
+                        }
+                    }
+                }
+                catch (PropertyVetoException ex)
+                {
+                    // Ignore
+                }
+            }
+        }
 
-	/**
-	 * Tile all internal frames in flat style.
-	 * 
-	 * @param minHeight int
-	 */
-	private void tileFramesFlat(final int minHeight)
-	{
-		JInternalFrame allFrames[] = getAllFrames();
-		this.manager.setNormalSize();
-		int y = 0;
+        checkDesktopSize();
+    }
 
-		int frameHeight = getHeight() / allFrames.length;
-		frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
+    /**
+     * Tile all internal frames in flat style.
+     */
+    public void tileFramesFlat()
+    {
+        tileFramesFlat(getTitleHeight());
+    }
 
-		for (JInternalFrame allFrame : allFrames)
-		{
-			allFrame.setSize(getWidth(), frameHeight);
-			allFrame.setLocation(0, y);
-			y = y + frameHeight;
-		}
+    /**
+     * Tile all internal frames in flat style.
+     * 
+     * @param minHeight int
+     */
+    private void tileFramesFlat(final int minHeight)
+    {
+        JInternalFrame allFrames[] = getAllFrames();
+        this.manager.setNormalSize();
+        int y = 0;
 
-		checkDesktopSize();
-	}
+        int frameHeight = getHeight() / allFrames.length;
+        frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
 
-	/**
-	 * 
-	 */
-	private void checkDesktopSize()
-	{
-		if ((getParent() != null) && isVisible())
-		{
-			this.manager.resizeDesktop();
-		}
-	}
+        for (JInternalFrame allFrame : allFrames)
+        {
+            allFrame.setSize(getWidth(), frameHeight);
+            allFrame.setLocation(0, y);
+            y = y + frameHeight;
+        }
+
+        checkDesktopSize();
+    }
 }

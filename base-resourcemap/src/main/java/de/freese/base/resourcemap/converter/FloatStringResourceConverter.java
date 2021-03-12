@@ -8,14 +8,6 @@ package de.freese.base.resourcemap.converter;
 public class FloatStringResourceConverter extends AbstractNumberResourceConverter<Float>
 {
     /**
-     * Erstellt ein neues {@link FloatStringResourceConverter} Object.
-     */
-    public FloatStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override

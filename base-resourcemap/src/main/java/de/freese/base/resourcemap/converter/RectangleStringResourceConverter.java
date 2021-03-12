@@ -11,14 +11,6 @@ import java.util.List;
 public class RectangleStringResourceConverter extends AbstractResourceConverter<Rectangle>
 {
     /**
-     * Erstellt ein neues {@link RectangleStringResourceConverter} Object.
-     */
-    public RectangleStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

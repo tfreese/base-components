@@ -293,7 +293,7 @@ public final class ReflectionUtils
                 fields = clazz.getDeclaredFields();
                 // declaredFieldsCache.put(clazz, (fields.length == 0 ? EMPTY_FIELD_ARRAY : fields));
             }
-            catch (Throwable ex)
+            catch (Exception ex)
             {
                 throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
             }
@@ -338,7 +338,7 @@ public final class ReflectionUtils
 
                 // declaredMethodsCache.put(clazz, (methods.length == 0 ? EMPTY_METHOD_ARRAY : methods));
             }
-            catch (Throwable ex)
+            catch (Exception ex)
             {
                 throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
             }

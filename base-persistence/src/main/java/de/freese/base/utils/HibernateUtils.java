@@ -398,7 +398,7 @@ public final class HibernateUtils
             return 0.0D;
         }
 
-        BigDecimal bigDecimal = new BigDecimal(value);
+        BigDecimal bigDecimal = BigDecimal.valueOf(value);
         bigDecimal = bigDecimal.setScale(scale, RoundingMode.HALF_UP);
 
         return bigDecimal.doubleValue();

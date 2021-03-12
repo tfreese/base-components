@@ -1,54 +1,53 @@
 package de.freese.base.swing.ui;
 
 import java.awt.Dimension;
-
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 /**
  * Anderes Layout für eine {@link JScrollBar}.
- * 
+ *
  * @author Thomas Freese
  */
 public class ThinHorizontalScrollBarUI extends BasicScrollBarUI
 {
-	/**
-	 * 
-	 */
-	private final int height;
+    /**
+     * 
+     */
+    private final int height;
 
-	/**
-	 * Erstellt ein neues {@link ThinHorizontalScrollBarUI} Object.
-	 * 
-	 * @param height int
-	 */
-	public ThinHorizontalScrollBarUI(final int height)
-	{
-		super();
+    /**
+     * Erstellt ein neues {@link ThinHorizontalScrollBarUI} Object.
+     * 
+     * @param height int
+     */
+    public ThinHorizontalScrollBarUI(final int height)
+    {
+        super();
 
-		this.height = height;
-	}
+        this.height = height;
+    }
 
-	/**
-	 * @see javax.swing.plaf.basic.BasicScrollBarUI#getMaximumSize(javax.swing.JComponent)
-	 */
-	@Override
-	public Dimension getMaximumSize(final JComponent c)
-	{
-		Dimension d = super.getMaximumSize(c);
+    /**
+     * @see javax.swing.plaf.basic.BasicScrollBarUI#getMaximumSize(javax.swing.JComponent)
+     */
+    @Override
+    public Dimension getMaximumSize(final JComponent c)
+    {
+        Dimension d = super.getMaximumSize(c);
 
-		return new Dimension(d.width, this.height);
-	}
+        return new Dimension(d.width, this.height);
+    }
 
-	/**
-	 * @see javax.swing.plaf.basic.BasicScrollBarUI#getPreferredSize(javax.swing.JComponent)
-	 */
-	@Override
-	public Dimension getPreferredSize(final JComponent c)
-	{
-		Dimension d = super.getPreferredSize(c);
+    /**
+     * @see javax.swing.plaf.basic.BasicScrollBarUI#getPreferredSize(javax.swing.JComponent)
+     */
+    @Override
+    public Dimension getPreferredSize(final JComponent c)
+    {
+        Dimension d = super.getPreferredSize(c);
 
-		return new Dimension(d.width, this.height);
-	}
+        return new Dimension(d.width, this.height);
+    }
 }

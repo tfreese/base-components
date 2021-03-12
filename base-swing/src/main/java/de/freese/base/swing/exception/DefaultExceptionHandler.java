@@ -16,22 +16,12 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
     /**
      *
      */
-    private static final Translator DEFAULT_TRANSLATOR_ADAPTER = (key, args) -> {
-        return String.format(key, args);
-    };
+    private static final Translator DEFAULT_TRANSLATOR_ADAPTER = String::format;
 
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * Erstellt ein neues {@link DefaultExceptionHandler} Object.
-     */
-    public DefaultExceptionHandler()
-    {
-        super();
-    }
 
     /**
      * @return {@link Logger}

@@ -208,7 +208,7 @@ public class SSLSocketChannel extends SocketChannel
      *             {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
      */
     @Override
-    synchronized public int read(final ByteBuffer applicationBuffer) throws IOException, IllegalArgumentException
+    public synchronized int read(final ByteBuffer applicationBuffer) throws IOException, IllegalArgumentException
     {
         getLogger().debug("read: {} {}", applicationBuffer.position(), applicationBuffer.limit());
 
@@ -391,7 +391,7 @@ public class SSLSocketChannel extends SocketChannel
      *             {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
      */
     @Override
-    synchronized public int write(final ByteBuffer applicationBuffer) throws IOException, IllegalArgumentException
+    public synchronized int write(final ByteBuffer applicationBuffer) throws IOException, IllegalArgumentException
     {
         getLogger().debug("write:");
 

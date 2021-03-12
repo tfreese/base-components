@@ -3,6 +3,7 @@ package de.freese.base.utils;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -12,7 +13,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -69,7 +69,7 @@ public final class JdbcUtils
         {
             LOGGER.error("Could not close JDBC Connection", ex);
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
             // We don't trust the JDBC driver: It might throw RuntimeException or Error.
             LOGGER.error("Unexpected exception on closing JDBC Connection", ex);
@@ -111,7 +111,7 @@ public final class JdbcUtils
         {
             LOGGER.error("Could not close JDBC ResultSet", ex);
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
             // We don't trust the JDBC driver: It might throw RuntimeException or Error.
             LOGGER.error("Unexpected exception on closing JDBC ResultSet", ex);
@@ -158,7 +158,7 @@ public final class JdbcUtils
         {
             LOGGER.error("Could not close JDBC Statement", ex);
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
             // We don't trust the JDBC driver: It might throw RuntimeException or Error.
             LOGGER.error("Unexpected exception on closing JDBC Statement", ex);
@@ -171,7 +171,7 @@ public final class JdbcUtils
      * @param ids {@link Set}
      * @return {@link String}
      */
-    public static String createIDsAsString(final Collection<? extends Number> ids)
+    public static String createIDsAsString(final Set<? extends Number> ids)
     {
         boolean firstParameter = true;
         StringBuilder builder = new StringBuilder();
@@ -415,49 +415,6 @@ public final class JdbcUtils
         });
 
         return databaseProductVersion;
-    }
-
-    /**
-     * @return {@link ClassLoader}
-     */
-    public static ClassLoader getDefaultClassLoader()
-    {
-        ClassLoader cl = null;
-
-        try
-        {
-            cl = Thread.currentThread().getContextClassLoader();
-        }
-        catch (Throwable ex)
-        {
-            // NO-OP
-        }
-
-        if (cl == null)
-        {
-            try
-            {
-                cl = JdbcUtils.class.getClassLoader();
-            }
-            catch (Throwable ex)
-            {
-                // NO-OP
-            }
-        }
-
-        if (cl == null)
-        {
-            try
-            {
-                cl = ClassLoader.getSystemClassLoader();
-            }
-            catch (Throwable ex)
-            {
-                // NO-OP
-            }
-        }
-
-        return cl;
     }
 
     /**
@@ -742,7 +699,7 @@ public final class JdbcUtils
                 }
                 else if (obj instanceof byte[])
                 {
-                    value = new String((byte[]) obj);
+                    value = new String((byte[]) obj, StandardCharsets.UTF_8);
                 }
                 else
                 {

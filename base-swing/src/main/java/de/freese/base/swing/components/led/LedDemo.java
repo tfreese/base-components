@@ -33,9 +33,7 @@ public class LedDemo
         frame.setSize(800, 100);
         frame.setLocationRelativeTo(null);
 
-        SwingUtilities.invokeLater(() -> {
-            frame.setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> frame.setVisible(true));
 
         ledPanel.addToken(new TextToken("A"));
         ledPanel.addToken(new TextToken("B"));

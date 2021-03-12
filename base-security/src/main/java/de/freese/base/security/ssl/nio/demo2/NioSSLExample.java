@@ -50,10 +50,10 @@ public class NioSSLExample
         engine.beginHandshake();
 
         final int ioBufferSize = 32 * 1024;
-        final NioSSLProvider ssl = new NioSSLProvider(key, engine, ioBufferSize, ioWorker, taskWorkers)
+        final AbstractNioSSLProvider ssl = new AbstractNioSSLProvider(key, engine, ioBufferSize, ioWorker, taskWorkers)
         {
             /**
-             * @see de.freese.base.security.ssl.nio.demo2.SSLProvider#onClosed()
+             * @see de.freese.base.security.ssl.nio.demo2.AbstractSSLProvider#onClosed()
              */
             @Override
             public void onClosed()
@@ -62,7 +62,7 @@ public class NioSSLExample
             }
 
             /**
-             * @see de.freese.base.security.ssl.nio.demo2.SSLProvider#onFailure(java.lang.Exception)
+             * @see de.freese.base.security.ssl.nio.demo2.AbstractSSLProvider#onFailure(java.lang.Exception)
              */
             @Override
             public void onFailure(final Exception ex)
@@ -71,7 +71,7 @@ public class NioSSLExample
             }
 
             /**
-             * @see de.freese.base.security.ssl.nio.demo2.SSLProvider#onInput(java.nio.ByteBuffer)
+             * @see de.freese.base.security.ssl.nio.demo2.AbstractSSLProvider#onInput(java.nio.ByteBuffer)
              */
             @Override
             public void onInput(final ByteBuffer decrypted)
@@ -85,7 +85,7 @@ public class NioSSLExample
             }
 
             /**
-             * @see de.freese.base.security.ssl.nio.demo2.SSLProvider#onSuccess()
+             * @see de.freese.base.security.ssl.nio.demo2.AbstractSSLProvider#onSuccess()
              */
             @Override
             public void onSuccess()

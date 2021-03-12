@@ -35,7 +35,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      *            JTree.addTreeExpansionListener(this)<br>
      *            JTree.getModel().addTreeModelListener(this)
      */
-    public AbstractTreeListenerTableModel(final int columnCount, final JTree tree)
+    protected AbstractTreeListenerTableModel(final int columnCount, final JTree tree)
     {
         super(columnCount);
 
@@ -74,7 +74,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
     @Override
     public void treeNodesChanged(final TreeModelEvent e)
     {
-        if ((e.getSource() == null) || !(e.getSource() instanceof JTree))
+        if (!(e.getSource() instanceof JTree))
         {
             return;
         }

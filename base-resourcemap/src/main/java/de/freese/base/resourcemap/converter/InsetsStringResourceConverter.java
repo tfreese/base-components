@@ -11,14 +11,6 @@ import java.util.List;
 public class InsetsStringResourceConverter extends AbstractResourceConverter<Insets>
 {
     /**
-     * Erstellt ein neues {@link InsetsStringResourceConverter} Object.
-     */
-    public InsetsStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

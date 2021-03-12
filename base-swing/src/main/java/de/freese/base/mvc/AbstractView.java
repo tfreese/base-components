@@ -36,14 +36,6 @@ public abstract class AbstractView<C extends Component> implements View<C>
     private ResourceMap resourceMap;
 
     /**
-     * Erstellt ein neues {@link AbstractView} Object.
-     */
-    public AbstractView()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.mvc.View#getComponent()
      */
     @Override

@@ -2,6 +2,7 @@
 package de.freese.base.security.ssl.nio.demo1;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -42,13 +43,13 @@ import javax.net.ssl.TrustManagerFactory;
  */
 public class SSLEngineExample
 {
-    /*
+    /**
      * Enables the JSSE system debugging system property: -Djavax.net.debug=all This gives a lot of low-level information about operations underway, including
      * specific handshake messages, and might be best examined after gaining some familiarity with this application.
      */
     private static final boolean DEBUG = false;
 
-    /*
+    /**
      * The following is to set up the keystores.
      */
     private static final String KEYSTORE_FILE = "testkeys.jks";
@@ -58,7 +59,7 @@ public class SSLEngineExample
      */
     private static final String PASSWD = "passphrase";
 
-    /*
+    /**
      * Logging code
      */
     private static boolean resultOnce = true;
@@ -68,10 +69,9 @@ public class SSLEngineExample
      */
     private static final String TRUSTSTORE_FILE = "testkeys.jks";
 
-    /*
-     * Simple check to make sure everything came across as expected.
-     */
     /**
+     * Simple check to make sure everything came across as expected.
+     *
      * @param a {@link ByteBuffer}
      * @param b {@link ByteBuffer}
      * @throws Exception Falls was schief geht.
@@ -243,8 +243,8 @@ public class SSLEngineExample
 
         char[] passphrase = PASSWD.toCharArray();
 
-        ks.load(getClass().getClassLoader().getResourceAsStream(KEYSTORE_FILE), passphrase);
-        ts.load(getClass().getClassLoader().getResourceAsStream(TRUSTSTORE_FILE), passphrase);
+        ks.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(KEYSTORE_FILE), passphrase);
+        ts.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(TRUSTSTORE_FILE), passphrase);
 
         KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
         kmf.init(ks, passphrase);
@@ -309,16 +309,14 @@ public class SSLEngineExample
         this.cTOs = ByteBuffer.allocateDirect(netBufferMax);
         this.sTOc = ByteBuffer.allocateDirect(netBufferMax);
 
-        this.clientOut = ByteBuffer.wrap("Hi Server, I'm Client".getBytes());
-        this.serverOut = ByteBuffer.wrap("Hello Client, I'm Server".getBytes());
+        this.clientOut = ByteBuffer.wrap("Hi Server, I'm Client".getBytes(StandardCharsets.UTF_8));
+        this.serverOut = ByteBuffer.wrap("Hello Client, I'm Server".getBytes(StandardCharsets.UTF_8));
     }
 
     /**
      * Using the SSLContext created during object creation, create/configure the SSLEngines we'll use for this demo.
-     *
-     * @throws Exception Falls was schief geht.
      */
-    private void createSSLEngines() throws Exception
+    private void createSSLEngines()
     {
         /*
          * Configure the serverEngine to act as a server in the SSL/TLS handshake. Also, require SSL client authentication.

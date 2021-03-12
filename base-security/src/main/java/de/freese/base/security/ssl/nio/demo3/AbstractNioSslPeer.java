@@ -29,13 +29,13 @@ import org.slf4j.LoggerFactory;
  * casual use", since it requires the user to implement much of the communication establishment procedure himself. More information about it can be found here:
  * http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#SSLEngine
  * <p/>
- * {@link NioSslPeer} implements the handshake protocol, required to establish a connection between two peers, which is common for both client and server and
- * provides the abstract {@link NioSslPeer#read(SocketChannel, SSLEngine)} and {@link NioSslPeer#write(SocketChannel, SSLEngine, String)} methods, that need to
+ * {@link AbstractNioSslPeer} implements the handshake protocol, required to establish a connection between two peers, which is common for both client and server and
+ * provides the abstract {@link AbstractNioSslPeer#read(SocketChannel, SSLEngine)} and {@link AbstractNioSslPeer#write(SocketChannel, SSLEngine, String)} methods, that need to
  * be implemented by the specific SSL/TLS peer that is going to extend this class.
  *
  * @author <a href="mailto:alex.a.karnezis@gmail.com">Alex Karnezis</a>
  */
-public abstract class NioSslPeer
+public abstract class AbstractNioSslPeer
 {
     /**
      * Will be used to execute tasks that may emerge during handshake in parallel with the server's main thread.
@@ -56,7 +56,7 @@ public abstract class NioSslPeer
 
     /**
      * Will contain this peer's encrypted data, that will be generated after {@link SSLEngine#wrap(ByteBuffer, ByteBuffer)} is applied on
-     * {@link NioSslPeer#myAppData}. It should be initialized using {@link SSLSession#getPacketBufferSize()}, which returns the size up to which, SSL/TLS
+     * {@link AbstractNioSslPeer#myAppData}. It should be initialized using {@link SSLSession#getPacketBufferSize()}, which returns the size up to which, SSL/TLS
      * packets will be generated from the engine under a session. All SSLEngine network buffers should be sized at least this large to avoid insufficient space
      * problems when performing wrap and unwrap calls.
      */

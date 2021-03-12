@@ -19,15 +19,7 @@ public class ExamplePanel extends JPanel
     /**
      *
      */
-    private JButton buttonTaskStatistik = null;
-
-    /**
-     * Erstellt ein neues {@link ExamplePanel} Object.
-     */
-    public ExamplePanel()
-    {
-        super();
-    }
+    private JButton buttonTaskStatistik;
 
     /**
      * @return {@link JButton}

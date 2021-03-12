@@ -92,7 +92,6 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
                 this.target.writeCharacters(this.lineSeparator);
                 this.target.writeCharacters(repeat(this.depth, INDENT_CHAR));
             }
-
         }
         else if ("writeEmptyElement".equals(m))
         {
@@ -103,7 +102,6 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
 
             this.target.writeCharacters(this.lineSeparator);
             this.target.writeCharacters(repeat(this.depth, INDENT_CHAR));
-
         }
 
         method.invoke(this.target, args);

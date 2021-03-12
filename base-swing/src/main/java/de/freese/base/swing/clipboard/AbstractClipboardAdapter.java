@@ -30,7 +30,7 @@ public abstract class AbstractClipboardAdapter
 {
     /**
      * Action zum kopieren der Daten.
-     * 
+     *
      * @author Thomas Freese
      */
     protected class ActionCopy extends AbstractAction
@@ -64,13 +64,13 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Action zum einfuegen der Daten.
-     * 
+     *
      * @author Thomas Freese
      */
     protected class ActionPaste extends AbstractAction
     {
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 4473841629940450442L;
 
@@ -98,13 +98,13 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Action zum einfuegen der Daten mit gedrehten Achsen.
-     * 
+     *
      * @author Thomas Freese
      */
     protected class ActionPasteFlipAxes extends AbstractAction
     {
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 6114190778366220106L;
 
@@ -136,12 +136,12 @@ public abstract class AbstractClipboardAdapter
     private Action actionCopy;
 
     /**
-     * 
+     *
      */
     private Action actionPaste;
 
     /**
-     * 
+     *
      */
     private Action actionPasteFlipAxes;
 
@@ -156,26 +156,26 @@ public abstract class AbstractClipboardAdapter
     private final JComponent component;
 
     /**
-     * 
+     *
      */
     private final Map<Class<?>, ClipboardConverter> converterMap = new HashMap<>();
 
     /**
-     * 
+     *
      */
     private boolean enabled = true;
 
     /**
-     * 
+     *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * Creates a new {@link AbstractClipboardAdapter} object.
-     * 
+     *
      * @param component {@link JComponent}
      */
-    public AbstractClipboardAdapter(final JComponent component)
+    protected AbstractClipboardAdapter(final JComponent component)
     {
         super();
 
@@ -192,14 +192,14 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Kopiert Daten aus der Zwischenablage in die Komponente.
-     * 
+     *
      * @param flipAxes boolean, gedrehte Achsen oder nicht
      */
     public abstract void doPaste(boolean flipAxes);
 
     /**
      * Action zum kopieren der Daten.
-     * 
+     *
      * @return {@link Action}
      */
     public Action getActionCopy()
@@ -214,7 +214,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Action zum einfuegen der Daten.
-     * 
+     *
      * @return {@link Action}
      */
     public Action getActionPaste()
@@ -229,7 +229,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Action zum einfuegen der Daten mit gedrehten Achsen.
-     * 
+     *
      * @return {@link Action}
      */
     public Action getActionPasteFlipAxes()
@@ -244,7 +244,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Liefert das Objekt der Zwischenbalage.
-     * 
+     *
      * @return {@link Clipboard}
      */
     protected Clipboard getClipboard()
@@ -254,7 +254,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Liefert die adaptierte Komponente.
-     * 
+     *
      * @return {@link JComponent}
      */
     protected JComponent getComponent()
@@ -265,7 +265,7 @@ public abstract class AbstractClipboardAdapter
     /**
      * Liefert den Konverter für die Klasse.<br>
      * Ist kein Konverter registriert wird der {@link ReflectionClipboardConverter} registriert und geliefert.
-     * 
+     *
      * @param clazz Class
      * @return {@link ClipboardConverter}
      */
@@ -287,7 +287,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Liefert die Map der ClipboardConverter.
-     * 
+     *
      * @return {@link Map}
      */
     private Map<Class<?>, ClipboardConverter> getConverterMap()
@@ -321,7 +321,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Liefert true, wenn die Actions aktiviert sind.
-     * 
+     *
      * @return boolean
      */
     public boolean isEnabled()
@@ -331,7 +331,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Registriert fuer eine Klasse den entsprechenden {@link ClipboardConverter}.
-     * 
+     *
      * @param clazz Class
      * @param converter {@link ClipboardConverter}
      */
@@ -343,7 +343,7 @@ public abstract class AbstractClipboardAdapter
     /**
      * Registrieren von Standartkonverter.<br>
      * Alle anderen Typen werden über {@link ReflectionClipboardConverter} gehandelt.<br>
-     * 
+     *
      * @see #getConverter(Class)
      */
     protected void registerDefaultConverters()
@@ -360,7 +360,7 @@ public abstract class AbstractClipboardAdapter
 
     /**
      * Aktiviert oder deaktiviert die Actions.
-     * 
+     *
      * @param enabled boolean
      */
     public void setEnabled(final boolean enabled)

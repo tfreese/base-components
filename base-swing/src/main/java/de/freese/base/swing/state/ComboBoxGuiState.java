@@ -24,14 +24,14 @@ public class ComboBoxGuiState extends AbstractGuiState
     private static final long serialVersionUID = -8701963133645177327L;
 
     /**
+     * Der Selektierte Index in der Combobox. Per Default, ist das erste Element in der Combobox vorselektiert.
+     */
+    private int selectedIndex;
+
+    /**
      * Name des gewaehlten Objectes.
      */
     private String selectedName = "";
-
-    /**
-     * Der Selektierte Index in der Combobox. Per Default, ist das erste Element in der Combobox vorselektiert.
-     */
-    private int selectedIndex = 0;
 
     /**
      * Erstellt ein neues {@link ComboBoxGuiState} Objekt.

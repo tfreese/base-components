@@ -110,15 +110,15 @@ public class DemoApplication extends AbstractApplication
     {
         Controller controller = ControllerBuilder.create(getContext()).name("nasa").bundleName("bundles/nasa").clazz(NasaController.class).build();
         controller.initialize();
-        getController().add(controller);
+        getControllers().add(controller);
 
         controller = ControllerBuilder.create(getContext()).name("fibonacci").bundleName("bundles/fibonacci").clazz(FibonacciController.class).build();
         controller.initialize();
-        getController().add(controller);
+        getControllers().add(controller);
 
         controller = ControllerBuilder.create(getContext()).name("example").bundleName("bundles/example").clazz(ExampleController.class).build();
         controller.initialize();
-        getController().add(controller);
+        getControllers().add(controller);
     }
 
     /**
@@ -140,7 +140,7 @@ public class DemoApplication extends AbstractApplication
         JTabbedPane tabbedPane = new JTabbedPane();
         panel.add(tabbedPane, BorderLayout.CENTER);
 
-        for (Controller controller : getController())
+        for (Controller controller : getControllers())
         {
             Component component = controller.getView().getComponent();
 
@@ -183,8 +183,8 @@ public class DemoApplication extends AbstractApplication
         ResourceProvider resourceProvider = new ResourceBundleProvider();
         // ResourceProvider resourceProvider = (baseName, locale, classLoader) -> Make DB-Query for Text;
 
-        ResourceMap rootMap =
-                ResourceMapBuilder.create("bundles/demo").resourceProvider(resourceProvider).classLoader(DemoApplication.class.getClassLoader()).build();
+        ResourceMap rootMap = ResourceMapBuilder.create("bundles/demo").resourceProvider(resourceProvider)
+                .classLoader(Thread.currentThread().getContextClassLoader()).build();
         setResourceMapRoot(rootMap);
         // getContext().addResourceMap("root", rootMap);
 

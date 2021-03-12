@@ -21,14 +21,6 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     private class EventListListener implements ListDataListener
     {
         /**
-         * Erstellt ein neues {@link EventListListener} Object.
-         */
-        public EventListListener()
-        {
-            super();
-        }
-
-        /**
          * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
@@ -79,7 +71,7 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
      * @param columnCount int
      * @param list {@link IEventList}
      */
-    public AbstractEventListTableModel(final int columnCount, final IEventList<T> list)
+    protected AbstractEventListTableModel(final int columnCount, final IEventList<T> list)
     {
         super(columnCount, list);
 

@@ -263,7 +263,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     /**
      *
      */
-    protected static int TITLE_ICON_SIZE = 16;
+    protected static final int TITLE_ICON_SIZE = 16;
 
     /**
      * Erzeugt eine UI Instanz.
@@ -279,7 +279,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     /**
      *
      */
-    private PropertyChangeListener buttonEnabledPropertyChangeListener = null;
+    private PropertyChangeListener buttonEnabledPropertyChangeListener;
 
     /**
      * Liste aller Buttons TitelLeiste

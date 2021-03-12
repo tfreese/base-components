@@ -127,4 +127,12 @@ public final class Distribution
 
         return proportional(faktorenDouble, wert, 0);
     }
+
+    /**
+     * Erstellt ein neues {@link Distribution} Object.
+     */
+    private Distribution()
+    {
+        super();
+    }
 }

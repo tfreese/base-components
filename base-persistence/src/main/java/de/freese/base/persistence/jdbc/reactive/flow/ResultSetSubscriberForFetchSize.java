@@ -55,7 +55,7 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     /**
     *
     */
-    private Subscription subscription = null;
+    private Subscription subscription;
 
     /**
      * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.

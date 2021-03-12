@@ -198,7 +198,7 @@ class StreamPublisherTest
     *
     */
     @Test
-    void test010StreamPublisherToSubscriber()
+    void testStreamPublisherToSubscriber()
     {
         var streamSupplier = STREAM_SUPPLIER;
 
@@ -212,33 +212,10 @@ class StreamPublisherTest
     }
 
     /**
-     *
-     */
-    @Test
-    void test020SubmissionPublisherToSubscriber()
-    {
-        var streamSupplier = STREAM_SUPPLIER;
-
-        try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>(EXECUTOR, Flow.defaultBufferSize()))
-        // try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>())
-        {
-            publisher.subscribe(new MyTestSubscriber<>());
-
-            streamSupplier.get().forEach(publisher::submit);
-
-            // publisher.close();
-        }
-
-        System.out.println();
-
-        assertTrue(true);
-    }
-
-    /**
     *
     */
     @Test
-    void test030SubmissionPublisherToProcessorToSubscriber()
+    void testSubmissionPublisherToProcessorToSubscriber()
     {
         var streamSupplier = STREAM_SUPPLIER;
 
@@ -252,6 +229,29 @@ class StreamPublisherTest
             publisher.subscribe(transformProcessor);
 
             transformProcessor.subscribe(new MyTestSubscriber<>());
+
+            streamSupplier.get().forEach(publisher::submit);
+
+            // publisher.close();
+        }
+
+        System.out.println();
+
+        assertTrue(true);
+    }
+
+    /**
+     *
+     */
+    @Test
+    void testSubmissionPublisherToSubscriber()
+    {
+        var streamSupplier = STREAM_SUPPLIER;
+
+        try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>(EXECUTOR, Flow.defaultBufferSize()))
+        // try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>())
+        {
+            publisher.subscribe(new MyTestSubscriber<>());
 
             streamSupplier.get().forEach(publisher::submit);
 

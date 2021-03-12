@@ -24,7 +24,7 @@ public class TextComponentGuiState extends AbstractGuiState
     /**
      *
      */
-    private String text = null;
+    private String text;
 
     /**
      * Erstellt ein neues {@link TextComponentGuiState} Object.

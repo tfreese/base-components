@@ -166,10 +166,10 @@ public class AutoCompleteableTextField extends JTextField
             {
                 if ((e.getKeyCode() == KeyEvent.VK_ENTER) || (e.getKeyCode() == KeyEvent.VK_TAB))
                 {
-                    JPopupMenu prevSearchMenu = AutoCompleteableTextField.this.prevSearchMenu;
+                    JPopupMenu popupMenu = AutoCompleteableTextField.this.prevSearchMenu;
 
                     // Wenn das PopupMenu geoeffnet ist, das selektierte MenuItem ausfuehren
-                    if ((prevSearchMenu != null) && prevSearchMenu.isVisible())
+                    if ((popupMenu != null) && popupMenu.isVisible())
                     {
                         MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
 
@@ -178,7 +178,7 @@ public class AutoCompleteableTextField extends JTextField
                             JMenuItem menuItem = (JMenuItem) path[path.length - 1];
 
                             menuItem.doClick();
-                            prevSearchMenu.setVisible(false);
+                            popupMenu.setVisible(false);
                         }
 
                         return;

@@ -140,7 +140,7 @@ class TestMockReactiveSpringJdbcCrudRepository
      *
      */
     @Test
-    void test010Delete()
+    void testDelete()
     {
         this.repo.delete(this.data.get(0));
 
@@ -148,10 +148,36 @@ class TestMockReactiveSpringJdbcCrudRepository
     }
 
     /**
+    *
+    */
+    @Test
+    void testDeleteByID()
+    {
+        Flux<Integer> flux = Flux.fromIterable(this.data).map(Entity::getId);
+
+        this.repo.deleteById(flux);
+
+        assertEquals(this.data.size(), this.counter.get());
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testDeleteFlux()
+    {
+        Flux<Entity> flux = Flux.fromIterable(this.data);
+
+        this.repo.deleteAll(flux);
+
+        assertEquals(this.data.size(), this.counter.get());
+    }
+
+    /**
      *
      */
     @Test
-    void test011DeleteIterable()
+    void testDeleteIterable()
     {
         this.repo.deleteAll(this.data);
 
@@ -162,38 +188,12 @@ class TestMockReactiveSpringJdbcCrudRepository
      *
      */
     @Test
-    void test012DeleteMono()
+    void testDeleteMono()
     {
         Mono<Entity> mono = Mono.just(this.data.get(0));
 
         this.repo.deleteAll(mono);
 
         assertEquals(1, this.counter.get());
-    }
-
-    /**
-    *
-    */
-    @Test
-    void test013DeleteFlux()
-    {
-        Flux<Entity> flux = Flux.fromIterable(this.data);
-
-        this.repo.deleteAll(flux);
-
-        assertEquals(this.data.size(), this.counter.get());
-    }
-
-    /**
-    *
-    */
-    @Test
-    void test014DeleteByID()
-    {
-        Flux<Integer> flux = Flux.fromIterable(this.data).map(Entity::getId);
-
-        this.repo.deleteById(flux);
-
-        assertEquals(this.data.size(), this.counter.get());
     }
 }

@@ -40,17 +40,17 @@ class TestR2DBC
     /**
      *
      */
-    static ConnectionFactory connectionFactory = null;
+    static ConnectionFactory connectionFactory;
 
     /**
      *
      */
-    static R2dbc r2dbc = null;
+    static R2dbc r2dbc;
 
     /**
      *
      */
-    static Scheduler scheduler = null;
+    static Scheduler scheduler;
 
     /**
      * @throws Exception Falls was schief geht.
@@ -141,7 +141,7 @@ class TestR2DBC
      */
     @Test
     @Order(1)
-    void create() throws SQLException
+    void testCreate() throws SQLException
     {
         // @formatter:off
         r2dbc.withHandle(handle -> handle
@@ -163,7 +163,7 @@ class TestR2DBC
      */
     @Test
     @Order(2)
-    void insert() throws SQLException
+    void testInsert() throws SQLException
     {
         // @formatter:off
         r2dbc.inTransaction(handle -> handle
@@ -185,7 +185,7 @@ class TestR2DBC
      */
     @Test
     @Order(4)
-    void insertBatch() throws SQLException
+    void testInsertBatch() throws SQLException
     {
         // @formatter:off
         r2dbc.inTransaction(handle -> handle
@@ -213,7 +213,7 @@ class TestR2DBC
      */
     @Test
     @Order(10)
-    void select() throws SQLException
+    void testSelect() throws SQLException
     {
         List<Person> list = new ArrayList<>();
 
@@ -257,7 +257,7 @@ class TestR2DBC
      */
     @Test
     @Order(3)
-    void update() throws SQLException
+    void testUpdate() throws SQLException
     {
         // @formatter:off
         r2dbc.inTransaction(handle -> handle

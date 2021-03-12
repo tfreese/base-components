@@ -66,7 +66,7 @@ public class ConfigureableDocument extends PlainDocument
 
             String regex = "[-]?[0-9]+";
 
-            if (areFloatsAllowed() && (context.newText.equals(".") || context.newText.equals(",")))
+            if (areFloatsAllowed() && (".".equals(context.newText) || ",".equals(context.newText)))
             {
                 return;
             }
@@ -135,14 +135,6 @@ public class ConfigureableDocument extends PlainDocument
          *
          */
         public String newText;
-
-        /**
-         * Creates a new {@link DocumentContext} object.
-         */
-        public DocumentContext()
-        {
-            super();
-        }
     }
 
     /**

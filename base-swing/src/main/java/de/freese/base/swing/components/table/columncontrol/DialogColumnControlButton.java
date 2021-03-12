@@ -409,7 +409,6 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         }
 
         columnComponentMap.clear();
-        columnComponentMap = null;
     }
 
     /**

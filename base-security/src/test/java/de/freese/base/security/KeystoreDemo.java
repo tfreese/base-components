@@ -31,7 +31,7 @@ import javax.crypto.spec.GCMParameterSpec;
  *
  * @author Thomas Freese see base-security/keystore.txt
  */
-public class KeystoreTest
+public class KeystoreDemo
 {
     /**
      * @param args String[]

@@ -23,7 +23,7 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
      *
      * @param target {@link Component}
      */
-    public AbstractGlassPaneInputBlocker(final Component target)
+    protected AbstractGlassPaneInputBlocker(final Component target)
     {
         super();
 

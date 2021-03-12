@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
 public class BusyMozillaLabel extends JLabel
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1861610997435401369L;
 
@@ -44,7 +44,7 @@ public class BusyMozillaLabel extends JLabel
     }
 
     /**
-     * 
+     *
      */
     private Timer animateTimer;
 
@@ -56,10 +56,10 @@ public class BusyMozillaLabel extends JLabel
     /**
      * Nummer des animierten Kreises.
      */
-    private int circleIndex = 0;
+    private int circleIndex;
 
     /**
-     * 
+     *
      */
     private int circleRadius = 40;
 
@@ -88,7 +88,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Creates a new {@link BusyMozillaLabel} object.
-     * 
+     *
      * @param text String
      */
     public BusyMozillaLabel(final String text)
@@ -98,7 +98,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Creates a new {@link BusyMozillaLabel} object.
-     * 
+     *
      * @param text String
      * @param highlightColor {@link Color}
      */
@@ -111,7 +111,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Creates a new {@link BusyMozillaLabel} object.
-     * 
+     *
      * @param text String
      * @param highlightColor {@link Color}
      * @param baseColor {@link Color}
@@ -125,7 +125,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Creates a new {@link BusyMozillaLabel} object.
-     * 
+     *
      * @param text String
      * @param highlightColor {@link Color}
      * @param baseColor {@link Color}
@@ -142,7 +142,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Berechnet fuer den Index eines Kreises die entsprechende Farbe.
-     * 
+     *
      * @param index int
      * @return {@link Color}
      */
@@ -170,7 +170,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des letzten Kreises.
-     * 
+     *
      * @return {@link Color}
      */
     public Color getBaseColor()
@@ -180,7 +180,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Gesamtdurchmesser des Kreises.
-     * 
+     *
      * @return int
      */
     public int getCircleRadius()
@@ -199,7 +199,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des fuehrenden Kreises.
-     * 
+     *
      * @return {@link Color}
      */
     public Color getHighlightColor()
@@ -209,7 +209,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Max. Anzahl an Kreisen.
-     * 
+     *
      * @return int
      */
     private int getMaxCircles()
@@ -251,7 +251,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Laenge des Schwanzes.
-     * 
+     *
      * @return int
      */
     public int getTrail()
@@ -261,7 +261,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Initialisierung der Farben und Schwanzlaenge.
-     * 
+     *
      * @param highlightColor {@link Color}
      * @param baseColor {@link Color}
      * @param trail int
@@ -281,7 +281,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Mischen von 2 Farben mit Interpolationsfaktor.
-     * 
+     *
      * @param a Color
      * @param b Color
      * @param factor float
@@ -380,7 +380,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des letzten Kreises.
-     * 
+     *
      * @param baseColor {@link Color}
      */
     public void setBaseColor(final Color baseColor)
@@ -390,7 +390,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Gesamtdurchmesser des Kreises.
-     * 
+     *
      * @param circleRadius int
      */
     public void setCircleRadius(final int circleRadius)
@@ -400,7 +400,7 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des fuehrenden Kreises.
-     * 
+     *
      * @param highlightColor {@link Color}
      */
     public void setHighlightColor(final Color highlightColor)
@@ -410,19 +410,17 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Laenge des Schwanzes.
-     * 
+     *
      * @param trail int
      */
     public void setTrail(final int trail)
     {
-        int m_trail = trail;
+        this.trail = trail;
 
-        if (m_trail > 8)
+        if (this.trail > 8)
         {
-            m_trail = 8;
+            this.trail = 8;
         }
-
-        this.trail = m_trail;
     }
 
     /**

@@ -1,7 +1,6 @@
 /**
  * Created: 28.05.2020
  */
-
 package de.freese.base.demo.fibonacci.view;
 
 import java.beans.PropertyChangeEvent;

@@ -14,7 +14,7 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public class StaticResourceMapCache implements ResourceMapCache
+public final class StaticResourceMapCache implements ResourceMapCache
 {
     /**
      * @author Thomas Freese

@@ -31,32 +31,34 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      *
      */
-    protected Color background;
+    private Color background;
 
     /**
      *
      */
-    protected Color focusBackgroung;
+    @SuppressWarnings("unused")
+    private Color focusBackground;
 
     /**
      *
      */
-    protected Border focusBorder;
+    private Border focusBorder;
 
     /**
      *
      */
-    protected Color focusForeground;
+    @SuppressWarnings("unused")
+    private Color focusForeground;
 
     /**
      *
      */
-    protected Color foreground;
+    private Color foreground;
 
     /**
      *
      */
-    protected int index = -1;
+    private int index = -1;
 
     /**
      *
@@ -66,12 +68,12 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      *
      */
-    protected Color selectedBackground;
+    private Color selectedBackground;
 
     /**
      *
      */
-    protected Color selectedForeground;
+    private Color selectedForeground;
 
     /**
      * Creates a new TransparentRenderer object.
@@ -88,7 +90,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
         this.selectedForeground = UIManager.getColor("Table.selectionForeground");
         this.selectedBackground = UIManager.getColor("Table.selectionBackground");
         this.focusForeground = UIManager.getColor("Table.focusCellForeground");
-        this.focusBackgroung = UIManager.getColor("Table.focusCellBackground");
+        this.focusBackground = UIManager.getColor("Table.focusCellBackground");
 
         this.noFocusBorder = new EmptyBorder(1, 1, 1, 1);
         this.focusBorder = UIManager.getBorder("Table.focusCellHighlightBorder");
@@ -110,7 +112,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
     {
         // Strings get interned...
-        if (propertyName == "text")
+        if ("text".equals(propertyName))
         {
             super.firePropertyChange(propertyName, oldValue, newValue);
         }

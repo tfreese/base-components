@@ -88,7 +88,7 @@ class TestNetUtils
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test010LocalHost() throws Exception
+    void testLocalHost() throws Exception
     {
         String hostName = null;
 
@@ -166,21 +166,21 @@ class TestNetUtils
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test020ValidHost() throws Exception
+    void testPTBZeit() throws Exception
     {
-        boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
-        assertTrue(validHost);
+        Date ptbDate = NetUtils.getPTBZeit();
+        assertNotNull(ptbDate);
+
+        // System.out.println(String.format("%1$tY-%1$tm-%1$td %1$tT", ptbDate));
     }
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test030PTBZeit() throws Exception
+    void testValidHost() throws Exception
     {
-        Date ptbDate = NetUtils.getPTBZeit();
-        assertNotNull(ptbDate);
-
-        // System.out.println(String.format("%1$tY-%1$tm-%1$td %1$tT", ptbDate));
+        boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
+        assertTrue(validHost);
     }
 }

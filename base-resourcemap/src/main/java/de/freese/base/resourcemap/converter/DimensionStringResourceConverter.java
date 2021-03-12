@@ -11,14 +11,6 @@ import java.util.List;
 public class DimensionStringResourceConverter extends AbstractResourceConverter<Dimension>
 {
     /**
-     * Erstellt ein neues {@link DimensionStringResourceConverter} Object.
-     */
-    public DimensionStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

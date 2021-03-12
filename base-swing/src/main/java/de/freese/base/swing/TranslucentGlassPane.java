@@ -45,7 +45,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private float alphaStart = 0.0F;
+    private float alphaStart;
 
     /**
      *
@@ -79,10 +79,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * Creates a new {@link TranslucentGlassPane} object.
      */
-    @SuppressWarnings("unchecked")
     public TranslucentGlassPane()
     {
-        this(Collections.EMPTY_LIST);
+        this(Collections.emptyList());
     }
 
     /**
@@ -100,9 +99,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         setAlpha(this.alphaStart);
         setBackground(Color.WHITE);
 
-        this.animateTimer = new Timer(getTimerIncrementMillies(), event -> {
-            setAlpha(getAlpha() + TranslucentGlassPane.this.alphaIncrement);
-        });
+        this.animateTimer = new Timer(getTimerIncrementMillies(), event -> setAlpha(getAlpha() + TranslucentGlassPane.this.alphaIncrement));
     }
 
     /**
@@ -112,9 +109,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      */
     public float getAlpha()
     {
-        if (this.alpha > 1)
+        if (this.alpha > 1F)
         {
-            this.alpha = 1;
+            this.alpha = 1F;
         }
 
         return this.alpha;
@@ -242,17 +239,17 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * Weiterleiten von MouseEvents an Komponenten der DispatchList.
      *
-     * @param me {@link MouseEvent}
+     * @param event {@link MouseEvent}
      * @param repaint boolean
      */
-    private void redispatchMouseEvent(final MouseEvent me, final boolean repaint)
+    private void redispatchMouseEvent(final MouseEvent event, final boolean repaint)
     {
         if (this.dispatchList.isEmpty())
         {
             return;
         }
 
-        Point glassPanePoint = me.getPoint();
+        Point glassPanePoint = event.getPoint();
         Point containerPoint = SwingUtilities.convertPoint(this, glassPanePoint, getParent());
 
         if (containerPoint.y < 0)
@@ -283,8 +280,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
             {
                 // Forward events over the component.
                 Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
-                component.dispatchEvent(new MouseEvent(component, me.getID(), me.getWhen(), me.getModifiersEx(), componentPoint.x, componentPoint.y,
-                        me.getClickCount(), me.isPopupTrigger()));
+                component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y,
+                        event.getClickCount(), event.isPopupTrigger()));
             }
         }
 
@@ -309,7 +306,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
             if ((alpha > 0F) && (alpha < 1F))
             {
-                if (oldAlpha == 1)
+                if (oldAlpha == 1F)
                 {
                     // it used to be 1, but now is not. Save the oldOpaque
                     this.oldOpaque = isOpaque();

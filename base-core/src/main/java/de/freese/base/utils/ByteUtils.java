@@ -356,11 +356,13 @@ public final class ByteUtils
 
         while (i < n)
         {
-            byte[] tmp = toByteArray(a[i++]);
+            byte[] tmp = toByteArray(a[i]);
+            i++;
 
             for (byte element : tmp)
             {
-                bytes[j++] = element;
+                bytes[j] = element;
+                j++;
             }
         }
 
@@ -408,11 +410,13 @@ public final class ByteUtils
 
         while (i < n)
         {
-            byte[] tmp = toByteArray(a[i++]);
+            byte[] tmp = toByteArray(a[i]);
+            i++;
 
             for (byte element : tmp)
             {
-                bytes[j++] = element;
+                bytes[j] = element;
+                j++;
             }
         }
 
@@ -456,11 +460,13 @@ public final class ByteUtils
 
         while (i < n)
         {
-            byte[] tmp = toByteArray(a[i++]);
+            byte[] tmp = toByteArray(a[i]);
+            i++;
 
             for (byte element : tmp)
             {
-                bytes[j++] = element;
+                bytes[j] = element;
+                j++;
             }
         }
 
@@ -503,11 +509,13 @@ public final class ByteUtils
 
         while (i < n)
         {
-            byte[] tmp = toByteArray(a[i++]);
+            byte[] tmp = toByteArray(a[i]);
+            i++;
 
             for (byte element : tmp)
             {
-                bytes[j++] = element;
+                bytes[j] = element;
+                j++;
             }
         }
 
@@ -554,11 +562,13 @@ public final class ByteUtils
 
         while (i < n)
         {
-            byte[] tmp = toByteArray(a[i++]);
+            byte[] tmp = toByteArray(a[i]);
+            i++;
 
             for (byte element : tmp)
             {
-                bytes[j++] = element;
+                bytes[j] = element;
+                j++;
             }
         }
 
@@ -599,11 +609,13 @@ public final class ByteUtils
 
         while (i < n)
         {
-            byte[] tmp = toByteArray(a[i++]);
+            byte[] tmp = toByteArray(a[i]);
+            i++;
 
             for (byte element : tmp)
             {
-                bytes[j++] = element;
+                bytes[j] = element;
+                j++;
             }
         }
 
@@ -620,9 +632,9 @@ public final class ByteUtils
         int size = chars.length;
         byte[] bytes = new byte[size];
 
-        for (int i = 0; i < size;)
+        for (int i = 0; i < size; i++)
         {
-            bytes[i] = (byte) chars[i++];
+            bytes[i] = (byte) chars[i];
         }
 
         return bytes;
@@ -656,10 +668,12 @@ public final class ByteUtils
 
             for (int k = 0; k < tmp.length; k++)
             {
-                tmp[k] = bytes[j++];
+                tmp[k] = bytes[j];
+                j++;
             }
 
-            a[i++] = toChar(tmp);
+            a[i] = toChar(tmp);
+            i++;
         }
 
         return a;
@@ -703,10 +717,12 @@ public final class ByteUtils
 
             for (int k = 0; k < tmp.length; k++)
             {
-                tmp[k] = bytes[j++];
+                tmp[k] = bytes[j];
+                j++;
             }
 
-            a[i++] = toDouble(tmp);
+            a[i] = toDouble(tmp);
+            i++;
         }
 
         return a;
@@ -746,10 +762,12 @@ public final class ByteUtils
 
             for (int k = 0; k < tmp.length; k++)
             {
-                tmp[k] = bytes[j++];
+                tmp[k] = bytes[j];
+                j++;
             }
 
-            a[i++] = toFloat(tmp);
+            a[i] = toFloat(tmp);
+            i++;
         }
 
         return a;
@@ -788,10 +806,12 @@ public final class ByteUtils
 
             for (int k = 0; k < tmp.length; k++)
             {
-                tmp[k] = bytes[j++];
+                tmp[k] = bytes[j];
+                j++;
             }
 
-            a[i++] = toInt(tmp);
+            a[i] = toInt(tmp);
+            i++;
         }
 
         return a;
@@ -834,10 +854,12 @@ public final class ByteUtils
 
             for (int k = 0; k < tmp.length; k++)
             {
-                tmp[k] = bytes[j++];
+                tmp[k] = bytes[j];
+                j++;
             }
 
-            a[i++] = toLong(tmp);
+            a[i] = toLong(tmp);
+            i++;
         }
 
         return a;
@@ -871,10 +893,12 @@ public final class ByteUtils
 
             for (int k = 0; k < tmp.length; k++)
             {
-                tmp[k] = bytes[j++];
+                tmp[k] = bytes[j];
+                j++;
             }
 
-            a[i++] = toShort(tmp);
+            a[i] = toShort(tmp);
+            i++;
         }
 
         return a;

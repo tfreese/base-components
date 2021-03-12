@@ -122,9 +122,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void flowResultSetPublisher() throws SQLException
+    void testFlowResultSetPublisher() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.subscriberForAll()");
@@ -145,9 +144,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void flowResultSetPublisherForEachObject() throws SQLException
+    void testFlowResultSetPublisherForEachObject() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.subscriberForEachObject()");
@@ -168,9 +166,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void flowResultSetPublisherForFetchSize() throws SQLException
+    void testFlowResultSetPublisherForFetchSize() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.subscriberForFetchSize()");
@@ -191,9 +188,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void fluxResultSetIterable() throws SQLException
+    void testFluxResultSetIterable() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.flux()");
@@ -223,9 +219,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void fluxResultSetIterableParallel() throws SQLException
+    void testFluxResultSetIterableParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.fluxParallel()");
@@ -260,9 +255,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void streamResultSetIterable() throws SQLException
+    void testStreamResultSetIterable() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamIterable()");
@@ -293,9 +287,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void streamResultSetIterableParallel() throws SQLException
+    void testStreamResultSetIterableParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamIterableParallel()");
@@ -326,9 +319,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void streamResultSetIterator() throws SQLException
+    void testStreamResultSetIterator() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamIterator()");
@@ -362,9 +354,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void streamResultSetIteratorParallel() throws SQLException
+    void testStreamResultSetIteratorParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamIteratorParallel()");
@@ -398,9 +389,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void streamResultSetSpliterator() throws SQLException
+    void testStreamResultSetSpliterator() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamSpliterator()");
@@ -431,9 +421,8 @@ class TestReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @Test
-    void streamResultSetSpliteratorParallel() throws SQLException
+    void testStreamResultSetSpliteratorParallel() throws SQLException
     {
         System.out.println();
         System.out.println("TestReactiveJdbc.streamSpliteratorParallel()");

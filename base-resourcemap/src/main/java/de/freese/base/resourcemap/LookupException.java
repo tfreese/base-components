@@ -158,20 +158,17 @@ public final class LookupException extends RuntimeException
      * @see java.lang.Throwable#printStackTrace(java.io.PrintStream)
      */
     @Override
-    public void printStackTrace(final PrintStream s)
+    public void printStackTrace(final PrintStream printStream)
     {
-        synchronized (s)
+        printStream.println(this);
+        StackTraceElement[] trace = getStackTrace();
+
+        for (int i = 0; i < LOGGABLE_STACKTRACES; i++)
         {
-            s.println(this);
-            StackTraceElement[] trace = getStackTrace();
-
-            for (int i = 0; i < LOGGABLE_STACKTRACES; i++)
-            {
-                s.println("\tat " + trace[i]);
-            }
-
-            s.println("\t...");
+            printStream.println("\tat " + trace[i]);
         }
+
+        printStream.println("\t...");
     }
 
     /**
@@ -181,19 +178,16 @@ public final class LookupException extends RuntimeException
      * @see java.lang.Throwable#printStackTrace(java.io.PrintWriter)
      */
     @Override
-    public void printStackTrace(final PrintWriter s)
+    public void printStackTrace(final PrintWriter printWriter)
     {
-        synchronized (s)
+        printWriter.println(this);
+        StackTraceElement[] trace = getStackTrace();
+
+        for (int i = 0; i < LOGGABLE_STACKTRACES; i++)
         {
-            s.println(this);
-            StackTraceElement[] trace = getStackTrace();
-
-            for (int i = 0; i < LOGGABLE_STACKTRACES; i++)
-            {
-                s.println("\tat " + trace[i]);
-            }
-
-            s.println("\t...");
+            printWriter.println("\tat " + trace[i]);
         }
+
+        printWriter.println("\t...");
     }
 }

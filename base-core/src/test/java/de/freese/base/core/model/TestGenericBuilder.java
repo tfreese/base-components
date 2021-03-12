@@ -17,67 +17,10 @@ import de.freese.base.core.model.builder.GenericBuilder;
 class TestGenericBuilder
 {
     /**
-     *
-     */
-    @Test
-    void test010WithConsumer()
-    {
-        //@formatter:off
-        List<String> list = GenericBuilder.of(ArrayList<String>::new)
-            .with(l -> l.add("A"))
-            .with(l -> l.add("B"))
-            .build();
-        //@formatter:on
-
-        assertNotNull(list);
-        assertEquals(2, list.size());
-        assertEquals("A", list.get(0));
-        assertEquals("B", list.get(1));
-    }
-
-    /**
-     *
-     */
-    @Test
-    void test020WithBiConsumer()
-    {
-        //@formatter:off
-        List<String> list = GenericBuilder.of(ArrayList<String>::new)
-            .with(ArrayList::add, "A")
-            .with(ArrayList::add, "B")
-            .build();
-        //@formatter:on
-
-        assertNotNull(list);
-        assertEquals(2, list.size());
-        assertEquals("A", list.get(0));
-        assertEquals("B", list.get(1));
-    }
-
-    /**
     *
     */
     @Test
-    void test030WithMix()
-    {
-       //@formatter:off
-       List<String> list = GenericBuilder.of(ArrayList<String>::new)
-           .with(l -> l.add("A"))
-           .with(ArrayList::add, "B")
-           .build();
-       //@formatter:on
-
-        assertNotNull(list);
-        assertEquals(2, list.size());
-        assertEquals("A", list.get(0));
-        assertEquals("B", list.get(1));
-    }
-
-    /**
-    *
-    */
-    @Test
-    void test040Multiple()
+    void testMultiple()
     {
         // 3 Objekte bauen
         int n = 3;
@@ -96,5 +39,62 @@ class TestGenericBuilder
             assertEquals("A", obj[0]);
             assertEquals("B", obj[1]);
         });
+    }
+
+    /**
+     *
+     */
+    @Test
+    void testWithBiConsumer()
+    {
+        //@formatter:off
+        List<String> list = GenericBuilder.of(ArrayList<String>::new)
+            .with(ArrayList::add, "A")
+            .with(ArrayList::add, "B")
+            .build();
+        //@formatter:on
+
+        assertNotNull(list);
+        assertEquals(2, list.size());
+        assertEquals("A", list.get(0));
+        assertEquals("B", list.get(1));
+    }
+
+    /**
+     *
+     */
+    @Test
+    void testWithConsumer()
+    {
+        //@formatter:off
+        List<String> list = GenericBuilder.of(ArrayList<String>::new)
+            .with(l -> l.add("A"))
+            .with(l -> l.add("B"))
+            .build();
+        //@formatter:on
+
+        assertNotNull(list);
+        assertEquals(2, list.size());
+        assertEquals("A", list.get(0));
+        assertEquals("B", list.get(1));
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testWithMix()
+    {
+       //@formatter:off
+       List<String> list = GenericBuilder.of(ArrayList<String>::new)
+           .with(l -> l.add("A"))
+           .with(ArrayList::add, "B")
+           .build();
+       //@formatter:on
+
+        assertNotNull(list);
+        assertEquals(2, list.size());
+        assertEquals("A", list.get(0));
+        assertEquals("B", list.get(1));
     }
 }

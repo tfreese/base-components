@@ -22,7 +22,7 @@ import javax.net.ssl.SSLSession;
  *
  * @author <a href="mailto:alex.a.karnezis@gmail.com">Alex Karnezis</a>
  */
-public class NioSslClient extends NioSslPeer
+public class NioSslClient extends AbstractNioSslPeer
 {
     /**
      * The engine that will be used to encrypt/decrypt data between this client and the server.

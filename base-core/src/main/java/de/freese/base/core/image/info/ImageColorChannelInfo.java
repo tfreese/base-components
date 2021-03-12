@@ -166,7 +166,7 @@ public class ImageColorChannelInfo
             for (int y = 0; y < this.farbTiefe; ++y)
             {
                 final double c = this.coOccurenceMatrix[x][y];
-                final double d = x - y;
+                final double d = (double) x - y;
 
                 if (c != 0.0D)
                 {

@@ -22,7 +22,7 @@ public class StringGuiState extends AbstractGuiState
     /**
      *
      */
-    private String value = null;
+    private String value;
 
     /**
      * Erstellt ein neues {@link StringGuiState} Object.

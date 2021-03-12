@@ -63,8 +63,8 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
         final long operations = this.controller.getOperationCount(this.value);
         // System.out.println(this.operations);
 
-        long result = this.controller.fibonacci(this.value, value -> {
-            setProgress(value, 0, operations);
+        long result = this.controller.fibonacci(this.value, v -> {
+            setProgress(v, 0, operations);
 
             // Etwas auf die Bremse treten, damit die Demo etwas dauert.
             // try

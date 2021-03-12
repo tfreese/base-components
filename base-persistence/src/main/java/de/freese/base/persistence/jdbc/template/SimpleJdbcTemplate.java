@@ -54,7 +54,7 @@ public class SimpleJdbcTemplate
     /**
      *
      */
-    private DataSource dataSource = null;
+    private DataSource dataSource;
 
     /**
      * If this variable is set to a non-negative value, it will be used for setting the fetchSize property on statements used for query processing.
@@ -193,7 +193,7 @@ public class SimpleJdbcTemplate
         {
             getLogger().error("Could not close JDBC Connection", sex);
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
             getLogger().error("Unexpected exception on closing JDBC Connection", ex);
         }
@@ -217,7 +217,7 @@ public class SimpleJdbcTemplate
         {
             getLogger().error("Could not close JDBC ResultSet", sex);
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
             getLogger().error("Unexpected exception on closing JDBC ResultSet", ex);
         }
@@ -241,7 +241,7 @@ public class SimpleJdbcTemplate
         {
             getLogger().error("Could not close JDBC Statement", sex);
         }
-        catch (Throwable ex)
+        catch (Exception ex)
         {
             getLogger().error("Unexpected exception on closing JDBC Statement", ex);
         }

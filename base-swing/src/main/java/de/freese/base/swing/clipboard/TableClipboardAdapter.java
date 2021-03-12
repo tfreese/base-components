@@ -21,7 +21,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 {
     /**
      * MouseAdapter der Tabelle fuer das Popup.
-     * 
+     *
      * @author Thomas Freese
      */
     protected class PopupListener extends MouseAdapter
@@ -42,9 +42,9 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         {
             if (isEnabled() && e.isPopupTrigger())
             {
-                JPopupMenu popup = getPopupMenu();
+                JPopupMenu popupMenu = getPopupMenu();
 
-                if (popup != null)
+                if (popupMenu != null)
                 {
                     // JTable table = (JTable) e.getSource();
                     // int row = table.rowAtPoint(new Point(e.getX(),e.getY()));
@@ -55,7 +55,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
                     {
                         if (getTable().isEnabled())
                         {
-                            popup.show(e.getComponent(), e.getX(), e.getY());
+                            popupMenu.show(e.getComponent(), e.getX(), e.getY());
                         }
                     }
                 }
@@ -64,7 +64,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
     }
 
     /**
-     * 
+     *
      */
     private boolean externalPopup;
 
@@ -75,7 +75,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Creates a new {@link TableClipboardAdapter} object.
-     * 
+     *
      * @param table {@link JTable}
      */
     public TableClipboardAdapter(final JTable table)
@@ -85,7 +85,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Creates a new {@link TableClipboardAdapter} object.
-     * 
+     *
      * @param table {@link JTable}
      * @param popupMenu JPopupMenu, falls bereits ein JPopupMenu existiert.
      */
@@ -250,7 +250,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Dreht die Achsen der eingehenden Matrix.
-     * 
+     *
      * @param matrix String[][]
      * @return String[][]
      */
@@ -276,7 +276,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Liefert ein 2 dim String Array fuer die Paste Action.
-     * 
+     *
      * @param clipboardString String
      * @return String[][]
      */
@@ -319,7 +319,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * PopupMenu der Tabelle.
-     * 
+     *
      * @return {@link JPopupMenu}
      */
     public JPopupMenu getPopupMenu()
@@ -334,7 +334,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Liefert die Tabelle.
-     * 
+     *
      * @return {@link JTable}
      */
     private JTable getTable()

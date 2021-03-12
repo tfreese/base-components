@@ -1,7 +1,6 @@
 /**
  * Created: 19.03.2020
  */
-
 package de.freese.base.core.model.converter;
 
 import java.util.Collection;

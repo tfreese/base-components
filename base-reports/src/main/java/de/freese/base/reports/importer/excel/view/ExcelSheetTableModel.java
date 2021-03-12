@@ -16,13 +16,13 @@ public class ExcelSheetTableModel extends AbstractTableModel
     private static final long serialVersionUID = -9093380478461819827L;
 
     /**
-     * 
+     *
      */
-    private ExcelSheet excelSheet = null;
+    private ExcelSheet excelSheet;
 
     /**
      * Creates a new {@link ExcelSheetTableModel} object.
-     * 
+     *
      * @param excelSheet {@link ExcelSheet}
      */
     public ExcelSheetTableModel(final ExcelSheet excelSheet)

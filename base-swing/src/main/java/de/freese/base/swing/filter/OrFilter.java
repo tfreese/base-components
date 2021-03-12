@@ -22,7 +22,7 @@ public class OrFilter extends AndFilter
     @Override
     public boolean test(final Object object)
     {
-        for (FilterCondition filterCondition : getFilter())
+        for (FilterCondition filterCondition : getFilters())
         {
             if (filterCondition.test(object))
             {

@@ -24,22 +24,22 @@ public class ContainerGuiState extends AbstractGuiState
     /**
      *
      */
-    private int height = 0;
+    private int height;
 
     /**
      *
      */
-    private int width = 0;
+    private int width;
 
     /**
      *
      */
-    private int x = 0;
+    private int x;
 
     /**
      *
      */
-    private int y = 0;
+    private int y;
 
     /**
      * Creates a new {@link ContainerGuiState} object.

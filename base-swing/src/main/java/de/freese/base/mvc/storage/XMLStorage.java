@@ -28,14 +28,6 @@ public final class XMLStorage
         public Exception exception;
 
         /**
-         * Erstellt ein neues {@link XMLExceptionListener} Object.
-         */
-        public XMLExceptionListener()
-        {
-            super();
-        }
-
-        /**
          * @see java.beans.ExceptionListener#exceptionThrown(java.lang.Exception)
          */
         @Override

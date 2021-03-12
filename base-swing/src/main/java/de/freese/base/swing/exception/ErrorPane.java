@@ -38,7 +38,7 @@ import de.freese.base.utils.GuiUtils;
  *
  * @author Thomas Freese
  */
-public class ErrorPane extends JPanel
+public final class ErrorPane extends JPanel
 {
     /**
      *
@@ -171,7 +171,7 @@ public class ErrorPane extends JPanel
      * @param input String
      * @return String
      */
-    protected String escapeXml(final String input)
+    private String escapeXml(final String input)
     {
         String s = (input == null) ? "" : input.replace("&", "&amp;");
         s = s.replace("<", "&lt;");
@@ -331,22 +331,22 @@ public class ErrorPane extends JPanel
             this.buttonDetails.addActionListener(event -> {
                 Dimension newSize = null;
 
-                Component owner = getOwner();
+                Component component = getOwner();
 
                 if (!getDetailPanel().isVisible())
                 {
-                    newSize = new Dimension(owner.getWidth(), owner.getHeight() + SIZE_DETAIL.height);
+                    newSize = new Dimension(component.getWidth(), component.getHeight() + SIZE_DETAIL.height);
                     ErrorPane.this.buttonDetails.setText(text + " <<");
                 }
                 else
                 {
-                    newSize = new Dimension(owner.getWidth(), owner.getHeight() - SIZE_DETAIL.height);
+                    newSize = new Dimension(component.getWidth(), component.getHeight() - SIZE_DETAIL.height);
                     ErrorPane.this.buttonDetails.setText(text + " >>");
                 }
 
-                owner.setSize(newSize);
-                owner.validate();
-                owner.repaint();
+                component.setSize(newSize);
+                component.validate();
+                component.repaint();
 
                 // owner.doLayout();
                 getDetailPanel().setVisible(!getDetailPanel().isVisible());
@@ -493,7 +493,7 @@ public class ErrorPane extends JPanel
      * @param errorInfo {@link ErrorInfo}
      * @return String
      */
-    protected String getDetailsAsHTML(final ErrorInfo errorInfo)
+    private String getDetailsAsHTML(final ErrorInfo errorInfo)
     {
         if (errorInfo.getErrorException() != null)
         {
@@ -594,7 +594,7 @@ public class ErrorPane extends JPanel
      *
      * @return {@link ErrorInfo}
      */
-    protected ErrorInfo getErrorInfo()
+    private ErrorInfo getErrorInfo()
     {
         return this.errorInfo;
     }
@@ -621,7 +621,7 @@ public class ErrorPane extends JPanel
      *
      * @return {@link Component}
      */
-    protected Component getOwner()
+    private Component getOwner()
     {
         if (this.owner == null)
         {
@@ -699,7 +699,7 @@ public class ErrorPane extends JPanel
      * @param editorPane {@link JEditorPane}
      * @param message String
      */
-    protected void setMessage(final JEditorPane editorPane, final String message)
+    private void setMessage(final JEditorPane editorPane, final String message)
     {
         if (BasicHTML.isHTMLString(message))
         {

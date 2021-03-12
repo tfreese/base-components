@@ -18,7 +18,7 @@ import javax.crypto.KeyGenerator;
  * @author Thomas Freese
  * @param <T> Entity-Type
  */
-public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>>
+public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythmConfigBuilder<T>>
 {
     /**
      * 64bit
@@ -75,72 +75,72 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
     /**
      * Algorithmus für alles.
      */
-    private String algorythm = null;
+    private String algorythm;
 
     /**
      * Algorithmus für {@link Cipher}.
      */
-    private String algorythmCipher = null;
+    private String algorythmCipher;
 
     /**
      * Algorithmus für {@link MessageDigest}.
      */
-    private String algorythmDigest = null;
+    private String algorythmDigest;
 
     /**
      * Algorithmus für {@link KeyGenerator} oder {@link KeyPairGenerator}.
      */
-    private String algorythmKeyGenerator = null;
+    private String algorythmKeyGenerator;
 
     /**
      * Algorithmus für {@link SecureRandom}.
      */
-    private String algorythmSecureRandom = null;
+    private String algorythmSecureRandom;
 
     /**
      * Algorithmus für {@link Signature}.
      */
-    private String algorythmSignature = null;
+    private String algorythmSignature;
 
     /**
      *
      */
-    private int keySize = 0;
+    private int keySize;
 
     /**
      * Provider für alles.
      */
-    private String provider = null;
+    private String provider;
 
     /**
      * Provider für die {@link Cipher}.
      */
-    private String providerCipher = null;
+    private String providerCipher;
 
     /**
      * Provider für {@link MessageDigest}.
      */
-    private String providerDigest = null;
+    private String providerDigest;
 
     /**
      * Provider für {@link KeyGenerator} oder {@link KeyPairGenerator}.
      */
-    private String providerKeyGenerator = null;
+    private String providerKeyGenerator;
 
     /**
      * Algorithmus für {@link SecureRandom}.
      */
-    private String providerSecureRandom = null;
+    private String providerSecureRandom;
 
     /**
      * Provider für {@link Signature}.
      */
-    private String providerSignature = null;
+    private String providerSignature;
 
     /**
-     * Erstellt ein neues {@link AlgorythmConfigBuilder} Object.
+     * Erstellt ein neues {@link AbstractAlgorythmConfigBuilder} Object.
      */
-    protected AlgorythmConfigBuilder()
+    protected AbstractAlgorythmConfigBuilder()
     {
         super();
 
@@ -157,7 +157,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      *
      * @param algorythm String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T algorythm(final String algorythm)
     {
@@ -171,7 +171,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #algorythm(String)}
      *
      * @param algorythmCipher String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T algorythmCipher(final String algorythmCipher)
     {
@@ -185,7 +185,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #algorythm(String)}
      *
      * @param algorythmDigest String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T algorythmDigest(final String algorythmDigest)
     {
@@ -199,7 +199,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #provider(String)}
      *
      * @param algorythmKeyGenerator String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T algorythmKeyGenerator(final String algorythmKeyGenerator)
     {
@@ -214,7 +214,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Beispiel: "NativePRNG", "SHA1PRNG", {@link SecureRandom#getInstanceStrong()}
      *
      * @param algorythmSecureRandom String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T algorythmSecureRandom(final String algorythmSecureRandom)
     {
@@ -228,7 +228,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #algorythm(String)}
      *
      * @param algorythmSignature String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T algorythmSignature(final String algorythmSignature)
     {
@@ -361,7 +361,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
     }
 
     /**
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     @SuppressWarnings("unchecked")
     protected T getThis()
@@ -373,7 +373,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: 0
      *
      * @param keySize int
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T keySize(final int keySize)
     {
@@ -387,7 +387,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      *
      * @param provider String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T provider(final String provider)
     {
@@ -401,7 +401,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #provider(String)}
      *
      * @param providerCipher String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T providerCipher(final String providerCipher)
     {
@@ -415,7 +415,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #algorythm(String)}
      *
      * @param providerDigest String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T providerDigest(final String providerDigest)
     {
@@ -429,7 +429,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #provider(String)}
      *
      * @param providerKeyGenerator String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T providerKeyGenerator(final String providerKeyGenerator)
     {
@@ -444,7 +444,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Beispiel: "SUN"
      *
      * @param providerSecureRandom String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T providerSecureRandom(final String providerSecureRandom)
     {
@@ -458,7 +458,7 @@ public abstract class AlgorythmConfigBuilder<T extends AlgorythmConfigBuilder<T>
      * Default: {@link #provider(String)}
      *
      * @param providerSignature String
-     * @return {@link AlgorythmConfigBuilder}
+     * @return {@link AbstractAlgorythmConfigBuilder}
      */
     public T providerSignature(final String providerSignature)
     {

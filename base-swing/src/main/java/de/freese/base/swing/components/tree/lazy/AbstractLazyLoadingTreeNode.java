@@ -28,37 +28,13 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
      * @param userObject Object
      * @param model {@link DefaultTreeModel}
      */
-    public AbstractLazyLoadingTreeNode(final Object userObject, final DefaultTreeModel model)
+    protected AbstractLazyLoadingTreeNode(final Object userObject, final DefaultTreeModel model)
     {
         super(userObject);
 
         this.model = model;
         super.setAllowsChildren(true);
     }
-
-    /**
-     * @see javax.swing.tree.DefaultMutableTreeNode#isLeaf()
-     */
-    @Override
-    public boolean isLeaf()
-    {
-        return !getAllowsChildren();
-    }
-
-    /**
-     * @return {@link DefaultTreeModel}
-     */
-    protected DefaultTreeModel getModel()
-    {
-        return this.model;
-    }
-
-    /**
-     * Laden der Kinder dieses Knotens.
-     *
-     * @return {@link MutableTreeNode}[]
-     */
-    protected abstract MutableTreeNode[] loadChilds();
 
     /**
      * Liefert true, wenn dieser Knoten seine Kinder bereits geladen hat.
@@ -71,11 +47,35 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
     }
 
     /**
+     * @return {@link DefaultTreeModel}
+     */
+    protected DefaultTreeModel getModel()
+    {
+        return this.model;
+    }
+
+    /**
+     * @see javax.swing.tree.DefaultMutableTreeNode#isLeaf()
+     */
+    @Override
+    public boolean isLeaf()
+    {
+        return !getAllowsChildren();
+    }
+
+    /**
+     * Laden der Kinder dieses Knotens.
+     *
+     * @return {@link MutableTreeNode}[]
+     */
+    protected abstract MutableTreeNode[] loadChilds();
+
+    /**
      * Setzt die geladenen Kinder in das {@link DefaultTreeModel}.
      *
      * @param nodes {@link MutableTreeNode}[]
      */
-    void setChildren(final MutableTreeNode... nodes)
+    void setChildren(final MutableTreeNode...nodes)
     {
         int childCount = getChildCount();
 

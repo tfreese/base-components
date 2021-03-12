@@ -39,7 +39,7 @@ public class FibonacciController extends AbstractController
     /**
      *
      */
-    private ForkJoinPool forkJoinPool = null;
+    private ForkJoinPool forkJoinPool;
 
     /**
     *
@@ -69,7 +69,7 @@ public class FibonacciController extends AbstractController
 
         if ((value != null) && (value > 0))
         {
-            return Long.valueOf(value);
+            return value;
         }
 
         return fibonacci(n, operationConsumer, new AtomicLong(0));

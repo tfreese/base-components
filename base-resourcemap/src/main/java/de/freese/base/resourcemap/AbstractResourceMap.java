@@ -68,12 +68,12 @@ public abstract class AbstractResourceMap implements ResourceMap
     /**
     *
     */
-    private ResourceMapCache cache = null;
+    private ResourceMapCache cache;
 
     /**
     *
     */
-    private ClassLoader classLoader = null;
+    private ClassLoader classLoader;
 
     /**
     *
@@ -88,7 +88,7 @@ public abstract class AbstractResourceMap implements ResourceMap
     /**
     *
     */
-    private ResourceMap parent = null;
+    private ResourceMap parent;
 
     /**
     *
@@ -98,14 +98,14 @@ public abstract class AbstractResourceMap implements ResourceMap
     /**
     *
     */
-    private ResourceProvider resourceProvider = null;
+    private ResourceProvider resourceProvider;
 
     /**
      * Erstellt ein neues {@link AbstractResourceMap} Object.
      *
      * @param bundleName String
      */
-    public AbstractResourceMap(final String bundleName)
+    protected AbstractResourceMap(final String bundleName)
     {
         super();
 
@@ -152,7 +152,7 @@ public abstract class AbstractResourceMap implements ResourceMap
 
             while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1)
             {
-                int endIndex = expression.indexOf("}", startIndex);
+                int endIndex = expression.indexOf('}', startIndex);
 
                 if (endIndex != -1)
                 {

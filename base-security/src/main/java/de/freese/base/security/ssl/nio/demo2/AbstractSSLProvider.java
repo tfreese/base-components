@@ -10,7 +10,7 @@ import javax.net.ssl.SSLException;
 /**
  * @author Thomas Freese
  */
-public abstract class SSLProvider implements Runnable
+public abstract class AbstractSSLProvider implements Runnable
 {
     /**
      *
@@ -42,14 +42,14 @@ public abstract class SSLProvider implements Runnable
     final Executor taskWorkers;
 
     /**
-     * Erstellt ein neues {@link SSLProvider} Object.
+     * Erstellt ein neues {@link AbstractSSLProvider} Object.
      *
      * @param engine {@link SSLEngine}
      * @param capacity int
      * @param ioWorker {@link Executor}
      * @param taskWorkers {@link Executor}
      */
-    public SSLProvider(final SSLEngine engine, final int capacity, final Executor ioWorker, final Executor taskWorkers)
+    protected AbstractSSLProvider(final SSLEngine engine, final int capacity, final Executor ioWorker, final Executor taskWorkers)
     {
         super();
 
@@ -67,6 +67,7 @@ public abstract class SSLProvider implements Runnable
     /**
      * @return boolean
      */
+    @SuppressWarnings("incomplete-switch")
     private synchronized boolean isHandShaking()
     {
         switch (this.engine.getHandshakeStatus())
@@ -109,7 +110,7 @@ public abstract class SSLProvider implements Runnable
 
                 Runnable wrappedTask = () -> {
                     sslTask.run();
-                    SSLProvider.this.ioWorker.execute(SSLProvider.this);
+                    AbstractSSLProvider.this.ioWorker.execute(AbstractSSLProvider.this);
                 };
 
                 this.taskWorkers.execute(wrappedTask);
@@ -128,8 +129,8 @@ public abstract class SSLProvider implements Runnable
     public void notify(final ByteBuffer data)
     {
         this.ioWorker.execute(() -> {
-            SSLProvider.this.clientUnwrap.put(data);
-            SSLProvider.this.run();
+            AbstractSSLProvider.this.clientUnwrap.put(data);
+            AbstractSSLProvider.this.run();
         });
     }
 
@@ -179,7 +180,7 @@ public abstract class SSLProvider implements Runnable
         this.ioWorker.execute(() -> {
             this.clientWrap.put(data);
 
-            SSLProvider.this.run();
+            AbstractSSLProvider.this.run();
         });
     }
 

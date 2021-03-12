@@ -42,14 +42,6 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     private final List<T> targets = new ArrayList<>();
 
     /**
-     * Erstellt ein neues {@link AbstractInputBlocker} Object.
-     */
-    public AbstractInputBlocker()
-    {
-        super();
-    }
-
-    /**
      * @param target Object
      */
     protected void addTarget(final T target)

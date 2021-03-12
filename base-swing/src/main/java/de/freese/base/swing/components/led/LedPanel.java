@@ -57,7 +57,7 @@ public class LedPanel extends Component implements LedConfig
     /**
      *
      */
-    private List<Token<?>> tokens = new LinkedList<>();
+    private final List<Token<?>> tokens = new LinkedList<>();
 
     /**
     *

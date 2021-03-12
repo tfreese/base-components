@@ -29,40 +29,32 @@ public class NasaPanel extends JPanel
     /**
      *
      */
-    private JButton buttonCancel = null;
+    private JButton buttonCancel;
 
     /**
      *
      */
-    private JButton buttonNext = null;
+    private JButton buttonNext;
 
     /**
      *
      */
-    private JButton buttonPrevious = null;
+    private JButton buttonPrevious;
 
     /**
      *
      */
-    private JLabel labelImage = null;
+    private JLabel labelImage;
 
     /**
      *
      */
-    private JLabel labelURL = null;
+    private JLabel labelURL;
 
     /**
      *
      */
-    private JScrollPane scrollPane = null;
-
-    /**
-     * Erstellt ein neues {@link NasaPanel} Object.
-     */
-    public NasaPanel()
-    {
-        super();
-    }
+    private JScrollPane scrollPane;
 
     /**
      * @return {@link JButton}

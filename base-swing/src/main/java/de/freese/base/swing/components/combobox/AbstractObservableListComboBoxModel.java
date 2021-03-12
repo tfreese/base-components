@@ -23,7 +23,7 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
      *
      * @param list {@link ObservableList}
      */
-    public AbstractObservableListComboBoxModel(final ObservableList<T> list)
+    protected AbstractObservableListComboBoxModel(final ObservableList<T> list)
     {
         super(list);
     }

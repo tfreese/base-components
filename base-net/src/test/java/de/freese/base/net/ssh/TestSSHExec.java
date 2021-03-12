@@ -2,7 +2,6 @@ package de.freese.base.net.ssh;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
@@ -39,23 +38,16 @@ class TestSSHExec
     }
 
     /**
-     *
+     * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    static void beforeAll()
+    static void beforeAll() throws Exception
     {
         if (sshExec == null)
         {
             sshExec = new SSHExec("...", "...", "192.168.155.100", 22);
 
-            try
-            {
-                sshExec.connect();
-            }
-            catch (Exception ex)
-            {
-                fail(ex.getMessage());
-            }
+            sshExec.connect();
         }
     }
 
@@ -71,7 +63,7 @@ class TestSSHExec
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test01SSH() throws Exception
+    void testSSH() throws Exception
     {
         List<String> result = sshExec.execute("df -h");
 
@@ -85,7 +77,7 @@ class TestSSHExec
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test02SSHAsync() throws Exception
+    void testSSHAsync() throws Exception
     {
         Future<List<String>> resultFuture = sshExec.execute("df -h", ForkJoinPool.commonPool());
         List<String> result = resultFuture.get();

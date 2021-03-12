@@ -75,33 +75,7 @@ class TestTunedSpliterator
      */
     @ParameterizedTest(name = "{0}")
     @MethodSource("getSplitterators")
-    void test010Summe(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
-    {
-        assertEquals(55, StreamSupport.stream(spliterator.get(), false).mapToInt(n -> n).sum());
-        assertEquals(55, StreamSupport.stream(spliterator.get(), true).mapToInt(n -> n).sum());
-    }
-
-    /**
-     * @param spliteratorName String
-     * @param spliterator {@link Supplier}
-     */
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("getSplitterators")
-    void test020ToString(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
-    {
-        Function<Integer, String> intToString = (n) -> Integer.toString(n);
-
-        assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), false).map(intToString).collect(Collectors.joining(",")));
-        assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), true).map(intToString).collect(Collectors.joining(",")));
-    }
-
-    /**
-     * @param spliteratorName String
-     * @param spliterator {@link Supplier}
-     */
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("getSplitterators")
-    void test030Stats(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
+    void testStats(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
     {
         IntSummaryStatistics stats = StreamSupport.stream(spliterator.get(), false).mapToInt(n -> n).summaryStatistics();
         assertEquals(10, stats.getCount());
@@ -116,5 +90,31 @@ class TestTunedSpliterator
         assertEquals(1, stats.getMin());
         assertEquals(10, stats.getMax());
         assertEquals(5.5D, stats.getAverage(), 0);
+    }
+
+    /**
+     * @param spliteratorName String
+     * @param spliterator {@link Supplier}
+     */
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("getSplitterators")
+    void testSumme(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
+    {
+        assertEquals(55, StreamSupport.stream(spliterator.get(), false).mapToInt(n -> n).sum());
+        assertEquals(55, StreamSupport.stream(spliterator.get(), true).mapToInt(n -> n).sum());
+    }
+
+    /**
+     * @param spliteratorName String
+     * @param spliterator {@link Supplier}
+     */
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("getSplitterators")
+    void testToString(final String spliteratorName, final Supplier<Spliterator<Integer>> spliterator)
+    {
+        Function<Integer, String> intToString = (n) -> Integer.toString(n);
+
+        assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), false).map(intToString).collect(Collectors.joining(",")));
+        assertEquals("1,2,3,4,5,6,7,8,9,10", StreamSupport.stream(spliterator.get(), true).map(intToString).collect(Collectors.joining(",")));
     }
 }

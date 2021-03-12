@@ -15,34 +15,27 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
 {
     /**
      * Erweiterung des ComboboxEventListeners
-     * 
+     *
      * @author Thomas Freese
      */
     private class ComboBoxEventListListener extends EventListListener
     {
         /**
-         * Erstellt ein neues {@link ComboBoxEventListListener} Objekt.
-         */
-        public ComboBoxEventListListener()
-        {
-            super();
-        }
-
-        /**
          * Ueberschrieben, um sicherzustellen, das das selektierte Objekt in der ComboBox angepasst wird, wenn sich die Daten der {I EventList} anpassen.
-         * 
+         *
          * @see de.freese.base.swing.components.list.model.AbstractEventListListModel.EventListListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
         public void contentsChanged(final ListDataEvent e)
         {
             AbstractEventListComboBoxModel.this.selectedObject = null;
+
             super.contentsChanged(e);
         }
     }
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -711561284816478818L;
 
@@ -53,10 +46,10 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
 
     /**
      * Erstellt ein neues {@link AbstractEventListComboBoxModel} Objekt.
-     * 
+     *
      * @param list {@link IEventList}
      */
-    public AbstractEventListComboBoxModel(final IEventList<T> list)
+    protected AbstractEventListComboBoxModel(final IEventList<T> list)
     {
         super(list);
     }
@@ -72,7 +65,7 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
 
     /**
      * Ueberschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
-     * 
+     *
      * @see de.freese.base.swing.components.list.model.AbstractEventListListModel#fireIntervalRemoved(java.lang.Object, int, int)
      */
     @Override

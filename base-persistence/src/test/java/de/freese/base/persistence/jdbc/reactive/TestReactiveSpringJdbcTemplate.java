@@ -61,7 +61,31 @@ class TestReactiveSpringJdbcTemplate
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test01Stream() throws Exception
+    void testFluxSelectAll() throws Exception
+    {
+        Flux<Person> flux = jdbcTemplate.queryAsFlux("select * from person", springRowMapper).doOnNext(person -> {
+            assertTrue(person.getId() > 0);
+        });
+
+        assertEquals(3, flux.count().block().longValue());
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testFluxWhere() throws Exception
+    {
+        Flux<Person> testFlux = jdbcTemplate.queryAsFlux("select * from person where name = ?", springRowMapper, "reese");
+
+        assertEquals(0, testFlux.count().block().longValue());
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testStreamSelectAll() throws Exception
     {
         try (Stream<Person> stream = jdbcTemplate.queryAsStream("select * from person", springRowMapper))
         {
@@ -77,35 +101,11 @@ class TestReactiveSpringJdbcTemplate
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test02Stream() throws Exception
+    void testStreamWhere() throws Exception
     {
         try (Stream<Person> stream = jdbcTemplate.queryAsStream("select * from person where name = ?", springRowMapper, "reese"))
         {
             assertEquals(0, stream.count());
         }
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test03Flux() throws Exception
-    {
-        Flux<Person> flux = jdbcTemplate.queryAsFlux("select * from person", springRowMapper).doOnNext(person -> {
-            assertTrue(person.getId() > 0);
-        });
-
-        assertEquals(3, flux.count().block().longValue());
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test04Flux() throws Exception
-    {
-        Flux<Person> testFlux = jdbcTemplate.queryAsFlux("select * from person where name = ?", springRowMapper, "reese");
-
-        assertEquals(0, testFlux.count().block().longValue());
     }
 }

@@ -268,7 +268,7 @@ public class StopWatch
     /**
      * Total running time.
      */
-    private long totalTimeNanos = 0L;
+    private long totalTimeNanos;
 
     /**
      * Erstellt ein neues {@link StopWatch} Object.

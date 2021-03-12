@@ -24,7 +24,7 @@ public final class XMLUtils
      */
     public static Document getDocument(final byte[] bytes) throws Exception
     {
-        return getDocument(new InputSource(new ByteArrayInputStream(bytes)));
+        return getDocument(new ByteArrayInputStream(bytes));
     }
 
     /**
@@ -40,7 +40,7 @@ public final class XMLUtils
 
         // Protect against to XXE attacks.
         factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // compliant
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // Compliant
 
         factory.setValidating(false);
 

@@ -167,14 +167,14 @@ public class ColumnControlWindow implements AWTEventListener
      */
     protected Frame getFrame(final Component comp)
     {
-        Component m_comp = comp;
+        Component c = comp;
 
-        if (m_comp == null)
+        if (c == null)
         {
-            m_comp = this.controlButton;
+            c = this.controlButton;
         }
 
-        Component parent = m_comp.getParent();
+        Component parent = c.getParent();
 
         if (parent instanceof Frame)
         {

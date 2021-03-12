@@ -31,7 +31,7 @@ public class ConnectionToDataSourceWrapper implements DataSource
     {
         super();
 
-        this.connection = (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), new Class<?>[]
+        this.connection = (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
         {
                 Connection.class
         }, new ConnectionNotClosingInvocationHandler(connection));

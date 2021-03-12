@@ -63,6 +63,7 @@ public class ReactiveSpringJdbcTemplate extends JdbcTemplate
      * @param <T> Konkreter Entity-Typ
      * @author Thomas Freese
      */
+    @FunctionalInterface
     protected interface ReactiveFactory<R, T>
     {
         /**

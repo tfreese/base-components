@@ -8,10 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -24,7 +22,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import de.freese.base.security.algorythm.AlgorythmConfigBuilder;
+import de.freese.base.security.algorythm.AbstractAlgorythmConfigBuilder;
 import de.freese.base.security.algorythm.AsymetricCrypto;
 import de.freese.base.security.algorythm.Crypto;
 
@@ -50,14 +48,13 @@ class TestCrypto
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
     @Test
-    void asymetricRsa() throws GeneralSecurityException, IOException
+    void testAsymetricRsa() throws Exception
     {
         // @formatter:off
-         Crypto crypto = AlgorythmConfigBuilder.asymetric()
+         Crypto crypto = AbstractAlgorythmConfigBuilder.asymetric()
              .providerCipher("SunJCE")
              .providerKeyGenerator("SunRsaSign")
              .providerSignature("SunRsaSign")
@@ -74,11 +71,10 @@ class TestCrypto
     }
 
     /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
     @Test
-    void asymetricRsaBc() throws GeneralSecurityException, IOException
+    void testAsymetricRsaBc() throws Exception
     {
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
         {
@@ -86,7 +82,7 @@ class TestCrypto
         }
 
         // @formatter:off
-         Crypto crypto = AlgorythmConfigBuilder.asymetric()
+         Crypto crypto = AbstractAlgorythmConfigBuilder.asymetric()
              .provider(BouncyCastleProvider.PROVIDER_NAME)
              .algorythmCipher("RSA/ECB/NoPadding")
              .algorythmKeyGenerator("RSA")
@@ -101,165 +97,10 @@ class TestCrypto
     }
 
     /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     */
-    @Test
-    void symetricAesCbc() throws GeneralSecurityException, IOException
-    {
-        // @formatter:off
-        Crypto crypto = AlgorythmConfigBuilder.symetric()
-            //.provider("SunJCE")
-            .algorythm("AES")
-            .algorythmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
-            .initVector(Arrays.copyOf(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 16))
-            .keySize(256)
-            .build()
-            ;
-        // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
-    /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     */
-    @Test
-    void symetricAesCbcBC() throws GeneralSecurityException, IOException
-    {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
-        {
-            Security.addProvider(new BouncyCastleProvider());
-        }
-
-        // @formatter:off
-        Crypto crypto = AlgorythmConfigBuilder.symetric()
-            .provider(BouncyCastleProvider.PROVIDER_NAME)
-            .algorythm("PBEWITHSHA256AND256BITAES-CBC-BC")
-            .algorythmKeyGenerator("AES")
-            .initVector(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
-            .keySize(512)
-//            .keyPassword("gehaim")
-            .build()
-            ;
-        // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
-    /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     */
-    @Test
-    void symetricAesGcm() throws GeneralSecurityException, IOException
-    {
-        // @formatter:off
-         Crypto crypto = AlgorythmConfigBuilder.symetric()
-             .algorythm("AES")
-             .algorythmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
-             .initVector(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
-             .keySize(256)
-             .build()
-             ;
-         // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
-    /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     */
-    @Test
-    void symetricAesGcmPlain() throws GeneralSecurityException, IOException
-    {
-        // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
-        String cipherTransformation = "AES/GCM/NoPadding";
-
-        byte[] initVector = new byte[512];
-
-        // Password/Key erstellen
-        // SecureRandom random = SecureRandom.getInstanceStrong();
-        // SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256, secureRandom);
-
-        secureRandom.nextBytes(initVector);
-        Key key = keyGen.generateKey();
-
-        // Verschlüsseln
-        Cipher encodeCipher = Cipher.getInstance(cipherTransformation);
-        encodeCipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
-
-        byte[] encrypted = encodeCipher.doFinal(SOURCE_BYTES);
-        String encryptedString = Base64.getEncoder().encodeToString(encrypted);
-        System.out.println(encryptedString);
-
-        // Entschlüsseln
-        Cipher decodeCipher = Cipher.getInstance(cipherTransformation);
-        decodeCipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
-
-        byte[] decrypted = decodeCipher.doFinal(encrypted);
-        String decryptedString = new String(decrypted, CHARSET);
-        System.out.println(decryptedString);
-
-        assertEquals(SOURCE, decryptedString);
-    }
-
-    /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     */
-    @Test
-    void symetricBlowfish() throws GeneralSecurityException, IOException
-    {
-        // @formatter:off
-        Crypto crypto = AlgorythmConfigBuilder.symetric()
-            .algorythm("Blowfish")
-            .algorythmCipher("Blowfish/CBC/PKCS5Padding")
-            .initVector(Arrays.copyOf(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 8))
-            .keySize(448)
-            .build()
-            ;
-        // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
-    /**
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     */
-    @Test
-    void symetricDes() throws GeneralSecurityException, IOException
-    {
-        // @formatter:off
-        Crypto crypto = AlgorythmConfigBuilder.symetric()
-            .algorythm("DES")
-            .algorythmCipher("DES/CBC/PKCS5Padding")
-            .initVector(Arrays.copyOf(AlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 8))
-            .keySize(56)
-            .build()
-            ;
-        // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
-    /**
      * @param crypto {@link Crypto}
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private void testCodec(final Crypto crypto) throws GeneralSecurityException, IOException
+    private void testCodec(final Crypto crypto) throws Exception
     {
         byte[] encrypted = crypto.encrypt(SOURCE_BYTES);
         byte[] decrypted = crypto.decrypt(encrypted);
@@ -298,10 +139,9 @@ class TestCrypto
 
     /**
      * @param crypto {@link Crypto}
-     * @throws GeneralSecurityException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private void testSignAndVerify(final Crypto crypto) throws GeneralSecurityException, IOException
+    private void testSignAndVerify(final Crypto crypto) throws Exception
     {
         try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES))
         {
@@ -321,5 +161,153 @@ class TestCrypto
                 assertTrue(verified, "Wrong Signature");
             }
         }
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSymetricAesCbc() throws Exception
+    {
+        // @formatter:off
+        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
+            //.provider("SunJCE")
+            .algorythm("AES")
+            .algorythmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
+            .initVector(Arrays.copyOf(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 16))
+            .keySize(256)
+            .build()
+            ;
+        // @formatter:on
+
+        testCodec(crypto);
+        testSignAndVerify(crypto);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSymetricAesCbcBC() throws Exception
+    {
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
+        {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        // @formatter:off
+        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
+            .provider(BouncyCastleProvider.PROVIDER_NAME)
+            .algorythm("PBEWITHSHA256AND256BITAES-CBC-BC")
+            .algorythmKeyGenerator("AES")
+            .initVector(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
+            .keySize(512)
+//            .keyPassword("gehaim")
+            .build()
+            ;
+        // @formatter:on
+
+        testCodec(crypto);
+        testSignAndVerify(crypto);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSymetricAesGcm() throws Exception
+    {
+        // @formatter:off
+         Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
+             .algorythm("AES")
+             .algorythmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
+             .initVector(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
+             .keySize(256)
+             .build()
+             ;
+         // @formatter:on
+
+        testCodec(crypto);
+        testSignAndVerify(crypto);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSymetricAesGcmPlain() throws Exception
+    {
+        // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
+        String cipherTransformation = "AES/GCM/NoPadding";
+
+        byte[] initVector = new byte[512];
+
+        // Password/Key erstellen
+        // SecureRandom random = SecureRandom.getInstanceStrong();
+        // SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256, secureRandom);
+
+        secureRandom.nextBytes(initVector);
+        Key key = keyGen.generateKey();
+
+        // Verschlüsseln
+        Cipher encodeCipher = Cipher.getInstance(cipherTransformation);
+        encodeCipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
+
+        byte[] encrypted = encodeCipher.doFinal(SOURCE_BYTES);
+        String encryptedString = Base64.getEncoder().encodeToString(encrypted);
+        System.out.println(encryptedString);
+
+        // Entschlüsseln
+        Cipher decodeCipher = Cipher.getInstance(cipherTransformation);
+        decodeCipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
+
+        byte[] decrypted = decodeCipher.doFinal(encrypted);
+        String decryptedString = new String(decrypted, CHARSET);
+        System.out.println(decryptedString);
+
+        assertEquals(SOURCE, decryptedString);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSymetricBlowfish() throws Exception
+    {
+        // @formatter:off
+        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
+            .algorythm("Blowfish")
+            .algorythmCipher("Blowfish/CBC/PKCS5Padding")
+            .initVector(Arrays.copyOf(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 8))
+            .keySize(448)
+            .build()
+            ;
+        // @formatter:on
+
+        testCodec(crypto);
+        testSignAndVerify(crypto);
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void testSymetricDes() throws Exception
+    {
+        // @formatter:off
+        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
+            .algorythm("DES")
+            .algorythmCipher("DES/CBC/PKCS5Padding")
+            .initVector(Arrays.copyOf(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 8))
+            .keySize(56)
+            .build()
+            ;
+        // @formatter:on
+
+        testCodec(crypto);
+        testSignAndVerify(crypto);
     }
 }

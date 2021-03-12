@@ -4,10 +4,8 @@
 
 package de.freese.base.security.algorythm;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.Signature;
 import java.util.function.Supplier;
@@ -37,7 +35,7 @@ public class AsymetricCrypto extends AbstractCrypto
     /**
      * Erstellt ein neues {@link AsymetricCrypto} Object.
      */
-    public AsymetricCrypto()
+    AsymetricCrypto()
     {
         super();
     }
@@ -94,7 +92,7 @@ public class AsymetricCrypto extends AbstractCrypto
      * @see de.freese.base.security.algorythm.Crypto#sign(java.io.InputStream, java.io.OutputStream)
      */
     @Override
-    public void sign(final InputStream in, final OutputStream out) throws GeneralSecurityException, IOException
+    public void sign(final InputStream in, final OutputStream out) throws Exception
     {
         Signature signature = getSignatureSign();
 
@@ -105,7 +103,7 @@ public class AsymetricCrypto extends AbstractCrypto
      * @see de.freese.base.security.algorythm.Crypto#verify(java.io.InputStream, java.io.InputStream)
      */
     @Override
-    public boolean verify(final InputStream in, final InputStream signIn) throws GeneralSecurityException, IOException
+    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
     {
         Signature signature = getSignatureVerify();
 

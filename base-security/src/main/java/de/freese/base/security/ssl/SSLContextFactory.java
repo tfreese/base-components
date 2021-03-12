@@ -203,4 +203,12 @@ public final class SSLContextFactory
 
         return sslContext;
     }
+
+    /**
+     * Erstellt ein neues {@link SSLContextFactory} Object.
+     */
+    private SSLContextFactory()
+    {
+        super();
+    }
 }

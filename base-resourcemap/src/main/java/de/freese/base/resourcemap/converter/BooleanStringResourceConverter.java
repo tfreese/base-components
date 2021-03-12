@@ -30,11 +30,11 @@ public class BooleanStringResourceConverter extends AbstractResourceConverter<Bo
     @Override
     public Boolean convert(final String key, final String value)
     {
-        String m_key = value.trim();
+        String v = value.trim();
 
         for (String trueString : this.trueStrings)
         {
-            if (m_key.equalsIgnoreCase(trueString))
+            if (v.equalsIgnoreCase(trueString))
             {
                 return Boolean.TRUE;
             }

@@ -4,10 +4,8 @@
 
 package de.freese.base.security.algorythm;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.GeneralSecurityException;
 import java.security.Key;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -25,7 +23,7 @@ public class SymetricCrypto extends AbstractCrypto
     /**
     *
     */
-    private Key key = null;
+    private Key key;
 
     /**
      * Erstellt ein neues {@link SymetricCrypto} Object.
@@ -57,7 +55,7 @@ public class SymetricCrypto extends AbstractCrypto
      * @see de.freese.base.security.algorythm.Crypto#sign(java.io.InputStream, java.io.OutputStream)
      */
     @Override
-    public void sign(final InputStream in, final OutputStream out) throws GeneralSecurityException, IOException
+    public void sign(final InputStream in, final OutputStream out) throws Exception
     {
         byte[] digest = digest(in);
         out.write(digest);
@@ -69,7 +67,7 @@ public class SymetricCrypto extends AbstractCrypto
      * @see de.freese.base.security.algorythm.Crypto#verify(java.io.InputStream, java.io.InputStream)
      */
     @Override
-    public boolean verify(final InputStream in, final InputStream signIn) throws GeneralSecurityException, IOException
+    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
     {
         byte[] digest = digest(in);
         byte[] sig = IOUtils.toByteArray(signIn);

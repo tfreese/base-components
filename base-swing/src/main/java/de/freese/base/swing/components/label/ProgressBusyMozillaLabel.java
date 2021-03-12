@@ -3,6 +3,7 @@ package de.freese.base.swing.components.label;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import de.freese.base.core.progress.ProgressCallback;
 
 /**
@@ -23,7 +24,7 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
     public static void main(final String[] args)
     {
         final JFrame frame = new JFrame("GlassPaneDemo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setSize(new Dimension(400, 400));
 
@@ -44,21 +45,21 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
     /**
      * ms
      */
-    private long progressCurrent = 0;
+    private long progressCurrent;
 
     /**
      * ms
      */
-    private long progressMax = 0;
+    private long progressMax;
 
     /**
      * ms
      */
-    private long progressStart = 0;
+    private long progressStart;
 
     /**
      * Creates a new ProgressBusyMozillaLabel object.
-     * 
+     *
      * @param text String
      * @param progressMax long, Progressdauer
      */

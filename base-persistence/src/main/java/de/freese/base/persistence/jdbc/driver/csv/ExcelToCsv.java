@@ -49,7 +49,7 @@ public class ExcelToCsv
     /**
      * Beginnend mit 0.
      */
-    private int[] columnIndicies = null;
+    private int[] columnIndicies;
 
     /**
      *
@@ -69,25 +69,17 @@ public class ExcelToCsv
     /**
      *
      */
-    private FormulaEvaluator formulaEvaluator = null;
+    private FormulaEvaluator formulaEvaluator;
 
     /**
      * 0. Zeile = Header.
      */
-    private int headerRow = 0;
+    private int headerRow;
 
     /**
      *
      */
     private Character quoteCharacter = '"';
-
-    /**
-     * Erzeugt eine neue Instanz von {@link ExcelToCsv}
-     */
-    public ExcelToCsv()
-    {
-        super();
-    }
 
     /**
      * Konvertiert eine Excel-Datei in eine CSV-Datei.

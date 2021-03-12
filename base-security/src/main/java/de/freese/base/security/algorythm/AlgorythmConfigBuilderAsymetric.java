@@ -18,12 +18,12 @@ import javax.crypto.Cipher;
  *
  * @author Thomas Freese
  */
-public class AlgorythmConfigBuilderAsymetric extends AlgorythmConfigBuilder<AlgorythmConfigBuilderAsymetric>
+public class AlgorythmConfigBuilderAsymetric extends AbstractAlgorythmConfigBuilder<AlgorythmConfigBuilderAsymetric>
 {
     /**
      *
      */
-    private KeyPair keyPair = null;
+    private KeyPair keyPair;
 
     /**
      * Erstellt ein neues {@link AlgorythmConfigBuilderAsymetric} Object.
@@ -34,7 +34,7 @@ public class AlgorythmConfigBuilderAsymetric extends AlgorythmConfigBuilder<Algo
     }
 
     /**
-     * @see de.freese.base.security.algorythm.AlgorythmConfigBuilder#build()
+     * @see de.freese.base.security.algorythm.AbstractAlgorythmConfigBuilder#build()
      */
     @Override
     public AsymetricCrypto build() throws GeneralSecurityException

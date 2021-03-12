@@ -23,35 +23,27 @@ public class FibonacciPanel extends JPanel
     /**
      *
      */
-    private JButton buttonComponentBlock = null;
+    private JButton buttonComponentBlock;
 
     /**
      *
      */
-    private JButton buttonGlassPaneBlock = null;
+    private JButton buttonGlassPaneBlock;
 
     /**
      *
      */
-    private JLabel label = null;
+    private JLabel label;
 
     /**
      *
      */
-    private JLabel labelResult = null;
+    private JLabel labelResult;
 
     /**
      *
      */
-    private JTextField textField = null;
-
-    /**
-     * Erstellt ein neues {@link FibonacciPanel} Object.
-     */
-    public FibonacciPanel()
-    {
-        super();
-    }
+    private JTextField textField;
 
     /**
      * @return {@link JButton}

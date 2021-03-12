@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Date;
@@ -95,29 +96,20 @@ class PGPCryptoBC
      */
     public static String getAlgorithm(final int algorithm)
     {
-        switch (algorithm)
+        return switch (algorithm)
         {
-            case PublicKeyAlgorithmTags.RSA_GENERAL:
-                return "RSA_GENERAL";
-            case PublicKeyAlgorithmTags.RSA_ENCRYPT:
-                return "RSA_ENCRYPT";
-            case PublicKeyAlgorithmTags.RSA_SIGN:
-                return "RSA_SIGN";
-            case PublicKeyAlgorithmTags.ELGAMAL_ENCRYPT:
-                return "ELGAMAL_ENCRYPT";
-            case PublicKeyAlgorithmTags.DSA:
-                return "DSA";
-            case PublicKeyAlgorithmTags.ECDH:
-                return "ECDH";
-            case PublicKeyAlgorithmTags.ECDSA:
-                return "ECDSA";
-            case PublicKeyAlgorithmTags.ELGAMAL_GENERAL:
-                return "ELGAMAL_GENERAL";
-            case PublicKeyAlgorithmTags.DIFFIE_HELLMAN:
-                return "DIFFIE_HELLMAN";
-            default:
-                return "unknown";
-        }
+            case PublicKeyAlgorithmTags.RSA_GENERAL -> "RSA_GENERAL";
+            case PublicKeyAlgorithmTags.RSA_ENCRYPT -> "RSA_ENCRYPT";
+            case PublicKeyAlgorithmTags.RSA_SIGN -> "RSA_SIGN";
+            case PublicKeyAlgorithmTags.ELGAMAL_ENCRYPT -> "ELGAMAL_ENCRYPT";
+            case PublicKeyAlgorithmTags.DSA -> "DSA";
+            case PublicKeyAlgorithmTags.ECDH -> "ECDH";
+            case PublicKeyAlgorithmTags.ECDSA -> "ECDSA";
+            case PublicKeyAlgorithmTags.ELGAMAL_GENERAL -> "ELGAMAL_GENERAL";
+            case PublicKeyAlgorithmTags.DIFFIE_HELLMAN -> "DIFFIE_HELLMAN";
+
+            default -> "unknown";
+        };
     }
 
     /**
@@ -200,7 +192,7 @@ class PGPCryptoBC
                     }
 
                     System.out.printf("\tAlgorithm: %s%n", getAlgorithm(pgpKey.getAlgorithm()));
-                    System.out.printf("\tFingerprint: %s%n", new String(Hex.encode(pgpKey.getFingerprint())).toUpperCase());
+                    System.out.printf("\tFingerprint: %s%n", new String(Hex.encode(pgpKey.getFingerprint()), StandardCharsets.UTF_8).toUpperCase());
 
                     Iterator<String> userIDs = pgpKey.getUserIDs();
 

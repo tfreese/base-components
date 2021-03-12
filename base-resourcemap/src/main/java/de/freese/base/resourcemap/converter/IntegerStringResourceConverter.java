@@ -8,14 +8,6 @@ package de.freese.base.resourcemap.converter;
 public class IntegerStringResourceConverter extends AbstractNumberResourceConverter<Integer>
 {
     /**
-     * Erstellt ein neues {@link IntegerStringResourceConverter} Object.
-     */
-    public IntegerStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override

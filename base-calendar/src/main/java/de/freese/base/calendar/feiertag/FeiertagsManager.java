@@ -20,15 +20,7 @@ public final class FeiertagsManager
     /**
      *
      */
-    private transient final Map<Integer, Map<String, InternerFeiertag>> feiertagsMap = new TreeMap<>();
-
-    /**
-     * Creates a new {@link FeiertagsManager} object.
-     */
-    public FeiertagsManager()
-    {
-        super();
-    }
+    private final Map<Integer, Map<String, InternerFeiertag>> feiertagsMap = new TreeMap<>();
 
     /**
      * @param jahr int
@@ -242,7 +234,7 @@ public final class FeiertagsManager
      */
     private final int getMonatImJahr(final int jahr, final int tagDesJahres)
     {
-        int m_tagDesJahres = tagDesJahres;
+        int tdj = tagDesJahres;
 
         int a = 0;
 
@@ -251,14 +243,14 @@ public final class FeiertagsManager
             a += 1;
         }
 
-        if (m_tagDesJahres > (59 + a))
+        if (tdj > (59 + a))
         {
-            m_tagDesJahres += (2 - a);
+            tdj += (2 - a);
         }
 
-        m_tagDesJahres += 91;
+        tdj += 91;
 
-        return ((20 * m_tagDesJahres) / 611) - 2;
+        return ((20 * tdj) / 611) - 2;
     }
 
     /**
@@ -272,7 +264,7 @@ public final class FeiertagsManager
      */
     private final int getTagDesMonats(final int jahr, final int tagDesJahres)
     {
-        int m_tagDesJahres = tagDesJahres;
+        int dtj = tagDesJahres;
 
         int a = 0;
         int m;
@@ -282,15 +274,15 @@ public final class FeiertagsManager
             a += 1;
         }
 
-        if (m_tagDesJahres > (59 + a))
+        if (dtj > (59 + a))
         {
-            m_tagDesJahres += (2 - a);
+            dtj += (2 - a);
         }
 
-        m_tagDesJahres += 91;
-        m = (20 * m_tagDesJahres) / 611;
+        dtj += 91;
+        m = (20 * dtj) / 611;
 
-        return m_tagDesJahres - ((611 * m) / 20);
+        return dtj - ((611 * m) / 20);
     }
 
     /**

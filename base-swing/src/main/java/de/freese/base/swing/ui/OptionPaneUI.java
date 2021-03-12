@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -14,104 +13,95 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 
 /**
- * UI fuer die OptionPane, um auch den Background des ButtonsPanels dem des MessagePanels angleichen
- * zu koennen.
- * 
+ * UI fuer die OptionPane, um auch den Background des ButtonsPanels dem des MessagePanels angleichen zu koennen.
+ *
  * @author Thomas Freese
  */
 public class OptionPaneUI extends BasicOptionPaneUI
 {
-	/**
-	 * Creates a new {@link OptionPaneUI} object.
-	 */
-	public OptionPaneUI()
-	{
-		super();
-	}
+    /**
+     * Creates a new BasicOptionPaneUI instance.
+     *
+     * @param component {@link JComponent}
+     * @return {@link ComponentUI}
+     */
+    public static ComponentUI createUI(final JComponent component)
+    {
+        return new OptionPaneUI();
+    }
 
-	/**
-	 * Creates a new BasicOptionPaneUI instance.
-	 * 
-	 * @param component {@link JComponent}
-	 * @return {@link ComponentUI}
-	 */
-	public static ComponentUI createUI(final JComponent component)
-	{
-		return new OptionPaneUI();
-	}
+    /**
+     * @see javax.swing.plaf.basic.BasicOptionPaneUI#createButtonArea()
+     */
+    @Override
+    protected Container createButtonArea()
+    {
+        Container c = super.createButtonArea();
 
-	/**
-	 * @see javax.swing.plaf.basic.BasicOptionPaneUI#createButtonArea()
-	 */
-	@Override
-	protected Container createButtonArea()
-	{
-		Container c = super.createButtonArea();
+        if (c instanceof JComponent)
+        {
+            ((JComponent) c).setOpaque(false);
+        }
 
-		if (c instanceof JComponent)
-		{
-			((JComponent) c).setOpaque(false);
-		}
+        return c;
+    }
 
-		return c;
-	}
+    /**
+     * @see javax.swing.plaf.basic.BasicOptionPaneUI#createMessageArea()
+     */
+    @Override
+    protected Container createMessageArea()
+    {
+        JPanel top = new JPanel();
+        top.setOpaque(false);
+        top.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
+        top.setLayout(new BorderLayout());
 
-	/**
-	 * @see javax.swing.plaf.basic.BasicOptionPaneUI#createMessageArea()
-	 */
-	@Override
-	protected Container createMessageArea()
-	{
-		JPanel top = new JPanel();
-		top.setOpaque(false);
-		top.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
-		top.setLayout(new BorderLayout());
+        /* Fill the body. */
+        JPanel body = new JPanel();
+        body.setOpaque(false);
 
-		/* Fill the body. */
-		JPanel body = new JPanel();
-		body.setOpaque(false);
+        JPanel realBody = new JPanel();
+        realBody.setOpaque(false);
 
-		JPanel realBody = new JPanel();
-		realBody.setOpaque(false);
+        realBody.setLayout(new BorderLayout());
 
-		realBody.setLayout(new BorderLayout());
+        if (getIcon() != null)
+        {
+            JPanel sep = new JPanel()
+            {
+                private static final long serialVersionUID = 1L;
 
-		if (getIcon() != null)
-		{
-			JPanel sep = new JPanel()
-			{
-				private static final long serialVersionUID = 1L;
+                /**
+                 * @see javax.swing.JComponent#getPreferredSize()
+                 */
+                @Override
+                public Dimension getPreferredSize()
+                {
+                    return new Dimension(15, 1);
+                }
+            };
 
-				/**
-				 * @see javax.swing.JComponent#getPreferredSize()
-				 */
-				@Override
-				public Dimension getPreferredSize()
-				{
-					return new Dimension(15, 1);
-				}
-			};
+            sep.setOpaque(false);
+            realBody.add(sep, BorderLayout.BEFORE_LINE_BEGINS);
+        }
 
-			sep.setOpaque(false);
-			realBody.add(sep, BorderLayout.BEFORE_LINE_BEGINS);
-		}
+        realBody.add(body, BorderLayout.CENTER);
 
-		realBody.add(body, BorderLayout.CENTER);
+        body.setLayout(new GridBagLayout());
 
-		body.setLayout(new GridBagLayout());
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.gridx = cons.gridy = 0;
+        cons.gridwidth = GridBagConstraints.REMAINDER;
+        cons.gridheight = 1;
+        cons.anchor = GridBagConstraints.LINE_START;
+        cons.insets = new Insets(0, 0, 3, 0);
 
-		GridBagConstraints cons = new GridBagConstraints();
-		cons.gridx = cons.gridy = 0;
-		cons.gridwidth = GridBagConstraints.REMAINDER;
-		cons.gridheight = 1;
-		cons.anchor = GridBagConstraints.LINE_START;
-		cons.insets = new Insets(0, 0, 3, 0);
+        addMessageComponents(body, cons, getMessage(), getMaxCharactersPerLineCount(), false);
+        top.add(realBody, BorderLayout.CENTER);
 
-		addMessageComponents(body, cons, getMessage(), getMaxCharactersPerLineCount(), false);
-		top.add(realBody, BorderLayout.CENTER);
+        addIcon(top);
 
-		addIcon(top);
-
-		return top;
-	}
+        return top;
+    }
 }

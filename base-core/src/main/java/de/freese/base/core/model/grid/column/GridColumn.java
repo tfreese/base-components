@@ -1,7 +1,6 @@
 /**
  * Created: 18.03.2020
  */
-
 package de.freese.base.core.model.grid.column;
 
 import java.io.DataInput;

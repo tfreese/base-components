@@ -1,7 +1,6 @@
 /**
  * Created: 10.05.2018
  */
-
 package de.freese.base.persistence.jdbc.template;
 
 import java.sql.Blob;
@@ -23,15 +22,7 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
     /**
      *
      */
-    private String[] columnNames = null;
-
-    /**
-     * Erstellt ein neues {@link ColumnMapRowMapper} Object.
-     */
-    public ColumnMapRowMapper()
-    {
-        super();
-    }
+    private String[] columnNames;
 
     /**
      * Ermittelt den Namen der Spalte am Index.

@@ -35,7 +35,7 @@ public abstract class AbstractGuiStateProvider implements GuiStateProvider
      * @param localStorage {@link LocalStorage}
      * @param guiStateManager {@link GuiStateManager}
      */
-    public AbstractGuiStateProvider(final LocalStorage localStorage, final GuiStateManager guiStateManager)
+    protected AbstractGuiStateProvider(final LocalStorage localStorage, final GuiStateManager guiStateManager)
     {
         super();
 
@@ -48,7 +48,8 @@ public abstract class AbstractGuiStateProvider implements GuiStateProvider
 
         for (Class<? extends GUIState> guiStateClazz : guiStates)
         {
-            this.guiStateClasses[i++] = guiStateClazz;
+            this.guiStateClasses[i] = guiStateClazz;
+            i++;
         }
     }
 

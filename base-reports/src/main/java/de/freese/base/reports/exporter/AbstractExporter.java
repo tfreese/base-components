@@ -19,15 +19,7 @@ public abstract class AbstractExporter implements IExporter
     /**
      * Zum laden von Icons, Dateien etc...
      */
-    private ResourceLoader resourceLoader = null;
-
-    /**
-     * Erstellt ein neues {@link AbstractExporter} Objekt.
-     */
-    public AbstractExporter()
-    {
-        super();
-    }
+    private ResourceLoader resourceLoader;
 
     /**
      * @see de.freese.base.reports.exporter.IExporter#export(java.lang.String, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
@@ -43,7 +35,7 @@ public abstract class AbstractExporter implements IExporter
 
     /**
      * Zum laden von Icons, Dateien etc...
-     * 
+     *
      * @return {@link ResourceLoader}
      */
     protected ResourceLoader getResourceLoader()

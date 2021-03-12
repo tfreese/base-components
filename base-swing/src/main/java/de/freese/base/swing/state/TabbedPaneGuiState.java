@@ -23,7 +23,7 @@ public class TabbedPaneGuiState extends AbstractGuiState
     /**
      *
      */
-    private int selectedIndex = 0;
+    private int selectedIndex;
 
     /**
      * Erstellt ein neues {@link TabbedPaneGuiState} Object.

@@ -2,7 +2,6 @@ package de.freese.base.swing.desktop;
 
 import java.awt.Dimension;
 import java.awt.Insets;
-
 import javax.swing.DefaultDesktopManager;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
@@ -10,174 +9,171 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 /**
- * Private class used to replace the standard DesktopManager for JDesktopPane. Used to provide
- * scrollbar functionality.<br>
+ * Private class used to replace the standard DesktopManager for JDesktopPane. Used to provide scrollbar functionality.<br>
  * <br>
  * Quelle: http://www.javaworld.com/javaworld/jw-05-2001/jw-0525-mdi.html?page=1
- * 
+ *
  * @author Thomas Freese
  */
 final class MDIDesktopManager extends DefaultDesktopManager
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 8998750700453491893L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8998750700453491893L;
 
-	/**
-	 *
-	 */
-	private final MDIDesktopPane desktop;
+    /**
+     *
+     */
+    private final MDIDesktopPane desktop;
 
-	/**
-	 * Erstellt ein neues {@link MDIDesktopManager} Object.
-	 * 
-	 * @param desktop {@link MDIDesktopPane}
-	 */
-	public MDIDesktopManager(final MDIDesktopPane desktop)
-	{
-		super();
+    /**
+     * Erstellt ein neues {@link MDIDesktopManager} Object.
+     *
+     * @param desktop {@link MDIDesktopPane}
+     */
+    public MDIDesktopManager(final MDIDesktopPane desktop)
+    {
+        super();
 
-		this.desktop = desktop;
-	}
+        this.desktop = desktop;
+    }
 
-	/**
-	 * @see javax.swing.DefaultDesktopManager#endDraggingFrame(javax.swing.JComponent)
-	 */
-	@Override
-	public void endDraggingFrame(final JComponent f)
-	{
-		super.endDraggingFrame(f);
+    /**
+     * @see javax.swing.DefaultDesktopManager#endDraggingFrame(javax.swing.JComponent)
+     */
+    @Override
+    public void endDraggingFrame(final JComponent f)
+    {
+        super.endDraggingFrame(f);
 
-		resizeDesktop();
-	}
+        resizeDesktop();
+    }
 
-	/**
-	 * @see javax.swing.DefaultDesktopManager#endResizingFrame(javax.swing.JComponent)
-	 */
-	@Override
-	public void endResizingFrame(final JComponent f)
-	{
-		super.endResizingFrame(f);
+    /**
+     * @see javax.swing.DefaultDesktopManager#endResizingFrame(javax.swing.JComponent)
+     */
+    @Override
+    public void endResizingFrame(final JComponent f)
+    {
+        super.endResizingFrame(f);
 
-		resizeDesktop();
-	}
+        resizeDesktop();
+    }
 
-	/**
-	 * 
-	 */
-	public void setNormalSize()
-	{
-		JScrollPane scrollPane = getScrollPane();
-		Insets scrollInsets = getScrollPaneInsets();
-		int width = 0;
-		int height = 0;
+    /**
+     * Liefert die {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
+     *
+     * @return {@link JScrollPane}
+     */
+    private JScrollPane getScrollPane()
+    {
+        if (this.desktop.getParent() instanceof JViewport)
+        {
+            JViewport viewPort = (JViewport) this.desktop.getParent();
 
-		if (scrollPane != null)
-		{
-			Dimension d = scrollPane.getVisibleRect().getSize();
+            if (viewPort.getParent() instanceof JScrollPane)
+            {
+                return (JScrollPane) viewPort.getParent();
+            }
+        }
 
-			if (scrollPane.getBorder() != null)
-			{
-				d.setSize(d.getWidth() - scrollInsets.left - scrollInsets.right, d.getHeight()
-						- scrollInsets.top - scrollInsets.bottom);
-			}
+        return null;
+    }
 
-			d.setSize(d.getWidth() - 20, d.getHeight() - 20);
-			width = d.width;
-			height = d.height;
+    /**
+     * Liefert die {@link Insets} der {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
+     *
+     * @return {@link Insets}
+     */
+    private Insets getScrollPaneInsets()
+    {
+        JScrollPane scrollPane = getScrollPane();
 
-			this.desktop.setAllSize(width, height);
-			scrollPane.invalidate();
-			scrollPane.validate();
-		}
-	}
+        if (scrollPane == null)
+        {
+            return new Insets(0, 0, 0, 0);
+        }
 
-	/**
-	 * Liefert die {@link Insets} der {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
-	 * 
-	 * @return {@link Insets}
-	 */
-	private Insets getScrollPaneInsets()
-	{
-		JScrollPane scrollPane = getScrollPane();
+        return getScrollPane().getBorder().getBorderInsets(scrollPane);
+    }
 
-		if (scrollPane == null)
-		{
-			return new Insets(0, 0, 0, 0);
-		}
+    /**
+     *
+     */
+    public void resizeDesktop()
+    {
+        JScrollPane scrollPane = getScrollPane();
+        Insets scrollInsets = getScrollPaneInsets();
+        int x = 0;
+        int y = 0;
 
-		return getScrollPane().getBorder().getBorderInsets(scrollPane);
-	}
+        if (scrollPane != null)
+        {
+            JInternalFrame allFrames[] = this.desktop.getAllFrames();
 
-	/**
-	 * Liefert die {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
-	 * 
-	 * @return {@link JScrollPane}
-	 */
-	private JScrollPane getScrollPane()
-	{
-		if (this.desktop.getParent() instanceof JViewport)
-		{
-			JViewport viewPort = (JViewport) this.desktop.getParent();
+            for (JInternalFrame allFrame : allFrames)
+            {
+                if ((allFrame.getX() + allFrame.getWidth()) > x)
+                {
+                    x = allFrame.getX() + allFrame.getWidth();
+                }
 
-			if (viewPort.getParent() instanceof JScrollPane)
-			{
-				return (JScrollPane) viewPort.getParent();
-			}
-		}
+                if ((allFrame.getY() + allFrame.getHeight()) > y)
+                {
+                    y = allFrame.getY() + allFrame.getHeight();
+                }
+            }
 
-		return null;
-	}
+            Dimension d = scrollPane.getVisibleRect().getSize();
 
-	/**
-	 * 
-	 */
-	protected void resizeDesktop()
-	{
-		JScrollPane scrollPane = getScrollPane();
-		Insets scrollInsets = getScrollPaneInsets();
-		int x = 0;
-		int y = 0;
+            if (scrollPane.getBorder() != null)
+            {
+                d.setSize(d.getWidth() - scrollInsets.left - scrollInsets.right, d.getHeight() - scrollInsets.top - scrollInsets.bottom);
+            }
 
-		if (scrollPane != null)
-		{
-			JInternalFrame allFrames[] = this.desktop.getAllFrames();
+            if (x <= d.getWidth())
+            {
+                x = ((int) d.getWidth()) - 20;
+            }
 
-			for (JInternalFrame allFrame : allFrames)
-			{
-				if (allFrame.getX() + allFrame.getWidth() > x)
-				{
-					x = allFrame.getX() + allFrame.getWidth();
-				}
+            if (y <= d.getHeight())
+            {
+                y = ((int) d.getHeight()) - 20;
+            }
 
-				if (allFrame.getY() + allFrame.getHeight() > y)
-				{
-					y = allFrame.getY() + allFrame.getHeight();
-				}
-			}
+            this.desktop.setAllSize(x, y);
+            scrollPane.invalidate();
+            scrollPane.validate();
+        }
+    }
 
-			Dimension d = scrollPane.getVisibleRect().getSize();
+    /**
+     *
+     */
+    public void setNormalSize()
+    {
+        JScrollPane scrollPane = getScrollPane();
+        Insets scrollInsets = getScrollPaneInsets();
+        int width = 0;
+        int height = 0;
 
-			if (scrollPane.getBorder() != null)
-			{
-				d.setSize(d.getWidth() - scrollInsets.left - scrollInsets.right, d.getHeight()
-						- scrollInsets.top - scrollInsets.bottom);
-			}
+        if (scrollPane != null)
+        {
+            Dimension d = scrollPane.getVisibleRect().getSize();
 
-			if (x <= d.getWidth())
-			{
-				x = ((int) d.getWidth()) - 20;
-			}
+            if (scrollPane.getBorder() != null)
+            {
+                d.setSize(d.getWidth() - scrollInsets.left - scrollInsets.right, d.getHeight() - scrollInsets.top - scrollInsets.bottom);
+            }
 
-			if (y <= d.getHeight())
-			{
-				y = ((int) d.getHeight()) - 20;
-			}
+            d.setSize(d.getWidth() - 20, d.getHeight() - 20);
+            width = d.width;
+            height = d.height;
 
-			this.desktop.setAllSize(x, y);
-			scrollPane.invalidate();
-			scrollPane.validate();
-		}
-	}
+            this.desktop.setAllSize(width, height);
+            scrollPane.invalidate();
+            scrollPane.validate();
+        }
+    }
 }

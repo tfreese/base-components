@@ -1,11 +1,9 @@
 /**
  * Created: 17.07.2012
  */
-
 package de.freese.base.swing.exception;
 
 import java.awt.Component;
-
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.Logger;
@@ -13,54 +11,51 @@ import de.freese.base.core.i18n.Translator;
 
 /**
  * Swing Implementierung des ExceptionHandlers mit Fehlerdialog.
- * 
+ *
  * @author Thomas Freese
  */
 public class DialogExceptionHandler extends DefaultExceptionHandler
 {
-	/**
-	 * 
-	 */
-	private final boolean enableSendMail;
+    /**
+     *
+     */
+    private final boolean enableSendMail;
 
-	/**
-	 * Erstellt ein neues {@link DialogExceptionHandler} Object.
-	 */
-	public DialogExceptionHandler()
-	{
-		super();
+    /**
+     * Erstellt ein neues {@link DialogExceptionHandler} Object.
+     */
+    public DialogExceptionHandler()
+    {
+        super();
 
-		this.enableSendMail = false;
-	}
+        this.enableSendMail = false;
+    }
 
-	/**
-	 * @see de.freese.base.swing.exception.DefaultExceptionHandler#handleException(java.lang.Throwable,
-	 *      org.slf4j.Logger, java.awt.Component, de.freese.base.core.i18n.Translator)
-	 */
-	@Override
-	public void handleException(final Throwable throwable, final Logger logger,
-								final Component parentComponent,
-								final Translator translatorAdapter)
-	{
-		logger.error(null, throwable);
+    /**
+     * @see de.freese.base.swing.exception.DefaultExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger, java.awt.Component,
+     *      de.freese.base.core.i18n.Translator)
+     */
+    @Override
+    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translatorAdapter)
+    {
+        logger.error(null, throwable);
 
-		String message = getTranslatedMessage(throwable, translatorAdapter);
+        String message = getTranslatedMessage(throwable, translatorAdapter);
 
-		showErrorPane(parentComponent, message, throwable);
-	}
+        showErrorPane(parentComponent, message, throwable);
+    }
 
-	/**
-	 * Anzeige ueber {@link JXErrorPane}.
-	 * 
-	 * @param parentComponent {@link Component}
-	 * @param message String
-	 * @param throwable {@link Throwable}
-	 */
-	private void showErrorPane(final Component parentComponent, final String message,
-								final Throwable throwable)
-	{
-		ErrorInfo errorInfo = new ErrorInfo("ERROR", message, null, null, throwable, null, null);
+    /**
+     * Anzeige ueber {@link JXErrorPane}.
+     *
+     * @param parentComponent {@link Component}
+     * @param message String
+     * @param throwable {@link Throwable}
+     */
+    private void showErrorPane(final Component parentComponent, final String message, final Throwable throwable)
+    {
+        ErrorInfo errorInfo = new ErrorInfo("ERROR", message, null, null, throwable, null, null);
 
-		ErrorPane.showDialog(parentComponent, errorInfo, this.enableSendMail);
-	}
+        ErrorPane.showDialog(parentComponent, errorInfo, this.enableSendMail);
+    }
 }

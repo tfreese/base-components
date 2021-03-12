@@ -92,7 +92,7 @@ public class SortRendererComponent extends JPanel
             this.jLabelIcon.setForeground(this.textSortColor);
             this.jLabelIcon.setBackground(UIManager.getColor("TableHeader.background"));
 
-            Font font = this.jLabelIcon.getFont().deriveFont(10f);
+            Font font = this.jLabelIcon.getFont().deriveFont(10F);
             this.jLabelIcon.setFont(font);
             this.jLabelIcon.setIconTextGap(2);
         }

@@ -1,7 +1,6 @@
 /**
  * Created: 29.03.2020
  */
-
 package de.freese.base.core.throttle.google;
 
 import java.time.Duration;

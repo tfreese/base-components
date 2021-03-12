@@ -73,7 +73,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
 
         if ((value != null) && (value > 0))
         {
-            return Long.valueOf(value);
+            return value;
         }
 
         long result = 0;

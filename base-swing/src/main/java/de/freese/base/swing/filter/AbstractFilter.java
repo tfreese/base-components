@@ -23,21 +23,13 @@ public abstract class AbstractFilter implements Filter
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
-     * 
+     *
      */
     private PropertyChangeSupport propertyChangeSupport;
 
     /**
-     * Creates a new {@link AbstractFilter} object.
-     */
-    public AbstractFilter()
-    {
-        super();
-    }
-
-    /**
      * Liefert die Werte mit dem der Filter arbeitet.
-     * 
+     *
      * @return Object
      */
     protected Object getFilterValue()

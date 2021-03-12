@@ -73,7 +73,7 @@ public final class SecurityUtils
                 k = k.split(" ")[0];
                 String impl = null;
 
-                if (serviceType.equals("Provider") && k.startsWith("Provider.id"))
+                if ("Provider".equals(serviceType) && k.startsWith("Provider.id"))
                 {
                     impl = provider.getName();
                 }

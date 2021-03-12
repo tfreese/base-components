@@ -11,14 +11,6 @@ import java.util.List;
 public class PointStringResourceConverter extends AbstractResourceConverter<Point>
 {
     /**
-     * Erstellt ein neues {@link PointStringResourceConverter} Object.
-     */
-    public PointStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

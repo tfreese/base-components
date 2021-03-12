@@ -28,14 +28,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     private final Map<Object, List<?>> treeCache = new HashMap<>();
 
     /**
-     * Creates a new {@link AbstractObjectTreeModel} object.
-     */
-    public AbstractObjectTreeModel()
-    {
-        super();
-    }
-
-    /**
      * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
      */
     @Override

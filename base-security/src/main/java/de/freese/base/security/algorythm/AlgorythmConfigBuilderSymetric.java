@@ -29,27 +29,27 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  *
  * @author Thomas Freese
  */
-public class AlgorythmConfigBuilderSymetric extends AlgorythmConfigBuilder<AlgorythmConfigBuilderSymetric>
+public class AlgorythmConfigBuilderSymetric extends AbstractAlgorythmConfigBuilder<AlgorythmConfigBuilderSymetric>
 {
     /**
     *
     */
-    private byte[] initVector = null;
+    private byte[] initVector;
 
     /**
     *
     */
-    private Key key = null;
+    private Key key;
 
     /**
     *
     */
-    private byte[] keyBytes = null;
+    private byte[] keyBytes;
 
     /**
     *
     */
-    private String keyPassword = null;
+    private String keyPassword;
 
     /**
      * Erstellt ein neues {@link AlgorythmConfigBuilderSymetric} Object.
@@ -60,7 +60,7 @@ public class AlgorythmConfigBuilderSymetric extends AlgorythmConfigBuilder<Algor
     }
 
     /**
-     * @see de.freese.base.security.algorythm.AlgorythmConfigBuilder#build()
+     * @see de.freese.base.security.algorythm.AbstractAlgorythmConfigBuilder#build()
      */
     @Override
     public SymetricCrypto build() throws GeneralSecurityException

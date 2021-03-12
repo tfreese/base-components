@@ -20,14 +20,6 @@ import de.freese.base.resourcemap.ResourceMap;
 public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
 {
     /**
-     * Erstellt ein neues {@link DefaultNasaView} Object.
-     */
-    public DefaultNasaView()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.mvc.View#createGUI()
      */
     @Override

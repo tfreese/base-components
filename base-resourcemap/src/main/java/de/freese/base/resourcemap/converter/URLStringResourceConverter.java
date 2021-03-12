@@ -11,14 +11,6 @@ import java.net.URL;
 public class URLStringResourceConverter extends AbstractResourceConverter<URL>
 {
     /**
-     * Erstellt ein neues {@link URLStringResourceConverter} Object.
-     */
-    public URLStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

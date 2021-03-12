@@ -21,7 +21,7 @@ public final class RegEx implements RegExTransformer
     /**
      *
      */
-    private static RegExTransformer INSTANCE = new RegEx();
+    private static final RegExTransformer INSTANCE = new RegEx();
 
     /**
      * @return {@link RegExTransformer}
@@ -67,7 +67,7 @@ public final class RegEx implements RegExTransformer
             return null;
         }
 
-        if (expression.trim().equals(""))
+        if ("".equals(expression.trim()))
         {
             return "";
         }
@@ -97,7 +97,7 @@ public final class RegEx implements RegExTransformer
         }
 
         // .* als default IST NICHT ZULAESSIG !!!
-        if (expression.trim().equals(""))
+        if ("".equals(expression.trim()))
         {
             return "";
         }

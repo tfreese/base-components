@@ -164,12 +164,12 @@ public class TableGuiState extends AbstractGuiState
     /**
      *
      */
-    private ColumnState[] columnStates = null;
+    private ColumnState[] columnStates;
 
     /**
      *
      */
-    private int[] selectedRows = null;
+    private int[] selectedRows;
 
     /**
      * Creates a new {@link TableGuiState} object.

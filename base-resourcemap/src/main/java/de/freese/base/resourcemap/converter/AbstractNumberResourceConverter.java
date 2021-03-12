@@ -9,14 +9,6 @@ package de.freese.base.resourcemap.converter;
 public abstract class AbstractNumberResourceConverter<T extends Number> extends AbstractResourceConverter<T>
 {
     /**
-     * Erstellt ein neues {@link AbstractNumberResourceConverter} Object.
-     */
-    public AbstractNumberResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override

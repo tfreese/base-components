@@ -31,17 +31,13 @@ public class TreeUndTable
     {
         super();
 
-        JTable table = getTable();
-        JTree tree = getTree();
-
         // SelectionModel zuweisen
-        CommonTreeAndTableSelectionModel selectionModel = new CommonTreeAndTableSelectionModel(tree);
-        tree.setSelectionModel(selectionModel);
-        table.setSelectionModel(selectionModel.getListSelectionModel());
+        CommonTreeAndTableSelectionModel selectionModel = new CommonTreeAndTableSelectionModel(this.tree);
+        getTree().setSelectionModel(selectionModel);
+        getTable().setSelectionModel(selectionModel.getListSelectionModel());
 
-        tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        // oder
-        // table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        getTree().getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        // oder getTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     /**

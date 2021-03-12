@@ -32,7 +32,7 @@ public class TreeGuiState extends AbstractGuiState
     /**
      * int[]
      */
-    private int[] selectedRows = null;
+    private int[] selectedRows;
 
     /**
      * Creates a new {@link TreeGuiState} object.

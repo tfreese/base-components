@@ -2,38 +2,38 @@ package de.freese.base.core.image;
 
 /**
  * Enum für Grafikformate.
- * 
+ *
  * @author Thomas Freese
  */
 public enum ImageFormat
 {
-	/**
-	 * 
-	 */
-	BMP,
+    /**
+     * 
+     */
+    BMP,
 
-	/**
-	 * Graphics Interchange Format - lossless, but 256 colour restriction
-	 */
-	GIF,
-	
-	/**
-	 * Joint Photographic Experts Group format - lossy
-	 */
-	JPEG,
+    /**
+     * Graphics Interchange Format - lossless, but 256 colour restriction
+     */
+    GIF,
 
-	/**
-	 * 
-	 */
-	JPG,
-	
-	/**
-	 * Portable Network Graphics - lossless
-	 */
-	PNG,
-	
-	/**
-	 * 
-	 */
-	WBMP;
+    /**
+     * Joint Photographic Experts Group format - lossy
+     */
+    JPEG,
+
+    /**
+     * 
+     */
+    JPG,
+
+    /**
+     * Portable Network Graphics - lossless
+     */
+    PNG,
+
+    /**
+     * 
+     */
+    WBMP;
 }

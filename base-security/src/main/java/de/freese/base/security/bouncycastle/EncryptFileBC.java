@@ -9,12 +9,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import org.apache.commons.io.FileUtils;
@@ -22,7 +18,6 @@ import org.apache.commons.io.IOUtils;
 import org.bouncycastle.cms.CMSAlgorithm;
 import org.bouncycastle.cms.CMSEnvelopedData;
 import org.bouncycastle.cms.CMSEnvelopedDataGenerator;
-import org.bouncycastle.cms.CMSException;
 import org.bouncycastle.cms.CMSProcessableByteArray;
 import org.bouncycastle.cms.CMSTypedData;
 import org.bouncycastle.cms.jcajce.JceCMSContentEncryptorBuilder;
@@ -63,12 +58,9 @@ public class EncryptFileBC
      * @param decrytpedFile String
      * @param encryptedFile String
      * @param zertifikatFile String
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String zertifikatFile)
-        throws CertificateException, IOException, CMSException
+    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String zertifikatFile) throws Exception
     {
         X509Certificate cert = getCertificate(zertifikatFile);
 
@@ -83,15 +75,11 @@ public class EncryptFileBC
      * @param keystoreFile String
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, CMSException
+        throws Exception
     {
         X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
 
@@ -104,12 +92,9 @@ public class EncryptFileBC
      * @param decrytpedFile String
      * @param encryptedFile String
      * @param cert {@link X509Certificate}
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateEncodingException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final X509Certificate cert)
-        throws IOException, CertificateEncodingException, CMSException
+    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final X509Certificate cert) throws Exception
     {
         File file = new File(decrytpedFile);
 
@@ -156,12 +141,9 @@ public class EncryptFileBC
      * @param inputFolder String
      * @param outputFolder String
      * @param zertifikatFile String
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void encryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile)
-        throws CertificateException, IOException, CMSException
+    public void encryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile) throws Exception
     {
         X509Certificate cert = getCertificate(zertifikatFile);
 
@@ -177,15 +159,11 @@ public class EncryptFileBC
      * @param keystoreFile String
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws CMSException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException, CMSException
+        throws Exception
     {
         X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
 
@@ -199,12 +177,9 @@ public class EncryptFileBC
      * @param inputFolder String
      * @param outputFolder String
      * @param cert {@link X509Certificate}
-     * @throws CMSException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateEncodingException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public void encryptX509Folder(final String inputFolder, final String outputFolder, final X509Certificate cert)
-        throws CertificateEncodingException, IOException, CMSException
+    public void encryptX509Folder(final String inputFolder, final String outputFolder, final X509Certificate cert) throws Exception
     {
         File folder = new File(inputFolder);
 
@@ -230,10 +205,9 @@ public class EncryptFileBC
      *
      * @param zertifikatFile String
      * @return {@link X509Certificate}
-     * @throws CertificateException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private X509Certificate getCertificate(final String zertifikatFile) throws CertificateException, IOException
+    private X509Certificate getCertificate(final String zertifikatFile) throws Exception
     {
         Certificate cert = null;
 
@@ -257,13 +231,9 @@ public class EncryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      * @return {@link X509Certificate}
-     * @throws KeyStoreException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
-     * @throws CertificateException Falls was schief geht.
-     * @throws NoSuchAlgorithmException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias)
-        throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException
+    private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias) throws Exception
     {
         KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
 

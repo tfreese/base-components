@@ -1,7 +1,6 @@
 /**
  * Created: 04.06.2018
  */
-
 package de.freese.base.core.collection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,23 +19,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 class TestTimeoutMap
 {
     /**
-     *
-     */
-    @Test
-    void test010TimeoutValue()
-    {
-        TimeoutMap<String, String> map = new TimeoutMap<>(3, TimeUnit.SECONDS);
-
-        assertEquals(3000, map.getTimeoutInMillis());
-        assertEquals(3000, map.getTimeout(TimeUnit.MILLISECONDS));
-        assertEquals(3, map.getTimeout(TimeUnit.SECONDS));
-    }
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @Test
-    void test020PutGet() throws Exception
+    void testPutGet() throws Exception
     {
         TimeoutMap<String, String> map = new TimeoutMap<>(3, TimeUnit.SECONDS);
 
@@ -61,5 +47,18 @@ class TestTimeoutMap
         assertEquals(0, map.entrySet().size());
         assertFalse(map.containsKey("key"));
         assertFalse(map.containsValue("value"));
+    }
+
+    /**
+     *
+     */
+    @Test
+    void testTimeoutValue()
+    {
+        TimeoutMap<String, String> map = new TimeoutMap<>(3, TimeUnit.SECONDS);
+
+        assertEquals(3000, map.getTimeoutInMillis());
+        assertEquals(3000, map.getTimeout(TimeUnit.MILLISECONDS));
+        assertEquals(3, map.getTimeout(TimeUnit.SECONDS));
     }
 }

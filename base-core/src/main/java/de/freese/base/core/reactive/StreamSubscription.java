@@ -1,7 +1,6 @@
 /**
  * Created: 10.06.2019
  */
-
 package de.freese.base.core.reactive;
 
 import java.util.Iterator;
@@ -150,11 +149,11 @@ class StreamSubscription<T> implements Subscription
             {
                 getExecutor().execute(() -> this.subscriber.onNext(this.iterator.next()));
             }
-            catch (Throwable th)
+            catch (Exception ex)
             {
                 if (!terminate())
                 {
-                    getExecutor().execute(() -> this.subscriber.onError(th));
+                    getExecutor().execute(() -> this.subscriber.onError(ex));
                 }
             }
         }

@@ -16,7 +16,7 @@ public class SinusValueSupplier implements Supplier<Float>
     /**
      *
      */
-    private int grad = 0;
+    private int grad;
 
     /**
      * @see java.util.function.Supplier#get()

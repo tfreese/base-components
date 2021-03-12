@@ -109,11 +109,11 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     @Override
     public void columnPropertyChange(final PropertyChangeEvent event)
     {
-        if (event.getPropertyName().equals("sort"))
+        if ("sort".equals(event.getPropertyName()))
         {
             // System.out.println(event.getSource());
         }
-        else if (event.getPropertyName().equals("visible"))
+        else if ("visible".equals(event.getPropertyName()))
         {
             // Falls RowSorter vorhanden die Spalte auf UNSORTED setzen
             if (getClientProperty("ROWSORTER") != null)

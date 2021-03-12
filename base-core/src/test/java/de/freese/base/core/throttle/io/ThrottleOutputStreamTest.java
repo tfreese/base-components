@@ -72,7 +72,7 @@ class ThrottleOutputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void test3000Permits(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void testPermits3000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
         doTest(throttleFunction, 3000);
     }
@@ -84,7 +84,7 @@ class ThrottleOutputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void test4000Permits(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void testPermits4000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
         doTest(throttleFunction, 4000);
     }
@@ -96,7 +96,7 @@ class ThrottleOutputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void test5000Permits(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void testPermits5000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
         doTest(throttleFunction, 5000);
     }

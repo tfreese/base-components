@@ -1,7 +1,6 @@
 /**
  * Created: 10.04.2019
  */
-
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;

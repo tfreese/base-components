@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -63,7 +64,7 @@ public class LazyLoadingTreeFrame extends JFrame
 
                 try
                 {
-                    Thread.sleep(250);
+                    TimeUnit.MILLISECONDS.sleep(250);
                 }
                 catch (InterruptedException ex)
                 {

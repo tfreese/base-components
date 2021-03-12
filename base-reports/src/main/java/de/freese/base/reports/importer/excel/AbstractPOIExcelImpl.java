@@ -36,30 +36,22 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
     /**
        *
        */
-    private FormulaEvaluator formulaEvaluator = null;
+    private FormulaEvaluator formulaEvaluator;
 
     /**
      *
      */
-    private Row row = null;
+    private Row row;
 
     /**
      *
      */
-    private Sheet sheet = null;
+    private Sheet sheet;
 
     /**
      *
      */
-    private Workbook workBook = null;
-
-    /**
-     * Creates a new {@link AbstractPOIExcelImpl} object.
-     */
-    public AbstractPOIExcelImpl()
-    {
-        super();
-    }
+    private Workbook workBook;
 
     /**
      * @see de.freese.base.reports.importer.excel.AbstractExcelImport#closeExcelFile()
@@ -99,29 +91,17 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
      */
     private String getDateFormatByExcelIndex(final int index)
     {
-        switch (index)
+        return switch (index)
         {
-            // case 165 :
-            // return "dd.MM.yy HH:mm";
-            //
-            // case 167 :
-            // return "dd.M.yyyy";
-            //
-            // case 169 :
-            // return "dd.MMMM.yyyy";
-            //
-            // case 170 :
-            // return "dd.MMM.yy";
-            //
-            // case 171 :
-            // case 191 :
-            // return "dd.MMM yy";
-            //
-            // case 201 :
-            // return "dd.MM.yy";
-            default:
-                return "dd.MM.yyyy";
-        }
+            // case 165 -> "dd.MM.yy HH:mm";
+            // case 167 -> "dd.M.yyyy";
+            // case 169 -> "dd.MMMM.yyyy";
+            // case 170 -> "dd.MMM.yy";
+            // case 171, 191 -> "dd.MMM yy";
+            // case 201 -> "dd.MM.yy";
+
+            default -> "dd.MM.yyyy";
+        };
     }
 
     /**
@@ -163,11 +143,11 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
 
         for (int i = 0; i < numRows; i++)
         {
-            Row row = this.sheet.getRow(i);
+            Row r = this.sheet.getRow(i);
 
-            if ((row != null) && (maxCol < row.getLastCellNum()))
+            if ((r != null) && (maxCol < r.getLastCellNum()))
             {
-                maxCol = row.getLastCellNum();
+                maxCol = r.getLastCellNum();
             }
         }
 
@@ -287,7 +267,7 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
             }
 
             StringBuilder sb = new StringBuilder();
-            StackTraceLimiter.printStackTrace(eex, sb, 4);
+            StackTraceLimiter.printStackTrace(eex, 4, sb);
             getLogger().warn(sb.toString());
         }
 

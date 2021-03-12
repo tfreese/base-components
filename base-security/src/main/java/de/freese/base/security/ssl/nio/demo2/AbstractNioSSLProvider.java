@@ -11,7 +11,7 @@ import javax.net.ssl.SSLEngine;
 /**
  * @author Thomas Freese
  */
-public abstract class NioSSLProvider extends SSLProvider
+public abstract class AbstractNioSSLProvider extends AbstractSSLProvider
 {
     /**
      *
@@ -24,7 +24,7 @@ public abstract class NioSSLProvider extends SSLProvider
     private final SelectionKey key;
 
     /**
-     * Erstellt ein neues {@link NioSSLProvider} Object.
+     * Erstellt ein neues {@link AbstractNioSSLProvider} Object.
      *
      * @param key {@link SelectionKey}
      * @param engine {@link SSLEngine}
@@ -32,7 +32,7 @@ public abstract class NioSSLProvider extends SSLProvider
      * @param ioWorker {@link Executor}
      * @param taskWorkers {@link Executor}
      */
-    public NioSSLProvider(final SelectionKey key, final SSLEngine engine, final int bufferSize, final Executor ioWorker, final Executor taskWorkers)
+    protected AbstractNioSSLProvider(final SelectionKey key, final SSLEngine engine, final int bufferSize, final Executor ioWorker, final Executor taskWorkers)
     {
         super(engine, bufferSize, ioWorker, taskWorkers);
 
@@ -40,7 +40,7 @@ public abstract class NioSSLProvider extends SSLProvider
     }
 
     /**
-     * @see de.freese.base.security.ssl.nio.demo2.SSLProvider#onOutput(java.nio.ByteBuffer)
+     * @see de.freese.base.security.ssl.nio.demo2.AbstractSSLProvider#onOutput(java.nio.ByteBuffer)
      */
     @Override
     public void onOutput(final ByteBuffer encrypted)

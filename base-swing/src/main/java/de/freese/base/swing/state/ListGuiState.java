@@ -23,7 +23,7 @@ public class ListGuiState extends AbstractGuiState
     /**
      * Die selektierten Indizies der Liste
      */
-    private int[] selectedIndices = null;
+    private int[] selectedIndices;
 
     /**
      * Creates a new {@link ListGuiState} object.

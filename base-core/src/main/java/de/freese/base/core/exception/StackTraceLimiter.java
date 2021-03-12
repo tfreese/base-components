@@ -34,10 +34,10 @@ public final class StackTraceLimiter
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
      *
      * @param th {@link Throwable}
-     * @param consumer {@link Consumer}
      * @param elements int
+     * @param consumer {@link Consumer}
      */
-    private static void printStackTrace(final Throwable th, final Consumer<Object> consumer, final int elements)
+    private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer)
     {
         consumer.accept(th);
         StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
@@ -54,36 +54,36 @@ public final class StackTraceLimiter
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
      *
      * @param th {@link Throwable}
+     * @param elements int
      * @param ps {@link PrintStream}
-     * @param elements int
      */
-    public static void printStackTrace(final Throwable th, final PrintStream ps, final int elements)
+    public static void printStackTrace(final Throwable th, final int elements, final PrintStream ps)
     {
-        printStackTrace(th, ps::println, elements);
+        printStackTrace(th, elements, ps::println);
     }
 
     /**
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
      *
      * @param th {@link Throwable}
+     * @param elements int
      * @param pw {@link PrintWriter}
-     * @param elements int
      */
-    public static void printStackTrace(final Throwable th, final PrintWriter pw, final int elements)
+    public static void printStackTrace(final Throwable th, final int elements, final PrintWriter pw)
     {
-        printStackTrace(th, pw::println, elements);
+        printStackTrace(th, elements, pw::println);
     }
 
     /**
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
      *
      * @param th {@link Throwable}
-     * @param sb {@link StringBuilder}
      * @param elements int
+     * @param sb {@link StringBuilder}
      */
-    public static void printStackTrace(final Throwable th, final StringBuilder sb, final int elements)
+    public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb)
     {
-        printStackTrace(th, obj -> sb.append(obj).append("\n"), elements);
+        printStackTrace(th, elements, obj -> sb.append(obj).append("\n"));
     }
 
     /**

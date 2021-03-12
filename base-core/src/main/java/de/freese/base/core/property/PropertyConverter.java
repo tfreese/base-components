@@ -16,7 +16,7 @@ public final class PropertyConverter
 {
     /**
      * Liefert den boolean Wert des Propertys.<br>
-     * 
+     *
      * @param value String
      * @return boolean; default = false
      */
@@ -27,7 +27,7 @@ public final class PropertyConverter
 
     /**
      * Liefert ein Base64 codiertes ByteArray des Properties.
-     * 
+     *
      * @param value String
      * @return byte[]
      */
@@ -48,7 +48,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den double Wert des Propertys.
-     * 
+     *
      * @param value String
      * @return double
      */
@@ -59,7 +59,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den double Wert des Propertys.
-     * 
+     *
      * @param value String
      * @param defaultValue double, wenn Konvertierung fehlschlaegt
      * @return double
@@ -70,7 +70,7 @@ public final class PropertyConverter
         {
             return getDouble(value);
         }
-        catch (Throwable th)
+        catch (Exception ex)
         {
             return defaultValue;
         }
@@ -78,7 +78,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den int Wert des Propertys.
-     * 
+     *
      * @param value String
      * @return boolean
      * @throws NumberFormatException wenn die Konvertierung fehlschlaegt.
@@ -90,7 +90,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den int Wert des Propertys.
-     * 
+     *
      * @param value String
      * @param defaultValue int, wenn die Konvertierung fehlschlaegt.
      * @return boolean
@@ -101,7 +101,7 @@ public final class PropertyConverter
         {
             return getInt(value);
         }
-        catch (Throwable th)
+        catch (Exception ex)
         {
             return defaultValue;
         }
@@ -109,7 +109,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den long Wert des Propertys.
-     * 
+     *
      * @param value String
      * @return long
      * @throws NumberFormatException wenn die Konvertierung fehlschlaegt.
@@ -121,7 +121,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den long Wert des Propertys.
-     * 
+     *
      * @param value String
      * @param defaultValue long, wenn die Konvertierung fehlschlaegt.
      * @return long
@@ -132,7 +132,7 @@ public final class PropertyConverter
         {
             return getLong(value);
         }
-        catch (Throwable th)
+        catch (Exception ex)
         {
             return defaultValue;
         }
@@ -141,7 +141,7 @@ public final class PropertyConverter
     /**
      * Liefert das Object Wert des Propertys.<br>
      * Dieses Object wird aus einem byte[] deserialisiert.
-     * 
+     *
      * @param <T> Konkreter Objekttyp
      * @param value String
      * @return Object
@@ -173,7 +173,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den String Wert des Properties.
-     * 
+     *
      * @param value String
      * @return String
      */
@@ -184,7 +184,7 @@ public final class PropertyConverter
 
     /**
      * Liefert den String Wert des Properties oder defaultValue wenn Wert = null.
-     * 
+     *
      * @param value String
      * @param defaultValue String, wenn Wert = null
      * @return String
@@ -201,7 +201,7 @@ public final class PropertyConverter
 
     /**
      * Setzt den boolean Wert des Propertys.
-     * 
+     *
      * @param value boolean
      * @return String
      */
@@ -212,7 +212,7 @@ public final class PropertyConverter
 
     /**
      * Setzt ein ByteArray und konvertierte es als Base64 String.
-     * 
+     *
      * @param value byte[]
      * @return String
      */
@@ -233,7 +233,7 @@ public final class PropertyConverter
 
     /**
      * Setzt den long Wert des Propertys.
-     * 
+     *
      * @param value double
      * @return String
      */
@@ -244,7 +244,7 @@ public final class PropertyConverter
 
     /**
      * Setzt den int Wert des Propertys.
-     * 
+     *
      * @param value int
      * @return String
      */
@@ -255,7 +255,7 @@ public final class PropertyConverter
 
     /**
      * Setzt den long Wert des Propertys.
-     * 
+     *
      * @param value long
      * @return String
      */
@@ -267,7 +267,7 @@ public final class PropertyConverter
     /**
      * Setzt den Object Wert des Propertys.<br>
      * Dieses Object wird als byte[] serialisiert.
-     * 
+     *
      * @param value Object
      * @return String
      */
@@ -293,7 +293,7 @@ public final class PropertyConverter
 
     /**
      * Setzt den Wert des Propertys.
-     * 
+     *
      * @param value long
      * @return String
      */

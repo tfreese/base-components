@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import javax.net.ssl.SSLSocket;
@@ -67,9 +68,9 @@ public class POP3Protocol extends AbstractProtocol
             mProps = new Properties();
         }
 
-        Response r = new Response();
+        Pop3Response r = new Pop3Response();
         String apop = mProps.getProperty(propPrefix + ".apop.enable");
-        boolean enableAPOP = (apop != null) && apop.equalsIgnoreCase("true");
+        boolean enableAPOP = "true".equalsIgnoreCase(apop);
 
         try
         {
@@ -94,8 +95,8 @@ public class POP3Protocol extends AbstractProtocol
                 this.serverSocket = new Socket(host, mPort);
             }
 
-            this.inputReader = new BufferedReader(new InputStreamReader(this.serverSocket.getInputStream(), "iso-8859-1"));
-            this.outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(this.serverSocket.getOutputStream(), "iso-8859-1")));
+            this.inputReader = new BufferedReader(new InputStreamReader(this.serverSocket.getInputStream(), StandardCharsets.ISO_8859_1));
+            this.outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(this.serverSocket.getOutputStream(), StandardCharsets.ISO_8859_1)));
 
             // should be US-ASCII, but not all JDK's support
             r = simpleCommand(null);
@@ -106,7 +107,7 @@ public class POP3Protocol extends AbstractProtocol
             {
                 this.serverSocket.close();
             }
-            catch (Throwable th)
+            catch (Exception th)
             {
                 throw new IOException("Connect failed");
             }
@@ -118,7 +119,7 @@ public class POP3Protocol extends AbstractProtocol
             {
                 this.serverSocket.close();
             }
-            catch (Throwable th)
+            catch (IOException th)
             {
                 throw new IOException("Connect failed");
             }
@@ -162,7 +163,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized boolean dele(final int messageNumber) throws IOException
     {
-        Response r = simpleCommand(POP3Command.DELE + " " + messageNumber);
+        Pop3Response r = simpleCommand(POP3Command.DELE + " " + messageNumber);
 
         return r.ok;
     }
@@ -185,7 +186,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized int list(final int messageNumber) throws IOException
     {
-        Response r = simpleCommand(POP3Command.LIST + " " + messageNumber);
+        Pop3Response r = simpleCommand(POP3Command.LIST + " " + messageNumber);
         int size = -1;
 
         if (r.ok && (r.data != null))
@@ -214,7 +215,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized void login(final String user, final String password) throws IOException
     {
-        Response r;
+        Pop3Response r;
         String dpw = null;
 
         if (this.apopChallenge != null)
@@ -267,9 +268,9 @@ public class POP3Protocol extends AbstractProtocol
      * @throws IOException Falls was schief geht.
      * @throws EOFException Falls was schief geht.
      */
-    private Response multilineCommand(final String cmd, final int size) throws IOException
+    private Pop3Response multilineCommand(final String cmd, final int size) throws IOException
     {
-        Response r = simpleCommand(cmd);
+        Pop3Response r = simpleCommand(cmd);
 
         if (!r.ok)
         {
@@ -322,7 +323,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized boolean noop() throws IOException
     {
-        Response r = simpleCommand(POP3Command.NOOP);
+        Pop3Response r = simpleCommand(POP3Command.NOOP);
 
         return r.ok;
     }
@@ -339,7 +340,7 @@ public class POP3Protocol extends AbstractProtocol
 
         try
         {
-            Response r = simpleCommand(POP3Command.QUIT);
+            Pop3Response r = simpleCommand(POP3Command.QUIT);
             ok = r.ok;
         }
         finally
@@ -370,7 +371,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized InputStream retr(final int messageNumber, final int size) throws IOException
     {
-        Response r = multilineCommand(POP3Command.RETR + " " + messageNumber, size);
+        Pop3Response r = multilineCommand(POP3Command.RETR + " " + messageNumber, size);
 
         return r.bytes;
     }
@@ -383,7 +384,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized boolean rset() throws IOException
     {
-        Response r = simpleCommand(POP3Command.RSET);
+        Pop3Response r = simpleCommand(POP3Command.RSET);
 
         return r.ok;
     }
@@ -396,7 +397,7 @@ public class POP3Protocol extends AbstractProtocol
      * @throws IOException Falls was schief geht.
      * @throws EOFException Falls was schief geht.
      */
-    private Response simpleCommand(final String cmd) throws IOException
+    private Pop3Response simpleCommand(final String cmd) throws IOException
     {
         if (this.serverSocket == null)
         {
@@ -425,7 +426,7 @@ public class POP3Protocol extends AbstractProtocol
 
         debug("S: " + line);
 
-        Response r = new Response();
+        Pop3Response r = new Pop3Response();
 
         if (line.startsWith(POP3Command.OK))
         {
@@ -459,7 +460,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized int[] stat() throws IOException
     {
-        Response r = simpleCommand(POP3Command.STAT);
+        Pop3Response r = simpleCommand(POP3Command.STAT);
         int[] result = new int[2];
 
         if (r.ok && (r.data != null))
@@ -490,7 +491,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized InputStream top(final int messageNumber, final int n) throws IOException
     {
-        Response r = multilineCommand(POP3Command.TOP + " " + messageNumber + " " + n, 0);
+        Pop3Response r = multilineCommand(POP3Command.TOP + " " + messageNumber + " " + n, 0);
 
         return r.bytes;
     }
@@ -504,7 +505,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized String uidl(final int messageNumber) throws IOException
     {
-        Response r = simpleCommand(POP3Command.UIDL + " " + messageNumber);
+        Pop3Response r = simpleCommand(POP3Command.UIDL + " " + messageNumber);
 
         if (!r.ok)
         {
@@ -530,7 +531,7 @@ public class POP3Protocol extends AbstractProtocol
      */
     public synchronized boolean uidl(final String[] uids) throws IOException
     {
-        Response r = multilineCommand(POP3Command.UIDL, 15 * uids.length);
+        Pop3Response r = multilineCommand(POP3Command.UIDL, 15 * uids.length);
 
         if (!r.ok)
         {
@@ -561,27 +562,4 @@ public class POP3Protocol extends AbstractProtocol
 
         return true;
     }
-}
-
-/**
- * Enthaelt das Ergebniss des Requests.
- *
- * @author Thomas Freese
- */
-final class Response
-{
-    /**
-     * all the bytes from a multi-line response
-     */
-    InputStream bytes;
-
-    /**
-     * rest of line after "+OK" or "-ERR"
-     */
-    String data;
-
-    /**
-     * true if "+OK"
-     */
-    boolean ok;
 }

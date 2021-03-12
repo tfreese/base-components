@@ -93,7 +93,7 @@ public abstract class AbstractResourceCache implements ResourceCache
     {
         String protocol = url.getProtocol();
 
-        if (protocol.equals("file"))
+        if ("file".equals(protocol))
         {
             // Proceed with file system resolution
             Path path = null;

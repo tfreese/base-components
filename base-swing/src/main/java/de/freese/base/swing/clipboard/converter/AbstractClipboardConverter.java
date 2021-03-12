@@ -3,48 +3,39 @@ package de.freese.base.swing.clipboard.converter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.freese.base.swing.clipboard.ClipboardConverter;
 
 /**
  * Basis ClipboardConverter.
- * 
+ *
  * @author Thomas Freese
  */
 public abstract class AbstractClipboardConverter implements ClipboardConverter
 {
-	/**
-	 * 
-	 */
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * 
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	/**
-	 * Creates a new {@link AbstractClipboardConverter} object.
-	 */
-	public AbstractClipboardConverter()
-	{
-		super();
-	}
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
 
-	/**
-	 * @return {@link Logger}
-	 */
-	protected Logger getLogger()
-	{
-		return this.logger;
-	}
+    /**
+     * @see de.freese.base.swing.clipboard.ClipboardConverter#toClipboard(java.lang.Object)
+     */
+    @Override
+    public String toClipboard(final Object object)
+    {
+        if (object != null)
+        {
+            return object.toString();
+        }
 
-	/**
-	 * @see de.freese.base.swing.clipboard.ClipboardConverter#toClipboard(java.lang.Object)
-	 */
-	@Override
-	public String toClipboard(final Object object)
-	{
-		if (object != null)
-		{
-			return object.toString();
-		}
-
-		return "";
-	}
+        return "";
+    }
 }

@@ -32,14 +32,6 @@ public abstract class AbstractController implements Controller
     private ResourceMap resourceMap;
 
     /**
-     * Erstellt ein neues {@link AbstractController} Object.
-     */
-    public AbstractController()
-    {
-        super();
-    }
-
-    /**
      * Liefert den {@link ApplicationContext} dieses Controllers.
      *
      * @return {@link ApplicationContext}

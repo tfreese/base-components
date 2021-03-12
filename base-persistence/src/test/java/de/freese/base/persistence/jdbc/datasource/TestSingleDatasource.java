@@ -100,7 +100,7 @@ class TestSingleDatasource
                 do
                 {
                     assertTrue(true);
-                    assertNotNull(rs.getLong("ID"));
+                    assertTrue(rs.getLong("ID") > 0);
                     assertNotNull(rs.getString("NAME"));
                 }
                 while (rs.next());

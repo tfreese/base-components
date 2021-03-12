@@ -38,22 +38,22 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      *
      */
-    private Connection connection = null;
+    private Connection connection;
 
     /**
      *
      */
-    private Properties connectionProperties = null;
+    private Properties connectionProperties;
 
     /**
      *
      */
-    private String password = null;
+    private String password;
 
     /**
      *
      */
-    private Connection proxyConnection = null;
+    private Connection proxyConnection;
 
     /**
     *
@@ -68,20 +68,12 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      *
      */
-    private String url = null;
+    private String url;
 
     /**
      *
      */
-    private String username = null;
-
-    /**
-     * Erstellt ein neues Object.
-     */
-    public SingleDataSource()
-    {
-        super();
-    }
+    private String username;
 
     /**
      * @see java.lang.AutoCloseable#close()
@@ -93,7 +85,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
         {
             destroy();
         }
-        catch (Throwable th)
+        catch (Exception th)
         {
             LOGGER.error(null, th);
         }
@@ -112,7 +104,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
             {
                 this.connection.close();
             }
-            catch (final Throwable th)
+            catch (final Exception th)
             {
                 LOGGER.warn("Could not close shared JDBC Connection", th);
             }
@@ -150,7 +142,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
      */
     private Connection getCloseSuppressingConnectionProxy(final Connection connection)
     {
-        return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), new Class<?>[]
+        return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
         {
                 Connection.class
         }, new ConnectionNotClosingInvocationHandler(connection));
@@ -408,7 +400,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
 
         try
         {
-            Class.forName(driverClassNameToUse, true, getClass().getClassLoader());
+            Class.forName(driverClassNameToUse, true, Thread.currentThread().getContextClassLoader());
         }
         catch (final ClassNotFoundException ex)
         {

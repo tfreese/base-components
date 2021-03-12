@@ -1,37 +1,27 @@
-/*
- * Copyright 2012 The Netty Project The Netty Project licenses this file to you under the Apache
- * License, version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package de.freese.base.net.ssl.bogus;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * A bogus key store which provides all the required information to create an example SSL
- * connection. To generate a bogus key store:
- * 
+ * A bogus key store which provides all the required information to create an example SSL connection. To generate a bogus key store:
+ *
  * <pre>
  * keytool  -genkey -alias bogus -keysize 2048 -validity 36500
  *          -keyalg RSA -dname "CN=bogus"
  *          -keypass secret -storepass secret
  *          -keystore cert.jks
  * </pre>
- * 
+ *
  * @author Norman Maurer <norman@apache.org>
  * @author Thomas Freese
  */
 public final class BogusSSLKeyStore
 {
-	/**
-	 * 
-	 */
-	//@formatter:off
+    /**
+     * 
+     */
+    //@formatter:off
     private static final short[] DATA = {
         0xfe, 0xed, 0xfe, 0xed, 0x00, 0x00, 0x00, 0x02,
         0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01,
@@ -293,42 +283,42 @@ public final class BogusSSLKeyStore
         0xd6, 0x9a, 0x6d, 0xb9, 0x8e, 0x15, 0x51 };
     //@formatter:on
 
-	/**
-	 * @return {@link InputStream}
-	 */
-	public static InputStream asInputStream()
-	{
-		byte[] data = new byte[DATA.length];
+    /**
+     * @return {@link InputStream}
+     */
+    public static InputStream asInputStream()
+    {
+        byte[] data = new byte[DATA.length];
 
-		for (int i = 0; i < data.length; i++)
-		{
-			data[i] = (byte) DATA[i];
-		}
+        for (int i = 0; i < data.length; i++)
+        {
+            data[i] = (byte) DATA[i];
+        }
 
-		return new ByteArrayInputStream(data);
-	}
+        return new ByteArrayInputStream(data);
+    }
 
-	/**
-	 * @return char[]
-	 */
-	public static char[] getCertificatePassword()
-	{
-		return "secret".toCharArray();
-	}
+    /**
+     * @return char[]
+     */
+    public static char[] getCertificatePassword()
+    {
+        return "secret".toCharArray();
+    }
 
-	/**
-	 * @return char[]
-	 */
-	public static char[] getKeyStorePassword()
-	{
-		return "secret".toCharArray();
-	}
+    /**
+     * @return char[]
+     */
+    public static char[] getKeyStorePassword()
+    {
+        return "secret".toCharArray();
+    }
 
-	/**
-	 * Erstellt ein neues {@link BogusSSLKeyStore} Object.
-	 */
-	private BogusSSLKeyStore()
-	{
-		super();
-	}
+    /**
+     * Erstellt ein neues {@link BogusSSLKeyStore} Object.
+     */
+    private BogusSSLKeyStore()
+    {
+        super();
+    }
 }

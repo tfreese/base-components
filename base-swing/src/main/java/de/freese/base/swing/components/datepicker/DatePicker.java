@@ -4,96 +4,95 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
  * DatePicker Komponente.
- * 
+ *
  * @author Thomas Freese
  */
 public class DatePicker extends JXDatePicker
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -4014651391029802229L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4014651391029802229L;
 
-	/**
-	 * Erstellt ein neues {@link DatePicker} Object.
-	 */
-	public DatePicker()
-	{
-		super();
+    /**
+     * Erstellt ein neues {@link DatePicker} Object.
+     */
+    public DatePicker()
+    {
+        super();
 
-		initialize();
-	}
+        initialize();
+    }
 
-	/**
-	 * Erstellt ein neues {@link DatePicker} Object.
-	 * 
-	 * @param selected {@link Date}
-	 */
-	public DatePicker(final Date selected)
-	{
-		super(selected);
+    /**
+     * Erstellt ein neues {@link DatePicker} Object.
+     * 
+     * @param selected {@link Date}
+     */
+    public DatePicker(final Date selected)
+    {
+        super(selected);
 
-		initialize();
-	}
+        initialize();
+    }
 
-	/**
-	 * Erstellt ein neues {@link DatePicker} Object.
-	 * 
-	 * @param selection {@link Date}
-	 * @param locale {@link Locale}
-	 */
-	public DatePicker(final Date selection, final Locale locale)
-	{
-		super(selection, locale);
+    /**
+     * Erstellt ein neues {@link DatePicker} Object.
+     * 
+     * @param selection {@link Date}
+     * @param locale {@link Locale}
+     */
+    public DatePicker(final Date selection, final Locale locale)
+    {
+        super(selection, locale);
 
-		initialize();
-	}
+        initialize();
+    }
 
-	/**
-	 * Erstellt ein neues {@link DatePicker} Object.
-	 * 
-	 * @param locale {@link Locale}
-	 */
-	public DatePicker(final Locale locale)
-	{
-		super(locale);
+    /**
+     * Erstellt ein neues {@link DatePicker} Object.
+     * 
+     * @param locale {@link Locale}
+     */
+    public DatePicker(final Locale locale)
+    {
+        super(locale);
 
-		initialize();
-	}
+        initialize();
+    }
 
-	/**
-	 * @return {@link Calendar}
-	 */
-	public Calendar getCalendar()
-	{
-		Calendar calendar = new GregorianCalendar();
-		calendar.setTime(getDate());
+    /**
+     * @return {@link Calendar}
+     */
+    public Calendar getCalendar()
+    {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(getDate());
 
-		return calendar;
-	}
+        return calendar;
+    }
 
-	/**
-	 * @param calendar {@link Calendar}
-	 */
-	public void setCalendar(final Calendar calendar)
-	{
-		setDate(calendar.getTime());
-	}
+    /**
+     * Defaultkonfiguration.
+     */
+    protected void initialize()
+    {
+        getMonthView().setShowingWeekNumber(true);
+        getMonthView().setPreferredColumnCount(2);
+        getMonthView().setPreferredRowCount(2);
 
-	/**
-	 * Defaultkonfiguration.
-	 */
-	protected void initialize()
-	{
-		getMonthView().setShowingWeekNumber(true);
-		getMonthView().setPreferredColumnCount(2);
-		getMonthView().setPreferredRowCount(2);
+        setDate(new Date());
+    }
 
-		setDate(new Date());
-	}
+    /**
+     * @param calendar {@link Calendar}
+     */
+    public void setCalendar(final Calendar calendar)
+    {
+        setDate(calendar.getTime());
+    }
 }

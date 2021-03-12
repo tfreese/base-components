@@ -39,7 +39,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     /**
      * Erstellt ein neues {@link AbstractObjectPool} Object.}
      */
-    public AbstractObjectPool()
+    protected AbstractObjectPool()
     {
         super();
 

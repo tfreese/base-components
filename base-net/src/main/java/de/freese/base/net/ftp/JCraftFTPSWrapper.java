@@ -128,7 +128,7 @@ public class JCraftFTPSWrapper implements FTPWrapper
     /**
      *
      */
-    private int timeOut = 0;
+    private int timeOut;
 
     /**
      * Creates a new {@link JCraftFTPSWrapper} object.

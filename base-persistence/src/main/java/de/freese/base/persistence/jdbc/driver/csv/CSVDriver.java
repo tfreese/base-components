@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
  * @see HsqldbTextTableBuilder
  * @author Thomas Freese
  */
-public class CSVDriver implements java.sql.Driver
+public final class CSVDriver implements java.sql.Driver
 {
     /**
      *
@@ -35,7 +35,7 @@ public class CSVDriver implements java.sql.Driver
     /**
      *
      */
-    private static volatile boolean registered = false;
+    private static volatile boolean registered;
 
     /**
      *

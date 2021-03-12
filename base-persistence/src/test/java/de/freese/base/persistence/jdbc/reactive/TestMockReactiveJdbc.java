@@ -161,7 +161,7 @@ class TestMockReactiveJdbc
     /**
     *
     */
-    private Connection connection = null;
+    private Connection connection;
 
     /**
      *
@@ -194,22 +194,22 @@ class TestMockReactiveJdbc
     /**
     *
     */
-    private DataSource datasource = null;
+    private DataSource datasource;
 
     /**
      *
      */
-    private ResultSet resultSet = null;
+    private ResultSet resultSet;
 
     /**
      *
      */
-    private int resultSetIndex = 0;
+    private int resultSetIndex;
 
     /**
      *
      */
-    private PreparedStatement statement = null;
+    private PreparedStatement statement;
 
     /**
      * @throws SQLException Falls was schief geht.
@@ -247,32 +247,7 @@ class TestMockReactiveJdbc
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    void test01ResultSetStream() throws SQLException
-    {
-        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply).spliterator(), false).onClose(() -> {
-            System.out.println("close stream");
-
-            JdbcUtils.closeResultSet(this.resultSet);
-            JdbcUtils.closeStatement(this.statement);
-            DataSourceUtils.releaseConnection(this.connection, this.datasource);
-        });)
-        {
-            // @formatter:off
-            Iterator<City> cities = stream.filter(city -> !city.country.equalsIgnoreCase("China"))
-                    .limit(3)
-                    //.peek(System.out::println) // Zwischenergebnisse
-                    .iterator();
-            // @formatter:on
-
-            validateIterator(cities);
-        }
-    }
-
-    /**
-     * @throws SQLException Falls was schief geht.
-     */
-    @Test
-    void test02ResultSetFlux() throws SQLException
+    void testResultSetFlux() throws SQLException
     {
         // @formatter:off
         Flux<City> flux = Flux.fromIterable(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply))
@@ -299,7 +274,7 @@ class TestMockReactiveJdbc
      * @throws SQLException Falls was schief geht.
      */
     @Test
-    void test02ResultSetFluxSynchronousSink() throws SQLException
+    void testResultSetFluxSynchronousSink() throws SQLException
     {
         // @formatter:off
         Flux<City> flux = Flux.generate((final SynchronousSink<ResultSet> sink) ->
@@ -346,6 +321,31 @@ class TestMockReactiveJdbc
         // @formatter:on
 
         validateIterator(cities);
+    }
+
+    /**
+     * @throws SQLException Falls was schief geht.
+     */
+    @Test
+    void testResultSetStream() throws SQLException
+    {
+        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply).spliterator(), false).onClose(() -> {
+            System.out.println("close stream");
+
+            JdbcUtils.closeResultSet(this.resultSet);
+            JdbcUtils.closeStatement(this.statement);
+            DataSourceUtils.releaseConnection(this.connection, this.datasource);
+        });)
+        {
+            // @formatter:off
+            Iterator<City> cities = stream.filter(city -> !city.country.equalsIgnoreCase("China"))
+                    .limit(3)
+                    //.peek(System.out::println) // Zwischenergebnisse
+                    .iterator();
+            // @formatter:on
+
+            validateIterator(cities);
+        }
     }
 
     /**

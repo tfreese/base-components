@@ -5,98 +5,98 @@ package de.freese.base.calendar.feiertag;
  */
 public enum FeiertagTyp
 {
-	/**
-	 * 
-	 */
-	ALLERHEILIGEN,
+    /**
+     * 
+     */
+    ALLERHEILIGEN,
 
-	/**
-	 * 
-	 */
-	BUSS_UND_BETTAG,
+    /**
+     * 
+     */
+    BUSS_UND_BETTAG,
 
-	/**
-	 * 
-	 */
-	CHRISTI_HIMMELFAHRT,
+    /**
+     * 
+     */
+    CHRISTI_HIMMELFAHRT,
 
-	/**
-	 * 
-	 */
-	FRONLEICHNAM,
+    /**
+     * 
+     */
+    FRONLEICHNAM,
 
-	/**
-	 * 
-	 */
-	HEILIGABEND,
+    /**
+     * 
+     */
+    HEILIGABEND,
 
-	/**
-	 * 
-	 */
-	HEILIGE_3KOENIGE,
+    /**
+     * 
+     */
+    HEILIGE_3KOENIGE,
 
-	/**
-	 * 
-	 */
-	KARFREITAG,
+    /**
+     * 
+     */
+    KARFREITAG,
 
-	/**
-	 * 
-	 */
-	MAIFEIERTAG,
+    /**
+     * 
+     */
+    MAIFEIERTAG,
 
-	/**
-	 * 
-	 */
-	MARIA_HIMMELFAHRT,
+    /**
+     * 
+     */
+    MARIA_HIMMELFAHRT,
 
-	/**
-	 * 
-	 */
-	NEUJAHR,
+    /**
+     * 
+     */
+    NEUJAHR,
 
-	/**
-	 * 
-	 */
-	OSTER_MONTAG,
+    /**
+     * 
+     */
+    OSTER_MONTAG,
 
-	/**
-	 * 
-	 */
-	OSTER_SONNTAG,
+    /**
+     * 
+     */
+    OSTER_SONNTAG,
 
-	/**
-	 *
-	 */
-	PFINGST_MONTAG,
+    /**
+     *
+     */
+    PFINGST_MONTAG,
 
-	/**
-	 * 
-	 */
-	PFINGST_SONNTAG,
+    /**
+     * 
+     */
+    PFINGST_SONNTAG,
 
-	/**
-	 * 
-	 */
-	REFORMATIONSTAG,
+    /**
+     * 
+     */
+    REFORMATIONSTAG,
 
-	/**
-	 * 
-	 */
-	SYLVESTER,
+    /**
+     * 
+     */
+    SYLVESTER,
 
-	/**
-	 *
-	 */
-	TAG_DER_DEUTSCHEN_EINHEIT,
+    /**
+     *
+     */
+    TAG_DER_DEUTSCHEN_EINHEIT,
 
-	/**
-	 * 
-	 */
-	WEIHNACHTEN_1,
+    /**
+     * 
+     */
+    WEIHNACHTEN_1,
 
-	/**
-	 * 
-	 */
-	WEIHNACHTEN_2;
+    /**
+     * 
+     */
+    WEIHNACHTEN_2;
 }

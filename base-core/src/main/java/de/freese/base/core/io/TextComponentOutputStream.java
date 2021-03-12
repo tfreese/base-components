@@ -2,6 +2,7 @@ package de.freese.base.core.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
@@ -141,7 +142,7 @@ public class TextComponentOutputStream extends OutputStream
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException
     {
-        String s = new String(b, off, len);
+        String s = new String(b, off, len, StandardCharsets.UTF_8);
 
         if (this.out != null)
         {

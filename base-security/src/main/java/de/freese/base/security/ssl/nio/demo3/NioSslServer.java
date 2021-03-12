@@ -29,7 +29,7 @@ import javax.net.ssl.SSLSession;
  *
  * @author <a href="mailto:alex.a.karnezis@gmail.com">Alex Karnezis</a>
  */
-public class NioSslServer extends NioSslPeer
+public class NioSslServer extends AbstractNioSslPeer
 {
     /**
      * Declares if the server is active to serve and create new connections.

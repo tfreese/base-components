@@ -23,9 +23,9 @@ public class ExcelPanel extends JPanel
     private static final long serialVersionUID = 2622130940186653172L;
 
     /**
-     * 
+     *
      */
-    private JTabbedPane tabbedPane = null;
+    private JTabbedPane tabbedPane;
 
     /**
      * Creates a new {@link ExcelPanel} object.
@@ -39,7 +39,7 @@ public class ExcelPanel extends JPanel
 
     /**
      * Hinzufuegen eines Excelsheets als Tab.
-     * 
+     *
      * @param excelSheet {@link ExcelSheet}
      */
     public void addExcelSheet(final ExcelSheet excelSheet)
@@ -49,7 +49,7 @@ public class ExcelPanel extends JPanel
 
     /**
      * Liefert die TabbedPane der Excelsheets.
-     * 
+     *
      * @return {@link JTabbedPane}
      */
     private JTabbedPane getJTabbedPane()
@@ -65,7 +65,7 @@ public class ExcelPanel extends JPanel
 
     /**
      * Liefert den selektierten Bereich in Excelnotation.
-     * 
+     *
      * @return String
      */
     public String getSelectedRange()
@@ -96,7 +96,7 @@ public class ExcelPanel extends JPanel
 
     /**
      * Selektiert den Tab des Namens.
-     * 
+     *
      * @param sheetName String
      */
     public void selectSheet(final String sheetName)

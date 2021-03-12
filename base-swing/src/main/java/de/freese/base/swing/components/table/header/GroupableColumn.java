@@ -22,28 +22,28 @@ import javax.swing.table.TableColumn;
 public class GroupableColumn
 {
     /**
-     * 
+     *
      */
     protected List<Object> columns = Collections.synchronizedList(new ArrayList<>());
 
     /**
-     * 
+     *
      */
-    protected int margin = 0;
+    protected int margin;
 
     /**
-     * 
+     *
      */
     protected TableCellRenderer renderer;
 
     /**
-     * 
+     *
      */
     protected String text;
 
     /**
      * Creates a new {@link GroupableColumn} object.
-     * 
+     *
      * @param text String
      */
     public GroupableColumn(final String text)
@@ -53,7 +53,7 @@ public class GroupableColumn
 
     /**
      * Creates a new ColumnGroup object.
-     * 
+     *
      * @param renderer {@link TableCellRenderer}
      * @param text String
      */

@@ -71,7 +71,7 @@ public class NasaController extends AbstractController
     /**
      * Max. 12196 Bilder verfügbar
      */
-    private final String imageDir = "https://photojournal.jpl.nasa.gov/jpeg/";
+    private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
 
     /**
     *
@@ -169,11 +169,11 @@ public class NasaController extends AbstractController
         if (!randomUrls)
         {
             int index = this.random.nextInt(this.imageNames.length);
-            urlString = this.imageDir + this.imageNames[index];
+            urlString = IMAGE_DIR + this.imageNames[index];
         }
         else
         {
-            urlString = String.format("%sPIA%05d.jpg", this.imageDir, (this.random.nextInt(12196) + 1));
+            urlString = String.format("%sPIA%05d.jpg", IMAGE_DIR, (this.random.nextInt(12196) + 1));
         }
 
         getLogger().info("URL: {}", urlString);
@@ -273,7 +273,7 @@ public class NasaController extends AbstractController
         NasaPanel panel = getView().getComponent();
 
         panel.getButtonPrevious().addActionListener(event -> {
-            NasaImageTask task = new NasaImageTask(this, () -> getPreviousURL(), getView(), getResourceMap());
+            NasaImageTask task = new NasaImageTask(this, this::getPreviousURL, getView(), getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
 
@@ -281,7 +281,7 @@ public class NasaController extends AbstractController
         });
 
         panel.getButtonNext().addActionListener(event -> {
-            NasaImageTask task = new NasaImageTask(this, () -> getNextURL(), getView(), getResourceMap());
+            NasaImageTask task = new NasaImageTask(this, this::getNextURL, getView(), getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
 

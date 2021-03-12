@@ -32,7 +32,7 @@ public abstract class AbstractApplication
     /**
      *
      */
-    private final List<Controller> controller = new ArrayList<>();
+    private final List<Controller> controllers = new ArrayList<>();
 
     /**
      *
@@ -43,14 +43,6 @@ public abstract class AbstractApplication
      *
      */
     private Thread shutdownHook;
-
-    /**
-     * Erstellt ein neues {@link AbstractApplication} Object.
-     */
-    public AbstractApplication()
-    {
-        super();
-    }
 
     /**
      * Liefert den {@link ApplicationContext}.
@@ -65,9 +57,9 @@ public abstract class AbstractApplication
     /**
      * @return {@link List}<Controller>
      */
-    protected List<Controller> getController()
+    protected List<Controller> getControllers()
     {
-        return this.controller;
+        return this.controllers;
     }
 
     /**
@@ -238,7 +230,7 @@ public abstract class AbstractApplication
             getLogger().error(null, ex);
         }
 
-        for (Controller controller : getController())
+        for (Controller controller : getControllers())
         {
             controller.release();
         }

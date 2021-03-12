@@ -53,7 +53,7 @@ public class BusySanduhrLabel extends JLabel
     /**
      *
      */
-    private int imageIndex = 0;
+    private int imageIndex;
 
     /**
      * Creates a new {@link BusySanduhrLabel} object.

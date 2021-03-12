@@ -53,7 +53,7 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
         this.progressBar.setMaximum(100);
 
         this.labelTitle = new JLabel();
-        this.labelTitle.setFont(defaultFont.deriveFont(Font.BOLD, defaultFont.getSize() * 2));
+        this.labelTitle.setFont(defaultFont.deriveFont(Font.BOLD, defaultFont.getSize() * 2F));
 
         this.labelSubTitle = new JLabel();
         this.labelSubTitle.setForeground(Color.BLACK);

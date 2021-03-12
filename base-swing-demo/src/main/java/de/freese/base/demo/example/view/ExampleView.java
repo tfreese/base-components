@@ -11,14 +11,6 @@ import de.freese.base.resourcemap.ResourceMap;
 public class ExampleView extends AbstractView<ExamplePanel>
 {
     /**
-     * Erstellt ein neues {@link ExampleView} Object.
-     */
-    public ExampleView()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.mvc.View#createGUI()
      */
     @Override

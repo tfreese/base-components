@@ -46,7 +46,7 @@ public final class ArrayUtils
 
         for (double value : values)
         {
-            zero = value == 0.0D;
+            zero = (value == 0.0D);
 
             if (!zero)
             {

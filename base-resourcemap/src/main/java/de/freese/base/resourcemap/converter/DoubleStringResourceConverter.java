@@ -8,14 +8,6 @@ package de.freese.base.resourcemap.converter;
 public class DoubleStringResourceConverter extends AbstractNumberResourceConverter<Double>
 {
     /**
-     * Erstellt ein neues {@link DoubleStringResourceConverter} Object.
-     */
-    public DoubleStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override

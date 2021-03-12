@@ -2,47 +2,37 @@ package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Component;
 import java.awt.Font;
-
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 /**
  * Defaultimplementierung fuer die Fontaenderung einer {@link JList}.
- * 
+ *
  * @author Thomas Freese
  */
 public class ListFontChangeHandler extends ComponentFontChangeHandler
 {
-	/**
-	 * Erstellt ein neues {@link ListFontChangeHandler} Object.
-	 */
-	public ListFontChangeHandler()
-	{
-		super();
-	}
+    /**
+     * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
+     */
+    @Override
+    public void fontChanged(final Font newFont, final Object object)
+    {
+        super.fontChanged(newFont, object);
 
-	/**
-	 * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font,
-	 *      java.lang.Object)
-	 */
-	@Override
-	public void fontChanged(final Font newFont, final Object object)
-	{
-		super.fontChanged(newFont, object);
+        JList<?> list = (JList<?>) object;
+        int rowHeightNew = newFont.getSize() + 4;
 
-		JList<?> list = (JList<?>) object;
-		int rowHeightNew = newFont.getSize() + 4;
+        // if (list.getFixedCellHeight() < rowHeightNew)
+        {
+            list.setFixedCellHeight(rowHeightNew);
+        }
 
-		// if (list.getFixedCellHeight() < rowHeightNew)
-		{
-			list.setFixedCellHeight(rowHeightNew);
-		}
+        ListCellRenderer<?> cellRenderer = list.getCellRenderer();
 
-		ListCellRenderer<?> cellRenderer = list.getCellRenderer();
-
-		if (cellRenderer instanceof Component)
-		{
-			super.fontChanged(newFont, cellRenderer);
-		}
-	}
+        if (cellRenderer instanceof Component)
+        {
+            super.fontChanged(newFont, cellRenderer);
+        }
+    }
 }

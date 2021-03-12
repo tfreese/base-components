@@ -8,14 +8,6 @@ package de.freese.base.resourcemap.converter;
 public class ByteStringResourceConverter extends AbstractNumberResourceConverter<Byte>
 {
     /**
-     * Erstellt ein neues {@link ByteStringResourceConverter} Object.
-     */
-    public ByteStringResourceConverter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.resourcemap.converter.AbstractNumberResourceConverter#convertString(java.lang.String, int)
      */
     @Override

@@ -1,6 +1,5 @@
 package de.freese.base.utils;
 
-import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -11,7 +10,6 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Objects;
 import javax.activation.DataSource;
 import javax.swing.JComponent;
@@ -92,10 +90,9 @@ public final class GuiUtils
      * Erzeugt einen PNG-Screenschot als {@link DataSource}.
      *
      * @return {@link DataSource}
-     * @throws AWTException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public static DataSource createScreenShot() throws AWTException, IOException
+    public static DataSource createScreenShot() throws Exception
     {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) dimension.getWidth();
@@ -118,10 +115,9 @@ public final class GuiUtils
      *
      * @param c {@link Component}
      * @return String der Dateiname des ScreenShots
-     * @throws AWTException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public static DataSource createScreenShot(final Component c) throws AWTException, IOException
+    public static DataSource createScreenShot(final Component c) throws Exception
     {
         Objects.requireNonNull(c, "component required");
 
@@ -153,10 +149,9 @@ public final class GuiUtils
      * @param width int
      * @param height int
      * @return {@link DataSource}
-     * @throws AWTException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws AWTException, IOException
+    public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws Exception
     {
         BufferedImage shot = new Robot().createScreenCapture(new Rectangle(x, y, width, height));
 
@@ -275,14 +270,14 @@ public final class GuiUtils
      */
     public static Component getRoot(final Component component)
     {
-        Component m_component = component;
+        Component c = component;
 
-        while (m_component.getParent() != null)
+        while (c.getParent() != null)
         {
-            m_component = m_component.getParent();
+            c = c.getParent();
         }
 
-        return m_component;
+        return c;
     }
 
     /**
@@ -304,5 +299,13 @@ public final class GuiUtils
     public static JPanel getToolBarSeparator()
     {
         return new ToolBarSeparator();
+    }
+
+    /**
+     * Erstellt ein neues {@link GuiUtils} Object.
+     */
+    private GuiUtils()
+    {
+        super();
     }
 }
