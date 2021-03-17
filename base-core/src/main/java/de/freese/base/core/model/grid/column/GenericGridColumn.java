@@ -6,8 +6,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Function;
-import de.freese.base.core.function.ExceptionalBiConsumer;
-import de.freese.base.core.function.ExceptionalFunction;
+import de.freese.base.core.function.ThrowingBiConsumer;
+import de.freese.base.core.function.ThrowingFunction;
 
 /**
  * Generische-Spalte des Grids.
@@ -30,23 +30,23 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
     /**
     *
     */
-    private final ExceptionalFunction<DataInput, T, IOException> reader;
+    private final ThrowingFunction<DataInput, T, IOException> reader;
 
     /**
     *
     */
-    private final ExceptionalBiConsumer<DataOutput, T, IOException> writer;
+    private final ThrowingBiConsumer<DataOutput, T, IOException> writer;
 
     /**
      * Erzeugt eine neue Instanz von {@link GenericGridColumn}.
      *
      * @param objectClazz Class
      * @param mapper {@link Function}
-     * @param writer {@link ExceptionalBiConsumer}
-     * @param reader {@link ExceptionalFunction}
+     * @param writer {@link ThrowingBiConsumer}
+     * @param reader {@link ThrowingFunction}
      */
-    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ExceptionalBiConsumer<DataOutput, T, IOException> writer,
-            final ExceptionalFunction<DataInput, T, IOException> reader)
+    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer,
+            final ThrowingFunction<DataInput, T, IOException> reader)
     {
         super(Objects.requireNonNull(objectClazz, "objectClazz required"));
 

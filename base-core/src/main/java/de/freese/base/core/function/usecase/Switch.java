@@ -1,7 +1,6 @@
 /**
  * Created: 01.02.2018
  */
-
 package de.freese.base.core.function.usecase;
 
 import java.util.Objects;

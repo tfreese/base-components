@@ -13,18 +13,16 @@ import java.util.function.Predicate;
  * @see java.util.function.Predicate
  */
 @FunctionalInterface
-public interface ExceptionalPredicate<T, E extends Exception>
+public interface ThrowingPredicate<T, E extends Exception>
 {
     /**
-     * @see java.util.function.Predicate#isEqual(Object)
      * @param targetRef Object
-     * @return {@link ExceptionalPredicate}
-     * @see java.util.function.Predicate#isEqual(Object)
+     * @return {@link ThrowingPredicate}
      */
     @SuppressWarnings("unused")
-    public static <T, E> ExceptionalPredicate<T, Exception> isEqual(final Object targetRef)
+    public static <T, E> ThrowingPredicate<T, Exception> isEqual(final Object targetRef)
     {
-        ExceptionalPredicate<T, Exception> predicate = null;
+        ThrowingPredicate<T, Exception> predicate = null;
 
         if (targetRef == null)
         {
@@ -39,11 +37,10 @@ public interface ExceptionalPredicate<T, E extends Exception>
     }
 
     /**
-     * @see java.util.function.Predicate#and(Predicate)
-     * @param other {@link ExceptionalPredicate}
-     * @return {@link ExceptionalPredicate}
+     * @param other {@link ThrowingPredicate}
+     * @return {@link ThrowingPredicate}
      */
-    public default ExceptionalPredicate<T, E> and(final ExceptionalPredicate<? super T, E> other)
+    public default ThrowingPredicate<T, E> and(final ThrowingPredicate<? super T, E> other)
     {
         Objects.requireNonNull(other);
 
@@ -51,20 +48,18 @@ public interface ExceptionalPredicate<T, E extends Exception>
     }
 
     /**
-     * @see java.util.function.Predicate#negate()
-     * @return {@link ExceptionalPredicate}
+     * @return {@link ThrowingPredicate}
      */
-    public default ExceptionalPredicate<T, E> negate()
+    public default ThrowingPredicate<T, E> negate()
     {
         return t -> !test(t);
     }
 
     /**
-     * @see java.util.function.Predicate#or(Predicate)
-     * @param other {@link ExceptionalPredicate}
-     * @return {@link ExceptionalPredicate}
+     * @param other {@link ThrowingPredicate}
+     * @return {@link ThrowingPredicate}
      */
-    public default ExceptionalPredicate<T, E> or(final ExceptionalPredicate<? super T, E> other)
+    public default ThrowingPredicate<T, E> or(final ThrowingPredicate<? super T, E> other)
     {
         Objects.requireNonNull(other);
 
@@ -72,7 +67,6 @@ public interface ExceptionalPredicate<T, E extends Exception>
     }
 
     /**
-     * @see java.util.function.Predicate#test(Object)
      * @param t Object
      * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
      * @throws E Falls was schief geht.

@@ -1,7 +1,7 @@
 /**
  *
  */
-package de.freese.base.core.collection.iterator;
+package de.freese.base.core.collection;
 
 import java.lang.reflect.Array;
 import java.util.Iterator;

@@ -19,8 +19,8 @@ import java.util.function.Function;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import de.freese.base.core.function.ExceptionalBiConsumer;
-import de.freese.base.core.function.ExceptionalFunction;
+import de.freese.base.core.function.ThrowingBiConsumer;
+import de.freese.base.core.function.ThrowingFunction;
 import de.freese.base.core.model.grid.column.BinaryGridColumn;
 import de.freese.base.core.model.grid.column.BooleanGridColumn;
 import de.freese.base.core.model.grid.column.DateGridColumn;
@@ -154,13 +154,13 @@ class TestGridColumns
 
         Function<Object, LocalDateTime> mapper = obj -> (LocalDateTime) obj;
 
-        ExceptionalBiConsumer<DataOutput, LocalDateTime, IOException> writer = (dataOutput, value) -> {
+        ThrowingBiConsumer<DataOutput, LocalDateTime, IOException> writer = (dataOutput, value) -> {
             long time = value.atZone(zoneId).toInstant().toEpochMilli();
 
             dataOutput.writeLong(time);
         };
 
-        ExceptionalFunction<DataInput, LocalDateTime, IOException> reader = dataInput -> {
+        ThrowingFunction<DataInput, LocalDateTime, IOException> reader = dataInput -> {
             long time = dataInput.readLong();
 
             Instant instant = Instant.ofEpochMilli(time);

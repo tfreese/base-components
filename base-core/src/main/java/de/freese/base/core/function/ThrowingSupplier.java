@@ -12,10 +12,9 @@ import java.util.function.Supplier;
  * @see java.util.function.Supplier
  */
 @FunctionalInterface
-public interface ExceptionalSupplier<R, E extends Exception>
+public interface ThrowingSupplier<R, E extends Exception>
 {
     /**
-     * @see java.util.function.Supplier#get()
      * @return Object
      * @throws Exception Falls was schief geht.
      */

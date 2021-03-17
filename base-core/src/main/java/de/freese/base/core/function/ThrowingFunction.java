@@ -14,10 +14,9 @@ import java.util.function.Function;
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface ExceptionalFunction<T, R, E extends Exception>
+public interface ThrowingFunction<T, R, E extends Exception>
 {
     /**
-     * @see java.util.function.Function#identity()
      * @return {@link Function}
      */
     static <T> Function<T, T> identity()
@@ -26,11 +25,10 @@ public interface ExceptionalFunction<T, R, E extends Exception>
     }
 
     /**
-     * @see java.util.function.Function#andThen(Function)
-     * @param after {@link ExceptionalFunction}
-     * @return {@link ExceptionalFunction}
+     * @param after {@link ThrowingFunction}
+     * @return {@link ThrowingFunction}
      */
-    public default <V> ExceptionalFunction<T, V, E> andThen(final ExceptionalFunction<? super R, V, E> after)
+    public default <V> ThrowingFunction<T, V, E> andThen(final ThrowingFunction<? super R, V, E> after)
     {
         Objects.requireNonNull(after);
 
@@ -38,7 +36,6 @@ public interface ExceptionalFunction<T, R, E extends Exception>
     }
 
     /**
-     * @see java.util.function.Function#apply(Object)
      * @param t Object
      * @return Object
      * @throws Exception Falls was schief geht.
@@ -46,11 +43,10 @@ public interface ExceptionalFunction<T, R, E extends Exception>
     public R apply(T t) throws E;
 
     /**
-     * @see java.util.function.Function#compose(Function)
-     * @param before {@link ExceptionalFunction}
-     * @return {@link ExceptionalFunction}
+     * @param before {@link ThrowingFunction}
+     * @return {@link ThrowingFunction}
      */
-    public default <V> ExceptionalFunction<V, R, E> compose(final ExceptionalFunction<? super V, T, E> before)
+    public default <V> ThrowingFunction<V, R, E> compose(final ThrowingFunction<? super V, T, E> before)
     {
         Objects.requireNonNull(before);
 

@@ -3,7 +3,6 @@ package de.freese.base.core.function;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * Interface eines {@link BiConsumer} mit einer Exception.<br>
@@ -12,13 +11,12 @@ import java.util.function.Consumer;
  * @param <T> Konkreter Parameter-Typ
  * @param <U> Konkreter Parameter-Typ
  * @param <E> Konkreter Exception-Typ
- * @see java.util.function.Consumer
+ * @see java.util.function.BiConsumer
  */
 @FunctionalInterface
-public interface ExceptionalBiConsumer<T, U, E extends Exception>
+public interface ThrowingBiConsumer<T, U, E extends Exception>
 {
     /**
-     * @see java.util.function.BiConsumer#accept(Object, Object)
      * @param t Object
      * @param u Object
      * @throws Exception Falls was schief geht.
@@ -26,16 +24,14 @@ public interface ExceptionalBiConsumer<T, U, E extends Exception>
     public void accept(T t, U u) throws E;
 
     /**
-     * @see java.util.function.Consumer#andThen(Consumer)
-     * @param after {@link ExceptionalBiConsumer}
-     * @return {@link ExceptionalBiConsumer}
+     * @param after {@link ThrowingBiConsumer}
+     * @return {@link ThrowingBiConsumer}
      */
-    public default ExceptionalBiConsumer<T, U, E> andThen(final ExceptionalBiConsumer<? super T, ? super U, E> after)
+    public default ThrowingBiConsumer<T, U, E> andThen(final ThrowingBiConsumer<? super T, ? super U, E> after)
     {
         Objects.requireNonNull(after);
 
-        return (l, r) ->
-        {
+        return (l, r) -> {
             accept(l, r);
             after.accept(l, r);
         };

@@ -8,7 +8,7 @@ package de.freese.base.core.function;
  * @param <E> Konkreter Exception-Typ
  */
 @FunctionalInterface
-public interface ExceptionalRunnable<E extends Exception>
+public interface ThrowinglRunnable<E extends Exception>
 {
     /**
      * Performs this operation.
