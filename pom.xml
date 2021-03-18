@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -33,6 +33,29 @@
     <properties>
         <maven.test.skip>false</maven.test.skip>
     </properties>
+
+    <!--
+    methods – runs test methods in separate threads
+    classes – runs test classes in separate threads
+    classesAndMethods – runs classes and methods in separate threads
+    suites – runs suites in parallel
+    suitesAndClasses – runs suites and classes in separate threads
+    suitesAndMethods – creates separate threads for classes and for methods
+    all – runs suites, classes as well as methods in separate threads    
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <parallel>classes</parallel>
+                    <forkCount>8</forkCount>
+                    <reuseForks>true</reuseForks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <modules>
         <module>base-core</module>
