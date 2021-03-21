@@ -1,11 +1,9 @@
-/**
- * Created: 18.09.2014
- */
+// Created: 18.09.2014
 package de.freese.base.core.cache;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -17,7 +15,6 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * {@link ResourceCache}, der die Daten auf der Festplatte ablegt.
@@ -34,20 +31,9 @@ public class FileResourceCache extends AbstractResourceCache
     /**
      * Erstellt ein neues {@link FileResourceCache} Object im Ordner "java.io.tmpdir/.javacache".
      */
-    public FileResourceCache()
+    FileResourceCache()
     {
-        // System.getProperty("java.io.tmpdir") + File.separator + ".javacache" + File.separator;
         this(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
-    }
-
-    /**
-     * Erstellt ein neues {@link FileResourceCache} Object.
-     *
-     * @param cacheDirectory {@link File}
-     */
-    public FileResourceCache(final File cacheDirectory)
-    {
-        this(cacheDirectory.toPath());
     }
 
     /**
@@ -64,19 +50,18 @@ public class FileResourceCache extends AbstractResourceCache
         try
         {
             // Falls Verzeichnis nicht vorhanden -> erzeugen.
-
-            // final File file = new File(CACHE_DIR);
-            //
-            // if (!file.exists())
-            // {
-            // file.mkdirs();
-            // }
-
-            // Files.deleteIfExists(directory); // Funktioniert nur, wenn das Verzeichniss leer ist.
             if (!Files.exists(cacheDirectory))
             {
                 Files.createDirectories(cacheDirectory);
             }
+        }
+        catch (final IOException ex)
+        {
+            throw new UncheckedIOException(ex);
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
         }
         catch (final Exception ex)
         {
@@ -92,6 +77,8 @@ public class FileResourceCache extends AbstractResourceCache
     {
         try
         {
+            // Files.deleteIfExists(directory); // Funktioniert nur, wenn das Verzeichniss leer ist.
+
             Files.walkFileTree(this.cacheDirectory, new SimpleFileVisitor<>()
             {
                 /**
@@ -101,6 +88,7 @@ public class FileResourceCache extends AbstractResourceCache
                 public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
                 {
                     Files.delete(dir);
+
                     return FileVisitResult.CONTINUE;
                 }
 
@@ -111,9 +99,14 @@ public class FileResourceCache extends AbstractResourceCache
                 public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
                 {
                     Files.delete(file);
+
                     return FileVisitResult.CONTINUE;
                 }
             });
+        }
+        catch (final IOException ex)
+        {
+            throw new UncheckedIOException(ex);
         }
         catch (RuntimeException ex)
         {
@@ -131,32 +124,81 @@ public class FileResourceCache extends AbstractResourceCache
     @Override
     public Optional<InputStream> getResource(final URL url)
     {
-        //@formatter:off
-        return Stream.of(url)
-                .map(this::generateKey)
-                .map(this.cacheDirectory::resolve)
-                .map(path -> {
-                    try
-                    {
-                        if (!Files.isReadable(path))
-                        {
-                            try (InputStream inputStream = loadInputStream(url))
-                            {
-                                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-                            }
-                        }
+        String key = generateKey(url);
 
-                        return Files.newInputStream(path, StandardOpenOption.READ);
-                    }
-                    catch (RuntimeException ex)
-                    {
-                        throw ex;
-                    }
-                    catch (final Exception ex)
-                    {
-                        throw new RuntimeException(ex);
-                    }
-                }).findFirst();
-        //@formatter:on
+        // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
+        Path path = Paths.get(key.substring(0, 2));
+
+        for (int subDir = 1; subDir < 3; subDir++)
+        {
+            path = path.resolve(key.substring(subDir * 2, (subDir * 2) + 2));
+        }
+
+        path = path.resolve(key);
+
+        // Absoluter Path erstellen.
+        path = this.cacheDirectory.resolve(path);
+
+        try
+        {
+            if (!Files.exists(path))
+            {
+                Files.createDirectories(path.getParent());
+            }
+
+            if (!Files.isReadable(path))
+            {
+                try (InputStream inputStream = toInputStream(url))
+                {
+                    Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+
+            return Optional.ofNullable(Files.newInputStream(path, StandardOpenOption.READ));
+        }
+        catch (final IOException ex)
+        {
+            throw new UncheckedIOException(ex);
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
+        catch (final Exception ex)
+        {
+            throw new RuntimeException(ex);
+        }
+
+//        //@formatter:off
+//        return Stream.of(url)
+//                .map(this::generateKey)
+//                .map(this.cacheDirectory::resolve)
+//                .map(path -> {
+//                    try
+//                    {
+//                        if (!Files.isReadable(path))
+//                        {
+//                            try (InputStream inputStream = toInputStream(url))
+//                            {
+//                                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+//                            }
+//                        }
+//
+//                        return Files.newInputStream(path, StandardOpenOption.READ);
+//                    }
+//                    catch (final IOException ex)
+//                    {
+//                        throw new UncheckedIOException(ex);
+//                    }
+//                    catch (RuntimeException ex)
+//                    {
+//                        throw ex;
+//                    }
+//                    catch (final Exception ex)
+//                    {
+//                        throw new RuntimeException(ex);
+//                    }
+//                }).findFirst();
+//        //@formatter:on
     }
 }

@@ -12,6 +12,8 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -25,6 +27,7 @@ import de.freese.base.core.throttle.google.GoogleThrottle;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class ThrottleOutputStreamTest extends AbstractIoTest
 {
     /**

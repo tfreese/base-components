@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import de.freese.base.core.io.AbstractIoTest;
 import de.freese.base.core.io.throttle.SleepThrottledOutputStream;
 
@@ -18,6 +20,7 @@ import de.freese.base.core.io.throttle.SleepThrottledOutputStream;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class SleepThrottledOutputStreamTest extends AbstractIoTest
 {
     /**

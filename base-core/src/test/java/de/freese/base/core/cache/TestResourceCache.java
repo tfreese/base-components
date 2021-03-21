@@ -3,39 +3,47 @@
  */
 package de.freese.base.core.cache;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestResourceCache
 {
     /**
      *
      */
-    private static ResourceCache CACHE;
+    private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
 
     /**
-     *
-     */
-    private static URL URL_FILE;
+    *
+    */
+    private static final ResourceCache CACHE_MEMORY = new MemoryResourceCache();
 
     /**
-     *
-     */
-    private static URL URL_IMAGE;
+    *
+    */
+    private static final Map<String, byte[]> MAP = new ConcurrentHashMap<>();
 
     /**
      *
@@ -43,7 +51,9 @@ class TestResourceCache
     @AfterAll
     static void afterAll()
     {
-        CACHE.clear();
+        MAP.clear();
+        CACHE_FILE.clear();
+        CACHE_MEMORY.clear();
     }
 
     /**
@@ -52,10 +62,28 @@ class TestResourceCache
     @BeforeAll
     static void beforeAll() throws Exception
     {
-        // CACHE = new FileCache();
-        CACHE = new MemoryResourceCache();
-        URL_FILE = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri().toURL();
-        URL_IMAGE = new URL("http://www.freese-home.de/s/img/emotionheader.jpg");
+        // Empty
+    }
+
+    /**
+     * Create objects stream.
+     *
+     * @return {@link Stream}
+     * @throws Exception Falls was schief geht.
+     */
+    static Stream<Arguments> createArgumentes() throws Exception
+    {
+        URL urlLocalFile = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri().toURL();
+        URL urlHttpImage = new URL("http://www.freese-home.de/s/img/emotionheader.jpg");
+
+        // @formatter:off
+        return Stream.of(
+                Arguments.of("FileCache - Local File", CACHE_FILE, urlLocalFile),
+                Arguments.of("FileCache - HTTP Image", CACHE_FILE, urlHttpImage),
+                Arguments.of("MemoryCache - Local File", CACHE_MEMORY, urlLocalFile),
+                Arguments.of("MemoryCache - HTTP Image", CACHE_MEMORY,urlHttpImage)
+                );
+        // @formatter:on
     }
 
     /**
@@ -77,34 +105,60 @@ class TestResourceCache
     }
 
     /**
-     *
+     * @param name String
+     * @param resourceCache {@link ResourceCache}
+     * @param url {@link URL}
+     * @throws Exception Falls was schief geht.
      */
-    @Test
-    void testFileCache()
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createArgumentes")
+    // @DisplayName("Test @MethodSource Argumented")
+    @Order(1)
+    void testInitialLoad(final String name, final ResourceCache resourceCache, final URL url) throws Exception
     {
-        Optional<InputStream> optional = CACHE.getResource(URL_FILE);
+        Optional<InputStream> optional = resourceCache.getResource(url);
         assertNotNull(optional);
         assertNotNull(optional.get());
 
-        // Reload
-        optional = CACHE.getResource(URL_FILE);
-        assertNotNull(optional);
-        assertNotNull(optional.get());
+        byte[] bytes = null;
+
+        try (InputStream inputStream = optional.get();
+             ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
+            inputStream.transferTo(baos);
+
+            bytes = baos.toByteArray();
+        }
+
+        MAP.put(name, bytes);
     }
 
     /**
-     *
+     * @param name String
+     * @param resourceCache {@link ResourceCache}
+     * @param url {@link URL}
+     * @throws Exception Falls was schief geht.
      */
-    @Test
-    void testURLCache()
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createArgumentes")
+    // @DisplayName("Test @MethodSource Argumented")
+    @Order(2)
+    void testReload(final String name, final ResourceCache resourceCache, final URL url) throws Exception
     {
-        Optional<InputStream> optional = CACHE.getResource(URL_IMAGE);
+        Optional<InputStream> optional = resourceCache.getResource(url);
         assertNotNull(optional);
         assertNotNull(optional.get());
 
-        // Reload
-        optional = CACHE.getResource(URL_IMAGE);
-        assertNotNull(optional);
-        assertNotNull(optional.get());
+        byte[] bytes = null;
+
+        try (InputStream inputStream = optional.get();
+             ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
+            inputStream.transferTo(baos);
+
+            bytes = baos.toByteArray();
+        }
+
+        assertArrayEquals(MAP.get(name), bytes);
     }
 }

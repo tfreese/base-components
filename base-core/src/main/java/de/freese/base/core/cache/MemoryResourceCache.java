@@ -1,12 +1,11 @@
-/**
- * Created: 27.07.2016
- */
-
+// Created: 18.09.2014
 package de.freese.base.core.cache;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
@@ -58,22 +57,27 @@ public class MemoryResourceCache extends AbstractResourceCache
             {
                 int size = (int) getContentLength(url);
 
-                try (InputStream inputStream = loadInputStream(url);
+                try (InputStream inputStream = toInputStream(url);
                      ByteArrayOutputStream baos = new ByteArrayOutputStream(size))
                 {
-                    byte[] buffer = new byte[4096];
-                    // long count = 0;
-                    int n = 0;
-
-                    while ((n = inputStream.read(buffer)) != -1)
-                    {
-                        baos.write(buffer, 0, n);
-                        // count += n;
-                    }
+                    inputStream.transferTo(baos);
+                    // byte[] buffer = new byte[4096];
+                    // // long count = 0;
+                    // int n = 0;
+                    //
+                    // while ((n = inputStream.read(buffer)) != -1)
+                    // {
+                    // baos.write(buffer, 0, n);
+                    // // count += n;
+                    // }
 
                     content = baos.toByteArray();
                     this.map.put(key, content);
                 }
+            }
+            catch (final IOException ex)
+            {
+                throw new UncheckedIOException(ex);
             }
             catch (RuntimeException ex)
             {

@@ -25,35 +25,6 @@ import org.apache.commons.codec.binary.Hex;
 public abstract class AbstractResourceCache implements ResourceCache
 {
     /**
-     * Erzeugt den MessageDigest für die Generierung des Keys.<br>
-     * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
-     *
-     * @return {@link MessageDigest}
-     */
-    protected static MessageDigest createMessageDigest()
-    {
-        MessageDigest messageDigest = null;
-
-        try
-        {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-        }
-        catch (final NoSuchAlgorithmException ex)
-        {
-            try
-            {
-                messageDigest = MessageDigest.getInstance("MD5");
-            }
-            catch (final NoSuchAlgorithmException ex2)
-            {
-                throw new RuntimeException(ex2);
-            }
-        }
-
-        return messageDigest;
-    }
-
-    /**
      *
      */
     private final MessageDigest messageDigest;
@@ -66,6 +37,35 @@ public abstract class AbstractResourceCache implements ResourceCache
         super();
 
         this.messageDigest = createMessageDigest();
+    }
+
+    /**
+     * Erzeugt den MessageDigest für die Generierung des Keys.<br>
+     * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
+     *
+     * @return {@link MessageDigest}
+     */
+    protected MessageDigest createMessageDigest()
+    {
+        MessageDigest md = null;
+
+        try
+        {
+            md = MessageDigest.getInstance("SHA-256");
+        }
+        catch (final NoSuchAlgorithmException ex)
+        {
+            try
+            {
+                md = MessageDigest.getInstance("MD5");
+            }
+            catch (final NoSuchAlgorithmException ex2)
+            {
+                throw new RuntimeException(ex2);
+            }
+        }
+
+        return md;
     }
 
     /**
@@ -139,12 +139,42 @@ public abstract class AbstractResourceCache implements ResourceCache
      * @return {@link InputStream}
      * @throws Exception Falls was schief geht.
      */
-    protected InputStream loadInputStream(final URL url) throws Exception
+    protected InputStream toInputStream(final URL url) throws Exception
     {
         URLConnection connection = url.openConnection();
 
         try
         {
+            if (connection instanceof HttpURLConnection)
+            {
+                HttpURLConnection httpURLConnection = ((HttpURLConnection) connection);
+
+                // Verhindert HTTP 301 Moved Permanently. -> funktioniert aber nicht !
+                // httpURLConnection.setInstanceFollowRedirects(true);
+
+                int status = httpURLConnection.getResponseCode();
+
+                if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM)
+                        || (status == HttpURLConnection.HTTP_SEE_OTHER))
+                {
+                    // get redirect url from "location" header field
+                    String newUrl = httpURLConnection.getHeaderField("Location");
+
+                    // get the cookie if need, for login
+                    String cookies = httpURLConnection.getHeaderField("Set-Cookie");
+
+                    httpURLConnection.disconnect();
+
+                    httpURLConnection = (HttpURLConnection) new URL(newUrl).openConnection();
+                    httpURLConnection.setRequestProperty("Cookie", cookies);
+                    // conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
+                    // conn.addRequestProperty("User-Agent", "Mozilla");
+                    // conn.addRequestProperty("Referer", "google.com");
+                }
+
+                return httpURLConnection.getInputStream();
+            }
+
             return connection.getInputStream();
         }
         catch (IOException ex)

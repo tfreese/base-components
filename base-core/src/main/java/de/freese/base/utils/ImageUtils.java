@@ -511,11 +511,33 @@ public final class ImageUtils
      * Skaliert das Bild auf eine feste Größe.
      *
      * @param src {@link BufferedImage}
+     * @param width int
+     * @param height int
+     * @return {@link BufferedImage}
+     */
+    public static BufferedImage scaleImageAbsolut(final Image src, final int width, final int height)
+    {
+        // BufferedImage bufferedImage = toBufferedImage(src);
+
+        // double scaleX = ((double) width) / bufferedImage.getWidth();
+        // double scaleY = ((double) height) / bufferedImage.getHeight();
+        //
+        // return scaleImageByFactor(bufferedImage, scaleX, scaleY);
+
+        Image scaled = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+
+        return toBufferedImage(scaled);
+    }
+
+    /**
+     * Skaliert das Bild auf eine feste Größe über Faktoren.
+     *
+     * @param src {@link BufferedImage}
      * @param scaleX double
      * @param scaleY double
      * @return {@link BufferedImage}
      */
-    public static BufferedImage scaleImage(final BufferedImage src, final double scaleX, final double scaleY)
+    public static BufferedImage scaleImageByFactor(final BufferedImage src, final double scaleX, final double scaleY)
     {
         AffineTransform tx = new AffineTransform();
         tx.scale(scaleX, scaleY);
@@ -535,36 +557,18 @@ public final class ImageUtils
     }
 
     /**
-     * Skaliert das Bild auf eine feste Größe.
+     * Skaliert das Bild auf eine feste Größe über Faktoren.
      *
      * @param src {@link Image}
      * @param scaleX double
      * @param scaleY double
      * @return {@link BufferedImage}
      */
-    public static BufferedImage scaleImage(final Image src, final double scaleX, final double scaleY)
+    public static BufferedImage scaleImageByFactor(final Image src, final double scaleX, final double scaleY)
     {
         BufferedImage bufferedImage = toBufferedImage(src);
 
-        return scaleImage(bufferedImage, scaleX, scaleY);
-    }
-
-    /**
-     * Skaliert das Bild auf eine feste Größe.
-     *
-     * @param src {@link BufferedImage}
-     * @param width int
-     * @param height int
-     * @return {@link BufferedImage}
-     */
-    public static BufferedImage scaleImageAbsolut(final Image src, final int width, final int height)
-    {
-        BufferedImage bufferedImage = toBufferedImage(src);
-
-        double scaleX = ((double) width) / bufferedImage.getWidth();
-        double scaleY = ((double) height) / bufferedImage.getHeight();
-
-        return scaleImage(bufferedImage, scaleX, scaleY);
+        return scaleImageByFactor(bufferedImage, scaleX, scaleY);
     }
 
     /**
@@ -593,7 +597,7 @@ public final class ImageUtils
         double scaleX = (width == null ? aspectRatio * h : width.doubleValue()) / src.getWidth();
         double scaleY = (height == null ? w / aspectRatio : height.doubleValue()) / src.getHeight();
 
-        return scaleImage(src, scaleX, scaleY);
+        return scaleImageByFactor(src, scaleX, scaleY);
     }
 
     /**
@@ -611,15 +615,6 @@ public final class ImageUtils
         BufferedImage bufferedImage = toBufferedImage(src);
 
         return scaleImageRelative(bufferedImage, width, height);
-    }
-
-    /**
-     * @param image {@link Image}
-     * @return {@link BufferedImage}
-     */
-    public static BufferedImage scaleImageTo16x16(final Image image)
-    {
-        return scaleImageAbsolut(image, 16, 16);
     }
 
     /**
@@ -727,11 +722,12 @@ public final class ImageUtils
         }
 
         BufferedImage returnImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = returnImage.getGraphics();
+        Graphics graphics = returnImage.getGraphics();
+
         JLabel dummyLabel = new JLabel();
 
-        icon.paintIcon(dummyLabel, g, 0, 0);
-        g.dispose();
+        icon.paintIcon(dummyLabel, graphics, 0, 0);
+        graphics.dispose();
 
         return returnImage;
     }
@@ -753,11 +749,12 @@ public final class ImageUtils
 
         boolean hasAlpha = hasAlpha(image);
 
-        BufferedImage bimage = null;
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        BufferedImage bufferedImage = null;
 
         try
         {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
             int transparency = Transparency.OPAQUE;
 
             if (hasAlpha)
@@ -768,14 +765,14 @@ public final class ImageUtils
             GraphicsDevice gs = ge.getDefaultScreenDevice();
             GraphicsConfiguration gc = gs.getDefaultConfiguration();
 
-            bimage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparency);
+            bufferedImage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparency);
         }
         catch (HeadlessException ex)
         {
             // Keine GUI vorhanden
         }
 
-        if (bimage == null)
+        if (bufferedImage == null)
         {
             int type = BufferedImage.TYPE_INT_RGB;
 
@@ -784,15 +781,15 @@ public final class ImageUtils
                 type = BufferedImage.TYPE_INT_ARGB;
             }
 
-            bimage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
+            bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
         }
 
-        Graphics g = bimage.createGraphics();
+        Graphics graphics = bufferedImage.createGraphics();
 
-        g.drawImage(image, 0, 0, null);
-        g.dispose();
+        graphics.drawImage(image, 0, 0, null);
+        graphics.dispose();
 
-        return bimage;
+        return bufferedImage;
     }
 
     /**
