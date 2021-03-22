@@ -202,7 +202,7 @@ public class IconBorder implements Border, Serializable
      */
     public void setIcon(final Icon icon)
     {
-        this.icon = (icon == null) ? ImageUtils.getMissingIcon() : icon;
+        this.icon = (icon == null) ? ImageUtils.createMissingIcon() : icon;
         this.borderInsets = null;
         getIconButton().setIcon(this.icon);
 

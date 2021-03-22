@@ -6,13 +6,12 @@ package de.freese.base.core.cache;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.apache.commons.codec.binary.Hex;
@@ -72,12 +71,12 @@ public abstract class AbstractResourceCache implements ResourceCache
      * Erzeugt den Key auf dem Resource-Pfad.<br>
      * Die Bytes des MessageDigest werden dafür in einen Hex-String umgewandelt.
      *
-     * @param url {@link URL}
+     * @param uri {@link URI}
      * @return String
      */
-    protected String generateKey(final URL url)
+    protected String generateKey(final URI uri)
     {
-        String urlString = url.toString();
+        String urlString = uri.toString();
         byte[] digest = getMessageDigest().digest(urlString.getBytes(StandardCharsets.UTF_8));
         String hex = Hex.encodeHexString(digest, false);
 
@@ -85,45 +84,37 @@ public abstract class AbstractResourceCache implements ResourceCache
     }
 
     /**
-     * @param url {@link URL}
+     * @param uri {@link URI}
      * @return long
      * @throws IOException Falls was schief geht.
      */
-    protected long getContentLength(final URL url) throws IOException
+    protected long getContentLength(final URI uri) throws IOException
     {
-        String protocol = url.getProtocol();
+        String protocol = uri.getScheme();
 
         if ("file".equals(protocol))
         {
-            // Proceed with file system resolution
-            Path path = null;
-
-            try
-            {
-                path = Path.of(url.toURI());
-            }
-            catch (URISyntaxException ex)
-            {
-                // Fallback for URLs that are not valid URIs (should hardly ever happen).
-                path = Paths.get(url.getFile());
-            }
+            Path path = Path.of(uri);
 
             long length = Files.size(path);
 
             return length;
         }
-
-        // Try a URL connection content-length header
-        URLConnection con = url.openConnection();
-
-        if (con instanceof HttpURLConnection)
+        else if ("http".equals(protocol) || "https".equals(protocol))
         {
-            ((HttpURLConnection) con).setRequestMethod("HEAD");
+            URLConnection con = uri.toURL().openConnection();
+
+            if (con instanceof HttpURLConnection)
+            {
+                ((HttpURLConnection) con).setRequestMethod("HEAD");
+            }
+
+            long length = con.getContentLengthLong();
+
+            return length;
         }
 
-        long length = con.getContentLengthLong();
-
-        return length;
+        throw new IOException("unsupported protocol");
     }
 
     /**
@@ -135,13 +126,13 @@ public abstract class AbstractResourceCache implements ResourceCache
     }
 
     /**
-     * @param url {@link URL}
+     * @param uri {@link URI}
      * @return {@link InputStream}
      * @throws Exception Falls was schief geht.
      */
-    protected InputStream toInputStream(final URL url) throws Exception
+    protected InputStream toInputStream(final URI uri) throws Exception
     {
-        URLConnection connection = url.openConnection();
+        URLConnection connection = uri.toURL().openConnection();
 
         try
         {

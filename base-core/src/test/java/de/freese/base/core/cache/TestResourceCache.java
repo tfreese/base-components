@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
@@ -73,8 +73,8 @@ class TestResourceCache
      */
     static Stream<Arguments> createArgumentes() throws Exception
     {
-        URL urlLocalFile = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri().toURL();
-        URL urlHttpImage = new URL("http://www.freese-home.de/s/img/emotionheader.jpg");
+        URI urlLocalFile = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri();
+        URI urlHttpImage = URI.create("http://www.freese-home.de/s/img/emotionheader.jpg");
 
         // @formatter:off
         return Stream.of(
@@ -107,16 +107,16 @@ class TestResourceCache
     /**
      * @param name String
      * @param resourceCache {@link ResourceCache}
-     * @param url {@link URL}
+     * @param uri {@link URI}
      * @throws Exception Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     // @DisplayName("Test @MethodSource Argumented")
     @Order(1)
-    void testInitialLoad(final String name, final ResourceCache resourceCache, final URL url) throws Exception
+    void testInitialLoad(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
     {
-        Optional<InputStream> optional = resourceCache.getResource(url);
+        Optional<InputStream> optional = resourceCache.getResource(uri);
         assertNotNull(optional);
         assertNotNull(optional.get());
 
@@ -136,16 +136,16 @@ class TestResourceCache
     /**
      * @param name String
      * @param resourceCache {@link ResourceCache}
-     * @param url {@link URL}
+     * @param uri {@link URI}
      * @throws Exception Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     // @DisplayName("Test @MethodSource Argumented")
     @Order(2)
-    void testReload(final String name, final ResourceCache resourceCache, final URL url) throws Exception
+    void testReload(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
     {
-        Optional<InputStream> optional = resourceCache.getResource(url);
+        Optional<InputStream> optional = resourceCache.getResource(uri);
         assertNotNull(optional);
         assertNotNull(optional.get());
 

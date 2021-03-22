@@ -6,7 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -43,21 +43,22 @@ public class MemoryResourceCache extends AbstractResourceCache
     }
 
     /**
-     * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URL)
+     * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URI)
      */
     @Override
-    public Optional<InputStream> getResource(final URL url)
+    public Optional<InputStream> getResource(final URI uri)
     {
-        String key = generateKey(url);
+        String key = generateKey(uri);
         byte[] content = this.map.get(key);
 
         if (content == null)
         {
             try
             {
-                int size = (int) getContentLength(url);
+                int size = (int) getContentLength(uri);
+                // int size = 1024 * 16;
 
-                try (InputStream inputStream = toInputStream(url);
+                try (InputStream inputStream = toInputStream(uri);
                      ByteArrayOutputStream baos = new ByteArrayOutputStream(size))
                 {
                     inputStream.transferTo(baos);
@@ -72,6 +73,7 @@ public class MemoryResourceCache extends AbstractResourceCache
                     // }
 
                     content = baos.toByteArray();
+
                     this.map.put(key, content);
                 }
             }

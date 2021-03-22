@@ -4,15 +4,9 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.RenderingHints.Key;
 import java.awt.Toolkit;
-import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -29,13 +23,10 @@ import java.awt.image.PixelGrabber;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.GrayFilter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import de.freese.base.core.image.BlackWhiteOp;
 import de.freese.base.core.image.ImageFormat;
@@ -175,7 +166,7 @@ public final class ImageUtils
         {
             Graphics2D g2d = (Graphics2D) g.create();
 
-            g2d.addRenderingHints(RENDERING_HINTS);
+            g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
 
             g.setColor(Color.RED);
             g.translate(x, y);
@@ -285,7 +276,7 @@ public final class ImageUtils
         {
             Graphics2D g2d = (Graphics2D) g.create();
 
-            g2d.addRenderingHints(RENDERING_HINTS);
+            g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
             g2d.setColor(this.foreground);
             int centerX = this.width / 2;
             int centerY = this.height / 2;
@@ -346,24 +337,60 @@ public final class ImageUtils
     }
 
     /**
-     * Alle Icons in hoher Qualität.
+     * Erzeugt ein leeres Icon.
+     *
+     * @return {@link ImageIcon}, Ein 16x16 Pixel Icon ohne Inhalt
      */
-    private static final Map<Key, Object> RENDERING_HINTS = new HashMap<>();
-
-    static
+    public static ImageIcon createEmptyIcon()
     {
-        RENDERING_HINTS.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        return new EmptyIcon();
     }
 
     /**
-     * Konvertiert ein {@link BufferedImage} in ein {@link Image}.
+     * Erzeugt ein leeres Icon der Größe x mal y.
      *
-     * @param bufferedImage {@link BufferedImage}
-     * @return {@link Image}
+     * @param width int Breite
+     * @param height int Höhe
+     * @return {@link ImageIcon}, Ein Icon ohne Inhalt
      */
-    public static Image convertToImage(final BufferedImage bufferedImage)
+    public static ImageIcon createEmptyIcon(final int width, final int height)
     {
-        return Toolkit.getDefaultToolkit().createImage(bufferedImage.getSource());
+        return new EmptyIcon(width, height);
+    }
+
+    /**
+     * Erzeugt ein Missing-Icon.
+     *
+     * @return {@link ImageIcon}, Ein 16x16 Pixel Icon (Roter Kasten mit rotem X)
+     */
+    public static ImageIcon createMissingIcon()
+    {
+        return new MissingIcon();
+    }
+
+    /**
+     * Liefert ein TriangleIcon mit einer Größe von 16x16 Pixel und schwarzem Vordergrund.
+     *
+     * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
+     * @return {@link ImageIcon}
+     */
+    public static ImageIcon createTriangleIcon(final int direction)
+    {
+        return new Triangle(direction);
+    }
+
+    /**
+     * Liefert ein TriangleIcon.
+     *
+     * @param width int
+     * @param height int
+     * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
+     * @param foreground int
+     * @return {@link ImageIcon}
+     */
+    public static ImageIcon createTriangleIcon(final int width, final int height, final int direction, final Color foreground)
+    {
+        return new Triangle(width, height, direction, foreground);
     }
 
     /**
@@ -387,60 +414,16 @@ public final class ImageUtils
     }
 
     /**
-     * Erzeugt ein leeres Icon.
-     *
-     * @return {@link ImageIcon}, Ein 16x16 Pixel Icon ohne Inhalt
+     * @return {@link RenderingHints}
      */
-    public static ImageIcon getEmptyIcon()
+    public static RenderingHints getRenderingHintsQuality()
     {
-        return new EmptyIcon();
-    }
+        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        // hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    /**
-     * Erzeugt ein leeres Icon der Größe x mal y.
-     *
-     * @param width int Breite
-     * @param height int Höhe
-     * @return {@link ImageIcon}, Ein Icon ohne Inhalt
-     */
-    public static ImageIcon getEmptyIcon(final int width, final int height)
-    {
-        return new EmptyIcon(width, height);
-    }
-
-    /**
-     * Erzeugt ein Missing-Icon.
-     *
-     * @return {@link ImageIcon}, Ein 16x16 Pixel Icon (Roter Kasten mit rotem X)
-     */
-    public static ImageIcon getMissingIcon()
-    {
-        return new MissingIcon();
-    }
-
-    /**
-     * Liefert ein TriangleIcon mit einer Größe von 16x16 Pixel und schwarzem Vordergrund.
-     *
-     * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
-     * @return {@link ImageIcon}
-     */
-    public static ImageIcon getTriangleIcon(final int direction)
-    {
-        return new Triangle(direction);
-    }
-
-    /**
-     * Liefert ein TriangleIcon.
-     *
-     * @param width int
-     * @param height int
-     * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
-     * @param foreground int
-     * @return {@link ImageIcon}
-     */
-    public static ImageIcon getTriangleIcon(final int width, final int height, final int direction, final Color foreground)
-    {
-        return new Triangle(width, height, direction, foreground);
+        return hints;
     }
 
     /**
@@ -483,14 +466,14 @@ public final class ImageUtils
      */
     public static BufferedImage merge(final Image image, final Image overlay)
     {
-        int w = Math.max(image.getWidth(null), overlay.getWidth(null));
-        int h = Math.max(image.getHeight(null), overlay.getHeight(null));
+        int width = Math.max(image.getWidth(null), overlay.getWidth(null));
+        int height = Math.max(image.getHeight(null), overlay.getHeight(null));
 
-        BufferedImage merged = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage merged = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-        Graphics g = merged.getGraphics();
-        g.drawImage(image, 0, 0, null);
-        g.drawImage(overlay, 0, 0, null);
+        Graphics graphics = merged.getGraphics();
+        graphics.drawImage(image, 0, 0, null);
+        graphics.drawImage(overlay, 0, 0, null);
 
         return merged;
     }
@@ -515,106 +498,62 @@ public final class ImageUtils
      * @param height int
      * @return {@link BufferedImage}
      */
-    public static BufferedImage scaleImageAbsolut(final Image src, final int width, final int height)
+    public static BufferedImage scaleImage(final Image src, final int width, final int height)
     {
-        // BufferedImage bufferedImage = toBufferedImage(src);
-
-        // double scaleX = ((double) width) / bufferedImage.getWidth();
-        // double scaleY = ((double) height) / bufferedImage.getHeight();
-        //
-        // return scaleImageByFactor(bufferedImage, scaleX, scaleY);
-
         Image scaled = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
         return toBufferedImage(scaled);
     }
 
     /**
-     * Skaliert das Bild auf eine feste Größe über Faktoren.
+     * Skaliert das Bild auf die neuen Seitenverhältnisse.
      *
-     * @param src {@link BufferedImage}
-     * @param scaleX double
-     * @param scaleY double
+     * @param src {@link Image}
+     * @param ratioWidth double
+     * @param ratioHeight double
      * @return {@link BufferedImage}
      */
-    public static BufferedImage scaleImageByFactor(final BufferedImage src, final double scaleX, final double scaleY)
+    public static BufferedImage scaleImageByRatio(final Image src, final double ratioWidth, final double ratioHeight)
     {
+        BufferedImage bufferedImage = toBufferedImage(src);
+
         AffineTransform tx = new AffineTransform();
-        tx.scale(scaleX, scaleY);
+        tx.scale(ratioWidth, ratioHeight);
 
         // tx.shear(shiftx, shifty);
         // tx.translate(x, y);
         // tx.rotate(radians, origin.getWidth()/2, origin.getHeight()/2);
 
-        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        // hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints hints = getRenderingHintsQuality();
 
         AffineTransformOp op = new AffineTransformOp(tx, hints);
 
-        return op.filter(src, null);
+        return op.filter(bufferedImage, null);
     }
 
     /**
-     * Skaliert das Bild auf eine feste Größe über Faktoren.
+     * Skaliert das Bild unter Beibehaltung des Seitenverhältnisses bis auf die maximale angegebene Höhe oder Breite.
      *
      * @param src {@link Image}
-     * @param scaleX double
-     * @param scaleY double
+     * @param maxWidth int
+     * @param maxHeight int
      * @return {@link BufferedImage}
      */
-    public static BufferedImage scaleImageByFactor(final Image src, final double scaleX, final double scaleY)
+    public static BufferedImage scaleImageKeepRatio(final Image src, final int maxWidth, final int maxHeight)
     {
         BufferedImage bufferedImage = toBufferedImage(src);
 
-        return scaleImageByFactor(bufferedImage, scaleX, scaleY);
-    }
+        double widthRatio = (double) maxWidth / bufferedImage.getWidth();
+        double heightRatio = (double) maxHeight / bufferedImage.getHeight();
 
-    /**
-     * Skaliert das Image auf die gewählte Größe. <br>
-     * Ist entweder die Breite oder die Höhe <code>null</code> so wird der Wert anhand des Seitenverhältnisses des Originals berechnet. <br>
-     * Sind beide von <code>null</code> verschieden, wird das Seitenverhältnis ignoriert!
-     *
-     * @param src {@link BufferedImage}
-     * @param width {@link Integer} darf <code>null</code> sein.
-     * @param height {@link Integer} darf <code>null</code> sein.
-     * @return {@link BufferedImage}
-     */
-    public static BufferedImage scaleImageRelative(final BufferedImage src, final Integer width, final Integer height)
-    {
-        if ((width == null) && (height == null))
-        {
-            throw new IllegalArgumentException("Either width or height must not be null!");
-        }
+        double ratio = Math.min(widthRatio, heightRatio);
 
-        double w = width == null ? 1.0D : width.intValue();
-        double h = height == null ? 1.0D : height.intValue();
+        return scaleImageByRatio(bufferedImage, ratio, ratio);
 
-        // Seitenverhaeltnis
-        double aspectRatio = ((double) src.getWidth()) / ((double) src.getHeight());
-
-        double scaleX = (width == null ? aspectRatio * h : width.doubleValue()) / src.getWidth();
-        double scaleY = (height == null ? w / aspectRatio : height.doubleValue()) / src.getHeight();
-
-        return scaleImageByFactor(src, scaleX, scaleY);
-    }
-
-    /**
-     * Skaliert das Image auf die gewählte Größe. <br>
-     * Ist entweder die Breite oder die Höhe <code>null</code> so wird der Wert anhand des Seitenverhältnisses des Originals berechnet. <br>
-     * Sind beide von <code>null</code> verschieden, wird das Seitenverhältnis ignoriert!
-     *
-     * @param src {@link Image}
-     * @param width {@link Integer} darf <code>null</code> sein.
-     * @param height {@link Integer} darf <code>null</code> sein.
-     * @return {@link BufferedImage}
-     */
-    public static BufferedImage scaleImageRelative(final Image src, final Integer width, final Integer height)
-    {
-        BufferedImage bufferedImage = toBufferedImage(src);
-
-        return scaleImageRelative(bufferedImage, width, height);
+        // double newWidth = bufferedImage.getWidth() * ratio;
+        // double newHeight = bufferedImage.getHeight() * ratio;
+        //
+        // return scaleImage(bufferedImage, (int) newWidth, (int) newHeight);
     }
 
     /**
@@ -724,9 +663,7 @@ public final class ImageUtils
         BufferedImage returnImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = returnImage.getGraphics();
 
-        JLabel dummyLabel = new JLabel();
-
-        icon.paintIcon(dummyLabel, graphics, 0, 0);
+        icon.paintIcon(null, graphics, 0, 0);
         graphics.dispose();
 
         return returnImage;
@@ -745,46 +682,49 @@ public final class ImageUtils
             return (BufferedImage) image;
         }
 
-        // Image m_Image = new ImageIcon(image).getImage();
-
-        boolean hasAlpha = hasAlpha(image);
-
         BufferedImage bufferedImage = null;
 
-        try
-        {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        // boolean hasAlpha = hasAlpha(image);
+        //
+        // try
+        // {
+        // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        //
+        // int transparency = Transparency.OPAQUE;
+        //
+        // if (hasAlpha)
+        // {
+        // transparency = Transparency.BITMASK;
+        // }
+        //
+        // GraphicsDevice gs = ge.getDefaultScreenDevice();
+        // GraphicsConfiguration gc = gs.getDefaultConfiguration();
+        //
+        // bufferedImage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparency);
+        // }
+        // catch (HeadlessException ex)
+        // {
+        // // Keine GUI vorhanden
+        // }
+        //
+        // if (bufferedImage == null)
+        // {
+        // int type = BufferedImage.TYPE_INT_RGB;
+        //
+        // if (hasAlpha)
+        // {
+        // type = BufferedImage.TYPE_INT_ARGB;
+        // }
+        //
+        // bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
+        // }
 
-            int transparency = Transparency.OPAQUE;
+        bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
-            if (hasAlpha)
-            {
-                transparency = Transparency.BITMASK;
-            }
+        RenderingHints hints = getRenderingHintsQuality();
 
-            GraphicsDevice gs = ge.getDefaultScreenDevice();
-            GraphicsConfiguration gc = gs.getDefaultConfiguration();
-
-            bufferedImage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparency);
-        }
-        catch (HeadlessException ex)
-        {
-            // Keine GUI vorhanden
-        }
-
-        if (bufferedImage == null)
-        {
-            int type = BufferedImage.TYPE_INT_RGB;
-
-            if (hasAlpha)
-            {
-                type = BufferedImage.TYPE_INT_ARGB;
-            }
-
-            bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
-        }
-
-        Graphics graphics = bufferedImage.createGraphics();
+        Graphics2D graphics = bufferedImage.createGraphics();
+        graphics.setRenderingHints(hints);
 
         graphics.drawImage(image, 0, 0, null);
         graphics.dispose();

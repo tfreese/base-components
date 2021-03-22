@@ -126,7 +126,7 @@ class TestReactiveJdbc
     void testFlowResultSetPublisher() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.subscriberForAll()");
+        System.out.println("TestReactiveJdbc.testFlowResultSetPublisher()");
 
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -148,7 +148,7 @@ class TestReactiveJdbc
     void testFlowResultSetPublisherForEachObject() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.subscriberForEachObject()");
+        System.out.println("TestReactiveJdbc.testFlowResultSetPublisherForEachObject()");
 
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -170,7 +170,7 @@ class TestReactiveJdbc
     void testFlowResultSetPublisherForFetchSize() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.subscriberForFetchSize()");
+        System.out.println("TestReactiveJdbc.testFlowResultSetPublisherForFetchSize()");
 
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
@@ -192,7 +192,7 @@ class TestReactiveJdbc
     void testFluxResultSetIterable() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.flux()");
+        System.out.println("TestReactiveJdbc.testFluxResultSetIterable()");
 
         List<Person> result = new ArrayList<>();
 
@@ -223,7 +223,7 @@ class TestReactiveJdbc
     void testFluxResultSetIterableParallel() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.fluxParallel()");
+        System.out.println("TestReactiveJdbc.testFluxResultSetIterableParallel()");
 
         List<Person> result = new ArrayList<>();
 
@@ -259,7 +259,7 @@ class TestReactiveJdbc
     void testStreamResultSetIterable() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamIterable()");
+        System.out.println("TestReactiveJdbc.testStreamResultSetIterable()");
 
         List<Person> result = new ArrayList<>();
 
@@ -291,7 +291,7 @@ class TestReactiveJdbc
     void testStreamResultSetIterableParallel() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamIterableParallel()");
+        System.out.println("TestReactiveJdbc.testStreamResultSetIterableParallel()");
 
         List<Person> result = new ArrayList<>();
 
@@ -323,7 +323,7 @@ class TestReactiveJdbc
     void testStreamResultSetIterator() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamIterator()");
+        System.out.println("TestReactiveJdbc.testStreamResultSetIterator()");
 
         List<Person> result = new ArrayList<>();
 
@@ -358,7 +358,7 @@ class TestReactiveJdbc
     void testStreamResultSetIteratorParallel() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamIteratorParallel()");
+        System.out.println("TestReactiveJdbc.testStreamResultSetIteratorParallel()");
 
         List<Person> result = new ArrayList<>();
 
@@ -393,7 +393,7 @@ class TestReactiveJdbc
     void testStreamResultSetSpliterator() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamSpliterator()");
+        System.out.println("TestReactiveJdbc.testStreamResultSetSpliterator()");
 
         List<Person> result = new ArrayList<>();
 
@@ -425,7 +425,7 @@ class TestReactiveJdbc
     void testStreamResultSetSpliteratorParallel() throws SQLException
     {
         System.out.println();
-        System.out.println("TestReactiveJdbc.streamSpliteratorParallel()");
+        System.out.println("TestReactiveJdbc.testStreamResultSetSpliteratorParallel()");
 
         List<Person> result = new ArrayList<>();
 

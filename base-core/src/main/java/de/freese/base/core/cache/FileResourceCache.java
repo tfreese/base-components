@@ -4,7 +4,7 @@ package de.freese.base.core.cache;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -119,12 +119,12 @@ public class FileResourceCache extends AbstractResourceCache
     }
 
     /**
-     * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URL)
+     * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URI)
      */
     @Override
-    public Optional<InputStream> getResource(final URL url)
+    public Optional<InputStream> getResource(final URI uri)
     {
-        String key = generateKey(url);
+        String key = generateKey(uri);
 
         // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
         Path path = Paths.get(key.substring(0, 2));
@@ -146,9 +146,9 @@ public class FileResourceCache extends AbstractResourceCache
                 Files.createDirectories(path.getParent());
             }
 
-            if (!Files.isReadable(path))
+            if (!Files.exists(path) || !Files.isReadable(path))
             {
-                try (InputStream inputStream = toInputStream(url))
+                try (InputStream inputStream = toInputStream(uri))
                 {
                     Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
                 }
@@ -168,37 +168,5 @@ public class FileResourceCache extends AbstractResourceCache
         {
             throw new RuntimeException(ex);
         }
-
-//        //@formatter:off
-//        return Stream.of(url)
-//                .map(this::generateKey)
-//                .map(this.cacheDirectory::resolve)
-//                .map(path -> {
-//                    try
-//                    {
-//                        if (!Files.isReadable(path))
-//                        {
-//                            try (InputStream inputStream = toInputStream(url))
-//                            {
-//                                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-//                            }
-//                        }
-//
-//                        return Files.newInputStream(path, StandardOpenOption.READ);
-//                    }
-//                    catch (final IOException ex)
-//                    {
-//                        throw new UncheckedIOException(ex);
-//                    }
-//                    catch (RuntimeException ex)
-//                    {
-//                        throw ex;
-//                    }
-//                    catch (final Exception ex)
-//                    {
-//                        throw new RuntimeException(ex);
-//                    }
-//                }).findFirst();
-//        //@formatter:on
     }
 }

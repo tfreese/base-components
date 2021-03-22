@@ -73,7 +73,7 @@ public class BusySanduhrLabel extends JLabel
         super(text);
 
         this.icons = WaitIcons.getWaitIcons();
-        setIcon(ImageUtils.getEmptyIcon());
+        setIcon(ImageUtils.createEmptyIcon());
 
         this.animateTimer = new Timer(150, e -> {
             BusySanduhrLabel.this.imageIndex++;

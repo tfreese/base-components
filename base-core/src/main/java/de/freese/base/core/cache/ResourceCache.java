@@ -4,8 +4,8 @@
 package de.freese.base.core.cache;
 
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
@@ -35,32 +35,26 @@ public interface ResourceCache extends Function<URL, Optional<InputStream>>
     /**
      * Laden der Resource, wenn nicht vorhanden.
      *
-     * @param url String; file://...; http://...
+     * @param uri {@link URI}; file://...; http://...
      * @return {@link Optional}
-     * @throws MalformedURLException Falls was schief geht.
      */
-    public default Optional<InputStream> getResource(final String url) throws MalformedURLException
-    {
-        return getResource(new URL(url));
-    }
-
-    /**
-     * Laden der Resource, wenn nicht vorhanden..
-     *
-     * @param uri {@link URI}
-     * @return {@link Optional}
-     * @throws MalformedURLException Falls was schief geht.
-     */
-    public default Optional<InputStream> getResource(final URI uri) throws MalformedURLException
-    {
-        return getResource(uri.toURL());
-    }
+    public Optional<InputStream> getResource(final URI uri);
 
     /**
      * Laden der Resource, wenn nicht vorhanden.
      *
-     * @param url {@link URL}
+     * @param url {@link URL}; file://...; http://...
      * @return {@link Optional}
      */
-    public Optional<InputStream> getResource(final URL url);
+    public default Optional<InputStream> getResource(final URL url)
+    {
+        try
+        {
+            return getResource(url.toURI());
+        }
+        catch (URISyntaxException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    }
 }

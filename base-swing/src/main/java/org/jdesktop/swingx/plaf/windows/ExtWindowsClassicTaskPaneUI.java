@@ -91,7 +91,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
 
                 if (button.getIcon() == null)
                 {
-                    button.setIcon(ImageUtils.getMissingIcon());
+                    button.setIcon(ImageUtils.createMissingIcon());
                 }
 
                 Icon icon = button.getIcon();
