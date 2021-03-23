@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -16,6 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
+
 import de.freese.base.swing.components.tree.lazy.AbstractLazyLoadingTreeNode;
 import de.freese.base.swing.components.tree.lazy.LazyLoadingTreeController;
 import de.freese.base.utils.TreeUtils;
@@ -32,7 +34,7 @@ public class LazyLoadingTreeFrame extends JFrame
      *
      * @author Thomas Freese
      */
-    private static class TestLazyLoadingTreeNode extends AbstractLazyLoadingTreeNode
+    private static class LazyLoadingTreeNode extends AbstractLazyLoadingTreeNode
     {
         /**
          *
@@ -40,12 +42,12 @@ public class LazyLoadingTreeFrame extends JFrame
         private static final long serialVersionUID = -3561718904179675230L;
 
         /**
-         * Erstellt ein neues {@link TestLazyLoadingTreeNode} Object.
+         * Erstellt ein neues {@link LazyLoadingTreeNode} Object.
          *
          * @param userObject Object
          * @param model {@link DefaultTreeModel}
          */
-        public TestLazyLoadingTreeNode(final Object userObject, final DefaultTreeModel model)
+        public LazyLoadingTreeNode(final Object userObject, final DefaultTreeModel model)
         {
             super(userObject, model);
         }
@@ -60,7 +62,7 @@ public class LazyLoadingTreeFrame extends JFrame
 
             for (int i = 0; i < childs.length; i++)
             {
-                childs[i] = new TestLazyLoadingTreeNode("Node " + (i + 1), getModel());
+                childs[i] = new LazyLoadingTreeNode("Node " + (i + 1), getModel());
 
                 try
                 {
@@ -68,7 +70,7 @@ public class LazyLoadingTreeFrame extends JFrame
                 }
                 catch (InterruptedException ex)
                 {
-                    // Ignore
+                    Thread.currentThread().interrupt();
                 }
             }
 
@@ -104,7 +106,7 @@ public class LazyLoadingTreeFrame extends JFrame
 
         for (int i = 0; i < 5; i++)
         {
-            rootNode.add(new TestLazyLoadingTreeNode("Node " + (i + 1), model));
+            rootNode.add(new LazyLoadingTreeNode("Node " + (i + 1), model));
         }
 
         tree.setModel(model);

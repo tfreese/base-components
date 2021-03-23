@@ -6,6 +6,7 @@ package de.freese.base.core.throttle.google;
 
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeUnit;
+
 import de.freese.base.core.throttle.Throttle;
 
 /**
@@ -190,6 +191,7 @@ public interface GoogleThrottle extends Throttle
         catch (InterruptedException ex)
         {
             Thread.currentThread().interrupt();
+
             throw new CompletionException(ex);
         }
     }

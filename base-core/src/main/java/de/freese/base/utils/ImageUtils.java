@@ -23,11 +23,13 @@ import java.awt.image.PixelGrabber;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
 import javax.swing.GrayFilter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+
 import de.freese.base.core.image.BlackWhiteOp;
 import de.freese.base.core.image.ImageFormat;
 
@@ -449,7 +451,7 @@ public final class ImageUtils
         }
         catch (InterruptedException ex)
         {
-            // Empty
+            Thread.currentThread().interrupt();
         }
 
         ColorModel cm = pg.getColorModel();
