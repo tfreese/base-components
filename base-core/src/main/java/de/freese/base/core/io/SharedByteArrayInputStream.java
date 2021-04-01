@@ -3,6 +3,7 @@ package de.freese.base.core.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 /**
  * @author Thomas Freese
@@ -47,11 +48,21 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
     }
 
     /**
+     * Kapselt das interne ByteArray.
+     *
+     * @return {@link ByteBuffer}
+     */
+    public ByteBuffer toByteBuffer()
+    {
+        return ByteBuffer.wrap(this.buf, 0, this.count);
+    }
+
+    /**
      * @param start long
      * @param end long
      * @return {@link InputStream}
      */
-    public InputStream newStream(final long start, long end)
+    public InputStream toStream(final long start, long end)
     {
         if (start < 0)
         {

@@ -31,7 +31,7 @@ public class SharedByteArrayOutputStream extends ByteArrayOutputStream
     }
 
     /**
-     * Kapselt das ByteArray.
+     * Kapselt das interne ByteArray.
      *
      * @return {@link ByteBuffer}
      */
