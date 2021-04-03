@@ -3,17 +3,20 @@ package de.freese.base.core.concurrent;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import io.github.artsok.RepeatedIfExceptionsTest;
 
 /**
@@ -26,7 +29,7 @@ class TestCompletableFuture
     /**
      *
      */
-    private static ExecutorService executorService = null;
+    private static ExecutorService executorService;
 
     /**
      * Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
