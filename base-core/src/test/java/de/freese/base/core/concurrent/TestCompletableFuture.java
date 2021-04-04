@@ -7,23 +7,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import de.freese.base.utils.ExecutorUtils;
 import io.github.artsok.RepeatedIfExceptionsTest;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@Disabled // Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).
+// @Disabled("Reproduziert auf Console nicht immer eindeutige Ergebnisse (flaky tests).")
 class TestCompletableFuture
 {
     /**
@@ -42,41 +40,7 @@ class TestCompletableFuture
     @AfterAll
     static void afterAll()
     {
-        executorService.shutdown();
-
-        try
-        {
-            // Wait a while for existing tasks to terminate.
-            if (!executorService.awaitTermination(3, TimeUnit.SECONDS))
-            {
-                System.out.println("Timed out while waiting for executorService");
-
-                // Cancel currently executing tasks.
-                for (Runnable remainingTask : executorService.shutdownNow())
-                {
-                    if (remainingTask instanceof Future)
-                    {
-                        ((Future<?>) remainingTask).cancel(true);
-                    }
-                }
-
-                // Wait a while for tasks to respond to being cancelled
-                if (!executorService.awaitTermination(3, TimeUnit.SECONDS))
-                {
-                    System.out.println("Pool did not terminate");
-                }
-            }
-        }
-        catch (InterruptedException iex)
-        {
-            System.out.println("Interrupted while waiting for executorService");
-
-            // (Re-)Cancel if current thread also interrupted.
-            executorService.shutdownNow();
-
-            // Preserve interrupt status.
-            Thread.currentThread().interrupt();
-        }
+        ExecutorUtils.shutdown(executorService);
     }
 
     /**
@@ -96,24 +60,8 @@ class TestCompletableFuture
     {
         String threadName = Thread.currentThread().getName();
         System.out.println(threadName);
-        // sleep();
 
         return threadName;
-    }
-
-    /**
-     *
-     */
-    void sleep()
-    {
-        try
-        {
-            TimeUnit.MILLISECONDS.sleep(100);
-        }
-        catch (Exception ex)
-        {
-            System.err.println(ex.getMessage());
-        }
     }
 
     /**
@@ -121,8 +69,10 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test010RunAsyncThenAccept() throws Exception
     {
+        String currentThreadName = getCurrentThreadName();
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
@@ -134,9 +84,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameRun.get().startsWith("pool"));
-        assertEquals("main", threadNameThen.get());
-        assertNotEquals(threadNameRun.get(), threadNameThen.get());
+        assertTrue(threadNameRun.get().startsWith("pool"), threadNameRun.get() + " not starts with 'pool'");
+        assertEquals(currentThreadName, threadNameThen.get(), currentThreadName + " != " + threadNameThen.get());
+        assertNotEquals(threadNameRun.get(), threadNameThen.get(), threadNameRun.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -144,6 +94,7 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test011RunAsyncThenAcceptAsync() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
@@ -157,9 +108,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameRun.get().startsWith("pool"));
-        assertTrue(threadNameThen.get().startsWith("pool"));
-        assertNotEquals(threadNameRun.get(), threadNameThen.get());
+        assertTrue(threadNameRun.get().startsWith("pool"), threadNameRun.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen.get().startsWith("pool"), threadNameThen.get() + " not starts with 'pool'");
+        assertNotEquals(threadNameRun.get(), threadNameThen.get(), threadNameRun.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -167,8 +118,10 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test012RunAsyncThenApply() throws Exception
     {
+        String currentThreadName = getCurrentThreadName();
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
@@ -181,9 +134,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameRun.get().startsWith("pool"));
-        assertEquals("main", threadNameThen.get());
-        assertNotEquals(threadNameRun.get(), threadNameThen.get());
+        assertTrue(threadNameRun.get().startsWith("pool"), threadNameRun.get() + " not starts with 'pool'");
+        assertEquals(currentThreadName, threadNameThen.get(), currentThreadName + " != " + threadNameThen.get());
+        assertNotEquals(threadNameRun.get(), threadNameThen.get(), threadNameRun.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -191,6 +144,7 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test013RunAsyncThenApplyAsync() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
@@ -205,9 +159,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameRun.get().startsWith("pool"));
-        assertTrue(threadNameThen.get().startsWith("pool"));
-        assertNotEquals(threadNameRun.get(), threadNameThen.get());
+        assertTrue(threadNameRun.get().startsWith("pool"), threadNameRun.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen.get().startsWith("pool"), threadNameThen.get() + " not starts with 'pool'");
+        assertNotEquals(threadNameRun.get(), threadNameThen.get(), threadNameRun.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -215,8 +169,10 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test014RunAsyncThenRun() throws Exception
     {
+        String currentThreadName = getCurrentThreadName();
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
@@ -228,9 +184,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameRun.get().startsWith("pool"));
-        assertEquals("main", threadNameThen.get());
-        assertNotEquals(threadNameRun.get(), threadNameThen.get());
+        assertTrue(threadNameRun.get().startsWith("pool"), threadNameRun.get() + " not starts with 'pool'");
+        assertEquals(currentThreadName, threadNameThen.get(), currentThreadName + " != " + threadNameThen.get());
+        assertNotEquals(threadNameRun.get(), threadNameThen.get(), threadNameRun.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -238,6 +194,7 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test015RunAsyncThenRunAsync() throws Exception
     {
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
@@ -251,9 +208,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameRun.get().startsWith("pool"));
-        assertTrue(threadNameThen.get().startsWith("pool"));
-        assertNotEquals(threadNameRun.get(), threadNameThen.get());
+        assertTrue(threadNameRun.get().startsWith("pool"), threadNameRun.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen.get().startsWith("pool"), threadNameThen.get() + " not starts with 'pool'");
+        assertNotEquals(threadNameRun.get(), threadNameThen.get(), threadNameRun.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -261,8 +218,10 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test020SupplyAsyncThenAccept() throws Exception
     {
+        String currentThreadName = getCurrentThreadName();
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
@@ -275,9 +234,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameSupply.get().startsWith("pool"));
-        assertEquals("main", threadNameThen.get());
-        assertNotEquals(threadNameSupply.get(), threadNameThen.get());
+        assertTrue(threadNameSupply.get().startsWith("pool"), threadNameSupply.get() + " not starts with 'pool'");
+        assertEquals(currentThreadName, threadNameThen.get(), currentThreadName + " != " + threadNameThen.get());
+        assertNotEquals(threadNameSupply.get(), threadNameThen.get(), threadNameSupply.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -285,6 +244,7 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test021SupplyAsyncThenAcceptAsync() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
@@ -299,9 +259,9 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameSupply.get().startsWith("pool"));
-        assertTrue(threadNameThen.get().startsWith("pool"));
-        assertNotEquals(threadNameSupply.get(), threadNameThen.get());
+        assertTrue(threadNameSupply.get().startsWith("pool"), threadNameSupply.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen.get().startsWith("pool"), threadNameThen.get() + " not starts with 'pool'");
+        assertNotEquals(threadNameSupply.get(), threadNameThen.get(), threadNameSupply.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -309,8 +269,10 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test022SupplyAsyncThenApplyThenAccept() throws Exception
     {
+        String currentThreadName = getCurrentThreadName();
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
         AtomicReference<String> threadNameThen2 = new AtomicReference<>("");
@@ -327,10 +289,10 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameSupply.get().startsWith("pool"));
-        assertEquals("main", threadNameThen.get());
-        assertEquals("main", threadNameThen2.get());
-        assertNotEquals(threadNameSupply.get(), threadNameThen.get());
+        assertTrue(threadNameSupply.get().startsWith("pool"), threadNameSupply.get() + " not starts with 'pool'");
+        assertEquals(currentThreadName, threadNameThen.get(), currentThreadName + " != " + threadNameThen.get());
+        assertEquals(currentThreadName, threadNameThen2.get(), currentThreadName + " != " + threadNameThen2.get());
+        assertNotEquals(threadNameSupply.get(), threadNameThen.get(), threadNameSupply.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -338,8 +300,10 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test023SupplyAsyncThenApplyAsyncThenAccept() throws Exception
     {
+        String currentThreadName = getCurrentThreadName();
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
         AtomicReference<String> threadNameThen2 = new AtomicReference<>("");
@@ -356,10 +320,10 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameSupply.get().startsWith("pool"));
-        assertTrue(threadNameThen.get().startsWith("pool"));
-        assertEquals("main", threadNameThen2.get());
-        assertNotEquals(threadNameSupply.get(), threadNameThen.get());
+        assertTrue(threadNameSupply.get().startsWith("pool"), threadNameSupply.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen.get().startsWith("pool"), threadNameThen.get() + " not starts with 'pool'");
+        assertEquals(currentThreadName, threadNameThen2.get(), currentThreadName + " != " + threadNameThen2.get());
+        assertNotEquals(threadNameSupply.get(), threadNameThen.get(), threadNameSupply.get() + " != " + threadNameThen.get());
     }
 
     /**
@@ -367,6 +331,7 @@ class TestCompletableFuture
      */
     // @RepeatedTest(TEST_REPEATS)
     @RepeatedIfExceptionsTest(repeats = TEST_REPEATS)
+    // @Test
     void test024SupplyAsyncThenApplyAsyncThenAcceptAsync() throws Exception
     {
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
@@ -385,11 +350,11 @@ class TestCompletableFuture
 
         cf.get();
 
-        assertTrue(threadNameSupply.get().startsWith("pool"));
-        assertTrue(threadNameThen.get().startsWith("pool"));
-        assertTrue(threadNameThen2.get().startsWith("pool"));
-        assertNotEquals(threadNameSupply.get(), threadNameThen.get());
-        assertNotEquals(threadNameSupply.get(), threadNameThen2.get());
-        assertNotEquals(threadNameThen.get(), threadNameThen2.get());
+        assertTrue(threadNameSupply.get().startsWith("pool"), threadNameSupply.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen.get().startsWith("pool"), threadNameThen.get() + " not starts with 'pool'");
+        assertTrue(threadNameThen2.get().startsWith("pool"), threadNameThen2.get() + " not starts with 'pool'");
+        assertNotEquals(threadNameSupply.get(), threadNameThen.get(), threadNameSupply.get() + " != " + threadNameThen.get());
+        assertNotEquals(threadNameSupply.get(), threadNameThen2.get(), threadNameSupply.get() + " != " + threadNameThen2.get());
+        assertNotEquals(threadNameThen.get(), threadNameThen2.get(), threadNameThen.get() + " != " + threadNameThen2.get());
     }
 }

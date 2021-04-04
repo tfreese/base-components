@@ -2,6 +2,7 @@
 package de.freese.base.core.reactive;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,9 +12,11 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.util.concurrent.SubmissionPublisher;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -183,11 +186,13 @@ class StreamPublisherTest
     static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
 
     /**
-     *
+     * @throws Exception Falls was schief geht.
      */
     @AfterAll
-    static void afterAll()
+    static void afterAll() throws Exception
     {
+        TimeUnit.MILLISECONDS.sleep(500);
+
         if (EXECUTOR instanceof ExecutorService)
         {
             ((ExecutorService) EXECUTOR).shutdown();

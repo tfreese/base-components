@@ -1,7 +1,6 @@
 // Created: 03.04.2021
 package de.freese.base.core.concurrent.pool;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,13 +47,13 @@ class TestSharedExecutor
     }
 
     /**
-     * @param seconds int
+     *
      */
-    private static void sleep(final int seconds)
+    private static void sleep()
     {
         try
         {
-            TimeUnit.SECONDS.sleep(seconds);
+            TimeUnit.MILLISECONDS.sleep(500);
         }
         catch (InterruptedException ex)
         {
@@ -65,13 +64,13 @@ class TestSharedExecutor
     /**
      * @param maxThreads int
      */
-    private void maxThreadUsed(final int maxThreads)
+    private void execute(final int maxThreads)
     {
         System.out.println();
 
         SharedExecutor sharedExecutor = new SharedExecutor(executorService, maxThreads);
 
-        Runnable task = () -> sleep(2);
+        Runnable task = () -> sleep();
 
         IntStream.range(0, 10).forEach(i -> sharedExecutor.execute(task));
 
@@ -84,11 +83,38 @@ class TestSharedExecutor
                 break;
             }
 
-            sleep(2);
+            sleep();
         }
 
         sharedExecutor.execute(task);
-        assertEquals(1, sharedExecutor.getActiveTasks());
+        assertTrue(sharedExecutor.getActiveTasks() <= maxThreads);
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testExecute1Thread()
+    {
+        execute(1);
+    }
+
+    /**
+     *
+     */
+    @Test
+    void testExecute2Thread()
+    {
+        execute(2);
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testExecute4Thread()
+    {
+        execute(4);
     }
 
     /**
@@ -100,32 +126,5 @@ class TestSharedExecutor
         assertThrows(NullPointerException.class, () -> new SharedExecutor(null, 1));
         assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, 0));
         assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, -1));
-    }
-
-    /**
-    *
-    */
-    @Test
-    void testMax1ThreadUsed()
-    {
-        maxThreadUsed(1);
-    }
-
-    /**
-     *
-     */
-    @Test
-    void testMax2ThreadUsed()
-    {
-        maxThreadUsed(2);
-    }
-
-    /**
-    *
-    */
-    @Test
-    void testMax4ThreadUsed()
-    {
-        maxThreadUsed(4);
     }
 }
