@@ -48,7 +48,7 @@ public class SimpleThreadFactory implements ThreadFactory
     /**
      * Erstellt ein neues {@link SimpleThreadFactory} Object.
      *
-     * @param namePattern String; Example: 'thread-%02d'
+     * @param namePattern String; Example: "thread-%02d"
      * @param daemon boolean
      */
     public SimpleThreadFactory(final String namePattern, final boolean daemon)

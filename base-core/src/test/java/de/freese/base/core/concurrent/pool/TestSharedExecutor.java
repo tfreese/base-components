@@ -29,10 +29,10 @@ class TestSharedExecutor
     private static ExecutorService executorService;
 
     /**
-    *
-    */
+     * @throws Exception Falls was schief geht.
+     */
     @AfterAll
-    static void afterAll()
+    static void afterAll() throws Exception
     {
         ExecutorUtils.shutdown(executorService);
     }
@@ -68,9 +68,12 @@ class TestSharedExecutor
     {
         System.out.println();
 
-        SharedExecutor sharedExecutor = new SharedExecutor(executorService, maxThreads);
+        SharedExecutor sharedExecutor = new SharedExecutor(executorService, maxThreads, "sharedthread-%d");
 
-        Runnable task = () -> sleep();
+        Runnable task = () -> {
+            System.out.println(Thread.currentThread().getName());
+            sleep();
+        };
 
         IntStream.range(0, 10).forEach(i -> sharedExecutor.execute(task));
 
@@ -123,8 +126,8 @@ class TestSharedExecutor
     @Test
     void testInvalidParameter()
     {
-        assertThrows(NullPointerException.class, () -> new SharedExecutor(null, 1));
-        assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, 0));
-        assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, -1));
+        assertThrows(NullPointerException.class, () -> new SharedExecutor(null, 1, "%d"));
+        assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, 0, "%d"));
+        assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, -1, "%d"));
     }
 }

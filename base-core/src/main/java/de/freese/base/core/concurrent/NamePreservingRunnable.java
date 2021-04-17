@@ -1,6 +1,7 @@
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,10 +78,7 @@ public class NamePreservingRunnable implements Runnable
         }
         catch (SecurityException sex)
         {
-            if (LOGGER.isWarnEnabled())
-            {
-                LOGGER.warn("Failed to set the thread name.", sex);
-            }
+            LOGGER.warn("Failed to set the thread name.", sex);
         }
     }
 }

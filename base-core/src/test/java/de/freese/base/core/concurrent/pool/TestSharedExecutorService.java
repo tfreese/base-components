@@ -71,9 +71,12 @@ class TestSharedExecutorService
     {
         System.out.println();
 
-        SharedExecutorService sharedExecutorService = new SharedExecutorService(executorService, maxThreads);
+        SharedExecutorService sharedExecutorService = new SharedExecutorService(executorService, maxThreads, "sharedthread-%d");
 
-        Runnable task = () -> sleep();
+        Runnable task = () -> {
+            System.out.println(Thread.currentThread().getName());
+            sleep();
+        };
 
         IntStream.range(0, 10).forEach(i -> sharedExecutorService.execute(task));
 
@@ -113,9 +116,10 @@ class TestSharedExecutorService
     {
         System.out.println();
 
-        SharedExecutorService sharedExecutorService = new SharedExecutorService(executorService, maxThreads);
+        SharedExecutorService sharedExecutorService = new SharedExecutorService(executorService, maxThreads, "sharedthread-%d");
 
         Callable<Void> task = () -> {
+            System.out.println(Thread.currentThread().getName());
             sleep();
             return null;
         };
@@ -170,9 +174,9 @@ class TestSharedExecutorService
     @Test
     void testInvalidParameter()
     {
-        assertThrows(NullPointerException.class, () -> new SharedExecutorService(null, 1));
-        assertThrows(IllegalArgumentException.class, () -> new SharedExecutorService(executorService, 0));
-        assertThrows(IllegalArgumentException.class, () -> new SharedExecutorService(executorService, -1));
+        assertThrows(NullPointerException.class, () -> new SharedExecutorService(null, 1, "%d"));
+        assertThrows(IllegalArgumentException.class, () -> new SharedExecutorService(executorService, 0, "%d"));
+        assertThrows(IllegalArgumentException.class, () -> new SharedExecutorService(executorService, -1, "%d"));
     }
 
     /**
@@ -208,7 +212,7 @@ class TestSharedExecutorService
     @Test
     void testUnsupportedMethods()
     {
-        SharedExecutorService sharedExecutorService = new SharedExecutorService(executorService, 1);
+        SharedExecutorService sharedExecutorService = new SharedExecutorService(executorService, 1, "%d");
 
         assertThrows(UnsupportedOperationException.class, () -> sharedExecutorService.awaitTermination(0, null));
         assertThrows(UnsupportedOperationException.class, () -> sharedExecutorService.invokeAny(null));

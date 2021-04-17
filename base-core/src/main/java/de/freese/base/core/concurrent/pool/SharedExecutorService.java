@@ -36,6 +36,18 @@ public class SharedExecutorService extends SharedExecutor implements ExecutorSer
     }
 
     /**
+     * Erstellt ein neues {@link SharedExecutorService} Object.
+     *
+     * @param delegate {@link ExecutorService}
+     * @param maxThreads int
+     * @param namePattern String; Example: "thread-%02d"
+     */
+    public SharedExecutorService(final ExecutorService delegate, final int maxThreads, final String namePattern)
+    {
+        super(delegate, maxThreads, namePattern);
+    }
+
+    /**
      * @see java.util.concurrent.ExecutorService#awaitTermination(long, java.util.concurrent.TimeUnit)
      */
     @Override

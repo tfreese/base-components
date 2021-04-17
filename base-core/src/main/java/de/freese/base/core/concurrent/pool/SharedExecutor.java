@@ -1,10 +1,13 @@
 // Created: 03.04.2021
 package de.freese.base.core.concurrent.pool;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -29,15 +32,22 @@ public class SharedExecutor implements Executor
         private final Runnable delegate;
 
         /**
+        *
+        */
+        private final String runnableName;
+
+        /**
          * Erstellt ein neues {@link SharedRunnable} Object.
          *
          * @param delegate {@link Runnable}
+         * @param runnableName String
          */
-        protected SharedRunnable(final Runnable delegate)
+        protected SharedRunnable(final Runnable delegate, final String runnableName)
         {
             super();
 
             this.delegate = Objects.requireNonNull(delegate, "delegate rrequired");
+            this.runnableName = Objects.requireNonNull(runnableName, "runnableName required");
         }
 
         /**
@@ -46,16 +56,47 @@ public class SharedExecutor implements Executor
         @Override
         public void run()
         {
+            final Thread currentThread = Thread.currentThread();
+            String oldName = currentThread.getName();
+
+            setName(currentThread, this.runnableName);
+
             try
             {
                 this.delegate.run();
             }
             finally
             {
+                setName(currentThread, oldName);
+
                 taskFinished();
             }
         }
+
+        /**
+         * Ändert den Namen des Threads.<br>
+         * Eine auftretende {@link SecurityException} wird als Warning geloggt.
+         *
+         * @param thread {@link Thread}
+         * @param name String
+         */
+        private void setName(final Thread thread, final String name)
+        {
+            try
+            {
+                thread.setName(name);
+            }
+            catch (SecurityException sex)
+            {
+                getLogger().warn("Failed to set the thread name.", sex);
+            }
+        }
     }
+
+    /**
+    *
+    */
+    private static final AtomicInteger SHAREDPOOLNUMBER = new AtomicInteger(1);
 
     /**
      *
@@ -88,12 +129,34 @@ public class SharedExecutor implements Executor
     private final int maxThreads;
 
     /**
+     *
+     */
+    private int nameIndex;
+
+    /**
+    *
+    */
+    private final List<String> threadNames;
+
+    /**
      * Erstellt ein neues {@link SharedExecutor} Object.
      *
      * @param delegate {@link Executor}
      * @param maxThreads int
      */
     public SharedExecutor(final Executor delegate, final int maxThreads)
+    {
+        this(delegate, maxThreads, "sharedpool-" + SHAREDPOOLNUMBER.getAndIncrement() + "-thread-%d");
+    }
+
+    /**
+     * Erstellt ein neues {@link SharedExecutor} Object.
+     *
+     * @param delegate {@link Executor}
+     * @param maxThreads int
+     * @param namePattern String; Example: "thread-%02d"
+     */
+    public SharedExecutor(final Executor delegate, final int maxThreads, final String namePattern)
     {
         super();
 
@@ -107,6 +170,13 @@ public class SharedExecutor implements Executor
         this.maxThreads = maxThreads;
 
         this.delegateQueue = new LinkedBlockingQueue<>();
+
+        this.threadNames = new ArrayList<>(maxThreads);
+
+        for (int i = 0; i < maxThreads; i++)
+        {
+            this.threadNames.add(String.format(namePattern, i + 1));
+        }
     }
 
     /**
@@ -131,13 +201,13 @@ public class SharedExecutor implements Executor
             {
                 incrementActiveTasks();
 
-                getDelegate().execute(new SharedRunnable(command));
+                getDelegate().execute(new SharedRunnable(command, nextThreadName()));
 
                 getLogger().debug("ActiveTasks={}; execute task", getActiveTasks());
             }
             else
             {
-                getDelegateQueue().offer(new SharedRunnable(command));
+                getDelegateQueue().offer(new SharedRunnable(command, nextThreadName()));
 
                 getLogger().debug("ActiveTasks={}; queue task", getActiveTasks());
             }
@@ -202,6 +272,22 @@ public class SharedExecutor implements Executor
     protected void incrementActiveTasks()
     {
         this.activeTasks++;
+    }
+
+    /**
+     * @return String
+     */
+    protected synchronized String nextThreadName()
+    {
+        String name = this.threadNames.get(this.nameIndex);
+        this.nameIndex++;
+
+        if (this.nameIndex >= this.threadNames.size())
+        {
+            this.nameIndex = 0;
+        }
+
+        return name;
     }
 
     /**
