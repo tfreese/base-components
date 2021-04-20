@@ -130,7 +130,7 @@ class TestSharedExecutorService
 
         for (int i = 0; i < 10; i++)
         {
-            assertTrue(sharedExecutorService.getActiveTasks() <= 1);
+            // assertTrue(sharedExecutorService.getActiveTasks() > 0);
 
             if (sharedExecutorService.getActiveTasks() == 0)
             {
