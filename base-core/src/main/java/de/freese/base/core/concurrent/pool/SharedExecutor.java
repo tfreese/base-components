@@ -32,22 +32,15 @@ public class SharedExecutor implements Executor
         private final Runnable delegate;
 
         /**
-        *
-        */
-        private final String runnableName;
-
-        /**
          * Erstellt ein neues {@link SharedRunnable} Object.
          *
          * @param delegate {@link Runnable}
-         * @param runnableName String
          */
-        protected SharedRunnable(final Runnable delegate, final String runnableName)
+        protected SharedRunnable(final Runnable delegate)
         {
             super();
 
             this.delegate = Objects.requireNonNull(delegate, "delegate rrequired");
-            this.runnableName = Objects.requireNonNull(runnableName, "runnableName required");
         }
 
         /**
@@ -59,7 +52,7 @@ public class SharedExecutor implements Executor
             final Thread currentThread = Thread.currentThread();
             String oldName = currentThread.getName();
 
-            setName(currentThread, this.runnableName);
+            setName(currentThread, nextThreadName());
 
             try
             {
@@ -201,13 +194,13 @@ public class SharedExecutor implements Executor
             {
                 incrementActiveTasks();
 
-                getDelegate().execute(new SharedRunnable(command, nextThreadName()));
+                getDelegate().execute(new SharedRunnable(command));
 
                 getLogger().debug("ActiveTasks={}; execute task", getActiveTasks());
             }
             else
             {
-                getDelegateQueue().offer(new SharedRunnable(command, nextThreadName()));
+                getDelegateQueue().offer(new SharedRunnable(command));
 
                 getLogger().debug("ActiveTasks={}; queue task", getActiveTasks());
             }

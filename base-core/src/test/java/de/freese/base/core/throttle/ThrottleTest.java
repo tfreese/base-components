@@ -1,7 +1,4 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.throttle;
 
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -9,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -17,11 +15,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import de.freese.base.core.throttle.google.GoogleNanoThrottle;
 import de.freese.base.core.throttle.google.GoogleThrottle;
 
@@ -31,6 +31,7 @@ import de.freese.base.core.throttle.google.GoogleThrottle;
  *
  * @author Dimitris Andreou - Original RateLimiterTest author
  * @author James P Edwards
+ * @author Thomas Freese
  */
 class ThrottleTest
 {

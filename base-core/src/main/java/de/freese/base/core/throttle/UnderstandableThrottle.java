@@ -7,6 +7,7 @@ package de.freese.base.core.throttle;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
+
 import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
@@ -109,7 +110,7 @@ public final class UnderstandableThrottle implements Throttle
         {
             long now = System.nanoTime();
 
-            // Aktueller Timestamp liegt noch vor dem nächsten verfügbaren Zeitfenster - warten.
+            // Aktueller Timestamp liegt noch vor dem nächsten verfügbaren Zeitfenster -> warten.
             if (now < this.nextFreeSlot)
             {
                 delay = this.nextFreeSlot - now;
@@ -205,7 +206,10 @@ public final class UnderstandableThrottle implements Throttle
      */
     private void sleep(final long nanos) throws InterruptedException
     {
-        // System.out.println("UnderstandableThrottle.sleep(): " + TimeUnit.NANOSECONDS.toMillis(nanos) + " ms");
+        if (nanos == 0D)
+        {
+            return;
+        }
 
         if (SLEEP_UNINTERRUPTIBLY)
         {

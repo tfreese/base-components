@@ -2,7 +2,7 @@
  * Created: 29.03.2020
  */
 
-package de.freese.base.core.io.throttle;
+package de.freese.base.core.throttle.io;
 
 import java.io.IOException;
 import java.io.OutputStream;

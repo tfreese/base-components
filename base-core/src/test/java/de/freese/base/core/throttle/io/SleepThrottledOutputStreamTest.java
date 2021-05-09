@@ -14,7 +14,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import de.freese.base.core.io.AbstractIoTest;
-import de.freese.base.core.io.throttle.SleepThrottledOutputStream;
 
 /**
  * @author Thomas Freese
