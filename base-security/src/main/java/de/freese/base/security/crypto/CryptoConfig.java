@@ -1,14 +1,11 @@
-/**
- * Created: 13.05.2019
- */
+// Created: 29.05.2021
+package de.freese.base.security.crypto;
 
-package de.freese.base.security.algorythm;
-
-import java.security.GeneralSecurityException;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.Signature;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 
@@ -16,71 +13,39 @@ import javax.crypto.KeyGenerator;
  * Builder für die Konfiguration einer Verschlüsselung der "java.security"-API.
  *
  * @author Thomas Freese
- * @param <T> Entity-Type
+ * @param <T> Type
  */
-public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythmConfigBuilder<T>>
+public abstract class CryptoConfig<T extends CryptoConfig<T>>
 {
-    /**
-     * 64bit
-     */
-    // @formatter:off
-    public static final byte[] DEFAULT_INIT_VECTOR = new byte[] {
-                        -47, -17, -70, 18, 52, 90, 104, 34,
-                        -48, -100, -106, -121, 73, -116, -69, -3,
-                        -58, 124, 60, -46, -84, -94, -54, 9,
-                        27, 26, 30, 56, -27, 59, -11, 9,
-                        117, -90, 70, -8, 86, 69, 32, -27,
-                        -23, -15, -88, -106, -128, -113, 53, -51,
-                        -3, 110, 71, -27, 97, 19, -36, 2,
-                        80, 117, 86, 46, -51, 3, -55, -123
-        };
-    //@formatter:on
-
-    /**
-     * 64bit
-     */
-    // @formatter:off
-    public static final byte[] DEFAULT_SALT = new byte[] {
-                        -17, -46, -76, -22, 83, 71, -101, -114,
-                        -120, 62, 83, 9, -28, -48, 60, -51,
-                        102, -120, -51, 102, -80, -46, -108, -26,
-                        77, -92, 83, -85, 109, 8, 1, -92,
-                        -52, -99, -93, 29, 36, -111, 98, -12,
-                        -23, -100, -105, 20, -18, 95, 39, -66,
-                        -120, -101, -124, 80, -30, -50, -45, 66,
-                        51, 66, 45, 120, -96, -4, 81, -18
-        };
-    //@formatter:on
-
     /**
      * Builder einer asymetrischen Public- / Private-Key Verschlüsselung der "java.security"-API.
      *
-     * @return {@link AlgorythmConfigBuilderAsymetric}
+     * @return {@link CryptoConfigAsymetric}
      */
-    public static AlgorythmConfigBuilderAsymetric asymetric()
+    public static CryptoConfigAsymetric asymetric()
     {
-        return new AlgorythmConfigBuilderAsymetric();
+        return new CryptoConfigAsymetric();
     }
 
     /**
      * Builder einer symetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
      *
-     * @return {@link AlgorythmConfigBuilderSymetric}
+     * @return {@link CryptoConfigSymetric}
      */
-    public static AlgorythmConfigBuilderSymetric symetric()
+    public static CryptoConfigSymetric symetric()
     {
-        return new AlgorythmConfigBuilderSymetric();
+        return new CryptoConfigSymetric();
     }
-
-    /**
-     * Algorithmus für alles.
-     */
-    private String algorythm;
 
     /**
      * Algorithmus für {@link Cipher}.
      */
     private String algorythmCipher;
+
+    /**
+     * Algorithmus als Default.
+     */
+    private String algorythmDefault;
 
     /**
      * Algorithmus für {@link MessageDigest}.
@@ -108,14 +73,14 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     private int keySize;
 
     /**
-     * Provider für alles.
-     */
-    private String provider;
-
-    /**
      * Provider für die {@link Cipher}.
      */
     private String providerCipher;
+
+    /**
+     * Provider als Default.
+     */
+    private String providerDefault;
 
     /**
      * Provider für {@link MessageDigest}.
@@ -138,13 +103,13 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     private String providerSignature;
 
     /**
-     * Erstellt ein neues {@link AbstractAlgorythmConfigBuilder} Object.
+     * Erstellt ein neues {@link CryptoConfig} Object.
      */
-    protected AbstractAlgorythmConfigBuilder()
+    CryptoConfig()
     {
         super();
 
-        provider("SunJCE");
+        providerDefault("SunJCE");
         providerDigest("SUN");
         providerSecureRandom("SUN");
 
@@ -153,25 +118,11 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     }
 
     /**
-     * Algorithmus für alles.<br>
-     * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
-     *
-     * @param algorythm String
-     * @return {@link AbstractAlgorythmConfigBuilder}
-     */
-    public T algorythm(final String algorythm)
-    {
-        this.algorythm = algorythm;
-
-        return getThis();
-    }
-
-    /**
      * Algorithmus für {@link Cipher}.<br>
-     * Default: {@link #algorythm(String)}
+     * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmCipher String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T algorythmCipher(final String algorythmCipher)
     {
@@ -181,11 +132,25 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     }
 
     /**
+     * Algorithmus als Default.<br>
+     * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
+     *
+     * @param algorythmDefault String
+     * @return {@link CryptoConfig}
+     */
+    public T algorythmDefault(final String algorythmDefault)
+    {
+        this.algorythmDefault = algorythmDefault;
+
+        return getThis();
+    }
+
+    /**
      * Algorithmus für {@link MessageDigest}.<br>
-     * Default: {@link #algorythm(String)}
+     * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmDigest String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T algorythmDigest(final String algorythmDigest)
     {
@@ -196,10 +161,10 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * Algorithmus für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
-     * Default: {@link #provider(String)}
+     * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmKeyGenerator String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T algorythmKeyGenerator(final String algorythmKeyGenerator)
     {
@@ -210,11 +175,11 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * Algorithmus für {@link SecureRandom}.<br>
-     * Default: {@link #algorythm(String)}<br>
+     * Default: {@link #algorythmDefault(String)}<br>
      * Beispiel: "NativePRNG", "SHA1PRNG", {@link SecureRandom#getInstanceStrong()}
      *
      * @param algorythmSecureRandom String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T algorythmSecureRandom(final String algorythmSecureRandom)
     {
@@ -225,10 +190,10 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * Algorithmus für {@link Signature}.<br>
-     * Default: {@link #algorythm(String)}
+     * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmSignature String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T algorythmSignature(final String algorythmSignature)
     {
@@ -239,18 +204,9 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * @return {@link Crypto}
-     * @throws GeneralSecurityException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    public abstract Crypto build() throws GeneralSecurityException;
-
-    /**
-     * @see #algorythm(String)
-     * @return String
-     */
-    protected String getAlgorythm()
-    {
-        return this.algorythm;
-    }
+    public abstract Crypto build() throws Exception;
 
     /**
      * @see #algorythmCipher(String)
@@ -258,16 +214,25 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
      */
     protected String getAlgorythmCipher()
     {
-        return this.algorythmCipher != null ? this.algorythmCipher : getAlgorythm();
+        return this.algorythmCipher != null ? this.algorythmCipher : getAlgorythmDefault();
+    }
+
+    /**
+     * @see #algorythmDefault(String)
+     * @return String
+     */
+    protected String getAlgorythmDefault()
+    {
+        return this.algorythmDefault;
     }
 
     /**
      * @see #algorythmDigest(String)
      * @return String
      */
-    protected String getAlgorythmDigest()
+    public String getAlgorythmDigest()
     {
-        return this.algorythmDigest != null ? this.algorythmDigest : getAlgorythm();
+        return this.algorythmDigest != null ? this.algorythmDigest : getAlgorythmDefault();
     }
 
     /**
@@ -276,16 +241,16 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
      */
     protected String getAlgorythmKeyGenerator()
     {
-        return this.algorythmKeyGenerator != null ? this.algorythmKeyGenerator : getAlgorythm();
+        return this.algorythmKeyGenerator != null ? this.algorythmKeyGenerator : getAlgorythmDefault();
     }
 
     /**
      * @see #algorythmSecureRandom(String)
      * @return String
      */
-    protected String getAlgorythmSecureRandom()
+    public String getAlgorythmSecureRandom()
     {
-        return this.algorythmSecureRandom != null ? this.algorythmSecureRandom : getAlgorythm();
+        return this.algorythmSecureRandom != null ? this.algorythmSecureRandom : getAlgorythmDefault();
     }
 
     /**
@@ -294,7 +259,7 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
      */
     protected String getAlgorythmSignature()
     {
-        return this.algorythmSignature != null ? this.algorythmSignature : getAlgorythm();
+        return this.algorythmSignature != null ? this.algorythmSignature : getAlgorythmDefault();
     }
 
     /**
@@ -307,30 +272,30 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     }
 
     /**
-     * @see #provider(String)
-     * @return String
-     */
-    protected String getProvider()
-    {
-        return this.provider;
-    }
-
-    /**
      * @see #providerCipher(String)
      * @return String
      */
     protected String getProviderCipher()
     {
-        return this.providerCipher != null ? this.providerCipher : getProvider();
+        return this.providerCipher != null ? this.providerCipher : getProviderDefault();
+    }
+
+    /**
+     * @see #providerDefault(String)
+     * @return String
+     */
+    protected String getProviderDefault()
+    {
+        return this.providerDefault;
     }
 
     /**
      * @see #providerDigest(String)
      * @return String
      */
-    protected String getProviderDigest()
+    public String getProviderDigest()
     {
-        return this.providerDigest != null ? this.providerDigest : getProvider();
+        return this.providerDigest != null ? this.providerDigest : getProviderDefault();
     }
 
     /**
@@ -339,16 +304,16 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
      */
     protected String getProviderKeyGenerator()
     {
-        return this.providerKeyGenerator != null ? this.providerKeyGenerator : getProvider();
+        return this.providerKeyGenerator != null ? this.providerKeyGenerator : getProviderDefault();
     }
 
     /**
      * @see #providerSecureRandom(String)
      * @return String
      */
-    protected String getProviderSecureRandom()
+    public String getProviderSecureRandom()
     {
-        return this.providerSecureRandom != null ? this.providerSecureRandom : getProvider();
+        return this.providerSecureRandom != null ? this.providerSecureRandom : getProviderDefault();
     }
 
     /**
@@ -357,11 +322,11 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
      */
     protected String getProviderSignature()
     {
-        return this.providerSignature != null ? this.providerSignature : getProvider();
+        return this.providerSignature != null ? this.providerSignature : getProviderDefault();
     }
 
     /**
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     @SuppressWarnings("unchecked")
     protected T getThis()
@@ -373,7 +338,7 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
      * Default: 0
      *
      * @param keySize int
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T keySize(final int keySize)
     {
@@ -383,25 +348,11 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     }
 
     /**
-     * Provider für alles.<br>
-     * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
-     *
-     * @param provider String
-     * @return {@link AbstractAlgorythmConfigBuilder}
-     */
-    public T provider(final String provider)
-    {
-        this.provider = provider;
-
-        return getThis();
-    }
-
-    /**
      * Provider für {@link Cipher}.<br>
-     * Default: {@link #provider(String)}
+     * Default: {@link #providerDefault(String)}
      *
      * @param providerCipher String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T providerCipher(final String providerCipher)
     {
@@ -411,11 +362,25 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
     }
 
     /**
+     * Provider als Default.<br>
+     * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
+     *
+     * @param providerDefault String
+     * @return {@link CryptoConfig}
+     */
+    public T providerDefault(final String providerDefault)
+    {
+        this.providerDefault = providerDefault;
+
+        return getThis();
+    }
+
+    /**
      * Provider für {@link MessageDigest}.<br>
-     * Default: {@link #algorythm(String)}
+     * Default: {@link #providerDefault(String)}
      *
      * @param providerDigest String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T providerDigest(final String providerDigest)
     {
@@ -426,10 +391,10 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * Provider für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
-     * Default: {@link #provider(String)}
+     * Default: {@link #providerDefault(String)}
      *
      * @param providerKeyGenerator String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T providerKeyGenerator(final String providerKeyGenerator)
     {
@@ -440,11 +405,11 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * Provider für {@link SecureRandom}.<br>
-     * Default: {@link #provider(String)}<br>
+     * Default: {@link #providerDefault(String)}<br>
      * Beispiel: "SUN"
      *
      * @param providerSecureRandom String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T providerSecureRandom(final String providerSecureRandom)
     {
@@ -455,10 +420,10 @@ public abstract class AbstractAlgorythmConfigBuilder<T extends AbstractAlgorythm
 
     /**
      * Provider für {@link Signature}.<br>
-     * Default: {@link #provider(String)}
+     * Default: {@link #providerDefault(String)}
      *
      * @param providerSignature String
-     * @return {@link AbstractAlgorythmConfigBuilder}
+     * @return {@link CryptoConfig}
      */
     public T providerSignature(final String providerSignature)
     {

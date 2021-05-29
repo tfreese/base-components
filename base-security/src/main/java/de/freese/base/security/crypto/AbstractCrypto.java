@@ -1,24 +1,20 @@
-/**
- * Created: 14.05.2019
- */
-
-package de.freese.base.security.algorythm;
+// Created: 29.05.2021
+package de.freese.base.security.crypto;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.Signature;
-import java.util.function.Supplier;
+import java.util.Objects;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 
 /**
- * Basis-Implementierung von {@link Crypto}.
+ * Basis-Implementierung des {@link Crypto}-Interfaces.
  *
  * @author Thomas Freese
  */
@@ -27,35 +23,70 @@ abstract class AbstractCrypto implements Crypto
     /**
     *
     */
-    private static final int DEFAULT_BUFFER_SIZE = 4096;
+    private static final int DEFAULT_BUFFER_SIZE = 8192;
+
+    /**
+     *
+     */
+    private final CryptoConfig<?> config;
 
     /**
     *
     */
-    private Supplier<Cipher> cipherDecryptSupplier;
+    private final SecureRandom secureRandom;
 
     /**
+     * Erstellt ein neues {@link AbstractCrypto} Object.
      *
+     * @param cryptoConfig {@link CryptoConfig}
+     * @throws Exception Falls was schief geht.
      */
-    private Supplier<Cipher> cipherEncryptSupplier;
+    AbstractCrypto(final CryptoConfig<?> cryptoConfig) throws Exception
+    {
+        super();
+
+        this.config = Objects.requireNonNull(cryptoConfig, "cryptoConfig required");
+
+        // SecureRandom ist ThreadSafe.
+        this.secureRandom = SecureRandom.getInstance(this.config.getAlgorythmSecureRandom(), this.config.getProviderSecureRandom());
+    }
 
     /**
+     * {@link Cipher} ist nicht ThreadSafe.
      *
+     * @return {@link Cipher}
+     * @throws Exception Falls was schief geht.
      */
-    private MessageDigest messageDigest;
+    protected abstract Cipher createCipherDecrypt() throws Exception;
 
     /**
+     * {@link Cipher} ist nicht ThreadSafe.
      *
+     * @return {@link Cipher}
+     * @throws Exception Falls was schief geht.
      */
-    private SecureRandom secureRandom;
+    protected abstract Cipher createCipherEncrypt() throws Exception;
 
     /**
-     * @see de.freese.base.security.algorythm.Crypto#decrypt(byte[])
+     * {@link MessageDigest} ist nicht ThreadSafe.
+     *
+     * @return {@link MessageDigest}
+     * @throws Exception Falls was schief geht.
+     */
+    protected MessageDigest createMessageDigest() throws Exception
+    {
+        MessageDigest messageDigest = MessageDigest.getInstance(getConfig().getAlgorythmDigest(), getConfig().getProviderDigest());
+
+        return messageDigest;
+    }
+
+    /**
+     * @see de.freese.base.security.crypto.Crypto#decrypt(byte[])
      */
     @Override
-    public byte[] decrypt(final byte[] bytes) throws GeneralSecurityException
+    public byte[] decrypt(final byte[] bytes) throws Exception
     {
-        Cipher cipher = getCipherDecrypt();
+        Cipher cipher = createCipherDecrypt();
 
         byte[] decypted = decrypt(cipher, bytes);
 
@@ -66,9 +97,9 @@ abstract class AbstractCrypto implements Crypto
      * @param cipher {@link Cipher}
      * @param bytes byte[]
      * @return byte[]
-     * @throws GeneralSecurityException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected byte[] decrypt(final Cipher cipher, final byte[] bytes) throws GeneralSecurityException
+    protected byte[] decrypt(final Cipher cipher, final byte[] bytes) throws Exception
     {
         byte[] decypted = cipher.doFinal(bytes);
 
@@ -79,9 +110,9 @@ abstract class AbstractCrypto implements Crypto
      * @param cipher {@link Cipher}
      * @param in {@link InputStream}
      * @param out {@link OutputStream}
-     * @throws IOException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    protected void decrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws IOException
+    protected void decrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception
     {
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
@@ -100,23 +131,23 @@ abstract class AbstractCrypto implements Crypto
     }
 
     /**
-     * @see de.freese.base.security.algorythm.Crypto#decrypt(java.io.InputStream, java.io.OutputStream)
+     * @see de.freese.base.security.crypto.Crypto#decrypt(java.io.InputStream, java.io.OutputStream)
      */
     @Override
-    public void decrypt(final InputStream in, final OutputStream out) throws GeneralSecurityException, IOException
+    public void decrypt(final InputStream in, final OutputStream out) throws Exception
     {
-        Cipher cipher = getCipherDecrypt();
+        Cipher cipher = createCipherDecrypt();
 
         decrypt(cipher, in, out);
     }
 
     /**
-     * @see de.freese.base.security.algorythm.Crypto#digest(byte[])
+     * @see de.freese.base.security.crypto.Crypto#digest(byte[])
      */
     @Override
-    public byte[] digest(final byte[] bytes) throws GeneralSecurityException
+    public byte[] digest(final byte[] bytes) throws Exception
     {
-        MessageDigest messageDigest = getMessageDigest();
+        MessageDigest messageDigest = createMessageDigest();
 
         messageDigest.update(bytes);
 
@@ -127,12 +158,12 @@ abstract class AbstractCrypto implements Crypto
     }
 
     /**
-     * @see de.freese.base.security.algorythm.Crypto#digest(java.io.InputStream)
+     * @see de.freese.base.security.crypto.Crypto#digest(java.io.InputStream)
      */
     @Override
     public byte[] digest(final InputStream in) throws Exception
     {
-        MessageDigest messageDigest = getMessageDigest();
+        MessageDigest messageDigest = createMessageDigest();
 
         byte[] digest = digest(messageDigest, in);
 
@@ -156,18 +187,17 @@ abstract class AbstractCrypto implements Crypto
         }
 
         byte[] digest = messageDigest.digest();
-        messageDigest.reset();
 
         return digest;
     }
 
     /**
-     * @see de.freese.base.security.algorythm.Crypto#encrypt(byte[])
+     * @see de.freese.base.security.crypto.Crypto#encrypt(byte[])
      */
     @Override
     public byte[] encrypt(final byte[] bytes) throws Exception
     {
-        Cipher cipher = getCipherEncrypt();
+        Cipher cipher = createCipherEncrypt();
 
         byte[] encrypted = encrypt(cipher, bytes);
 
@@ -212,38 +242,22 @@ abstract class AbstractCrypto implements Crypto
     }
 
     /**
-     * @see de.freese.base.security.algorythm.Crypto#encrypt(java.io.InputStream, java.io.OutputStream)
+     * @see de.freese.base.security.crypto.Crypto#encrypt(java.io.InputStream, java.io.OutputStream)
      */
     @Override
     public void encrypt(final InputStream in, final OutputStream out) throws Exception
     {
-        Cipher cipher = getCipherEncrypt();
+        Cipher cipher = createCipherEncrypt();
 
         encrypt(cipher, in, out);
     }
 
     /**
-     * @return {@link Cipher}
+     * @return {@link CryptoConfig}<?>
      */
-    protected Cipher getCipherDecrypt()
+    protected CryptoConfig<?> getConfig()
     {
-        return this.cipherDecryptSupplier.get();
-    }
-
-    /**
-     * @return {@link Cipher}
-     */
-    protected Cipher getCipherEncrypt()
-    {
-        return this.cipherEncryptSupplier.get();
-    }
-
-    /**
-     * @return {@link MessageDigest}
-     */
-    protected MessageDigest getMessageDigest()
-    {
-        return this.messageDigest;
+        return this.config;
     }
 
     /**
@@ -252,38 +266,6 @@ abstract class AbstractCrypto implements Crypto
     protected SecureRandom getSecureRandom()
     {
         return this.secureRandom;
-    }
-
-    /**
-     * @param cipherDecryptSupplier {@link Supplier}<Cipher>
-     */
-    void setCipherDecryptSupplier(final Supplier<Cipher> cipherDecryptSupplier)
-    {
-        this.cipherDecryptSupplier = cipherDecryptSupplier;
-    }
-
-    /**
-     * @param cipherEncryptSupplier {@link Supplier}<Cipher>
-     */
-    void setCipherEncryptSupplier(final Supplier<Cipher> cipherEncryptSupplier)
-    {
-        this.cipherEncryptSupplier = cipherEncryptSupplier;
-    }
-
-    /**
-     * @param messageDigest {@link MessageDigest}
-     */
-    void setMessageDigest(final MessageDigest messageDigest)
-    {
-        this.messageDigest = messageDigest;
-    }
-
-    /**
-     * @param secureRandom {@link SecureRandom}
-     */
-    void setSecureRandom(final SecureRandom secureRandom)
-    {
-        this.secureRandom = secureRandom;
     }
 
     /**
@@ -331,7 +313,7 @@ abstract class AbstractCrypto implements Crypto
         }
 
         // Bei einer RSA Keysize von 4096 wird die Blocksize 512 betragen (4096/8).
-        byte[] sig = null;// IOUtils.toByteArray(signIn);
+        byte[] sig = null;
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
@@ -344,9 +326,6 @@ abstract class AbstractCrypto implements Crypto
         }
 
         boolean verified = signature.verify(sig);
-
-        in.close();
-        signIn.close();
 
         return verified;
     }

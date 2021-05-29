@@ -6,16 +6,20 @@ package de.freese.base.security;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.Security;
 import java.security.interfaces.RSAPublicKey;
+
 import javax.crypto.Cipher;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.base.utils.SecurityUtils;
 
 /**
@@ -27,7 +31,7 @@ class TestSecurityUtils
     /**
      *
      */
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     /**
      *
@@ -148,6 +152,27 @@ class TestSecurityUtils
     void testProvider()
     {
         String[] values = SecurityUtils.getCryptoImpls("Provider");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testSecureRandom()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("SecureRandom");
         assertNotNull(values);
         assertTrue(values.length > 0);
 

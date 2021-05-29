@@ -6,6 +6,7 @@ package de.freese.base.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
@@ -15,16 +16,20 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Arrays;
 import java.util.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.GCMParameterSpec;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import de.freese.base.security.algorythm.AbstractAlgorythmConfigBuilder;
-import de.freese.base.security.algorythm.AsymetricCrypto;
-import de.freese.base.security.algorythm.Crypto;
+
+import de.freese.base.security.crypto.Crypto;
+import de.freese.base.security.crypto.CryptoAsymetric;
+import de.freese.base.security.crypto.CryptoConfig;
+import de.freese.base.security.crypto.CryptoConfigSymetric;
 
 /**
  * @author Thomas Freese
@@ -54,14 +59,15 @@ class TestCrypto
     void testAsymetricRsa() throws Exception
     {
         // @formatter:off
-         Crypto crypto = AbstractAlgorythmConfigBuilder.asymetric()
+         Crypto crypto = CryptoConfig.asymetric()
              .providerCipher("SunJCE")
              .providerKeyGenerator("SunRsaSign")
              .providerSignature("SunRsaSign")
              .algorythmCipher("RSA/ECB/NoPadding")
+             .algorythmDigest("SHA-512")
              .algorythmKeyGenerator("RSA")
              .algorythmSignature("SHA512withRSA")
-             .keySize(2048)
+             .keySize(4096)
              .build()
              ;
          // @formatter:on
@@ -82,12 +88,12 @@ class TestCrypto
         }
 
         // @formatter:off
-         Crypto crypto = AbstractAlgorythmConfigBuilder.asymetric()
-             .provider(BouncyCastleProvider.PROVIDER_NAME)
+         Crypto crypto = CryptoConfig.asymetric()
+             .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
              .algorythmCipher("RSA/ECB/NoPadding")
              .algorythmKeyGenerator("RSA")
              .algorythmSignature("SHA512withRSA")
-             .keySize(1024)
+             .keySize(4096)
              .build()
              ;
          // @formatter:on
@@ -105,7 +111,7 @@ class TestCrypto
         byte[] encrypted = crypto.encrypt(SOURCE_BYTES);
         byte[] decrypted = crypto.decrypt(encrypted);
 
-        if (crypto instanceof AsymetricCrypto)
+        if (crypto instanceof CryptoAsymetric)
         {
             // Blockgrösse berücksichtigen.
             decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
@@ -128,7 +134,7 @@ class TestCrypto
             decrypted = baos.toByteArray();
         }
 
-        if (crypto instanceof AsymetricCrypto)
+        if (crypto instanceof CryptoAsymetric)
         {
             // Blockgrösse berücksichtigen.
             decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
@@ -170,11 +176,11 @@ class TestCrypto
     void testSymetricAesCbc() throws Exception
     {
         // @formatter:off
-        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
-            //.provider("SunJCE")
-            .algorythm("AES")
+        Crypto crypto = CryptoConfig.symetric()
+            //.providerDefault("SunJCE")
+            .algorythmDefault("AES")
             .algorythmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
-            .initVector(Arrays.copyOf(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 16))
+            .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 16))
             .keySize(256)
             .build()
             ;
@@ -196,12 +202,12 @@ class TestCrypto
         }
 
         // @formatter:off
-        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
-            .provider(BouncyCastleProvider.PROVIDER_NAME)
-            .algorythm("PBEWITHSHA256AND256BITAES-CBC-BC")
+        Crypto crypto = CryptoConfig.symetric()
+            .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
+            .algorythmDefault("PBEWITHSHA256AND256BITAES-CBC-BC")
             .algorythmKeyGenerator("AES")
-            .initVector(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
-            .keySize(512)
+            .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
+            .keySize(4096)
 //            .keyPassword("gehaim")
             .build()
             ;
@@ -218,10 +224,10 @@ class TestCrypto
     void testSymetricAesGcm() throws Exception
     {
         // @formatter:off
-         Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
-             .algorythm("AES")
+         Crypto crypto = CryptoConfig.symetric()
+             .algorythmDefault("AES")
              .algorythmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
-             .initVector(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR)
+             .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
              .keySize(256)
              .build()
              ;
@@ -278,10 +284,10 @@ class TestCrypto
     void testSymetricBlowfish() throws Exception
     {
         // @formatter:off
-        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
-            .algorythm("Blowfish")
+        Crypto crypto = CryptoConfig.symetric()
+            .algorythmDefault("Blowfish")
             .algorythmCipher("Blowfish/CBC/PKCS5Padding")
-            .initVector(Arrays.copyOf(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 8))
+            .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 8))
             .keySize(448)
             .build()
             ;
@@ -298,10 +304,10 @@ class TestCrypto
     void testSymetricDes() throws Exception
     {
         // @formatter:off
-        Crypto crypto = AbstractAlgorythmConfigBuilder.symetric()
-            .algorythm("DES")
+        Crypto crypto = CryptoConfig.symetric()
+            .algorythmDefault("DES")
             .algorythmCipher("DES/CBC/PKCS5Padding")
-            .initVector(Arrays.copyOf(AbstractAlgorythmConfigBuilder.DEFAULT_INIT_VECTOR, 8))
+            .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 8))
             .keySize(56)
             .build()
             ;
