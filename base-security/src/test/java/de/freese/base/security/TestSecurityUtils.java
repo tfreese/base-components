@@ -104,6 +104,27 @@ class TestSecurityUtils
     }
 
     /**
+    *
+    */
+    @Test
+    void testKeyManagerFactory()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("KeyManagerFactory");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
      *
      */
     @Test
@@ -215,6 +236,27 @@ class TestSecurityUtils
     void testSignature()
     {
         String[] values = SecurityUtils.getCryptoImpls("Signature");
+        assertNotNull(values);
+        assertTrue(values.length > 0);
+
+        if (!DEBUG)
+        {
+            return;
+        }
+
+        for (String value : values)
+        {
+            System.out.println(value);
+        }
+    }
+
+    /**
+    *
+    */
+    @Test
+    void testTrustManagerFactory()
+    {
+        String[] values = SecurityUtils.getCryptoImpls("TrustManagerFactory");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
