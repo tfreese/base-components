@@ -10,11 +10,13 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basis-Implementierung eines {@link ObjectPool}s.
+ * Basis-Implementierung eines {@link ObjectPool}s.<br>
+ * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
  *
  * @author Thomas Freese
  * @param <T> Type
@@ -34,7 +36,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     /**
      *
      */
-    private final Queue<T> queue;
+    private final Queue<T> freeObjects;
 
     /**
      * Erstellt ein neues {@link AbstractObjectPool} Object.}
@@ -43,7 +45,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     {
         super();
 
-        this.queue = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
+        this.freeObjects = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown, "ObjectPool-" + getClass().getSimpleName()));
     }
@@ -54,7 +56,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     @Override
     public T borrowObject()
     {
-        T object = this.queue.poll();
+        T object = this.freeObjects.poll();
 
         if (object == null)
         {
@@ -109,7 +111,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     @Override
     public int getNumActive()
     {
-        return this.queue.size();
+        return this.busy.size();
     }
 
     /**
@@ -118,7 +120,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     @Override
     public int getNumIdle()
     {
-        return this.busy.size();
+        return this.freeObjects.size();
     }
 
     /**
@@ -134,7 +136,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 
         doPassivate(object);
 
-        this.queue.offer(object);
+        this.freeObjects.offer(object);
 
         this.busy.remove(object);
     }
@@ -147,9 +149,9 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     {
         LOGGER.info("Close {}", this);
 
-        while (!this.queue.isEmpty())
+        while (!this.freeObjects.isEmpty())
         {
-            T object = this.queue.poll();
+            T object = this.freeObjects.poll();
 
             doDestroy(object);
         }

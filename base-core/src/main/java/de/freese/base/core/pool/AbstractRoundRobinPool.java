@@ -6,6 +6,7 @@ package de.freese.base.core.pool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +121,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
     @Override
     public void returnObject(final T object)
     {
-        // NOOP
+        // Empty
     }
 
     /**

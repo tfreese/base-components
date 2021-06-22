@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Interface für einen ObjectPool.<br>
+ * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
  *
  * @author Thomas Freese
  * @param <T> Konkreter Typ
@@ -20,28 +21,28 @@ public interface ObjectPool<T>
      * @return Object
      * @throws NoSuchElementException wenn der Pool erschöpft ist
      */
-    public T borrowObject();
+    T borrowObject();
 
     /**
      * Liefert die Anzahl der aktiven, dem Pool entnommenen, Objekte.
      *
      * @return int
      */
-    public int getNumActive();
+    int getNumActive();
 
     /**
      * Liefert die Anzahl der zur Verfügung stehenden, im Pool vorhandenen, Objekte.
      *
      * @return int
      */
-    public int getNumIdle();
+    int getNumIdle();
 
     /**
      * Liefert die Anzahl aller durch den Pool verwalteten Objekte,
      *
      * @return int
      */
-    public default int getTotalSize()
+    default int getTotalSize()
     {
         return getNumActive() + getNumIdle();
     }
@@ -51,10 +52,10 @@ public interface ObjectPool<T>
      *
      * @param object Object
      */
-    public void returnObject(T object);
+    void returnObject(T object);
 
     /**
      * Herunterfahren des Pools, alternativ auch über ShutdownHook.
      */
-    public void shutdown();
+    void shutdown();
 }
