@@ -1,5 +1,5 @@
 // Created: 10.09.2020
-package de.freese.base.core.concurrent.pool;
+package de.freese.base.core.concurrent;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;

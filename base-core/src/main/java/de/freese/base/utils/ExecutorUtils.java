@@ -18,7 +18,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.core.concurrent.pool.SimpleThreadFactory;
+
+import de.freese.base.core.concurrent.SimpleThreadFactory;
 
 /**
  * @author Thomas Freese
