@@ -36,19 +36,20 @@ public class SimpleThreadFactory implements ThreadFactory
      *
      * <pre>
      * Defaults:
-     * - namePattern = thread-%02d
      * - daemon = true
      * </pre>
+     *
+     * @param namePattern String; Example: "thread-%d"
      */
-    public SimpleThreadFactory()
+    public SimpleThreadFactory(final String namePattern)
     {
-        this("thread-%02d", true);
+        this(namePattern, true);
     }
 
     /**
      * Erstellt ein neues {@link SimpleThreadFactory} Object.
      *
-     * @param namePattern String; Example: "thread-%02d"
+     * @param namePattern String; Example: "thread-%d"
      * @param daemon boolean
      */
     public SimpleThreadFactory(final String namePattern, final boolean daemon)
