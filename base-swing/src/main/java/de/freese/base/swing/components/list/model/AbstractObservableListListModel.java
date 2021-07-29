@@ -2,11 +2,13 @@
 package de.freese.base.swing.components.list.model;
 
 import java.util.Objects;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
@@ -14,6 +16,7 @@ import javafx.collections.ObservableList;
  * Basis {@link ListModel}, welches die Verwendung einer {@link ObservableList} ermoeglicht.
  *
  * @author Thomas Freese
+ *
  * @param <T> Typ der Entity
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T>
@@ -24,8 +27,8 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
     private final EventListenerList eventListenerList = new EventListenerList();
 
     /**
-    *
-    */
+     *
+     */
     private final ObservableList<T> list;
 
     /**
@@ -57,6 +60,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
+     *
      * @see EventListenerList
      * @see DefaultListModel
      */
@@ -86,6 +90,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
+     *
      * @see EventListenerList
      * @see DefaultListModel
      */
@@ -116,6 +121,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param source the ListModel that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
+     *
      * @see EventListenerList
      * @see DefaultListModel
      */

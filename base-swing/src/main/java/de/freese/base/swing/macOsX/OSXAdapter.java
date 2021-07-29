@@ -19,12 +19,13 @@
  * AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE,
  * EVEN IF APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. Copyright 2003-2007 Apple, Inc., All Rights Reserved
  */
-package de.freese.base.swing.mac_os_x;
+package de.freese.base.swing.macOsX;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,14 +67,8 @@ public class OSXAdapter implements InvocationHandler
         // com.apple.eawt.Application reflectively
         try
         {
-            Method enableAboutMethod = OSXAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", new Class<?>[]
-            {
-                    boolean.class
-            });
-            enableAboutMethod.invoke(OSXAdapter.macOSXApplication, new Object[]
-            {
-                    Boolean.valueOf(enableAboutMenu)
-            });
+            Method enableAboutMethod = OSXAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", boolean.class);
+            enableAboutMethod.invoke(OSXAdapter.macOSXApplication, Boolean.valueOf(enableAboutMenu));
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
@@ -95,7 +90,7 @@ public class OSXAdapter implements InvocationHandler
         setHandler(new OSXAdapter("handleOpenFile", target, fileHandler)
         {
             /**
-             * @see de.freese.base.swing.mac_os_x.OSXAdapter#callTarget(java.lang.Object)
+             * @see de.freese.base.swing.macOsX.OSXAdapter#callTarget(java.lang.Object)
              */
             @Override
             public boolean callTarget(final Object appleEvent)
@@ -106,10 +101,7 @@ public class OSXAdapter implements InvocationHandler
                     {
                         Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class[]) null);
                         String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
-                        this.targetMethod.invoke(this.targetObject, new Object[]
-                        {
-                                filename
-                        });
+                        this.targetMethod.invoke(this.targetObject, filename);
                     }
                     catch (Exception ex)
                     {
@@ -140,10 +132,7 @@ public class OSXAdapter implements InvocationHandler
             }
 
             Class<?> applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
-            Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", new Class<?>[]
-            {
-                    applicationListenerClass
-            });
+            Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", applicationListenerClass);
 
             // Create a proxy object around this handler that can be reflectively added as an Apple
             // ApplicationListener
@@ -151,14 +140,11 @@ public class OSXAdapter implements InvocationHandler
             {
                     applicationListenerClass
             }, adapter);
-            addListenerMethod.invoke(OSXAdapter.macOSXApplication, new Object[]
-            {
-                    osxAdapterProxy
-            });
+            addListenerMethod.invoke(OSXAdapter.macOSXApplication, osxAdapterProxy);
         }
-        catch (ClassNotFoundException cnfe)
+        catch (ClassNotFoundException ex)
         {
-            OSXAdapter.LOGGER.error("This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled.", cnfe);
+            OSXAdapter.LOGGER.error("This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled.", ex);
         }
         catch (Exception ex)
         {
@@ -189,14 +175,8 @@ public class OSXAdapter implements InvocationHandler
         // com.apple.eawt.Application reflectively
         try
         {
-            Method enablePrefsMethod = OSXAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", new Class<?>[]
-            {
-                    boolean.class
-            });
-            enablePrefsMethod.invoke(OSXAdapter.macOSXApplication, new Object[]
-            {
-                    Boolean.valueOf(enablePrefsMenu)
-            });
+            Method enablePrefsMethod = OSXAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", boolean.class);
+            enablePrefsMethod.invoke(OSXAdapter.macOSXApplication, Boolean.valueOf(enablePrefsMenu));
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
@@ -257,8 +237,10 @@ public class OSXAdapter implements InvocationHandler
      *
      * @param appleEvent Object
      *            <p/>
+     *
      * @return boolean
      *         <p/>
+     *
      * @throws Exception Falls was schief geht.
      */
     public boolean callTarget(final Object appleEvent) throws Exception
@@ -302,6 +284,7 @@ public class OSXAdapter implements InvocationHandler
      * @param method {@link Method}
      * @param args Object[]
      *            <p/>
+     *
      * @return boolean
      */
     protected boolean isCorrectMethod(final Method method, final Object[] args)
@@ -323,15 +306,9 @@ public class OSXAdapter implements InvocationHandler
         {
             try
             {
-                Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", new Class<?>[]
-                {
-                        boolean.class
-                });
+                Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", boolean.class);
                 // If the target method returns a boolean, use that as a hint
-                setHandledMethod.invoke(event, new Object[]
-                {
-                        Boolean.valueOf(handled)
-                });
+                setHandledMethod.invoke(event, Boolean.valueOf(handled));
             }
             catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
             {

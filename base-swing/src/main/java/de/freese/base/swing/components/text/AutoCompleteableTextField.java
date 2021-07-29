@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
@@ -168,7 +169,7 @@ public class AutoCompleteableTextField extends JTextField
                 {
                     JPopupMenu popupMenu = AutoCompleteableTextField.this.prevSearchMenu;
 
-                    // Wenn das PopupMenu geoeffnet ist, das selektierte MenuItem ausfuehren
+                    // Wenn das PopupMenu geoeffnet ist, das selektierte MenuItem ausfuehren.
                     if ((popupMenu != null) && popupMenu.isVisible())
                     {
                         MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
@@ -184,8 +185,7 @@ public class AutoCompleteableTextField extends JTextField
                         return;
                     }
 
-                    // Bei Enter oder Tabulator den Fokus wechseln und so den neuen Text zu
-                    // Vervollstaendigung aufnehmen
+                    // Bei Enter oder Tabulator den Fokus wechseln und so den neuen Text zu Vervollstaendigung aufnehmen.
                     transferFocus();
                 }
                 else if (Character.isJavaIdentifierPart(e.getKeyChar()))
@@ -244,7 +244,7 @@ public class AutoCompleteableTextField extends JTextField
             {
                 this.prevSearchMenu.show(this, x, y);
 
-                // Coursor wieder zurueck ins Textfeld
+                // Coursor wieder zurueck ins Textfeld.
                 // if (!hasFocus())
                 // {
                 requestFocus();
@@ -255,7 +255,7 @@ public class AutoCompleteableTextField extends JTextField
     }
 
     /**
-     * Text im Textfeld in die Historie aufnehmen, max. 10 Eintraege
+     * Text im Textfeld in die Historie aufnehmen, max. 10 Eintraege.
      */
     private void saveLastSearch()
     {

@@ -8,37 +8,32 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
 import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
 import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.filter.FilterCondition;
 
 /**
- * Implementierung einer Liste, welche eine {@link EventList} aufnimmt, auf deren Aenderungen reagiert und die Inhalte filtert.<br>
+ * Implementierung einer Liste, welche eine {@link IEventList} aufnimmt, auf deren Aenderungen reagiert und die Inhalte filtert.<br>
  * Saemtliche Events werden im EDT gefeuert.
  *
  * @author Thomas Freese
- * @param <E> Konkreter Typ der Listobjekte.
+ *
+ * @param <E> Type
  */
 public class FilterableEventList<E> implements IEventList<E>, PropertyChangeListener
 {
     /**
-     * Listener auf der {@link EventList}.
+     * Listener auf der {@link IEventList}.
      *
      * @author Thomas Freese
      */
     private class DelegateListener implements ListDataListener
     {
-        /**
-         * Erstellt ein neues {@link DelegateListener} Object.
-         */
-        public DelegateListener()
-        {
-            super();
-        }
-
         /**
          * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
@@ -70,7 +65,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      *
      */
-    private final EventList<E> delegate;
+    private final IEventList<E> delegate;
 
     /**
      *
@@ -90,9 +85,9 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      * Erstellt ein neues {@link FilterableEventList} Object.
      *
-     * @param delegate {@link EventList}
+     * @param delegate {@link IEventList}
      */
-    public FilterableEventList(final EventList<E> delegate)
+    public FilterableEventList(final IEventList<E> delegate)
     {
         super();
 
@@ -176,7 +171,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * Filter die gewrappte {@link EventList}.
+     * Filter die gewrappte {@link IEventList}.
      */
     private void filter()
     {

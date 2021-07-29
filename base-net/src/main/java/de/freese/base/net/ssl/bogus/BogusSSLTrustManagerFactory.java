@@ -11,6 +11,7 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
 import javax.net.ssl.ManagerFactoryParameters;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactorySpi;
@@ -25,7 +26,7 @@ import javax.net.ssl.X509TrustManager;
 public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
 {
     /**
-     * 
+     *
      */
     private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager()
     {
@@ -39,7 +40,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
             // You should do something in the real world.
             // You will reach here only if you enabled client certificate auth,
             // as described in SecureChatSslContextFactory.
-            System.err.println("UNKNOWN CLIENT CERTIFICATE: " + chain[0].getSubjectDN());
+            System.err.println("UNKNOWN CLIENT CERTIFICATE: " + chain[0].getSubjectX500Principal());
         }
 
         /**
@@ -50,7 +51,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
         {
             // Always trust - it is an example.
             // You should do something in the real world.
-            System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectDN());
+            System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectX500Principal());
         }
 
         /**

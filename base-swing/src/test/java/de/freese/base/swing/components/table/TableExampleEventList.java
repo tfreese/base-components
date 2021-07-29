@@ -2,39 +2,43 @@ package de.freese.base.swing.components.table;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import de.freese.base.swing.components.table.column.ExtTableColumn;
+import de.freese.base.swing.components.table.column.ExtTableColumnModelListenerAdapter;
+import de.freese.base.swing.eventlist.EventList;
+import de.freese.base.swing.eventlist.IEventList;
 
 /**
  * @author Thomas Freese
  */
-public class TableExample1
+public class TableExampleEventList
 {
     /**
      * @author Thomas Freese
      */
-    private static class MyTabelModel extends AbstractObservableListTableModel<int[]>
+    private static class MyTableModel extends AbstractEventListTableModel<int[]>
     {
         /**
          *
          */
-        private static final long serialVersionUID = -2601221304098179771L;
+        private static final long serialVersionUID = 6289962608942473870L;
 
         /**
-         * Erzeugt eine neue Instanz von {@link MyTabelModel}.
+         * Erstellt ein neues {@link MyTableModel} Object.
          *
-         * @param columnCount int
-         * @param list {@link ObservableList}
+         * @param list {@link IEventList}
          */
-        public MyTabelModel(final int columnCount, final ObservableList<int[]> list)
+        MyTableModel(final IEventList<int[]> list)
         {
-            super(columnCount, list);
+            super(5, list);
         }
 
         /**
@@ -45,24 +49,46 @@ public class TableExample1
         {
             int[] row = getObjectAt(rowIndex);
 
-            return Integer.valueOf(row[columnIndex]);
+            return row[columnIndex];
         }
     }
 
     /**
      * @param args String[]
-     * @throws Exception Falls was schief geht.
      */
-    public static void main(final String[] args) throws Exception
+    public static void main(final String[] args)
     {
-        ObservableList<int[]> list = FXCollections.observableArrayList();
+        EventList<int[]> eventList = new EventList<>();
 
-        JTable table = new JTable();
-        table.setModel(new MyTabelModel(5, list));
-
+        MyTableModel tableModel = new MyTableModel(eventList);
+        ExtTable table = new ExtTable();
+        table.setModel(tableModel);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        JFrame frame = new JFrame("TableExample1");
+        ExtTableColumn extTableColumn = table.getColumnModelExt().getColumnExt(0);
+        extTableColumn.setVisibleChange(false);
+        extTableColumn.setSortable(false);
+
+        table.getColumnModel().addColumnModelListener(new ExtTableColumnModelListenerAdapter()
+        {
+            /**
+             * @see de.freese.base.swing.components.table.column.ExtTableColumnModelListenerAdapter#columnPropertyChange(java.beans.PropertyChangeEvent)
+             */
+            @Override
+            public void columnPropertyChange(final PropertyChangeEvent event)
+            {
+                if ("sort".equals(event.getPropertyName()))
+                {
+                    System.out.println("TableExample0.columnPropertyChange.sort: " + event.getSource());
+                }
+                else if ("visible".equals(event.getPropertyName()))
+                {
+                    System.out.println("TableExample0.columnPropertyChange.visible: " + event.getSource());
+                }
+            }
+        });
+
+        JFrame frame = new JFrame("TableExample0");
         frame.addWindowListener(new WindowAdapter()
         {
             /**
@@ -74,6 +100,7 @@ public class TableExample1
                 System.exit(0);
             }
         });
+
         frame.getContentPane().add(new JScrollPane(table));
         frame.pack();
         frame.setVisible(true);
@@ -105,7 +132,7 @@ public class TableExample1
             @Override
             protected void process(final List<int[]> chunks)
             {
-                chunks.forEach(list::add);
+                chunks.forEach(eventList::add);
             }
         };
 

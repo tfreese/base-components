@@ -1,14 +1,18 @@
 package de.freese.base.swing.components.table;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
+
 import javax.swing.table.AbstractTableModel;
 
 /**
  * TableModel das intern eine Liste verwendet.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ der List-Objekte.
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel
@@ -17,17 +21,14 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      *
      */
     private static final long serialVersionUID = 8219964863357772409L;
-
     /**
      *
      */
     private final int columnCount;
-
     /**
-    *
-    */
+     *
+     */
     private final List<String> columnNames;
-
     /**
      *
      */
@@ -87,6 +88,38 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         this.columnCount = this.columnNames.size();
 
         this.list = Objects.requireNonNull(list, "list required");
+    }
+
+    /**
+     * @param object Object
+     */
+    public void add(final T object)
+    {
+        getList().add(object);
+
+        fireTableRowsInserted(getList().size() - 1, getList().size() - 1);
+    }
+
+    /**
+     * @param objects {@link Collection}
+     */
+    public void addAll(final Collection<T> objects)
+    {
+        int sizeOld = getList().size();
+
+        getList().addAll(objects);
+
+        fireTableRowsInserted(sizeOld, getList().size() - 1);
+    }
+
+    /**
+     *
+     */
+    public void clear()
+    {
+        getList().clear();
+
+        refresh();
     }
 
     /**
@@ -156,17 +189,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * Liefert ein Objekt fuer einen Index einer Zeile.
      *
      * @param rowIndex int
+     *
      * @return Object
      */
-    public final T getObjectAt(final int rowIndex)
+    public T getObjectAt(final int rowIndex)
     {
-        // if ((rowIndex < 0) || (getList().size() <= rowIndex))
-        // {
-        // getLogger().warn("Falscher Index = " + rowIndex + "; ListSize = " + getList().size());
-        //
-        // // return null;
-        // }
-
         return getList().get(rowIndex);
     }
 
@@ -174,7 +201,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * @see javax.swing.table.TableModel#getRowCount()
      */
     @Override
-    public final int getRowCount()
+    public int getRowCount()
     {
         return getList().size();
     }
@@ -183,11 +210,22 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * Liefert den ZeilenIndex fuer ein Objekt zurueck.
      *
      * @param object Object
+     *
      * @return int
      */
-    public final int getRowOf(final T object)
+    public int getRowOf(final T object)
     {
         return getList().indexOf(object);
+    }
+
+    /**
+     * Liefert den {@link Stream} des TableModels.
+     *
+     * @return {@link Stream}
+     */
+    public Stream<T> getStream()
+    {
+        return getList().stream();
     }
 
     /**
@@ -196,10 +234,5 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     public void refresh()
     {
         fireTableDataChanged();
-
-        // if (getRowCount() > 0)
-        // {
-        // fireTableRowsUpdated(0, getRowCount() - 1);
-        // }
     }
 }

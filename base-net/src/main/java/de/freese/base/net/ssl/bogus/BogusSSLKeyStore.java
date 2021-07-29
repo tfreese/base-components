@@ -4,7 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * A bogus key store which provides all the required information to create an example SSL connection. To generate a bogus key store:
+ * A bogus key store which provides all the required information to create an example SSL connection.<br>
+ * To generate a bogus key store:
  *
  * <pre>
  * keytool  -genkey -alias bogus -keysize 2048 -validity 36500
@@ -19,7 +20,7 @@ import java.io.InputStream;
 public final class BogusSSLKeyStore
 {
     /**
-     * 
+     *
      */
     //@formatter:off
     private static final short[] DATA = {

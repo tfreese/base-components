@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+
 import javax.swing.SwingUtilities;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
@@ -14,6 +15,7 @@ import javax.swing.event.ListDataListener;
  * Sämtliche Events werden im EDT gefeuert.<br>
  *
  * @author Thomas Freese
+ *
  * @param <E> Konkreter Typ der Listobjekte.
  */
 public final class EventList<E> extends ArrayList<E> implements IEventList<E>
@@ -47,14 +49,6 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
      *
      */
     private Object owner;
-
-    /**
-     * Erstellt ein neues {@link EventList} Object.
-     */
-    public EventList()
-    {
-        super();
-    }
 
     /**
      * @see java.util.ArrayList#add(java.lang.Object)

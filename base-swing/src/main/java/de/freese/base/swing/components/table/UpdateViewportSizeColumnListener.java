@@ -22,7 +22,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
 
     /**
      * Creates a new {@link UpdateViewportSizeColumnListener} object.
-     * 
+     *
      * @param table {@link JTable}
      */
     public UpdateViewportSizeColumnListener(final JTable table)
@@ -89,6 +89,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
     {
         JViewport view = (JViewport) this.table.getParent();
         JScrollPane pane = (JScrollPane) view.getParent();
+
         pane.revalidate();
         view.setPreferredSize(this.table.getPreferredSize());
     }

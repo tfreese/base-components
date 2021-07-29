@@ -46,6 +46,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 import org.apache.commons.lang3.SystemUtils;
 
+import de.freese.base.swing.macOsX.OSXAdapter;
+
 /**
  * @author Thomas Freese
  */

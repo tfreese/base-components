@@ -2,19 +2,20 @@ package de.freese.base.swing.components.table;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-import de.freese.base.swing.eventlist.EventList;
+
 import de.freese.base.swing.eventlist.IEventList;
 
 /**
- * TableModel das intern eine {@link EventList} verwendet.
+ * TableModel das intern eine {@link IEventList} verwendet.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ der List-Objekte.
  */
 public abstract class AbstractEventListTableModel<T> extends AbstractListTableModel<T>
 {
     /**
-     * Listener auf der {@link EventList}.
+     * Listener auf der {@link IEventList}.
      *
      * @author Thomas Freese
      */
