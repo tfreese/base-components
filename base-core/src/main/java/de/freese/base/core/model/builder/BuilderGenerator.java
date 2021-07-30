@@ -9,7 +9,8 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
-import de.freese.base.core.concurrent.ScheduledAccumulativeRunnable;
+
+import de.freese.base.core.concurrent.accumulative.AccumulativeRunnableScheduled;
 import de.freese.base.utils.ReflectionUtils;
 
 /**
@@ -23,7 +24,7 @@ public class BuilderGenerator
     public static void main(final String[] args)
     {
         BuilderGenerator generator = new BuilderGenerator();
-        generator.createBuilder(ScheduledAccumulativeRunnable.class, true, System.out);
+        generator.createBuilder(AccumulativeRunnableScheduled.class, true, System.out);
         // generator.createBuilder(Tupel2.class, true, System.out);
     }
 

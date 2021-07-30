@@ -1,6 +1,4 @@
-/**
- * Created: 24.10.2011
- */
+// Created: 24.10.2011
 
 /*
  * Copyright 2005-2006 Sun Microsystems, Inc. All Rights Reserved. DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER. This code is free software; you
@@ -13,11 +11,12 @@
  * additional information or have any questions.
  */
 
-package de.freese.base.core.concurrent;
+package de.freese.base.core.concurrent.accumulative;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.SwingUtilities;
 
 /**
@@ -67,8 +66,11 @@ import javax.swing.SwingUtilities;
  *
  * @author Igor Kushnirskiy
  * @author Thomas Freese
+ *
  * @param <T> the type this {@code Runnable} accumulates
+ *
  * @since 1.6
+ *
  * @see "sun.swing.AccumulativeRunnable"
  */
 public abstract class AccumulativeRunnable<T> implements Runnable
@@ -88,11 +90,6 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     @SafeVarargs
     public final synchronized void add(final T...args)
     {
-        if ((args == null) || (args.length == 0))
-        {
-            return;
-        }
-
         boolean isSubmitted = true;
 
         if (this.arguments == null)

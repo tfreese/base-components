@@ -1,4 +1,4 @@
-package de.freese.base.core.concurrent;
+package de.freese.base.core.concurrent.accumulative;
 
 import java.time.Duration;
 import java.util.List;
@@ -17,7 +17,7 @@ import javax.swing.Timer;
  *
  * @param <T> Type
  */
-public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
+public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
 {
     /**
      *
@@ -36,33 +36,33 @@ public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
     };
 
     /**
-     * Erstellt ein neues {@link ScheduledAccumulativeRunnable} Object.<br>
+     * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.<br>
      * Ohne {@link ScheduledExecutorService} wird ein {@link Timer} verwendet.<br>
      * Default delay = 250 ms
      */
-    public ScheduledAccumulativeRunnable()
+    public AccumulativeRunnableScheduled()
     {
         this(null, Duration.ofMillis(250));
     }
 
     /**
-     * Erstellt ein neues {@link ScheduledAccumulativeRunnable} Object.<br>
+     * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.<br>
      * Default delay = 250 ms
      *
      * @param scheduledExecutor {@link ScheduledExecutorService}
      */
-    public ScheduledAccumulativeRunnable(final ScheduledExecutorService scheduledExecutor)
+    public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor)
     {
         this(Objects.requireNonNull(scheduledExecutor, "scheduledExecutor required"), Duration.ofMillis(250));
     }
 
     /**
-     * Erstellt ein neues {@link ScheduledAccumulativeRunnable} Object.
+     * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.
      *
      * @param scheduledExecutor {@link ScheduledExecutorService}; optional
      * @param delay {@link Duration}
      */
-    public ScheduledAccumulativeRunnable(final ScheduledExecutorService scheduledExecutor, final Duration delay)
+    public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor, final Duration delay)
     {
         super();
 
@@ -79,7 +79,7 @@ public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
     }
 
     /**
-     * @see de.freese.base.core.concurrent.AccumulativeRunnable#run(java.util.List)
+     * @see de.freese.base.core.concurrent.accumulative.AccumulativeRunnable#run(java.util.List)
      */
     @Override
     protected void run(final List<T> args)
@@ -88,7 +88,7 @@ public class ScheduledAccumulativeRunnable<T> extends AccumulativeRunnable<T>
     }
 
     /**
-     * @see de.freese.base.core.concurrent.AccumulativeRunnable#submit()
+     * @see de.freese.base.core.concurrent.accumulative.AccumulativeRunnable#submit()
      */
     @Override
     protected final void submit()
