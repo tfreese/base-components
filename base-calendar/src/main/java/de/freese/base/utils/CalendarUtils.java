@@ -1,7 +1,4 @@
-/**
- * Created: 12.02.2020
- */
-
+// Created: 12.02.2020
 package de.freese.base.utils;
 
 import java.sql.Timestamp;
@@ -46,6 +43,7 @@ public final class CalendarUtils
      * Liefert einen Gregorianischen Kalender.
      *
      * @param date {@link Date}
+     *
      * @return {@link Calendar}
      */
     public static Calendar calendarCreate(final Date date)
@@ -59,6 +57,7 @@ public final class CalendarUtils
 
     /**
      * @param localDate {@link LocalDate}
+     *
      * @return {@link Date}
      */
     public static Date toDate(final LocalDate localDate)
@@ -73,6 +72,7 @@ public final class CalendarUtils
 
     /**
      * @param localDateTime {@link LocalDateTime}
+     *
      * @return {@link Date}
      */
     public static Date toDate(final LocalDateTime localDateTime)
@@ -86,6 +86,7 @@ public final class CalendarUtils
 
     /**
      * @param accessor {@link TemporalAccessor}
+     *
      * @return {@link Date}
      */
     public static Date toDate(final TemporalAccessor accessor)
@@ -100,6 +101,7 @@ public final class CalendarUtils
 
     /**
      * @param date {@link Date}
+     *
      * @return {@link Instant}
      */
     public static Instant toInstant(final Date date)
@@ -122,6 +124,7 @@ public final class CalendarUtils
 
     /**
      * @param localDate {@link Date}
+     *
      * @return {@link Instant}
      */
     public static Instant toInstant(final LocalDate localDate)
@@ -136,6 +139,7 @@ public final class CalendarUtils
 
     /**
      * @param localDateTime {@link LocalDateTime}
+     *
      * @return {@link Instant}
      */
     public static Instant toInstant(final LocalDateTime localDateTime)
@@ -149,6 +153,7 @@ public final class CalendarUtils
 
     /**
      * @param accessor {@link TemporalAccessor}
+     *
      * @return {@link Instant}
      */
     public static Instant toInstant(final TemporalAccessor accessor)
@@ -160,6 +165,7 @@ public final class CalendarUtils
 
     /**
      * @param date {@link Date}
+     *
      * @return {@link LocalDate}
      */
     public static LocalDate toLocalDate(final Date date)
@@ -173,6 +179,7 @@ public final class CalendarUtils
 
     /**
      * @param localDateTime {@link LocalDateTime}
+     *
      * @return {@link LocalDate}
      */
     public static LocalDate toLocalDate(final LocalDateTime localDateTime)
@@ -184,6 +191,7 @@ public final class CalendarUtils
 
     /**
      * @param accessor {@link TemporalAccessor}
+     *
      * @return {@link LocalDate}
      */
     public static LocalDate toLocalDate(final TemporalAccessor accessor)
@@ -202,6 +210,7 @@ public final class CalendarUtils
 
     /**
      * @param date {@link Date}
+     *
      * @return {@link LocalDateTime}
      */
     public static LocalDateTime toLocalDateTime(final Date date)
@@ -216,6 +225,7 @@ public final class CalendarUtils
 
     /**
      * @param localDate {@link LocalDate}
+     *
      * @return {@link LocalDateTime}
      */
     public static LocalDateTime toLocalDateTime(final LocalDate localDate)
@@ -228,6 +238,7 @@ public final class CalendarUtils
 
     /**
      * @param accessor {@link TemporalAccessor}
+     *
      * @return {@link LocalDateTime}
      */
     public static LocalDateTime toLocalDateTime(final TemporalAccessor accessor)
@@ -246,6 +257,7 @@ public final class CalendarUtils
 
     /**
      * @param instant {@link Instant}
+     *
      * @return {@link java.sql.Date}
      */
     public static java.sql.Date toSqlDate(final Instant instant)
@@ -259,6 +271,7 @@ public final class CalendarUtils
 
     /**
      * @param instant {@link Instant}
+     *
      * @return {@link Timestamp}
      */
     public static Timestamp toTimestamp(final Instant instant)
