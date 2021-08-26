@@ -8,13 +8,15 @@ import java.util.Objects;
  * Adapter für den {@link Buffer} mit AutoExpand-Funktion.
  *
  * @param <B> Konkreter Buffer
+ *
  * @author Thomas Freese
+ *
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 {
     /**
-     * 4 MB
+     * Default: 4 MB
      */
     private static final int CALCULATE_THRESHOLD = 1024 * 1024 * 4;
 
@@ -31,7 +33,9 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
      * Berechnet die neue Größe des Buffers..<br>
      *
      * @param neededCapacity int
+     *
      * @return int
+     *
      * @see "io.netty.buffer.AbstractByteBufAllocator.calculateNewCapacity(int, int)"
      * @see "org.springframework.core.io.buffer.DefaultDataBuffer.calculateCapacity(int)"
      */
@@ -65,6 +69,12 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         }
 
         // Nicht über dem Schwellenwert: bis auf Schwellenwert vergrößern in "power of 2" Schritten, angefangen bei 64.
+        // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
+        // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,1
+
+        // Liefert den höchsten Wert (power of 2), der kleiner als neededCapacity ist.
+        // int newCapacity = Integer.highestOneBit(neededCapacity);
+
         int newCapacity = 64;
 
         while (newCapacity < neededCapacity)
@@ -73,25 +83,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         }
 
         return Math.min(newCapacity, MAX_CAPACITY);
-
-        // Liefert den nächst größeren Wert, der ein Vielfaches von "power of 2" ist.
-        //
-        // Liefert den höchsten Wert (power of 2), der kleiner als requestedCapacity ist.
-        // int newCapacity = Integer.highestOneBit(neededCapacity);
-        //
-        // // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
-        // // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,
-        // if (newCapacity < neededCapacity)
-        // {
-        // newCapacity <<= 1;
-        // }
-        //
-        // if (newCapacity > MAX_CAPACITY)
-        // {
-        // throw new OutOfMemoryError("Required array length too large");
-        // }
-        //
-        // return newCapacity;
     }
 
     /**
@@ -166,6 +157,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return int
+     *
      * @see Buffer#capacity()
      */
     public final int capacity()
@@ -175,6 +167,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return {@link AbstractAutoExpandBuffer}
+     *
      * @see Buffer#clear()
      */
     public final AbstractAutoExpandBuffer<B> clear()
@@ -189,12 +182,14 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     /**
      * @param buffer {@link Buffer}
      * @param newCapacity int
+     *
      * @return {@link Buffer}
      */
     protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
     /**
      * @return {@link AbstractAutoExpandBuffer}
+     *
      * @see Buffer#flip()
      */
     public final AbstractAutoExpandBuffer<B> flip()
@@ -216,6 +211,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return boolean
+     *
      * @see Buffer#hasRemaining()
      */
     public final boolean hasRemaining()
@@ -225,6 +221,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return boolean
+     *
      * @see Buffer#isDirect()
      */
     public final boolean isDirect()
@@ -234,6 +231,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return boolean
+     *
      * @see Buffer#isReadOnly()
      */
     public final boolean isReadOnly()
@@ -243,6 +241,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return int
+     *
      * @see Buffer#limit()
      */
     public final int limit()
@@ -252,7 +251,9 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @param newLimit int
+     *
      * @return {@link AbstractAutoExpandBuffer}
+     *
      * @see Buffer#limit(int)
      */
     public final AbstractAutoExpandBuffer<B> limit(final int newLimit)
@@ -270,6 +271,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return {@link AbstractAutoExpandBuffer}
+     *
      * @see Buffer#mark()
      */
     public final AbstractAutoExpandBuffer<B> mark()
@@ -282,6 +284,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return int
+     *
      * @see Buffer#position()
      */
     public final int position()
@@ -291,7 +294,9 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @param newPosition int
+     *
      * @return {@link AbstractAutoExpandBuffer}
+     *
      * @see Buffer#position(int)
      */
     public final AbstractAutoExpandBuffer<B> position(final int newPosition)
@@ -309,6 +314,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return int
+     *
      * @see Buffer#remaining()
      */
     public final int remaining()
@@ -318,6 +324,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * @return {@link AbstractAutoExpandBuffer}
+     *
      * @see Buffer#reset()
      */
     public final AbstractAutoExpandBuffer<B> reset()
@@ -331,6 +338,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
      * Forwards the position of this buffer as the specified <code>size</code> bytes.
      *
      * @param size int
+     *
      * @return {@link AbstractAutoExpandBuffer}
      */
     public final AbstractAutoExpandBuffer<B> skip(final int size)

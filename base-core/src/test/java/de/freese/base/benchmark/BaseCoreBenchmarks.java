@@ -1,7 +1,4 @@
-/**
- * Created: 30.04.2020
- */
-
+// Created: 30.04.2020
 package de.freese.base.benchmark;
 
 import org.openjdk.jmh.results.format.ResultFormatType;
@@ -16,6 +13,7 @@ public class BaseCoreBenchmarks
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -25,7 +23,7 @@ public class BaseCoreBenchmarks
         // Der Builder überschreibt die Klassen-Annotationen.
         // @formatter:off
         Options options = new OptionsBuilder()
-                //.include(RemoveControlCharactersBenchmark.class.getSimpleName())
+                .include(RemoveControlCharactersBenchmark.class.getSimpleName())
                 .include(SpliteratorBenchmark.class.getSimpleName())
                 //.addProfiler(GCProfiler.class)
                 //.addProfiler(HotspotMemoryProfiler.class)

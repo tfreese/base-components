@@ -1,10 +1,8 @@
-/**
- * Created: 13.06.2020
- */
-
+// Created: 13.06.2020
 package de.freese.base.benchmark;
 
 import java.util.concurrent.TimeUnit;
+
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
