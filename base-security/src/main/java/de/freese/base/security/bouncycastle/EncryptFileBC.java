@@ -13,6 +13,7 @@ import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.cms.CMSAlgorithm;
@@ -58,6 +59,7 @@ public class EncryptFileBC
      * @param decrytpedFile String
      * @param encryptedFile String
      * @param zertifikatFile String
+     *
      * @throws Exception Falls was schief geht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String zertifikatFile) throws Exception
@@ -75,6 +77,7 @@ public class EncryptFileBC
      * @param keystoreFile String
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
+     *
      * @throws Exception Falls was schief geht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
@@ -92,6 +95,7 @@ public class EncryptFileBC
      * @param decrytpedFile String
      * @param encryptedFile String
      * @param cert {@link X509Certificate}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final X509Certificate cert) throws Exception
@@ -110,10 +114,7 @@ public class EncryptFileBC
             throw new IOException(msg);
         }
 
-        LOGGER.info("Encrypt File \"{}\" to \"{}\" with \"{}\"", new Object[]
-        {
-                decrytpedFile, encryptedFile, cert.getSubjectDN()
-        });
+        LOGGER.info("Encrypt File \"{}\" to \"{}\" with \"{}\"", decrytpedFile, encryptedFile, cert.getSubjectX500Principal());
 
         byte[] data = null;
 
@@ -141,6 +142,7 @@ public class EncryptFileBC
      * @param inputFolder String
      * @param outputFolder String
      * @param zertifikatFile String
+     *
      * @throws Exception Falls was schief geht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile) throws Exception
@@ -159,6 +161,7 @@ public class EncryptFileBC
      * @param keystoreFile String
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
+     *
      * @throws Exception Falls was schief geht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
@@ -177,6 +180,7 @@ public class EncryptFileBC
      * @param inputFolder String
      * @param outputFolder String
      * @param cert {@link X509Certificate}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final X509Certificate cert) throws Exception
@@ -204,7 +208,9 @@ public class EncryptFileBC
      * Laden des {@link X509Certificate}s.
      *
      * @param zertifikatFile String
+     *
      * @return {@link X509Certificate}
+     *
      * @throws Exception Falls was schief geht.
      */
     private X509Certificate getCertificate(final String zertifikatFile) throws Exception
@@ -230,7 +236,9 @@ public class EncryptFileBC
      * @param keystoreFile String
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
+     *
      * @return {@link X509Certificate}
+     *
      * @throws Exception Falls was schief geht.
      */
     private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias) throws Exception

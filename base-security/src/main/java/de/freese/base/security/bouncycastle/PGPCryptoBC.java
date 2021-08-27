@@ -16,6 +16,7 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Date;
 import java.util.Iterator;
+
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.CompressionAlgorithmTags;
@@ -85,13 +86,14 @@ class PGPCryptoBC
     /**
      *
      */
-    private static final int[] MASTER_KEY_CERTIFICATION_TYPES = new int[]
+    private static final int[] MASTER_KEY_CERTIFICATION_TYPES =
     {
             PGPSignature.POSITIVE_CERTIFICATION, PGPSignature.CASUAL_CERTIFICATION, PGPSignature.NO_CERTIFICATION, PGPSignature.DEFAULT_CERTIFICATION
     };
 
     /**
      * @param algorithm int
+     *
      * @return String
      */
     public static String getAlgorithm(final int algorithm)
@@ -114,6 +116,7 @@ class PGPCryptoBC
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -149,6 +152,7 @@ class PGPCryptoBC
 
     /**
      * @param file String
+     *
      * @throws Exception Falls was schief geht.
      */
     static void pubRingDump(final String file) throws Exception
@@ -254,6 +258,7 @@ class PGPCryptoBC
      * @param out {@link OutputStream}, unverschlüsselt
      * @param keyIn {@link InputStream}, PrivateKey
      * @param password char[]
+     *
      * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
@@ -302,16 +307,14 @@ class PGPCryptoBC
         objectFactory = new PGPObjectFactory(decryptedInputStream, new BcKeyFingerprintCalculator());
         Object message = objectFactory.nextObject();
 
-        if (message instanceof PGPCompressedData)
+        if (message instanceof PGPCompressedData compressedData)
         {
-            PGPCompressedData compressedData = (PGPCompressedData) message;
             objectFactory = new PGPObjectFactory(compressedData.getDataStream(), new BcKeyFingerprintCalculator());
             message = objectFactory.nextObject();
         }
 
-        if (message instanceof PGPLiteralData)
+        if (message instanceof PGPLiteralData literalData)
         {
-            PGPLiteralData literalData = (PGPLiteralData) message;
             byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
             try (InputStream inputStream = literalData.getInputStream())
@@ -350,6 +353,7 @@ class PGPCryptoBC
      * @param publicKey {@link PGPPublicKey}
      * @param armored boolean
      * @param integrityCheck boolean
+     *
      * @throws Exception Falls was schief geht.
      */
     private void encryptFile(final String encryptedFile, final String rawFile, final PGPPublicKey publicKey, final boolean armored,
@@ -393,6 +397,7 @@ class PGPCryptoBC
      * @param password char[]
      * @param armored boolean
      * @param withIntegrityCheck boolean
+     *
      * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
@@ -468,7 +473,9 @@ class PGPCryptoBC
      * @param keyIn input stream representing a key ring collection.
      * @param keyID keyID we want.
      * @param pass passphrase to decrypt secret key with.
+     *
      * @return {@link PGPPrivateKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     public PGPPrivateKey findPrivateKey(final InputStream keyIn, final long keyID, final char[] pass) throws Exception
@@ -486,7 +493,9 @@ class PGPCryptoBC
      *
      * @param secretKey {@link PGPSecretKey}
      * @param pass passphrase to decrypt secret key with
+     *
      * @return {@link PGPPrivateKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     public PGPPrivateKey findPrivateKey(final PGPSecretKey secretKey, final char[] pass) throws Exception
@@ -521,7 +530,9 @@ class PGPCryptoBC
     /**
      * @param keyIn String
      * @param hexCode String
+     *
      * @return {@link PGPPublicKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     private PGPPublicKey findPublicKey(final String keyIn, final String hexCode) throws Exception
@@ -581,18 +592,18 @@ class PGPCryptoBC
      *
      * @param encKey {@link PGPPublicKey}
      * @param keyUsage int
+     *
      * @return boolean
      */
-    @SuppressWarnings("unchecked")
     private boolean hasKeyFlags(final PGPPublicKey encKey, final int keyUsage)
     {
         if (encKey.isMasterKey())
         {
             for (int certType : MASTER_KEY_CERTIFICATION_TYPES)
             {
-                for (Iterator<PGPSignature> eIt = encKey.getSignaturesOfType(certType); eIt.hasNext();)
+                for (Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(certType); iterator.hasNext();)
                 {
-                    PGPSignature sig = eIt.next();
+                    PGPSignature sig = iterator.next();
 
                     if (!isMatchingUsage(sig, keyUsage))
                     {
@@ -603,9 +614,9 @@ class PGPCryptoBC
         }
         else
         {
-            for (Iterator<PGPSignature> eIt = encKey.getSignaturesOfType(PGPSignature.SUBKEY_BINDING); eIt.hasNext();)
+            for (Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(PGPSignature.SUBKEY_BINDING); iterator.hasNext();)
             {
-                PGPSignature sig = eIt.next();
+                PGPSignature sig = iterator.next();
 
                 if (!isMatchingUsage(sig, keyUsage))
                 {
@@ -623,6 +634,7 @@ class PGPCryptoBC
      * I didn't think it was worth having to import a 4meg lib for three methods.
      *
      * @param key {@link PGPPublicKey}
+     *
      * @return boolean
      */
     public boolean isForEncryption(final PGPPublicKey key)
@@ -643,6 +655,7 @@ class PGPCryptoBC
      *
      * @param sig {@link PGPSignature}
      * @param keyUsage int
+     *
      * @return boolean
      */
     private boolean isMatchingUsage(final PGPSignature sig, final int keyUsage)
@@ -665,7 +678,9 @@ class PGPCryptoBC
 
     /**
      * @param keyIn String
+     *
      * @return {@link PGPSecretKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     public PGPSecretKey readSecretKey(final String keyIn) throws Exception
@@ -726,7 +741,9 @@ class PGPCryptoBC
      * @param in {@link InputStream}
      * @param keyIn {@link InputStream}
      * @param extractContentFile String
+     *
      * @return boolean
+     *
      * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")
