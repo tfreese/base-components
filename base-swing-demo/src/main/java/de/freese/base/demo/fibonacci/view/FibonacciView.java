@@ -7,12 +7,18 @@ import de.freese.base.mvc.View;
  *
  * @author Thomas Freese
  */
-public interface FibonacciView extends View<FibonacciPanel>
+public interface FibonacciView extends View
 {
+    /**
+     * @see de.freese.base.mvc.View#getComponent()
+     */
+    @Override
+    FibonacciPanel getComponent();
+
     /**
      * Setzt das Ergebniss des Prozesses in die IView.
      *
      * @param value long
      */
-    public void setResult(long value);
+    void setResult(long value);
 }

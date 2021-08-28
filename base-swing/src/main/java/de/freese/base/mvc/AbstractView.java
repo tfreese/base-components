@@ -2,8 +2,10 @@ package de.freese.base.mvc;
 
 import java.awt.Component;
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 
@@ -11,14 +13,13 @@ import de.freese.base.swing.exception.SwingExceptionHandler;
  * BasisImplementierung einer IView.
  *
  * @author Thomas Freese
- * @param <C> Typ der Komponente
  */
-public abstract class AbstractView<C extends Component> implements View<C>
+public abstract class AbstractView implements View
 {
     /**
      *
      */
-    private C component;
+    private Component component;
 
     /**
      *
@@ -39,7 +40,7 @@ public abstract class AbstractView<C extends Component> implements View<C>
      * @see de.freese.base.mvc.View#getComponent()
      */
     @Override
-    public C getComponent()
+    public Component getComponent()
     {
         return this.component;
     }
@@ -120,7 +121,7 @@ public abstract class AbstractView<C extends Component> implements View<C>
     /**
      * @param component {@link Component}
      */
-    protected void setComponent(final C component)
+    protected void setComponent(final Component component)
     {
         this.component = Objects.requireNonNull(component, "component required");
     }

@@ -3,12 +3,14 @@ package de.freese.base.demo.nasa.view;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+
 import de.freese.base.mvc.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 
@@ -17,7 +19,7 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
+public class DefaultNasaView extends AbstractView implements NasaView
 {
     /**
      * @see de.freese.base.mvc.View#createGUI()
@@ -44,6 +46,15 @@ public class DefaultNasaView extends AbstractView<NasaPanel> implements NasaView
     {
         button.setText(resourceMap.getString(key + ".text"));
         button.setIcon(resourceMap.getIcon(key + ".icon"));
+    }
+
+    /**
+     * @see de.freese.base.mvc.AbstractView#getComponent()
+     */
+    @Override
+    public NasaPanel getComponent()
+    {
+        return (NasaPanel) super.getComponent();
     }
 
     /**

@@ -1,11 +1,9 @@
-/**
- * Created: 08.06.2020
- */
-
+// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.Locale;
 import java.util.Map;
+
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -19,29 +17,31 @@ public interface ResourceMapCache
      * @param bundleName String
      * @param locale {@link Locale}
      */
-    public void clear(String bundleName, Locale locale);
+    void clear(String bundleName, Locale locale);
 
     /**
     *
     */
-    public void clearAll();
+    void clearAll();
 
     /**
      * @param bundleName String
      * @param locale {@link Locale}
      * @param type Class
      * @param key String
+     *
      * @return Object
      */
-    public <T> T getValue(String bundleName, Locale locale, Class<T> type, String key);
+    <T> T getValue(String bundleName, Locale locale, Class<T> type, String key);
 
     /**
      * @param bundleName String
      * @param locale {@link Locale}
      * @param type Class
+     *
      * @return {@link Map}
      */
-    public <T> Map<String, T> getValues(String bundleName, Locale locale, Class<T> type);
+    <T> Map<String, T> getValues(String bundleName, Locale locale, Class<T> type);
 
     /**
      * @param bundleName String
@@ -50,7 +50,7 @@ public interface ResourceMapCache
      * @param key String
      * @param value Object
      */
-    public <T> void putValue(String bundleName, Locale locale, Class<T> type, String key, T value);
+    <T> void putValue(String bundleName, Locale locale, Class<T> type, String key, T value);
 
     /**
      * @param bundleName String
@@ -58,5 +58,5 @@ public interface ResourceMapCache
      * @param type Class
      * @param values {@link Map}
      */
-    public <T> void putValues(String bundleName, Locale locale, Class<T> type, Map<String, T> values);
+    <T> void putValues(String bundleName, Locale locale, Class<T> type, Map<String, T> values);
 }

@@ -6,36 +6,35 @@ import java.awt.Component;
  * Interface einer View.
  *
  * @author Thomas Freese
- * @param <C> Typ der Komponente
  */
-public interface View<C extends Component>
+public interface View
 {
     /**
      * Aufbau der GUI.
      */
-    public void createGUI();
+    void createGUI();
 
     /**
      * Liefert die Komponente der View.
      *
      * @return {@link Component}
      */
-    public C getComponent();
+    Component getComponent();
 
     /**
      * Fehlerbehandlung.
      *
      * @param throwable {@link Throwable}
      */
-    public void handleException(Throwable throwable);
+    void handleException(Throwable throwable);
 
     /**
      * Setzt den Status der View.
      */
-    public void restoreState();
+    void restoreState();
 
     /**
      * Speichert den Status der View.
      */
-    public void saveState();
+    void saveState();
 }

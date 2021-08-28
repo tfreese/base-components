@@ -1,12 +1,10 @@
-/**
- * Created: 08.06.2020
- */
-
+// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import de.freese.base.resourcemap.ResourceMap;
 
 /**

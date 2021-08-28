@@ -1,19 +1,20 @@
-/**
- * Created: 24.07.2011
- */
-
+// Created: 24.07.2011
 package de.freese.base.demo;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+
 import de.freese.base.demo.example.ExampleController;
 import de.freese.base.demo.fibonacci.FibonacciController;
 import de.freese.base.demo.nasa.NasaController;
@@ -73,14 +74,6 @@ public class DemoApplication extends AbstractApplication
     }
 
     /**
-     * Erstellt ein neues {@link DemoApplication} Object.
-     */
-    public DemoApplication()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.mvc.AbstractApplication#getName()
      */
     @Override
@@ -99,7 +92,8 @@ public class DemoApplication extends AbstractApplication
         super.initContext();
 
         LocalStorage localStorage = getContext().getLocalStorage();
-        localStorage.setDirectory(Paths.get(System.getProperty("user.home"), ".java-apps", getName().replace(' ', '_')));
+        // localStorage.setDirectory(Paths.get(System.getProperty("user.home"), ".java-apps", getName().replace(' ', '_')));
+        localStorage.setDirectory(Paths.get(System.getProperty("java.io.tmpdir"), ".java-apps", getName().replace(' ', '_')));
     }
 
     /**
@@ -159,7 +153,8 @@ public class DemoApplication extends AbstractApplication
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setTitle(resourceMap.getString("application.title"));
         frame.add(panel);
-        frame.pack();
+        // frame.pack();
+        frame.setSize(1920, 1080);
         frame.setLocationRelativeTo(null);
 
         try
@@ -172,6 +167,17 @@ public class DemoApplication extends AbstractApplication
         }
 
         frame.setVisible(true);
+    }
+
+    /**
+     * @see de.freese.base.mvc.AbstractApplication#initLaF()
+     */
+    @Override
+    protected void initLaF()
+    {
+        super.initLaF();
+
+        UIManager.getLookAndFeelDefaults().put("ToolTip.background", Color.WHITE);
     }
 
     /**

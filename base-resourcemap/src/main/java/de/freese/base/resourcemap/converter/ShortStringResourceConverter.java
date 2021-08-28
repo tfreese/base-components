@@ -13,6 +13,6 @@ public class ShortStringResourceConverter extends AbstractNumberResourceConverte
     @Override
     protected Short convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Short.decode(value) : Short.valueOf(value, radix);
+        return (radix == -1) ? Short.valueOf(value) : Short.valueOf(value, radix);
     }
 }

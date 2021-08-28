@@ -46,7 +46,7 @@ public final class BogusSSLContextFactory
     /**
      *
      */
-    private static final String PROTOCOL = "TLSv2";
+    private static final String PROTOCOL = "TLSv3";
 
     /**
      *

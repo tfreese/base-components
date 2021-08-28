@@ -5,7 +5,9 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.Timer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,17 +35,10 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
     private Timer timer;
 
     /**
-     * Erstellt ein neues {@link DurationStatisikTaskListener} Object.
-     */
-    public DurationStatisikTaskListener()
-    {
-        super();
-    }
-
-    /**
      * Liefert die Statistiken für den Task.
      *
      * @param taskName String
+     *
      * @return {@link TaskStatistik}
      */
     private TaskStatistik getTaskStatistik(final String taskName)

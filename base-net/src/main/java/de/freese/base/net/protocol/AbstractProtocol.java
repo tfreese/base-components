@@ -1,81 +1,29 @@
 package de.freese.base.net.protocol;
 
-import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import org.apache.commons.codec.binary.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basisklasse fuer Netzwerkprotokolle.
  *
  * @author Thomas Freese
  */
-public abstract class AbstractProtocol implements AutoCloseable
+public abstract class AbstractProtocol
 {
     /**
      *
      */
-    private PrintStream debugStream;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      *
      */
-    private boolean isDebug;
-
-    /**
-     * @see java.lang.AutoCloseable#close()
-     */
-    @SuppressWarnings("resource")
-    @Override
-    public void close() throws Exception
-    {
-        if (getDebugStream() != null)
-        {
-            getDebugStream().close();
-        }
-    }
-
-    /**
-     * @param value int
-     */
-    @SuppressWarnings("resource")
-    protected void debug(final int value)
-    {
-        if (!isDebug())
-        {
-            return;
-        }
-
-        getDebugStream().write(value);
-    }
-
-    /**
-     * @param text String
-     */
-    @SuppressWarnings("resource")
-    protected void debug(final String text)
-    {
-        if (!isDebug())
-        {
-            return;
-        }
-
-        getDebugStream().println(text);
-    }
-
-    /**
-     * @return {@link PrintStream}
-     */
-    public PrintStream getDebugStream()
-    {
-        if (this.debugStream == null)
-        {
-            this.debugStream = System.err;
-        }
-
-        return this.debugStream;
-    }
+    public abstract void close();
 
     /**
      * Gets the APOP message digest. From RFC 1939: The 'digest' parameter is calculated by applying the MD5 algorithm [RFC1321] to a string consisting of the
@@ -83,47 +31,31 @@ public abstract class AbstractProtocol implements AutoCloseable
      * using lower-case ASCII characters.
      *
      * @param password The APOP password
+     *
      * @return The APOP digest or an empty string if an error occurs.
      */
     protected String getDigest(final String password)
     {
-        String key = password;
-        byte[] digest;
-
         try
         {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            digest = md.digest(key.getBytes(StandardCharsets.UTF_8));
+            byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            return Hex.encodeHexString(digest);
         }
         catch (NoSuchAlgorithmException ex)
         {
-            return null;
+            getLogger().error(null, ex);
         }
 
-        return Hex.encodeHexString(digest);
+        return null;
     }
 
     /**
-     * @return boolean
+     * @return {@link Logger}
      */
-    public boolean isDebug()
+    protected Logger getLogger()
     {
-        return this.isDebug;
-    }
-
-    /**
-     * @param isDebug boolean
-     */
-    public void setDebug(final boolean isDebug)
-    {
-        this.isDebug = isDebug;
-    }
-
-    /**
-     * @param debugStream {@link PrintStream}
-     */
-    public void setDebugStream(final PrintStream debugStream)
-    {
-        this.debugStream = debugStream;
+        return this.logger;
     }
 }

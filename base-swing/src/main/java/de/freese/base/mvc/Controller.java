@@ -1,10 +1,6 @@
-/**
- * Created: 27.05.2020
- */
-
+// Created: 27.05.2020
 package de.freese.base.mvc;
 
-import java.awt.Component;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -19,36 +15,36 @@ public interface Controller
      *
      * @return String
      */
-    public String getName();
+    String getName();
 
     /**
      * Liefert die ResourceMap des Controllers.
      *
      * @return {@link ResourceMap}
      */
-    public ResourceMap getResourceMap();
+    ResourceMap getResourceMap();
 
     /**
      * Liefert die View des Controllers.
      *
      * @return {@link View}
      */
-    public <C extends Component> View<C> getView();
+    View getView();
 
     /**
      * Fehlerbehandlung.
      *
      * @param throwable {@link Throwable}
      */
-    public void handleException(Throwable throwable);
+    void handleException(Throwable throwable);
 
     /**
      * Initialisiert den Controller.
      */
-    public void initialize();
+    void initialize();
 
     /**
      * Freigeben verwendeter Resourcen.
      */
-    public void release();
+    void release();
 }

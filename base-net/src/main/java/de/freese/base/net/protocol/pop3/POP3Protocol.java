@@ -13,10 +13,13 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+
 import com.sun.mail.util.LineInputStream;
 import com.sun.mail.util.SharedByteArrayOutputStream;
+
 import de.freese.base.net.protocol.AbstractProtocol;
 
 /**
@@ -54,51 +57,45 @@ public class POP3Protocol extends AbstractProtocol
      * @param props {@link Properties}
      * @param propPrefix String
      * @param isSSL boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public POP3Protocol(final String host, final int port, final Properties props, final String propPrefix, final boolean isSSL) throws IOException
     {
         super();
 
-        Properties mProps = props;
-        int mPort = port;
-
-        if (mProps == null)
-        {
-            mProps = new Properties();
-        }
+        Properties myProperties = props != null ? props : new Properties();
+        int myPort = port > 0 ? port : POP3Command.POP3_PORT;
 
         Pop3Response r = new Pop3Response();
-        String apop = mProps.getProperty(propPrefix + ".apop.enable");
+        String apop = myProperties.getProperty(propPrefix + ".apop.enable");
         boolean enableAPOP = "true".equalsIgnoreCase(apop);
 
         try
         {
-            if (mPort == -1)
+            if (getLogger().isDebugEnabled())
             {
-                mPort = POP3Command.POP3_PORT;
+                getLogger().debug("connecting to host \"{}\", port {}, isSSL {}", host, myPort, isSSL);
             }
-
-            debug("DEBUG POP3: connecting to host \"" + host + "\", port " + mPort + ", isSSL " + isSSL);
 
             if (isSSL)
             {
                 SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-                this.serverSocket = socketFactory.createSocket(host, mPort);
+                this.serverSocket = socketFactory.createSocket(host, myPort);
                 ((SSLSocket) this.serverSocket).setEnabledProtocols(new String[]
                 {
-                        "TLSv1"
+                        "TLSv3"
                 });
             }
             else
             {
-                this.serverSocket = new Socket(host, mPort);
+                this.serverSocket = new Socket(host, myPort);
             }
 
+            // should be US-ASCII, but not all JDK's support
             this.inputReader = new BufferedReader(new InputStreamReader(this.serverSocket.getInputStream(), StandardCharsets.ISO_8859_1));
             this.outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(this.serverSocket.getOutputStream(), StandardCharsets.ISO_8859_1)));
 
-            // should be US-ASCII, but not all JDK's support
             r = simpleCommand(null);
         }
         catch (IOException ioe)
@@ -135,30 +132,37 @@ public class POP3Protocol extends AbstractProtocol
                 this.apopChallenge = r.data.substring(challStart, challEnd + 1);
             }
 
-            debug("DEBUG POP3: APOP challenge: " + this.apopChallenge);
+            getLogger().debug("APOP challenge: {}", this.apopChallenge);
         }
     }
 
     /**
-     * @see java.lang.AutoCloseable#close()
+     * @see de.freese.base.net.protocol.AbstractProtocol#close()
      */
     @Override
-    public void close() throws Exception
+    public void close()
     {
-        if (this.serverSocket != null)
+        try
         {
-            // Forgot to logout ?!
-            quit();
+            if (this.serverSocket != null)
+            {
+                // Forgot to logout ?!
+                quit();
+            }
         }
-
-        super.close();
+        catch (Exception ex)
+        {
+            getLogger().error(null, ex);
+        }
     }
 
     /**
      * Delete (permanently) the specified message.
      *
      * @param messageNumber int
+     *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized boolean dele(final int messageNumber) throws IOException
@@ -181,7 +185,9 @@ public class POP3Protocol extends AbstractProtocol
      * Return the size of the message using the LIST command.
      *
      * @param messageNumber int
+     *
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized int list(final int messageNumber) throws IOException
@@ -199,7 +205,7 @@ public class POP3Protocol extends AbstractProtocol
             }
             catch (Exception ex)
             {
-                // Ignore
+                getLogger().error(null, ex);
             }
         }
 
@@ -211,6 +217,7 @@ public class POP3Protocol extends AbstractProtocol
      *
      * @param user String
      * @param password String
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized void login(final String user, final String password) throws IOException
@@ -264,7 +271,9 @@ public class POP3Protocol extends AbstractProtocol
      *
      * @param cmd String
      * @param size int
+     *
      * @return Response
+     *
      * @throws IOException Falls was schief geht.
      * @throws EOFException Falls was schief geht.
      */
@@ -299,8 +308,6 @@ public class POP3Protocol extends AbstractProtocol
 
                 buf.write(b);
 
-                debug(b);
-
                 lastb = b;
             }
 
@@ -319,6 +326,7 @@ public class POP3Protocol extends AbstractProtocol
      * Do a NOOP.
      *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized boolean noop() throws IOException
@@ -332,6 +340,7 @@ public class POP3Protocol extends AbstractProtocol
      * Close down the connection, sending the QUIT command if expunge is true.
      *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized boolean quit() throws IOException
@@ -366,7 +375,9 @@ public class POP3Protocol extends AbstractProtocol
      *
      * @param messageNumber int
      * @param size int
+     *
      * @return {@link InputStream}
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized InputStream retr(final int messageNumber, final int size) throws IOException
@@ -380,6 +391,7 @@ public class POP3Protocol extends AbstractProtocol
      * Do an RSET.
      *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized boolean rset() throws IOException
@@ -393,7 +405,9 @@ public class POP3Protocol extends AbstractProtocol
      * Issue a simple POP3 command and return the response.
      *
      * @param cmd String
+     *
      * @return Response
+     *
      * @throws IOException Falls was schief geht.
      * @throws EOFException Falls was schief geht.
      */
@@ -408,7 +422,7 @@ public class POP3Protocol extends AbstractProtocol
 
         if (mCmd != null)
         {
-            debug("C: " + mCmd);
+            getLogger().debug("C: {}", mCmd);
 
             mCmd += POP3Command.CRLF;
             this.outputWriter.write(mCmd);
@@ -419,12 +433,12 @@ public class POP3Protocol extends AbstractProtocol
 
         if (line == null)
         {
-            debug("S: EOF");
+            getLogger().debug("S: EOF");
 
             throw new EOFException("EOF on serverSocket");
         }
 
-        debug("S: " + line);
+        getLogger().debug("S: {}", line);
 
         Pop3Response r = new Pop3Response();
 
@@ -456,6 +470,7 @@ public class POP3Protocol extends AbstractProtocol
      * Return the total number of messages and mailbox size, using the STAT command.
      *
      * @return int[]; 0 = Messages, 1 = Size of Messages
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized int[] stat() throws IOException
@@ -486,7 +501,9 @@ public class POP3Protocol extends AbstractProtocol
      *
      * @param messageNumber int
      * @param n int
+     *
      * @return {@link InputStream}
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized InputStream top(final int messageNumber, final int n) throws IOException
@@ -500,7 +517,9 @@ public class POP3Protocol extends AbstractProtocol
      * Return the UIDL string for the message.
      *
      * @param messageNumber int
+     *
      * @return String
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized String uidl(final int messageNumber) throws IOException
@@ -526,7 +545,9 @@ public class POP3Protocol extends AbstractProtocol
      * Return the UIDL strings for all messages. The UID for msg #N is returned in uids[N-1].
      *
      * @param uids String[]
+     *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public synchronized boolean uidl(final String[] uids) throws IOException

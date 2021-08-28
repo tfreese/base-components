@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.task.inputblocker.InputBlocker;
 
 /**
@@ -30,6 +33,7 @@ import de.freese.base.swing.task.inputblocker.InputBlocker;
  * </ul>
  *
  * @author Thomas Freese
+ *
  * @param <T> Typ der {@link #doInBackground()} Methode
  * @param <V> Typ der {@link #publish(Object...)} Methode
  */
@@ -42,14 +46,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     private class SwingWorkerPCL implements PropertyChangeListener
     {
-        /**
-         * Erstellt ein neues {@link SwingWorkerPCL} Object.
-         */
-        public SwingWorkerPCL()
-        {
-            super();
-        }
-
         /**
          * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */
@@ -258,6 +254,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * This method runs on the EDT. It Logs an error message by default.
      *
      * @param cause the {@link Throwable#getCause cause} of the {@code ExecutionException}
+     *
      * @see #done
      * @see #get
      * @see #failed
@@ -286,6 +283,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * Liefert die Zeiteinheit, wie lange der Task bis jetzt laeuft.
      *
      * @param unit {@link TimeUnit}
+     *
      * @return long
      */
     public long getCurrentDuration(final TimeUnit unit)
@@ -308,6 +306,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param unit {@link TimeUnit}
      * @param startTime long
      * @param endTime long
+     *
      * @return long
      */
     private long getDuration(final TimeUnit unit, final long startTime, final long endTime)
@@ -339,7 +338,9 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * </pre>
      *
      * @param unit the time unit of the return value
+     *
      * @return the length of time this Task has run.
+     *
      * @see #execute
      */
     public long getExecutionDuration(final TimeUnit unit)
@@ -438,6 +439,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * A task that does keep the progress property up to date should initialize it to 0, to ensure that {@code isProgressPropertyValid} is always true.
      *
      * @return true if the {@link #setProgress progress} property has been set.
+     *
      * @see #setProgress
      */
     public synchronized boolean isProgressPropertyValid()
@@ -481,6 +483,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * Convenience method that sets the {@code progress} property to <code>percentage * 100</code>.
      *
      * @param percentage a value in the range 0.0 ... 1.0 inclusive
+     *
      * @see #setProgress(int)
      */
     protected final void setProgress(final float percentage)
@@ -503,6 +506,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param value a value in the range min ... max, inclusive
      * @param min the minimum value of the range
      * @param max the maximum value of the range
+     *
      * @see #setProgress(int)
      */
     protected final void setProgress(final float value, final float min, final float max)
@@ -531,6 +535,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param value a value in the range min ... max, inclusive
      * @param min the minimum value of the range
      * @param max the maximum value of the range
+     *
      * @see #setProgress(int)
      */
     protected final void setProgress(final int value, final int min, final int max)
@@ -559,6 +564,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param value a value in the range min ... max, inclusive
      * @param min the minimum value of the range
      * @param max the maximum value of the range
+     *
      * @see #setProgress(int)
      */
     protected final void setProgress(final long value, final long min, final long max)
@@ -613,12 +619,13 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * This method runs on the EDT. It does nothing by default.
      *
      * @param result the value returned by the {@code get} method
+     *
      * @see #done
      * @see #get
      * @see #failed
      */
     protected void succeeded(final T result)
     {
-        // NO-OP
+        // Empty
     }
 }

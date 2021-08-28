@@ -2,6 +2,7 @@ package de.freese.base.mvc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -104,9 +105,9 @@ public abstract class AbstractController implements Controller
     {
         this.context = context;
 
-        if (getView() instanceof AbstractView<?>)
+        if (getView() instanceof AbstractView)
         {
-            ((AbstractView<?>) getView()).setContext(context);
+            ((AbstractView) getView()).setContext(context);
         }
     }
 
@@ -129,9 +130,9 @@ public abstract class AbstractController implements Controller
     {
         this.resourceMap = resourceMap;
 
-        if (getView() instanceof AbstractView<?>)
+        if (getView() instanceof AbstractView)
         {
-            ((AbstractView<?>) getView()).setResourceMap(resourceMap);
+            ((AbstractView) getView()).setResourceMap(resourceMap);
         }
     }
 }

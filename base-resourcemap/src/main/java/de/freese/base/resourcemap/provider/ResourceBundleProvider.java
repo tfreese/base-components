@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,24 +22,16 @@ public final class ResourceBundleProvider implements ResourceProvider
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceBundleProvider.class);
 
     /**
-     * Erstellt ein neues {@link ResourceBundleProvider} Object.
-     */
-    public ResourceBundleProvider()
-    {
-        super();
-    }
-
-    /**
-     * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale, java.lang.ClassLoader)
+     * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale)
      */
     @Override
-    public Map<String, String> getResources(final String bundleName, final Locale locale, final ClassLoader classLoader)
+    public Map<String, String> getResources(final String bundleName, final Locale locale)
     {
         Map<String, String> bundles = new HashMap<>();
 
         try
         {
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale, classLoader);
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
 
             Enumeration<String> keys = resourceBundle.getKeys();
 

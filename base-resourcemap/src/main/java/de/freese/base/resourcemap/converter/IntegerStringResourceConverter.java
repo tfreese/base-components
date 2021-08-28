@@ -13,6 +13,6 @@ public class IntegerStringResourceConverter extends AbstractNumberResourceConver
     @Override
     protected Integer convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Integer.decode(value) : Integer.valueOf(value, radix);
+        return (radix == -1) ? Integer.valueOf(value) : Integer.valueOf(value, radix);
     }
 }

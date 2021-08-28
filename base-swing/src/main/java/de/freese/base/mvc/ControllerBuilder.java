@@ -1,10 +1,8 @@
-/**
- * Created: 29.05.2020
- */
-
+// Created: 29.05.2020
 package de.freese.base.mvc;
 
 import java.util.Objects;
+
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.ResourceMapBuilder;
 
@@ -15,6 +13,7 @@ public final class ControllerBuilder
 {
     /**
      * @param context {@link ApplicationContext}
+     *
      * @return {@link ControllerBuilder}
      */
     public static ControllerBuilder create(final ApplicationContext context)
@@ -76,13 +75,12 @@ public final class ControllerBuilder
             controller.setContext(this.context);
             controller.setResourceMap(resourceMap);
         }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
         catch (Exception ex)
         {
-            if (ex instanceof RuntimeException)
-            {
-                throw (RuntimeException) ex;
-            }
-
             throw new RuntimeException(ex);
         }
 
@@ -93,6 +91,7 @@ public final class ControllerBuilder
      * Setzt den Namen des ResourceBundles.
      *
      * @param bundleName String
+     *
      * @return {@link ControllerBuilder}
      */
     public ControllerBuilder bundleName(final String bundleName)
@@ -106,6 +105,7 @@ public final class ControllerBuilder
      * Setzt die Klasse des {@link Controller}s.
      *
      * @param controllerClazz Class
+     *
      * @return {@link ControllerBuilder}
      */
     public ControllerBuilder clazz(final Class<? extends AbstractController> controllerClazz)
@@ -119,6 +119,7 @@ public final class ControllerBuilder
      * Setzt den Namen des {@link Controller}s.
      *
      * @param name String
+     *
      * @return {@link ControllerBuilder}
      */
     public ControllerBuilder name(final String name)

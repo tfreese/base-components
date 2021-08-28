@@ -28,14 +28,14 @@ public final class LookupException extends RuntimeException
      * @param type Class
      * @param locale {@link Locale}
      * @param info String
+     *
      * @return String
      */
-    public static final String createMessage(final String baseName, final String key, final String value, final Class<?> type, final Locale locale,
-                                             final String info)
+    public static String createMessage(final String baseName, final String key, final String value, final Class<?> type, final Locale locale, final String info)
     {
-        String format = "%s: Bundle=\"%s\", Key=\"%s\", Type=\"%s\", Locale=\"%s\"";
+        String format = "%s: Bundle=\"%s\", Key=\"%s\", Value=\"%s\", Type=\"%s\", Locale=\"%s\"";
 
-        return String.format(format, info, baseName, key, type.getName(), locale.toString());
+        return String.format(format, info, baseName, key, value, type.getName(), locale.toString());
     }
 
     /**
@@ -142,6 +142,7 @@ public final class LookupException extends RuntimeException
      * Kuerzung der Fehlermeldung.
      *
      * @param s String
+     *
      * @return String
      */
     private String maybeShorten(final String s)

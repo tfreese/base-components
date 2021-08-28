@@ -13,10 +13,12 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.function.Supplier;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+
 import de.freese.base.resourcemap.converter.ResourceConverter;
 
 /**
@@ -60,6 +62,7 @@ public interface ResourceMap
 
         /**
          * @param enumValue {@link Enum}
+         *
          * @return {@link String}
          */
         public final String getEnumKey(final Enum<?> enumValue)
@@ -81,10 +84,12 @@ public interface ResourceMap
 
     /**
      * @param key String
+     *
      * @return Boolean
+     *
      * @see #getObject
      */
-    public default Boolean getBoolean(final String key)
+    default Boolean getBoolean(final String key)
     {
         return getObject(key, Boolean.class);
     }
@@ -94,14 +99,16 @@ public interface ResourceMap
      *
      * @return String
      */
-    public String getBundleName();
+    String getBundleName();
 
     /**
      * @param key String
+     *
      * @return Byte
+     *
      * @see #getObject
      */
-    public default Byte getByte(final String key)
+    default Byte getByte(final String key)
     {
         return getObject(key, Byte.class);
     }
@@ -118,48 +125,56 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link Color}
+     *
      * @see #getObject
      */
-    public default Color getColor(final String key)
+    default Color getColor(final String key)
     {
         return getObject(key, Color.class);
     }
 
     /**
      * @param key String
+     *
      * @return {@link Dimension}
      */
-    public default Dimension getDimension(final String key)
+    default Dimension getDimension(final String key)
     {
         return getObject(key, Dimension.class);
     }
 
     /**
      * @param key String
+     *
      * @return Double
+     *
      * @see #getObject
      */
-    public default Double getDouble(final String key)
+    default Double getDouble(final String key)
     {
         return getObject(key, Double.class);
     }
 
     /**
      * @param key String
+     *
      * @return {@link EmptyBorder}
      */
-    public default EmptyBorder getEmptyBorder(final String key)
+    default EmptyBorder getEmptyBorder(final String key)
     {
         return getObject(key, EmptyBorder.class);
     }
 
     /**
      * @param key String
+     *
      * @return Float
+     *
      * @see #getObject
      */
-    public default Float getFloat(final String key)
+    default Float getFloat(final String key)
     {
         return getObject(key, Float.class);
     }
@@ -173,11 +188,13 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link Font}
+     *
      * @see #getObject
      * @see Font#decode
      */
-    public default Font getFont(final String key)
+    default Font getFont(final String key)
     {
         return getObject(key, Font.class);
     }
@@ -191,10 +208,12 @@ public interface ResourceMap
      * </pre>
      *
      * @param enumValue {@link Enum}
+     *
      * @return {@link Icon}
+     *
      * @see #getObject
      */
-    public default Icon getIcon(final Enum<?> enumValue)
+    default Icon getIcon(final Enum<?> enumValue)
     {
         return getObject(EnumResourceType.ICON.getEnumKey(enumValue), Icon.class);
     }
@@ -208,10 +227,12 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link Icon}
+     *
      * @see #getObject
      */
-    public default Icon getIcon(final String key)
+    default Icon getIcon(final String key)
     {
         return getObject(key, Icon.class);
     }
@@ -225,10 +246,12 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link BufferedImage}
+     *
      * @see #getObject
      */
-    public default Image getImage(final String key)
+    default Image getImage(final String key)
     {
         return getObject(key, BufferedImage.class);
     }
@@ -242,10 +265,12 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link ImageIcon}
+     *
      * @see #getObject
      */
-    public default ImageIcon getImageIcon(final String key)
+    default ImageIcon getImageIcon(final String key)
     {
         return getObject(key, ImageIcon.class);
     }
@@ -259,19 +284,22 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link Insets}
      */
-    public default Insets getInsets(final String key)
+    default Insets getInsets(final String key)
     {
         return getObject(key, Insets.class);
     }
 
     /**
      * @param key String
+     *
      * @return Integer
+     *
      * @see #getObject
      */
-    public default Integer getInteger(final String key)
+    default Integer getInteger(final String key)
     {
         return getObject(key, Integer.class);
     }
@@ -285,14 +313,16 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return Integer
+     *
      * @see #getKeyStroke
      */
-    public default Integer getKeyCode(final String key)
+    default Integer getKeyCode(final String key)
     {
         KeyStroke ks = getKeyStroke(key);
 
-        return (ks != null) ? Integer.valueOf(ks.getKeyCode()) : null;
+        return (ks != null) ? ks.getKeyCode() : null;
     }
 
     // /**
@@ -312,21 +342,25 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link KeyStroke}
+     *
      * @see #getObject
      * @see KeyStroke#getKeyStroke
      */
-    public default KeyStroke getKeyStroke(final String key)
+    default KeyStroke getKeyStroke(final String key)
     {
         return getObject(key, KeyStroke.class);
     }
 
     /**
      * @param key String
+     *
      * @return Long
+     *
      * @see #getObject
      */
-    public default Long getLong(final String key)
+    default Long getLong(final String key)
     {
         return getObject(key, Long.class);
     }
@@ -338,9 +372,10 @@ public interface ResourceMap
      * @param <T> Type
      * @param key String
      * @param type resource type
+     *
      * @return Object
      */
-    public <T> T getObject(final String key, final Class<T> type);
+    <T> T getObject(final String key, final Class<T> type);
 
     /**
      * Liefert das Value des Keys als {@link Point}.<br>
@@ -351,9 +386,10 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link Point}
      */
-    public default Point getPoint(final String key)
+    default Point getPoint(final String key)
     {
         return getObject(key, Point.class);
     }
@@ -367,19 +403,22 @@ public interface ResourceMap
      * </pre>
      *
      * @param key String
+     *
      * @return {@link Rectangle}
      */
-    public default Rectangle getRectangle(final String key)
+    default Rectangle getRectangle(final String key)
     {
         return getObject(key, Rectangle.class);
     }
 
     /**
      * @param key String
+     *
      * @return Short
+     *
      * @see #getObject
      */
-    public default Short getShort(final String key)
+    default Short getShort(final String key)
     {
         return getObject(key, Short.class);
     }
@@ -389,9 +428,10 @@ public interface ResourceMap
      * Format PropertyKey: enum.ENUMKLASSE.ENUMNAME
      *
      * @param enumValue {@link Enum}
+     *
      * @return {@link String}
      */
-    public default String getString(final Enum<?> enumValue)
+    default String getString(final Enum<?> enumValue)
     {
         return getString(EnumResourceType.TEXT.getEnumKey(enumValue));
     }
@@ -424,27 +464,31 @@ public interface ResourceMap
      *
      * @param key String
      * @param args Object
+     *
      * @return String
+     *
      * @see #getObject
      * @see String#format(String, Object...)
      * @see MessageFormat#format(String, Object...)
      */
-    public String getString(final String key, final Object...args);
+    String getString(final String key, final Object...args);
 
     /**
      * @param key String
+     *
      * @return {@link URI}
      */
-    public default URI getURI(final String key)
+    default URI getURI(final String key)
     {
         return getObject(key, URI.class);
     }
 
     /**
      * @param key String
+     *
      * @return {@link URL}
      */
-    public default URL getURL(final String key)
+    default URL getURL(final String key)
     {
         return getObject(key, URL.class);
     }
@@ -456,5 +500,5 @@ public interface ResourceMap
      *
      * @param localeSupplier {@link Supplier}
      */
-    public void setLocaleSupplier(Supplier<Locale> localeSupplier);
+    void setLocaleSupplier(Supplier<Locale> localeSupplier);
 }

@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
+
 import de.freese.base.demo.fibonacci.task.FibonacciForkJoinTask;
 import de.freese.base.demo.fibonacci.task.FibonacciTask;
 import de.freese.base.demo.fibonacci.view.DefaultFibonacciView;
@@ -61,6 +62,7 @@ public class FibonacciController extends AbstractController
      *
      * @param n int
      * @param operationConsumer {@link LongConsumer}
+     *
      * @return long
      */
     public long fibonacci(final int n, final LongConsumer operationConsumer)
@@ -81,6 +83,7 @@ public class FibonacciController extends AbstractController
      * @param n int
      * @param operationConsumer {@link LongConsumer}
      * @param operationCount {@link AtomicLong}
+     *
      * @return long
      */
     private long fibonacci(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount)
@@ -91,7 +94,7 @@ public class FibonacciController extends AbstractController
         }
 
         FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, operationConsumer, operationCount, false);
-        long result = this.forkJoinPool.invoke(task).longValue();
+        long result = this.forkJoinPool.invoke(task);
 
         return result;
     }
@@ -101,6 +104,7 @@ public class FibonacciController extends AbstractController
      * ACHTUNG: Dieser Wert ist bedeutend grösser als das Ergebnis !
      *
      * @param n int
+     *
      * @return long
      */
     public long getOperationCount(final int n)
@@ -126,7 +130,6 @@ public class FibonacciController extends AbstractController
     /**
      * @see de.freese.base.mvc.Controller#getView()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public FibonacciView getView()
     {

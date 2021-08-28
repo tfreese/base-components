@@ -1,7 +1,4 @@
-/**
- * Created: 08.06.2020
- */
-
+// Created: 08.06.2020
 package de.freese.base.resourcemap;
 
 import java.awt.Color;
@@ -24,12 +21,15 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.resourcemap.cache.ResourceMapCache;
 import de.freese.base.resourcemap.converter.BooleanStringResourceConverter;
 import de.freese.base.resourcemap.converter.ByteStringResourceConverter;
@@ -69,11 +69,6 @@ public abstract class AbstractResourceMap implements ResourceMap
     *
     */
     private ResourceMapCache cache;
-
-    /**
-    *
-    */
-    private ClassLoader classLoader;
 
     /**
     *
@@ -200,22 +195,6 @@ public abstract class AbstractResourceMap implements ResourceMap
         return this.cache;
     }
 
-    /**
-     * Liefert den ClassLoader der ResourceMap.<br>
-     * Sollte diese ResourceMap keinen ClassLoader besitzen, wird der Parent angefragt, wenn vorhanden.
-     *
-     * @return {@link ClassLoader}
-     */
-    protected ClassLoader getClassLoader()
-    {
-        if ((this.classLoader == null) && (getParent() != null))
-        {
-            return ((AbstractResourceMap) getParent()).getClassLoader();
-        }
-
-        return this.classLoader;
-    }
-
     // /**
     // * @see de.freese.base.resourcemap.ResourceMap#getKeys()
     // */
@@ -267,6 +246,7 @@ public abstract class AbstractResourceMap implements ResourceMap
      * Sollte diese ResourceMap keinen passenden Converter besitzen, wird der Parent angefragt, wenn vorhanden.
      *
      * @param supportedType {@link Class}
+     *
      * @return {@link ResourceConverter}
      */
     @SuppressWarnings("unchecked")
@@ -304,6 +284,7 @@ public abstract class AbstractResourceMap implements ResourceMap
      * @param locale {@link Locale}
      * @param key String
      * @param type Class
+     *
      * @return Object
      */
     protected <T> T getValue(final Locale locale, final Class<T> type, final String key)
@@ -335,9 +316,9 @@ public abstract class AbstractResourceMap implements ResourceMap
         addResourceConverter(float.class, getResourceConverter(Float.class));
         addResourceConverter(Font.class, new FontStringResourceConverter());
 
-        addResourceConverter(Icon.class, new IconStringResourceConverter(getClassLoader()));
+        addResourceConverter(Icon.class, new IconStringResourceConverter());
         addResourceConverter(ImageIcon.class, getResourceConverter(Icon.class));
-        addResourceConverter(Image.class, new ImageStringResourceConverter(getClassLoader()));
+        addResourceConverter(Image.class, new ImageStringResourceConverter());
         addResourceConverter(BufferedImage.class, getResourceConverter(Image.class));
         addResourceConverter(Integer.class, new IntegerStringResourceConverter());
         addResourceConverter(int.class, getResourceConverter(Integer.class));
@@ -362,6 +343,7 @@ public abstract class AbstractResourceMap implements ResourceMap
 
     /**
      * @param locale {@link Locale}
+     *
      * @return Map<String,String>
      */
     protected Map<String, String> loadResourcesIfAbsent(final Locale locale)
@@ -370,7 +352,7 @@ public abstract class AbstractResourceMap implements ResourceMap
 
         if ((resources == null) || resources.isEmpty())
         {
-            resources = getResourceProvider().getResources(getBundleName(), locale, getClassLoader());
+            resources = getResourceProvider().getResources(getBundleName(), locale);
 
             getCache().putValues(getBundleName(), locale, String.class, resources);
 
@@ -399,14 +381,6 @@ public abstract class AbstractResourceMap implements ResourceMap
     protected void setCache(final ResourceMapCache cache)
     {
         this.cache = cache;
-    }
-
-    /**
-     * @param classLoader {@link ClassLoader}
-     */
-    protected void setClassLoader(final ClassLoader classLoader)
-    {
-        this.classLoader = classLoader;
     }
 
     /**

@@ -8,7 +8,7 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implements FibonacciView
+public class DefaultFibonacciView extends AbstractView implements FibonacciView
 {
     /**
      * @see de.freese.base.mvc.View#createGUI()
@@ -35,7 +35,7 @@ public class DefaultFibonacciView extends AbstractView<FibonacciPanel> implement
     @Override
     public FibonacciPanel getComponent()
     {
-        return super.getComponent();
+        return (FibonacciPanel) super.getComponent();
     }
 
     /**

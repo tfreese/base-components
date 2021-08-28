@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -28,7 +29,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
+
 import org.jdesktop.swingx.JXTaskPane;
+
 import de.freese.base.utils.ImageUtils;
 
 /**
@@ -45,14 +48,6 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      */
     private class ExtPaneBorder extends ClassicPaneBorder
     {
-        /**
-         * Creates a new {@link ExtPaneBorder} object.
-         */
-        public ExtPaneBorder()
-        {
-            super();
-        }
-
         /**
          * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#isMouseOverBorder()
          */
@@ -269,6 +264,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * Erzeugt eine UI Instanz.
      *
      * @param c {@link JComponent}
+     *
      * @return {@link ComponentUI}
      */
     public static ComponentUI createUI(final JComponent c)
@@ -368,6 +364,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @param x int
      * @param y int
+     *
      * @return {@link JButton}
      */
     private JButton getButtonFor(final int x, final int y)
@@ -389,6 +386,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * Liefert den Pixel-Bereich eines Buttons.
      *
      * @param button {@link JButton}
+     *
      * @return {@link Rectangle}
      */
     private Rectangle getRectangleFor(final JButton button)

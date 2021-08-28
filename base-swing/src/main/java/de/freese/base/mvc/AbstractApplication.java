@@ -1,16 +1,16 @@
-/**
- * Created: 23.07.2011
- */
-
+// Created: 23.07.2011
 package de.freese.base.mvc;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.mvc.guistate.GuiStateProvider;
 import de.freese.base.mvc.guistate.JsonGuiStateProvider;
 import de.freese.base.resourcemap.ResourceMap;
@@ -18,7 +18,7 @@ import de.freese.base.utils.ExecutorUtils;
 import de.freese.base.utils.UICustomization;
 
 /**
- * Basisklase einer Java Anwendung.
+ * Basisklasse einer Java Anwendung.
  *
  * @author Thomas Freese
  */
@@ -134,6 +134,8 @@ public abstract class AbstractApplication
             // com.jgoodies.looks.windows.WindowsLookAndFeel
             // com.sun.java.swing.plaf.windows.WindowsLookAndFeel
             UICustomization.install(UIManager.getSystemLookAndFeelClassName());
+
+            // UICustomization.install("javax.swing.plaf.metal.MetalLookAndFeel");
         }
         catch (Exception ex)
         {

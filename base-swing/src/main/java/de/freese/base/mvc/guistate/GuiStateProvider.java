@@ -14,9 +14,10 @@ public interface GuiStateProvider
      *
      * @param filePrefix String; ohne Extension
      * @param stateClazz Class
+     *
      * @return {@link GUIState}
      */
-    public GUIState load(String filePrefix, Class<GUIState> stateClazz);
+    GUIState load(String filePrefix, Class<GUIState> stateClazz);
 
     /**
      * Speichern eines {@link GUIState}.
@@ -24,5 +25,5 @@ public interface GuiStateProvider
      * @param filePrefix String; ohne Extension
      * @param state {@link GUIState}
      */
-    public void save(String filePrefix, GUIState state);
+    void save(String filePrefix, GUIState state);
 }

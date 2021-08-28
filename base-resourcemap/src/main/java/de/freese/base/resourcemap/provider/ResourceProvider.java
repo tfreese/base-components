@@ -16,8 +16,8 @@ public interface ResourceProvider
      *
      * @param bundleName String
      * @param locale {@link Locale}
-     * @param classLoader {@link ClassLoader}
+     *
      * @return {@link Map}
      */
-    public Map<String, String> getResources(String bundleName, Locale locale, ClassLoader classLoader);
+    Map<String, String> getResources(String bundleName, Locale locale);
 }

@@ -38,14 +38,6 @@ public class TaskStatistik implements Serializable
     private String taskName = "";
 
     /**
-     * Creates a new {@link TaskStatistik} object.
-     */
-    public TaskStatistik()
-    {
-        super();
-    }
-
-    /**
      * Hinzufügen einer Zeit und ggf. entfernen der ältesten Zeit aus der Liste.
      *
      * @param zeit long

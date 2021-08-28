@@ -13,6 +13,6 @@ public class ByteStringResourceConverter extends AbstractNumberResourceConverter
     @Override
     protected Byte convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Byte.decode(value) : Byte.valueOf(value, radix);
+        return (radix == -1) ? Byte.valueOf(value) : Byte.valueOf(value, radix);
     }
 }

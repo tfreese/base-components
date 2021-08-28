@@ -1,7 +1,4 @@
-/**
- * Created: 21.05.2020
- */
-
+// Created: 21.05.2020
 package de.freese.base.swing.task;
 
 import java.beans.PropertyChangeEvent;
@@ -9,6 +6,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
+
 import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
@@ -25,14 +23,6 @@ public class TaskManager
      */
     private class ForegroundTaskPCL implements PropertyChangeListener
     {
-        /**
-         * Erstellt ein neues {@link TaskPCL} Object.
-         */
-        public ForegroundTaskPCL()
-        {
-            super();
-        }
-
         /**
          * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */
@@ -64,14 +54,6 @@ public class TaskManager
      */
     private class TaskPCL implements PropertyChangeListener
     {
-        /**
-         * Erstellt ein neues {@link TaskPCL} Object.
-         */
-        public TaskPCL()
-        {
-            super();
-        }
-
         /**
          * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */

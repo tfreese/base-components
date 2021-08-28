@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,15 +18,18 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 
 /**
@@ -47,8 +51,7 @@ class TestResourceMap
     @BeforeAll
     static void beforeAll()
     {
-        ResourceMap parentRM = ResourceMapBuilder.create("parentTest").resourceProvider(new ResourceBundleProvider())
-                .classLoader(TestResourceMap.class.getClassLoader()).build();
+        ResourceMap parentRM = ResourceMapBuilder.create("parentTest").resourceProvider(new ResourceBundleProvider()).build();
 
         resourceMap = ResourceMapBuilder.create("resourcemap/test").parent(parentRM).build();
     }
@@ -100,8 +103,8 @@ class TestResourceMap
         Color value = resourceMap.getColor("test.colorAlpha");
 
         String key = "#20101010";
-        int alpha = Integer.decode(key.substring(0, 3)).intValue();
-        int rgb = Integer.decode("#" + key.substring(3)).intValue();
+        int alpha = Integer.decode(key.substring(0, 3));
+        int rgb = Integer.decode("#" + key.substring(3));
         Color ref = new Color((alpha << 24) | rgb, true);
 
         assertNotNull(value);
@@ -144,7 +147,7 @@ class TestResourceMap
     {
         Double value = resourceMap.getDouble("test.double");
 
-        Double ref = Double.valueOf(99.99D);
+        Double ref = 99.99D;
 
         assertNotNull(value);
         assertEquals(ref, value);
@@ -238,7 +241,7 @@ class TestResourceMap
     {
         Float value = resourceMap.getFloat("test.float");
 
-        Float ref = Float.valueOf(99.99F);
+        Float ref = 99.99F;
 
         assertNotNull(value);
         assertEquals(ref, value);
@@ -327,7 +330,7 @@ class TestResourceMap
     {
         Integer value = resourceMap.getInteger("test.integer");
 
-        Integer ref = Integer.valueOf(1);
+        Integer ref = 1;
 
         assertNotNull(value);
         assertEquals(ref, value);
@@ -341,7 +344,7 @@ class TestResourceMap
     {
         Integer value = resourceMap.getKeyCode("test.keycode");
 
-        Integer ref = Integer.valueOf(KeyStroke.getKeyStroke("control T").getKeyCode());
+        Integer ref = KeyStroke.getKeyStroke("control T").getKeyCode();
 
         assertNotNull(value);
         assertEquals(ref, value);
@@ -369,7 +372,7 @@ class TestResourceMap
     {
         Long value = resourceMap.getLong("test.long");
 
-        Long ref = Long.valueOf(1L);
+        Long ref = 1L;
 
         assertNotNull(value);
         assertEquals(ref, value);
@@ -424,7 +427,7 @@ class TestResourceMap
         Short value = resourceMap.getShort("test.short");
 
         short i = 1;
-        Short ref = Short.valueOf(i);
+        Short ref = i;
 
         assertNotNull(value);
         assertEquals(ref, value);

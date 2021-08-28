@@ -3,6 +3,7 @@ package de.freese.base.resourcemap;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Objects;
+
 import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 
@@ -18,15 +19,13 @@ public class DefaultResourceMap extends AbstractResourceMap
      *
      * @param bundleName String
      * @param parent {@link ResourceMap}
-     * @param classLoader {@link ClassLoader}
      * @param resourceProvider {@link ResourceProvider}
      */
-    protected DefaultResourceMap(final String bundleName, final ResourceMap parent, final ClassLoader classLoader, final ResourceProvider resourceProvider)
+    protected DefaultResourceMap(final String bundleName, final ResourceMap parent, final ResourceProvider resourceProvider)
     {
         super(bundleName);
 
         setParent(parent);
-        setClassLoader(classLoader);
         setResourceProvider(resourceProvider);
 
         initDefaultConverter();
@@ -37,6 +36,7 @@ public class DefaultResourceMap extends AbstractResourceMap
      * @param locale {@link Locale}
      * @param type Class
      * @param key String
+     *
      * @return Object
      */
     protected final <T> T getConvertedValue(final Locale locale, final Class<T> type, final String key)
@@ -82,7 +82,7 @@ public class DefaultResourceMap extends AbstractResourceMap
         Objects.requireNonNull(type, "type required");
         Objects.requireNonNull(locale, "locale required");
 
-        T value = null;
+        T value;
 
         value = getValue(locale, type, key);
 

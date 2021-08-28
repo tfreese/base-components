@@ -13,6 +13,6 @@ public class LongStringResourceConverter extends AbstractNumberResourceConverter
     @Override
     protected Long convertString(final String value, final int radix) throws NumberFormatException
     {
-        return (radix == -1) ? Long.decode(value) : Long.valueOf(value, radix);
+        return (radix == -1) ? Long.valueOf(value) : Long.valueOf(value, radix);
     }
 }

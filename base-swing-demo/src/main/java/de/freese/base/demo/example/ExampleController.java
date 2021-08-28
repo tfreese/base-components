@@ -37,7 +37,6 @@ public class ExampleController extends AbstractController
     /**
      * @see de.freese.base.mvc.Controller#getView()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public ExampleView getView()
     {

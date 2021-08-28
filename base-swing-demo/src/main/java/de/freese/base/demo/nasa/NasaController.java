@@ -13,11 +13,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.io.FilenameUtils;
+
 import de.freese.base.demo.nasa.view.DefaultNasaView;
 import de.freese.base.demo.nasa.view.NasaPanel;
 import de.freese.base.demo.nasa.view.NasaView;
@@ -130,6 +134,7 @@ public class NasaController extends AbstractController
 
     /**
      * @param url {@link URL}
+     *
      * @return boolean
      */
     protected boolean existUrl(final URL url)
@@ -159,6 +164,7 @@ public class NasaController extends AbstractController
      * Erzeugt die nächste {@link URL}, zufällig oder basierend auf #imageNames.
      *
      * @return {@link URL}
+     *
      * @throws MalformedURLException Falls was schief geht.
      */
     protected URL generateUrl() throws MalformedURLException
@@ -197,6 +203,7 @@ public class NasaController extends AbstractController
 
     /**
      * @return {@link URL}
+     *
      * @throws MalformedURLException Falls was schief geht.
      */
     public URL getNextURL() throws MalformedURLException
@@ -225,6 +232,7 @@ public class NasaController extends AbstractController
 
     /**
      * @return {@link URL}
+     *
      * @throws MalformedURLException Falls was schief geht.
      */
     public URL getPreviousURL() throws MalformedURLException
@@ -255,7 +263,6 @@ public class NasaController extends AbstractController
     /**
      * @see de.freese.base.mvc.Controller#getView()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public NasaView getView()
     {
@@ -296,12 +303,16 @@ public class NasaController extends AbstractController
                 task.cancel(true);
             }
         });
+
+        SwingUtilities.invokeLater(panel.getButtonNext()::doClick);
     }
 
     /**
      * @param url {@link URL}
      * @param listener {@link IIOReadProgressListener}
+     *
      * @return {@link BufferedImage}
+     *
      * @throws Exception Falls was schief geht.
      */
     @SuppressWarnings("resource")

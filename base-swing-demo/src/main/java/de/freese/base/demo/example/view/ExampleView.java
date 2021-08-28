@@ -8,7 +8,7 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public class ExampleView extends AbstractView<ExamplePanel>
+public class ExampleView extends AbstractView
 {
     /**
      * @see de.freese.base.mvc.View#createGUI()
@@ -30,6 +30,6 @@ public class ExampleView extends AbstractView<ExamplePanel>
     @Override
     public ExamplePanel getComponent()
     {
-        return super.getComponent();
+        return (ExamplePanel) super.getComponent();
     }
 }

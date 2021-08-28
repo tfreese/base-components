@@ -1,5 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import java.util.List;
  * Basisklasse eines {@link ResourceConverter}s.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter konvertierter Typ
  */
 public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>
@@ -24,19 +26,47 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
     }
 
     /**
-     * String key is assumed to contain n number substrings separated by commas. Return a list of those integers or null if there are too many, too few, or if a
-     * substring can't be parsed. The format of the numbers is specified by Double.valueOf().
+     * @param value String
+     *
+     * @return {@link URL}
+     */
+    protected URL getUrl(final String value)
+    {
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        URL url = cl.getResource(value);
+
+        if (url == null)
+        {
+            cl = getClass().getClassLoader();
+            url = cl.getResource(value);
+        }
+
+        if (url == null)
+        {
+            cl = ClassLoader.getSystemClassLoader();
+            url = cl.getResource(value);
+        }
+
+        return url;
+    }
+
+    /**
+     * String key is assumed to contain n number substrings separated by commas.<br>
+     * Return a list of those integers or null if there are too many, too few, or if a substring can't be parsed.<br>
+     * The format of the numbers is specified by Double.valueOf().
      *
      * @param key String
      * @param value String
      * @param n int
      * @param message String
+     *
      * @return {@link List}
+     *
      * @throws RuntimeException Falls was schief geht.
      */
     protected List<Double> parseDoubles(final String key, final String value, final int n, final String message) throws RuntimeException
     {
-        String[] splits = value.split(",", n + 1);
+        String[] splits = value.split(",|;|-|\\s+", n);
 
         if (splits.length != n)
         {
@@ -47,7 +77,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
 
         for (String doubleString : splits)
         {
-            doubles.add(Double.valueOf(doubleString));
+            doubles.add(Double.parseDouble(doubleString));
         }
 
         return doubles;
@@ -57,6 +87,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * @param key String
      * @param value String
      * @param message String
+     *
      * @throws RuntimeException Falls was schief geht.
      */
     protected void throwException(final String key, final String value, final String message) throws RuntimeException
@@ -70,6 +101,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * @param key String
      * @param value String
      * @param cause {@link Throwable}
+     *
      * @throws RuntimeException Falls was schief geht.
      */
     protected void throwException(final String key, final String value, final Throwable cause) throws RuntimeException

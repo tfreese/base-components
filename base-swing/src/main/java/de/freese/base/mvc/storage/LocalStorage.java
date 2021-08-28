@@ -18,8 +18,11 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+
 import javax.activation.DataSource;
+
 import org.apache.commons.io.IOUtils;
+
 import de.freese.base.utils.ByteArrayDataSource;
 
 /**
@@ -36,19 +39,12 @@ public final class LocalStorage
     private Path directory;
 
     /**
-     * Erstellt ein neues {@link LocalStorage} Object.
-     */
-    public LocalStorage()
-    {
-        super();
-    }
-
-    /**
      * Kopiert den {@link InputStream} in den {@link OutputStream}.<br>
      * Die Streams werden NICHT geschlossen.
      *
      * @param src {@link InputStream}
      * @param dest {@link OutputStream}
+     *
      * @throws Exception Falls was schief geht.
      */
     public synchronized void copy(final InputStream src, final OutputStream dest) throws Exception
@@ -107,7 +103,9 @@ public final class LocalStorage
      *
      * @param prefix String
      * @param suffix String
+     *
      * @return {@link File}
+     *
      * @throws IOException Falls was schief geht.
      */
     public File createTemporaryFile(final String prefix, final String suffix) throws IOException
@@ -125,7 +123,9 @@ public final class LocalStorage
      * Loescht rekursiv ein Verzeichnis inkl. aller Dateien. Gefaehrliche Methode, deswegen private !!!
      *
      * @param path {@link Path}
+     *
      * @return true, wenn erfolgreich geloescht
+     *
      * @throws IOException Falls was schief geht.
      */
     private boolean deleteDirectory(final Path path) throws IOException
@@ -174,7 +174,9 @@ public final class LocalStorage
      * Liefert true, wenn das Verzeichniss geloescht wurde.
      *
      * @param fileName String, wenn "" wird das Basisverzeichniss geloescht
+     *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public boolean deleteDirectory(final String fileName) throws IOException
@@ -190,7 +192,9 @@ public final class LocalStorage
      * Liefert true, wenn die Datei geloescht wurde.
      *
      * @param fileName String
+     *
      * @return boolean
+     *
      * @throws IOException Falls was schief geht.
      */
     public boolean deleteFile(final String fileName) throws IOException
@@ -274,7 +278,9 @@ public final class LocalStorage
      *
      * @param fileName String, relativ zum Basisverzeichnis
      * @param options {@link OpenOption}[]
+     *
      * @return {@link InputStream}
+     *
      * @throws IOException Falls was schief geht.
      */
     public InputStream getInputStream(final String fileName, final OpenOption...options) throws IOException
@@ -295,7 +301,9 @@ public final class LocalStorage
      *
      * @param fileName {@link String}, relativ zum Basisverzeichnis
      * @param options {@link OpenOption}[]
+     *
      * @return {@link OutputStream}
+     *
      * @throws IOException Falls was schief geht.
      */
     public OutputStream getOutputStream(final String fileName, final OpenOption...options) throws IOException
@@ -313,6 +321,7 @@ public final class LocalStorage
      * Liefert das Path Objekt des Datei-Namens.
      *
      * @param fileName {@link Path}
+     *
      * @return {@link File}
      */
     public Path getPath(final String fileName)
@@ -326,6 +335,7 @@ public final class LocalStorage
      * Öffnet eine Datei mit dem Default Systemprogramm.
      *
      * @param file {@link Path}, relativ zum Basisverzeichnis
+     *
      * @throws Exception Falls was schief geht.
      */
     public void openPath(final Path file) throws Exception
@@ -337,6 +347,7 @@ public final class LocalStorage
      * Entfernt illegale Zeichen im Dateinamen.
      *
      * @param fileName String
+     *
      * @return String
      */
     public String removeIllegalChars(final String fileName)
@@ -362,8 +373,11 @@ public final class LocalStorage
      * Speichert die {@link DataSource} in das temp. Verzeichnis.
      *
      * @param dataSource {@link DataSource}
+     *
      * @return String ggf. korrogierter Dateiname
+     *
      * @throws Exception Falls was schief geht.
+     *
      * @see DataSource#getName()
      * @see DataSource#getInputStream()
      */
@@ -391,7 +405,9 @@ public final class LocalStorage
      *
      * @param fileName String, der relative Dateiname
      * @param data byte[]
+     *
      * @return String absoluter Dateiname
+     *
      * @throws Exception Falls was schief geht.
      */
     public synchronized String save(final String fileName, final byte[] data) throws Exception
@@ -407,7 +423,9 @@ public final class LocalStorage
      *
      * @param fileName String, der relative Dateiname
      * @param inputStream {@link InputStream}
+     *
      * @return String absoluter Dateiname
+     *
      * @throws Exception Falls was schief geht.
      */
     public synchronized String saveTemp(final String fileName, final InputStream inputStream) throws Exception

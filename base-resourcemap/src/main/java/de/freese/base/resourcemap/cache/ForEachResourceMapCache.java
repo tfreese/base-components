@@ -1,12 +1,10 @@
-/**
- * Created: 08.06.2020
- */
-
+// Created: 08.06.2020
 package de.freese.base.resourcemap.cache;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
@@ -15,20 +13,12 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public class PerEachResourceMapCache implements ResourceMapCache
+public class ForEachResourceMapCache implements ResourceMapCache
 {
     /**
      *
      */
     private final Map<Locale, Map<Class<?>, Map<String, ?>>> cache = new HashMap<>();
-
-    /**
-     * Erstellt ein neues {@link PerEachResourceMapCache} Object.
-     */
-    public PerEachResourceMapCache()
-    {
-        super();
-    }
 
     /**
      * @see de.freese.base.resourcemap.cache.ResourceMapCache#clear(java.lang.String, java.util.Locale)
