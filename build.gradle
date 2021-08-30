@@ -15,7 +15,6 @@ subprojects {
             dependency "commons-io:commons-io:$version_commonsIo"
             dependency "commons-net:commons-net:$version_commonsNet"
 
-            dependency "io.github.artsok:rerunner-jupiter:$version_rerunnerJupiter"
             dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
 
             dependency("net.sourceforge.jexcelapi:jxl:$version_jexcelapi") {
@@ -57,7 +56,7 @@ subprojects {
 		api("io.projectreactor:reactor-core")
 		api("javax.xml.bind:jaxb-api")
 		api("org.apache.commons:commons-collections4")
-		api('org.apache.commons:commons-lang3')
+		api("org.apache.commons:commons-lang3")
 		api("org.slf4j:slf4j-api")
 		api("org.springframework:spring-context")
 		

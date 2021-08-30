@@ -189,8 +189,7 @@ public class DemoApplication extends AbstractApplication
         ResourceProvider resourceProvider = new ResourceBundleProvider();
         // ResourceProvider resourceProvider = (baseName, locale, classLoader) -> Make DB-Query for Text;
 
-        ResourceMap rootMap = ResourceMapBuilder.create("bundles/demo").resourceProvider(resourceProvider)
-                .classLoader(Thread.currentThread().getContextClassLoader()).build();
+        ResourceMap rootMap = ResourceMapBuilder.create("bundles/demo").resourceProvider(resourceProvider).build();
         setResourceMapRoot(rootMap);
         // getContext().addResourceMap("root", rootMap);
 
