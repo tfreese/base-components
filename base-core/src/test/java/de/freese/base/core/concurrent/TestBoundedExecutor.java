@@ -1,8 +1,5 @@
 // Created: 03.04.2021
-package de.freese.base.core.concurrent.pool;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+package de.freese.base.core.concurrent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,7 +18,7 @@ import de.freese.base.utils.ExecutorUtils;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestSharedExecutor
+class TestBoundedExecutor
 {
     /**
     *
@@ -62,35 +59,24 @@ class TestSharedExecutor
     }
 
     /**
-     * @param maxThreads int
+     * @param parallelism int
      */
-    private void execute(final int maxThreads)
+    private void execute(final int parallelism)
     {
         System.out.println();
 
-        SharedExecutor sharedExecutor = new SharedExecutor(executorService, maxThreads, "sharedthread-%d");
+        BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
+
+        // Set<String> threadNames = new HashSet<>()
 
         Runnable task = () -> {
             System.out.println(Thread.currentThread().getName());
             sleep();
         };
 
-        IntStream.range(0, 10).forEach(i -> sharedExecutor.execute(task));
+        IntStream.range(0, 10).forEach(i -> boundedExecutor.execute(task));
 
-        for (int i = 0; i < 10; i++)
-        {
-            assertTrue(sharedExecutor.getActiveTasks() <= maxThreads);
-
-            if (sharedExecutor.getActiveTasks() == 0)
-            {
-                break;
-            }
-
-            sleep();
-        }
-
-        sharedExecutor.execute(task);
-        assertTrue(sharedExecutor.getActiveTasks() <= maxThreads);
+        sleep();
     }
 
     /**
@@ -120,14 +106,4 @@ class TestSharedExecutor
         execute(4);
     }
 
-    /**
-    *
-    */
-    @Test
-    void testInvalidParameter()
-    {
-        assertThrows(NullPointerException.class, () -> new SharedExecutor(null, 1, "%d"));
-        assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, 0, "%d"));
-        assertThrows(IllegalArgumentException.class, () -> new SharedExecutor(executorService, -1, "%d"));
-    }
 }
