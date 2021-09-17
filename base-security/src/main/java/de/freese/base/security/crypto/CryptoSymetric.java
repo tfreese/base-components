@@ -15,7 +15,6 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEParameterSpec;
 
-import org.apache.commons.io.IOUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
@@ -34,6 +33,7 @@ public class CryptoSymetric extends AbstractCrypto
      * Erstellt ein neues {@link CryptoSymetric} Object.
      *
      * @param cryptoConfig {@link CryptoConfig}
+     *
      * @throws Exception Falls was schief geht.
      */
     CryptoSymetric(final CryptoConfig<?> cryptoConfig) throws Exception
@@ -156,7 +156,7 @@ public class CryptoSymetric extends AbstractCrypto
     public boolean verify(final InputStream in, final InputStream signIn) throws Exception
     {
         byte[] digest = digest(in);
-        byte[] sig = IOUtils.toByteArray(signIn);
+        byte[] sig = signIn.readAllBytes();
 
         return Arrays.equals(digest, sig);
     }

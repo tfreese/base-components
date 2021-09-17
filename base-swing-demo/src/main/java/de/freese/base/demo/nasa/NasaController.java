@@ -20,8 +20,6 @@ import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
 import javax.swing.SwingUtilities;
 
-import org.apache.commons.io.FilenameUtils;
-
 import de.freese.base.demo.nasa.view.DefaultNasaView;
 import de.freese.base.demo.nasa.view.NasaPanel;
 import de.freese.base.demo.nasa.view.NasaView;
@@ -323,7 +321,7 @@ public class NasaController extends AbstractController
 
         Path urlPath = Paths.get(url.getPath());
         String fileName = urlPath.getFileName().toString();
-        String extension = FilenameUtils.getExtension(fileName);
+        String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         // Optional.ofNullable(fileName).filter(f -> f.contains(".")).map(f -> f.substring(fileName.lastIndexOf(".") + 1));
         String cachedFileName = "images/" + fileName;
         Path cachePath = getContext().getLocalStorage().getPath(cachedFileName);

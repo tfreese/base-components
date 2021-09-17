@@ -21,8 +21,6 @@ import java.security.PrivilegedAction;
 
 import javax.activation.DataSource;
 
-import org.apache.commons.io.IOUtils;
-
 import de.freese.base.utils.ByteArrayDataSource;
 
 /**
@@ -49,7 +47,8 @@ public final class LocalStorage
      */
     public synchronized void copy(final InputStream src, final OutputStream dest) throws Exception
     {
-        IOUtils.copy(src, dest);
+        src.transferTo(dest);
+
         // if ((dest instanceof FileOutputStream) && (src instanceof FileInputStream))
         // {
         // FileChannel target = ((FileOutputStream) dest).getChannel();

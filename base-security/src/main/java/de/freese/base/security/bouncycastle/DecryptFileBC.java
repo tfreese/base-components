@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -16,8 +18,9 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.security.auth.x500.X500Principal;
-import org.apache.commons.io.FileUtils;
+
 import org.bouncycastle.cms.CMSEnvelopedData;
 import org.bouncycastle.cms.RecipientInformation;
 import org.bouncycastle.cms.RecipientInformationStore;
@@ -58,6 +61,7 @@ public class DecryptFileBC
      * @param encryptedFile String
      * @param decryptedFile String
      * @param privateKey {@link PrivateKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws Exception
@@ -76,10 +80,7 @@ public class DecryptFileBC
             throw new IOException(msg);
         }
 
-        LOGGER.info("Decrypt File \"{}\" to \"{}\" with \"{}\"", new Object[]
-        {
-                encryptedFile, encryptedFile, privateKey.getAlgorithm() + "/" + privateKey.getFormat()
-        });
+        LOGGER.info("Decrypt File \"{}\" to \"{}\" with \"{}\"", encryptedFile, encryptedFile, privateKey.getAlgorithm() + "/" + privateKey.getFormat());
 
         // get encrypted input stream
         try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file)))
@@ -105,7 +106,10 @@ public class DecryptFileBC
                 byte[] decryptedData = recipient.getContent(jkter);
 
                 // write decrypted data to file.
-                FileUtils.writeByteArrayToFile(new File(decryptedFile), decryptedData);
+                try (OutputStream os = Files.newOutputStream(new File(decryptedFile).toPath()))
+                {
+                    os.write(decryptedData);
+                }
             }
         }
     }
@@ -117,6 +121,7 @@ public class DecryptFileBC
      * @param decryptedFile String
      * @param zertifikatFile String
      * @param password char[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password) throws Exception
@@ -135,6 +140,7 @@ public class DecryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword,
@@ -152,6 +158,7 @@ public class DecryptFileBC
      * @param inputFolder String
      * @param outputFolder String
      * @param privateKey {@link PrivateKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception
@@ -175,6 +182,7 @@ public class DecryptFileBC
      * @param outputFolder String
      * @param zertifikatFile String
      * @param password char[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password) throws Exception
@@ -193,6 +201,7 @@ public class DecryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
@@ -209,7 +218,9 @@ public class DecryptFileBC
      *
      * @param zertifikatFile String
      * @param password char[]
+     *
      * @return {@link PrivateKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception
@@ -250,7 +261,9 @@ public class DecryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
+     *
      * @return {@link PrivateKey}
+     *
      * @throws Exception Falls was schief geht.
      */
     private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception
@@ -270,6 +283,7 @@ public class DecryptFileBC
     /**
      * @param ks {@link KeyStore}
      * @param password char[]
+     *
      * @throws Exception Falls was schief geht.
      */
     protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception

@@ -7,15 +7,14 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.security.KeyStore;
 import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.bouncycastle.cms.CMSAlgorithm;
 import org.bouncycastle.cms.CMSEnvelopedData;
 import org.bouncycastle.cms.CMSEnvelopedDataGenerator;
@@ -116,14 +115,7 @@ public class EncryptFileBC
 
         LOGGER.info("Encrypt File \"{}\" to \"{}\" with \"{}\"", decrytpedFile, encryptedFile, cert.getSubjectX500Principal());
 
-        byte[] data = null;
-
-        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file)))
-        {
-            data = IOUtils.toByteArray(inputStream);
-            // data = new byte[(int) file.length()];
-            // inputStream.read(data);
-        }
+        byte[] data = Files.readAllBytes(file.toPath());
 
         CMSTypedData msg = new CMSProcessableByteArray(data);
         CMSEnvelopedDataGenerator edGen = new CMSEnvelopedDataGenerator();
@@ -132,7 +124,10 @@ public class EncryptFileBC
         CMSEnvelopedData ed =
                 edGen.generate(msg, new JceCMSContentEncryptorBuilder(CMSAlgorithm.DES_EDE3_CBC).setProvider(BouncyCastleProvider.PROVIDER_NAME).build());
 
-        FileUtils.writeByteArrayToFile(new File(encryptedFile), ed.getEncoded());
+        try (OutputStream os = Files.newOutputStream(new File(encryptedFile).toPath()))
+        {
+            os.write(ed.getEncoded());
+        }
     }
 
     /**

@@ -12,7 +12,6 @@ subprojects {
         dependencies {
             dependency "com.itextpdf:itextpdf:$version_itext"
             dependency "com.jcraft:jsch:$version_jsch"
-            dependency "commons-io:commons-io:$version_commonsIo"
             dependency "commons-net:commons-net:$version_commonsNet"
 
             dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
@@ -136,7 +135,6 @@ project("base-reports") {
         api(project(":base-core"))
 
         api("com.itextpdf:itextpdf")
-        api("commons-io:commons-io")
         api("org.jfree:jfreechart")
         api("org.apache.poi:poi-ooxml")
         api("org.springframework:spring-core")
@@ -167,7 +165,6 @@ project("base-security") {
     dependencies {
         api(project(":base-core"))
 
-        api("commons-io:commons-io")
         api("org.bouncycastle:bcpg-jdk15on")
         api("org.bouncycastle:bcmail-jdk15on")
         api("org.slf4j:slf4j-api")
@@ -190,7 +187,6 @@ project("base-swing") {
             modules = ["javafx.controls"]
         }
 
-        api("commons-io:commons-io")
         api("com.fasterxml.jackson.core:jackson-databind")
         api("com.sun.mail:jakarta.mail")
         api("javax.xml.bind:jaxb-api")
