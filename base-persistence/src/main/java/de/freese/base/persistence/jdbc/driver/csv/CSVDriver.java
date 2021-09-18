@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * JDBC-Driver für CSV-Dateien.<br>
@@ -23,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
  * Als Backend wird eine Text-Table von HSQLDB verwendet.
  *
  * @see HsqldbTextTableBuilder
+ *
  * @author Thomas Freese
  */
 public final class CSVDriver implements java.sql.Driver
@@ -90,7 +90,7 @@ public final class CSVDriver implements java.sql.Driver
     @Override
     public boolean acceptsURL(final String url) throws SQLException
     {
-        if (StringUtils.isBlank(url))
+        if ((url == null) || url.isBlank())
         {
             return false;
         }
@@ -109,7 +109,8 @@ public final class CSVDriver implements java.sql.Driver
             return null;
         }
 
-        String[] files = StringUtils.substringsBetween(url, "[", "]");
+        String[] files = substringsBetween(url, "[", "]");
+
         List<HsqldbTextTableBuilder> builderList = new ArrayList<>();
 
         for (String file : files)
@@ -188,7 +189,7 @@ public final class CSVDriver implements java.sql.Driver
         }
 
         HsqldbTextTableBuilder firstBuilder = builderList.remove(0);
-        HsqldbTextTableBuilder[] builders = new HsqldbTextTableBuilder[0];
+        HsqldbTextTableBuilder[] builders = {};
 
         if (!builderList.isEmpty())
         {
@@ -241,5 +242,58 @@ public final class CSVDriver implements java.sql.Driver
     public boolean jdbcCompliant()
     {
         return false;
+    }
+
+    /**
+     * @param value String
+     * @param open String
+     * @param close String
+     *
+     * @return String[]
+     */
+    private String[] substringsBetween(final String value, final String open, final String close)
+    {
+        // return StringUtils.substringsBetween(value, "[", "]");
+
+        final int strLen = value.length();
+
+        if (strLen == 0)
+        {
+            return new String[0];
+        }
+
+        final int closeLen = close.length();
+        final int openLen = open.length();
+        final List<String> list = new ArrayList<>();
+        int pos = 0;
+
+        while (pos < (strLen - closeLen))
+        {
+            int start = value.indexOf(open, pos);
+
+            if (start < 0)
+            {
+                break;
+            }
+
+            start += openLen;
+
+            final int end = value.indexOf(close, start);
+
+            if (end < 0)
+            {
+                break;
+            }
+
+            list.add(value.substring(start, end));
+            pos = end + closeLen;
+        }
+
+        if (list.isEmpty())
+        {
+            return null;
+        }
+
+        return list.toArray(new String[0]);
     }
 }

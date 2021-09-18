@@ -14,10 +14,16 @@ import java.util.Arrays;
 public final class ArrayUtils
 {
     /**
+     * An empty immutable {@code String} array.
+     */
+    public static final String[] EMPTY_STRING_ARRAY = {};
+
+    /**
      * Liefert true, wenn in den ArrayElementen immer nur der Wert enthalten ist.
      *
      * @param values double[]
      * @param value double
+     *
      * @return boolean
      */
     public static boolean containsOnly(final double[] values, final double value)
@@ -38,6 +44,7 @@ public final class ArrayUtils
      *
      * @param values double[]
      * @param filler double
+     *
      * @return double[]
      */
     public static double[] fillWhenAll0(final double[] values, final double filler)
@@ -64,6 +71,7 @@ public final class ArrayUtils
 
     /**
      * @param array double[]
+     *
      * @return boolean
      */
     public static boolean isEmpty(final double[] array)
@@ -73,6 +81,7 @@ public final class ArrayUtils
 
     /**
      * @param array int[]
+     *
      * @return boolean
      */
     public static boolean isEmpty(final int[] array)
@@ -82,6 +91,7 @@ public final class ArrayUtils
 
     /**
      * @param array long[]
+     *
      * @return boolean
      */
     public static boolean isEmpty(final long[] array)
@@ -91,6 +101,7 @@ public final class ArrayUtils
 
     /**
      * @param array Object[]
+     *
      * @return boolean
      */
     public static boolean isEmpty(final Object[] array)
@@ -100,6 +111,7 @@ public final class ArrayUtils
 
     /**
      * @param array double[]
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final double[] array)
@@ -109,6 +121,7 @@ public final class ArrayUtils
 
     /**
      * @param array int[]
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final int[] array)
@@ -118,6 +131,7 @@ public final class ArrayUtils
 
     /**
      * @param array long[]
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final long[] array)
@@ -127,6 +141,7 @@ public final class ArrayUtils
 
     /**
      * @param array Object[]
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final Object[] array)
@@ -137,6 +152,7 @@ public final class ArrayUtils
     /**
      * @param array Object[]
      * @param separator String
+     *
      * @return String
      */
     public static String join(final Object[] array, final String separator)

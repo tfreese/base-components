@@ -1,8 +1,6 @@
 // Created: 06.10.2008
 package de.freese.base.swing.clipboard.converter;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Allgemeiner ClipboardConverter für Boolean.
  *
@@ -16,7 +14,7 @@ public class BooleanClipboardConverter extends AbstractClipboardConverter
     @Override
     public Object fromClipboard(final String value)
     {
-        if (StringUtils.isEmpty(value))
+        if ((value == null) || value.isBlank())
         {
             return Boolean.FALSE;
         }

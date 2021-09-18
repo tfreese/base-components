@@ -1,8 +1,6 @@
 // Created: 06.10.2008
 package de.freese.base.swing.clipboard.converter;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Allgemeiner ClipboardConverter für String.
  *
@@ -16,7 +14,7 @@ public class StringClipboardConverter extends AbstractClipboardConverter
     @Override
     public Object fromClipboard(final String value)
     {
-        if (StringUtils.isEmpty(value))
+        if ((value == null) || value.isBlank())
         {
             return null;
         }

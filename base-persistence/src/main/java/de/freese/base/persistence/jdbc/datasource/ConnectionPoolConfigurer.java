@@ -2,8 +2,8 @@
 package de.freese.base.persistence.jdbc.datasource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.pool.HikariPool;
 
@@ -51,7 +51,7 @@ public final class ConnectionPoolConfigurer
         basicDataSource.setDefaultAutoCommit(Boolean.FALSE);
         basicDataSource.setDefaultReadOnly(Boolean.FALSE);
 
-        if (StringUtils.isNotBlank(validationQuery))
+        if ((validationQuery != null) && !validationQuery.isBlank())
         {
             basicDataSource.setValidationQuery(validationQuery);
 
@@ -125,7 +125,7 @@ public final class ConnectionPoolConfigurer
         config.setAutoCommit(false);
         config.setReadOnly(false);
 
-        if (StringUtils.isNotBlank(validationQuery))
+        if ((validationQuery != null) && !validationQuery.isBlank())
         {
             config.setConnectionTestQuery(validationQuery);
 
@@ -190,7 +190,7 @@ public final class ConnectionPoolConfigurer
         poolProperties.setDefaultAutoCommit(Boolean.FALSE);
         poolProperties.setDefaultReadOnly(Boolean.FALSE);
 
-        if (StringUtils.isNotBlank(validationQuery))
+        if ((validationQuery != null) && !validationQuery.isBlank())
         {
             poolProperties.setValidationQuery(validationQuery);
 

@@ -11,10 +11,10 @@ import java.nio.file.Path;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Objects;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.spec.IvParameterSpec;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Klasse zum Ver- und Entschlüsseln.
@@ -42,7 +42,7 @@ public class SymetricCrypt
      * 16bit<br>
      * AES Initialisierungsvektor, muss dem Empfänger bekannt sein !
      */
-    private static final byte[] INIT_VECTOR = new byte[]
+    private static final byte[] INIT_VECTOR =
     {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
@@ -113,7 +113,9 @@ public class SymetricCrypt
 
     /**
      * @param input Verschlüsselter {@link InputStream}, dieser wird geschlossen.
+     *
      * @return Entschlüsselter {@link InputStream}
+     *
      * @throws Exception Falls was schief geht.
      */
     public InputStream decrypt(final InputStream input) throws Exception
@@ -147,12 +149,14 @@ public class SymetricCrypt
 
     /**
      * @param input Verschlüsselter String
+     *
      * @return Klartext
+     *
      * @throws Exception Falls was schief geht.
      */
     public String decrypt(final String input) throws Exception
     {
-        if (StringUtils.isBlank(input))
+        if ((input == null) || input.isBlank())
         {
             return null;
         }
@@ -168,7 +172,9 @@ public class SymetricCrypt
 
     /**
      * @param input Der {@link InputStream} wird geschlossen.
+     *
      * @return Entschlüsselter {@link InputStream}
+     *
      * @throws Exception Falls was schief geht.
      */
     public InputStream encrypt(final InputStream input) throws Exception
@@ -199,12 +205,14 @@ public class SymetricCrypt
 
     /**
      * @param input Klartext
+     *
      * @return Verschlüsselter String
+     *
      * @throws Exception Falls was schief geht.
      */
     public String encrypt(final String input) throws Exception
     {
-        if (StringUtils.isBlank(input))
+        if ((input == null) || input.isBlank())
         {
             return null;
         }
@@ -230,7 +238,9 @@ public class SymetricCrypt
      * Liefert den {@link OutputStream} zum verschlüsseln.
      *
      * @param output {@link OutputStream}
+     *
      * @return {@link OutputStream}
+     *
      * @throws Exception Falls was schief geht.
      */
     public OutputStream getCipherOutputStream(final OutputStream output) throws Exception

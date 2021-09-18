@@ -14,7 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.apache.commons.codec.binary.Hex;
+
+import de.freese.base.utils.ByteUtils;
 
 /**
  * Basis-Implementierung eines {@link ResourceCache}.
@@ -72,20 +73,23 @@ public abstract class AbstractResourceCache implements ResourceCache
      * Die Bytes des MessageDigest werden dafür in einen Hex-String umgewandelt.
      *
      * @param uri {@link URI}
+     *
      * @return String
      */
     protected String generateKey(final URI uri)
     {
         String urlString = uri.toString();
         byte[] digest = getMessageDigest().digest(urlString.getBytes(StandardCharsets.UTF_8));
-        String hex = Hex.encodeHexString(digest, false);
+        String hex = ByteUtils.bytesToHex(digest);
 
         return hex;
     }
 
     /**
      * @param uri {@link URI}
+     *
      * @return long
+     *
      * @throws IOException Falls was schief geht.
      */
     protected long getContentLength(final URI uri) throws IOException
@@ -127,7 +131,9 @@ public abstract class AbstractResourceCache implements ResourceCache
 
     /**
      * @param uri {@link URI}
+     *
      * @return {@link InputStream}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected InputStream toInputStream(final URI uri) throws Exception
@@ -136,9 +142,9 @@ public abstract class AbstractResourceCache implements ResourceCache
 
         try
         {
-            if (connection instanceof HttpURLConnection)
+            if (connection instanceof HttpURLConnection httpURLConnection)
             {
-                HttpURLConnection httpURLConnection = ((HttpURLConnection) connection);
+                
 
                 // Verhindert HTTP 301 Moved Permanently. -> funktioniert aber nicht !
                 // httpURLConnection.setInstanceFollowRedirects(true);

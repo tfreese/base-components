@@ -72,6 +72,7 @@ public final class ExtMath
     /**
      * @param n long
      * @param m long
+     *
      * @return long
      */
     public static long ackermann(final long n, final long m)
@@ -95,9 +96,10 @@ public final class ExtMath
      *
      * @param number The String which is to be converted
      * @param base The Base of the Value
+     *
      * @return long
      */
-    public static final long base2Dec(final String number, final int base)
+    public static long base2Dec(final String number, final int base)
     {
         if ((base <= 1) || (base > 36))
         {
@@ -119,9 +121,10 @@ public final class ExtMath
      * Returns the Checksum of a Value.
      *
      * @param n long
+     *
      * @return long
      */
-    public static final long checksum(final long n)
+    public static long checksum(final long n)
     {
         if (n == 0)
         {
@@ -136,9 +139,10 @@ public final class ExtMath
      *
      * @param value The Value which is to be converted
      * @param base the new Base of the Value
+     *
      * @return String
      */
-    public static final String dec2Base(final long value, final int base)
+    public static String dec2Base(final long value, final int base)
     {
         if ((base <= 1) || (base > 36))
         {
@@ -146,7 +150,7 @@ public final class ExtMath
         }
 
         StringBuilder sb = new StringBuilder();
-        double tmp = 0.0D;
+        double tmp;
         long number = value;
 
         while (number != 0)
@@ -168,9 +172,10 @@ public final class ExtMath
      * Returns a String-Vector of Factors.
      *
      * @param bi BigInteger Value
+     *
      * @return {@link List}
      */
-    public static final List<String> factors(final BigInteger bi)
+    public static List<String> factors(final BigInteger bi)
     {
         return factors(bi, 100);
     }
@@ -180,9 +185,10 @@ public final class ExtMath
      *
      * @param value {@link BigInteger}
      * @param certainty Accuracy (Genauigkeit)
+     *
      * @return {@link List}
      */
-    public static final List<String> factors(final BigInteger value, final int certainty)
+    public static List<String> factors(final BigInteger value, final int certainty)
     {
         BigInteger bi = value;
 
@@ -210,6 +216,7 @@ public final class ExtMath
      * Liefert die Übergebene römische Zahl als <code>int</code> zurück.
      *
      * @param roman {@link String}
+     *
      * @return int
      */
     public static int getIntFromRoman(final String roman)
@@ -262,6 +269,7 @@ public final class ExtMath
      * Liefert die übergebene Zahl als römische Zahl zurück.
      *
      * @param value int
+     *
      * @return {@link String}
      */
     public static String getRomanNumber(final int value)
@@ -359,6 +367,7 @@ public final class ExtMath
      * Liefert true, wenn der Wert Nachkommastellen hat.
      *
      * @param value double
+     *
      * @return boolean
      */
     public static boolean hasFractionDigits(final double value)
@@ -380,9 +389,10 @@ public final class ExtMath
      * Checks if number is prime or not.
      *
      * @param number Value to be checked
+     *
      * @return boolean
      */
-    public static final boolean isPrime(final long number)
+    public static boolean isPrime(final long number)
     {
         boolean prim = true;
 
@@ -443,6 +453,7 @@ public final class ExtMath
      * Falls der übergebene {@link String} eine gültige römische Zahl ist wird <code>true</code> geliefert, sonst <code>false</code>.
      *
      * @param roman {@link String}
+     *
      * @return boolean
      */
     public static boolean isValidRomanNumber(final String roman)
@@ -471,9 +482,10 @@ public final class ExtMath
      *
      * @param a First Value
      * @param b Second Value
+     *
      * @return long
      */
-    public static final long lcd(final long a, final long b)
+    public static long lcd(final long a, final long b)
     {
         if (b == 0)
         {
@@ -485,9 +497,10 @@ public final class ExtMath
 
     /**
      * @param x double
+     *
      * @return double
      */
-    public static final double ln(final double x)
+    public static double ln(final double x)
     {
         return Math.log(x) / LOG_E;
     }
@@ -498,6 +511,7 @@ public final class ExtMath
      * @param value double
      * @param max double
      * @param min double
+     *
      * @return double
      */
     public static double normalize(final double value, final double max, final double min)
@@ -506,31 +520,13 @@ public final class ExtMath
     }
 
     /**
-     * Versucht den String in ein Integer umzuwandeln oder liefert NULL.
-     *
-     * @param value {@link String}
-     * @return {@link Integer}
-     */
-    public static Integer parseInteger(final String value)
-    {
-        try
-        {
-            // return Integer.parseInt(value);
-            return Integer.valueOf(value);
-        }
-        catch (NumberFormatException ex)
-        {
-            return null;
-        }
-    }
-
-    /**
      * Returns a String-Vector of Prime Factors.
      *
      * @param bi BigInteger Value
+     *
      * @return {@link List}
      */
-    public static final List<String> primeFactors(final BigInteger bi)
+    public static List<String> primeFactors(final BigInteger bi)
     {
         return primeFactors(bi, 100);
     }
@@ -540,9 +536,10 @@ public final class ExtMath
      *
      * @param value {@link BigInteger}
      * @param certainty Accuracy (Genauigkeit)
+     *
      * @return {@link List}
      */
-    public static final List<String> primeFactors(final BigInteger value, final int certainty)
+    public static List<String> primeFactors(final BigInteger value, final int certainty)
     {
         BigInteger bi = value;
         List<String> list = new ArrayList<>();
@@ -577,6 +574,7 @@ public final class ExtMath
      * @param max double; max. Wert aller Werte
      * @param minNorm double; neuer min. Wert
      * @param maxNorm double; neuer max. Wert
+     *
      * @return double
      */
     public static double reScale(final double value, final double min, final double max, final double minNorm, final double maxNorm)
@@ -591,6 +589,7 @@ public final class ExtMath
      *
      * @param value double
      * @param scale int Anzahl Nachkommastellen
+     *
      * @return double
      */
     public static double round(final double value, final int scale)
@@ -605,6 +604,7 @@ public final class ExtMath
      * @param value double
      * @param scale int Anzahl Nachkommastellen
      * @param roundingMode {@link RoundingMode}
+     *
      * @return double
      */
     public static double round(final double value, final int scale, final RoundingMode roundingMode)
@@ -625,6 +625,7 @@ public final class ExtMath
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
      *
      * @param value double
+     *
      * @return int
      */
     public static int roundDown(final double value)
@@ -646,6 +647,7 @@ public final class ExtMath
      * Ist der Wert NaN oder Infinite wird 0 geliefert.
      *
      * @param value double
+     *
      * @return int
      */
     public static int roundToInt(final double value)
@@ -658,6 +660,7 @@ public final class ExtMath
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
      *
      * @param value double
+     *
      * @return int
      */
     public static int roundUp(final double value)
@@ -678,9 +681,10 @@ public final class ExtMath
      *
      * @param a First Value
      * @param b Second Value
+     *
      * @return long
      */
-    public static final long scm(final long a, final long b)
+    public static long scm(final long a, final long b)
     {
         return ((a * b) / lcd(a, b));
     }
@@ -690,6 +694,7 @@ public final class ExtMath
      *
      * @param a Double
      * @param b Double
+     *
      * @return Double
      */
     public static Double sub(final Double a, final Double b)
@@ -699,10 +704,10 @@ public final class ExtMath
             return null;
         }
 
-        double aValue = (a == null) ? 0 : a.doubleValue();
-        double bValue = (b == null) ? 0 : b.doubleValue();
+        double aValue = (a == null) ? 0 : a;
+        double bValue = (b == null) ? 0 : b;
 
-        return Double.valueOf(aValue - bValue);
+        return aValue - bValue;
     }
 
     /**
@@ -710,6 +715,7 @@ public final class ExtMath
      *
      * @param a Integer
      * @param b Integer
+     *
      * @return Integer
      */
     public static Integer sub(final Integer a, final Integer b)
@@ -719,10 +725,10 @@ public final class ExtMath
             return null;
         }
 
-        int aValue = (a == null) ? 0 : a.intValue();
-        int bValue = (b == null) ? 0 : b.intValue();
+        int aValue = (a == null) ? 0 : a;
+        int bValue = (b == null) ? 0 : b;
 
-        return Integer.valueOf(aValue - bValue);
+        return aValue - bValue;
     }
 
     /**
@@ -730,6 +736,7 @@ public final class ExtMath
      *
      * @param a Long
      * @param b Long
+     *
      * @return Long
      */
     public static Long sub(final Long a, final Long b)
@@ -739,10 +746,10 @@ public final class ExtMath
             return null;
         }
 
-        long aValue = (a == null) ? 0 : a.longValue();
-        long bValue = (b == null) ? 0 : b.longValue();
+        long aValue = (a == null) ? 0 : a;
+        long bValue = (b == null) ? 0 : b;
 
-        return Long.valueOf(aValue - bValue);
+        return aValue - bValue;
     }
 
     /**
@@ -750,12 +757,13 @@ public final class ExtMath
      *
      * @param a Double
      * @param b Double
+     *
      * @return Double
      */
     public static Double sum(final Double a, final Double b)
     {
-        double aValue = (a == null) ? Double.NaN : a.doubleValue();
-        double bValue = (b == null) ? Double.NaN : b.doubleValue();
+        double aValue = (a == null) ? Double.NaN : a;
+        double bValue = (b == null) ? Double.NaN : b;
 
         if (Double.isNaN(aValue) && Double.isNaN(bValue))
         {
@@ -765,7 +773,7 @@ public final class ExtMath
         aValue = (Double.isNaN(aValue)) ? 0 : aValue;
         bValue = (Double.isNaN(bValue)) ? 0 : bValue;
 
-        return Double.valueOf(aValue + bValue);
+        return aValue + bValue;
     }
 
     /**
@@ -773,6 +781,7 @@ public final class ExtMath
      *
      * @param a Integer
      * @param b Integer
+     *
      * @return Integer
      */
     public static Integer sum(final Integer a, final Integer b)
@@ -782,10 +791,10 @@ public final class ExtMath
             return null;
         }
 
-        int aValue = (a == null) ? 0 : a.intValue();
-        int bValue = (b == null) ? 0 : b.intValue();
+        int aValue = (a == null) ? 0 : a;
+        int bValue = (b == null) ? 0 : b;
 
-        return Integer.valueOf(aValue + bValue);
+        return aValue + bValue;
     }
 
     /**
@@ -793,6 +802,7 @@ public final class ExtMath
      *
      * @param a Long
      * @param b Long
+     *
      * @return Long
      */
     public static Long sum(final Long a, final Long b)
@@ -802,10 +812,10 @@ public final class ExtMath
             return null;
         }
 
-        long aValue = (a == null) ? 0 : a.longValue();
-        long bValue = (b == null) ? 0 : b.longValue();
+        long aValue = (a == null) ? 0 : a;
+        long bValue = (b == null) ? 0 : b;
 
-        return Long.valueOf(aValue + bValue);
+        return aValue + bValue;
     }
 
     /**

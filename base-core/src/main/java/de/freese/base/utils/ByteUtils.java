@@ -3,13 +3,13 @@ package de.freese.base.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.io.UncheckedIOException;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import org.apache.commons.lang3.SerializationException;
-import org.apache.commons.lang3.SerializationUtils;
 
 /**
  * Toolkit zum Wandeln von Datentypen in ByteArrays.
@@ -173,8 +173,6 @@ public final class ByteUtils
      * @param bytes byte[]
      *
      * @return Object
-     *
-     * @throws SerializationException Falls was schief geht.
      */
     @SuppressWarnings("unchecked")
     public static <T> T deserializeObject(final byte[] bytes)
@@ -184,7 +182,22 @@ public final class ByteUtils
             return null;
         }
 
-        Object object = SerializationUtils.deserialize(bytes);
+        // Object object = SerializationUtils.deserialize(bytes);
+        final Object object;
+
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+             ObjectInputStream out = new ObjectInputStream(bais))
+        {
+            object = out.readObject();
+        }
+        catch (final IOException ex)
+        {
+            throw new UncheckedIOException(ex);
+        }
+        catch (final ClassNotFoundException ex)
+        {
+            throw new RuntimeException(ex);
+        }
 
         return (T) object;
     }
@@ -247,8 +260,6 @@ public final class ByteUtils
      * @param object {@link Serializable}
      *
      * @return byte[]
-     *
-     * @throws SerializationException Falls was schief geht.
      */
     public static byte[] serializeObject(final Serializable object)
     {
@@ -257,7 +268,19 @@ public final class ByteUtils
             return new byte[0];
         }
 
-        byte[] bytes = SerializationUtils.serialize(object);
+        // byte[] bytes = SerializationUtils.serialize(object);
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
+
+        try (ObjectOutputStream out = new ObjectOutputStream(baos))
+        {
+            out.writeObject(object);
+        }
+        catch (final IOException ex)
+        {
+            throw new UncheckedIOException(ex);
+        }
+
+        byte[] bytes = baos.toByteArray();
 
         return bytes;
     }

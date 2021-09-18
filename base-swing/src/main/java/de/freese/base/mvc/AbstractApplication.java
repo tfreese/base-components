@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,7 +143,7 @@ public abstract class AbstractApplication
 
         getLogger().info("Initialize System LookAndFeel");
 
-        if (SystemUtils.IS_OS_MAC_OSX)
+        if (System.getProperty("os.name").contains("Mac OS X"))
         {
             // When using the Aqua look and feel, this property puts Swing menus in the Mac OS X
             // menu bar. Note that JMenuBars in JDialogs are not moved to the Mac OS X menu bar.

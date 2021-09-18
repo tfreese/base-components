@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -23,10 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
-import org.apache.commons.lang3.BooleanUtils;
+
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.icon.ColumnControlIcon;
 import org.jdesktop.swingx.table.TableColumnExt;
+
 import de.freese.base.swing.components.dialog.DialogFactory;
 import de.freese.base.swing.components.dialog.ExtDialog;
 import de.freese.base.swing.components.table.ExtTable;
@@ -98,6 +100,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      * Erzeugt die Komponente für die Spalte.
      *
      * @param column {@link TableColumnExt}
+     *
      * @return {@link JComponent}
      */
     protected JComponent createColumnComponent(final TableColumnExt column)
@@ -260,6 +263,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      * Liefert true, wenn die Sichtbarkeit der Spalte verändert werden darf.
      *
      * @param column {@link TableColumnExt}
+     *
      * @return boolean
      */
     protected boolean isColumnControled(final TableColumnExt column)
@@ -271,7 +275,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
             return true;
         }
 
-        return !BooleanUtils.toBoolean(controlDisabled);
+        return !controlDisabled;
     }
 
     /**
@@ -444,16 +448,15 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      *
      * @param column {@link TableColumnExt}
      * @param component {@link JComponent}
+     *
      * @return boolean; true=Sichtbarkeit geändert, false=nicht geändert
      */
     protected boolean toggleColumnVisibility(final TableColumnExt column, final JComponent component)
     {
         boolean toggled = false;
 
-        if (component instanceof JCheckBox)
+        if (component instanceof JCheckBox checkBox)
         {
-            JCheckBox checkBox = (JCheckBox) component;
-
             if (column.isVisible() != checkBox.isSelected())
             {
                 toggled = true;

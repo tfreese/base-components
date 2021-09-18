@@ -13,8 +13,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
-import org.apache.commons.lang3.StringUtils;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -86,6 +87,7 @@ public class ExcelToCsv
      *
      * @param excelSource {@link Path}
      * @param csvDest {@link Path}
+     *
      * @throws IOException Falls was schief geht.
      */
     public void convert(final Path excelSource, final Path csvDest) throws IOException
@@ -104,6 +106,7 @@ public class ExcelToCsv
      *
      * @param excelSource {@link Path}
      * @param csvWriter {@link Writer}
+     *
      * @throws IOException Falls was schief geht.
      */
     @SuppressWarnings("resource")
@@ -159,7 +162,7 @@ public class ExcelToCsv
                 }
 
                 // Keine leeren Zeilen schreiben.
-                if (Arrays.stream(values).filter(StringUtils::isNotBlank).count() > 0)
+                if (Arrays.stream(values).filter(Objects::nonNull).filter(s -> !s.isBlank()).count() > 0)
                 {
                     writeCSV(csvWriter, values);
                 }
@@ -173,6 +176,7 @@ public class ExcelToCsv
      * Liefert den Header oder null, wenn headerLine < 0.
      *
      * @param sheet {@link Sheet}
+     *
      * @return String[]
      */
     private String[] getHeaders(final Sheet sheet)
@@ -199,6 +203,7 @@ public class ExcelToCsv
      *
      * @param row - {@link Row}
      * @param column - int
+     *
      * @return value - {@link String}
      */
     private String getValue(final Row row, final int column)
@@ -232,7 +237,12 @@ public class ExcelToCsv
         // value = Double.toString(v);
         // }
 
-        value = StringUtils.trimToNull(value);
+        value = Optional.ofNullable(value).map(String::trim).orElse("");
+
+        if (value.isBlank())
+        {
+            value = null;
+        }
 
         if ((value != null) && (row.getRowNum() != this.headerRow))
         {
@@ -250,7 +260,9 @@ public class ExcelToCsv
 
     /**
      * @param excelSource {@link Path}
+     *
      * @return {@link Workbook}
+     *
      * @throws IOException Falls was schief geht.
      */
     private Workbook getWorkbook(final Path excelSource) throws IOException
@@ -357,6 +369,7 @@ public class ExcelToCsv
      *
      * @param writer {@link Writer}
      * @param values String[]
+     *
      * @throws IOException Falls was schief geht.
      */
     private void writeCSV(final Writer writer, final String[] values) throws IOException

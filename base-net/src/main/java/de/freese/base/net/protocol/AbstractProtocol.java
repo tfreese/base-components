@@ -4,9 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.utils.ByteUtils;
 
 /**
  * Basisklasse fuer Netzwerkprotokolle.
@@ -41,7 +42,8 @@ public abstract class AbstractProtocol
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
-            return Hex.encodeHexString(digest);
+            // return Hex.encodeHexString(digest);
+            return ByteUtils.bytesToHex(digest);
         }
         catch (NoSuchAlgorithmException ex)
         {

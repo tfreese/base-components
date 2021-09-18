@@ -29,6 +29,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -44,7 +45,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import org.apache.commons.lang3.SystemUtils;
 
 import de.freese.base.swing.macOsX.OSXAdapter;
 
@@ -56,7 +56,7 @@ public class MyApp extends JFrame implements ActionListener
     /**
      * Check that we are on Mac OS X. This is crucial to loading and using the OSXAdapter class.
      */
-    public static boolean IS_OS_MAC_OSX = SystemUtils.IS_OS_MAC_OSX;
+    public static boolean IS_OS_MAC_OSX = System.getProperty("os.name").toLowerCase().contains("mac os x");
     /**
      * Ask AWT which menu modifier we should be using.
      */
@@ -337,7 +337,7 @@ public class MyApp extends JFrame implements ActionListener
      * occurs. A quit event is triggered by Cmd-Q, selecting Quit from the application or<br>
      * Dock menu, or logging out.
      * <p/>
-     * 
+     *
      * @return boolean
      */
     public boolean quit()
@@ -363,10 +363,7 @@ public class MyApp extends JFrame implements ActionListener
                 OSXAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class[]) null));
                 OSXAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class[]) null));
                 OSXAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
-                OSXAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", new Class<?>[]
-                {
-                        String.class
-                }));
+                OSXAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", String.class));
             }
             catch (NoSuchMethodException | SecurityException ex)
             {

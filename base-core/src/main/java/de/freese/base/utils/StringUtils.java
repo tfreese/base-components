@@ -5,6 +5,7 @@ package de.freese.base.utils;
 
 import static de.freese.base.utils.ByteUtils.HEX_CHARS;
 import static de.freese.base.utils.ByteUtils.HEX_INDEX;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -59,6 +60,7 @@ public final class StringUtils
      *
      * @param str String
      * @param maxWidth int
+     *
      * @return String
      */
     public static String abbreviate(final String str, final int maxWidth)
@@ -82,7 +84,7 @@ public final class StringUtils
             return;
         }
 
-        String sep = (separator == null) || separator.strip().isEmpty() ? "|" : separator;
+        String sep = (separator == null) || separator.isBlank() ? "|" : separator;
 
         int columnCount = rows.get(0).length;
 
@@ -103,6 +105,7 @@ public final class StringUtils
 
     /**
      * @param text String
+     *
      * @return String, not null
      */
     public static String asciiToUnicode(final String text)
@@ -163,68 +166,13 @@ public final class StringUtils
      * </pre>
      *
      * @param text String
+     *
      * @return String
      */
     public static String capitalize(final String text)
     {
+        // value.substring(0, 1).toUpperCase() + value.substring(1);
         return org.apache.commons.lang3.StringUtils.capitalize(text);
-    }
-
-    /**
-     * <pre>
-     * StringUtils.containsIgnoreCase(null, *) = false
-     * StringUtils.containsIgnoreCase(*, null) = false
-     * StringUtils.containsIgnoreCase("", "") = true
-     * StringUtils.containsIgnoreCase("abc", "") = true
-     * StringUtils.containsIgnoreCase("abc", "a") = true
-     * StringUtils.containsIgnoreCase("abc", "z") = false
-     * StringUtils.containsIgnoreCase("abc", "A") = true
-     * StringUtils.containsIgnoreCase("abc", "Z") = false
-     * </pre>
-     *
-     * @param cs {@link CharSequence}
-     * @param search {@link CharSequence}
-     * @return boolean
-     */
-    public static boolean containsIgnoreCase(final CharSequence cs, final CharSequence search)
-    {
-        return org.apache.commons.lang3.StringUtils.containsIgnoreCase(cs, search);
-    }
-
-    /**
-     * <pre>
-     * StringUtils.defaultIfBlank(null, "NULL")  = "NULL"
-     * StringUtils.defaultIfBlank("", "NULL")    = "NULL"
-     * StringUtils.defaultIfBlank(" ", "NULL")   = "NULL"
-     * StringUtils.defaultIfBlank("bat", "NULL") = "bat"
-     * StringUtils.defaultIfBlank("", null)      = null
-     * </pre>
-     *
-     * @param text String
-     * @param defaultText String
-     * @return String
-     */
-    public static String defaultIfBlank(final String text, final String defaultText)
-    {
-        return isBlank(text) ? defaultText : text;
-    }
-
-    /**
-     * <pre>
-     * StringUtils.defaultIfEmpty(null, "NULL")  = "NULL"
-     * StringUtils.defaultIfEmpty("", "NULL")    = "NULL"
-     * StringUtils.defaultIfEmpty(" ", "NULL")   = " "
-     * StringUtils.defaultIfEmpty("bat", "NULL") = "bat"
-     * StringUtils.defaultIfEmpty("", null)      = null
-     * </pre>
-     *
-     * @param text String
-     * @param defaultText String
-     * @return String
-     */
-    public static <T extends CharSequence> T defaultIfEmpty(final T text, final T defaultText)
-    {
-        return isEmpty(text) ? defaultText : text;
     }
 
     /**
@@ -269,6 +217,7 @@ public final class StringUtils
      * Liefert die Zeichenbreite der Elemente.<br>
      *
      * @param list {@link List}
+     *
      * @return int[]
      */
     public static int[] getWidths(final List<String[]> list)
@@ -303,6 +252,7 @@ public final class StringUtils
      * Liefert die Zeichenbreite der Elemente.<br>
      *
      * @param array String[]
+     *
      * @return int[]
      */
     public static int[] getWidths(final String[] array)
@@ -320,7 +270,9 @@ public final class StringUtils
 
     /**
      * @param cs {@link CharSequence}
+     *
      * @return String, not null
+     *
      * @throws Exception Falls was schief geht.
      */
     public static String hexStringToUnicode(final CharSequence cs) throws Exception
@@ -356,6 +308,7 @@ public final class StringUtils
      * </pre>
      *
      * @param cs {@link CharSequence}
+     *
      * @return boolean
      */
     public static boolean isBlank(final CharSequence cs)
@@ -390,6 +343,7 @@ public final class StringUtils
      * </pre>
      *
      * @param cs {@link CharSequence}
+     *
      * @return boolean
      */
     public static boolean isEmpty(final CharSequence cs)
@@ -407,6 +361,7 @@ public final class StringUtils
      * </pre>
      *
      * @param cs {@link CharSequence}
+     *
      * @return boolean
      */
     public static boolean isNotBlank(final CharSequence cs)
@@ -424,6 +379,7 @@ public final class StringUtils
      * </pre>
      *
      * @param cs {@link CharSequence}
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final CharSequence cs)
@@ -447,6 +403,7 @@ public final class StringUtils
      * </pre>
      *
      * @param cs {@link CharSequence}
+     *
      * @return String
      */
     public static boolean isNumeric(final CharSequence cs)
@@ -474,6 +431,7 @@ public final class StringUtils
     /**
      * @param array Object[]
      * @param separator String
+     *
      * @return String, not null
      */
     public static String join(final Object[] array, final String separator)
@@ -503,15 +461,19 @@ public final class StringUtils
      * @param text String
      * @param size int
      * @param padStr String
+     *
      * @return String
      */
     public static String leftPad(final String text, final int size, final String padStr)
     {
+        // return String.format("%" + size + "s", text).replace(" ", padding);
+
         return org.apache.commons.lang3.StringUtils.leftPad(text, size, padStr);
     }
 
     /**
      * @param cs {@link CharSequence}
+     *
      * @return String
      */
     public static int length(final CharSequence cs)
@@ -524,7 +486,9 @@ public final class StringUtils
      * ASCII 160 (non-breaking space) wird als Space interpretiert.
      *
      * @param cs {@link CharSequence}
+     *
      * @return String
+     *
      * @see Character#isWhitespace
      */
     public static String normalizeSpace(final CharSequence cs)
@@ -572,7 +536,9 @@ public final class StringUtils
      * Ausgenommen: ASCII 09 (Horizontal Tab), ASCII 10 (Line Feed), ASCII 13 (Carriage Return).<br>
      *
      * @param input input
+     *
      * @return String
+     *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
     public static String removeControlCharacters(final String input)
@@ -627,6 +593,7 @@ public final class StringUtils
      *
      * @param cs {@link CharSequence}
      * @param repeat int
+     *
      * @return String
      */
     public static String repeat(final CharSequence cs, final int repeat)
@@ -638,12 +605,7 @@ public final class StringUtils
             return null;
         }
 
-        if (repeat <= 0)
-        {
-            return EMPTY;
-        }
-
-        if (cs.length() == 0)
+        if ((repeat <= 0) || (cs.length() == 0))
         {
             return EMPTY;
         }
@@ -667,6 +629,7 @@ public final class StringUtils
      * @param list {@link List}
      * @param widths int[]
      * @param padding String
+     *
      * @see #write(List, PrintStream, String)
      */
     @SuppressWarnings("unchecked")
@@ -704,6 +667,7 @@ public final class StringUtils
      * @param array {@link CharSequence}[]
      * @param widths int[]
      * @param padding String
+     *
      * @see #write(List, PrintStream, String)
      */
     @SuppressWarnings("unchecked")
@@ -746,10 +710,13 @@ public final class StringUtils
      * @param text String
      * @param size int
      * @param padding String
+     *
      * @return String
      */
     public static String rightPad(final String text, final int size, final String padding)
     {
+        // return String.format("%-" + size + "s", text).replace(" ", padding);
+
         return org.apache.commons.lang3.StringUtils.rightPad(text, size, padding);
     }
 
@@ -757,6 +724,7 @@ public final class StringUtils
      * Trennt zusammengefügte Wörter anhand unterschiedlicher Uppercase/Lowercase Schreibweise der Buchstaben<br>
      *
      * @param text String
+     *
      * @return String, not null
      */
     public static String splitAddedWords(final String text)
@@ -799,6 +767,7 @@ public final class StringUtils
      *
      * @param text String
      * @param separator String
+     *
      * @return String[]
      */
     public static String[] splitByWholeSeparator(final String text, final String separator)
@@ -810,6 +779,7 @@ public final class StringUtils
      * Neue Methode mit Unicode-Standards als {@link String#trim()} Alternative.
      *
      * @param text String
+     *
      * @return String, not null
      */
     public static String strip(final String text)
@@ -832,6 +802,7 @@ public final class StringUtils
      * </pre>
      *
      * @param text String
+     *
      * @return String, not null
      */
     public static String stripToEmpty(final String text)
@@ -849,6 +820,7 @@ public final class StringUtils
      * </pre>
      *
      * @param text String
+     *
      * @return String
      */
     public static String stripToNull(final String text)
@@ -872,6 +844,7 @@ public final class StringUtils
      *
      * @param text String
      * @param separator String
+     *
      * @return String
      */
     public static String substringBefore(final String text, final String separator)
@@ -880,9 +853,84 @@ public final class StringUtils
     }
 
     /**
+     * <p>
+     * Searches a String for substrings delimited by a start and end tag, returning all matching substrings in an array.
+     * </p>
+     * <p>
+     * A {@code null} input String returns {@code null}. A {@code null} open/close returns {@code null} (no match). An empty ("") open/close returns
+     * {@code null} (no match).
+     * </p>
+     *
+     * <pre>
+     * StringUtils.substringsBetween("[a][b][c]", "[", "]") = ["a","b","c"]
+     * StringUtils.substringsBetween(null, *, *)            = null
+     * StringUtils.substringsBetween(*, null, *)            = null
+     * StringUtils.substringsBetween(*, *, null)            = null
+     * StringUtils.substringsBetween("", "[", "]")          = []
+     * </pre>
+     *
+     * @param str the String containing the substrings, null returns null, empty returns empty
+     * @param open the String identifying the start of the substring, empty returns null
+     * @param close the String identifying the end of the substring, empty returns null
+     *
+     * @return a String Array of substrings, or {@code null} if no match
+     *
+     * @since 2.3
+     */
+    public static String[] substringsBetween(final String str, final String open, final String close)
+    {
+        if ((str == null) || isEmpty(open) || isEmpty(close))
+        {
+            return null;
+        }
+
+        final int strLen = str.length();
+
+        if (strLen == 0)
+        {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+
+        final int closeLen = close.length();
+        final int openLen = open.length();
+        final List<String> list = new ArrayList<>();
+        int pos = 0;
+
+        while (pos < (strLen - closeLen))
+        {
+            int start = str.indexOf(open, pos);
+
+            if (start < 0)
+            {
+                break;
+            }
+
+            start += openLen;
+
+            final int end = str.indexOf(close, start);
+
+            if (end < 0)
+            {
+                break;
+            }
+
+            list.add(str.substring(start, end));
+            pos = end + closeLen;
+        }
+
+        if (list.isEmpty())
+        {
+            return null;
+        }
+
+        return list.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
+    }
+
+    /**
      * Konvertiert mehrzeiligen Text in einen zeiligen Text.<br>
      *
      * @param text String
+     *
      * @return String, not null
      */
     public static String toSingleLine(final String text)
@@ -910,6 +958,7 @@ public final class StringUtils
      * Verwendet intern die neue {@link String#strip()} Methode mit Unicode-Standards.
      *
      * @param text String
+     *
      * @return String
      */
     public static String trim(final String text)
@@ -919,6 +968,7 @@ public final class StringUtils
 
     /**
      * @param cs {@link CharSequence}
+     *
      * @return String, not null
      */
     public static String unicodeToAscii(final CharSequence cs)
@@ -966,6 +1016,7 @@ public final class StringUtils
 
     /**
      * @param cs {@link CharSequence}
+     *
      * @return String
      */
     public static String unicodeToHexString(final CharSequence cs)
