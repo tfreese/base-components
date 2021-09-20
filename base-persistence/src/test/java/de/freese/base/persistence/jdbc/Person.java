@@ -1,7 +1,4 @@
-/**
- * Created: 16.06.2016
- */
-
+// Created: 16.06.2016
 package de.freese.base.persistence.jdbc;
 
 /**
@@ -13,12 +10,10 @@ public class Person
      *
      */
     private final long id;
-
     /**
      *
      */
     private final String nachname;
-
     /**
      *
      */

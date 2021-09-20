@@ -9,6 +9,7 @@ import java.sql.SQLException;
  * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Row-Typ
  */
 @FunctionalInterface
@@ -19,7 +20,8 @@ public interface ParameterizedPreparedStatementSetter<T>
      *
      * @param preparedStatement {@link PreparedStatement}
      * @param argument Object
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public void setValues(PreparedStatement preparedStatement, T argument) throws SQLException;
+    void setValues(PreparedStatement preparedStatement, T argument) throws SQLException;
 }

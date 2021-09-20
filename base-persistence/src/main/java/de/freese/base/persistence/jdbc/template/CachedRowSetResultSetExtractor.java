@@ -1,15 +1,14 @@
-/**
- * Created: 17.05.2020
- */
-
+// Created: 17.05.2020
 package de.freese.base.persistence.jdbc.template;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
+
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 
 /**
@@ -32,7 +31,7 @@ public class CachedRowSetResultSetExtractor implements ResultSetExtractor<Cached
         }
         catch (SQLException ex)
         {
-            throw new IllegalStateException("Cannot create RowSetFactory through RowSetProvider", ex);
+            throw new IllegalStateException("Can't create RowSetFactory through RowSetProvider", ex);
         }
     }
 

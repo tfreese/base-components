@@ -1,6 +1,4 @@
-/**
- * Created: 04.02.2017
- */
+// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.template.function;
 
 import java.sql.Connection;
@@ -11,6 +9,7 @@ import java.sql.SQLException;
  * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Return-Typ
  */
 @FunctionalInterface
@@ -25,5 +24,5 @@ public interface ConnectionCallback<T>
      *
      * @throws SQLException Falls was schief geht.
      */
-    public T doInConnection(Connection connection) throws SQLException;
+    T doInConnection(Connection connection) throws SQLException;
 }

@@ -1,7 +1,4 @@
-/**
- * Created: 04.02.2017
- */
-
+// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.template.function;
 
 import java.sql.SQLException;
@@ -12,6 +9,7 @@ import java.sql.Statement;
  * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
  *
  * @author Thomas Freese
+ *
  * @param <S> Konkretes Statement
  * @param <T> Konkreter Return-Typ
  */
@@ -22,8 +20,10 @@ public interface StatementCallback<S extends Statement, T>
      * Ausführung von Code für ein {@link Statement}.
      *
      * @param statement {@link Statement}
+     *
      * @return Object
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public T doInStatement(S statement) throws SQLException;
+    T doInStatement(S statement) throws SQLException;
 }

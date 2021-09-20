@@ -9,6 +9,7 @@ import java.sql.SQLException;
  * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
  *
  * @author Thomas Freese
+ *
  * @param <R> Konkreter Row-Typ
  */
 @FunctionalInterface
@@ -27,8 +28,10 @@ public interface RowMapper<R> // extends Function<ResultSet, R>
      * Mapped die aktuelle Zeile des {@link ResultSet} in ein Objekt.
      *
      * @param resultSet {@link ResultSet}
+     *
      * @return Object
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public R mapRow(ResultSet resultSet) throws SQLException;
+    R mapRow(ResultSet resultSet) throws SQLException;
 }

@@ -9,6 +9,7 @@ import java.sql.SQLException;
  * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Return-Typ
  */
 @FunctionalInterface
@@ -18,8 +19,10 @@ public interface ResultSetExtractor<T>
      * Konvertiert das {@link ResultSet} in eine andere Objektstruktur.
      *
      * @param resultSet {@link ResultSet}
+     *
      * @return Object
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public T extractData(ResultSet resultSet) throws SQLException;
+    T extractData(ResultSet resultSet) throws SQLException;
 }

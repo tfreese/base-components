@@ -4,6 +4,7 @@ package de.freese.base.persistence.jdbc.template;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+
 import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
@@ -69,7 +72,9 @@ class TestSimpleJdbcTemplate
 
     /**
      * @param sequence String
+     *
      * @return long
+     *
      * @throws SQLException Falls was schief geht.
      */
     private long getNextID(final String sequence) throws SQLException
@@ -273,6 +278,37 @@ class TestSimpleJdbcTemplate
         assertEquals(2, results.get(1).getId());
         assertEquals("Nachname1", results.get(1).getNachname());
         assertEquals("Vorname1", results.get(1).getVorname());
+    }
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @Test
+    void test032QueryWithMaxRows() throws Exception
+    {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by name desc");
+
+        int maxRows = jdbcTemplate.getMaxRows();
+        jdbcTemplate.setMaxRows(1);
+
+        final List<Person> results;
+
+        try
+        {
+            results = jdbcTemplate.query(sql.toString(), new PersonRowMapper());
+        }
+        finally
+        {
+            jdbcTemplate.setMaxRows(maxRows);
+        }
+
+        assertNotNull(results);
+        assertEquals(1, results.size());
+
+        assertEquals(3, results.get(0).getId());
+        assertEquals("Nachname2", results.get(0).getNachname());
+        assertEquals("Vorname2", results.get(0).getVorname());
     }
 
     /**
@@ -525,7 +561,7 @@ class TestSimpleJdbcTemplate
 
         AtomicInteger counter = new AtomicInteger(0);
         Flux<Person> flux = supplier.get();
-        assertEquals(3, flux.doOnNext(p -> counter.incrementAndGet()).count().block().longValue());
+        assertEquals(3, flux.doOnNext(p -> counter.incrementAndGet()).count().block());
         assertEquals(3, counter.get());
 
         flux = supplier.get();
@@ -560,7 +596,7 @@ class TestSimpleJdbcTemplate
                 ps -> ps.setString(1, "Nachname%"));
 
         Flux<Person> flux = supplier.get();
-        assertEquals(2, flux.count().block().longValue());
+        assertEquals(2, flux.count().block());
 
         flux = supplier.get();
         flux.take(1).subscribe(p -> {
@@ -588,7 +624,7 @@ class TestSimpleJdbcTemplate
                 () -> jdbcTemplate.queryAsFlux("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
 
         Flux<Person> flux = supplier.get();
-        assertEquals(2, flux.count().block().longValue());
+        assertEquals(2, flux.count().block());
 
         flux = supplier.get();
         flux.take(1).subscribe(p -> {
@@ -616,7 +652,7 @@ class TestSimpleJdbcTemplate
                 new ColumnMapRowMapper(), ps -> ps.setString(1, "Nachname%"));
 
         Flux<Map<String, Object>> flux = supplier.get();
-        assertEquals(2, flux.count().block().longValue());
+        assertEquals(2, flux.count().block());
 
         flux = supplier.get();
         flux.subscribe(m -> {
@@ -654,7 +690,7 @@ class TestSimpleJdbcTemplate
                 () -> jdbcTemplate.queryAsFlux("select * from PERSON where name like ? order by name desc", new ColumnMapRowMapper(), "Nachname%");
 
         Flux<Map<String, Object>> flux = supplier.get();
-        assertEquals(2, flux.count().block().longValue());
+        assertEquals(2, flux.count().block());
 
         flux = supplier.get();
         flux.subscribe(m -> {
