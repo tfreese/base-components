@@ -1,21 +1,21 @@
-/**
- * Created: 03.01.2016
- */
+// Created: 03.01.2016
 package de.freese.base.persistence.jdbc.reactive;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Iterator;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
 import javax.sql.DataSource;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -26,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
@@ -48,7 +49,6 @@ class TestMockReactiveJdbc
          *
          */
         private final String city;
-
         /**
          *
          */
@@ -109,64 +109,13 @@ class TestMockReactiveJdbc
     };
 
     /**
-     * Schliesst das {@link ResultSet}.
-     *
-     * @param resultSet {@link ResultSet}
-     */
-    static void close(final ResultSet resultSet)
-    {
-        try
-        {
-            if ((resultSet == null) || resultSet.isClosed())
-            {
-                return;
-            }
-
-            resultSet.close();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    /**
-     * Schliesst das {@link Statement}.
-     *
-     * @param statement {@link Statement}
-     */
-    static void close(final Statement statement)
-    {
-        try
-        {
-            if ((statement == null) || statement.isClosed())
-            {
-                return;
-            }
-
-            if (statement instanceof PreparedStatement)
-            {
-                ((PreparedStatement) statement).clearBatch();
-                ((PreparedStatement) statement).clearParameters();
-            }
-
-            statement.close();
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    /**
     *
     */
     private Connection connection;
-
     /**
      *
      */
-    private String[][] data = new String[][]
+    private String[][] data =
     {
             {
                     "Pakistan", "Karachi"
@@ -190,22 +139,18 @@ class TestMockReactiveJdbc
                     "Spain", "Madrid"
             }
     };
-
     /**
     *
     */
     private DataSource datasource;
-
     /**
      *
      */
     private ResultSet resultSet;
-
     /**
      *
      */
     private int resultSetIndex;
-
     /**
      *
      */
@@ -214,7 +159,6 @@ class TestMockReactiveJdbc
     /**
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     @BeforeEach
     void setup() throws SQLException
     {
@@ -234,13 +178,9 @@ class TestMockReactiveJdbc
             return this.resultSetIndex < this.data.length;
         });
 
-        when(this.resultSet.getString("country")).then(invocation -> {
-            return this.data[this.resultSetIndex][0];
-        });
+        when(this.resultSet.getString("country")).then(invocation -> this.data[this.resultSetIndex][0]);
 
-        when(this.resultSet.getString("city")).then(invocation -> {
-            return this.data[this.resultSetIndex][1];
-        });
+        when(this.resultSet.getString("city")).then(invocation -> this.data[this.resultSetIndex][1]);
     }
 
     /**
@@ -261,7 +201,7 @@ class TestMockReactiveJdbc
         // @formatter:on
 
         // @formatter:off
-        Iterator<City> cities = flux.filter(city -> !city.country.equalsIgnoreCase("China"))
+        Iterator<City> cities = flux.filter(city -> !"China".equalsIgnoreCase(city.country))
                 .take(3)
                 //.doOnNext(System.out::println) // Zwischenergebnisse
                 .toIterable().iterator();
@@ -314,7 +254,7 @@ class TestMockReactiveJdbc
         // @formatter:on
 
         // @formatter:off
-        Iterator<City> cities = flux.filter(city -> !city.country.equalsIgnoreCase("China"))
+        Iterator<City> cities = flux.filter(city -> !"China".equalsIgnoreCase(city.country))
                 .take(3)
                 //.doOnNext(System.out::println) // Zwischenergebnisse
                 .toIterable().iterator();
@@ -338,7 +278,7 @@ class TestMockReactiveJdbc
         });)
         {
             // @formatter:off
-            Iterator<City> cities = stream.filter(city -> !city.country.equalsIgnoreCase("China"))
+            Iterator<City> cities = stream.filter(city -> !"China".equalsIgnoreCase(city.country))
                     .limit(3)
                     //.peek(System.out::println) // Zwischenergebnisse
                     .iterator();

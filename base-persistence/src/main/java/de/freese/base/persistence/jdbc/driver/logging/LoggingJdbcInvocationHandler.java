@@ -1,6 +1,4 @@
-/**
- *
- */
+// Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
 import java.lang.reflect.InvocationHandler;
@@ -9,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.springframework.util.ClassUtils;
 
@@ -26,7 +25,6 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
      *
      */
     public final Set<String> logMethods;
-
     /**
      *
      */
@@ -59,8 +57,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
             // if (LOGGER.isDebugEnabled())
             if (logMethod)
             {
-                LOGGER.info(
-                        String.format("Invoke %s#%s: %s", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : ""));
+                LOGGER.info("Invoke {}#{}: {}", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
             }
 
             // long start = System.currentTimeMillis();

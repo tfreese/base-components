@@ -47,7 +47,7 @@ class TestSimpleJdbcTemplate
     /**
      *
      */
-    private static SimpleJdbcTemplate jdbcTemplate = null;
+    private static SimpleJdbcTemplate jdbcTemplate;
 
     /**
     *
@@ -67,7 +67,6 @@ class TestSimpleJdbcTemplate
         populator.execute(SERVER.getDataSource());
 
         jdbcTemplate = new SimpleJdbcTemplate(SERVER.getDataSource());
-        jdbcTemplate.setFetchSize(1);
     }
 
     /**
@@ -124,12 +123,12 @@ class TestSimpleJdbcTemplate
         personen.add(new Person(0, "Nachname1", "Vorname1"));
         personen.add(new Person(0, "Nachname2", "Vorname2"));
 
-        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), (ps, person) -> {
+        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), personen, (ps, person) -> {
             long id = getNextID("PERSON_SEQ");
             ps.setLong(1, id);
             ps.setString(2, person.getNachname());
             ps.setString(3, person.getVorname());
-        }, personen);
+        });
 
         assertEquals(2, affectedRows.length);
         assertEquals(1, affectedRows[0]);
@@ -317,6 +316,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test040QueryAsStream() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON order by id asc", new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
@@ -362,6 +363,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test041QueryAsStreamPreparedSetter() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
                 ps -> ps.setString(1, "Nachname%"));
 
@@ -395,6 +398,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test042QueryAsStreamPreparedParam() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Supplier<Stream<Person>> supplier =
                 () -> jdbcTemplate.queryAsStream("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
 
@@ -423,98 +428,6 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test043QueryAsStreamForListPreparedSetter() throws Exception
-    {
-        Supplier<Stream<Map<String, Object>>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON where name like ? order by name desc",
-                new ColumnMapRowMapper(), ps -> ps.setString(1, "Nachname%"));
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            assertEquals(2, stream.count());
-        }
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            stream.forEach(m -> {
-                // ColumnNames
-                Set<String> columnNames = m.keySet();
-                Iterator<String> nameIterator = columnNames.iterator();
-
-                assertEquals("ID", nameIterator.next());
-                assertEquals("NAME", nameIterator.next());
-                assertEquals("VORNAME", nameIterator.next());
-            });
-        }
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            stream.limit(1).forEach(m -> {
-                assertEquals("3", m.get("ID").toString());
-                assertEquals("Nachname2", m.get("NAME"));
-                assertEquals("Vorname2", m.get("VORNAME"));
-            });
-        }
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            stream.skip(1).limit(1).forEach(m -> {
-                assertEquals("2", m.get("ID").toString());
-                assertEquals("Nachname1", m.get("NAME"));
-                assertEquals("Vorname1", m.get("VORNAME"));
-            });
-        }
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test044QueryAsStreamForListPreparedParam() throws Exception
-    {
-        Supplier<Stream<Map<String, Object>>> supplier =
-                () -> jdbcTemplate.queryAsStream("select * from PERSON where name like ? order by name desc", new ColumnMapRowMapper(), "Nachname%");
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            assertEquals(2, stream.count());
-        }
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            stream.forEach(m -> {
-                // ColumnNames
-                Set<String> columnNames = m.keySet();
-                Iterator<String> nameIterator = columnNames.iterator();
-
-                assertEquals("ID", nameIterator.next());
-                assertEquals("NAME", nameIterator.next());
-                assertEquals("VORNAME", nameIterator.next());
-            });
-        }
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            stream.limit(1).forEach(m -> {
-                assertEquals("3", m.get("ID").toString());
-                assertEquals("Nachname2", m.get("NAME"));
-                assertEquals("Vorname2", m.get("VORNAME"));
-            });
-        }
-
-        try (Stream<Map<String, Object>> stream = supplier.get())
-        {
-            stream.skip(1).limit(1).forEach(m -> {
-                assertEquals("2", m.get("ID").toString());
-                assertEquals("Nachname1", m.get("NAME"));
-                assertEquals("Vorname1", m.get("VORNAME"));
-            });
-        }
-    }
-
-    /**
      * Die Methoden im {@link ResultSetIterator} müssen bei {@link Stream#parallel()} synchronisiert werden.
      *
      * @throws Exception Falls was schief geht.
@@ -522,6 +435,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test045QueryAsStreamParallel() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         // RuntimeException exception = assertThrows(RuntimeException.class, () -> {
         Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON order by id asc", new PersonRowMapper());
 
@@ -557,6 +472,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test050QueryAsFlux() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux("select * from PERSON order by id asc", new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
@@ -592,6 +509,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test051QueryAsFluxPreparedSetter() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
                 ps -> ps.setString(1, "Nachname%"));
 
@@ -620,6 +539,8 @@ class TestSimpleJdbcTemplate
     @Test
     void test052QueryAsFluxPreparedParam() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Supplier<Flux<Person>> supplier =
                 () -> jdbcTemplate.queryAsFlux("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
 
@@ -643,87 +564,13 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test053QueryAsFluxForListPreparedSetter() throws Exception
-    {
-        Supplier<Flux<Map<String, Object>>> supplier = () -> jdbcTemplate.queryAsFlux("select * from PERSON where name like ? order by name desc",
-                new ColumnMapRowMapper(), ps -> ps.setString(1, "Nachname%"));
-
-        Flux<Map<String, Object>> flux = supplier.get();
-        assertEquals(2, flux.count().block());
-
-        flux = supplier.get();
-        flux.subscribe(m -> {
-            // ColumnNames
-            Set<String> columnNames = m.keySet();
-            Iterator<String> nameIterator = columnNames.iterator();
-
-            assertEquals("ID", nameIterator.next());
-            assertEquals("NAME", nameIterator.next());
-            assertEquals("VORNAME", nameIterator.next());
-        });
-
-        flux = supplier.get();
-        flux.take(1).subscribe(m -> {
-            assertEquals("3", m.get("ID").toString());
-            assertEquals("Nachname2", m.get("NAME"));
-            assertEquals("Vorname2", m.get("VORNAME"));
-        });
-
-        flux = supplier.get();
-        flux.skip(1).take(1).subscribe(m -> {
-            assertEquals("2", m.get("ID").toString());
-            assertEquals("Nachname1", m.get("NAME"));
-            assertEquals("Vorname1", m.get("VORNAME"));
-        });
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test054QueryAsFluxForListPreparedParam() throws Exception
-    {
-        Supplier<Flux<Map<String, Object>>> supplier =
-                () -> jdbcTemplate.queryAsFlux("select * from PERSON where name like ? order by name desc", new ColumnMapRowMapper(), "Nachname%");
-
-        Flux<Map<String, Object>> flux = supplier.get();
-        assertEquals(2, flux.count().block());
-
-        flux = supplier.get();
-        flux.subscribe(m -> {
-            // ColumnNames
-            Set<String> columnNames = m.keySet();
-            Iterator<String> nameIterator = columnNames.iterator();
-
-            assertEquals("ID", nameIterator.next());
-            assertEquals("NAME", nameIterator.next());
-            assertEquals("VORNAME", nameIterator.next());
-        });
-
-        flux = supplier.get();
-        flux.take(1).subscribe(m -> {
-            assertEquals("3", m.get("ID").toString());
-            assertEquals("Nachname2", m.get("NAME"));
-            assertEquals("Vorname2", m.get("VORNAME"));
-        });
-
-        flux = supplier.get();
-        flux.skip(1).take(1).subscribe(m -> {
-            assertEquals("2", m.get("ID").toString());
-            assertEquals("Nachname1", m.get("NAME"));
-            assertEquals("Vorname1", m.get("VORNAME"));
-        });
-    }
-
-    /**
      *
      */
     @Test
     void test055QueryAsFluxParallel()
     {
+        jdbcTemplate.setFetchSize(1);
+
         Flux<Person> flux = jdbcTemplate.queryAsFlux("select * from PERSON order by id asc", new PersonRowMapper());
 
         // @formatter:off
@@ -741,13 +588,13 @@ class TestSimpleJdbcTemplate
     @Test
     void test061QueryAsPublisherPreparedSetter() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
                 ps -> ps.setString(1, "Nachname%"));
 
-        ResultSetSubscriberForAll<Person> toListSubscriber = new ResultSetSubscriberForAll<>();
-        publisher.subscribe(toListSubscriber);
-
-        List<Person> result = toListSubscriber.getData();
+        List<Person> result = new ArrayList<>();
+        publisher.subscribe(new ResultSetSubscriberForAll<>(result::add));
 
         assertEquals(2, result.size());
 
@@ -768,13 +615,13 @@ class TestSimpleJdbcTemplate
     @Test
     void test062QueryAsPublisherPreparedParam() throws Exception
     {
+        jdbcTemplate.setFetchSize(1);
+
         Publisher<Person> publisher =
                 jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
 
-        ResultSetSubscriberForAll<Person> toListSubscriber = new ResultSetSubscriberForAll<>();
-        publisher.subscribe(toListSubscriber);
-
-        List<Person> result = toListSubscriber.getData();
+        List<Person> result = new ArrayList<>();
+        publisher.subscribe(new ResultSetSubscriberForAll<>(result::add));
 
         assertEquals(2, result.size());
 
@@ -787,76 +634,6 @@ class TestSimpleJdbcTemplate
         assertEquals(2, p.getId());
         assertEquals("Nachname1", p.getNachname());
         assertEquals("Vorname1", p.getVorname());
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test063QueryAsPublisherForListPreparedSetter() throws Exception
-    {
-        Publisher<Map<String, Object>> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc",
-                new ColumnMapRowMapper(), ps -> ps.setString(1, "Nachname%"));
-
-        ResultSetSubscriberForAll<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForAll<>();
-        publisher.subscribe(toListSubscriber);
-
-        List<Map<String, Object>> result = toListSubscriber.getData();
-
-        assertEquals(2, result.size());
-
-        Map<String, Object> m = result.get(0);
-        // ColumnNames
-        Set<String> columnNames = m.keySet();
-        Iterator<String> nameIterator = columnNames.iterator();
-
-        assertEquals("ID", nameIterator.next());
-        assertEquals("NAME", nameIterator.next());
-        assertEquals("VORNAME", nameIterator.next());
-
-        assertEquals("3", m.get("ID").toString());
-        assertEquals("Nachname2", m.get("NAME"));
-        assertEquals("Vorname2", m.get("VORNAME"));
-
-        m = result.get(1);
-        assertEquals("2", m.get("ID").toString());
-        assertEquals("Nachname1", m.get("NAME"));
-        assertEquals("Vorname1", m.get("VORNAME"));
-    }
-
-    /**
-     * @throws Exception Falls was schief geht.
-     */
-    @Test
-    void test064QueryAsPublisherForListPreparedParam() throws Exception
-    {
-        Publisher<Map<String, Object>> publisher =
-                jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new ColumnMapRowMapper(), "Nachname%");
-
-        ResultSetSubscriberForAll<Map<String, Object>> toListSubscriber = new ResultSetSubscriberForAll<>();
-        publisher.subscribe(toListSubscriber);
-
-        List<Map<String, Object>> result = toListSubscriber.getData();
-
-        assertEquals(2, result.size());
-
-        Map<String, Object> m = result.get(0);
-        // ColumnNames
-        Set<String> columnNames = m.keySet();
-        Iterator<String> nameIterator = columnNames.iterator();
-
-        assertEquals("ID", nameIterator.next());
-        assertEquals("NAME", nameIterator.next());
-        assertEquals("VORNAME", nameIterator.next());
-
-        assertEquals("3", m.get("ID").toString());
-        assertEquals("Nachname2", m.get("NAME"));
-        assertEquals("Vorname2", m.get("VORNAME"));
-
-        m = result.get(1);
-        assertEquals("2", m.get("ID").toString());
-        assertEquals("Nachname1", m.get("NAME"));
-        assertEquals("Vorname1", m.get("VORNAME"));
     }
 
     /**

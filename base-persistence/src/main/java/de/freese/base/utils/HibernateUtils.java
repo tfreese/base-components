@@ -1,6 +1,4 @@
-/**
- *
- */
+// Created: 02.07.2009
 package de.freese.base.utils;
 
 import java.io.PrintWriter;
@@ -9,7 +7,9 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
+
 import javax.persistence.metamodel.Metamodel;
+
 import org.hibernate.Cache;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
@@ -80,8 +80,11 @@ public final class HibernateUtils
      *
      * @param <T> Konkreter Typ
      * @param maybeProxy moeglicher {@link HibernateProxy}
+     *
      * @return Object
+     *
      * @throws ClassCastException Falls was schief geht.
+     *
      * @see HibernateProxy
      * @see LazyInitializer
      * @see HibernateProxyHelper
@@ -99,16 +102,18 @@ public final class HibernateUtils
      * @param <T> Konkreter Typ
      * @param maybeProxy moeglicher {@link HibernateProxy}
      * @param baseClass Klasse fuer den cast
+     *
      * @return Object
+     *
      * @throws ClassCastException Falls was schief geht.
+     *
      * @see HibernateProxy
      * @see LazyInitializer
      */
     public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException
     {
-        if (maybeProxy instanceof HibernateProxy)
+        if (maybeProxy instanceof HibernateProxy hibernateProxy)
         {
-            HibernateProxy hibernateProxy = (HibernateProxy) maybeProxy;
             LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return baseClass.cast(initializer.getImplementation());
@@ -122,6 +127,7 @@ public final class HibernateUtils
      *
      * @param <T> Konkreter Typ
      * @param maybeProxy Object
+     *
      * @return Object
      */
     @SuppressWarnings("unchecked")
@@ -316,6 +322,7 @@ public final class HibernateUtils
      * It is not guaranteed that the elements INSIDE the collection will be initialized/materialized.
      *
      * @param maybeProxy Object
+     *
      * @see Hibernate#isInitialized(Object)
      * @see Hibernate#initialize(Object)
      */
@@ -333,7 +340,7 @@ public final class HibernateUtils
      * @param logger {@link Logger}, optional
      * @param th {@link Throwable}
      */
-    private static final void logErr(final Logger logger, final Throwable th)
+    private static void logErr(final Logger logger, final Throwable th)
     {
         if (logger != null)
         {
@@ -347,7 +354,7 @@ public final class HibernateUtils
      * @param logger {@link Logger}, optional
      * @param message String
      */
-    private static final void logInfo(final Logger logger, final String message)
+    private static void logInfo(final Logger logger, final String message)
     {
         if (logger != null)
         {
@@ -361,7 +368,7 @@ public final class HibernateUtils
      * @param logger {@link Logger}, optional
      * @param message String
      */
-    private static final void logWarn(final Logger logger, final String message)
+    private static void logWarn(final Logger logger, final String message)
     {
         if (logger != null)
         {
@@ -375,7 +382,7 @@ public final class HibernateUtils
      * @param logger {@link Logger}, optional
      * @param th {@link Throwable}
      */
-    private static final void logWarn(final Logger logger, final Throwable th)
+    private static void logWarn(final Logger logger, final Throwable th)
     {
         if (logger != null)
         {
@@ -389,6 +396,7 @@ public final class HibernateUtils
      *
      * @param value double
      * @param scale int Anzahl Nachkommastellen
+     *
      * @return double
      */
     private static double round(final double value, final int scale)

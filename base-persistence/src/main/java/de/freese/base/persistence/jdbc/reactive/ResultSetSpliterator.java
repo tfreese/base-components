@@ -1,18 +1,18 @@
-/**
- * Created: 10.04.2019
- */
+// Created: 10.04.2019
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
  * {@link Spliterator} für ein {@link ResultSet}.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Type of Entity
  */
 public class ResultSetSpliterator<T> implements Spliterator<T> // extends Spliterators.AbstractSpliterator<T>

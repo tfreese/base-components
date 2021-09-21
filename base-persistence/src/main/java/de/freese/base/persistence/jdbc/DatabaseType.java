@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
 import de.freese.base.utils.JdbcUtils;
 
 /**
@@ -72,6 +73,28 @@ public enum DatabaseType
     }
 
     /**
+     * @param source String
+     *
+     * @return String
+     */
+    private static String commonDatabaseName(final String source)
+    {
+        String name = source;
+
+        if ((source != null) && source.startsWith("DB2"))
+        {
+            name = "DB2";
+        }
+        else if ("Sybase SQL Server".equals(source) || "Adaptive Server Enterprise".equals(source) || "ASE".equals(source)
+                || "sql server".equalsIgnoreCase(source))
+        {
+            name = "Sybase";
+        }
+
+        return name;
+    }
+
+    /**
      * Convenience method that pulls a database product name from the DataSource's metadata.
      *
      * @param dataSource {@link DataSource}
@@ -121,28 +144,6 @@ public enum DatabaseType
     }
 
     /**
-     * @param source String
-     *
-     * @return String
-     */
-    private static String commonDatabaseName(final String source)
-    {
-        String name = source;
-
-        if ((source != null) && source.startsWith("DB2"))
-        {
-            name = "DB2";
-        }
-        else if ("Sybase SQL Server".equals(source) || "Adaptive Server Enterprise".equals(source) || "ASE".equals(source)
-                || "sql server".equalsIgnoreCase(source))
-        {
-            name = "Sybase";
-        }
-
-        return name;
-    }
-
-    /**
      *
      */
     private final String productName;
@@ -152,7 +153,7 @@ public enum DatabaseType
      *
      * @param productName String
      */
-    private DatabaseType(final String productName)
+    DatabaseType(final String productName)
     {
         this.productName = productName;
     }

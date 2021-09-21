@@ -24,6 +24,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @see <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
+ *
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -31,6 +32,7 @@ class StreamPublisherTest
 {
     /**
      * @author Thomas Freese
+     *
      * @param <T> Typ der Entity
      */
     class MyTestSubscriber<T> implements Subscriber<T>
@@ -38,7 +40,7 @@ class StreamPublisherTest
         /**
          *
          */
-        private Subscription subscription = null;
+        private Subscription subscription;
 
         /**
          * @see java.util.concurrent.Flow.Subscriber#onComplete()
@@ -87,6 +89,7 @@ class StreamPublisherTest
      * Processor = Subscriber + Publisher
      *
      * @author Thomas Freese
+     *
      * @param <T> Typ der Eingangs
      * @param <R> Typ des Ausgangs
      */
@@ -100,7 +103,7 @@ class StreamPublisherTest
         /**
          *
          */
-        private Subscription subscription = null;
+        private Subscription subscription;
 
         /**
          * Erstellt ein neues {@link MyTransformProcessor} Object.

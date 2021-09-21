@@ -4,12 +4,13 @@ package de.freese.base.persistence.jdbc.template.function;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.concurrent.Flow.Publisher;
 import java.util.stream.Stream;
 
 import reactor.core.publisher.Flux;
 
 /**
- * Erzeugt die Reactive-Implementierung {@link Stream} oder {@link Flux}.
+ * Erzeugt eine Reactive-Pipeline: {@link Stream}, {@link Flux} oder {@link Publisher}.
  *
  * @author Thomas Freese
  *
@@ -20,7 +21,7 @@ import reactor.core.publisher.Flux;
 public interface ReactiveCallback<R, T>
 {
     /**
-     * Erzeugt die Reactive-Implementierung {@link Stream} oder {@link Flux}.
+     * Erzeugt eine Reactive-Pipeline: {@link Stream}, {@link Flux} oder {@link Publisher}.
      *
      * @param connection {@link Connection}
      * @param statement {@link Statement}

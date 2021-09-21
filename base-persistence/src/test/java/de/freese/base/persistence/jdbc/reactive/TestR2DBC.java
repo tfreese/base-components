@@ -1,16 +1,15 @@
-/**
- * Created: 09.04.2019
- */
-
+// Created: 09.04.2019
 package de.freese.base.persistence.jdbc.reactive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
 import io.r2dbc.client.R2dbc;
@@ -41,12 +41,10 @@ class TestR2DBC
      *
      */
     static ConnectionFactory connectionFactory;
-
     /**
      *
      */
     static R2dbc r2dbc;
-
     /**
      *
      */
@@ -58,11 +56,9 @@ class TestR2DBC
     @AfterAll
     static void afterAll() throws Exception
     {
-        if (connectionFactory instanceof ConnectionPool)
+        if (connectionFactory instanceof ConnectionPool pool)
         {
             TimeUnit.MILLISECONDS.sleep(300);
-
-            ConnectionPool pool = (ConnectionPool) connectionFactory;
 
             if (!pool.isDisposed())
             {
@@ -135,8 +131,6 @@ class TestR2DBC
     }
 
     /**
-     * !!! Ohne subscribe erfolgt keine Ausführung !!!
-     *
      * @throws SQLException Falls was schief geht.
      */
     @Test
@@ -157,8 +151,6 @@ class TestR2DBC
     }
 
     /**
-     * !!! Ohne subscribe erfolgt keine Ausführung !!!
-     *
      * @throws SQLException Falls was schief geht.
      */
     @Test
@@ -179,8 +171,6 @@ class TestR2DBC
     }
 
     /**
-     * !!! Ohne subscribe erfolgt keine Ausführung !!!
-     *
      * @throws SQLException Falls was schief geht.
      */
     @Test
@@ -207,8 +197,6 @@ class TestR2DBC
     }
 
     /**
-     * !!! Ohne subscribe erfolgt keine Ausführung !!
-     *
      * @throws SQLException Falls was schief geht.
      */
     @Test
@@ -251,8 +239,6 @@ class TestR2DBC
     }
 
     /**
-     * !!! Ohne subscribe erfolgt keine Ausführung !!!
-     *
      * @throws SQLException Falls was schief geht.
      */
     @Test

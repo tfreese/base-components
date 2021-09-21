@@ -1,13 +1,9 @@
-/**
- * Created: 04.02.2017
- */
-
+// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
-import java.util.Random;
 import java.util.function.Function;
 
 /**
@@ -26,18 +22,15 @@ import java.util.function.Function;
 public interface SequenceQuery extends Function<String, String>
 {
     /**
-     *
-     */
-    static final Random RANDOM = new Random(System.currentTimeMillis());
-
-    /**
      * Ermittelt anhand der {@link DatabaseMetaData} das passende SQL.
      *
      * @param connection {@link Connection}
+     *
      * @return {@link SequenceQuery}
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public static SequenceQuery determineQuery(final Connection connection) throws SQLException
+    static SequenceQuery determineQuery(final Connection connection) throws SQLException
     {
         DatabaseMetaData dbmd = connection.getMetaData();
 
@@ -46,30 +39,13 @@ public interface SequenceQuery extends Function<String, String>
         // int majorVersion = dbmd.getDatabaseMajorVersion();
         // int minorVersion = dbmd.getDatabaseMinorVersion();
 
-        SequenceQuery query = null;
-
-        switch (product)
+        SequenceQuery query = switch (product)
         {
-            case "oracle":
-                query = seq -> "select " + seq + ".nextval from dual";
-                break;
-            case "hsql":
-                query = seq -> "call next value for " + seq;
-                break;
-            case "sqlite":
-                query = seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
-                break;
-            // case "mysql":
-            // // CREATE TABLE sequence (id INT NOT NULL);
-            // // INSERT INTO sequence VALUES (0);
-            //
-            // return seq -> "UPDATE sequence SET id=LAST_INSERT_ID(id + 1); SELECT LAST_INSERT_ID();";
-            // break;
-
-            default:
-                // query = seq -> "select nvl(max(id), 0) + 1 from " + seq;
-                query = seq -> "select count(*) + 1 from " + seq;
-        }
+            case "oracle" -> seq -> "select " + seq + ".nextval from dual";
+            case "hsql" -> seq -> "call next value for " + seq;
+            case "sqlite" -> seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
+            default -> throw new IllegalArgumentException("Unexpected value: " + product);
+        };
 
         return query;
     }

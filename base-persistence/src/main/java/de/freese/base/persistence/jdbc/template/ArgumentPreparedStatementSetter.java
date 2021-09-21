@@ -16,7 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Calendar;
+
 import org.springframework.jdbc.core.SqlTypeValue;
+
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 
 /**
@@ -37,9 +39,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
     /**
      * @param ps {@link PreparedStatement}
      * @param paramIndex int
+     *
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     private static void setNull(final PreparedStatement ps, final int paramIndex) throws SQLException
     {
         boolean useSetObject = false;
@@ -75,7 +77,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
      * @param ps {@link PreparedStatement}
      * @param paramIndex int
      * @param value value
+     *
      * @throws SQLException if thrown by PreparedStatement methods
+     *
      * @see SqlTypeValue
      */
     public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
@@ -96,67 +100,67 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
      * @param ps {@link PreparedStatement}
      * @param paramIndex int
      * @param value Object
+     *
      * @throws SQLException Falls was schief geht.
      */
     private static void setValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
     {
-        if (value instanceof Boolean)
+        if (value instanceof Boolean data)
         {
             boolean booleanAsLong = false;
 
             if (booleanAsLong)
             {
-                ps.setLong(paramIndex, ((boolean) value) ? 1L : 0L);
+                ps.setLong(paramIndex, data ? 1L : 0L);
             }
             else
             {
-                ps.setBoolean(paramIndex, (boolean) value);
+                ps.setBoolean(paramIndex, data);
             }
         }
-        else if (value instanceof BigDecimal)
+        else if (value instanceof BigDecimal data)
         {
-            ps.setBigDecimal(paramIndex, (BigDecimal) value);
+            ps.setBigDecimal(paramIndex, data);
         }
-        else if (value instanceof Byte)
+        else if (value instanceof Byte data)
         {
-            ps.setByte(paramIndex, (Byte) value);
+            ps.setByte(paramIndex, data);
         }
-        else if (value instanceof Calendar)
+        else if (value instanceof Calendar data)
         {
-            Calendar calendar = (Calendar) value;
-            ps.setDate(paramIndex, new java.sql.Date(calendar.getTime().getTime()), calendar);
+            ps.setDate(paramIndex, new java.sql.Date(data.getTime().getTime()), data);
         }
-        else if (value instanceof java.sql.Date)
+        else if (value instanceof java.sql.Date data)
         {
-            ps.setDate(paramIndex, (java.sql.Date) value);
+            ps.setDate(paramIndex, data);
         }
-        else if (value instanceof java.util.Date)
+        else if (value instanceof java.util.Date data)
         {
-            ps.setDate(paramIndex, new java.sql.Date(((java.util.Date) value).getTime()));
+            ps.setDate(paramIndex, new java.sql.Date(data.getTime()));
         }
-        else if (value instanceof Double)
+        else if (value instanceof Double data)
         {
-            ps.setDouble(paramIndex, (Double) value);
+            ps.setDouble(paramIndex, data);
         }
-        else if (value instanceof Float)
+        else if (value instanceof Float data)
         {
-            ps.setFloat(paramIndex, (Float) value);
+            ps.setFloat(paramIndex, data);
         }
-        else if (value instanceof InputStream)
+        else if (value instanceof InputStream data)
         {
-            ps.setBinaryStream(paramIndex, (InputStream) value);
+            ps.setBinaryStream(paramIndex, data);
         }
-        else if (value instanceof Integer)
+        else if (value instanceof Integer data)
         {
-            ps.setInt(paramIndex, (Integer) value);
+            ps.setInt(paramIndex, data);
         }
-        else if (value instanceof Long)
+        else if (value instanceof Long data)
         {
-            ps.setLong(paramIndex, (Long) value);
+            ps.setLong(paramIndex, data);
         }
-        else if (value instanceof Short)
+        else if (value instanceof Short data)
         {
-            ps.setShort(paramIndex, (Short) value);
+            ps.setShort(paramIndex, data);
         }
         else if ((value instanceof CharSequence) || (value instanceof StringWriter))
         {
@@ -171,15 +175,13 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 ps.setString(paramIndex, strVal);
             }
         }
-        else if (value instanceof java.sql.Timestamp)
+        else if (value instanceof java.sql.Timestamp data)
         {
-            ps.setTimestamp(paramIndex, (java.sql.Timestamp) value);
+            ps.setTimestamp(paramIndex, data);
         }
         // Arrays
-        else if (value instanceof byte[])
+        else if (value instanceof byte[] data)
         {
-            byte[] data = (byte[]) value;
-
             if (data.length == 0)
             {
                 ps.setNull(paramIndex, Types.ARRAY);
@@ -196,10 +198,8 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 }
             }
         }
-        else if (value instanceof double[])
+        else if (value instanceof double[] data)
         {
-            double[] data = (double[]) value;
-
             if (data.length == 0)
             {
                 ps.setNull(paramIndex, Types.ARRAY);
@@ -222,10 +222,8 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 }
             }
         }
-        else if (value instanceof int[])
+        else if (value instanceof int[] data)
         {
-            int[] data = (int[]) value;
-
             if (data.length == 0)
             {
                 ps.setNull(paramIndex, Types.ARRAY);
@@ -273,9 +271,8 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
             // ps.setArray(paramIndex, ps.getConnection().unwrap(OracleConnection.class).createOracleArray(ARRAY_TYPE_NAME, param));
             // }
         }
-        else if (value instanceof long[])
+        else if (value instanceof long[] data)
         {
-            long[] data = (long[]) value;
             ByteBuffer byteBuffer = ByteBuffer.allocate(data.length * 8);
             LongBuffer longBuffer = byteBuffer.asLongBuffer();
             longBuffer.put(data);

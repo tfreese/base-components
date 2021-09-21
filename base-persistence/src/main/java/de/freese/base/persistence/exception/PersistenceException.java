@@ -1,8 +1,7 @@
+// Created: 09.01.2004
 package de.freese.base.persistence.exception;
 
 /**
- * Created on 09.01.2004
- *
  * @author Thomas Freese
  */
 class PersistenceException extends Exception
@@ -22,7 +21,7 @@ class PersistenceException extends Exception
 
     /**
      * Erstellt ein neues {@link PersistenceException} Object.
-     * 
+     *
      * @param message String
      */
     public PersistenceException(final String message)
@@ -32,7 +31,7 @@ class PersistenceException extends Exception
 
     /**
      * Erstellt ein neues {@link PersistenceException} Object.
-     * 
+     *
      * @param message String
      * @param cause {@link Throwable}
      */
@@ -43,7 +42,7 @@ class PersistenceException extends Exception
 
     /**
      * Erstellt ein neues {@link PersistenceException} Object.
-     * 
+     *
      * @param cause {@link Throwable}
      */
     public PersistenceException(final Throwable cause)

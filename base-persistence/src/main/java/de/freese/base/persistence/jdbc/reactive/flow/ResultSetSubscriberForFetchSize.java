@@ -1,16 +1,13 @@
-/**
- * Created: 10.06.2019
- */
-
+// Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +15,7 @@ import org.slf4j.LoggerFactory;
  * {@link Subscriber} der die Objekte in Blöcken anfordert.
  *
  * @author Thomas Freese
+ *
  * @param <T> Entity-Type
  */
 public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
@@ -26,7 +24,6 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     *
     */
     private static final int DEFAULT_FETCH_SIZE = 100;
-
     /**
     *
     */
@@ -36,17 +33,14 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
      *
      */
     private final AtomicBoolean completed;
-
+    /**
+     *
+     */
+    private final Consumer<T> consumer;
     /**
      *
      */
     private final AtomicInteger counter;
-
-    /**
-     *
-     */
-    private final List<T> data;
-
     /**
      *
      */
@@ -58,45 +52,31 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     private Subscription subscription;
 
     /**
-     * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.
+     * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.<br>
+     * Default fetchSize = 100
+     *
+     * @param consumer {@link Consumer}
      */
-    public ResultSetSubscriberForFetchSize()
+    public ResultSetSubscriberForFetchSize(final Consumer<T> consumer)
     {
-        this(ArrayList::new);
+        this(consumer, DEFAULT_FETCH_SIZE);
     }
 
     /**
      * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.
      *
-     * @param listSupplier {@link Supplier}; default ArrayList::new
-     */
-    public ResultSetSubscriberForFetchSize(final Supplier<List<T>> listSupplier)
-    {
-        this(listSupplier, DEFAULT_FETCH_SIZE);
-    }
-
-    /**
-     * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.
-     *
-     * @param listSupplier {@link Supplier}; default ArrayList::new
+     * @param consumer {@link Consumer}
      * @param fetchSize int
      */
-    public ResultSetSubscriberForFetchSize(final Supplier<List<T>> listSupplier, final int fetchSize)
+    public ResultSetSubscriberForFetchSize(final Consumer<T> consumer, final int fetchSize)
     {
         super();
 
-        this.data = listSupplier.get();
+        this.consumer = Objects.requireNonNull(consumer, "consumer required");
         this.fetchSize = fetchSize;
+
         this.completed = new AtomicBoolean(false);
         this.counter = new AtomicInteger(0);
-    }
-
-    /**
-     * @return {@link List}<T>
-     */
-    public List<T> getData()
-    {
-        return this.data;
     }
 
     /**
@@ -118,7 +98,7 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     {
         throwable.printStackTrace();
 
-        // Wird bereits im ResultSetSubscription verarbeitet.
+        // Wird bereits in der ResultSetSubscription verarbeitet.
         // this.subscription.cancel();
     }
 
@@ -130,7 +110,7 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     {
         LOGGER.debug("onNext: {}", item);
 
-        this.data.add(item);
+        this.consumer.accept(item);
 
         this.counter.incrementAndGet();
 

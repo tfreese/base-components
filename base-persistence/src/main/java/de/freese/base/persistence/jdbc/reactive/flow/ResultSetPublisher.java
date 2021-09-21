@@ -1,7 +1,4 @@
-/**
- * Created: 10.06.2019
- */
-
+// Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
 import java.sql.Connection;
@@ -10,10 +7,12 @@ import java.sql.Statement;
 import java.util.Objects;
 import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.Flow.Subscriber;
+
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
  * @author Thomas Freese
+ *
  * @param <T> Entity-Type
  */
 public class ResultSetPublisher<T> implements Publisher<T>
@@ -22,17 +21,14 @@ public class ResultSetPublisher<T> implements Publisher<T>
     *
     */
     private final Connection connection;
-
     /**
     *
     */
     private final ResultSet resultSet;
-
     /**
     *
     */
     private final RowMapper<T> rowMapper;
-
     /**
     *
     */

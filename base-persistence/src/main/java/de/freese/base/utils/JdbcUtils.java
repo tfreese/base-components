@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+
 import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +40,10 @@ public final class JdbcUtils
      * Schliesst die {@link Connection}.<br>
      *
      * @param connection {@link Connection}
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public static void closeConnection(final Connection connection) throws SQLException
+    public static void close(final Connection connection) throws SQLException
     {
         // Spring-Variante
         // DataSourceUtils.releaseConnection(connection, getDataSource());
@@ -54,16 +57,62 @@ public final class JdbcUtils
     }
 
     /**
+     * Schliesst das {@link ResultSet}.<br>
+     *
+     * @param resultSet {@link ResultSet}
+     *
+     * @throws SQLException Falls was schief geht.
+     */
+    public static void close(final ResultSet resultSet) throws SQLException
+    {
+        // Spring-Variante
+        // DataSourceUtils.closeResultSet(resultSet);
+
+        if ((resultSet == null) || resultSet.isClosed())
+        {
+            return;
+        }
+
+        resultSet.close();
+    }
+
+    /**
+     * Schliesst das {@link Statement}.<br>
+     *
+     * @param statement {@link Statement} geht.
+     *
+     * @throws SQLException Falls was schief geht.
+     */
+    public static void close(final Statement statement) throws SQLException
+    {
+        // Spring-Variante
+        // JdbcUtils.closeStatement(statement);
+
+        if ((statement == null) || statement.isClosed())
+        {
+            return;
+        }
+
+        if (statement instanceof PreparedStatement psmt)
+        {
+            psmt.clearBatch();
+            psmt.clearParameters();
+        }
+
+        statement.close();
+    }
+
+    /**
      * Schliesst die {@link Connection}.<br>
      * Eine {@link SQLException} wird ignoriert.
      *
      * @param connection {@link Connection}
      */
-    public static void closeConnectionSilent(final Connection connection)
+    public static void closeSilent(final Connection connection)
     {
         try
         {
-            closeConnection(connection);
+            close(connection);
         }
         catch (SQLException ex)
         {
@@ -78,34 +127,15 @@ public final class JdbcUtils
 
     /**
      * Schliesst das {@link ResultSet}.<br>
-     *
-     * @param resultSet {@link ResultSet}
-     * @throws SQLException Falls was schief geht.
-     */
-    public static void closeResultSet(final ResultSet resultSet) throws SQLException
-    {
-        // Spring-Variante
-        // DataSourceUtils.closeResultSet(resultSet);
-
-        if ((resultSet == null) || resultSet.isClosed())
-        {
-            return;
-        }
-
-        resultSet.close();
-    }
-
-    /**
-     * Schliesst das {@link ResultSet}.<br>
      * Eine {@link SQLException} wird ignoriert.
      *
      * @param resultSet {@link ResultSet}
      */
-    public static void closeResultSetSilent(final ResultSet resultSet)
+    public static void closeSilent(final ResultSet resultSet)
     {
         try
         {
-            closeResultSet(resultSet);
+            close(resultSet);
         }
         catch (SQLException ex)
         {
@@ -120,39 +150,15 @@ public final class JdbcUtils
 
     /**
      * Schliesst das {@link Statement}.<br>
-     *
-     * @param statement {@link Statement} geht.
-     * @throws SQLException Falls was schief geht.
-     */
-    public static void closeStatement(final Statement statement) throws SQLException
-    {
-        // Spring-Variante
-        // JdbcUtils.closeStatement(statement);
-
-        if ((statement == null) || statement.isClosed())
-        {
-            return;
-        }
-
-        if (statement instanceof PreparedStatement)
-        {
-            statement.clearBatch();
-        }
-
-        statement.close();
-    }
-
-    /**
-     * Schliesst das {@link Statement}.<br>
      * Eine {@link SQLException} wird ignoriert.
      *
      * @param statement {@link Statement} geht.
      */
-    public static void closeStatementSilent(final Statement statement)
+    public static void closeSilent(final Statement statement)
     {
         try
         {
-            closeStatement(statement);
+            close(statement);
         }
         catch (SQLException ex)
         {
@@ -169,6 +175,7 @@ public final class JdbcUtils
      * Erstellt einen String aus per komma getrennten ids.
      *
      * @param ids {@link Set}
+     *
      * @return {@link String}
      */
     public static String createIDsAsString(final Set<? extends Number> ids)
@@ -270,7 +277,9 @@ public final class JdbcUtils
     /**
      * @param dataSource {@link DataSource}
      * @param callback {@link Function}
+     *
      * @return Object
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException
@@ -288,7 +297,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Boolean
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Boolean getBoolean(final CallableStatement cs, final int index) throws SQLException
@@ -303,7 +314,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Boolean
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Boolean getBoolean(final ResultSet rs, final int index) throws SQLException
@@ -318,7 +331,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Boolean
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Boolean getBoolean(final ResultSet rs, final String columnName) throws SQLException
@@ -331,7 +346,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Byte
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Byte getByte(final CallableStatement cs, final int index) throws SQLException
@@ -346,7 +363,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Byte
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Byte getByte(final ResultSet rs, final int index) throws SQLException
@@ -361,7 +380,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Byte
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Byte getByte(final ResultSet rs, final String columnName) throws SQLException
@@ -373,8 +394,11 @@ public final class JdbcUtils
      * Liefert den Produktnamen der Datenbank.
      *
      * @param dataSource {@link DataSource}
+     *
      * @return String
+     *
      * @throws SQLException Falls was schief geht.
+     *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException
@@ -397,8 +421,11 @@ public final class JdbcUtils
      * Liefert die ProduktVersion der Datenbank.
      *
      * @param dataSource {@link DataSource}
+     *
      * @return String
+     *
      * @throws SQLException Falls was schief geht.
+     *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException
@@ -422,7 +449,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Double
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Double getDouble(final CallableStatement cs, final int index) throws SQLException
@@ -437,7 +466,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Double
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Double getDouble(final ResultSet rs, final int index) throws SQLException
@@ -452,7 +483,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Double
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Double getDouble(final ResultSet rs, final String columnName) throws SQLException
@@ -465,7 +498,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Float
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Float getFloat(final CallableStatement cs, final int index) throws SQLException
@@ -480,7 +515,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Float
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Float getFloat(final ResultSet rs, final int index) throws SQLException
@@ -495,7 +532,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Float
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Float getFloat(final ResultSet rs, final String columnName) throws SQLException
@@ -508,7 +547,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Integer
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Integer getInteger(final CallableStatement cs, final int index) throws SQLException
@@ -523,7 +564,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Integer
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Integer getInteger(final ResultSet rs, final int index) throws SQLException
@@ -538,7 +581,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Integer
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Integer getInteger(final ResultSet rs, final String columnName) throws SQLException
@@ -551,7 +596,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Long
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Long getLong(final CallableStatement cs, final int index) throws SQLException
@@ -566,7 +613,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Long
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Long getLong(final ResultSet rs, final int index) throws SQLException
@@ -581,7 +630,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Long
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Long getLong(final ResultSet rs, final String columnName) throws SQLException
@@ -594,7 +645,9 @@ public final class JdbcUtils
      *
      * @param cs {@link CallableStatement}
      * @param index int
+     *
      * @return Short
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Short getShort(final CallableStatement cs, final int index) throws SQLException
@@ -609,7 +662,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param index int
+     *
      * @return Short
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Short getShort(final ResultSet rs, final int index) throws SQLException
@@ -624,7 +679,9 @@ public final class JdbcUtils
      *
      * @param rs {@link ResultSet}
      * @param columnName String
+     *
      * @return Short
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static Short getShort(final ResultSet rs, final String columnName) throws SQLException
@@ -637,6 +694,7 @@ public final class JdbcUtils
      *
      * @param values {@link Set}
      * @param separator char
+     *
      * @return {@link StringBuilder}
      */
     public static StringBuilder parameterAsString(final Set<String> values, final char separator)
@@ -661,10 +719,11 @@ public final class JdbcUtils
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      *
      * @param resultSet {@link ResultSet}
+     *
      * @return {@link StringTable}
+     *
      * @throws SQLException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public static StringTable toStringTable(final ResultSet resultSet) throws SQLException
     {
         Objects.requireNonNull(resultSet, "resultSet required");
@@ -697,9 +756,9 @@ public final class JdbcUtils
                 {
                     value = "";
                 }
-                else if (obj instanceof byte[])
+                else if (obj instanceof byte[] bytes)
                 {
-                    value = new String((byte[]) obj, StandardCharsets.UTF_8);
+                    value = new String(bytes, StandardCharsets.UTF_8);
                 }
                 else
                 {
@@ -722,7 +781,9 @@ public final class JdbcUtils
      * Erzeugt aus den {@link ResultSetMetaData} eine {@link StringTable}.<br>
      *
      * @param rsMeta {@link ResultSetMetaData}
+     *
      * @return {@link StringTable}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static StringTable toStringTable(final ResultSetMetaData rsMeta) throws SQLException
@@ -763,6 +824,7 @@ public final class JdbcUtils
      *
      * @param resultSet {@link ResultSet}
      * @param ps {@link PrintStream}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
@@ -782,6 +844,7 @@ public final class JdbcUtils
      *
      * @param rsMeta {@link ResultSetMetaData}
      * @param ps {@link PrintStream}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException
@@ -798,6 +861,7 @@ public final class JdbcUtils
      *
      * @param resultSet {@link ResultSet}
      * @param ps {@link PrintWriter}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public static void writeCSV(final ResultSet resultSet, final PrintStream ps) throws SQLException

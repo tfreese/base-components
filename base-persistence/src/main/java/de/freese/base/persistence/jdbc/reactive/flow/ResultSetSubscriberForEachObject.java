@@ -1,13 +1,11 @@
-/**
- * Created: 10.06.2019
- */
+// Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +13,7 @@ import org.slf4j.LoggerFactory;
  * {@link Subscriber} der jedes Objekt einzeln anfordert.
  *
  * @author Thomas Freese
+ *
  * @param <T> Entity-Type
  */
 public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
@@ -23,12 +22,10 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForEachObject.class);
-
     /**
     *
     */
-    private final List<T> data;
-
+    private final Consumer<T> consumer;
     /**
     *
     */
@@ -36,30 +33,14 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
 
     /**
      * Erstellt ein neues {@link ResultSetSubscriberForEachObject} Object.
-     */
-    public ResultSetSubscriberForEachObject()
-    {
-        this(ArrayList::new);
-    }
-
-    /**
-     * Erstellt ein neues {@link ResultSetSubscriberForEachObject} Object.
      *
-     * @param listSupplier {@link Supplier}; default ArrayList::new
+     * @param consumer {@link Consumer}
      */
-    public ResultSetSubscriberForEachObject(final Supplier<List<T>> listSupplier)
+    public ResultSetSubscriberForEachObject(final Consumer<T> consumer)
     {
         super();
 
-        this.data = listSupplier.get();
-    }
-
-    /**
-     * @return {@link List}<T>
-     */
-    public List<T> getData()
-    {
-        return this.data;
+        this.consumer = Objects.requireNonNull(consumer, "consumer required");
     }
 
     /**
@@ -79,7 +60,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
     {
         throwable.printStackTrace();
 
-        // Wird bereits im ResultSetSubscription verarbeitet.
+        // Wird bereits in der ResultSetSubscription verarbeitet..
         // this.subscription.cancel();
     }
 
@@ -91,7 +72,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
     {
         LOGGER.debug("onNext: {}", item);
 
-        this.data.add(item);
+        this.consumer.accept(item);
 
         // Nächstes Element anfordern.
         this.subscription.request(1);

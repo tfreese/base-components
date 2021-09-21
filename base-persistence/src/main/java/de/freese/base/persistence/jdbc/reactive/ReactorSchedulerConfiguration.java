@@ -1,9 +1,11 @@
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.util.concurrent.Executors;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
@@ -32,7 +34,7 @@ public class ReactorSchedulerConfiguration
     /**
      *
      */
-    private final Integer connectionPoolSize;
+    private final Scheduler scheduler;
 
     /**
      * Erstellt ein neues {@link ReactorSchedulerConfiguration} Object.
@@ -48,7 +50,7 @@ public class ReactorSchedulerConfiguration
             throw new IllegalArgumentException("connectionPoolSize <= 0: " + connectionPoolSize);
         }
 
-        this.connectionPoolSize = connectionPoolSize;
+        this.scheduler = Schedulers.fromExecutor(Executors.newFixedThreadPool(connectionPoolSize));
     }
 
     /**
@@ -57,6 +59,6 @@ public class ReactorSchedulerConfiguration
     @Bean
     public Scheduler jdbcScheduler()
     {
-        return Schedulers.fromExecutor(Executors.newFixedThreadPool(this.connectionPoolSize));
+        return this.scheduler;
     }
 }

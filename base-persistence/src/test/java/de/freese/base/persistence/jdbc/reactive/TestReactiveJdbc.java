@@ -1,11 +1,9 @@
-/**
- * Created: 09.04.2019
- */
-
+// Created: 09.04.2019
 package de.freese.base.persistence.jdbc.reactive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Flow.Publisher;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -26,6 +25,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+
 import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
@@ -68,11 +68,11 @@ class TestReactiveJdbc
      */
     static void close(final Connection connection, final Statement statement, final ResultSet resultSet)
     {
-        System.out.println("TestReactiveParallel.close()");
+        System.out.println("TestReactiveJdbc.close()");
 
         try
         {
-            JdbcUtils.closeResultSet(resultSet);
+            JdbcUtils.close(resultSet);
         }
         catch (Exception ex)
         {
@@ -81,7 +81,7 @@ class TestReactiveJdbc
 
         try
         {
-            JdbcUtils.closeStatement(statement);
+            JdbcUtils.close(statement);
         }
         catch (Exception ex)
         {
@@ -90,7 +90,7 @@ class TestReactiveJdbc
 
         try
         {
-            JdbcUtils.closeConnection(connection);
+            JdbcUtils.close(connection);
         }
         catch (Exception ex)
         {
@@ -135,10 +135,10 @@ class TestReactiveJdbc
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
 
-        ResultSetSubscriberForAll<Person> subscriber = new ResultSetSubscriberForAll<>();
-        publisher.subscribe(subscriber);
+        List<Person> result = new ArrayList<>();
+        publisher.subscribe(new ResultSetSubscriberForAll<>(result::add));
 
-        assertData(subscriber.getData());
+        assertData(result);
     }
 
     /**
@@ -157,10 +157,10 @@ class TestReactiveJdbc
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
 
-        ResultSetSubscriberForEachObject<Person> subscriber = new ResultSetSubscriberForEachObject<>();
-        publisher.subscribe(subscriber);
+        List<Person> result = new ArrayList<>();
+        publisher.subscribe(new ResultSetSubscriberForEachObject<>(result::add));
 
-        assertData(subscriber.getData());
+        assertData(result);
     }
 
     /**
@@ -179,10 +179,10 @@ class TestReactiveJdbc
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
 
-        ResultSetSubscriberForFetchSize<Person> subscriber = new ResultSetSubscriberForFetchSize<>(ArrayList::new, 2);
-        publisher.subscribe(subscriber);
+        List<Person> result = new ArrayList<>();
+        publisher.subscribe(new ResultSetSubscriberForFetchSize<>(result::add, 2));
 
-        assertData(subscriber.getData());
+        assertData(result);
     }
 
     /**
@@ -204,7 +204,7 @@ class TestReactiveJdbc
         Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
 
         Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
-            System.out.println("close jdbc stream");
+            System.out.println("close jdbc flux");
             close(connection, statement, resultSet);
         });
 
@@ -235,7 +235,7 @@ class TestReactiveJdbc
         Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
 
         Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
-            System.out.println("close jdbc stream");
+            System.out.println("close jdbc flux");
             close(connection, statement, resultSet);
         });
 

@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties. To change this template file, choose Tools | Templates and open the template in
- * the editor.
- */
+// Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.DynamicContainer.dynamicContainer;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -24,8 +23,10 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
 import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 
@@ -81,7 +82,7 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private static interface ConnectionPool
+    private interface ConnectionPool
     {
         /**
          * @throws SQLException Falls was schief geht.
@@ -90,6 +91,7 @@ class TestLoggingJdbcDriver
 
         /**
          * @return {@link Connection}
+         *
          * @throws SQLException Falls was schief geht.
          */
         Connection getConnection() throws SQLException;
@@ -313,6 +315,7 @@ class TestLoggingJdbcDriver
 
     /**
      * @param connectionPool {@link ConnectionPool}
+     *
      * @throws Exception Falls was schief geht.
      */
     void close(final ConnectionPool connectionPool) throws Exception
@@ -324,6 +327,7 @@ class TestLoggingJdbcDriver
 
     /**
      * @param connectionPool {@link ConnectionPool}
+     *
      * @throws Exception Falls was schief geht.
      */
     void driver(final ConnectionPool connectionPool) throws Exception

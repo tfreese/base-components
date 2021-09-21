@@ -1,7 +1,4 @@
-/**
- * Created: 20.07.2010
- */
-
+// Created: 20.07.2010
 package de.freese.base.persistence;
 
 import org.hibernate.engine.jdbc.internal.FormatStyle;
@@ -19,17 +16,10 @@ public class SQLFormatter
     private FormatStyle formatStyle = FormatStyle.NONE;
 
     /**
-     * Erstellt ein neues {@link SQLFormatter} Object.
-     */
-    public SQLFormatter()
-    {
-        super();
-    }
-
-    /**
      * Formattiert den SQL String in ein lesbares Format.
-     * 
+     *
      * @param sql String
+     *
      * @return String
      */
     public String format(final String sql)

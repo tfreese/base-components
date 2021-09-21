@@ -1,6 +1,4 @@
-/**
- * Created: 10.06.2019
- */
+// Created: 10.06.2019
 package de.freese.base.persistence.jdbc.reactive.flow;
 
 import java.sql.Connection;
@@ -10,13 +8,16 @@ import java.sql.Statement;
 import java.util.Objects;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 import de.freese.base.utils.JdbcUtils;
 
 /**
  * @author Thomas Freese
+ *
  * @param <T> Entity-Type
  */
 public class ResultSetSubscription<T> implements Subscription
@@ -24,28 +25,23 @@ public class ResultSetSubscription<T> implements Subscription
     /**
     *
     */
-    private final Connection connection;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscription.class);
     /**
     *
     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
+    private final Connection connection;
     /**
     *
     */
     private final ResultSet resultSet;
-
     /**
     *
     */
     private final RowMapper<T> rowMapper;
-
     /**
     *
     */
     private final Statement statement;
-
     /**
     *
     */
@@ -78,7 +74,7 @@ public class ResultSetSubscription<T> implements Subscription
     @Override
     public void cancel()
     {
-        getLogger().debug("close jdbc subscription");
+        LOGGER.debug("close jdbc subscription");
 
         closeJdbcResources();
     }
@@ -86,91 +82,34 @@ public class ResultSetSubscription<T> implements Subscription
     /**
      *
      */
-    @SuppressWarnings("resource")
-    protected void closeJdbcResources()
+    private void closeJdbcResources()
     {
-        getLogger().debug("close jdbc resources");
-
-        JdbcUtils.closeResultSetSilent(getResultSet());
-        JdbcUtils.closeStatementSilent(getStatement());
-        JdbcUtils.closeConnectionSilent(getConnection());
-    }
-
-    /**
-     * @return {@link Connection}
-     */
-    protected Connection getConnection()
-    {
-        return this.connection;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * @return {@link ResultSet}
-     */
-    protected ResultSet getResultSet()
-    {
-        return this.resultSet;
-    }
-
-    /**
-     * @return {@link RowMapper}<T>
-     */
-    protected RowMapper<T> getRowMapper()
-    {
-        return this.rowMapper;
-    }
-
-    /**
-     * @return {@link Statement}
-     */
-    protected Statement getStatement()
-    {
-        return this.statement;
-    }
-
-    /**
-     * @return {@link Subscriber}<? super T>
-     */
-    protected Subscriber<? super T> getSubscriber()
-    {
-        return this.subscriber;
+        JdbcUtils.closeSilent(this.resultSet);
+        JdbcUtils.closeSilent(this.statement);
+        JdbcUtils.closeSilent(this.connection);
     }
 
     /**
      * @see java.util.concurrent.Flow.Subscription#request(long)
      */
-    @SuppressWarnings("resource")
     @Override
     public void request(final long n)
     {
-        getLogger().debug("request next {} objects", n);
+        LOGGER.debug("request next {} objects", n);
 
         try
         {
-            if (getResultSet().isClosed())
-            {
-                return;
-            }
-
             for (int i = 0; i < n; i++)
             {
-                if (getResultSet().next())
+                if (this.resultSet.next())
                 {
-                    T row = getRowMapper().mapRow(getResultSet());
-                    getSubscriber().onNext(row);
+                    T row = this.rowMapper.mapRow(this.resultSet);
+                    this.subscriber.onNext(row);
                 }
                 else
                 {
                     closeJdbcResources();
-                    getSubscriber().onComplete();
+                    this.subscriber.onComplete();
                     break;
                 }
             }
@@ -178,7 +117,7 @@ public class ResultSetSubscription<T> implements Subscription
         catch (SQLException sex)
         {
             closeJdbcResources();
-            getSubscriber().onError(sex);
+            this.subscriber.onError(sex);
         }
     }
 }

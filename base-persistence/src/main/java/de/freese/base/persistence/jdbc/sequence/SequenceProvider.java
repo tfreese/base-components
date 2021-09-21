@@ -1,7 +1,4 @@
-/**
- * Created: 04.02.2017
- */
-
+// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
 import java.sql.SQLException;
@@ -16,8 +13,10 @@ public interface SequenceProvider
 {
     /**
      * @param sequence String
+     *
      * @return long
+     *
      * @throws SQLException Falls was schief geht.
      */
-    public long getNextID(String sequence) throws SQLException;
+    long getNextID(String sequence) throws SQLException;
 }

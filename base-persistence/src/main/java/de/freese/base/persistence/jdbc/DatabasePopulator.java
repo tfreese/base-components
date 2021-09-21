@@ -13,9 +13,10 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,14 +39,6 @@ public class DatabasePopulator
     private final List<URL> scripts = new ArrayList<>();
 
     /**
-     * Erzeugt eine neue Instanz von {@link DatabasePopulator}
-     */
-    public DatabasePopulator()
-    {
-        super();
-    }
-
-    /**
      * Fügt ein SQL-Skript hinzu,
      *
      * @param script {@link URL}
@@ -59,7 +52,9 @@ public class DatabasePopulator
      * Liefert die Zeilen aus dem SQL-Skript.
      *
      * @param script String
+     *
      * @return {@link List}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected List<String> getScriptLines(final URL script) throws Exception
@@ -73,7 +68,7 @@ public class DatabasePopulator
 
             try (Stream<String> lines = Files.lines(path))
             {
-                fileLines = lines.collect(Collectors.toList());
+                fileLines = lines.toList();
             }
             catch (Exception ex)
             {
@@ -88,7 +83,7 @@ public class DatabasePopulator
                  InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                  BufferedReader bufferedReader = new BufferedReader(inputStreamReader))
             {
-                fileLines = bufferedReader.lines().collect(Collectors.toList());
+                fileLines = bufferedReader.lines().toList();
             }
         }
 
@@ -105,7 +100,8 @@ public class DatabasePopulator
                 .filter(l -> !l.startsWith("#"))
                 .map(l -> l.replace("\n", " ").replace("\r", " "))
                 .map(String::trim)
-                .collect(Collectors.toList());
+                .toList()
+                ;
         // @formatter:on
 
         return scriptLines;
@@ -115,7 +111,9 @@ public class DatabasePopulator
      * Liefert die SQLs aus dem Skript.
      *
      * @param script {@link URL}
+     *
      * @return {@link List}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected List<String> getScriptSQLs(final URL script) throws Exception
@@ -148,6 +146,7 @@ public class DatabasePopulator
      * Erstellt die DB-Struktur anhand der definierten SQL-Skripte.
      *
      * @param connection {@link Connection}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void populate(final Connection connection) throws Exception
@@ -180,6 +179,7 @@ public class DatabasePopulator
      * Erstellt die DB-Struktur anhand der definierten SQL-Skripte.
      *
      * @param dataSource {@link DataSource}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void populate(final DataSource dataSource) throws Exception

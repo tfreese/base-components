@@ -1,7 +1,4 @@
-/**
- * Created: 27.05.2016
- */
-
+// Created: 27.05.2016
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
@@ -9,12 +6,14 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
  * {@link Iterator} für ein {@link ResultSet}.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Type of Entity
  */
 public class ResultSetIterator<T> implements Iterator<T>
@@ -23,7 +22,6 @@ public class ResultSetIterator<T> implements Iterator<T>
      *
      */
     private final ResultSet resultSet;
-
     /**
     *
     */
@@ -51,18 +49,10 @@ public class ResultSetIterator<T> implements Iterator<T>
     {
         try
         {
-            boolean hasNext = !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
-
-            // if (!hasNext)
-            // {
-            // close();
-            // }
-
-            return hasNext;
+            return !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
         }
         catch (SQLException sex)
         {
-            // close();
             throw new NoSuchElementException(sex.getMessage());
         }
     }
@@ -75,14 +65,11 @@ public class ResultSetIterator<T> implements Iterator<T>
     {
         try
         {
-            T entity = this.rowMapper.mapRow(this.resultSet);
-
-            return entity;
+            return this.rowMapper.mapRow(this.resultSet);
         }
-        catch (SQLException sex)
+        catch (SQLException ex)
         {
-            // close();
-            throw new NoSuchElementException(sex.getMessage());
+            throw new NoSuchElementException(ex);
         }
     }
 }

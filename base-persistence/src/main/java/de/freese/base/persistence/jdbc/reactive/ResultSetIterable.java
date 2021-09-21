@@ -1,18 +1,17 @@
-/**
- * Created: 12.12.2017
- */
-
+// Created: 12.12.2017
 package de.freese.base.persistence.jdbc.reactive;
 
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Objects;
+
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
  * {@link Iterable} für ein {@link ResultSet}.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Type of Entity
  */
 public class ResultSetIterable<T> implements Iterable<T>
@@ -21,7 +20,6 @@ public class ResultSetIterable<T> implements Iterable<T>
     *
     */
     private final ResultSet resultSet;
-
     /**
     *
     */

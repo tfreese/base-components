@@ -1,7 +1,4 @@
-/**
- * Created: 04.02.2017
- */
-
+// Created: 04.02.2017
 package de.freese.base.persistence.jdbc.sequence;
 
 import java.sql.Connection;
@@ -39,7 +36,9 @@ public class SequenceQueryExecutor
     /**
      * @param sequence String
      * @param connection {@link Connection}
+     *
      * @return long
+     *
      * @throws SQLException Falls was schief geht.
      */
     public long getNextID(final String sequence, final Connection connection) throws SQLException
@@ -60,7 +59,9 @@ public class SequenceQueryExecutor
     /**
      * @param sequence String
      * @param dataSource {@link DataSource}
+     *
      * @return long
+     *
      * @throws SQLException Falls was schief geht.
      */
     public long getNextID(final String sequence, final DataSource dataSource) throws SQLException

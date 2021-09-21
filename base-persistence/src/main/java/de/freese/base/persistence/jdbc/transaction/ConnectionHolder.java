@@ -1,7 +1,4 @@
-/**
- * Created: 11.01.2017
- */
-
+// Created: 11.01.2017
 package de.freese.base.persistence.jdbc.transaction;
 
 import java.sql.Connection;
@@ -25,10 +22,10 @@ public final class ConnectionHolder
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
      * @throws SQLException Falls was schief geht.
+     *
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    @SuppressWarnings("resource")
     public static void beginTX() throws SQLException
     {
         Connection connection = get();
@@ -51,6 +48,7 @@ public final class ConnectionHolder
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
      * @throws SQLException Falls was schief geht.
+     *
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -70,10 +68,10 @@ public final class ConnectionHolder
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
      * @throws SQLException Falls was schief geht.
+     *
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    @SuppressWarnings("resource")
     public static void commitTX() throws SQLException
     {
         get().commit();
@@ -84,10 +82,10 @@ public final class ConnectionHolder
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
      * @return {@link Connection}
+     *
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    @SuppressWarnings("resource")
     public static Connection get()
     {
         Connection connection = THREAD_LOCAL.get();
@@ -100,7 +98,6 @@ public final class ConnectionHolder
      *
      * @return boolean
      */
-    @SuppressWarnings("resource")
     public static boolean isEmpty()
     {
         return THREAD_LOCAL.get() == null;
@@ -119,10 +116,10 @@ public final class ConnectionHolder
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
      * @throws SQLException Falls was schief geht.
+     *
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    @SuppressWarnings("resource")
     public static void rollbackTX() throws SQLException
     {
         get().rollback();
@@ -133,10 +130,10 @@ public final class ConnectionHolder
      * Wirft eine {@link IllegalStateException}, wenn der aktuelle Thread bereits eine {@link Connection} hat.
      *
      * @param connection {@link Connection}
+     *
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    @SuppressWarnings("resource")
     public static void set(final Connection connection)
     {
         if (THREAD_LOCAL.get() != null)

@@ -1,6 +1,4 @@
-/**
- *
- */
+// Created: 08.09.2016
 package de.freese.base.persistence.jdbc.driver.logging;
 
 import java.lang.reflect.Proxy;
@@ -14,6 +12,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
@@ -84,14 +83,6 @@ public class LoggingJdbcDriver implements Driver
     }
 
     /**
-     * Erstellt ein neues {@link LoggingJdbcDriver} Object.
-     */
-    public LoggingJdbcDriver()
-    {
-        super();
-    }
-
-    /**
      * @see java.sql.Driver#acceptsURL(java.lang.String)
      */
     @Override
@@ -103,7 +94,6 @@ public class LoggingJdbcDriver implements Driver
     /**
      * @see java.sql.Driver#connect(java.lang.String, java.util.Properties)
      */
-    @SuppressWarnings("resource")
     @Override
     public Connection connect(final String url, final Properties info) throws SQLException
     {

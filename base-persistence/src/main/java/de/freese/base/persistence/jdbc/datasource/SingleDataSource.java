@@ -1,6 +1,4 @@
-/**
- * Created on 24.05.2016 17:26:14
- */
+// Created: 24.05.2016
 package de.freese.base.persistence.jdbc.datasource;
 
 import java.io.PrintWriter;
@@ -13,7 +11,9 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
+
 import javax.sql.DataSource;
+
 import org.slf4j.LoggerFactory;
 
 /**
@@ -34,42 +34,34 @@ public class SingleDataSource implements DataSource, AutoCloseable
      *
      */
     private Boolean autoCommit;
-
     /**
      *
      */
     private Connection connection;
-
     /**
      *
      */
     private Properties connectionProperties;
-
     /**
      *
      */
     private String password;
-
     /**
      *
      */
     private Connection proxyConnection;
-
     /**
     *
     */
     private Boolean readOnly;
-
     /**
      *
      */
     private final ReentrantLock reentrantLock = new ReentrantLock();
-
     /**
      *
      */
     private String url;
-
     /**
      *
      */
@@ -138,6 +130,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
 
     /**
      * @param connection {@link Connection}
+     *
      * @return {@link Connection}
      */
     private Connection getCloseSuppressingConnectionProxy(final Connection connection)
@@ -193,7 +186,9 @@ public class SingleDataSource implements DataSource, AutoCloseable
 
     /**
      * @param props {@link Properties}
+     *
      * @return {@link Connection}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private Connection getConnectionFromDriver(final Properties props) throws SQLException
@@ -211,7 +206,9 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      * @param username String
      * @param password String
+     *
      * @return {@link Connection}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private Connection getConnectionFromDriver(final String username, final String password) throws SQLException
@@ -240,7 +237,9 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      * @param url String
      * @param props {@link Properties}
+     *
      * @return {@link Connection}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private Connection getConnectionFromDriverManager(final String url, final Properties props) throws SQLException
@@ -352,6 +351,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
 
     /**
      * @param con {@link Connection}
+     *
      * @throws SQLException Falls was schief geht.
      */
     private void prepareConnection(final Connection con) throws SQLException
