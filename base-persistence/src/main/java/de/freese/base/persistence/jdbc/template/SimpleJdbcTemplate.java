@@ -481,7 +481,7 @@ public class SimpleJdbcTemplate
 
     /**
      * Führt ein {@link PreparedStatement#executeQuery(String)} aus und extrahiert pro Row des {@link ResultSet} eine Map mit den Spaltennamen (UPPSER_CASE) als
-     * Key .
+     * Key.
      *
      * @param sql String
      *

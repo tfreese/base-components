@@ -9,7 +9,9 @@ package de.freese.base.persistence.jdbc;
 
 import java.text.NumberFormat;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.sql.DataSource;
+
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -19,7 +21,9 @@ import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
 
 /**
  * @author Thomas Freese
@@ -70,16 +74,13 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     {
         LOGGER.debug("afterAll");
 
-        this.dataSource.close();
+        HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
 
-        // if (dataSource instanceof SingleConnectionDataSource)
-        // {
-        // ((SingleConnectionDataSource) dataSource).destroy();
-        // }
-        // else if (dataSource instanceof EmbeddedDatabase)
-        // {
-        // ((EmbeddedDatabase) dataSource).shutdown();
-        // }
+        LOGGER.debug("Connections: idle={}, active={}, waiting={}", poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(),
+                poolMXBean.getThreadsAwaitingConnection());
+
+        LOGGER.debug("close datasource");
+        this.dataSource.close();
 
         long startTime = getStoreForGlobal(context).remove("start-time", long.class);
         long duration = System.currentTimeMillis() - startTime;
@@ -192,9 +193,10 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     /**
-     * Test-Übergreifender Object-Store.
+     * Object-Store pro Test-Klasse.
      *
      * @param context {@link ExtensionContext}
+     *
      * @return {@link Store}
      */
     Store getStoreForClass(final ExtensionContext context)
@@ -203,9 +205,10 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     /**
-     * Test-Übergreifender Object-Store.
+     * Object-Store für den gesamten Test.
      *
      * @param context {@link ExtensionContext}
+     *
      * @return {@link Store}
      */
     Store getStoreForGlobal(final ExtensionContext context)
@@ -214,9 +217,10 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     /**
-     * Test-Übergreifender Object-Store.
+     * Object-Store pro Test-Methode.
      *
      * @param context {@link ExtensionContext}
+     *
      * @return {@link Store}
      */
     Store getStoreForMethod(final ExtensionContext context)
