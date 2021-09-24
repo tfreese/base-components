@@ -6,6 +6,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -14,6 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
 import de.freese.base.core.exception.StackTraceLimiter;
 
 /**
@@ -27,27 +29,22 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
      *
      */
     private Map<Short, Format> cacheFormat = new HashMap<>();
-
     /**
     *
     */
     private final DataFormatter dataFormatter = new DataFormatter();
-
     /**
-       *
-       */
+     *
+     */
     private FormulaEvaluator formulaEvaluator;
-
     /**
      *
      */
     private Row row;
-
     /**
      *
      */
     private Sheet sheet;
-
     /**
      *
      */
@@ -87,6 +84,7 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
      * Liefert den Formatierungsstring eines Datums für ein ExcelXP Format.
      *
      * @param index int, Excel XP Formatindex
+     *
      * @return String
      */
     private String getDateFormatByExcelIndex(final int index)
@@ -108,6 +106,7 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
      * Liefert einen {@link DateFormat}ter für das Excelformat.
      *
      * @param format short
+     *
      * @return {@link Format}
      */
     protected Format getDateFormatter(final short format)
@@ -310,7 +309,9 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
      * Öffnen eine konkretes {@link Workbook}.
      *
      * @param inputStream {@link InputStream}
+     *
      * @return {@link Workbook}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;

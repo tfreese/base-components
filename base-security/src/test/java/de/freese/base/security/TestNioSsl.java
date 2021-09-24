@@ -45,27 +45,22 @@ class TestNioSsl
      *
      */
     private static SSLContext clientSslContext;
-
     /**
      *
      */
     public static boolean isShutdown;
-
     /**
     *
     */
     private static Selector selector;
-
     /**
     *
     */
     private static ServerSocketChannel serverSocketChannel;
-
     /**
     *
     */
     private static SSLContext serverSslContext;
-
     /**
      *
      */

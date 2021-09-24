@@ -2,6 +2,7 @@
 package de.freese.base.swing.components.led.element;
 
 import java.util.List;
+
 import de.freese.base.swing.components.led.token.Token;
 
 /**
@@ -13,5 +14,5 @@ public interface Element
     /**
      * @return {@link List}
      */
-    public List<Token<?>> getTokens();
+    List<Token<?>> getTokens();
 }

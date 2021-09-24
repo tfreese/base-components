@@ -3,6 +3,7 @@ package de.freese.base.swing.components.led.token;
 
 import java.awt.Color;
 import java.util.Objects;
+
 import de.freese.base.swing.components.led.LedMatrix;
 
 /**
@@ -19,22 +20,18 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
          *
          */
         DOWN,
-
         /**
         *
         */
         LEFT,
-
         /**
         *
         */
         RIGHT,
-
         /**
          *
          */
         UNCHANGED,
-
         /**
          *
          */

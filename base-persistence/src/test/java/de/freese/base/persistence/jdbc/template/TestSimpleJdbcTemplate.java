@@ -49,7 +49,6 @@ class TestSimpleJdbcTemplate
      *
      */
     private static SimpleJdbcTemplate jdbcTemplate;
-
     /**
     *
     */

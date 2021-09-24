@@ -64,32 +64,26 @@ public abstract class AbstractResourceMap implements ResourceMap
     *
     */
     private final String bundleName;
-
     /**
     *
     */
     private ResourceMapCache cache;
-
     /**
     *
     */
     private Supplier<Locale> localeSupplier = () -> getParent() != null ? ((AbstractResourceMap) getParent()).getLocale() : Locale.getDefault();
-
     /**
     *
     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
     *
     */
     private ResourceMap parent;
-
     /**
     *
     */
     private final Map<Class<?>, ResourceConverter<?>> resourceConverters = new HashMap<>();
-
     /**
     *
     */

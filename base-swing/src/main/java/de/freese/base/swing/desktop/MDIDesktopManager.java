@@ -2,6 +2,7 @@ package de.freese.base.swing.desktop;
 
 import java.awt.Dimension;
 import java.awt.Insets;
+
 import javax.swing.DefaultDesktopManager;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
@@ -21,7 +22,6 @@ final class MDIDesktopManager extends DefaultDesktopManager
      *
      */
     private static final long serialVersionUID = 8998750700453491893L;
-
     /**
      *
      */
@@ -68,13 +68,13 @@ final class MDIDesktopManager extends DefaultDesktopManager
      */
     private JScrollPane getScrollPane()
     {
-        if (this.desktop.getParent() instanceof JViewport)
+        if (this.desktop.getParent()instanceof JViewport v)
         {
-            JViewport viewPort = (JViewport) this.desktop.getParent();
+            JViewport viewPort = v;
 
-            if (viewPort.getParent() instanceof JScrollPane)
+            if (viewPort.getParent()instanceof JScrollPane p)
             {
-                return (JScrollPane) viewPort.getParent();
+                return p;
             }
         }
 

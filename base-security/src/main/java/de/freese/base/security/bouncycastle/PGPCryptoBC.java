@@ -1,7 +1,4 @@
-/**
- * Created: 21.11.2013
- */
-
+// Created: 21.11.2013
 package de.freese.base.security.bouncycastle;
 
 import java.io.ByteArrayOutputStream;
@@ -261,7 +258,6 @@ class PGPCryptoBC
      *
      * @throws Exception Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     private void decryptFile(final InputStream in, final OutputStream out, final InputStream keyIn, final char[] password) throws Exception
     {
         PGPObjectFactory objectFactory = new PGPObjectFactory(PGPUtil.getDecoderStream(in), new BcKeyFingerprintCalculator());
@@ -271,9 +267,9 @@ class PGPCryptoBC
         //
         // the first object might be a PGP marker packet.
         //
-        if (object instanceof PGPEncryptedDataList)
+        if (object instanceof PGPEncryptedDataList obj)
         {
-            encryptedDataList = (PGPEncryptedDataList) object;
+            encryptedDataList = obj;
         }
         else
         {
@@ -400,7 +396,6 @@ class PGPCryptoBC
      *
      * @throws Exception Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public void esignEncryptFile(final String encryptedFile, final String fileName, final PGPPublicKey publicKey, final PGPSecretKey secretKey,
                                  final char[] password, final boolean armored, final boolean withIntegrityCheck)
         throws Exception
@@ -673,6 +668,7 @@ class PGPCryptoBC
                 }
             }
         }
+
         return true;
     }
 
@@ -746,7 +742,6 @@ class PGPCryptoBC
      *
      * @throws Exception Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public boolean verifyFile(InputStream in, final InputStream keyIn, final String extractContentFile) throws Exception
     {
         in = PGPUtil.getDecoderStream(in);

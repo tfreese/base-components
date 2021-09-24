@@ -2,8 +2,10 @@ package de.freese.base.mvc.guistate;
 
 import java.util.Objects;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
@@ -18,12 +20,10 @@ public abstract class AbstractGuiStateProvider implements GuiStateProvider
     *
     */
     private final Class<?>[] guiStateClasses;
-
     /**
      *
      */
     private final LocalStorage localStorage;
-
     /**
      *
      */

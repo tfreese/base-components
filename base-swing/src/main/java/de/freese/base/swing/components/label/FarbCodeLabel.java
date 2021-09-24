@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
+
 import de.freese.base.utils.GuiUtils;
 
 /**
@@ -21,7 +23,6 @@ public class FarbCodeLabel extends JLabel
      *
      */
     public static final String BACKGROUND_CHANGED = "BACKGROUND_CHANGED";
-
     /**
      *
      */

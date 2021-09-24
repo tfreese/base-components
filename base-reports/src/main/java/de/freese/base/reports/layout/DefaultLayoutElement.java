@@ -1,6 +1,4 @@
-/**
- * 15.04.2008
- */
+// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 /**
@@ -20,7 +18,7 @@ public class DefaultLayoutElement extends AbstractLayoutElement
 
     /**
      * Creates a new DefaultLayoutElement object.
-     * 
+     *
      * @param name String
      */
     public DefaultLayoutElement(final String name)

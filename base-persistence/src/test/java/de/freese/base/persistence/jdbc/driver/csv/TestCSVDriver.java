@@ -2,12 +2,14 @@
 package de.freese.base.persistence.jdbc.driver.csv;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.utils.JdbcUtils;
 
 /**
@@ -27,7 +30,6 @@ class TestCSVDriver
     *
     */
     static final Logger LOGGER = LoggerFactory.getLogger(TestCSVDriver.class);
-
     /**
      * System.out
      */

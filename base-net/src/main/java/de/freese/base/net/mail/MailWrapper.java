@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.Message;
@@ -31,42 +32,34 @@ public class MailWrapper
      *
      */
     private final Properties additionalHeaderProperties = new Properties();
-
     /**
      *
      */
     private final List<DataSource> attachments = new ArrayList<>();
-
     /**
      *
      */
     private InternetAddress from;
-
     /**
      *
      */
     private boolean html;
-
     /**
      *
      */
     private final List<DataSource> inlines = new ArrayList<>();
-
     /**
      *
      */
     private final Properties javaMailProperties = new Properties();
-
     /**
      *
      */
     private String subject;
-
     /**
      *
      */
     private String text;
-
     /**
      *
      */
@@ -106,6 +99,7 @@ public class MailWrapper
      * Hinzufuegen eines weiteren Empfaengers.
      *
      * @param to String
+     *
      * @throws NullPointerException wenn die Addresse null ist
      * @throws MessagingException wenn der Addresse ein ungueltiges Format hat
      */
@@ -180,7 +174,9 @@ public class MailWrapper
      * Ueberprueft und wandelt eine EMailaddresse in ein {@link InternetAddress} Objekt um.
      *
      * @param address String
+     *
      * @return {@link InternetAddress}
+     *
      * @throws NullPointerException wenn die Addresse null ist
      * @throws MessagingException wenn die Addresse ein ungueltiges Format hat
      */
@@ -327,6 +323,7 @@ public class MailWrapper
      * Setzt den Absender.
      *
      * @param from String
+     *
      * @throws NullPointerException wenn die Addresse null ist
      * @throws MessagingException wenn der Addresse ein ungueltiges Format hat
      */

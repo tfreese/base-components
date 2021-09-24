@@ -1,9 +1,7 @@
-/**
- *
- */
 package de.freese.base.reports.jfreechart;
 
 import java.text.NumberFormat;
+
 import org.jfree.chart.axis.NumberTickUnit;
 
 /**
@@ -14,18 +12,17 @@ import org.jfree.chart.axis.NumberTickUnit;
 public class ExtNumberTickUnit extends NumberTickUnit
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8151941607328082952L;
-
     /**
-     * 
+     *
      */
     private String[] excludes;
 
     /**
      * Erstellt ein neues {@link ExtNumberTickUnit} Objekt.
-     * 
+     *
      * @param size double
      */
     public ExtNumberTickUnit(final double size)
@@ -35,7 +32,7 @@ public class ExtNumberTickUnit extends NumberTickUnit
 
     /**
      * Erstellt ein neues {@link ExtNumberTickUnit} Objekt.
-     * 
+     *
      * @param size double
      * @param formatter {@link NumberFormat}
      */
@@ -46,7 +43,7 @@ public class ExtNumberTickUnit extends NumberTickUnit
 
     /**
      * Erstellt ein neues {@link ExtNumberTickUnit} Objekt.
-     * 
+     *
      * @param size double
      * @param formatter {@link NumberFormat}
      * @param minorTickCount int

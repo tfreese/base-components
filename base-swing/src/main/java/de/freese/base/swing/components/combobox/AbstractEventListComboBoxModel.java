@@ -2,6 +2,7 @@ package de.freese.base.swing.components.combobox;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataEvent;
+
 import de.freese.base.swing.components.list.model.AbstractEventListListModel;
 import de.freese.base.swing.eventlist.IEventList;
 
@@ -9,6 +10,7 @@ import de.freese.base.swing.eventlist.IEventList;
  * Basis ComboBoxModel, welches die Verwendung einer {@link IEventList} ermoeglicht.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventListListModel<T> implements ComboBoxModel<T>
@@ -26,11 +28,11 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
          * @see de.freese.base.swing.components.list.model.AbstractEventListListModel.EventListListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void contentsChanged(final ListDataEvent e)
+        public void contentsChanged(final ListDataEvent event)
         {
             AbstractEventListComboBoxModel.this.selectedObject = null;
 
-            super.contentsChanged(e);
+            super.contentsChanged(event);
         }
     }
 
@@ -38,7 +40,6 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
      *
      */
     private static final long serialVersionUID = -711561284816478818L;
-
     /**
      * Das momentan selektierte Objekt, in der ComboBox.
      */

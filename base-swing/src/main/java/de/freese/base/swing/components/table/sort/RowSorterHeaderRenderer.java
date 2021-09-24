@@ -2,12 +2,14 @@ package de.freese.base.swing.components.table.sort;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.icon.ArrowIcon;
 
@@ -22,22 +24,18 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
      *
      */
     public static final Color COLOR_MEDIUM_LIGHT_BROWN = new Color(150, 140, 130);
-
     /**
      * Icon
      */
     public static final Icon ICON_ASCENDING = new ArrowIcon(6, 6, SwingConstants.NORTH, COLOR_MEDIUM_LIGHT_BROWN);
-
     /**
      * Icon.
      */
     public static final Icon ICON_DESCENDING = new ArrowIcon(6, 6, SwingConstants.SOUTH, COLOR_MEDIUM_LIGHT_BROWN);
-
     /**
      *
      */
     private final TableColumnSorter rowSorter;
-
     /**
      * {@link TableCellRenderer}
      */
@@ -63,6 +61,7 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
      * Liefert das Icon fuer den Renderer fuer die Sortierung des Tableheaders.
      *
      * @param tableColumnExt {@link ExtTableColumn}
+     *
      * @return {@link Icon}
      */
     protected Icon getIcon(final ExtTableColumn tableColumnExt)
@@ -76,6 +75,7 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
      * Liefert die Reichenfolge in der Sortierung der Spalte.
      *
      * @param tableColumnExt {@link ExtTableColumn}
+     *
      * @return String
      */
     protected String getSortPriority(final ExtTableColumn tableColumnExt)
@@ -111,19 +111,12 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
 
         TableColumn tc = table.getColumnModel().getColumn(column);
 
-        if (!(tc instanceof ExtTableColumn))
+        if (!(tc instanceof ExtTableColumn tableColumnExt))
         {
             return component;
         }
 
-        ExtTableColumn tableColumnExt = (ExtTableColumn) tc;
-
-        if (!tableColumnExt.isSortable())
-        {
-            return component;
-        }
-
-        if (Sort.UNSORTED.equals(tableColumnExt.getSort()))
+        if (!tableColumnExt.isSortable() || Sort.UNSORTED.equals(tableColumnExt.getSort()))
         {
             return component;
         }

@@ -20,7 +20,6 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
      *
      */
     private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
-
     /**
      *
      */

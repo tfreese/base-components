@@ -27,17 +27,14 @@ public class SymetricCrypt
      *
      */
     private static final String AES_ALGORYTHM = "AES/CBC/PKCS5Padding";
-
     // /**
     // * 32bit entspricht AES256.
     // */
     // private static final int AES_KEY_SIZE = 32;
-
     /**
      *
      */
     private static final int BUFFER_SIZE = 4096;
-
     /**
      * 16bit<br>
      * AES Initialisierungsvektor, muss dem Empfänger bekannt sein !
@@ -46,7 +43,6 @@ public class SymetricCrypt
     {
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
-
     /**
      *
      */

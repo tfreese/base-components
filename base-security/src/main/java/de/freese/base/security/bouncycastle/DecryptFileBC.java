@@ -246,7 +246,11 @@ public class DecryptFileBC
 
             if ((keyExtensions != null) && keyExtensions.contains("1.3.6.1.4.1.311.10.3.4"))
             {
-                LOGGER.debug(keyExtensions.toString());
+                if (LOGGER.isDebugEnabled())
+                {
+                    LOGGER.debug(keyExtensions.toString());
+                }
+
                 break;
             }
         }
@@ -330,8 +334,12 @@ public class DecryptFileBC
                 // However, it is possible that this password is different
                 // to the password required to load the KeyStore.
                 PrivateKey key = (PrivateKey) ks.getKey(alias, password);
-                LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
-                LOGGER.info("Key Endcoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
+
+                if (LOGGER.isInfoEnabled())
+                {
+                    LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
+                    LOGGER.info("Key Endcoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
+                }
 
                 // Now retrieve the certificate chain for this key.
                 // The first element is the certificate for this key.

@@ -4,11 +4,14 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+
 import org.jdesktop.swingx.JXTitledPanel;
+
 import de.freese.base.utils.UICustomization;
 
 /**
@@ -20,7 +23,7 @@ public class ExtTitledPanel extends JXTitledPanel
 {
     /**
      * Wenn Buttonstatus ausserhalb des TitledPanel geaendert wird, muss er neu gezeichnet werden.
-     * 
+     *
      * @author Thomas Freese
      */
     private class ButtonEnabledPropertyChangeListener implements PropertyChangeListener
@@ -36,20 +39,17 @@ public class ExtTitledPanel extends JXTitledPanel
     }
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 421436804144877867L;
-
     /**
      * {@link PropertyChangeListener}
      */
     private final PropertyChangeListener buttonEnabledPropertyChangeListener;
-
     /**
      * {@link JPanel} Steuerelemente auf der linken Seite.
      */
     private JPanel leftButtonPanel;
-
     /**
      * {@link JPanel} Steuerelemente auf der rechten Seite.
      */
@@ -87,7 +87,7 @@ public class ExtTitledPanel extends JXTitledPanel
 
     /**
      * Hinzufuegen einer Komponente zur linken Seite des TitlePane.
-     * 
+     *
      * @param component {@link JComponent}
      */
     public void addTitleComponentLeft(final JComponent component)
@@ -99,7 +99,7 @@ public class ExtTitledPanel extends JXTitledPanel
 
     /**
      * Hinzufuegen einer Komponente zur rechten Seite des TitlePane.
-     * 
+     *
      * @param component {@link JComponent}
      */
     public void addTitleComponentRight(final JComponent component)

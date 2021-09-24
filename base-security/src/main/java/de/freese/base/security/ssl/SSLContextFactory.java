@@ -1,7 +1,4 @@
-/**
- * Created: 04.04.2012
- */
-
+// Created: 04.04.2012
 package de.freese.base.security.ssl;
 
 import java.io.FileInputStream;
@@ -9,6 +6,7 @@ import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.KeyManagerFactory;
@@ -27,7 +25,7 @@ public final class SSLContextFactory
     /**
      *
      */
-    public static final TrustManager[] X509_TRUST_ALL_MANAGER = new TrustManager[]
+    public static final TrustManager[] X509_TRUST_ALL_MANAGER =
     {
             new X509TrustManager()
             {
@@ -119,7 +117,9 @@ public final class SSLContextFactory
      * @param trustStoreFile String
      * @param trustStorePassword char[]
      * @param certPassword char[]
+     *
      * @return {@link SSLContext}
+     *
      * @throws Exception Falls was schief geht.
      */
     public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile,

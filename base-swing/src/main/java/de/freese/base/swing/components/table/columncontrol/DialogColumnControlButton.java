@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.swing.components.table.columncontrol;
 
 import java.awt.GridBagConstraints;
@@ -45,22 +42,18 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      *
      */
     public static final String COLUMN_CONTROL_DISABLED = "COLUMN_CONTROL_DISABLED";
-
     /**
      *
      */
     private static final long serialVersionUID = -3076920096726720396L;
-
     /**
      * Property für {@link PropertyChangeListener}, wenn Sichtbarkeit geändert.
      */
     public static final String TOGGLE_VISIBILITY = "toggleVisibility";
-
     /**
      *
      */
     private int groupedColumnCount = 15;
-
     /**
      *
      */

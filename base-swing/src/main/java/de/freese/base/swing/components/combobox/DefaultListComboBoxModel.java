@@ -16,7 +16,6 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
      *
      */
     private static final long serialVersionUID = 8956293128753923538L;
-
     /**
      * Das momentan selektierte Objekt, in der ComboBox.
      */

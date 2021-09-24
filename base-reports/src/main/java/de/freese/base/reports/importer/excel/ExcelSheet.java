@@ -16,7 +16,6 @@ public class ExcelSheet implements Serializable
      *
      */
     private static final long serialVersionUID = 574094444465628429L;
-
     // /**
     // * Wieviele Zeilen sollen MINDESTENDS angezeigt werden ?
     // */
@@ -26,17 +25,14 @@ public class ExcelSheet implements Serializable
     // * Wieviele Spalten sollen MINDESTENDS angezeigt werden ?
     // */
     // private static int MIN_COLUMNNUM = 10;
-
     /**
      *
      */
     private final String fileName;
-
     /**
      *
      */
     private List<String[]> rowValues;
-
     /**
      *
      */
@@ -44,7 +40,7 @@ public class ExcelSheet implements Serializable
 
     /**
      * Creates a new {@link ExcelSheet} object.
-     * 
+     *
      * @param fileName String
      * @param sheetName String
      */
@@ -58,7 +54,7 @@ public class ExcelSheet implements Serializable
 
     /**
      * Liefert die Anzahl der Spalten.
-     * 
+     *
      * @return int
      */
     public int getColumnCount()
@@ -73,7 +69,7 @@ public class ExcelSheet implements Serializable
 
     /**
      * Liefert den Dateinamen der Exceldatei.
-     * 
+     *
      * @return String
      */
     public String getFileName()
@@ -83,7 +79,7 @@ public class ExcelSheet implements Serializable
 
     /**
      * Liefert die Anzahl der Zeilen.
-     * 
+     *
      * @return int
      */
     public int getRowCount()
@@ -98,7 +94,7 @@ public class ExcelSheet implements Serializable
 
     /**
      * Liefert den Namen des Sheets.
-     * 
+     *
      * @return String
      */
     public String getSheetName()
@@ -108,9 +104,10 @@ public class ExcelSheet implements Serializable
 
     /**
      * Liefert den Inhalt der Zelle.
-     * 
+     *
      * @param row int
      * @param column int
+     *
      * @return String
      */
     public String getValueAt(final int row, final int column)
@@ -125,8 +122,9 @@ public class ExcelSheet implements Serializable
 
     /**
      * Komplettes Einlesen des selektierten Worksheets des Excel Interfaces.
-     * 
+     *
      * @param excel {@link IExcelImport}
+     *
      * @throws Exception Falls was schief geht.
      */
     public void readCurrentSheet(final IExcelImport excel) throws Exception

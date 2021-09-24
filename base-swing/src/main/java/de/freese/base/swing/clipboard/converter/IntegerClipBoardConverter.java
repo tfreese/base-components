@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.swing.clipboard.converter;
 
 /**

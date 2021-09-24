@@ -1,6 +1,7 @@
 package de.freese.base.reports.importer.excel.view;
 
 import java.awt.Component;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -12,17 +13,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class ExcelSheetRenderer extends DefaultTableCellRenderer
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 2719021291033059644L;
-
-    /**
-     * Creates a new {@link ExcelSheetRenderer} object.
-     */
-    public ExcelSheetRenderer()
-    {
-        super();
-    }
 
     /**
      * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)

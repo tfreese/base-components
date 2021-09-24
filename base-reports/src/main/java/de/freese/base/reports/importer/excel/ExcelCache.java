@@ -1,13 +1,13 @@
-/**
- * 12.07.2006
- */
+// Created: 12.07.2006
 package de.freese.base.reports.importer.excel;
 
 import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.core.progress.LoggerProgressCallback;
 import de.freese.base.core.progress.ProgressCallback;
 
@@ -22,7 +22,6 @@ public final class ExcelCache
      *
      */
     private static final ExcelCache INSTANCE = new ExcelCache();
-
     /**
      *
      */
@@ -33,13 +32,14 @@ public final class ExcelCache
      *
      * @return {@link ExcelCache}
      */
-    public static final ExcelCache getInstance()
+    public static ExcelCache getInstance()
     {
         return INSTANCE;
     }
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -76,7 +76,9 @@ public final class ExcelCache
      *
      * @param fileName String
      * @param throwExceptions boolean; true=wirft Exceptions, false= loggt Exceptions.
+     *
      * @return {@link ExcelSheet}[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public ExcelSheet[] getExcelSheets(final String fileName, final boolean throwExceptions) throws Exception
@@ -90,12 +92,14 @@ public final class ExcelCache
      * @param fileName String
      * @param throwExceptions boolean; true=wirft Exceptions, false= loggt Exceptions.
      * @param progressCallback {@link ProgressCallback}
+     *
      * @return {@link ExcelSheet}[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public ExcelSheet[] getExcelSheets(final String fileName, final boolean throwExceptions, final ProgressCallback progressCallback) throws Exception
     {
-        ExcelSheet[] sheets = null;
+        ExcelSheet[] sheets;
 
         File file = new File(fileName);
 

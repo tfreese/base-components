@@ -12,14 +12,6 @@ import javax.servlet.ServletContextListener;
 public class LoggingJdbcDriverServletContextListener implements ServletContextListener
 {
     /**
-     * Erstellt ein neues {@link LoggingJdbcDriverServletContextListener} Object.
-     */
-    public LoggingJdbcDriverServletContextListener()
-    {
-        super();
-    }
-
-    /**
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
     @Override

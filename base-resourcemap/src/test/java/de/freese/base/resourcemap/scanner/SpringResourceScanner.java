@@ -12,65 +12,62 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * ResourceScanner fuer Property-Dateien mit der Springimpelemtierung.
- * 
+ *
  * @author Thomas Freese
  */
 public class SpringResourceScanner implements ResourceScanner
 {
-	/**
-	 *
-	 */
-	private static final Logger LOGGER = LoggerFactory.getLogger(SpringResourceScanner.class);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpringResourceScanner.class);
+    /**
+     *
+     */
+    private final ResourcePatternResolver resourcePatternResolver;
 
-	/**
-	 *
-	 */
-	private final ResourcePatternResolver resourcePatternResolver;
+    /**
+     * Erstellt ein neues {@link SpringResourceScanner} Object.
+     */
+    public SpringResourceScanner()
+    {
+        super();
 
-	/**
-	 * Erstellt ein neues {@link SpringResourceScanner} Object.
-	 */
-	public SpringResourceScanner()
-	{
-		super();
+        this.resourcePatternResolver = new PathMatchingResourcePatternResolver();
+    }
 
-		this.resourcePatternResolver = new PathMatchingResourcePatternResolver();
-	}
+    /**
+     * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
+     */
+    @Override
+    public Set<String> scanResources(final String basePath)
+    {
+        String path = basePath;
 
-	/**
-	 * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
-	 */
-	@Override
-	public Set<String> scanResources(final String basePath)
-	{
-		String path = basePath;
+        if (path.endsWith("/"))
+        {
+            path = path.substring(0, path.lastIndexOf('/'));
+        }
 
-		if (path.endsWith("/"))
-		{
-			path = path.substring(0, path.lastIndexOf('/'));
-		}
+        try
+        {
+            Resource[] resources = this.resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
 
-		try
-		{
-			Resource[] resources =
-					this.resourcePatternResolver.getResources("classpath*:" + path
-							+ "/*.properties");
+            // Fuer ResourceBundle normalisieren
+            Set<String> bundleNames = new HashSet<>();
 
-			// Fuer ResourceBundle normalisieren
-			Set<String> bundleNames = new HashSet<>();
+            for (Resource resource : resources)
+            {
+                bundleNames.add(path + "/" + resource.getFilename());
+            }
 
-			for (Resource resource : resources)
-			{
-				bundleNames.add(path + "/" + resource.getFilename());
-			}
+            return bundleNames;
+        }
+        catch (Exception ex)
+        {
+            LOGGER.error(null, ex);
+        }
 
-			return bundleNames;
-		}
-		catch (Exception ex)
-		{
-			LOGGER.error(null, ex);
-		}
-
-		return Collections.emptySet();
-	}
+        return Collections.emptySet();
+    }
 }

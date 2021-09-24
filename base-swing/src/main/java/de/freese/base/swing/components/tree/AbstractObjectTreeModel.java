@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -21,7 +22,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      *
      */
     private final EventListenerList eventListenerList = new EventListenerList();
-
     /**
      *
      */
@@ -47,6 +47,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @param pathToRoot the path to the root node
      * @param childIndices the indices of the changed elements
      * @param children the changed elements
+     *
      * @see EventListenerList
      */
     protected void fireTreeNodesChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
@@ -83,6 +84,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @param pathToRoot the path to the root node
      * @param childIndices the indices of the new elements
      * @param children the new elements
+     *
      * @see EventListenerList
      */
     protected void fireTreeNodesInserted(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
@@ -119,6 +121,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @param pathToRoot the path to the root node
      * @param childIndices the indices of the removed elements
      * @param children the removed elements
+     *
      * @see EventListenerList
      */
     protected void fireTreeNodesRemoved(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
@@ -155,6 +158,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @param pathToRoot the path to the root node
      * @param childIndices the indices of the affected elements
      * @param children the affected elements
+     *
      * @see EventListenerList
      */
     protected void fireTreeStructureChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
@@ -205,6 +209,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Liefert für einen Parent die entsprechende {@link List} der Child-Objecte.
      *
      * @param parent Object
+     *
      * @return {@link List}
      */
     protected abstract List<?> getChilds(Object parent);
@@ -222,6 +227,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Liefert den Parent für das Child Objekt. Durchläuft dabei den Baum rekursiv durch die Pfade.
      *
      * @param child Object
+     *
      * @return Object
      */
     public Object getParentFor(final Object child)
@@ -234,6 +240,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      *
      * @param parent Object
      * @param child Object
+     *
      * @return Object
      */
     protected Object getParentFor(final Object parent, final Object child)
@@ -274,6 +281,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Liefert den Pfad vom Root zum Objekt.
      *
      * @param object Object
+     *
      * @return Object[]
      */
     public Object[] getPathToRoot(final Object object)
@@ -309,7 +317,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     @Override
     public boolean isLeaf(final Object node)
     {
-        return ((getChilds(node) == null) || (getChilds(node).size() == 0));
+        return ((getChilds(node) == null) || (getChilds(node).isEmpty()));
     }
 
     /**

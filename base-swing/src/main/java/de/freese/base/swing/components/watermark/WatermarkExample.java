@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -63,32 +64,26 @@ public class WatermarkExample extends JPanel implements ActionListener
      *
      */
     private JButton jButton;
-
     /**
      *
      */
     private JLabel jLabel = new JLabel();
-
     /**
      *
      */
     private JPanel jPanel;
-
     /**
      *
      */
     private JPanel jPanel1;
-
     /**
      *
      */
     private JSplitPane jSplitPane;
-
     /**
      *
      */
     private WatermarkTable watermarkTable;
-
     /**
      *
      */

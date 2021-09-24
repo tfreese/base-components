@@ -1,9 +1,11 @@
 package de.freese.base.mvc.guistate;
 
 import java.nio.file.Path;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
@@ -18,7 +20,6 @@ public final class XMLGuiStateProvider extends AbstractGuiStateProvider
      *
      */
     private final Marshaller marshaller;
-
     /**
      *
      */

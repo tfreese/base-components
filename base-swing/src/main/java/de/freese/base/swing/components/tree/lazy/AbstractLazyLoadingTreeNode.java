@@ -8,6 +8,7 @@ import javax.swing.tree.MutableTreeNode;
  * Basisknoten fuer ein TreeModel, welches die Kinderknoten erst beim aufklappen des Parents laedt.
  *
  * @author Thomas Freese
+ *
  * @see LazyLoadingTreeController
  */
 public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
@@ -16,7 +17,6 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
      *
      */
     private static final long serialVersionUID = -8434762605446347104L;
-
     /**
      *
      */

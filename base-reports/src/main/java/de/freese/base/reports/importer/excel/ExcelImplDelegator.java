@@ -1,17 +1,16 @@
-/**
- * 28.07.2006
- */
+// Created: 28.07.2006
 package de.freese.base.reports.importer.excel;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.apache.commons.io.input.ClosedInputStream;
+
 import org.apache.commons.io.input.ProxyInputStream;
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.core.exception.StackTraceLimiter;
 
 /**
@@ -37,9 +36,6 @@ public class ExcelImplDelegator implements IExcelImport
         }
 
         /**
-         * Replaces the underlying input stream with a {@link ClosedInputStream} sentinel.<br>
-         * The original input stream will remain open, but this proxy will appear closed.
-         *
          * @see org.apache.commons.io.input.ProxyInputStream#close()
          */
         @Override
@@ -47,7 +43,17 @@ public class ExcelImplDelegator implements IExcelImport
         {
             // POI schliest den InputStream auch beim fehlerhaften lesen.
             // super.close();
-            this.in = new ClosedInputStream();
+            this.in = new InputStream()
+            {
+                /**
+                 * @see java.io.InputStream#read()
+                 */
+                @Override
+                public int read() throws IOException
+                {
+                    return -1;
+                }
+            };
         }
     }
 
@@ -55,17 +61,14 @@ public class ExcelImplDelegator implements IExcelImport
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelImplDelegator.class);
-
     /**
      *
      */
     private IExcelImport excelImpl;
-
     /**
      *
      */
     private InputStream inputStream;
-
     /**
      *
      */
@@ -141,9 +144,9 @@ public class ExcelImplDelegator implements IExcelImport
         }
         catch (Exception ex)
         {
-            if (ex instanceof ExcelException)
+            if (ex instanceof ExcelException exex)
             {
-                throw (ExcelException) ex;
+                throw exex;
             }
 
             throw new ExcelException(this.excelImpl.getSheetName(), row, column, ex);

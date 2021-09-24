@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Executor;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 
@@ -35,6 +36,7 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      * @param items String[]
      * @param includedItems List<String>
      * @param excludedItems List<String>
+     *
      * @return String[]
      */
     static String[] filterArray(final String[] items, final List<String> includedItems, final List<String> excludedItems)
@@ -77,47 +79,38 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      * Should the SSLSocketChannels created from the accept method be put in blocking mode. Default is {@code false}.
      */
     private boolean blockingMode;
-
     /**
      * A list of ciphers to explicitly exclude for the SSL exchange. Default is none.
      */
     public List<String> excludedCipherSuites;
-
     /**
      * A list of SSL protocols (SSLv2, SSLv3, etc.) to explicitly exclude for the SSL exchange. Default is none.
      */
     public List<String> excludedProtocols;
-
     /**
      *
      */
     private final Executor executor;
-
     /**
      * The list of ciphers allowed for the SSL exchange. Default is the JVM default.
      */
     public List<String> includedCipherSuites;
-
     /**
      * The list of SSL protocols (TLSv1, TLSv1.1, etc.) supported for the SSL exchange. Default is the JVM default.
      */
     public List<String> includedProtocols;
-
     /**
      * Should the SSL server require client certificate authentication? Default is {@code false}.
      */
     private boolean needClientAuthentication;
-
     /**
      *
      */
     private final ServerSocketChannel serverSocketChannel;
-
     /**
      *
      */
     private final SSLContext sslContext;
-
     /**
      * Should the SS server ask for client certificate authentication? Default is {@code false}.
      */
@@ -156,6 +149,7 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      * </p>
      *
      * @return An SSLSocketChannel or {@code null} if this channel is in non-blocking mode and no connection is available to be accepted.
+     *
      * @throws java.nio.channels.NotYetConnectedException If this channel is not yet connected
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
@@ -189,7 +183,9 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      * Convenience call to keep from having to cast {@code SocketChannel} into {@link SSLSocketChannel} when calling {@link #accept()}.
      *
      * @return An SSLSocketChannel or {@code null} if this channel is in non-blocking mode and no connection is available to be accepted.
+     *
      * @throws IOException Falls was schief geht.
+     *
      * @see #accept()
      */
     public SSLSocketChannel acceptOverSSL() throws IOException

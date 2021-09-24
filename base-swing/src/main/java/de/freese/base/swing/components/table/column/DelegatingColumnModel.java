@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.table.column;
 
 import java.util.Enumeration;
+
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -21,18 +22,17 @@ import javax.swing.table.TableColumnModel;
 public class DelegatingColumnModel implements TableColumnModel, ListSelectionListener
 {
     /**
-     * 
+     *
      */
     private final JTable delegateTable;
-
     /**
-     * 
+     *
      */
     private final ListSelectionModel listSelectionModel;
 
     /**
      * Creates a new {@link DelegatingColumnModel} object.
-     * 
+     *
      * @param delegateTable {@link TableColumnModel}
      */
     public DelegatingColumnModel(final JTable delegateTable)
@@ -127,7 +127,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
 
     /**
      * Liefert das orginal {@link TableColumnModel}.
-     * 
+     *
      * @return {@link TableColumnModel}
      */
     public TableColumnModel getDelegateColumnModel()
@@ -137,7 +137,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
 
     /**
      * Liefert die orginal {@link JTable}.
-     * 
+     *
      * @return {@link JTable}
      */
     public JTable getDelegateTable()
@@ -242,9 +242,9 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     @Override
     public void valueChanged(final ListSelectionEvent e)
     {
-        if (getDelegateColumnModel() instanceof ListSelectionListener)
+        if (getDelegateColumnModel()instanceof ListSelectionListener l)
         {
-            ((ListSelectionListener) getDelegateColumnModel()).valueChanged(e);
+            l.valueChanged(e);
         }
     }
 }

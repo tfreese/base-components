@@ -4,9 +4,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
+
 import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
@@ -25,14 +27,6 @@ public class TableColumnSorter
      */
     private class HeaderMouseListener extends MouseAdapter
     {
-        /**
-         * Erstellt ein neues {@link HeaderMouseListener} Object.
-         */
-        public HeaderMouseListener()
-        {
-            super();
-        }
-
         /**
          * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
          */
@@ -91,7 +85,6 @@ public class TableColumnSorter
     /**
      * @param table {@link ExtTable}
      */
-    @SuppressWarnings("unused")
     public static void add(final ExtTable table)
     {
         new TableColumnSorter(table);
@@ -101,7 +94,6 @@ public class TableColumnSorter
      *
      */
     private final List<ExtTableColumn> sortIndexList = new ArrayList<>();
-
     /**
      *
      */
@@ -157,6 +149,7 @@ public class TableColumnSorter
      * Liefert die Reichenfolge in der Sortierung der Spalte.
      *
      * @param tableColumnExt {@link ExtTableColumn}
+     *
      * @return int, -1 = Keine Sortierung auf Spalte moeglich, 0 = erste Spalte, 1 = zweite Spalte
      */
     public int getSortPriority(final ExtTableColumn tableColumnExt)

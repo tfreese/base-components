@@ -1,11 +1,10 @@
-/*
- * Created on 27.07.2006
- */
+// Created: 27.07.2006
 package de.freese.base.reports.importer.excel;
 
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
 import de.freese.base.core.exception.StackTraceLimiter;
 import jxl.Cell;
 import jxl.CellType;
@@ -24,14 +23,12 @@ public class JExcelImpl extends AbstractExcelImport
      *
      */
     private DateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-
     /**
-     * 
+     *
      */
     private Sheet sheet;
-
     /**
-     * 
+     *
      */
     private Workbook workbook;
 

@@ -3,6 +3,7 @@ package de.freese.base.swing.components.watermark;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
+
 import javax.swing.ImageIcon;
 import javax.swing.JViewport;
 
@@ -17,20 +18,18 @@ public class WatermarkViewport extends JViewport implements IWatermarkComponent
      *
      */
     private static final long serialVersionUID = 4443174665479649215L;
-
     /**
-     * 
+     *
      */
     private Point position;
-
     /**
-     * 
+     *
      */
     private ImageIcon watermark;
 
     /**
      * Constructor
-     * 
+     *
      * @param view Component
      */
     public WatermarkViewport(final Component view)

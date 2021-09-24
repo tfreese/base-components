@@ -5,12 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.CellEditor;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.TableCellEditor;
 import javax.swing.tree.TreeCellEditor;
+
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.plaf.basic.BasicDatePickerUI;
 
@@ -23,7 +25,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
 {
     /**
      * Beendet die Eingabe bei Enter (Event kommt aus {@link BasicDatePickerUI}).
-     * 
+     *
      * @author Thomas Freese
      */
     public static class DatePickerCommitListerner implements ActionListener
@@ -35,7 +37,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
 
         /**
          * Erstellt ein neues {@link DatePickerCommitListerner} Object.
-         * 
+         *
          * @param cellEditor {@link CellEditor}
          */
         public DatePickerCommitListerner(final CellEditor cellEditor)
@@ -85,18 +87,17 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     // }
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-
     /**
-     * 
+     *
      */
     private DatePicker datePicker;
 
     /**
      * Creates a new {@link DatePickerCellEditor} object.
-     * 
+     *
      * @param datePicker {@link DatePicker}
      */
     public DatePickerCellEditor(final DatePicker datePicker)
@@ -123,7 +124,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
 
     /**
      * liefert den DatePicker.
-     * 
+     *
      * @return {@link DatePicker}
      */
     public DatePicker getDatePicker()
@@ -151,13 +152,13 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     {
         Date date = null;
 
-        if (value instanceof Calendar)
+        if (value instanceof Calendar c)
         {
-            date = ((Calendar) value).getTime();
+            date = c.getTime();
         }
-        else if (value instanceof Date)
+        else if (value instanceof Date d)
         {
-            date = (Date) value;
+            date = d;
         }
 
         this.datePicker.setDate(date);

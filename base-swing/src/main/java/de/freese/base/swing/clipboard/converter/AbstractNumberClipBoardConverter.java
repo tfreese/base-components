@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.swing.clipboard.converter;
 
 /**
@@ -14,6 +11,7 @@ public abstract class AbstractNumberClipBoardConverter extends AbstractClipboard
      * Normalisiert den String für die Umwandlung, entfernt ungültige Zeichen, Buchstaben etc.
      *
      * @param value String
+     *
      * @return String
      */
     protected String normalize(final String value)
@@ -30,6 +28,7 @@ public abstract class AbstractNumberClipBoardConverter extends AbstractClipboard
      * für Komma-Zahlen.
      *
      * @param value String
+     *
      * @return String
      */
     protected String normalizeFraction(final String value)
@@ -45,6 +44,7 @@ public abstract class AbstractNumberClipBoardConverter extends AbstractClipboard
      * für ganze Zahlen.
      *
      * @param value String
+     *
      * @return String
      */
     protected String normalizeNonFraction(final String value)

@@ -7,6 +7,7 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
+
 import de.freese.base.swing.components.table.AbstractListTableModel;
 
 /**
@@ -20,7 +21,6 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      *
      */
     private static final long serialVersionUID = -3225572645684058554L;
-
     /**
      *
      */

@@ -3,6 +3,7 @@ package de.freese.base.swing.desktop;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -21,12 +22,10 @@ public final class MDIDesktopPane extends JDesktopPane
      *
      */
     private static final int FRAME_OFFSET = 20;
-
     /**
      *
      */
     private static final long serialVersionUID = -1067444001367381670L;
-
     /**
      *
      */
@@ -116,7 +115,7 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Cascade all internal frames.
-     * 
+     *
      * @param minWidth int
      * @param minHeight int
      */
@@ -145,7 +144,7 @@ public final class MDIDesktopPane extends JDesktopPane
     }
 
     /**
-     * 
+     *
      */
     private void checkDesktopSize()
     {
@@ -157,7 +156,7 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Liefert die Hoehe des Titels.
-     * 
+     *
      * @return int
      */
     public int getTitleHeight()
@@ -192,7 +191,7 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Sets all component size properties ( maximum, minimum, preferred) to the given dimension.
-     * 
+     *
      * @param d {@link Dimension}
      */
     public void setAllSize(final Dimension d)
@@ -204,7 +203,7 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Sets all component size properties ( maximum, minimum, preferred) to the given width and height.
-     * 
+     *
      * @param width int
      * @param height int
      */
@@ -234,7 +233,7 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Tile all internal frames.
-     * 
+     *
      * @param minWidth int
      * @param minHeight int
      */
@@ -308,7 +307,7 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Tile all internal frames in flat style.
-     * 
+     *
      * @param minHeight int
      */
     private void tileFramesFlat(final int minHeight)

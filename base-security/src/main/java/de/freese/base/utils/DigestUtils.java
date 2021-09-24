@@ -1,6 +1,4 @@
-/**
- * Created: 17.11.2018
- */
+// Created: 17.11.2018
 
 package de.freese.base.utils;
 
@@ -41,7 +39,9 @@ public final class DigestUtils
      * SHA-256<br>
      *
      * @param algorithm String
+     *
      * @return {@link MessageDigest}
+     *
      * @throws RuntimeException Falls was schief geht.
      */
     public static MessageDigest createMessageDigest(final String algorithm)
@@ -75,6 +75,7 @@ public final class DigestUtils
     /**
      * @param messageDigest {@link MessageDigest}
      * @param bytes byte[]
+     *
      * @return byte[]
      */
     public static byte[] digest(final MessageDigest messageDigest, final byte[] bytes)
@@ -105,7 +106,9 @@ public final class DigestUtils
      *
      * @param messageDigest {@link MessageDigest}
      * @param inputStream {@link InputStream}
+     *
      * @return byte[]
+     *
      * @throws IOException Falls was schief geht.
      */
     public static byte[] digest(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
@@ -125,7 +128,9 @@ public final class DigestUtils
     /**
      * @param messageDigest {@link MessageDigest}
      * @param file {@link Path}
+     *
      * @return byte[]
+     *
      * @throws IOException Falls was schief geht.
      */
     public static byte[] digest(final MessageDigest messageDigest, final Path file) throws IOException
@@ -153,6 +158,7 @@ public final class DigestUtils
 
     /**
      * @param messageDigest {@link MessageDigest}
+     *
      * @return String
      */
     public static String digestAsHex(final MessageDigest messageDigest)
@@ -168,7 +174,9 @@ public final class DigestUtils
      *
      * @param messageDigest {@link MessageDigest}
      * @param inputStream {@link InputStream}
+     *
      * @return String
+     *
      * @throws IOException Falls was schief geht.
      */
     public static String digestAsHex(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
@@ -183,7 +191,9 @@ public final class DigestUtils
     /**
      * @param messageDigest {@link MessageDigest}
      * @param file {@link Path}
+     *
      * @return String
+     *
      * @throws IOException Falls was schief geht.
      */
     public static String digestAsHex(final MessageDigest messageDigest, final Path file) throws IOException

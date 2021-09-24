@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
+
 import javax.swing.AbstractButton;
 import javax.swing.JToolBar;
 import javax.swing.border.LineBorder;
@@ -20,7 +21,6 @@ public class CurvedLineBorder extends LineBorder
      *
      */
     private static final long serialVersionUID = 3562280264054463491L;
-
     /**
      *
      */
@@ -28,7 +28,7 @@ public class CurvedLineBorder extends LineBorder
 
     /**
      * Creates a new {@link CurvedLineBorder} object.
-     * 
+     *
      * @param color {@link Color}
      */
     public CurvedLineBorder(final Color color)
@@ -38,7 +38,7 @@ public class CurvedLineBorder extends LineBorder
 
     /**
      * Creates a new {@link CurvedLineBorder} object.
-     * 
+     *
      * @param color {@link Color}
      * @param arcSize int
      */
@@ -66,22 +66,16 @@ public class CurvedLineBorder extends LineBorder
     {
         Insets margin = null;
 
-        if (c instanceof AbstractButton)
+        if (c instanceof AbstractButton b)
         {
-            AbstractButton b = (AbstractButton) c;
-
             margin = b.getMargin();
         }
-        else if (c instanceof JToolBar)
+        else if (c instanceof JToolBar t)
         {
-            JToolBar t = (JToolBar) c;
-
             margin = t.getMargin();
         }
-        else if (c instanceof JTextComponent)
+        else if (c instanceof JTextComponent t)
         {
-            JTextComponent t = (JTextComponent) c;
-
             margin = t.getMargin();
         }
 

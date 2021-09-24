@@ -1,7 +1,4 @@
-/**
- * Created: 13.06.2011
- */
-
+// Created: 13.06.2011
 package de.freese.base.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -104,6 +101,7 @@ class TestCrypto
 
     /**
      * @param crypto {@link Crypto}
+     *
      * @throws Exception Falls was schief geht.
      */
     private void testCodec(final Crypto crypto) throws Exception
@@ -145,6 +143,7 @@ class TestCrypto
 
     /**
      * @param crypto {@link Crypto}
+     *
      * @throws Exception Falls was schief geht.
      */
     private void testSignAndVerify(final Crypto crypto) throws Exception

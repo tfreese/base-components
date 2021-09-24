@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -30,7 +32,6 @@ public class JCraftFTPSWrapper implements FTPWrapper
          *
          */
         private int level = -1;
-
         /**
          *
          */
@@ -94,37 +95,30 @@ public class JCraftFTPSWrapper implements FTPWrapper
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(JCraftFTPSWrapper.class);
-
     /**
      *
      */
     private final Properties config;
-
     /**
      *
      */
     private boolean debug;
-
     /**
      *
      */
     private String host;
-
     /**
      * Default
      */
     private int port = 22;
-
     /**
      *
      */
     private Session session;
-
     /**
      *
      */
     private ChannelSftp sftp;
-
     /**
      *
      */

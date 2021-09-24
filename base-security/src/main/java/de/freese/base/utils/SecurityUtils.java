@@ -1,7 +1,4 @@
-/**
- * Created: 01.04.2012
- */
-
+// Created: 01.04.2012
 package de.freese.base.utils;
 
 import java.io.IOException;
@@ -16,6 +13,7 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Set;
 import java.util.TreeSet;
+
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -30,6 +28,7 @@ public final class SecurityUtils
      * Default {@link KeyPair} zum testen.
      *
      * @return {@link KeyPair}
+     *
      * @throws Exception Falls was schief geht.
      */
     public static KeyPair createDefaultKeyPair() throws Exception
@@ -53,6 +52,7 @@ public final class SecurityUtils
      * This method returns the available implementations for a service type.
      *
      * @param serviceType String, @see {@link #getServiceTypes()}
+     *
      * @return String[]
      */
     public static String[] getCryptoImpls(final String serviceType)
@@ -137,15 +137,16 @@ public final class SecurityUtils
      * Start TLS on an existing socket. Supports the "STARTTLS" command in many protocols.
      *
      * @param socket {@link Socket}
+     *
      * @return {@link Socket}
+     *
      * @throws IOException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public static Socket startSSL(final Socket socket) throws IOException
     {
         InetAddress hostAddress = socket.getInetAddress();
         int port = socket.getPort();
-        SSLSocket sslSocket = null;
+        SSLSocket sslSocket;
 
         SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
         sslSocket = (SSLSocket) socketFactory.createSocket(hostAddress, port);

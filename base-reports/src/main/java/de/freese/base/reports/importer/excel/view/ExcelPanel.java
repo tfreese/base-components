@@ -3,10 +3,12 @@ package de.freese.base.reports.importer.excel.view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+
 import de.freese.base.reports.importer.excel.ExcelSheet;
 import de.freese.base.reports.importer.excel.ExcelToolkit;
 
@@ -21,7 +23,6 @@ public class ExcelPanel extends JPanel
      *
      */
     private static final long serialVersionUID = 2622130940186653172L;
-
     /**
      *
      */

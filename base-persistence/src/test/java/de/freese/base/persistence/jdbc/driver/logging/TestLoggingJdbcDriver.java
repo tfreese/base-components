@@ -263,12 +263,10 @@ class TestLoggingJdbcDriver
      *
      */
     private static final String DRIVER = "org.hsqldb.jdbc.JDBCDriver";
-
     /**
      *
      */
     private static final List<ConnectionPool> POOLS = new ArrayList<>();
-
     /**
      *
      */

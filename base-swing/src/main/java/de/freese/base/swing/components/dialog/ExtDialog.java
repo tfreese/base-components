@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -33,6 +34,7 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
+
 import de.freese.base.swing.layout.GbcBuilder;
 
 /**
@@ -72,24 +74,14 @@ public class ExtDialog
      *
      */
     private JButton[] buttons;
-
     /**
      *
      */
     private JDialog dialog;
-
     /**
      *
      */
     private int optionClicked = JOptionPane.CLOSED_OPTION;
-
-    /**
-     * Creates a new {@link ExtDialog} object.
-     */
-    public ExtDialog()
-    {
-        super();
-    }
 
     /**
      * Konfiguriert den {@link ExtDialog}.
@@ -100,13 +92,13 @@ public class ExtDialog
     {
         Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
 
-        if (window instanceof Frame)
+        if (window instanceof Frame f)
         {
-            this.dialog = new JDialog((Frame) window, config.isModal());
+            this.dialog = new JDialog(f, config.isModal());
         }
-        else if (window instanceof Dialog)
+        else if (window instanceof Dialog d)
         {
-            this.dialog = new JDialog((Dialog) window, config.isModal());
+            this.dialog = new JDialog(d, config.isModal());
         }
         else
         {
@@ -341,9 +333,9 @@ public class ExtDialog
 
             if (actionListener != null)
             {
-                if (actionListener instanceof Action)
+                if (actionListener instanceof Action a)
                 {
-                    this.buttons[i].setAction((Action) actionListener);
+                    this.buttons[i].setAction(a);
                 }
                 else
                 {
@@ -410,6 +402,7 @@ public class ExtDialog
      * @param uiKey String
      * @param locale {@link Locale}
      * @param options String[]
+     *
      * @return String
      */
     private String getButtonText(final int buttonIndex, final String uiKey, final Locale locale, final String[] options)
@@ -426,6 +419,7 @@ public class ExtDialog
      * Returns the icon to use for the passed in type.
      *
      * @param messageType int, {@link JOptionPane}
+     *
      * @return {@link Icon}
      */
     private Icon getIconForType(final int messageType)
@@ -476,6 +470,7 @@ public class ExtDialog
     /**
      * @param key String
      * @param locale {@link Locale}
+     *
      * @return int
      */
     private int getMnemonic(final String key, final Locale locale)
@@ -561,6 +556,7 @@ public class ExtDialog
 
     /**
      * @param component {@link Component}
+     *
      * @see JDialog#setLocationRelativeTo(Component)
      */
     public void setLocationRelativeTo(final Component component)
@@ -570,6 +566,7 @@ public class ExtDialog
 
     /**
      * @param resizable boolean
+     *
      * @see JDialog#setResizable(boolean)
      */
     public void setResizable(final boolean resizable)
@@ -579,6 +576,7 @@ public class ExtDialog
 
     /**
      * @param visible boolean
+     *
      * @see JDialog#setVisible(boolean)
      */
     public void setVisible(final boolean visible)

@@ -1,17 +1,20 @@
 package de.freese.base.swing.components.list.model;
 
 import java.io.Serializable;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+
 import de.freese.base.swing.eventlist.IEventList;
 
 /**
  * Basis ListModel, welches die Verwendung einer {@link IEventList} ermoeglicht.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public abstract class AbstractEventListListModel<T> implements ListModel<T>, Serializable
@@ -27,27 +30,27 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
          * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void contentsChanged(final ListDataEvent e)
+        public void contentsChanged(final ListDataEvent event)
         {
-            fireContentsChanged(e.getSource(), e.getIndex0(), e.getIndex1());
+            fireContentsChanged(event.getSource(), event.getIndex0(), event.getIndex1());
         }
 
         /**
          * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void intervalAdded(final ListDataEvent e)
+        public void intervalAdded(final ListDataEvent event)
         {
-            fireIntervalAdded(e.getSource(), e.getIndex0(), e.getIndex1());
+            fireIntervalAdded(event.getSource(), event.getIndex0(), event.getIndex1());
         }
 
         /**
          * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void intervalRemoved(final ListDataEvent e)
+        public void intervalRemoved(final ListDataEvent event)
         {
-            fireIntervalRemoved(e.getSource(), e.getIndex0(), e.getIndex1());
+            fireIntervalRemoved(event.getSource(), event.getIndex0(), event.getIndex1());
         }
     }
 
@@ -55,12 +58,10 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
      *
      */
     private static final long serialVersionUID = -1011316820552269417L;
-
     /**
      *
      */
     private final EventListenerList eventListenerList = new EventListenerList();
-
     /**
      *
      */
@@ -105,6 +106,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
+     *
      * @see EventListenerList
      * @see DefaultListModel
      */
@@ -134,6 +136,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
+     *
      * @see EventListenerList
      * @see DefaultListModel
      */
@@ -164,6 +167,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
      * @param source the ListModel that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
+     *
      * @see EventListenerList
      * @see DefaultListModel
      */

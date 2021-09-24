@@ -26,12 +26,10 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
      *
      */
     private static final long serialVersionUID = 8362504657702002619L;
-
     /**
      *
      */
     private final EventListenerList eventListenerList = new EventListenerList();
-
     /**
      *
      */

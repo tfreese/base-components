@@ -3,10 +3,12 @@ package de.freese.base.reports.importer.excel.view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+
 import de.freese.base.reports.importer.excel.ExcelSheet;
 
 /**
@@ -17,28 +19,25 @@ import de.freese.base.reports.importer.excel.ExcelSheet;
 public class ExcelSheetPanel extends JPanel
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1946632829758128806L;
-
     /**
-     * 
+     *
      */
     private ExcelSheet excelSheet;
-
     /**
-     * 
+     *
      */
     private JScrollPane scrollPane;
-
     /**
-     * 
+     *
      */
     private JTable table;
 
     /**
      * Creates a new {@link ExcelSheetPanel} object.
-     * 
+     *
      * @param excelSheet {@link ExcelSheet}
      */
     public ExcelSheetPanel(final ExcelSheet excelSheet)
@@ -51,7 +50,7 @@ public class ExcelSheetPanel extends JPanel
 
     /**
      * Liefert die ScrollPane der Tabelle.
-     * 
+     *
      * @return {@link JScrollPane}
      */
     private JScrollPane getScrollPane()
@@ -67,7 +66,7 @@ public class ExcelSheetPanel extends JPanel
 
     /**
      * Liefert die Tabelle eines Exceksheets.
-     * 
+     *
      * @return {@link JTable}
      */
     public JTable getTable()

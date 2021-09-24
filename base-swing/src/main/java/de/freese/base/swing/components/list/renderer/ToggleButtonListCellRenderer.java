@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.list.renderer;
 
 import java.awt.Component;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
@@ -18,29 +19,28 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
 {
     /**
      * Methode erstellt ein {@link ToggleButtonListCellRenderer}, der ein {@link JCheckBox} verwendet.
-     * 
+     *
      * @return {@link ToggleButtonListCellRenderer}
      */
-    public static final ToggleButtonListCellRenderer createCheckBoxRenderer()
+    public static ToggleButtonListCellRenderer createCheckBoxRenderer()
     {
         return new ToggleButtonListCellRenderer(new JCheckBox());
     }
 
     /**
      * Methode erstellt ein {@link ToggleButtonListCellRenderer}, der ein {@link JRadioButton} verwendet.
-     * 
+     *
      * @return {@link ToggleButtonListCellRenderer}
      */
-    public static final ToggleButtonListCellRenderer createRadioButtonRenderer()
+    public static ToggleButtonListCellRenderer createRadioButtonRenderer()
     {
         return new ToggleButtonListCellRenderer(new JRadioButton());
     }
 
     /**
-     * 
+     *
      */
     private DefaultListCellRenderer labelRenderer;
-
     /**
      *
      */
@@ -48,7 +48,7 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
 
     /**
      * Erstellt ein neues {@link ToggleButtonListCellRenderer} Objekt. Konstruktor ist private, um eine direkte Erstellung zu verhindern.
-     * 
+     *
      * @param toggleButton {@link JToggleButton}
      */
     private ToggleButtonListCellRenderer(final JToggleButton toggleButton)
@@ -68,7 +68,7 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected,
                                                   final boolean cellHasFocus)
     {
-        if (value instanceof Boolean)
+        if (value instanceof Boolean b)
         {
             if (isSelected)
             {
@@ -81,7 +81,7 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
                 this.toggleButton.setForeground(list.getForeground());
             }
 
-            this.toggleButton.setSelected(((Boolean) value).booleanValue());
+            this.toggleButton.setSelected(b);
 
             return this.toggleButton;
         }

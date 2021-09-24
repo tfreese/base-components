@@ -4,9 +4,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
 import de.freese.base.swing.components.table.sort.Sort;
 
 /**
@@ -20,27 +22,22 @@ public class ExtTableColumn extends TableColumn
      *
      */
     private static final long serialVersionUID = 4220187542201364522L;
-
     /**
      *
      */
     private Map<Object, Object> clientProperties;
-
     /**
      *
      */
     private Sort sort = Sort.UNSORTED;
-
     /**
      *
      */
     private boolean sortable = true;
-
     /**
      *
      */
     private boolean visible = true;
-
     /**
      *
      */
@@ -135,7 +132,9 @@ public class ExtTableColumn extends TableColumn
      * value.
      *
      * @param key Object which is used as key to retrieve value
+     *
      * @return Object containing value of client property or <code>null</code>
+     *
      * @see #putClientProperty
      */
     public Object getClientProperty(final Object key)
@@ -186,6 +185,7 @@ public class ExtTableColumn extends TableColumn
      * Returns the visible property. The default is <code>true</code>.
      *
      * @return boolean indicating whether or not this view column is visible in the table
+     *
      * @see #setVisible
      */
     public boolean isVisible()
@@ -213,7 +213,9 @@ public class ExtTableColumn extends TableColumn
      *
      * @param key Object which is used as key to retrieve value
      * @param value Object containing value of client property
+     *
      * @throws IllegalArgumentException if key is <code>null</code>
+     *
      * @see #getClientProperty
      * @see javax.swing.JComponent#putClientProperty
      */
@@ -278,6 +280,7 @@ public class ExtTableColumn extends TableColumn
      * Sets the visible property. This property controls whether or not this view column is currently visible in the table.
      *
      * @param visible boolean indicating whether or not this view column is visible in the table
+     *
      * @see #setVisible
      */
     public void setVisible(final boolean visible)

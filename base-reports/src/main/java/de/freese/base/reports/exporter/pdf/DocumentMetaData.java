@@ -1,6 +1,7 @@
 package de.freese.base.reports.exporter.pdf;
 
 import java.awt.Insets;
+
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 
@@ -15,44 +16,30 @@ public class DocumentMetaData
      *
      */
     private String author = "";
-
     /**
      *
      */
     private String creator = "";
-
     /**
      *
      */
     private String keywords = "";
-
     /**
      * Default: Top 20, Left 40, Bottom 20, Right 20.
      */
     private Insets margins = new Insets(20, 40, 20, 20);
-
     /**
-     * 
+     *
      */
     private Rectangle pageSize = PageSize.A4;
-
     /**
      *
      */
     private String subject = "";
-
     /**
      *
      */
     private String title = "";
-
-    /**
-     * Erstellt ein neues {@link DocumentMetaData} Object.
-     */
-    public DocumentMetaData()
-    {
-        super();
-    }
 
     /**
      * @return String
@@ -80,7 +67,7 @@ public class DocumentMetaData
 
     /**
      * Default: Top 20, Left 40, Bottom 20, Right 20.
-     * 
+     *
      * @return {@link Insets}
      */
     public Insets getMargins()
@@ -90,8 +77,9 @@ public class DocumentMetaData
 
     /**
      * Default: A4 Portrait.
-     * 
+     *
      * @return {@link Rectangle}
+     *
      * @see PageSize
      */
     public Rectangle getPageSize()
@@ -141,7 +129,7 @@ public class DocumentMetaData
 
     /**
      * Default: Top 20, Left 40, Bottom 20, Right 20.
-     * 
+     *
      * @param margins {@link Insets}
      */
     public void setMargins(final Insets margins)
@@ -151,8 +139,9 @@ public class DocumentMetaData
 
     /**
      * Default: A4 Portrait.
-     * 
+     *
      * @param pageSize {@link Rectangle}
+     *
      * @see PageSize
      */
     public void setPageSize(final Rectangle pageSize)

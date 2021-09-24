@@ -1,6 +1,4 @@
-/**
- * Created: 01.04.2012
- */
+// Created: 01.04.2012
 
 package de.freese.base.security;
 

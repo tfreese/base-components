@@ -15,7 +15,6 @@ public final class LookupException extends RuntimeException
      * Konstante um nur die ersten n {@link StackTraceElement}e auszugeben.
      */
     private static final int LOGGABLE_STACKTRACES = 5;
-
     /**
      *
      */
@@ -42,27 +41,22 @@ public final class LookupException extends RuntimeException
      *
      */
     private final String baseName;
-
     /**
      *
      */
     private final String info;
-
     /**
      *
      */
     private final String key;
-
     /**
     *
     */
     private final Locale locale;
-
     /**
      *
      */
     private final Class<?> type;
-
     /**
      *
      */

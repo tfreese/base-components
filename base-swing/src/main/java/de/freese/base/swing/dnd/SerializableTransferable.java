@@ -14,18 +14,17 @@ import java.io.Serializable;
 public class SerializableTransferable implements Transferable
 {
     /**
-     * 
+     *
      */
     public static final DataFlavor FLAVOR = new NotSerializableDataFlavor(Serializable[].class, "Serializable");
-
     /**
-     * 
+     *
      */
     private Serializable[] objects;
 
     /**
      * Erstellt ein neues {@link SerializableTransferable} Objekt.
-     * 
+     *
      * @param objects {@link Serializable}[]
      */
     public SerializableTransferable(final Serializable[] objects)

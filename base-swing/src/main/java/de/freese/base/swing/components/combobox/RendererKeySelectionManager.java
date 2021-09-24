@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.combobox;
 
 import java.awt.Component;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComboBox.KeySelectionManager;
@@ -19,21 +20,18 @@ import javax.swing.text.JTextComponent;
 public class RendererKeySelectionManager implements KeySelectionManager
 {
     /**
-     * 
+     *
      */
     @SuppressWarnings("rawtypes")
     private final JComboBox comboBox;
-
     /**
      * Zeitpunkt, der letzten Suche (des Tastendrucks)
      */
     private long lastKeyTime;
-
     /**
      * JList temporaere Liste zum Rendern des Inhalts
      */
     private JList<Object> list = new JList<>();
-
     /**
      * Pattern auf das ueberprueft wird.
      */
@@ -41,7 +39,7 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
     /**
      * Erstellt ein neues {@link RendererKeySelectionManager} Objekt.
-     * 
+     *
      * @param comboBox {@link JComboBox}
      */
     public RendererKeySelectionManager(final JComboBox<?> comboBox)
@@ -53,8 +51,9 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
     /**
      * Bestimmt das aktuell gewaehlte Objekt in der Combobox
-     * 
+     *
      * @param model {@link ComboBoxModel}
+     *
      * @return Index des selektierten Objekts, sonst 0
      */
     private int getSelectedIndex(final ComboBoxModel<?> model)
@@ -77,8 +76,9 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
     /**
      * Liefert den String aus dem {@link ListCellRenderer} der Zeile.
-     * 
+     *
      * @param row Zeileinindex
+     *
      * @return String
      */
     @SuppressWarnings("unchecked")
@@ -96,13 +96,13 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
         String text = null;
 
-        if (rendererComponent instanceof JLabel)
+        if (rendererComponent instanceof JLabel l)
         {
-            text = ((JLabel) rendererComponent).getText();
+            text = l.getText();
         }
-        else if (rendererComponent instanceof JTextComponent)
+        else if (rendererComponent instanceof JTextComponent tc)
         {
-            text = ((JTextComponent) rendererComponent).getText();
+            text = tc.getText();
         }
         else
         {
@@ -114,10 +114,11 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
     /**
      * Sucht einen Eintrag aus dem {@link ComboBoxModel} in einem bestimmten Bereich.
-     * 
+     *
      * @param model {@link ComboBoxModel}
      * @param fromIndex Startindex(inklusive)
      * @param endIndex Endindex (exklusive)
+     *
      * @return wenn ein Eintrag gefunden der Zeilenindex, sonst -1
      */
     private int search(final ComboBoxModel<?> model, final int fromIndex, final int endIndex)
@@ -165,7 +166,7 @@ public class RendererKeySelectionManager implements KeySelectionManager
     /**
      * Bestimmt die Zeichenfolge, nach der im {@link ComboBoxModel} gesucht werden soll. Wenn innerhlab von 250 ms nach einem Tastendruck erneut eine Taste
      * gedrueckt wird, so wird das Tastaturzeichen an die bestehende Zeichenfolge angehaengt.
-     * 
+     *
      * @param aKey char
      */
     private void setPattern(final char aKey)

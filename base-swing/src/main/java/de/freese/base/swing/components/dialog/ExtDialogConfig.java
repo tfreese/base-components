@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
@@ -16,20 +17,17 @@ import javax.swing.JOptionPane;
 public class ExtDialogConfig
 {
     /**
-     * 
+     *
      */
     private Map<Integer, ActionListener> buttonActionListeners = new HashMap<>();
-
     /**
-     * 
+     *
      */
     private Icon icon;
-
     /**
      * {@link Component} oder String
      */
     private Object message = "";
-
     /**
      * @see JOptionPane#PLAIN_MESSAGE
      * @see JOptionPane#INFORMATION_MESSAGE
@@ -38,17 +36,14 @@ public class ExtDialogConfig
      * @see JOptionPane#ERROR_MESSAGE
      */
     private int messageType = JOptionPane.PLAIN_MESSAGE;
-
     /**
-     * 
+     *
      */
     private boolean modal = true;
-
     /**
      * Eigene Texte.
      */
     private String[] options;
-
     /**
      * @see JOptionPane#DEFAULT_OPTION
      * @see JOptionPane#YES_NO_OPTION
@@ -56,39 +51,28 @@ public class ExtDialogConfig
      * @see JOptionPane#OK_CANCEL_OPTION
      */
     private int optionType = JOptionPane.OK_OPTION;
-
     /**
-     * 
+     *
      */
     private Component owner;
-
     /**
-     * 
+     *
      */
     private boolean resizeable = true;
-
     /**
-     * 
+     *
      */
     private String title = "";
-
     /**
-     * 
+     *
      */
     private WindowListener windowListener;
 
     /**
-     * Erstellt ein neues {@link ExtDialogConfig} Object.
-     */
-    public ExtDialogConfig()
-    {
-        super();
-    }
-
-    /**
      * Liefert den {@link ActionListener} fuer eine Buttonoption oder null.
-     * 
+     *
      * @param buttonIndex int
+     *
      * @return {@link ActionListener}
      */
     public ActionListener getButtonActionListener(final int buttonIndex)
@@ -106,7 +90,7 @@ public class ExtDialogConfig
 
     /**
      * Liefert die Message/Component.
-     * 
+     *
      * @return {@link Component} oder String
      */
     public Object getMessage()
@@ -116,8 +100,9 @@ public class ExtDialogConfig
 
     /**
      * Liefert den Message Typ.
-     * 
+     *
      * @return int
+     *
      * @see JOptionPane#PLAIN_MESSAGE
      * @see JOptionPane#INFORMATION_MESSAGE
      * @see JOptionPane#QUESTION_MESSAGE
@@ -131,7 +116,7 @@ public class ExtDialogConfig
 
     /**
      * Eigene Texte fuer die Buttons.
-     * 
+     *
      * @return String[]
      */
     public String[] getOptions()
@@ -141,8 +126,9 @@ public class ExtDialogConfig
 
     /**
      * Liefert die Dialogoptionen.
-     * 
+     *
      * @return int
+     *
      * @see JOptionPane#OK_OPTION
      * @see JOptionPane#OK_CANCEL_OPTION
      * @see JOptionPane#YES_OPTION
@@ -164,7 +150,7 @@ public class ExtDialogConfig
 
     /**
      * Liefert den Titel.
-     * 
+     *
      * @return String
      */
     public String getTitle()
@@ -174,7 +160,7 @@ public class ExtDialogConfig
 
     /**
      * Liefert den {@link WindowListener}.
-     * 
+     *
      * @return {@link WindowListener}
      */
     public WindowListener getWindowListener()
@@ -200,7 +186,7 @@ public class ExtDialogConfig
 
     /**
      * Setzt den {@link ActionListener} fuer einen Button.
-     * 
+     *
      * @param buttonIndex int
      * @param actionListener {@link ActionListener}
      */
@@ -219,7 +205,7 @@ public class ExtDialogConfig
 
     /**
      * Setzt die Message/Component.
-     * 
+     *
      * @param message {@link Component} oder String
      */
     public void setMessage(final Object message)
@@ -229,8 +215,9 @@ public class ExtDialogConfig
 
     /**
      * Setzt den Message Typ.
-     * 
+     *
      * @param messageType int
+     *
      * @see JOptionPane#PLAIN_MESSAGE
      * @see JOptionPane#INFORMATION_MESSAGE
      * @see JOptionPane#QUESTION_MESSAGE
@@ -252,7 +239,7 @@ public class ExtDialogConfig
 
     /**
      * Eigene Texte fuer die Buttons.
-     * 
+     *
      * @param options String[]
      */
     public void setOptions(final String...options)
@@ -262,8 +249,9 @@ public class ExtDialogConfig
 
     /**
      * Setzt die Dialogoptionen.
-     * 
+     *
      * @param optionType int
+     *
      * @see JOptionPane#OK_OPTION
      * @see JOptionPane#OK_CANCEL_OPTION
      * @see JOptionPane#YES_OPTION
@@ -293,7 +281,7 @@ public class ExtDialogConfig
 
     /**
      * Setzt den Titel.
-     * 
+     *
      * @param title String
      */
     public void setTitle(final String title)
@@ -303,7 +291,7 @@ public class ExtDialogConfig
 
     /**
      * Setzt den {@link WindowListener}.
-     * 
+     *
      * @param windowListener {@link WindowListener}
      */
     public void setWindowListener(final WindowListener windowListener)

@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.security.bouncycastle;
 
 import java.io.BufferedInputStream;

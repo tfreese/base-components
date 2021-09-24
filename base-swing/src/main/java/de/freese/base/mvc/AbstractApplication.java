@@ -27,17 +27,14 @@ public abstract class AbstractApplication
      *
      */
     private ApplicationContext context;
-
     /**
      *
      */
     private final List<Controller> controllers = new ArrayList<>();
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */

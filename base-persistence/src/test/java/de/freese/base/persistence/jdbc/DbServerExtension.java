@@ -34,7 +34,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     *
     */
     public static final AtomicInteger ATOMIC_INTEGER = new AtomicInteger(1);
-
     /**
      *
      */

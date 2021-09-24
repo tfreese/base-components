@@ -33,17 +33,14 @@ public class POP3Protocol extends AbstractProtocol
      *
      */
     private String apopChallenge;
-
     /**
      *
      */
     private BufferedReader inputReader;
-
     /**
      *
      */
     private Writer outputWriter;
-
     /**
      *
      */

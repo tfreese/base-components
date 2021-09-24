@@ -2,6 +2,7 @@ package de.freese.base.swing.components.tree.lazy;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Semaphore;
+
 import javax.swing.SwingWorker;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
@@ -9,6 +10,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,22 +18,22 @@ import org.slf4j.LoggerFactory;
  * ExpandListener eines Trees fuer das LazyLoading.<br>
  *
  * @author Thomas Freese
+ *
  * @see AbstractLazyLoadingTreeNode
  */
 public class LazyLoadingTreeController implements TreeWillExpandListener
 {
     /**
      * Swingworker fuer das LazyLoading.
-     * 
+     *
      * @author Thomas Freese
      */
     private static class LoadWorker extends SwingWorker<MutableTreeNode[], Void>
     {
         /**
-         * 
+         *
          */
         private final AbstractLazyLoadingTreeNode node;
-
         /**
          *
          */
@@ -39,7 +41,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
 
         /**
          * Erstellt ein neues {@link LoadWorker} Object.
-         * 
+         *
          * @param node {@link AbstractLazyLoadingTreeNode}
          * @param semaphore {@link Semaphore}
          */
@@ -90,12 +92,10 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeController.class);
-
     /**
-     * 
+     *
      */
     private final Executor executor;
-
     /**
      * BlockingSemaphore fuer den SwingWorker.
      */
@@ -114,7 +114,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
      * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
      * Das Laden der Kindsknoten wird als {@link SwingWorker} in dem uebergebenen {@link Executor} durchgefuehrt. Ist dieser {@link Executor} null, wird
      * {@link SwingWorker#execute()} ausgefuehrt.
-     * 
+     *
      * @param executor {@link Executor}
      */
     public LazyLoadingTreeController(final Executor executor)
@@ -141,7 +141,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
 
     /**
      * Liefert den DummyKnoten fuer den Kinderzweig des Parents mit dem "Laden"-Text.
-     * 
+     *
      * @return {@link MutableTreeNode}
      */
     protected MutableTreeNode createLoadingNode()
@@ -198,10 +198,8 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
         TreePath path = event.getPath();
         Object lastPathComponent = path.getLastPathComponent();
 
-        if (lastPathComponent instanceof AbstractLazyLoadingTreeNode)
+        if (lastPathComponent instanceof AbstractLazyLoadingTreeNode lazyNode)
         {
-            AbstractLazyLoadingTreeNode lazyNode = (AbstractLazyLoadingTreeNode) lastPathComponent;
-
             expandNode(lazyNode);
         }
     }

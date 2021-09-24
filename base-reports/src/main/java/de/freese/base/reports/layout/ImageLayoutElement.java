@@ -1,6 +1,4 @@
-/**
- * 15.04.2008
- */
+// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import java.awt.Image;
@@ -27,7 +25,7 @@ public class ImageLayoutElement extends AbstractLayoutElement
 
     /**
      * Creates a new {@link ImageLayoutElement} object.
-     * 
+     *
      * @param name String
      */
     public ImageLayoutElement(final String name)
@@ -37,7 +35,7 @@ public class ImageLayoutElement extends AbstractLayoutElement
 
     /**
      * Bild des LayoutElements.
-     * 
+     *
      * @return {@link Image}
      */
     public Image getImage()
@@ -47,7 +45,7 @@ public class ImageLayoutElement extends AbstractLayoutElement
 
     /**
      * Bild des LayoutElements.
-     * 
+     *
      * @param image {@link Image}
      */
     public void setImage(final Image image)

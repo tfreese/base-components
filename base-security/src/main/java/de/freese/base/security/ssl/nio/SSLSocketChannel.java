@@ -15,8 +15,10 @@ import java.nio.channels.SocketChannel;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Executor;
+
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,12 +31,10 @@ public class SSLSocketChannel extends SocketChannel
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SSLSocketChannel.class);
-
     /**
      *
      */
     private final SocketChannel socketChannel;
-
     /**
      *
      */
@@ -197,7 +197,9 @@ public class SSLSocketChannel extends SocketChannel
      * </p>
      *
      * @param applicationBuffer The buffer into which bytes are to be transferred
+     *
      * @return The number of bytes read, possibly zero, or -1 if the channel has reached end-of-stream
+     *
      * @throws java.nio.channels.NotYetConnectedException If this channel is not yet connected
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
@@ -264,7 +266,9 @@ public class SSLSocketChannel extends SocketChannel
      * @param offset The offset within the buffer array of the first buffer into which bytes are to be transferred; must be non-negative and no larger than
      *            dsts.length
      * @param length The maximum number of buffers to be accessed; must be non-negative and no larger than <code>dsts.length - offset</code>
+     *
      * @return The number of bytes read, possibly zero, or -1 if the channel has reached end-of-stream
+     *
      * @throws java.nio.channels.NotYetConnectedException If this channel is not yet connected
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
@@ -380,7 +384,9 @@ public class SSLSocketChannel extends SocketChannel
      * </p>
      *
      * @param applicationBuffer The buffer from which bytes are to be retrieved
+     *
      * @return The number of bytes written, possibly zero
+     *
      * @throws java.nio.channels.NotYetConnectedException If this channel is not yet connected
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
@@ -451,7 +457,9 @@ public class SSLSocketChannel extends SocketChannel
      * @param offset offset - The offset within the buffer array of the first buffer from which bytes are to be retrieved; must be non-negative and no larger
      *            than <code>srcs.length</code>
      * @param length The maximum number of buffers to be accessed; must be non-negative and no larger than <code>srcs.length - offset</code>
+     *
      * @return The number of bytes written, possibly zero
+     *
      * @throws java.nio.channels.NotYetConnectedException If this channel is not yet connected
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress

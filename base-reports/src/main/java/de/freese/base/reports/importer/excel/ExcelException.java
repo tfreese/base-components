@@ -11,25 +11,22 @@ public class ExcelException extends Exception
      *
      */
     private static final long serialVersionUID = 4357042787522085265L;
-
     /**
-     * 
+     *
      */
     private final int column;
-
     /**
-     * 
+     *
      */
     private final int row;
-
     /**
-     * 
+     *
      */
     private final String sheet;
 
     /**
      * Erstellt ein neues {@link ExcelException} Objekt.
-     * 
+     *
      * @param sheet String
      * @param row int
      * @param column int

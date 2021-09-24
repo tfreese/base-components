@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
+
 import javax.swing.ActionMap;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -18,7 +19,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
+
 import org.jdesktop.swingx.plaf.UIAction;
+
 import de.freese.base.swing.components.table.column.DefaultExtTableColumnModel;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
@@ -39,27 +42,22 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
      *
      */
     private static final long serialVersionUID = -4454292369350861849L;
-
     /**
      *
      */
     private ColumnControlButton columnControlButton;
-
     /**
      *
      */
     private JComponent columnHeaderReplacement;
-
     /**
      *
      */
     private JComponent rowHeaderReplacement;
-
     /**
      * Gibt an, ob ein alternativer Header vewendet werden soll.
      */
     private final boolean showHeader;
-
     /**
      *
      */
@@ -142,10 +140,8 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
         {
             Container gp = p.getParent();
 
-            if (gp instanceof JScrollPane)
+            if (gp instanceof JScrollPane scrollPane)
             {
-                JScrollPane scrollPane = (JScrollPane) gp;
-
                 JViewport viewport = scrollPane.getViewport();
 
                 if ((viewport == null) || (viewport.getView() != this))
@@ -188,9 +184,8 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
         {
             Container gp = p.getParent();
 
-            if (gp instanceof JScrollPane)
+            if (gp instanceof JScrollPane scrollPane)
             {
-                JScrollPane scrollPane = (JScrollPane) gp;
                 Border border = scrollPane.getBorder();
 
                 if ((border == null) || (border instanceof UIResource))
@@ -434,9 +429,9 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
         Component component = super.prepareEditor(editor, row, column);
 
-        if (component instanceof JTextComponent)
+        if (component instanceof JTextComponent c)
         {
-            ((JTextComponent) component).selectAll();
+            c.selectAll();
         }
 
         return component;

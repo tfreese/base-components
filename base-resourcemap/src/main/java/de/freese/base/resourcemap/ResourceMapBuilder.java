@@ -1,7 +1,4 @@
-/**
- * Created: 07.06.2020
- */
-
+// Created: 07.06.2020
 package de.freese.base.resourcemap;
 
 import java.util.HashMap;
@@ -34,22 +31,18 @@ public final class ResourceMapBuilder
      *
      */
     private final String bundleName;
-
     /**
      *
      */
     private ResourceMapCache cache;
-
     /**
     *
     */
     private ResourceMap parent;
-
     /**
     *
     */
     private final Map<Class<?>, ResourceConverter<?>> resourceConverters = new HashMap<>();
-
     /**
      *
      */

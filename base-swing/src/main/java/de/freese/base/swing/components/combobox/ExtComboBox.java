@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.util.Vector;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.plaf.metal.MetalScrollBarUI;
  * ExtComboBox, deren Popup automatisch die Groesse besitzt, um den Inhalt komplett darzustellen, auch wenn die ExtComboBox kleiner ist.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public class ExtComboBox<T> extends JComboBox<T>
@@ -26,6 +28,7 @@ public class ExtComboBox<T> extends JComboBox<T>
      * UI fuer die automatische Popupgroesse.
      *
      * @author Thomas Freese
+     *
      * @param <T> Konkreter Typ
      */
     private static class AutowidthComboBoxUI<T> extends MetalComboBoxUI
@@ -82,9 +85,8 @@ public class ExtComboBox<T> extends JComboBox<T>
                 {
                     Component c = renderer.getListCellRendererComponent(getList(), this.comboBox.getItemAt(i), i, false, false);
 
-                    if (c instanceof JLabel)
+                    if (c instanceof JLabel label)
                     {
-                        JLabel label = (JLabel) c;
                         int labelWidth = 1 + c.getFontMetrics(c.getFont()).stringWidth(label.getText());
 
                         width = Math.max(width, labelWidth + scroll);
@@ -121,14 +123,6 @@ public class ExtComboBox<T> extends JComboBox<T>
         }
 
         /**
-         * Erstellt ein neues {@link de.freese.base.swing.components.combobox.ExtComboBox.AutowidthComboBoxUI} Object.
-         */
-        public AutowidthComboBoxUI()
-        {
-            super();
-        }
-
-        /**
          * @see javax.swing.plaf.metal.MetalComboBoxUI#createPopup()
          */
         @SuppressWarnings("unchecked")
@@ -146,7 +140,6 @@ public class ExtComboBox<T> extends JComboBox<T>
      *
      */
     private static final long serialVersionUID = -5210391879154918454L;
-
     /**
      *
      */

@@ -6,6 +6,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.WritableByteChannel;
 import java.util.concurrent.Executor;
+
 import javax.net.ssl.SSLEngine;
 
 /**
@@ -17,7 +18,6 @@ public abstract class AbstractNioSSLProvider extends AbstractSSLProvider
      *
      */
     private final ByteBuffer buffer = ByteBuffer.allocate(32 * 1024);
-
     /**
     *
     */

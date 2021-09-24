@@ -5,10 +5,12 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.io.Serializable;
+
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+
 import de.freese.base.utils.ImageUtils;
 
 /**
@@ -22,22 +24,18 @@ public class IconBorder implements Border, Serializable
      *
      */
     private static final long serialVersionUID = -9139492820598238887L;
-
     /**
      *
      */
     private Insets borderInsets;
-
     /**
      *
      */
     private Icon icon;
-
     /**
      *
      */
     private JButton iconButton = new JButton();
-
     /**
      *
      */
@@ -217,6 +215,7 @@ public class IconBorder implements Border, Serializable
      * Exception, wenn falsche Position.
      *
      * @param position int
+     *
      * @throws IllegalArgumentException Falls was schief geht.
      */
     private void validatePosition(final int position)

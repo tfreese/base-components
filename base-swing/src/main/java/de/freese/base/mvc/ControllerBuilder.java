@@ -22,20 +22,17 @@ public final class ControllerBuilder
     }
 
     /**
-       *
-       */
+     *
+     */
     private String bundleName;
-
     /**
      *
      */
     private final ApplicationContext context;
-
     /**
     *
     */
     private Class<? extends AbstractController> controllerClazz;
-
     /**
     *
     */

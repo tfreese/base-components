@@ -2,6 +2,7 @@ package de.freese.base.swing.components.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
 
@@ -27,7 +28,6 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
      *
      */
     private static final long serialVersionUID = 3330350835354351508L;
-
     /**
      *
      */
@@ -117,6 +117,7 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
      * Liefert true, wenn die Klasse in dem Klassen-Array enthalten ist.
      *
      * @param clazz Class
+     *
      * @return boolean
      */
     private boolean containsClazzes(final Class<?> clazz)

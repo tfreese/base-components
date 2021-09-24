@@ -1,11 +1,10 @@
-/**
- * Created: 14.07.2020
- */
+// Created: 14.07.2020
 
 package de.freese.base.swing.components.scrollpane;
 
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
@@ -31,17 +30,14 @@ public class ScrollPaneSynchronizer implements AdjustmentListener
      *
      */
     private final JScrollBar h1;
-
     /**
      *
      */
     private final JScrollBar h2;
-
     /**
      *
      */
     private final JScrollBar v1;
-
     /**
      *
      */

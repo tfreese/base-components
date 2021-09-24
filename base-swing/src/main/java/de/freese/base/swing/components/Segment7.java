@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -45,7 +46,6 @@ public class Segment7 extends Canvas
      *
      */
     private int digit;
-
     /**
      *
      */
@@ -83,12 +83,10 @@ public class Segment7 extends Canvas
             // Ziffer 9
             }
     };
-
     /**
      *
      */
     private boolean hasfocus;
-
     /**
      *
      */
@@ -116,7 +114,6 @@ public class Segment7 extends Canvas
                     1, 2, 8, 9, 8, 2
             }, // Segment 6
     };
-
     /**
      *
      */

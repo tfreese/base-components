@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.state.ButtonGuiState;
 import de.freese.base.swing.state.ComboBoxGuiState;
 import de.freese.base.swing.state.ContainerGuiState;
@@ -32,17 +34,14 @@ public final class GuiStateManager
      *
      */
     private Set<Class<? extends GUIState>> guiStates = new HashSet<>();
-
     /**
      *
      */
     private Map<Class<? extends GUIState>, GUIState> instanceMap = new HashMap<>();
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(GuiStateManager.class);
-
     /**
      *
      */
@@ -62,6 +61,7 @@ public final class GuiStateManager
      * Hinzufuegen eines neuen {@link GUIState}s.
      *
      * @param stateClass {@link Class}
+     *
      * @return boolean
      */
     public boolean addGUIState(final Class<? extends GUIState> stateClass)
@@ -96,6 +96,7 @@ public final class GuiStateManager
      * Liefert den GuiState fuer eine {@link Component}.
      *
      * @param componentClass Class
+     *
      * @return {@link GUIState}
      */
     private synchronized GUIState getState(final Class<? extends Component> componentClass)
@@ -112,9 +113,9 @@ public final class GuiStateManager
                 }
                 catch (Exception ex)
                 {
-                    if (ex instanceof RuntimeException)
+                    if (ex instanceof RuntimeException rex)
                     {
-                        throw (RuntimeException) ex;
+                        throw rex;
                     }
 
                     throw new RuntimeException(ex);
@@ -162,6 +163,7 @@ public final class GuiStateManager
      * Entfernt den {@link GUIState}.
      *
      * @param stateClass {@link Class}
+     *
      * @return boolean
      */
     public boolean removeGuiState(final Class<? extends GUIState> stateClass)

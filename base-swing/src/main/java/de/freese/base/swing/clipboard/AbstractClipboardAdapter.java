@@ -7,12 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.clipboard.converter.BooleanClipboardConverter;
 import de.freese.base.swing.clipboard.converter.DoubleClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.FloatClipBoardConverter;
@@ -134,37 +137,30 @@ public abstract class AbstractClipboardAdapter
      *
      */
     private Action actionCopy;
-
     /**
      *
      */
     private Action actionPaste;
-
     /**
      *
      */
     private Action actionPasteFlipAxes;
-
     /**
      *
      */
     private final Clipboard clipboard;
-
     /**
      *
      */
     private final JComponent component;
-
     /**
      *
      */
     private final Map<Class<?>, ClipboardConverter> converterMap = new HashMap<>();
-
     /**
      *
      */
     private boolean enabled = true;
-
     /**
      *
      */
@@ -267,6 +263,7 @@ public abstract class AbstractClipboardAdapter
      * Ist kein Konverter registriert wird der {@link ReflectionClipboardConverter} registriert und geliefert.
      *
      * @param clazz Class
+     *
      * @return {@link ClipboardConverter}
      */
 

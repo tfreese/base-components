@@ -1,6 +1,4 @@
-/**
- * 15.04.2008
- */
+// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import javax.swing.SwingConstants;
@@ -16,7 +14,6 @@ public class LineLayoutElement extends AbstractLayoutElement
      *
      */
     private int orientation = -1;
-
     /**
      *
      */

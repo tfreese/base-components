@@ -1,6 +1,7 @@
 package de.freese.base.reports.importer.excel;
 
 import java.io.InputStream;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -11,14 +12,6 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public final class POIExcelXlsImpl extends AbstractPOIExcelImpl
 {
-    /**
-     * Creates a new {@link POIExcelXlsImpl} object.
-     */
-    public POIExcelXlsImpl()
-    {
-        super();
-    }
-
     /**
      * @see de.freese.base.reports.importer.excel.AbstractPOIExcelImpl#openWorkbook(java.io.InputStream)
      */

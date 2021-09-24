@@ -2,6 +2,7 @@
 package de.freese.base.swing.components.led;
 
 import java.awt.Color;
+
 import de.freese.base.swing.components.led.element.Element;
 
 /**
@@ -12,35 +13,35 @@ public interface LedConfig extends Element
     /**
      * @return {@link Color}
      */
-    public Color getColorBackground();
+    Color getColorBackground();
 
     /**
      * @return {@link Color}
      */
-    public Color getColorBackgroundDot();
+    Color getColorBackgroundDot();
 
     /**
      * @return int
      */
-    public int getDotHeight();
+    int getDotHeight();
 
     /**
      * @return int
      */
-    public int getDotWidth();
+    int getDotWidth();
 
     /**
      * @return int
      */
-    public int getHgap();
+    int getHgap();
 
     /**
      * @return int
      */
-    public int getTokenGap();
+    int getTokenGap();
 
     /**
      * @return int
      */
-    public int getVgap();
+    int getVgap();
 }

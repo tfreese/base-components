@@ -42,7 +42,6 @@ public class AutoCompleteableTextField extends JTextField
          *
          */
         private static final long serialVersionUID = -6115968950918667824L;
-
         /**
          *
          */
@@ -119,7 +118,6 @@ public class AutoCompleteableTextField extends JTextField
      *
      */
     private LinkedList<String> prevSearches = new LinkedList<>();
-
     /**
      *
      */

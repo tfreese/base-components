@@ -38,7 +38,6 @@ public class LoggingJdbcDriver implements Driver
      *
      */
     private static final Set<String> LOG_METHODS = new HashSet<>();
-
     /**
     *
     */

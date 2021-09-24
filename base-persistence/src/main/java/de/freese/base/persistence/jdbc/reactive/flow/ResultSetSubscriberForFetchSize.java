@@ -28,7 +28,6 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     *
     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);
-
     /**
      *
      */
@@ -45,7 +44,6 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
      *
      */
     private final int fetchSize;
-
     /**
     *
     */

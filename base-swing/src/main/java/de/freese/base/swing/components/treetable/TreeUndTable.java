@@ -1,10 +1,13 @@
 package de.freese.base.swing.components.treetable;
 
 import java.awt.Rectangle;
+
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.tree.TreeSelectionModel;
+
 import org.jdesktop.swingx.JXTree;
+
 import de.freese.base.swing.components.table.ExtTable;
 
 /**
@@ -18,7 +21,6 @@ public class TreeUndTable
      *
      */
     private JTable table;
-
     /**
      *
      */

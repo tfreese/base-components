@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ProtocolCommandListener;
 import org.apache.commons.net.ftp.FTP;
@@ -23,17 +24,14 @@ public class CommonsFTPWrapper implements FTPWrapper
      *
      */
     private boolean debug;
-
     /**
      *
      */
     private FTPClient ftpClient;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */
@@ -111,6 +109,7 @@ public class CommonsFTPWrapper implements FTPWrapper
      * Prueft den Reply-Code des letzten FTP-Commandos.
      *
      * @return String
+     *
      * @throws Exception Falls was schief geht.
      */
     protected String checkReply() throws Exception

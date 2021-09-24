@@ -7,23 +7,23 @@ import javax.swing.RowFilter.Entry;
  * Objekt fuer die Nutzung der {@link RowFilter}-API.
  *
  * @author Thomas Freese
+ *
  * @param <M> Konkreter Typ des zu filternden Objektes.
  */
 public class RowFilterEntry<M> extends Entry<M, Integer>
 {
     /**
-     * 
+     *
      */
     private final int column;
-
     /**
-     * 
+     *
      */
     private final M model;
 
     /**
      * Erstellt ein neues {@link RowFilterEntry} Object.
-     * 
+     *
      * @param model Object
      * @param column int
      */
@@ -41,7 +41,7 @@ public class RowFilterEntry<M> extends Entry<M, Integer>
     @Override
     public Integer getIdentifier()
     {
-        return Integer.valueOf(this.column);
+        return this.column;
     }
 
     /**

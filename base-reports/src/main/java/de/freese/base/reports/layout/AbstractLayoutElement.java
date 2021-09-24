@@ -1,6 +1,4 @@
-/**
- * 15.04.2008
- */
+// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import java.awt.Color;
@@ -12,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -25,52 +24,42 @@ public abstract class AbstractLayoutElement implements ILayoutElement
      *
      */
     private Color background = Color.WHITE;
-
     /**
      *
      */
     private final List<ILayoutElement> elements = new ArrayList<>(20);
-
     /**
      *
      */
     private Font font = DEFAULT_FONT;
-
     /**
      *
      */
     private Color foreground = Color.BLACK;
-
     /**
      *
      */
     private float height;
-
     /**
      *
      */
     private Insets insets = new Insets(0, 0, 0, 0);
-
     /**
      *
      */
     private String name = "";
-
     /**
      *
      */
     private ILayoutElement parent;
-
     /**
      *
      */
     private float width;
-
     /**
      *
      */
     private float x;
-
     /**
      *
      */
@@ -307,6 +296,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
      * @param bufferedImage BufferedImage
      * @param fileName String
      * @param type jpg oder png
+     *
      * @throws Exception Falls was schief geht.
      */
     public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception

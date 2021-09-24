@@ -16,17 +16,14 @@ public abstract class AbstractController implements Controller
      *
      */
     private ApplicationContext context;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */
     private String name;
-
     /**
      *
      */
@@ -105,9 +102,9 @@ public abstract class AbstractController implements Controller
     {
         this.context = context;
 
-        if (getView() instanceof AbstractView)
+        if (getView()instanceof AbstractView v)
         {
-            ((AbstractView) getView()).setContext(context);
+            v.setContext(context);
         }
     }
 
@@ -130,9 +127,9 @@ public abstract class AbstractController implements Controller
     {
         this.resourceMap = resourceMap;
 
-        if (getView() instanceof AbstractView)
+        if (getView()instanceof AbstractView v)
         {
-            ((AbstractView) getView()).setResourceMap(resourceMap);
+            v.setResourceMap(resourceMap);
         }
     }
 }

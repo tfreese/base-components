@@ -12,9 +12,10 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -31,37 +32,30 @@ public class SSHExec
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SSHExec.class);
-
     /**
      *
      */
     private final String host;
-
     /**
      *
      */
     private int lastExitStatus = -1;
-
     /**
      *
      */
     private final CharSequence password;
-
     /**
      *
      */
     private final int port;
-
     /**
      *
      */
     private Session session;
-
     /**
      *
      */
     private int timeOut;
-
     /**
      *
      */
@@ -172,7 +166,9 @@ public class SSHExec
      * Ausführung des Commandos.<br>
      *
      * @param command String
+     *
      * @return {@link List}
+     *
      * @throws JSchException Falls was schief geht.
      * @throws IOException Falls was schief geht.
      */
@@ -183,7 +179,7 @@ public class SSHExec
 
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response), StandardCharsets.UTF_8)))
             {
-                result = reader.lines().collect(Collectors.toList());
+                result = reader.lines().toList();
                 // for (;;)
                 // {
                 // String line = reader.readLine();
@@ -210,6 +206,7 @@ public class SSHExec
      *
      * @param command String
      * @param executorService {@link ExecutorService}
+     *
      * @return {@link List}
      */
     public Future<List<String>> execute(final String command, final ExecutorService executorService)
@@ -226,6 +223,7 @@ public class SSHExec
      * @param command String
      * @param executorService {@link ExecutorService}
      * @param responseMapper {@link Function}; Wandelt die Roh-Daten des Response u
+     *
      * @return {@link List}
      */
     public <R> Future<R> execute(final String command, final ExecutorService executorService, final Function<byte[], R> responseMapper)
@@ -241,7 +239,9 @@ public class SSHExec
      * @param <R> Konkreter Return-Typ
      * @param command String
      * @param responseMapper {@link Function}; Wandelt die Roh-Daten des Response um
+     *
      * @return {@link List}
+     *
      * @throws JSchException Falls was schief geht.
      * @throws IOException Falls was schief geht.
      */

@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * @author Thomas Freese
+ *
  * @param <V> Value Type
  */
 public interface Token<V>
@@ -13,22 +14,22 @@ public interface Token<V>
     // /**
     // * @return String
     // */
-    // public String getDisplayValue();
+    // String getDisplayValue();
 
     /**
      * BisMask für jedes darstellbare Zeichen.
      *
      * @return {@link List}
      */
-    public List<byte[]> getBitMasks();
+    List<byte[]> getBitMasks();
 
     /**
      * @return {@link Color}
      */
-    public Color getColor();
+    Color getColor();
 
     /**
      * @param value Object
      */
-    public void setValue(V value);
+    void setValue(V value);
 }

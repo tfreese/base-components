@@ -46,37 +46,30 @@ public class ExcelToCsv
      * Beginnend mit 0.
      */
     private final Map<Integer, Function<String, String>> columnFunctions = new HashMap<>();
-
     /**
      * Beginnend mit 0.
      */
     private int[] columnIndicies;
-
     /**
      *
      */
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);
-
     /**
      *
      */
     private char fieldSeparator = ';';
-
     /**
      * 0. Zeile = Header.
      */
     private int firstDataRow = 1;
-
     /**
      *
      */
     private FormulaEvaluator formulaEvaluator;
-
     /**
      * 0. Zeile = Header.
      */
     private int headerRow;
-
     /**
      *
      */

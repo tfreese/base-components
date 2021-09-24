@@ -2,6 +2,7 @@ package de.freese.base.reports.importer.excel;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +18,10 @@ public abstract class AbstractExcelImport implements IExcelImport
      *
      */
     private InputStream inputStream;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */

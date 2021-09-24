@@ -8,27 +8,23 @@ package de.freese.base.net.ftp;
 public class FTPConfig
 {
     /**
-     * 
+     *
      */
     private String basedir;
-
     /**
-     * 
+     *
      */
     private String host;
-
     /**
-     * 
+     *
      */
     private String password;
-
     /**
-     * 
+     *
      */
     private int port = -1;
-
     /**
-     * 
+     *
      */
     private String user;
 

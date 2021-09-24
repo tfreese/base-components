@@ -1,7 +1,4 @@
-/**
- * Created: 03.04.2012
- */
-
+// Created: 03.04.2012
 package de.freese.base.security;
 
 import java.io.FileInputStream;
@@ -20,6 +17,7 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Collections;
+
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
@@ -35,6 +33,7 @@ public class KeystoreDemo
 {
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -136,6 +135,7 @@ public class KeystoreDemo
     /**
      * @param encryptCipher {@link Cipher}
      * @param decryptCipher {@link Cipher}
+     *
      * @throws Exception Falls was schief geht.
      */
     private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception

@@ -1,6 +1,7 @@
 package de.freese.base.reports.jfreechart;
 
 import java.text.DecimalFormat;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItemSource;
 import org.jfree.chart.axis.Axis;
@@ -18,12 +19,14 @@ import org.jfree.data.general.Dataset;
 import org.jfree.data.general.Series;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYSeries;
+
 import de.freese.base.core.math.ExtMath;
 
 /**
  * Basisklasse zum Erzeugen eines {@link JFreeChart} Diagramms.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Objekttyp.
  */
 public abstract class AbstractJFreeChartScriplet<T>
@@ -54,17 +57,18 @@ public abstract class AbstractJFreeChartScriplet<T>
 
         /**
          * @param index int
+         *
          * @return {@link LegendItemSource}
          */
         public LegendItemSource getRenderer(final int index)
         {
-            if (this.plot instanceof XYPlot)
+            if (this.plot instanceof XYPlot xyPlot)
             {
-                return ((XYPlot) this.plot).getRenderer(index);
+                return xyPlot.getRenderer(index);
             }
-            else if (this.plot instanceof CategoryPlot)
+            else if (this.plot instanceof CategoryPlot categoryPlot)
             {
-                return ((CategoryPlot) this.plot).getRenderer(index);
+                return categoryPlot.getRenderer(index);
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
@@ -75,13 +79,13 @@ public abstract class AbstractJFreeChartScriplet<T>
          */
         public int getRendererCount()
         {
-            if (this.plot instanceof XYPlot)
+            if (this.plot instanceof XYPlot xyPlot)
             {
-                return ((XYPlot) this.plot).getRendererCount();
+                return xyPlot.getRendererCount();
             }
-            else if (this.plot instanceof CategoryPlot)
+            else if (this.plot instanceof CategoryPlot categoryPlot)
             {
-                return ((CategoryPlot) this.plot).getRendererCount();
+                return categoryPlot.getRendererCount();
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
@@ -92,13 +96,13 @@ public abstract class AbstractJFreeChartScriplet<T>
          */
         public Axis getXAxis()
         {
-            if (this.plot instanceof XYPlot)
+            if (this.plot instanceof XYPlot xyPlot)
             {
-                return ((XYPlot) this.plot).getRangeAxis();
+                return xyPlot.getRangeAxis();
             }
-            else if (this.plot instanceof CategoryPlot)
+            else if (this.plot instanceof CategoryPlot categoryPlot)
             {
-                return ((CategoryPlot) this.plot).getDomainAxis();
+                return categoryPlot.getDomainAxis();
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
@@ -109,13 +113,13 @@ public abstract class AbstractJFreeChartScriplet<T>
          */
         public Axis getYAxis()
         {
-            if (this.plot instanceof XYPlot)
+            if (this.plot instanceof XYPlot xyPlot)
             {
-                return ((XYPlot) this.plot).getDomainAxis();
+                return xyPlot.getDomainAxis();
             }
-            else if (this.plot instanceof CategoryPlot)
+            else if (this.plot instanceof CategoryPlot categoryPlot)
             {
-                return ((CategoryPlot) this.plot).getRangeAxis();
+                return categoryPlot.getRangeAxis();
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
@@ -125,7 +129,7 @@ public abstract class AbstractJFreeChartScriplet<T>
     /**
      * Default Ticks fuer die Diagrammachsen.
      */
-    private static final double[] DEFAULT_TICKS = new double[]
+    private static final double[] DEFAULT_TICKS =
     {
             0.01D,
             0.02D,
@@ -305,7 +309,9 @@ public abstract class AbstractJFreeChartScriplet<T>
      * @param maxTickUnits int
      * @param upperTickMargin double, % eines Ticks als oberer Rand.
      * @param fractionDigits boolean, Ticks mit Kommastellen ?
+     *
      * @return double
+     *
      * @throws IllegalArgumentException Falls was schief geht.
      */
     protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits)
@@ -368,7 +374,9 @@ public abstract class AbstractJFreeChartScriplet<T>
      * Fuer die Dekorierung des Diagramms die {@link #decorateChart(Object, JFreeChart)} Methode aufrufen.
      *
      * @param model Object
+     *
      * @return {@link JFreeChart}
+     *
      * @see #decorateChart(Object, JFreeChart)
      */
     public abstract JFreeChart createChart(T model);
@@ -481,6 +489,7 @@ public abstract class AbstractJFreeChartScriplet<T>
      * Findet die hoechste Zahl auf der Y-Achse eines JFreechart Datasets heraus.
      *
      * @param dataSet {@link CategoryDataset}
+     *
      * @return double
      */
     protected double getYMaxValue(final CategoryDataset dataSet)
@@ -507,6 +516,7 @@ public abstract class AbstractJFreeChartScriplet<T>
      * Findet die hoechste Zahl auf der Y-Achse einer JFreechart Serie heraus.
      *
      * @param series {@link Series}
+     *
      * @return double
      */
     protected double getYMaxValue(final Series series)
@@ -515,26 +525,26 @@ public abstract class AbstractJFreeChartScriplet<T>
 
         int count = 0;
 
-        if (series instanceof XYSeries)
+        if (series instanceof XYSeries xySeries)
         {
-            count = ((XYSeries) series).getItemCount();
+            count = xySeries.getItemCount();
         }
-        else if (series instanceof TimeSeries)
+        else if (series instanceof TimeSeries timeSeries)
         {
-            count = ((TimeSeries) series).getItemCount();
+            count = timeSeries.getItemCount();
         }
 
         for (int i = 0; i < count; i++)
         {
             Number value = null;
 
-            if (series instanceof XYSeries)
+            if (series instanceof XYSeries xySeries)
             {
-                value = ((XYSeries) series).getY(i);
+                value = xySeries.getY(i);
             }
-            else if (series instanceof TimeSeries)
+            else if (series instanceof TimeSeries timeSeries)
             {
-                value = ((TimeSeries) series).getValue(i);
+                value = timeSeries.getValue(i);
             }
 
             if (value != null)

@@ -2,11 +2,14 @@ package de.freese.base.swing.components.text;
 
 import java.awt.Toolkit;
 import java.util.regex.Pattern;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.core.processor.AbstractProcessor;
 import de.freese.base.core.processor.ProcessorChain;
 
@@ -56,7 +59,9 @@ public class ConfigureableDocument extends PlainDocument
 
         /**
          * @param context {@link DocumentContext}
+         *
          * @throws Exception Falls was schief geht.
+         *
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -125,12 +130,10 @@ public class ConfigureableDocument extends PlainDocument
          *
          */
         public String currentText;
-
         /**
          *
          */
         public String fullText;
-
         /**
          *
          */
@@ -161,7 +164,9 @@ public class ConfigureableDocument extends PlainDocument
 
         /**
          * @param context {@link DocumentContext}
+         *
          * @throws Exception Falls was schief geht.
+         *
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -205,7 +210,9 @@ public class ConfigureableDocument extends PlainDocument
 
         /**
          * @param context {@link DocumentContext}
+         *
          * @throws Exception Falls was schief geht.
+         *
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -219,27 +226,22 @@ public class ConfigureableDocument extends PlainDocument
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigureableDocument.class);
-
     /**
      *
      */
     private static final long serialVersionUID = 4200946186651706734L;
-
     /**
      *
      */
     private final DigitProcessor digitProcessor;
-
     /**
      *
      */
     private final LengthProcessor lengthProcessor;
-
     /**
      *
      */
     private final ProcessorChain<DocumentContext> processorChain = new ProcessorChain<>();
-
     /**
      *
      */

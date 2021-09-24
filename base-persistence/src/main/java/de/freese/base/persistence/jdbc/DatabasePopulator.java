@@ -32,7 +32,6 @@ public class DatabasePopulator
      *
      */
     public static final Logger LOGGER = LoggerFactory.getLogger(DatabasePopulator.class);
-
     /**
      *
      */

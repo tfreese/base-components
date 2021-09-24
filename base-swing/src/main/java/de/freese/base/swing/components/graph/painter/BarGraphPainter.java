@@ -19,14 +19,6 @@ public class BarGraphPainter extends AbstractGraphPainter
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
     /**
-     * Erstellt ein neues {@link BarGraphPainter} Object.
-     */
-    public BarGraphPainter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
      */
     @Override

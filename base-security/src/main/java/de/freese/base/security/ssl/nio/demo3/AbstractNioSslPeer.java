@@ -9,6 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.security.KeyStore;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -19,6 +20,7 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +31,10 @@ import org.slf4j.LoggerFactory;
  * casual use", since it requires the user to implement much of the communication establishment procedure himself. More information about it can be found here:
  * http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#SSLEngine
  * <p/>
- * {@link AbstractNioSslPeer} implements the handshake protocol, required to establish a connection between two peers, which is common for both client and server and
- * provides the abstract {@link AbstractNioSslPeer#read(SocketChannel, SSLEngine)} and {@link AbstractNioSslPeer#write(SocketChannel, SSLEngine, String)} methods, that need to
- * be implemented by the specific SSL/TLS peer that is going to extend this class.
+ * {@link AbstractNioSslPeer} implements the handshake protocol, required to establish a connection between two peers, which is common for both client and
+ * server and provides the abstract {@link AbstractNioSslPeer#read(SocketChannel, SSLEngine)} and
+ * {@link AbstractNioSslPeer#write(SocketChannel, SSLEngine, String)} methods, that need to be implemented by the specific SSL/TLS peer that is going to extend
+ * this class.
  *
  * @author <a href="mailto:alex.a.karnezis@gmail.com">Alex Karnezis</a>
  */
@@ -41,33 +44,28 @@ public abstract class AbstractNioSslPeer
      * Will be used to execute tasks that may emerge during handshake in parallel with the server's main thread.
      */
     protected ExecutorService executor = Executors.newSingleThreadExecutor();
-
     /**
      * Class' logger.
      */
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * Will contain this peer's application data in plaintext, that will be later encrypted using {@link SSLEngine#wrap(ByteBuffer, ByteBuffer)} and sent to the
      * other peer. This buffer can typically be of any size, as long as it is large enough to contain this peer's outgoing messages. If this peer tries to send
      * a message bigger than buffer's capacity a {@link BufferOverflowException} will be thrown.
      */
     protected ByteBuffer myAppData;
-
     /**
      * Will contain this peer's encrypted data, that will be generated after {@link SSLEngine#wrap(ByteBuffer, ByteBuffer)} is applied on
-     * {@link AbstractNioSslPeer#myAppData}. It should be initialized using {@link SSLSession#getPacketBufferSize()}, which returns the size up to which, SSL/TLS
-     * packets will be generated from the engine under a session. All SSLEngine network buffers should be sized at least this large to avoid insufficient space
-     * problems when performing wrap and unwrap calls.
+     * {@link AbstractNioSslPeer#myAppData}. It should be initialized using {@link SSLSession#getPacketBufferSize()}, which returns the size up to which,
+     * SSL/TLS packets will be generated from the engine under a session. All SSLEngine network buffers should be sized at least this large to avoid
+     * insufficient space problems when performing wrap and unwrap calls.
      */
     protected ByteBuffer myNetData;
-
     /**
      * Will contain the other peer's (decrypted) application data. It must be large enough to hold the application data from any peer. Can be initialized with
      * {@link SSLSession#getApplicationBufferSize()} for an estimation of the other peer's application data and should be enlarged if this size is not enough.
      */
     protected ByteBuffer peerAppData;
-
     /**
      * Will contain the other peer's encrypted data. The SSL/TLS protocols specify that implementations should produce packets containing at most 16 KB of
      * plaintext, so a buffer sized to this value should normally cause no capacity problems. However, some implementations violate the specification and
@@ -86,6 +84,7 @@ public abstract class AbstractNioSslPeer
      *
      * @param socketChannel - the transport link used between the two peers.
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
+     *
      * @throws IOException if an I/O error occurs to the socket channel.
      */
     protected void closeConnection(final SocketChannel socketChannel, final SSLEngine engine) throws IOException
@@ -101,7 +100,9 @@ public abstract class AbstractNioSslPeer
      * @param filepath - the path to the JKS keystore.
      * @param keystorePassword - the keystore's password.
      * @param keyPassword - the key's passsword.
+     *
      * @return {@link KeyManager} array that will be used to initiate the {@link SSLContext}.
+     *
      * @throws Exception Falls was schief geht.
      */
     protected KeyManager[] createKeyManagers(final String filepath, final String keystorePassword, final String keyPassword) throws Exception
@@ -124,7 +125,9 @@ public abstract class AbstractNioSslPeer
      *
      * @param filepath - the path to the JKS keystore.
      * @param keystorePassword - the keystore's password.
+     *
      * @return {@link TrustManager} array, that will be used to initiate the {@link SSLContext}.
+     *
      * @throws Exception Falls was schief geht.
      */
     protected TrustManager[] createTrustManagers(final String filepath, final String keystorePassword) throws Exception
@@ -164,7 +167,9 @@ public abstract class AbstractNioSslPeer
      *
      * @param socketChannel - the socket channel that connects the two peers.
      * @param engine - the engine that will be used for encryption/decryption of the data exchanged with the other peer.
+     *
      * @return True if the connection handshake was successful or false if an error occurred.
+     *
      * @throws IOException - if an error occurs during read/write to the socket channel.
      */
     protected boolean doHandshake(final SocketChannel socketChannel, final SSLEngine engine) throws IOException
@@ -343,6 +348,7 @@ public abstract class AbstractNioSslPeer
     /**
      * @param engine {@link SSLEngine}
      * @param buffer {@link ByteBuffer}
+     *
      * @return {@link ByteBuffer}
      */
     protected ByteBuffer enlargeApplicationBuffer(final SSLEngine engine, final ByteBuffer buffer)
@@ -356,6 +362,7 @@ public abstract class AbstractNioSslPeer
      *
      * @param buffer - the buffer to be enlarged.
      * @param sessionProposedCapacity - the minimum size of the new buffer, proposed by {@link SSLSession}.
+     *
      * @return A new buffer with a larger capacity.
      */
     protected ByteBuffer enlargeBuffer(ByteBuffer buffer, final int sessionProposedCapacity)
@@ -376,6 +383,7 @@ public abstract class AbstractNioSslPeer
     /**
      * @param engine {@link SSLEngine}
      * @param buffer {@link ByteBuffer}
+     *
      * @return {@link ByteBuffer}
      */
     protected ByteBuffer enlargePacketBuffer(final SSLEngine engine, final ByteBuffer buffer)
@@ -399,6 +407,7 @@ public abstract class AbstractNioSslPeer
      *
      * @param buffer - will always be peerNetData buffer.
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
+     *
      * @return The same buffer if there is no space problem or a new buffer with the same data but more space.
      */
     protected ByteBuffer handleBufferUnderflow(final SSLEngine engine, final ByteBuffer buffer)
@@ -422,6 +431,7 @@ public abstract class AbstractNioSslPeer
      *
      * @param socketChannel - the transport link used between the two peers.
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
+     *
      * @throws IOException if an I/O error occurs to the socket channel.
      */
     protected void handleEndOfStream(final SocketChannel socketChannel, final SSLEngine engine) throws IOException
@@ -442,6 +452,7 @@ public abstract class AbstractNioSslPeer
     /**
      * @param socketChannel {@link SocketChannel}
      * @param engine {@link SSLEngine}
+     *
      * @throws Exception Falls was schief geht.
      */
     protected abstract void read(SocketChannel socketChannel, SSLEngine engine) throws Exception;
@@ -450,6 +461,7 @@ public abstract class AbstractNioSslPeer
      * @param socketChannel {@link SocketChannel}
      * @param engine {@link SSLEngine}
      * @param message String
+     *
      * @throws Exception Falls was schief geht.
      */
     protected abstract void write(SocketChannel socketChannel, SSLEngine engine, String message) throws Exception;

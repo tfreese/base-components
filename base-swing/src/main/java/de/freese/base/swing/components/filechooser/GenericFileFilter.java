@@ -1,12 +1,14 @@
 package de.freese.base.swing.components.filechooser;
 
 import java.io.File;
+
 import javax.swing.filechooser.FileFilter;
 
 /**
  * {@link FileFilter} fuer bestimmte DatenTypen.
  *
  * @author Thomas Freese
+ *
  * @see CSVFileFilter
  * @see ImageFileFilter
  * @see PDFFileFilter
@@ -16,18 +18,17 @@ import javax.swing.filechooser.FileFilter;
 public class GenericFileFilter extends FileFilter implements java.io.FileFilter
 {
     /**
-     * 
+     *
      */
     private final boolean includeDirectories;
-
     /**
-     * 
+     *
      */
     private final String[] types;
 
     /**
      * Erstellt ein neues {@link GenericFileFilter} Object.
-     * 
+     *
      * @param includeDirectories boolean
      * @param types String[] Dateitypen, .csv, .xls usw
      */

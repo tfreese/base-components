@@ -2,8 +2,10 @@ package de.freese.base.swing.components.label;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
 import de.freese.base.core.progress.ProgressCallback;
 
 /**
@@ -41,17 +43,14 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
      *
      */
     private String originalText = "";
-
     /**
      * ms
      */
     private long progressCurrent;
-
     /**
      * ms
      */
     private long progressMax;
-
     /**
      * ms
      */

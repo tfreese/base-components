@@ -20,17 +20,14 @@ public abstract class AbstractView implements View
      *
      */
     private Component component;
-
     /**
      *
      */
     private ApplicationContext context;
-
     /**
     *
     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
     *
     */

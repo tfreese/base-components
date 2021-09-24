@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentListener;
+
 import de.freese.base.swing.components.list.renderer.VerticalWrapListCellRenderer;
 import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
@@ -15,6 +16,7 @@ import de.freese.base.swing.ui.ThinHorizontalScrollBarUI;
  * Panel mit einem Filtertextfeld in der Titlebar.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
@@ -23,22 +25,18 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
      *
      */
     private static final long serialVersionUID = 9023884779864134283L;
-
     /**
      *
      */
     private JLabel filterLabel;
-
     /**
      *
      */
     private JTextField filterTextField;
-
     /**
      *
      */
     private JList<T> list;
-
     /**
      *
      */

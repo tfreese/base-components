@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableColumnModel;
@@ -59,34 +60,22 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * flag to distinguish a shown/hidden column from really added/removed columns during notification. This is brittle!
      */
     private static final String IGNORE_EVENT = "TableColumnModelExt.ignoreEvent";
-
     /**
      *
      */
     private static final long serialVersionUID = 7120329832987702244L;
-
     /**
      * contains a list of all column, in the order they would appear if all were visible.
      */
     private List<TableColumn> currentColumns = new ArrayList<>();
-
     /**
      * contains a list of all columns, in the order in which were added to the model.
      */
     private List<TableColumn> initialColumns = new ArrayList<>();
-
     /**
      * Listener attached to TableColumnExt instances to listen for changes to their visibility status, and to hide/show the column as oppropriate
      */
     private VisibilityListener visibilityListener = new VisibilityListener();
-
-    /**
-     * Creates a an empty {@link DefaultExtTableColumnModel}.
-     */
-    public DefaultExtTableColumnModel()
-    {
-        super();
-    }
 
     /**
      * @see javax.swing.table.DefaultTableColumnModel#addColumn(javax.swing.table.TableColumn)
@@ -99,9 +88,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         boolean oldVisible = true;
 
         // add the visibility listener if appropriate
-        if (aColumn instanceof ExtTableColumn)
+        if (aColumn instanceof ExtTableColumn xColumn)
         {
-            ExtTableColumn xColumn = (ExtTableColumn) aColumn;
             oldVisible = xColumn.isVisible();
             xColumn.setVisible(true);
             xColumn.addPropertyChangeListener(this.visibilityListener);
@@ -114,10 +102,10 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         // let super handle the event notification, super.book-keeping
         super.addColumn(aColumn);
 
-        if (aColumn instanceof ExtTableColumn)
+        if (aColumn instanceof ExtTableColumn c)
         {
             // reset original visibility
-            ((ExtTableColumn) aColumn).setVisible(oldVisible);
+            c.setVisible(oldVisible);
         }
     }
 
@@ -129,9 +117,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     {
         super.addColumnModelListener(listener);
 
-        if (listener instanceof IExtTableColumnModelListener)
+        if (listener instanceof IExtTableColumnModelListener l)
         {
-            this.listenerList.add(IExtTableColumnModelListener.class, (IExtTableColumnModelListener) listener);
+            this.listenerList.add(IExtTableColumnModelListener.class, l);
         }
     }
 
@@ -140,6 +128,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * <code>TableColumn</code>.
      *
      * @param evt the event received
+     *
      * @see EventListenerList
      */
     protected void fireColumnPropertyChange(final PropertyChangeEvent evt)
@@ -185,9 +174,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     {
         TableColumn column = getColumn(columnIndex);
 
-        if (column instanceof ExtTableColumn)
+        if (column instanceof ExtTableColumn c)
         {
-            return (ExtTableColumn) column;
+            return c;
         }
 
         return null;
@@ -201,9 +190,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     {
         for (TableColumn column : this.initialColumns)
         {
-            if ((column instanceof ExtTableColumn) && (identifier.equals(column.getIdentifier())))
+            if ((column instanceof ExtTableColumn c) && (identifier.equals(column.getIdentifier())))
             {
-                return (ExtTableColumn) column;
+                return c;
             }
         }
 
@@ -237,6 +226,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * a column from invisible to visible.
      *
      * @param newIndex the toIndex of the columnEvent
+     *
      * @return true if the column was moved to visible
      */
     public boolean isAddedFromInvisibleEvent(final int newIndex)
@@ -254,16 +244,12 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * moving a column from visible to invisible.
      *
      * @param oldIndex the fromIndex of the columnEvent
+     *
      * @return true if the column was moved to invisible
      */
     public boolean isRemovedToInvisibleEvent(final int oldIndex)
     {
-        if (oldIndex >= this.currentColumns.size())
-        {
-            return false;
-        }
-
-        if (!(this.currentColumns.get(oldIndex) instanceof ExtTableColumn))
+        if ((oldIndex >= this.currentColumns.size()) || !(this.currentColumns.get(oldIndex) instanceof ExtTableColumn))
         {
             return false;
         }
@@ -347,9 +333,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     @Override
     public void removeColumn(final TableColumn column)
     {
-        if (column instanceof ExtTableColumn)
+        if (column instanceof ExtTableColumn c)
         {
-            ((ExtTableColumn) column).removePropertyChangeListener(this.visibilityListener);
+            c.removePropertyChangeListener(this.visibilityListener);
         }
 
         this.currentColumns.remove(column);
@@ -366,9 +352,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     {
         super.removeColumnModelListener(listener);
 
-        if (listener instanceof IExtTableColumnModelListener)
+        if (listener instanceof IExtTableColumnModelListener l)
         {
-            this.listenerList.remove(IExtTableColumnModelListener.class, (IExtTableColumnModelListener) listener);
+            this.listenerList.remove(IExtTableColumnModelListener.class, l);
         }
     }
 

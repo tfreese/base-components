@@ -1,6 +1,4 @@
-/**
- * 22.09.2006
- */
+// Created: 22.09.2006
 package de.freese.base.reports;
 
 import de.freese.base.reports.layout.DefaultLayoutElement;

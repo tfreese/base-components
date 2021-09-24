@@ -39,12 +39,10 @@ public interface ResourceMap
          *
          */
         ICON,
-
         /**
          *
          */
         SHORT_DESCRIPTION,
-
         /**
          *
          */

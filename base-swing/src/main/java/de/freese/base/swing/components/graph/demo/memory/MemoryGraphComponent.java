@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 import de.freese.base.swing.components.graph.AbstractGraphComponent;
 
 /**
@@ -18,12 +19,10 @@ public class MemoryGraphComponent extends AbstractGraphComponent
      *
      */
     private static final long serialVersionUID = 162498448539283119L;
-
     /**
     *
     */
     private transient ScheduledExecutorService scheduledExecutorService;
-
     /**
     *
     */

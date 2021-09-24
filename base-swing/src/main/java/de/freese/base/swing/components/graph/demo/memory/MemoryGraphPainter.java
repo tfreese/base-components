@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+
 import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
 
 /**
@@ -21,27 +22,22 @@ public class MemoryGraphPainter extends AbstractGraphPainter
      *
      */
     private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
-
     /**
     *
     */
     private float columnOffset;
-
     /**
     *
     */
     private final Line2D line2d = new Line2D.Float();
-
     /**
      *
      */
     private final Color rasterColor = new Color(46, 139, 87);
-
     /**
      *
      */
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
-
     /**
     *
     */

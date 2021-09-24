@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
 import de.freese.base.swing.ui.HTMLTextButtonUI;
 import de.freese.base.utils.FontUtils;
 
@@ -28,17 +30,14 @@ public class ButtonFactory
          *
          */
         DOWN(187),
-
         /**
          *
          */
         LEFT(182),
-
         /**
          *
          */
         RIGHT(183),
-
         /**
          *
          */
@@ -54,7 +53,7 @@ public class ButtonFactory
          *
          * @param value int
          */
-        private ArrowDirection(final int value)
+        ArrowDirection(final int value)
         {
             this.text = String.valueOf((char) value);
         }
@@ -82,6 +81,7 @@ public class ButtonFactory
      * Erzeugt einen JButton, der wie ein HTML-Link aussieht.
      *
      * @param rolloverColor {@link Color}
+     *
      * @return {@link JButton}
      */
     public static final JButton createHTMLTextButton(final Color rolloverColor)
@@ -97,6 +97,7 @@ public class ButtonFactory
      * Liefert einen "Move"-Button mit 16 px Seitenlaenge.
      *
      * @param direction {@link ArrowDirection}
+     *
      * @return {@link JButton}
      */
     public static final JButton createMoveToolBarButton16x16(final ArrowDirection direction)
@@ -111,6 +112,7 @@ public class ButtonFactory
      * Liefert einen JButton mit bestimmter Seitenlaenge.
      *
      * @param size Seitenlaenge des Buttons
+     *
      * @return {@link JButton}
      */
     public static final JButton createToolbarButton(final int size)

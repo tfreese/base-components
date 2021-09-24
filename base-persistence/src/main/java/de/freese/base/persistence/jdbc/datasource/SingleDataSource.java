@@ -29,7 +29,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
      *
      */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("SimpleDataSource");
-
     /**
      *
      */

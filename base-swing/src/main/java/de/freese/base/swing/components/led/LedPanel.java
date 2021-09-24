@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.List;
+
 import de.freese.base.swing.components.led.token.Token;
 
 /**
@@ -18,47 +19,38 @@ public class LedPanel extends Component implements LedConfig
      *
      */
     private static final long serialVersionUID = -2419621712513872997L;
-
     /**
     *
     */
     private Color colorBackground;
-
     /**
      *
      */
     private Color colorBackgroundDot;
-
     /**
      *
      */
     private int dotHeight;
-
     /**
      *
      */
     private int dotWidth;
-
     /**
      *
      */
     private int hgap;
-
     /**
      *
      */
     private final LedMatrix ledMatrix;
-
     /**
     *
     */
     private int tokenGap;
-
     /**
      *
      */
     private final List<Token<?>> tokens = new LinkedList<>();
-
     /**
     *
     */

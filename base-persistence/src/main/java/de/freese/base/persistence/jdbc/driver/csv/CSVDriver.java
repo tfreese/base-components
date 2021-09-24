@@ -31,12 +31,10 @@ public final class CSVDriver implements java.sql.Driver
      *
      */
     private static final Driver INSTANCE = new CSVDriver();
-
     /**
      *
      */
     private static volatile boolean registered;
-
     /**
      *
      */

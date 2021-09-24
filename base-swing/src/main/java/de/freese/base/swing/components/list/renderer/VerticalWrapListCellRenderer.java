@@ -2,6 +2,7 @@ package de.freese.base.swing.components.list.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JList;
@@ -13,6 +14,7 @@ import javax.swing.border.Border;
  * {@link ListCellRenderer} für eine Liste mit Vertical-Wrap.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T>
@@ -21,7 +23,6 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T>
      *
      */
     private final ListCellRenderer<T> delegate;
-
     /**
      *
      */
@@ -58,9 +59,8 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T>
             component.setBackground(UIManager.getColor("Table.alternateRowColor"));
         }
 
-        if ((index >= visibleRowCount) && (component instanceof JComponent))
+        if ((index >= visibleRowCount) && (component instanceof JComponent jComponent))
         {
-            JComponent jComponent = (JComponent) component;
             Border compoundBorder = BorderFactory.createCompoundBorder(this.matteBorder, jComponent.getBorder());
             jComponent.setBorder(compoundBorder);
         }

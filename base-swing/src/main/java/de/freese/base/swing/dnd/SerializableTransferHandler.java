@@ -5,14 +5,17 @@ import java.awt.datatransfer.Transferable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.utils.TableUtils;
 
 /**
@@ -23,12 +26,11 @@ import de.freese.base.utils.TableUtils;
 public class SerializableTransferHandler extends TransferHandler
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5613552763719090039L;
-
     /**
-     * 
+     *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -68,10 +70,8 @@ public class SerializableTransferHandler extends TransferHandler
                 objects.add((Serializable) value);
             }
         }
-        else if (c instanceof JTree)
+        else if (c instanceof JTree tree)
         {
-            JTree tree = (JTree) c;
-
             TreePath[] selectedPaths = tree.getSelectionPaths();
 
             for (TreePath treePath : selectedPaths)
@@ -79,10 +79,8 @@ public class SerializableTransferHandler extends TransferHandler
                 objects.add((Serializable) treePath.getLastPathComponent());
             }
         }
-        else if (c instanceof JTable)
+        else if (c instanceof JTable table)
         {
-            JTable table = (JTable) c;
-
             Object[] selectedObjects = TableUtils.getSelectedObjects(table);
 
             for (Object object : selectedObjects)

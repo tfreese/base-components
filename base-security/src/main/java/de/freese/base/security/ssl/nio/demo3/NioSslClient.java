@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -28,17 +29,14 @@ public class NioSslClient extends AbstractNioSslPeer
      * The engine that will be used to encrypt/decrypt data between this client and the server.
      */
     private SSLEngine engine;
-
     /**
      * The port of the server this client is configured to connect to.
      */
     private int port;
-
     /**
      * The remote address of the server this client is configured to connect to.
      */
     private String remoteAddress;
-
     /**
      * The socket channel that will be used as the transport link between this client and the server.
      */
@@ -51,6 +49,7 @@ public class NioSslClient extends AbstractNioSslPeer
      *            protocols.
      * @param remoteAddress The IP address of the peer.
      * @param port The peer's port that will be used.
+     *
      * @throws Exception Falls was schief geht.
      */
     public NioSslClient(final String protocol, final String remoteAddress, final int port) throws Exception
@@ -75,6 +74,7 @@ public class NioSslClient extends AbstractNioSslPeer
      * Opens a socket channel to communicate with the configured server and tries to complete the handshake protocol.
      *
      * @return True if client established a connection with the server, false otherwise.
+     *
      * @throws Exception Falls was schief geht.
      */
     public boolean connect() throws Exception
@@ -111,6 +111,7 @@ public class NioSslClient extends AbstractNioSslPeer
      *
      * @param socketChannel {@link SocketChannel}
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
+     *
      * @throws Exception Falls was schief geht.
      */
     @Override
@@ -139,7 +140,12 @@ public class NioSslClient extends AbstractNioSslPeer
                     {
                         case OK:
                             this.peerAppData.flip();
-                            getLogger().debug("Server response: {}", new String(this.peerAppData.array(), StandardCharsets.UTF_8));
+
+                            if (getLogger().isDebugEnabled())
+                            {
+                                getLogger().debug("Server response: {}", new String(this.peerAppData.array(), StandardCharsets.UTF_8));
+                            }
+
                             exitReadLoop = true;
                             break;
                         case BUFFER_OVERFLOW:
@@ -188,6 +194,7 @@ public class NioSslClient extends AbstractNioSslPeer
      *
      * @param socketChannel {@link SocketChannel}
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
+     *
      * @throws IOException if an I/O error occurs to the socket channel.
      */
     @Override
@@ -236,6 +243,7 @@ public class NioSslClient extends AbstractNioSslPeer
      * Public method to send a message to the server.
      *
      * @param message - message to be sent to the server.
+     *
      * @throws IOException if an I/O error occurs to the socket channel.
      */
     public void write(final String message) throws IOException

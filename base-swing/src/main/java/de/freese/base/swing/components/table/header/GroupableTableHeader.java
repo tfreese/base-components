@@ -3,6 +3,7 @@ package de.freese.base.swing.components.table.header;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -11,29 +12,28 @@ import javax.swing.table.TableColumnModel;
  * GroupableTableHeader
  *
  * @author Nobuo Tamemasa
+ *
  * @version 1.0 10/20/98
  */
 public class GroupableTableHeader extends JTableHeader
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1642321287557836367L;
-
     /**
-     * 
+     *
      */
     @SuppressWarnings("unused")
     private static final String UI_CLASS_ID = "GroupableTableHeaderUI";
-
     /**
-     * 
+     *
      */
     protected final List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<GroupableColumn>());
 
     /**
      * Creates a new {@link GroupableTableHeader} object.
-     * 
+     *
      * @param model {@link TableColumnModel}
      */
     public GroupableTableHeader(final TableColumnModel model)
@@ -62,6 +62,7 @@ public class GroupableTableHeader extends JTableHeader
 
     /**
      * @param tableColumn {@link TableColumn}
+     *
      * @return {@link List}
      */
     public List<Object> getColumnGroups(final TableColumn tableColumn)
@@ -88,7 +89,7 @@ public class GroupableTableHeader extends JTableHeader
     }
 
     /**
-     * 
+     *
      */
     public void setColumnMargin()
     {

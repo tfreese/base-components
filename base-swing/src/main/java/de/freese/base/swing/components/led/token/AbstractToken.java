@@ -4,10 +4,12 @@ package de.freese.base.swing.components.led.token;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 import de.freese.base.swing.components.led.LedMatrix;
 
 /**
  * @author Thomas Freese
+ *
  * @param <V> Value Type
  */
 public abstract class AbstractToken<V> implements Token<V>
@@ -16,12 +18,10 @@ public abstract class AbstractToken<V> implements Token<V>
      *
      */
     private List<byte[]> bitMasks;
-
     /**
      *
      */
     private Color color;
-
     /**
      *
      */

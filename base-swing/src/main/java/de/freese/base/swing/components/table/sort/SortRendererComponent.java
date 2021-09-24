@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -23,22 +24,18 @@ public class SortRendererComponent extends JPanel
      *
      */
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(0, 0, 0, 2);
-
     /**
      * serialVersionUID
      */
     private static final long serialVersionUID = -5261935215031937262L;
-
     /**
      * Label mit dem Sortiericon und der Sortierprioritaet
      */
     private JLabel jLabelIcon;
-
     /**
      * MainComponent
      */
     private final JComponent mainComponent;
-
     /**
      * Die Farbe fuer den Prioritaetstext
      */

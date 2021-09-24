@@ -4,6 +4,7 @@ package de.freese.base.security.ssl.nio.demo1;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
+
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -48,22 +49,18 @@ public class SSLEngineExample
      * specific handshake messages, and might be best examined after gaining some familiarity with this application.
      */
     private static final boolean DEBUG = false;
-
     /**
      * The following is to set up the keystores.
      */
     private static final String KEYSTORE_FILE = "testkeys.jks";
-
     /**
      *
      */
     private static final String PASSWD = "passphrase";
-
     /**
      * Logging code
      */
     private static boolean resultOnce = true;
-
     /**
      *
      */
@@ -74,6 +71,7 @@ public class SSLEngineExample
      *
      * @param a {@link ByteBuffer}
      * @param b {@link ByteBuffer}
+     *
      * @throws Exception Falls was schief geht.
      */
     private static void checkTransfer(final ByteBuffer a, final ByteBuffer b) throws Exception
@@ -96,6 +94,7 @@ public class SSLEngineExample
 
     /**
      * @param engine {@link SSLEngine}
+     *
      * @return boolean
      */
     private static boolean isEngineClosed(final SSLEngine engine)
@@ -120,8 +119,8 @@ public class SSLEngineExample
         if (resultOnce)
         {
             resultOnce = false;
-            System.out.println(
-                    "The format of the SSLEngineResult is: \n" + "\t\"getStatus() / getHandshakeStatus()\" +\n" + "\t\"bytesConsumed() / bytesProduced()\"\n");
+            System.out
+                    .println("The format of the SSLEngineResult is: \n \t\"getStatus() / getHandshakeStatus()\" +\n \t\"bytesConsumed() / bytesProduced()\"\n");
         }
 
         HandshakeStatus hsStatus = result.getHandshakeStatus();
@@ -136,6 +135,7 @@ public class SSLEngineExample
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -157,6 +157,7 @@ public class SSLEngineExample
     /**
      * @param result {@link SSLEngineResult}
      * @param engine {@link SSLEngine}
+     *
      * @throws Exception Falls was schief geht.
      */
     private static void runDelegatedTasks(final SSLEngineResult result, final SSLEngine engine) throws Exception

@@ -20,7 +20,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 {
     /**
      * SelectionListener der {@link JTable} um die Selection auf den {@link JTree} zu uebertragen.
-     * 
+     *
      * @author Thomas Freese
      */
     private class ListSelectionHandler implements ListSelectionListener
@@ -37,7 +37,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 
     /**
      * {@link ListSelectionModel}, welche bei Aenderung des SelectionModes das {@link TreeSelectionModel} aktualisiert.
-     * 
+     *
      * @author Thomas Freese
      */
     private class ThisListSelectionModel extends DefaultListSelectionModel
@@ -46,14 +46,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
          *
          */
         private static final long serialVersionUID = 1564334781623965506L;
-
-        /**
-         * Erstellt ein neues {@link ThisListSelectionModel} Object.
-         */
-        public ThisListSelectionModel()
-        {
-            super();
-        }
 
         /**
          * @see javax.swing.DefaultListSelectionModel#setSelectionMode(int)
@@ -90,17 +82,14 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      *
      */
     private static final long serialVersionUID = -7214861962851009038L;
-
     /**
      *
      */
     private final JTree tree;
-
     /**
      *
      */
     private boolean updateTreeSelectionMode = true;
-
     /**
      * Set to true when we are updating the ListSelectionModel.
      */
@@ -108,7 +97,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 
     /**
      * Erstellt ein neues {@link CommonTreeAndTableSelectionModel} Object.
-     * 
+     *
      * @param tree {@link JTree}
      */
     public CommonTreeAndTableSelectionModel(final JTree tree)
@@ -122,7 +111,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 
     /**
      * SelectionModel fuer die {@link JTable}.
-     * 
+     *
      * @return {@link ListSelectionModel}
      */
     public ListSelectionModel getListSelectionModel()
@@ -229,7 +218,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 
     /**
      * Aktualisiert den SelectionMode des {@link TreeSelectionModel}s ohne synchronisierung des {@link ListSelectionModel}s.
-     * 
+     *
      * @param mode int
      */
     private void updateTreeSelectionMode(final int mode)

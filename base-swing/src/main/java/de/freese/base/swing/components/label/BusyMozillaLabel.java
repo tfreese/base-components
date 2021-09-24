@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -47,32 +48,26 @@ public class BusyMozillaLabel extends JLabel
      *
      */
     private Timer animateTimer;
-
     /**
      * Farbe des letzten Kreises.
      */
     private Color baseColor = Color.WHITE;
-
     /**
      * Nummer des animierten Kreises.
      */
     private int circleIndex;
-
     /**
      *
      */
     private int circleRadius = 40;
-
     /**
      * Farbe des fuehrendes Kreises.
      */
     private Color highlightColor = Color.BLACK;
-
     /**
      * Anzahl animierter Kreise.
      */
     private int maxCircles = 8;
-
     /**
      * Laenge des Schwanzes.
      */
@@ -144,6 +139,7 @@ public class BusyMozillaLabel extends JLabel
      * Berechnet fuer den Index eines Kreises die entsprechende Farbe.
      *
      * @param index int
+     *
      * @return {@link Color}
      */
     private Color calcCircleColor(final int index)
@@ -285,6 +281,7 @@ public class BusyMozillaLabel extends JLabel
      * @param a Color
      * @param b Color
      * @param factor float
+     *
      * @return Color
      */
     private Color interpolate(final Color a, final Color b, final float factor)

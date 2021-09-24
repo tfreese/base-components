@@ -1,6 +1,7 @@
 package de.freese.base.reports.importer.excel.view;
 
 import javax.swing.table.AbstractTableModel;
+
 import de.freese.base.reports.importer.excel.ExcelSheet;
 
 /**
@@ -14,7 +15,6 @@ public class ExcelSheetTableModel extends AbstractTableModel
      *
      */
     private static final long serialVersionUID = -9093380478461819827L;
-
     /**
      *
      */

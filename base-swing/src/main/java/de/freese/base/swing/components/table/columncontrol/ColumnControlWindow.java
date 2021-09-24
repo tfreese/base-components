@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Locale;
+
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
@@ -22,7 +23,9 @@ import javax.swing.JWindow;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableColumn;
+
 import org.jdesktop.swingx.plaf.UIAction;
+
 import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
@@ -39,7 +42,6 @@ public class ColumnControlWindow implements AWTEventListener
      *
      */
     private final ColumnControlButton controlButton;
-
     /**
      *
      */
@@ -47,7 +49,7 @@ public class ColumnControlWindow implements AWTEventListener
 
     /**
      * Erstellt ein neues {@link ColumnControlWindow} Object.
-     * 
+     *
      * @param controlButton {@link ColumnControlButton}
      */
     public ColumnControlWindow(final ColumnControlButton controlButton)
@@ -106,14 +108,7 @@ public class ColumnControlWindow implements AWTEventListener
 
             for (TableColumn tableColumn : columns)
             {
-                if (!(tableColumn instanceof ExtTableColumn))
-                {
-                    continue;
-                }
-
-                final ExtTableColumn extTableColumn = (ExtTableColumn) tableColumn;
-
-                if (!extTableColumn.isVisibleChange())
+                if (!(tableColumn instanceof ExtTableColumn extTableColumn) || !extTableColumn.isVisibleChange())
                 {
                     continue;
                 }
@@ -161,8 +156,9 @@ public class ColumnControlWindow implements AWTEventListener
 
     /**
      * Ermittelt rekursiv den Frame, zu dem diese Komponente gehoert.
-     * 
+     *
      * @param comp {@link Component}
+     *
      * @return {@link Frame}
      */
     protected Frame getFrame(final Component comp)
@@ -176,9 +172,9 @@ public class ColumnControlWindow implements AWTEventListener
 
         Component parent = c.getParent();
 
-        if (parent instanceof Frame)
+        if (parent instanceof Frame f)
         {
-            return (Frame) parent;
+            return f;
         }
 
         return getFrame(parent);
@@ -238,9 +234,10 @@ public class ColumnControlWindow implements AWTEventListener
 
     /**
      * Bestimmt ob die Uebergebendene Komponente in den Unterkomponenten vorkommt.
-     * 
+     *
      * @param src Component
      * @param component Component
+     *
      * @return <code>true</code> wenn vorhanden, sonst <code>false</code>
      */
     protected boolean isChild(final Component src, final Component component)

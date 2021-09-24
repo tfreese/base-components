@@ -1,10 +1,9 @@
-/**
- * Created: 17.07.2012
- */
+// Created: 17.07.2012
 package de.freese.base.net;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Inet4Address;
@@ -12,10 +11,12 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Date;
 import java.util.Enumeration;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.base.utils.NetUtils;
 
 /**

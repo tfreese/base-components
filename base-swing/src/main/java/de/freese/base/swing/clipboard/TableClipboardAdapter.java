@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
@@ -26,14 +27,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      */
     protected class PopupListener extends MouseAdapter
     {
-        /**
-         * Creates a new {@link PopupListener} object.
-         */
-        public PopupListener()
-        {
-            super();
-        }
-
         /**
          * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
          */
@@ -67,7 +60,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      *
      */
     private boolean externalPopup;
-
     /**
      *
      */
@@ -252,6 +244,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      * Dreht die Achsen der eingehenden Matrix.
      *
      * @param matrix String[][]
+     *
      * @return String[][]
      */
     private String[][] flipMatrix(final String[][] matrix)
@@ -278,6 +271,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      * Liefert ein 2 dim String Array fuer die Paste Action.
      *
      * @param clipboardString String
+     *
      * @return String[][]
      */
     private String[][] getPasteMatrix(final String clipboardString)

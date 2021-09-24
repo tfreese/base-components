@@ -3,10 +3,12 @@ package de.freese.base.swing.components.watermark;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import de.freese.base.swing.components.table.ExtTable;
 
 /**
@@ -20,19 +22,16 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
      *
      */
     private static final long serialVersionUID = 4400500160883780741L;
-
     /**
      *
      */
     private JScrollPane scrollpane;
-
     /**
      *
      */
     private JTable table;
-
     /**
-     * 
+     *
      */
     private WatermarkViewport viewport;
 
@@ -48,7 +47,7 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
 
     /**
      * Constructor calls <code>init()</code> for initialization
-     * 
+     *
      * @param isDoubleBuffered boolean
      */
     public WatermarkTable(final boolean isDoubleBuffered)
@@ -60,7 +59,7 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
 
     /**
      * Returns the customized scrollpane
-     * 
+     *
      * @return {@link JScrollPane}
      */
     public JScrollPane getScrollPane()
@@ -78,7 +77,7 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
 
     /**
      * Returns the customized Table.
-     * 
+     *
      * @return {@link JTable}
      */
     public JTable getTable()
@@ -95,7 +94,7 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
 
     /**
      * Returns the special viewport which draws the image
-     * 
+     *
      * @return {@link WatermarkViewport}
      */
     private WatermarkViewport getViewport()

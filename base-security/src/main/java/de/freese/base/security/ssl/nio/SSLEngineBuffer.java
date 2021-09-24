@@ -11,9 +11,11 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,42 +28,34 @@ class SSLEngineBuffer
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(SSLEngineBuffer.class);
-
     /**
      *
      */
     private final Executor executor;
-
     /**
      *
      */
     private final int minimumApplicationBufferSize;
-
     /**
      *
      */
     private final ByteBuffer networkInboundBuffer;
-
     /**
      *
      */
     private final ByteBuffer networkOutboundBuffer;
-
     /**
      *
      */
     private final SocketChannel socketChannel;
-
     /**
      *
      */
     private final SSLEngine sslEngine;
-
     /**
      *
      */
     private final ByteBuffer unwrapBuffer;
-
     /**
      *
      */
@@ -121,7 +115,9 @@ class SSLEngineBuffer
 
     /**
      * @param applicationInputBuffer {@link ByteBuffer}
+     *
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     private int doUnwrap(final ByteBuffer applicationInputBuffer) throws IOException
@@ -227,7 +223,9 @@ class SSLEngineBuffer
 
     /**
      * @param applicationOutboundBuffer {@link ByteBuffer}
+     *
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     @SuppressWarnings("incomplete-switch")
@@ -257,7 +255,10 @@ class SSLEngineBuffer
             this.networkOutboundBuffer.compact();
             SSLEngineResult result = this.sslEngine.wrap(applicationOutboundBuffer, this.networkOutboundBuffer);
 
-            getLogger().debug("wrap: result: " + result);
+            if (getLogger().isDebugEnabled())
+            {
+                getLogger().debug("wrap: result: " + result);
+            }
 
             this.networkOutboundBuffer.flip();
 
@@ -326,6 +327,7 @@ class SSLEngineBuffer
 
     /**
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     int flushNetworkOutbound() throws IOException
@@ -362,7 +364,9 @@ class SSLEngineBuffer
     /**
      * @param channel {@link SocketChannel}
      * @param buffer {@link ByteBuffer}
+     *
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     int send(final SocketChannel channel, final ByteBuffer buffer) throws IOException
@@ -392,7 +396,9 @@ class SSLEngineBuffer
 
     /**
      * @param applicationInputBuffer {@link ByteBuffer}
+     *
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     int unwrap(final ByteBuffer applicationInputBuffer) throws IOException
@@ -430,7 +436,9 @@ class SSLEngineBuffer
 
     /**
      * @param applicationOutboundBuffer {@link ByteBuffer}
+     *
      * @return int
+     *
      * @throws IOException Falls was schief geht.
      */
     int wrap(final ByteBuffer applicationOutboundBuffer) throws IOException

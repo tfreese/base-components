@@ -1,10 +1,9 @@
-/**
- * 15.04.2008
- */
+// Created: 15.04.2008
 package de.freese.base.reports.layout;
 
 import java.awt.HeadlessException;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +25,7 @@ public class LayoutPreviewFrame extends JFrame
      * Creates a new {@link LayoutPreviewFrame} object.
      *
      * @param layoutElement {@link AbstractLayoutElement}
+     *
      * @throws HeadlessException Falls was schief geht.
      */
     public LayoutPreviewFrame(final AbstractLayoutElement layoutElement) throws HeadlessException

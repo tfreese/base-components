@@ -66,17 +66,14 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
      *
      */
     private final IEventList<E> delegate;
-
     /**
      *
      */
     private FilterCondition filter;
-
     /**
      *
      */
     private final List<E> filteredList;
-
     /**
      *
      */

@@ -11,6 +11,7 @@ import java.nio.channels.spi.SelectorProvider;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Iterator;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -35,13 +36,11 @@ public class NioSslServer extends AbstractNioSslPeer
      * Declares if the server is active to serve and create new connections.
      */
     private boolean active;
-
     /**
      * The context will be initialized with a specific SSL/TLS protocol and will then be used to create {@link SSLEngine} classes for each new connection that
      * arrives to the server.
      */
     private SSLContext context;
-
     /**
      * A part of Java NIO that will be used to serve all connections to the server in one thread.
      */
@@ -53,6 +52,7 @@ public class NioSslServer extends AbstractNioSslPeer
      * @param protocol - the SSL/TLS protocol that this server will be configured to apply.
      * @param hostAddress - the IP address this server will listen to.
      * @param port - the port this server will listen to.
+     *
      * @throws Exception Falls was schief geht.
      */
     public NioSslServer(final String protocol, final String hostAddress, final int port) throws Exception
@@ -83,6 +83,7 @@ public class NioSslServer extends AbstractNioSslPeer
      * the {@link SSLEngine} that will encrypt and decrypt all the data that will be exchanged during the session with this specific client.
      *
      * @param key - the key dedicated to the {@link ServerSocketChannel} used by the server to listen to new connection requests.
+     *
      * @throws Exception Falls was schief geht.
      */
     private void accept(final SelectionKey key) throws Exception
@@ -123,6 +124,7 @@ public class NioSslServer extends AbstractNioSslPeer
      *
      * @param socketChannel - the transport link used between the two peers.
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
+     *
      * @throws IOException if an I/O error occurs to the socket channel.
      */
     @Override
@@ -229,6 +231,7 @@ public class NioSslServer extends AbstractNioSslPeer
      * Will send a message back to a client.
      *
      * @param message - the message to be sent.
+     *
      * @throws IOException if an I/O error occurs to the socket channel.
      */
     @Override

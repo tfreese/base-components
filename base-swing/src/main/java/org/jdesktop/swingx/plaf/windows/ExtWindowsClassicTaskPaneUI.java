@@ -405,9 +405,9 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
         {
             Object titelObject = this.titleObjects.get(i);
 
-            if (titelObject instanceof Dimension)
+            if (titelObject instanceof Dimension d)
             {
-                x -= ((Dimension) titelObject).width;
+                x -= d.width;
             }
             else
             {

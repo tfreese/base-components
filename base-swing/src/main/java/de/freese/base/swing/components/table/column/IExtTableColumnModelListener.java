@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.table.column;
 
 import java.beans.PropertyChangeEvent;
+
 import javax.swing.event.TableColumnModelListener;
 
 /**
@@ -15,5 +16,5 @@ public interface IExtTableColumnModelListener extends TableColumnModelListener
      *
      * @param event {@link PropertyChangeEvent}
      */
-    public void columnPropertyChange(PropertyChangeEvent event);
+    void columnPropertyChange(PropertyChangeEvent event);
 }

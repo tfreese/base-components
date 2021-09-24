@@ -9,7 +9,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
+
 import de.freese.base.mvc.guistate.GuiStateManager;
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
@@ -28,47 +30,38 @@ public class ApplicationContext
      *
      */
     private Clipboard clipboard;
-
     /**
      *
      */
     private final SwingExceptionHandler exceptionHandler;
-
     /**
     *
     */
     private final ExecutorService executorService;
-
     /**
      *
      */
     private final GuiStateManager guiStateManager;
-
     /**
      *
      */
     private final LocalStorage localStorage;
-
     /**
     *
     */
     private JFrame mainFrame;
-
     /**
     *
     */
     private ResourceMap resourceMapRoot;
-
     /**
      *
      */
     private final Map<String, ResourceMap> resourceMaps = new HashMap<>();
-
     /**
      *
      */
     private final TaskManager taskManager;
-
     /**
      *
      */
@@ -174,6 +167,7 @@ public class ApplicationContext
      * Liefert eine ResourceMap.
      *
      * @param name String
+     *
      * @return IResourceMap
      */
     public ResourceMap getResourceMap(final String name)

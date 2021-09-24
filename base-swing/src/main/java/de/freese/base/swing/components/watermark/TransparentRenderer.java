@@ -3,6 +3,7 @@ package de.freese.base.swing.components.watermark;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -27,49 +28,40 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      *
      */
     private static final long serialVersionUID = 2387759630865685848L;
-
     /**
      *
      */
     private Color background;
-
     /**
      *
      */
     @SuppressWarnings("unused")
     private Color focusBackground;
-
     /**
      *
      */
     private Border focusBorder;
-
     /**
      *
      */
     @SuppressWarnings("unused")
     private Color focusForeground;
-
     /**
      *
      */
     private Color foreground;
-
     /**
      *
      */
     private int index = -1;
-
     /**
      *
      */
     protected Border noFocusBorder;
-
     /**
      *
      */
     private Color selectedBackground;
-
     /**
      *
      */
@@ -169,9 +161,9 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     {
         generalSetup(list, isSelected, hasFocus, index);
 
-        if (value instanceof Icon)
+        if (value instanceof Icon i)
         {
-            setIcon((Icon) value);
+            setIcon(i);
             setText("");
         }
         else
@@ -260,6 +252,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * Sets the <code>String</code> object for the cell being rendered to <code>value</code>.
      *
      * @param value the string value for this cell; if value is <code>null</code> it sets the text value to an empty string
+     *
      * @see JLabel#setText
      */
     protected void setValue(final Object value)

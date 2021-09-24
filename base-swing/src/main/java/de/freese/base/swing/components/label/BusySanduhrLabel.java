@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
+
 import de.freese.base.utils.ImageUtils;
 
 /**
@@ -44,12 +46,10 @@ public class BusySanduhrLabel extends JLabel
      *
      */
     private Timer animateTimer;
-
     /**
      *
      */
     private final ImageIcon[] icons;
-
     /**
      *
      */

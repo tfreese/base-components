@@ -24,27 +24,22 @@ public final class EventList<E> extends ArrayList<E> implements IEventList<E>
      *
      */
     private static final long serialVersionUID = 4109095121391156624L;
-
     /**
      *
      */
     private Comparator<? super E> comparator;
-
     /**
      * True, wenn der Comparator in Gange ist.
      */
     private boolean isSorting;
-
     /**
      *
      */
     private boolean listenerEnabled = true;
-
     /**
      *
      */
     private final transient EventListenerList listenerList = new EventListenerList();
-
     /**
      *
      */

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -17,6 +18,7 @@ import javax.swing.table.TableColumn;
  * ColumnGroup.
  *
  * @author Nobuo Tamemasa
+ *
  * @version 1.0 10/20/98
  */
 public class GroupableColumn
@@ -25,17 +27,14 @@ public class GroupableColumn
      *
      */
     protected List<Object> columns = Collections.synchronizedList(new ArrayList<>());
-
     /**
      *
      */
     protected int margin;
-
     /**
      *
      */
     protected TableCellRenderer renderer;
-
     /**
      *
      */
@@ -123,6 +122,7 @@ public class GroupableColumn
     /**
      * @param tableColumn {@link TableColumn}
      * @param columns {@link List}
+     *
      * @return {@link List}
      */
     List<Object> getColumnGroups(final TableColumn tableColumn, final List<Object> columns)
@@ -136,9 +136,9 @@ public class GroupableColumn
 
         for (Object column : this.columns)
         {
-            if (column instanceof GroupableColumn)
+            if (column instanceof GroupableColumn c)
             {
-                List<Object> groups = ((GroupableColumn) column).getColumnGroups(tableColumn, new ArrayList<>(columns));
+                List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
 
                 if (groups != null)
                 {
@@ -168,6 +168,7 @@ public class GroupableColumn
 
     /**
      * @param table {@link JTable}
+     *
      * @return {@link Dimension}
      */
     public Dimension getSize(final JTable table)
@@ -178,9 +179,8 @@ public class GroupableColumn
 
         for (Object column : this.columns)
         {
-            if (column instanceof TableColumn)
+            if (column instanceof TableColumn aColumn)
             {
-                TableColumn aColumn = (TableColumn) column;
                 width += aColumn.getWidth();
                 width += this.margin;
             }
@@ -202,9 +202,9 @@ public class GroupableColumn
 
         for (Object column : this.columns)
         {
-            if (column instanceof GroupableColumn)
+            if (column instanceof GroupableColumn c)
             {
-                ((GroupableColumn) column).setColumnMargin(margin);
+                c.setColumnMargin(margin);
             }
         }
     }

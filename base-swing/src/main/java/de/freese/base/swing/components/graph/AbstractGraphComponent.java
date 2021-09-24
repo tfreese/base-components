@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
+
 import javax.swing.Painter;
 import javax.swing.SwingUtilities;
 
@@ -23,22 +24,18 @@ public abstract class AbstractGraphComponent extends Component
      *
      */
     private static final long serialVersionUID = -7006824316195250962L;
-
     /**
     *
     */
     private transient BufferedImage bufferedImage;
-
     /**
     *
     */
     private transient Graphics2D bufferedImageGraphics2d;
-
     /**
      *
      */
     private final transient Painter<Component> painter;
-
     /**
      *
      */

@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 /**
  * @author Thomas Freese
+ *
  * @param <T> Entity Type
  */
 public final class Values<T>
@@ -15,12 +16,10 @@ public final class Values<T>
     *
     */
     private LinkedList<T> newValues;
-
     /**
     *
     */
     private final TreeSet<T> treeSet = new TreeSet<>();
-
     /**
     *
     */
@@ -43,6 +42,7 @@ public final class Values<T>
      * Liefert die letzten n Werte.<br>
      *
      * @param count int
+     *
      * @return List<Object>
      */
     public synchronized List<T> getLastValues(final int count)

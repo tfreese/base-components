@@ -1,6 +1,4 @@
-/**
- * Created: 27.08.2014
- */
+// Created: 27.08.2014
 
 package de.freese.base.security.util;
 
@@ -14,13 +12,12 @@ import javax.crypto.spec.SecretKeySpec;
 public class DefaultSecretKey extends SecretKeySpec
 {
     /**
-     * 
+     *
      */
-    public static final byte[] DEFAULT_KEY = new byte[]
+    public static final byte[] DEFAULT_KEY =
     {
             0, 1, 0, 1, 0, 1, 0, 1
     };
-
     /**
      *
      */
@@ -28,7 +25,7 @@ public class DefaultSecretKey extends SecretKeySpec
 
     /**
      * Erstellt ein neues {@link DefaultSecretKey} Object.
-     * 
+     *
      * @param key byte[]
      * @param algorithm String
      */

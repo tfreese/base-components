@@ -3,9 +3,11 @@ package de.freese.base.swing.components.list.renderer;
 import java.awt.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,17 +22,14 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      */
     private static final long serialVersionUID = 335775306955315738L;
-
     /**
      *
      */
     private final String attribute;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */
@@ -114,7 +113,9 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      * @param object Object
      * @param attribute String
+     *
      * @return String
+     *
      * @throws Exception Falls was schief geht.
      */
     protected abstract String getString(Object object, String attribute) throws Exception;
@@ -124,7 +125,9 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      * @param value Object
      * @param fieldName String
+     *
      * @return Object
+     *
      * @throws Exception Falls was schief geht.
      */
     protected Object invokeField(final Object value, final String fieldName) throws Exception
@@ -139,7 +142,9 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      * @param value Object
      * @param methodName String
+     *
      * @return Object
+     *
      * @throws Exception Falls was schief geht.
      */
     protected Object invokeMethod(final Object value, final String methodName) throws Exception

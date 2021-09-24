@@ -42,12 +42,10 @@ public final class BogusSSLContextFactory
      *
      */
     private static final SSLContext CLIENT_CONTEXT;
-
     /**
      *
      */
     private static final String PROTOCOL = "TLSv3";
-
     /**
      *
      */
