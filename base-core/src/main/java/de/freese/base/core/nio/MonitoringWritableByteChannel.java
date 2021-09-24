@@ -19,17 +19,14 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
      *
      */
     private long bytesWritten;
-
     /**
     *
     */
     private final LongConsumer bytesWrittenConsumer;
-
     /**
      *
      */
     private final boolean closeDelegate;
-
     /**
      *
      */
@@ -46,7 +43,7 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
     public MonitoringWritableByteChannel(final WritableByteChannel delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size,
             final boolean closeDelegate)
     {
-        this(delegate, bytesWritten -> bytesWrittenConsumer.accept(bytesWritten, size), closeDelegate);
+        this(delegate, bw -> bytesWrittenConsumer.accept(bw, size), closeDelegate);
     }
 
     /**

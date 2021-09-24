@@ -1,6 +1,4 @@
-/**
- * Created: 29.03.2020
- */
+// Created: 29.03.2020
 package de.freese.base.core.throttle.google;
 
 import java.time.Duration;
@@ -10,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * @author Dimitris Andreou - Original author.
  * @author James P Edwards - Throttle project derivations.
+ *
  * @see <a href=
  *      "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
  */
@@ -86,6 +85,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
      *
      * @param val1 long
      * @param val2 long
+     *
      * @return long
      */
     static long saturatedAdd(final long val1, final long val2)
@@ -104,27 +104,22 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
      *
      */
     private final ReentrantLock lock;
-
     /**
      *
      */
     double maxPermits;
-
     /**
      *
      */
     private final long nanoStart;
-
     /**
      *
      */
     private long nextFreeTicketNanos;
-
     /**
      *
      */
     double stableIntervalNanos;
-
     /**
      *
      */
@@ -192,6 +187,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
     /**
      * @param elapsedNanos long
      * @param timeoutNanos long
+     *
      * @return boolean
      */
     private boolean canAcquire(final long elapsedNanos, final long timeoutNanos)
@@ -247,6 +243,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
      *
      * @param requiredPermits int
      * @param elapsedNanos long
+     *
      * @return the time that the permits may be used, or, if the permits may be used immediately, an arbitrary past or present time
      */
     private long reserveEarliestAvailable(final int requiredPermits, final long elapsedNanos)
@@ -303,6 +300,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
 
     /**
      * @param nanos long
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     protected void sleep(final long nanos) throws InterruptedException
@@ -371,6 +369,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
      *
      * @param storedPermits double
      * @param permitsToTake double
+     *
      * @return long
      */
     abstract long storedPermitsToWaitTime(final double storedPermits, final double permitsToTake);

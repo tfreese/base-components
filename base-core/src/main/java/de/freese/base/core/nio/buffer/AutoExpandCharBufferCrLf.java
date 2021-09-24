@@ -9,6 +9,7 @@ import java.util.Objects;
  * Der carriage return line feed (crlf) wird automatisch bei jeder put-Methode angefügt.
  *
  * @author Thomas Freese
+ *
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
@@ -17,6 +18,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
      * Default: CRLF = "\r\n"
      *
      * @param capacity int
+     *
      * @return {@link AutoExpandCharBufferCrLf}
      */
     public static AutoExpandCharBufferCrLf of(final int capacity)
@@ -27,6 +29,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     /**
      * @param capacity int
      * @param crlf String
+     *
      * @return {@link AutoExpandCharBufferCrLf}
      */
     public static AutoExpandCharBufferCrLf of(final int capacity, final String crlf)
@@ -107,7 +110,9 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
 
     /**
      * @param c char
+     *
      * @return {@link AutoExpandCharBufferCrLf}
+     *
      * @see AutoExpandCharBuffer#put(char)
      */
     public AutoExpandCharBufferCrLf putLn(final char c)
@@ -121,7 +126,9 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
 
     /**
      * @param src {@link CharSequence}
+     *
      * @return {@link AutoExpandCharBufferCrLf}
+     *
      * @see AutoExpandCharBuffer#put(CharSequence)
      */
     public AutoExpandCharBufferCrLf putLn(final CharSequence src)
@@ -137,7 +144,9 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
      * @param src {@link CharSequence}
      * @param start int
      * @param end int
+     *
      * @return {@link AutoExpandCharBufferCrLf}
+     *
      * @see AutoExpandCharBuffer#put(CharSequence, int, int)
      */
     public AutoExpandCharBufferCrLf putLn(final CharSequence src, final int start, final int end)

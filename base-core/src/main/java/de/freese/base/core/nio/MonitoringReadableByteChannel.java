@@ -19,17 +19,14 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
      *
      */
     private long bytesRead;
-
     /**
     *
     */
     private final LongConsumer bytesReadConsumer;
-
     /**
     *
     */
     private final boolean closeDelegate;
-
     /**
     *
     */
@@ -46,7 +43,7 @@ public class MonitoringReadableByteChannel implements ReadableByteChannel
     public MonitoringReadableByteChannel(final ReadableByteChannel delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size,
             final boolean closeDelegate)
     {
-        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size), closeDelegate);
+        this(delegate, br -> bytesReadConsumer.accept(br, size), closeDelegate);
     }
 
     /**

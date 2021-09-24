@@ -1,6 +1,4 @@
-/**
- * Created 10.07.2008
- */
+// Created 10.07.2008
 package de.freese.base.core.processor;
 
 import java.util.LinkedList;
@@ -11,6 +9,7 @@ import java.util.Objects;
  * Enthält eine Liste von {@link Processor} des Interceptor/Filter Patterns, die nacheinander abgearbeitet werden.
  *
  * @author Thomas Freese
+ *
  * @param <C> Typ des Kontextobjekts
  */
 public final class ProcessorChain<C> implements Processor<C>
@@ -19,7 +18,6 @@ public final class ProcessorChain<C> implements Processor<C>
      *
      */
     private boolean enabled = true;
-
     /**
      *
      */
@@ -63,6 +61,7 @@ public final class ProcessorChain<C> implements Processor<C>
      * Liefert den {@link Processor} am Index der {@link ProcessorChain}.
      *
      * @param index int
+     *
      * @return {@link Processor}
      */
     public Processor<C> getProcessorAt(final int index)
@@ -84,6 +83,7 @@ public final class ProcessorChain<C> implements Processor<C>
      * Liefert den Index des Processors in der {@link ProcessorChain}.
      *
      * @param processor {@link Processor}
+     *
      * @return int
      */
     public int indexOf(final Processor<C> processor)
@@ -104,6 +104,7 @@ public final class ProcessorChain<C> implements Processor<C>
      * Entfernt ein {@link Processor}aus der Chain.
      *
      * @param processor {@link Processor}
+     *
      * @return boolean, true, wenn {@link Processor} in der Chain enthalten war
      */
     public boolean removeProcessor(final Processor<C> processor)

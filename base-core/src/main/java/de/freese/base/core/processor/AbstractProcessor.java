@@ -1,6 +1,4 @@
-/**
- * Created 10.09.2008
- */
+// Created 10.09.2008
 package de.freese.base.core.processor;
 
 import org.slf4j.Logger;
@@ -10,6 +8,7 @@ import org.slf4j.LoggerFactory;
  * Basismplementierung eines Processors.
  *
  * @author Thomas Freese
+ *
  * @param <C> Typ des Kontextobjekts
  */
 public abstract class AbstractProcessor<C> implements Processor<C>

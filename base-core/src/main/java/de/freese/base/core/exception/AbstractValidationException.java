@@ -13,12 +13,10 @@ public abstract class AbstractValidationException extends Exception
      *
      */
     private static final long serialVersionUID = 9102013053396263064L;
-
     /**
      *
      */
     private final String appendMessage;
-
     /**
      *
      */
@@ -95,6 +93,7 @@ public abstract class AbstractValidationException extends Exception
      * Uebersetzt den Inhalt der Exception.
      *
      * @param translatorAdapter {@link Translator}
+     *
      * @return String
      */
     public String translate(final Translator translatorAdapter)

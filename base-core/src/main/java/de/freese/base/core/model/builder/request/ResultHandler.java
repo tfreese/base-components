@@ -9,7 +9,8 @@ public interface ResultHandler
 {
     /**
      * @param result {@link RequestResult}
+     *
      * @throws Exception Falls was schief geht.
      */
-    public void handle(RequestResult result) throws Exception;
+    void handle(RequestResult result) throws Exception;
 }

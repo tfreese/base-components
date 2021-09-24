@@ -1,7 +1,4 @@
-/**
- * Created: 19.03.2020
- */
-
+// Created: 19.03.2020
 package de.freese.base.core.model.converter;
 
 import java.util.Date;
@@ -13,6 +10,7 @@ public class DateToLongConverter extends Converter<Date, Long>
 {
     /**
      * @param time long
+     *
      * @return {@link Date}
      */
     private static Date convertToSource(final long time)
@@ -22,6 +20,7 @@ public class DateToLongConverter extends Converter<Date, Long>
 
     /**
      * @param date {@link Date}
+     *
      * @return long
      */
     private static long convertToTarget(final Date date)

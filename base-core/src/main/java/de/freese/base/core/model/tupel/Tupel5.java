@@ -1,9 +1,12 @@
 package de.freese.base.core.model.tupel;
 
+import java.util.Objects;
+
 /**
  * Ein 5er-Tupel verknuepft 5 Objekte miteinander.
  *
  * @author Thomas Freese
+ *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
  * @param <C> Konkreter Typ ValueC
@@ -57,26 +60,12 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
             return true;
         }
 
-        if (!super.equals(obj))
+        if (!super.equals(obj) || !(obj instanceof Tupel5<?, ?, ?, ?, ?> other))
         {
             return false;
         }
 
-        if (!(obj instanceof Tupel5<?, ?, ?, ?, ?>))
-        {
-            return false;
-        }
-
-        Tupel5<?, ?, ?, ?, ?> other = (Tupel5<?, ?, ?, ?, ?>) obj;
-
-        if (this.valueE == null)
-        {
-            if (other.valueE != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.valueE.equals(other.valueE))
+        if (!Objects.equals(this.valueE, other.valueE))
         {
             return false;
         }

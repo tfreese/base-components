@@ -14,7 +14,9 @@ import java.util.stream.Stream;
  * Siehe: StreamPublisherTest.
  *
  * @see <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
+ *
  * @author Thomas Freese
+ *
  * @param <T> Entity-Type
  */
 public class StreamPublisher<T> implements Publisher<T>
@@ -23,7 +25,6 @@ public class StreamPublisher<T> implements Publisher<T>
     *
     */
     private final Executor executor;
-
     /**
      *
      */

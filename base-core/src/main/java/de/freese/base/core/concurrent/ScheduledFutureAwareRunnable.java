@@ -1,12 +1,10 @@
-/**
- * Created: 12.10.2016
- */
-
+// Created: 12.10.2016
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;
 import java.util.function.BooleanSupplier;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,22 +30,18 @@ public class ScheduledFutureAwareRunnable implements Runnable
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledFutureAwareRunnable.class);
-
     /**
     *
     */
     private final BooleanSupplier exitCondition;
-
     /**
      *
      */
     private final String name;
-
     /**
     *
     */
     private ScheduledFuture<?> scheduledFuture;
-
     /**
     *
     */

@@ -1,7 +1,4 @@
-/**
- * Created: 09.04.2020
- */
-
+// Created: 09.04.2020
 package de.freese.base.utils;
 
 import java.util.ArrayList;
@@ -21,6 +18,7 @@ public final class ListUtils
      *
      * @param values {@link List}
      * @param numberOfPartitions int
+     *
      * @return {@link List}
      */
     public static List<List<String>> getPartitions(final List<String> values, final int numberOfPartitions)
@@ -72,6 +70,7 @@ public final class ListUtils
 
     /**
      * @param list {@link List}
+     *
      * @return boolean
      */
     public static boolean isEmpty(final List<?> list)
@@ -81,6 +80,7 @@ public final class ListUtils
 
     /**
      * @param list {@link List}
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final List<?> list)
@@ -101,6 +101,7 @@ public final class ListUtils
      *
      * @param values {@link List}
      * @param numberOfPartitions int
+     *
      * @return {@link List}
      */
     List<List<String>> getPartitionsByModulo(final List<String> values, final int numberOfPartitions)

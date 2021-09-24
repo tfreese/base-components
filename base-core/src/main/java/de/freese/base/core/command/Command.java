@@ -9,15 +9,15 @@ public interface Command
 {
     /**
      * Ausfuehren des Kommandos.
-     * 
+     *
      * @throws Exception Falls was schief geht.
      */
-    public void execute() throws Exception;
+    void execute() throws Exception;
 
     /**
      * Quelle, Ursprung, Inhalt des Kommandos.
-     * 
+     *
      * @return {@link Object}
      */
-    public Object getSource();
+    Object getSource();
 }

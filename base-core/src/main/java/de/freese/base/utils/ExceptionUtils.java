@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.utils;
 
 import java.sql.SQLException;
@@ -20,6 +17,7 @@ public final class ExceptionUtils
      * @param <T> Type
      * @param throwable {@link Throwable}
      * @param type {@link Class}
+     *
      * @return {@link Exception}, kann auch null sein
      */
     @SuppressWarnings("unchecked")
@@ -39,6 +37,7 @@ public final class ExceptionUtils
      * Liefert die enthaltene SQL-Exception, falls vorhanden.<br>
      *
      * @param throwable {@link Throwable}
+     *
      * @return {@link SQLException}, kann auch null sein
      */
     public static SQLException findSQLException(final Throwable throwable)
@@ -67,6 +66,7 @@ public final class ExceptionUtils
      * </p>
      *
      * @param throwable the throwable to get the root cause for, may be null
+     *
      * @return the root cause of the {@code Throwable}, {@code null} if null throwable input
      */
     public static Throwable getRootCause(final Throwable throwable)
@@ -90,6 +90,7 @@ public final class ExceptionUtils
      * </p>
      *
      * @param throwable the throwable to inspect, may be null
+     *
      * @return the list of throwables, never null
      */
     public static List<Throwable> getThrowableList(Throwable throwable)

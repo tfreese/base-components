@@ -1,6 +1,4 @@
-/**
- * Created: 02.08.2009
- */
+// Created: 02.08.2009
 package de.freese.base.core.image.info;
 
 import java.awt.Color;
@@ -16,17 +14,14 @@ public enum ColorChannel
      *
      */
     ALPHA(24, Color.GRAY),
-
     /**
      *
      */
     BLUE(0, Color.BLUE),
-
     /**
      *
      */
     GREEN(8, Color.GREEN),
-
     /**
      *
      */
@@ -36,7 +31,6 @@ public enum ColorChannel
      *
      */
     private final int bitOperator;
-
     /**
      *
      */
@@ -48,7 +42,7 @@ public enum ColorChannel
      * @param bitOperator int
      * @param color {@link Color}
      */
-    private ColorChannel(final int bitOperator, final Color color)
+    ColorChannel(final int bitOperator, final Color color)
     {
         this.bitOperator = bitOperator;
         this.color = color;
@@ -63,6 +57,7 @@ public enum ColorChannel
      * int blue = (pixel >> 0) & 0xFF;
      *
      * @return int
+     *
      * @see #getValue(int)
      */
     public int getBitOperator()
@@ -82,6 +77,7 @@ public enum ColorChannel
      * Liefert den Farbwert aus dem Pixel.
      *
      * @param pixel int
+     *
      * @return int
      */
     public int getValue(final int pixel)

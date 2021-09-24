@@ -1,10 +1,9 @@
-/**
- * Created: 22.05.2016
- */
+// Created: 22.05.2016
 package de.freese.base.core.cache;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
@@ -13,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,12 +34,10 @@ class TestResourceCache
      *
      */
     private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
-
     /**
     *
     */
     private static final ResourceCache CACHE_MEMORY = new MemoryResourceCache();
-
     /**
     *
     */
@@ -69,6 +67,7 @@ class TestResourceCache
      * Create objects stream.
      *
      * @return {@link Stream}
+     *
      * @throws Exception Falls was schief geht.
      */
     static Stream<Arguments> createArgumentes() throws Exception
@@ -108,6 +107,7 @@ class TestResourceCache
      * @param name String
      * @param resourceCache {@link ResourceCache}
      * @param uri {@link URI}
+     *
      * @throws Exception Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -137,6 +137,7 @@ class TestResourceCache
      * @param name String
      * @param resourceCache {@link ResourceCache}
      * @param uri {@link URI}
+     *
      * @throws Exception Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")

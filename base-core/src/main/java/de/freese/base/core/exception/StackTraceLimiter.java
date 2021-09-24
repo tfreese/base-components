@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.core.exception;
 
 import java.io.PrintStream;
@@ -19,6 +16,7 @@ public final class StackTraceLimiter
      *
      * @param th {@link Throwable}
      * @param elements int
+     *
      * @return {@link StackTraceElement}[]
      */
     public static StackTraceElement[] getLimitedStackTrace(final Throwable th, final int elements)

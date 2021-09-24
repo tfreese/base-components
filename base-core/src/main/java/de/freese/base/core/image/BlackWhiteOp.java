@@ -1,6 +1,4 @@
-/**
- * Created: 17.07.2008
- */
+// Created: 17.07.2008
 package de.freese.base.core.image;
 
 import java.awt.Color;
@@ -22,7 +20,6 @@ public class BlackWhiteOp implements BufferedImageOp
      *
      */
     private int colorLimit;
-
     /**
      *
      */
@@ -66,7 +63,7 @@ public class BlackWhiteOp implements BufferedImageOp
     @Override
     public BufferedImage createCompatibleDestImage(final BufferedImage src, final ColorModel destCM)
     {
-        BufferedImage image = null;
+        BufferedImage image;
 
         ColorModel colorModel = destCM;
 

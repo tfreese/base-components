@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * Nach Ablauf des Timeouts werden die Elemente beim nächsten Zugriff gelöscht.
  *
  * @author Thomas Freese
+ *
  * @param <K> Konkreter Key
  * @param <V> Konkretes Value
  */
@@ -24,12 +25,10 @@ public class TimeoutMap<K, V> implements Map<K, V>
     *
     */
     private final Map<K, V> backend;
-
     /**
      * Millisekunden, Default = 24 Stunden
      */
     private long timeoutInMillis = 1000 * 60 * 60 * 24L;
-
     /**
      *
      */
@@ -150,6 +149,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
      * Liefert den Timeout.
      *
      * @param timeUnit {@link TimeUnit}
+     *
      * @return long
      */
     public long getTimeout(final TimeUnit timeUnit)
@@ -192,6 +192,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
      * Dann soll die normale Implementierung der HashMap greifen.
      *
      * @param key Object
+     *
      * @return boolean
      */
     protected boolean isTimedOut(final Object key)

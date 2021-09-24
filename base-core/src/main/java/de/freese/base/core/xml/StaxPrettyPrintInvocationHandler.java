@@ -1,7 +1,4 @@
-/**
- * Created: 15.06.2012
- */
-
+// Created: 15.06.2012
 package de.freese.base.core.xml;
 
 import java.lang.reflect.InvocationHandler;
@@ -10,6 +7,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.stream.XMLStreamWriter;
 
 /**
@@ -112,6 +110,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
     /**
      * @param amount int
      * @param indent String
+     *
      * @return String
      */
     private String repeat(final int amount, final String indent)

@@ -19,27 +19,22 @@ public class AuditInfo implements Serializable
      * Wann wurde das Objekt erstellt.
      */
     private Date erstelltAm;
-
     /**
      * Wer hat das Objekt erstellt.
      */
     private String erstelltVon = "";
-
     /**
      * Wann wurde das Objekt geaendert.
      */
     private Date geaendertAm;
-
     /**
      * Wer hat das Objekt geaendert.
      */
     private String geaendertVon = "";
-
     /**
      * Bis wann ist das Objekt gueltig.
      */
     private Date gueltigBis;
-
     /**
      * Ab wann ist das Objekt gueltig.
      */

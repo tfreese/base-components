@@ -1,6 +1,4 @@
-/**
- * Created: 08.11.2014
- */
+// Created: 08.11.2014
 package de.freese.base.core.cache;
 
 import java.io.InputStream;
@@ -22,7 +20,7 @@ public interface ResourceCache extends Function<URL, Optional<InputStream>>
      * @see java.util.function.Function#apply(java.lang.Object)
      */
     @Override
-    public default Optional<InputStream> apply(final URL url)
+    default Optional<InputStream> apply(final URL url)
     {
         return getResource(url);
     }
@@ -30,23 +28,25 @@ public interface ResourceCache extends Function<URL, Optional<InputStream>>
     /**
      * Leert den Cache.
      */
-    public void clear();
+    void clear();
 
     /**
      * Laden der Resource, wenn nicht vorhanden.
      *
      * @param uri {@link URI}; file://...; http://...
+     *
      * @return {@link Optional}
      */
-    public Optional<InputStream> getResource(final URI uri);
+    Optional<InputStream> getResource(final URI uri);
 
     /**
      * Laden der Resource, wenn nicht vorhanden.
      *
      * @param url {@link URL}; file://...; http://...
+     *
      * @return {@link Optional}
      */
-    public default Optional<InputStream> getResource(final URL url)
+    default Optional<InputStream> getResource(final URL url)
     {
         try
         {

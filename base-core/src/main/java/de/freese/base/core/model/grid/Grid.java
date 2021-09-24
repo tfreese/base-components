@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import de.freese.base.core.model.grid.column.AbstractGridColumn;
 import de.freese.base.core.model.grid.column.GridColumn;
 
@@ -24,12 +25,10 @@ public class Grid implements Serializable
      *
      */
     private static final long serialVersionUID = -6649946412204459833L;
-
     /**
     *
     */
     private final GridMetaData gridMetaData;
-
     /**
      *
      */
@@ -89,6 +88,7 @@ public class Grid implements Serializable
 
     /**
      * @param index int
+     *
      * @return {@link GridColumn}
      */
     public GridColumn<?> getColumn(final int index)
@@ -98,6 +98,7 @@ public class Grid implements Serializable
 
     /**
      * @param index int
+     *
      * @return String
      */
     public String getComment(final int index)
@@ -106,7 +107,16 @@ public class Grid implements Serializable
     }
 
     /**
+     * @return {@link GridMetaData}
+     */
+    protected GridMetaData getGridMetaData()
+    {
+        return this.gridMetaData;
+    }
+
+    /**
      * @param index int
+     *
      * @return int
      */
     public int getLength(final int index)
@@ -116,6 +126,7 @@ public class Grid implements Serializable
 
     /**
      * @param index int
+     *
      * @return String
      */
     public String getName(final int index)
@@ -125,6 +136,7 @@ public class Grid implements Serializable
 
     /**
      * @param index int
+     *
      * @return Class
      */
     public Class<?> getObjectClazz(final int index)
@@ -134,19 +146,12 @@ public class Grid implements Serializable
 
     /**
      * @param index int
+     *
      * @return int
      */
     public int getPrecision(final int index)
     {
         return getColumn(index).getPrecision();
-    }
-
-    /**
-     * @return {@link GridMetaData}
-     */
-    protected GridMetaData getGridMetaData()
-    {
-        return this.gridMetaData;
     }
 
     /**
@@ -160,6 +165,7 @@ public class Grid implements Serializable
     /**
      * @param columnIndex int
      * @param rowIndex int
+     *
      * @return String
      */
     @SuppressWarnings("unchecked")
@@ -174,6 +180,7 @@ public class Grid implements Serializable
      * Liest das Grid aus dem Stream.
      *
      * @param dataInput {@link DataInput}
+     *
      * @throws IOException Falls was schief geht.
      * @throws ClassNotFoundException Falls was schief geht.
      */
@@ -201,6 +208,7 @@ public class Grid implements Serializable
      * Liest das Grid aus dem {@link ResultSet}.
      *
      * @param resultSet {@link ResultSet}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public void read(final ResultSet resultSet) throws SQLException
@@ -222,6 +230,7 @@ public class Grid implements Serializable
 
     /**
      * @param columnIndex int
+     *
      * @return {@link AbstractGridColumn}
      */
     public GridColumn<?> removeColumn(final int columnIndex)
@@ -241,6 +250,7 @@ public class Grid implements Serializable
      * Schreibt das Grid in den Stream.
      *
      * @param dataOutput {@link DataOutput}
+     *
      * @throws IOException Falls was schief geht.
      */
     public void write(final DataOutput dataOutput) throws IOException

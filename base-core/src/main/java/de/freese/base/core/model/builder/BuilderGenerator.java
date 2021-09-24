@@ -1,7 +1,4 @@
-/**
- * Created: 20.04.2020
- */
-
+// Created: 20.04.2020
 package de.freese.base.core.model.builder;
 
 import java.io.PrintStream;
@@ -33,7 +30,6 @@ public class BuilderGenerator
      * @param withSuperAttributes boolean
      * @param printStream {@link PrintStream}
      */
-    @SuppressWarnings("resource")
     public void createBuilder(final Class<?> clazz, final boolean withSuperAttributes, final PrintStream printStream)
     {
         Objects.requireNonNull(clazz, "clazz required");
@@ -98,6 +94,7 @@ public class BuilderGenerator
     /**
      * @param clazz Class
      * @param withSuperAttributes boolean
+     *
      * @return {@link Map}
      */
     private Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes)

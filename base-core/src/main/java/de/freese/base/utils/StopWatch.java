@@ -1,7 +1,4 @@
-/**
- * Created: 15.04.2020
- */
-
+// Created: 15.04.2020
 package de.freese.base.utils;
 
 import java.io.PrintStream;
@@ -69,7 +66,8 @@ public class StopWatch
                     , TimeUnit.NANOSECONDS.toChronoUnit()
                     , timeUnit.convert(sw.getTotalTimeNanos(), TimeUnit.NANOSECONDS)
                     , timeUnit.toChronoUnit()
-                    );
+                    )
+                    ;
             // @formatter:on
         }
 
@@ -99,7 +97,8 @@ public class StopWatch
                             , nanos
                             , timeUnit.convert(nanos, TimeUnit.NANOSECONDS)
                             , ((double) nanos / sw.getTotalTimeNanos()) * 100D
-                            , task.getTaskName());
+                            , task.taskName)
+                            ;
                     // @formatter:off
                 }
             }
@@ -137,7 +136,7 @@ public class StopWatch
 
                 // Header
                 // @formatter:off
-                String[] header = new String[]{
+                String[] header = {
                         TimeUnit.NANOSECONDS.toChronoUnit().toString()
                         ,timeUnit.toChronoUnit().toString()
                         , " %"
@@ -152,12 +151,12 @@ public class StopWatch
                 {
                     long nanos = task.getTime(TimeUnit.NANOSECONDS);
 
-                    String[] row = new String[]
+                    String[] row =
                     {
                             String.format("%,15d", nanos),
                             String.format("%,9d", timeUnit.convert(nanos, TimeUnit.NANOSECONDS)),
                             String.format("%3.0f", ((double) nanos / sw.getTotalTimeNanos()) * 100D),
-                            task.getTaskName()
+                            task.taskName()
                     };
 
                     rows.add(row);
@@ -172,56 +171,32 @@ public class StopWatch
 
     /**
      * @author Thomas Freese
+     *
+     * @param taskName String
+     * @param timeNanos long
      */
-    public static final class TaskInfo
+    @SuppressWarnings("javadoc")
+    public static final record TaskInfo(String taskName, long timeNanos)
     {
-        /**
-         *
-         */
-        private final String taskName;
-
-        /**
-         *
-         */
-        private final long timeNanos;
-
         /**
          * Erstellt ein neues {@link TaskInfo} Object.
          *
          * @param taskName String
          * @param timeNanos long
          */
-        private TaskInfo(final String taskName, final long timeNanos)
+        public TaskInfo
         {
-            super();
-
-            this.taskName = taskName;
-            this.timeNanos = timeNanos;
-        }
-
-        /**
-         * @return String
-         */
-        public String getTaskName()
-        {
-            return this.taskName;
+            Objects.requireNonNull(taskName);
         }
 
         /**
          * @param timeUnit {@link TimeUnit}
+         *
          * @return long
          */
         public long getTime(final TimeUnit timeUnit)
         {
             return timeUnit.convert(this.timeNanos, TimeUnit.NANOSECONDS);
-        }
-
-        /**
-         * @return long
-         */
-        public long getTimeNanos()
-        {
-            return this.timeNanos;
         }
     }
 
@@ -229,7 +204,6 @@ public class StopWatch
     *
     */
     private static final AtomicInteger ID_NUMBER = new AtomicInteger(1);
-
     /**
     *
     */
@@ -239,22 +213,18 @@ public class StopWatch
      *
      */
     private String currentTaskName;
-
     /**
      *
      */
     private final String id;
-
     /**
      *
      */
     private boolean keepTaskList = true;
-
     /**
      *
      */
     private TaskInfo lastTaskInfo;
-
     /**
      * Start time of the current task.
      */
@@ -264,7 +234,6 @@ public class StopWatch
      *
      */
     private final List<TaskInfo> taskList = new LinkedList<>();
-
     /**
      * Total running time.
      */
@@ -399,6 +368,7 @@ public class StopWatch
      * Prints all the task details on the {@link PrintStream}.
      *
      * @param consumer {@link Consumer}
+     *
      * @see DefaultPrettyPrinter
      */
     public void prettyPrint(final Consumer<StopWatch> consumer)
@@ -410,6 +380,7 @@ public class StopWatch
      * Prints all the task details on the {@link PrintStream}.
      *
      * @param printStream {@link PrintStream}
+     *
      * @see DefaultPrettyPrinter
      */
     public void prettyPrint(final PrintStream printStream)

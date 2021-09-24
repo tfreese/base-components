@@ -11,12 +11,10 @@ public class InternerFeiertag extends Feiertag
      *
      */
     private final int jahr;
-
     /**
      *
      */
     private final int monat;
-
     /**
      *
      */
@@ -58,29 +56,12 @@ public class InternerFeiertag extends Feiertag
     @Override
     public boolean equals(final Object obj)
     {
-        if (!(obj instanceof InternerFeiertag))
+        if (!(obj instanceof InternerFeiertag statischerFeiertag))
         {
             return false;
         }
 
-        InternerFeiertag statischerFeiertag = (InternerFeiertag) obj;
-
-        if (getJahr() != statischerFeiertag.getJahr())
-        {
-            return false;
-        }
-
-        if (getMonat() != statischerFeiertag.getMonat())
-        {
-            return false;
-        }
-
-        if (getTag() != statischerFeiertag.getTag())
-        {
-            return false;
-        }
-
-        if (!getTyp().equals(statischerFeiertag.getTyp()))
+        if ((getJahr() != statischerFeiertag.getJahr()) || (getMonat() != statischerFeiertag.getMonat()) || (getTag() != statischerFeiertag.getTag()) || !getTyp().equals(statischerFeiertag.getTyp()))
         {
             return false;
         }

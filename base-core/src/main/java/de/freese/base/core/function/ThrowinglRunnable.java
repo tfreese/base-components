@@ -5,6 +5,7 @@ package de.freese.base.core.function;
  * Interface eines {@link Runnable} mit einer Exception.<br>
  *
  * @author Thomas Freese
+ *
  * @param <E> Konkreter Exception-Typ
  */
 @FunctionalInterface
@@ -15,5 +16,5 @@ public interface ThrowinglRunnable<E extends Exception>
      *
      * @throws E Falls was schief geht.
      */
-    public void run() throws E;
+    void run() throws E;
 }

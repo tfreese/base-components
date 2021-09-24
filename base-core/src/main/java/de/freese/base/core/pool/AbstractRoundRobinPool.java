@@ -1,6 +1,4 @@
-/**
- * Created: 03.07.2011
- */
+// Created: 03.07.2011
 package de.freese.base.core.pool;
 
 import java.util.ArrayList;
@@ -17,6 +15,7 @@ import org.slf4j.LoggerFactory;
  * Die Default Grösse des Pools beträgt <code>Runtime.availableProcessors() + 1</code>.<br>
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Objekttyp
  */
 public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>

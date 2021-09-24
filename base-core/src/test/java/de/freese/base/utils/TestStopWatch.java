@@ -1,11 +1,10 @@
-/**
- * Created: 14.04.2020
- */
-
+// Created: 14.04.2020
 package de.freese.base.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.Test;
 
 /**

@@ -1,11 +1,13 @@
 package de.freese.base.core.model.tupel;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Ein 2er-Tupel verknuepft 2 Objekte miteinander.
  *
  * @author Thomas Freese
+ *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
  */
@@ -20,7 +22,6 @@ public class Tupel2<A, B> implements Serializable
      *
      */
     private A valueA;
-
     /**
      *
      */
@@ -63,38 +64,7 @@ public class Tupel2<A, B> implements Serializable
             return true;
         }
 
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (!(obj instanceof Tupel2<?, ?>))
-        {
-            return false;
-        }
-
-        Tupel2<?, ?> other = (Tupel2<?, ?>) obj;
-
-        if (this.valueA == null)
-        {
-            if (other.valueA != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.valueA.equals(other.valueA))
-        {
-            return false;
-        }
-
-        if (this.valueB == null)
-        {
-            if (other.valueB != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.valueB.equals(other.valueB))
+        if ((obj == null) || !(obj instanceof Tupel2<?, ?> other) || !Objects.equals(this.valueA, other.valueA) || !Objects.equals(this.valueB, other.valueB))
         {
             return false;
         }
@@ -166,6 +136,7 @@ public class Tupel2<A, B> implements Serializable
      * Liefert Object.toString oder "null".
      *
      * @param object Object
+     *
      * @return String
      */
     protected String toString(final Object object)

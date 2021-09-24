@@ -1,15 +1,14 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.throttle.io;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.parallel.Execution;
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import de.freese.base.core.io.AbstractIoTest;
 import de.freese.base.core.io.throttle.ThrottleInputStream;
 import de.freese.base.core.throttle.Throttle;
@@ -37,8 +37,8 @@ class ThrottleInputStreamTest extends AbstractIoTest
     {
         // @formatter:off
         return Stream.of(
-                Arguments.of("GoogleThrottle", (Function<Integer, Throttle>) (permits -> GoogleThrottle.create(permits)))
-                , Arguments.of("UnderstandableThrottle", (Function<Integer, Throttle>) (permits -> UnderstandableThrottle.create(permits)))
+                Arguments.of("GoogleThrottle", (Function<Integer, Throttle>) (GoogleThrottle::create))
+                , Arguments.of("UnderstandableThrottle", (Function<Integer, Throttle>) (UnderstandableThrottle::create))
                 );
         // @formatter:on
     }
@@ -46,6 +46,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
     /**
      * @param throttleFunction {@link Function}
      * @param permits int
+     *
      * @throws IOException Falls was schief geht.
      */
     private void doTest(final Function<Integer, Throttle> throttleFunction, final int permits) throws IOException
@@ -74,6 +75,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws IOException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -86,6 +88,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws IOException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -98,6 +101,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws IOException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")

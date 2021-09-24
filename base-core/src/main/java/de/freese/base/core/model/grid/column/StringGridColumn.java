@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+
 import de.freese.base.core.model.grid.GridMetaData;
 
 /**

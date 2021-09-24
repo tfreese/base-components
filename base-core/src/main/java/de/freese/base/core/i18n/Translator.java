@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.core.i18n;
 
 /**
@@ -17,9 +14,10 @@ public interface Translator
      *
      * @param key String
      * @param args Object[], optional
+     *
      * @return String
      */
-    public String translate(final String key, final Object...args);
+    String translate(final String key, final Object...args);
     // public default String translate(final String key, final Object...args)
     // {
     // return String.format(key, args);

@@ -14,7 +14,6 @@ public class SaveContext
      *
      */
     private Map<Object, Object> attributes = new HashMap<>();
-
     /**
      *
      */
@@ -36,6 +35,7 @@ public class SaveContext
      * Liefert das Value fuer den Key oder null.
      *
      * @param key Object
+     *
      * @return Object
      */
     public Object getAttribute(final Object key)
@@ -47,6 +47,7 @@ public class SaveContext
      * Liefert die Map der temporaeren und konkreten PrimaryKeys einer Klasse.
      *
      * @param clazz Class
+     *
      * @return {@link Map}
      */
     private Map<Long, Long> getClazzMap(final Class<?> clazz)
@@ -60,6 +61,7 @@ public class SaveContext
      *
      * @param clazz Class
      * @param oid Long
+     *
      * @return Long
      */
     public long getPrimaryKey(final Class<?> clazz, final Long oid)
@@ -68,7 +70,7 @@ public class SaveContext
 
         Long pk = clazzMap.get(oid);
 
-        return pk != null ? pk.longValue() : oid.longValue();
+        return pk != null ? pk : oid;
     }
 
     /**
@@ -103,6 +105,6 @@ public class SaveContext
     {
         Map<Long, Long> clazzMap = getClazzMap(clazz);
 
-        clazzMap.put(tempOID, Long.valueOf(oid));
+        clazzMap.put(tempOID, oid);
     }
 }

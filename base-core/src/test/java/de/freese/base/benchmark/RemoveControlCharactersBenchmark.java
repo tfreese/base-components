@@ -39,7 +39,7 @@ public class RemoveControlCharactersBenchmark
         /**
         *
         */
-        public String longString = null;
+        public String longString;
 
         /**
          * Erstellt ein neues {@link BenchmarkState} Object.

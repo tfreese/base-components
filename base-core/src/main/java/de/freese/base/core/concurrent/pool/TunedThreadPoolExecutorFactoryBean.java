@@ -1,7 +1,4 @@
-/**
- * Created: 12.02.2017
- */
-
+// Created: 12.02.2017
 package de.freese.base.core.concurrent.pool;
 
 import java.util.concurrent.BlockingQueue;
@@ -11,6 +8,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 
 /**

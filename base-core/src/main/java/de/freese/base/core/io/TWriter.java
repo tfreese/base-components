@@ -14,7 +14,6 @@ public class TWriter extends Writer
      *
      */
     private final Writer out1;
-
     /**
      *
      */

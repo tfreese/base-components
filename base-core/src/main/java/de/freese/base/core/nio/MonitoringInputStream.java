@@ -6,12 +6,14 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
+
 import javax.swing.ProgressMonitorInputStream;
 
 /**
  * {@link InputStream} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
  *
  * @see ProgressMonitorInputStream
+ *
  * @author Thomas Freese
  */
 public class MonitoringInputStream extends InputStream
@@ -20,17 +22,14 @@ public class MonitoringInputStream extends InputStream
     *
     */
     private long bytesRead;
-
     /**
-       *
-       */
+    *
+    */
     private final LongConsumer bytesReadConsumer;
-
     /**
     *
     */
     private final boolean closeDelegate;
-
     /**
     *
     */
@@ -46,7 +45,7 @@ public class MonitoringInputStream extends InputStream
      */
     public MonitoringInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size, final boolean closeDelegate)
     {
-        this(delegate, bytesRead -> bytesReadConsumer.accept(bytesRead, size), closeDelegate);
+        this(delegate, br -> bytesReadConsumer.accept(br, size), closeDelegate);
     }
 
     /**

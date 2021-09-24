@@ -1,7 +1,4 @@
-/**
- * Created: 15.06.2012
- */
-
+// Created: 15.06.2012
 package de.freese.base.core.xml;
 
 import java.io.OutputStream;
@@ -9,6 +6,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
@@ -36,27 +34,22 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      *
      */
     private final XMLStreamWriter delegate;
-
     /**
      *
      */
     private int depth;
-
     /**
      *
      */
     private int indentAmount = 4;
-
     /**
      *
      */
     private char indentChar = ' ';
-
     /**
      *
      */
     private String lineSeparator;
-
     /**
      *
      */
@@ -66,6 +59,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * Erstellt ein neues {@link PrettyPrintXMLStreamWriter} Object.<br>
      *
      * @param outputStream {@link OutputStream}
+     *
      * @throws FactoryConfigurationError if an instance of this factory cannot be loaded
      * @throws XMLStreamException Falls was schief geht.
      */
@@ -79,6 +73,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      *
      * @param outputStream {@link OutputStream}
      * @param encoding String; UTF8, ISO-8859-1...
+     *
      * @throws FactoryConfigurationError if an instance of this factory cannot be loaded
      * @throws XMLStreamException Falls was schief geht.
      */
@@ -244,6 +239,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @param depth int
      * @param amount int
      * @param filler char
+     *
      * @return String
      */
     protected String repeat(final int depth, final int amount, final char filler)

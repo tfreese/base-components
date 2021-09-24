@@ -39,7 +39,6 @@ class ThrottleTest
      * 7 ms
      */
     private static final long FIRST_DELTA = 7;
-
     /**
      * 6 ms
      */
@@ -52,8 +51,8 @@ class ThrottleTest
     {
         // @formatter:off
         return Stream.of(
-                Arguments.of("GoogleThrottle", (Function<Double, Throttle>) (permits -> GoogleThrottle.create(permits)))
-                , Arguments.of("UnderstandableThrottle", (Function<Double, Throttle>) (permits -> UnderstandableThrottle.create(permits)))
+                Arguments.of("GoogleThrottle", (Function<Double, Throttle>) (GoogleThrottle::create))
+                , Arguments.of("UnderstandableThrottle", (Function<Double, Throttle>) (UnderstandableThrottle::create))
                 );
         // @formatter:on
     }
@@ -61,7 +60,9 @@ class ThrottleTest
     /**
      * @param throttle {@link Throttle}
      * @param permits int
+     *
      * @return long
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     private static long measureTotalTimeMillis(final Throttle throttle, int permits) throws InterruptedException
@@ -93,6 +94,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -109,6 +111,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -213,6 +216,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -231,6 +235,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -250,6 +255,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -417,6 +423,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -434,6 +441,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
@@ -585,6 +593,7 @@ class ThrottleTest
     /**
      * @param name String
      * @param throttleFunction {@link Function}
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     @ParameterizedTest(name = "{index} -> {0}")

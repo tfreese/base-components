@@ -1,14 +1,14 @@
-/**
- * Created: 15.06.2012
- */
-
+// Created: 15.06.2012
 package de.freese.base.core.xml;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+
 import javax.xml.stream.XMLStreamWriter;
+
 import org.junit.jupiter.api.Test;
 
 /**

@@ -1,15 +1,14 @@
-/**
- * Created: 03.07.2011
- */
-
+// Created: 03.07.2011
 package de.freese.base.core.zodiac;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;

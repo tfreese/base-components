@@ -1,7 +1,4 @@
-/**
- * Created: 09.04.2020
- */
-
+// Created: 09.04.2020
 package de.freese.base.utils;
 
 import java.io.IOException;
@@ -16,6 +13,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +37,7 @@ public final class ExecutorUtils
      * </pre>
      *
      * @param threadNamePattern String; Beispiel: thread-%02d<br>
+     *
      * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern)
@@ -65,6 +64,7 @@ public final class ExecutorUtils
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
      *            other value will lead to a SynchronousQueue instance.
      * @param keepAliveSeconds int
+     *
      * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
@@ -84,6 +84,7 @@ public final class ExecutorUtils
      * @param allowCoreThreadTimeOut boolean If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out
      *            waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
+     *
      * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,

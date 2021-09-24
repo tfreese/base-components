@@ -9,17 +9,19 @@ public interface RegExTransformer
 {
     /**
      * Transformiert einen RegEx-Ausdruck in einen Wildcard-Ausdruck.
-     * 
+     *
      * @param regex String
+     *
      * @return String
      */
-    public String regExToWildcard(String regex);
+    String regExToWildcard(String regex);
 
     /**
      * Transformiert einen Wildcard-Ausdruck in einen RegEx-Ausdruck.
-     * 
+     *
      * @param wildcard String
+     *
      * @return String
      */
-    public String wildcardToRegEx(String wildcard);
+    String wildcardToRegEx(String wildcard);
 }

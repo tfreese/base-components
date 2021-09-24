@@ -1,7 +1,4 @@
-/**
- * Created: 30.04.2018
- */
-
+// Created: 30.04.2018
 package de.freese.base.utils;
 
 import java.util.Collection;
@@ -15,6 +12,7 @@ public final class CollectionUtils
 {
     /**
      * @param collection {@link Collection}
+     *
      * @return boolean
      */
     public static boolean isEmpty(final Collection<?> collection)
@@ -24,6 +22,7 @@ public final class CollectionUtils
 
     /**
      * @param collection {@link Collection}
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final Collection<?> collection)

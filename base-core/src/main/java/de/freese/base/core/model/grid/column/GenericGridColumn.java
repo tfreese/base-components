@@ -6,6 +6,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Function;
+
 import de.freese.base.core.function.ThrowingBiConsumer;
 import de.freese.base.core.function.ThrowingFunction;
 
@@ -13,6 +14,7 @@ import de.freese.base.core.function.ThrowingFunction;
  * Generische-Spalte des Grids.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Spalten-Typ
  */
 public class GenericGridColumn<T> extends AbstractGridColumn<T>
@@ -21,17 +23,14 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
      *
      */
     private static final long serialVersionUID = -2794233911590975341L;
-
     /**
      *
      */
     private final Function<Object, T> mapper;
-
     /**
     *
     */
     private final ThrowingFunction<DataInput, T, IOException> reader;
-
     /**
     *
     */

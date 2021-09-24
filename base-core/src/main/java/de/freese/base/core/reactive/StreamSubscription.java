@@ -1,6 +1,4 @@
-/**
- * Created: 10.06.2019
- */
+// Created: 10.06.2019
 package de.freese.base.core.reactive;
 
 import java.util.Iterator;
@@ -14,6 +12,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author Thomas Freese
+ *
  * @param <T> Entity-Type
  */
 class StreamSubscription<T> implements Subscription
@@ -22,27 +21,22 @@ class StreamSubscription<T> implements Subscription
      *
      */
     private final AtomicLong demand = new AtomicLong();
-
     /**
      *
      */
     private final AtomicReference<Throwable> error = new AtomicReference<>();
-
     /**
      *
      */
     private final Executor executor;
-
     /**
      *
      */
     private final AtomicBoolean isTerminated = new AtomicBoolean(false);
-
     /**
      *
      */
     private final Iterator<? extends T> iterator;
-
     /**
      *
      */

@@ -99,6 +99,7 @@ public enum Zodiac
      * Liefert für ein Datum das passende Sternzeichen.
      *
      * @param date {@link Date}
+     *
      * @return {@link Zodiac}
      */
     public static Zodiac getZodiac(final Date date)
@@ -114,6 +115,7 @@ public enum Zodiac
      *
      * @param month int
      * @param dayOfMonth int
+     *
      * @return {@link Zodiac}
      */
     public static Zodiac getZodiac(final int month, final int dayOfMonth)
@@ -137,6 +139,7 @@ public enum Zodiac
      * Liefert für ein Datum das passende Sternzeichen.
      *
      * @param localDate {@link LocalDate}
+     *
      * @return {@link Zodiac}
      */
     public static Zodiac getZodiac(final LocalDate localDate)
@@ -148,6 +151,7 @@ public enum Zodiac
      * Liefert für ein Datum das passende Sternzeichen.
      *
      * @param localDateTime {@link LocalDateTime}
+     *
      * @return {@link Zodiac}
      */
     public static Zodiac getZodiac(final LocalDateTime localDateTime)
@@ -173,7 +177,7 @@ public enum Zodiac
      * @param start int
      * @param end int
      */
-    private Zodiac(final int start, final int end)
+    Zodiac(final int start, final int end)
     {
         this.start = start;
         this.end = end;

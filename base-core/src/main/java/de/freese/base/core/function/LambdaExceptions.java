@@ -23,13 +23,13 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      */
     private static final ExceptionHandler THROW_RUNTIME_EXCEPTION_HANDLER = ex -> {
-        if (ex instanceof RuntimeException)
+        if (ex instanceof RuntimeException rex)
         {
-            throw (RuntimeException) ex;
+            throw rex;
         }
-        else if (ex instanceof IOException)
+        else if (ex instanceof IOException ioex)
         {
-            throw new UncheckedIOException((IOException) ex);
+            throw new UncheckedIOException(ioex);
         }
 
         throw new RuntimeException(ex);
@@ -40,6 +40,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param exceptionalBiConsumer {@link ThrowingBiConsumer}
+     *
      * @return {@link Supplier}
      */
     public static <T, U, E extends Exception> BiConsumer<T, U> toBiConsumer(final ThrowingBiConsumer<T, U, E> exceptionalBiConsumer)
@@ -53,6 +54,7 @@ public final class LambdaExceptions
      *
      * @param exceptionalBiConsumer {@link ThrowingBiConsumer}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Supplier}
      */
     public static <T, U, E extends Exception> BiConsumer<T, U> toBiConsumer(final ThrowingBiConsumer<T, U, E> exceptionalBiConsumer,
@@ -75,6 +77,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param exceptionalFunction {@link ThrowingFunction}
+     *
      * @return {@link Function}
      */
     public static <T, U, R, E extends Exception> BiFunction<T, U, R> toBiFunction(final ThrowingBiFunction<T, U, R, E> exceptionalFunction)
@@ -88,6 +91,7 @@ public final class LambdaExceptions
      *
      * @param exceptionalFunction {@link ThrowingConsumer}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T, U, R, E extends Exception> BiFunction<T, U, R> toBiFunction(final ThrowingBiFunction<T, U, R, E> exceptionalFunction,
@@ -112,6 +116,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param exceptionalConsumer {@link ThrowingConsumer}
+     *
      * @return {@link Consumer}
      */
     public static <T, E extends Exception> Consumer<T> toConsumer(final ThrowingConsumer<T, E> exceptionalConsumer)
@@ -125,6 +130,7 @@ public final class LambdaExceptions
      *
      * @param exceptionalConsumer {@link ThrowingConsumer}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T, E extends Exception> Consumer<T> toConsumer(final ThrowingConsumer<T, E> exceptionalConsumer, final ExceptionHandler handler)
@@ -146,6 +152,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param exceptionalFunction {@link ThrowingFunction}
+     *
      * @return {@link Function}
      */
     public static <T, R, E extends Exception> Function<T, R> toFunction(final ThrowingFunction<T, R, E> exceptionalFunction)
@@ -159,6 +166,7 @@ public final class LambdaExceptions
      *
      * @param exceptionalFunction {@link ThrowingConsumer}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T, R, E extends Exception> Function<T, R> toFunction(final ThrowingFunction<T, R, E> exceptionalFunction, final ExceptionHandler handler)
@@ -182,6 +190,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param exceptionalPredicate {@link ThrowingPredicate}
+     *
      * @return {@link Predicate}
      */
     public static <T, E extends Exception> Predicate<T> toPredicate(final ThrowingPredicate<T, E> exceptionalPredicate)
@@ -195,6 +204,7 @@ public final class LambdaExceptions
      *
      * @param exceptionalPredicate {@link ThrowingPredicate}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Predicate}
      */
     public static <T, E extends Exception> Predicate<T> toPredicate(final ThrowingPredicate<T, E> exceptionalPredicate, final ExceptionHandler handler)
@@ -218,6 +228,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param exceptionalSupplier {@link ThrowingSupplier}
+     *
      * @return {@link Supplier}
      */
     public static <R, E extends Exception> Supplier<R> toSupplier(final ThrowingSupplier<R, E> exceptionalSupplier)
@@ -231,6 +242,7 @@ public final class LambdaExceptions
      *
      * @param exceptionalSupplier {@link ThrowingSupplier}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Supplier}
      */
     public static <R, E extends Exception> Supplier<R> toSupplier(final ThrowingSupplier<R, E> exceptionalSupplier, final ExceptionHandler handler)
@@ -254,6 +266,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param consumer {@link BiConsumer}
+     *
      * @return {@link Consumer}
      */
     public static <T, U> BiConsumer<T, U> wrapBiConsumer(final BiConsumer<T, U> consumer)
@@ -267,6 +280,7 @@ public final class LambdaExceptions
      *
      * @param consumer {@link BiConsumer}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link BiConsumer}
      */
     public static <T, U> BiConsumer<T, U> wrapBiConsumer(final BiConsumer<T, U> consumer, final ExceptionHandler handler)
@@ -288,6 +302,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param function {@link Function}
+     *
      * @return {@link Consumer}
      */
     public static <T, U, R> BiFunction<T, U, R> wrapBiFunction(final BiFunction<T, U, R> function)
@@ -301,6 +316,7 @@ public final class LambdaExceptions
      *
      * @param function {@link Function}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T, U, R> BiFunction<T, U, R> wrapBiFunction(final BiFunction<T, U, R> function, final ExceptionHandler handler)
@@ -324,6 +340,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param consumer {@link Consumer}
+     *
      * @return {@link Consumer}
      */
     public static <T> Consumer<T> wrapConsumer(final Consumer<T> consumer)
@@ -337,6 +354,7 @@ public final class LambdaExceptions
      *
      * @param consumer {@link Consumer}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T> Consumer<T> wrapConsumer(final Consumer<T> consumer, final ExceptionHandler handler)
@@ -358,6 +376,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param function {@link Function}
+     *
      * @return {@link Consumer}
      */
     public static <T, R> Function<T, R> wrapFunction(final Function<T, R> function)
@@ -371,6 +390,7 @@ public final class LambdaExceptions
      *
      * @param function {@link Function}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T, R> Function<T, R> wrapFunction(final Function<T, R> function, final ExceptionHandler handler)
@@ -394,6 +414,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen.
      *
      * @param predicate {@link Predicate}
+     *
      * @return {@link Consumer}
      */
     public static <T> Predicate<T> wrapPredicate(final Predicate<T> predicate)
@@ -407,6 +428,7 @@ public final class LambdaExceptions
      *
      * @param predicate {@link Predicate}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <T> Predicate<T> wrapPredicate(final Predicate<T> predicate, final ExceptionHandler handler)
@@ -430,6 +452,7 @@ public final class LambdaExceptions
      * Exceptions werden als {@link RuntimeException} geworfen..
      *
      * @param supplier {@link Supplier}
+     *
      * @return {@link Consumer}
      */
     public static <R> Supplier<R> wrapSupplier(final Supplier<R> supplier)
@@ -443,6 +466,7 @@ public final class LambdaExceptions
      *
      * @param supplier {@link Supplier}
      * @param handler {@link ExceptionHandler}
+     *
      * @return {@link Consumer}
      */
     public static <R> Supplier<R> wrapSupplier(final Supplier<R> supplier, final ExceptionHandler handler)

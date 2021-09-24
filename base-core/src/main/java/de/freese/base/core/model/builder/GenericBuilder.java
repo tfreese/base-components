@@ -22,6 +22,7 @@ import java.util.function.Supplier;
  * </pre>
  *
  * @author Thomas Freese
+ *
  * @param <T> Typ des zu erzeugenden Objekts.
  */
 public class GenericBuilder<T>
@@ -30,6 +31,7 @@ public class GenericBuilder<T>
      * Beispiel: of(ArrayList::new)
      *
      * @param instantiator {@link Supplier}
+     *
      * @return {@link GenericBuilder}
      */
     public static <T> GenericBuilder<T> of(final Supplier<T> instantiator)
@@ -41,7 +43,6 @@ public class GenericBuilder<T>
      *
      */
     private List<Consumer<T>> instanceModifiers = new ArrayList<>();
-
     /**
      *
      */
@@ -62,7 +63,7 @@ public class GenericBuilder<T>
 
     /**
      * Baut das Objekt.
-     * 
+     *
      * @return Object
      */
     public T build()
@@ -79,6 +80,7 @@ public class GenericBuilder<T>
      * Erzeugt das Objekt n-mal.
      *
      * @param n int
+     *
      * @return {@link List}
      */
     public List<T> build(final int n)
@@ -119,6 +121,7 @@ public class GenericBuilder<T>
      *
      * @param setter {@link BiConsumer}
      * @param value Object
+     *
      * @return {@link GenericBuilder}
      */
     public <U> GenericBuilder<T> with(final BiConsumer<T, U> setter, final U value)
@@ -132,6 +135,7 @@ public class GenericBuilder<T>
      * Beispiel: with(list -> list.add("Sample object"))
      *
      * @param setter {@link Consumer}
+     *
      * @return {@link GenericBuilder}
      */
     public GenericBuilder<T> with(final Consumer<T> setter)

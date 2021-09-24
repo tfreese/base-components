@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.core.progress;
 
 import java.util.Objects;
@@ -46,6 +43,9 @@ public class LoggerProgressCallback implements ProgressCallback
     @Override
     public void setProgress(final float percentage)
     {
-        this.logger.info(String.format("%1$3.2f %%", Float.valueOf(percentage * 100)));
+        if (this.logger.isInfoEnabled())
+        {
+            this.logger.info(String.format("%1$3.2f %%", Float.valueOf(percentage * 100)));
+        }
     }
 }

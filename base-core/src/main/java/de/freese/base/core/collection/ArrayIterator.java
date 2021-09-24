@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.core.collection;
 
 import java.lang.reflect.Array;
@@ -11,6 +8,7 @@ import java.util.NoSuchElementException;
  * {@link Iterator} für Arrays.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public class ArrayIterator<T> implements Iterator<T>
@@ -19,12 +17,10 @@ public class ArrayIterator<T> implements Iterator<T>
      *
      */
     private final Object array;
-
     /**
      *
      */
     private final int endIndex;
-
     /**
      *
      */

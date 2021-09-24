@@ -8,18 +8,17 @@ package de.freese.base.calendar.feiertag;
 public class Feiertag
 {
     /**
-     * 
+     *
      */
     private final FeiertagTyp typ;
-
     /**
-     * 
+     *
      */
     private final boolean variablerFeiertag;
 
     /**
      * Creates a new {@link Feiertag} object.
-     * 
+     *
      * @param typ {@link FeiertagTyp}
      * @param variablerFeiertag boolean
      */
@@ -33,7 +32,7 @@ public class Feiertag
 
     /**
      * Liefert den Namen des Feiertags.
-     * 
+     *
      * @return FeierTagTyp
      */
     public final FeiertagTyp getTyp()
@@ -43,7 +42,7 @@ public class Feiertag
 
     /**
      * Ist der Feiertag variabel ?
-     * 
+     *
      * @return boolean
      */
     public final boolean isVariablerFeiertag()

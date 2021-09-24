@@ -1,7 +1,4 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.throttle.io;
 
 import java.io.IOException;
@@ -18,32 +15,26 @@ public class SleepThrottledOutputStream extends OutputStream
     *
     */
     private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
-
     /**
     *
     */
     private static final long SLEEP_DURATION_MS = 30;
-
     /**
     *
     */
     private long bytesWrite;
-
     /**
     *
     */
     private final long maxBytesPerSec;
-
     /**
     *
     */
     private OutputStream outputStream;
-
     /**
     *
     */
     private final long startTime = System.nanoTime();
-
     /**
      *
      */

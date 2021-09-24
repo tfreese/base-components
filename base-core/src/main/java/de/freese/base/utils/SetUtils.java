@@ -1,7 +1,4 @@
-/**
- * Created: 09.04.2020
- */
-
+// Created: 09.04.2020
 package de.freese.base.utils;
 
 import java.util.Set;
@@ -13,6 +10,7 @@ public final class SetUtils
 {
     /**
      * @param set {@link Set}
+     *
      * @return boolean
      */
     public static boolean isEmpty(final Set<?> set)
@@ -22,6 +20,7 @@ public final class SetUtils
 
     /**
      * @param set {@link Set}
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final Set<?> set)

@@ -19,7 +19,6 @@ public class WindowsPrintWriter extends PrintWriter
      *
      */
     private static final String LINE_SEPARATOR = "\r\n";
-
     /**
      *
      */
@@ -30,6 +29,7 @@ public class WindowsPrintWriter extends PrintWriter
      *
      * @param file {@link File}
      * @param charset {@link Charset}
+     *
      * @throws IOException Falls was schief geht.
      */
     public WindowsPrintWriter(final File file, final Charset charset) throws IOException
@@ -56,6 +56,7 @@ public class WindowsPrintWriter extends PrintWriter
      *
      * @param fileName String
      * @param charset {@link Charset}
+     *
      * @throws IOException Falls was schief geht.
      */
     public WindowsPrintWriter(final String fileName, final Charset charset) throws IOException

@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.core.property;
 
 import java.io.Serializable;

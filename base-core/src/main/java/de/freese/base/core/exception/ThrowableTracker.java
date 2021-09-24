@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.freese.base.core.exception;
 
 import java.io.Serializable;
@@ -20,7 +17,6 @@ public class ThrowableTracker implements Serializable
      *
      */
     private static final long serialVersionUID = -8095454479589758508L;
-
     /**
      * Map verhindert Exceptions mit gleichen Messages.
      */
@@ -70,6 +66,7 @@ public class ThrowableTracker implements Serializable
 
     /**
      * @return boolean
+     *
      * @see List#isEmpty()
      */
     public boolean isEmpty()

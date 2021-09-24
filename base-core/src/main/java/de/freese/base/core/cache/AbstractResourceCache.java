@@ -1,6 +1,4 @@
-/**
- * Created: 27.07.2016
- */
+// Created: 27.07.2016
 package de.freese.base.core.cache;
 
 import java.io.IOException;
@@ -144,7 +142,6 @@ public abstract class AbstractResourceCache implements ResourceCache
         {
             if (connection instanceof HttpURLConnection httpURLConnection)
             {
-                
 
                 // Verhindert HTTP 301 Moved Permanently. -> funktioniert aber nicht !
                 // httpURLConnection.setInstanceFollowRedirects(true);

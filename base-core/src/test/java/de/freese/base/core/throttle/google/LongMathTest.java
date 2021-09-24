@@ -1,12 +1,10 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.throttle.google;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -22,12 +20,10 @@ class LongMathTest
      *
      */
     private static final List<Long> ALL_LONG_CANDIDATES = new ArrayList<>();
-
     /**
      *
      */
     private static final BigInteger MAX_LONG = BigInteger.valueOf(Long.MAX_VALUE);
-
     /**
      *
      */
@@ -95,6 +91,7 @@ class LongMathTest
 
     /**
      * @param big {@link BigInteger}
+     *
      * @return long
      */
     private static long saturatedCast(final BigInteger big)

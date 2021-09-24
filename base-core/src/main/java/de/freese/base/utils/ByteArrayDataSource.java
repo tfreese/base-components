@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+
 import javax.activation.DataSource;
 
 /**
@@ -22,67 +23,54 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      */
     public static final String MIMETYPE_APPLICATION_EXCEL = "application/vnd.ms-excel";
-
     /**
      *
      */
     public static final String MIMETYPE_APPLICATION_HTTP = "application/http";
-
     /**
      * MimeTypes siehe auch http://www.iana.org/assignments/media-types/
      */
     public static final String MIMETYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
-
     /**
      *
      */
     public static final String MIMETYPE_APPLICATION_PDF = "application/pdf";
-
     /**
      *
      */
     public static final String MIMETYPE_APPLICATION_POWERPOINT = "application/vnd.ms-powerpoint";
-
     /**
      *
      */
     public static final String MIMETYPE_APPLICATION_XML = "application/xml";
-
     /**
      *
      */
     public static final String MIMETYPE_IMAGE_BMP = "image/bmp";
-
     /**
      *
      */
     public static final String MIMETYPE_IMAGE_GIF = "image/gif";
-
     /**
      *
      */
     public static final String MIMETYPE_IMAGE_JPEG = "image/jpeg";
-
     /**
      *
      */
     public static final String MIMETYPE_IMAGE_PNG = "image/png";
-
     /**
      *
      */
     public static final String MIMETYPE_TEXT_CSV = "text/csv";
-
     /**
      *
      */
     public static final String MIMETYPE_TEXT_HTML = "text/html";
-
     /**
      *
      */
     public static final String MIMETYPE_TEXT_PLAIN = "text/plain";
-
     /**
      *
      */
@@ -92,6 +80,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * Liefert anhand des Resourcenamens den passenden MimeType.
      *
      * @param resourceName String
+     *
      * @return String
      */
     public static final String getMimeType(final String resourceName)
@@ -144,6 +133,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * Liefert true, wenn der MimeType ein ImageTyp ist.
      *
      * @param mimeType String
+     *
      * @return boolean
      */
     public static final boolean isImageMimeType(final String mimeType)
@@ -160,13 +150,11 @@ public class ByteArrayDataSource implements DataSource, Serializable
     /**
      * Daten
      */
-    private byte[] data;
-
+    private final byte[] data;
     /**
      * content-type
      */
     private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
-
     /**
      *
      */
@@ -191,9 +179,9 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      * @param is {@link InputStream}
      * @param mimeType String
+     *
      * @throws IOException Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException
     {
         super();
@@ -227,6 +215,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * Create a {@link ByteArrayDataSource} from an Object.
      *
      * @param object Serializable
+     *
      * @throws IOException Falls was schief geht.
      */
     public ByteArrayDataSource(final Serializable object) throws IOException
@@ -237,20 +226,25 @@ public class ByteArrayDataSource implements DataSource, Serializable
     /**
      * Create a {@link ByteArrayDataSource} from a String.
      *
-     * @param data String
+     * @param value String
      * @param mimeType String
+     *
      * @throws UnsupportedEncodingException Falls was schief geht.
      */
-    public ByteArrayDataSource(final String data, final String mimeType) throws UnsupportedEncodingException
+    public ByteArrayDataSource(final String value, final String mimeType) throws UnsupportedEncodingException
     {
         super();
 
-        if (data != null)
+        if (value != null)
         {
             // Assumption that the string contains only ASCII
             // characters! Otherwise just pass a charset into this
             // constructor and use it in getBytes()
-            this.data = data.getBytes(StandardCharsets.ISO_8859_1);
+            this.data = value.getBytes(StandardCharsets.ISO_8859_1);
+        }
+        else
+        {
+            this.data = null;
         }
 
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");

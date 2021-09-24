@@ -1,7 +1,4 @@
-/**
- * Created: 18.04.2020
- */
-
+// Created: 18.04.2020
 package de.freese.base.utils;
 
 import java.io.PrintStream;
@@ -17,7 +14,6 @@ public final class StringTable
      *
      */
     private final List<String[]> data;
-
     /**
      *
      */

@@ -11,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
  * Definiert eine Spalte des Grids.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Spalten-Typ
  */
 public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<T>
@@ -19,27 +20,22 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
      *
      */
     private static final long serialVersionUID = -3866701962046000404L;
-
     /**
     *
     */
     private String comment;
-
     /**
     *
     */
     private int length = -1;
-
     /**
     *
     */
     private String name;
-
     /**
      *
      */
     private final Class<T> objectClazz;
-
     /**
     *
     */
@@ -139,7 +135,9 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
      * Liest den Wert aus dem Stream, der NULL-Marker wurde bereits in {@link #read(DataInput)} gelesen.
      *
      * @param dataInput {@link DataInput}
+     *
      * @return Object
+     *
      * @throws IOException Falls was schief geht.
      */
     protected abstract T readNullSafe(final DataInput dataInput) throws IOException;
@@ -222,6 +220,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
      *
      * @param dataOutput {@link DataOutput}
      * @param value Object
+     *
      * @throws IOException Falls was schief geht.
      */
     protected abstract void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException;

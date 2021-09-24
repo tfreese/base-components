@@ -3,6 +3,7 @@ package de.freese.base.core.io;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+
 import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
@@ -20,12 +21,10 @@ public class TextComponentOutputStream extends OutputStream
      *
      */
     private final byte[] littleBuffer = new byte[1];
-
     /**
      *
      */
     private OutputStream out;
-
     /**
      *
      */
@@ -102,9 +101,9 @@ public class TextComponentOutputStream extends OutputStream
                 {
                     try
                     {
-                        if (document instanceof AbstractDocument)
+                        if (document instanceof AbstractDocument ad)
                         {
-                            ((AbstractDocument) document).replace(0, excess, text, null);
+                            ad.replace(0, excess, text, null);
                         }
                         else
                         {

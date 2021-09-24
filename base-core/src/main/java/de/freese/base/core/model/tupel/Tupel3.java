@@ -1,9 +1,12 @@
 package de.freese.base.core.model.tupel;
 
+import java.util.Objects;
+
 /**
  * Ein 3er-Tupel verknuepft 3 Objekte miteinander.
  *
  * @author Thomas Freese
+ *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
  * @param <C> Konkreter Typ ValueC
@@ -53,26 +56,12 @@ public class Tupel3<A, B, C> extends Tupel2<A, B>
             return true;
         }
 
-        if (!super.equals(obj))
+        if (!super.equals(obj) || !(obj instanceof Tupel3<?, ?, ?> other))
         {
             return false;
         }
 
-        if (!(obj instanceof Tupel3<?, ?, ?>))
-        {
-            return false;
-        }
-
-        Tupel3<?, ?, ?> other = (Tupel3<?, ?, ?>) obj;
-
-        if (this.valueC == null)
-        {
-            if (other.valueC != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.valueC.equals(other.valueC))
+        if (!Objects.equals(this.valueC, other.valueC))
         {
             return false;
         }

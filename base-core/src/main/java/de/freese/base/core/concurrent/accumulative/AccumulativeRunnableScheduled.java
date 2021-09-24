@@ -23,12 +23,10 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
      *
      */
     private final Duration delay;
-
     /**
      *
      */
     private final ScheduledExecutorService scheduledExecutor;
-
     /**
      *
      */

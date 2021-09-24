@@ -11,7 +11,6 @@ public class Property
      *
      */
     private String key;
-
     /**
      *
      */
@@ -51,6 +50,7 @@ public class Property
      * Liefert das Property als double oder Default wenn null oder Konvertierung fehlschlägt.
      *
      * @param defaultValue double
+     *
      * @return double
      */
     public double getDouble(final double defaultValue)
@@ -72,6 +72,7 @@ public class Property
      * Liefert das Property als int oder Default wenn null oder Konvertierung fehlschlägt.
      *
      * @param defaultValue int
+     *
      * @return int
      */
     public int getInt(final int defaultValue)
@@ -103,6 +104,7 @@ public class Property
      * Liefert das Property als long oder Default wenn null oder Konvertierung fehlschlägt.
      *
      * @param defaultValue long
+     *
      * @return long
      */
     public long getLong(final long defaultValue)
@@ -134,6 +136,7 @@ public class Property
      * Liefert das Property als String oder Default, wenn null.
      *
      * @param defaultValue String
+     *
      * @return String
      */
     public String getString(final String defaultValue)

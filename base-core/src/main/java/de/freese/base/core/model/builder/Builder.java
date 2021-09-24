@@ -1,7 +1,4 @@
-/**
- * Created: 15.04.2020
- */
-
+// Created: 15.04.2020
 package de.freese.base.core.model.builder;
 
 /**
@@ -68,5 +65,5 @@ public interface Builder<T>
      *
      * @return the object constructed or result calculated by the builder.
      */
-    public T build();
+    T build();
 }

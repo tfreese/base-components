@@ -1,7 +1,4 @@
-/**
- * Created: 01.07.2020
- */
-
+// Created: 01.07.2020
 package de.freese.base.core.logging;
 
 import java.io.ByteArrayOutputStream;
@@ -9,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
@@ -23,12 +21,10 @@ public class LoggingOutputStream extends OutputStream
      *
      */
     private final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-
     /**
      *
      */
     private final Level level;
-
     /**
      *
      */

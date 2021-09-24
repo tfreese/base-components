@@ -13,12 +13,10 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
      *
      */
     private static final long serialVersionUID = -4744210429650586724L;
-
     /**
      *
      */
     private transient Object commandInvoker;
-
     /**
      *
      */
@@ -48,6 +46,7 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
      * Liefert das Objekt, welches dem CommandInvoker uebergeben werden kann.
      *
      * @param <T> Konkreter Typ
+     *
      * @return Object
      */
     @SuppressWarnings("unchecked")

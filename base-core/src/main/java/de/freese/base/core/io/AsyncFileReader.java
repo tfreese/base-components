@@ -1,7 +1,4 @@
-/**
- * Created: 07.01.2018
- */
-
+// Created: 07.01.2018
 package de.freese.base.core.io;
 
 import java.io.IOException;
@@ -22,6 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+
 import de.freese.base.core.model.builder.GenericBuilder;
 
 /**
@@ -30,8 +28,10 @@ import de.freese.base.core.model.builder.GenericBuilder;
  * {@link CompletableFuture#thenAccept(java.util.function.Consumer)} weiterverarbeitet werden.
  *
  * @see <a href="https://github.com/oheger/JavaMagReact">https://github.com/oheger/JavaMagReact (JavaMagazin 02/2018 )</a>
+ *
  * @author Oliver Heger
  * @author Thomas Freese
+ *
  * @param <CH> Typ des ContentHolders
  */
 public class AsyncFileReader<CH>
@@ -47,22 +47,18 @@ public class AsyncFileReader<CH>
          *
          */
         private final ByteBuffer buffer;
-
         /**
          *
          */
         private final AsynchronousFileChannel channel;
-
         /**
          *
          */
         private final CompletableFuture<CH> future;
-
         /**
         *
         */
         private final CompletionHandler<Integer, ReadContext<CH>> handler;
-
         /**
          * Aktuelle Lese-Position
          */
@@ -118,7 +114,6 @@ public class AsyncFileReader<CH>
      *
      */
     private static final Supplier<StringBuilder> DEFAULT_CONTENT_HOLDER_SUPPLIER = () -> new StringBuilder(4096);
-
     /**
     *
     */
@@ -126,6 +121,7 @@ public class AsyncFileReader<CH>
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -209,6 +205,7 @@ public class AsyncFileReader<CH>
      *
      * @param contentHolderSupplier Object; Erzeugt das Objekt um die gelesenen Daten aufzunehmen.
      * @param dataConsumer {@link BiConsumer}; Nimmt die gelesenen Daten entgegen.
+     *
      * @return {@link CompletionHandler}
      */
     private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer)
@@ -332,9 +329,9 @@ public class AsyncFileReader<CH>
      * Der Inhalt kann z.B. mit {@link CompletableFuture#thenAccept(java.util.function.Consumer)} weiterverarbeitet werden.
      *
      * @param path {@link Path}; Datei
+     *
      * @return {@link CompletableFuture}
      */
-    @SuppressWarnings("resource")
     public CompletableFuture<CH> readFile(final Path path)
     {
         Objects.requireNonNull(path, "path required");

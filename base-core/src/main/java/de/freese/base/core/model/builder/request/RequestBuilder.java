@@ -10,5 +10,5 @@ public interface RequestBuilder
     /**
      * @return Object
      */
-    public Object buildRequest();
+    Object buildRequest();
 }

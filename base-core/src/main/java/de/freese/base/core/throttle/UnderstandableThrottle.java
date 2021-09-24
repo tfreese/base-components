@@ -1,7 +1,4 @@
-/**
- * Created: 01.04.2020
- */
-
+// Created: 01.04.2020
 package de.freese.base.core.throttle;
 
 import java.time.Duration;
@@ -24,6 +21,7 @@ public final class UnderstandableThrottle implements Throttle
 
     /**
      * @param permitsPerSecond double
+     *
      * @return {@link GoogleThrottle}
      */
     public static UnderstandableThrottle create(final double permitsPerSecond)
@@ -42,7 +40,9 @@ public final class UnderstandableThrottle implements Throttle
      *
      * @param permitsPerSecond the rate of the returned {@code Throttle}, measured in how many permits become available per second
      * @param fair {@code true} if acquisition should use a fair ordering policy
+     *
      * @return a new throttle instance
+     *
      * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
      */
     static UnderstandableThrottle create(final double permitsPerSecond, final boolean fair)
@@ -163,6 +163,7 @@ public final class UnderstandableThrottle implements Throttle
      *
      * @param val1 long
      * @param val2 long
+     *
      * @return long
      */
     private long saturatedAdd(final long val1, final long val2)
@@ -202,6 +203,7 @@ public final class UnderstandableThrottle implements Throttle
 
     /**
      * @param nanos long
+     *
      * @throws InterruptedException Falls was schief geht.
      */
     private void sleep(final long nanos) throws InterruptedException

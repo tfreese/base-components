@@ -2,6 +2,7 @@
 package de.freese.base.core.model.grid.builder;
 
 import java.util.Objects;
+
 import de.freese.base.core.model.grid.Grid;
 import de.freese.base.core.model.grid.GridMetaData;
 import de.freese.base.core.model.grid.column.GridColumn;
@@ -23,6 +24,7 @@ public class GridBuilder
 
     /**
      * @param gridColumnFactory {@link GridColumnFactory}
+     *
      * @return {@link GridBuilder}
      */
     public static GridBuilder create(final GridColumnFactory gridColumnFactory)
@@ -67,6 +69,7 @@ public class GridBuilder
 
     /**
      * @param objectClazz {@link Class}
+     *
      * @return {@link GridColumnBuilder}
      */
     public <T> GridColumnBuilder column(final Class<T> objectClazz)
@@ -79,6 +82,7 @@ public class GridBuilder
 
     /**
      * @param column {@link GridColumn}
+     *
      * @return {@link GridBuilder}
      */
     public <T> GridBuilder column(final GridColumn<T> column)

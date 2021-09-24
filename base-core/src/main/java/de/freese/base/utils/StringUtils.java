@@ -1,6 +1,4 @@
-/**
- * Created: 16.07.2011
- */
+// Created: 16.07.2011
 package de.freese.base.utils;
 
 import static de.freese.base.utils.ByteUtils.HEX_CHARS;
@@ -1044,7 +1042,6 @@ public final class StringUtils
      * @param printStream {@link PrintStream}
      * @param separator String
      */
-    @SuppressWarnings("resource")
     public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream printStream, final String separator)
     {
         Objects.requireNonNull(rows, "rows required");
@@ -1070,7 +1067,6 @@ public final class StringUtils
      * @param printStream {@link PrintStream}
      * @param separator String
      */
-    @SuppressWarnings("resource")
     public static <T extends CharSequence> void write(final T[] array, final PrintStream printStream, final String separator)
     {
         Objects.requireNonNull(array, "rows required");

@@ -9,7 +9,8 @@ public interface ResultMatcher
 {
     /**
      * @param result {@link RequestResult}
+     *
      * @throws Exception Falls was schief geht.
      */
-    public void match(RequestResult result) throws Exception;
+    void match(RequestResult result) throws Exception;
 }

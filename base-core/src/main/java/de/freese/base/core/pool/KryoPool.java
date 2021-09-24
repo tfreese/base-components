@@ -17,6 +17,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author Nathan Sweet
  * @author Martin Grotzke
  * @author Thomas Freese
+ *
  * @param <T> Type
  */
 public abstract class KryoPool<T>
@@ -37,6 +38,7 @@ public abstract class KryoPool<T>
      *
      * @author Martin Grotzke
      * @author Thomas Freese
+     *
      * @param <T> Type
      */
     static class SoftReferenceQueue<T> implements Queue<T>
@@ -454,9 +456,9 @@ public abstract class KryoPool<T>
      */
     protected void reset(final T object)
     {
-        if (object instanceof Poolable)
+        if (object instanceof Poolable poolable)
         {
-            ((Poolable) object).reset();
+            poolable.reset();
         }
     }
 

@@ -15,17 +15,14 @@ public class SimpleThreadFactory implements ThreadFactory
      *
      */
     private final boolean daemon;
-
     /**
      *
      */
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-
     /**
      *
      */
     private final String namePattern;
-
     /**
      *
      */

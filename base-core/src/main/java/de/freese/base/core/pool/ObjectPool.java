@@ -1,7 +1,4 @@
-/**
- * Created: 17.10.2017
- */
-
+// Created: 17.10.2017
 package de.freese.base.core.pool;
 
 import java.util.NoSuchElementException;
@@ -11,6 +8,7 @@ import java.util.NoSuchElementException;
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ
  */
 public interface ObjectPool<T>
@@ -19,6 +17,7 @@ public interface ObjectPool<T>
      * Liefert ein Objekt aus dem Pool.
      *
      * @return Object
+     *
      * @throws NoSuchElementException wenn der Pool erschöpft ist
      */
     T borrowObject();

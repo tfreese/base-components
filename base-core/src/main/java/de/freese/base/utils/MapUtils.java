@@ -1,7 +1,4 @@
-/**
- * Created: 09.04.2020
- */
-
+// Created: 09.04.2020
 package de.freese.base.utils;
 
 import java.util.Map;
@@ -13,6 +10,7 @@ public final class MapUtils
 {
     /**
      * @param map {@link Map}
+     *
      * @return boolean
      */
     public static boolean isEmpty(final Map<?, ?> map)
@@ -22,6 +20,7 @@ public final class MapUtils
 
     /**
      * @param map {@link Map}
+     *
      * @return boolean
      */
     public static boolean isNotEmpty(final Map<?, ?> map)

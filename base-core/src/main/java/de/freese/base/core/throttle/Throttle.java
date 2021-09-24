@@ -1,7 +1,4 @@
-/**
- * Created: 01.04.2020
- */
-
+// Created: 01.04.2020
 package de.freese.base.core.throttle;
 
 import java.util.concurrent.CompletionException;
@@ -45,6 +42,7 @@ import java.util.concurrent.CompletionException;
  * <br>
  *
  * @author Thomas Freese
+ *
  * @see <a href="https://github.com/client-side/throttle">https://github.com/client-side/throttle</a>
  * @see <a href=
  *      "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
@@ -56,7 +54,7 @@ public interface Throttle
     /**
     *
     */
-    public static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
+    double ONE_SECOND_NANOS = 1_000_000_000.0D;
 
     /**
      * Acquires a single permit from this {@code Throttle}, blocking until the request can be granted. Tells the amount of time slept, if any.
@@ -64,9 +62,10 @@ public interface Throttle
      * This method is equivalent to {@code acquire(1)}.
      *
      * @return time spent sleeping to enforce rate, in nanoseconds; 0.0 if not rate-limited
+     *
      * @throws InterruptedException unchecked internally if thread is interrupted
      */
-    public default long acquire() throws InterruptedException
+    default long acquire() throws InterruptedException
     {
         return acquire(1);
     }
@@ -75,20 +74,24 @@ public interface Throttle
      * Acquires the given number of permits from this {@code Throttle}, blocking until the request can be granted. Tells the amount of time slept, if any.
      *
      * @param permits the number of permits to acquire
+     *
      * @return time spent sleeping to enforce rate, in nanoseconds; 0.0 if not rate-limited
+     *
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      * @throws InterruptedException unchecked internally if thread is interrupted
      */
-    public long acquire(final int permits) throws InterruptedException;
+    long acquire(final int permits) throws InterruptedException;
 
     /**
      * Acquires the given number of permits from this {@code Throttle}, returning the duration in nanoseconds to wait to match the number of permits acquired.
      *
      * @param permits the number of permits to acquire
+     *
      * @return the duration in nanoseconds to wait to match the number of permits acquired
+     *
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      */
-    public long acquireDelayDuration(final int permits);
+    long acquireDelayDuration(final int permits);
 
     /**
      * Acquires a single permit from this {@code Throttle}, blocking until the request can be granted. Tells the amount of time slept, if any.
@@ -96,9 +99,10 @@ public interface Throttle
      * This method is equivalent to {@code acquire(1)}.
      *
      * @return time spent sleeping to enforce rate, in nanoseconds; 0.0 if not rate-limited
+     *
      * @throws CompletionException if this Thread is interrupted. The cause is set to the caught InterruptedException and this Thread is re-interrupted
      */
-    public default long acquireUnchecked()
+    default long acquireUnchecked()
     {
         return acquireUnchecked(1);
     }
@@ -107,11 +111,13 @@ public interface Throttle
      * Acquires the given number of permits from this {@code Throttle}, blocking until the request can be granted. Tells the amount of time slept, if any.
      *
      * @param permits the number of permits to acquire
+     *
      * @return time spent sleeping to enforce rate, in nanoseconds; 0.0 if not rate-limited
+     *
      * @throws IllegalArgumentException if the requested number of permits is negative or zero
      * @throws CompletionException if this Thread is interrupted. The cause is set to the caught InterruptedException and this Thread is re-interrupted
      */
-    public default long acquireUnchecked(final int permits)
+    default long acquireUnchecked(final int permits)
     {
         try
         {
@@ -131,7 +137,7 @@ public interface Throttle
      *
      * @return the current stable rate as permits per second
      */
-    public double getRate();
+    double getRate();
 
     /**
      * Updates the stable rate of this {@code Throttle}, that is, the {@code permitsPerSecond} argument provided in the factory method that constructed the
@@ -146,7 +152,8 @@ public interface Throttle
      * still has a warmup period of 20 seconds after this method invocation.
      *
      * @param permitsPerSecond the new stable rate of this {@code Throttle}
+     *
      * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero
      */
-    public void setRate(final double permitsPerSecond);
+    void setRate(final double permitsPerSecond);
 }

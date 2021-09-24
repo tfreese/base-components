@@ -1,18 +1,18 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.throttle.io;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+
 import de.freese.base.core.io.AbstractIoTest;
 
 /**
@@ -24,6 +24,7 @@ class SleepThrottledInputStreamTest extends AbstractIoTest
 {
     /**
      * @param permits int
+     *
      * @throws IOException Falls was schief geht.
      */
     private void doTest(final int permits) throws IOException

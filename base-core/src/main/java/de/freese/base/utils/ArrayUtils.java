@@ -1,7 +1,4 @@
-/**
- * Created: 02.07.2011
- */
-
+// Created: 02.07.2011
 package de.freese.base.utils;
 
 import java.util.Arrays;

@@ -1,7 +1,4 @@
-/**
- * Created: 24.01.2018
- */
-
+// Created: 24.01.2018
 package de.freese.base.core.model.grid;
 
 import java.io.DataInput;
@@ -16,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
 import de.freese.base.core.model.grid.column.GridColumn;
 import de.freese.base.core.model.grid.factory.DefaultGridColumnFactory;
 import de.freese.base.core.model.grid.factory.GridColumnFactory;
@@ -31,17 +29,14 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      *
      */
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-
     /**
      *
      */
     private static final long serialVersionUID = 4337541530394314432L;
-
     /**
      *
      */
-    private List<GridColumn<?>> columns = new ArrayList<>();
-
+    private final List<GridColumn<?>> columns = new ArrayList<>();
     /**
      *
      */
@@ -94,6 +89,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
 
     /**
      * @param index int
+     *
      * @return {@link GridColumn}
      */
     public GridColumn<?> getColumn(final int index)
@@ -130,6 +126,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      * Liest die Grid-Struktur aus dem Stream.
      *
      * @param dataInput {@link DataInput}
+     *
      * @throws IOException Falls was schief geht.
      * @throws ClassNotFoundException Falls was schief geht.
      */
@@ -191,6 +188,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      * Liest die Grid-Struktur aus dem {@link ResultSetMetaData}.
      *
      * @param metaData {@link ResultSetMetaData}
+     *
      * @throws SQLException Falls was schief geht.
      */
     public void readMetaData(final ResultSetMetaData metaData) throws SQLException
@@ -212,6 +210,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
 
     /**
      * @param columnIndex int
+     *
      * @return {@link GridColumn}
      */
     public GridColumn<?> removeColumn(final int columnIndex)
@@ -225,6 +224,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      * Schreibt die Grid-Struktur in den Stream.
      *
      * @param dataOutput {@link DataOutput}
+     *
      * @throws IOException Falls was schief geht.
      */
     public void writeMetaData(final DataOutput dataOutput) throws IOException

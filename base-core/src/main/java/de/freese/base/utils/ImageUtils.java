@@ -56,7 +56,6 @@ public final class ImageUtils
          *
          */
         private final int height;
-
         /**
          *
          */
@@ -195,17 +194,14 @@ public final class ImageUtils
          *
          */
         private final int direction;
-
         /**
          *
          */
         private final Color foreground;
-
         /**
         *
         */
         private final int height;
-
         /**
         *
         */
@@ -229,6 +225,7 @@ public final class ImageUtils
          * @param height int
          * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
          * @param foreground {@link Color}
+         *
          * @throws IllegalArgumentException Falls Direction ungültig
          */
         private Triangle(final int width, final int height, final int direction, final Color foreground)
@@ -353,6 +350,7 @@ public final class ImageUtils
      *
      * @param width int Breite
      * @param height int Höhe
+     *
      * @return {@link ImageIcon}, Ein Icon ohne Inhalt
      */
     public static ImageIcon createEmptyIcon(final int width, final int height)
@@ -374,6 +372,7 @@ public final class ImageUtils
      * Liefert ein TriangleIcon mit einer Größe von 16x16 Pixel und schwarzem Vordergrund.
      *
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
+     *
      * @return {@link ImageIcon}
      */
     public static ImageIcon createTriangleIcon(final int direction)
@@ -388,6 +387,7 @@ public final class ImageUtils
      * @param height int
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      * @param foreground int
+     *
      * @return {@link ImageIcon}
      */
     public static ImageIcon createTriangleIcon(final int width, final int height, final int direction, final Color foreground)
@@ -400,7 +400,9 @@ public final class ImageUtils
      *
      * @param image The image to be encoded.
      * @param format {@link ImageFormat}
+     *
      * @return The byte[] that is the encoded image.
+     *
      * @throws IOException Falls was schief geht
      */
     public static byte[] encode(final Image image, final ImageFormat format) throws IOException
@@ -432,14 +434,13 @@ public final class ImageUtils
      * Liefert true, wenn das {@link Image} transparente Pixel enthält.
      *
      * @param image {@link Image}
+     *
      * @return boolean
      */
     public static boolean hasAlpha(final Image image)
     {
-        if (image instanceof BufferedImage)
+        if (image instanceof BufferedImage bimage)
         {
-            BufferedImage bimage = (BufferedImage) image;
-
             return bimage.getColorModel().hasAlpha();
         }
 
@@ -464,6 +465,7 @@ public final class ImageUtils
      *
      * @param image {@link Image}
      * @param overlay {@link Image}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage merge(final Image image, final Image overlay)
@@ -485,6 +487,7 @@ public final class ImageUtils
      *
      * @param image {@link ImageIcon}
      * @param overlay {@link ImageIcon}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage merge(final ImageIcon image, final ImageIcon overlay)
@@ -498,6 +501,7 @@ public final class ImageUtils
      * @param src {@link BufferedImage}
      * @param width int
      * @param height int
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage scaleImage(final Image src, final int width, final int height)
@@ -513,6 +517,7 @@ public final class ImageUtils
      * @param src {@link Image}
      * @param ratioWidth double
      * @param ratioHeight double
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage scaleImageByRatio(final Image src, final double ratioWidth, final double ratioHeight)
@@ -539,6 +544,7 @@ public final class ImageUtils
      * @param src {@link Image}
      * @param maxWidth int
      * @param maxHeight int
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage scaleImageKeepRatio(final Image src, final int maxWidth, final int maxHeight)
@@ -562,13 +568,14 @@ public final class ImageUtils
      * Liefert das Schwarzweiss Bild.
      *
      * @param image {@link BufferedImage}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toBlackWhiteImage(final BufferedImage image)
     {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-        BufferedImageOp op = null;
+        BufferedImageOp op;
 
         // int width = getSourceImage().getWidth();
         // int height = getSourceImage().getHeight();
@@ -634,6 +641,7 @@ public final class ImageUtils
      * Liefert das Schwarzweiss Bild.
      *
      * @param image {@link Image}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toBlackWhiteImage(final Image image)
@@ -647,18 +655,16 @@ public final class ImageUtils
      * Kopiert ein Icon in eine Image-Kopie.
      *
      * @param icon {@link Icon}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toBufferedImage(final Icon icon)
     {
-        if (icon instanceof ImageIcon)
+        if (icon instanceof ImageIcon imageIcon)
         {
-            ImageIcon imageIcon = (ImageIcon) icon;
-            Image image = imageIcon.getImage();
-
-            if (image instanceof BufferedImage)
+            if (imageIcon.getImage()instanceof BufferedImage bi)
             {
-                return (BufferedImage) image;
+                return bi;
             }
         }
 
@@ -675,16 +681,17 @@ public final class ImageUtils
      * Konvertiert ein {@link Image} in ein {@link BufferedImage}.
      *
      * @param image {@link Image}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toBufferedImage(final Image image)
     {
-        if (image instanceof BufferedImage)
+        if (image instanceof BufferedImage bi)
         {
-            return (BufferedImage) image;
+            return bi;
         }
 
-        BufferedImage bufferedImage = null;
+        BufferedImage bufferedImage;
 
         // boolean hasAlpha = hasAlpha(image);
         //
@@ -738,6 +745,7 @@ public final class ImageUtils
      * Liefert das Kanten Bild.
      *
      * @param image {@link Image}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toEdgeImage(final Image image)
@@ -745,7 +753,7 @@ public final class ImageUtils
         BufferedImage bufferedImage = toBufferedImage(image);
 
         // Sobel Operator, horizontal & vertikal
-        float[] matrix = new float[]
+        float[] matrix =
         {
                 0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F
         };
@@ -777,6 +785,7 @@ public final class ImageUtils
      * Graut das Icon aus.
      *
      * @param icon {@link Icon}
+     *
      * @return {@link Icon}
      */
     public static Icon toGrayIcon(final Icon icon)
@@ -792,6 +801,7 @@ public final class ImageUtils
      *
      * @param imageIcon ImageIcon
      * @param percent int
+     *
      * @return {@link ImageIcon}
      */
     public static ImageIcon toGrayIcon(final ImageIcon imageIcon, final int percent)
@@ -805,6 +815,7 @@ public final class ImageUtils
      * Erzeugt ein Graustufenbild.
      *
      * @param bufferedImage {@link BufferedImage}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toGrayImage(final BufferedImage bufferedImage)
@@ -821,6 +832,7 @@ public final class ImageUtils
      *
      * @param image ImageIcon
      * @param percent int, 0-100%
+     *
      * @return {@link Image}
      */
     public static Image toGrayImage(final Image image, final int percent)
@@ -835,11 +847,12 @@ public final class ImageUtils
      * Liefert das geschärfte Bild.
      *
      * @param image {@link BufferedImage}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toSharpenImage(final BufferedImage image)
     {
-        float[] matrix = new float[]
+        float[] matrix =
         {
                 0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F
         };
@@ -870,6 +883,7 @@ public final class ImageUtils
      * Liefert das geschärfte Bild.
      *
      * @param image {@link Image}
+     *
      * @return {@link BufferedImage}
      */
     public static BufferedImage toSharpenImage(final Image image)
@@ -885,6 +899,7 @@ public final class ImageUtils
      * @param image {@link BufferedImage}
      * @param format {@link ImageFormat}
      * @param outputStream {@link OutputStream}
+     *
      * @throws IOException Falls was schief geht
      */
     public static void writeImage(final BufferedImage image, final ImageFormat format, final OutputStream outputStream) throws IOException
@@ -898,6 +913,7 @@ public final class ImageUtils
      * @param image {@link Image}
      * @param format {@link ImageFormat}
      * @param outputStream {@link OutputStream}
+     *
      * @throws IOException Falls was schief geht
      */
     public static void writeImage(final Image image, final ImageFormat format, final OutputStream outputStream) throws IOException

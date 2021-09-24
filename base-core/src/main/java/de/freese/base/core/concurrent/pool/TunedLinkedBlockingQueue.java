@@ -1,7 +1,4 @@
-/**
- * Created: 12.02.2017
- */
-
+// Created: 12.02.2017
 package de.freese.base.core.concurrent.pool;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -38,6 +35,7 @@ import java.util.function.IntSupplier;
  * </pre>
  *
  * @param <T> Konkreter Typ
+ *
  * @author Thomas Freese
  */
 public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
@@ -46,12 +44,10 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
      *
      */
     private static final long serialVersionUID = 6374300294609033461L;
-
     /**
      *
      */
     private IntSupplier poolCurrentSize;
-
     /**
      *
      */

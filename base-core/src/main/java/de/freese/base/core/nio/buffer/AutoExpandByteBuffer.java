@@ -14,6 +14,7 @@ import java.nio.charset.CharsetDecoder;
  * Adapter für den {@link ByteBuffer} mit AutoExpand-Funktion.<br>
  *
  * @author Thomas Freese
+ *
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuffer>
@@ -24,6 +25,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * - crlf = [0x0D, 0x0A]
      *
      * @param capacity int
+     *
      * @return {@link AutoExpandByteBuffer}
      */
     public static AutoExpandByteBuffer of(final int capacity)
@@ -34,6 +36,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     /**
      * @param capacity int
      * @param direct boolean
+     *
      * @return {@link AutoExpandByteBuffer}
      */
     public static AutoExpandByteBuffer of(final int capacity, final boolean direct)
@@ -210,7 +213,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param decoder {@link CharsetDecoder}
+     *
      * @return {@link CharBuffer}
+     *
      * @throws CharacterCodingException Falls was schief geht.
      */
     public CharBuffer decode(final CharsetDecoder decoder) throws CharacterCodingException
@@ -220,6 +225,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return byte
+     *
      * @see ByteBuffer#get()
      */
     public byte get()
@@ -229,6 +235,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param dst byte[]
+     *
      * @see ByteBuffer#get(byte[])
      */
     public void get(final byte[] dst)
@@ -240,6 +247,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * @param dst byte[]
      * @param offset int
      * @param length int
+     *
      * @see ByteBuffer#get(byte[], int, int)
      */
     public void get(final byte[] dst, final int offset, final int length)
@@ -249,7 +257,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return byte
+     *
      * @see ByteBuffer#get(int)
      */
     public byte get(final int index)
@@ -259,6 +269,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return char
+     *
      * @see ByteBuffer#getChar()
      */
     public char getChar()
@@ -268,7 +279,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return char
+     *
      * @see ByteBuffer#getChar(int)
      */
     public char getChar(final int index)
@@ -278,6 +291,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return double
+     *
      * @see ByteBuffer#getDouble()
      */
     public double getDouble()
@@ -287,7 +301,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return double
+     *
      * @see ByteBuffer#getDouble(int)
      */
     public double getDouble(final int index)
@@ -297,6 +313,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return float
+     *
      * @see ByteBuffer#getFloat()
      */
     public float getFloat()
@@ -306,7 +323,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return float
+     *
      * @see ByteBuffer#getFloat(int)
      */
     public float getFloat(final int index)
@@ -328,6 +347,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * Liefert die Hexadezimal Darsellung des {@link ByteBuffer}.
      *
      * @param lengthLimit int
+     *
      * @return String
      */
     public String getHexDump(final int lengthLimit)
@@ -392,6 +412,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return int
+     *
      * @see ByteBuffer#getInt()
      */
     public int getInt()
@@ -401,7 +422,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return int
+     *
      * @see ByteBuffer#getInt(int)
      */
     public int getInt(final int index)
@@ -411,6 +434,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return long
+     *
      * @see ByteBuffer#getLong()
      */
     public long getLong()
@@ -420,7 +444,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return long
+     *
      * @see ByteBuffer#getLong(int)
      */
     public long getLong(final int index)
@@ -430,6 +456,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @return short
+     *
      * @see ByteBuffer#getShort()
      */
     public short getShort()
@@ -439,7 +466,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param index int
+     *
      * @return short
+     *
      * @see ByteBuffer#getShort(int)
      */
     public short getShort(final int index)
@@ -449,7 +478,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param b byte
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#put(byte)
      */
     public AutoExpandByteBuffer put(final byte b)
@@ -463,7 +494,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param src byte[]
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#put(byte[])
      */
     public AutoExpandByteBuffer put(final byte[] src)
@@ -475,7 +508,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * @param src byte[]
      * @param offset int
      * @param length int
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#put(byte[], int, int)
      */
     public AutoExpandByteBuffer put(final byte[] src, final int offset, final int length)
@@ -489,7 +524,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param src {@link ByteBuffer}
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#put(ByteBuffer)
      */
     public AutoExpandByteBuffer put(final ByteBuffer src)
@@ -503,7 +540,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param value char
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#putChar(char)
      */
     public AutoExpandByteBuffer putChar(final char value)
@@ -517,7 +556,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param value double
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#putDouble(double)
      */
     public AutoExpandByteBuffer putDouble(final double value)
@@ -531,7 +572,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param value float
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#putFloat(float)
      */
     public AutoExpandByteBuffer putFloat(final float value)
@@ -545,7 +588,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param value int
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#putInt(int)
      */
     public AutoExpandByteBuffer putInt(final int value)
@@ -559,7 +604,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param value long
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#putLong(long)
      */
     public AutoExpandByteBuffer putLong(final long value)
@@ -573,7 +620,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     /**
      * @param value short
+     *
      * @return {@link AutoExpandByteBuffer}
+     *
      * @see ByteBuffer#putShort(short)
      */
     public AutoExpandByteBuffer putShort(final short value)

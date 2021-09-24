@@ -230,7 +230,6 @@ class StreamPublisherTest
         // try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>(EXECUTOR, Flow.defaultBufferSize()))
         try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>())
         {
-            @SuppressWarnings("resource")
             // close-Methode in MyTransformProcessor#onComplete.
             var transformProcessor = new MyTransformProcessor<Integer, String>(EXECUTOR, i -> "-" + Integer.toString(i) + "-");
             // var transformProcessor = new MyTransformProcessor<Integer, String>(i -> "-" + Integer.toString(i) + "-");

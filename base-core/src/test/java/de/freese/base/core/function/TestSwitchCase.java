@@ -1,13 +1,13 @@
-/**
- * Created: 01.02.2018
- */
-
+// Created: 01.02.2018
 package de.freese.base.core.function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
+
 import de.freese.base.core.function.usecase.Switch;
 import de.freese.base.core.function.usecase.Switch.Case;
 

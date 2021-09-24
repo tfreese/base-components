@@ -1,12 +1,10 @@
-/**
- * Created: 30.04.2020
- */
-
+// Created: 30.04.2020
 package de.freese.base;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.openjdk.jmh.infra.BenchmarkParams;
 import org.openjdk.jmh.infra.IterationParams;
 import org.openjdk.jmh.profile.InternalProfiler;
@@ -20,14 +18,6 @@ import org.openjdk.jmh.results.ScalarResult;
  */
 public class MaxMemoryProfiler implements InternalProfiler
 {
-    /**
-     * Erstellt ein neues {@link MaxMemoryProfiler} Object.
-     */
-    public MaxMemoryProfiler()
-    {
-        super();
-    }
-
     /**
      * @see org.openjdk.jmh.profile.InternalProfiler#afterIteration(org.openjdk.jmh.infra.BenchmarkParams, org.openjdk.jmh.infra.IterationParams,
      *      org.openjdk.jmh.results.IterationResult)

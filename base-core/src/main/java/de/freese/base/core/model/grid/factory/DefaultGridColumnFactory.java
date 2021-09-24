@@ -1,10 +1,8 @@
-/**
- * Created: 18.03.2020
- */
-
+// Created: 18.03.2020
 package de.freese.base.core.model.grid.factory;
 
 import java.util.Date;
+
 import de.freese.base.core.model.grid.column.BinaryGridColumn;
 import de.freese.base.core.model.grid.column.BooleanGridColumn;
 import de.freese.base.core.model.grid.column.DateGridColumn;

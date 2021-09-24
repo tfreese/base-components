@@ -16,5 +16,5 @@ public interface ExceptionHandler// <E extends Exception>
      *
      * @param ex {@link Exception}
      */
-    public void handle(Exception ex);
+    void handle(Exception ex);
 }

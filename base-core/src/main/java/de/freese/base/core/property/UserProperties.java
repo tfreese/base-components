@@ -22,7 +22,6 @@ public class UserProperties
      * Temporaerer Cache fuer schnelleren Zugriff.
      */
     private Map<PropertyType, Map<String, UserProperty>> cache = new HashMap<>();
-
     /**
      *
      */
@@ -41,6 +40,7 @@ public class UserProperties
      *
      * @param key String
      * @param type {@link PropertyType}
+     *
      * @return {@link UserProperty}
      */
     private UserProperty createProperty(final String key, final PropertyType type)
@@ -61,6 +61,7 @@ public class UserProperties
      *
      * @param key String
      * @param type {@link PropertyType}
+     *
      * @return boolean; default = false
      */
     public boolean getBoolean(final String key, final PropertyType type)
@@ -80,7 +81,9 @@ public class UserProperties
      *
      * @param key String
      * @param type {@link PropertyType}
+     *
      * @return byte[]; default = null
+     *
      * @throws IOException wenn die Konvertierung fehlschlaegt.
      */
     public byte[] getByteArray(final String key, final PropertyType type) throws IOException
@@ -101,6 +104,7 @@ public class UserProperties
      * @param key String
      * @param type {@link PropertyType}
      * @param defaultValue double, wenn Property null oder die Konvertierung fehlschlaegt.
+     *
      * @return double
      */
     public double getDouble(final String key, final PropertyType type, final double defaultValue)
@@ -121,6 +125,7 @@ public class UserProperties
      * @param key String
      * @param type {@link PropertyType}
      * @param defaultValue int, wenn Property null oder die Konvertierung fehlschlaegt.
+     *
      * @return boolean
      */
     public int getInt(final String key, final PropertyType type, final int defaultValue)
@@ -141,6 +146,7 @@ public class UserProperties
      * @param key String
      * @param type {@link PropertyType}
      * @param defaultValue long, wenn Property null oder die Konvertierung fehlschlaegt.
+     *
      * @return long
      */
     public long getLong(final String key, final PropertyType type, final long defaultValue)
@@ -162,7 +168,9 @@ public class UserProperties
      * @param <T> Konkreter Objecttyp
      * @param key String
      * @param type {@link PropertyType}
+     *
      * @return Object; default = null
+     *
      * @throws Exception Falls bei der Deserialisierung was schief geht.
      */
     @SuppressWarnings("unchecked")
@@ -182,6 +190,7 @@ public class UserProperties
      * Liefert alle {@link UserProperty} des {@link PropertyType} oder alle.
      *
      * @param type {@link PropertyType}; optional
+     *
      * @return {@link List}
      */
     public List<UserProperty> getProperties(final PropertyType type)
@@ -207,6 +216,7 @@ public class UserProperties
      *
      * @param key String
      * @param type {@link PropertyType}
+     *
      * @return {@link UserProperty}; kann auch null sein
      */
     private UserProperty getProperty(final String key, final PropertyType type)
@@ -218,6 +228,7 @@ public class UserProperties
      * Liefert alle Keys des {@link PropertyType}.
      *
      * @param type {@link PropertyType}
+     *
      * @return {@link Set}
      */
     public Set<String> getPropertyKeys(final PropertyType type)
@@ -246,6 +257,7 @@ public class UserProperties
      *
      * @param key String
      * @param type {@link PropertyType}
+     *
      * @return String
      */
     public String getString(final String key, final PropertyType type)
@@ -338,6 +350,7 @@ public class UserProperties
      * @param key String
      * @param type {@link PropertyType}
      * @param value byte[]
+     *
      * @throws Throwable, wenn Konvertierung fehlschlaegt
      */
     public void setByteArray(final String key, final PropertyType type, final byte[] value) throws Throwable
@@ -420,6 +433,7 @@ public class UserProperties
      * @param key String
      * @param type {@link PropertyType}
      * @param value Object
+     *
      * @throws Throwable, wenn Konvertierung fehlschlaegt
      */
     public void setObject(final String key, final PropertyType type, final Object value) throws Throwable

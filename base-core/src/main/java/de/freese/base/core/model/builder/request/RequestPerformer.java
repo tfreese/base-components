@@ -11,7 +11,8 @@ public interface RequestPerformer
 {
     /**
      * @param builder {@link RequestBuilder}
+     *
      * @throws Exception Falls was schief geht.
      */
-    public void perform(RequestBuilder builder) throws Exception;
+    void perform(RequestBuilder builder) throws Exception;
 }

@@ -13,27 +13,22 @@ public class UserProperty extends Property
      *
      */
     private boolean changed;
-
     /**
      *
      */
     private boolean created;
-
     /**
      *
      */
     private boolean deleted;
-
     /**
      *
      */
     private Date lastAccess;
-
     /**
      *
      */
     private PropertyType typ;
-
     /**
      *
      */
@@ -50,17 +45,10 @@ public class UserProperty extends Property
             return true;
         }
 
-        if (!super.equals(obj))
+        if (!super.equals(obj) || !(obj instanceof UserProperty other))
         {
             return false;
         }
-
-        if (!(obj instanceof UserProperty))
-        {
-            return false;
-        }
-
-        UserProperty other = (UserProperty) obj;
 
         if (this.changed != other.changed)
         {

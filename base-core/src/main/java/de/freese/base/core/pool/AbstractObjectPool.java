@@ -1,7 +1,4 @@
-/**
- * Created: 10.04.2020
- */
-
+// Created: 10.04.2020
 package de.freese.base.core.pool;
 
 import java.lang.reflect.ParameterizedType;
@@ -19,6 +16,7 @@ import org.slf4j.LoggerFactory;
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
  *
  * @author Thomas Freese
+ *
  * @param <T> Type
  */
 public abstract class AbstractObjectPool<T> implements ObjectPool<T>
@@ -27,12 +25,10 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger("ObjectPool");
-
     /**
      *
      */
     private final Set<T> busy = new HashSet<>();
-
     /**
      *
      */
@@ -213,6 +209,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * <br>
      *
      * @return Class
+     *
      * @throws ClassCastException Falls was schief geht.
      */
     @SuppressWarnings("unchecked")

@@ -1,9 +1,12 @@
 package de.freese.base.core.model.tupel;
 
+import java.util.Objects;
+
 /**
  * Ein 4er-Tupel verknuepft 4 Objekte miteinander.
  *
  * @author Thomas Freese
+ *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
  * @param <C> Konkreter Typ ValueC
@@ -55,26 +58,12 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C>
             return true;
         }
 
-        if (!super.equals(obj))
+        if (!super.equals(obj) || !(obj instanceof Tupel4<?, ?, ?, ?> other))
         {
             return false;
         }
 
-        if (!(obj instanceof Tupel4<?, ?, ?, ?>))
-        {
-            return false;
-        }
-
-        Tupel4<?, ?, ?, ?> other = (Tupel4<?, ?, ?, ?>) obj;
-
-        if (this.valueD == null)
-        {
-            if (other.valueD != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.valueD.equals(other.valueD))
+        if (!Objects.equals(this.valueD, other.valueD))
         {
             return false;
         }

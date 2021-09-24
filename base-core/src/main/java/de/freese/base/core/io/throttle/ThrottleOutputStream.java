@@ -1,13 +1,11 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.io.throttle;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
 import de.freese.base.core.throttle.Throttle;
 
 /**
@@ -19,17 +17,14 @@ public class ThrottleOutputStream extends OutputStream
     *
     */
     private long bytesWrite;
-
     /**
     *
     */
     private OutputStream outputStream;
-
     /**
     *
     */
     private final Throttle throttle;
-
     /**
      *
      */
@@ -93,6 +88,7 @@ public class ThrottleOutputStream extends OutputStream
 
     /**
      * @param permits int
+     *
      * @throws IOException Falls was schief geht.
      */
     public void throttle(final int permits) throws IOException

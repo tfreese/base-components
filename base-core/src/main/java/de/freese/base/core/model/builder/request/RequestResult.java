@@ -10,5 +10,5 @@ public interface RequestResult
     /**
      * @return Object
      */
-    public Object getObject();
+    Object getObject();
 }

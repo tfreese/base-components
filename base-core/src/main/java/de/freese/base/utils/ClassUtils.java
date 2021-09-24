@@ -1,7 +1,4 @@
-/**
- * Created: 22.04.2020
- */
-
+// Created: 22.04.2020
 package de.freese.base.utils;
 
 import java.io.Closeable;
@@ -124,9 +121,12 @@ public final class ClassUtils
      *
      * @param name the name of the Class
      * @param classLoader the class loader to use (may be {@code null}, which indicates the default class loader)
+     *
      * @return a class instance for the supplied name
+     *
      * @throws ClassNotFoundException if the class was not found
      * @throws LinkageError if the class file could not be loaded
+     *
      * @see Class#forName(String, boolean, ClassLoader)
      */
     public static Class<?> forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException, LinkageError
@@ -213,6 +213,7 @@ public final class ClassUtils
      * example, for class path resource loading (but not necessarily for {@code Class.forName}, which accepts a {@code null} ClassLoader reference as well).
      *
      * @return the default ClassLoader (only {@code null} if even the system ClassLoader isn't accessible)
+     *
      * @see Thread#getContextClassLoader()
      * @see ClassLoader#getSystemClassLoader()
      */
@@ -255,6 +256,7 @@ public final class ClassUtils
      * Return the qualified name of the given class: usually simply the class name, but component type class name + "[]" for arrays.
      *
      * @param clazz the class
+     *
      * @return the qualified name of the class
      */
     public static String getQualifiedName(final Class<?> clazz)
@@ -268,6 +270,7 @@ public final class ClassUtils
      * Get the class name without the qualified package name.
      *
      * @param clazz the class to get the short name for
+     *
      * @return the class name of the class without the package name
      */
     public static String getShortName(final Class<?> clazz)
@@ -279,7 +282,9 @@ public final class ClassUtils
      * Get the class name without the qualified package name.
      *
      * @param className the className to get the short name for
+     *
      * @return the class name of the class without the package name
+     *
      * @throws IllegalArgumentException if the className is empty
      */
     public static String getShortName(final String className)
@@ -306,6 +311,7 @@ public final class ClassUtils
      *
      * @param lhsType the target type
      * @param rhsType the value type that should be assigned to the target type
+     *
      * @return if the target type is assignable from the value type
      */
     public static boolean isAssignable(final Class<?> lhsType, final Class<?> rhsType)
@@ -334,7 +340,9 @@ public final class ClassUtils
      * Determine if the supplied class is an <em>inner class</em>, i.e. a non-static member of an enclosing class.
      *
      * @param clazz Class
+     *
      * @return {@code true} if the supplied class is an inner class
+     *
      * @see Class#isMemberClass()
      */
     public static boolean isInnerClass(final Class<?> clazz)
@@ -348,6 +356,7 @@ public final class ClassUtils
      * characteristics: no service-level operations, no bean property methods, no default methods.
      *
      * @param ifc the interface to check
+     *
      * @return boolean
      */
     public static boolean isJavaLanguageInterface(final Class<?> ifc)
@@ -375,6 +384,7 @@ public final class ClassUtils
      * supported by {@link #forName(String, ClassLoader)}.
      *
      * @param name the name of the potentially primitive class
+     *
      * @return the primitive class, or {@code null} if the name does not denote a primitive class or primitive array class
      */
     public static Class<?> resolvePrimitiveClassName(final String name)

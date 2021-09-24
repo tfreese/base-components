@@ -1,13 +1,11 @@
-/**
- * Created: 29.03.2020
- */
-
+// Created: 29.03.2020
 package de.freese.base.core.io.throttle;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
 import de.freese.base.core.throttle.Throttle;
 
 /**
@@ -19,17 +17,14 @@ public class ThrottleInputStream extends InputStream
      *
      */
     private long bytesRead;
-
     /**
      *
      */
     private final InputStream inputStream;
-
     /**
      *
      */
     private final Throttle throttle;
-
     /**
      *
      */

@@ -2,6 +2,7 @@
 package de.freese.base.core.model.grid.builder;
 
 import java.util.Objects;
+
 import de.freese.base.core.model.grid.Grid;
 import de.freese.base.core.model.grid.GridMetaData;
 import de.freese.base.core.model.grid.column.GridColumn;
@@ -15,27 +16,22 @@ public class GridColumnBuilder
     *
     */
     private String comment;
-
     /**
      *
      */
     private final GridMetaData gridMetaData;
-
     /**
     *
     */
     private int length = -1;
-
     /**
     *
     */
     private String name;
-
     /**
      *
      */
     private Class<?> objectClazz;
-
     /**
     *
     */
@@ -83,6 +79,7 @@ public class GridColumnBuilder
 
     /**
      * @param comment String
+     *
      * @return {@link GridColumnBuilder}
      */
     public GridColumnBuilder comment(final String comment)
@@ -94,6 +91,7 @@ public class GridColumnBuilder
 
     /**
      * @param length int
+     *
      * @return {@link GridColumnBuilder}
      */
     public GridColumnBuilder length(final int length)
@@ -105,6 +103,7 @@ public class GridColumnBuilder
 
     /**
      * @param name String
+     *
      * @return {@link GridColumnBuilder}
      */
     public GridColumnBuilder name(final String name)
@@ -116,6 +115,7 @@ public class GridColumnBuilder
 
     /**
      * @param objectClazz Class
+     *
      * @return {@link GridColumnBuilder}
      */
     public GridColumnBuilder objectClazz(final Class<?> objectClazz)
@@ -127,6 +127,7 @@ public class GridColumnBuilder
 
     /**
      * @param precision int
+     *
      * @return {@link GridColumnBuilder}
      */
     public GridColumnBuilder precision(final int precision)

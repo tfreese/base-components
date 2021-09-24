@@ -108,9 +108,9 @@ public final class CalendarUtils
     {
         Instant instant = null;
 
-        if (date instanceof java.sql.Date)
+        if (date instanceof java.sql.Date d)
         {
-            LocalDate localDate = ((java.sql.Date) date).toLocalDate();
+            LocalDate localDate = d.toLocalDate();
 
             instant = toInstant(localDate);
         }
@@ -196,9 +196,9 @@ public final class CalendarUtils
      */
     public static LocalDate toLocalDate(final TemporalAccessor accessor)
     {
-        if (accessor instanceof LocalDate)
+        if (accessor instanceof LocalDate ld)
         {
-            return (LocalDate) accessor;
+            return ld;
         }
 
         Instant instant = toInstant(accessor);

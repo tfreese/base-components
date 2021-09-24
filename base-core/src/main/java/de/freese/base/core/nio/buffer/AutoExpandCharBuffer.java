@@ -15,6 +15,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 {
     /**
      * @param capacity int
+     *
      * @return {@link AutoExpandCharBuffer}
      */
     public static AutoExpandCharBuffer of(final int capacity)
@@ -40,8 +41,24 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
     }
 
     /**
+     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
+     */
+    @Override
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
+    {
+        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+
+        buffer.flip();
+        newBuffer.put(buffer);
+
+        return newBuffer;
+    }
+
+    /**
      * @param encoder {@link CharsetEncoder}
+     *
      * @return {@link ByteBuffer}
+     *
      * @throws CharacterCodingException Falls was schief geht.
      */
     public ByteBuffer encode(final CharsetEncoder encoder) throws CharacterCodingException
@@ -51,6 +68,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 
     /**
      * @return char
+     *
      * @see CharBuffer#get()
      */
     public char get()
@@ -60,7 +78,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 
     /**
      * @param dst char[]
+     *
      * @return {@link AutoExpandCharBuffer}
+     *
      * @see CharBuffer#get(char[])
      */
     public AutoExpandCharBuffer get(final char[] dst)
@@ -74,7 +94,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
      * @param dst char[]
      * @param offset int
      * @param length int
+     *
      * @return {@link AutoExpandCharBuffer}
+     *
      * @see CharBuffer#get(char[], int, int)
      */
     public AutoExpandCharBuffer get(final char[] dst, final int offset, final int length)
@@ -86,7 +108,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 
     /**
      * @param index int
+     *
      * @return char
+     *
      * @see CharBuffer#get(int)
      */
     public char get(final int index)
@@ -97,7 +121,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
     /**
      * @param index int
      * @param dst char[]
+     *
      * @return {@link AutoExpandCharBuffer}
+     *
      * @see CharBuffer#get(int, char[])
      */
     public AutoExpandCharBuffer get(final int index, final char[] dst)
@@ -110,6 +136,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
     /**
      * @param index int
      * @param length int
+     *
      * @return String
      */
     public String getString(final int index, final int length)
@@ -123,7 +150,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 
     /**
      * @param c char
+     *
      * @return {@link AutoExpandCharBuffer}
+     *
      * @see CharBuffer#put(char)
      */
     public AutoExpandCharBuffer put(final char c)
@@ -137,7 +166,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
 
     /**
      * @param src {@link CharSequence}
+     *
      * @return {@link AutoExpandCharBuffer}
+     *
      * @see CharBuffer#put(String)
      */
     public AutoExpandCharBuffer put(final CharSequence src)
@@ -149,7 +180,9 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
      * @param src {@link CharSequence}
      * @param start int
      * @param end int
+     *
      * @return {@link AutoExpandCharBuffer}
+     *
      * @see CharBuffer#put(String, int, int)
      */
     public AutoExpandCharBuffer put(final CharSequence src, final int start, final int end)
@@ -159,19 +192,5 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
         getBuffer().put(src.toString(), start, end);
 
         return this;
-    }
-
-    /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
-    @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
-    {
-        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
-
-        buffer.flip();
-        newBuffer.put(buffer);
-
-        return newBuffer;
     }
 }
