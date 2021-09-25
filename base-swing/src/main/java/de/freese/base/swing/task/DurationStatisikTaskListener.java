@@ -23,12 +23,10 @@ public final class DurationStatisikTaskListener implements PropertyChangeListene
      *
      */
     private static final Map<String, TaskStatistik> CACHE = new HashMap<>();
-
     /**
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DurationStatisikTaskListener.class);
-
     /**
      *
      */

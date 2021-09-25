@@ -10,34 +10,34 @@ import de.freese.base.swing.eventlist.FilterableEventList;
 public interface Filter extends FilterCondition
 {
     /**
-     * 
+     *
      */
-    public static final String ALL = "alle";
+    String ALL = "alle";
 
     /**
-     * 
+     *
      */
-    public static final String EMPTY = "leer";
+    String EMPTY = "leer";
 
     /**
-     * 
+     *
      */
-    public static final String FILTER_CHANGED = "FILTER_CHANGED";
+    String FILTER_CHANGED = "FILTER_CHANGED";
 
     /**
-     * 
+     *
      */
-    public static final String NOT_EMPTY = "nicht leer";
+    String NOT_EMPTY = "nicht leer";
 
     /**
      * Setzt den Filter zurueck.
      */
-    public void reset();
+    void reset();
 
     /**
      * Setzt den Wert mit dem der Filter arbeiten soll.
-     * 
+     *
      * @param filterValue Object[]
      */
-    public void setFilterValue(Object filterValue);
+    void setFilterValue(Object filterValue);
 }

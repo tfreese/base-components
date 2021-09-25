@@ -1,6 +1,7 @@
 package de.freese.base.swing.task.inputblocker;
 
 import java.beans.PropertyChangeListener;
+
 import de.freese.base.swing.task.AbstractSwingTask;
 
 /**
@@ -14,10 +15,10 @@ public interface InputBlocker extends PropertyChangeListener
     /**
      * Blockiert das Target.
      */
-    public void block();
+    void block();
 
     /**
      * Freigeben des Targets.
      */
-    public void unblock();
+    void unblock();
 }

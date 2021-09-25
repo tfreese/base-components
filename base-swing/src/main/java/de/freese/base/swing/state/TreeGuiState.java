@@ -3,6 +3,7 @@ package de.freese.base.swing.state;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
@@ -23,12 +24,10 @@ public class TreeGuiState extends AbstractGuiState
      *
      */
     private static final long serialVersionUID = -3862916832341697120L;
-
     /**
      *
      */
     private final List<int[]> expansionIndices = new ArrayList<>();
-
     /**
      * int[]
      */

@@ -126,37 +126,30 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      */
     private long doneTime = -1L;
-
     /**
      *
      */
     private InputBlocker inputBlocker;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      * Interner Name des Tasks.
      */
     private final String name;
-
     /**
      *
      */
     private boolean progressPropertyIsValid;
-
     /**
      *
      */
     private long startTime = -1L;
-
     /**
      * Untertitel des Tasks fuer ProgressBars oder aehnliches,.
      */
     private String subTitle;
-
     /**
      * Titel des Tasks fuer ProgressBars oder aehnliches,.
      */

@@ -1,8 +1,10 @@
 package de.freese.base.swing.filter;
 
 import java.beans.PropertyChangeSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.eventlist.FilterableEventList;
 
 /**
@@ -16,12 +18,10 @@ public abstract class AbstractFilter implements Filter
      *
      */
     private Object filterValue;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */

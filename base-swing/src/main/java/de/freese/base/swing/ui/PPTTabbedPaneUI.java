@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
@@ -19,6 +20,7 @@ public class PPTTabbedPaneUI extends BasicTabbedPaneUI
 {
     /**
      * @param c {@link JComponent}
+     *
      * @return {@link ComponentUI}
      */
     public static ComponentUI createUI(final JComponent c)

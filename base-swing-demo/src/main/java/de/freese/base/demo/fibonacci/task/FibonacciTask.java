@@ -1,6 +1,7 @@
 package de.freese.base.demo.fibonacci.task;
 
 import java.util.Objects;
+
 import de.freese.base.demo.fibonacci.FibonacciController;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
@@ -16,12 +17,10 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
      *
      */
     private final FibonacciController controller;
-
     /**
      *
      */
     private final ResourceMap resourceMap;
-
     /**
      *
      */
@@ -81,6 +80,6 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
 
         getLogger().info("Finished");
 
-        return Long.valueOf(result);
+        return result;
     }
 }

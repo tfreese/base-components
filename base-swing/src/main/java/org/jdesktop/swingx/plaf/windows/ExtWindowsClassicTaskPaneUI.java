@@ -276,12 +276,10 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      */
     private PropertyChangeListener buttonEnabledPropertyChangeListener;
-
     /**
      * Liste aller Buttons TitelLeiste
      */
     protected List<JButton> titleButtons = new ArrayList<>();
-
     /**
      * Liste aller Buttons & Separators der TitelLeiste
      */

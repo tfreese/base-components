@@ -40,7 +40,6 @@ public class OSXAdapter implements InvocationHandler
      *
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(OSXAdapter.class);
-
     /**
      *
      */
@@ -205,7 +204,6 @@ public class OSXAdapter implements InvocationHandler
      *
      */
     protected Method targetMethod;
-
     /**
      *
      */

@@ -11,9 +11,12 @@ import java.util.Formatter;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Objects;
+
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+
 import org.jdesktop.swingx.painter.MattePainter;
+
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 
 /**
@@ -27,7 +30,6 @@ public final class UICustomization
      *
      */
     private static final String COLOR_ALTERNATING = "color.alternating";
-
     /**
      *
      */
@@ -58,6 +60,7 @@ public final class UICustomization
      * Wenn der Klassenname null ist wird <code>UIManager.getSystemLookAndFeelClassName()</code> verwendet.
      *
      * @param className String LookAndFeel Klassenname, optional
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void install(final String className) throws Exception
@@ -110,6 +113,7 @@ public final class UICustomization
 
     /**
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception

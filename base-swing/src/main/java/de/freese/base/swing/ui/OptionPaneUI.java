@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -23,6 +24,7 @@ public class OptionPaneUI extends BasicOptionPaneUI
      * Creates a new BasicOptionPaneUI instance.
      *
      * @param component {@link JComponent}
+     *
      * @return {@link ComponentUI}
      */
     public static ComponentUI createUI(final JComponent component)
@@ -38,9 +40,9 @@ public class OptionPaneUI extends BasicOptionPaneUI
     {
         Container c = super.createButtonArea();
 
-        if (c instanceof JComponent)
+        if (c instanceof JComponent jc)
         {
-            ((JComponent) c).setOpaque(false);
+            jc.setOpaque(false);
         }
 
         return c;

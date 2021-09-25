@@ -1,7 +1,4 @@
-/**
- * Created: 23.07.2011
- */
-
+// Created: 23.07.2011
 package de.freese.base.swing.exception;
 
 import java.util.Objects;
@@ -17,7 +14,6 @@ public class ReleaseVetoException extends Exception
      *
      */
     private static final long serialVersionUID = -6827296101261000027L;
-
     /**
      *
      */

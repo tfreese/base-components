@@ -8,14 +8,6 @@ package de.freese.base.swing.filter;
 public class BooleanFilter extends AbstractFilter
 {
     /**
-     * Erstellt ein neues {@link BooleanFilter} Objekt.
-     */
-    public BooleanFilter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.swing.filter.FilterCondition#test(java.lang.Object)
      */
     @Override

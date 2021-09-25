@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
+
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JSeparator;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
+
 import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.layout.GbcBuilder;
@@ -29,52 +31,42 @@ public class StatusBar extends JPanel implements PropertyChangeListener
      *
      */
     private static final long serialVersionUID = -5987325109823650807L;
-
     /**
      *
      */
     private final int busyAnimationRate;
-
     /**
      *
      */
     private int busyIconIndex;
-
     /**
      *
      */
     private final Icon[] busyIcons = new Icon[15];
-
     /**
      *
      */
     private final Timer busyIconTimer;
-
     /**
      *
      */
     private final Icon idleIcon;
-
     /**
      *
      */
     private JLabel messageLabel;
-
     /**
      *
      */
     private final Timer messageTimer;
-
     /**
      *
      */
     private JProgressBar progressBar;
-
     /**
      *
      */
     private JLabel statusAnimationLabel;
-
     /**
      *
      */
@@ -95,9 +87,9 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         Objects.requireNonNull(resourceMap, "resourceMap required");
 
         Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
-        this.messageTimer = new Timer(messageTimeout.intValue(), event -> this.messageLabel.setText(""));
+        this.messageTimer = new Timer(messageTimeout, event -> this.messageLabel.setText(""));
         this.messageTimer.setRepeats(false);
-        this.busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate").intValue();
+        this.busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
         this.idleIcon = resourceMap.getIcon("statusbar.icon.idle");
 
         for (int i = 0; i < this.busyIcons.length; i++)
@@ -160,7 +152,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         }
         else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName))
         {
-            int value = ((Integer) (evt.getNewValue())).intValue();
+            int value = ((Integer) (evt.getNewValue()));
             this.progressBar.setEnabled(true);
             this.progressBar.setIndeterminate(false);
             this.progressBar.setValue(value);

@@ -1,7 +1,9 @@
 package de.freese.base.swing.filter.editor;
 
 import java.util.Date;
+
 import javax.swing.JComponent;
+
 import de.freese.base.swing.components.datepicker.DatePicker;
 
 /**
@@ -16,7 +18,6 @@ public class DatePickerFilterEditor extends DatePicker implements FilterEditor
      *
      */
     private static final long serialVersionUID = -3308667881098631844L;
-
     /**
      *
      */
@@ -24,7 +25,7 @@ public class DatePickerFilterEditor extends DatePicker implements FilterEditor
 
     /**
      * Erstellt ein neues {@link DatePickerFilterEditor} Object.
-     * 
+     *
      * @param column int
      */
     public DatePickerFilterEditor(final int column)
@@ -88,7 +89,7 @@ public class DatePickerFilterEditor extends DatePicker implements FilterEditor
     // }
 
     /**
-     * 
+     *
      */
     @Override
     public void setValue(final Object value)

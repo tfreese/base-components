@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -22,12 +23,10 @@ public class ComboBoxGuiState extends AbstractGuiState
      *
      */
     private static final long serialVersionUID = -8701963133645177327L;
-
     /**
      * Der Selektierte Index in der Combobox. Per Default, ist das erste Element in der Combobox vorselektiert.
      */
     private int selectedIndex;
-
     /**
      * Name des gewaehlten Objectes.
      */
@@ -65,9 +64,9 @@ public class ComboBoxGuiState extends AbstractGuiState
                     Object value = comboBox.getModel().getElementAt(i);
                     Component c = renderer.getListCellRendererComponent(dummy, value, i, true, true);
 
-                    if (c instanceof JLabel)
+                    if (c instanceof JLabel l)
                     {
-                        String text = ((JLabel) c).getText();
+                        String text = l.getText();
 
                         if (this.selectedName.equals(text))
                         {
@@ -114,9 +113,9 @@ public class ComboBoxGuiState extends AbstractGuiState
             ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
             Component c = renderer.getListCellRendererComponent(dummy, value, this.selectedIndex, true, true);
 
-            if (c instanceof JLabel)
+            if (c instanceof JLabel l)
             {
-                this.selectedName = ((JLabel) c).getText();
+                this.selectedName = l.getText();
             }
         }
         catch (Exception ex)

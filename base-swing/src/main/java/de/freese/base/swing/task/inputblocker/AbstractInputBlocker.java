@@ -6,10 +6,13 @@ import java.awt.Frame;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JRootPane;
 import javax.swing.RootPaneContainer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.utils.GuiUtils;
 
@@ -17,6 +20,7 @@ import de.freese.base.utils.GuiUtils;
  * InputBlocker können für einen {@link AbstractSwingTask} die GUI-Elemente für die Eingabe blockieren.
  *
  * @author Thomas Freese
+ *
  * @param <T> Konkreter Typ des Targets
  */
 public abstract class AbstractInputBlocker<T> implements InputBlocker
@@ -25,17 +29,14 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
      *
      */
     private boolean changeMouseCursor;
-
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     /**
      *
      */
     private JRootPane rootPane;
-
     /**
      *
      */
@@ -65,16 +66,15 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
                 break;
             }
 
-            if (target instanceof Component)
+            if (target instanceof Component root)
             {
-                Component root = (Component) target;
                 RootPaneContainer rpc = null;
 
                 while (root != null)
                 {
-                    if (root instanceof RootPaneContainer)
+                    if (root instanceof RootPaneContainer c)
                     {
-                        rpc = (RootPaneContainer) root;
+                        rpc = c;
                         break;
                     }
 
@@ -90,9 +90,9 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
         {
             Frame activeFrame = GuiUtils.getActiveFrame();
 
-            if (activeFrame instanceof RootPaneContainer)
+            if (activeFrame instanceof RootPaneContainer c)
             {
-                rp = ((RootPaneContainer) activeFrame).getRootPane();
+                rp = c.getRootPane();
             }
         }
 

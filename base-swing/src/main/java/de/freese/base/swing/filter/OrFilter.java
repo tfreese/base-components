@@ -9,14 +9,6 @@ package de.freese.base.swing.filter;
 public class OrFilter extends AndFilter
 {
     /**
-     * Erstellt ein neues {@link OrFilter} Object.
-     */
-    public OrFilter()
-    {
-        super();
-    }
-
-    /**
      * @see de.freese.base.swing.filter.FilterCondition#test(java.lang.Object)
      */
     @Override

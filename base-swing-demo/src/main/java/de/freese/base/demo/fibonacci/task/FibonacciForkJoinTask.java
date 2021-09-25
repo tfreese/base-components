@@ -1,11 +1,10 @@
-/**
- * Created: 12.05.2012
- */
+// Created: 12.05.2012
 package de.freese.base.demo.fibonacci.task;
 
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
+
 import de.freese.base.demo.fibonacci.FibonacciController;
 
 /**
@@ -19,27 +18,22 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
      *
      */
     private static final long serialVersionUID = 67781993370162624L;
-
     /**
      * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
      */
     private static final int THRESHOLD = 10;
-
     /**
      *
      */
     private final boolean enableCache;
-
     /**
      *
      */
     public final int n;
-
     /**
      *
      */
     private final LongConsumer operationConsumer;
-
     /**
      *
      */
@@ -99,13 +93,14 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
             FibonacciController.FIBONACCI_CACHE.put(this.n, result);
         }
 
-        return Long.valueOf(result);
+        return result;
     }
 
     /**
      * Algorithmus.
      *
      * @param n int
+     *
      * @return long
      */
     private long fibonacci(final int n)

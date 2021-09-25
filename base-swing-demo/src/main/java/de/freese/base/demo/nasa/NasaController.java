@@ -65,16 +65,10 @@ public class NasaController extends AbstractController
     // return messageDigest;
     // }
 
-    // /**
-    // *
-    // */
-    // private final Cache cache = new FileCache();
-
     /**
      * Max. 12196 Bilder verfügbar
      */
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
-
     /**
     *
     */
@@ -92,27 +86,22 @@ public class NasaController extends AbstractController
             "PIA05199.jpg",
             "PIA05990.jpg"
     };
-
     // /**
     // *
     // */
     // private final MessageDigest messageDigest;
-
     /**
      *
      */
     private final Random random = new Random();
-
     /**
      *
      */
     private final List<URL> urlHistory = new ArrayList<>();
-
     /**
      *
      */
     private int urlHistoryCurrentIndex = -1;
-
     /**
      *
      */
@@ -313,7 +302,6 @@ public class NasaController extends AbstractController
      *
      * @throws Exception Falls was schief geht.
      */
-    @SuppressWarnings("resource")
     public BufferedImage loadImage(final URL url, final IIOReadProgressListener listener) throws Exception
     {
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();

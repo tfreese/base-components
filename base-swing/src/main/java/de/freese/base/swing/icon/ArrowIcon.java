@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.SwingConstants;
 
@@ -28,29 +29,26 @@ public class ArrowIcon implements Icon
     }
 
     /**
-     * 
+     *
      */
     private final int direction;
-
     /**
-     * 
+     *
      */
     private final Color foreground;
-
     /**
-     * 
+     *
      */
     private final int height;
-
     /**
-     * 
+     *
      */
     private final int width;
 
     /**
      * Creates a new {@link ArrowIcon} object.<br>
      * Defaults: Widht = 16, Height = 16, ForeGround = Black
-     * 
+     *
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      */
     public ArrowIcon(final int direction)
@@ -60,11 +58,12 @@ public class ArrowIcon implements Icon
 
     /**
      * Creates a new {@link ArrowIcon} object.
-     * 
+     *
      * @param width int
      * @param height int
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      * @param foreground {@link Color}
+     *
      * @throws IllegalArgumentException Falls Direction ungueltig
      */
     public ArrowIcon(final int width, final int height, final int direction, final Color foreground)

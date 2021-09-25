@@ -18,19 +18,10 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
      *
      */
     private List<FilterCondition> filters;
-
     /**
      *
      */
     private PropertyChangeSupport propertyChangeSupport;
-
-    /**
-     * Erstellt ein neues {@link AndFilter} Object.
-     */
-    public AndFilter()
-    {
-        super();
-    }
 
     /**
      * Hinzufuegen eines oder mehrerer Filter.
@@ -50,6 +41,18 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     }
 
     /**
+     * Liefert den Filter am Index.
+     *
+     * @param index int
+     *
+     * @return {@link FilterCondition}
+     */
+    public FilterCondition getFilter(final int index)
+    {
+        return getFilters().get(index);
+    }
+
+    /**
      * @return {@link List}<IFilter>
      */
     protected List<FilterCondition> getFilters()
@@ -60,17 +63,6 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
         }
 
         return this.filters;
-    }
-
-    /**
-     * Liefert den Filter am Index.
-     *
-     * @param index int
-     * @return {@link FilterCondition}
-     */
-    public FilterCondition getFilter(final int index)
-    {
-        return getFilters().get(index);
     }
 
     /**

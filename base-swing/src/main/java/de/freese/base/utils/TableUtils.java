@@ -2,6 +2,7 @@ package de.freese.base.utils;
 
 import java.awt.Component;
 import java.awt.Rectangle;
+
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -10,7 +11,9 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.components.table.AbstractListTableModel;
 
 /**
@@ -22,7 +25,7 @@ public final class TableUtils
 {
     /**
      * Abbrechen der Eingabe des CellEditors.
-     * 
+     *
      * @param table {@link JTable}
      */
     public static void cancelCellEditing(final JTable table)
@@ -43,7 +46,7 @@ public final class TableUtils
     /**
      * http://www.exampledepot.com/egs/javax.swing.table/VisCenter.html <br>
      * Selektiert die Zelle an der gewuenschten Position und zentriert sie innerhalb der ScrollPane.
-     * 
+     *
      * @param table {@link JTable}
      * @param row int
      * @param column int
@@ -88,9 +91,10 @@ public final class TableUtils
 
     /**
      * Liefert den {@link TableCellRenderer} einer bestimmten Column einer Table.
-     * 
+     *
      * @param table {@link JTable}
      * @param column int
+     *
      * @return {@link TableCellRenderer}
      */
     public static TableCellRenderer getCellRenderer(final JTable table, final int column)
@@ -114,9 +118,10 @@ public final class TableUtils
 
     /**
      * Liefert den {@link TableCellRenderer} einer bestimmten Column einer Table.
-     * 
+     *
      * @param table {@link JTable}
      * @param column {@link TableColumn}
+     *
      * @return {@link TableCellRenderer}
      */
     public static TableCellRenderer getCellRenderer(final JTable table, final TableColumn column)
@@ -126,8 +131,9 @@ public final class TableUtils
 
     /**
      * Liefert das erste selektierte Object.
-     * 
+     *
      * @param table {@link JTable}
+     *
      * @return Object
      */
     public static Object getFirstSelectedObject(final JTable table)
@@ -144,9 +150,10 @@ public final class TableUtils
 
     /**
      * Liefert den Header {@link TableCellRenderer} einer bestimmten Column einer Table.
-     * 
+     *
      * @param table {@link JTable}
      * @param column {@link TableColumn}
+     *
      * @return {@link TableCellRenderer}
      */
     public static TableCellRenderer getHeaderRenderer(final JTable table, final TableColumn column)
@@ -168,10 +175,11 @@ public final class TableUtils
 
     /**
      * Liefert den gerenderten Wert der Tabelle.
-     * 
+     *
      * @param table {@link JTable}
      * @param row int
      * @param column int
+     *
      * @return String
      */
     public static String getRenderedValueAt(final JTable table, final int row, final int column)
@@ -184,13 +192,13 @@ public final class TableUtils
         {
             Component c = table.prepareRenderer(tcr, row, column);
 
-            if (c instanceof JLabel)
+            if (c instanceof JLabel label)
             {
-                value = ((JLabel) c).getText().trim();
+                value = label.getText().trim();
             }
-            else if (c instanceof JCheckBox)
+            else if (c instanceof JCheckBox ceckBox)
             {
-                if (((JCheckBox) c).isSelected())
+                if (ceckBox.isSelected())
                 {
                     value = Boolean.TRUE.toString();
                 }
@@ -217,8 +225,9 @@ public final class TableUtils
 
     /**
      * Liefert die Objekte der selektierten Zeilen, das TableModel muss dabei vom Typ {@link AbstractListTableModel} sein !
-     * 
+     *
      * @param table {@link JTable}
+     *
      * @return Object[]
      */
     public static Object[] getSelectedObjects(final JTable table)
@@ -226,10 +235,8 @@ public final class TableUtils
         int[] rows = table.getSelectedRows();
         Object[] result = new Object[rows.length];
 
-        if (table.getModel() instanceof AbstractListTableModel<?>)
+        if (table.getModel()instanceof AbstractListTableModel<?> model)
         {
-            AbstractListTableModel<?> model = (AbstractListTableModel<?>) table.getModel();
-
             for (int i = 0; i < rows.length; i++)
             {
                 int modelRowIndex = table.convertRowIndexToModel(rows[i]);
@@ -243,7 +250,7 @@ public final class TableUtils
 
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
-     * 
+     *
      * @param table {@link JTable}
      * @param column int
      * @param margin int; -1 = default
@@ -255,7 +262,7 @@ public final class TableUtils
 
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
-     * 
+     *
      * @param table {@link JTable}
      * @param column int
      * @param margin int; -1 = default
@@ -269,7 +276,7 @@ public final class TableUtils
 
     /**
      * Setzt die optimale Breite der {@link TableColumn}, falls diese Resizeable ist.
-     * 
+     *
      * @param table {@link JTable}
      * @param column {@link TableColumn}
      * @param margin int; -1 = default
@@ -323,7 +330,7 @@ public final class TableUtils
 
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
-     * 
+     *
      * @param table {@link JTable}
      * @param margin int; -1 = default
      */
@@ -337,7 +344,7 @@ public final class TableUtils
 
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
-     * 
+     *
      * @param table {@link JTable}
      * @param margin int; -1 = default
      * @param min int; -1 = default
@@ -353,7 +360,7 @@ public final class TableUtils
 
     /**
      * Schliessen des CellEditors.
-     * 
+     *
      * @param table {@link JTable}
      */
     public static void stopCellEditing(final JTable table)

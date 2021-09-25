@@ -31,17 +31,14 @@ public class FibonacciController extends AbstractController
      *
      */
     public static final Map<Integer, Long> FIBONACCI_CACHE = new ConcurrentHashMap<>(100);
-
     /**
      *
      */
     private static final Map<Integer, Long> OPERATION_CACHE = new HashMap<>(100);
-
     /**
      *
      */
     private ForkJoinPool forkJoinPool;
-
     /**
     *
     */

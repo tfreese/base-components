@@ -3,6 +3,7 @@ package de.freese.base.swing.state;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Rectangle;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,22 +21,18 @@ public class ContainerGuiState extends AbstractGuiState
      *
      */
     private static final long serialVersionUID = 3075009969118716461L;
-
     /**
      *
      */
     private int height;
-
     /**
      *
      */
     private int width;
-
     /**
      *
      */
     private int x;
-
     /**
      *
      */

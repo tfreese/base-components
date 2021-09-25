@@ -78,22 +78,18 @@ public class TaskManager
     *
     */
     private final ExecutorService executorService;
-
     /**
     *
     */
     private AbstractSwingTask<?, ?> foregroundTask;
-
     /**
     *
     */
     private final PropertyChangeListener foregroundTaskPCL;
-
     /**
     *
     */
     private final PropertyChangeSupport propertyChangeSupport;
-
     /**
     *
     */

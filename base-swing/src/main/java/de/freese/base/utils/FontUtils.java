@@ -1,7 +1,4 @@
-/**
- * Created: 30.06.2011
- */
-
+// Created: 30.06.2011
 package de.freese.base.utils;
 
 import java.awt.Font;

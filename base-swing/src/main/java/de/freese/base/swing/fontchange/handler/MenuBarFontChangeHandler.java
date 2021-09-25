@@ -1,6 +1,7 @@
 package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Font;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -46,10 +47,8 @@ public class MenuBarFontChangeHandler extends ComponentFontChangeHandler
                 // SubMenus des JMenuItem's
                 for (MenuElement menuElement : menuItem.getSubElements())
                 {
-                    if (menuElement instanceof JPopupMenu)
+                    if (menuElement instanceof JPopupMenu popupMenu)
                     {
-                        JPopupMenu popupMenu = (JPopupMenu) menuElement;
-
                         for (MenuElement subMenuElement : popupMenu.getSubElements())
                         {
                             super.fontChanged(newFont, subMenuElement);

@@ -1,7 +1,9 @@
 package de.freese.base.swing.exception;
 
 import java.awt.Component;
+
 import org.slf4j.Logger;
+
 import de.freese.base.core.function.ExceptionHandler;
 import de.freese.base.core.i18n.Translator;
 
@@ -18,7 +20,7 @@ public interface SwingExceptionHandler extends ExceptionHandler
      * @param throwable {@link Throwable}
      * @param logger {@link Logger}
      */
-    public void handleException(Throwable throwable, Logger logger);
+    void handleException(Throwable throwable, Logger logger);
 
     /**
      * Verarbeitet ein Throwable, loggt die Fehlermeldung und nutzt die ParentComponent fuer einen FehlerDialog.
@@ -27,7 +29,7 @@ public interface SwingExceptionHandler extends ExceptionHandler
      * @param logger {@link Logger}
      * @param parentComponent {@link Component}
      */
-    public void handleException(Throwable throwable, Logger logger, Component parentComponent);
+    void handleException(Throwable throwable, Logger logger, Component parentComponent);
 
     /**
      * Verarbeitet ein Throwable, loggt die Fehlermeldung und nutzt die ParentComponent fuer einen FehlerDialog.
@@ -37,5 +39,5 @@ public interface SwingExceptionHandler extends ExceptionHandler
      * @param parentComponent {@link Component}
      * @param translator {@link Translator}
      */
-    public void handleException(Throwable throwable, Logger logger, Component parentComponent, Translator translator);
+    void handleException(Throwable throwable, Logger logger, Component parentComponent, Translator translator);
 }

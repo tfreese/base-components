@@ -5,8 +5,10 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.beans.PropertyChangeEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
+
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.swing.task.AbstractSwingTask;
@@ -23,12 +25,10 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
      *
      */
     private final JLabel labelSubTitle;
-
     /**
      *
      */
     private final JLabel labelTitle;
-
     /**
      *
      */

@@ -1,10 +1,4 @@
-/**
- * Created: 22.11.2010
- */
-
-/**
- *
- */
+// Created: 22.11.2010
 package de.freese.base.swing;
 
 import java.awt.Component;
@@ -19,8 +13,8 @@ public interface ComponentProvider
 {
     /**
      * Liefert die GUI Componente eines Objektes.
-     * 
+     *
      * @return {@link Component}
      */
-    public Component getComponent();
+    Component getComponent();
 }

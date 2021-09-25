@@ -5,11 +5,13 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
 
@@ -34,47 +36,38 @@ public class TableGuiState extends AbstractGuiState
          *
          */
         private static final long serialVersionUID = -4666054569112117571L;
-
         /**
          *
          */
         private boolean editable = true;
-
         /**
          *
          */
         private int maxWidth = 30;
-
         /**
          *
          */
         private int minWidth = 30;
-
         /**
          *
          */
         private int modelIndex;
-
         /**
          *
          */
         private int preferredWidth = 50;
-
         /**
          *
          */
         private boolean resizeable = true;
-
         /**
          *
          */
         private boolean sortable = true;
-
         /**
          *
          */
         private boolean visible = true;
-
         /**
          *
          */
@@ -104,10 +97,8 @@ public class TableGuiState extends AbstractGuiState
             this.resizeable = tableColumn.getResizable();
             this.modelIndex = tableColumn.getModelIndex();
 
-            if (tableColumn instanceof TableColumnExt)
+            if (tableColumn instanceof TableColumnExt tableColumnExt)
             {
-                TableColumnExt tableColumnExt = (TableColumnExt) tableColumn;
-
                 this.visible = tableColumnExt.isVisible();
                 this.editable = tableColumnExt.isEditable();
                 this.sortable = tableColumnExt.isSortable();
@@ -143,10 +134,8 @@ public class TableGuiState extends AbstractGuiState
 
             tableColumn.setResizable(this.resizeable);
 
-            if (tableColumn instanceof TableColumnExt)
+            if (tableColumn instanceof TableColumnExt tableColumnExt)
             {
-                TableColumnExt tableColumnExt = (TableColumnExt) tableColumn;
-
                 tableColumnExt.setVisible(this.visible);
                 tableColumnExt.setEditable(this.editable);
                 tableColumnExt.setSortable(this.sortable);
@@ -160,12 +149,10 @@ public class TableGuiState extends AbstractGuiState
      *
      */
     private static final long serialVersionUID = -8164953430592111778L;
-
     /**
      *
      */
     private ColumnState[] columnStates;
-
     /**
      *
      */
@@ -183,6 +170,7 @@ public class TableGuiState extends AbstractGuiState
      * Liefert den gespeicherten ModelIndex einer Spalte.
      *
      * @param index int
+     *
      * @return int
      */
     private int findModelIndex(final int index)
@@ -202,16 +190,15 @@ public class TableGuiState extends AbstractGuiState
      * Liefert eine Liste mit den {@link TableColumn}s.
      *
      * @param table {@link JTable}
+     *
      * @return {@link List}
      */
     private List<TableColumn> getColumns(final JTable table)
     {
         List<TableColumn> columns = new ArrayList<>();
 
-        if (table instanceof JXTable)
+        if (table instanceof JXTable jxTable)
         {
-            JXTable jxTable = (JXTable) table;
-
             columns.addAll(jxTable.getColumns(true));
         }
         else

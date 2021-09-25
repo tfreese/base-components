@@ -1,12 +1,12 @@
-/**
- * Created: 17.07.2012
- */
+// Created: 17.07.2012
 package de.freese.base.swing.exception;
 
 import java.awt.Component;
+
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.Logger;
+
 import de.freese.base.core.i18n.Translator;
 
 /**

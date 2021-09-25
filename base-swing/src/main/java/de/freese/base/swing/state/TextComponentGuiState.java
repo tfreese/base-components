@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -20,7 +21,6 @@ public class TextComponentGuiState extends AbstractGuiState
      *
      */
     private static final long serialVersionUID = 2574739641182232056L;
-
     /**
      *
      */

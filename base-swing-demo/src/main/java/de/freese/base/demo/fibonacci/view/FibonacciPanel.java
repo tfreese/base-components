@@ -1,11 +1,13 @@
 package de.freese.base.demo.fibonacci.view;
 
 import java.awt.GridBagLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import de.freese.base.swing.layout.GbcBuilder;
 
 /**
@@ -19,27 +21,22 @@ public class FibonacciPanel extends JPanel
      *
      */
     private static final long serialVersionUID = -2648632168520329957L;
-
     /**
      *
      */
     private JButton buttonComponentBlock;
-
     /**
      *
      */
     private JButton buttonGlassPaneBlock;
-
     /**
      *
      */
     private JLabel label;
-
     /**
      *
      */
     private JLabel labelResult;
-
     /**
      *
      */

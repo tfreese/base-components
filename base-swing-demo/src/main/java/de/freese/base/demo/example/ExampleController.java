@@ -1,7 +1,4 @@
-/**
- * Created: 28.05.2020
- */
-
+// Created: 28.05.2020
 package de.freese.base.demo.example;
 
 import de.freese.base.demo.example.view.ExamplePanel;

@@ -14,5 +14,5 @@ public interface FontChangeHandler
      * @param newFont {@link Font}
      * @param object Object
      */
-    public void fontChanged(Font newFont, Object object);
+    void fontChanged(Font newFont, Object object);
 }

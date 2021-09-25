@@ -2,12 +2,14 @@ package de.freese.base.swing.state;
 
 import java.awt.Component;
 import java.awt.Frame;
+
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import de.freese.base.swing.components.frame.ExtFrame;
 
 /**
@@ -23,7 +25,6 @@ public class FrameGuiState extends ContainerGuiState
      *
      */
     private static final long serialVersionUID = -3974478602033414091L;
-
     /**
      *
      */

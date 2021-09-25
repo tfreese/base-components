@@ -11,9 +11,10 @@ public interface FilterCondition extends SupportsPropertyChange
 {
     /**
      * Liefert true, wenn die Bedingung passt.
-     * 
+     *
      * @param object Object
+     *
      * @return boolean
      */
-    public boolean test(Object object);
+    boolean test(Object object);
 }

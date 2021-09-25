@@ -13,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Locale;
 import java.util.logging.Level;
+
 import javax.activation.DataSource;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,8 +28,10 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
+
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.net.mail.MailWrapper;
 import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.utils.GuiUtils;
@@ -44,12 +47,10 @@ public final class ErrorPane extends JPanel
      *
      */
     private static final long serialVersionUID = 8841473190098899651L;
-
     /**
      *
      */
     private static final Dimension SIZE_DETAIL = new Dimension(6400, 350);
-
     /**
      *
      */
@@ -82,7 +83,7 @@ public final class ErrorPane extends JPanel
      * @param errorInfo {@link ErrorInfo}
      * @param enableSendMail boolean
      */
-    public static final void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail)
+    public static void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail)
     {
         JOptionPane pane =
                 new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new String[] {});
@@ -97,52 +98,42 @@ public final class ErrorPane extends JPanel
      *
      */
     private JButton buttonClipboard;
-
     /**
      *
      */
     private JButton buttonClose;
-
     /**
      *
      */
     private JButton buttonDetails;
-
     /**
      *
      */
     private JButton buttonSend;
-
     /**
      *
      */
     private JPanel detailPanel;
-
     /**
      *
      */
     private JEditorPane editorPaneDetails;
-
     /**
      *
      */
     private JEditorPane editorPaneMessage;
-
     /**
      *
      */
     private final ErrorInfo errorInfo;
-
     /**
      *
      */
     private JLabel labelIcon;
-
     /**
      *
      */
     private final Component owner;
-
     /**
      *
      */
@@ -169,6 +160,7 @@ public final class ErrorPane extends JPanel
      * Formatiert Sonderzeichen in HTML Zeichen.
      *
      * @param input String
+     *
      * @return String
      */
     private String escapeXml(final String input)
@@ -289,9 +281,9 @@ public final class ErrorPane extends JPanel
             this.buttonClose.addActionListener(event -> {
                 Component c = getOwner();
 
-                if (c instanceof Window)
+                if (c instanceof Window w)
                 {
-                    ((Window) c).dispose();
+                    w.dispose();
                 }
             });
         }
@@ -491,6 +483,7 @@ public final class ErrorPane extends JPanel
      * Liefrt einen HTML-String des StackTraces der Exception.
      *
      * @param errorInfo {@link ErrorInfo}
+     *
      * @return String
      */
     private String getDetailsAsHTML(final ErrorInfo errorInfo)
@@ -627,12 +620,7 @@ public final class ErrorPane extends JPanel
         {
             for (Component p = this; p != null; p = p.getParent())
             {
-                if (p instanceof Dialog)
-                {
-                    return p;
-                }
-
-                if (p instanceof Window)
+                if ((p instanceof Dialog) || (p instanceof Window))
                 {
                     return p;
                 }

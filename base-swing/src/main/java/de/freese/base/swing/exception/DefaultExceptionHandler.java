@@ -1,8 +1,10 @@
 package de.freese.base.swing.exception;
 
 import java.awt.Component;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import de.freese.base.core.exception.AbstractValidationException;
 import de.freese.base.core.i18n.Translator;
 
@@ -17,7 +19,6 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
      *
      */
     private static final Translator DEFAULT_TRANSLATOR_ADAPTER = String::format;
-
     /**
      *
      */
@@ -36,6 +37,7 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
      *
      * @param throwable {@link Throwable}
      * @param translator {@link Translator}
+     *
      * @return String
      */
     protected String getTranslatedMessage(final Throwable throwable, final Translator translator)
@@ -55,9 +57,8 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
         {
             message = String.format("%s: %s", throwable.getClass().getSimpleName(), throwable.getStackTrace()[0].getMethodName());
         }
-        else if (throwable instanceof AbstractValidationException)
+        else if (throwable instanceof AbstractValidationException ve)
         {
-            AbstractValidationException ve = (AbstractValidationException) throwable;
             Translator ta = translator;
 
             if (ta == null)

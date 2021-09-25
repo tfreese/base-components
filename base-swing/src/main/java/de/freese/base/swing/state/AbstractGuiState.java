@@ -2,6 +2,7 @@ package de.freese.base.swing.state;
 
 import java.awt.Component;
 import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -16,22 +17,18 @@ public abstract class AbstractGuiState implements GUIState
      *
      */
     private static final long serialVersionUID = 5367608044965230104L;
-
     /**
      * Um veraltete States auch mal loeschen zu koennen.
      */
     private long created = System.currentTimeMillis();
-
     /**
      *
      */
     private boolean enabled = true;
-
     /**
      *
      */
     private final transient Class<?>[] supportedTypes;
-
     /**
      *
      */

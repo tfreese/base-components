@@ -11,10 +11,12 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.Objects;
+
 import javax.activation.DataSource;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import de.freese.base.core.image.ImageFormat;
 
 /**
@@ -79,6 +81,7 @@ public final class GuiUtils
      *
      * @param component {@link JComponent}
      * @param text {@link String}
+     *
      * @return int
      */
     public static int calcTextWidth(final JComponent component, final String text)
@@ -90,6 +93,7 @@ public final class GuiUtils
      * Erzeugt einen PNG-Screenschot als {@link DataSource}.
      *
      * @return {@link DataSource}
+     *
      * @throws Exception Falls was schief geht.
      */
     public static DataSource createScreenShot() throws Exception
@@ -100,11 +104,11 @@ public final class GuiUtils
 
         DataSource dataSource = GuiUtils.createScreenShot(0, 0, width, height);
 
-        if (dataSource instanceof ByteArrayDataSource)
+        if (dataSource instanceof ByteArrayDataSource b)
         {
             String fileName = "screenshot_" + System.currentTimeMillis() + ".png";
 
-            ((ByteArrayDataSource) dataSource).setName(fileName);
+            b.setName(fileName);
         }
 
         return dataSource;
@@ -114,7 +118,9 @@ public final class GuiUtils
      * Erzeugt einen PNG-Screenschot einer {@link Component} als {@link DataSource}.
      *
      * @param c {@link Component}
+     *
      * @return String der Dateiname des ScreenShots
+     *
      * @throws Exception Falls was schief geht.
      */
     public static DataSource createScreenShot(final Component c) throws Exception
@@ -128,14 +134,14 @@ public final class GuiUtils
 
         DataSource dataSource = GuiUtils.createScreenShot(x, y, width, height);
 
-        if (dataSource instanceof ByteArrayDataSource)
+        if (dataSource instanceof ByteArrayDataSource b)
         {
             String fileName = "screenshot";
             fileName += c.getName() != null ? "_" + c.getName() : "";
             fileName += "_" + System.currentTimeMillis();
             fileName += ".png";
 
-            ((ByteArrayDataSource) dataSource).setName(fileName);
+            b.setName(fileName);
         }
 
         return dataSource;
@@ -148,7 +154,9 @@ public final class GuiUtils
      * @param y int
      * @param width int
      * @param height int
+     *
      * @return {@link DataSource}
+     *
      * @throws Exception Falls was schief geht.
      */
     public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws Exception
@@ -175,6 +183,7 @@ public final class GuiUtils
      *
      * @param comp {@link Component}
      * @param clazz Class
+     *
      * @return {@link Component}
      */
     public static Component find(final Component comp, final Class<?> clazz)
@@ -185,11 +194,11 @@ public final class GuiUtils
         {
             found = comp;
         }
-        else if (comp instanceof Container)
+        else if (comp instanceof Container c)
         {
-            for (int i = 0; i < ((Container) comp).getComponentCount(); i++)
+            for (int i = 0; i < c.getComponentCount(); i++)
             {
-                found = GuiUtils.find(((Container) comp).getComponent(i), clazz);
+                found = GuiUtils.find(c.getComponent(i), clazz);
 
                 if (found != null)
                 {
@@ -207,6 +216,7 @@ public final class GuiUtils
      *
      * @param comp {@link Component}
      * @param name String
+     *
      * @return {@link Component}
      */
     public static Component find(final Component comp, final String name)
@@ -219,11 +229,11 @@ public final class GuiUtils
         {
             found = comp;
         }
-        else if (comp instanceof Container)
+        else if (comp instanceof Container c)
         {
-            for (int i = 0; i < ((Container) comp).getComponentCount(); i++)
+            for (int i = 0; i < c.getComponentCount(); i++)
             {
-                found = GuiUtils.find(((Container) comp).getComponent(i), name);
+                found = GuiUtils.find(c.getComponent(i), name);
 
                 if (found != null)
                 {
@@ -266,6 +276,7 @@ public final class GuiUtils
      * Gibt die Root-Komponente einer Komponente zurueck.
      *
      * @param component {@link Component}
+     *
      * @return {@link Component}
      */
     public static Component getRoot(final Component component)
@@ -284,9 +295,10 @@ public final class GuiUtils
      * Gibt die {@link Dimension} des Bildschirms in Pixel zurueck.<br>
      *
      * @return {@link Dimension}
+     *
      * @see Toolkit
      */
-    public static final Dimension getScreenSize()
+    public static Dimension getScreenSize()
     {
         return Toolkit.getDefaultToolkit().getScreenSize();
     }

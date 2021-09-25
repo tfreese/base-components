@@ -4,6 +4,7 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import de.freese.base.swing.components.text.AutoCompleteableTextField;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 
@@ -15,18 +16,17 @@ import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 public class TextFieldFilterEditor extends AutoCompleteableTextField implements FilterEditor, DocumentListener
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1202264255047823398L;
-
     /**
-     * 
+     *
      */
     private final int column;
 
     /**
      * Erstellt ein neues {@link TextFieldFilterEditor} Objekt.
-     * 
+     *
      * @param column int
      */
     public TextFieldFilterEditor(final int column)

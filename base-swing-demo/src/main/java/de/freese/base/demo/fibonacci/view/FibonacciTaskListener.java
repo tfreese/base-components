@@ -1,11 +1,10 @@
-/**
- * Created: 28.05.2020
- */
+// Created: 28.05.2020
 package de.freese.base.demo.fibonacci.view;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Objects;
+
 import de.freese.base.swing.task.SwingTask;
 
 /**

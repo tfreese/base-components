@@ -2,6 +2,7 @@ package de.freese.base.swing.task.inputblocker;
 
 import java.awt.Component;
 import java.util.function.Consumer;
+
 import javax.swing.Action;
 
 /**
@@ -34,6 +35,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @param action {@link Action}
      * @param actions {@link Action}[]
+     *
      * @return {@link DefaultInputBlocker}
      */
     public DefaultInputBlocker add(final Action action, final Action...actions)
@@ -51,6 +53,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @param component {@link Component}
      * @param components {@link Component}[]
+     *
      * @return {@link DefaultInputBlocker}
      */
     public DefaultInputBlocker add(final Component component, final Component...components)
@@ -68,6 +71,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @param consumer {@link Consumer}
      * @param consumers {@link Consumer}[]
+     *
      * @return {@link DefaultInputBlocker}
      */
     @SuppressWarnings("unchecked")
@@ -86,7 +90,10 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#block()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(
+    {
+            "unchecked", "rawtypes"
+    })
     @Override
     public void block()
     {
@@ -96,17 +103,17 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
 
         for (Object target : getTargets())
         {
-            if (target instanceof Component)
+            if (target instanceof Component c)
             {
-                ((Component) target).setEnabled(enabled);
+                c.setEnabled(enabled);
             }
-            else if (target instanceof Action)
+            else if (target instanceof Action a)
             {
-                ((Action) target).setEnabled(enabled);
+                a.setEnabled(enabled);
             }
-            else if (target instanceof Consumer)
+            else if (target instanceof Consumer c)
             {
-                ((Consumer<Boolean>) target).accept(enabled);
+                c.accept(enabled);
             }
         }
     }
@@ -114,7 +121,10 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(
+    {
+            "unchecked", "rawtypes"
+    })
     @Override
     public void unblock()
     {
@@ -122,17 +132,17 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
 
         for (Object target : getTargets())
         {
-            if (target instanceof Component)
+            if (target instanceof Component c)
             {
-                ((Component) target).setEnabled(enabled);
+                c.setEnabled(enabled);
             }
-            else if (target instanceof Action)
+            else if (target instanceof Action a)
             {
-                ((Action) target).setEnabled(enabled);
+                a.setEnabled(enabled);
             }
-            else if (target instanceof Consumer)
+            else if (target instanceof Consumer c)
             {
-                ((Consumer<Boolean>) target).accept(enabled);
+                c.accept(enabled);
             }
         }
 

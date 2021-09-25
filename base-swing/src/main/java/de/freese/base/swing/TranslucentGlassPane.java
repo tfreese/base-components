@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
@@ -26,37 +27,30 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      *
      */
     private static final long serialVersionUID = -8037679488481229262L;
-
     /**
      *
      */
     private float alpha = 1.0F;
-
     /**
      *
      */
     private float alphaEnd = 0.6F;
-
     /**
      *
      */
     private float alphaIncrement = 0.02F;
-
     /**
      *
      */
     private float alphaStart;
-
     /**
      *
      */
     private Timer animateTimer;
-
     /**
      *
      */
     private List<Component> dispatchList;
-
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
      * opacity to its default setting if the alpha is 1.0. Honestly, I don't know if this is necessary or not, but it sounded good on paper :)
@@ -65,12 +59,10 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * </p>
      */
     private boolean oldOpaque;
-
     /**
      *
      */
     private int showDelayMillies = 100;
-
     /**
      *
      */
@@ -126,9 +118,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     {
         for (Component element : this.dispatchList)
         {
-            if (element instanceof JMenuBar)
+            if (element instanceof JMenuBar b)
             {
-                return (JMenuBar) element;
+                return b;
             }
         }
 

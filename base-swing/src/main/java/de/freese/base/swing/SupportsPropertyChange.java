@@ -15,5 +15,5 @@ public interface SupportsPropertyChange
      *
      * @return {@link PropertyChangeSupport}
      */
-    public PropertyChangeSupport getPropertyChangeSupport();
+    PropertyChangeSupport getPropertyChangeSupport();
 }

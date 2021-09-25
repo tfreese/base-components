@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+
 import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 import de.freese.base.utils.ComboBoxUtils;
@@ -21,18 +23,17 @@ import de.freese.base.utils.ComboBoxUtils;
 public class ComboBoxFilterEditor extends JComboBox<Object> implements FilterEditor, ItemListener
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8226362008750444885L;
-
     /**
-     * 
+     *
      */
     private final int column;
 
     /**
      * Erstellt ein neues {@link ComboBoxFilterEditor} Object.
-     * 
+     *
      * @param column int
      */
     public ComboBoxFilterEditor(final int column)

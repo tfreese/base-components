@@ -1,7 +1,4 @@
-/**
- * Created: 04.05.2020
- */
-
+// Created: 04.05.2020
 package de.freese.base.swing.layout;
 
 import java.awt.GridBagConstraints;
@@ -191,6 +188,7 @@ public class GbcBuilder extends GridBagConstraints
 
     /**
      * @param gridheight int
+     *
      * @return {@link GbcBuilder}
      */
     public GbcBuilder gridheight(final int gridheight)
@@ -202,6 +200,7 @@ public class GbcBuilder extends GridBagConstraints
 
     /**
      * @param gridwidth int
+     *
      * @return {@link GbcBuilder}
      */
     public GbcBuilder gridwidth(final int gridwidth)
@@ -213,6 +212,7 @@ public class GbcBuilder extends GridBagConstraints
 
     /**
      * @param insets {@link Insets}
+     *
      * @return {@link GbcBuilder}
      */
     public GbcBuilder insets(final Insets insets)
@@ -227,6 +227,7 @@ public class GbcBuilder extends GridBagConstraints
      * @param left int
      * @param bottom int
      * @param right int
+     *
      * @return {@link GbcBuilder}
      */
     public GbcBuilder insets(final int top, final int left, final int bottom, final int right)
@@ -238,6 +239,7 @@ public class GbcBuilder extends GridBagConstraints
 
     /**
      * @param weightx double
+     *
      * @return {@link GbcBuilder}
      */
     public GbcBuilder weightx(final double weightx)
@@ -249,6 +251,7 @@ public class GbcBuilder extends GridBagConstraints
 
     /**
      * @param weighty double
+     *
      * @return {@link GbcBuilder}
      */
     public GbcBuilder weighty(final double weighty)

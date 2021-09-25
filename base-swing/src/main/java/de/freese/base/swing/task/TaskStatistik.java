@@ -16,22 +16,18 @@ public class TaskStatistik implements Serializable
      * Anzahl Werte für die Statistik.
      */
     private static final int MAX_SIZE = 10;
-
     /**
      *
      */
     private static final long serialVersionUID = 1789042123984173851L;
-
     /**
      * Immer N Werte vorhalten.
      */
     private Queue<Long> durations = new ConcurrentLinkedQueue<>();
-
     /**
      *
      */
     private Date lastAccess = new Date();
-
     /**
      *
      */

@@ -3,6 +3,7 @@ package de.freese.base.utils;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
@@ -17,7 +18,7 @@ public final class TreeUtils
 {
     /**
      * Zuklappen des gesamten Baumes.
-     * 
+     *
      * @param tree {@link JTree}
      */
     public static void collapse(final JTree tree)
@@ -35,7 +36,7 @@ public final class TreeUtils
 
     /**
      * Zuklappen des TreePaths.
-     * 
+     *
      * @param tree {@link JTree}
      * @param parent {@link TreePath}
      */
@@ -64,7 +65,7 @@ public final class TreeUtils
 
     /**
      * Aufklappen des gesamten Baumes.
-     * 
+     *
      * @param tree {@link JTree}
      */
     public static void expand(final JTree tree)
@@ -81,7 +82,7 @@ public final class TreeUtils
 
     /**
      * Aufklappen des Baumes bis zu einem bestimmen Level.
-     * 
+     *
      * @param tree {@link JTree}
      * @param level int
      */
@@ -99,7 +100,7 @@ public final class TreeUtils
 
     /**
      * Aufklappen des TreePaths und aller seiner Children.
-     * 
+     *
      * @param tree {@link JTree}
      * @param parent {@link TreePath}
      */
@@ -122,7 +123,7 @@ public final class TreeUtils
 
     /**
      * Methode expandiert den Baum bis auf das angegebende Level.
-     * 
+     *
      * @param tree {@link JTree}
      * @param path {@link TreePath}
      * @param level int
@@ -169,8 +170,9 @@ public final class TreeUtils
 
     /**
      * Liefert die ausgeklappten {@link TreePath}s.
-     * 
+     *
      * @param tree {@link JTree}
+     *
      * @return {@link List}
      */
     public static List<TreePath> getExpandedTreePaths(final JTree tree)
@@ -199,8 +201,9 @@ public final class TreeUtils
 
     /**
      * Liefert das erste selektierte Object.
-     * 
+     *
      * @param tree {@link JTree}
+     *
      * @return Object
      */
     public static Object getFirstSelectedObject(final JTree tree)
@@ -217,9 +220,10 @@ public final class TreeUtils
 
     /**
      * Liefert den Parent fuer das Child Objekt. Durchlaeuft dabei den Baum rekursiv durch die Pfade.
-     * 
+     *
      * @param tree {@link JTree}
      * @param object Object
+     *
      * @return Object
      */
     public static Object getParentFor(final JTree tree, final Object object)
@@ -229,10 +233,11 @@ public final class TreeUtils
 
     /**
      * Wird von getParentFor(Object child) mit Root als Parent aufgerufen und durchsucht den Baum rekursiv durch die Pfade.
-     * 
+     *
      * @param tree {@link JTree}
      * @param parent Object
      * @param object Object
+     *
      * @return Object
      */
     public static Object getParentFor(final JTree tree, final Object parent, final Object object)
@@ -242,9 +247,10 @@ public final class TreeUtils
 
     /**
      * Liefert den Parent fuer das Child Objekt. Durchlaeuft dabei den Baum rekursiv durch die Pfade.
-     * 
+     *
      * @param treeModel {@link TreeModel}
      * @param object Object
+     *
      * @return Object
      */
     public static Object getParentFor(final TreeModel treeModel, final Object object)
@@ -254,10 +260,11 @@ public final class TreeUtils
 
     /**
      * Wird von getParentFor(Object child) mit Root als Parent aufgerufen und durchsucht den Baum rekursiv durch die Pfade.
-     * 
+     *
      * @param treeModel {@link TreeModel}
      * @param parent Object
      * @param object Object
+     *
      * @return Object
      */
     public static Object getParentFor(final TreeModel treeModel, final Object parent, final Object object)
@@ -296,9 +303,10 @@ public final class TreeUtils
 
     /**
      * Liefert den TreePath des Objektes.
-     * 
+     *
      * @param tree {@link JTree}
      * @param object Object
+     *
      * @return {@link TreePath}
      */
     public static TreePath getPathToRoot(final JTree tree, final Object object)
@@ -308,9 +316,10 @@ public final class TreeUtils
 
     /**
      * Liefert den TreePath des Objektes.
-     * 
+     *
      * @param treeModel {@link TreeModel}
      * @param object Object
+     *
      * @return {@link TreePath}
      */
     public static TreePath getPathToRoot(final TreeModel treeModel, final Object object)
@@ -332,8 +341,9 @@ public final class TreeUtils
 
     /**
      * Liefert alle selektierten Objekte.
-     * 
+     *
      * @param tree {@link JTree}
+     *
      * @return Object[]
      */
     public static Object[] getSelectedObjects(final JTree tree)
@@ -357,10 +367,11 @@ public final class TreeUtils
 
     /**
      * Liefert den ersten Knoten, der ein UserObject vom gewuenschten Typ enthaelt.
-     * 
+     *
      * @param <K> extends {@link DefaultMutableTreeNode}
      * @param tree {@link JTree}
      * @param userObjectType {@link Class}[]
+     *
      * @return {@link DefaultMutableTreeNode}
      */
     @SuppressWarnings("unchecked")
@@ -392,14 +403,15 @@ public final class TreeUtils
 
     /**
      * Liefert das UserObject des ersten Knoten, der das UserObject vom gewuenschten Typ enthaelt.
-     * 
+     *
      * @param <T> Konkretes Objekt
      * @param tree {@link JTree}
      * @param userObjectType {@link Class}
+     *
      * @return T
      */
     @SuppressWarnings("unchecked")
-    public static final <T> T getSelectedUserObject(final JTree tree, final Class<?> userObjectType)
+    public static <T> T getSelectedUserObject(final JTree tree, final Class<?> userObjectType)
     {
         DefaultMutableTreeNode node = getSelectedTreeNode(tree, userObjectType);
 
@@ -408,18 +420,17 @@ public final class TreeUtils
 
     /**
      * Liefert das Object des Paths zurueck, wenn der Mauszeiger genau darueber steht und selektiert es bei Bedarf.
-     * 
+     *
      * @param me {@link MouseEvent}
+     *
      * @return Object
      */
     public static Object getTreeObjectForEvent(final MouseEvent me)
     {
         Object obj = null;
 
-        if ((me != null) && (me.getSource() instanceof JTree))
+        if ((me != null) && (me.getSource()instanceof JTree tree))
         {
-            JTree tree = (JTree) me.getSource();
-
             if (tree.getRowForLocation(me.getX(), me.getY()) == -1)
             {
                 // NOOP
@@ -445,11 +456,11 @@ public final class TreeUtils
 
     /**
      * Selektiert den Uebergebenen Node.
-     * 
+     *
      * @param tree {@link JTree}
      * @param node {@link DefaultMutableTreeNode}
      */
-    public static final void selectNode(final JTree tree, final DefaultMutableTreeNode node)
+    public static void selectNode(final JTree tree, final DefaultMutableTreeNode node)
     {
         if ((tree == null) || (node == null))
         {
@@ -467,11 +478,11 @@ public final class TreeUtils
 
     /**
      * Selektiert den Node des betreffenden Events.
-     * 
+     *
      * @param tree {@link JTree}
      * @param me {@link MouseEvent}
      */
-    public static final void selectNode(final JTree tree, final MouseEvent me)
+    public static void selectNode(final JTree tree, final MouseEvent me)
     {
         if ((tree == null) || (me == null))
         {

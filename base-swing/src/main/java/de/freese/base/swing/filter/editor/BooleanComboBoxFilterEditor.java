@@ -2,10 +2,12 @@ package de.freese.base.swing.filter.editor;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.ListCellRenderer;
+
 import de.freese.base.swing.components.list.renderer.ToggleButtonListCellRenderer;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 
@@ -20,20 +22,18 @@ public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements Fi
      * Konstante fuer keinen Filter.
      */
     private static final String KEIN_FILTER = " ";
-
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8226362008750444885L;
-
     /**
-     * 
+     *
      */
     private final int column;
 
     /**
      * Erstellt ein neues {@link BooleanComboBoxFilterEditor} Objekt.
-     * 
+     *
      * @param column int
      */
     public BooleanComboBoxFilterEditor(final int column)
@@ -43,7 +43,7 @@ public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements Fi
 
     /**
      * Erstellt ein neues {@link BooleanComboBoxFilterEditor} Objekt.
-     * 
+     *
      * @param column int
      * @param renderer {@link ListCellRenderer}
      */
@@ -55,7 +55,7 @@ public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements Fi
         setEditable(false);
         this.column = column;
 
-        Object[] values = new Object[]
+        Object[] values =
         {
                 KEIN_FILTER, Boolean.FALSE, Boolean.TRUE
         };

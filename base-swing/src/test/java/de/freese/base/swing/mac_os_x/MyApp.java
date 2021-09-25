@@ -140,7 +140,6 @@ public class MyApp extends JFrame implements ActionListener
      *
      */
     protected JMenuItem quitMI;
-
     /**
      *
      */

@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,7 +19,6 @@ public class StringGuiState extends AbstractGuiState
      *
      */
     private static final long serialVersionUID = -8014962022018271108L;
-
     /**
      *
      */

@@ -12,23 +12,24 @@ public interface GUIState extends Serializable
 {
     /**
      * Stellt die {@link Component} aus dem {@link GUIState} wieder her.
-     * 
+     *
      * @param component {@link Component}
      */
-    public void restore(Component component);
+    void restore(Component component);
 
     /**
      * Speichern den Zustand der {@link Component} in dem {@link GUIState}
-     * 
+     *
      * @param component {@link Component}
      */
-    public void store(Component component);
+    void store(Component component);
 
     /**
      * Liefert true wenn der {@link GUIState} diesen Typ unterstuetzt.
-     * 
+     *
      * @param type Class
+     *
      * @return boolean
      */
-    public boolean supportsType(final Class<?> type);
+    boolean supportsType(final Class<?> type);
 }

@@ -4,8 +4,10 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.Callable;
+
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
+
 import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
@@ -21,22 +23,18 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      *
      */
     private final NasaController nasaController;
-
     /**
      *
      */
     private final ResourceMap resourceMap;
-
     /**
     *
     */
     private URL url;
-
     /**
      *
      */
     private final Callable<URL> urlCallable;
-
     /**
      *
      */

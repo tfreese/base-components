@@ -15,7 +15,6 @@ public class ExamplePanel extends JPanel
      *
      */
     private static final long serialVersionUID = -1162909250924225209L;
-
     /**
      *
      */

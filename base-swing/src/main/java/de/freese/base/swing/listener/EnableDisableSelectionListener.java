@@ -1,6 +1,7 @@
 package de.freese.base.swing.listener;
 
 import java.awt.Component;
+
 import javax.swing.Action;
 import javax.swing.JList;
 import javax.swing.JTree;
@@ -31,7 +32,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         /**
          * @param value boolean
          */
-        public void setEnabled(boolean value);
+        void setEnabled(boolean value);
     }
 
     /**
@@ -72,6 +73,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
      *
      * @param e {@link ListSelectionEvent}
      * @param selectionModel {@link ListSelectionModel}
+     *
      * @return <code>true</code> wenn ja, sonst <code>false</code>
      */
     protected boolean componentEnabled(final ListSelectionEvent e, final ListSelectionModel selectionModel)
@@ -85,6 +87,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
      *
      * @param e {@link TreeSelectionEvent}
      * @param selectionModel {@link TreeSelectionModel}
+     *
      * @return <code>true</code> wenn ja, sonst <code>false</code>
      */
     protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel)
@@ -108,13 +111,13 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
 
         ListSelectionModel selectionModel = null;
 
-        if (source instanceof JList)
+        if (source instanceof JList<?> l)
         {
-            selectionModel = ((JList<?>) source).getSelectionModel();
+            selectionModel = l.getSelectionModel();
         }
-        else if (source instanceof ListSelectionModel)
+        else if (source instanceof ListSelectionModel m)
         {
-            selectionModel = (ListSelectionModel) source;
+            selectionModel = m;
         }
 
         this.adapter.setEnabled(componentEnabled(e, selectionModel));
@@ -130,13 +133,13 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
 
         TreeSelectionModel selectionModel = null;
 
-        if (source instanceof JTree)
+        if (source instanceof JTree t)
         {
-            selectionModel = ((JTree) source).getSelectionModel();
+            selectionModel = t.getSelectionModel();
         }
-        else if (source instanceof TreeSelectionModel)
+        else if (source instanceof TreeSelectionModel m)
         {
-            selectionModel = (TreeSelectionModel) source;
+            selectionModel = m;
         }
 
         this.adapter.setEnabled(componentEnabled(e, selectionModel));

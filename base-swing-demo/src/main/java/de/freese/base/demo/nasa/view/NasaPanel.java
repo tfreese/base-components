@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,32 +26,26 @@ public class NasaPanel extends JPanel
      *
      */
     private static final long serialVersionUID = 2482594442090386688L;
-
     /**
      *
      */
     private JButton buttonCancel;
-
     /**
      *
      */
     private JButton buttonNext;
-
     /**
      *
      */
     private JButton buttonPrevious;
-
     /**
      *
      */
     private JLabel labelImage;
-
     /**
      *
      */
     private JLabel labelURL;
-
     /**
      *
      */

@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
@@ -19,8 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
+
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXTitledPanel;
+
 import de.freese.base.swing.fontchange.handler.ComboBoxFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.DatePickerFontChangeHandler;
@@ -50,7 +53,7 @@ public final class SwingFontSizeChanger
      *
      * @return {@link SwingFontSizeChanger}
      */
-    public static final SwingFontSizeChanger getInstance()
+    public static SwingFontSizeChanger getInstance()
     {
         return INSTANCE;
     }
@@ -75,12 +78,10 @@ public final class SwingFontSizeChanger
      *
      */
     private Font font;
-
     /**
      *
      */
     private final Map<Class<?>, FontChangeHandler> handlers = new HashMap<>();
-
     /**
      *
      */
@@ -185,13 +186,13 @@ public final class SwingFontSizeChanger
     public void register(final Object object)
     {
         PropertyChangeListener fontListener = event -> {
-            if (object instanceof JComponent)
+            if (object instanceof JComponent c)
             {
-                updateFontForComponent(getFont(), (JComponent) object);
+                updateFontForComponent(getFont(), c);
             }
-            else if (object instanceof Container)
+            else if (object instanceof Container c)
             {
-                updateFontForContainer(getFont(), (Container) object);
+                updateFontForContainer(getFont(), c);
             }
             else
             {
@@ -310,13 +311,13 @@ public final class SwingFontSizeChanger
 
         for (Component comp : components)
         {
-            if (comp instanceof JComponent)
+            if (comp instanceof JComponent c)
             {
-                updateFontForComponent(newFont, (JComponent) comp);
+                updateFontForComponent(newFont, c);
             }
-            else if (comp instanceof Container)
+            else if (comp instanceof Container c)
             {
-                updateFontForContainer(newFont, (Container) comp);
+                updateFontForContainer(newFont, c);
             }
             else
             {
