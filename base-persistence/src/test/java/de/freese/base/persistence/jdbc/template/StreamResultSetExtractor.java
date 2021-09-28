@@ -3,21 +3,20 @@ package de.freese.base.persistence.jdbc.template;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * {@link ResultSetExtractor} der einen {@link RowMapper} verwendet für die Erzeugung einer Liste.
+ * {@link ResultSetExtractor} der einen {@link RowMapper} verwendet für die Erzeugung eines {@link Stream}.
  *
- * @param <T> Konkreter Row-Typ
+ * @param <T> Row-Type
  *
  * @author Thomas Freese
  */
-public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>>
+public class StreamResultSetExtractor<T> implements ResultSetExtractor<Stream<T>>
 {
     /**
      *
@@ -25,11 +24,11 @@ public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T
     private final RowMapper<T> rowMapper;
 
     /**
-     * Erzeugt eine neue Instanz von {@link RowMapperResultSetExtractor}
+     * Erzeugt eine neue Instanz von {@link StreamResultSetExtractor}
      *
      * @param rowMapper {@link RowMapper}
      */
-    public RowMapperResultSetExtractor(final RowMapper<T> rowMapper)
+    public StreamResultSetExtractor(final RowMapper<T> rowMapper)
     {
         super();
 
@@ -40,15 +39,17 @@ public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T
      * @see de.freese.base.persistence.jdbc.template.function.ResultSetExtractor#extractData(java.sql.ResultSet)
      */
     @Override
-    public List<T> extractData(final ResultSet rs) throws SQLException
+    public Stream<T> extractData(final ResultSet rs) throws SQLException
     {
-        List<T> results = new ArrayList<>();
+        // List<T> results = new ArrayList<>();
+        //
+        // while (rs.next())
+        // {
+        // results.add(this.rowMapper.mapRow(rs));
+        // }
+        //
+        // return results;
 
-        while (rs.next())
-        {
-            results.add(this.rowMapper.mapRow(rs));
-        }
-
-        return results;
+        throw new UnsupportedOperationException("not implemented");
     }
 }

@@ -48,8 +48,6 @@ import reactor.core.publisher.SynchronousSink;
  * <li>queryAsStream
  * <li>queryAsPublisher
  * </ul>
- * Durch diese Unterschiede wird das {@link ResultSet} nicht komplett in den RAM geladen, sondern die Daten werden Zeilenweise vom DB-Server geholt.<br>
- * Dadurch ergibt sich eine enorme Einsparung im Speicherverbrauch gerade bei größeren Datenmengen.<br>
  *
  * @author Thomas Freese
  */
@@ -513,11 +511,11 @@ public class SimpleJdbcTemplate
      * @param <T> Konkreter Return-Typ
      * @param sql String
      * @param rse {@link ResultSetExtractor}
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return Object
      */
-    public <T> T query(final String sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter setter)
+    public <T> T query(final String sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss)
     {
         StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
         StatementCallback<PreparedStatement, T> action = stmt -> {
@@ -528,9 +526,9 @@ public class SimpleJdbcTemplate
 
             stmt.clearParameters();
 
-            if (setter != null)
+            if (pss != null)
             {
-                setter.setValues(stmt);
+                pss.setValues(stmt);
             }
 
             try (ResultSet rs = stmt.executeQuery())
@@ -563,13 +561,13 @@ public class SimpleJdbcTemplate
      * @param <T> Konkreter Row-Typ
      * @param sql String
      * @param rowMapper {@link RowMapper}
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return {@link List}
      */
-    public <T> List<T> query(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter setter)
+    public <T> List<T> query(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
-        return query(sql, new RowMapperResultSetExtractor<>(rowMapper), setter);
+        return query(sql, new RowMapperResultSetExtractor<>(rowMapper), pss);
     }
 
     /**
@@ -602,11 +600,11 @@ public class SimpleJdbcTemplate
      * @param <T> Type
      * @param sql String
      * @param rowMapper {@link RowMapper}
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return {@link Flux}
      */
-    public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter setter)
+    public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
         ReactiveCallback<Flux<T>, T> action = (connection, statement, resultSet) -> Flux.generate((final SynchronousSink<T> sink) -> {
             try
@@ -632,7 +630,7 @@ public class SimpleJdbcTemplate
             close(connection);
         });
 
-        return queryAsReactive(sql, setter, action);
+        return queryAsReactive(sql, pss, action);
     }
 
     /**
@@ -664,15 +662,15 @@ public class SimpleJdbcTemplate
      *
      * @param sql String
      * @param rowMapper {@link RowMapper}
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return {@link Publisher}
      */
-    public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter setter)
+    public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
         ReactiveCallback<Publisher<T>, T> action = (connection, statement, resultSet) -> new ResultSetPublisher<>(connection, statement, resultSet, rowMapper);
 
-        return queryAsReactive(sql, setter, action);
+        return queryAsReactive(sql, pss, action);
     }
 
     /**
@@ -766,11 +764,11 @@ public class SimpleJdbcTemplate
      * @param <T> Konkreter Return-Typ
      * @param sql String
      * @param rowMapper {@link RowMapper}
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return {@link Stream}
      */
-    public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter setter)
+    public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
         ReactiveCallback<Stream<T>, T> action = (connection, statement, resultSet) -> {
 
@@ -788,7 +786,7 @@ public class SimpleJdbcTemplate
             // @formatter:on
         };
 
-        return queryAsReactive(sql, setter, action);
+        return queryAsReactive(sql, pss, action);
     }
 
     /**
@@ -869,13 +867,13 @@ public class SimpleJdbcTemplate
      * Führt ein {@link PreparedStatement#executeUpdate(String)} aus (INSERT, UPDATE, DELETE).
      *
      * @param sql String
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return int; affectedRows
      */
-    public int update(final String sql, final PreparedStatementSetter setter)
+    public int update(final String sql, final PreparedStatementSetter pss)
     {
-        StatementCreator<PreparedStatement> psc = con -> con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        StatementCreator<PreparedStatement> psc = con -> createPreparedStatement(con, sql);
         StatementCallback<PreparedStatement, Integer> action = stmt -> {
             if (getLogger().isDebugEnabled())
             {
@@ -883,7 +881,7 @@ public class SimpleJdbcTemplate
             }
 
             stmt.clearParameters();
-            setter.setValues(stmt);
+            pss.setValues(stmt);
 
             return stmt.executeUpdate();
         };
@@ -898,13 +896,13 @@ public class SimpleJdbcTemplate
      * @param <T> Konkreter Row-Typ
      * @param sql String
      * @param batchArgs {@link Collection}
-     * @param setter {@link ParameterizedPreparedStatementSetter}
+     * @param pss {@link ParameterizedPreparedStatementSetter}
      *
      * @return int[]; affectedRows
      */
-    public <T> int[] updateBatch(final String sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> setter)
+    public <T> int[] updateBatch(final String sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> pss)
     {
-        return updateBatch(sql, batchArgs, setter, 20);
+        return updateBatch(sql, batchArgs, pss, 20);
     }
 
     /**
@@ -913,12 +911,12 @@ public class SimpleJdbcTemplate
      * @param <T> Konkreter Row-Typ
      * @param sql String
      * @param batchArgs {@link Collection}
-     * @param setter {@link ParameterizedPreparedStatementSetter}
+     * @param pss {@link ParameterizedPreparedStatementSetter}
      * @param batchSize int
      *
      * @return int[]; affectedRows
      */
-    public <T> int[] updateBatch(final String sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> setter, final int batchSize)
+    public <T> int[] updateBatch(final String sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> pss, final int batchSize)
     {
         StatementCreator<PreparedStatement> psc = con -> createPreparedStatement(con, sql);
         StatementCallback<PreparedStatement, int[]> action = stmt -> {
@@ -935,7 +933,7 @@ public class SimpleJdbcTemplate
             for (T arg : batchArgs)
             {
                 stmt.clearParameters();
-                setter.setValues(stmt, arg);
+                pss.setValues(stmt, arg);
                 n++;
 
                 if (supportsBatch)
