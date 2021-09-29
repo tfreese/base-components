@@ -5,13 +5,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.StatementCallback<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.StatementCallback<br>
  *
  * @author Thomas Freese
  *
- * @param <S> Konkretes Statement
- * @param <T> Konkreter Return-Typ
+ * @param <S> Statement-Type
+ * @param <T> Return-Type
  */
 @FunctionalInterface
 public interface StatementCallback<S extends Statement, T>

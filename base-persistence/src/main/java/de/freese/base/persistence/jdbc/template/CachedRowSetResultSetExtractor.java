@@ -21,31 +21,16 @@ public class CachedRowSetResultSetExtractor implements ResultSetExtractor<Cached
     /**
      *
      */
-    private static final RowSetFactory DEFAULT_ROW_SET_FACTORY;
-
-    static
-    {
-        try
-        {
-            DEFAULT_ROW_SET_FACTORY = RowSetProvider.newFactory();
-        }
-        catch (SQLException ex)
-        {
-            throw new IllegalStateException("Can't create RowSetFactory through RowSetProvider", ex);
-        }
-    }
-
-    /**
-     *
-     */
     private final RowSetFactory rowSetFactory;
 
     /**
      * Erstellt ein neues {@link CachedRowSetResultSetExtractor} Object.
+     *
+     * @throws SQLException Falls was schief geht.
      */
-    public CachedRowSetResultSetExtractor()
+    public CachedRowSetResultSetExtractor() throws SQLException
     {
-        this(DEFAULT_ROW_SET_FACTORY);
+        this(RowSetProvider.newFactory());
     }
 
     /**

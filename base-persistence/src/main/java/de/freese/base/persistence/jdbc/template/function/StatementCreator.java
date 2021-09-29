@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Erzeugt ein {@link Statement}.
+ * Creates a {@link Statement}.
  *
  * @author Thomas Freese
  *
@@ -16,7 +16,7 @@ import java.sql.Statement;
 public interface StatementCreator<S extends Statement>
 {
     /**
-     * Erzeugt ein {@link Statement}.
+     * Creates a {@link Statement}.
      *
      * @param connection {@link Connection}
      *

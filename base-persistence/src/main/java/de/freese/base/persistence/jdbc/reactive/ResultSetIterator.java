@@ -49,7 +49,8 @@ public class ResultSetIterator<T> implements Iterator<T>
     {
         try
         {
-            return !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
+            return this.resultSet.next();
+            // return !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
         }
         catch (SQLException sex)
         {

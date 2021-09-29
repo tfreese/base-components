@@ -5,12 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.ResultSetExtractor<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.ResultSetExtractor<br>
  *
  * @author Thomas Freese
  *
- * @param <T> Konkreter Return-Typ
+ * @param <T> Type
  */
 @FunctionalInterface
 public interface ResultSetExtractor<T>

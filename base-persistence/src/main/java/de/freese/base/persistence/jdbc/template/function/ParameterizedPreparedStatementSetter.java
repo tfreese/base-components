@@ -5,12 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.ParameterizedPreparedStatementSetter<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.ParameterizedPreparedStatementSetter<br>
  *
  * @author Thomas Freese
  *
- * @param <T> Konkreter Row-Typ
+ * @param <T> Type
  */
 @FunctionalInterface
 public interface ParameterizedPreparedStatementSetter<T>

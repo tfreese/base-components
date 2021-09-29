@@ -5,8 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.PreparedStatementSetter<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.PreparedStatementSetter<br>
  *
  * @author Thomas Freese
  */

@@ -5,25 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.RowMapper<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.RowMapper<br>
  *
  * @author Thomas Freese
  *
- * @param <R> Konkreter Row-Typ
+ * @param <R> Row-Type
  */
 @FunctionalInterface
-public interface RowMapper<R> // extends Function<ResultSet, R>
+public interface RowMapper<R>
 {
-    // /**
-    // * @see java.util.function.Function#apply(java.lang.Object)
-    // */
-    // @Override
-    // public default R apply(final ResultSet resultSet)
-    // {
-    // return mapRow(resultSet);
-    // }
-
     /**
      * Mapped die aktuelle Zeile des {@link ResultSet} in ein Objekt.
      *

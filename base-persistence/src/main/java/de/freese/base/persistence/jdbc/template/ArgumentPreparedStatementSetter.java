@@ -22,8 +22,7 @@ import org.springframework.jdbc.core.SqlTypeValue;
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.ArgumentPreparedStatementSetter<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.ArgumentPreparedStatementSetter<br>
  *
  * @author Thomas Freese
  */

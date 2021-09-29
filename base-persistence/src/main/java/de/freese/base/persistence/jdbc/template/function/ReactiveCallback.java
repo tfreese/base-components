@@ -10,8 +10,6 @@ import java.util.stream.Stream;
 import reactor.core.publisher.Flux;
 
 /**
- * Erzeugt eine Reactive-Pipeline: {@link Stream}, {@link Flux} oder {@link Publisher}.
- *
  * @author Thomas Freese
  *
  * @param <R> Konkreter Reactive-Typ

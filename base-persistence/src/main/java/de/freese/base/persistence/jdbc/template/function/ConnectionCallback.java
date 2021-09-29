@@ -5,12 +5,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.ConnectionCallback<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * Inspired by org.springframework.jdbc.core.ConnectionCallback<br>
  *
  * @author Thomas Freese
  *
- * @param <T> Konkreter Return-Typ
+ * @param <T> Type
  */
 @FunctionalInterface
 public interface ConnectionCallback<T>

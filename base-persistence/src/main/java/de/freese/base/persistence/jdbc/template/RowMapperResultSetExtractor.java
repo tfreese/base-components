@@ -13,7 +13,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 /**
  * {@link ResultSetExtractor} der einen {@link RowMapper} verwendet für die Erzeugung einer Liste.
  *
- * @param <T> Konkreter Row-Typ
+ * @param <T> Row-Type
  *
  * @author Thomas Freese
  */
@@ -40,13 +40,13 @@ public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T
      * @see de.freese.base.persistence.jdbc.template.function.ResultSetExtractor#extractData(java.sql.ResultSet)
      */
     @Override
-    public List<T> extractData(final ResultSet rs) throws SQLException
+    public List<T> extractData(final ResultSet resultSet) throws SQLException
     {
         List<T> results = new ArrayList<>();
 
-        while (rs.next())
+        while (resultSet.next())
         {
-            results.add(this.rowMapper.mapRow(rs));
+            results.add(this.rowMapper.mapRow(resultSet));
         }
 
         return results;

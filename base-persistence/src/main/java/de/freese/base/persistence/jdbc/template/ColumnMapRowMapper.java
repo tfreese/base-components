@@ -12,7 +12,7 @@ import java.util.Map;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * Liefert einen Datensatz als Map<String, Object>.
+ * Inspired by org.springframework.jdbc.core.ColumnMapRowMapper<br>
  *
  * @author Thomas Freese
  */
@@ -46,14 +46,6 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
     }
 
     /**
-     * @return String[]
-     */
-    protected String[] getColumnNames()
-    {
-        return this.columnNames;
-    }
-
-    /**
      * Liefert die Spaltennamen des {@link ResultSet}s.
      *
      * @param resultSet {@link ResultSet}
@@ -67,7 +59,6 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
         ResultSetMetaData rsmd = resultSet.getMetaData();
         int columnCount = rsmd.getColumnCount();
 
-        // Keys aufbauen
         String[] names = new String[columnCount];
 
         for (int i = 0; i < columnCount; i++)
@@ -142,29 +133,21 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
     @Override
     public Map<String, Object> mapRow(final ResultSet resultSet) throws SQLException
     {
-        if (getColumnNames() == null)
+        if (this.columnNames == null)
         {
-            setColumnNames(getColumnNames(resultSet));
+            this.columnNames = getColumnNames(resultSet);
         }
 
-        Map<String, Object> map = new LinkedHashMap<>(getColumnNames().length);
+        Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
 
-        for (int i = 0; i < getColumnNames().length; i++)
+        for (int i = 1; i <= this.columnNames.length; i++)
         {
-            String columnName = this.columnNames[i];
-            Object obj = getColumnValue(resultSet, i + 1);
+            String columnName = this.columnNames[i - 1];
+            Object obj = getColumnValue(resultSet, i);
 
             map.put(columnName, obj);
         }
 
         return map;
-    }
-
-    /**
-     * @param columnNames String[]
-     */
-    protected void setColumnNames(final String[] columnNames)
-    {
-        this.columnNames = columnNames;
     }
 }

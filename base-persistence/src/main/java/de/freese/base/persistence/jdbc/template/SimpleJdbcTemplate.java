@@ -40,14 +40,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
 /**
- * Analog-Implementierung vom org.springframework.jdbc.core.JdbcTemplate.<br>
- * <ul>
- * <li>negative FETCH_SIZE möglich
- * <li>Statements werden mit ResultSet.TYPE_FORWARD_ONLY und ResultSet.CONCUR_READ_ONLY erzeugt
- * <li>queryAsFlux
- * <li>queryAsStream
- * <li>queryAsPublisher
- * </ul>
+ * Inspired by org.springframework.jdbc.core.JdbcTemplate.<br>
  *
  * @author Thomas Freese
  */
@@ -60,7 +53,7 @@ public class SimpleJdbcTemplate
     /**
      * If this variable is set to a non-negative value, it will be used for setting the fetchSize property on statements used for query processing.
      */
-    private int fetchSize = -1;
+    private int fetchSize = 1000;
     /**
      *
      */
@@ -76,14 +69,6 @@ public class SimpleJdbcTemplate
 
     /**
      * Erzeugt eine neue Instanz von {@link SimpleJdbcTemplate}
-     */
-    public SimpleJdbcTemplate()
-    {
-        super();
-    }
-
-    /**
-     * Erzeugt eine neue Instanz von {@link SimpleJdbcTemplate}
      *
      * @param dataSource {@link DataSource}
      */
@@ -91,7 +76,7 @@ public class SimpleJdbcTemplate
     {
         super();
 
-        setDataSource(dataSource);
+        this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
     }
 
     /**
@@ -149,13 +134,13 @@ public class SimpleJdbcTemplate
      * {? = call my_procedure(?)};
      *
      * @param sql String
-     * @param setter {@link PreparedStatementSetter}
+     * @param pss {@link PreparedStatementSetter}
      *
      * @return boolean
      *
      * @see CallableStatement#execute(String)
      */
-    public boolean call(final String sql, final PreparedStatementSetter setter)
+    public boolean call(final String sql, final PreparedStatementSetter pss)
     {
         StatementCreator<CallableStatement> sc = con -> con.prepareCall(sql);
         StatementCallback<CallableStatement, Boolean> action = stmt -> {
@@ -166,9 +151,9 @@ public class SimpleJdbcTemplate
 
             stmt.clearParameters();
 
-            if (setter != null)
+            if (pss != null)
             {
-                setter.setValues(stmt);
+                pss.setValues(stmt);
             }
 
             return stmt.execute();
@@ -186,6 +171,9 @@ public class SimpleJdbcTemplate
     protected void close(final Connection connection)
     {
         getLogger().debug("close connection");
+
+        // Spring-Variante
+        // DataSourceUtils.releaseConnection(connection, getDataSource());
 
         try
         {
@@ -787,14 +775,6 @@ public class SimpleJdbcTemplate
         };
 
         return queryAsReactive(sql, pss, action);
-    }
-
-    /**
-     * @param dataSource {@link DataSource}
-     */
-    public void setDataSource(final DataSource dataSource)
-    {
-        this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
     }
 
     /**
