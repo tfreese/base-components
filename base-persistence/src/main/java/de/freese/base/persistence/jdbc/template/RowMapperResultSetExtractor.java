@@ -11,7 +11,7 @@ import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * {@link ResultSetExtractor} der einen {@link RowMapper} verwendet für die Erzeugung einer Liste.
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @param <T> Row-Type
  *

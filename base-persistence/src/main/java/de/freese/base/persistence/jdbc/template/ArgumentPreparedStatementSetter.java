@@ -22,7 +22,7 @@ import org.springframework.jdbc.core.SqlTypeValue;
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 
 /**
- * Inspired by org.springframework.jdbc.core.ArgumentPreparedStatementSetter<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */

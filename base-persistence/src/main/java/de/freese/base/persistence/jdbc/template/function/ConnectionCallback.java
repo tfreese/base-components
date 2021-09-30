@@ -5,11 +5,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Inspired by org.springframework.jdbc.core.ConnectionCallback<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  *
- * @param <T> Type
+ * @param <T> Return-Type
  */
 @FunctionalInterface
 public interface ConnectionCallback<T>

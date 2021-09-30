@@ -5,18 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Inspired by org.springframework.jdbc.core.ParameterizedPreparedStatementSetter<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  *
- * @param <T> Type
+ * @param <T> Argument-Type
  */
 @FunctionalInterface
 public interface ParameterizedPreparedStatementSetter<T>
 {
     /**
-     * Setzt die Values des {@link PreparedStatement}.
-     *
      * @param preparedStatement {@link PreparedStatement}
      * @param argument Object
      *

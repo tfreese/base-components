@@ -1,25 +1,24 @@
 // Created: 04.02.2017
 package de.freese.base.persistence.jdbc.template.function;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
- *
- * @param <T> Return-Type
  */
 @FunctionalInterface
-public interface StatementCallback<T>
+public interface CallableStatementCreator
 {
     /**
-     * @param statement {@link Statement}
+     * @param connection {@link Connection}
      *
-     * @return Object
+     * @return {@link CallableStatement}
      *
      * @throws SQLException Falls was schief geht.
      */
-    T doInStatement(Statement statement) throws SQLException;
+    CallableStatement createCallableStatement(Connection connection) throws SQLException;
 }

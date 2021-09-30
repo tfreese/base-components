@@ -74,8 +74,6 @@ public class ResultSetSubscription<T> implements Subscription
     @Override
     public void cancel()
     {
-        LOGGER.debug("close jdbc subscription");
-
         closeJdbcResources();
     }
 
@@ -84,6 +82,8 @@ public class ResultSetSubscription<T> implements Subscription
      */
     private void closeJdbcResources()
     {
+        LOGGER.debug("close jdbc subscription");
+
         JdbcUtils.closeSilent(this.resultSet);
         JdbcUtils.closeSilent(this.statement);
         JdbcUtils.closeSilent(this.connection);

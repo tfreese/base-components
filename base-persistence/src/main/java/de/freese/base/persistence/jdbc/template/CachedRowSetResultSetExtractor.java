@@ -12,7 +12,7 @@ import javax.sql.rowset.RowSetProvider;
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 
 /**
- * {@link ResultSetExtractor} der ein {@link CachedRowSet} liefert.
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */

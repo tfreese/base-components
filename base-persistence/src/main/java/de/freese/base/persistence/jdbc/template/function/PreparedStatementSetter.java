@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Inspired by org.springframework.jdbc.core.PreparedStatementSetter<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */
@@ -13,8 +13,6 @@ import java.sql.SQLException;
 public interface PreparedStatementSetter
 {
     /**
-     * Setzt die Values des {@link PreparedStatement}.
-     *
      * @param preparedStatement {@link PreparedStatement}
      *
      * @throws SQLException Falls was schief geht.

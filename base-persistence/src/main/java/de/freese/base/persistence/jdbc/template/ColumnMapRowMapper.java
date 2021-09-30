@@ -12,7 +12,7 @@ import java.util.Map;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * Inspired by org.springframework.jdbc.core.ColumnMapRowMapper<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */

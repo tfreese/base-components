@@ -5,18 +5,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Inspired by org.springframework.jdbc.core.ResultSetExtractor<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  *
- * @param <T> Type
+ * @param <T> Return-Type
  */
 @FunctionalInterface
 public interface ResultSetExtractor<T>
 {
     /**
-     * Konvertiert das {@link ResultSet} in eine andere Objektstruktur.
-     *
      * @param resultSet {@link ResultSet}
      *
      * @return Object

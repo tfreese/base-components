@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Inspired by org.springframework.jdbc.core.RowMapper<br>
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  *
@@ -15,8 +15,6 @@ import java.sql.SQLException;
 public interface RowMapper<R>
 {
     /**
-     * Mapped die aktuelle Zeile des {@link ResultSet} in ein Objekt.
-     *
      * @param resultSet {@link ResultSet}
      *
      * @return Object

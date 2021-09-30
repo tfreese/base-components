@@ -6,23 +6,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Creates a {@link Statement}.
+ * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
- *
- * @param <S> Konkretes Statement
  */
 @FunctionalInterface
-public interface StatementCreator<S extends Statement>
+public interface StatementCreator
 {
     /**
-     * Creates a {@link Statement}.
-     *
      * @param connection {@link Connection}
      *
      * @return {@link Statement}
      *
      * @throws SQLException Falls was schief geht.
      */
-    S createStatement(Connection connection) throws SQLException;
+    Statement createStatement(Connection connection) throws SQLException;
 }

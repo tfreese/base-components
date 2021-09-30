@@ -114,14 +114,9 @@ public final class JdbcUtils
         {
             close(connection);
         }
-        catch (SQLException ex)
-        {
-            LOGGER.error("Could not close JDBC Connection", ex);
-        }
         catch (Exception ex)
         {
-            // We don't trust the JDBC driver: It might throw RuntimeException or Error.
-            LOGGER.error("Unexpected exception on closing JDBC Connection", ex);
+            LOGGER.error("Could not close JDBC Connection", ex);
         }
     }
 
@@ -137,14 +132,9 @@ public final class JdbcUtils
         {
             close(resultSet);
         }
-        catch (SQLException ex)
-        {
-            LOGGER.error("Could not close JDBC ResultSet", ex);
-        }
         catch (Exception ex)
         {
-            // We don't trust the JDBC driver: It might throw RuntimeException or Error.
-            LOGGER.error("Unexpected exception on closing JDBC ResultSet", ex);
+            LOGGER.error("Could not close JDBC ResultSet", ex);
         }
     }
 
@@ -160,14 +150,9 @@ public final class JdbcUtils
         {
             close(statement);
         }
-        catch (SQLException ex)
-        {
-            LOGGER.error("Could not close JDBC Statement", ex);
-        }
         catch (Exception ex)
         {
-            // We don't trust the JDBC driver: It might throw RuntimeException or Error.
-            LOGGER.error("Unexpected exception on closing JDBC Statement", ex);
+            LOGGER.error("Could not close JDBC Statement", ex);
         }
     }
 

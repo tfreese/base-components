@@ -1,25 +1,24 @@
 // Created: 04.02.2017
 package de.freese.base.persistence.jdbc.template.function;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
- *
- * @param <T> Return-Type
  */
 @FunctionalInterface
-public interface StatementCallback<T>
+public interface PreparedStatementCreator
 {
     /**
-     * @param statement {@link Statement}
+     * @param connection {@link Connection}
      *
-     * @return Object
+     * @return {@link PreparedStatement}
      *
      * @throws SQLException Falls was schief geht.
      */
-    T doInStatement(Statement statement) throws SQLException;
+    PreparedStatement createPreparedStatement(Connection connection) throws SQLException;
 }
