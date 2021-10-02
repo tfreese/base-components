@@ -709,6 +709,20 @@ public class SimpleJdbcTemplate
      * @param <T> Row-Type
      * @param sql String
      * @param rowMapper {@link RowMapper}
+     *
+     * @return {@link Flux}
+     *
+     * @see #queryAsFlux(String, RowMapper, PreparedStatementSetter)
+     */
+    public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper)
+    {
+        return queryAsFlux(sql, rowMapper, (PreparedStatementSetter) null);
+    }
+
+    /**
+     * @param <T> Row-Type
+     * @param sql String
+     * @param rowMapper {@link RowMapper}
      * @param params Object []
      *
      * @return {@link Flux}
@@ -789,6 +803,19 @@ public class SimpleJdbcTemplate
     /**
      * @param sql String
      * @param rowMapper {@link RowMapper}
+     *
+     * @return {@link Publisher}
+     *
+     * @see #queryAsPublisher(String, RowMapper, PreparedStatementSetter)
+     */
+    public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper)
+    {
+        return queryAsPublisher(sql, rowMapper, (PreparedStatementSetter) null);
+    }
+
+    /**
+     * @param sql String
+     * @param rowMapper {@link RowMapper}
      * @param params Object[]; SQL-Parameter
      *
      * @return {@link Publisher}
@@ -842,6 +869,20 @@ public class SimpleJdbcTemplate
         };
 
         return execute(sc, action, false);
+    }
+
+    /**
+     * @param <T> Row-Type
+     * @param sql String
+     * @param rowMapper {@link RowMapper}
+     *
+     * @return {@link Stream}
+     *
+     * @see #queryAsStream(String, RowMapper, PreparedStatementSetter)
+     */
+    public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper)
+    {
+        return queryAsStream(sql, rowMapper, (PreparedStatementSetter) null);
     }
 
     /**
@@ -950,6 +991,18 @@ public class SimpleJdbcTemplate
      * INSERT, UPDATE, DELETE
      *
      * @param sql String
+     *
+     * @return int; affectedRows
+     */
+    public int update(final String sql)
+    {
+        return update(sql, (PreparedStatementSetter) null);
+    }
+
+    /**
+     * INSERT, UPDATE, DELETE
+     *
+     * @param sql String
      * @param params Object[]; SQL-Parameter
      *
      * @return int; affectedRows
@@ -977,7 +1030,11 @@ public class SimpleJdbcTemplate
             }
 
             stmt.clearParameters();
-            pss.setValues(stmt);
+
+            if (pss != null)
+            {
+                pss.setValues(stmt);
+            }
 
             return stmt.executeUpdate();
         };
