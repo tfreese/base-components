@@ -33,7 +33,23 @@ abstract class AbstractAccumulativeSink
     {
         Sinks.Many<T> sink = createSink();
 
-        createForList(sink, consumer);
+        createForList(sink, consumer, DEFAULT_DURATION);
+
+        return sink;
+    }
+
+    /**
+     * @param <T> Type
+     * @param consumer {@link Consumer}
+     * @param duration {@link Duration}
+     *
+     * @return {@link Many}
+     */
+    public <T> Sinks.Many<T> createForList(final Consumer<List<T>> consumer, final Duration duration)
+    {
+        Sinks.Many<T> sink = createSink();
+
+        createForList(sink, consumer, duration);
 
         return sink;
     }
@@ -42,10 +58,11 @@ abstract class AbstractAccumulativeSink
      * @param <T> Type
      * @param sink {@link Many}
      * @param consumer {@link Consumer}
+     * @param duration {@link Duration}
      */
-    public <T> void createForList(final Sinks.Many<T> sink, final Consumer<List<T>> consumer)
+    public <T> void createForList(final Sinks.Many<T> sink, final Consumer<List<T>> consumer, final Duration duration)
     {
-        sink.asFlux().buffer(getDuration()).publishOn(getScheduler()).subscribe(consumer::accept);
+        sink.asFlux().buffer(duration).publishOn(getScheduler()).subscribe(consumer);
     }
 
     /**
@@ -58,7 +75,23 @@ abstract class AbstractAccumulativeSink
     {
         Sinks.Many<T> sink = createSink();
 
-        createForSingle(sink, consumer);
+        createForSingle(sink, consumer, DEFAULT_DURATION);
+
+        return sink;
+    }
+
+    /**
+     * @param <T> Type
+     * @param consumer {@link Consumer}
+     * @param duration {@link Duration}
+     *
+     * @return {@link Many}
+     */
+    public <T> Sinks.Many<T> createForSingle(final Consumer<T> consumer, final Duration duration)
+    {
+        Sinks.Many<T> sink = createSink();
+
+        createForSingle(sink, consumer, duration);
 
         return sink;
     }
@@ -67,10 +100,11 @@ abstract class AbstractAccumulativeSink
      * @param <T> Type
      * @param sink {@link Many}
      * @param consumer {@link Consumer}
+     * @param duration {@link Duration}
      */
-    public <T> void createForSingle(final Sinks.Many<T> sink, final Consumer<T> consumer)
+    public <T> void createForSingle(final Sinks.Many<T> sink, final Consumer<T> consumer, final Duration duration)
     {
-        sink.asFlux().sample(getDuration()).publishOn(getScheduler()).subscribe(consumer::accept);
+        sink.asFlux().sample(duration).publishOn(getScheduler()).subscribe(consumer);
     }
 
     /**
@@ -81,14 +115,6 @@ abstract class AbstractAccumulativeSink
     public <T> Sinks.Many<T> createSink()
     {
         return Sinks.many().replay().latest();
-    }
-
-    /**
-     * @return {@link Duration}
-     */
-    protected Duration getDuration()
-    {
-        return DEFAULT_DURATION;
     }
 
     /**
