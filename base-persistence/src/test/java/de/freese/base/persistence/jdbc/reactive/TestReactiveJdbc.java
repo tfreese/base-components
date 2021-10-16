@@ -104,19 +104,15 @@ class TestReactiveJdbc
     private void assertData(final List<Person> result)
     {
         assertNotNull(result);
-        assertEquals(3, result.size());
+        assertEquals(2, result.size());
 
         assertEquals(1, result.get(0).getId());
-        assertEquals("Freese", result.get(0).getNachname());
-        assertEquals("Thomas", result.get(0).getVorname());
+        assertEquals("Nachname1", result.get(0).getNachname());
+        assertEquals("Vorname1", result.get(0).getVorname());
 
         assertEquals(2, result.get(1).getId());
-        assertEquals("Nachname1", result.get(1).getNachname());
-        assertEquals("Vorname1", result.get(1).getVorname());
-
-        assertEquals(3, result.get(2).getId());
-        assertEquals("Nachname2", result.get(2).getNachname());
-        assertEquals("Vorname2", result.get(2).getVorname());
+        assertEquals("Nachname2", result.get(1).getNachname());
+        assertEquals("Vorname2", result.get(1).getVorname());
     }
 
     /**
@@ -249,7 +245,7 @@ class TestReactiveJdbc
             ;
         // @formatter:on
 
-        assertEquals(3, result.size());
+        assertData(result);
     }
 
     /**
@@ -313,7 +309,7 @@ class TestReactiveJdbc
             });
         }
 
-        assertEquals(3, result.size());
+        assertData(result);
     }
 
     /**
@@ -383,7 +379,7 @@ class TestReactiveJdbc
             });
         }
 
-        assertEquals(3, result.size());
+        assertData(result);
     }
 
     /**

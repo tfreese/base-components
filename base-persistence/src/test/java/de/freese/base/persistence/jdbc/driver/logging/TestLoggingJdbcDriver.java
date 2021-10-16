@@ -103,14 +103,6 @@ class TestLoggingJdbcDriver
     private static class DriverManagerConnectionPool implements ConnectionPool
     {
         /**
-         * Erstellt ein neues {@link DriverManagerConnectionPool} Object.
-         */
-        DriverManagerConnectionPool()
-        {
-            super();
-        }
-
-        /**
          * @see TestLoggingJdbcDriver.ConnectionPool#close()
          */
         @Override
