@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import de.freese.base.persistence.jdbc.DbServerExtension;
@@ -47,7 +48,7 @@ class TestReactiveJdbc
      *
      */
     @RegisterExtension
-    static final DbServerExtension SERVER = new DbServerExtension();
+    static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.HSQL);
 
     /**
      *
@@ -56,8 +57,8 @@ class TestReactiveJdbc
     static void beforeClass()
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
-        populator.addScript(new ClassPathResource("hsqldb-data.sql"));
+        populator.addScript(new ClassPathResource("db-schema.sql"));
+        populator.addScript(new ClassPathResource("db-data.sql"));
         populator.execute(SERVER.getDataSource());
     }
 

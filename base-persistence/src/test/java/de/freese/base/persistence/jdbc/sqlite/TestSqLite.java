@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -19,11 +18,13 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.sqlite.SQLiteConfig;
+import org.sqlite.SQLiteDataSource;
+import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 /**
  * @author Thomas Freese
@@ -31,6 +32,10 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSqLite
 {
+    /**
+     *
+     */
+    private static SQLiteDataSource dataSource;
     /**
      * Paths.get(System.getProperty("user.dir"), "target")<br>
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
@@ -55,12 +60,28 @@ class TestSqLite
     @BeforeAll
     protected static void beforeAll() throws Exception
     {
-        Class.forName("org.sqlite.JDBC");
-
         if (Files.notExists(PATH_TEST))
         {
             Files.createDirectories(PATH_TEST);
         }
+
+        Class.forName("org.sqlite.JDBC");
+
+        // Native Libraries deaktivieren für den Zugriff auf die Dateien.
+        // System.setProperty("sqlite.purejava", "true");
+
+        // Pfade für native Libraries.
+        // System.setProperty("org.sqlite.lib.path", "/home/tommy");
+        // System.setProperty("org.sqlite.lib.name", "sqlite-libsqlitejdbc.so");
+        //
+        // Connection connection = DriverManager.getConnection("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db")
+
+        SQLiteConfig config = new SQLiteConfig();
+        config.setReadOnly(false);
+        config.setReadUncommited(false);
+
+        dataSource = new SQLiteConnectionPoolDataSource(config);
+        dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");
     }
 
     /**
@@ -69,20 +90,10 @@ class TestSqLite
     @Test
     void testSqliteJDBC() throws Exception
     {
-        // Native Libraries deaktivieren für den Zugriff auf die Dateien.
-        // System.setProperty("sqlite.purejava", "true");
-
-        // Pfade für native Libraries.
-        // System.setProperty("org.sqlite.lib.path", "/home/tommy");
-        // System.setProperty("org.sqlite.lib.name", "sqlite-libsqlitejdbc.so");
-
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db"))
+        try (Connection connection = dataSource.getConnection())
         {
-            System.out.println("Opened database successfully");
-
             try (Statement statement = connection.createStatement())
             {
-                statement.setQueryTimeout(30); // set timeout to 30 sec.
                 statement.executeUpdate("drop table if exists COMPANY");
             }
 
@@ -118,7 +129,7 @@ class TestSqLite
             connection.commit();
 
             try (Statement stmt = connection.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY;"))
+                 ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY"))
             {
                 while (rs.next())
                 {
@@ -147,16 +158,12 @@ class TestSqLite
     @Test
     void testSqliteSpring() throws Exception
     {
-        SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
-        dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");
-        dataSource.setSuppressClose(true);
-        // dataSource.setUsername(this.user);
-        // dataSource.setPassword(this.password);
-        // dataSource.setAutoCommit(false);
+        // SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
+        // dataSource.setDriverClassName("org.sqlite.JDBC");
+        // dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");
+        // dataSource.setSuppressClose(true);
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        System.out.println("Opened database successfully");
 
         jdbcTemplate.update("drop table if exists COMPANY");
 
@@ -177,16 +184,6 @@ class TestSqLite
         transactionManager.commit(transactionStatus);
         // transactionManager.rollback(transactionStatus);
 
-        // List<Map<String, Object>> result = jdbcTemplate.queryForList("SELECT * FROM COMPANY");
-        // for (Map<String, Object> row : result)
-        // {
-        // int id = (Integer) row.get("id");
-        // String name = (String) row.get("name");
-        // int age = (Integer) row.get("age");
-        // String address = (String) row.get("address");
-        // double salary = (Double) row.get("salary");
-        // }
-        //
         // SqlRowSet result = jdbcTemplate.query("SELECT * FROM COMPANY", new SqlRowSetResultSetExtractor());
         jdbcTemplate.query("SELECT * FROM COMPANY", (RowCallbackHandler) rs -> {
 
@@ -204,7 +201,10 @@ class TestSqLite
             System.out.println();
         });
 
-        dataSource.destroy();
+        // if (dataSource instanceof SingleConnectionDataSource ds)
+        // {
+        // ds.destroy();
+        // }
 
         assertTrue(true);
     }

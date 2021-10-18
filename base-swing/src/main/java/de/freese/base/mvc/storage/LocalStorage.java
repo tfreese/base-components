@@ -16,8 +16,6 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import javax.activation.DataSource;
 
@@ -43,38 +41,11 @@ public final class LocalStorage
      * @param src {@link InputStream}
      * @param dest {@link OutputStream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws IOException Falls was schief geht.
      */
-    public synchronized void copy(final InputStream src, final OutputStream dest) throws Exception
+    public synchronized void copy(final InputStream src, final OutputStream dest) throws IOException
     {
         src.transferTo(dest);
-
-        // if ((dest instanceof FileOutputStream) && (src instanceof FileInputStream))
-        // {
-        // FileChannel target = ((FileOutputStream) dest).getChannel();
-        // FileChannel source = ((FileInputStream) src).getChannel();
-        //
-        // source.transferTo(0, Long.MAX_VALUE, target);
-        //
-        // source.close();
-        // target.close();
-        //
-        // return;
-        // }
-        //
-        // byte[] buf = new byte[4096];
-        //
-        // while (true)
-        // {
-        // int length = src.read(buf);
-        //
-        // if (length < 0)
-        // {
-        // break;
-        // }
-        //
-        // dest.write(buf, 0, length);
-        // }
     }
 
     /**
@@ -112,7 +83,6 @@ public final class LocalStorage
         Path path = Files.createTempFile(getDirectory(), prefix, suffix);
         File file = path.toFile();
 
-        // File file = File.createTempFile(prefix, suffix, getDirectory().toFile());
         file.deleteOnExit();
 
         return file;
@@ -131,17 +101,6 @@ public final class LocalStorage
     {
         if (Files.isDirectory(path))
         {
-            // String[] children = path.toFile().list();
-            //
-            // for (String element : children)
-            // {
-            // boolean success = deleteDirectory(new File(path, element));
-            //
-            // if (!success)
-            // {
-            // return false;
-            // }
-            // }
             Files.walkFileTree(path, new SimpleFileVisitor<Path>()
             {
                 /**
@@ -214,7 +173,7 @@ public final class LocalStorage
     {
         if (this.directory == null)
         {
-            String userHome = AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty("user.home"));
+            String userHome = System.getProperty("user.home");
 
             if (userHome == null)
             {
@@ -257,15 +216,6 @@ public final class LocalStorage
             this.directory = path;
 
             createDirectories(this.directory);
-            // File dir = new File(this.directory);
-            //
-            // if (!dir.isDirectory())
-            // {
-            // if (!dir.mkdirs())
-            // {
-            // throw new RuntimeException("couldn't create directory " + dir);
-            // }
-            // }
         }
 
         return this.directory;
@@ -335,9 +285,9 @@ public final class LocalStorage
      *
      * @param file {@link Path}, relativ zum Basisverzeichnis
      *
-     * @throws Exception Falls was schief geht.
+     * @throws IOException Falls was schief geht.
      */
-    public void openPath(final Path file) throws Exception
+    public void openPath(final Path file) throws IOException
     {
         Desktop.getDesktop().open(getDirectory().resolve(file).toFile());
     }
@@ -357,12 +307,12 @@ public final class LocalStorage
 
         if (internalName.indexOf('/') != -1)
         {
-            internalName = internalName.replaceAll("[//]", "-");
+            internalName = internalName.replace("//", "/").replace("/", "-");
         }
 
         if (internalName.indexOf('\\') != -1)
         {
-            internalName = internalName.replaceAll("[\\\\]", "-");
+            internalName = internalName.replace("\\\\", "\\").replace("\\", "-");
         }
 
         return internalName;
@@ -375,12 +325,12 @@ public final class LocalStorage
      *
      * @return String ggf. korrogierter Dateiname
      *
-     * @throws Exception Falls was schief geht.
+     * @throws IOException Falls was schief geht.
      *
      * @see DataSource#getName()
      * @see DataSource#getInputStream()
      */
-    public synchronized String save(final DataSource dataSource) throws Exception
+    public synchronized String save(final DataSource dataSource) throws IOException
     {
         String fileName = dataSource.getName();
         validateFileName(fileName);

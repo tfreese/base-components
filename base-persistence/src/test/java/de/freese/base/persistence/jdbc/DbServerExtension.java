@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
-import org.junit.jupiter.api.extension.Extension;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
@@ -85,14 +84,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
      *
      */
     private JdbcOperations jdbcOperations;
-
-    /**
-     * Die Junit-{@link Extension} braucht zwingend einen Default-Constructor !
-     */
-    public DbServerExtension()
-    {
-        this(EmbeddedDatabaseType.HSQL);
-    }
 
     /**
      * Erstellt ein neues {@link DbServerExtension} Object.

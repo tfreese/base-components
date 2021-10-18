@@ -3,8 +3,6 @@ package de.freese.base.core.xml;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,22 +17,18 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
      *
      */
     private static final String INDENT_CHAR = " ";
-
     /**
      *
      */
     private int depth;
-
     /**
      *
      */
     private Map<Integer, Boolean> hasChildElement = new HashMap<>();
-
     /**
      *
      */
     private final String lineSeparator;
-
     /**
      *
      */
@@ -51,7 +45,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
 
         this.target = target;
 
-        this.lineSeparator = AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty("line.separator"));
+        this.lineSeparator = System.getProperty("line.separator");
     }
 
     /**

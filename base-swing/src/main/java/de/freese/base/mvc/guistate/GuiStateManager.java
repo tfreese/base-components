@@ -111,13 +111,12 @@ public final class GuiStateManager
                 {
                     state = stateClass.getDeclaredConstructor().newInstance();
                 }
+                catch (RuntimeException ex)
+                {
+                    throw ex;
+                }
                 catch (Exception ex)
                 {
-                    if (ex instanceof RuntimeException rex)
-                    {
-                        throw rex;
-                    }
-
                     throw new RuntimeException(ex);
                 }
 

@@ -2,8 +2,6 @@
 package de.freese.base.core.xml;
 
 import java.io.OutputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,7 +91,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
 
         this.delegate = delegate;
 
-        this.lineSeparator = AccessController.doPrivileged((PrivilegedAction<String>) () -> System.getProperty("line.separator"));
+        this.lineSeparator = System.getProperty("line.separator");
     }
 
     /**
