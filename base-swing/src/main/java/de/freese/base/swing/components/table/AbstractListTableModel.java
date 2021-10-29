@@ -235,4 +235,38 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     {
         fireTableDataChanged();
     }
+
+    /**
+     * @param object Object
+     */
+    public void remove(final T object)
+    {
+        int row = getRowOf(object);
+
+        getList().remove(object);
+
+        if (row >= 0)
+        {
+            fireTableRowsDeleted(row, row);
+        }
+    }
+
+    /**
+     * @param rowIndex int
+     *
+     * @return Object
+     */
+    public T removeAt(final int rowIndex)
+    {
+        if (rowIndex < 0)
+        {
+            return null;
+        }
+
+        T object = getList().remove(rowIndex);
+
+        fireTableRowsDeleted(rowIndex, rowIndex);
+
+        return object;
+    }
 }
