@@ -19,7 +19,7 @@ import de.freese.base.swing.eventlist.IEventList;
 /**
  * @author Thomas Freese
  */
-public class TableExampleEventList
+public final class TableExampleEventList
 {
     /**
      * @author Thomas Freese
@@ -137,5 +137,13 @@ public class TableExampleEventList
         };
 
         swingWorker.execute();
+    }
+
+    /**
+     * Erstellt ein neues {@link TableExampleEventList} Object.
+     */
+    private TableExampleEventList()
+    {
+        super();
     }
 }

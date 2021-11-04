@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public class TableExampleObservableList
+public final class TableExampleObservableList
 {
     /**
      * @author Thomas Freese
@@ -34,7 +34,7 @@ public class TableExampleObservableList
          * @param columnCount int
          * @param list {@link ObservableList}
          */
-        public MyTabelModel(final int columnCount, final ObservableList<int[]> list)
+        MyTabelModel(final int columnCount, final ObservableList<int[]> list)
         {
             super(columnCount, list);
         }
@@ -113,5 +113,13 @@ public class TableExampleObservableList
         };
 
         swingWorker.execute();
+    }
+
+    /**
+     * Erstellt ein neues {@link TableExampleObservableList} Object.
+     */
+    private TableExampleObservableList()
+    {
+        super();
     }
 }
