@@ -2,12 +2,15 @@
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link Executor} der nur eine begrenzete Anzahl von Threads des Delegates verwendet.
+ * {@link Executor} der nur eine begrenzete Anzahl von Threads des Delegates verwendet.<br>
  *
  * @author Thomas Freese
  */
@@ -26,13 +29,13 @@ public class BoundedExecutor implements Executor
      * Erstellt ein neues {@link BoundedExecutor} Object.
      *
      * @param delegate {@link Executor}
-     * @param parallelism int
+     * @param parallelism int; Anzahl zu nutzender Threads des Delegates
      */
     public BoundedExecutor(final Executor delegate, final int parallelism)
     {
         super();
 
-        this.delegate = Objects.requireNonNull(delegate, "executor required");
+        this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
         if (parallelism < 1)
         {
@@ -43,12 +46,36 @@ public class BoundedExecutor implements Executor
     }
 
     /**
+     * Blockiert bis der RateLimiter freie Slots hat.
+     *
+     * @param <T> Type
+     * @param callable {@link Callable}
+     *
+     * @return {@link RunnableFuture}
+     */
+    public <T> RunnableFuture<T> execute(final Callable<T> callable)
+    {
+        if (callable == null)
+        {
+            throw new NullPointerException();
+        }
+
+        RunnableFuture<T> task = new FutureTask<>(callable);
+
+        execute(task);
+
+        return task;
+    }
+
+    /**
+     * Blockiert bis der RateLimiter freie Slots hat.
+     *
      * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
      */
     @Override
-    public void execute(final Runnable command)
+    public void execute(final Runnable runnable)
     {
-        if (command == null)
+        if (runnable == null)
         {
             throw new NullPointerException();
         }
@@ -60,7 +87,7 @@ public class BoundedExecutor implements Executor
             this.delegate.execute(() -> {
                 try
                 {
-                    command.run();
+                    runnable.run();
                 }
                 finally
                 {
@@ -78,9 +105,33 @@ public class BoundedExecutor implements Executor
         {
             throw ex;
         }
-        catch (Exception ex)
+        catch (InterruptedException ex)
         {
-            throw new RuntimeException(ex);
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
+        // catch (Exception ex)
+        // {
+        // throw new RuntimeException(ex);
+        // }
+    }
+
+    /**
+     * Wartet bis der RateLimiter entsprechende Slots frei hat.
+     *
+     * @param parallelism int
+     *
+     * @throws InterruptedException Falls was schief geht.
+     */
+    public void waitForPermits(final int parallelism) throws InterruptedException
+    {
+        try
+        {
+            this.rateLimiter.acquire(parallelism);
+        }
+        finally
+        {
+            this.rateLimiter.release(parallelism);
         }
     }
 }

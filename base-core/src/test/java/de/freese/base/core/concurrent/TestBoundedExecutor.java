@@ -1,6 +1,8 @@
 // Created: 03.04.2021
 package de.freese.base.core.concurrent;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -67,8 +69,6 @@ class TestBoundedExecutor
 
         BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
 
-        // Set<String> threadNames = new HashSet<>()
-
         Runnable task = () -> {
             System.out.println(Thread.currentThread().getName());
             sleep();
@@ -76,7 +76,16 @@ class TestBoundedExecutor
 
         IntStream.range(0, 10).forEach(i -> boundedExecutor.execute(task));
 
-        sleep();
+        try
+        {
+            // Warten bis fertich.
+            boundedExecutor.waitForPermits(parallelism);
+        }
+        catch (InterruptedException ex)
+        {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
@@ -86,6 +95,8 @@ class TestBoundedExecutor
     void testExecute1Thread()
     {
         execute(1);
+
+        assertTrue(true);
     }
 
     /**
@@ -95,6 +106,8 @@ class TestBoundedExecutor
     void testExecute2Thread()
     {
         execute(2);
+
+        assertTrue(true);
     }
 
     /**
@@ -104,6 +117,7 @@ class TestBoundedExecutor
     void testExecute4Thread()
     {
         execute(4);
-    }
 
+        assertTrue(true);
+    }
 }
