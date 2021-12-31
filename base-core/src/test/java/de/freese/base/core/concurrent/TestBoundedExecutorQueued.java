@@ -25,7 +25,7 @@ import de.freese.base.utils.ExecutorUtils;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestBoundedExecutor
+class TestBoundedExecutorQueued
 {
     /**
     *
@@ -72,17 +72,19 @@ class TestBoundedExecutor
     {
         System.out.println();
 
-        BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
+        BoundedExecutorQueued boundedExecutor = new BoundedExecutorQueued(executorService, parallelism);
 
         Callable<Void> task = () -> {
-            System.out.println(Thread.currentThread().getName());
+            System.out.printf("%s: QueueSize=%d%n", Thread.currentThread().getName(), boundedExecutor.getQueueSize());
             sleep();
             return null;
         };
 
-        List<Future<Void>> list = IntStream.range(0, 10).mapToObj(i -> boundedExecutor.execute(task)).toList();
+        List<Future<Void>> list = IntStream.range(0, 10).mapToObj(i -> {
+            System.out.printf("%s: QueueSize=%d%n", Thread.currentThread().getName(), boundedExecutor.getQueueSize());
+            return boundedExecutor.execute(task);
+        }).toList();
 
-        // Warten bis fertich.
         list.forEach(t -> {
             try
             {

@@ -1,7 +1,9 @@
 // Created: 12.09.2021
 package de.freese.base.core.concurrent;
 
+import java.util.ArrayDeque;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -15,24 +17,28 @@ import java.util.concurrent.Semaphore;
  *
  * @author Thomas Freese
  */
-public class BoundedExecutor implements Executor
+public class BoundedExecutorQueued implements Executor
 {
     /**
      *
      */
     private final Executor delegate;
     /**
+    *
+    */
+    private final Queue<Runnable> queue = new ArrayDeque<>();
+    /**
      *
      */
     private final Semaphore rateLimiter;
 
     /**
-     * Erstellt ein neues {@link BoundedExecutor} Object.
+     * Erstellt ein neues {@link BoundedExecutorQueued} Object.
      *
      * @param delegate {@link Executor}
      * @param parallelism int; Anzahl zu nutzender Threads des Delegates
      */
-    public BoundedExecutor(final Executor delegate, final int parallelism)
+    public BoundedExecutorQueued(final Executor delegate, final int parallelism)
     {
         super();
 
@@ -81,6 +87,36 @@ public class BoundedExecutor implements Executor
             throw new NullPointerException();
         }
 
+        this.queue.add(runnable);
+
+        // Verarbeitung anschubsen, wenn freie Slots vorhanden sind.
+        for (int i = 0; i < this.rateLimiter.availablePermits(); i++)
+        {
+            // System.err.println("scheduleNext");
+            scheduleNext();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public int getQueueSize()
+    {
+        return this.queue.size();
+    }
+
+    /**
+    *
+    */
+    private void scheduleNext()
+    {
+        Runnable runnable = this.queue.poll();
+
+        if (runnable == null)
+        {
+            return;
+        }
+
         try
         {
             this.rateLimiter.acquire();
@@ -93,6 +129,7 @@ public class BoundedExecutor implements Executor
                 finally
                 {
                     this.rateLimiter.release();
+                    scheduleNext();
                 }
             });
         }
