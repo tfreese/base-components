@@ -18,15 +18,6 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.RegisterExtension;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-
 import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
@@ -35,6 +26,15 @@ import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetchSize;
 import de.freese.base.utils.JdbcUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -51,10 +51,19 @@ class TestReactiveJdbc
     static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.HSQL);
 
     /**
+    *
+    */
+    @AfterAll
+    static void afterAll()
+    {
+        Schedulers.shutdownNow();
+    }
+
+    /**
      *
      */
     @BeforeAll
-    static void beforeClass()
+    static void beforeAll()
     {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("db-schema.sql"));
