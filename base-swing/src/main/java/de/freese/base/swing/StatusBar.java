@@ -82,7 +82,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     {
         super();
 
-        ResourceMap resourceMap = context.getResourceMap("statusbar");
+        ResourceMap resourceMap = context.getResourceMap("bundles/statusbar");
 
         Objects.requireNonNull(resourceMap, "resourceMap required");
 

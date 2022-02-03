@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import de.freese.base.resourcemap.converter.ResourceConverter;
+import de.freese.base.resourcemap.converter.ResourceConverters;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
@@ -27,47 +28,19 @@ public class DefaultResourceMap extends AbstractResourceMap
 
         setParent(parent);
         setResourceProvider(resourceProvider);
-
-        initDefaultConverter();
     }
 
     /**
-     * @param <T> Type
-     * @param locale {@link Locale}
-     * @param type Class
-     * @param key String
+     * Erstellt ein neues {@link DefaultResourceMap} Object.
      *
-     * @return Object
+     * @param bundleName String
+     * @param resourceProvider {@link ResourceProvider}
      */
-    protected final <T> T getConvertedValue(final Locale locale, final Class<T> type, final String key)
+    protected DefaultResourceMap(final String bundleName, final ResourceProvider resourceProvider)
     {
-        String stringValue = getValue(locale, String.class, key);
+        super(bundleName);
 
-        if (stringValue == null)
-        {
-            return null;
-        }
-
-        T value = null;
-        ResourceConverter<T> converter = getResourceConverter(type);
-
-        if (converter != null)
-        {
-            try
-            {
-                value = converter.convert(key, stringValue);
-            }
-            catch (Exception ex)
-            {
-                getLogger().error(null, ex);
-            }
-        }
-        else
-        {
-            getLogger().warn("{}: No ResourceConverter found for type '{}' and key '{}'", getBundleName(), type.getSimpleName(), key);
-        }
-
-        return value;
+        setResourceProvider(resourceProvider);
     }
 
     /**
@@ -157,6 +130,45 @@ public class DefaultResourceMap extends AbstractResourceMap
             getLogger().warn(null, ex);
 
             value = "#" + key;
+        }
+
+        return value;
+    }
+
+    /**
+     * @param <T> Type
+     * @param locale {@link Locale}
+     * @param type Class
+     * @param key String
+     *
+     * @return Object
+     */
+    protected final <T> T getConvertedValue(final Locale locale, final Class<T> type, final String key)
+    {
+        String stringValue = getValue(locale, String.class, key);
+
+        if (stringValue == null)
+        {
+            return null;
+        }
+
+        T value = null;
+        ResourceConverter<T> converter = ResourceConverters.getConverter(type);
+
+        if (converter != null)
+        {
+            try
+            {
+                value = converter.convert(key, stringValue);
+            }
+            catch (Exception ex)
+            {
+                getLogger().error(null, ex);
+            }
+        }
+        else
+        {
+            getLogger().warn("{}: No ResourceConverter found for type '{}' and key '{}'", getBundleName(), type.getSimpleName(), key);
         }
 
         return value;

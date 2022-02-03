@@ -189,11 +189,27 @@ public class DemoApplication extends AbstractApplication
         ResourceProvider resourceProvider = new ResourceBundleProvider();
         // ResourceProvider resourceProvider = (baseName, locale, classLoader) -> Make DB-Query for Text;
 
-        ResourceMap rootMap = ResourceMapBuilder.create("bundles/demo").resourceProvider(resourceProvider).build();
-        setResourceMapRoot(rootMap);
-        // getContext().addResourceMap("root", rootMap);
+        // @formatter:off
+        ResourceMap rootMap = ResourceMapBuilder.create()
+            .resourceProvider(resourceProvider)
+            .cacheStatic()
+            .bundleName("bundles/demo")
+            .addChild()
+                .bundleName("bundles/statusbar")
+                .done()
+            .addChild()
+                .bundleName("bundles/nasa")
+                .done()
+            .addChild()
+                .bundleName("bundles/fibonacci")
+                .done()
+            .addChild()
+                .bundleName("bundles/example")
+                .done()
+            .build()
+            ;
+        // @formatter:on
 
-        ResourceMap statusbarMap = ResourceMapBuilder.create("bundles/statusbar").parent(rootMap).build();
-        getContext().addResourceMap("statusbar", statusbarMap);
+        setResourceMapRoot(rootMap);
     }
 }

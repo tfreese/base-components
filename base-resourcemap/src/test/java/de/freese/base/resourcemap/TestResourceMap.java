@@ -25,12 +25,11 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
+import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 
 /**
  * Testklasse der ResourceMap.
@@ -44,6 +43,10 @@ class TestResourceMap
      *
      */
     private static ResourceMap resourceMap = null;
+    /**
+     *
+     */
+    private static ResourceMap resourceMapRoot = null;
 
     /**
      *
@@ -51,9 +54,24 @@ class TestResourceMap
     @BeforeAll
     static void beforeAll()
     {
-        ResourceMap parentRM = ResourceMapBuilder.create("parentTest").resourceProvider(new ResourceBundleProvider()).build();
+        // @formatter:off
+        resourceMapRoot = ResourceMapBuilder.create()
+            .resourceProvider(new ResourceBundleProvider())
+            .cacheStatic()
+            .bundleName("parentTest")
+            .addChild()
+                .bundleName("bundles/test1")
+                .addChild()
+                    .bundleName("bundles/test2")
+                    .done()
+                .done()
+            .build()
+            ;
+        // @formatter:on
 
-        resourceMap = ResourceMapBuilder.create("resourcemap/test").parent(parentRM).build();
+        // TODO setLocale triggert Nachladen und evaluateStringExpressions
+
+        resourceMap = resourceMapRoot.getChild("bundles/test2");
     }
 
     /**
@@ -379,6 +397,18 @@ class TestResourceMap
     }
 
     /**
+    *
+    */
+    @Test
+    void testNotExist()
+    {
+        String value = resourceMap.getString("not.exist");
+
+        assertNull(value);
+        // assertEquals(ref, value);
+    }
+
+    /**
      *
      */
     @Test
@@ -529,17 +559,5 @@ class TestResourceMap
 
         assertNotNull(value);
         assertEquals(ref, value);
-    }
-
-    /**
-    *
-    */
-    @Test
-    void testWrongKey()
-    {
-        String value = resourceMap.getString("not.exist");
-
-        assertNull(value);
-        // assertEquals(ref, value);
     }
 }

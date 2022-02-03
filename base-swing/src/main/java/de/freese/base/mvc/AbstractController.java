@@ -1,9 +1,8 @@
 package de.freese.base.mvc;
 
+import de.freese.base.resourcemap.ResourceMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * BasisImplementierung eines {@link Controller}.
@@ -28,24 +27,6 @@ public abstract class AbstractController implements Controller
      *
      */
     private ResourceMap resourceMap;
-
-    /**
-     * Liefert den {@link ApplicationContext} dieses Controllers.
-     *
-     * @return {@link ApplicationContext}
-     */
-    protected ApplicationContext getContext()
-    {
-        return this.context;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
 
     /**
      * @see de.freese.base.mvc.Controller#getName()
@@ -94,6 +75,24 @@ public abstract class AbstractController implements Controller
     }
 
     /**
+     * Liefert den {@link ApplicationContext} dieses Controllers.
+     *
+     * @return {@link ApplicationContext}
+     */
+    protected ApplicationContext getContext()
+    {
+        return this.context;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
      * Setzt den {@link ApplicationContext} dieses Controllers.
      *
      * @param context {@link ApplicationContext}
@@ -102,7 +101,7 @@ public abstract class AbstractController implements Controller
     {
         this.context = context;
 
-        if (getView()instanceof AbstractView v)
+        if (getView() instanceof AbstractView v)
         {
             v.setContext(context);
         }
@@ -127,7 +126,7 @@ public abstract class AbstractController implements Controller
     {
         this.resourceMap = resourceMap;
 
-        if (getView()instanceof AbstractView v)
+        if (getView() instanceof AbstractView v)
         {
             v.setResourceMap(resourceMap);
         }

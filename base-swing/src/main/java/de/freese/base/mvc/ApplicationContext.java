@@ -2,8 +2,6 @@ package de.freese.base.mvc;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -57,10 +55,6 @@ public class ApplicationContext
     /**
      *
      */
-    private final Map<String, ResourceMap> resourceMaps = new HashMap<>();
-    /**
-     *
-     */
     private final TaskManager taskManager;
     /**
      *
@@ -90,17 +84,6 @@ public class ApplicationContext
         this.localStorage = new LocalStorage();
         this.guiStateManager = new GuiStateManager();
         this.exceptionHandler = new DialogExceptionHandler();
-    }
-
-    /**
-     * Hinzufügen einer ResourceMap.
-     *
-     * @param name String
-     * @param resourceMap {@link ResourceMap}
-     */
-    public void addResourceMap(final String name, final ResourceMap resourceMap)
-    {
-        this.resourceMaps.put(name, resourceMap);
     }
 
     /**
@@ -172,7 +155,7 @@ public class ApplicationContext
      */
     public ResourceMap getResourceMap(final String name)
     {
-        return this.resourceMaps.get(name);
+        return getResourceMapRoot().getChild(name);
     }
 
     /**
@@ -218,16 +201,6 @@ public class ApplicationContext
     }
 
     /**
-     * Setzt die Root-{@link ResourceMap} der Application.
-     *
-     * @param resourceMapRoot {@link ResourceMap}
-     */
-    void setResourceMapRoot(final ResourceMap resourceMapRoot)
-    {
-        this.resourceMapRoot = resourceMapRoot;
-    }
-
-    /**
      * ID des angemeldeten Users.
      *
      * @param userID String
@@ -235,5 +208,15 @@ public class ApplicationContext
     public void setUserID(final String userID)
     {
         this.userID = userID;
+    }
+
+    /**
+     * Setzt die Root-{@link ResourceMap} der Application.
+     *
+     * @param resourceMapRoot {@link ResourceMap}
+     */
+    void setResourceMapRoot(final ResourceMap resourceMapRoot)
+    {
+        this.resourceMapRoot = resourceMapRoot;
     }
 }

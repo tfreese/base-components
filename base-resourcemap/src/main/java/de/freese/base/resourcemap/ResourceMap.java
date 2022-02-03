@@ -93,6 +93,21 @@ public interface ResourceMap
     }
 
     /**
+     * @param key String
+     * @param defaultValue boolean
+     *
+     * @return boolean
+     *
+     * @see #getObject
+     */
+    default boolean getBoolean(final String key, final boolean defaultValue)
+    {
+        Boolean value = getBoolean(key);
+
+        return value != null ? value : defaultValue;
+    }
+
+    /**
      * Liefert den Namen der {@link ResourceMap}.
      *
      * @return String
@@ -110,6 +125,30 @@ public interface ResourceMap
     {
         return getObject(key, Byte.class);
     }
+
+    /**
+     * @param key String
+     * @param defaultValue byte
+     *
+     * @return byte
+     *
+     * @see #getObject
+     */
+    default byte getByte(final String key, final byte defaultValue)
+    {
+        Byte value = getObject(key, Byte.class);
+
+        return value != null ? value : defaultValue;
+    }
+
+    /**
+     * Sucht rekursiv nach der {@link ResourceMap}.
+     *
+     * @param bundleName String
+     *
+     * @return {@link ResourceMap}
+     */
+    ResourceMap getChild(String bundleName);
 
     /**
      * Liefert das Value des Keys als {@link Color}.<br>
@@ -322,14 +361,6 @@ public interface ResourceMap
 
         return (ks != null) ? ks.getKeyCode() : null;
     }
-
-    // /**
-    // * Liefert alle Keys der {@link ResourceMap}.<br>
-    // * Die Bundles werden, wenn noch nicht vorhanden, geladen.
-    // *
-    // * @return {@link Set}
-    // */
-    // public Set<String> getKeys();
 
     /**
      * Liefert das Value des Keys als {@link KeyStroke}.<br>

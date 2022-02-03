@@ -3,9 +3,6 @@ package de.freese.base.mvc;
 
 import java.util.Objects;
 
-import de.freese.base.resourcemap.ResourceMap;
-import de.freese.base.resourcemap.ResourceMapBuilder;
-
 /**
  * @author Thomas Freese
  */
@@ -63,14 +60,11 @@ public final class ControllerBuilder
 
         try
         {
-            ResourceMap resourceMap = ResourceMapBuilder.create(this.bundleName).parent(this.context.getResourceMapRoot()).build();
-            this.context.addResourceMap(this.name, resourceMap);
-
             controller = this.controllerClazz.getDeclaredConstructor().newInstance();
 
-            controller.setName(this.name);
             controller.setContext(this.context);
-            controller.setResourceMap(resourceMap);
+            controller.setName(this.name);
+            controller.setResourceMap(this.context.getResourceMap(this.bundleName));
         }
         catch (RuntimeException ex)
         {
