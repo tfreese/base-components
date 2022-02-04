@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -192,7 +193,7 @@ public class DemoApplication extends AbstractApplication
         // @formatter:off
         ResourceMap rootMap = ResourceMapBuilder.create()
             .resourceProvider(resourceProvider)
-            .cacheStatic()
+            .cacheObjects()
             .bundleName("bundles/demo")
             .addChild()
                 .bundleName("bundles/statusbar")
@@ -209,6 +210,8 @@ public class DemoApplication extends AbstractApplication
             .build()
             ;
         // @formatter:on
+
+        rootMap.load(Locale.getDefault());
 
         setResourceMapRoot(rootMap);
     }

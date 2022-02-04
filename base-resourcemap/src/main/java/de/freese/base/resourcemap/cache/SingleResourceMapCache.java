@@ -13,7 +13,7 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public class SimpleResourceMapCache implements ResourceMapCache
+public class SingleResourceMapCache implements ResourceMapCache
 {
     /**
      *

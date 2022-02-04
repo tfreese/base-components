@@ -12,7 +12,6 @@ import java.net.URI;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.function.Supplier;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -523,11 +522,9 @@ public interface ResourceMap
     }
 
     /**
-     * Setzt den {@link Supplier} des aktuellen {@link Locale}.<br>
-     * Für Parent: Default = Locale.getDefault<br>
-     * Für Childs optional: Default = parent#getLocale
+     * Laden der Resourcen der {@link ResourceMap} und deren Children.
      *
-     * @param localeSupplier {@link Supplier}
+     * @param locale {@link Locale}
      */
-    void setLocaleSupplier(Supplier<Locale> localeSupplier);
+    void load(Locale locale);
 }

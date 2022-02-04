@@ -1,17 +1,19 @@
 // Created: 08.06.2020
 package de.freese.base.resourcemap;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import de.freese.base.resourcemap.cache.ResourceMapCache;
+import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +36,15 @@ public abstract class AbstractResourceMap implements ResourceMap
     /**
     *
     */
-    private final List<ResourceMap> childs = new ArrayList<>();
+    private final List<AbstractResourceMap> childs = new ArrayList<>();
     /**
-    *
-    */
-    private Supplier<Locale> localeSupplier = () -> getParent() != null ? ((AbstractResourceMap) getParent()).getLocale() : Locale.getDefault();
+     *
+     */
+    private final Map<Class<?>, ResourceConverter<?>> converters = new HashMap<>();
+    /**
+     * () -> getParent() != null ? ((AbstractResourceMap) getParent()).getLocale() : Locale.getDefault()
+     */
+    private Locale locale = Locale.getDefault();
     /**
     *
     */
@@ -46,11 +52,16 @@ public abstract class AbstractResourceMap implements ResourceMap
     /**
     *
     */
-    private ResourceMap parent;
+    private AbstractResourceMap parent;
     /**
     *
     */
     private ResourceProvider resourceProvider;
+
+    /**
+    *
+    */
+    private final Map<Locale, Map<String, String>> resources = new HashMap<>();
 
     /**
      * Erstellt ein neues {@link AbstractResourceMap} Object.
@@ -84,7 +95,7 @@ public abstract class AbstractResourceMap implements ResourceMap
             return this;
         }
 
-        for (ResourceMap child : this.childs)
+        for (ResourceMap child : getChilds())
         {
             ResourceMap rm = child.getChild(bundleName);
 
@@ -98,12 +109,111 @@ public abstract class AbstractResourceMap implements ResourceMap
     }
 
     /**
-     * @see de.freese.base.resourcemap.ResourceMap#setLocaleSupplier(java.util.function.Supplier)
+     * @see de.freese.base.resourcemap.ResourceMap#getObject(java.lang.String, java.lang.Class)
      */
     @Override
-    public void setLocaleSupplier(final Supplier<Locale> localeSupplier)
+    public final <T> T getObject(final String key, final Class<T> type)
     {
-        this.localeSupplier = Objects.requireNonNull(localeSupplier, "localeSupplier required");
+        Objects.requireNonNull(key, "key required");
+        Objects.requireNonNull(type, "type required");
+
+        T value;
+
+        value = getCache().getValue(getBundleName(), getLocale(), type, key);
+
+        if (value != null)
+        {
+            return value;
+        }
+
+        // Konvert
+        String stringValue = getResource(key);
+
+        if (stringValue == null)
+        {
+            return null;
+        }
+
+        ResourceConverter<T> converter = getConverter(type);
+
+        if (converter != null)
+        {
+            try
+            {
+                value = converter.convert(key, stringValue);
+            }
+            catch (Exception ex)
+            {
+                getLogger().error(null, ex);
+            }
+        }
+        else
+        {
+            getLogger().warn("{}: No ResourceConverter found for type '{}' and key '{}'", getBundleName(), type.getSimpleName(), key);
+        }
+
+        if (value != null)
+        {
+            getCache().putValue(getBundleName(), getLocale(), type, key, value);
+        }
+
+        return value;
+    }
+
+    /**
+     * @see de.freese.base.resourcemap.ResourceMap#getString(java.lang.String, java.lang.Object[])
+     */
+    @Override
+    public final String getString(final String key, final Object...args)
+    {
+        String value = getResource(key);
+
+        if (value == null)
+        {
+            return "#" + key;
+        }
+
+        try
+        {
+            if (args.length > 0)
+            {
+                if (value.indexOf("{0}") != -1)
+                {
+                    // Das "alte" Format.
+                    value = MessageFormat.format(value, args);
+                }
+                else
+                {
+                    // Das "neue" Format.
+                    value = String.format(value, args);
+                }
+            }
+
+            return value;
+        }
+        catch (Exception ex)
+        {
+            getLogger().warn(null, ex);
+
+            return "#" + key;
+        }
+    }
+
+    /**
+     * @see de.freese.base.resourcemap.ResourceMap#load(java.util.Locale)
+     */
+    @Override
+    public void load(final Locale locale)
+    {
+        this.locale = Objects.requireNonNull(locale, "locale required");
+
+        Map<String, String> resourcesLocale = getResourceProvider().getResources(getBundleName(), locale);
+
+        this.resources.put(locale, resourcesLocale);
+
+        substitutePlaceholder(resourcesLocale);
+
+        getChilds().forEach(child -> child.load(locale));
     }
 
     /**
@@ -123,11 +233,127 @@ public abstract class AbstractResourceMap implements ResourceMap
     }
 
     /**
-     * @param child {@link ResourceMap}
+     * @param child {@link AbstractResourceMap}
      */
-    protected void addChild(final ResourceMap child)
+    protected void addChild(final AbstractResourceMap child)
     {
-        this.childs.add(child);
+        getChilds().add(child);
+    }
+
+    /**
+     * @return {@link ResourceMapCache}
+     */
+    protected ResourceMapCache getCache()
+    {
+        return this.cache;
+    }
+
+    /**
+     * @param type Class
+     *
+     * @return {@link ResourceConverter}
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> ResourceConverter<T> getConverter(final Class<T> type)
+    {
+        return (ResourceConverter<T>) this.converters.get(type);
+    }
+
+    /**
+     * Liefert das {@link Locale}.
+     *
+     * @return {@link Locale}
+     */
+    protected Locale getLocale()
+    {
+        return this.locale;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
+     * @return {@link AbstractResourceMap}
+     */
+    protected AbstractResourceMap getParent()
+    {
+        return this.parent;
+    }
+
+    /**
+     * @param key String
+     *
+     * @return String
+     */
+    protected String getResource(final String key)
+    {
+        String resource = this.resources.get(getLocale()).get(key);
+
+        if ((resource == null) && (getParent() != null))
+        {
+            // Fallback: Im Parent suchen
+            resource = getParent().getResource(key);
+        }
+
+        if (resource == null)
+        {
+            getLogger().warn("{}: no resource found for Locale '{}' and key '{}'", getBundleName(), getLocale(), key);
+        }
+
+        return resource;
+    }
+
+    /**
+     * Liefert den verwendeten {@link ResourceProvider}.<br>
+     * Sollte diese ResourceMap keinen ResourceProvider besitzen, wird der vorhandene Parent angefragt, wenn vorhanden.
+     *
+     * @return {@link ResourceProvider}
+     */
+    protected ResourceProvider getResourceProvider()
+    {
+        if ((this.resourceProvider == null) && (getParent() != null))
+        {
+            return getParent().getResourceProvider();
+        }
+
+        return this.resourceProvider;
+    }
+
+    /**
+     * @param cache {@link ResourceMapCache}
+     */
+    protected void setCache(final ResourceMapCache cache)
+    {
+        this.cache = cache;
+    }
+
+    /**
+     * @param converters {@link Map}
+     */
+    protected void setConverters(final Map<Class<?>, ResourceConverter<?>> converters)
+    {
+        this.converters.putAll(converters);
+    }
+
+    /**
+     * @param parent {@link AbstractResourceMap}
+     */
+    protected void setParent(final AbstractResourceMap parent)
+    {
+        this.parent = parent;
+    }
+
+    /**
+     * @param resourceProvider {@link ResourceProvider}
+     */
+    protected void setResourceProvider(final ResourceProvider resourceProvider)
+    {
+        this.resourceProvider = resourceProvider;
     }
 
     /**
@@ -142,10 +368,9 @@ public abstract class AbstractResourceMap implements ResourceMap
      * Der Wert von "place" wäre "Hello World".<br>
      * Der Wert von einem ${null} ist null.
      *
-     * @param locale {@link Locale}
      * @param resources {@link Map}
      */
-    protected final void evaluateStringExpressions(final Locale locale, final Map<String, String> resources)
+    protected final void substitutePlaceholder(final Map<String, String> resources)
     {
         // Finde alle Values mit '${' Expression.
         List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
@@ -175,7 +400,7 @@ public abstract class AbstractResourceMap implements ResourceMap
             // Expressions ersetzen.
             for (String key : keys)
             {
-                String value = getObject(key, String.class);
+                String value = getResource(key);
 
                 if (value == null)
                 {
@@ -193,126 +418,10 @@ public abstract class AbstractResourceMap implements ResourceMap
     }
 
     /**
-     * @return {@link ResourceMapCache}
+     * @return {@link List}
      */
-    protected ResourceMapCache getCache()
+    List<AbstractResourceMap> getChilds()
     {
-        return this.cache;
-    }
-
-    /**
-     * Liefert das {@link Locale}.
-     *
-     * @return {@link Locale}
-     */
-    protected Locale getLocale()
-    {
-        return this.localeSupplier.get();
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * @return {@link ResourceMap}
-     */
-    protected ResourceMap getParent()
-    {
-        return this.parent;
-    }
-
-    /**
-     * Liefert den verwendeten {@link ResourceProvider}.<br>
-     * Sollte diese ResourceMap keinen ResourceProvider besitzen, wird der vorhandene Parent angefragt, wenn vorhanden.
-     *
-     * @return {@link ResourceProvider}
-     */
-    protected ResourceProvider getResourceProvider()
-    {
-        if ((this.resourceProvider == null) && (getParent() != null))
-        {
-            return ((AbstractResourceMap) getParent()).getResourceProvider();
-        }
-
-        return this.resourceProvider;
-    }
-
-    /**
-     * Liefert das bereits geparste Objekt oder null.
-     *
-     * @param locale {@link Locale}
-     * @param key String
-     * @param type Class
-     *
-     * @return Object
-     */
-    protected <T> T getValue(final Locale locale, final Class<T> type, final String key)
-    {
-        loadResourcesIfAbsent(locale);
-
-        return getCache().getValue(getBundleName(), locale, type, key);
-    }
-
-    /**
-     * @param locale {@link Locale}
-     *
-     * @return Map<String,String>
-     */
-    protected Map<String, String> loadResourcesIfAbsent(final Locale locale)
-    {
-        Map<String, String> resources = getCache().getValues(getBundleName(), locale, String.class);
-
-        if ((resources == null) || resources.isEmpty())
-        {
-            resources = getResourceProvider().getResources(getBundleName(), locale);
-
-            getCache().putValues(getBundleName(), locale, String.class, resources);
-
-            evaluateStringExpressions(locale, resources);
-        }
-
-        return resources;
-    }
-
-    /**
-     * Setzt das bereits geparste Objekt in den Cache.
-     *
-     * @param locale {@link Locale}
-     * @param key String
-     * @param type Class
-     * @param value Object
-     */
-    protected <T> void putValue(final Locale locale, final Class<T> type, final String key, final T value)
-    {
-        getCache().putValue(getBundleName(), locale, type, key, value);
-    }
-
-    /**
-     * @param cache {@link ResourceMapCache}
-     */
-    protected void setCache(final ResourceMapCache cache)
-    {
-        this.cache = cache;
-    }
-
-    /**
-     * @param parent {@link ResourceMap}
-     */
-    protected void setParent(final ResourceMap parent)
-    {
-        this.parent = parent;
-    }
-
-    /**
-     * @param resourceProvider {@link ResourceProvider}
-     */
-    protected void setResourceProvider(final ResourceProvider resourceProvider)
-    {
-        this.resourceProvider = resourceProvider;
+        return this.childs;
     }
 }

@@ -3,7 +3,6 @@ package de.freese.base.resourcemap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +17,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -56,8 +56,9 @@ class TestResourceMap
     {
         // @formatter:off
         resourceMapRoot = ResourceMapBuilder.create()
+            .defaultConverters()
+            .cacheObjects()
             .resourceProvider(new ResourceBundleProvider())
-            .cacheStatic()
             .bundleName("parentTest")
             .addChild()
                 .bundleName("bundles/test1")
@@ -69,7 +70,7 @@ class TestResourceMap
             ;
         // @formatter:on
 
-        // TODO setLocale triggert Nachladen und evaluateStringExpressions
+        resourceMapRoot.load(Locale.getDefault());
 
         resourceMap = resourceMapRoot.getChild("bundles/test2");
     }
@@ -404,8 +405,7 @@ class TestResourceMap
     {
         String value = resourceMap.getString("not.exist");
 
-        assertNull(value);
-        // assertEquals(ref, value);
+        assertEquals("#not.exist", value);
     }
 
     /**
