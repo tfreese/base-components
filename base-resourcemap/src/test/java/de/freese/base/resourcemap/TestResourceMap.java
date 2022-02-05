@@ -56,14 +56,15 @@ class TestResourceMap
     {
         // @formatter:off
         resourceMapRoot = ResourceMapBuilder.create()
+                .resourceProvider(new ResourceBundleProvider())
             .defaultConverters()
-            .cacheObjects()
-            .resourceProvider(new ResourceBundleProvider())
+            .cacheDisabled()
             .bundleName("parentTest")
             .addChild()
                 .bundleName("bundles/test1")
                 .addChild()
                     .bundleName("bundles/test2")
+                    .cacheDisabled()
                     .done()
                 .done()
             .build()

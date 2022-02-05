@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * {@link ResourceConverter} für Integers.
- *
  * @author Thomas Freese
  */
 public class IntegerStringResourceConverter extends AbstractNumberResourceConverter<Integer>

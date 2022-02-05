@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * {@link ResourceConverter} für Doubles.
- *
  * @author Thomas Freese
  */
 public class DoubleStringResourceConverter extends AbstractNumberResourceConverter<Double>

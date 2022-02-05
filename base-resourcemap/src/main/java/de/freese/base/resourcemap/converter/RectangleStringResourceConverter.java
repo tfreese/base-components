@@ -4,8 +4,6 @@ import java.awt.Rectangle;
 import java.util.List;
 
 /**
- * {@link ResourceConverter} für {@link Rectangle}.
- *
  * @author Thomas Freese
  */
 public class RectangleStringResourceConverter extends AbstractResourceConverter<Rectangle>
@@ -19,7 +17,7 @@ public class RectangleStringResourceConverter extends AbstractResourceConverter<
         List<Double> xywh = parseDoubles(key, value, 4, "Invalid x,y,width,height Rectangle string");
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setFrame(xywh.get(0).doubleValue(), xywh.get(1).doubleValue(), xywh.get(2).doubleValue(), xywh.get(3).doubleValue());
+        rectangle.setFrame(xywh.get(0), xywh.get(1), xywh.get(2), xywh.get(3));
 
         return rectangle;
     }

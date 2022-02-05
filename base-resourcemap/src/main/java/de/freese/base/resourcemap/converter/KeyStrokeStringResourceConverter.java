@@ -2,11 +2,10 @@ package de.freese.base.resourcemap.converter;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+
 import javax.swing.KeyStroke;
 
 /**
- * {@link ResourceConverter} für {@link KeyStroke}.
- *
  * @author Thomas Freese
  */
 public class KeyStrokeStringResourceConverter extends AbstractResourceConverter<KeyStroke>

@@ -6,8 +6,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
- * {@link ResourceConverter} für {@link Icon}.
- *
  * @author Thomas Freese
  */
 public class IconStringResourceConverter extends AbstractResourceConverter<Icon>

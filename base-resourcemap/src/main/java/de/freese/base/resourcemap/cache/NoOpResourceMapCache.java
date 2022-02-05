@@ -5,10 +5,8 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 
-import de.freese.base.resourcemap.ResourceMap;
-
 /**
- * Statischer {@link ResourceMapCache} für alle {@link ResourceMap}s ohne Funktion.
+ * Static and empty {@link ResourceMapCache}s
  *
  * @author Thomas Freese
  */

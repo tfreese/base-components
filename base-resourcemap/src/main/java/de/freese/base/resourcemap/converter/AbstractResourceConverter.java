@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Basisklasse eines {@link ResourceConverter}s.
- *
  * @author Thomas Freese
  *
- * @param <T> Konkreter konvertierter Typ
+ * @param <T> Type
  */
 public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>
 {

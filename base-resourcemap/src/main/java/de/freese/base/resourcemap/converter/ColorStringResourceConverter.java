@@ -3,7 +3,6 @@ package de.freese.base.resourcemap.converter;
 import java.awt.Color;
 
 /**
- * {@link ResourceConverter} für {@link Color}.<br>
  * An improved version of Color.decode() that supports colors with an alpha channel and comma separated RGB[A] values.<br>
  * Legal format for color resources are: "#RRGGBB", "#AARRGGBB", "R, G, B", "R, G, B, A".
  *
@@ -31,8 +30,8 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
 
                 case 9:
                     // ARGB/hex color
-                    int alpha = Integer.decode(value.substring(0, 3)).intValue();
-                    int rgb = Integer.decode("#" + value.substring(3)).intValue();
+                    int alpha = Integer.decode(value.substring(0, 3));
+                    int rgb = Integer.decode("#" + value.substring(3));
                     color = new Color((alpha << 24) | rgb, true);
 
                     break;

@@ -5,14 +5,12 @@ import java.io.PrintWriter;
 import java.util.Locale;
 
 /**
- * Diese {@link Exception} wird von einer {@link ResourceMap} geworfen, wenn eine Resource nicht gefunden wurde.
- *
  * @author Thomas Freese
  */
 public final class LookupException extends RuntimeException
 {
     /**
-     * Konstante um nur die ersten n {@link StackTraceElement}e auszugeben.
+     * Print only the first 'n' {@link StackTraceElement}s.
      */
     private static final int LOGGABLE_STACKTRACES = 5;
     /**
@@ -63,8 +61,6 @@ public final class LookupException extends RuntimeException
     private final String value;
 
     /**
-     * Constructs an instance of this class with some useful information about the failure.
-     *
      * @param baseName String
      * @param key String
      * @param value String
@@ -78,7 +74,7 @@ public final class LookupException extends RuntimeException
 
         this.baseName = baseName;
         this.key = key;
-        this.value = maybeShorten(value);
+        this.value = truncate(value);
         this.type = type;
         this.locale = locale;
         this.info = info;
@@ -133,22 +129,6 @@ public final class LookupException extends RuntimeException
     }
 
     /**
-     * Kuerzung der Fehlermeldung.
-     *
-     * @param s String
-     *
-     * @return String
-     */
-    private String maybeShorten(final String s)
-    {
-        int n = s.length();
-
-        return (n < 128) ? s : s.substring(0, 128) + "...[" + (n - 128) + " more characters]";
-    }
-
-    /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
      * @see LookupException#LOGGABLE_STACKTRACES
      * @see java.lang.Throwable#printStackTrace(java.io.PrintStream)
      */
@@ -167,8 +147,6 @@ public final class LookupException extends RuntimeException
     }
 
     /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
      * @see LookupException#LOGGABLE_STACKTRACES
      * @see java.lang.Throwable#printStackTrace(java.io.PrintWriter)
      */
@@ -184,5 +162,17 @@ public final class LookupException extends RuntimeException
         }
 
         printWriter.println("\t...");
+    }
+
+    /**
+     * @param s String
+     *
+     * @return String
+     */
+    private String truncate(final String s)
+    {
+        int n = s.length();
+
+        return (n < 128) ? s : s.substring(0, 128) + "...[" + (n - 128) + " more characters]";
     }
 }

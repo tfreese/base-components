@@ -1,11 +1,10 @@
 package de.freese.base.resourcemap.converter;
 
 import java.util.List;
+
 import javax.swing.border.EmptyBorder;
 
 /**
- * {@link ResourceConverter} für {@link EmptyBorder}.
- *
  * @author Thomas Freese
  */
 public class EmptyBorderStringResourceConverter extends AbstractResourceConverter<EmptyBorder>

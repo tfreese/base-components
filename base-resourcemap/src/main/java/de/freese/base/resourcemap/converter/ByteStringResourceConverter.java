@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * {@link ResourceConverter} für Bytes.
- *
  * @author Thomas Freese
  */
 public class ByteStringResourceConverter extends AbstractNumberResourceConverter<Byte>

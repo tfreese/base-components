@@ -3,7 +3,7 @@ package de.freese.base.resourcemap.converter;
 import java.util.function.BiFunction;
 
 /**
- * Konvertiert aus einen String das konkrete Object.
+ * Converts a String to the required Object.
  *
  * @author Thomas Freese
  *

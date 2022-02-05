@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * {@link ResourceConverter} für Floats.
- *
  * @author Thomas Freese
  */
 public class FloatStringResourceConverter extends AbstractNumberResourceConverter<Float>

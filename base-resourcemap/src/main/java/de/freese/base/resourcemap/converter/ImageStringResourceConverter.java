@@ -7,8 +7,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 /**
- * {@link ResourceConverter} für {@link BufferedImage}.
- *
  * @author Thomas Freese
  */
 public class ImageStringResourceConverter extends AbstractResourceConverter<BufferedImage>

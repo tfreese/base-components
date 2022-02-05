@@ -4,8 +4,6 @@ import java.awt.Insets;
 import java.util.List;
 
 /**
- * {@link ResourceConverter} für {@link Insets}.
- *
  * @author Thomas Freese
  */
 public class InsetsStringResourceConverter extends AbstractResourceConverter<Insets>

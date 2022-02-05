@@ -8,7 +8,7 @@ import java.util.Map;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * Statischer {@link ResourceMapCache} für alle {@link ResourceMap}s.
+ * Static {@link ResourceMapCache} for all {@link ResourceMap}s.
  *
  * @author Thomas Freese
  */

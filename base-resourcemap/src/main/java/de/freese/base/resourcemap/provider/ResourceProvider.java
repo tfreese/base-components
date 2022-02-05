@@ -3,8 +3,10 @@ package de.freese.base.resourcemap.provider;
 import java.util.Locale;
 import java.util.Map;
 
+import de.freese.base.resourcemap.ResourceMap;
+
 /**
- * Ein {@link ResourceProvider} ist zuständig für das Laden der Resources.
+ * A {@link ResourceProvider} can load the resources for a {@link ResourceMap}.
  *
  * @author Thomas Freese
  */
@@ -12,8 +14,6 @@ import java.util.Map;
 public interface ResourceProvider
 {
     /**
-     * Laden der Daten von Resourcen für die Internationalisierung.
-     *
      * @param bundleName String
      * @param locale {@link Locale}
      *

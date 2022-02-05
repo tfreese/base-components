@@ -10,7 +10,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.Locale;
 
 import javax.swing.Icon;
@@ -21,14 +20,14 @@ import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 
 /**
- * Interface einer ResourceMap zum laden und verarbeiten lokalisierter Texte.
+ * ResourceMap for hierachical ResourceBundles.
  *
  * @author Thomas Freese
  */
 public interface ResourceMap
 {
     /**
-     * Ermittelt aus einem Enum den übersetzbaren Key.
+     * Translate a Key from an Enum.
      *
      * @author Thomas Freese
      */
@@ -107,7 +106,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert den Namen der {@link ResourceMap}.
+     * The Name of the {@link ResourceMap}.
      *
      * @return String
      */
@@ -141,7 +140,7 @@ public interface ResourceMap
     }
 
     /**
-     * Sucht rekursiv nach der {@link ResourceMap}.
+     * Rekursive Search for Child.
      *
      * @param bundleName String
      *
@@ -150,8 +149,7 @@ public interface ResourceMap
     ResourceMap getChild(String bundleName);
 
     /**
-     * Liefert das Value des Keys als {@link Color}.<br>
-     * Mögliche Formate:
+     * Formats:
      *
      * <pre>
      * hexRGBColor = #RRGGBB
@@ -216,11 +214,10 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link Font}.<br>
      * Format:
      *
      * <pre>
-     * <code>font = Arial-PLAIN-12</code>
+     * font = Arial - PLAIN - 12
      * </pre>
      *
      * @param key String
@@ -236,11 +233,10 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link Icon}.<br>
-     * Format PropertyKey: enum.ENUMKLASSE.ENUMNAME.icon
+     * Format:
      *
      * <pre>
-     * icon = myIcon.png
+     * enum.ENUMCLASS.ENUMNAME.icon = icon
      * </pre>
      *
      * @param enumValue {@link Enum}
@@ -255,7 +251,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link Icon}.<br>
      * Format:
      *
      * <pre>
@@ -274,7 +269,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link BufferedImage}.<br>
      * Format:
      *
      * <pre>
@@ -293,7 +287,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link ImageIcon}.<br>
      * Format:
      *
      * <pre>
@@ -312,7 +305,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link Insets}.<br>
      * Format:
      *
      * <pre>
@@ -341,7 +333,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des {@link KeyStroke} als Integer.<br>
      * Format:
      *
      * <pre>
@@ -362,7 +353,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link KeyStroke}.<br>
      * Format:
      *
      * <pre>
@@ -394,8 +384,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das konvertierte Objekt aus dem String.<br>
-     * Das Objekt wird durch einen {@link ResourceConverter} erzeugt, der mit dem Klassentyp verknüpft ist.<br>
+     * Uses a {@link ResourceConverter} to convert the String value.<br>
      *
      * @param <T> Type
      * @param key String
@@ -406,7 +395,6 @@ public interface ResourceMap
     <T> T getObject(final String key, final Class<T> type);
 
     /**
-     * Liefert das Value des Keys als {@link Point}.<br>
      * Format:
      *
      * <pre>
@@ -423,7 +411,6 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert das Value des Keys als {@link Rectangle}.<br>
      * Format:
      *
      * <pre>
@@ -452,8 +439,11 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert den Text für einen EnumTyp und den konkreten Wert.<br>
-     * Format PropertyKey: enum.ENUMKLASSE.ENUMNAME
+     * Format:
+     *
+     * <pre>
+     * enum.ENUMCLASS.ENUMNAME.text = value
+     * </pre>
      *
      * @param enumValue {@link Enum}
      *
@@ -465,8 +455,7 @@ public interface ResourceMap
     }
 
     /**
-     * Liefert den String des Keys.<br>
-     * Die Strings künnen wie folgt aus anderen Strings zusammengesetzt werden:
+     * Strings can be composed:
      *
      * <pre>
      * <code>
@@ -476,28 +465,17 @@ public interface ResourceMap
      * </code>
      * </pre>
      *
-     * Für Angabe einen StringFormats kann die ältere {} Notation oder die Java 1.5 Variante verwendet werden:
+     * Strings can have placeholders
      *
      * <pre>
-     * <code>hello = Hello {0}</code>
+     * hello = Hello {0}
+     * hello = Hello %s
      * </pre>
-     *
-     * oder
-     *
-     * <pre>
-     * <code>hello = Hello %s</code>
-     * </pre>
-     *
-     * aber niemals beide gleichzeitig.
      *
      * @param key String
      * @param args Object
      *
      * @return String
-     *
-     * @see #getObject
-     * @see String#format(String, Object...)
-     * @see MessageFormat#format(String, Object...)
      */
     String getString(final String key, final Object...args);
 
@@ -522,7 +500,8 @@ public interface ResourceMap
     }
 
     /**
-     * Laden der Resourcen der {@link ResourceMap} und deren Children.
+     * Load Resources if absent for {@link Locale}.<br>
+     * Calls the childs recursive.
      *
      * @param locale {@link Locale}
      */

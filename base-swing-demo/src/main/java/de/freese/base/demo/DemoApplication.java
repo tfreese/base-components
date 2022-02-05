@@ -188,12 +188,12 @@ public class DemoApplication extends AbstractApplication
     protected void initRecourceMap()
     {
         ResourceProvider resourceProvider = new ResourceBundleProvider();
-        // ResourceProvider resourceProvider = (baseName, locale, classLoader) -> Make DB-Query for Text;
+        // ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};
 
         // @formatter:off
         ResourceMap rootMap = ResourceMapBuilder.create()
             .resourceProvider(resourceProvider)
-            .cacheObjects()
+            .defaultConverters()
             .bundleName("bundles/demo")
             .addChild()
                 .bundleName("bundles/statusbar")
@@ -206,6 +206,7 @@ public class DemoApplication extends AbstractApplication
                 .done()
             .addChild()
                 .bundleName("bundles/example")
+                .cacheDisabled()
                 .done()
             .build()
             ;

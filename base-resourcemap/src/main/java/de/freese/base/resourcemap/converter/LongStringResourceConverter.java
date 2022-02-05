@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * {@link ResourceConverter} für Longs.
- *
  * @author Thomas Freese
  */
 public class LongStringResourceConverter extends AbstractNumberResourceConverter<Long>

@@ -4,8 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * {@link ResourceConverter} für {@link URL}.
- *
  * @author Thomas Freese
  */
 public class URLStringResourceConverter extends AbstractResourceConverter<URL>

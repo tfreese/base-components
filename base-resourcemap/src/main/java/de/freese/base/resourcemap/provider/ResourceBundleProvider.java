@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link ResourceProvider} auf Basis eines {@link ResourceBundle}.
+ * {@link ResourceProvider} for a {@link ResourceBundle}.
  *
  * @author Thomas Freese
  */

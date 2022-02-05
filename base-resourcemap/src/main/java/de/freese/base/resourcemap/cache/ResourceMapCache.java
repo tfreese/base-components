@@ -7,7 +7,9 @@ import java.util.Map;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * Interface der Cache-Implementierung der {@link ResourceMap}.
+ * {@link ResourceMapCache} holds the created Objects of a {@link ResourceMap}.<br>
+ *
+ * @see ResourceMap#getObject(String, Class)
  *
  * @author Thomas Freese
  */

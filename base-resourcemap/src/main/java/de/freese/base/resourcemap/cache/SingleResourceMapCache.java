@@ -8,8 +8,8 @@ import java.util.Map;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * {@link ResourceMapCache} für jeweils eine {@link ResourceMap}.<br>
- * Der bundeName-Parameter wird hier ignoriert.
+ * {@link ResourceMapCache} for a single {@link ResourceMap}.<br>
+ * The bundeName-Parameter is ignored.
  *
  * @author Thomas Freese
  */

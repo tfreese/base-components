@@ -4,8 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * {@link ResourceConverter} für {@link URI}.
- *
  * @author Thomas Freese
  */
 public class URIStringResourceConverter extends AbstractResourceConverter<URI>

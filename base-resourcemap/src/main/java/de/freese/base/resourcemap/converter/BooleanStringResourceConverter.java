@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * {@link ResourceConverter} für Booleans.
- *
  * @author Thomas Freese
  */
 public class BooleanStringResourceConverter extends AbstractResourceConverter<Boolean>

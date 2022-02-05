@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.util.List;
 
 /**
- * {@link ResourceConverter} für {@link Point}.
- *
  * @author Thomas Freese
  */
 public class PointStringResourceConverter extends AbstractResourceConverter<Point>
@@ -19,7 +17,7 @@ public class PointStringResourceConverter extends AbstractResourceConverter<Poin
         List<Double> xy = parseDoubles(key, value, 2, "Invalid x,y Point string");
 
         Point point = new Point();
-        point.setLocation(xy.get(0).doubleValue(), xy.get(1).doubleValue());
+        point.setLocation(xy.get(0), xy.get(1));
 
         return point;
     }
