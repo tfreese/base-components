@@ -23,9 +23,9 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import de.freese.base.resourcemap.cache.NoOpResourceMapCache;
-import de.freese.base.resourcemap.cache.ResourceMapCache;
-import de.freese.base.resourcemap.cache.SingleResourceMapCache;
+import de.freese.base.resourcemap.cache.NoOpResourceCache;
+import de.freese.base.resourcemap.cache.ResourceCache;
+import de.freese.base.resourcemap.cache.SingleResourceCache;
 import de.freese.base.resourcemap.converter.BooleanStringResourceConverter;
 import de.freese.base.resourcemap.converter.ByteStringResourceConverter;
 import de.freese.base.resourcemap.converter.ColorStringResourceConverter;
@@ -49,7 +49,7 @@ import de.freese.base.resourcemap.converter.URLStringResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
- * Default cache: {@link SingleResourceMapCache}<br>
+ * Default cache: {@link SingleResourceCache}<br>
  *
  * @author Thomas Freese
  */
@@ -70,19 +70,19 @@ public final class ResourceMapBuilder
     /**
      *
      */
-    private ResourceMapCache cache;
-    /**
-     *
-     */
     private final List<ResourceMapBuilder> childBuilders = new ArrayList<>();
     /**
     *
     */
-    private final Map<Class<?>, ResourceConverter<?>> converters = new HashMap<>();
+    private Map<Class<?>, ResourceConverter<?>> converters;
     /**
      *
      */
     private final ResourceMapBuilder parentBuilder;
+    /**
+     *
+     */
+    private ResourceCache resourceCache;
     /**
      *
      */
@@ -127,12 +127,15 @@ public final class ResourceMapBuilder
     {
         Objects.requireNonNull(this.bundleName, "bundleName required");
 
-        if (this.bundleName.trim().length() == 0)
+        if (this.bundleName.length() == 0)
         {
             throw new IllegalArgumentException("bundleName is empty");
         }
 
-        DefaultResourceMap resourceMap = new DefaultResourceMap(this.bundleName.trim(), getResourceProvider(), getConverters(), getCache());
+        DefaultResourceMap resourceMap = new DefaultResourceMap(this.bundleName);
+        resourceMap.setResourceProvider(this.resourceProvider);
+        resourceMap.setResourceCache(this.resourceCache != null ? this.resourceCache : new SingleResourceCache());
+        resourceMap.setConverters(this.converters);
 
         for (ResourceMapBuilder childBuilder : this.childBuilders)
         {
@@ -165,7 +168,7 @@ public final class ResourceMapBuilder
      */
     public ResourceMapBuilder bundleName(final String bundleName)
     {
-        this.bundleName = bundleName;
+        this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
 
         return this;
     }
@@ -177,17 +180,17 @@ public final class ResourceMapBuilder
      */
     public ResourceMapBuilder cacheDisabled()
     {
-        return cacheObjects(NoOpResourceMapCache.getInstance());
+        return cacheObjects(NoOpResourceCache.getInstance());
     }
 
     /**
-     * @param cache {@link ResourceMapCache}
+     * @param resourceCache {@link ResourceCache}
      *
      * @return {@link ResourceMapBuilder}
      */
-    public ResourceMapBuilder cacheObjects(final ResourceMapCache cache)
+    public ResourceMapBuilder cacheObjects(final ResourceCache resourceCache)
     {
-        this.cache = Objects.requireNonNull(cache, "cache required");
+        this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
 
         return this;
     }
@@ -200,6 +203,14 @@ public final class ResourceMapBuilder
      */
     public ResourceMapBuilder converter(final Class<?> type, final ResourceConverter<?> converter)
     {
+        Objects.requireNonNull(type, "type required");
+        Objects.requireNonNull(converter, "converter required");
+
+        if (this.converters == null)
+        {
+            this.converters = new HashMap<>();
+        }
+
         this.converters.put(type, converter);
 
         return this;
@@ -277,50 +288,5 @@ public final class ResourceMapBuilder
         this.resourceProvider = Objects.requireNonNull(resourceProvider, "resourceProvider required");
 
         return this;
-    }
-
-    /**
-     * @return {@link ResourceMapCache}
-     */
-    protected ResourceMapCache getCache()
-    {
-        if (this.cache == null)
-        {
-            return new SingleResourceMapCache();
-        }
-
-        return this.cache;
-    }
-
-    /**
-     * @return {@link ResourceMapCache}
-     */
-    protected Map<Class<?>, ResourceConverter<?>> getConverters()
-    {
-        Map<Class<?>, ResourceConverter<?>> map = new HashMap<>();
-
-        if (this.parentBuilder != null)
-        {
-            // Take the parent ones.
-            map.putAll(this.parentBuilder.getConverters());
-        }
-
-        // Add the own.
-        map.putAll(this.converters);
-
-        return map;
-    }
-
-    /**
-     * @return {@link ResourceProvider}
-     */
-    protected ResourceProvider getResourceProvider()
-    {
-        if ((this.resourceProvider == null) && (this.parentBuilder != null))
-        {
-            this.resourceProvider = this.parentBuilder.getResourceProvider();
-        }
-
-        return this.resourceProvider;
     }
 }

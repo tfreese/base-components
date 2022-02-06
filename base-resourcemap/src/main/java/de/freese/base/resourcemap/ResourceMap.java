@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 
 /**
- * ResourceMap for hierachical ResourceBundles.
+ * ResourceMap for hierachical internationalisations.
  *
  * @author Thomas Freese
  */
@@ -193,6 +193,21 @@ public interface ResourceMap
 
     /**
      * @param key String
+     * @param defaultValue double
+     *
+     * @return double
+     *
+     * @see #getObject
+     */
+    default double getDouble(final String key, final double defaultValue)
+    {
+        Double value = getObject(key, Double.class);
+
+        return value != null ? value : defaultValue;
+    }
+
+    /**
+     * @param key String
      *
      * @return {@link EmptyBorder}
      */
@@ -211,6 +226,21 @@ public interface ResourceMap
     default Float getFloat(final String key)
     {
         return getObject(key, Float.class);
+    }
+
+    /**
+     * @param key String
+     * @param defaultValue float
+     *
+     * @return Float
+     *
+     * @see #getObject
+     */
+    default Float getFloat(final String key, final float defaultValue)
+    {
+        Float value = getObject(key, Float.class);
+
+        return value != null ? value : defaultValue;
     }
 
     /**
@@ -333,6 +363,21 @@ public interface ResourceMap
     }
 
     /**
+     * @param key String
+     * @param defaultValue int
+     *
+     * @return int
+     *
+     * @see #getObject
+     */
+    default int getInteger(final String key, final int defaultValue)
+    {
+        Integer value = getObject(key, Integer.class);
+
+        return value != null ? value : defaultValue;
+    }
+
+    /**
      * Format:
      *
      * <pre>
@@ -381,6 +426,21 @@ public interface ResourceMap
     default Long getLong(final String key)
     {
         return getObject(key, Long.class);
+    }
+
+    /**
+     * @param key String
+     * @param defaultValue long
+     *
+     * @return long
+     *
+     * @see #getObject
+     */
+    default long getLong(final String key, final long defaultValue)
+    {
+        Long value = getObject(key, Long.class);
+
+        return value != null ? value : defaultValue;
     }
 
     /**
@@ -436,6 +496,21 @@ public interface ResourceMap
     default Short getShort(final String key)
     {
         return getObject(key, Short.class);
+    }
+
+    /**
+     * @param key String
+     * @param defaultValue short
+     *
+     * @return Short
+     *
+     * @see #getObject
+     */
+    default short getShort(final String key, final short defaultValue)
+    {
+        Short value = getObject(key, Short.class);
+
+        return value != null ? value : defaultValue;
     }
 
     /**

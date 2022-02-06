@@ -7,13 +7,13 @@ import java.util.Map;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * {@link ResourceMapCache} holds the created Objects of a {@link ResourceMap}.<br>
+ * {@link ResourceCache} holds the created Objects of a {@link ResourceMap}.<br>
  *
  * @see ResourceMap#getObject(String, Class)
  *
  * @author Thomas Freese
  */
-public interface ResourceMapCache
+public interface ResourceCache
 {
     /**
      * @param bundleName String

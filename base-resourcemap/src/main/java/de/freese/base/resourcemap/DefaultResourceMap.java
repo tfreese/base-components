@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import de.freese.base.resourcemap.cache.ResourceMapCache;
+import de.freese.base.resourcemap.cache.ResourceCache;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class DefaultResourceMap implements ResourceMap
+class DefaultResourceMap implements ResourceMap
 {
     /**
     *
@@ -32,19 +32,15 @@ public class DefaultResourceMap implements ResourceMap
     /**
     *
     */
-    private ResourceMapCache cache;
-    /**
-    *
-    */
     private final List<DefaultResourceMap> childs = new ArrayList<>();
     /**
      *
      */
-    private final Map<Class<?>, ResourceConverter<?>> converters = new HashMap<>();
+    private Map<Class<?>, ResourceConverter<?>> converters;
     /**
      *
      */
-    private Locale locale = Locale.getDefault();
+    private Locale locale;
     /**
     *
     */
@@ -56,8 +52,11 @@ public class DefaultResourceMap implements ResourceMap
     /**
     *
     */
-    private final ResourceProvider resourceProvider;
-
+    private ResourceCache resourceCache;
+    /**
+    *
+    */
+    private ResourceProvider resourceProvider;
     /**
     *
     */
@@ -67,19 +66,12 @@ public class DefaultResourceMap implements ResourceMap
      * Erstellt ein neues {@link DefaultResourceMap} Object.
      *
      * @param bundleName String
-     * @param resourceProvider {@link ResourceProvider}
-     * @param converters {@link Map}
-     * @param cache {@link ResourceMapCache}
      */
-    protected DefaultResourceMap(final String bundleName, final ResourceProvider resourceProvider, final Map<Class<?>, ResourceConverter<?>> converters,
-            final ResourceMapCache cache)
+    DefaultResourceMap(final String bundleName)
     {
         super();
 
         this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
-        this.resourceProvider = Objects.requireNonNull(resourceProvider, "resourceProvider required");
-        this.converters.putAll(Objects.requireNonNull(converters, "converters required"));
-        this.cache = Objects.requireNonNull(cache, "cache required");
     }
 
     /**
@@ -126,14 +118,13 @@ public class DefaultResourceMap implements ResourceMap
 
         T value;
 
-        value = getCache().getValue(getBundleName(), getLocale(), type, key);
+        value = getResourceCache().getValue(getBundleName(), getLocale(), type, key);
 
         if (value != null)
         {
             return value;
         }
 
-        // Convert
         String stringValue = getResource(key);
 
         if (stringValue == null)
@@ -161,7 +152,7 @@ public class DefaultResourceMap implements ResourceMap
 
         if (value != null)
         {
-            getCache().putValue(getBundleName(), getLocale(), type, key, value);
+            getResourceCache().putValue(getBundleName(), getLocale(), type, key, value);
         }
 
         return value;
@@ -245,22 +236,6 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
-     * @param child {@link DefaultResourceMap}
-     */
-    protected void addChild(final DefaultResourceMap child)
-    {
-        getChilds().add(child);
-    }
-
-    /**
-     * @return {@link ResourceMapCache}
-     */
-    protected ResourceMapCache getCache()
-    {
-        return this.cache;
-    }
-
-    /**
      * @param type Class
      *
      * @return {@link ResourceConverter}
@@ -268,7 +243,19 @@ public class DefaultResourceMap implements ResourceMap
     @SuppressWarnings("unchecked")
     protected <T> ResourceConverter<T> getConverter(final Class<T> type)
     {
-        return (ResourceConverter<T>) this.converters.get(type);
+        if ((this.converters == null) || this.converters.isEmpty())
+        {
+            return getParent().getConverter(type);
+        }
+
+        ResourceConverter<?> converter = this.converters.get(type);
+
+        if (converter == null)
+        {
+            converter = getParent().getConverter(type);
+        }
+
+        return (ResourceConverter<T>) converter;
     }
 
     /**
@@ -308,7 +295,6 @@ public class DefaultResourceMap implements ResourceMap
 
         if ((resource == null) && (getParent() != null))
         {
-            // Fallback: Parent lookup
             resource = getParent().getResource(key);
         }
 
@@ -321,19 +307,24 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
+     * @return {@link ResourceCache}
+     */
+    protected ResourceCache getResourceCache()
+    {
+        return this.resourceCache;
+    }
+
+    /**
      * @return {@link ResourceProvider}
      */
     protected ResourceProvider getResourceProvider()
     {
-        return this.resourceProvider;
-    }
+        if (this.resourceProvider == null)
+        {
+            return getParent().getResourceProvider();
+        }
 
-    /**
-     * @param parent {@link DefaultResourceMap}
-     */
-    protected void setParent(final DefaultResourceMap parent)
-    {
-        this.parent = parent;
+        return this.resourceProvider;
     }
 
     /**
@@ -394,10 +385,50 @@ public class DefaultResourceMap implements ResourceMap
     }
 
     /**
+     * @param child {@link DefaultResourceMap}
+     */
+    void addChild(final DefaultResourceMap child)
+    {
+        getChilds().add(Objects.requireNonNull(child, "child required"));
+    }
+
+    /**
      * @return {@link List}
      */
     List<DefaultResourceMap> getChilds()
     {
         return this.childs;
+    }
+
+    /**
+     * @param converters Map<Class<?>,ResourceConverter<?>>
+     */
+    void setConverters(final Map<Class<?>, ResourceConverter<?>> converters)
+    {
+        this.converters = converters;
+    }
+
+    /**
+     * @param parent {@link DefaultResourceMap}
+     */
+    void setParent(final DefaultResourceMap parent)
+    {
+        this.parent = parent;
+    }
+
+    /**
+     * @param resourceCache {@link ResourceCache}
+     */
+    void setResourceCache(final ResourceCache resourceCache)
+    {
+        this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
+    }
+
+    /**
+     * @param resourceProvider {@link ResourceProvider}
+     */
+    void setResourceProvider(final ResourceProvider resourceProvider)
+    {
+        this.resourceProvider = resourceProvider;
     }
 }

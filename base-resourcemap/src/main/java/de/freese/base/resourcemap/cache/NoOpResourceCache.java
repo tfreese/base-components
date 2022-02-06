@@ -6,11 +6,11 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Static and empty {@link ResourceMapCache}s
+ * Static and empty {@link ResourceCache}s
  *
  * @author Thomas Freese
  */
-public final class NoOpResourceMapCache implements ResourceMapCache
+public final class NoOpResourceCache implements ResourceCache
 {
     /**
      * @author Thomas Freese
@@ -20,27 +20,27 @@ public final class NoOpResourceMapCache implements ResourceMapCache
         /**
          *
          */
-        private static final ResourceMapCache INSTANCE = new NoOpResourceMapCache();
+        private static final ResourceCache INSTANCE = new NoOpResourceCache();
     }
 
     /**
-     * @return {@link ResourceMapCache}
+     * @return {@link ResourceCache}
      */
-    public static ResourceMapCache getInstance()
+    public static ResourceCache getInstance()
     {
         return InstanceHolder.INSTANCE;
     }
 
     /**
-     * Erstellt ein neues {@link NoOpResourceMapCache} Object.
+     * Erstellt ein neues {@link NoOpResourceCache} Object.
      */
-    private NoOpResourceMapCache()
+    private NoOpResourceCache()
     {
         super();
     }
 
     /**
-     * @see de.freese.base.resourcemap.cache.ResourceMapCache#clear(java.lang.String, java.util.Locale)
+     * @see de.freese.base.resourcemap.cache.ResourceCache#clear(java.lang.String, java.util.Locale)
      */
     @Override
     public void clear(final String bundleName, final Locale locale)
@@ -49,7 +49,7 @@ public final class NoOpResourceMapCache implements ResourceMapCache
     }
 
     /**
-     * @see de.freese.base.resourcemap.cache.ResourceMapCache#clearAll()
+     * @see de.freese.base.resourcemap.cache.ResourceCache#clearAll()
      */
     @Override
     public void clearAll()
@@ -58,7 +58,7 @@ public final class NoOpResourceMapCache implements ResourceMapCache
     }
 
     /**
-     * @see de.freese.base.resourcemap.cache.ResourceMapCache#getValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String)
+     * @see de.freese.base.resourcemap.cache.ResourceCache#getValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String)
      */
     @Override
     public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key)
@@ -67,7 +67,7 @@ public final class NoOpResourceMapCache implements ResourceMapCache
     }
 
     /**
-     * @see de.freese.base.resourcemap.cache.ResourceMapCache#getValues(java.lang.String, java.util.Locale, java.lang.Class)
+     * @see de.freese.base.resourcemap.cache.ResourceCache#getValues(java.lang.String, java.util.Locale, java.lang.Class)
      */
     @Override
     public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type)
@@ -76,7 +76,7 @@ public final class NoOpResourceMapCache implements ResourceMapCache
     }
 
     /**
-     * @see de.freese.base.resourcemap.cache.ResourceMapCache#putValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String, java.lang.Object)
+     * @see de.freese.base.resourcemap.cache.ResourceCache#putValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String, java.lang.Object)
      */
     @Override
     public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value)
@@ -85,7 +85,7 @@ public final class NoOpResourceMapCache implements ResourceMapCache
     }
 
     /**
-     * @see de.freese.base.resourcemap.cache.ResourceMapCache#putValues(java.lang.String, java.util.Locale, java.lang.Class, java.util.Map)
+     * @see de.freese.base.resourcemap.cache.ResourceCache#putValues(java.lang.String, java.util.Locale, java.lang.Class, java.util.Map)
      */
     @Override
     public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values)
