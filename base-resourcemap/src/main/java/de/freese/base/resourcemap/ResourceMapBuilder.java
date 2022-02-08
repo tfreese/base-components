@@ -50,6 +50,25 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
  * Default cache: {@link SingleResourceCache}<br>
+ * Configuration Example:
+ *
+ * <pre>
+ * <code>
+ * ResourceMap rootMap = ResourceMapBuilder.create()
+ *      .resourceProvider(new ResourceBundleProvider())
+ *      .defaultConverters()
+ *      .cacheDisabled()
+ *      .bundleName("parentTest")
+ *      .addChild()
+ *          .bundleName("bundles/test1")
+ *          .addChild()
+ *              .bundleName("bundles/test2")
+ *              .cacheDisabled()
+ *              .done()
+ *          .done()
+ *      .build();
+ * </code>
+ * </pre>
  *
  * @author Thomas Freese
  */

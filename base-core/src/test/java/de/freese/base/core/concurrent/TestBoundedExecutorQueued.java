@@ -13,13 +13,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import de.freese.base.utils.ExecutorUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.utils.ExecutorUtils;
 
 /**
  * @author Thomas Freese
@@ -31,6 +30,21 @@ class TestBoundedExecutorQueued
     *
     */
     private static ExecutorService executorService;
+
+    /**
+     *
+     */
+    private static void sleep()
+    {
+        try
+        {
+            TimeUnit.MILLISECONDS.sleep(300);
+        }
+        catch (InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
 
     /**
      * @throws Exception Falls was schief geht.
@@ -48,21 +62,6 @@ class TestBoundedExecutorQueued
     static void beforeAll()
     {
         executorService = Executors.newCachedThreadPool();
-    }
-
-    /**
-     *
-     */
-    private static void sleep()
-    {
-        try
-        {
-            TimeUnit.MILLISECONDS.sleep(300);
-        }
-        catch (InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
     }
 
     /**
@@ -100,6 +99,8 @@ class TestBoundedExecutorQueued
                 fail(ex);
             }
         });
+
+        boundedExecutor.shutdown();
     }
 
     /**

@@ -19,7 +19,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basis-Implementation of {@link ResourceMap}.
+ * Basis-Implementation of {@link ResourceMap}.<br>
+ * Configuration Example:
+ *
+ * <pre>
+ * <code>
+ * ResourceMap rootMap = ResourceMapBuilder.create()
+ *      .resourceProvider(new ResourceBundleProvider())
+ *      .defaultConverters()
+ *      .cacheDisabled()
+ *      .bundleName("parentTest")
+ *      .addChild()
+ *          .bundleName("bundles/test1")
+ *          .addChild()
+ *              .bundleName("bundles/test2")
+ *              .cacheDisabled()
+ *              .done()
+ *          .done()
+ *      .build();
+ * </code>
+ * </pre>
  *
  * @author Thomas Freese
  */

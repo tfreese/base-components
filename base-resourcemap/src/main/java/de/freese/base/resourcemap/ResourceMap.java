@@ -20,7 +20,26 @@ import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 
 /**
- * ResourceMap for hierachical internationalisations.
+ * ResourceMap for hierachical internationalisations.<br>
+ * Configuration Example:
+ *
+ * <pre>
+ * <code>
+ * ResourceMap rootMap = ResourceMapBuilder.create()
+ *      .resourceProvider(new ResourceBundleProvider())
+ *      .defaultConverters()
+ *      .cacheDisabled()
+ *      .bundleName("parentTest")
+ *      .addChild()
+ *          .bundleName("bundles/test1")
+ *          .addChild()
+ *              .bundleName("bundles/test2")
+ *              .cacheDisabled()
+ *              .done()
+ *          .done()
+ *      .build();
+ * </code>
+ * </pre>
  *
  * @author Thomas Freese
  */

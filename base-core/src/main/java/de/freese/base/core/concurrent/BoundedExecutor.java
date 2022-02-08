@@ -11,7 +11,7 @@ import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link Executor} der nur eine begrenzete Anzahl von Threads des Delegates verwendet.<br>
+ * {@link Executor} der nur eine begrenzte Anzahl von Threads des Delegates verwendet.<br>
  *
  * @author Thomas Freese
  */
