@@ -1,7 +1,7 @@
 // Created: 03.04.2021
 package de.freese.base.core.concurrent;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
@@ -11,15 +11,20 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
-
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import java.util.stream.Stream;
 
 import de.freese.base.utils.ExecutorUtils;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * @author Thomas Freese
@@ -31,6 +36,21 @@ class TestBoundedExecutor
     *
     */
     private static ExecutorService executorService;
+
+    /**
+     *
+     */
+    private static void sleep()
+    {
+        try
+        {
+            TimeUnit.MILLISECONDS.sleep(300);
+        }
+        catch (InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
 
     /**
      * @throws Exception Falls was schief geht.
@@ -51,39 +71,46 @@ class TestBoundedExecutor
     }
 
     /**
-     *
+     * @return {@link Stream}
      */
-    private static void sleep()
+    static Stream<Arguments> createTestData()
     {
-        try
-        {
-            TimeUnit.MILLISECONDS.sleep(300);
-        }
-        catch (InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
+        // @formatter:off
+        return Stream.of(
+                Arguments.of("1 Thread", 1),
+                Arguments.of("2 Threads", 2),
+                Arguments.of("4 Threads", 4)
+                );
+        // @formatter:on
     }
 
     /**
-     * @param parallelism int
+     * @param executor {@link Function}
+     * @param queueSizeSupplier {@link Supplier}
      */
-    private void execute(final int parallelism)
+    private void execute(final Function<Callable<Void>, Future<Void>> executor, final Supplier<Integer> queueSizeSupplier)
     {
         System.out.println();
 
-        BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
-
         Callable<Void> task = () -> {
-            System.out.println(Thread.currentThread().getName());
+            if (queueSizeSupplier == null)
+            {
+                System.out.printf("%s%n", Thread.currentThread().getName());
+            }
+            else
+            {
+                System.out.printf("%s: QueueSize=%d%n", Thread.currentThread().getName(), queueSizeSupplier.get());
+            }
+
             sleep();
             return null;
         };
 
-        List<Future<Void>> list = IntStream.range(0, 10).mapToObj(i -> boundedExecutor.execute(task)).toList();
+        List<Future<Void>> futures = IntStream.range(0, 10).mapToObj(i -> executor.apply(task)).toList();
 
-        // Warten bis fertich.
-        list.forEach(t -> {
+        assertEquals(10, futures.size());
+
+        futures.forEach(t -> {
             try
             {
                 t.get();
@@ -101,35 +128,44 @@ class TestBoundedExecutor
     }
 
     /**
-    *
-    */
-    @Test
-    void test1Thread()
-    {
-        execute(1);
-
-        assertTrue(true);
-    }
-
-    /**
-     *
+     * @param name String
+     * @param parallelism int
      */
-    @Test
-    void test2Threads()
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("createTestData")
+    @DisplayName("BoundedExecutor")
+    void execute(final String name, final int parallelism)
     {
-        execute(2);
+        BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
 
-        assertTrue(true);
+        execute(boundedExecutor::execute, null);
     }
 
     /**
-    *
-    */
-    @Test
-    void test4Threads()
+     * @param name String
+     * @param parallelism int
+     */
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("createTestData")
+    @DisplayName("BoundedExecutorQueued")
+    void executeQueued(final String name, final int parallelism)
     {
-        execute(4);
+        BoundedExecutorQueued boundedExecutor = new BoundedExecutorQueued(executorService, parallelism);
 
-        assertTrue(true);
+        execute(boundedExecutor::execute, boundedExecutor::getQueueSize);
+    }
+
+    /**
+     * @param name String
+     * @param parallelism int
+     */
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("createTestData")
+    @DisplayName("BoundedExecutorQueuedWithScheduler")
+    void executeQueuedWithScheduler(final String name, final int parallelism)
+    {
+        BoundedExecutorQueuedWithScheduler boundedExecutor = new BoundedExecutorQueuedWithScheduler(executorService, parallelism);
+
+        execute(boundedExecutor::execute, boundedExecutor::getQueueSize);
     }
 }

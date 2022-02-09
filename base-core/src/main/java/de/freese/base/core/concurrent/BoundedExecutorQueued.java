@@ -1,105 +1,24 @@
 // Created: 08.02.2022
 package de.freese.base.core.concurrent;
 
+import java.util.ArrayDeque;
 import java.util.Objects;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.Semaphore;
 
 /**
  * {@link Executor} der nur eine begrenzte Anzahl von Threads des Delegates verwendet.<br>
- * Verwendet werden parallelism + 1 Threads, da ein Thread für die Queue-Verarbeitung benötigt wird.
  *
  * @author Thomas Freese
  */
 public class BoundedExecutorQueued implements Executor
 {
-    /**
-     * @author Thomas Freese
-     */
-    private class QueueScheduler implements Runnable
-    {
-        /**
-         * @see java.lang.Thread#run()
-         */
-        @Override
-        public void run()
-        {
-            while (!Thread.interrupted())
-            {
-                try
-                {
-                    Runnable runnable = BoundedExecutorQueued.this.queue.take();
-
-                    if (runnable == SHUTDOWN_RUNNABLE)
-                    {
-                        break;
-                    }
-
-                    schedule(runnable);
-                }
-                catch (InterruptedException ex)
-                {
-                    // Restore interrupted state.
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-
-        /**
-         * @param runnable {@link Runnable}
-         */
-        private void schedule(final Runnable runnable)
-        {
-            try
-            {
-                BoundedExecutorQueued.this.rateLimiter.acquire();
-
-                BoundedExecutorQueued.this.delegate.execute(() -> {
-                    try
-                    {
-                        runnable.run();
-                    }
-                    finally
-                    {
-                        BoundedExecutorQueued.this.rateLimiter.release();
-                    }
-                });
-            }
-            catch (RejectedExecutionException ex)
-            {
-                BoundedExecutorQueued.this.rateLimiter.release();
-
-                throw ex;
-            }
-            catch (RuntimeException ex)
-            {
-                throw ex;
-            }
-            catch (InterruptedException ex)
-            {
-                // Restore interrupted state.
-                Thread.currentThread().interrupt();
-            }
-            // catch (Exception ex)
-            // {
-            // throw new RuntimeException(ex);
-            // }
-        }
-    }
-
-    /**
-     *
-     */
-    private static final Runnable SHUTDOWN_RUNNABLE = () -> {
-    };
-
     /**
      *
      */
@@ -107,7 +26,7 @@ public class BoundedExecutorQueued implements Executor
     /**
      *
      */
-    private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+    private final Queue<Runnable> queue = new ArrayDeque<>();
     /**
      *
      */
@@ -131,8 +50,6 @@ public class BoundedExecutorQueued implements Executor
         }
 
         this.rateLimiter = new Semaphore(parallelism, true);
-
-        delegate.execute(new QueueScheduler());
     }
 
     /**
@@ -166,7 +83,16 @@ public class BoundedExecutorQueued implements Executor
             throw new NullPointerException();
         }
 
-        this.queue.add(runnable);
+        if (this.rateLimiter.availablePermits() > 0)
+        {
+            // Sind noch Slots frei -> direkt ausführen.
+            schedule(runnable);
+        }
+        else
+        {
+            // In der Queue parken.
+            this.queue.add(runnable);
+        }
     }
 
     /**
@@ -178,10 +104,49 @@ public class BoundedExecutorQueued implements Executor
     }
 
     /**
-     *
+     * @param runnable {@link Runnable}
      */
-    public void shutdown()
+    private void schedule(final Runnable runnable)
     {
-        execute(SHUTDOWN_RUNNABLE);
+        if (runnable == null)
+        {
+            return;
+        }
+
+        try
+        {
+            this.rateLimiter.acquire();
+
+            this.delegate.execute(() -> {
+                try
+                {
+                    runnable.run();
+                }
+                finally
+                {
+                    this.rateLimiter.release();
+                    schedule(this.queue.poll());
+                }
+            });
+        }
+        catch (RejectedExecutionException ex)
+        {
+            this.rateLimiter.release();
+
+            throw ex;
+        }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
+        catch (InterruptedException ex)
+        {
+            // Restore interrupted state.
+            Thread.currentThread().interrupt();
+        }
+        // catch (Exception ex)
+        // {
+        // throw new RuntimeException(ex);
+        // }
     }
 }
