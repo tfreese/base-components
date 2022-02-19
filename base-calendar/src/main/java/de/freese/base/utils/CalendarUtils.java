@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,13 +57,25 @@ public final class CalendarUtils
     }
 
     /**
+     * @param instant {@link Instant}
+     *
+     * @return {@link Date}
+     */
+    public static Date toDate(final Instant instant)
+    {
+        return Date.from(instant);
+    }
+
+    /**
      * @param localDate {@link LocalDate}
      *
      * @return {@link Date}
      */
     public static Date toDate(final LocalDate localDate)
     {
-        return toDate((TemporalAccessor) localDate);
+        Instant instant = toInstant(localDate);
+
+        return toDate(instant);
     }
 
     /**
@@ -72,19 +85,9 @@ public final class CalendarUtils
      */
     public static Date toDate(final LocalDateTime localDateTime)
     {
-        return toDate((TemporalAccessor) localDateTime);
-    }
+        Instant instant = toInstant(localDateTime);
 
-    /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link Date}
-     */
-    public static Date toDate(final TemporalAccessor accessor)
-    {
-        Instant instant = toInstant(accessor);
-
-        return Date.from(instant);
+        return toDate(instant);
     }
 
     /**
@@ -94,20 +97,15 @@ public final class CalendarUtils
      */
     public static Instant toInstant(final Date date)
     {
-        Instant instant = null;
-
         if (date instanceof java.sql.Date d)
         {
-            LocalDate localDate = d.toLocalDate();
+            // LocalDate localDate = d.toLocalDate();
+            // instant = toInstant(localDate);
 
-            instant = toInstant(localDate);
-        }
-        else
-        {
-            instant = date.toInstant();
+            return Instant.ofEpochMilli(d.getTime());
         }
 
-        return instant;
+        return date.toInstant();
     }
 
     /**
@@ -120,7 +118,9 @@ public final class CalendarUtils
      */
     public static Instant toInstant(final LocalDate localDate)
     {
-        return localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+
+        return zonedDateTime.toInstant();
     }
 
     /**
@@ -133,17 +133,9 @@ public final class CalendarUtils
      */
     public static Instant toInstant(final LocalDateTime localDateTime)
     {
-        return toInstant((TemporalAccessor) localDateTime);
-    }
+        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
 
-    /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link Instant}
-     */
-    public static Instant toInstant(final TemporalAccessor accessor)
-    {
-        return Instant.from(accessor);
+        return zonedDateTime.toInstant();
     }
 
     /**
@@ -181,27 +173,6 @@ public final class CalendarUtils
     public static LocalDate toLocalDate(final LocalDateTime localDateTime)
     {
         return localDateTime.toLocalDate();
-    }
-
-    /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link LocalDate}
-     */
-    public static LocalDate toLocalDate(final TemporalAccessor accessor)
-    {
-        if (accessor instanceof LocalDate ld)
-        {
-            return ld;
-        }
-        else if (accessor instanceof LocalDateTime ldt)
-        {
-            return ldt.toLocalDate();
-        }
-
-        Instant instant = toInstant(accessor);
-
-        return toLocalDate(instant);
     }
 
     /**
@@ -246,23 +217,6 @@ public final class CalendarUtils
     }
 
     /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link LocalDateTime}
-     */
-    public static LocalDateTime toLocalDateTime(final TemporalAccessor accessor)
-    {
-        if (accessor instanceof LocalDateTime ldt)
-        {
-            return ldt;
-        }
-
-        Instant instant = toInstant(accessor);
-
-        return toLocalDateTime(instant);
-    }
-
-    /**
      * @param instant {@link Instant}
      *
      * @return {@link java.sql.Date}
@@ -285,6 +239,18 @@ public final class CalendarUtils
     }
 
     /**
+     * @param localDateTime {@link LocalDateTime}
+     *
+     * @return {@link java.sql.Date}
+     */
+    public static java.sql.Date toSqlDate(final LocalDateTime localDateTime)
+    {
+        LocalDate localDate = toLocalDate(localDateTime);
+
+        return toSqlDate(localDate);
+    }
+
+    /**
      * @param instant {@link Instant}
      *
      * @return {@link Timestamp}
@@ -295,6 +261,18 @@ public final class CalendarUtils
     }
 
     /**
+     * @param localDate {@link LocalDate}
+     *
+     * @return {@link Timestamp}
+     */
+    public static Timestamp toSqlTimestamp(final LocalDate localDate)
+    {
+        LocalDateTime localDateTime = toLocalDateTime(localDate);
+
+        return toSqlTimestamp(localDateTime);
+    }
+
+    /**
      * @param localDateTime {@link LocalDateTime}
      *
      * @return {@link Timestamp}
@@ -302,6 +280,54 @@ public final class CalendarUtils
     public static Timestamp toSqlTimestamp(final LocalDateTime localDateTime)
     {
         return Timestamp.valueOf(localDateTime);
+    }
+
+    /**
+     * @param accessor {@link TemporalAccessor}
+     *
+     * @return {@link Instant}
+     */
+    static Instant toInstant(final TemporalAccessor accessor)
+    {
+        return Instant.from(accessor);
+    }
+
+    /**
+     * @param accessor {@link TemporalAccessor}
+     *
+     * @return {@link LocalDate}
+     */
+    static LocalDate toLocalDate(final TemporalAccessor accessor)
+    {
+        if (accessor instanceof LocalDate ld)
+        {
+            return ld;
+        }
+        else if (accessor instanceof LocalDateTime ldt)
+        {
+            return ldt.toLocalDate();
+        }
+
+        Instant instant = toInstant(accessor);
+
+        return toLocalDate(instant);
+    }
+
+    /**
+     * @param accessor {@link TemporalAccessor}
+     *
+     * @return {@link LocalDateTime}
+     */
+    static LocalDateTime toLocalDateTime(final TemporalAccessor accessor)
+    {
+        if (accessor instanceof LocalDateTime ldt)
+        {
+            return ldt;
+        }
+
+        Instant instant = toInstant(accessor);
+
+        return toLocalDateTime(instant);
     }
 
     /**
