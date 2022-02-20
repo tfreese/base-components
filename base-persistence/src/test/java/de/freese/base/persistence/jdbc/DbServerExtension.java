@@ -8,6 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -20,10 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.HikariPoolMXBean;
 
 /**
  * @author Thomas Freese
@@ -175,8 +174,8 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         config.setPassword("");
         config.setPoolName(getDatabaseType().name());
         config.setMaximumPoolSize(10);
-        config.setConnectionTimeout(getSqlTimeout().toMillis());
         config.setAutoCommit(false);
+        // config.setConnectionTimeout(getSqlTimeout().toMillis()); // Nicht unterstützt im Memory-Mode.
 
         this.dataSource = new HikariDataSource(config);
 
@@ -266,6 +265,22 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     /**
+     * @return String
+     */
+    public String getUrl()
+    {
+        return this.dataSource.getJdbcUrl();
+    }
+
+    /**
+     * @return String
+     */
+    public String getUsername()
+    {
+        return this.dataSource.getUsername();
+    }
+
+    /**
      * Object-Store pro Test-Klasse.
      *
      * @param context {@link ExtensionContext}
@@ -299,21 +314,5 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     Store getStoreForMethod(final ExtensionContext context)
     {
         return context.getStore(Namespace.create(getClass(), context.getRequiredTestMethod()));
-    }
-
-    /**
-     * @return String
-     */
-    public String getUrl()
-    {
-        return this.dataSource.getJdbcUrl();
-    }
-
-    /**
-     * @return String
-     */
-    public String getUsername()
-    {
-        return this.dataSource.getUsername();
     }
 }
