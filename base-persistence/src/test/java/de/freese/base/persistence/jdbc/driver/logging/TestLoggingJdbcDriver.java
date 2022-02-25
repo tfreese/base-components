@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import de.freese.base.persistence.jdbc.DbServerExtension;
+import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -24,18 +28,43 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import de.freese.base.persistence.jdbc.DbServerExtension;
-import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
-
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestLoggingJdbcDriver
 {
+    /**
+     *
+     */
+    private static final String DRIVER = "org.h2.Driver";
+    /**
+     *
+     */
+    private static final List<ConnectionPool> POOLS = new ArrayList<>();
+    /**
+     *
+     */
+    private static final String URL = "jdbc:logger:jdbc:h2:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement();
+
+    /**
+     * @author Thomas Freese
+     */
+    private interface ConnectionPool
+    {
+        /**
+         * @throws SQLException Falls was schief geht.
+         */
+        void close() throws SQLException;
+
+        /**
+         * @return {@link Connection}
+         *
+         * @throws SQLException Falls was schief geht.
+         */
+        Connection getConnection() throws SQLException;
+    }
+
     /**
      * @author Thomas Freese
      */
@@ -57,7 +86,7 @@ class TestLoggingJdbcDriver
 
             // commons-dbcp2: Erzeugt zuerst den Driver aus dem Class-Namen, dann erst aus dem DriverManager.
             ConnectionPoolConfigurer.configureBasic(this.dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null,
-                    "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
+                    null);
         }
 
         /**
@@ -82,24 +111,6 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private interface ConnectionPool
-    {
-        /**
-         * @throws SQLException Falls was schief geht.
-         */
-        void close() throws SQLException;
-
-        /**
-         * @return {@link Connection}
-         *
-         * @throws SQLException Falls was schief geht.
-         */
-        Connection getConnection() throws SQLException;
-    }
-
-    /**
-     * @author Thomas Freese
-     */
     private static class DriverManagerConnectionPool implements ConnectionPool
     {
         /**
@@ -117,7 +128,7 @@ class TestLoggingJdbcDriver
         @Override
         public Connection getConnection() throws SQLException
         {
-            return DriverManager.getConnection(URL);
+            return DriverManager.getConnection(URL, "sa", null);
         }
     }
 
@@ -141,7 +152,7 @@ class TestLoggingJdbcDriver
             HikariConfig config = new HikariConfig();
 
             ConnectionPoolConfigurer.configureHikari(config, LoggingJdbcDriver.class.getName(), URL, "sa", null,
-                    "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
+                    null);
 
             this.dataSource = new HikariDataSource(config);
         }
@@ -185,6 +196,8 @@ class TestLoggingJdbcDriver
             this.dataSource = new SingleConnectionDataSource();
             this.dataSource.setDriverClassName(DRIVER);
             this.dataSource.setUrl(URL);
+            this.dataSource.setUsername("sa");
+            this.dataSource.setPassword(null);
             this.dataSource.setSuppressClose(true);
         }
 
@@ -227,7 +240,7 @@ class TestLoggingJdbcDriver
             PoolProperties poolProperties = new PoolProperties();
 
             ConnectionPoolConfigurer.configureTomcat(poolProperties, LoggingJdbcDriver.class.getName(), URL, "sa", null,
-                    "select 1 from INFORMATION_SCHEMA.SYSTEM_USERS");
+                    null);
 
             this.dataSource = new DataSource(poolProperties);
         }
@@ -250,19 +263,6 @@ class TestLoggingJdbcDriver
             return this.dataSource.getConnection();
         }
     }
-
-    /**
-     *
-     */
-    private static final String DRIVER = "org.hsqldb.jdbc.JDBCDriver";
-    /**
-     *
-     */
-    private static final List<ConnectionPool> POOLS = new ArrayList<>();
-    /**
-     *
-     */
-    private static final String URL = "jdbc:logger:jdbc:hsqldb:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement();
 
     /**
      * @throws Exception Falls was schief geht.

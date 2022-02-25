@@ -9,13 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import de.freese.base.persistence.jdbc.DbServerExtension;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.persistence.jdbc.DbServerExtension;
 
 /**
  * @author Thomas Freese
@@ -23,11 +22,6 @@ import de.freese.base.persistence.jdbc.DbServerExtension;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSingleDatasource
 {
-    /**
-     *
-     */
-    private static SingleDataSource dataSource;
-
     /**
      *
      */
@@ -44,10 +38,14 @@ class TestSingleDatasource
     static void beforeClass()
     {
         dataSource = new SingleDataSource();
-        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        dataSource.setUrl("jdbc:hsqldb:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement());
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement());
         dataSource.setAutoCommit(false);
     }
+    /**
+     *
+     */
+    private static SingleDataSource dataSource;
 
     /**
      * @throws Exception Falls was schief geht.
@@ -58,7 +56,7 @@ class TestSingleDatasource
         try (Connection con = dataSource.getConnection();
              Statement stmt = con.createStatement())
         {
-            stmt.execute("CREATE TABLE PERSON(ID BIGINT NOT NULL, NAME VARCHAR(25) NOT NULL, VORNAME VARCHAR(25), PRIMARY KEY (ID))");
+            stmt.execute("create table PERSON(ID bigint not null, NAME varchar(25) not null, VORNAME varchar(25), primary key (ID))");
         }
 
         assertTrue(true);

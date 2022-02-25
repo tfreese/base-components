@@ -48,11 +48,11 @@ class TestReactiveJdbc
      *
      */
     @RegisterExtension
-    static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.HSQL);
+    static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2);
 
     /**
-    *
-    */
+     *
+     */
     @AfterAll
     static void afterAll()
     {
@@ -106,23 +106,6 @@ class TestReactiveJdbc
         {
             ex.printStackTrace();
         }
-    }
-
-    /**
-     * @param result {@link List}
-     */
-    private void assertData(final List<Person> result)
-    {
-        assertNotNull(result);
-        assertEquals(2, result.size());
-
-        assertEquals(1, result.get(0).getId());
-        assertEquals("Nachname1", result.get(0).getNachname());
-        assertEquals("Vorname1", result.get(0).getVorname());
-
-        assertEquals(2, result.get(1).getId());
-        assertEquals("Nachname2", result.get(1).getNachname());
-        assertEquals("Vorname2", result.get(1).getVorname());
     }
 
     /**
@@ -209,12 +192,14 @@ class TestReactiveJdbc
 
         Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
 
-        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
+        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state ->
+        {
             System.out.println("close jdbc flux");
             close(connection, statement, resultSet);
         });
 
-        flux.subscribe(p -> {
+        flux.subscribe(p ->
+        {
             result.add(p);
             System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
         });
@@ -240,7 +225,8 @@ class TestReactiveJdbc
 
         Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
 
-        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state -> {
+        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state ->
+        {
             System.out.println("close jdbc flux");
             close(connection, statement, resultSet);
         });
@@ -276,12 +262,14 @@ class TestReactiveJdbc
 
         Spliterator<Person> spliterator = new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator();
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() ->
+        {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
-            stream.forEach(p -> {
+            stream.forEach(p ->
+            {
                 result.add(p);
                 System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
             });
@@ -308,12 +296,14 @@ class TestReactiveJdbc
 
         Spliterator<Person> spliterator = new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator();
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
+        {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
-            stream.parallel().forEach(p -> {
+            stream.parallel().forEach(p ->
+            {
                 result.add(p);
                 System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
             });
@@ -343,12 +333,14 @@ class TestReactiveJdbc
         int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
         Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(iterator, characteristics);
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() ->
+        {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
-            stream.forEach(p -> {
+            stream.forEach(p ->
+            {
                 result.add(p);
                 System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
             });
@@ -378,12 +370,14 @@ class TestReactiveJdbc
         int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
         Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(iterator, characteristics);
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
+        {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
-            stream.parallel().forEach(p -> {
+            stream.parallel().forEach(p ->
+            {
                 result.add(p);
                 System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
             });
@@ -410,12 +404,14 @@ class TestReactiveJdbc
 
         Spliterator<Person> spliterator = new ResultSetSpliterator<>(resultSet, new PersonRowMapper());
 
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() ->
+        {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
-            stream.forEach(p -> {
+            stream.forEach(p ->
+            {
                 result.add(p);
                 System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
             });
@@ -444,17 +440,36 @@ class TestReactiveJdbc
 
         // Die Methode ResultSetSpliterator.trySplit liefert null.
         // Daher daher wird der Stream trotz StreamSupport.stream(spliterator, true) NICHT parallel sein.
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() -> {
+        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
+        {
             System.out.println("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
-            stream.parallel().forEach(p -> {
+            stream.parallel().forEach(p ->
+            {
                 result.add(p);
                 System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
             });
         }
 
         assertData(result);
+    }
+
+    /**
+     * @param result {@link List}
+     */
+    private void assertData(final List<Person> result)
+    {
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        assertEquals(1, result.get(0).getId());
+        assertEquals("Nachname1", result.get(0).getNachname());
+        assertEquals("Vorname1", result.get(0).getVorname());
+
+        assertEquals(2, result.get(1).getId());
+        assertEquals("Nachname2", result.get(1).getNachname());
+        assertEquals("Vorname2", result.get(1).getVorname());
     }
 }

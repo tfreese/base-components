@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import de.freese.base.utils.JdbcUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -18,8 +19,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.utils.JdbcUtils;
-
 /**
  * @author Thomas Freese
  */
@@ -27,34 +26,34 @@ import de.freese.base.utils.JdbcUtils;
 class TestCSVDriver
 {
     /**
-    *
-    */
-    static final Logger LOGGER = LoggerFactory.getLogger(TestCSVDriver.class);
-    /**
-     * System.out
+     *
      */
-    private static PrintStream PRINT_STREAM = System.out;
+    static final Logger LOGGER = LoggerFactory.getLogger(TestCSVDriver.class);
+
+    /**
+     * @throws Exception Falls was schief geht.
+     */
+    @AfterAll
+    static void afterAll() throws Exception
+    {
+        PRINT_STREAM.flush();
+    }
     // private static PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
-    static void setUp() throws Exception
+    static void beforeAll() throws Exception
     {
         Class.forName(CSVDriver.class.getName());
 
         DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
     }
-
     /**
-     * @throws Exception Falls was schief geht.
+     * System.out
      */
-    @AfterAll
-    static void shutdown() throws Exception
-    {
-        PRINT_STREAM.flush();
-    }
+    private static final PrintStream PRINT_STREAM = System.out;
 
     /**
      * @throws Exception Falls was schief geht.

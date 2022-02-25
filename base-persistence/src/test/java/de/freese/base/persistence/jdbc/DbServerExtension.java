@@ -150,7 +150,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 // ;shutdown=true schliesst die DB nach Ende der letzten Connection.
                 // ;MVCC=true;LOCK_MODE=0
                 config.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-                config.setJdbcUrl("jdbc:hsqldb:mem:" + ATOMIC_INTEGER.getAndIncrement() + ";create=true;shutdown=false");
+                config.setJdbcUrl("jdbc:hsqldb:mem:" + ATOMIC_INTEGER.getAndIncrement() + ";shutdown=false");
 
                 break;
 
@@ -158,7 +158,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 // ;DB_CLOSE_DELAY=-1 schliesst NICHT die DB nach Ende der letzten Connection
                 // ;DB_CLOSE_ON_EXIT=FALSE:
                 config.setDriverClassName("org.h2.Driver");
-                config.setJdbcUrl("jdbc:h2:mem:" + ATOMIC_INTEGER.getAndIncrement() + ";create=true;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+                config.setJdbcUrl("jdbc:h2:mem:" + ATOMIC_INTEGER.getAndIncrement() + ";DB_CLOSE_DELAY=-1");
                 break;
 
             case DERBY:
@@ -180,7 +180,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         this.dataSource = new HikariDataSource(config);
 
         // Initialisierung triggern.
-        this.dataSource.getConnection().close();
+        //this.dataSource.getConnection().close();
 
         this.jdbcOperations = new JdbcTemplate(this.dataSource);
 
@@ -225,19 +225,19 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     /**
-     * @return {@link EmbeddedDatabaseType}
-     */
-    public EmbeddedDatabaseType getDatabaseType()
-    {
-        return this.databaseType;
-    }
-
-    /**
      * @return {@link DataSource}
      */
     public DataSource getDataSource()
     {
         return this.dataSource;
+    }
+
+    /**
+     * @return {@link EmbeddedDatabaseType}
+     */
+    public EmbeddedDatabaseType getDatabaseType()
+    {
+        return this.databaseType;
     }
 
     /**
