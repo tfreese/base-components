@@ -21,11 +21,12 @@ import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
@@ -36,6 +37,10 @@ import reactor.core.scheduler.Schedulers;
 // @Disabled // Häufige API-Änderungen lassen den Test fehlschlagen.
 class TestR2DBC
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestR2DBC.class);
     /**
      *
      */
@@ -84,10 +89,10 @@ class TestR2DBC
         ConnectionFactory connectionFactoryDB = ConnectionFactories.get(ConnectionFactoryOptions.builder()
                 .option(ConnectionFactoryOptions.DRIVER, H2ConnectionFactoryProvider.H2_DRIVER)
                 .option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_MEM)
-                .option(ConnectionFactoryOptions.DATABASE, "" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
+                .option(ConnectionFactoryOptions.DATABASE, DbServerExtension.createDbName())
                 //.option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_FILE)
                 //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
-                .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=-1") // ;DB_CLOSE_DELAY=-1 // DB bleibt nach letzter Connection erhalten.
+                .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true") // ;DB_CLOSE_DELAY=-1 // DB bleibt nach letzter Connection erhalten.
                 .build());
         // @formatter:on
 
@@ -122,15 +127,6 @@ class TestR2DBC
     }
 
     /**
-     *
-     */
-    @BeforeEach
-    void beforeEach()
-    {
-        DbServerExtension.showMemory();
-    }
-
-    /**
      * @throws SQLException Falls was schief geht.
      */
     @Test
@@ -143,7 +139,7 @@ class TestR2DBC
                 )
             //.subscribeOn(scheduler)
             .subscribe(affectedRows -> {
-                System.out.printf("create [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                LOGGER.debug("create [{}]: affectedRows = {}", Thread.currentThread().getName(), affectedRows);
                 assertEquals(0, affectedRows);
                 })
             ;
@@ -163,7 +159,7 @@ class TestR2DBC
                 )
             //.subscribeOn(scheduler)
             .subscribe(affectedRows -> {
-                System.out.printf("insert [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                LOGGER.debug("insert [{}}]: affectedRows = {}", Thread.currentThread().getName(), affectedRows);
                 assertEquals(1, affectedRows);
                 })
             ;
@@ -187,7 +183,7 @@ class TestR2DBC
                 )
             //.subscribeOn(scheduler)
             .subscribe(affectedRows -> {
-                System.out.printf("insertBatch [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                LOGGER.debug("insertBatch [{}]: affectedRows = {}", Thread.currentThread().getName(), affectedRows);
 
                 // Hier sollte eigentlch affectedRows = 2 sein ?!?!?!
                 assertEquals(1, affectedRows);
@@ -209,7 +205,7 @@ class TestR2DBC
         r2dbc.withHandle(handle -> handle
                 .select("SELECT * FROM PERSON ORDER BY ID ASC")
                         .mapResult(result -> result.map((row, rowMetadata) -> {
-                            System.out.printf("map [%s]%n", Thread.currentThread().getName());
+                                    LOGGER.debug("map [{}]", Thread.currentThread().getName());
                             return new Person(row.get("ID", Long.class), row.get("NAME", String.class), row.get("VORNAME", String.class));
                         }
                         ))
@@ -217,7 +213,7 @@ class TestR2DBC
             //.subscribeOn(scheduler)
             .subscribe(person -> {
                 list.add(person);
-                System.out.printf("select [%s]: person = %s%n", Thread.currentThread().getName(), person.toString());
+                LOGGER.debug("select [{}]: person = {}", Thread.currentThread().getName(), person.toString());
                 })
             //.collectList().block().forEach(System.out::println)
             ;
@@ -254,7 +250,7 @@ class TestR2DBC
                 )
             //.subscribeOn(scheduler)
             .subscribe(affectedRows -> {
-                System.out.printf("update [%s]: affectedRows = %d%n", Thread.currentThread().getName(), affectedRows);
+                LOGGER.debug("update [{}]: affectedRows = {}", Thread.currentThread().getName(), affectedRows);
                 assertEquals(1, affectedRows);
                 })
             ;

@@ -21,12 +21,15 @@ import java.util.logging.Logger;
  * Beispiel: DriverManager.getConnection("jdbc:csv:PATH/FILENAME.csv;STRUKTUR;LAYOUT");<br>
  * Als Backend wird eine Text-Table von HSQLDB verwendet.
  *
- * @see HsqldbTextTableBuilder
- *
  * @author Thomas Freese
+ * @see HsqldbTextTableBuilder
  */
 public final class CSVDriver implements java.sql.Driver
 {
+    /**
+     *
+     */
+    public static final String URL_PREFIX = "jdbc:csv";
     /**
      *
      */
@@ -35,10 +38,6 @@ public final class CSVDriver implements java.sql.Driver
      *
      */
     private static volatile boolean registered;
-    /**
-     *
-     */
-    public static final String URL_PREFIX = "jdbc:csv";
 
     /**
      *

@@ -32,6 +32,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -49,6 +51,10 @@ class TestReactiveJdbc
      */
     @RegisterExtension
     static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestReactiveJdbc.class);
 
     /**
      *
@@ -78,7 +84,7 @@ class TestReactiveJdbc
      */
     static void close(final Connection connection, final Statement statement, final ResultSet resultSet)
     {
-        System.out.println("TestReactiveJdbc.close()");
+        LOGGER.debug("close");
 
         try
         {
@@ -114,9 +120,6 @@ class TestReactiveJdbc
     @Test
     void testFlowResultSetPublisher() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testFlowResultSetPublisher()");
-
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(10);
@@ -136,9 +139,6 @@ class TestReactiveJdbc
     @Test
     void testFlowResultSetPublisherForEachObject() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testFlowResultSetPublisherForEachObject()");
-
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(10);
@@ -158,9 +158,6 @@ class TestReactiveJdbc
     @Test
     void testFlowResultSetPublisherForFetchSize() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testFlowResultSetPublisherForFetchSize()");
-
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(10);
@@ -180,9 +177,6 @@ class TestReactiveJdbc
     @Test
     void testFluxResultSetIterable() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testFluxResultSetIterable()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -194,14 +188,14 @@ class TestReactiveJdbc
 
         Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state ->
         {
-            System.out.println("close jdbc flux");
+            LOGGER.debug("close jdbc flux");
             close(connection, statement, resultSet);
         });
 
         flux.subscribe(p ->
         {
             result.add(p);
-            System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+            LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
         });
 
         assertData(result);
@@ -213,9 +207,6 @@ class TestReactiveJdbc
     @Test
     void testFluxResultSetIterableParallel() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testFluxResultSetIterableParallel()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -227,7 +218,7 @@ class TestReactiveJdbc
 
         Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state ->
         {
-            System.out.println("close jdbc flux");
+            LOGGER.debug("close jdbc flux");
             close(connection, statement, resultSet);
         });
 
@@ -236,7 +227,7 @@ class TestReactiveJdbc
             .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
             .subscribe(p -> {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
              })
             ;
         // @formatter:on
@@ -250,9 +241,6 @@ class TestReactiveJdbc
     @Test
     void testStreamResultSetIterable() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testStreamResultSetIterable()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -264,14 +252,14 @@ class TestReactiveJdbc
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() ->
         {
-            System.out.println("close jdbc stream");
+            LOGGER.debug("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.forEach(p ->
             {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
             });
         }
 
@@ -284,9 +272,6 @@ class TestReactiveJdbc
     @Test
     void testStreamResultSetIterableParallel() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testStreamResultSetIterableParallel()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -298,14 +283,14 @@ class TestReactiveJdbc
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
         {
-            System.out.println("close jdbc stream");
+            LOGGER.debug("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.parallel().forEach(p ->
             {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
             });
         }
 
@@ -318,9 +303,6 @@ class TestReactiveJdbc
     @Test
     void testStreamResultSetIterator() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testStreamResultSetIterator()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -335,14 +317,14 @@ class TestReactiveJdbc
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() ->
         {
-            System.out.println("close jdbc stream");
+            LOGGER.debug("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.forEach(p ->
             {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
             });
         }
 
@@ -355,9 +337,6 @@ class TestReactiveJdbc
     @Test
     void testStreamResultSetIteratorParallel() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testStreamResultSetIteratorParallel()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -372,14 +351,14 @@ class TestReactiveJdbc
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
         {
-            System.out.println("close jdbc stream");
+            LOGGER.debug("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.parallel().forEach(p ->
             {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
             });
         }
 
@@ -392,9 +371,6 @@ class TestReactiveJdbc
     @Test
     void testStreamResultSetSpliterator() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testStreamResultSetSpliterator()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -406,14 +382,14 @@ class TestReactiveJdbc
 
         try (Stream<Person> stream = StreamSupport.stream(spliterator, false).onClose(() ->
         {
-            System.out.println("close jdbc stream");
+            LOGGER.debug("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.forEach(p ->
             {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
             });
         }
 
@@ -426,9 +402,6 @@ class TestReactiveJdbc
     @Test
     void testStreamResultSetSpliteratorParallel() throws SQLException
     {
-        System.out.println();
-        System.out.println("TestReactiveJdbc.testStreamResultSetSpliteratorParallel()");
-
         List<Person> result = new ArrayList<>();
 
         Connection connection = SERVER.getDataSource().getConnection();
@@ -442,14 +415,14 @@ class TestReactiveJdbc
         // Daher daher wird der Stream trotz StreamSupport.stream(spliterator, true) NICHT parallel sein.
         try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
         {
-            System.out.println("close jdbc stream");
+            LOGGER.debug("close jdbc stream");
             close(connection, statement, resultSet);
         }))
         {
             stream.parallel().forEach(p ->
             {
                 result.add(p);
-                System.out.printf("%s: %s%n", Thread.currentThread().getName(), p);
+                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
             });
         }
 

@@ -45,6 +45,8 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
         {
             server.afterAll(context);
         }
+
+        DbServerExtension.showMemory();
     }
 
     /**
@@ -53,6 +55,8 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
     @Override
     public void beforeAll(final ExtensionContext context) throws Exception
     {
+        DbServerExtension.showMemory();
+
         for (DbServerExtension server : this.servers.values())
         {
             server.beforeAll(context);

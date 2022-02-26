@@ -21,6 +21,7 @@ import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.MethodOrderer;
@@ -45,7 +46,7 @@ class TestLoggingJdbcDriver
     /**
      *
      */
-    private static final String URL = "jdbc:logger:jdbc:h2:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement();
+    private static final String URL = "jdbc:logger:jdbc:h2:mem:" + DbServerExtension.createDbName();
 
     /**
      * @author Thomas Freese
@@ -265,6 +266,25 @@ class TestLoggingJdbcDriver
     }
 
     /**
+     *
+     */
+    @AfterAll
+    static void afterAll()
+    {
+        for (ConnectionPool pool : POOLS)
+        {
+            try
+            {
+                pool.close();
+            }
+            catch (Exception ex)
+            {
+                // Ignore
+            }
+        }
+    }
+
+    /**
      * @throws Exception Falls was schief geht.
      */
     @BeforeAll
@@ -322,6 +342,8 @@ class TestLoggingJdbcDriver
      */
     void driver(final ConnectionPool connectionPool) throws Exception
     {
+        int i = 0;
+
         // "jdbc:logger:jdbc:generic:file:/home/tommy/db/generic/generic;create=false;shutdown=true"
         try (Connection connection = connectionPool.getConnection())
         {
@@ -329,20 +351,18 @@ class TestLoggingJdbcDriver
             {
                 statement.setString(1, "T%");
 
-                int i = 0;
-
                 try (ResultSet resultSet = statement.executeQuery())
                 {
                     while (resultSet.next())
                     {
-                        // System.out.println(resultSet.getString("TABLE_NAME"));
                         i++;
                     }
                 }
 
-                assertTrue(i > 1);
             }
         }
+
+        assertTrue(i > 1);
     }
 
     /**

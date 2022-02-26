@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import de.freese.base.core.logging.LoggingOutputStream;
+import de.freese.base.utils.JdbcUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
@@ -21,8 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.utils.JdbcUtils;
+import org.slf4j.event.Level;
 
 /**
  * @author Thomas Freese
@@ -31,104 +32,33 @@ import de.freese.base.utils.JdbcUtils;
 class TestHsqldbTextTables
 {
     /**
-    *
-    */
-    static final Logger LOGGER = LoggerFactory.getLogger(TestHsqldbTextTables.class);
-    /**
      *
      */
-    private static PrintStream PRINT_STREAM = System.out;
-    // private static PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
-
+    static final Logger LOGGER = LoggerFactory.getLogger(TestHsqldbTextTables.class);
     /**
-     * @throws Exception Falls was schief geht.
+     * System.out
      */
-    @BeforeAll
-    static void setUp() throws Exception
-    {
-        Class.forName("org.hsqldb.jdbc.JDBCDriver");
-        // Class.forName(JDBCDriver.class.getName());
-
-        DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
-    }
+    private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @AfterAll
-    static void shutdown() throws Exception
+    static void afterAll() throws Exception
     {
         PRINT_STREAM.flush();
     }
 
     /**
-     * @param statement {@link Statement}
-     *
-     * @throws SQLException Falls was schief geht.
+     * @throws Exception Falls was schief geht.
      */
-    private void executeSelects(final Statement statement) throws SQLException
+    @BeforeAll
+    static void beforeAll() throws Exception
     {
-        try (ResultSet resultSet = statement.executeQuery("select * from test_csv"))
-        {
-            JdbcUtils.write(resultSet, PRINT_STREAM);
+        Class.forName("org.hsqldb.jdbc.JDBCDriver");
+        // Class.forName(JDBCDriver.class.getName());
 
-            assertEquals("abc", resultSet.getString("TEXT"));
-
-            resultSet.next();
-            assertEquals("xyz", resultSet.getString("TEXT"));
-        }
-
-        try (ResultSet resultSet = statement.executeQuery("select min(LONG) as minimum, max(LONG) as maximum, sum(LONG) as summe from test_csv"))
-        {
-            JdbcUtils.write(resultSet, PRINT_STREAM);
-
-            assertEquals(1234, resultSet.getInt("MINIMUM"));
-            assertEquals(4321, resultSet.getInt("MAXIMUM"));
-            assertEquals(5555, resultSet.getInt("SUMME"));
-        }
-
-        try (ResultSet resultSet = statement.executeQuery("select min(DOUBLE) as minimum, max(DOUBLE) as maximum, sum(DOUBLE) as summe from test_csv"))
-        {
-            JdbcUtils.write(resultSet, PRINT_STREAM);
-
-            assertEquals(3.146, resultSet.getDouble("MINIMUM"), 0);
-            assertEquals(4.135, resultSet.getDouble("MAXIMUM"), 0);
-            assertEquals(7.281, resultSet.getDouble("SUMME"), 0);
-        }
-
-        try (ResultSet resultSet = statement.executeQuery("select DATE, dayofmonth(DATE) as tagdesmonats from test_csv"))
-        {
-            JdbcUtils.write(resultSet, PRINT_STREAM);
-
-            assertEquals(LocalDate.of(2016, 9, 8), resultSet.getDate("DATE").toLocalDate());
-            assertEquals(8, resultSet.getInt("TAGDESMONATS"));
-
-            resultSet.next();
-            assertEquals(LocalDate.of(2016, 9, 9), resultSet.getDate("DATE").toLocalDate());
-            assertEquals(9, resultSet.getInt("TAGDESMONATS"));
-        }
-
-        try (ResultSet resultSet = statement.executeQuery("select TIMESTAMP, hour(TIMESTAMP) as stunde from test_csv"))
-        {
-            JdbcUtils.write(resultSet, PRINT_STREAM);
-
-            assertEquals(LocalDateTime.of(2016, 9, 8, 18, 8, 18), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
-            assertEquals(18, resultSet.getInt("STUNDE"));
-
-            resultSet.next();
-            assertEquals(LocalDateTime.of(2016, 9, 9, 19, 9, 19), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
-            assertEquals(19, resultSet.getInt("STUNDE"));
-        }
-
-        try (ResultSet resultSet = statement.executeQuery("select * from test_csv order by TIMESTAMP desc"))
-        {
-            JdbcUtils.write(resultSet, PRINT_STREAM);
-
-            assertEquals("xyz", resultSet.getString("TEXT"));
-
-            resultSet.next();
-            assertEquals("abc", resultSet.getString("TEXT"));
-        }
+        DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
     }
 
     /**
@@ -318,6 +248,76 @@ class TestHsqldbTextTables
             assertEquals(1234, resultSet.getInt("MIN_T1_LONG"), 0);
             assertEquals(4321, resultSet.getInt("MAX_T2_LONG"), 0);
             assertEquals(5555, resultSet.getInt("SUM_T3_LONG"), 0);
+        }
+    }
+
+    /**
+     * @param statement {@link Statement}
+     *
+     * @throws SQLException Falls was schief geht.
+     */
+    private void executeSelects(final Statement statement) throws SQLException
+    {
+        try (ResultSet resultSet = statement.executeQuery("select * from test_csv"))
+        {
+            JdbcUtils.write(resultSet, PRINT_STREAM);
+
+            assertEquals("abc", resultSet.getString("TEXT"));
+
+            resultSet.next();
+            assertEquals("xyz", resultSet.getString("TEXT"));
+        }
+
+        try (ResultSet resultSet = statement.executeQuery("select min(LONG) as minimum, max(LONG) as maximum, sum(LONG) as summe from test_csv"))
+        {
+            JdbcUtils.write(resultSet, PRINT_STREAM);
+
+            assertEquals(1234, resultSet.getInt("MINIMUM"));
+            assertEquals(4321, resultSet.getInt("MAXIMUM"));
+            assertEquals(5555, resultSet.getInt("SUMME"));
+        }
+
+        try (ResultSet resultSet = statement.executeQuery("select min(DOUBLE) as minimum, max(DOUBLE) as maximum, sum(DOUBLE) as summe from test_csv"))
+        {
+            JdbcUtils.write(resultSet, PRINT_STREAM);
+
+            assertEquals(3.146, resultSet.getDouble("MINIMUM"), 0);
+            assertEquals(4.135, resultSet.getDouble("MAXIMUM"), 0);
+            assertEquals(7.281, resultSet.getDouble("SUMME"), 0);
+        }
+
+        try (ResultSet resultSet = statement.executeQuery("select DATE, dayofmonth(DATE) as tagdesmonats from test_csv"))
+        {
+            JdbcUtils.write(resultSet, PRINT_STREAM);
+
+            assertEquals(LocalDate.of(2016, 9, 8), resultSet.getDate("DATE").toLocalDate());
+            assertEquals(8, resultSet.getInt("TAGDESMONATS"));
+
+            resultSet.next();
+            assertEquals(LocalDate.of(2016, 9, 9), resultSet.getDate("DATE").toLocalDate());
+            assertEquals(9, resultSet.getInt("TAGDESMONATS"));
+        }
+
+        try (ResultSet resultSet = statement.executeQuery("select TIMESTAMP, hour(TIMESTAMP) as stunde from test_csv"))
+        {
+            JdbcUtils.write(resultSet, PRINT_STREAM);
+
+            assertEquals(LocalDateTime.of(2016, 9, 8, 18, 8, 18), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
+            assertEquals(18, resultSet.getInt("STUNDE"));
+
+            resultSet.next();
+            assertEquals(LocalDateTime.of(2016, 9, 9, 19, 9, 19), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
+            assertEquals(19, resultSet.getInt("STUNDE"));
+        }
+
+        try (ResultSet resultSet = statement.executeQuery("select * from test_csv order by TIMESTAMP desc"))
+        {
+            JdbcUtils.write(resultSet, PRINT_STREAM);
+
+            assertEquals("xyz", resultSet.getString("TEXT"));
+
+            resultSet.next();
+            assertEquals("abc", resultSet.getString("TEXT"));
         }
     }
 }

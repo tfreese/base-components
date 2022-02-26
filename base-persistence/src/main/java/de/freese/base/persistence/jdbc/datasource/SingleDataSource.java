@@ -32,6 +32,10 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      *
      */
+    private final ReentrantLock reentrantLock = new ReentrantLock();
+    /**
+     *
+     */
     private Boolean autoCommit;
     /**
      *
@@ -50,13 +54,9 @@ public class SingleDataSource implements DataSource, AutoCloseable
      */
     private Connection proxyConnection;
     /**
-    *
-    */
-    private Boolean readOnly;
-    /**
      *
      */
-    private final ReentrantLock reentrantLock = new ReentrantLock();
+    private Boolean readOnly;
     /**
      *
      */
@@ -85,26 +85,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      *
      */
-    private void closeConnection()
-    {
-        if (this.connection != null)
-        {
-            this.proxyConnection = null;
-
-            try
-            {
-                this.connection.close();
-            }
-            catch (final Exception th)
-            {
-                LOGGER.warn("Could not close shared JDBC Connection", th);
-            }
-        }
-    }
-
-    /**
-     *
-     */
     public void destroy()
     {
         this.reentrantLock.lock();
@@ -117,27 +97,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         {
             this.reentrantLock.unlock();
         }
-    }
-
-    /**
-     * @return Boolean
-     */
-    private Boolean getAutoCommitValue()
-    {
-        return this.autoCommit;
-    }
-
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return {@link Connection}
-     */
-    private Connection getCloseSuppressingConnectionProxy(final Connection connection)
-    {
-        return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
-        {
-                Connection.class
-        }, new ConnectionNotClosingInvocationHandler(connection));
     }
 
     /**
@@ -181,6 +140,231 @@ public class SingleDataSource implements DataSource, AutoCloseable
         }
 
         throw new SQLException("SimpleDataSource does not support custom username and password");
+    }
+
+    /**
+     * @return {@link Properties}
+     */
+    public Properties getConnectionProperties()
+    {
+        return this.connectionProperties;
+    }
+
+    /**
+     * @see javax.sql.CommonDataSource#getLogWriter()
+     */
+    @Override
+    public PrintWriter getLogWriter() throws SQLException
+    {
+        throw new UnsupportedOperationException("getLogWriter");
+    }
+
+    /**
+     * @see javax.sql.CommonDataSource#getLoginTimeout()
+     */
+    @Override
+    public int getLoginTimeout() throws SQLException
+    {
+        return 0;
+    }
+
+    /**
+     * @see javax.sql.CommonDataSource#getParentLogger()
+     */
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException
+    {
+        return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
+        // return null;
+        // throw new SQLFeatureNotSupportedException();
+    }
+
+    /**
+     * @return String
+     */
+    public String getPassword()
+    {
+        return this.password;
+    }
+
+    /**
+     * @return String
+     */
+    public String getUrl()
+    {
+        return this.url;
+    }
+
+    /**
+     * @return String
+     */
+    public String getUsername()
+    {
+        return this.username;
+    }
+
+    /**
+     * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
+     */
+    @Override
+    public boolean isWrapperFor(final Class<?> iface) throws SQLException
+    {
+        return iface.isInstance(this);
+    }
+
+    /**
+     * @param autoCommit boolean
+     */
+    public void setAutoCommit(final boolean autoCommit)
+    {
+        this.autoCommit = autoCommit;
+    }
+
+    /**
+     * @param connectionProperties {@link Properties}
+     */
+    public void setConnectionProperties(final Properties connectionProperties)
+    {
+        Objects.requireNonNull(connectionProperties);
+
+        this.connectionProperties = connectionProperties;
+    }
+
+    /**
+     * @param driverClassName String
+     */
+    public void setDriverClassName(final String driverClassName)
+    {
+        Objects.requireNonNull(driverClassName);
+
+        final String driverClassNameToUse = driverClassName.trim();
+
+        try
+        {
+            Class.forName(driverClassNameToUse, true, Thread.currentThread().getContextClassLoader());
+        }
+        catch (final ClassNotFoundException ex)
+        {
+            throw new IllegalStateException("Could not load JDBC driver class [" + driverClassNameToUse + "]", ex);
+        }
+
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("Loaded JDBC driver: {}", driverClassNameToUse);
+        }
+    }
+
+    /**
+     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
+     */
+    @Override
+    public void setLogWriter(final PrintWriter out) throws SQLException
+    {
+        throw new UnsupportedOperationException("setLogWriter");
+    }
+
+    /**
+     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
+     */
+    @Override
+    public void setLoginTimeout(final int seconds) throws SQLException
+    {
+        throw new UnsupportedOperationException("setLoginTimeout");
+    }
+
+    /**
+     * @param password String
+     */
+    public void setPassword(final String password)
+    {
+        Objects.requireNonNull(password);
+
+        this.password = password.trim();
+    }
+
+    /**
+     * @param readOnly boolean
+     */
+    public void setReadOnly(final boolean readOnly)
+    {
+        this.readOnly = readOnly;
+    }
+
+    /**
+     * @param url String
+     */
+    public void setUrl(final String url)
+    {
+        Objects.requireNonNull(url);
+
+        this.url = url.trim();
+    }
+
+    /**
+     * @param username String
+     */
+    public void setUsername(final String username)
+    {
+        Objects.requireNonNull(username);
+
+        this.username = username.trim();
+    }
+
+    /**
+     * @see java.sql.Wrapper#unwrap(java.lang.Class)
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T unwrap(final Class<T> iface) throws SQLException
+    {
+        if (iface.isInstance(this))
+        {
+            return (T) this;
+        }
+
+        throw new SQLException("DataSource of type [" + getClass().getName() + "] cannot be unwrapped as [" + iface.getName() + "]");
+    }
+
+    /**
+     *
+     */
+    private void closeConnection()
+    {
+        if (this.connection != null)
+        {
+            this.proxyConnection = null;
+
+            try
+            {
+                this.connection.close();
+            }
+            catch (final Exception th)
+            {
+                LOGGER.warn("Could not close shared JDBC Connection", th);
+            }
+        }
+    }
+
+    /**
+     * @return Boolean
+     */
+    private Boolean getAutoCommitValue()
+    {
+        return this.autoCommit;
+    }
+
+    /**
+     * @param connection {@link Connection}
+     *
+     * @return {@link Connection}
+     */
+    private Connection getCloseSuppressingConnectionProxy(final Connection connection)
+    {
+        return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
+                {
+                        Connection.class
+                }, new ConnectionNotClosingInvocationHandler(connection));
     }
 
     /**
@@ -247,73 +431,11 @@ public class SingleDataSource implements DataSource, AutoCloseable
     }
 
     /**
-     * @return {@link Properties}
-     */
-    public Properties getConnectionProperties()
-    {
-        return this.connectionProperties;
-    }
-
-    /**
-     * @see javax.sql.CommonDataSource#getLoginTimeout()
-     */
-    @Override
-    public int getLoginTimeout() throws SQLException
-    {
-        return 0;
-    }
-
-    /**
-     * @see javax.sql.CommonDataSource#getLogWriter()
-     */
-    @Override
-    public PrintWriter getLogWriter() throws SQLException
-    {
-        throw new UnsupportedOperationException("getLogWriter");
-    }
-
-    /**
-     * @see javax.sql.CommonDataSource#getParentLogger()
-     */
-    @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException
-    {
-        return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-        // return null;
-        // throw new SQLFeatureNotSupportedException();
-    }
-
-    /**
-     * @return String
-     */
-    public String getPassword()
-    {
-        return this.password;
-    }
-
-    /**
      * @return Boolean
      */
     private Boolean getReadOnlyValue()
     {
         return this.readOnly;
-    }
-
-    /**
-     * @return String
-     */
-    public String getUrl()
-    {
-        return this.url;
-    }
-
-    /**
-     * @return String
-     */
-    public String getUsername()
-    {
-        return this.username;
     }
 
     /**
@@ -331,21 +453,12 @@ public class SingleDataSource implements DataSource, AutoCloseable
         this.connection = getConnectionFromDriver(getUsername(), getPassword());
         prepareConnection(this.connection);
 
-        if (LOGGER.isInfoEnabled())
+        if (LOGGER.isDebugEnabled())
         {
-            LOGGER.info("Established shared JDBC Connection: {}", this.connection);
+            LOGGER.debug("Established shared JDBC Connection: {}", this.connection);
         }
 
         this.proxyConnection = getCloseSuppressingConnectionProxy(this.connection);
-    }
-
-    /**
-     * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
-     */
-    @Override
-    public boolean isWrapperFor(final Class<?> iface) throws SQLException
-    {
-        return iface.isInstance(this);
     }
 
     /**
@@ -368,118 +481,5 @@ public class SingleDataSource implements DataSource, AutoCloseable
         {
             con.setAutoCommit(_autoCommit);
         }
-    }
-
-    /**
-     * @param autoCommit boolean
-     */
-    public void setAutoCommit(final boolean autoCommit)
-    {
-        this.autoCommit = autoCommit;
-    }
-
-    /**
-     * @param connectionProperties {@link Properties}
-     */
-    public void setConnectionProperties(final Properties connectionProperties)
-    {
-        Objects.requireNonNull(connectionProperties);
-
-        this.connectionProperties = connectionProperties;
-    }
-
-    /**
-     * @param driverClassName String
-     */
-    public void setDriverClassName(final String driverClassName)
-    {
-        Objects.requireNonNull(driverClassName);
-
-        final String driverClassNameToUse = driverClassName.trim();
-
-        try
-        {
-            Class.forName(driverClassNameToUse, true, Thread.currentThread().getContextClassLoader());
-        }
-        catch (final ClassNotFoundException ex)
-        {
-            throw new IllegalStateException("Could not load JDBC driver class [" + driverClassNameToUse + "]", ex);
-        }
-
-        if (LOGGER.isInfoEnabled())
-        {
-            LOGGER.info("Loaded JDBC driver: {}", driverClassNameToUse);
-        }
-    }
-
-    /**
-     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
-     */
-    @Override
-    public void setLoginTimeout(final int seconds) throws SQLException
-    {
-        throw new UnsupportedOperationException("setLoginTimeout");
-    }
-
-    /**
-     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
-     */
-    @Override
-    public void setLogWriter(final PrintWriter out) throws SQLException
-    {
-        throw new UnsupportedOperationException("setLogWriter");
-    }
-
-    /**
-     * @param password String
-     */
-    public void setPassword(final String password)
-    {
-        Objects.requireNonNull(password);
-
-        this.password = password.trim();
-    }
-
-    /**
-     * @param readOnly boolean
-     */
-    public void setReadOnly(final boolean readOnly)
-    {
-        this.readOnly = readOnly;
-    }
-
-    /**
-     * @param url String
-     */
-    public void setUrl(final String url)
-    {
-        Objects.requireNonNull(url);
-
-        this.url = url.trim();
-    }
-
-    /**
-     * @param username String
-     */
-    public void setUsername(final String username)
-    {
-        Objects.requireNonNull(username);
-
-        this.username = username.trim();
-    }
-
-    /**
-     * @see java.sql.Wrapper#unwrap(java.lang.Class)
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T unwrap(final Class<T> iface) throws SQLException
-    {
-        if (iface.isInstance(this))
-        {
-            return (T) this;
-        }
-
-        throw new SQLException("DataSource of type [" + getClass().getName() + "] cannot be unwrapped as [" + iface.getName() + "]");
     }
 }

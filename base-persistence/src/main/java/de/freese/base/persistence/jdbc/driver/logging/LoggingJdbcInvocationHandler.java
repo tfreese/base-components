@@ -56,7 +56,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
             // if (LOGGER.isDebugEnabled())
             if (logMethod)
             {
-                LOGGER.info("Invoke {}#{}: {}", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
+                LOGGER.debug("Invoke {}#{}: {}", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
             }
 
             // long start = System.currentTimeMillis();
@@ -76,9 +76,9 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
             if (method.getReturnType().isInterface())
             {
                 return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]
-                {
-                        method.getReturnType()
-                }, new LoggingJdbcInvocationHandler(result, this.logMethods));
+                        {
+                                method.getReturnType()
+                        }, new LoggingJdbcInvocationHandler(result, this.logMethods));
             }
 
             return result;

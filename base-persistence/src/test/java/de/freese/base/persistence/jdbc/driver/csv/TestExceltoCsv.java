@@ -9,12 +9,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Function;
 
+import de.freese.base.core.logging.LoggingOutputStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 /**
  * @author Thomas Freese
@@ -23,20 +25,19 @@ import org.slf4j.LoggerFactory;
 class TestExceltoCsv
 {
     /**
-    *
-    */
-    static final Logger LOGGER = LoggerFactory.getLogger(TestExceltoCsv.class);
-    /**
      *
      */
-    private static PrintStream PRINT_STREAM = System.out;
-    // private static PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
+    static final Logger LOGGER = LoggerFactory.getLogger(TestExceltoCsv.class);
+    /**
+     * System.out
+     */
+    private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
      * @throws Exception Falls was schief geht.
      */
     @AfterAll
-    static void shutdown() throws Exception
+    static void afterAll() throws Exception
     {
         PRINT_STREAM.flush();
     }
@@ -57,7 +58,8 @@ class TestExceltoCsv
         toCsv.setColumnIndicies(0, 1, 2, 3, 4);
 
         // Datum formatieren: 1/1/16 -> 2016-01-01
-        toCsv.setFunction(1, value -> {
+        toCsv.setFunction(1, value ->
+        {
             String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
@@ -68,7 +70,7 @@ class TestExceltoCsv
         toCsv.setFunction(4, toNumberFunction);
 
         // toCsv.convert(excelSource, csvDest);
-        toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM));
+        toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM, true));
 
         PRINT_STREAM.println();
 
@@ -91,7 +93,8 @@ class TestExceltoCsv
         toCsv.setColumnIndicies(0, 1, 2, 3, 4);
 
         // Datum formatieren: 1/1/16 -> 2016-01-01
-        toCsv.setFunction(1, value -> {
+        toCsv.setFunction(1, value ->
+        {
             String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
@@ -102,7 +105,7 @@ class TestExceltoCsv
         toCsv.setFunction(4, toNumberFunction);
 
         // toCsv.convert(excelSource, csvDest);
-        toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM));
+        toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM, true));
 
         PRINT_STREAM.println();
 

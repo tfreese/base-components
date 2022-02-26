@@ -20,6 +20,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import de.freese.base.persistence.jdbc.DbServerExtension;
+import de.freese.base.persistence.jdbc.Person;
+import de.freese.base.persistence.jdbc.PersonRowMapper;
+import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,12 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-
-import de.freese.base.persistence.jdbc.DbServerExtension;
-import de.freese.base.persistence.jdbc.Person;
-import de.freese.base.persistence.jdbc.PersonRowMapper;
-import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -47,19 +46,18 @@ import reactor.core.scheduler.Schedulers;
 class TestSimpleJdbcTemplate
 {
     /**
-     *
-     */
-    private static SimpleJdbcTemplate jdbcTemplate;
-    /**
-    *
-    */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestSimpleJdbcTemplate.class);
-
-    /**
      * close() findet in {@link DbServerExtension#afterAll(org.junit.jupiter.api.extension.ExtensionContext)} statt.
      */
     @RegisterExtension
     static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2);
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestSimpleJdbcTemplate.class);
+    /**
+     *
+     */
+    private static SimpleJdbcTemplate jdbcTemplate;
 
     /**
      *
@@ -82,35 +80,6 @@ class TestSimpleJdbcTemplate
         populator.execute(SERVER.getDataSource());
 
         jdbcTemplate = new SimpleJdbcTemplate(SERVER.getDataSource());
-    }
-
-    /**
-     * @param sequence String
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schief geht.
-     */
-    private long getNextID(final String sequence) throws SQLException
-    {
-        String sql = "call next value for " + sequence;
-        long id = 0;
-
-        try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql))
-        {
-            rs.next();
-            id = rs.getLong(1);
-        }
-
-        // long id = jdbcTemplate.query("call next value for kontakt_seq", rs -> {
-        // rs.next();
-        //
-        // return rs.getLong(1);
-        // });
-
-        return id;
     }
 
     /**
@@ -144,7 +113,8 @@ class TestSimpleJdbcTemplate
         personen.add(new Person(0, "Nachname3", "Vorname3"));
         personen.add(new Person(0, "Nachname4", "Vorname5"));
 
-        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), personen, (ps, person) -> {
+        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), personen, (ps, person) ->
+        {
             long id = getNextID("PERSON_SEQ");
             ps.setLong(1, id);
             ps.setString(2, person.getNachname());
@@ -176,7 +146,8 @@ class TestSimpleJdbcTemplate
 
         assertEquals(3L, id);
 
-        int affectedRows = jdbcTemplate.update(sql.toString(), ps -> {
+        int affectedRows = jdbcTemplate.update(sql.toString(), ps ->
+        {
             ps.setLong(1, id);
             ps.setString(2, "Nachname3");
             ps.setString(3, "Vorname3");
@@ -226,7 +197,7 @@ class TestSimpleJdbcTemplate
         // @formatter:off
         flux.parallel()
             .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
-            .subscribe(p -> LOGGER.info("FluxParallel: {}, {}", Thread.currentThread().getName(), p));
+            .subscribe(p -> LOGGER.debug("FluxParallel: {}, {}", Thread.currentThread().getName(), p));
         // @formatter:on
 
         assertTrue(true);
@@ -505,7 +476,8 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.limit(1).forEach(p -> {
+            stream.limit(1).forEach(p ->
+            {
                 assertEquals(1, p.getId());
                 assertEquals("Nachname1", p.getNachname());
                 assertEquals("Vorname1", p.getVorname());
@@ -514,7 +486,8 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(p -> {
+            stream.skip(1).limit(1).forEach(p ->
+            {
                 assertEquals(2, p.getId());
                 assertEquals("Nachname2", p.getNachname());
                 assertEquals("Vorname2", p.getVorname());
@@ -542,7 +515,7 @@ class TestSimpleJdbcTemplate
             // @formatter:off
             stream
                 .parallel()
-                .forEach(p -> LOGGER.info("StreamParallel: {}, {}", Thread.currentThread().getName(), p));
+                .forEach(p -> LOGGER.debug("StreamParallel: {}, {}", Thread.currentThread().getName(), p));
             // @formatter:on
         }
         // });
@@ -579,7 +552,8 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.limit(1).forEach(p -> {
+            stream.limit(1).forEach(p ->
+            {
                 assertEquals(2, p.getId());
                 assertEquals("Nachname2", p.getNachname());
                 assertEquals("Vorname2", p.getVorname());
@@ -588,7 +562,8 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(p -> {
+            stream.skip(1).limit(1).forEach(p ->
+            {
                 assertEquals(1, p.getId());
                 assertEquals("Nachname1", p.getNachname());
                 assertEquals("Vorname1", p.getVorname());
@@ -614,7 +589,8 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.limit(1).forEach(p -> {
+            stream.limit(1).forEach(p ->
+            {
                 assertEquals(2, p.getId());
                 assertEquals("Nachname2", p.getNachname());
                 assertEquals("Vorname2", p.getVorname());
@@ -623,7 +599,8 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            stream.skip(1).limit(1).forEach(p -> {
+            stream.skip(1).limit(1).forEach(p ->
+            {
                 assertEquals(1, p.getId());
                 assertEquals("Nachname1", p.getNachname());
                 assertEquals("Vorname1", p.getVorname());
@@ -660,5 +637,34 @@ class TestSimpleJdbcTemplate
         assertEquals(2, results.get(0).getId());
         assertEquals("Nachname2", results.get(0).getNachname());
         assertEquals("Vorname2", results.get(0).getVorname());
+    }
+
+    /**
+     * @param sequence String
+     *
+     * @return long
+     *
+     * @throws SQLException Falls was schief geht.
+     */
+    private long getNextID(final String sequence) throws SQLException
+    {
+        String sql = "call next value for " + sequence;
+        long id = 0;
+
+        try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql))
+        {
+            rs.next();
+            id = rs.getLong(1);
+        }
+
+        // long id = jdbcTemplate.query("call next value for kontakt_seq", rs -> {
+        // rs.next();
+        //
+        // return rs.getLong(1);
+        // });
+
+        return id;
     }
 }

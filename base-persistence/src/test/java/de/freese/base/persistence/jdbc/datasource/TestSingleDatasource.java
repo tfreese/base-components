@@ -25,8 +25,13 @@ class TestSingleDatasource
     /**
      *
      */
+    private static SingleDataSource dataSource;
+
+    /**
+     *
+     */
     @AfterAll
-    static void afterClass()
+    static void afterAll()
     {
         dataSource.destroy();
     }
@@ -35,17 +40,13 @@ class TestSingleDatasource
      *
      */
     @BeforeAll
-    static void beforeClass()
+    static void beforeAll()
     {
         dataSource = new SingleDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement());
+        dataSource.setUrl("jdbc:h2:mem:" + DbServerExtension.createDbName());
         dataSource.setAutoCommit(false);
     }
-    /**
-     *
-     */
-    private static SingleDataSource dataSource;
 
     /**
      * @throws Exception Falls was schief geht.

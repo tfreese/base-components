@@ -24,9 +24,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
@@ -40,6 +41,34 @@ import reactor.core.publisher.SynchronousSink;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestMockReactiveJdbc
 {
+    /**
+     *
+     */
+    static final Function<ResultSet, City> MAPPING_FUNCTION_ = resultSet ->
+    {
+        try
+        {
+            // return rowMapper.mapRow(resultSet, 0);
+            return new City(resultSet.getString("country"), resultSet.getString("city"));
+        }
+        catch (SQLException ex)
+        {
+            throw new RuntimeException(ex);
+        }
+    };
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestMockReactiveJdbc.class);
+
+    // /**
+    // *
+    // */
+    // private static final ExceptionalFunction<ResultSet, City, SQLException> MAPPING_FUNCTION = resultSet -> {
+    // // return rowMapper.mapRow(resultSet, 0);
+    // return new City(resultSet.getString("country"), resultSet.getString("city"));
+    // };
+
     /**
      * @author Thomas Freese
      */
@@ -84,64 +113,40 @@ class TestMockReactiveJdbc
             return builder.toString();
         }
     }
-
-    // /**
-    // *
-    // */
-    // private static final ExceptionalFunction<ResultSet, City, SQLException> MAPPING_FUNCTION = resultSet -> {
-    // // return rowMapper.mapRow(resultSet, 0);
-    // return new City(resultSet.getString("country"), resultSet.getString("city"));
-    // };
-
     /**
      *
      */
-    static final Function<ResultSet, City> MAPPING_FUNCTION_ = resultSet -> {
-        try
-        {
-            // return rowMapper.mapRow(resultSet, 0);
-            return new City(resultSet.getString("country"), resultSet.getString("city"));
-        }
-        catch (SQLException ex)
-        {
-            throw new RuntimeException(ex);
-        }
-    };
-
+    private final String[][] data =
+            {
+                    {
+                            "Pakistan", "Karachi"
+                    },
+                    {
+                            "Turkey", "Istanbul"
+                    },
+                    {
+                            "China", "Hong Kong"
+                    },
+                    {
+                            "Russia", "Saint Petersburg"
+                    },
+                    {
+                            "Australia", "Sydney"
+                    },
+                    {
+                            "Germany", "Berlin"
+                    },
+                    {
+                            "Spain", "Madrid"
+                    }
+            };
     /**
-    *
-    */
+     *
+     */
     private Connection connection;
     /**
      *
      */
-    private String[][] data =
-    {
-            {
-                    "Pakistan", "Karachi"
-            },
-            {
-                    "Turkey", "Istanbul"
-            },
-            {
-                    "China", "Hong Kong"
-            },
-            {
-                    "Russia", "Saint Petersburg"
-            },
-            {
-                    "Australia", "Sydney"
-            },
-            {
-                    "Germany", "Berlin"
-            },
-            {
-                    "Spain", "Madrid"
-            }
-    };
-    /**
-    *
-    */
     private DataSource datasource;
     /**
      *
@@ -173,7 +178,8 @@ class TestMockReactiveJdbc
         when(this.connection.createStatement()).thenReturn(this.statement);
         when(this.statement.executeQuery()).thenReturn(this.resultSet);
 
-        when(this.resultSet.next()).then(invocation -> {
+        when(this.resultSet.next()).then(invocation ->
+        {
             this.resultSetIndex++;
             return this.resultSetIndex < this.data.length;
         });
@@ -192,7 +198,7 @@ class TestMockReactiveJdbc
         // @formatter:off
         Flux<City> flux = Flux.fromIterable(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply))
                 .doFinally(signal -> {
-                    System.out.println("close flux");
+                    LOGGER.debug("close flux");
 
                     JdbcUtils.closeResultSet(this.resultSet);
                     JdbcUtils.closeStatement(this.statement);
@@ -227,7 +233,7 @@ class TestMockReactiveJdbc
                         }
                         else
                         {
-                            System.out.println("close flux sink");
+                            LOGGER.debug("close flux sink");
 
                             JdbcUtils.closeResultSet(this.resultSet);
                             JdbcUtils.closeStatement(this.statement);
@@ -269,13 +275,14 @@ class TestMockReactiveJdbc
     @Test
     void testResultSetStream() throws SQLException
     {
-        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply).spliterator(), false).onClose(() -> {
-            System.out.println("close stream");
+        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply).spliterator(), false).onClose(() ->
+        {
+            LOGGER.debug("close stream");
 
             JdbcUtils.closeResultSet(this.resultSet);
             JdbcUtils.closeStatement(this.statement);
             DataSourceUtils.releaseConnection(this.connection, this.datasource);
-        });)
+        }))
         {
             // @formatter:off
             Iterator<City> cities = stream.filter(city -> !"China".equalsIgnoreCase(city.country))
