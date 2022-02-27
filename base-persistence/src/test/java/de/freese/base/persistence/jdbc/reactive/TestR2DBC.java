@@ -91,7 +91,7 @@ class TestR2DBC
                 .option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_MEM)
                 .option(ConnectionFactoryOptions.DATABASE, DbServerExtension.createDbName())
                 //.option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_FILE)
-                //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2" + DbServerExtension.ATOMIC_INTEGER.getAndIncrement())
+                //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2/" + DbServerExtension.createDbName())
                 .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true") // ;DB_CLOSE_DELAY=-1 // DB bleibt nach letzter Connection erhalten.
                 .build());
         // @formatter:on
