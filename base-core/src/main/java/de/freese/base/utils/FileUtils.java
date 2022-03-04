@@ -15,12 +15,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 public final class FileUtils
 {
     /**
-    *
-    */
+     *
+     */
     private static final String[] SIZE_UNITS =
-    {
-            "B", "KB", "MB", "GB", "TB"
-    };
+            {
+                    "B", "KB", "MB", "GB", "TB"
+            };
 
     /**
      * Kopiert die bestehende Datei nach *.last.
@@ -94,7 +94,7 @@ public final class FileUtils
             throw new IllegalArgumentException("path is not a dirctory: " + path);
         }
 
-        Files.walkFileTree(path, new SimpleFileVisitor<Path>()
+        Files.walkFileTree(path, new SimpleFileVisitor<>()
         {
             /**
              * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)

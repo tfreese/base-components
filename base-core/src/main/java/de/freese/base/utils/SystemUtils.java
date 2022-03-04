@@ -1,11 +1,19 @@
 // Created: 09.04.2020
 package de.freese.base.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class SystemUtils
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);
+
     /**
      * @return String
      */
@@ -54,7 +62,7 @@ public final class SystemUtils
             }
             catch (Exception ex)
             {
-                System.err.println(ex.getMessage());
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
 

@@ -83,9 +83,9 @@ public final class ImageUtils
             this.height = height;
 
             setImage(new ImageIcon(new byte[]
-            {
-                    0, 0
-            }).getImage());
+                    {
+                            0, 0
+                    }).getImage());
         }
 
         /**
@@ -136,9 +136,9 @@ public final class ImageUtils
             super();
 
             setImage(new ImageIcon(new byte[]
-            {
-                    0, 0
-            }).getImage());
+                    {
+                            0, 0
+                    }).getImage());
         }
 
         /**
@@ -199,12 +199,12 @@ public final class ImageUtils
          */
         private final Color foreground;
         /**
-        *
-        */
+         *
+         */
         private final int height;
         /**
-        *
-        */
+         *
+         */
         private final int width;
 
         /**
@@ -244,9 +244,9 @@ public final class ImageUtils
             }
 
             setImage(new ImageIcon(new byte[]
-            {
-                    0, 0
-            }).getImage());
+                    {
+                            0, 0
+                    }).getImage());
         }
 
         /**
@@ -285,46 +285,46 @@ public final class ImageUtils
             if (this.direction == SwingConstants.NORTH)
             {
                 xPoints = new int[]
-                {
-                        x, x + centerX, x + (centerX * 2)
-                };
+                        {
+                                x, x + centerX, x + (centerX * 2)
+                        };
                 yPoints = new int[]
-                {
-                        y + (centerY * 2), y, y + (centerY * 2)
-                };
+                        {
+                                y + (centerY * 2), y, y + (centerY * 2)
+                        };
             }
             else if (this.direction == SwingConstants.SOUTH)
             {
                 xPoints = new int[]
-                {
-                        x, x + centerX, x + (centerX * 2)
-                };
+                        {
+                                x, x + centerX, x + (centerX * 2)
+                        };
                 yPoints = new int[]
-                {
-                        y, y + (centerY * 2), y
-                };
+                        {
+                                y, y + (centerY * 2), y
+                        };
             }
             else if (this.direction == SwingConstants.WEST)
             {
                 xPoints = new int[]
-                {
-                        x + (centerX * 2), x, x + (centerX * 2)
-                };
+                        {
+                                x + (centerX * 2), x, x + (centerX * 2)
+                        };
                 yPoints = new int[]
-                {
-                        y, y + centerY, y + (centerY * 2)
-                };
+                        {
+                                y, y + centerY, y + (centerY * 2)
+                        };
             }
             else if (this.direction == SwingConstants.EAST)
             {
                 xPoints = new int[]
-                {
-                        x, x + (centerX * 2), x, x
-                };
+                        {
+                                x, x + (centerX * 2), x, x
+                        };
                 yPoints = new int[]
-                {
-                        y, y + centerY, y + (centerY * 2)
-                };
+                        {
+                                y, y + centerY, y + (centerY * 2)
+                        };
             }
             else
             {
@@ -662,7 +662,7 @@ public final class ImageUtils
     {
         if (icon instanceof ImageIcon imageIcon)
         {
-            if (imageIcon.getImage()instanceof BufferedImage bi)
+            if (imageIcon.getImage() instanceof BufferedImage bi)
             {
                 return bi;
             }
@@ -754,9 +754,9 @@ public final class ImageUtils
 
         // Sobel Operator, horizontal & vertikal
         float[] matrix =
-        {
-                0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F
-        };
+                {
+                        0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F
+                };
 
         // // Sobel Operator, horizontal
         // float[] matrix = new float[]
@@ -853,9 +853,9 @@ public final class ImageUtils
     public static BufferedImage toSharpenImage(final BufferedImage image)
     {
         float[] matrix =
-        {
-                0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F
-        };
+                {
+                        0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F
+                };
 
         // Kantenglaettung
         // float[] matrix =

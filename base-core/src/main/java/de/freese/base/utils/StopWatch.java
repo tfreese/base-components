@@ -18,6 +18,15 @@ import java.util.function.Consumer;
 public class StopWatch
 {
     /**
+     *
+     */
+    private static final AtomicInteger ID_NUMBER = new AtomicInteger(1);
+    /**
+     *
+     */
+    private static final AtomicInteger TASK_NUMBER = new AtomicInteger(1);
+
+    /**
      * @author Thomas Freese
      */
     public static class DefaultPrettyPrinter implements Consumer<StopWatch>
@@ -132,8 +141,6 @@ public class StopWatch
             }
             else
             {
-
-
                 // Header
                 // @formatter:off
                 String[] header = {
@@ -152,12 +159,12 @@ public class StopWatch
                     long nanos = task.getTime(TimeUnit.NANOSECONDS);
 
                     String[] row =
-                    {
-                            String.format("%,15d", nanos),
-                            String.format("%,9d", timeUnit.convert(nanos, TimeUnit.NANOSECONDS)),
-                            String.format("%3.0f", ((double) nanos / sw.getTotalTimeNanos()) * 100D),
-                            task.taskName()
-                    };
+                            {
+                                    String.format("%,15d", nanos),
+                                    String.format("%,9d", timeUnit.convert(nanos, TimeUnit.NANOSECONDS)),
+                                    String.format("%3.0f", ((double) nanos / sw.getTotalTimeNanos()) * 100D),
+                                    task.taskName()
+                            };
 
                     rows.add(row);
                 }
@@ -170,13 +177,12 @@ public class StopWatch
     }
 
     /**
-     * @author Thomas Freese
-     *
      * @param taskName String
      * @param timeNanos long
+     *
+     * @author Thomas Freese
      */
-    @SuppressWarnings("javadoc")
-    public static final record TaskInfo(String taskName, long timeNanos)
+    public record TaskInfo(String taskName, long timeNanos)
     {
         /**
          * Erstellt ein neues {@link TaskInfo} Object.
@@ -201,22 +207,17 @@ public class StopWatch
     }
 
     /**
-    *
-    */
-    private static final AtomicInteger ID_NUMBER = new AtomicInteger(1);
+     *
+     */
+    private final String id;
     /**
-    *
-    */
-    private static final AtomicInteger TASK_NUMBER = new AtomicInteger(1);
-
+     *
+     */
+    private final List<TaskInfo> taskList = new LinkedList<>();
     /**
      *
      */
     private String currentTaskName;
-    /**
-     *
-     */
-    private final String id;
     /**
      *
      */
@@ -229,11 +230,6 @@ public class StopWatch
      * Start time of the current task.
      */
     private long startTimeNanos;
-
-    /**
-     *
-     */
-    private final List<TaskInfo> taskList = new LinkedList<>();
     /**
      * Total running time.
      */
@@ -352,16 +348,6 @@ public class StopWatch
     public boolean isRunning()
     {
         return getCurrentTaskName() != null;
-    }
-
-    /**
-     * Prints all the task details on {@link System#out}.
-     *
-     * @see DefaultPrettyPrinter
-     */
-    public void prettyPrint()
-    {
-        prettyPrint(System.out);
     }
 
     /**

@@ -27,7 +27,7 @@ public final class ArrayUtils
     {
         for (double value2 : values)
         {
-            if (value2 != value)
+            if (Double.compare(value, value2) != 0)
             {
                 return false;
             }
@@ -50,7 +50,7 @@ public final class ArrayUtils
 
         for (double value : values)
         {
-            zero = (value == 0.0D);
+            zero = (Double.compare(value, 0.0D) == 0);
 
             if (!zero)
             {

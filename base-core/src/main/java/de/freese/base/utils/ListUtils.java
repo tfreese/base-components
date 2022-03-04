@@ -69,6 +69,29 @@ public final class ListUtils
     }
 
     /**
+     * Großer Nachteil: Es muss über die gesamte Liste iteriert werden und die Reihenfolge der Elemente ist hinüber.
+     *
+     * @param values {@link List}
+     * @param numberOfPartitions int
+     *
+     * @return {@link List}
+     */
+    public static List<List<String>> getPartitionsByModulo(final List<String> values, final int numberOfPartitions)
+    {
+        Map<Integer, List<String>> partitionMap = new HashMap<>();
+
+        for (int i = 0; i < values.size(); i++)
+        {
+            String value = values.get(i);
+            int indexToUse = i % numberOfPartitions;
+
+            partitionMap.computeIfAbsent(indexToUse, key -> new ArrayList<>()).add(value);
+        }
+
+        return new ArrayList<>(partitionMap.values());
+    }
+
+    /**
      * @param list {@link List}
      *
      * @return boolean
@@ -94,28 +117,5 @@ public final class ListUtils
     private ListUtils()
     {
         super();
-    }
-
-    /**
-     * Großer Nachteil: Es muss über die gesamte Liste iteriert werden und die Reihenfolge der Elemente ist hinüber.
-     *
-     * @param values {@link List}
-     * @param numberOfPartitions int
-     *
-     * @return {@link List}
-     */
-    List<List<String>> getPartitionsByModulo(final List<String> values, final int numberOfPartitions)
-    {
-        Map<Integer, List<String>> partitionMap = new HashMap<>();
-
-        for (int i = 0; i < values.size(); i++)
-        {
-            String value = values.get(i);
-            int indexToUse = i % numberOfPartitions;
-
-            partitionMap.computeIfAbsent(indexToUse, key -> new ArrayList<>()).add(value);
-        }
-
-        return new ArrayList<>(partitionMap.values());
     }
 }

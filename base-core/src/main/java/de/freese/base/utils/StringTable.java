@@ -2,6 +2,7 @@
 package de.freese.base.utils;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,8 +38,8 @@ public final class StringTable
             }
         }
 
-        this.header = header;
-        this.data = data;
+        this.header = header.clone();
+        this.data = new ArrayList<>(data);
     }
 
     /**
@@ -90,7 +91,7 @@ public final class StringTable
     }
 
     /**
-     * @return List<String[]>
+     * @return List<String [ ]>
      */
     public List<String[]> getData()
     {

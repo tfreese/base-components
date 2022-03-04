@@ -90,38 +90,39 @@ public class ByteArrayDataSource implements DataSource, Serializable
             return null;
         }
 
+        String name = resourceName.toLowerCase();
         String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
 
-        if (resourceName.startsWith("http"))
+        if (name.startsWith("http"))
         {
             mimeType = MIMETYPE_APPLICATION_HTTP;
         }
-        else if (resourceName.endsWith(".pdf"))
+        else if (name.endsWith(".pdf"))
         {
             mimeType = MIMETYPE_APPLICATION_PDF;
         }
-        else if (resourceName.endsWith(".xls"))
+        else if (name.endsWith(".xls"))
         {
             mimeType = MIMETYPE_APPLICATION_EXCEL;
         }
-        else if (resourceName.endsWith(".ppt"))
+        else if (name.endsWith(".ppt"))
         {
             mimeType = MIMETYPE_APPLICATION_POWERPOINT;
         }
-        else if (resourceName.endsWith(".png"))
+        else if (name.endsWith(".png"))
         {
             mimeType = MIMETYPE_IMAGE_PNG;
         }
-        else if (resourceName.endsWith(".gif"))
+        else if (name.endsWith(".gif"))
         {
             mimeType = MIMETYPE_IMAGE_GIF;
         }
-        else if (resourceName.endsWith(".bmp"))
+        else if (name.endsWith(".bmp"))
         {
             mimeType = MIMETYPE_IMAGE_BMP;
         }
-        else if (resourceName.toLowerCase().endsWith(".jpeg") || resourceName.toLowerCase().endsWith(".jpg") || resourceName.toLowerCase().endsWith(".jpe")
-                || resourceName.toLowerCase().endsWith(".jfif") || resourceName.toLowerCase().endsWith(".pjpeg") || resourceName.toLowerCase().endsWith(".pjp"))
+        else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe")
+                || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp"))
         {
             mimeType = MIMETYPE_IMAGE_JPEG;
         }
@@ -138,13 +139,8 @@ public class ByteArrayDataSource implements DataSource, Serializable
      */
     public static final boolean isImageMimeType(final String mimeType)
     {
-        if (MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType)
-                || MIMETYPE_IMAGE_BMP.equals(mimeType))
-        {
-            return true;
-        }
-
-        return false;
+        return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType)
+                || MIMETYPE_IMAGE_BMP.equals(mimeType);
     }
 
     /**

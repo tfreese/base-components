@@ -29,14 +29,6 @@ public class FileResourceCache extends AbstractResourceCache
     private final Path cacheDirectory;
 
     /**
-     * Erstellt ein neues {@link FileResourceCache} Object im Ordner "java.io.tmpdir/.javacache".
-     */
-    FileResourceCache()
-    {
-        this(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
-    }
-
-    /**
      * Erstellt ein neues {@link FileResourceCache} Object.
      *
      * @param cacheDirectory {@link Path}
@@ -67,6 +59,14 @@ public class FileResourceCache extends AbstractResourceCache
         {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * Erstellt ein neues {@link FileResourceCache} Object im Ordner "java.io.tmpdir/.javacache".
+     */
+    FileResourceCache()
+    {
+        this(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
     }
 
     /**
@@ -146,15 +146,12 @@ public class FileResourceCache extends AbstractResourceCache
                 Files.createDirectories(path.getParent());
             }
 
-            if (!Files.exists(path) || !Files.isReadable(path))
+            try (InputStream inputStream = toInputStream(uri))
             {
-                try (InputStream inputStream = toInputStream(uri))
-                {
-                    Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-                }
+                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
             }
 
-            return Optional.ofNullable(Files.newInputStream(path, StandardOpenOption.READ));
+            return Optional.of(Files.newInputStream(path, StandardOpenOption.READ));
         }
         catch (final IOException ex)
         {

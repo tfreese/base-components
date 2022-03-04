@@ -3,6 +3,7 @@ package de.freese.base.core.cache;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -35,12 +36,12 @@ class TestResourceCache
      */
     private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
     /**
-    *
-    */
+     *
+     */
     private static final ResourceCache CACHE_MEMORY = new MemoryResourceCache();
     /**
-    *
-    */
+     *
+     */
     private static final Map<String, byte[]> MAP = new ConcurrentHashMap<>();
 
     /**
@@ -112,13 +113,12 @@ class TestResourceCache
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
-    // @DisplayName("Test @MethodSource Argumented")
     @Order(1)
     void testInitialLoad(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
     {
         Optional<InputStream> optional = resourceCache.getResource(uri);
         assertNotNull(optional);
-        assertNotNull(optional.get());
+        assertTrue(optional.isPresent());
 
         byte[] bytes = null;
 
@@ -142,13 +142,12 @@ class TestResourceCache
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
-    // @DisplayName("Test @MethodSource Argumented")
     @Order(2)
     void testReload(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
     {
         Optional<InputStream> optional = resourceCache.getResource(uri);
         assertNotNull(optional);
-        assertNotNull(optional.get());
+        assertTrue(optional.isPresent());
 
         byte[] bytes = null;
 

@@ -91,11 +91,6 @@ public class MemoryResourceCache extends AbstractResourceCache
             }
         }
 
-        if (content == null)
-        {
-            return Optional.ofNullable(null);
-        }
-
-        return Optional.ofNullable(new ByteArrayInputStream(content));
+        return Optional.of(new ByteArrayInputStream(content));
     }
 }

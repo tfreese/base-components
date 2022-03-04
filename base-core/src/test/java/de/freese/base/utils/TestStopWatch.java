@@ -56,6 +56,6 @@ class TestStopWatch
         TimeUnit.MILLISECONDS.sleep(1000);
         stopWatch.stop();
 
-        stopWatch.prettyPrint();
+        stopWatch.prettyPrint(System.out);
     }
 }

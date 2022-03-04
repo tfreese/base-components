@@ -186,7 +186,8 @@ public final class StringUtils
 
         int columnCount = list.get(0).length;
 
-        list.stream().parallel().forEach(r -> {
+        list.stream().parallel().forEach(r ->
+        {
             for (int column = 0; column < columnCount; column++)
             {
                 r[column] = escape + r[column] + escape;
@@ -364,7 +365,7 @@ public final class StringUtils
      */
     public static boolean isNotBlank(final CharSequence cs)
     {
-        return !isNotBlank(cs);
+        return !isBlank(cs);
     }
 
     /**
@@ -619,6 +620,32 @@ public final class StringUtils
     }
 
     /**
+     * <pre>
+     * StringUtils.rightPad(null, *, *)      = null
+     * StringUtils.rightPad("", 3, "z")      = "zzz"
+     * StringUtils.rightPad("bat", 3, "yz")  = "bat"
+     * StringUtils.rightPad("bat", 5, "yz")  = "batyz"
+     * StringUtils.rightPad("bat", 8, "yz")  = "batyzyzy"
+     * StringUtils.rightPad("bat", 1, "yz")  = "bat"
+     * StringUtils.rightPad("bat", -1, "yz") = "bat"
+     * StringUtils.rightPad("bat", 5, null)  = "bat  "
+     * StringUtils.rightPad("bat", 5, "")    = "bat  "
+     * </pre>
+     *
+     * @param text String
+     * @param size int
+     * @param padding String
+     *
+     * @return String
+     */
+    public static String rightPad(final String text, final int size, final String padding)
+    {
+        // return String.format("%-" + size + "s", text).replace(" ", padding);
+
+        return org.apache.commons.lang3.StringUtils.rightPad(text, size, padding);
+    }
+
+    /**
      * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
      * Ist das Padding null oder leer wird nichts gemacht.<br>
      * Beim Padding werden die CharSequences durch Strings ersetzt.
@@ -646,7 +673,8 @@ public final class StringUtils
         int columnCount = widths.length;
 
         // Strings pro Spalte formatieren und schreiben.
-        list.stream().parallel().forEach(r -> {
+        list.stream().parallel().forEach(r ->
+        {
             for (int column = 0; column < columnCount; column++)
             {
                 String value = rightPad(r[column].toString(), widths[column], padding);
@@ -690,32 +718,6 @@ public final class StringUtils
 
             array[column] = (T) value;
         }
-    }
-
-    /**
-     * <pre>
-     * StringUtils.rightPad(null, *, *)      = null
-     * StringUtils.rightPad("", 3, "z")      = "zzz"
-     * StringUtils.rightPad("bat", 3, "yz")  = "bat"
-     * StringUtils.rightPad("bat", 5, "yz")  = "batyz"
-     * StringUtils.rightPad("bat", 8, "yz")  = "batyzyzy"
-     * StringUtils.rightPad("bat", 1, "yz")  = "bat"
-     * StringUtils.rightPad("bat", -1, "yz") = "bat"
-     * StringUtils.rightPad("bat", 5, null)  = "bat  "
-     * StringUtils.rightPad("bat", 5, "")    = "bat  "
-     * </pre>
-     *
-     * @param text String
-     * @param size int
-     * @param padding String
-     *
-     * @return String
-     */
-    public static String rightPad(final String text, final int size, final String padding)
-    {
-        // return String.format("%-" + size + "s", text).replace(" ", padding);
-
-        return org.apache.commons.lang3.StringUtils.rightPad(text, size, padding);
     }
 
     /**
@@ -940,8 +942,8 @@ public final class StringUtils
 
         // @formatter:off
         String line = Stream.of(text)
-                .map(t -> t.replaceAll("\n", SPACE)) // Keine Zeilenumbrüche
-                .map(t -> t.replaceAll("\t", SPACE)) // Keine Tabulatoren
+                .map(t -> t.replace("\n", SPACE)) // Keine Zeilenumbrüche
+                .map(t -> t.replace("\t", SPACE)) // Keine Tabulatoren
                 .map(t -> t.split(SPACE))
                 .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
                 //.peek(System.out::println)

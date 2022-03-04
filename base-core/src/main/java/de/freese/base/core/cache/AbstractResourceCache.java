@@ -12,8 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import de.freese.base.utils.ByteUtils;
+import java.util.HexFormat;
 
 /**
  * Basis-Implementierung eines {@link ResourceCache}.
@@ -23,33 +22,20 @@ import de.freese.base.utils.ByteUtils;
 public abstract class AbstractResourceCache implements ResourceCache
 {
     /**
-     *
-     */
-    private final MessageDigest messageDigest;
-
-    /**
-     * Erstellt ein neues {@link AbstractResourceCache} Object.
-     */
-    protected AbstractResourceCache()
-    {
-        super();
-
-        this.messageDigest = createMessageDigest();
-    }
-
-    /**
      * Erzeugt den MessageDigest für die Generierung des Keys.<br>
      * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
      *
      * @return {@link MessageDigest}
      */
-    protected MessageDigest createMessageDigest()
+    protected static MessageDigest createMessageDigest()
     {
         MessageDigest md = null;
 
         try
         {
-            md = MessageDigest.getInstance("SHA-256");
+            //md = MessageDigest.getInstance("SHA-256"); // 64 Zeichen
+            // md = MessageDigest.getInstance("SHA-384"); // 96 Zeichen
+            md = MessageDigest.getInstance("SHA-512"); // 128 Zeichen
         }
         catch (final NoSuchAlgorithmException ex)
         {
@@ -67,6 +53,26 @@ public abstract class AbstractResourceCache implements ResourceCache
     }
 
     /**
+     *
+     */
+    private final HexFormat hexFormat;
+    /**
+     *
+     */
+    private final MessageDigest messageDigest;
+
+    /**
+     * Erstellt ein neues {@link AbstractResourceCache} Object.
+     */
+    protected AbstractResourceCache()
+    {
+        super();
+
+        this.messageDigest = createMessageDigest();
+        this.hexFormat = HexFormat.of().withUpperCase();
+    }
+
+    /**
      * Erzeugt den Key auf dem Resource-Pfad.<br>
      * Die Bytes des MessageDigest werden dafür in einen Hex-String umgewandelt.
      *
@@ -76,11 +82,10 @@ public abstract class AbstractResourceCache implements ResourceCache
      */
     protected String generateKey(final URI uri)
     {
-        String urlString = uri.toString();
-        byte[] digest = getMessageDigest().digest(urlString.getBytes(StandardCharsets.UTF_8));
-        String hex = ByteUtils.bytesToHex(digest);
+        String uriString = uri.toString();
+        byte[] digest = getMessageDigest().digest(uriString.getBytes(StandardCharsets.UTF_8));
 
-        return hex;
+        return toHex(digest);
     }
 
     /**
@@ -104,14 +109,14 @@ public abstract class AbstractResourceCache implements ResourceCache
         }
         else if ("http".equals(protocol) || "https".equals(protocol))
         {
-            URLConnection con = uri.toURL().openConnection();
+            URLConnection connection = uri.toURL().openConnection();
 
-            if (con instanceof HttpURLConnection)
+            if (connection instanceof HttpURLConnection con)
             {
-                ((HttpURLConnection) con).setRequestMethod("HEAD");
+                con.setRequestMethod("HEAD");
             }
 
-            long length = con.getContentLengthLong();
+            long length = connection.getContentLengthLong();
 
             return length;
         }
@@ -125,6 +130,16 @@ public abstract class AbstractResourceCache implements ResourceCache
     protected MessageDigest getMessageDigest()
     {
         return this.messageDigest;
+    }
+
+    /**
+     * @param bytes byte[]
+     *
+     * @return String
+     */
+    protected String toHex(byte[] bytes)
+    {
+        return hexFormat.formatHex(bytes);
     }
 
     /**
@@ -173,9 +188,9 @@ public abstract class AbstractResourceCache implements ResourceCache
         }
         catch (IOException ex)
         {
-            if (connection instanceof HttpURLConnection)
+            if (connection instanceof HttpURLConnection httpURLConnection)
             {
-                ((HttpURLConnection) connection).disconnect();
+                httpURLConnection.disconnect();
             }
 
             throw ex;
