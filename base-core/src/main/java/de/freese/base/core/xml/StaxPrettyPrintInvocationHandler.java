@@ -20,11 +20,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
     /**
      *
      */
-    private int depth;
-    /**
-     *
-     */
-    private Map<Integer, Boolean> hasChildElement = new HashMap<>();
+    private final Map<Integer, Boolean> hasChildElement = new HashMap<>();
     /**
      *
      */
@@ -33,6 +29,10 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
      *
      */
     private final XMLStreamWriter target;
+    /**
+     *
+     */
+    private int depth;
 
     /**
      * Erstellt ein neues {@link StaxPrettyPrintInvocationHandler} Object.
@@ -114,13 +114,15 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
             return null;
         }
 
-        StringBuilder sb = new StringBuilder();
+        return indent.repeat(amount * 4);
 
-        for (int i = 0; i < (amount * 4); i++)
-        {
-            sb.append(indent);
-        }
-
-        return sb.toString();
+//        StringBuilder sb = new StringBuilder();
+//
+//        for (int i = 0; i < (amount * 4); i++)
+//        {
+//            sb.append(indent);
+//        }
+//
+//        return sb.toString();
     }
 }

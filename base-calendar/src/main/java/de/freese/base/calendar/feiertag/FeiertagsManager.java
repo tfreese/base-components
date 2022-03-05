@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
 import de.freese.base.utils.CalendarUtils;
 
 /**
@@ -23,13 +24,112 @@ public final class FeiertagsManager
     private final Map<Integer, Map<String, InternerFeiertag>> feiertagsMap = new TreeMap<>();
 
     /**
+     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     *
+     * @param calendar {@link Calendar}
+     *
+     * @return {@link Feiertag}
+     */
+    public Feiertag getFeiertag(final Calendar calendar)
+    {
+        Feiertag feiertag = getFeiertag(calendar.getTime());
+
+        return feiertag;
+    }
+
+    /**
+     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     *
+     * @param date {@link Date}
+     *
+     * @return {@link Feiertag}
+     */
+    public Feiertag getFeiertag(final Date date)
+    {
+        LocalDate localDate = CalendarUtils.toLocalDate(date);
+
+        Feiertag feiertag = getFeiertag(localDate);
+
+        return feiertag;
+    }
+
+    /**
+     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     *
+     * @param jahr int
+     * @param tagDesJahres int; 1-366
+     *
+     * @return {@link Feiertag}
+     */
+    public Feiertag getFeiertag(final int jahr, final int tagDesJahres)
+    {
+        LocalDate localDate = LocalDate.ofYearDay(jahr, tagDesJahres);
+
+        Feiertag feiertag = getFeiertag(localDate);
+
+        return feiertag;
+    }
+
+    /**
+     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     *
+     * @param jahr int
+     * @param monat int; 1-12
+     * @param tag int; 1-31
+     *
+     * @return {@link Feiertag}
+     */
+    public Feiertag getFeiertag(final int jahr, final int monat, final int tag)
+    {
+        erzeugeFeiertage(jahr);
+
+        InternerFeiertag internerFeiertag = this.feiertagsMap.getOrDefault(jahr, Collections.emptyMap()).get(monat + "-" + tag);
+        Feiertag feiertag = null;
+
+        if (internerFeiertag != null)
+        {
+            feiertag = new Feiertag(internerFeiertag.getTyp(), internerFeiertag.isVariablerFeiertag());
+        }
+
+        return feiertag;
+    }
+
+    /**
+     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     *
+     * @param localDate {@link LocalDate}
+     *
+     * @return {@link Feiertag}
+     */
+    public Feiertag getFeiertag(final LocalDate localDate)
+    {
+        Feiertag feiertag = getFeiertag(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
+
+        return feiertag;
+    }
+
+    /**
+     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     *
+     * @param localDateTime {@link LocalDateTime}
+     *
+     * @return {@link Feiertag}
+     */
+    public Feiertag getFeiertag(final LocalDateTime localDateTime)
+    {
+        Feiertag feiertag = getFeiertag(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
+
+        return feiertag;
+    }
+
+    /**
      * @param jahr int
      * @param monat int
      * @param tag int
      * @param typ {@link FeiertagTyp}
      * @param berechneterFeiertag boolean
      */
-    private final void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag)
+    private void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag)
     {
         Map<String, InternerFeiertag> jahrMap = this.feiertagsMap.computeIfAbsent(jahr, key -> new HashMap<>());
 
@@ -41,7 +141,7 @@ public final class FeiertagsManager
      *
      * @param jahr int
      */
-    private final void erzeugeDynamischeFeiertage(final int jahr)
+    private void erzeugeDynamischeFeiertage(final int jahr)
     {
         int gz;
 
@@ -98,7 +198,7 @@ public final class FeiertagsManager
      *
      * @param jahr int
      */
-    private final void erzeugeFeiertage(final int jahr)
+    private void erzeugeFeiertage(final int jahr)
     {
         // Ist das Jahr schon enthalten?
         if (this.feiertagsMap.containsKey(jahr))
@@ -115,7 +215,7 @@ public final class FeiertagsManager
      *
      * @param jahr int
      */
-    private final void erzeugeFesteFeiertage(final int jahr)
+    private void erzeugeFesteFeiertage(final int jahr)
     {
         addFeiertag(jahr, 1, 1, FeiertagTyp.NEUJAHR, false);
         addFeiertag(jahr, 5, 1, FeiertagTyp.MAIFEIERTAG, false);
@@ -130,99 +230,6 @@ public final class FeiertagsManager
     }
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
-     *
-     * @param calendar {@link Calendar}
-     * @return {@link Feiertag}
-     */
-    public final Feiertag getFeiertag(final Calendar calendar)
-    {
-        Feiertag feiertag = getFeiertag(calendar.getTime());
-
-        return feiertag;
-    }
-
-    /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
-     *
-     * @param date {@link Date}
-     * @return {@link Feiertag}
-     */
-    public final Feiertag getFeiertag(final Date date)
-    {
-        LocalDate localDate = CalendarUtils.toLocalDate(date);
-
-        Feiertag feiertag = getFeiertag(localDate);
-
-        return feiertag;
-    }
-
-    /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
-     *
-     * @param jahr int
-     * @param tagDesJahres int; 1-366
-     * @return {@link Feiertag}
-     */
-    public final Feiertag getFeiertag(final int jahr, final int tagDesJahres)
-    {
-        LocalDate localDate = LocalDate.ofYearDay(jahr, tagDesJahres);
-
-        Feiertag feiertag = getFeiertag(localDate);
-
-        return feiertag;
-    }
-
-    /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
-     *
-     * @param jahr int
-     * @param monat int; 1-12
-     * @param tag int; 1-31
-     * @return {@link Feiertag}
-     */
-    public final Feiertag getFeiertag(final int jahr, final int monat, final int tag)
-    {
-        erzeugeFeiertage(jahr);
-
-        InternerFeiertag internerFeiertag = this.feiertagsMap.getOrDefault(jahr, Collections.emptyMap()).get(monat + "-" + tag);
-        Feiertag feiertag = null;
-
-        if (internerFeiertag != null)
-        {
-            feiertag = new Feiertag(internerFeiertag.getTyp(), internerFeiertag.isVariablerFeiertag());
-        }
-
-        return feiertag;
-    }
-
-    /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
-     *
-     * @param localDate {@link LocalDate}
-     * @return {@link Feiertag}
-     */
-    public final Feiertag getFeiertag(final LocalDate localDate)
-    {
-        Feiertag feiertag = getFeiertag(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
-
-        return feiertag;
-    }
-
-    /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
-     *
-     * @param localDateTime {@link LocalDateTime}
-     * @return {@link Feiertag}
-     */
-    public final Feiertag getFeiertag(final LocalDateTime localDateTime)
-    {
-        Feiertag feiertag = getFeiertag(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
-
-        return feiertag;
-    }
-
-    /**
      * Liefert den Monat des Tages im Jahr.<br>
      * Eingabe: Jahr Tagesnummer rel. zum Jahresanfang (1=1.1.,2=2.1.,...365/366=31.12)<br>
      * Ausgabe: Wochentag (0=So, 1=Mo,..., 6=Sa)<br>
@@ -230,9 +237,10 @@ public final class FeiertagsManager
      *
      * @param jahr int
      * @param tagDesJahres int
+     *
      * @return int
      */
-    private final int getMonatImJahr(final int jahr, final int tagDesJahres)
+    private int getMonatImJahr(final int jahr, final int tagDesJahres)
     {
         int tdj = tagDesJahres;
 
@@ -260,9 +268,10 @@ public final class FeiertagsManager
      *
      * @param jahr int
      * @param tagDesJahres int
+     *
      * @return int
      */
-    private final int getTagDesMonats(final int jahr, final int tagDesJahres)
+    private int getTagDesMonats(final int jahr, final int tagDesJahres)
     {
         int dtj = tagDesJahres;
 
@@ -287,9 +296,10 @@ public final class FeiertagsManager
 
     /**
      * @param jahr int
+     *
      * @return boolean
      */
-    private final boolean isSchaltJahr(final int jahr)
+    private boolean isSchaltJahr(final int jahr)
     {
         return ((jahr % 4) == 0) && (((jahr % 100) != 0) || ((jahr % 400) == 0));
     }

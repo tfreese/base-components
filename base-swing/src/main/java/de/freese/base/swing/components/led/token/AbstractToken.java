@@ -8,20 +8,20 @@ import java.util.List;
 import de.freese.base.swing.components.led.LedMatrix;
 
 /**
- * @author Thomas Freese
- *
  * @param <V> Value Type
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractToken<V> implements Token<V>
 {
     /**
      *
      */
-    private List<byte[]> bitMasks;
+    private final Color color;
     /**
      *
      */
-    private Color color;
+    private List<byte[]> bitMasks;
     /**
      *
      */
@@ -45,6 +45,24 @@ public abstract class AbstractToken<V> implements Token<V>
         super();
 
         this.color = color;
+    }
+
+    /**
+     * @see de.freese.base.swing.components.led.token.Token#getBitMasks()
+     */
+    @Override
+    public List<byte[]> getBitMasks()
+    {
+        return this.bitMasks;
+    }
+
+    /**
+     * @see de.freese.base.swing.components.led.token.Token#getColor()
+     */
+    @Override
+    public Color getColor()
+    {
+        return this.color;
     }
 
     /**
@@ -80,24 +98,6 @@ public abstract class AbstractToken<V> implements Token<V>
 
             this.bitMasks.add(bitMask);
         }
-    }
-
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#getBitMasks()
-     */
-    @Override
-    public List<byte[]> getBitMasks()
-    {
-        return this.bitMasks;
-    }
-
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#getColor()
-     */
-    @Override
-    public Color getColor()
-    {
-        return this.color;
     }
 
     /**

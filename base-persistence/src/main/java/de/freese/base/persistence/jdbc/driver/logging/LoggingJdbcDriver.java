@@ -37,15 +37,15 @@ public class LoggingJdbcDriver implements Driver
     /**
      *
      */
-    private static final Set<String> LOG_METHODS = new HashSet<>();
+    public static final String PREFIX = "jdbc:logger:";
     /**
-    *
-    */
+     *
+     */
     static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoggingJdbcDriver.class);
     /**
      *
      */
-    public static final String PREFIX = "jdbc:logger:";
+    private static final Set<String> LOG_METHODS = new HashSet<>();
 
     /**
      *
@@ -102,9 +102,9 @@ public class LoggingJdbcDriver implements Driver
             final Connection targetConnection = targetDriver.connect(url.substring(PREFIX.length()), info);
 
             return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]
-            {
-                    Connection.class
-            }, new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
+                    {
+                            Connection.class
+                    }, new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
         }
 
         return null;

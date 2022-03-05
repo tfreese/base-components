@@ -5,6 +5,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 
@@ -17,13 +18,13 @@ import javax.swing.JComboBox;
 public class ComboBoxGroup implements ItemListener
 {
     /**
-     * 
+     *
      */
-    private List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<JComboBox<?>>());
+    private final List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<JComboBox<?>>());
 
     /**
      * Verbindet eine {@link JComboBox} mit der Gruppe.
-     * 
+     *
      * @param comboBox {@link JComboBox}
      */
     public void add(final JComboBox<?> comboBox)
@@ -62,7 +63,7 @@ public class ComboBoxGroup implements ItemListener
 
     /**
      * Entfernt eine {@link JComboBox} aus der Gruppe.
-     * 
+     *
      * @param comboBox {@link JComboBox}
      */
     public void remove(final JComboBox<?> comboBox)

@@ -20,12 +20,12 @@ public class MemoryGraphComponent extends AbstractGraphComponent
      */
     private static final long serialVersionUID = 162498448539283119L;
     /**
-    *
-    */
-    private transient ScheduledExecutorService scheduledExecutorService;
+     *
+     */
+    private final transient ScheduledExecutorService scheduledExecutorService;
     /**
-    *
-    */
+     *
+     */
     private transient ScheduledFuture<?> scheduledFuture;
 
     /**
@@ -39,6 +39,30 @@ public class MemoryGraphComponent extends AbstractGraphComponent
         super(painter);
 
         this.scheduledExecutorService = Objects.requireNonNull(scheduledExecutorService, "scheduledExecutorService required");
+    }
+
+    /**
+     *
+     */
+    public void start()
+    {
+        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() ->
+        {
+            ((MemoryGraphPainter) getPainter()).generateValue();
+            paintGraph();
+        }, 500, 40, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     *
+     */
+    public void stop()
+    {
+        if ((this.scheduledFuture != null))
+        {
+            this.scheduledFuture.cancel(false);
+            this.scheduledFuture = null;
+        }
     }
 
     /**
@@ -58,29 +82,6 @@ public class MemoryGraphComponent extends AbstractGraphComponent
         else
         {
             stop();
-        }
-    }
-
-    /**
-     *
-     */
-    public void start()
-    {
-        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            ((MemoryGraphPainter) getPainter()).generateValue();
-            paintGraph();
-        }, 500, 40, TimeUnit.MILLISECONDS);
-    }
-
-    /**
-     *
-     */
-    public void stop()
-    {
-        if ((this.scheduledFuture != null))
-        {
-            this.scheduledFuture.cancel(false);
-            this.scheduledFuture = null;
         }
     }
 }

@@ -184,7 +184,7 @@ public final class CalendarUtils
      */
     public static LocalDateTime toLocalDateTime(final Date date)
     {
-        if (date instanceof java.sql.Timestamp ts)
+        if (date instanceof Timestamp ts)
         {
             return ts.toLocalDateTime();
         }

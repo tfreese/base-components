@@ -59,15 +59,14 @@ public class WatermarkExample extends JPanel implements ActionListener
         frame.pack();
         frame.setVisible(true);
     }
-
+    /**
+     *
+     */
+    private final JLabel jLabel = new JLabel();
     /**
      *
      */
     private JButton jButton;
-    /**
-     *
-     */
-    private JLabel jLabel = new JLabel();
     /**
      *
      */

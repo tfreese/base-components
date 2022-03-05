@@ -31,41 +31,41 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      *
      */
-    private Color background;
+    protected final Border noFocusBorder;
+    /**
+     *
+     */
+    private final Color background;
     /**
      *
      */
     @SuppressWarnings("unused")
-    private Color focusBackground;
+    private final Color focusBackground;
     /**
      *
      */
-    private Border focusBorder;
+    private final Border focusBorder;
     /**
      *
      */
     @SuppressWarnings("unused")
-    private Color focusForeground;
+    private final Color focusForeground;
     /**
      *
      */
-    private Color foreground;
+    private final Color foreground;
+    /**
+     *
+     */
+    private final Color selectedBackground;
+    /**
+     *
+     */
+    private final Color selectedForeground;
     /**
      *
      */
     private int index = -1;
-    /**
-     *
-     */
-    protected Border noFocusBorder;
-    /**
-     *
-     */
-    private Color selectedBackground;
-    /**
-     *
-     */
-    private Color selectedForeground;
 
     /**
      * Creates a new TransparentRenderer object.
@@ -73,9 +73,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     public TransparentRenderer()
     {
         super();
-
-        setOpaque(false);
-        setBorder(this.noFocusBorder);
 
         this.foreground = UIManager.getColor("Table.foreground");
         this.background = UIManager.getColor("Table.background");
@@ -86,6 +83,9 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
 
         this.noFocusBorder = new EmptyBorder(1, 1, 1, 1);
         this.focusBorder = UIManager.getBorder("Table.focusCellHighlightBorder");
+
+        setOpaque(false);
+        setBorder(this.noFocusBorder);
     }
 
     /**
@@ -95,62 +95,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     public void firePropertyChange(final String propertyName, final boolean oldValue, final boolean newValue)
     {
         // Empty
-    }
-
-    /**
-     * @see java.awt.Component#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
-    {
-        // Strings get interned...
-        if ("text".equals(propertyName))
-        {
-            super.firePropertyChange(propertyName, oldValue, newValue);
-        }
-    }
-
-    /**
-     * Sets the Components colors relevent to ist current status.
-     *
-     * @param parent {@link JComponent}
-     * @param isSelected boolean
-     * @param hasFocus boolean
-     * @param index int
-     */
-    protected void generalSetup(final JComponent parent, final boolean isSelected, final boolean hasFocus, final int index)
-    {
-        if (isSelected)
-        {
-            this.index = index;
-            super.setForeground(this.selectedForeground);
-            super.setBackground(this.selectedBackground);
-        }
-        else
-        {
-            super.setForeground(this.foreground);
-            super.setBackground(this.background);
-        }
-
-        setFont(parent.getFont());
-
-        if (hasFocus)
-        {
-            setBorder(this.focusBorder);
-        }
-        else
-        {
-            setBorder(this.noFocusBorder);
-        }
-
-        if (index == this.index)
-        {
-            setOpaque(true);
-        }
-        else
-        {
-            setOpaque(false);
-        }
     }
 
     /**
@@ -249,6 +193,64 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     }
 
     /**
+     * @see java.awt.Container#validate()
+     */
+    @Override
+    public void validate()
+    {
+        // Empty
+    }
+
+    /**
+     * @see java.awt.Component#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
+     */
+    @Override
+    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
+    {
+        // Strings get interned...
+        if ("text".equals(propertyName))
+        {
+            super.firePropertyChange(propertyName, oldValue, newValue);
+        }
+    }
+
+    /**
+     * Sets the Components colors relevent to ist current status.
+     *
+     * @param parent {@link JComponent}
+     * @param isSelected boolean
+     * @param hasFocus boolean
+     * @param index int
+     */
+    protected void generalSetup(final JComponent parent, final boolean isSelected, final boolean hasFocus, final int index)
+    {
+        if (isSelected)
+        {
+            this.index = index;
+            super.setForeground(this.selectedForeground);
+            super.setBackground(this.selectedBackground);
+        }
+        else
+        {
+            super.setForeground(this.foreground);
+            super.setBackground(this.background);
+        }
+
+        setFont(parent.getFont());
+
+        if (hasFocus)
+        {
+            setBorder(this.focusBorder);
+        }
+        else
+        {
+            setBorder(this.noFocusBorder);
+        }
+
+        setOpaque(index == this.index);
+    }
+
+    /**
      * Sets the <code>String</code> object for the cell being rendered to <code>value</code>.
      *
      * @param value the string value for this cell; if value is <code>null</code> it sets the text value to an empty string
@@ -258,14 +260,5 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     protected void setValue(final Object value)
     {
         setText((value == null) ? "" : value.toString());
-    }
-
-    /**
-     * @see java.awt.Container#validate()
-     */
-    @Override
-    public void validate()
-    {
-        // Empty
     }
 }

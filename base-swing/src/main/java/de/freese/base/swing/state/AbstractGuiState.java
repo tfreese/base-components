@@ -20,15 +20,15 @@ public abstract class AbstractGuiState implements GUIState
     /**
      * Um veraltete States auch mal loeschen zu koennen.
      */
-    private long created = System.currentTimeMillis();
-    /**
-     *
-     */
-    private boolean enabled = true;
+    private final long created = System.currentTimeMillis();
     /**
      *
      */
     private final transient Class<?>[] supportedTypes;
+    /**
+     *
+     */
+    private boolean enabled = true;
     /**
      *
      */
@@ -39,7 +39,7 @@ public abstract class AbstractGuiState implements GUIState
      *
      * @param supportedTypes Class[]
      */
-    protected AbstractGuiState(final Class<?>...supportedTypes)
+    protected AbstractGuiState(final Class<?>... supportedTypes)
     {
         super();
 
@@ -72,14 +72,6 @@ public abstract class AbstractGuiState implements GUIState
     }
 
     /**
-     * @param visible boolean
-     */
-    protected void setVisible(final boolean visible)
-    {
-        this.visible = visible;
-    }
-
-    /**
      * @see de.freese.base.swing.state.GUIState#store(java.awt.Component)
      */
     @Override
@@ -106,5 +98,13 @@ public abstract class AbstractGuiState implements GUIState
         }
 
         return false;
+    }
+
+    /**
+     * @param visible boolean
+     */
+    protected void setVisible(final boolean visible)
+    {
+        this.visible = visible;
     }
 }

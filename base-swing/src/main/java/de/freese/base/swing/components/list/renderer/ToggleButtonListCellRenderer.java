@@ -40,11 +40,11 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
     /**
      *
      */
-    private DefaultListCellRenderer labelRenderer;
+    private final DefaultListCellRenderer labelRenderer;
     /**
      *
      */
-    private JToggleButton toggleButton;
+    private final JToggleButton toggleButton;
 
     /**
      * Erstellt ein neues {@link ToggleButtonListCellRenderer} Objekt. Konstruktor ist private, um eine direkte Erstellung zu verhindern.

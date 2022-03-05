@@ -1,5 +1,6 @@
 package de.freese.base.core.command;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,7 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -4744210429650586724L;
     /**
      *
@@ -30,29 +32,6 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
     protected AbstractRemoteCommand(final Serializable source)
     {
         super(source);
-    }
-
-    /**
-     * Liefert das Objekt fuer die Verarbeitung des Kommandos.
-     *
-     * @return Object
-     */
-    protected Object getCommandInvoker()
-    {
-        return this.commandInvoker;
-    }
-
-    /**
-     * Liefert das Objekt, welches dem CommandInvoker uebergeben werden kann.
-     *
-     * @param <T> Konkreter Typ
-     *
-     * @return Object
-     */
-    @SuppressWarnings("unchecked")
-    protected <T> T getPayload()
-    {
-        return (T) this.payload;
     }
 
     /**
@@ -82,5 +61,28 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
     public void setPayload(final Object payload)
     {
         this.payload = payload;
+    }
+
+    /**
+     * Liefert das Objekt fuer die Verarbeitung des Kommandos.
+     *
+     * @return Object
+     */
+    protected Object getCommandInvoker()
+    {
+        return this.commandInvoker;
+    }
+
+    /**
+     * Liefert das Objekt, welches dem CommandInvoker uebergeben werden kann.
+     *
+     * @param <T> Konkreter Typ
+     *
+     * @return Object
+     */
+    @SuppressWarnings("unchecked")
+    protected <T> T getPayload()
+    {
+        return (T) this.payload;
     }
 }

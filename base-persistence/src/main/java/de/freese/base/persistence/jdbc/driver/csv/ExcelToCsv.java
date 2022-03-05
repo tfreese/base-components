@@ -47,13 +47,13 @@ public class ExcelToCsv
      */
     private final Map<Integer, Function<String, String>> columnFunctions = new HashMap<>();
     /**
-     * Beginnend mit 0.
-     */
-    private int[] columnIndicies;
-    /**
      *
      */
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);
+    /**
+     * Beginnend mit 0.
+     */
+    private int[] columnIndicies;
     /**
      *
      */
@@ -155,7 +155,7 @@ public class ExcelToCsv
                 }
 
                 // Keine leeren Zeilen schreiben.
-                if (Arrays.stream(values).filter(Objects::nonNull).filter(s -> !s.isBlank()).count() > 0)
+                if (Arrays.stream(values).filter(Objects::nonNull).anyMatch(s -> !s.isBlank()))
                 {
                     writeCSV(csvWriter, values);
                 }
@@ -163,6 +163,83 @@ public class ExcelToCsv
 
             csvWriter.flush();
         }
+    }
+
+    /**
+     * @param columnIndicies int[]
+     */
+    public void setColumnIndicies(final int... columnIndicies)
+    {
+        Objects.requireNonNull(columnIndicies, "columnIndicies required");
+
+        if (columnIndicies.length == 0)
+        {
+            throw new IllegalArgumentException("columnIndicies length is " + columnIndicies.length + "; expected >= 1");
+        }
+
+        this.columnIndicies = columnIndicies;
+    }
+
+    /**
+     * Setzt das Trennzeichen der Datenfelder.<br>
+     * Default: ';'
+     *
+     * @param fieldSeparator char
+     */
+    public void setFieldSeparator(final char fieldSeparator)
+    {
+        this.fieldSeparator = Objects.requireNonNull(fieldSeparator, "fieldSeparator required");
+    }
+
+    /**
+     * Setzt die Zeile in der die Daten beginnen.<br>
+     * Default: 1 (0. Zeile = Header)
+     *
+     * @param firstDataRow int
+     */
+    public void setFirstDataRow(final int firstDataRow)
+    {
+        if (firstDataRow < 0)
+        {
+            throw new IllegalArgumentException("firstDataRow is " + firstDataRow + "; expected >= 0");
+        }
+
+        this.firstDataRow = firstDataRow;
+    }
+
+    /**
+     * Setzt die {@link Function} zum formatieren des Spaltenwertes.<br>
+     * Die Konvertierungs-Funktion wird nur aufgerufen, wenn das Value != null und nicht leer ist.<br>
+     *
+     * @param columnIndex int
+     * @param function {@link Function}
+     */
+    public void setFunction(final int columnIndex, final Function<String, String> function)
+    {
+        this.columnFunctions.put(columnIndex, function);
+    }
+
+    /**
+     * Setzt die Zeile des Headers.<br>
+     * Default: 0<br>
+     * Bei einem Wert < 0 wird der Header ignoriert.<br>
+     *
+     * @param headerRow int
+     */
+    public void setHeaderRow(final int headerRow)
+    {
+        this.headerRow = headerRow;
+    }
+
+    /**
+     * Setzt das Umschliessungszeichen der Datenfelder.<br>
+     * Default: '"'
+     *
+     * @param quoteCharacter {@link Character}
+     */
+    public void setQuoteCharacter(final Character quoteCharacter)
+    {
+        this.quoteCharacter = quoteCharacter;
     }
 
     /**
@@ -278,83 +355,6 @@ public class ExcelToCsv
         workbook.setMissingCellPolicy(MissingCellPolicy.RETURN_BLANK_AS_NULL);
 
         return workbook;
-    }
-
-    /**
-     * @param columnIndicies int[]
-     */
-    public void setColumnIndicies(final int...columnIndicies)
-    {
-        Objects.requireNonNull(columnIndicies, "columnIndicies required");
-
-        if (columnIndicies.length == 0)
-        {
-            throw new IllegalArgumentException("columnIndicies length is " + columnIndicies.length + "; expected >= 1");
-        }
-
-        this.columnIndicies = columnIndicies;
-    }
-
-    /**
-     * Setzt das Trennzeichen der Datenfelder.<br>
-     * Default: ';'
-     *
-     * @param fieldSeparator char
-     */
-    public void setFieldSeparator(final char fieldSeparator)
-    {
-        this.fieldSeparator = Objects.requireNonNull(fieldSeparator, "fieldSeparator required");
-    }
-
-    /**
-     * Setzt die Zeile in der die Daten beginnen.<br>
-     * Default: 1 (0. Zeile = Header)
-     *
-     * @param firstDataRow int
-     */
-    public void setFirstDataRow(final int firstDataRow)
-    {
-        if (firstDataRow < 0)
-        {
-            throw new IllegalArgumentException("firstDataRow is " + firstDataRow + "; expected >= 0");
-        }
-
-        this.firstDataRow = firstDataRow;
-    }
-
-    /**
-     * Setzt die {@link Function} zum formatieren des Spaltenwertes.<br>
-     * Die Konvertierungs-Funktion wird nur aufgerufen, wenn das Value != null und nicht leer ist.<br>
-     *
-     * @param columnIndex int
-     * @param function {@link Function}
-     */
-    public void setFunction(final int columnIndex, final Function<String, String> function)
-    {
-        this.columnFunctions.put(columnIndex, function);
-    }
-
-    /**
-     * Setzt die Zeile des Headers.<br>
-     * Default: 0<br>
-     * Bei einem Wert < 0 wird der Header ignoriert.<br>
-     *
-     * @param headerRow int
-     */
-    public void setHeaderRow(final int headerRow)
-    {
-        this.headerRow = headerRow;
-    }
-
-    /**
-     * Setzt das Umschliessungszeichen der Datenfelder.<br>
-     * Default: '"'
-     *
-     * @param quoteCharacter {@link Character}
-     */
-    public void setQuoteCharacter(final Character quoteCharacter)
-    {
-        this.quoteCharacter = quoteCharacter;
     }
 
     /**

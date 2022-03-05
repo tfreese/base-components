@@ -41,7 +41,43 @@ public class Segment7 extends Canvas
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
+    /**
+     *
+     */
+    private final int[][] digits =
+            {
+                    {
+                            1, 1, 1, 1, 1, 1, 0
+                    }, // Ziffer 0
+                    {
+                            0, 1, 1, 0, 0, 0, 0
+                    }, // Ziffer 1
+                    {
+                            1, 1, 0, 1, 1, 0, 1
+                    }, // Ziffer 2
+                    {
+                            1, 1, 1, 1, 0, 0, 1
+                    }, // Ziffer 3
+                    {
+                            0, 1, 1, 0, 0, 1, 1
+                    }, // Ziffer 4
+                    {
+                            1, 0, 1, 1, 0, 1, 1
+                    }, // Ziffer 5
+                    {
+                            1, 0, 1, 1, 1, 1, 1
+                    }, // Ziffer 6
+                    {
+                            1, 1, 1, 0, 0, 0, 0
+                    }, // Ziffer 7
+                    {
+                            1, 1, 1, 1, 1, 1, 1
+                    }, // Ziffer 8
+                    {
+                            1, 1, 1, 1, 0, 1, 1
+                            // Ziffer 9
+                    }
+            };
     /**
      *
      */
@@ -49,98 +85,61 @@ public class Segment7 extends Canvas
     /**
      *
      */
-    private int[][] digits =
-    {
-            {
-                    1, 1, 1, 1, 1, 1, 0
-            }, // Ziffer 0
-            {
-                    0, 1, 1, 0, 0, 0, 0
-            }, // Ziffer 1
-            {
-                    1, 1, 0, 1, 1, 0, 1
-            }, // Ziffer 2
-            {
-                    1, 1, 1, 1, 0, 0, 1
-            }, // Ziffer 3
-            {
-                    0, 1, 1, 0, 0, 1, 1
-            }, // Ziffer 4
-            {
-                    1, 0, 1, 1, 0, 1, 1
-            }, // Ziffer 5
-            {
-                    1, 0, 1, 1, 1, 1, 1
-            }, // Ziffer 6
-            {
-                    1, 1, 1, 0, 0, 0, 0
-            }, // Ziffer 7
-            {
-                    1, 1, 1, 1, 1, 1, 1
-            }, // Ziffer 8
-            {
-                    1, 1, 1, 1, 0, 1, 1
-            // Ziffer 9
-            }
-    };
-    /**
-     *
-     */
     private boolean hasfocus;
     /**
      *
      */
-    private int[][] polysx =
-    {
+    private final int[][] polysx =
             {
-                    1, 2, 8, 9, 8, 2
-            }, // Segment 0
-            {
-                    9, 10, 10, 9, 8, 8
-            }, // Segment 1
-            {
-                    9, 10, 10, 9, 8, 8
-            }, // Segment 2
-            {
-                    1, 2, 8, 9, 8, 2
-            }, // Segment 3
-            {
-                    1, 2, 2, 1, 0, 0
-            }, // Segment 4
-            {
-                    1, 2, 2, 1, 0, 0
-            }, // Segment 5
-            {
-                    1, 2, 8, 9, 8, 2
-            }, // Segment 6
-    };
+                    {
+                            1, 2, 8, 9, 8, 2
+                    }, // Segment 0
+                    {
+                            9, 10, 10, 9, 8, 8
+                    }, // Segment 1
+                    {
+                            9, 10, 10, 9, 8, 8
+                    }, // Segment 2
+                    {
+                            1, 2, 8, 9, 8, 2
+                    }, // Segment 3
+                    {
+                            1, 2, 2, 1, 0, 0
+                    }, // Segment 4
+                    {
+                            1, 2, 2, 1, 0, 0
+                    }, // Segment 5
+                    {
+                            1, 2, 8, 9, 8, 2
+                    }, // Segment 6
+            };
     /**
      *
      */
-    private int[][] polysy =
-    {
+    private final int[][] polysy =
             {
-                    1, 0, 0, 1, 2, 2
-            }, // Segment 0
-            {
-                    1, 2, 8, 9, 8, 2
-            }, // Segment 1
-            {
-                    9, 10, 16, 17, 16, 10
-            }, // Segment 2
-            {
-                    17, 16, 16, 17, 18, 18
-            }, // Segment 3
-            {
-                    9, 10, 16, 17, 16, 10
-            }, // Segment 4
-            {
-                    1, 2, 8, 9, 8, 2
-            }, // Segment 5
-            {
-                    9, 8, 8, 9, 10, 10
-            }, // Segment 6
-    };
+                    {
+                            1, 0, 0, 1, 2, 2
+                    }, // Segment 0
+                    {
+                            1, 2, 8, 9, 8, 2
+                    }, // Segment 1
+                    {
+                            9, 10, 16, 17, 16, 10
+                    }, // Segment 2
+                    {
+                            17, 16, 16, 17, 18, 18
+                    }, // Segment 3
+                    {
+                            9, 10, 16, 17, 16, 10
+                    }, // Segment 4
+                    {
+                            1, 2, 8, 9, 8, 2
+                    }, // Segment 5
+                    {
+                            9, 8, 8, 9, 10, 10
+                    }, // Segment 6
+            };
 
     /**
      * Creates a new Segment7 object.
@@ -247,6 +246,16 @@ public class Segment7 extends Canvas
     }
 
     /**
+     * @param value int
+     */
+    public void setValue(final int value)
+    {
+        this.digit = value % 10;
+
+        repaint();
+    }
+
+    /**
      * @see java.awt.Component#processComponentEvent(java.awt.event.ComponentEvent)
      */
     @Override
@@ -331,15 +340,5 @@ public class Segment7 extends Canvas
         }
 
         super.processMouseEvent(event);
-    }
-
-    /**
-     * @param value int
-     */
-    public void setValue(final int value)
-    {
-        this.digit = value % 10;
-
-        repaint();
     }
 }

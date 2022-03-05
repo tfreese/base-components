@@ -38,7 +38,14 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
+    /**
+     * ms
+     */
+    private final long progressMax;
+    /**
+     * ms
+     */
+    private final long progressStart;
     /**
      *
      */
@@ -47,14 +54,6 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
      * ms
      */
     private long progressCurrent;
-    /**
-     * ms
-     */
-    private long progressMax;
-    /**
-     * ms
-     */
-    private long progressStart;
 
     /**
      * Creates a new ProgressBusyMozillaLabel object.
@@ -71,6 +70,22 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
         this.progressMax = progressMax;
         this.progressStart = System.currentTimeMillis();
         this.progressCurrent = System.currentTimeMillis();
+    }
+
+    /**
+     * @see de.freese.base.core.progress.ProgressCallback#setProgress(float)
+     */
+    @Override
+    public void setProgress(final float percentage)
+    {
+        int prozent = (int) (percentage * 100);
+
+        if (prozent > 99)
+        {
+            prozent = 99;
+        }
+
+        setText(this.originalText + prozent);
     }
 
     /**
@@ -97,21 +112,5 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
         {
             // Ignore
         }
-    }
-
-    /**
-     * @see de.freese.base.core.progress.ProgressCallback#setProgress(float)
-     */
-    @Override
-    public void setProgress(final float percentage)
-    {
-        int prozent = (int) (percentage * 100);
-
-        if (prozent > 99)
-        {
-            prozent = 99;
-        }
-
-        setText(this.originalText + prozent);
     }
 }

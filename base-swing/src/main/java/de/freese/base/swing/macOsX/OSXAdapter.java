@@ -67,7 +67,7 @@ public class OSXAdapter implements InvocationHandler
         try
         {
             Method enableAboutMethod = OSXAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", boolean.class);
-            enableAboutMethod.invoke(OSXAdapter.macOSXApplication, Boolean.valueOf(enableAboutMenu));
+            enableAboutMethod.invoke(OSXAdapter.macOSXApplication, enableAboutMenu);
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
@@ -136,9 +136,9 @@ public class OSXAdapter implements InvocationHandler
             // Create a proxy object around this handler that can be reflectively added as an Apple
             // ApplicationListener
             Object osxAdapterProxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
-            {
-                    applicationListenerClass
-            }, adapter);
+                    {
+                            applicationListenerClass
+                    }, adapter);
             addListenerMethod.invoke(OSXAdapter.macOSXApplication, osxAdapterProxy);
         }
         catch (ClassNotFoundException ex)
@@ -175,7 +175,7 @@ public class OSXAdapter implements InvocationHandler
         try
         {
             Method enablePrefsMethod = OSXAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", boolean.class);
-            enablePrefsMethod.invoke(OSXAdapter.macOSXApplication, Boolean.valueOf(enablePrefsMenu));
+            enablePrefsMethod.invoke(OSXAdapter.macOSXApplication, enablePrefsMenu);
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
         {
@@ -234,10 +234,10 @@ public class OSXAdapter implements InvocationHandler
      * <p/>
      *
      * @param appleEvent Object
-     *            <p/>
+     * <p/>
      *
      * @return boolean
-     *         <p/>
+     * <p/>
      *
      * @throws Exception Falls was schief geht.
      */
@@ -281,7 +281,7 @@ public class OSXAdapter implements InvocationHandler
      *
      * @param method {@link Method}
      * @param args Object[]
-     *            <p/>
+     * <p/>
      *
      * @return boolean
      */
@@ -306,7 +306,7 @@ public class OSXAdapter implements InvocationHandler
             {
                 Method setHandledMethod = event.getClass().getDeclaredMethod("setHandled", boolean.class);
                 // If the target method returns a boolean, use that as a hint
-                setHandledMethod.invoke(event, Boolean.valueOf(handled));
+                setHandledMethod.invoke(event, handled);
             }
             catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
             {

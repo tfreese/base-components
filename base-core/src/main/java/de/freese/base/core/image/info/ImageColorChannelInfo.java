@@ -85,97 +85,6 @@ public class ImageColorChannelInfo
     }
 
     /**
-     * Berechnen aller Werte des Farbkanals.
-     */
-    private void calculate()
-    {
-        ColorModel colorModel = this.bufferedImage.getColorModel();
-        int width = this.bufferedImage.getWidth();
-        int height = this.bufferedImage.getHeight();
-
-        double pixelSize = colorModel.getPixelSize();
-        double colorBands = colorModel.getNumComponents();
-        this.farbTiefe = (int) Math.pow(2.0, pixelSize / colorBands);
-        this.coOccurenceMatrix = new int[this.farbTiefe][this.farbTiefe];
-        this.histogramm = new int[this.farbTiefe];
-
-        this.minimalerFarbwert = 0;
-        this.maximalerFarbwert = 0;
-        this.mittlererFarbwert = 0;
-
-        // Co-Occurence-Matrix berechnen
-        for (int x = 0; x < (width - 1); x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                int pixel1 = this.bufferedImage.getRGB(x, y);
-                int pixel2 = this.bufferedImage.getRGB(x + 1, y);
-
-                int color1 = this.colorChannel.getValue(pixel1);
-                int color2 = this.colorChannel.getValue(pixel2);
-
-                this.coOccurenceMatrix[color1][color2]++;
-
-                this.minimalerFarbwert = Math.min(this.minimalerFarbwert, color1);
-                this.maximalerFarbwert = Math.max(this.maximalerFarbwert, color1);
-                this.mittlererFarbwert += color1;
-                this.histogramm[color1]++;
-            }
-        }
-
-        // Letzte Pixelzeile fuer Histogramm nicht vegessen.
-        for (int y = 0; y < height; y++)
-        {
-            int pixel = this.bufferedImage.getRGB(width - 1, y);
-
-            int color = this.colorChannel.getValue(pixel);
-
-            this.minimalerFarbwert = Math.min(this.minimalerFarbwert, color);
-            this.maximalerFarbwert = Math.max(this.maximalerFarbwert, color);
-            this.mittlererFarbwert += color;
-            this.histogramm[color]++;
-        }
-
-        this.mittlererFarbwert /= (width * height);
-
-        // Weitere Paramerter
-        this.entrophie = 0.0D;
-        this.uniformitaet = 0.0D;
-        this.unaehnlichkeit = 0.0D;
-        this.inverseDifferenz = 0.0D;
-        this.inversesDifferenzMoment = 0.0D;
-        this.kontrast = 0.0D;
-
-        for (int x = 0; x < this.farbTiefe; ++x)
-        {
-            for (int y = 0; y < this.farbTiefe; ++y)
-            {
-                final double c = this.coOccurenceMatrix[x][y];
-                final double d = (double) x - y;
-
-                if (c != 0.0D)
-                {
-                    this.entrophie += (c * Math.log(c));
-                }
-
-                this.uniformitaet += (c * c);
-                this.unaehnlichkeit += c * Math.abs(d);
-                this.inverseDifferenz += (c / (1.0 + Math.abs(d)));
-                this.inversesDifferenzMoment += (c / (1.0 + (d * d)));
-                this.kontrast += (c * (d * d));
-            }
-        }
-    }
-
-    /**
-     * @return {@link ColorChannel}
-     */
-    public ColorChannel getColorChannel()
-    {
-        return this.colorChannel;
-    }
-
-    /**
      * Liefert die "Grauwertübergangsmatrix".<br>
      * Zählt wie oft Farbwerte nebeneinander auftreten.
      *
@@ -184,6 +93,14 @@ public class ImageColorChannelInfo
     public int[][] getCoOccurenceMatrix()
     {
         return this.coOccurenceMatrix;
+    }
+
+    /**
+     * @return {@link ColorChannel}
+     */
+    public ColorChannel getColorChannel()
+    {
+        return this.colorChannel;
     }
 
     /**
@@ -297,5 +214,88 @@ public class ImageColorChannelInfo
         sb.append("Kontrast: ").append(getKontrast()).append("\n");
 
         return sb.toString();
+    }
+
+    /**
+     * Berechnen aller Werte des Farbkanals.
+     */
+    private void calculate()
+    {
+        ColorModel colorModel = this.bufferedImage.getColorModel();
+        int width = this.bufferedImage.getWidth();
+        int height = this.bufferedImage.getHeight();
+
+        double pixelSize = colorModel.getPixelSize();
+        double colorBands = colorModel.getNumComponents();
+        this.farbTiefe = (int) Math.pow(2.0, pixelSize / colorBands);
+        this.coOccurenceMatrix = new int[this.farbTiefe][this.farbTiefe];
+        this.histogramm = new int[this.farbTiefe];
+
+        this.minimalerFarbwert = 0;
+        this.maximalerFarbwert = 0;
+        this.mittlererFarbwert = 0;
+
+        // Co-Occurence-Matrix berechnen
+        for (int x = 0; x < (width - 1); x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                int pixel1 = this.bufferedImage.getRGB(x, y);
+                int pixel2 = this.bufferedImage.getRGB(x + 1, y);
+
+                int color1 = this.colorChannel.getValue(pixel1);
+                int color2 = this.colorChannel.getValue(pixel2);
+
+                this.coOccurenceMatrix[color1][color2]++;
+
+                this.minimalerFarbwert = Math.min(this.minimalerFarbwert, color1);
+                this.maximalerFarbwert = Math.max(this.maximalerFarbwert, color1);
+                this.mittlererFarbwert += color1;
+                this.histogramm[color1]++;
+            }
+        }
+
+        // Letzte Pixelzeile fuer Histogramm nicht vegessen.
+        for (int y = 0; y < height; y++)
+        {
+            int pixel = this.bufferedImage.getRGB(width - 1, y);
+
+            int color = this.colorChannel.getValue(pixel);
+
+            this.minimalerFarbwert = Math.min(this.minimalerFarbwert, color);
+            this.maximalerFarbwert = Math.max(this.maximalerFarbwert, color);
+            this.mittlererFarbwert += color;
+            this.histogramm[color]++;
+        }
+
+        this.mittlererFarbwert /= (width * height);
+
+        // Weitere Paramerter
+        this.entrophie = 0.0D;
+        this.uniformitaet = 0.0D;
+        this.unaehnlichkeit = 0.0D;
+        this.inverseDifferenz = 0.0D;
+        this.inversesDifferenzMoment = 0.0D;
+        this.kontrast = 0.0D;
+
+        for (int x = 0; x < this.farbTiefe; ++x)
+        {
+            for (int y = 0; y < this.farbTiefe; ++y)
+            {
+                final double c = this.coOccurenceMatrix[x][y];
+                final double d = (double) x - y;
+
+                if (Double.compare(c, 0.0D) != 0)
+                {
+                    this.entrophie += (c * Math.log(c));
+                }
+
+                this.uniformitaet += (c * c);
+                this.unaehnlichkeit += c * Math.abs(d);
+                this.inverseDifferenz += (c / (1.0 + Math.abs(d)));
+                this.inversesDifferenzMoment += (c / (1.0 + (d * d)));
+                this.kontrast += (c * (d * d));
+            }
+        }
     }
 }

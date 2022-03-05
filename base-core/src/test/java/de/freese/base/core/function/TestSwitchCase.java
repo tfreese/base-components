@@ -2,14 +2,13 @@
 package de.freese.base.core.function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.Test;
-
 import de.freese.base.core.function.usecase.Switch;
 import de.freese.base.core.function.usecase.Switch.Case;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
@@ -35,7 +34,7 @@ class TestSwitchCase
                     );
             //@formatter:on
 
-            assertNotNull(result.get());
+            assertTrue(result.isPresent());
 
             if (j < 3)
             {

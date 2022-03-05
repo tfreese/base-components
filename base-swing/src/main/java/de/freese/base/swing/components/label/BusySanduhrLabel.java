@@ -45,7 +45,7 @@ public class BusySanduhrLabel extends JLabel
     /**
      *
      */
-    private Timer animateTimer;
+    private final Timer animateTimer;
     /**
      *
      */
@@ -75,7 +75,8 @@ public class BusySanduhrLabel extends JLabel
         this.icons = WaitIcons.getWaitIcons();
         setIcon(ImageUtils.createEmptyIcon());
 
-        this.animateTimer = new Timer(150, e -> {
+        this.animateTimer = new Timer(150, e ->
+        {
             BusySanduhrLabel.this.imageIndex++;
 
             if (BusySanduhrLabel.this.imageIndex == BusySanduhrLabel.this.icons.length)
@@ -98,23 +99,6 @@ public class BusySanduhrLabel extends JLabel
     }
 
     /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
-    @Override
-    protected void paintComponent(final Graphics g)
-    {
-        super.paintComponent(g);
-
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (!this.animateTimer.isRunning() && isVisible())
-        {
-            this.animateTimer.start();
-        }
-    }
-
-    /**
      * @see javax.swing.JComponent#setVisible(boolean)
      */
     @Override
@@ -129,6 +113,23 @@ public class BusySanduhrLabel extends JLabel
         else if (!visible)
         {
             this.animateTimer.stop();
+        }
+    }
+
+    /**
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
+    @Override
+    protected void paintComponent(final Graphics g)
+    {
+        super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if (!this.animateTimer.isRunning() && isVisible())
+        {
+            this.animateTimer.start();
         }
     }
 }

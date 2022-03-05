@@ -45,7 +45,7 @@ public class LoggerProgressCallback implements ProgressCallback
     {
         if (this.logger.isInfoEnabled())
         {
-            this.logger.info(String.format("%1$3.2f %%", Float.valueOf(percentage * 100)));
+            this.logger.info(String.format("%1$3.2f %%", percentage * 100));
         }
     }
 }

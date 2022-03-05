@@ -47,7 +47,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den double Wert des Propertys.
+     * Liefert den double Wert der Property.
      *
      * @param value String
      *
@@ -59,7 +59,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den double Wert des Propertys.
+     * Liefert den double Wert der Property.
      *
      * @param value String
      * @param defaultValue double, wenn Konvertierung fehlschlaegt
@@ -79,7 +79,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den int Wert des Propertys.
+     * Liefert den int Wert der Property.
      *
      * @param value String
      *
@@ -93,7 +93,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den int Wert des Propertys.
+     * Liefert den int Wert der Property.
      *
      * @param value String
      * @param defaultValue int, wenn die Konvertierung fehlschlaegt.
@@ -113,7 +113,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den long Wert des Propertys.
+     * Liefert den long Wert der Property.
      *
      * @param value String
      *
@@ -127,7 +127,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den long Wert des Propertys.
+     * Liefert den long Wert der Property.
      *
      * @param value String
      * @param defaultValue long, wenn die Konvertierung fehlschlaegt.
@@ -147,7 +147,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert das Object Wert des Propertys.<br>
+     * Liefert das Object Wert der Property.<br>
      * Dieses Object wird aus einem byte[] deserialisiert.
      *
      * @param <T> Konkreter Objekttyp
@@ -181,7 +181,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den String Wert des Properties.
+     * Liefert den String Wert der Property.
      *
      * @param value String
      *
@@ -193,7 +193,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den String Wert des Properties oder defaultValue wenn Wert = null.
+     * Liefert den String Wert der Property oder defaultValue wenn Wert = null.
      *
      * @param value String
      * @param defaultValue String, wenn Wert = null
@@ -211,7 +211,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Setzt den boolean Wert des Propertys.
+     * Setzt den boolean Wert der Property.
      *
      * @param value boolean
      *
@@ -245,7 +245,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Setzt den long Wert des Propertys.
+     * Setzt den long Wert der Property.
      *
      * @param value double
      *
@@ -257,7 +257,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Setzt den int Wert des Propertys.
+     * Setzt den int Wert der Property.
      *
      * @param value int
      *
@@ -269,7 +269,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Setzt den long Wert des Propertys.
+     * Setzt den long Wert der Property.
      *
      * @param value long
      *
@@ -281,7 +281,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Setzt den Object Wert des Propertys.<br>
+     * Setzt den Object Wert der Property.<br>
      * Dieses Object wird als byte[] serialisiert.
      *
      * @param value Object
@@ -309,7 +309,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Setzt den Wert des Propertys.
+     * Setzt den Wert der Property.
      *
      * @param value long
      *

@@ -14,17 +14,17 @@ import de.freese.base.core.throttle.Throttle;
 public class ThrottleOutputStream extends OutputStream
 {
     /**
-    *
-    */
-    private long bytesWrite;
+     *
+     */
+    private final OutputStream outputStream;
     /**
-    *
-    */
-    private OutputStream outputStream;
-    /**
-    *
-    */
+     *
+     */
     private final Throttle throttle;
+    /**
+     *
+     */
+    private long bytesWrite;
     /**
      *
      */

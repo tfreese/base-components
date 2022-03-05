@@ -92,7 +92,7 @@ public class DecryptFileBC
             RecipientInformationStore recipientsInfos = envelopedData.getRecipientInfos();
 
             Collection<?> colRecipients = recipientsInfos.getRecipients();
-            LOGGER.debug("Recipients [{}]", Integer.valueOf(colRecipients.size()));
+            LOGGER.debug("Recipients [{}]", colRecipients.size());
 
             Iterator<?> itRecipients = colRecipients.iterator();
 
@@ -145,7 +145,7 @@ public class DecryptFileBC
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias, final char[] aliasPassword)
-        throws Exception
+            throws Exception
     {
         PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
@@ -206,11 +206,90 @@ public class DecryptFileBC
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias, final char[] aliasPassword)
-        throws Exception
+            throws Exception
     {
         PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
         decryptX509Folder(inputFolder, outputFolder, privateKey);
+    }
+
+    /**
+     * @param ks {@link KeyStore}
+     * @param password char[]
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception
+    {
+        LOGGER.info("Start printKeyStoreInfo.");
+
+        if (ks == null)
+        {
+            LOGGER.warn("Keystore is null.");
+            return;
+        }
+
+        LOGGER.info("Key-Store-Type is: {}", ks.getType());
+        LOGGER.info("Key-Store-Provider is: {}", ks.getProvider().getName());
+
+        // Alias ermitteln
+        LOGGER.info("Getting keystore aliases.");
+        Enumeration<String> aliases = ks.aliases();
+        String ksAlias = "";
+
+        LOGGER.info("Before while loop.");
+
+        while (aliases.hasMoreElements())
+        {
+            ksAlias = aliases.nextElement();
+            LOGGER.info("Key-Store-Alias is: {}", ksAlias);
+        }
+
+        // Now we shall iterate through the entries of the KeyStore
+        // and display the contents.
+        LOGGER.info("Before for loop.");
+
+        for (Enumeration<String> e = ks.aliases(); e.hasMoreElements(); )
+        {
+            String alias = e.nextElement();
+            LOGGER.info("--- Entry Alias: \"{}\" ---", alias);
+
+            if (ks.isKeyEntry(alias))
+            {
+                LOGGER.info("Key Entry:");
+
+                // To retrieve a key, the correct encryption password is
+                // required. In this case, the password is again "password".
+                // However, it is possible that this password is different
+                // to the password required to load the KeyStore.
+                PrivateKey key = (PrivateKey) ks.getKey(alias, password);
+
+                if (LOGGER.isInfoEnabled())
+                {
+                    LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
+                    LOGGER.info("Key Endcoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
+                }
+
+                // Now retrieve the certificate chain for this key.
+                // The first element is the certificate for this key.
+                Certificate[] certs = ks.getCertificateChain(alias);
+                LOGGER.info("Cert Chain: length = {}", certs.length);
+
+                for (Certificate cert2 : certs)
+                {
+                    X509Certificate cert = (X509Certificate) cert2;
+                    X500Principal subject = cert.getSubjectX500Principal();
+                    LOGGER.info("Subject: {}", subject);
+                }
+            }
+            else if (ks.isCertificateEntry(alias))
+            {
+                Certificate cert = ks.getCertificate(alias);
+                LOGGER.info("Trusted Certificate Entry: {}", cert);
+            }
+        }
+
+        LOGGER.info("End printKeyStoreInfo.");
     }
 
     /**
@@ -282,84 +361,5 @@ public class DecryptFileBC
         Key privateKey = ks.getKey(alias, aliasPassword);
 
         return (PrivateKey) privateKey;
-    }
-
-    /**
-     * @param ks {@link KeyStore}
-     * @param password char[]
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception
-    {
-        LOGGER.info("Start printKeyStoreInfo.");
-
-        if (ks == null)
-        {
-            LOGGER.warn("Keystore is null.");
-            return;
-        }
-
-        LOGGER.info("Key-Store-Type is: {}", ks.getType());
-        LOGGER.info("Key-Store-Provider is: {}", ks.getProvider().getName());
-
-        // Alias ermitteln
-        LOGGER.info("Getting keystore aliases.");
-        Enumeration<String> aliases = ks.aliases();
-        String ksAlias = "";
-
-        LOGGER.info("Before while loop.");
-
-        while (aliases.hasMoreElements())
-        {
-            ksAlias = aliases.nextElement();
-            LOGGER.info("Key-Store-Alias is: {}", ksAlias);
-        }
-
-        // Now we shall iterate through the entries of the KeyStore
-        // and display the contents.
-        LOGGER.info("Before for loop.");
-
-        for (Enumeration<String> e = ks.aliases(); e.hasMoreElements();)
-        {
-            String alias = e.nextElement();
-            LOGGER.info("--- Entry Alias: \"{}\" ---", alias);
-
-            if (ks.isKeyEntry(alias))
-            {
-                LOGGER.info("Key Entry:");
-
-                // To retrieve a key, the correct encryption password is
-                // required. In this case, the password is again "password".
-                // However, it is possible that this password is different
-                // to the password required to load the KeyStore.
-                PrivateKey key = (PrivateKey) ks.getKey(alias, password);
-
-                if (LOGGER.isInfoEnabled())
-                {
-                    LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
-                    LOGGER.info("Key Endcoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
-                }
-
-                // Now retrieve the certificate chain for this key.
-                // The first element is the certificate for this key.
-                Certificate[] certs = ks.getCertificateChain(alias);
-                LOGGER.info("Cert Chain: length = {}", Integer.valueOf(certs.length));
-
-                for (Certificate cert2 : certs)
-                {
-                    X509Certificate cert = (X509Certificate) cert2;
-                    X500Principal subject = cert.getSubjectX500Principal();
-                    LOGGER.info("Subject: {}", subject);
-                }
-            }
-            else if (ks.isCertificateEntry(alias))
-            {
-                Certificate cert = ks.getCertificate(alias);
-                LOGGER.info("Trusted Certificate Entry: {}", cert);
-            }
-        }
-
-        LOGGER.info("End printKeyStoreInfo.");
     }
 }

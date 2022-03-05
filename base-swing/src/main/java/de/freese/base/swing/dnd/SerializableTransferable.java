@@ -20,7 +20,7 @@ public class SerializableTransferable implements Transferable
     /**
      *
      */
-    private Serializable[] objects;
+    private final Serializable[] objects;
 
     /**
      * Erstellt ein neues {@link SerializableTransferable} Objekt.
@@ -55,9 +55,9 @@ public class SerializableTransferable implements Transferable
     public DataFlavor[] getTransferDataFlavors()
     {
         return new DataFlavor[]
-        {
-                FLAVOR
-        };
+                {
+                        FLAVOR
+                };
     }
 
     /**

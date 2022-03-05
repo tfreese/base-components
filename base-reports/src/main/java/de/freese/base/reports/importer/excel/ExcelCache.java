@@ -5,11 +5,10 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.core.progress.LoggerProgressCallback;
 import de.freese.base.core.progress.ProgressCallback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Zwischenspeichern von Excelinhalten, CacheKey setzt sich aus dem Namen der Datei und dessen Zeitstempel zusammen.
@@ -35,19 +34,6 @@ public final class ExcelCache
     public static ExcelCache getInstance()
     {
         return INSTANCE;
-    }
-
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        // ExcelSheet[] sheets =
-        // getInstance().getExcelSheets("Y:\\Eigene Dateien\\FBU_1206.xls");
-        //
-        // getInstance().clear();
     }
 
     /**

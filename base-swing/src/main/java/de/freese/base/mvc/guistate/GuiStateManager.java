@@ -7,9 +7,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.swing.state.ButtonGuiState;
 import de.freese.base.swing.state.ComboBoxGuiState;
 import de.freese.base.swing.state.ContainerGuiState;
@@ -22,6 +19,8 @@ import de.freese.base.swing.state.TabbedPaneGuiState;
 import de.freese.base.swing.state.TableGuiState;
 import de.freese.base.swing.state.TextComponentGuiState;
 import de.freese.base.swing.state.TreeGuiState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Der {@link GuiStateManager} verwaltet die {@link GUIState}s.
@@ -33,11 +32,11 @@ public final class GuiStateManager
     /**
      *
      */
-    private Set<Class<? extends GUIState>> guiStates = new HashSet<>();
+    private final Set<Class<? extends GUIState>> guiStates = new HashSet<>();
     /**
      *
      */
-    private Map<Class<? extends GUIState>, GUIState> instanceMap = new HashMap<>();
+    private final Map<Class<? extends GUIState>, GUIState> instanceMap = new HashMap<>();
     /**
      *
      */
@@ -90,6 +89,70 @@ public final class GuiStateManager
     public Logger getLogger()
     {
         return this.logger;
+    }
+
+    /**
+     * Entfernt den {@link GUIState}.
+     *
+     * @param stateClass {@link Class}
+     *
+     * @return boolean
+     */
+    public boolean removeGuiState(final Class<? extends GUIState> stateClass)
+    {
+        return this.guiStates.remove(stateClass);
+    }
+
+    /**
+     * Wiederherstellen einer {@link Component} aus einem {@link GUIState}.
+     *
+     * @param component {@link Component}
+     * @param name String
+     */
+    @SuppressWarnings("unchecked")
+    public void restore(final Component component, final String name)
+    {
+        GUIState stateTemplate = getState(component.getClass());
+
+        GUIState state = getStateProvider().load(name, (Class<GUIState>) stateTemplate.getClass());
+
+        if (state == null)
+        {
+            // LOGGER.warn("GuiState not found for: {}", component.getClass());
+
+            return;
+        }
+
+        state.restore(component);
+    }
+
+    /**
+     * @param stateProvider {@link GuiStateProvider}
+     */
+    public void setStateProvider(final GuiStateProvider stateProvider)
+    {
+        this.stateProvider = stateProvider;
+    }
+
+    /**
+     * Speichern eines {@link GUIState}s fuer eine {@link Component}.
+     *
+     * @param component {@link Component}
+     * @param name String
+     */
+    public void store(final Component component, final String name)
+    {
+        GUIState state = getState(component.getClass());
+
+        if (state == null)
+        {
+            // LOGGER.warn("GuiState not found for: {}", component.getClass());
+
+            return;
+        }
+
+        state.store(component);
+        getStateProvider().save(name, state);
     }
 
     /**
@@ -156,69 +219,5 @@ public final class GuiStateManager
         addGUIState(TableGuiState.class);
         addGUIState(TextComponentGuiState.class);
         addGUIState(TreeGuiState.class);
-    }
-
-    /**
-     * Entfernt den {@link GUIState}.
-     *
-     * @param stateClass {@link Class}
-     *
-     * @return boolean
-     */
-    public boolean removeGuiState(final Class<? extends GUIState> stateClass)
-    {
-        return this.guiStates.remove(stateClass);
-    }
-
-    /**
-     * Wiederherstellen einer {@link Component} aus einem {@link GUIState}.
-     *
-     * @param component {@link Component}
-     * @param name String
-     */
-    @SuppressWarnings("unchecked")
-    public void restore(final Component component, final String name)
-    {
-        GUIState stateTemplate = getState(component.getClass());
-
-        GUIState state = getStateProvider().load(name, (Class<GUIState>) stateTemplate.getClass());
-
-        if (state == null)
-        {
-            // LOGGER.warn("GuiState not found for: {}", component.getClass());
-
-            return;
-        }
-
-        state.restore(component);
-    }
-
-    /**
-     * @param stateProvider {@link GuiStateProvider}
-     */
-    public void setStateProvider(final GuiStateProvider stateProvider)
-    {
-        this.stateProvider = stateProvider;
-    }
-
-    /**
-     * Speichern eines {@link GUIState}s fuer eine {@link Component}.
-     *
-     * @param component {@link Component}
-     * @param name String
-     */
-    public void store(final Component component, final String name)
-    {
-        GUIState state = getState(component.getClass());
-
-        if (state == null)
-        {
-            // LOGGER.warn("GuiState not found for: {}", component.getClass());
-
-            return;
-        }
-
-        state.store(component);
-        getStateProvider().save(name, state);
     }
 }

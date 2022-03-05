@@ -61,36 +61,7 @@ public class InternerFeiertag extends Feiertag
             return false;
         }
 
-        if ((getJahr() != statischerFeiertag.getJahr()) || (getMonat() != statischerFeiertag.getMonat()) || (getTag() != statischerFeiertag.getTag()) || !getTyp().equals(statischerFeiertag.getTyp()))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @return int
-     */
-    private final int getJahr()
-    {
-        return this.jahr;
-    }
-
-    /**
-     * @return int
-     */
-    private final int getMonat()
-    {
-        return this.monat;
-    }
-
-    /**
-     * @return int
-     */
-    private final int getTag()
-    {
-        return this.tag;
+        return (getJahr() == statischerFeiertag.getJahr()) && (getMonat() == statischerFeiertag.getMonat()) && (getTag() == statischerFeiertag.getTag()) && getTyp().equals(statischerFeiertag.getTyp());
     }
 
     /**
@@ -109,5 +80,29 @@ public class InternerFeiertag extends Feiertag
     public String toString()
     {
         return super.toString() + " (" + getJahr() + "_" + getMonat() + "_" + getTag() + ")";
+    }
+
+    /**
+     * @return int
+     */
+    private int getJahr()
+    {
+        return this.jahr;
+    }
+
+    /**
+     * @return int
+     */
+    private int getMonat()
+    {
+        return this.monat;
+    }
+
+    /**
+     * @return int
+     */
+    private int getTag()
+    {
+        return this.tag;
     }
 }

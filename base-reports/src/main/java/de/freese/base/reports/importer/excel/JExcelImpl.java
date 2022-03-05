@@ -22,7 +22,7 @@ public class JExcelImpl extends AbstractExcelImport
     /**
      *
      */
-    private DateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+    private final DateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
     /**
      *
      */
@@ -54,15 +54,6 @@ public class JExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
-     */
-    @Override
-    public int getNumberOfSheets()
-    {
-        return this.workbook.getNumberOfSheets();
-    }
-
-    /**
      * @see de.freese.base.reports.importer.excel.IExcelImport#getNumColumns()
      */
     @Override
@@ -78,6 +69,15 @@ public class JExcelImpl extends AbstractExcelImport
     public int getNumRows()
     {
         return this.sheet.getRows();
+    }
+
+    /**
+     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
+     */
+    @Override
+    public int getNumberOfSheets()
+    {
+        return this.workbook.getNumberOfSheets();
     }
 
     /**

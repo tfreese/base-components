@@ -6,12 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.freese.base.core.exception.StackTraceLimiter;
 import org.apache.commons.io.input.ProxyInputStream;
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.core.exception.StackTraceLimiter;
 
 /**
  * Wenn beim öffnen der Datei mit POI was schief läuft, wirds mit JExcel versucht.
@@ -20,6 +19,11 @@ import de.freese.base.core.exception.StackTraceLimiter;
  */
 public class ExcelImplDelegator implements IExcelImport
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelImplDelegator.class);
+
     /**
      * @author Thomas Freese
      */
@@ -56,11 +60,6 @@ public class ExcelImplDelegator implements IExcelImport
             };
         }
     }
-
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelImplDelegator.class);
     /**
      *
      */
@@ -97,15 +96,6 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
-     */
-    @Override
-    public int getNumberOfSheets()
-    {
-        return this.excelImpl.getNumberOfSheets();
-    }
-
-    /**
      * @see de.freese.base.reports.importer.excel.IExcelImport#getNumColumns()
      */
     @Override
@@ -121,6 +111,15 @@ public class ExcelImplDelegator implements IExcelImport
     public int getNumRows()
     {
         return this.excelImpl.getNumRows();
+    }
+
+    /**
+     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
+     */
+    @Override
+    public int getNumberOfSheets()
+    {
+        return this.excelImpl.getNumberOfSheets();
     }
 
     /**
@@ -254,7 +253,11 @@ public class ExcelImplDelegator implements IExcelImport
         {
             StringBuilder sb = new StringBuilder();
             StackTraceLimiter.printStackTrace(lastException, 4, sb);
-            LOGGER.warn(sb.toString());
+
+            if (LOGGER.isWarnEnabled())
+            {
+                LOGGER.warn(sb.toString());
+            }
 
             throw lastException;
         }

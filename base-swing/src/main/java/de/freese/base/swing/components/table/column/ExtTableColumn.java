@@ -86,48 +86,6 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Notifies registered <code>PropertyChangeListener</code>s about property changes. This method must be invoked internally whe any of the enhanced
-     * properties changed.
-     * <p>
-     * Implementation note: needed to replicate super functionality because super's field <code>propertyChangeSupport</code> and method <code>fireXX</code> are
-     * both private.
-     *
-     * @param propertyName name of changed property
-     * @param oldValue old value of changed property
-     * @param newValue new value of changed property
-     */
-    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
-    {
-        if (((oldValue != null) && !oldValue.equals(newValue)) || ((oldValue == null) && (newValue != null)))
-        {
-            PropertyChangeListener pcl[] = getPropertyChangeListeners();
-
-            if ((pcl != null) && (pcl.length != 0))
-            {
-                PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
-
-                for (PropertyChangeListener element : pcl)
-                {
-                    element.propertyChange(pce);
-                }
-            }
-        }
-    }
-
-    /**
-     * @return {@link Map}
-     */
-    private Map<Object, Object> getClientProperties()
-    {
-        if (this.clientProperties == null)
-        {
-            this.clientProperties = new HashMap<>();
-        }
-
-        return this.clientProperties;
-    }
-
-    /**
      * Returns the value of the property with the specified key. Only properties added with <code>putClientProperty</code> will return a non-<code>null</code>
      * value.
      *
@@ -215,7 +173,6 @@ public class ExtTableColumn extends TableColumn
      * @param value Object containing value of client property
      *
      * @throws IllegalArgumentException if key is <code>null</code>
-     *
      * @see #getClientProperty
      * @see javax.swing.JComponent#putClientProperty
      */
@@ -288,7 +245,7 @@ public class ExtTableColumn extends TableColumn
         boolean oldVisible = this.visible;
         this.visible = visible;
 
-        firePropertyChange("visible", Boolean.valueOf(oldVisible), Boolean.valueOf(visible));
+        firePropertyChange("visible", oldVisible, visible);
     }
 
     /**
@@ -301,6 +258,48 @@ public class ExtTableColumn extends TableColumn
         boolean oldVisibleChange = this.visibleChange;
         this.visibleChange = visibleChange;
 
-        firePropertyChange("visible_change", Boolean.valueOf(oldVisibleChange), Boolean.valueOf(visibleChange));
+        firePropertyChange("visible_change", oldVisibleChange, visibleChange);
+    }
+
+    /**
+     * Notifies registered <code>PropertyChangeListener</code>s about property changes. This method must be invoked internally whe any of the enhanced
+     * properties changed.
+     * <p>
+     * Implementation note: needed to replicate super functionality because super's field <code>propertyChangeSupport</code> and method <code>fireXX</code> are
+     * both private.
+     *
+     * @param propertyName name of changed property
+     * @param oldValue old value of changed property
+     * @param newValue new value of changed property
+     */
+    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
+    {
+        if (((oldValue != null) && !oldValue.equals(newValue)) || ((oldValue == null) && (newValue != null)))
+        {
+            PropertyChangeListener[] pcl = getPropertyChangeListeners();
+
+            if ((pcl != null) && (pcl.length != 0))
+            {
+                PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
+
+                for (PropertyChangeListener element : pcl)
+                {
+                    element.propertyChange(pce);
+                }
+            }
+        }
+    }
+
+    /**
+     * @return {@link Map}
+     */
+    private Map<Object, Object> getClientProperties()
+    {
+        if (this.clientProperties == null)
+        {
+            this.clientProperties = new HashMap<>();
+        }
+
+        return this.clientProperties;
     }
 }

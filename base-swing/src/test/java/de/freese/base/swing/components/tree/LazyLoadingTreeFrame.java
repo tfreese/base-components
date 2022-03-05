@@ -30,6 +30,11 @@ import de.freese.base.utils.TreeUtils;
 public class LazyLoadingTreeFrame extends JFrame
 {
     /**
+     *
+     */
+    private static final long serialVersionUID = 3374150787460216252L;
+
+    /**
      * Test Knoten.
      *
      * @author Thomas Freese
@@ -79,16 +84,11 @@ public class LazyLoadingTreeFrame extends JFrame
     }
 
     /**
-     *
-     */
-    private static final long serialVersionUID = 3374150787460216252L;
-
-    /**
      * @param args String[]
      */
     public static void main(final String[] args)
     {
-        SwingUtilities.invokeLater(() -> new LazyLoadingTreeFrame());
+        SwingUtilities.invokeLater(LazyLoadingTreeFrame::new);
     }
 
     /**
@@ -121,7 +121,8 @@ public class LazyLoadingTreeFrame extends JFrame
         add(new JScrollPane(tree), BorderLayout.CENTER);
 
         JButton button = new JButton("Expand TreePath");
-        button.addActionListener(event -> {
+        button.addActionListener(event ->
+        {
             TreeUtils.collapse(tree);
             // TreePath treePath = tree.getPathForRow(4);
             // TreeUtils.expand(tree, 10);
@@ -135,9 +136,9 @@ public class LazyLoadingTreeFrame extends JFrame
                 protected Void doInBackground() throws Exception
                 {
                     int[] expansionIndices = new int[]
-                    {
-                            0, 1, 2, 3, 4
-                    };
+                            {
+                                    0, 1, 2, 3, 4
+                            };
 
                     Object parent = tree.getModel().getRoot();
                     TreePath treePath = new TreePath(parent);

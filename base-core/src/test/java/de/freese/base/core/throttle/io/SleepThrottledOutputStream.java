@@ -12,29 +12,29 @@ import java.util.concurrent.TimeUnit;
 public class SleepThrottledOutputStream extends OutputStream
 {
     /**
-    *
-    */
+     *
+     */
     private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
     /**
-    *
-    */
+     *
+     */
     private static final long SLEEP_DURATION_MS = 30;
     /**
-    *
-    */
-    private long bytesWrite;
-    /**
-    *
-    */
+     *
+     */
     private final long maxBytesPerSec;
     /**
-    *
-    */
-    private OutputStream outputStream;
+     *
+     */
+    private final OutputStream outputStream;
     /**
-    *
-    */
+     *
+     */
     private final long startTime = System.nanoTime();
+    /**
+     *
+     */
+    private long bytesWrite;
     /**
      *
      */

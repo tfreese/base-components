@@ -127,17 +127,14 @@ public class FileResourceCache extends AbstractResourceCache
         String key = generateKey(uri);
 
         // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
-        Path path = Paths.get(key.substring(0, 2));
+        Path path = this.cacheDirectory;
 
-        for (int subDir = 1; subDir < 3; subDir++)
+        for (int i = 0; i < 3; i++)
         {
-            path = path.resolve(key.substring(subDir * 2, (subDir * 2) + 2));
+            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
         }
 
         path = path.resolve(key);
-
-        // Absoluter Path erstellen.
-        path = this.cacheDirectory.resolve(path);
 
         try
         {

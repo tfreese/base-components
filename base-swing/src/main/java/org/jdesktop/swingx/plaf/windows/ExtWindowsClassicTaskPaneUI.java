@@ -30,9 +30,8 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 
-import org.jdesktop.swingx.JXTaskPane;
-
 import de.freese.base.utils.ImageUtils;
+import org.jdesktop.swingx.JXTaskPane;
 
 /**
  * Ueberschreibt den ContentPaneBorder der SwingX UI der TaskPane, damit der Content nur 2 Pixel Abstand hat und nicht 10.
@@ -42,21 +41,29 @@ import de.freese.base.utils.ImageUtils;
 public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
 {
     /**
+     *
+     */
+    protected static final int TITLE_ICON_SIZE = 16;
+
+    /**
+     * Erzeugt eine UI Instanz.
+     *
+     * @param c {@link JComponent}
+     *
+     * @return {@link ComponentUI}
+     */
+    public static ComponentUI createUI(final JComponent c)
+    {
+        return new ExtWindowsClassicTaskPaneUI();
+    }
+
+    /**
      * TitledBorder.
      *
      * @author Thomas Freese
      */
     private class ExtPaneBorder extends ClassicPaneBorder
     {
-        /**
-         * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#isMouseOverBorder()
-         */
-        @Override
-        protected boolean isMouseOverBorder()
-        {
-            return true;
-        }
-
         /**
          * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
          */
@@ -66,6 +73,15 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             super.paintBorder(c, g, x, y, width, height);
 
             paintTitleActions(g, x, y, width, height);
+        }
+
+        /**
+         * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#isMouseOverBorder()
+         */
+        @Override
+        protected boolean isMouseOverBorder()
+        {
+            return true;
         }
 
         /**
@@ -254,28 +270,10 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             }
         }
     }
-
     /**
      *
      */
-    protected static final int TITLE_ICON_SIZE = 16;
-
-    /**
-     * Erzeugt eine UI Instanz.
-     *
-     * @param c {@link JComponent}
-     *
-     * @return {@link ComponentUI}
-     */
-    public static ComponentUI createUI(final JComponent c)
-    {
-        return new ExtWindowsClassicTaskPaneUI();
-    }
-
-    /**
-     *
-     */
-    private PropertyChangeListener buttonEnabledPropertyChangeListener;
+    private final PropertyChangeListener buttonEnabledPropertyChangeListener;
     /**
      * Liste aller Buttons TitelLeiste
      */
@@ -358,6 +356,92 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     }
 
     /**
+     * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#getTitleHeight(java.awt.Component)
+     */
+    @Override
+    protected int getTitleHeight(final Component c)
+    {
+        // return super.getTitleHeight(c);
+        return this.titleHeight;
+    }
+
+    /**
+     * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#isInBorder(java.awt.event.MouseEvent)
+     */
+    @Override
+    protected boolean isInBorder(final MouseEvent me)
+    {
+        boolean result = super.isInBorder(me);
+
+        // Ueber eigene TitleButtons nicht den Courser aendern
+        if (result)
+        {
+            // Pruefen, ob auf einem TitleButton geklickt wurde
+            JButton button = getButtonFor(me.getX(), me.getY());
+
+            if (button != null)
+            {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Malt den Tooltip des Buttons, wenn vorhanden.
+     *
+     * @param button {@link JButton}
+     */
+    protected void paintToolTip(final JButton button)
+    {
+        if (this.group.isCollapsed())
+        {
+            return;
+        }
+
+        // TODO ToolTipManager verwenden
+        SwingUtilities.invokeLater(() ->
+        {
+            String text = button.getToolTipText();
+
+            if ((text != null) && (text.length() > 0))
+            {
+                Rectangle rectangle = getRectangleFor(button);
+                Graphics2D g2 = (Graphics2D) ExtWindowsClassicTaskPaneUI.this.group.getGraphics();
+
+                g2.setFont(UIManager.getFont("ToolTip.font"));
+
+                FontMetrics fm = g2.getFontMetrics();
+                final int RAND = 5; // Abstand vom Rahmen zum Text
+                double textWidth = fm.getStringBounds(text, g2).getWidth() + (2 * RAND); // 2* :
+                // Links
+                // &
+                // Rechts
+                double maxWidth = ExtWindowsClassicTaskPaneUI.this.group.getBounds().width; // Breite
+                // des
+                // TaskPanes
+                double diff = (textWidth + rectangle.getX()) - maxWidth; // ueberstand
+                int useX = (int) ((diff > 0) ? (rectangle.getX() - diff) : rectangle.getX());
+                int useY = (int) rectangle.getMaxY() + 16; // 16 : Hoehe des MouseIcons
+
+                // Tooltip Background
+                Rectangle rect = new Rectangle(useX, useY, (int) textWidth, fm.getHeight() + 2);
+                g2.setColor(UIManager.getColor("ToolTip.background"));
+                g2.fill(rect);
+
+                // Tooltip border
+                g2.setColor(UIManager.getColor("ToolTip.foregroundInactive"));
+                g2.draw(rect);
+
+                // Text
+                g2.setColor(UIManager.getColor("ToolTip.foreground"));
+                g2.drawString(text, useX + RAND, (useY + fm.getHeight()) - 2);
+            }
+        });
+    }
+
+    /**
      * Liefert den JButton, der untern den Mouse-Koordinaten liegt, oder null.
      *
      * @param x int
@@ -422,90 +506,5 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
         Rectangle rect = new Rectangle(x, 4, button.getBounds().width, button.getBounds().height);
 
         return rect;
-    }
-
-    /**
-     * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#getTitleHeight(java.awt.Component)
-     */
-    @Override
-    protected int getTitleHeight(final Component c)
-    {
-        // return super.getTitleHeight(c);
-        return this.titleHeight;
-    }
-
-    /**
-     * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#isInBorder(java.awt.event.MouseEvent)
-     */
-    @Override
-    protected boolean isInBorder(final MouseEvent me)
-    {
-        boolean result = super.isInBorder(me);
-
-        // Ueber eigene TitleButtons nicht den Courser aendern
-        if (result)
-        {
-            // Pruefen, ob auf einem TitleButton geklickt wurde
-            JButton button = getButtonFor(me.getX(), me.getY());
-
-            if (button != null)
-            {
-                result = false;
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Malt den Tooltip des Buttons, wenn vorhanden.
-     *
-     * @param button {@link JButton}
-     */
-    protected void paintToolTip(final JButton button)
-    {
-        if (this.group.isCollapsed())
-        {
-            return;
-        }
-
-        // TODO ToolTipManager verwenden
-        SwingUtilities.invokeLater(() -> {
-            String text = button.getToolTipText();
-
-            if ((text != null) && (text.length() > 0))
-            {
-                Rectangle rectangle = getRectangleFor(button);
-                Graphics2D g2 = (Graphics2D) ExtWindowsClassicTaskPaneUI.this.group.getGraphics();
-
-                g2.setFont(UIManager.getFont("ToolTip.font"));
-
-                FontMetrics fm = g2.getFontMetrics();
-                final int RAND = 5; // Abstand vom Rahmen zum Text
-                double textWidth = fm.getStringBounds(text, g2).getWidth() + (2 * RAND); // 2* :
-                // Links
-                // &
-                // Rechts
-                double maxWidth = ExtWindowsClassicTaskPaneUI.this.group.getBounds().width; // Breite
-                // des
-                // TaskPanes
-                double diff = (textWidth + rectangle.getX()) - maxWidth; // ueberstand
-                int useX = (int) ((diff > 0) ? (rectangle.getX() - diff) : rectangle.getX());
-                int useY = (int) rectangle.getMaxY() + 16; // 16 : Hoehe des MouseIcons
-
-                // Tooltip Background
-                Rectangle rect = new Rectangle(useX, useY, (int) textWidth, fm.getHeight() + 2);
-                g2.setColor(UIManager.getColor("ToolTip.background"));
-                g2.fill(rect);
-
-                // Tooltip border
-                g2.setColor(UIManager.getColor("ToolTip.foregroundInactive"));
-                g2.draw(rect);
-
-                // Text
-                g2.setColor(UIManager.getColor("ToolTip.foreground"));
-                g2.drawString(text, useX + RAND, (useY + fm.getHeight()) - 2);
-            }
-        });
     }
 }

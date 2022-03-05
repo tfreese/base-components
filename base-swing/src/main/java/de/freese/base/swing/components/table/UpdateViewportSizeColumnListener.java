@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.table;
 
+import java.util.Objects;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
@@ -18,7 +20,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
     /**
      *
      */
-    private JTable table;
+    private final JTable table;
 
     /**
      * Creates a new {@link UpdateViewportSizeColumnListener} object.
@@ -29,12 +31,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
     {
         super();
 
-        if (table == null)
-        {
-            throw new IllegalArgumentException("Tabelle ist NULL !!!");
-        }
-
-        this.table = table;
+        this.table = Objects.requireNonNull(table, "table required");
     }
 
     /**

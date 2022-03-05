@@ -17,7 +17,7 @@ import de.freese.base.utils.FontUtils;
  *
  * @author Thomas Freese
  */
-public class ButtonFactory
+public final class ButtonFactory
 {
     /**
      * Enum fuer die Pfeilrichtung von "Move"-Buttons des Marvosym-Fonts.
@@ -72,7 +72,7 @@ public class ButtonFactory
      *
      * @return {@link JButton}
      */
-    public static final JButton createHTMLTextButton()
+    public static JButton createHTMLTextButton()
     {
         return createHTMLTextButton(Color.BLUE);
     }
@@ -84,7 +84,7 @@ public class ButtonFactory
      *
      * @return {@link JButton}
      */
-    public static final JButton createHTMLTextButton(final Color rolloverColor)
+    public static JButton createHTMLTextButton(final Color rolloverColor)
     {
         JButton button = new JButton();
 
@@ -100,7 +100,7 @@ public class ButtonFactory
      *
      * @return {@link JButton}
      */
-    public static final JButton createMoveToolBarButton16x16(final ArrowDirection direction)
+    public static JButton createMoveToolBarButton16x16(final ArrowDirection direction)
     {
         JButton button = createToolbarButton16x16();
         decorateMoveButton(button, direction, 15);
@@ -115,7 +115,7 @@ public class ButtonFactory
      *
      * @return {@link JButton}
      */
-    public static final JButton createToolbarButton(final int size)
+    public static JButton createToolbarButton(final int size)
     {
         JButton button = new JButton();
 
@@ -138,7 +138,7 @@ public class ButtonFactory
      *
      * @return {@link JButton}
      */
-    public static final JButton createToolbarButton16x16()
+    public static JButton createToolbarButton16x16()
     {
         return createToolbarButton(16);
     }
@@ -150,7 +150,7 @@ public class ButtonFactory
      * @param direction {@link ArrowDirection}
      * @param fontSize int
      */
-    public static final void decorateMoveButton(final JButton button, final ArrowDirection direction, final int fontSize)
+    public static void decorateMoveButton(final JButton button, final ArrowDirection direction, final int fontSize)
     {
         button.setFont(FontUtils.getSymbolFont().deriveFont(Font.PLAIN, fontSize));
         button.setText(direction.getText());
@@ -162,7 +162,7 @@ public class ButtonFactory
      * @param button {@link JButton}
      * @param rolloverColor {@link Color}
      */
-    public static final void decorateToHTMLButton(final JButton button, final Color rolloverColor)
+    public static void decorateToHTMLButton(final JButton button, final Color rolloverColor)
     {
         button.setUI(new HTMLTextButtonUI(rolloverColor));
         button.setBorderPainted(false);
@@ -173,5 +173,13 @@ public class ButtonFactory
         button.setFocusPainted(false);
         button.setRolloverEnabled(true);
         button.setOpaque(false);
+    }
+
+    /**
+     *
+     */
+    private ButtonFactory()
+    {
+        super();
     }
 }

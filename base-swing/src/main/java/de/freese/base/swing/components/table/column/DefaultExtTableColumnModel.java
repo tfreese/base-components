@@ -21,6 +21,16 @@ import javax.swing.table.TableColumnModel;
 public class DefaultExtTableColumnModel extends DefaultTableColumnModel implements IExtTableColumnModel
 {
     /**
+     * flag to distinguish a shown/hidden column from really added/removed columns during notification. This is brittle!
+     */
+    private static final String IGNORE_EVENT = "TableColumnModelExt.ignoreEvent";
+    /**
+     *
+     */
+    private static final long serialVersionUID = 7120329832987702244L;
+
+    /**
+     *
      */
     private class VisibilityListener implements PropertyChangeListener, Serializable
     {
@@ -55,27 +65,18 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
             }
         }
     }
-
-    /**
-     * flag to distinguish a shown/hidden column from really added/removed columns during notification. This is brittle!
-     */
-    private static final String IGNORE_EVENT = "TableColumnModelExt.ignoreEvent";
-    /**
-     *
-     */
-    private static final long serialVersionUID = 7120329832987702244L;
     /**
      * contains a list of all column, in the order they would appear if all were visible.
      */
-    private List<TableColumn> currentColumns = new ArrayList<>();
+    private final List<TableColumn> currentColumns = new ArrayList<>();
     /**
      * contains a list of all columns, in the order in which were added to the model.
      */
-    private List<TableColumn> initialColumns = new ArrayList<>();
+    private final List<TableColumn> initialColumns = new ArrayList<>();
     /**
      * Listener attached to TableColumnExt instances to listen for changes to their visibility status, and to hide/show the column as oppropriate
      */
-    private VisibilityListener visibilityListener = new VisibilityListener();
+    private final VisibilityListener visibilityListener = new VisibilityListener();
 
     /**
      * @see javax.swing.table.DefaultTableColumnModel#addColumn(javax.swing.table.TableColumn)
@@ -120,35 +121,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         if (listener instanceof IExtTableColumnModelListener l)
         {
             this.listenerList.add(IExtTableColumnModelListener.class, l);
-        }
-    }
-
-    /**
-     * Notifies <code>TableColumnModelExtListener</code>s about property changes of contained columns. The event instance is the original as fired by the
-     * <code>TableColumn</code>.
-     *
-     * @param evt the event received
-     *
-     * @see EventListenerList
-     */
-    protected void fireColumnPropertyChange(final PropertyChangeEvent evt)
-    {
-        if (IGNORE_EVENT.equals(evt.getPropertyName()))
-        {
-            return;
-        }
-
-        // Guaranteed to return a non-null array
-        Object[] listeners = this.listenerList.getListenerList();
-
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2)
-        {
-            if (listeners[i] == IExtTableColumnModelListener.class)
-            {
-                ((IExtTableColumnModelListener) listeners[i + 1]).columnPropertyChange(evt);
-            }
         }
     }
 
@@ -272,6 +244,77 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     }
 
     /**
+     * @see javax.swing.table.DefaultTableColumnModel#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt)
+    {
+        super.propertyChange(evt);
+
+        fireColumnPropertyChange(evt);
+    }
+
+    /**
+     * @see javax.swing.table.DefaultTableColumnModel#removeColumn(javax.swing.table.TableColumn)
+     */
+    @Override
+    public void removeColumn(final TableColumn column)
+    {
+        if (column instanceof ExtTableColumn c)
+        {
+            c.removePropertyChangeListener(this.visibilityListener);
+        }
+
+        this.currentColumns.remove(column);
+        this.initialColumns.remove(column);
+
+        super.removeColumn(column);
+    }
+
+    /**
+     * @see javax.swing.table.DefaultTableColumnModel#removeColumnModelListener(javax.swing.event.TableColumnModelListener)
+     */
+    @Override
+    public void removeColumnModelListener(final TableColumnModelListener listener)
+    {
+        super.removeColumnModelListener(listener);
+
+        if (listener instanceof IExtTableColumnModelListener l)
+        {
+            this.listenerList.remove(IExtTableColumnModelListener.class, l);
+        }
+    }
+
+    /**
+     * Notifies <code>TableColumnModelExtListener</code>s about property changes of contained columns. The event instance is the original as fired by the
+     * <code>TableColumn</code>.
+     *
+     * @param evt the event received
+     *
+     * @see EventListenerList
+     */
+    protected void fireColumnPropertyChange(final PropertyChangeEvent evt)
+    {
+        if (IGNORE_EVENT.equals(evt.getPropertyName()))
+        {
+            return;
+        }
+
+        // Guaranteed to return a non-null array
+        Object[] listeners = this.listenerList.getListenerList();
+
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length - 2; i >= 0; i -= 2)
+        {
+            if (listeners[i] == IExtTableColumnModelListener.class)
+            {
+                ((IExtTableColumnModelListener) listeners[i + 1]).columnPropertyChange(evt);
+            }
+        }
+    }
+
+    /**
      * Update internal state after the visibility of the column was changed to invisible. The given column is assumed to be contained in this model.
      *
      * @param col the column which was hidden.
@@ -314,48 +357,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         }
 
         col.putClientProperty(IGNORE_EVENT, null);
-    }
-
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt)
-    {
-        super.propertyChange(evt);
-
-        fireColumnPropertyChange(evt);
-    }
-
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#removeColumn(javax.swing.table.TableColumn)
-     */
-    @Override
-    public void removeColumn(final TableColumn column)
-    {
-        if (column instanceof ExtTableColumn c)
-        {
-            c.removePropertyChangeListener(this.visibilityListener);
-        }
-
-        this.currentColumns.remove(column);
-        this.initialColumns.remove(column);
-
-        super.removeColumn(column);
-    }
-
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#removeColumnModelListener(javax.swing.event.TableColumnModelListener)
-     */
-    @Override
-    public void removeColumnModelListener(final TableColumnModelListener listener)
-    {
-        super.removeColumnModelListener(listener);
-
-        if (listener instanceof IExtTableColumnModelListener l)
-        {
-            this.listenerList.remove(IExtTableColumnModelListener.class, l);
-        }
     }
 
     /**

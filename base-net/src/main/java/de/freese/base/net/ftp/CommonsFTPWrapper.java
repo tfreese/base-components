@@ -6,12 +6,14 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
+import de.freese.base.core.logging.LoggingOutputStream;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ProtocolCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 /**
  * FTP-Client aus dem apache.commons.net.ftp Jar.
@@ -23,15 +25,15 @@ public class CommonsFTPWrapper implements FTPWrapper
     /**
      *
      */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
     private boolean debug;
     /**
      *
      */
     private FTPClient ftpClient;
-    /**
-     *
-     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
@@ -106,37 +108,6 @@ public class CommonsFTPWrapper implements FTPWrapper
     }
 
     /**
-     * Prueft den Reply-Code des letzten FTP-Commandos.
-     *
-     * @return String
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected String checkReply() throws Exception
-    {
-        synchronized (getFtpClient())
-        {
-            String reply = getFtpClient().getReplyString();
-            int replyCode = getFtpClient().getReplyCode();
-
-            // if((!FTPReply.isPositiveCompletion(replyCode)))
-            // {
-            // throw new Exception("FTP-Error: " + reply);
-            // }
-
-            reply = reply.replace("\r\n", "");
-
-            // Codes mit 5xx sind Fehlercodes
-            if ((replyCode % 500) < 100)
-            {
-                throw new Exception("FTP-Error: " + reply);
-            }
-
-            return reply;
-        }
-    }
-
-    /**
      * @see de.freese.base.net.ftp.FTPWrapper#connect(java.lang.String)
      */
     @Override
@@ -158,35 +129,6 @@ public class CommonsFTPWrapper implements FTPWrapper
         }
 
         this.ftpClient = null;
-    }
-
-    /**
-     * @return {@link FTPClient}
-     */
-    protected FTPClient getFtpClient()
-    {
-        return this.ftpClient;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected final Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * @return {@link ProtocolCommandListener}
-     */
-    protected ProtocolCommandListener getProtocolCommandListener()
-    {
-        if (this.protocolCommandListener == null)
-        {
-            this.protocolCommandListener = new PrintCommandListener(new PrintWriter(System.out, true, StandardCharsets.UTF_8));
-        }
-
-        return this.protocolCommandListener;
     }
 
     /**
@@ -276,14 +218,6 @@ public class CommonsFTPWrapper implements FTPWrapper
     }
 
     /**
-     * @param ftpClient {@link FTPClient}
-     */
-    protected void setFtpClient(final FTPClient ftpClient)
-    {
-        this.ftpClient = ftpClient;
-    }
-
-    /**
      * @see de.freese.base.net.ftp.FTPWrapper#setPort(int)
      */
     @Override
@@ -316,5 +250,73 @@ public class CommonsFTPWrapper implements FTPWrapper
         getFtpClient().storeFile(dateiName, is);
         // this.ftpClient.completePendingCommand();
         checkReply();
+    }
+
+    /**
+     * Prueft den Reply-Code des letzten FTP-Commandos.
+     *
+     * @return String
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    protected String checkReply() throws Exception
+    {
+        synchronized (getFtpClient())
+        {
+            String reply = getFtpClient().getReplyString();
+            int replyCode = getFtpClient().getReplyCode();
+
+            // if((!FTPReply.isPositiveCompletion(replyCode)))
+            // {
+            // throw new Exception("FTP-Error: " + reply);
+            // }
+
+            reply = reply.replace("\r\n", "");
+
+            // Codes mit 5xx sind Fehlercodes
+            if ((replyCode % 500) < 100)
+            {
+                throw new Exception("FTP-Error: " + reply);
+            }
+
+            return reply;
+        }
+    }
+
+    /**
+     * @return {@link FTPClient}
+     */
+    protected FTPClient getFtpClient()
+    {
+        return this.ftpClient;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected final Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
+     * @return {@link ProtocolCommandListener}
+     */
+    protected ProtocolCommandListener getProtocolCommandListener()
+    {
+        if (this.protocolCommandListener == null)
+        {
+            this.protocolCommandListener = new PrintCommandListener(new PrintWriter(new LoggingOutputStream(getLogger(), Level.INFO), true, StandardCharsets.UTF_8));
+        }
+
+        return this.protocolCommandListener;
+    }
+
+    /**
+     * @param ftpClient {@link FTPClient}
+     */
+    protected void setFtpClient(final FTPClient ftpClient)
+    {
+        this.ftpClient = ftpClient;
     }
 }

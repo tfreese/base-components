@@ -45,13 +45,21 @@ import org.slf4j.LoggerFactory;
 class DefaultResourceMap implements ResourceMap
 {
     /**
-    *
-    */
+     *
+     */
     private final String bundleName;
     /**
-    *
-    */
+     *
+     */
     private final List<DefaultResourceMap> childs = new ArrayList<>();
+    /**
+     *
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
+    private final Map<Locale, Map<String, String>> resources = new HashMap<>();
     /**
      *
      */
@@ -61,25 +69,17 @@ class DefaultResourceMap implements ResourceMap
      */
     private Locale locale;
     /**
-    *
-    */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-    *
-    */
+     *
+     */
     private DefaultResourceMap parent;
     /**
-    *
-    */
+     *
+     */
     private ResourceCache resourceCache;
     /**
-    *
-    */
+     *
+     */
     private ResourceProvider resourceProvider;
-    /**
-    *
-    */
-    private final Map<Locale, Map<String, String>> resources = new HashMap<>();
 
     /**
      * Erstellt ein neues {@link DefaultResourceMap} Object.
@@ -181,7 +181,7 @@ class DefaultResourceMap implements ResourceMap
      * @see de.freese.base.resourcemap.ResourceMap#getString(java.lang.String, java.lang.Object[])
      */
     @Override
-    public final String getString(final String key, final Object...args)
+    public final String getString(final String key, final Object... args)
     {
         String value = getResource(key);
 
@@ -194,7 +194,7 @@ class DefaultResourceMap implements ResourceMap
         {
             if (args.length > 0)
             {
-                if (value.indexOf("{0}") != -1)
+                if (value.contains("{0}"))
                 {
                     // The "old" Format.
                     value = MessageFormat.format(value, args);
@@ -252,6 +252,54 @@ class DefaultResourceMap implements ResourceMap
         builder.append("]");
 
         return builder.toString();
+    }
+
+    /**
+     * @param child {@link DefaultResourceMap}
+     */
+    void addChild(final DefaultResourceMap child)
+    {
+        getChilds().add(Objects.requireNonNull(child, "child required"));
+    }
+
+    /**
+     * @return {@link List}
+     */
+    List<DefaultResourceMap> getChilds()
+    {
+        return this.childs;
+    }
+
+    /**
+     * @param converters Map<Class<?>,ResourceConverter<?>>
+     */
+    void setConverters(final Map<Class<?>, ResourceConverter<?>> converters)
+    {
+        this.converters = converters;
+    }
+
+    /**
+     * @param parent {@link DefaultResourceMap}
+     */
+    void setParent(final DefaultResourceMap parent)
+    {
+        this.parent = parent;
+    }
+
+    /**
+     * @param resourceCache {@link ResourceCache}
+     */
+    void setResourceCache(final ResourceCache resourceCache)
+    {
+        this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
+    }
+
+    /**
+     * @param resourceProvider {@link ResourceProvider}
+     */
+    void setResourceProvider(final ResourceProvider resourceProvider)
+    {
+        this.resourceProvider = resourceProvider;
     }
 
     /**
@@ -363,7 +411,7 @@ class DefaultResourceMap implements ResourceMap
     {
         List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
 
-        for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext();)
+        for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); )
         {
             Entry<String, String> entry = iterator.next();
             String expression = entry.getValue();
@@ -401,53 +449,5 @@ class DefaultResourceMap implements ResourceMap
 
             iterator.remove();
         }
-    }
-
-    /**
-     * @param child {@link DefaultResourceMap}
-     */
-    void addChild(final DefaultResourceMap child)
-    {
-        getChilds().add(Objects.requireNonNull(child, "child required"));
-    }
-
-    /**
-     * @return {@link List}
-     */
-    List<DefaultResourceMap> getChilds()
-    {
-        return this.childs;
-    }
-
-    /**
-     * @param converters Map<Class<?>,ResourceConverter<?>>
-     */
-    void setConverters(final Map<Class<?>, ResourceConverter<?>> converters)
-    {
-        this.converters = converters;
-    }
-
-    /**
-     * @param parent {@link DefaultResourceMap}
-     */
-    void setParent(final DefaultResourceMap parent)
-    {
-        this.parent = parent;
-    }
-
-    /**
-     * @param resourceCache {@link ResourceCache}
-     */
-    void setResourceCache(final ResourceCache resourceCache)
-    {
-        this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
-    }
-
-    /**
-     * @param resourceProvider {@link ResourceProvider}
-     */
-    void setResourceProvider(final ResourceProvider resourceProvider)
-    {
-        this.resourceProvider = resourceProvider;
     }
 }

@@ -24,7 +24,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
         ResourceMap resourceMap = getResourceMap();
 
         getComponent().getLabel().setText(resourceMap.getString("fibonacci.label"));
-        getComponent().getLabelResult().setText(resourceMap.getString("fibonacci.result", Long.valueOf(0)));
+        getComponent().getLabelResult().setText(resourceMap.getString("fibonacci.result", 0));
         getComponent().getButtonGlassPaneBlock().setText(resourceMap.getString("fibonacci.button.glasspane.text"));
         getComponent().getButtonComponentBlock().setText(resourceMap.getString("fibonacci.button.component.text"));
     }
@@ -64,7 +64,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
     {
         ResourceMap resourceMap = getResourceMap();
 
-        String text = resourceMap.getString("fibonacci.result", Long.valueOf(value));
+        String text = resourceMap.getString("fibonacci.result", value);
         getComponent().getLabelResult().setText(text);
     }
 }

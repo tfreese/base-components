@@ -21,9 +21,9 @@ import java.util.function.Supplier;
  * </code>
  * </pre>
  *
- * @author Thomas Freese
- *
  * @param <T> Typ des zu erzeugenden Objekts.
+ *
+ * @author Thomas Freese
  */
 public class GenericBuilder<T>
 {
@@ -42,7 +42,7 @@ public class GenericBuilder<T>
     /**
      *
      */
-    private List<Consumer<T>> instanceModifiers = new ArrayList<>();
+    private final List<Consumer<T>> instanceModifiers = new ArrayList<>();
     /**
      *
      */
@@ -101,22 +101,6 @@ public class GenericBuilder<T>
     }
 
     /**
-     * @return {@link List}
-     */
-    protected List<Consumer<T>> getInstanceModifiers()
-    {
-        return this.instanceModifiers;
-    }
-
-    /**
-     * @return {@link Supplier}
-     */
-    protected Supplier<T> getInstantiator()
-    {
-        return this.instantiator;
-    }
-
-    /**
      * Beispiel: with(ArrayList::add, "Sample object")
      *
      * @param setter {@link BiConsumer}
@@ -143,5 +127,21 @@ public class GenericBuilder<T>
         getInstanceModifiers().add(setter);
 
         return this;
+    }
+
+    /**
+     * @return {@link List}
+     */
+    protected List<Consumer<T>> getInstanceModifiers()
+    {
+        return this.instanceModifiers;
+    }
+
+    /**
+     * @return {@link Supplier}
+     */
+    protected Supplier<T> getInstantiator()
+    {
+        return this.instantiator;
     }
 }

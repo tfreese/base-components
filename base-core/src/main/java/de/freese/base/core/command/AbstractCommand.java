@@ -12,7 +12,7 @@ public abstract class AbstractCommand implements Command
     /**
      *
      */
-    private Object source;
+    private final Object source;
 
     /**
      * Creates a new {@link AbstractCommand} object.
@@ -56,17 +56,10 @@ public abstract class AbstractCommand implements Command
 
         if (this.source == null)
         {
-            if (other.source != null)
-            {
-                return false;
-            }
-        }
-        else if (!this.source.equals(other.source))
-        {
-            return false;
+            return other.source == null;
         }
 
-        return true;
+        return this.source.equals(other.source);
     }
 
     /**

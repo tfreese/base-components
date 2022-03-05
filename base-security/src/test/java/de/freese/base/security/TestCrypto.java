@@ -1,6 +1,7 @@
 // Created: 13.06.2011
 package de.freese.base.security;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,15 +19,14 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.GCMParameterSpec;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-
 import de.freese.base.security.crypto.Crypto;
 import de.freese.base.security.crypto.CryptoAsymetric;
 import de.freese.base.security.crypto.CryptoConfig;
 import de.freese.base.security.crypto.CryptoConfigSymetric;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
@@ -40,8 +40,8 @@ class TestCrypto
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
-    *
-    */
+     *
+     */
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
 
     /**
@@ -97,75 +97,6 @@ class TestCrypto
 
         testCodec(crypto);
         testSignAndVerify(crypto);
-    }
-
-    /**
-     * @param crypto {@link Crypto}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    private void testCodec(final Crypto crypto) throws Exception
-    {
-        byte[] encrypted = crypto.encrypt(SOURCE_BYTES);
-        byte[] decrypted = crypto.decrypt(encrypted);
-
-        if (crypto instanceof CryptoAsymetric)
-        {
-            // Blockgrösse berücksichtigen.
-            decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
-        }
-
-        assertTrue(Arrays.equals(SOURCE_BYTES, decrypted));
-
-        // Streams
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES);
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
-            crypto.encrypt(bais, baos);
-            encrypted = baos.toByteArray();
-        }
-
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(encrypted);
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
-            crypto.decrypt(bais, baos);
-            decrypted = baos.toByteArray();
-        }
-
-        if (crypto instanceof CryptoAsymetric)
-        {
-            // Blockgrösse berücksichtigen.
-            decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
-        }
-
-        assertTrue(Arrays.equals(SOURCE_BYTES, decrypted));
-    }
-
-    /**
-     * @param crypto {@link Crypto}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    private void testSignAndVerify(final Crypto crypto) throws Exception
-    {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES))
-        {
-            byte[] sig = null;
-
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
-            {
-                crypto.sign(bais, baos);
-                sig = baos.toByteArray();
-            }
-
-            bais.reset();
-
-            try (ByteArrayInputStream baisSig = new ByteArrayInputStream(sig))
-            {
-                boolean verified = crypto.verify(bais, baisSig);
-                assertTrue(verified, "Wrong Signature");
-            }
-        }
     }
 
     /**
@@ -314,5 +245,74 @@ class TestCrypto
 
         testCodec(crypto);
         testSignAndVerify(crypto);
+    }
+
+    /**
+     * @param crypto {@link Crypto}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    private void testCodec(final Crypto crypto) throws Exception
+    {
+        byte[] encrypted = crypto.encrypt(SOURCE_BYTES);
+        byte[] decrypted = crypto.decrypt(encrypted);
+
+        if (crypto instanceof CryptoAsymetric)
+        {
+            // Blockgrösse berücksichtigen.
+            decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
+        }
+
+        assertArrayEquals(SOURCE_BYTES, decrypted);
+
+        // Streams
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
+            crypto.encrypt(bais, baos);
+            encrypted = baos.toByteArray();
+        }
+
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(encrypted);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        {
+            crypto.decrypt(bais, baos);
+            decrypted = baos.toByteArray();
+        }
+
+        if (crypto instanceof CryptoAsymetric)
+        {
+            // Blockgrösse berücksichtigen.
+            decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
+        }
+
+        assertArrayEquals(SOURCE_BYTES, decrypted);
+    }
+
+    /**
+     * @param crypto {@link Crypto}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    private void testSignAndVerify(final Crypto crypto) throws Exception
+    {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES))
+        {
+            byte[] sig = null;
+
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
+            {
+                crypto.sign(bais, baos);
+                sig = baos.toByteArray();
+            }
+
+            bais.reset();
+
+            try (ByteArrayInputStream baisSig = new ByteArrayInputStream(sig))
+            {
+                boolean verified = crypto.verify(bais, baisSig);
+                assertTrue(verified, "Wrong Signature");
+            }
+        }
     }
 }

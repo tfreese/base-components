@@ -18,11 +18,15 @@ import org.slf4j.LoggerFactory;
  * ExpandListener eines Trees fuer das LazyLoading.<br>
  *
  * @author Thomas Freese
- *
  * @see AbstractLazyLoadingTreeNode
  */
 public class LazyLoadingTreeController implements TreeWillExpandListener
 {
+    /**
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeController.class);
+
     /**
      * Swingworker fuer das LazyLoading.
      *
@@ -87,11 +91,6 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
             this.semaphore.release();
         }
     }
-
-    /**
-    *
-    */
-    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeController.class);
     /**
      *
      */
@@ -99,7 +98,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     /**
      * BlockingSemaphore fuer den SwingWorker.
      */
-    private Semaphore semaphore = new Semaphore(1, true);
+    private final Semaphore semaphore = new Semaphore(1, true);
 
     /**
      * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
@@ -140,6 +139,30 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     }
 
     /**
+     * @see javax.swing.event.TreeWillExpandListener#treeWillCollapse(javax.swing.event.TreeExpansionEvent)
+     */
+    @Override
+    public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException
+    {
+        // NOOP
+    }
+
+    /**
+     * @see javax.swing.event.TreeWillExpandListener#treeWillExpand(javax.swing.event.TreeExpansionEvent)
+     */
+    @Override
+    public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException
+    {
+        TreePath path = event.getPath();
+        Object lastPathComponent = path.getLastPathComponent();
+
+        if (lastPathComponent instanceof AbstractLazyLoadingTreeNode lazyNode)
+        {
+            expandNode(lazyNode);
+        }
+    }
+
+    /**
      * Liefert den DummyKnoten fuer den Kinderzweig des Parents mit dem "Laden"-Text.
      *
      * @return {@link MutableTreeNode}
@@ -147,6 +170,14 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     protected MutableTreeNode createLoadingNode()
     {
         return new DefaultMutableTreeNode("Loading ...", false);
+    }
+
+    /**
+     * @return {@link Executor}
+     */
+    protected Executor getExecutor()
+    {
+        return this.executor;
     }
 
     /**
@@ -169,38 +200,6 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
         else
         {
             getExecutor().execute(worker);
-        }
-    }
-
-    /**
-     * @return {@link Executor}
-     */
-    protected Executor getExecutor()
-    {
-        return this.executor;
-    }
-
-    /**
-     * @see javax.swing.event.TreeWillExpandListener#treeWillCollapse(javax.swing.event.TreeExpansionEvent)
-     */
-    @Override
-    public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException
-    {
-        // NOOP
-    }
-
-    /**
-     * @see javax.swing.event.TreeWillExpandListener#treeWillExpand(javax.swing.event.TreeExpansionEvent)
-     */
-    @Override
-    public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException
-    {
-        TreePath path = event.getPath();
-        Object lastPathComponent = path.getLastPathComponent();
-
-        if (lastPathComponent instanceof AbstractLazyLoadingTreeNode lazyNode)
-        {
-            expandNode(lazyNode);
         }
     }
 }

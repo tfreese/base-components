@@ -38,17 +38,6 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     /**
-     * @param button {@link JButton}
-     * @param resourceMap {@link ResourceMap}
-     * @param key String
-     */
-    private void decorate(final JButton button, final ResourceMap resourceMap, final String key)
-    {
-        button.setText(resourceMap.getString(key + ".text"));
-        button.setIcon(resourceMap.getIcon(key + ".icon"));
-    }
-
-    /**
      * @see de.freese.base.mvc.AbstractView#getComponent()
      */
     @Override
@@ -67,7 +56,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
         int height = image.getHeight();
 
         ResourceMap resourceMap = getResourceMap();
-        String tip = resourceMap.getString("nasa.imageTooltip", url, Integer.valueOf(width), Integer.valueOf(height));
+        String tip = resourceMap.getString("nasa.imageTooltip", url, width, height);
 
         JLabel label = getComponent().getLabelImage();
         label.setToolTipText(tip);
@@ -119,5 +108,16 @@ public class DefaultNasaView extends AbstractView implements NasaView
         {
             handleException(throwable);
         }
+    }
+
+    /**
+     * @param button {@link JButton}
+     * @param resourceMap {@link ResourceMap}
+     * @param key String
+     */
+    private void decorate(final JButton button, final ResourceMap resourceMap, final String key)
+    {
+        button.setText(resourceMap.getString(key + ".text"));
+        button.setIcon(resourceMap.getIcon(key + ".icon"));
     }
 }

@@ -3,6 +3,7 @@ package de.freese.base.reports.importer.excel.view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.Objects;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,7 +26,7 @@ public class ExcelSheetPanel extends JPanel
     /**
      *
      */
-    private ExcelSheet excelSheet;
+    private final ExcelSheet excelSheet;
     /**
      *
      */
@@ -44,8 +45,23 @@ public class ExcelSheetPanel extends JPanel
     {
         super();
 
-        this.excelSheet = excelSheet;
+        this.excelSheet = Objects.requireNonNull(excelSheet, "excelSheet required");
         initialize();
+    }
+
+    /**
+     * Liefert die Tabelle eines Exceksheets.
+     *
+     * @return {@link JTable}
+     */
+    public JTable getTable()
+    {
+        if (this.table == null)
+        {
+            this.table = new JTable();
+        }
+
+        return this.table;
     }
 
     /**
@@ -62,21 +78,6 @@ public class ExcelSheetPanel extends JPanel
         }
 
         return this.scrollPane;
-    }
-
-    /**
-     * Liefert die Tabelle eines Exceksheets.
-     *
-     * @return {@link JTable}
-     */
-    public JTable getTable()
-    {
-        if (this.table == null)
-        {
-            this.table = new JTable();
-        }
-
-        return this.table;
     }
 
     /**

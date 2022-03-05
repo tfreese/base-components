@@ -13,7 +13,7 @@ public class NumberToken extends AbstractToken<Number>
     /**
      *
      */
-    private String format;
+    private final String format;
 
     /**
      * Erstellt ein neues {@link NumberToken} Object.

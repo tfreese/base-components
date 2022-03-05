@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
 /**
  * @author Thomas Freese
@@ -21,6 +22,10 @@ public final class DigestUtils
      *
      */
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
+    /**
+     *
+     */
+    private static final HexFormat HEX_FORMAT = HexFormat.of().withUpperCase();
 
     /**
      * @return {@link MessageDigest}
@@ -164,9 +169,8 @@ public final class DigestUtils
     public static String digestAsHex(final MessageDigest messageDigest)
     {
         final byte[] digest = messageDigest.digest();
-        final String hex = de.freese.base.utils.ByteUtils.bytesToHex(digest);
 
-        return hex;
+        return HEX_FORMAT.formatHex(digest);
     }
 
     /**
@@ -183,9 +187,7 @@ public final class DigestUtils
     {
         final byte[] bytes = digest(messageDigest, inputStream);
 
-        final String hex = de.freese.base.utils.ByteUtils.bytesToHex(bytes);
-
-        return hex;
+        return HEX_FORMAT.formatHex(bytes);
     }
 
     /**
@@ -200,9 +202,7 @@ public final class DigestUtils
     {
         final byte[] bytes = digest(messageDigest, file);
 
-        final String hex = de.freese.base.utils.ByteUtils.bytesToHex(bytes);
-
-        return hex;
+        return HEX_FORMAT.formatHex(bytes);
     }
 
     /**

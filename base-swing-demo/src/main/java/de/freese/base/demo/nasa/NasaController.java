@@ -70,22 +70,22 @@ public class NasaController extends AbstractController
      */
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
     /**
-    *
-    */
-    private String[] imageNames =
-    {
-            "PIA03623.jpg",
-            "PIA03171.jpg",
-            "PIA02652.jpg",
-            "PIA05108.jpg",
-            "PIA02696.jpg",
-            "PIA05049.jpg",
-            "PIA05460.jpg",
-            "PIA07327.jpg",
-            "PIA05117.jpg",
-            "PIA05199.jpg",
-            "PIA05990.jpg"
-    };
+     *
+     */
+    private final String[] imageNames =
+            {
+                    "PIA03623.jpg",
+                    "PIA03171.jpg",
+                    "PIA02652.jpg",
+                    "PIA05108.jpg",
+                    "PIA02696.jpg",
+                    "PIA05049.jpg",
+                    "PIA05460.jpg",
+                    "PIA07327.jpg",
+                    "PIA05117.jpg",
+                    "PIA05199.jpg",
+                    "PIA05990.jpg"
+            };
     // /**
     // *
     // */
@@ -101,11 +101,11 @@ public class NasaController extends AbstractController
     /**
      *
      */
-    private int urlHistoryCurrentIndex = -1;
+    private final NasaView view;
     /**
      *
      */
-    private final NasaView view;
+    private int urlHistoryCurrentIndex = -1;
 
     /**
      * Erstellt ein neues {@link NasaController} Object.
@@ -117,75 +117,6 @@ public class NasaController extends AbstractController
         // this.messageDigest = createMessageDigest();
 
         this.view = new DefaultNasaView();
-    }
-
-    /**
-     * @param url {@link URL}
-     *
-     * @return boolean
-     */
-    protected boolean existUrl(final URL url)
-    {
-        try
-        {
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setRequestMethod("HEAD");
-
-            int responseCode = httpURLConnection.getResponseCode();
-
-            if (responseCode == HttpURLConnection.HTTP_OK)
-            {
-                return true;
-            }
-        }
-        catch (Exception ex)
-        {
-            // Ignore
-            getLogger().warn("URL not exist: {}", url);
-        }
-
-        return false;
-    }
-
-    /**
-     * Erzeugt die nächste {@link URL}, zufällig oder basierend auf #imageNames.
-     *
-     * @return {@link URL}
-     *
-     * @throws MalformedURLException Falls was schief geht.
-     */
-    protected URL generateUrl() throws MalformedURLException
-    {
-        String urlString = null;
-        boolean randomUrls = true;
-
-        if (!randomUrls)
-        {
-            int index = this.random.nextInt(this.imageNames.length);
-            urlString = IMAGE_DIR + this.imageNames[index];
-        }
-        else
-        {
-            urlString = String.format("%sPIA%05d.jpg", IMAGE_DIR, (this.random.nextInt(12196) + 1));
-        }
-
-        getLogger().info("URL: {}", urlString);
-
-        URL url = new URL(urlString);
-
-        if (!existUrl(url))
-        {
-            getLogger().warn("URL not exist: {}", url);
-            url = generateUrl();
-        }
-
-        if (!existUrl(url))
-        {
-            getLogger().warn("URL not exist: {}", url);
-            url = generateUrl();
-        }
-
-        return url;
     }
 
     /**
@@ -266,7 +197,8 @@ public class NasaController extends AbstractController
 
         NasaPanel panel = getView().getComponent();
 
-        panel.getButtonPrevious().addActionListener(event -> {
+        panel.getButtonPrevious().addActionListener(event ->
+        {
             NasaImageTask task = new NasaImageTask(this, this::getPreviousURL, getView(), getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
@@ -274,7 +206,8 @@ public class NasaController extends AbstractController
             getContext().getTaskManager().execute(task);
         });
 
-        panel.getButtonNext().addActionListener(event -> {
+        panel.getButtonNext().addActionListener(event ->
+        {
             NasaImageTask task = new NasaImageTask(this, this::getNextURL, getView(), getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
@@ -282,7 +215,8 @@ public class NasaController extends AbstractController
             getContext().getTaskManager().execute(task);
         });
 
-        panel.getButtonCancel().addActionListener(event -> {
+        panel.getButtonCancel().addActionListener(event ->
+        {
             AbstractSwingTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
 
             if (task != null)
@@ -381,5 +315,74 @@ public class NasaController extends AbstractController
         inputStream.close();
 
         return image;
+    }
+
+    /**
+     * @param url {@link URL}
+     *
+     * @return boolean
+     */
+    protected boolean existUrl(final URL url)
+    {
+        try
+        {
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setRequestMethod("HEAD");
+
+            int responseCode = httpURLConnection.getResponseCode();
+
+            if (responseCode == HttpURLConnection.HTTP_OK)
+            {
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Ignore
+            getLogger().warn("URL not exist: {}", url);
+        }
+
+        return false;
+    }
+
+    /**
+     * Erzeugt die nächste {@link URL}, zufällig oder basierend auf #imageNames.
+     *
+     * @return {@link URL}
+     *
+     * @throws MalformedURLException Falls was schief geht.
+     */
+    protected URL generateUrl() throws MalformedURLException
+    {
+        String urlString = null;
+        boolean randomUrls = true;
+
+        if (!randomUrls)
+        {
+            int index = this.random.nextInt(this.imageNames.length);
+            urlString = IMAGE_DIR + this.imageNames[index];
+        }
+        else
+        {
+            urlString = String.format("%sPIA%05d.jpg", IMAGE_DIR, (this.random.nextInt(12196) + 1));
+        }
+
+        getLogger().info("URL: {}", urlString);
+
+        URL url = new URL(urlString);
+
+        if (!existUrl(url))
+        {
+            getLogger().warn("URL not exist: {}", url);
+            url = generateUrl();
+        }
+
+        if (!existUrl(url))
+        {
+            getLogger().warn("URL not exist: {}", url);
+            url = generateUrl();
+        }
+
+        return url;
     }
 }

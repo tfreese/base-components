@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -13,13 +14,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import de.freese.base.core.logging.LoggingOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 /**
  * Util-Klasse für das Aufrufen von Commandos über eine SSH-Verbindung.
@@ -31,15 +33,11 @@ public class SSHExec
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SSHExec.class);
-    /**
-     *
-     */
     private final String host;
     /**
      *
      */
-    private int lastExitStatus = -1;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
@@ -51,15 +49,19 @@ public class SSHExec
     /**
      *
      */
+    private final String user;
+    /**
+     *
+     */
+    private int lastExitStatus = -1;
+    /**
+     *
+     */
     private Session session;
     /**
      *
      */
     private int timeOut;
-    /**
-     *
-     */
-    private final String user;
 
     /**
      * Erstellt ein neues {@link SSHExec} Object.<br>
@@ -108,10 +110,7 @@ public class SSHExec
      */
     public void connect() throws JSchException
     {
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("connecting to {}@{}", this.user, this.host);
-        }
+        getLogger().debug("connecting to {}@{}", this.user, this.host);
 
         JSch jsch = new JSch();
 
@@ -126,10 +125,7 @@ public class SSHExec
 
         this.session.connect();
 
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("session connected");
-        }
+        getLogger().debug("session connected");
     }
 
     /**
@@ -137,10 +133,7 @@ public class SSHExec
      */
     public void disconnect()
     {
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("disconnecting session");
-        }
+        getLogger().debug("disconnecting session");
 
         if (this.session == null)
         {
@@ -156,10 +149,7 @@ public class SSHExec
         this.session.disconnect();
         this.session = null;
 
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("session disconnected");
-        }
+        getLogger().debug("session disconnected");
     }
 
     /**
@@ -174,7 +164,8 @@ public class SSHExec
      */
     public List<String> execute(final String command) throws JSchException, IOException
     {
-        return execute(command, response -> {
+        return execute(command, response ->
+        {
             List<String> result = null;
 
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(response), StandardCharsets.UTF_8)))
@@ -255,10 +246,7 @@ public class SSHExec
         Objects.requireNonNull(command, "command required");
         Objects.requireNonNull(responseMapper, "responseMapper required");
 
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("executing: {}", command);
-        }
+        getLogger().debug("executing: {}", command);
 
         this.lastExitStatus = -1;
 
@@ -270,13 +258,10 @@ public class SSHExec
             channel.setCommand(command);
             channel.setOutputStream(baos);
             channel.setExtOutputStream(baos);
-            channel.setErrStream(System.err);
+            channel.setErrStream(new PrintStream(new LoggingOutputStream(getLogger(), Level.ERROR), true, StandardCharsets.UTF_8));
             channel.connect();
 
-            if (LOGGER.isDebugEnabled())
-            {
-                LOGGER.debug("channel connected");
-            }
+            getLogger().debug("channel connected");
 
             // Warten auf Response.
             // Thread.sleep(1000L);
@@ -285,10 +270,7 @@ public class SSHExec
             {
                 try
                 {
-                    if (LOGGER.isDebugEnabled())
-                    {
-                        LOGGER.debug("wait for response");
-                    }
+                    getLogger().debug("wait for response");
 
                     Thread.sleep(100);
                 }
@@ -301,19 +283,13 @@ public class SSHExec
             this.lastExitStatus = channel.getExitStatus();
             channel.disconnect();
 
-            if (LOGGER.isDebugEnabled())
-            {
-                LOGGER.debug("channel disconnected with exitStatus = {}", this.lastExitStatus);
-            }
+            getLogger().debug("channel disconnected with exitStatus = {}", this.lastExitStatus);
 
             baos.flush();
             response = baos.toByteArray();
         }
 
-        if (LOGGER.isDebugEnabled())
-        {
-            LOGGER.debug("response size = {} bytes", response.length);
-        }
+        getLogger().debug("response size = {} bytes", response.length);
 
         // Kompletter String
         // String result = new String(response, "UTF-8");
@@ -331,6 +307,14 @@ public class SSHExec
     public int getLastExitStatus()
     {
         return this.lastExitStatus;
+    }
+
+    /**
+     * @return org.slf4j.Logger
+     */
+    public Logger getLogger()
+    {
+        return this.logger;
     }
 
     /**

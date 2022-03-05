@@ -159,11 +159,11 @@ public final class JdbcUtils
     /**
      * Erstellt einen String aus per komma getrennten ids.
      *
-     * @param ids {@link Set}
+     * @param ids {@link Iterable}
      *
      * @return {@link String}
      */
-    public static String createIDsAsString(final Set<? extends Number> ids)
+    public static String createIDsAsString(final Iterable<? extends Number> ids)
     {
         boolean firstParameter = true;
         StringBuilder builder = new StringBuilder();
@@ -197,52 +197,6 @@ public final class JdbcUtils
     public static void createInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements)
     {
         createInOrNotInClause(column, sql, elements, "in");
-    }
-
-    /**
-     * Erzeugt eine "in"- oder "not in"-Clause und beruecksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein duerfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
-     * als weitere Clause angehaengt.
-     *
-     * @param column String
-     * @param sql {@link StringBuilder}
-     * @param elements {@link Set}
-     * @param inOrNotIn String
-     */
-    private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn)
-    {
-        sql.append(column).append(" ").append(inOrNotIn).append(" (");
-
-        if ((elements == null) || elements.isEmpty())
-        {
-            sql.append("-1)");
-
-            return;
-        }
-
-        Iterator<? extends Number> iterator = elements.iterator();
-
-        int i = 0;
-
-        while (iterator.hasNext())
-        {
-            Number number = iterator.next();
-
-            sql.append(number);
-            i++;
-
-            if (((i % 1000) == 0) && iterator.hasNext())
-            {
-                // Neuen Block anfangen,
-                sql.append(") or ").append(column).append(" ").append(inOrNotIn).append(" (");
-            }
-            else if (iterator.hasNext())
-            {
-                sql.append(",");
-            }
-        }
-
-        sql.append(")");
     }
 
     /**
@@ -383,12 +337,12 @@ public final class JdbcUtils
      * @return String
      *
      * @throws SQLException Falls was schief geht.
-     *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException
     {
-        String databaseProductName = extractDatabaseMetaData(dataSource, dbMd -> {
+        String databaseProductName = extractDatabaseMetaData(dataSource, dbMd ->
+        {
             try
             {
                 return dbMd.getDatabaseProductName();
@@ -410,12 +364,12 @@ public final class JdbcUtils
      * @return String
      *
      * @throws SQLException Falls was schief geht.
-     *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException
     {
-        String databaseProductVersion = extractDatabaseMetaData(dataSource, dbMd -> {
+        String databaseProductVersion = extractDatabaseMetaData(dataSource, dbMd ->
+        {
             try
             {
                 return dbMd.getDatabaseProductVersion();
@@ -677,16 +631,16 @@ public final class JdbcUtils
     /**
      * Fuegt zu der IN-Query die entsprechenden Werte hinzu.
      *
-     * @param values {@link Set}
+     * @param values {@link Iterable}
      * @param separator char
      *
      * @return {@link StringBuilder}
      */
-    public static StringBuilder parameterAsString(final Set<String> values, final char separator)
+    public static StringBuilder parameterAsString(final Iterable<String> values, final char separator)
     {
         StringBuilder builder = new StringBuilder();
 
-        for (Iterator<String> iter = values.iterator(); iter.hasNext();)
+        for (Iterator<String> iter = values.iterator(); iter.hasNext(); )
         {
             builder.append(iter.next());
 
@@ -859,6 +813,52 @@ public final class JdbcUtils
         {
             resultSet.first();
         }
+    }
+
+    /**
+     * Erzeugt eine "in"- oder "not in"-Clause und beruecksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein duerfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * als weitere Clause angehaengt.
+     *
+     * @param column String
+     * @param sql {@link StringBuilder}
+     * @param elements {@link Set}
+     * @param inOrNotIn String
+     */
+    private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn)
+    {
+        sql.append(column).append(" ").append(inOrNotIn).append(" (");
+
+        if ((elements == null) || elements.isEmpty())
+        {
+            sql.append("-1)");
+
+            return;
+        }
+
+        Iterator<? extends Number> iterator = elements.iterator();
+
+        int i = 0;
+
+        while (iterator.hasNext())
+        {
+            Number number = iterator.next();
+
+            sql.append(number);
+            i++;
+
+            if (((i % 1000) == 0) && iterator.hasNext())
+            {
+                // Neuen Block anfangen,
+                sql.append(") or ").append(column).append(" ").append(inOrNotIn).append(" (");
+            }
+            else if (iterator.hasNext())
+            {
+                sql.append(",");
+            }
+        }
+
+        sql.append(")");
     }
 
     /**

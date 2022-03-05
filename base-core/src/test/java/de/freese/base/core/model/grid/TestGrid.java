@@ -4,7 +4,9 @@ package de.freese.base.core.model.grid;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -16,15 +18,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
+
 import de.freese.base.core.model.grid.builder.GridBuilder;
 import de.freese.base.core.model.grid.column.BinaryGridColumn;
 import de.freese.base.core.model.grid.column.BooleanGridColumn;
@@ -34,6 +28,15 @@ import de.freese.base.core.model.grid.column.GridColumn;
 import de.freese.base.core.model.grid.column.IntegerGridColumn;
 import de.freese.base.core.model.grid.column.LongGridColumn;
 import de.freese.base.core.model.grid.column.StringGridColumn;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 /**
  * @author Thomas Freese
@@ -46,12 +49,12 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 class TestGrid
 {
     /**
-    *
-    */
+     *
+     */
     @Test
     void testGridBuilder()
     {
-       //@formatter:off
+        //@formatter:off
        Grid grid = GridBuilder.create()
                .column(new IntegerGridColumn("int"))
                .column(Long.class)
@@ -157,14 +160,14 @@ class TestGrid
     void testGridResultSet() throws SQLException
     {
         Object[][] data = new Object[][]
-        {
                 {
-                        true, 1.23456D, "nur ein täschd"
-                },
-                {
-                        false, 654321D, "-"
-                }
-        };
+                        {
+                                true, 1.23456D, "nur ein täschd"
+                        },
+                        {
+                                false, 654321D, "-"
+                        }
+                };
 
         ResultSetMetaData metaDataMock = Mockito.mock(ResultSetMetaData.class);
         Mockito.when(metaDataMock.getColumnCount()).then(invocation -> 3);
@@ -189,20 +192,21 @@ class TestGrid
         Mockito.when(resultSetMock.getMetaData()).thenReturn(metaDataMock);
 
         AtomicInteger resultSetIndex = new AtomicInteger(-1);
-        Mockito.when(resultSetMock.next()).then(invocation -> {
+        Mockito.when(resultSetMock.next()).then(invocation ->
+        {
             resultSetIndex.getAndIncrement();
             return resultSetIndex.get() < data.length;
         });
 
-        when(resultSetMock.getObject(1)).then(invocation -> {
-            return data[resultSetIndex.get()][0];
-        });
-        when(resultSetMock.getObject(2)).then(invocation -> {
-            return data[resultSetIndex.get()][1];
-        });
-        when(resultSetMock.getObject(3)).then(invocation -> {
-            return data[resultSetIndex.get()][2];
-        });
+        when(resultSetMock.getObject(1)).then(invocation ->
+                data[resultSetIndex.get()][0]
+        );
+        when(resultSetMock.getObject(2)).then(invocation ->
+                data[resultSetIndex.get()][1]
+        );
+        when(resultSetMock.getObject(3)).then(invocation ->
+                data[resultSetIndex.get()][2]
+        );
 
         Grid grid = new Grid();
         grid.read(resultSetMock);
@@ -212,19 +216,19 @@ class TestGrid
 
         assertEquals(Boolean.class, grid.getObjectClazz(0));
         assertEquals("boolean", grid.getName(0));
-        assertEquals(null, grid.getComment(0));
+        assertNull(grid.getComment(0));
         assertEquals(1, grid.getLength(0));
         assertEquals(1, grid.getPrecision(0));
 
         assertEquals(Double.class, grid.getObjectClazz(1));
         assertEquals("double", grid.getName(1));
-        assertEquals(null, grid.getComment(1));
+        assertNull(grid.getComment(1));
         assertEquals(3, grid.getLength(1));
         assertEquals(3, grid.getPrecision(1));
 
         assertEquals(String.class, grid.getObjectClazz(2));
         assertEquals("string", grid.getName(2));
-        assertEquals(null, grid.getComment(2));
+        assertNull(grid.getComment(2));
         assertEquals(10, grid.getLength(2));
         assertEquals(10, grid.getPrecision(2));
 
@@ -254,21 +258,21 @@ class TestGrid
         grid1.addColumn(new StringGridColumn());
 
         Object[] row1 = new Object[]
-        {
-                new byte[]
                 {
-                        1, 2, 3
-                }, false, new Date(), 1.23456D, 42, 123456L, "dies ist ein täschd"
-        };
+                        new byte[]
+                                {
+                                        1, 2, 3
+                                }, false, new Date(), 1.23456D, 42, 123456L, "dies ist ein täschd"
+                };
         grid1.addRow(row1);
 
         Object[] row2 = new Object[]
-        {
-                new byte[]
                 {
-                        4, 5, 6
-                }, true, new Date(System.currentTimeMillis() - 200000), 6.54321D, 24, 654321L, ",.-#äöü+"
-        };
+                        new byte[]
+                                {
+                                        4, 5, 6
+                                }, true, new Date(System.currentTimeMillis() - 200000), 6.54321D, 24, 654321L, ",.-#äöü+"
+                };
         grid1.addRow(row2);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

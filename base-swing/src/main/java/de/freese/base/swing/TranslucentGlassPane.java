@@ -30,11 +30,15 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private float alpha = 1.0F;
+    private final float alphaEnd = 0.6F;
     /**
      *
      */
-    private float alphaEnd = 0.6F;
+    private final Timer animateTimer;
+    /**
+     *
+     */
+    private float alpha = 1.0F;
     /**
      *
      */
@@ -46,11 +50,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private Timer animateTimer;
-    /**
-     *
-     */
-    private List<Component> dispatchList;
+    private final List<Component> dispatchList;
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
      * opacity to its default setting if the alpha is 1.0. Honestly, I don't know if this is necessary or not, but it sounded good on paper :)
@@ -107,24 +107,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         }
 
         return this.alpha;
-    }
-
-    /**
-     * Liefert die JMmenuBar, wenn sie in der DispatchList enthalten ist.
-     *
-     * @return {@link JMenuBar}
-     */
-    private JMenuBar getJMenuBar()
-    {
-        for (Component element : this.dispatchList)
-        {
-            if (element instanceof JMenuBar b)
-            {
-                return b;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -195,6 +177,95 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     }
 
     /**
+     * Set the alpha transparency level for this component. This automatically causes a repaint of the component.
+     *
+     * @param alpha must be a value between 0 and 1 inclusive.
+     */
+    public void setAlpha(final float alpha)
+    {
+        if (this.alpha != alpha)
+        {
+            float oldAlpha = this.alpha;
+            this.alpha = alpha;
+
+            if ((alpha > 0F) && (alpha < 1F))
+            {
+                if (oldAlpha == 1F)
+                {
+                    // it used to be 1, but now is not. Save the oldOpaque
+                    this.oldOpaque = isOpaque();
+                    setOpaque(false);
+                }
+            }
+            else if (alpha == 1F)
+            {
+                // restore the oldOpaque if it was true (since opaque is false
+                // now)
+                if (this.oldOpaque)
+                {
+                    setOpaque(true);
+                }
+            }
+
+            // firePropertyChange("alpha", oldAlpha, alpha);
+            repaint();
+        }
+
+        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / (getShowDelayMillies() / getTimerIncrementMillies());
+    }
+
+    /**
+     * Startverzögerung für die Animation in Millisekunden.
+     *
+     * @param showDelayMillies int
+     */
+    public void setShowDelayMillies(final int showDelayMillies)
+    {
+        this.showDelayMillies = showDelayMillies;
+    }
+
+    /**
+     * Zeitabstand zwischen den Animationen in Millisekunden.
+     *
+     * @param timerIncrementMillies int
+     */
+    public void setTimerIncrementMillies(final int timerIncrementMillies)
+    {
+        this.timerIncrementMillies = timerIncrementMillies;
+    }
+
+    /**
+     * @see javax.swing.JComponent#setVisible(boolean)
+     */
+    @Override
+    public void setVisible(final boolean flag)
+    {
+        setAlpha(this.alphaStart);
+
+        super.setVisible(flag);
+
+        // Ueber setVisible den Timer der Childs beenden, falls implementiert
+        Component[] childs = getComponents();
+
+        for (Component child : childs)
+        {
+            child.setVisible(flag);
+        }
+    }
+
+    // /**
+    // * @see javax.swing.JComponent#paintChildren(java.awt.Graphics)
+    // */
+    // protected void paintChildren(Graphics g)
+    // {
+    // // Die Children werden in der tranzparenz der Glasspane gezeichnet,
+    // deswegen
+    // // wird paintChildren(Graphics) am Ende der paintComponent(Graphics)
+    // aufgerufen.
+    // super.paintChildren(g);
+    // }
+
+    /**
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
@@ -226,6 +297,24 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // 1));
         // super.paintChildren(g);
+    }
+
+    /**
+     * Liefert die JMmenuBar, wenn sie in der DispatchList enthalten ist.
+     *
+     * @return {@link JMenuBar}
+     */
+    private JMenuBar getJMenuBar()
+    {
+        for (Component element : this.dispatchList)
+        {
+            if (element instanceof JMenuBar b)
+            {
+                return b;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -281,95 +370,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         if (repaint)
         {
             repaint();
-        }
-    }
-
-    /**
-     * Set the alpha transparency level for this component. This automatically causes a repaint of the component.
-     *
-     * @param alpha must be a value between 0 and 1 inclusive.
-     */
-    public void setAlpha(final float alpha)
-    {
-        if (this.alpha != alpha)
-        {
-            float oldAlpha = this.alpha;
-            this.alpha = alpha;
-
-            if ((alpha > 0F) && (alpha < 1F))
-            {
-                if (oldAlpha == 1F)
-                {
-                    // it used to be 1, but now is not. Save the oldOpaque
-                    this.oldOpaque = isOpaque();
-                    setOpaque(false);
-                }
-            }
-            else if (alpha == 1F)
-            {
-                // restore the oldOpaque if it was true (since opaque is false
-                // now)
-                if (this.oldOpaque)
-                {
-                    setOpaque(true);
-                }
-            }
-
-            // firePropertyChange("alpha", oldAlpha, alpha);
-            repaint();
-        }
-
-        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / (getShowDelayMillies() / getTimerIncrementMillies());
-    }
-
-    // /**
-    // * @see javax.swing.JComponent#paintChildren(java.awt.Graphics)
-    // */
-    // protected void paintChildren(Graphics g)
-    // {
-    // // Die Children werden in der tranzparenz der Glasspane gezeichnet,
-    // deswegen
-    // // wird paintChildren(Graphics) am Ende der paintComponent(Graphics)
-    // aufgerufen.
-    // super.paintChildren(g);
-    // }
-
-    /**
-     * Startverzögerung für die Animation in Millisekunden.
-     *
-     * @param showDelayMillies int
-     */
-    public void setShowDelayMillies(final int showDelayMillies)
-    {
-        this.showDelayMillies = showDelayMillies;
-    }
-
-    /**
-     * Zeitabstand zwischen den Animationen in Millisekunden.
-     *
-     * @param timerIncrementMillies int
-     */
-    public void setTimerIncrementMillies(final int timerIncrementMillies)
-    {
-        this.timerIncrementMillies = timerIncrementMillies;
-    }
-
-    /**
-     * @see javax.swing.JComponent#setVisible(boolean)
-     */
-    @Override
-    public void setVisible(final boolean flag)
-    {
-        setAlpha(this.alphaStart);
-
-        super.setVisible(flag);
-
-        // Ueber setVisible den Timer der Childs beenden, falls implementiert
-        Component[] childs = getComponents();
-
-        for (Component child : childs)
-        {
-            child.setVisible(flag);
         }
     }
 }

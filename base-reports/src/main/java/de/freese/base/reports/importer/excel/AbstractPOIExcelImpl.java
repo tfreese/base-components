@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.freese.base.core.exception.StackTraceLimiter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -15,8 +16,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
-import de.freese.base.core.exception.StackTraceLimiter;
 
 /**
  * Basis Implementierung des Excelinterfaces für POI.
@@ -28,10 +27,10 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
     /**
      *
      */
-    private Map<Short, Format> cacheFormat = new HashMap<>();
+    private final Map<Short, Format> cacheFormat = new HashMap<>();
     /**
-    *
-    */
+     *
+     */
     private final DataFormatter dataFormatter = new DataFormatter();
     /**
      *
@@ -81,57 +80,6 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * Liefert den Formatierungsstring eines Datums für ein ExcelXP Format.
-     *
-     * @param index int, Excel XP Formatindex
-     *
-     * @return String
-     */
-    private String getDateFormatByExcelIndex(final int index)
-    {
-        return switch (index)
-        {
-            // case 165 -> "dd.MM.yy HH:mm";
-            // case 167 -> "dd.M.yyyy";
-            // case 169 -> "dd.MMMM.yyyy";
-            // case 170 -> "dd.MMM.yy";
-            // case 171, 191 -> "dd.MMM yy";
-            // case 201 -> "dd.MM.yy";
-
-            default -> "dd.MM.yyyy";
-        };
-    }
-
-    /**
-     * Liefert einen {@link DateFormat}ter für das Excelformat.
-     *
-     * @param format short
-     *
-     * @return {@link Format}
-     */
-    protected Format getDateFormatter(final short format)
-    {
-        Format formatter = this.cacheFormat.get(format);
-
-        if (formatter == null)
-        {
-            formatter = new SimpleDateFormat(getDateFormatByExcelIndex(format));
-            this.cacheFormat.put(format, formatter);
-        }
-
-        return formatter;
-    }
-
-    /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
-     */
-    @Override
-    public final int getNumberOfSheets()
-    {
-        return this.workBook.getNumberOfSheets();
-    }
-
-    /**
      * @see de.freese.base.reports.importer.excel.IExcelImport#getNumColumns()
      */
     @Override
@@ -164,6 +112,15 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
         // if(numRows==0) { return 1; }
 
         return numRows + 1;
+    }
+
+    /**
+     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
+     */
+    @Override
+    public final int getNumberOfSheets()
+    {
+        return this.workBook.getNumberOfSheets();
     }
 
     /**
@@ -306,30 +263,6 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * Öffnen eine konkretes {@link Workbook}.
-     *
-     * @param inputStream {@link InputStream}
-     *
-     * @return {@link Workbook}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;
-
-    /**
-     * Selektiert die gewaehlte Zeile im Excelsheet.
-     *
-     * @param rowNum int
-     */
-    private void selectRow(final int rowNum)
-    {
-        if ((this.row == null) || (this.row.getRowNum() != rowNum))
-        {
-            this.row = this.sheet.getRow(rowNum);
-        }
-    }
-
-    /**
      * @see de.freese.base.reports.importer.excel.IExcelImport#selectSheet(int)
      */
     @Override
@@ -375,6 +308,72 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
         if (this.sheet == null)
         {
             throw new Exception("Excel Sheet not found: " + sheetName);
+        }
+    }
+
+    /**
+     * Liefert einen {@link DateFormat}ter für das Excelformat.
+     *
+     * @param format short
+     *
+     * @return {@link Format}
+     */
+    protected Format getDateFormatter(final short format)
+    {
+        Format formatter = this.cacheFormat.get(format);
+
+        if (formatter == null)
+        {
+            formatter = new SimpleDateFormat(getDateFormatByExcelIndex(format));
+            this.cacheFormat.put(format, formatter);
+        }
+
+        return formatter;
+    }
+
+    /**
+     * Öffnen eine konkretes {@link Workbook}.
+     *
+     * @param inputStream {@link InputStream}
+     *
+     * @return {@link Workbook}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;
+
+    /**
+     * Liefert den Formatierungsstring eines Datums für ein ExcelXP Format.
+     *
+     * @param index int, Excel XP Formatindex
+     *
+     * @return String
+     */
+    private String getDateFormatByExcelIndex(final int index)
+    {
+        return switch (index)
+                {
+                    // case 165 -> "dd.MM.yy HH:mm";
+                    // case 167 -> "dd.M.yyyy";
+                    // case 169 -> "dd.MMMM.yyyy";
+                    // case 170 -> "dd.MMM.yy";
+                    // case 171, 191 -> "dd.MMM yy";
+                    // case 201 -> "dd.MM.yy";
+
+                    default -> "dd.MM.yyyy";
+                };
+    }
+
+    /**
+     * Selektiert die gewaehlte Zeile im Excelsheet.
+     *
+     * @param rowNum int
+     */
+    private void selectRow(final int rowNum)
+    {
+        if ((this.row == null) || (this.row.getRowNum() != rowNum))
+        {
+            this.row = this.sheet.getRow(rowNum);
         }
     }
 }

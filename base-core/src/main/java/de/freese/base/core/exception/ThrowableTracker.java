@@ -20,7 +20,7 @@ public class ThrowableTracker implements Serializable
     /**
      * Map verhindert Exceptions mit gleichen Messages.
      */
-    private Map<String, Throwable> throwables = new LinkedHashMap<>();
+    private final Map<String, Throwable> throwables = new LinkedHashMap<>();
 
     /**
      * Hinzufuegen eines {@link Throwable}.

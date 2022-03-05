@@ -14,9 +14,10 @@ public final class Distribution
      *
      * @param anzahl int
      * @param wert double[]
+     *
      * @return double[]
      */
-    public static final double[] linear(final int anzahl, final double wert)
+    public static double[] linear(final int anzahl, final double wert)
     {
         return linear(anzahl, wert, 0);
     }
@@ -27,9 +28,10 @@ public final class Distribution
      * @param anzahl int
      * @param wert double[]
      * @param nachkommaStellen int
+     *
      * @return double[]
      */
-    public static final double[] linear(final int anzahl, final double wert, final int nachkommaStellen)
+    public static double[] linear(final int anzahl, final double wert, final int nachkommaStellen)
     {
         // Lineare Distribution -> alle Faktoren auf 1
         double[] faktoren = new double[anzahl];
@@ -44,9 +46,10 @@ public final class Distribution
      *
      * @param faktoren double[]
      * @param wert double
+     *
      * @return double[]
      */
-    public static final double[] proportional(final double[] faktoren, final double wert)
+    public static double[] proportional(final double[] faktoren, final double wert)
     {
         return proportional(faktoren, wert, 0);
     }
@@ -58,15 +61,16 @@ public final class Distribution
      * @param faktoren double[]
      * @param wert double[]
      * @param nachkommaStellen int
+     *
      * @return double[]
      */
-    public static final double[] proportional(final double[] faktoren, final double wert, final int nachkommaStellen)
+    public static double[] proportional(final double[] faktoren, final double wert, final int nachkommaStellen)
     {
         double mWert = wert;
         double[] daten = new double[faktoren.length];
         Arrays.fill(daten, 0.0D);
 
-        if (Double.isNaN(mWert) || Double.isInfinite(mWert) || (mWert == 0.0D))
+        if (Double.isNaN(mWert) || Double.isInfinite(mWert) || (Double.compare(mWert, 0.0D) == 0))
         {
             return daten;
         }
@@ -87,7 +91,7 @@ public final class Distribution
 
         for (int i = 0; i < faktoren.length; i++)
         {
-            if (faktorSumme == 0.0D)
+            if (Double.compare(faktorSumme, 0.0D) == 0)
             {
                 break; // NOTE Ohne dieses Abbrechen kann NaN eingetragen werden!
             }
@@ -114,15 +118,21 @@ public final class Distribution
      *
      * @param faktoren Double[]
      * @param wert double
+     *
      * @return double[]
      */
-    public static final double[] proportional(final Double[] faktoren, final double wert)
+    public static double[] proportional(final Double[] faktoren, final double wert)
     {
         double[] faktorenDouble = new double[faktoren.length];
 
         for (int i = 0; i < faktoren.length; i++)
         {
-            faktorenDouble[i] = faktoren[i].doubleValue();
+            if (faktoren[i] == null)
+            {
+                continue;
+            }
+
+            faktorenDouble[i] = faktoren[i];
         }
 
         return proportional(faktorenDouble, wert, 0);

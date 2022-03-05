@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Enumeration;
+
 import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 
@@ -24,6 +25,7 @@ public final class NetUtils
      * Wandelt die binaere IP Addresse in ein lesbares Format um.
      *
      * @param ipAddr byte[]
+     *
      * @return String
      */
     public static String convertAddressToDotRepresentation(final byte[] ipAddr)
@@ -126,6 +128,7 @@ public final class NetUtils
      * Liefert die Zeit der Atomuhr in der Physikalisch Technischen Bundesanstalt.
      *
      * @return {@link Date}
+     *
      * @throws IOException Falls was schief geht.
      */
     public static Date getPTBZeit() throws IOException
@@ -136,7 +139,7 @@ public final class NetUtils
 
         for (int i = 1; i <= 3; i++)
         {
-            String host = String.format("ptbtime%d.ptb.de", Integer.valueOf(i));
+            String host = String.format("ptbtime%d.ptb.de", i);
             InetAddress inetAddress = InetAddress.getByName(host);
 
             try
@@ -191,6 +194,7 @@ public final class NetUtils
      * NSLookUp
      *
      * @param host String
+     *
      * @return boolean
      */
     public static boolean isValidHost(final String host)

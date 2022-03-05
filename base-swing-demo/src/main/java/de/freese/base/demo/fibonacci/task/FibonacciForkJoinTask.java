@@ -15,21 +15,21 @@ import de.freese.base.demo.fibonacci.FibonacciController;
 public class FibonacciForkJoinTask extends RecursiveTask<Long>
 {
     /**
-     *
-     */
-    private static final long serialVersionUID = 67781993370162624L;
-    /**
      * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
      */
     private static final int THRESHOLD = 10;
     /**
      *
      */
-    private final boolean enableCache;
+    private static final long serialVersionUID = 67781993370162624L;
     /**
      *
      */
     public final int n;
+    /**
+     *
+     */
+    private final boolean enableCache;
     /**
      *
      */
@@ -70,7 +70,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
             return value;
         }
 
-        long result = 0;
+        long result = 0L;
 
         if (this.n < THRESHOLD)
         {
@@ -85,7 +85,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
             FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.operationConsumer, this.operationCount, this.enableCache);
             task2.fork();
 
-            result = task1.compute().longValue() + task2.join().longValue();
+            result = task1.compute() + task2.join();
         }
 
         if (this.enableCache)

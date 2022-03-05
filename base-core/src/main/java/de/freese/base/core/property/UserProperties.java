@@ -21,7 +21,7 @@ public class UserProperties
     /**
      * Temporaerer Cache fuer schnelleren Zugriff.
      */
-    private Map<PropertyType, Map<String, UserProperty>> cache = new HashMap<>();
+    private final Map<PropertyType, Map<String, UserProperty>> cache = new HashMap<>();
     /**
      *
      */
@@ -33,27 +33,6 @@ public class UserProperties
     public void clear()
     {
         this.cache.clear();
-    }
-
-    /**
-     * Erzeugt ein neues UserProperty fuer einen Key und einen {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return {@link UserProperty}
-     */
-    private UserProperty createProperty(final String key, final PropertyType type)
-    {
-        UserProperty property = new UserProperty();
-        property.setUserName(this.userID);
-        property.setType(type);
-        property.setKey(key);
-        property.setCreated(true);
-
-        this.cache.get(type).put(key, property);
-
-        return property;
     }
 
     /**
@@ -212,19 +191,6 @@ public class UserProperties
     }
 
     /**
-     * Liefert das {@link UserProperty} fuer den Key und den Typen.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return {@link UserProperty}; kann auch null sein
-     */
-    private UserProperty getProperty(final String key, final PropertyType type)
-    {
-        return this.cache.computeIfAbsent(type, k -> new HashMap<>()).get(key);
-    }
-
-    /**
      * Liefert alle Keys des {@link PropertyType}.
      *
      * @param type {@link PropertyType}
@@ -308,7 +274,7 @@ public class UserProperties
     {
         for (Map<String, UserProperty> typeCache : this.cache.values())
         {
-            for (Iterator<UserProperty> iteratorProp = typeCache.values().iterator(); iteratorProp.hasNext();)
+            for (Iterator<UserProperty> iteratorProp = typeCache.values().iterator(); iteratorProp.hasNext(); )
             {
                 UserProperty property = iteratorProp.next();
 
@@ -452,9 +418,9 @@ public class UserProperties
     /**
      * Setzt eine neue Liste der {@link UserProperty}.
      *
-     * @param properties {@link List}
+     * @param properties {@link Iterable}
      */
-    public void setProperties(final List<UserProperty> properties)
+    public void setProperties(final Iterable<UserProperty> properties)
     {
         // TypeCache aufbauen
         for (PropertyType type : PropertyType.values())
@@ -507,5 +473,39 @@ public class UserProperties
     public void setUserID(final String userID)
     {
         this.userID = userID;
+    }
+
+    /**
+     * Erzeugt ein neues UserProperty fuer einen Key und einen {@link PropertyType}.
+     *
+     * @param key String
+     * @param type {@link PropertyType}
+     *
+     * @return {@link UserProperty}
+     */
+    private UserProperty createProperty(final String key, final PropertyType type)
+    {
+        UserProperty property = new UserProperty();
+        property.setUserName(this.userID);
+        property.setType(type);
+        property.setKey(key);
+        property.setCreated(true);
+
+        this.cache.get(type).put(key, property);
+
+        return property;
+    }
+
+    /**
+     * Liefert das {@link UserProperty} fuer den Key und den Typen.
+     *
+     * @param key String
+     * @param type {@link PropertyType}
+     *
+     * @return {@link UserProperty}; kann auch null sein
+     */
+    private UserProperty getProperty(final String key, final PropertyType type)
+    {
+        return this.cache.computeIfAbsent(type, k -> new HashMap<>()).get(key);
     }
 }

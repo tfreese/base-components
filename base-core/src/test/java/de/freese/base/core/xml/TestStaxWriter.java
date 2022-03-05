@@ -90,9 +90,8 @@ class TestStaxWriter
         // xmlInput.getInputStream().close();
         // xmlOutput.getOutputStream().close();
 
-        byte[] bytes = baos.toByteArray();
-
-        System.out.println(new String(bytes, StandardCharsets.UTF_8));
+        String xml = baos.toString(StandardCharsets.UTF_8);
+        System.out.println(xml);
 
         assertTrue(true);
     }

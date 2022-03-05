@@ -14,25 +14,25 @@ import java.util.stream.Collectors;
  * {@link HashMap} Implementierung mit einer Timeout-Funktion der Elemente.<br>
  * Nach Ablauf des Timeouts werden die Elemente beim nächsten Zugriff gelöscht.
  *
- * @author Thomas Freese
- *
  * @param <K> Konkreter Key
  * @param <V> Konkretes Value
+ *
+ * @author Thomas Freese
  */
 public class TimeoutMap<K, V> implements Map<K, V>
 {
     /**
-    *
-    */
-    private final Map<K, V> backend;
-    /**
-     * Millisekunden, Default = 24 Stunden
+     *
      */
-    private long timeoutInMillis = 1000 * 60 * 60 * 24L;
+    private final Map<K, V> backend;
     /**
      *
      */
     private final Map<K, Long> timestampMap;
+    /**
+     * Millisekunden, Default = 24 Stunden
+     */
+    private long timeoutInMillis = 1000 * 60 * 60 * 24L;
 
     /**
      * Erstellt ein neues {@link TimeoutMap} Object mit einer {@link HashMap} als Backend.
@@ -92,7 +92,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
     @Override
     public boolean containsValue(final Object value)
     {
-        return entrySet().stream().filter(entry -> entry.getValue() == value).count() > 0;
+        return entrySet().stream().anyMatch(entry -> entry.getValue() == value);
     }
 
     /**
@@ -107,7 +107,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
         // Löschen über Iterator des HashMap.EntrySet funktioniert nicht.
         Set<Map.Entry<K, V>> backendEntrySet = new HashSet<>(this.backend.entrySet());
 
-        for (Iterator<Map.Entry<K, V>> iterator = backendEntrySet.iterator(); iterator.hasNext();)
+        for (Iterator<Map.Entry<K, V>> iterator = backendEntrySet.iterator(); iterator.hasNext(); )
         {
             Entry<K, V> entry = iterator.next();
 
@@ -188,26 +188,6 @@ public class TimeoutMap<K, V> implements Map<K, V>
     }
 
     /**
-     * Ein Key ohne Timestamp ist nicht in der Map.<br>
-     * Dann soll die normale Implementierung der HashMap greifen.
-     *
-     * @param key Object
-     *
-     * @return boolean
-     */
-    protected boolean isTimedOut(final Object key)
-    {
-        Long timestamp = this.timestampMap.get(key);
-
-        if (timestamp == null)
-        {
-            return false;
-        }
-
-        return (System.currentTimeMillis() - timestamp) >= getTimeoutInMillis();
-    }
-
-    /**
      * Es werden nur die Keys geliefert, welche noch nicht abgelaufen sind.<br>
      * Abgelaufene Keys werden gelöscht.
      *
@@ -219,7 +199,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
         // Löschen über Iterator des HashMap.KeySet funktioniert nicht.
         Set<K> backendKeySet = new HashSet<>(this.backend.keySet());
 
-        for (Iterator<K> iterator = backendKeySet.iterator(); iterator.hasNext();)
+        for (Iterator<K> iterator = backendKeySet.iterator(); iterator.hasNext(); )
         {
             K key = iterator.next();
 
@@ -307,5 +287,25 @@ public class TimeoutMap<K, V> implements Map<K, V>
     public Collection<V> values()
     {
         return entrySet().stream().map(Entry::getValue).collect(Collectors.toList());
+    }
+
+    /**
+     * Ein Key ohne Timestamp ist nicht in der Map.<br>
+     * Dann soll die normale Implementierung der HashMap greifen.
+     *
+     * @param key Object
+     *
+     * @return boolean
+     */
+    protected boolean isTimedOut(final Object key)
+    {
+        Long timestamp = this.timestampMap.get(key);
+
+        if (timestamp == null)
+        {
+            return false;
+        }
+
+        return (System.currentTimeMillis() - timestamp) >= getTimeoutInMillis();
     }
 }

@@ -32,61 +32,6 @@ import javax.swing.WindowConstants;
 public class AutoCompleteableTextField extends JTextField
 {
     /**
-     * MenuAction um den darin enthaltenen Text in das Textfeld zu setzten.
-     *
-     * @author Thomas Freese
-     */
-    private class PrevSearchAction extends AbstractAction
-    {
-        /**
-         *
-         */
-        private static final long serialVersionUID = -6115968950918667824L;
-        /**
-         *
-         */
-        private String term;
-
-        /**
-         * Creates a new {@link PrevSearchAction} object.
-         *
-         * @param term String
-         */
-        public PrevSearchAction(final String term)
-        {
-            super();
-
-            this.term = term;
-            putValue(Action.NAME, this.term);
-        }
-
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
-        @Override
-        public void actionPerformed(final ActionEvent e)
-        {
-            Runnable runner = () -> {
-                setText(PrevSearchAction.this.term);
-
-                // getFilterTextField().setCaretPosition(term.length());
-                requestFocus();
-            };
-
-            SwingUtilities.invokeLater(runner);
-        }
-
-        /**
-         * @see java.lang.Object#toString()
-         */
-        @Override
-        public String toString()
-        {
-            return this.term;
-        }
-    }
-
-    /**
      *
      */
     private static final long serialVersionUID = 8765972663291526963L;
@@ -115,9 +60,64 @@ public class AutoCompleteableTextField extends JTextField
     }
 
     /**
+     * MenuAction um den darin enthaltenen Text in das Textfeld zu setzten.
+     *
+     * @author Thomas Freese
+     */
+    private class PrevSearchAction extends AbstractAction
+    {
+        /**
+         *
+         */
+        private static final long serialVersionUID = -6115968950918667824L;
+        /**
+         *
+         */
+        private final String term;
+
+        /**
+         * Creates a new {@link PrevSearchAction} object.
+         *
+         * @param term String
+         */
+        public PrevSearchAction(final String term)
+        {
+            super();
+
+            this.term = term;
+            putValue(Action.NAME, this.term);
+        }
+
+        /**
+         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+         */
+        @Override
+        public void actionPerformed(final ActionEvent e)
+        {
+            Runnable runner = () ->
+            {
+                setText(PrevSearchAction.this.term);
+
+                // getFilterTextField().setCaretPosition(term.length());
+                requestFocus();
+            };
+
+            SwingUtilities.invokeLater(runner);
+        }
+
+        /**
+         * @see java.lang.Object#toString()
+         */
+        @Override
+        public String toString()
+        {
+            return this.term;
+        }
+    }
+    /**
      *
      */
-    private LinkedList<String> prevSearches = new LinkedList<>();
+    private final LinkedList<String> prevSearches = new LinkedList<>();
     /**
      *
      */
@@ -222,7 +222,7 @@ public class AutoCompleteableTextField extends JTextField
             {
                 String search = it.next();
 
-                if (search.indexOf(getText().trim()) != -1)
+                if (search.contains(getText().trim()))
                 {
                     matches.add(search);
                 }

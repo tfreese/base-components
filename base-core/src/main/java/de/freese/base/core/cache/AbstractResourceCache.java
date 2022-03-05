@@ -29,27 +29,25 @@ public abstract class AbstractResourceCache implements ResourceCache
      */
     protected static MessageDigest createMessageDigest()
     {
-        MessageDigest md = null;
-
         try
         {
-            //md = MessageDigest.getInstance("SHA-256"); // 64 Zeichen
-            // md = MessageDigest.getInstance("SHA-384"); // 96 Zeichen
-            md = MessageDigest.getInstance("SHA-512"); // 128 Zeichen
+            //return MessageDigest.getInstance("SHA"); // 40 Zeichen
+            //return MessageDigest.getInstance("SHA-1"); // 40 Zeichen
+            // return MessageDigest.getInstance("SHA-256"); // 64 Zeichen
+            // return MessageDigest.getInstance("SHA-384"); // 96 Zeichen
+            return MessageDigest.getInstance("SHA-512"); // 128 Zeichen
         }
         catch (final NoSuchAlgorithmException ex)
         {
             try
             {
-                md = MessageDigest.getInstance("MD5");
+                return MessageDigest.getInstance("MD5"); // 32 Zeichen
             }
             catch (final NoSuchAlgorithmException ex2)
             {
                 throw new RuntimeException(ex2);
             }
         }
-
-        return md;
     }
 
     /**
@@ -73,6 +71,14 @@ public abstract class AbstractResourceCache implements ResourceCache
     }
 
     /**
+     * @return HexFormat
+     */
+    public HexFormat getHexFormat()
+    {
+        return this.hexFormat;
+    }
+
+    /**
      * Erzeugt den Key auf dem Resource-Pfad.<br>
      * Die Bytes des MessageDigest werden dafür in einen Hex-String umgewandelt.
      *
@@ -85,7 +91,7 @@ public abstract class AbstractResourceCache implements ResourceCache
         String uriString = uri.toString();
         byte[] digest = getMessageDigest().digest(uriString.getBytes(StandardCharsets.UTF_8));
 
-        return toHex(digest);
+        return getHexFormat().formatHex(digest);
     }
 
     /**
@@ -133,16 +139,6 @@ public abstract class AbstractResourceCache implements ResourceCache
     }
 
     /**
-     * @param bytes byte[]
-     *
-     * @return String
-     */
-    protected String toHex(byte[] bytes)
-    {
-        return hexFormat.formatHex(bytes);
-    }
-
-    /**
      * @param uri {@link URI}
      *
      * @return {@link InputStream}
@@ -157,7 +153,6 @@ public abstract class AbstractResourceCache implements ResourceCache
         {
             if (connection instanceof HttpURLConnection httpURLConnection)
             {
-
                 // Verhindert HTTP 301 Moved Permanently. -> funktioniert aber nicht !
                 // httpURLConnection.setInstanceFollowRedirects(true);
 

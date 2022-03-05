@@ -23,19 +23,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * @see <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
- *
  * @author Thomas Freese
+ * @see <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class StreamPublisherTest
 {
     /**
-     * @author Thomas Freese
      *
-     * @param <T> Typ der Entity
      */
-    class MyTestSubscriber<T> implements Subscriber<T>
+    static final Executor EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    /**
+     *
+     */
+    static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
+
+    /**
+     * @param <T> Typ der Entity
+     *
+     * @author Thomas Freese
+     */
+    static class MyTestSubscriber<T> implements Subscriber<T>
     {
         /**
          *
@@ -88,12 +96,12 @@ class StreamPublisherTest
     /**
      * Processor = Subscriber + Publisher
      *
-     * @author Thomas Freese
-     *
      * @param <T> Typ der Eingangs
      * @param <R> Typ des Ausgangs
+     *
+     * @author Thomas Freese
      */
-    class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R>
+    static class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R>
     {
         /**
          *
@@ -179,16 +187,6 @@ class StreamPublisherTest
     }
 
     /**
-     *
-     */
-    final static Executor EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
-    /**
-     *
-     */
-    static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
-
-    /**
      * @throws Exception Falls was schief geht.
      */
     @AfterAll
@@ -203,8 +201,8 @@ class StreamPublisherTest
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testStreamPublisherToSubscriber()
     {
@@ -220,8 +218,8 @@ class StreamPublisherTest
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testSubmissionPublisherToProcessorToSubscriber()
     {
@@ -231,7 +229,7 @@ class StreamPublisherTest
         try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>())
         {
             // close-Methode in MyTransformProcessor#onComplete.
-            var transformProcessor = new MyTransformProcessor<Integer, String>(EXECUTOR, i -> "-" + Integer.toString(i) + "-");
+            var transformProcessor = new MyTransformProcessor<Integer, String>(EXECUTOR, i -> "-" + i + "-");
             // var transformProcessor = new MyTransformProcessor<Integer, String>(i -> "-" + Integer.toString(i) + "-");
             publisher.subscribe(transformProcessor);
 

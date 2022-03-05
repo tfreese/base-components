@@ -2,6 +2,7 @@ package de.freese.base.reports.importer.excel;
 
 import java.awt.Rectangle;
 import java.util.StringTokenizer;
+
 import javax.swing.JTable;
 
 /**
@@ -16,6 +17,7 @@ public final class ExcelToolkit
      *
      * @param column int
      * @param row int
+     *
      * @return String
      */
     public static synchronized String getCellName(final int column, final int row)
@@ -27,6 +29,7 @@ public final class ExcelToolkit
      * Liefert die Spaltenamen, zB 2 -> B.
      *
      * @param column int
+     *
      * @return Spaltenname als Excel Spaltename
      */
     public static String getColumnName(final int column)
@@ -41,14 +44,14 @@ public final class ExcelToolkit
         // Weil erste Spalte die Rownumbers enthaelt und somit KEINEN Namen hat.
         int c = column - 1;
 
-        String result = "";
+        StringBuilder sb = new StringBuilder();
 
         for (; c >= 0; c = (c / 26) - 1)
         {
-            result = (char) ((char) (c % 26) + 'A') + result;
+            sb.append((char) (c % 26) + 'A');
         }
 
-        return result;
+        return sb.toString();
 
         // column--;
         //
@@ -71,24 +74,10 @@ public final class ExcelToolkit
     }
 
     /**
-     * Calculate a column name that has two Characters.
-     *
-     * @param c1 int
-     * @param c2 int
-     * @return int
-     */
-    private static int getColumnNumber(final int c1, final int c2)
-    {
-        // Bug Fix - Incorrect Columns referenced (15.08.2005)
-        return ((c1 + 1) * 26) + c2;
-
-        // return ((c1 + 1) * 25) + (c2 + 1);
-    }
-
-    /**
      * Ergibt bei F5 = 6.
      *
      * @param cellName String
+     *
      * @return int
      */
     public static int getColumnNumber(final String cellName)
@@ -139,6 +128,7 @@ public final class ExcelToolkit
      * Ergibt ein String im Excel Formatder selektierten Zellen.
      *
      * @param table {@link JTable}
+     *
      * @return String
      */
     public static String getRange(final JTable table)
@@ -163,7 +153,9 @@ public final class ExcelToolkit
      * Liefert die Anzahl der Zeilen/Spalten des Bereiches zurück.
      *
      * @param range String
+     *
      * @return int
+     *
      * @throws IllegalStateException Falls was schief geht.
      */
     public static int getRowColumnCount(final String range) throws IllegalStateException
@@ -198,6 +190,7 @@ public final class ExcelToolkit
      * Ergibt bei F5 = 5.
      *
      * @param cellName String
+     *
      * @return int
      */
     public static int getRowNumber(final String cellName)
@@ -225,6 +218,7 @@ public final class ExcelToolkit
      * Prüfen, ob der Excelbereich mehrere Rows/Columns enthält.
      *
      * @param value String
+     *
      * @return boolean
      */
     public static boolean isMultiRowOrColumn(final String value)
@@ -267,12 +261,7 @@ public final class ExcelToolkit
         String rowEnd = rowbuf.toString();
         String colEnd = colbuf.toString();
 
-        if ((rowStart.equals(rowEnd)) || (colStart.equals(colEnd)))
-        {
-            return false;
-        }
-
-        return true;
+        return (!rowStart.equals(rowEnd)) && (!colStart.equals(colEnd));
     }
 
     /**
@@ -280,6 +269,7 @@ public final class ExcelToolkit
      *
      * @param range String
      * @param numValues int
+     *
      * @return boolean
      */
     public static boolean isRangeOk(final String range, final int numValues)
@@ -322,12 +312,7 @@ public final class ExcelToolkit
             }
         }
 
-        if (numRangeValues <= numValues)
-        {
-            return true;
-        }
-
-        return false;
+        return numRangeValues <= numValues;
     }
 
     /**
@@ -335,6 +320,7 @@ public final class ExcelToolkit
      *
      * @param ranges String
      * @param range String
+     *
      * @return boolean
      */
     public static boolean overlapAllRanges(final String ranges, final String range)
@@ -357,6 +343,7 @@ public final class ExcelToolkit
      *
      * @param range1 String
      * @param range2 String
+     *
      * @return boolean
      */
     public static boolean overlapRanges(final String range1, final String range2)
@@ -382,6 +369,22 @@ public final class ExcelToolkit
         Rectangle r2 = new Rectangle(r2FirstCol, r2FirstRow, (r2LastCol - r2FirstCol) + 1, (r2LastRow - r2FirstRow) + 1);
 
         return r1.intersects(r2);
+    }
+
+    /**
+     * Calculate a column name that has two Characters.
+     *
+     * @param c1 int
+     * @param c2 int
+     *
+     * @return int
+     */
+    private static int getColumnNumber(final int c1, final int c2)
+    {
+        // Bug Fix - Incorrect Columns referenced (15.08.2005)
+        return ((c1 + 1) * 26) + c2;
+
+        // return ((c1 + 1) * 25) + (c2 + 1);
     }
 
     /**

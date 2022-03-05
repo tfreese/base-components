@@ -19,11 +19,11 @@ public class BlackWhiteOp implements BufferedImageOp
     /**
      *
      */
-    private int colorLimit;
+    private final int colorLimit;
     /**
      *
      */
-    private RenderingHints hints;
+    private final RenderingHints hints;
 
     /**
      * Creates a new {@link BlackWhiteOp} object.

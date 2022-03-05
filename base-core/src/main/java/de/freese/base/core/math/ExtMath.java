@@ -16,6 +16,10 @@ import java.util.regex.Pattern;
 public final class ExtMath
 {
     /**
+     *
+     */
+    public static final double LOG_E = Math.log(Math.E);
+    /**
      * <pre>
      * char[] carray = new char[36];
      * int j = 0;
@@ -25,49 +29,45 @@ public final class ExtMath
      *     carray[j] = i; // A - Z
      * </pre>
      */
-    public static final char[] CHAR_ARRAY =
-    {
-            '0',
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            'A',
-            'B',
-            'C',
-            'D',
-            'E',
-            'F',
-            'G',
-            'H',
-            'I',
-            'J',
-            'K',
-            'L',
-            'M',
-            'N',
-            'O',
-            'P',
-            'Q',
-            'R',
-            'S',
-            'T',
-            'U',
-            'V',
-            'W',
-            'X',
-            'Y',
-            'Z'
-    };
-    /**
-     *
-     */
-    public static final double LOG_E = Math.log(Math.E);
+    private static final char[] CHAR_ARRAY =
+            {
+                    '0',
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    'A',
+                    'B',
+                    'C',
+                    'D',
+                    'E',
+                    'F',
+                    'G',
+                    'H',
+                    'I',
+                    'J',
+                    'K',
+                    'L',
+                    'M',
+                    'N',
+                    'O',
+                    'P',
+                    'Q',
+                    'R',
+                    'S',
+                    'T',
+                    'U',
+                    'V',
+                    'W',
+                    'X',
+                    'Y',
+                    'Z'
+            };
 
     /**
      * @param n long
@@ -377,12 +377,7 @@ public final class ExtMath
             return false;
         }
 
-        if ((value > Math.floor(value)) && (value < Math.ceil(value)))
-        {
-            return true;
-        }
-
-        return false;
+        return (value > Math.floor(value)) && (value < Math.ceil(value));
     }
 
     /**
@@ -609,7 +604,7 @@ public final class ExtMath
      */
     public static double round(final double value, final int scale, final RoundingMode roundingMode)
     {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (value == 0.0D))
+        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0))
         {
             return 0.0D;
         }
@@ -630,7 +625,7 @@ public final class ExtMath
      */
     public static int roundDown(final double value)
     {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (value == 0.0D))
+        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0))
         {
             return 0;
         }
@@ -665,7 +660,7 @@ public final class ExtMath
      */
     public static int roundUp(final double value)
     {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (value == 0.0D))
+        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0))
         {
             return 0;
         }

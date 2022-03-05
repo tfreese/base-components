@@ -23,12 +23,8 @@ public class MemoryGraphPainter extends AbstractGraphPainter
      */
     private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
     /**
-    *
-    */
-    private float columnOffset;
-    /**
-    *
-    */
+     *
+     */
     private final Line2D line2d = new Line2D.Float();
     /**
      *
@@ -39,9 +35,13 @@ public class MemoryGraphPainter extends AbstractGraphPainter
      */
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
     /**
-    *
-    */
+     *
+     */
     private final Runtime runtime;
+    /**
+     *
+     */
+    private float columnOffset;
 
     /**
      * Erstellt ein neues {@link MemoryGraphPainter} Object.
@@ -68,34 +68,6 @@ public class MemoryGraphPainter extends AbstractGraphPainter
     }
 
     /**
-     * @return float
-     */
-    private float getFreeMemory()
-    {
-        return this.runtime.freeMemory();
-    }
-
-    /**
-     * @return float
-     */
-    private float getTotalMemory()
-    {
-        return this.runtime.totalMemory();
-    }
-
-    /**
-     * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
-     */
-    @Override
-    protected float getYKoordinate(final float value, final float height)
-    {
-        // Prozent-Wert umrechnen.
-        float y = value * height;
-
-        return y;
-    }
-
-    /**
      * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
      */
     @Override
@@ -110,8 +82,8 @@ public class MemoryGraphPainter extends AbstractGraphPainter
 
         g.setColor(Color.GREEN);
         g.setFont(FONT);
-        g.drawString(String.valueOf((int) totalMemory / 1024) + "K allocated", 4F, ascent - 0.5F);
-        g.drawString(String.valueOf((int) (totalMemory - freeMemory) / 1024) + "K used", 4F, height - descent);
+        g.drawString((int) totalMemory / 1024 + "K allocated", 4F, ascent - 0.5F);
+        g.drawString((int) (totalMemory - freeMemory / 1024) + "K used", 4F, height - descent);
 
         float fontHeight = (float) ascent + descent;
         float graphHeight = height - (fontHeight * 2.0F) - 0.5F;
@@ -168,6 +140,34 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         g.translate(xOffset, yOffset);
         paintPlot(g, graphWidth, graphHeight);
         // g.translate(-xOffset, -yOffset);
+    }
+
+    /**
+     * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
+     */
+    @Override
+    protected float getYKoordinate(final float value, final float height)
+    {
+        // Prozent-Wert umrechnen.
+        float y = value * height;
+
+        return y;
+    }
+
+    /**
+     * @return float
+     */
+    private float getFreeMemory()
+    {
+        return this.runtime.freeMemory();
+    }
+
+    /**
+     * @return float
+     */
+    private float getTotalMemory()
+    {
+        return this.runtime.totalMemory();
     }
 
     /**

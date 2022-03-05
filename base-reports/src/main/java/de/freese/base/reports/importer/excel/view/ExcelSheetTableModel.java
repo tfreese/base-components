@@ -1,5 +1,7 @@
 package de.freese.base.reports.importer.excel.view;
 
+import java.util.Objects;
+
 import javax.swing.table.AbstractTableModel;
 
 import de.freese.base.reports.importer.excel.ExcelSheet;
@@ -18,7 +20,7 @@ public class ExcelSheetTableModel extends AbstractTableModel
     /**
      *
      */
-    private ExcelSheet excelSheet;
+    private final ExcelSheet excelSheet;
 
     /**
      * Creates a new {@link ExcelSheetTableModel} object.
@@ -29,7 +31,7 @@ public class ExcelSheetTableModel extends AbstractTableModel
     {
         super();
 
-        this.excelSheet = excelSheet;
+        this.excelSheet = Objects.requireNonNull(excelSheet, "excelSheet required");
     }
 
     /**

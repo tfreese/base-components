@@ -28,15 +28,15 @@ public class NioSslClient extends AbstractNioSslPeer
     /**
      * The engine that will be used to encrypt/decrypt data between this client and the server.
      */
-    private SSLEngine engine;
+    private final SSLEngine engine;
     /**
      * The port of the server this client is configured to connect to.
      */
-    private int port;
+    private final int port;
     /**
      * The remote address of the server this client is configured to connect to.
      */
-    private String remoteAddress;
+    private final String remoteAddress;
     /**
      * The socket channel that will be used as the transport link between this client and the server.
      */
@@ -46,7 +46,7 @@ public class NioSslClient extends AbstractNioSslPeer
      * Initiates the engine to run as a client using peer information, and allocates space for the buffers that will be used by the engine.
      *
      * @param protocol The SSL/TLS protocol to be used. Java 1.6 will only run with up to TLSv1 protocol. Java 1.7 or higher also supports TLSv1.1 and TLSv1.2
-     *            protocols.
+     * protocols.
      * @param remoteAddress The IP address of the peer.
      * @param port The peer's port that will be used.
      *
@@ -100,6 +100,33 @@ public class NioSslClient extends AbstractNioSslPeer
     public void read() throws Exception
     {
         read(this.socketChannel, this.engine);
+    }
+
+    /**
+     * Should be called when the client wants to explicitly close the connection to the server.
+     *
+     * @throws IOException if an I/O error occurs to the socket channel.
+     */
+    public void shutdown() throws IOException
+    {
+        getLogger().debug("About to close connection with the server...");
+
+        closeConnection(this.socketChannel, this.engine);
+        this.executor.shutdown();
+
+        getLogger().debug("Goodbye!");
+    }
+
+    /**
+     * Public method to send a message to the server.
+     *
+     * @param message - message to be sent to the server.
+     *
+     * @throws IOException if an I/O error occurs to the socket channel.
+     */
+    public void write(final String message) throws IOException
+    {
+        write(this.socketChannel, this.engine, message);
     }
 
     /**
@@ -174,21 +201,6 @@ public class NioSslClient extends AbstractNioSslPeer
     }
 
     /**
-     * Should be called when the client wants to explicitly close the connection to the server.
-     *
-     * @throws IOException if an I/O error occurs to the socket channel.
-     */
-    public void shutdown() throws IOException
-    {
-        getLogger().debug("About to close connection with the server...");
-
-        closeConnection(this.socketChannel, this.engine);
-        this.executor.shutdown();
-
-        getLogger().debug("Goodbye!");
-    }
-
-    /**
      * Implements the write method that sends a message to the server the client is connected to, but should not be called by the user, since socket channel and
      * engine are inner class' variables. {@link NioSslClient#write(String)} should be called instead.
      *
@@ -237,17 +249,5 @@ public class NioSslClient extends AbstractNioSslPeer
                     throw new IllegalStateException("Invalid SSL status: " + result.getStatus());
             }
         }
-    }
-
-    /**
-     * Public method to send a message to the server.
-     *
-     * @param message - message to be sent to the server.
-     *
-     * @throws IOException if an I/O error occurs to the socket channel.
-     */
-    public void write(final String message) throws IOException
-    {
-        write(this.socketChannel, this.engine, message);
     }
 }

@@ -7,7 +7,9 @@ import java.awt.RenderingHints;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.Painter;
+
 import de.freese.base.swing.components.led.token.ArrowToken;
 import de.freese.base.swing.components.led.token.Token;
 
@@ -17,412 +19,412 @@ import de.freese.base.swing.components.led.token.Token;
 public class LedMatrix implements Painter<LedConfig>
 {
     /**
-    *
-    */
+     *
+     */
     private static final Map<Object, byte[]> bitMaskMap = new HashMap<>();
 
     static
     {
         addBitMask(" ", new byte[]
-        {
-                0, 0, 0, 0, 0
-        });
+                {
+                        0, 0, 0, 0, 0
+                });
         addBitMask("A", new byte[]
-        {
-                126, 9, 9, 9, 126
-        });
+                {
+                        126, 9, 9, 9, 126
+                });
         addBitMask("a", new byte[]
-        {
-                32, 84, 84, 84, 120
-        });
+                {
+                        32, 84, 84, 84, 120
+                });
         addBitMask("B", new byte[]
-        {
-                127, 73, 73, 73, 62
-        });
+                {
+                        127, 73, 73, 73, 62
+                });
         addBitMask("b", new byte[]
-        {
-                127, 68, 68, 68, 56
-        });
+                {
+                        127, 68, 68, 68, 56
+                });
         addBitMask("C", new byte[]
-        {
-                62, 65, 65, 65, 34
-        });
+                {
+                        62, 65, 65, 65, 34
+                });
         addBitMask("c", new byte[]
-        {
-                56, 68, 68, 68, 0
-        });
+                {
+                        56, 68, 68, 68, 0
+                });
         addBitMask("D", new byte[]
-        {
-                65, 127, 65, 65, 62
-        });
+                {
+                        65, 127, 65, 65, 62
+                });
         addBitMask("d", new byte[]
-        {
-                56, 68, 68, 72, 127
-        });
+                {
+                        56, 68, 68, 72, 127
+                });
         addBitMask("E", new byte[]
-        {
-                127, 73, 73, 65, 65
-        });
+                {
+                        127, 73, 73, 65, 65
+                });
         addBitMask("e", new byte[]
-        {
-                56, 84, 84, 84, 24
-        });
+                {
+                        56, 84, 84, 84, 24
+                });
         addBitMask("F", new byte[]
-        {
-                127, 9, 9, 1, 1
-        });
+                {
+                        127, 9, 9, 1, 1
+                });
         addBitMask("f", new byte[]
-        {
-                8, 126, 9, 1, 2
-        });
+                {
+                        8, 126, 9, 1, 2
+                });
         addBitMask("G", new byte[]
-        {
-                62, 65, 65, 73, 58
-        });
+                {
+                        62, 65, 65, 73, 58
+                });
         addBitMask("g", new byte[]
-        {
-                72, 84, 84, 84, 60
-        });
+                {
+                        72, 84, 84, 84, 60
+                });
         addBitMask("H", new byte[]
-        {
-                127, 8, 8, 8, 127
-        });
+                {
+                        127, 8, 8, 8, 127
+                });
         addBitMask("h", new byte[]
-        {
-                127, 8, 4, 4, 120
-        });
+                {
+                        127, 8, 4, 4, 120
+                });
         addBitMask("I", new byte[]
-        {
-                0, 65, 127, 65, 0
-        });
+                {
+                        0, 65, 127, 65, 0
+                });
         addBitMask("i", new byte[]
-        {
-                0, 68, 125, 64, 0
-        });
+                {
+                        0, 68, 125, 64, 0
+                });
         addBitMask("J", new byte[]
-        {
-                32, 64, 65, 63, 1
-        });
+                {
+                        32, 64, 65, 63, 1
+                });
         addBitMask("j", new byte[]
-        {
-                32, 64, 68, 61, 0
-        });
+                {
+                        32, 64, 68, 61, 0
+                });
         addBitMask("K", new byte[]
-        {
-                127, 8, 20, 34, 65
-        });
+                {
+                        127, 8, 20, 34, 65
+                });
         addBitMask("k", new byte[]
-        {
-                127, 16, 40, 68, 0
-        });
+                {
+                        127, 16, 40, 68, 0
+                });
         addBitMask("L", new byte[]
-        {
-                127, 64, 64, 64, 64
-        });
+                {
+                        127, 64, 64, 64, 64
+                });
         addBitMask("l", new byte[]
-        {
-                0, 65, 127, 64, 0
-        });
+                {
+                        0, 65, 127, 64, 0
+                });
         addBitMask("M", new byte[]
-        {
-                127, 2, 12, 2, 127
-        });
+                {
+                        127, 2, 12, 2, 127
+                });
         addBitMask("m", new byte[]
-        {
-                124, 4, 24, 4, 120
-        });
+                {
+                        124, 4, 24, 4, 120
+                });
         addBitMask("N", new byte[]
-        {
-                127, 4, 8, 16, 127
-        });
+                {
+                        127, 4, 8, 16, 127
+                });
         addBitMask("n", new byte[]
-        {
-                124, 8, 4, 4, 120
-        });
+                {
+                        124, 8, 4, 4, 120
+                });
         addBitMask("O", new byte[]
-        {
-                62, 65, 65, 65, 62
-        });
+                {
+                        62, 65, 65, 65, 62
+                });
         addBitMask("o", new byte[]
-        {
-                56, 68, 68, 68, 56
-        });
+                {
+                        56, 68, 68, 68, 56
+                });
         addBitMask("P", new byte[]
-        {
-                127, 9, 9, 9, 6
-        });
+                {
+                        127, 9, 9, 9, 6
+                });
         addBitMask("p", new byte[]
-        {
-                124, 20, 20, 20, 8
-        });
+                {
+                        124, 20, 20, 20, 8
+                });
         addBitMask("Q", new byte[]
-        {
-                62, 65, 81, 33, 94
-        });
+                {
+                        62, 65, 81, 33, 94
+                });
         addBitMask("q", new byte[]
-        {
-                8, 20, 20, 20, 124
-        });
+                {
+                        8, 20, 20, 20, 124
+                });
         addBitMask("R", new byte[]
-        {
-                127, 9, 25, 41, 70
-        });
+                {
+                        127, 9, 25, 41, 70
+                });
         addBitMask("r", new byte[]
-        {
-                124, 8, 4, 4, 8
-        });
+                {
+                        124, 8, 4, 4, 8
+                });
         addBitMask("S", new byte[]
-        {
-                38, 73, 73, 73, 50
-        });
+                {
+                        38, 73, 73, 73, 50
+                });
         addBitMask("s", new byte[]
-        {
-                72, 84, 84, 84, 32
-        });
+                {
+                        72, 84, 84, 84, 32
+                });
         addBitMask("T", new byte[]
-        {
-                1, 1, 127, 1, 1
-        });
+                {
+                        1, 1, 127, 1, 1
+                });
         addBitMask("t", new byte[]
-        {
-                4, 63, 68, 64, 64
-        });
+                {
+                        4, 63, 68, 64, 64
+                });
         addBitMask("U", new byte[]
-        {
-                63, 64, 64, 64, 63
-        });
+                {
+                        63, 64, 64, 64, 63
+                });
         addBitMask("u", new byte[]
-        {
-                60, 64, 64, 32, 124
-        });
+                {
+                        60, 64, 64, 32, 124
+                });
         addBitMask("V", new byte[]
-        {
-                7, 24, 96, 24, 7
-        });
+                {
+                        7, 24, 96, 24, 7
+                });
         addBitMask("v", new byte[]
-        {
-                28, 32, 64, 32, 28
-        });
+                {
+                        28, 32, 64, 32, 28
+                });
         addBitMask("W", new byte[]
-        {
-                127, 32, 24, 32, 127
-        });
+                {
+                        127, 32, 24, 32, 127
+                });
         addBitMask("w", new byte[]
-        {
-                60, 64, 48, 64, 60
-        });
+                {
+                        60, 64, 48, 64, 60
+                });
         addBitMask("X", new byte[]
-        {
-                99, 20, 8, 20, 99
-        });
+                {
+                        99, 20, 8, 20, 99
+                });
         addBitMask("x", new byte[]
-        {
-                68, 40, 16, 40, 68
-        });
+                {
+                        68, 40, 16, 40, 68
+                });
         addBitMask("Y", new byte[]
-        {
-                7, 8, 120, 8, 7
-        });
+                {
+                        7, 8, 120, 8, 7
+                });
         addBitMask("y", new byte[]
-        {
-                12, 80, 80, 80, 60
-        });
+                {
+                        12, 80, 80, 80, 60
+                });
         addBitMask("Z", new byte[]
-        {
-                97, 81, 73, 69, 67
-        });
+                {
+                        97, 81, 73, 69, 67
+                });
         addBitMask("z", new byte[]
-        {
-                68, 100, 84, 76, 68
-        });
+                {
+                        68, 100, 84, 76, 68
+                });
         addBitMask("0", new byte[]
-        {
-                62, 81, 73, 69, 62
-        });
+                {
+                        62, 81, 73, 69, 62
+                });
         addBitMask("1", new byte[]
-        {
-                0, 66, 127, 64, 0
-        });
+                {
+                        0, 66, 127, 64, 0
+                });
         addBitMask("2", new byte[]
-        {
-                98, 81, 81, 73, 70
-        });
+                {
+                        98, 81, 81, 73, 70
+                });
         addBitMask("3", new byte[]
-        {
-                34, 65, 73, 73, 54
-        });
+                {
+                        34, 65, 73, 73, 54
+                });
         addBitMask("4", new byte[]
-        {
-                24, 20, 18, 127, 16
-        });
+                {
+                        24, 20, 18, 127, 16
+                });
         addBitMask("5", new byte[]
-        {
-                39, 69, 69, 69, 57
-        });
+                {
+                        39, 69, 69, 69, 57
+                });
         addBitMask("6", new byte[]
-        {
-                60, 74, 73, 73, 49
-        });
+                {
+                        60, 74, 73, 73, 49
+                });
         addBitMask("7", new byte[]
-        {
-                1, 113, 9, 5, 3
-        });
+                {
+                        1, 113, 9, 5, 3
+                });
         addBitMask("8", new byte[]
-        {
-                54, 73, 73, 73, 54
-        });
+                {
+                        54, 73, 73, 73, 54
+                });
         addBitMask("9", new byte[]
-        {
-                70, 73, 73, 41, 30
-        });
+                {
+                        70, 73, 73, 41, 30
+                });
         addBitMask("~", new byte[]
-        {
-                2, 1, 2, 4, 2
-        });
+                {
+                        2, 1, 2, 4, 2
+                });
         addBitMask("`", new byte[]
-        {
-                1, 2, 4, 0, 0
-        });
+                {
+                        1, 2, 4, 0, 0
+                });
         addBitMask("!", new byte[]
-        {
-                0, 0, 111, 0, 0
-        });
+                {
+                        0, 0, 111, 0, 0
+                });
         addBitMask("@", new byte[]
-        {
-                62, 65, 93, 85, 14
-        });
+                {
+                        62, 65, 93, 85, 14
+                });
         addBitMask("#", new byte[]
-        {
-                20, 127, 20, 127, 20
-        });
+                {
+                        20, 127, 20, 127, 20
+                });
         addBitMask("$", new byte[]
-        {
-                44, 42, 127, 42, 26
-        });
+                {
+                        44, 42, 127, 42, 26
+                });
         addBitMask("%", new byte[]
-        {
-                38, 22, 8, 52, 50
-        });
+                {
+                        38, 22, 8, 52, 50
+                });
         addBitMask("^", new byte[]
-        {
-                4, 2, 1, 2, 4
-        });
+                {
+                        4, 2, 1, 2, 4
+                });
         addBitMask("&", new byte[]
-        {
-                54, 73, 86, 32, 80
-        });
+                {
+                        54, 73, 86, 32, 80
+                });
         addBitMask("*", new byte[]
-        {
-                42, 28, 127, 28, 42
-        });
+                {
+                        42, 28, 127, 28, 42
+                });
         addBitMask("(", new byte[]
-        {
-                0, 0, 62, 65, 0
-        });
+                {
+                        0, 0, 62, 65, 0
+                });
         addBitMask(")", new byte[]
-        {
-                0, 65, 62, 0, 0
-        });
+                {
+                        0, 65, 62, 0, 0
+                });
         addBitMask("-", new byte[]
-        {
-                8, 8, 8, 8, 8
-        });
+                {
+                        8, 8, 8, 8, 8
+                });
         addBitMask("_", new byte[]
-        {
-                64, 64, 64, 64, 64
-        });
+                {
+                        64, 64, 64, 64, 64
+                });
         addBitMask("+", new byte[]
-        {
-                8, 8, 127, 8, 8
-        });
+                {
+                        8, 8, 127, 8, 8
+                });
         addBitMask("=", new byte[]
-        {
-                36, 36, 36, 36, 36
-        });
+                {
+                        36, 36, 36, 36, 36
+                });
         addBitMask("\\", new byte[]
-        {
-                3, 4, 8, 16, 96
-        });
+                {
+                        3, 4, 8, 16, 96
+                });
         addBitMask("|", new byte[]
-        {
-                0, 0, 127, 0, 0
-        });
+                {
+                        0, 0, 127, 0, 0
+                });
         addBitMask("{", new byte[]
-        {
-                0, 8, 54, 65, 65
-        });
+                {
+                        0, 8, 54, 65, 65
+                });
         addBitMask("}", new byte[]
-        {
-                65, 65, 54, 8, 0
-        });
+                {
+                        65, 65, 54, 8, 0
+                });
         addBitMask("[", new byte[]
-        {
-                0, 127, 65, 65, 0
-        });
+                {
+                        0, 127, 65, 65, 0
+                });
         addBitMask("]", new byte[]
-        {
-                0, 65, 65, 127, 0
-        });
+                {
+                        0, 65, 65, 127, 0
+                });
         addBitMask(":", new byte[]
-        {
-                0, 0, 54, 54, 0
-        });
+                {
+                        0, 0, 54, 54, 0
+                });
         addBitMask(";", new byte[]
-        {
-                0, 91, 59, 0, 0
-        });
+                {
+                        0, 91, 59, 0, 0
+                });
         addBitMask(",", new byte[]
-        {
-                0, 0, 88, 56, 0
-        });
+                {
+                        0, 0, 88, 56, 0
+                });
         addBitMask(".", new byte[]
-        {
-                0, 96, 96, 0, 0
-        });
+                {
+                        0, 96, 96, 0, 0
+                });
         addBitMask("<", new byte[]
-        {
-                8, 20, 34, 65, 0
-        });
+                {
+                        8, 20, 34, 65, 0
+                });
         addBitMask(">", new byte[]
-        {
-                65, 34, 20, 8, 0
-        });
+                {
+                        65, 34, 20, 8, 0
+                });
         addBitMask("?", new byte[]
-        {
-                2, 1, 89, 5, 2
-        });
+                {
+                        2, 1, 89, 5, 2
+                });
         addBitMask("/", new byte[]
-        {
-                96, 16, 8, 4, 3
-        });
+                {
+                        96, 16, 8, 4, 3
+                });
         addBitMask("'", new byte[]
-        {
-                0, 0, 7, 0, 0
-        });
+                {
+                        0, 0, 7, 0, 0
+                });
         addBitMask("\"", new byte[]
-        {
-                0, 7, 0, 7, 0
-        });
+                {
+                        0, 7, 0, 7, 0
+                });
         addBitMask(ArrowToken.ArrowDirection.UP, new byte[]
-        {
-                16, 24, 28, 24, 16
-        });
+                {
+                        16, 24, 28, 24, 16
+                });
         addBitMask(ArrowToken.ArrowDirection.UNCHANGED, new byte[]
-        {
-                8, 28, 28, 28, 8
-        });
+                {
+                        8, 28, 28, 28, 8
+                });
         addBitMask(ArrowToken.ArrowDirection.DOWN, new byte[]
-        {
-                4, 12, 28, 12, 4
-        });
+                {
+                        4, 12, 28, 12, 4
+                });
         addBitMask(ArrowToken.ArrowDirection.LEFT, new byte[]
-        {
-                0, 8, 28, 62, 0
-        });
+                {
+                        0, 8, 28, 62, 0
+                });
         addBitMask(ArrowToken.ArrowDirection.RIGHT, new byte[]
-        {
-                0, 62, 28, 8, 0
-        });
+                {
+                        0, 62, 28, 8, 0
+                });
     }
 
     /**
@@ -436,6 +438,7 @@ public class LedMatrix implements Painter<LedConfig>
 
     /**
      * @param object Object
+     *
      * @return byte[]
      */
     public static byte[] getBitMask(final Object object)
@@ -475,6 +478,7 @@ public class LedMatrix implements Painter<LedConfig>
      * </pre>
      *
      * @param ledDots byte[][]
+     *
      * @return byte[]
      */
     public static byte[] getTokenBitMask(final byte[][] ledDots)
@@ -507,32 +511,31 @@ public class LedMatrix implements Painter<LedConfig>
         // Dots für das 'A', am besten in Excel eintragen und kopieren.
         // byte[][] rasterBytes = new byte[7][5];
         byte[][] ledDots =
-        {
                 {
-                        0, 1, 1, 1, 0
-                },
-                {
-                        1, 0, 0, 0, 1
-                },
-                {
-                        1, 0, 0, 0, 1
-                },
-                {
-                        1, 1, 1, 1, 1
-                },
-                {
-                        1, 0, 0, 0, 1
-                },
-                {
-                        1, 0, 0, 0, 1
-                },
-                {
-                        1, 0, 0, 0, 1
-                }
-        };
+                        {
+                                0, 1, 1, 1, 0
+                        },
+                        {
+                                1, 0, 0, 0, 1
+                        },
+                        {
+                                1, 0, 0, 0, 1
+                        },
+                        {
+                                1, 1, 1, 1, 1
+                        },
+                        {
+                                1, 0, 0, 0, 1
+                        },
+                        {
+                                1, 0, 0, 0, 1
+                        },
+                        {
+                                1, 0, 0, 0, 1
+                        }
+                };
 
         System.out.printf("Buchstabe 'A': BitMask = %s%n", Arrays.toString(getTokenBitMask(ledDots)));
-
     }
 
     /**
@@ -541,16 +544,6 @@ public class LedMatrix implements Painter<LedConfig>
     public LedMatrix()
     {
         super();
-    }
-
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
-     */
-    protected void configureGraphics(final Graphics2D g, final LedConfig config)
-    {
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     /**
@@ -564,6 +557,43 @@ public class LedMatrix implements Painter<LedConfig>
         paintBackground(g, config, width, height);
 
         paintElement(g, config, width, height);
+    }
+
+    /**
+     * @param g {@link Graphics2D}
+     * @param config {@link LedConfig}
+     * @param width int
+     * @param height int
+     */
+    public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height)
+    {
+        int leftInset = 1 * (config.getDotWidth() + config.getHgap());
+        int x = leftInset;
+
+        // TODO Hier Ansetzen für das Scrolling.
+        // LinkedList<byte[]> des gesamten Elements.
+        // byte[] mask = linkedList.remove(0);
+        // linkedList.add(maskr);
+
+        for (Token<?> token : config.getTokens())
+        {
+            x = paintToken(g, config, width, height, token, x);
+
+            if (x >= width)
+            {
+                break;
+            }
+        }
+    }
+
+    /**
+     * @param g {@link Graphics2D}
+     * @param config {@link LedConfig}
+     */
+    protected void configureGraphics(final Graphics2D g, final LedConfig config)
+    {
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
     /**
@@ -613,37 +643,11 @@ public class LedMatrix implements Painter<LedConfig>
     /**
      * @param g {@link Graphics2D}
      * @param config {@link LedConfig}
-     * @param width int
-     * @param height int
-     */
-    public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height)
-    {
-        int leftInset = 1 * (config.getDotWidth() + config.getHgap());
-        int x = leftInset;
-
-        // TODO Hier Ansetzen für das Scrolling.
-        // LinkedList<byte[]> des gesamten Elements.
-        // byte[] mask = linkedList.remove(0);
-        // linkedList.add(maskr);
-
-        for (Token<?> token : config.getTokens())
-        {
-            x = paintToken(g, config, width, height, token, x);
-
-            if (x >= width)
-            {
-                break;
-            }
-        }
-    }
-
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
      * @param token {@link Token}
      * @param width int
      * @param height int
      * @param x int
+     *
      * @return int
      */
     protected int paintToken(final Graphics2D g, final LedConfig config, final int width, final int height, final Token<?> token, int x)
@@ -677,6 +681,7 @@ public class LedMatrix implements Painter<LedConfig>
      * @param height int
      * @param bitMask byte[]
      * @param x int
+     *
      * @return int
      */
     protected int paintTokenDots(final Graphics2D g, final LedConfig config, final int width, final int height, final byte[] bitMask, int x)

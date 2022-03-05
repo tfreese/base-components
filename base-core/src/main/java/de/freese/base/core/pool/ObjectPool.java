@@ -7,9 +7,9 @@ import java.util.NoSuchElementException;
  * Interface für einen ObjectPool.<br>
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public interface ObjectPool<T>
 {
@@ -18,7 +18,7 @@ public interface ObjectPool<T>
      *
      * @return Object
      *
-     * @throws NoSuchElementException wenn der Pool erschöpft ist
+     * @throws NoSuchElementException Wenn der Pool erschöpft ist
      */
     T borrowObject();
 

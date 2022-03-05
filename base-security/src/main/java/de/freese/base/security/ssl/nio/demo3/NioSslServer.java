@@ -33,18 +33,18 @@ import javax.net.ssl.SSLSession;
 public class NioSslServer extends AbstractNioSslPeer
 {
     /**
-     * Declares if the server is active to serve and create new connections.
-     */
-    private boolean active;
-    /**
      * The context will be initialized with a specific SSL/TLS protocol and will then be used to create {@link SSLEngine} classes for each new connection that
      * arrives to the server.
      */
-    private SSLContext context;
+    private final SSLContext context;
     /**
      * A part of Java NIO that will be used to serve all connections to the server in one thread.
      */
-    private Selector selector;
+    private final Selector selector;
+    /**
+     * Declares if the server is active to serve and create new connections.
+     */
+    private boolean active;
 
     /**
      * Server is designed to apply an SSL/TLS protocol and listen to an IP address and port.
@@ -79,43 +79,54 @@ public class NioSslServer extends AbstractNioSslPeer
     }
 
     /**
-     * Will be called after a new connection request arrives to the server. Creates the {@link SocketChannel} that will be used as the network layer link, and
-     * the {@link SSLEngine} that will encrypt and decrypt all the data that will be exchanged during the session with this specific client.
-     *
-     * @param key - the key dedicated to the {@link ServerSocketChannel} used by the server to listen to new connection requests.
+     * Should be called in order the server to start listening to new connections. This method will run in a loop as long as the server is active. In order to
+     * stop the server you should use {@link NioSslServer#stop()} which will set it to inactive state and also wake up the listener, which may be in blocking
+     * select() state.
      *
      * @throws Exception Falls was schief geht.
      */
-    private void accept(final SelectionKey key) throws Exception
+    public void start() throws Exception
     {
-        getLogger().debug("New connection request!");
+        getLogger().debug("Initialized and waiting for new connections...");
 
-        SocketChannel socketChannel = ((ServerSocketChannel) key.channel()).accept();
-        socketChannel.configureBlocking(false);
-
-        SSLEngine engine = this.context.createSSLEngine();
-        engine.setUseClientMode(false);
-        engine.beginHandshake();
-
-        if (doHandshake(socketChannel, engine))
+        while (isActive())
         {
-            socketChannel.register(this.selector, SelectionKey.OP_READ, engine);
+            this.selector.select();
+            Iterator<SelectionKey> selectedKeys = this.selector.selectedKeys().iterator();
+
+            while (selectedKeys.hasNext())
+            {
+                SelectionKey key = selectedKeys.next();
+                selectedKeys.remove();
+
+                if (!key.isValid())
+                {
+                    continue;
+                }
+                if (key.isAcceptable())
+                {
+                    accept(key);
+                }
+                else if (key.isReadable())
+                {
+                    read((SocketChannel) key.channel(), (SSLEngine) key.attachment());
+                }
+            }
         }
-        else
-        {
-            socketChannel.close();
-            getLogger().debug("Connection closed due to handshake failure.");
-        }
+
+        getLogger().debug("Goodbye!");
     }
 
     /**
-     * Determines if the the server is active or not.
-     *
-     * @return if the server is active or not.
+     * Sets the server to an inactive state, in order to exit the reading loop in {@link NioSslServer#start()} and also wakes up the selector, which may be in
+     * select() blocking state.
      */
-    private boolean isActive()
+    public void stop()
     {
-        return this.active;
+        getLogger().debug("Will now close server...");
+        this.active = false;
+        this.executor.shutdown();
+        this.selector.wakeup();
     }
 
     /**
@@ -177,57 +188,6 @@ public class NioSslServer extends AbstractNioSslPeer
     }
 
     /**
-     * Should be called in order the server to start listening to new connections. This method will run in a loop as long as the server is active. In order to
-     * stop the server you should use {@link NioSslServer#stop()} which will set it to inactive state and also wake up the listener, which may be in blocking
-     * select() state.
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    public void start() throws Exception
-    {
-        getLogger().debug("Initialized and waiting for new connections...");
-
-        while (isActive())
-        {
-            this.selector.select();
-            Iterator<SelectionKey> selectedKeys = this.selector.selectedKeys().iterator();
-
-            while (selectedKeys.hasNext())
-            {
-                SelectionKey key = selectedKeys.next();
-                selectedKeys.remove();
-
-                if (!key.isValid())
-                {
-                    continue;
-                }
-                if (key.isAcceptable())
-                {
-                    accept(key);
-                }
-                else if (key.isReadable())
-                {
-                    read((SocketChannel) key.channel(), (SSLEngine) key.attachment());
-                }
-            }
-        }
-
-        getLogger().debug("Goodbye!");
-    }
-
-    /**
-     * Sets the server to an inactive state, in order to exit the reading loop in {@link NioSslServer#start()} and also wakes up the selector, which may be in
-     * select() blocking state.
-     */
-    public void stop()
-    {
-        getLogger().debug("Will now close server...");
-        this.active = false;
-        this.executor.shutdown();
-        this.selector.wakeup();
-    }
-
-    /**
      * Will send a message back to a client.
      *
      * @param message - the message to be sent.
@@ -274,5 +234,45 @@ public class NioSslServer extends AbstractNioSslPeer
                     throw new IllegalStateException("Invalid SSL status: " + result.getStatus());
             }
         }
+    }
+
+    /**
+     * Will be called after a new connection request arrives to the server. Creates the {@link SocketChannel} that will be used as the network layer link, and
+     * the {@link SSLEngine} that will encrypt and decrypt all the data that will be exchanged during the session with this specific client.
+     *
+     * @param key - the key dedicated to the {@link ServerSocketChannel} used by the server to listen to new connection requests.
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    private void accept(final SelectionKey key) throws Exception
+    {
+        getLogger().debug("New connection request!");
+
+        SocketChannel socketChannel = ((ServerSocketChannel) key.channel()).accept();
+        socketChannel.configureBlocking(false);
+
+        SSLEngine engine = this.context.createSSLEngine();
+        engine.setUseClientMode(false);
+        engine.beginHandshake();
+
+        if (doHandshake(socketChannel, engine))
+        {
+            socketChannel.register(this.selector, SelectionKey.OP_READ, engine);
+        }
+        else
+        {
+            socketChannel.close();
+            getLogger().debug("Connection closed due to handshake failure.");
+        }
+    }
+
+    /**
+     * Determines if the the server is active or not.
+     *
+     * @return if the server is active or not.
+     */
+    private boolean isActive()
+    {
+        return this.active;
     }
 }
