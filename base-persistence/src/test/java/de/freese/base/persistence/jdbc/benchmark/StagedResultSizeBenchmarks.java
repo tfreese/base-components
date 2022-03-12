@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Param;
@@ -56,34 +57,26 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
             }
         }
 
+        /**
+         * Es sind mehrere Methoden möglich mit unterschiedlichen {@link Level}.
+         */
         @Setup
         public void setup()
         {
-            this.connection = null;
-
-            try
-            {
-                if ("h2".equals(this.db))
-                {
-                    this.connection = this.h2;
-                }
-                else if ("hsqldb".equals(this.db))
-                {
-                    this.connection = this.hsqldb;
-                }
-                else if ("derby".equals(this.db))
-                {
-                    this.connection = this.derby;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new RuntimeException(ex);
-            }
+            this.connection = switch (db)
+                    {
+                        case "h2" -> this.h2;
+                        case "hsqldb" -> this.hsqldb;
+                        case "derby" -> this.derby;
+                        default -> throw new IllegalStateException("Unknown Database: " + this.db);
+                    };
 
             populateDb(this.connection);
         }
 
+        /**
+         * Es sind mehrere Methoden möglich mit unterschiedlichen {@link Level}.
+         */
         @TearDown
         public void tearDown()
         {

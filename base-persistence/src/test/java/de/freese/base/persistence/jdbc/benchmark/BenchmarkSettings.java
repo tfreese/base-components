@@ -14,9 +14,9 @@ import org.openjdk.jmh.annotations.Warmup;
  *
  * @author Thomas Freese
  */
-@Warmup(iterations = 2, time = 2000, timeUnit = TimeUnit.MILLISECONDS)
-@Measurement(iterations = 3, time = 2000, timeUnit = TimeUnit.MILLISECONDS)
-@Fork(value = 1, warmups = 1)
+@Warmup(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Fork(value = 1, warmups = 0)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 abstract class BenchmarkSettings
