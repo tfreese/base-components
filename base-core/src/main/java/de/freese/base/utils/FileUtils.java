@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
@@ -129,10 +130,7 @@ public final class FileUtils
      */
     public static void rename(final Path path) throws IOException
     {
-        if (path == null)
-        {
-            throw new NullPointerException("path required");
-        }
+        Objects.requireNonNull(path, "path required");
 
         Path parent = path.getParent();
         String fileName = path.getFileName().toString();

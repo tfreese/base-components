@@ -4,6 +4,9 @@ package de.freese.base.utils;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -30,16 +33,47 @@ public final class StringTable
     {
         super();
 
-        if (ArrayUtils.isNotEmpty(header) && ListUtils.isNotEmpty(data))
+        Objects.requireNonNull(header, "header required");
+        Objects.requireNonNull(data, "data required");
+
+        if (header.length == 0)
         {
-            if (header.length != data.get(0).length)
-            {
-                throw new IllegalArgumentException("header length != data length");
-            }
+            throw new IllegalArgumentException("header is empty");
+        }
+
+        if (data.isEmpty())
+        {
+            throw new IllegalArgumentException("data is empty");
+        }
+
+        if (header.length != data.get(0).length)
+        {
+            throw new IllegalArgumentException("header length != data length");
         }
 
         this.header = header.clone();
-        this.data = new ArrayList<>(data);
+        this.data = List.copyOf(data);
+    }
+
+    /**
+     * Escaped den Header und die Daten.
+     *
+     * @param escapeFunction {@link Function}
+     */
+    public void escape(final UnaryOperator<String> escapeFunction)
+    {
+        for (int i = 0; i < header.length; i++)
+        {
+            header[i] = escapeFunction.apply(header[i]);
+        }
+
+        data.forEach(row ->
+        {
+            for (int i = 0; i < row.length; i++)
+            {
+                row[i] = escapeFunction.apply(row[i]);
+            }
+        });
     }
 
     /**
@@ -49,8 +83,7 @@ public final class StringTable
      */
     public void escape(final char escape)
     {
-        StringUtils.escape(getHeader(), escape);
-        StringUtils.escape(getData(), escape);
+        escape(value -> escape + value + escape);
     }
 
     /**
@@ -95,7 +128,7 @@ public final class StringTable
      */
     public List<String[]> getData()
     {
-        return this.data;
+        return List.copyOf(this.data);
     }
 
     /**
@@ -114,7 +147,9 @@ public final class StringTable
      */
     public void rightpad(final String padding)
     {
-        if ((ArrayUtils.isEmpty(getHeader()) && ListUtils.isEmpty(getData())) || StringUtils.isEmpty(padding))
+        Objects.requireNonNull(padding, "padding required");
+
+        if (padding.isEmpty())
         {
             return;
         }
@@ -166,7 +201,6 @@ public final class StringTable
             }
         }
 
-        // parallel() verfälscht die Reihenfolge.
         StringUtils.write(getData(), printStream, separatorData);
 
         printStream.flush();

@@ -428,23 +428,6 @@ public final class StringUtils
     }
 
     /**
-     * @param array Object[]
-     * @param separator String
-     *
-     * @return String, not null
-     */
-    public static String join(final Object[] array, final String separator)
-    {
-        if (ArrayUtils.isEmpty(array))
-        {
-            return EMPTY;
-        }
-
-        return Stream.of(array).map(obj -> obj != null ? obj.toString() : "null").collect(Collectors.joining(separator));
-        // return Joiner.on(separator).join(array);
-    }
-
-    /**
      * <pre>
      * StringUtils.leftPad(null, *, *)      = null
      * StringUtils.leftPad("", 3, "z")      = "zzz"
@@ -1054,8 +1037,7 @@ public final class StringUtils
             return;
         }
 
-        // parallel() verfälscht die Reihenfolge.
-        rows.forEach(r -> printStream.println(join(r, separator)));
+        rows.forEach(r -> printStream.println(Stream.of(r).map(Object::toString).collect(Collectors.joining(separator))));
 
         printStream.flush();
     }
@@ -1074,7 +1056,9 @@ public final class StringUtils
         Objects.requireNonNull(array, "rows required");
         Objects.requireNonNull(printStream, "printStream required");
 
-        printStream.println(join(array, separator));
+        String value = Stream.of(array).map(Object::toString).collect(Collectors.joining(separator));
+
+        printStream.println(value);
 
         printStream.flush();
     }

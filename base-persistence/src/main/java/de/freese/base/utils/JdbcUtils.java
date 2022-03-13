@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.function.Function;
 
 import javax.sql.DataSource;
@@ -689,7 +690,7 @@ public final class JdbcUtils
             for (int column = 1; column <= columnCount; column++)
             {
                 Object obj = resultSet.getObject(column);
-                String value = null;
+                String value;
 
                 if (obj == null)
                 {
@@ -708,6 +709,7 @@ public final class JdbcUtils
             }
         }
 
+        // ResultSet wieder zurück auf Anfang.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
         {
             resultSet.first();
@@ -772,6 +774,7 @@ public final class JdbcUtils
         stringTable.rightpad(" ");
         stringTable.write(ps, "-", " | ");
 
+        // ResultSet wieder zurück auf Anfang.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
         {
             resultSet.first();
@@ -805,10 +808,64 @@ public final class JdbcUtils
      */
     public static void writeCSV(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
-        StringTable stringTable = toStringTable(resultSet);
-        stringTable.escape('"');
-        stringTable.write(ps, "", ";");
+        // Enthaltene Anführungszeichen escapen und den Wert selbst in Anführungszeichen setzen.
+        Function<String, String> valueFunction = value ->
+        {
+            String v = value;
 
+            if (v.contains("\""))
+            {
+                v = v.replace("\"", "\"\"");
+            }
+
+            return "\"" + v + "\"";
+        };
+
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        StringJoiner stringJoiner = new StringJoiner(";");
+
+        // Header
+        for (int column = 1; column <= columnCount; column++)
+        {
+            stringJoiner.add(valueFunction.apply(metaData.getColumnLabel(column).toUpperCase()));
+        }
+
+        ps.println(stringJoiner);
+
+        // Daten
+        while (resultSet.next())
+        {
+            stringJoiner = new StringJoiner(";");
+
+            for (int column = 1; column <= columnCount; column++)
+            {
+                Object obj = resultSet.getObject(column);
+                String value;
+
+                if (obj == null)
+                {
+                    value = "";
+                }
+                else if (obj instanceof byte[] bytes)
+                {
+                    value = new String(bytes, StandardCharsets.UTF_8);
+                }
+                else
+                {
+                    value = obj.toString();
+                }
+
+                stringJoiner.add(valueFunction.apply(value));
+            }
+
+            ps.println(stringJoiner);
+        }
+
+        ps.flush();
+
+        // ResultSet wieder zurück auf Anfang.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
         {
             resultSet.first();

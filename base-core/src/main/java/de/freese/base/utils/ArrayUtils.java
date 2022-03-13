@@ -2,6 +2,8 @@
 package de.freese.base.utils;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Toolkitklasse fuer dier Arbeit mit Arrays.
@@ -154,7 +156,12 @@ public final class ArrayUtils
      */
     public static String join(final Object[] array, final String separator)
     {
-        return StringUtils.join(array, separator);
+        if (isEmpty(array))
+        {
+            return "";
+        }
+
+        return Stream.of(array).map(Object::toString).collect(Collectors.joining(separator));
     }
 
     /**
