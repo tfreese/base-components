@@ -3,7 +3,6 @@ package de.freese.base.core.cache;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.net.URI;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -29,6 +28,14 @@ public class FileResourceCache extends AbstractResourceCache
     private final Path cacheDirectory;
 
     /**
+     * Erstellt ein neues {@link FileResourceCache} Object im Ordner "java.io.tmpdir/.javacache".
+     */
+    public FileResourceCache()
+    {
+        this(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
+    }
+
+    /**
      * Erstellt ein neues {@link FileResourceCache} Object.
      *
      * @param cacheDirectory {@link Path}
@@ -38,35 +45,6 @@ public class FileResourceCache extends AbstractResourceCache
         super();
 
         this.cacheDirectory = Objects.requireNonNull(cacheDirectory, "cacheDirectory required");
-
-        try
-        {
-            // Falls Verzeichnis nicht vorhanden -> erzeugen.
-            if (!Files.exists(cacheDirectory))
-            {
-                Files.createDirectories(cacheDirectory);
-            }
-        }
-        catch (final IOException ex)
-        {
-            throw new UncheckedIOException(ex);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
-        catch (final Exception ex)
-        {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    /**
-     * Erstellt ein neues {@link FileResourceCache} Object im Ordner "java.io.tmpdir/.javacache".
-     */
-    FileResourceCache()
-    {
-        this(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
     }
 
     /**
@@ -79,7 +57,7 @@ public class FileResourceCache extends AbstractResourceCache
         {
             // Files.deleteIfExists(directory); // Funktioniert nur, wenn das Verzeichniss leer ist.
 
-            Files.walkFileTree(this.cacheDirectory, new SimpleFileVisitor<>()
+            Files.walkFileTree(getCacheDirectory(), new SimpleFileVisitor<>()
             {
                 /**
                  * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
@@ -104,17 +82,9 @@ public class FileResourceCache extends AbstractResourceCache
                 }
             });
         }
-        catch (final IOException ex)
-        {
-            throw new UncheckedIOException(ex);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (final Exception ex)
         {
-            throw new RuntimeException(ex);
+            getLogger().error(ex.getMessage(), ex);
         }
     }
 
@@ -126,13 +96,13 @@ public class FileResourceCache extends AbstractResourceCache
     {
         String key = generateKey(uri);
 
-        // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
-        Path path = this.cacheDirectory;
+        Path path = getCacheDirectory();
 
-        for (int i = 0; i < 3; i++)
-        {
-            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
-        }
+        // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
+//        for (int i = 0; i < 3; i++)
+//        {
+//            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
+//        }
 
         path = path.resolve(key);
 
@@ -141,26 +111,28 @@ public class FileResourceCache extends AbstractResourceCache
             if (!Files.exists(path))
             {
                 Files.createDirectories(path.getParent());
-            }
 
-            try (InputStream inputStream = toInputStream(uri))
-            {
-                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+                try (InputStream inputStream = toInputStream(uri))
+                {
+                    Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+                }
             }
 
             return Optional.of(Files.newInputStream(path, StandardOpenOption.READ));
         }
-        catch (final IOException ex)
-        {
-            throw new UncheckedIOException(ex);
-        }
-        catch (RuntimeException ex)
-        {
-            throw ex;
-        }
         catch (final Exception ex)
         {
-            throw new RuntimeException(ex);
+            getLogger().error(ex.getMessage(), ex);
+
+            return Optional.empty();
         }
+    }
+
+    /**
+     * @return Path
+     */
+    protected Path getCacheDirectory()
+    {
+        return this.cacheDirectory;
     }
 }

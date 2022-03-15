@@ -14,6 +14,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Basis-Implementierung eines {@link ResourceCache}.
  *
@@ -22,38 +25,13 @@ import java.util.HexFormat;
 public abstract class AbstractResourceCache implements ResourceCache
 {
     /**
-     * Erzeugt den MessageDigest für die Generierung des Keys.<br>
-     * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
-     *
-     * @return {@link MessageDigest}
-     */
-    protected static MessageDigest createMessageDigest()
-    {
-        try
-        {
-            //return MessageDigest.getInstance("SHA"); // 40 Zeichen
-            //return MessageDigest.getInstance("SHA-1"); // 40 Zeichen
-            // return MessageDigest.getInstance("SHA-256"); // 64 Zeichen
-            // return MessageDigest.getInstance("SHA-384"); // 96 Zeichen
-            return MessageDigest.getInstance("SHA-512"); // 128 Zeichen
-        }
-        catch (final NoSuchAlgorithmException ex)
-        {
-            try
-            {
-                return MessageDigest.getInstance("MD5"); // 32 Zeichen
-            }
-            catch (final NoSuchAlgorithmException ex2)
-            {
-                throw new RuntimeException(ex2);
-            }
-        }
-    }
-
-    /**
      *
      */
     private final HexFormat hexFormat;
+    /**
+     *
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
@@ -79,6 +57,39 @@ public abstract class AbstractResourceCache implements ResourceCache
     }
 
     /**
+     * Erzeugt den MessageDigest für die Generierung des Keys.<br>
+     * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
+     *
+     * @return {@link MessageDigest}
+     */
+    protected MessageDigest createMessageDigest()
+    {
+        // String algorithm ="SHA"; // 40 Zeichen
+        // String algorithm ="SHA-1"; // 40 Zeichen
+        // String algorithm ="SHA-256"; // 64 Zeichen
+        // String algorithm ="SHA-384"; // 96 Zeichen
+        String algorithm = "SHA-512"; // 128 Zeichen
+
+        try
+        {
+            return MessageDigest.getInstance(algorithm);
+        }
+        catch (final NoSuchAlgorithmException ex)
+        {
+            getLogger().error("Algorithm '{}' not found, trying 'MD5'", algorithm);
+
+            try
+            {
+                return MessageDigest.getInstance("MD5"); // 32 Zeichen
+            }
+            catch (final NoSuchAlgorithmException ex2)
+            {
+                throw new RuntimeException(ex2);
+            }
+        }
+    }
+
+    /**
      * Erzeugt den Key auf dem Resource-Pfad.<br>
      * Die Bytes des MessageDigest werden dafür in einen Hex-String umgewandelt.
      *
@@ -89,7 +100,8 @@ public abstract class AbstractResourceCache implements ResourceCache
     protected String generateKey(final URI uri)
     {
         String uriString = uri.toString();
-        byte[] digest = getMessageDigest().digest(uriString.getBytes(StandardCharsets.UTF_8));
+        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
+        byte[] digest = getMessageDigest().digest(uriBytes);
 
         return getHexFormat().formatHex(digest);
     }
@@ -116,18 +128,39 @@ public abstract class AbstractResourceCache implements ResourceCache
         else if ("http".equals(protocol) || "https".equals(protocol))
         {
             URLConnection connection = uri.toURL().openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+            httpURLConnection.setRequestMethod("HEAD");
 
-            if (connection instanceof HttpURLConnection con)
+            boolean redirect = false;
+            int status = httpURLConnection.getResponseCode();
+
+            if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER))
             {
-                con.setRequestMethod("HEAD");
+                redirect = true;
             }
 
-            long length = connection.getContentLengthLong();
+            if (redirect)
+            {
+                // get redirect url from "location" header field
+                String newUrl = httpURLConnection.getHeaderField("Location");
 
-            return length;
+                // open the new connnection again
+                httpURLConnection = (HttpURLConnection) new URL(newUrl).openConnection();
+                httpURLConnection.setRequestMethod("HEAD");
+            }
+
+            return httpURLConnection.getContentLengthLong();
         }
 
         throw new IOException("unsupported protocol");
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return logger;
     }
 
     /**
@@ -171,9 +204,6 @@ public abstract class AbstractResourceCache implements ResourceCache
 
                     httpURLConnection = (HttpURLConnection) new URL(newUrl).openConnection();
                     httpURLConnection.setRequestProperty("Cookie", cookies);
-                    // conn.addRequestProperty("Accept-Language", "en-US,en;q=0.8");
-                    // conn.addRequestProperty("User-Agent", "Mozilla");
-                    // conn.addRequestProperty("Referer", "google.com");
                 }
 
                 return httpURLConnection.getInputStream();

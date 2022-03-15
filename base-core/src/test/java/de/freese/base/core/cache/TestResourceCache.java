@@ -24,6 +24,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
  * @author Thomas Freese
@@ -34,7 +35,11 @@ class TestResourceCache
     /**
      *
      */
-    private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
+    private static final ResourceCache CACHE_CAFFEINE = new CaffeineResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache2"), 6000);
+    /**
+     *
+     */
+    private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache1"));
     /**
      *
      */
@@ -53,6 +58,7 @@ class TestResourceCache
         MAP.clear();
         CACHE_FILE.clear();
         CACHE_MEMORY.clear();
+        CACHE_CAFFEINE.clear();
     }
 
     /**
@@ -61,7 +67,9 @@ class TestResourceCache
     @BeforeAll
     static void beforeAll() throws Exception
     {
-        // Empty
+        // Caffeine JUL-Logger auf slf4j umleiten.
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
     }
 
     /**
@@ -81,7 +89,9 @@ class TestResourceCache
                 Arguments.of("FileCache - Local File", CACHE_FILE, urlLocalFile),
                 Arguments.of("FileCache - HTTP Image", CACHE_FILE, urlHttpImage),
                 Arguments.of("MemoryCache - Local File", CACHE_MEMORY, urlLocalFile),
-                Arguments.of("MemoryCache - HTTP Image", CACHE_MEMORY,urlHttpImage)
+                Arguments.of("MemoryCache - HTTP Image", CACHE_MEMORY,urlHttpImage),
+                Arguments.of("CaffeineCache - Local File", CACHE_CAFFEINE, urlLocalFile),
+                Arguments.of("CaffeineCache - HTTP Image", CACHE_CAFFEINE,urlHttpImage)
                 );
         // @formatter:on
     }

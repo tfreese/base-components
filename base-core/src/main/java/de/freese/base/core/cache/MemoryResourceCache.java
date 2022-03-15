@@ -3,9 +3,7 @@ package de.freese.base.core.cache;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
 import java.net.URI;
 import java.util.Map;
 import java.util.Optional;
@@ -21,7 +19,7 @@ public class MemoryResourceCache extends AbstractResourceCache
     /**
      *
      */
-    private final Map<String, byte[]> map;
+    private final Map<URI, byte[]> map;
 
     /**
      * Erstellt ein neues {@link MemoryResourceCache} Object.
@@ -48,15 +46,14 @@ public class MemoryResourceCache extends AbstractResourceCache
     @Override
     public Optional<InputStream> getResource(final URI uri)
     {
-        String key = generateKey(uri);
-        byte[] content = this.map.get(key);
+        byte[] content = this.map.get(uri);
 
         if (content == null)
         {
             try
             {
-                int size = (int) getContentLength(uri);
-                // int size = 1024 * 16;
+                //int size = (int) getContentLength(uri);
+                int size = 1024;
 
                 try (InputStream inputStream = toInputStream(uri);
                      ByteArrayOutputStream baos = new ByteArrayOutputStream(size))
@@ -74,20 +71,14 @@ public class MemoryResourceCache extends AbstractResourceCache
 
                     content = baos.toByteArray();
 
-                    this.map.put(key, content);
+                    this.map.put(uri, content);
                 }
-            }
-            catch (final IOException ex)
-            {
-                throw new UncheckedIOException(ex);
-            }
-            catch (RuntimeException ex)
-            {
-                throw ex;
             }
             catch (final Exception ex)
             {
-                throw new RuntimeException(ex);
+                getLogger().error(ex.getMessage(), ex);
+
+                return Optional.empty();
             }
         }
 
