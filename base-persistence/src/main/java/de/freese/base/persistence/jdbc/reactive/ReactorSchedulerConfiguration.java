@@ -13,16 +13,14 @@ import reactor.core.scheduler.Schedulers;
  *
  * <pre>
  * Mono<City> city = Mono.defer(() -> Mono.just(this.cityRepository.findByNameAndCountryAllIgnoringCase(name, country)))
- *                   .subscribeOn(jdbcScheduler);
+ *                  .subscribeOn(jdbcScheduler);
  * <br>
  * Mono<Iterable<City>> cities = Mono.fromCallable(() -> this.cityRepository.findAll())
- *                   .subscribeOn(jdbcScheduler);
+ *                  .subscribeOn(jdbcScheduler);
  * <br>
  * return Mono.fromCallable(() -> transactionTemplate.execute(status -> {
- * 			  City city = new City(name, country);
- * 			  City savedCity = cityRepository.save(city);
- * 			  return savedCity;
- *          })).subscribeOn(jdbcScheduler);
+ *                  return cityRepository.save(new City(name, country));
+ *              })).subscribeOn(jdbcScheduler);
  * </pre>
  *
  * @author Thomas Freese

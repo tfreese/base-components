@@ -60,7 +60,7 @@
 			<artifactId>base-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-				
+
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>

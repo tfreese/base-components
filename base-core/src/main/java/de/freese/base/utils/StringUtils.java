@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -281,7 +282,7 @@ public final class StringUtils
             return EMPTY;
         }
 
-        byte[] bytes = ByteUtils.hexToBytes(cs);
+        byte[] bytes = HexFormat.of().parseHex(cs);
         String sign = null;
 
         try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes);
@@ -1015,7 +1016,7 @@ public final class StringUtils
             return null;
         }
 
-        return ByteUtils.bytesToHex(bytearrayoutputstream.toByteArray());
+        return HexFormat.of().withUpperCase().formatHex(bytearrayoutputstream.toByteArray());
     }
 
     /**

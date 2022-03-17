@@ -3,11 +3,10 @@ package de.freese.base.net.protocol;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.utils.ByteUtils;
 
 /**
  * Basisklasse fuer Netzwerkprotokolle.
@@ -16,6 +15,10 @@ import de.freese.base.utils.ByteUtils;
  */
 public abstract class AbstractProtocol
 {
+    /**
+     *
+     */
+    private final HexFormat hexFormat = HexFormat.of().withUpperCase();
     /**
      *
      */
@@ -42,8 +45,7 @@ public abstract class AbstractProtocol
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
-            // return Hex.encodeHexString(digest);
-            return ByteUtils.bytesToHex(digest);
+            return hexFormat.formatHex(digest);
         }
         catch (NoSuchAlgorithmException ex)
         {
