@@ -25,7 +25,7 @@ import java.util.function.Supplier;
  *
  * @author Thomas Freese
  */
-public class GenericBuilder<T>
+public class GenericBuilder<T> implements Builder<T>
 {
     /**
      * Beispiel: of(ArrayList::new)
@@ -61,11 +61,7 @@ public class GenericBuilder<T>
         this.instantiator = Objects.requireNonNull(instantiator, "instantiator required");
     }
 
-    /**
-     * Baut das Objekt.
-     *
-     * @return Object
-     */
+    @Override
     public T build()
     {
         T value = getInstantiator().get();

@@ -6,8 +6,9 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.function.UnaryOperator;
 
-import de.freese.base.core.concurrent.accumulative.AccumulativeRunnableScheduled;
+import de.freese.base.core.model.tupel.Tupel3;
 import de.freese.base.utils.ReflectionUtils;
 
 /**
@@ -16,13 +17,43 @@ import de.freese.base.utils.ReflectionUtils;
 public class BuilderGenerator
 {
     /**
+     *
+     */
+    protected static final String INDENT = "    ";
+
+    /**
      * @param args String[]
      */
     public static void main(final String[] args)
     {
-        BuilderGenerator generator = new BuilderGenerator();
-        generator.createBuilder(AccumulativeRunnableScheduled.class, true, System.out);
-        // generator.createBuilder(Tupel2.class, true, System.out);
+        BuilderGenerator generator = new BuilderGenerator(fields ->
+        {
+            fields.remove("serialVersionUID");
+            fields.remove("valueB");
+            return fields;
+        });
+        generator.createBuilder(Tupel3.class, true, System.out);
+    }
+
+    /**
+     *
+     */
+    private final UnaryOperator<Map<String, Field>> fieldHandler;
+
+    public BuilderGenerator()
+    {
+        this(fields ->
+        {
+            fields.remove("serialVersionUID");
+            return fields;
+        });
+    }
+
+    public BuilderGenerator(final UnaryOperator<Map<String, Field>> fieldHandler)
+    {
+        super();
+
+        this.fieldHandler = Objects.requireNonNull(fieldHandler, "fieldHandler required");
     }
 
     /**
@@ -41,10 +72,16 @@ public class BuilderGenerator
 
         printStream.printf("import %s;%n", Builder.class.getName());
 
-        fields.values().stream().filter(field -> !field.getType().isPrimitive())
-                .forEach(field -> printStream.printf("import %s;%n", field.getType().getName()));
+        // @formatter:off
+        fields.values().stream()
+                .filter(field -> !field.getType().isPrimitive())
+                .map(field -> field.getType().getName())
+                .distinct()
+                .forEach(fieldType -> printStream.printf("import %s;%n", fieldType))
+        ;
+        // @formatter:on
 
-        printStream.println("");
+        printStream.println();
 
         printStream.println("/**");
         printStream.println(" * @author Thomas Freese");
@@ -53,39 +90,41 @@ public class BuilderGenerator
         printStream.println("{");
 
         // Fields
-        fields.values().forEach(field -> {
-            printStream.println("   /**");
-            printStream.println("    *");
-            printStream.println("    */");
-            printStream.printf("    private %s %s;%n", field.getType().getSimpleName(), field.getName());
-            printStream.println();
+        fields.values().forEach(field ->
+        {
+            printStream.println(INDENT + "/**");
+            printStream.println(INDENT + " *");
+            printStream.println(INDENT + " */");
+            printStream.printf("%sprivate %s %s;%n", INDENT, field.getType().getSimpleName(), field.getName());
         });
 
-        printStream.println("   /**");
-        printStream.println("    * @see de.freese.base.core.model.builder.Builder#build()");
-        printStream.println("    */");
-        printStream.println("   @Override");
-        printStream.printf("   public %s build()", simpleClazzName);
-        printStream.println("   {");
-        printStream.println("       // TODO");
-        printStream.println("       return null;");
-        printStream.println("   }");
+        printStream.println();
+        printStream.println(INDENT + "/**");
+        printStream.println(INDENT + " * @see de.freese.base.core.model.builder.Builder#build()");
+        printStream.println(INDENT + " */");
+        printStream.println(INDENT + "@Override");
+        printStream.printf("%spublic %s build()%n", INDENT, simpleClazzName);
+        printStream.println(INDENT + "{");
+        printStream.println(INDENT + INDENT + "// TODO");
+        printStream.println(INDENT + INDENT + "return null;");
+        printStream.println(INDENT + "}");
 
         // Methods
-        fields.values().forEach(field -> {
+        fields.values().forEach(field ->
+        {
             String fieldName = field.getName();
             String typeName = field.getType().getSimpleName();
 
             printStream.println();
-            printStream.println("   /**");
-            printStream.printf("    * @param %s %s%n", fieldName, typeName);
-            printStream.println("    */");
-            printStream.printf("   public %sBuilder %s(%s %s)%n", simpleClazzName, fieldName, typeName, fieldName);
-            printStream.println("   {");
-            printStream.printf("       this.%s = %s%n", fieldName, fieldName);
+            printStream.println(INDENT + "/**");
+            printStream.printf(INDENT + " * @param %s %s%n", fieldName, typeName);
+            printStream.println(INDENT + " */");
+            printStream.printf("%spublic %sBuilder %s(%s %s)%n", INDENT, simpleClazzName, fieldName, typeName, fieldName);
+            printStream.println(INDENT + "{");
+            printStream.printf(INDENT + INDENT + "this.%s = %s%n", fieldName, fieldName);
             printStream.println();
-            printStream.println("       return this;");
-            printStream.println("   }");
+            printStream.println(INDENT + INDENT + "return this;");
+            printStream.println(INDENT + "}");
         });
 
         printStream.println("}");
@@ -97,7 +136,7 @@ public class BuilderGenerator
      *
      * @return {@link Map}
      */
-    private Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes)
+    protected Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes)
     {
         Map<String, Field> fields = new TreeMap<>();
 
@@ -110,6 +149,6 @@ public class BuilderGenerator
             ReflectionUtils.doWithLocalFields(clazz, field -> fields.put(field.getName(), field));
         }
 
-        return fields;
+        return fieldHandler.apply(fields);
     }
 }

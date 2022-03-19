@@ -5,11 +5,11 @@ import java.util.Objects;
 /**
  * Ein 3er-Tupel verknuepft 3 Objekte miteinander.
  *
- * @author Thomas Freese
- *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
  * @param <C> Konkreter Typ ValueC
+ *
+ * @author Thomas Freese
  */
 public class Tupel3<A, B, C> extends Tupel2<A, B>
 {
@@ -17,7 +17,6 @@ public class Tupel3<A, B, C> extends Tupel2<A, B>
      *
      */
     private static final long serialVersionUID = -3964125548346645907L;
-
     /**
      *
      */
@@ -45,28 +44,27 @@ public class Tupel3<A, B, C> extends Tupel2<A, B>
         this.valueC = valueC;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(final Object obj)
+    public boolean equals(final Object o)
     {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
 
-        if (!super.equals(obj) || !(obj instanceof Tupel3<?, ?, ?> other))
+        if (o == null || getClass() != o.getClass())
         {
             return false;
         }
 
-        if (!Objects.equals(this.valueC, other.valueC))
+        if (!super.equals(o))
         {
             return false;
         }
 
-        return true;
+        Tupel3<?, ?, ?> tupel3 = (Tupel3<?, ?, ?>) o;
+
+        return Objects.equals(valueC, tupel3.valueC);
     }
 
     /**
@@ -77,17 +75,10 @@ public class Tupel3<A, B, C> extends Tupel2<A, B>
         return this.valueC;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = (prime * result) + ((this.valueC == null) ? 4 : this.valueC.hashCode());
-
-        return result;
+        return Objects.hash(super.hashCode(), valueC);
     }
 
     /**

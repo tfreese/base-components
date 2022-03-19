@@ -6,10 +6,10 @@ import java.util.Objects;
 /**
  * Ein 2er-Tupel verknuepft 2 Objekte miteinander.
  *
- * @author Thomas Freese
- *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
+ *
+ * @author Thomas Freese
  */
 public class Tupel2<A, B> implements Serializable
 {
@@ -17,7 +17,6 @@ public class Tupel2<A, B> implements Serializable
      *
      */
     private static final long serialVersionUID = -2114823921211413095L;
-
     /**
      *
      */
@@ -53,23 +52,21 @@ public class Tupel2<A, B> implements Serializable
         // Class classB = (Class<B>) type.getActualTypeArguments()[1];
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(final Object obj)
+    public boolean equals(final Object o)
     {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-
-        if ((obj == null) || !(obj instanceof Tupel2<?, ?> other) || !Objects.equals(this.valueA, other.valueA) || !Objects.equals(this.valueB, other.valueB))
+        if (o == null || getClass() != o.getClass())
         {
             return false;
         }
 
-        return true;
+        Tupel2<?, ?> tupel2 = (Tupel2<?, ?>) o;
+
+        return Objects.equals(valueA, tupel2.valueA) && Objects.equals(valueB, tupel2.valueB);
     }
 
     /**
@@ -88,18 +85,10 @@ public class Tupel2<A, B> implements Serializable
         return this.valueB;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((this.valueA == null) ? 1 : this.valueA.hashCode());
-        result = (prime * result) + ((this.valueB == null) ? 2 : this.valueB.hashCode());
-
-        return result;
+        return Objects.hash(valueA, valueB);
     }
 
     /**

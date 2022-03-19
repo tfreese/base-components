@@ -5,13 +5,13 @@ import java.util.Objects;
 /**
  * Ein 5er-Tupel verknuepft 5 Objekte miteinander.
  *
- * @author Thomas Freese
- *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB
  * @param <C> Konkreter Typ ValueC
  * @param <D> Konkreter Typ ValueD
  * @param <E> Konkreter Typ ValueE
+ *
+ * @author Thomas Freese
  */
 public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
 {
@@ -19,7 +19,6 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
      *
      */
     private static final long serialVersionUID = 8990954871886341438L;
-
     /**
      *
      */
@@ -49,28 +48,27 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
         this.valueE = valueE;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(final Object obj)
+    public boolean equals(final Object o)
     {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
 
-        if (!super.equals(obj) || !(obj instanceof Tupel5<?, ?, ?, ?, ?> other))
+        if (o == null || getClass() != o.getClass())
         {
             return false;
         }
 
-        if (!Objects.equals(this.valueE, other.valueE))
+        if (!super.equals(o))
         {
             return false;
         }
 
-        return true;
+        Tupel5<?, ?, ?, ?, ?> tupel5 = (Tupel5<?, ?, ?, ?, ?>) o;
+
+        return Objects.equals(valueE, tupel5.valueE);
     }
 
     /**
@@ -81,17 +79,10 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
         return this.valueE;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = (prime * result) + ((this.valueE == null) ? 16 : this.valueE.hashCode());
-
-        return result;
+        return Objects.hash(super.hashCode(), valueE);
     }
 
     /**
