@@ -39,9 +39,6 @@ public final class CSVDriver implements java.sql.Driver
      */
     private static volatile boolean registered;
 
-    /**
-     *
-     */
     static
     {
         if (!registered)
@@ -115,7 +112,7 @@ public final class CSVDriver implements java.sql.Driver
             HsqldbTextTableBuilder ttb = HsqldbTextTableBuilder.create();
             builderList.add(ttb);
 
-            // URL aufspalten in DB und Properties.
+            // Die URL aufspalten in DB und Properties.
             String[] splits = file.split(";");
 
             String fileName = splits[0];

@@ -3,7 +3,7 @@ package de.freese.base.core.xml.jaxb;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * JAXB Adapter um aus einem String für einen Double ein Integer zu machen.
+ * JAXB Adapter um aus einem String für ein Double ein Integer zu machen.
  *
  * @author Thomas Freese
  */
@@ -31,6 +31,6 @@ public class DoubleToIntAdapter extends XmlAdapter<String, Integer>
 
         double value = Double.parseDouble(arg0);
 
-        return Integer.valueOf((int) value);
+        return (int) value;
     }
 }

@@ -43,8 +43,8 @@ public class SSLSocketChannel extends SocketChannel
     /**
      * @param socketChannel The real SocketChannel.
      * @param sslEngine The SSL engine to use for traffic back and forth on the given SocketChannel.
-     * @param executor Used to execute long running, blocking SSL operations such as certificate validation with a CA
-     *            (<a href="http://docs.oracle.com/javase/7/docs/api/javax/net/ssl/SSLEngineResult.HandshakeStatus.html#NEED_TASK">NEED_TASK</a>)
+     * @param executor Used to execute long-running, blocking SSL operations such as certificate validation with a CA
+     * (<a href="http://docs.oracle.com/javase/7/docs/api/javax/net/ssl/SSLEngineResult.HandshakeStatus.html#NEED_TASK">NEED_TASK</a>)
      */
     public SSLSocketChannel(final SocketChannel socketChannel, final SSLEngine sslEngine, final Executor executor)
     {
@@ -94,14 +94,6 @@ public class SSLSocketChannel extends SocketChannel
     }
 
     /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return SSLSocketChannel.LOGGER;
-    }
-
-    /**
      * @see java.nio.channels.NetworkChannel#getOption(java.net.SocketOption)
      */
     @Override
@@ -125,34 +117,6 @@ public class SSLSocketChannel extends SocketChannel
     public SocketChannel getWrappedSocketChannel()
     {
         return this.socketChannel;
-    }
-
-    /**
-     * @see java.nio.channels.spi.AbstractSelectableChannel#implCloseSelectableChannel()
-     */
-    @Override
-    protected void implCloseSelectableChannel() throws IOException
-    {
-        try
-        {
-            this.sslEngineBuffer.flushNetworkOutbound();
-        }
-        catch (Exception ex)
-        {
-            // Empty
-        }
-
-        this.socketChannel.close();
-        this.sslEngineBuffer.close();
-    }
-
-    /**
-     * @see java.nio.channels.spi.AbstractSelectableChannel#implConfigureBlocking(boolean)
-     */
-    @Override
-    protected void implConfigureBlocking(final boolean b) throws IOException
-    {
-        this.socketChannel.configureBlocking(b);
     }
 
     /**
@@ -204,10 +168,10 @@ public class SSLSocketChannel extends SocketChannel
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
      * @throws java.nio.channels.ClosedByInterruptException If another thread interrupts the current thread while the read operation is in progress, thereby
-     *             closing the channel and setting the current thread's interrupt status
+     * closing the channel and setting the current thread's interrupt status
      * @throws IOException If some other I/O error occurs
-     * @throws IllegalArgumentException If the given applicationBuffer capacity ({@link ByteBuffer#capacity()} is less then the application buffer size of the
-     *             {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
+     * @throws IllegalArgumentException If the given applicationBuffer capacity ({@link ByteBuffer#capacity()} is less than the application buffer size of the
+     * {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
      */
     @Override
     public synchronized int read(final ByteBuffer applicationBuffer) throws IOException, IllegalArgumentException
@@ -264,7 +228,7 @@ public class SSLSocketChannel extends SocketChannel
      *
      * @param applicationByteBuffers The buffers into which bytes are to be transferred
      * @param offset The offset within the buffer array of the first buffer into which bytes are to be transferred; must be non-negative and no larger than
-     *            dsts.length
+     * dsts.length
      * @param length The maximum number of buffers to be accessed; must be non-negative and no larger than <code>dsts.length - offset</code>
      *
      * @return The number of bytes read, possibly zero, or -1 if the channel has reached end-of-stream
@@ -273,10 +237,10 @@ public class SSLSocketChannel extends SocketChannel
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
      * @throws java.nio.channels.ClosedByInterruptException If another thread interrupts the current thread while the read operation is in progress, thereby
-     *             closing the channel and setting the current thread's interrupt status
+     * closing the channel and setting the current thread's interrupt status
      * @throws IOException If some other I/O error occurs
-     * @throws IllegalArgumentException If one of the given applicationBuffers capacity ({@link ByteBuffer#capacity()} is less then the application buffer size
-     *             of the {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
+     * @throws IllegalArgumentException If one of the given applicationBuffers capacity ({@link ByteBuffer#capacity()} is less than the application buffer size
+     * of the {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
      */
     @Override
     public long read(final ByteBuffer[] applicationByteBuffers, final int offset, final int length) throws IOException, IllegalArgumentException
@@ -391,10 +355,10 @@ public class SSLSocketChannel extends SocketChannel
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
      * @throws java.nio.channels.ClosedByInterruptException If another thread interrupts the current thread while the read operation is in progress, thereby
-     *             closing the channel and setting the current thread's interrupt status
+     * closing the channel and setting the current thread's interrupt status
      * @throws IOException If some other I/O error occurs
-     * @throws IllegalArgumentException If the given applicationBuffer capacity ({@link ByteBuffer#capacity()} is less then the application buffer size of the
-     *             {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
+     * @throws IllegalArgumentException If the given applicationBuffer capacity ({@link ByteBuffer#capacity()} is less than the application buffer size of the
+     * {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
      */
     @Override
     public synchronized int write(final ByteBuffer applicationBuffer) throws IOException, IllegalArgumentException
@@ -455,7 +419,7 @@ public class SSLSocketChannel extends SocketChannel
      *
      * @param applicationByteBuffers The buffers from which bytes are to be retrieved
      * @param offset offset - The offset within the buffer array of the first buffer from which bytes are to be retrieved; must be non-negative and no larger
-     *            than <code>srcs.length</code>
+     * than <code>srcs.length</code>
      * @param length The maximum number of buffers to be accessed; must be non-negative and no larger than <code>srcs.length - offset</code>
      *
      * @return The number of bytes written, possibly zero
@@ -464,10 +428,10 @@ public class SSLSocketChannel extends SocketChannel
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
      * @throws java.nio.channels.ClosedByInterruptException If another thread interrupts the current thread while the read operation is in progress, thereby
-     *             closing the channel and setting the current thread's interrupt status
+     * closing the channel and setting the current thread's interrupt status
      * @throws IOException If some other I/O error occurs
-     * @throws IllegalArgumentException If one of the given applicationBuffers capacity ({@link ByteBuffer#capacity()} is less then the application buffer size
-     *             of the {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
+     * @throws IllegalArgumentException If one of the given applicationBuffers capacity ({@link ByteBuffer#capacity()} is less than the application buffer size
+     * of the {@link SSLEngine} session application buffer size ({@link SSLSession#getApplicationBufferSize()} this channel was constructed was.
      */
     @Override
     public long write(final ByteBuffer[] applicationByteBuffers, final int offset, final int length) throws IOException, IllegalArgumentException
@@ -504,5 +468,41 @@ public class SSLSocketChannel extends SocketChannel
         }
 
         return totalWritten;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return SSLSocketChannel.LOGGER;
+    }
+
+    /**
+     * @see java.nio.channels.spi.AbstractSelectableChannel#implCloseSelectableChannel()
+     */
+    @Override
+    protected void implCloseSelectableChannel() throws IOException
+    {
+        try
+        {
+            this.sslEngineBuffer.flushNetworkOutbound();
+        }
+        catch (Exception ex)
+        {
+            // Empty
+        }
+
+        this.socketChannel.close();
+        this.sslEngineBuffer.close();
+    }
+
+    /**
+     * @see java.nio.channels.spi.AbstractSelectableChannel#implConfigureBlocking(boolean)
+     */
+    @Override
+    protected void implConfigureBlocking(final boolean b) throws IOException
+    {
+        this.socketChannel.configureBlocking(b);
     }
 }

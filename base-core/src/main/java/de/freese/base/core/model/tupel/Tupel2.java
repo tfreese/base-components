@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Ein 2er-Tupel verknuepft 2 Objekte miteinander.
+ * Ein 2er-Tupel verknüpft 2 Objekte miteinander.
  *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB

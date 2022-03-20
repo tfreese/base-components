@@ -7,11 +7,10 @@ import java.util.function.Predicate;
 /**
  * Interface eines {@link Predicate} mit einer Exception.<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Parameter-Typ
  * @param <E> Konkreter Exception-Typ
  *
+ * @author Thomas Freese
  * @see java.util.function.Predicate
  */
 @FunctionalInterface
@@ -76,7 +75,7 @@ public interface ThrowingPredicate<T, E extends Exception>
      *
      * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
      *
-     * @throws E Falls was schief geht.
+     * @throws E Falls was schiefgeht.
      */
     boolean test(T t) throws E;
 }

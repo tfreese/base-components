@@ -47,7 +47,7 @@ public class Property
     }
 
     /**
-     * Liefert das Property als double oder Default wenn null oder Konvertierung fehlschlägt.
+     * Liefert das Property als double oder Default, wenn null oder Konvertierung fehlschlägt.
      *
      * @param defaultValue double
      *
@@ -69,7 +69,7 @@ public class Property
     }
 
     /**
-     * Liefert das Property als int oder Default wenn null oder Konvertierung fehlschlägt.
+     * Liefert das Property als int oder Default wenn, null oder Konvertierung fehlschlägt.
      *
      * @param defaultValue int
      *
@@ -101,7 +101,7 @@ public class Property
     }
 
     /**
-     * Liefert das Property als long oder Default wenn null oder Konvertierung fehlschlägt.
+     * Liefert das Property als long oder Default wenn, null oder Konvertierung fehlschlägt.
      *
      * @param defaultValue long
      *
@@ -142,14 +142,6 @@ public class Property
     public String getString(final String defaultValue)
     {
         return PropertyConverter.getString(getValue(), defaultValue);
-    }
-
-    /**
-     * @return String
-     */
-    protected String getValue()
-    {
-        return this.value;
     }
 
     /**
@@ -225,11 +217,19 @@ public class Property
     /**
      * Setzt den String.
      *
-     * @param value Stirng
+     * @param value String
      */
     public void setString(final String value)
     {
         setValue(PropertyConverter.toString(value));
+    }
+
+    /**
+     * @return String
+     */
+    protected String getValue()
+    {
+        return this.value;
     }
 
     /**

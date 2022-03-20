@@ -24,6 +24,30 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
     private String[] columnNames;
 
     /**
+     * @see de.freese.base.persistence.jdbc.template.function.RowMapper#mapRow(java.sql.ResultSet)
+     */
+    @Override
+    public Map<String, Object> mapRow(final ResultSet resultSet) throws SQLException
+    {
+        if (this.columnNames == null)
+        {
+            this.columnNames = getColumnNames(resultSet);
+        }
+
+        Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
+
+        for (int i = 1; i <= this.columnNames.length; i++)
+        {
+            String columnName = this.columnNames[i - 1];
+            Object obj = getColumnValue(resultSet, i);
+
+            map.put(columnName, obj);
+        }
+
+        return map;
+    }
+
+    /**
      * Ermittelt den Namen der Spalte am Index.
      *
      * @param resultSetMetaData {@link ResultSetMetaData}
@@ -31,7 +55,7 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
      *
      * @return String
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected String getColumnName(final ResultSetMetaData resultSetMetaData, final int index) throws SQLException
     {
@@ -52,7 +76,7 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
      *
      * @return String[]
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected String[] getColumnNames(final ResultSet resultSet) throws SQLException
     {
@@ -72,14 +96,14 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
     }
 
     /**
-     * Liefert das Value der Spalte am Index.
+     * Liefert den Wert der Spalte am Index.
      *
      * @param rs {@link ResultSet}
      * @param index int; JDBC-Indices beginnen mit 1
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected Object getColumnValue(final ResultSet rs, final int index) throws SQLException
     {
@@ -125,29 +149,5 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
         }
 
         return obj;
-    }
-
-    /**
-     * @see de.freese.base.persistence.jdbc.template.function.RowMapper#mapRow(java.sql.ResultSet)
-     */
-    @Override
-    public Map<String, Object> mapRow(final ResultSet resultSet) throws SQLException
-    {
-        if (this.columnNames == null)
-        {
-            this.columnNames = getColumnNames(resultSet);
-        }
-
-        Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
-
-        for (int i = 1; i <= this.columnNames.length; i++)
-        {
-            String columnName = this.columnNames[i - 1];
-            Object obj = getColumnValue(resultSet, i);
-
-            map.put(columnName, obj);
-        }
-
-        return map;
     }
 }

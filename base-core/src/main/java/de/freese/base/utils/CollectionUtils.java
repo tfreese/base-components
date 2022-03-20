@@ -4,8 +4,6 @@ package de.freese.base.utils;
 import java.util.Collection;
 
 /**
- * Nützliches für Colelctions.
- *
  * @author Thomas Freese
  */
 public final class CollectionUtils

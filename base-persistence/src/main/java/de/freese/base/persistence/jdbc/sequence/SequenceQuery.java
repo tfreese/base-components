@@ -28,7 +28,7 @@ public interface SequenceQuery extends Function<String, String>
      *
      * @return {@link SequenceQuery}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     static SequenceQuery determineQuery(final Connection connection) throws SQLException
     {
@@ -40,12 +40,12 @@ public interface SequenceQuery extends Function<String, String>
         // int minorVersion = dbmd.getDatabaseMinorVersion();
 
         SequenceQuery query = switch (product)
-        {
-            case "oracle" -> seq -> "select " + seq + ".nextval from dual";
-            case "hsql" -> seq -> "call next value for " + seq;
-            case "sqlite" -> seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
-            default -> throw new IllegalArgumentException("Unexpected value: " + product);
-        };
+                {
+                    case "oracle" -> seq -> "select " + seq + ".nextval from dual";
+                    case "hsql" -> seq -> "call next value for " + seq;
+                    case "sqlite" -> seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
+                    default -> throw new IllegalArgumentException("Unexpected value: " + product);
+                };
 
         return query;
     }

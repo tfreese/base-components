@@ -55,7 +55,7 @@ class TestR2DBC
     static Scheduler scheduler;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     static void afterAll() throws Exception
@@ -123,11 +123,11 @@ class TestR2DBC
 
         r2dbc = new R2dbc(connectionFactory);
 
-        // r2dbc.open().doFinally(Handle::close).subscribe(hanlde -> handle...);
+        // r2dbc.open().doFinally(Handle::close).subscribe(handle -> handle...);
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     @Order(1)
@@ -147,7 +147,7 @@ class TestR2DBC
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     @Order(2)
@@ -167,7 +167,7 @@ class TestR2DBC
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     @Order(4)
@@ -185,7 +185,7 @@ class TestR2DBC
             .subscribe(affectedRows -> {
                 LOGGER.debug("insertBatch [{}]: affectedRows = {}", Thread.currentThread().getName(), affectedRows);
 
-                // Hier sollte eigentlch affectedRows = 2 sein ?!?!?!
+                // Hier sollte eigentlich affectedRows = 2 sein ?!?!?!
                 assertEquals(1, affectedRows);
                 })
             ;
@@ -193,7 +193,7 @@ class TestR2DBC
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     @Order(10)
@@ -235,7 +235,7 @@ class TestR2DBC
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     @Order(3)

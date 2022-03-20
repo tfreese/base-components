@@ -4,14 +4,14 @@ package de.freese.base.core.processor;
 /**
  * Interface eines Processors des Interceptor/Filter Patterns.
  *
- * @author Thomas Freese
- *
  * @param <C> Typ des Kontextobjekts
+ *
+ * @author Thomas Freese
  */
 public interface Processor<C>
 {
     /**
-     * Ausfuehrung von Anwendungslogik.
+     * Ausführung von Anwendungslogik.
      *
      * @param context Object
      *

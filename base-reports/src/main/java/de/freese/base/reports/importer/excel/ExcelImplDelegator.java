@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Wenn beim öffnen der Datei mit POI was schief läuft, wirds mit JExcel versucht.
+ * Wenn beim Öffnen der Datei mit POI was schiefläuft, wirds mit JExcel versucht.
  *
  * @author Thomas Freese
  */
@@ -45,7 +45,7 @@ public class ExcelImplDelegator implements IExcelImport
         @Override
         public void close() throws IOException
         {
-            // POI schliest den InputStream auch beim fehlerhaften lesen.
+            // POI schliesst den InputStream auch beim fehlerhaften lesen.
             // super.close();
             this.in = new InputStream()
             {
@@ -60,6 +60,7 @@ public class ExcelImplDelegator implements IExcelImport
             };
         }
     }
+
     /**
      *
      */
@@ -143,9 +144,9 @@ public class ExcelImplDelegator implements IExcelImport
         }
         catch (Exception ex)
         {
-            if (ex instanceof ExcelException exex)
+            if (ex instanceof ExcelException exEx)
             {
-                throw exex;
+                throw exEx;
             }
 
             throw new ExcelException(this.excelImpl.getSheetName(), row, column, ex);
@@ -173,7 +174,7 @@ public class ExcelImplDelegator implements IExcelImport
             inputStream = new BufferedInputStream(inputStream);
         }
 
-        // POI schliest den InputStream auch beim fehlerhaften lesen.
+        // POI schliesst den InputStream auch beim fehlerhaften Lesen.
         // Deswegen wird der Stream in einem Proxy verpackt.
         InputStream is = null;
         Exception lastException = null;

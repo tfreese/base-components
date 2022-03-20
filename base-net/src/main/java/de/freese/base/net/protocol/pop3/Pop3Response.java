@@ -4,7 +4,7 @@ package de.freese.base.net.protocol.pop3;
 import java.io.InputStream;
 
 /**
- * Enthaelt das Ergebniss des Requests.
+ * Enthält das Ergebnis des Requests.
  *
  * @author Thomas Freese
  */

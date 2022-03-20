@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
  * Basis-Implementierung eines {@link ObjectPool}s.<br>
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
  *
- * @author Thomas Freese
- *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 {
@@ -35,7 +35,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     private final Queue<T> freeObjects;
 
     /**
-     * Erstellt ein neues {@link AbstractObjectPool} Object.}
+     * Erstellt ein neues {@link AbstractObjectPool} Object.
      */
     protected AbstractObjectPool()
     {
@@ -64,41 +64,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
         this.busy.add(object);
 
         return object;
-    }
-
-    /**
-     * @return Object
-     */
-    protected abstract T create();
-
-    /**
-     * Wird in {@link #borrowObject()} ausgeführt.
-     *
-     * @param object Object
-     */
-    protected void doActivate(final T object)
-    {
-        // Empty
-    }
-
-    /**
-     * Wird in {@link #shutdown()} ausgeführt.
-     *
-     * @param object Object
-     */
-    protected void doDestroy(final T object)
-    {
-        // Empty
-    }
-
-    /**
-     * Wird in {@link #returnObject(Object)} ausgeführt.
-     *
-     * @param object Object
-     */
-    protected void doPassivate(final T object)
-    {
-        // Empty
     }
 
     /**
@@ -152,7 +117,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
             doDestroy(object);
         }
 
-        for (Iterator<T> iterator = this.busy.iterator(); iterator.hasNext();)
+        for (Iterator<T> iterator = this.busy.iterator(); iterator.hasNext(); )
         {
             T object = iterator.next();
 
@@ -194,6 +159,41 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
         builder.append(", active = ").append(getNumActive());
 
         return builder.toString();
+    }
+
+    /**
+     * @return Object
+     */
+    protected abstract T create();
+
+    /**
+     * Wird in {@link #borrowObject()} ausgeführt.
+     *
+     * @param object Object
+     */
+    protected void doActivate(final T object)
+    {
+        // Empty
+    }
+
+    /**
+     * Wird in {@link #shutdown()} ausgeführt.
+     *
+     * @param object Object
+     */
+    protected void doDestroy(final T object)
+    {
+        // Empty
+    }
+
+    /**
+     * Wird in {@link #returnObject(Object)} ausgeführt.
+     *
+     * @param object Object
+     */
+    protected void doPassivate(final T object)
+    {
+        // Empty
     }
 
     /**

@@ -98,29 +98,12 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
     }
 
     /**
-     * @return {@link List}
-     */
-    protected List<GridColumn<?>> getColumns()
-    {
-        return this.columns;
-    }
-
-    /**
      * @return {@link GridColumnFactory}
      */
     public GridColumnFactory getGridColumnFactory()
     {
         return this.gridColumnFactory;
     }
-
-    // /**
-    // * @see java.lang.Iterable#iterator()
-    // */
-    // @Override
-    // public Iterator<GridColumn<?>> iterator()
-    // {
-    // return getColumns().iterator();
-    // }
 
     /**
      * Liest die Grid-Struktur aus dem Stream.
@@ -184,12 +167,21 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
         }
     }
 
+    // /**
+    // * @see java.lang.Iterable#iterator()
+    // */
+    // @Override
+    // public Iterator<GridColumn<?>> iterator()
+    // {
+    // return getColumns().iterator();
+    // }
+
     /**
      * Liest die Grid-Struktur aus dem {@link ResultSetMetaData}.
      *
      * @param metaData {@link ResultSetMetaData}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public void readMetaData(final ResultSetMetaData metaData) throws SQLException
     {
@@ -271,5 +263,13 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
                 dataOutput.write(bytes);
             }
         }
+    }
+
+    /**
+     * @return {@link List}
+     */
+    protected List<GridColumn<?>> getColumns()
+    {
+        return this.columns;
     }
 }

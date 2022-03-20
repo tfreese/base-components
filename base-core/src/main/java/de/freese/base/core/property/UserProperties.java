@@ -12,14 +12,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * Oberstes Objekt fuer die Verwaltung der {@link UserProperty}.
+ * Oberstes Objekt für die Verwaltung der {@link UserProperty}.
  *
  * @author Thomas Freese
  */
 public class UserProperties
 {
     /**
-     * Temporaerer Cache fuer schnelleren Zugriff.
+     * Temporärer Cache für schnelleren Zugriff.
      */
     private final Map<PropertyType, Map<String, UserProperty>> cache = new HashMap<>();
     /**
@@ -36,7 +36,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert den boolean Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Liefert den boolean Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -56,14 +56,14 @@ public class UserProperties
     }
 
     /**
-     * Liefert das ByteArray des Properties fuer einen Key und {@link PropertyType}.
+     * Liefert das ByteArray des Properties für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
      *
      * @return byte[]; default = null
      *
-     * @throws IOException wenn die Konvertierung fehlschlaegt.
+     * @throws IOException, wenn die Konvertierung fehlschlägt.
      */
     public byte[] getByteArray(final String key, final PropertyType type) throws IOException
     {
@@ -78,11 +78,11 @@ public class UserProperties
     }
 
     /**
-     * Liefert den double Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Liefert den Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
-     * @param defaultValue double, wenn Property null oder die Konvertierung fehlschlaegt.
+     * @param defaultValue double, wenn Property null oder die Konvertierung fehlschlägt.
      *
      * @return double
      */
@@ -99,11 +99,11 @@ public class UserProperties
     }
 
     /**
-     * Liefert den int Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Liefert den int Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
-     * @param defaultValue int, wenn Property null oder die Konvertierung fehlschlaegt.
+     * @param defaultValue int, wenn Property null oder die Konvertierung fehlschlägt.
      *
      * @return boolean
      */
@@ -120,11 +120,11 @@ public class UserProperties
     }
 
     /**
-     * Liefert den long Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Liefert den long Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
-     * @param defaultValue long, wenn Property null oder die Konvertierung fehlschlaegt.
+     * @param defaultValue long, wenn Property null oder die Konvertierung fehlschlägt.
      *
      * @return long
      */
@@ -141,16 +141,16 @@ public class UserProperties
     }
 
     /**
-     * Liefert das Object des Propertys fuer einen Key und {@link PropertyType}.<br>
+     * Liefert das Object des Propertys für einen Key und {@link PropertyType}.<br>
      * Dieses Object wird aus einem byte[] deserialisiert.
      *
-     * @param <T> Konkreter Objecttyp
+     * @param <T> Type
      * @param key String
      * @param type {@link PropertyType}
      *
      * @return Object; default = null
      *
-     * @throws Exception Falls bei der Deserialisierung was schief geht.
+     * @throws Exception Falls bei der Deserialisierung was schiefgeht.
      */
     @SuppressWarnings("unchecked")
     public <T> T getObject(final String key, final PropertyType type) throws Exception
@@ -219,7 +219,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert den String Wert des Properties fuer einen Key und {@link PropertyType}.
+     * Liefert den String Wert des Properties für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -239,7 +239,7 @@ public class UserProperties
     }
 
     /**
-     * Markiert das {@link UserProperty} fuer den Key und den {@link PropertyType} als geloescht.
+     * Markiert das {@link UserProperty} für den Key und den {@link PropertyType} als gelöscht.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -267,7 +267,7 @@ public class UserProperties
     }
 
     /**
-     * Zuruecksetzen der Statusinformationen isNew, isChanged.<br>
+     * Zurücksetzen der Statusinformationen isNew, isChanged.<br>
      * Alle Properties mit isDeleted werden entfernt.
      */
     public void resetPropertyStates()
@@ -291,7 +291,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den boolean Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Setzt den boolean Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type PropertyType
@@ -311,13 +311,13 @@ public class UserProperties
     }
 
     /**
-     * Setzt das ByteArray des Properties fuer einen Key und {@link PropertyType}.
+     * Setzt das ByteArray des Properties für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
      * @param value byte[]
      *
-     * @throws Throwable, wenn Konvertierung fehlschlaegt
+     * @throws Throwable, wenn Konvertierung fehlschlägt
      */
     public void setByteArray(final String key, final PropertyType type, final byte[] value) throws Throwable
     {
@@ -333,7 +333,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den long Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Setzt den long Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -353,7 +353,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den int Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Setzt den int Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -373,7 +373,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den long Wert des Propertys fuer einen Key und {@link PropertyType}.
+     * Setzt den long Wert des Propertys für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -393,14 +393,14 @@ public class UserProperties
     }
 
     /**
-     * Setzt den Object Wert des Propertys fuer einen Key und {@link PropertyType}.<br>
+     * Setzt den Object Wert des Propertys für einen Key und {@link PropertyType}.<br>
      * Dieses Object wird als byte[] serialisiert.
      *
      * @param key String
      * @param type {@link PropertyType}
      * @param value Object
      *
-     * @throws Throwable, wenn Konvertierung fehlschlaegt
+     * @throws Throwable, wenn Konvertierung fehlschlägt
      */
     public void setObject(final String key, final PropertyType type, final Object value) throws Throwable
     {
@@ -438,7 +438,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den String Wert des Properties fuer einen Key und {@link PropertyType}.
+     * Setzt den String Wert des Properties für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -458,7 +458,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den gewaehlten SystemName.
+     * Setzt den gewählten SystemNamen.
      *
      * @param systemName String
      */
@@ -476,7 +476,7 @@ public class UserProperties
     }
 
     /**
-     * Erzeugt ein neues UserProperty fuer einen Key und einen {@link PropertyType}.
+     * Erzeugt ein neues UserProperty für einen Key und einen {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -497,7 +497,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert das {@link UserProperty} fuer den Key und den Typen.
+     * Liefert das {@link UserProperty} für den Key und den Typen.
      *
      * @param key String
      * @param type {@link PropertyType}

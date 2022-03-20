@@ -438,7 +438,7 @@ public class SimpleJdbcTemplate
      * Erzeugt über den {@link RowMapper} einen {@link Flux} aus Entities.<br>
      * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Flux#doFinally}-Methode.<br>
      * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Fluxes ist ebenfalls nicht möglich, da nach dem ersten mal bereits alle DB-Resourcen geschlossen sind.<br>
+     * Eine Wiederverwendung des Fluxes ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Resourcen geschlossen sind.<br>
      * Beispiel: <code>
      * <pre>
      * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
@@ -535,7 +535,7 @@ public class SimpleJdbcTemplate
      * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der
      * {@link ResultSetSubscription#closeJdbcResources}-Methode.<br>
      * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Publisher ist ebenfalls nicht möglich, da nach dem ersten mal bereits alle DB-Resourcen geschlossen sind.<br>
+     * Eine Wiederverwendung des Publisher ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Resourcen geschlossen sind.<br>
      * Beispiel: <code>
      * <pre>
      * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
@@ -834,7 +834,7 @@ public class SimpleJdbcTemplate
     /**
      * @param statement {@link Statement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      * @see #setFetchSize
      * @see #setMaxRows
      * @see #setQueryTimeout
@@ -950,7 +950,7 @@ public class SimpleJdbcTemplate
      *
      * @return {@link CallableStatement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected CallableStatement createCallableStatement(final Connection connection, final String sql) throws SQLException
     {
@@ -963,7 +963,7 @@ public class SimpleJdbcTemplate
      *
      * @return {@link PreparedStatement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected PreparedStatement createPreparedStatement(final Connection connection, final String sql) throws SQLException
     {
@@ -975,7 +975,7 @@ public class SimpleJdbcTemplate
      *
      * @return {@link Statement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected Statement createStatement(final Connection connection) throws SQLException
     {
@@ -1079,7 +1079,7 @@ public class SimpleJdbcTemplate
     /**
      * @return {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected Connection getConnection() throws SQLException
     {
@@ -1100,7 +1100,7 @@ public class SimpleJdbcTemplate
     /**
      * @param stmt {@link Statement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected void handleWarnings(final Statement stmt) throws SQLException
     {
@@ -1123,7 +1123,7 @@ public class SimpleJdbcTemplate
      *
      * @return boolean
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected boolean isBatchSupported(final Connection connection) throws SQLException
     {

@@ -6,14 +6,14 @@ import java.util.Collection;
 import de.freese.base.core.save.SaveContext;
 
 /**
- * Interface eines Services der Inserts ausfuehren kann.
+ * Interface eines Services der Inserts ausführen kann.
  *
  * @author Thomas Freese
  */
 public interface InsertService
 {
     /**
-     * Fuehrt ein Insert auf einem Objekt aus.
+     * Führt ein Insert auf einem Objekt aus.
      *
      * @param object {@link Serializable}
      * @param context {@link SaveContext}
@@ -23,7 +23,7 @@ public interface InsertService
     void insert(Serializable object, SaveContext context) throws Exception;
 
     /**
-     * Fuehrt ein Insert pro vorhandenen Objekt aus
+     * Führt ein Insert pro vorhandenen Objekt aus
      *
      * @param toInsert {@link Collection}
      * @param context {@link SaveContext}

@@ -19,7 +19,7 @@ public interface ILayoutElement
     Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 11);
 
     /**
-     * ChildElement hinzufuegen.
+     * ChildElement hinzufügen.
      *
      * @param element {@link ILayoutElement}
      */
@@ -63,7 +63,7 @@ public interface ILayoutElement
     Color getForeground();
 
     /**
-     * Hoehe des Elements.
+     * Höhe des Elements.
      *
      * @return float
      */
@@ -91,14 +91,14 @@ public interface ILayoutElement
     float getWidth();
 
     /**
-     * X-Koordinate des Elements. X-Koordinate des Parents wird beruecktsichtigt.
+     * X-Koordinate des Elements. X-Koordinate des Parents wird berücksichtigt.
      *
      * @return float
      */
     float getX();
 
     /**
-     * Y-Koordinate des Elements. Y-Koordinate des Parents wird beruecktsichtigt.
+     * Y-Koordinate des Elements. Y-Koordinate des Parents wird berücksichtigt.
      *
      * @return float
      */
@@ -112,7 +112,7 @@ public interface ILayoutElement
     void paint(Graphics2D g2d);
 
     /**
-     * ChildElement loeschen.
+     * ChildElement löschen.
      *
      * @param element {@link ILayoutElement}
      *
@@ -142,7 +142,7 @@ public interface ILayoutElement
     void setForeground(Color color);
 
     /**
-     * Hoehe des Elements.
+     * Höhe des Elements.
      *
      * @param height float
      */

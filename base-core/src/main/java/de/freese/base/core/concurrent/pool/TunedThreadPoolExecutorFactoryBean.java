@@ -25,7 +25,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
  * würden die Threads 4 - 10 erst erzeugt werden, wenn in der Queue 20 Tasks liegen.<br>
  * Somit läuft der ThreadPool immer nur mit 3 Threads und nicht mit max. 10 wie erwartet, wenn z.B. 11 Tasks bearbeitet werden müssen.<br>
  * <br>
- * Die Lösung ist, die Methode {@link LinkedBlockingQueue#offer(Object)} so zu implementieren, dass FALSE gelifert wird, wenn die maximumPoolSize noch nicht
+ * Die Lösung ist, die Methode {@link LinkedBlockingQueue#offer(Object)} so zu implementieren, dass FALSE geliefert wird, wenn die maximumPoolSize noch nicht
  * erreicht ist.<br>
  * Dies zwingt den {@link ThreadPoolExecutor} dazu neue Threads zu erzeugen, auch wenn die Queue noch nicht voll ist.<br>
  * <br>
@@ -41,7 +41,7 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
 
     /**
      * @see org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean#createExecutor(int, int, int, java.util.concurrent.BlockingQueue,
-     *      java.util.concurrent.ThreadFactory, java.util.concurrent.RejectedExecutionHandler)
+     * java.util.concurrent.ThreadFactory, java.util.concurrent.RejectedExecutionHandler)
      */
     @Override
     protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue,

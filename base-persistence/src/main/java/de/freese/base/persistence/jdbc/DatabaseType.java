@@ -73,35 +73,13 @@ public enum DatabaseType
     }
 
     /**
-     * @param source String
-     *
-     * @return String
-     */
-    private static String commonDatabaseName(final String source)
-    {
-        String name = source;
-
-        if ((source != null) && source.startsWith("DB2"))
-        {
-            name = "DB2";
-        }
-        else if ("Sybase SQL Server".equals(source) || "Adaptive Server Enterprise".equals(source) || "ASE".equals(source)
-                || "sql server".equalsIgnoreCase(source))
-        {
-            name = "Sybase";
-        }
-
-        return name;
-    }
-
-    /**
      * Convenience method that pulls a database product name from the DataSource's metadata.
      *
      * @param dataSource {@link DataSource}
      *
      * @return {@link DatabaseType}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static DatabaseType fromMetaData(final DataSource dataSource) throws SQLException
     {
@@ -143,6 +121,27 @@ public enum DatabaseType
         return cache.get(productName);
     }
 
+    /**
+     * @param source String
+     *
+     * @return String
+     */
+    private static String commonDatabaseName(final String source)
+    {
+        String name = source;
+
+        if ((source != null) && source.startsWith("DB2"))
+        {
+            name = "DB2";
+        }
+        else if ("Sybase SQL Server".equals(source) || "Adaptive Server Enterprise".equals(source) || "ASE".equals(source)
+                || "sql server".equalsIgnoreCase(source))
+        {
+            name = "Sybase";
+        }
+
+        return name;
+    }
     /**
      *
      */

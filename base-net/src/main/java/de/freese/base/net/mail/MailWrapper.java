@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 /**
- * Wrapper fuer die JavaMail API.<br>
+ * Wrapper für die JavaMail API.<br>
  * Dieser Wrapper arbeitet nach dem Prinzip "Fire and forget".
  *
  * @author Thomas Freese
@@ -39,14 +39,6 @@ public class MailWrapper
     /**
      *
      */
-    private InternetAddress from;
-    /**
-     *
-     */
-    private boolean html;
-    /**
-     *
-     */
     private final List<DataSource> inlines = new ArrayList<>();
     /**
      *
@@ -55,15 +47,23 @@ public class MailWrapper
     /**
      *
      */
+    private final List<InternetAddress> to = new ArrayList<>();
+    /**
+     *
+     */
+    private InternetAddress from;
+    /**
+     *
+     */
+    private boolean html;
+    /**
+     *
+     */
     private String subject;
     /**
      *
      */
     private String text;
-    /**
-     *
-     */
-    private final List<InternetAddress> to = new ArrayList<>();
 
     /**
      * Erstellt ein neues {@link MailWrapper} Object.
@@ -76,7 +76,7 @@ public class MailWrapper
     }
 
     /**
-     * Hinzufuegen eines Anhangs.
+     * Hinzufügen eines Anhangs.
      *
      * @param dataSource {@link DataSource}
      */
@@ -86,7 +86,7 @@ public class MailWrapper
     }
 
     /**
-     * Hinzufuegen eines Inlines.
+     * Hinzufügen eines Inlines.
      *
      * @param dataSource {@link DataSource}
      */
@@ -96,12 +96,12 @@ public class MailWrapper
     }
 
     /**
-     * Hinzufuegen eines weiteren Empfaengers.
+     * Hinzufügen eines weiteren Empfängers.
      *
      * @param to String
      *
-     * @throws NullPointerException wenn die Addresse null ist
-     * @throws MessagingException wenn der Addresse ein ungueltiges Format hat
+     * @throws NullPointerException, wenn die Addresse null ist
+     * @throws MessagingException, wenn die Addresse ein ungültiges Format hat
      */
     public void addTO(final String to) throws NullPointerException, MessagingException
     {
@@ -109,7 +109,7 @@ public class MailWrapper
     }
 
     /**
-     * Zusaetzliche Mail Header leeren.
+     * Zusätzliche Mail Header leeren.
      */
     public void clearAdditionalHeader()
     {
@@ -117,7 +117,7 @@ public class MailWrapper
     }
 
     /**
-     * Anhaenge leeren.
+     * Anhänge leeren.
      */
     public void clearAttachments()
     {
@@ -133,7 +133,7 @@ public class MailWrapper
     }
 
     /**
-     * Leert die Empfaenger Liste.
+     * Leert die Empfänger Liste.
      */
     public void clearTO()
     {
@@ -161,7 +161,7 @@ public class MailWrapper
     }
 
     /**
-     * Liefert die Anzahl vorhandener Empfaenger.
+     * Liefert die Anzahl vorhandener Empfänger.
      *
      * @return int
      */
@@ -171,38 +171,9 @@ public class MailWrapper
     }
 
     /**
-     * Ueberprueft und wandelt eine EMailaddresse in ein {@link InternetAddress} Objekt um.
-     *
-     * @param address String
-     *
-     * @return {@link InternetAddress}
-     *
-     * @throws NullPointerException wenn die Addresse null ist
-     * @throws MessagingException wenn die Addresse ein ungueltiges Format hat
-     */
-    private InternetAddress parseAddress(final String address) throws NullPointerException, MessagingException
-    {
-        if (address == null)
-        {
-            throw new NullPointerException("address");
-        }
-
-        InternetAddress[] parsed = InternetAddress.parse(address);
-
-        if (parsed.length != 1)
-        {
-            throw new AddressException("Illegal address", address);
-        }
-
-        // parsed[0].validate();
-
-        return parsed[0];
-    }
-
-    /**
      * Senden der Mail.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void send() throws Exception
     {
@@ -230,10 +201,10 @@ public class MailWrapper
             mail.addHeader(header.getKey().toString(), header.getValue().toString());
         }
 
-        // mixed, fuer Attachments
+        // mixed, für Attachments
         Multipart rootMultipart = new MimeMultipart("mixed");
 
-        // related, fuer Text und Inlines
+        // related, für Text und Inlines
         MimeMultipart relatedMultipart = new MimeMultipart("related");
         MimeBodyPart relatedBodyPart = new MimeBodyPart();
         relatedBodyPart.setContent(relatedMultipart);
@@ -282,8 +253,8 @@ public class MailWrapper
     }
 
     /**
-     * Hinzufuegen zusaetzlicher Mail Header.<br>
-     * Values die null oder leer sind werden aus dem Header entfernt.
+     * Hinzufügen zusätzlicher Mail Header.<br>
+     * Values die null oder leer sind, werden aus dem Header entfernt.
      *
      * @param key String, darf nicht null oder leer sein
      * @param value String
@@ -324,8 +295,8 @@ public class MailWrapper
      *
      * @param from String
      *
-     * @throws NullPointerException wenn die Addresse null ist
-     * @throws MessagingException wenn der Addresse ein ungueltiges Format hat
+     * @throws NullPointerException, wenn die Addresse null ist
+     * @throws MessagingException, wenn der Addresse ein ungültiges Format hat
      */
     public void setFrom(final String from) throws NullPointerException, MessagingException
     {
@@ -333,7 +304,7 @@ public class MailWrapper
     }
 
     /**
-     * Setzt den Mail Server Host.
+     * Setzt den Host des MailServers.
      *
      * @param host String
      */
@@ -373,5 +344,34 @@ public class MailWrapper
     {
         this.text = text;
         this.html = html;
+    }
+
+    /**
+     * Überprüft und wandelt eine E-Mail Addresse in ein {@link InternetAddress} Objekt um.
+     *
+     * @param address String
+     *
+     * @return {@link InternetAddress}
+     *
+     * @throws NullPointerException, wenn die Addresse null ist
+     * @throws MessagingException, wenn die Addresse ein ungültiges Format hat
+     */
+    private InternetAddress parseAddress(final String address) throws NullPointerException, MessagingException
+    {
+        if (address == null)
+        {
+            throw new NullPointerException("address");
+        }
+
+        InternetAddress[] parsed = InternetAddress.parse(address);
+
+        if (parsed.length != 1)
+        {
+            throw new AddressException("Illegal address", address);
+        }
+
+        // parsed[0].validate();
+
+        return parsed[0];
     }
 }

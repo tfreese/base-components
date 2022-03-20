@@ -77,7 +77,7 @@ class TestHsqldbTextTables
                 .addColumn("DOUBLE decimal(4,3)");
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurück gedreht werden kann.
+        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
              ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV"))
@@ -108,7 +108,7 @@ class TestHsqldbTextTables
                 .addColumn("DOUBLE decimal(4,3)");
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurück gedreht werden kann.
+        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -134,7 +134,7 @@ class TestHsqldbTextTables
                 .addColumn("DOUBLE decimal(4,3)");
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurück gedreht werden kann.
+        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -160,7 +160,7 @@ class TestHsqldbTextTables
                 .addColumn("DOUBLE decimal(4,3)");
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurück gedreht werden kann.
+        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -187,7 +187,7 @@ class TestHsqldbTextTables
                 .addColumn("DOUBLE decimal(4,3)");
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurück gedreht werden kann.
+        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -238,7 +238,7 @@ class TestHsqldbTextTables
         sql.append(" inner join TEST2 t2 on t2.TEXT = t1.TEXT");
         sql.append(" inner join TEST3 t3 on t3.TEXT = t1.TEXT");
 
-        // ResultSet-Types = Damit der Courser wieder zurück gedreht werden kann.
+        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
         try (Connection connection = builder1.build(builder2, builder3);
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
              ResultSet resultSet = statement.executeQuery(sql.toString()))
@@ -254,7 +254,7 @@ class TestHsqldbTextTables
     /**
      * @param statement {@link Statement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private void executeSelects(final Statement statement) throws SQLException
     {

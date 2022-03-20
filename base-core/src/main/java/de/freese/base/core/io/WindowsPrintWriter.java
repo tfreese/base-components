@@ -9,7 +9,7 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 
 /**
- * {@link PrintWriter} mit festcodiertem LineSeparator (println) fuer Windows.
+ * {@link PrintWriter} mit fest codierten LineSeparator (println) für Windows.
  *
  * @author Thomas Freese
  */

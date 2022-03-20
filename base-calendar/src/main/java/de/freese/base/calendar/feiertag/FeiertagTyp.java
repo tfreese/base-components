@@ -80,5 +80,5 @@ public enum FeiertagTyp
     /**
      *
      */
-    WEIHNACHTEN_2;
+    WEIHNACHTEN_2
 }

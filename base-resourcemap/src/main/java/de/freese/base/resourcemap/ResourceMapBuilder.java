@@ -85,19 +85,19 @@ public final class ResourceMapBuilder
     /**
      *
      */
-    private String bundleName;
-    /**
-     *
-     */
     private final List<ResourceMapBuilder> childBuilders = new ArrayList<>();
-    /**
-    *
-    */
-    private Map<Class<?>, ResourceConverter<?>> converters;
     /**
      *
      */
     private final ResourceMapBuilder parentBuilder;
+    /**
+     *
+     */
+    private String bundleName;
+    /**
+     *
+     */
+    private Map<Class<?>, ResourceConverter<?>> converters;
     /**
      *
      */
@@ -236,7 +236,7 @@ public final class ResourceMapBuilder
     }
 
     /**
-     * Optional for Childs, the Parent ones will taken.
+     * Optional for Childs, the Parent one's will be taken.
      *
      * @return {@link ResourceMapBuilder}
      */

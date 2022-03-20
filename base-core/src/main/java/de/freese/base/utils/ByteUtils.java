@@ -13,8 +13,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * Toolkit zum Wandeln von Datentypen in ByteArrays.
- *
  * @author Thomas Freese
  */
 public final class ByteUtils
@@ -33,7 +31,7 @@ public final class ByteUtils
     public static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
     /**
-     * Wandlet das Array in einen HEX-String um.
+     * Wandelt das Array in einen HEX-String um.
      *
      * @param bytes byte[]
      *

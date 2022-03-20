@@ -113,6 +113,7 @@ class TestMockReactiveJdbc
             return builder.toString();
         }
     }
+
     /**
      *
      */
@@ -162,7 +163,7 @@ class TestMockReactiveJdbc
     private PreparedStatement statement;
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @BeforeEach
     void setup() throws SQLException
@@ -190,7 +191,7 @@ class TestMockReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testResultSetFlux() throws SQLException
@@ -217,7 +218,7 @@ class TestMockReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testResultSetFluxSynchronousSink() throws SQLException
@@ -270,7 +271,7 @@ class TestMockReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testResultSetStream() throws SQLException

@@ -26,7 +26,7 @@ public class CachedRowSetResultSetExtractor implements ResultSetExtractor<Cached
     /**
      * Erstellt ein neues {@link CachedRowSetResultSetExtractor} Object.
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public CachedRowSetResultSetExtractor() throws SQLException
     {

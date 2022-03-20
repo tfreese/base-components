@@ -192,7 +192,7 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt die Zeile in der die Daten beginnen.<br>
+     * Setzt die Zeile, in der die Daten beginnen.<br>
      * Default: 1 (0. Zeile = Header)
      *
      * @param firstDataRow int
@@ -208,8 +208,8 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt die {@link Function} zum formatieren des Spaltenwertes.<br>
-     * Die Konvertierungs-Funktion wird nur aufgerufen, wenn das Value != null und nicht leer ist.<br>
+     * Setzt die {@link Function} zum Formatieren des Spaltenwertes.<br>
+     * Die Konvertierung-Funktion wird nur aufgerufen, wenn dass Value != null und nicht leer ist.<br>
      *
      * @param columnIndex int
      * @param function {@link Function}
@@ -232,7 +232,7 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt das Umschliessungszeichen der Datenfelder.<br>
+     * Setzt das Umschliessungs-Zeichen der Datenfelder.<br>
      * Default: '"'
      *
      * @param quoteCharacter {@link Character}

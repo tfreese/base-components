@@ -1,7 +1,7 @@
 package de.freese.base.net.protocol;
 
 /**
- * Allgemeine Netzwerkprotokoll Konstanten.
+ * Allgemeine Netzwerkprotokoll-Konstanten.
  *
  * @author Thomas Freese
  */

@@ -644,7 +644,7 @@ class TestSimpleJdbcTemplate
      *
      * @return long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private long getNextID(final String sequence) throws SQLException
     {

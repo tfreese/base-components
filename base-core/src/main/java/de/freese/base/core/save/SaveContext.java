@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Klasse fuer temporaere Daten, welche waehrend des Speichervorgangs benoetigt werden.
+ * Klasse für temporäre Daten, welche während des Speichervorgangs benötigt werden.
  *
  * @author Thomas Freese
  */
@@ -20,7 +20,7 @@ public class SaveContext
     private Map<Class<?>, Map<Long, Long>> primaryKeyMap = new HashMap<>();
 
     /**
-     * Aufraeumen.
+     * Aufräumen.
      */
     public void clear()
     {
@@ -32,7 +32,7 @@ public class SaveContext
     }
 
     /**
-     * Liefert das Value fuer den Key oder null.
+     * Liefert den Wert für den Key oder null.
      *
      * @param key Object
      *
@@ -44,19 +44,7 @@ public class SaveContext
     }
 
     /**
-     * Liefert die Map der temporaeren und konkreten PrimaryKeys einer Klasse.
-     *
-     * @param clazz Class
-     *
-     * @return {@link Map}
-     */
-    private Map<Long, Long> getClazzMap(final Class<?> clazz)
-    {
-        return this.primaryKeyMap.computeIfAbsent(clazz, key -> new HashMap<>());
-    }
-
-    /**
-     * Liefert fuer eine Klasse und einer OID den konkreten PrimaryKey.<br>
+     * Liefert für eine Klasse und einer OID den konkreten PrimaryKey.<br>
      * Existiert kein konkreter PrimaryKey wird die OID geliefert.
      *
      * @param clazz Class
@@ -74,7 +62,7 @@ public class SaveContext
     }
 
     /**
-     * Liefert die Map fuer das Mapping der Temporaeren- zu den DB-PrimaryKeys.
+     * Liefert die Map für das Mapping der Temporären- zu den DB-PrimaryKeys.
      *
      * @return {@link Map}
      */
@@ -84,7 +72,7 @@ public class SaveContext
     }
 
     /**
-     * Setzt das Value fuer den Key.
+     * Setzt das Value fär den Key.
      *
      * @param key Object
      * @param value Object
@@ -95,7 +83,7 @@ public class SaveContext
     }
 
     /**
-     * Setzt fuer eine Klasse und einer temporaeren OID den konkreten PrimaryKey.
+     * Setzt fär eine Klasse und einer temporären OID den konkreten PrimaryKey.
      *
      * @param clazz Class
      * @param tempOID Long
@@ -106,5 +94,17 @@ public class SaveContext
         Map<Long, Long> clazzMap = getClazzMap(clazz);
 
         clazzMap.put(tempOID, oid);
+    }
+
+    /**
+     * Liefert die Map der temporären und konkreten PrimaryKeys einer Klasse.
+     *
+     * @param clazz Class
+     *
+     * @return {@link Map}
+     */
+    private Map<Long, Long> getClazzMap(final Class<?> clazz)
+    {
+        return this.primaryKeyMap.computeIfAbsent(clazz, key -> new HashMap<>());
     }
 }

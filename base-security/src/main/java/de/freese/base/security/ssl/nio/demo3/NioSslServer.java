@@ -226,7 +226,7 @@ public class NioSslServer extends AbstractNioSslPeer
                     this.myNetData = enlargePacketBuffer(engine, this.myNetData);
                     break;
                 case BUFFER_UNDERFLOW:
-                    throw new SSLException("Buffer underflow occured after a wrap. I don't think we should ever get here.");
+                    throw new SSLException("Buffer underflow occurred after a wrap. I don't think we should ever get here.");
                 case CLOSED:
                     closeConnection(socketChannel, engine);
                     return;
@@ -267,7 +267,7 @@ public class NioSslServer extends AbstractNioSslPeer
     }
 
     /**
-     * Determines if the the server is active or not.
+     * Determines if the  server is active or not.
      *
      * @return if the server is active or not.
      */

@@ -13,7 +13,7 @@ import java.util.Objects;
 import javax.activation.DataSource;
 
 /**
- * Einfache {@link DataSource} fuer ein ByteArray.
+ * Einfache {@link DataSource} für ein ByteArray.
  *
  * @author Thomas Freese
  */
@@ -77,7 +77,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     private static final long serialVersionUID = -3420529375053580438L;
 
     /**
-     * Liefert anhand des Resourcenamens den passenden MimeType.
+     * Liefert anhand des Resource Namens den passenden MimeType.
      *
      * @param resourceName String
      *
@@ -233,8 +233,8 @@ public class ByteArrayDataSource implements DataSource, Serializable
 
         if (value != null)
         {
-            // Assumption that the string contains only ASCII
-            // characters! Otherwise just pass a charset into this
+            // Assumption that the string contains only ASCII characters!
+            // Otherwise, just pass a charset into this
             // constructor and use it in getBytes()
             this.data = value.getBytes(StandardCharsets.ISO_8859_1);
         }

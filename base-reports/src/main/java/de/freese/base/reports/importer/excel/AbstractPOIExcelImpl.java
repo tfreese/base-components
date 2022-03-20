@@ -345,7 +345,7 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
     /**
      * Liefert den Formatierungsstring eines Datums für ein ExcelXP Format.
      *
-     * @param index int, Excel XP Formatindex
+     * @param index int, Excel XP Format index
      *
      * @return String
      */
@@ -365,7 +365,7 @@ public abstract class AbstractPOIExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * Selektiert die gewaehlte Zeile im Excelsheet.
+     * Selektiert die gewählte Zeile im Excelsheet.
      *
      * @param rowNum int
      */

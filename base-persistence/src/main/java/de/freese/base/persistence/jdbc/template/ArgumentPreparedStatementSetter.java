@@ -17,9 +17,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Calendar;
 
-import org.springframework.jdbc.core.SqlTypeValue;
-
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
+import org.springframework.jdbc.core.SqlTypeValue;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
@@ -38,8 +37,30 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
     /**
      * @param ps {@link PreparedStatement}
      * @param paramIndex int
+     * @param value value
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException if thrown by PreparedStatement methods
+     * @see SqlTypeValue
+     */
+    public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
+    {
+        Object valueToUse = value;
+
+        if (valueToUse == null)
+        {
+            setNull(ps, paramIndex);
+        }
+        else
+        {
+            setValue(ps, paramIndex, valueToUse);
+        }
+    }
+
+    /**
+     * @param ps {@link PreparedStatement}
+     * @param paramIndex int
+     *
+     * @throws SQLException Falls was schiefgeht.
      */
     private static void setNull(final PreparedStatement ps, final int paramIndex) throws SQLException
     {
@@ -75,32 +96,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
     /**
      * @param ps {@link PreparedStatement}
      * @param paramIndex int
-     * @param value value
-     *
-     * @throws SQLException if thrown by PreparedStatement methods
-     *
-     * @see SqlTypeValue
-     */
-    public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
-    {
-        Object valueToUse = value;
-
-        if (valueToUse == null)
-        {
-            setNull(ps, paramIndex);
-        }
-        else
-        {
-            setValue(ps, paramIndex, valueToUse);
-        }
-    }
-
-    /**
-     * @param ps {@link PreparedStatement}
-     * @param paramIndex int
      * @param value Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private static void setValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
     {
@@ -191,9 +189,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 {
                     ps.setBinaryStream(paramIndex, inputStream);
                 }
-                catch (IOException ioex)
+                catch (IOException ex)
                 {
-                    throw new SQLException(ioex);
+                    throw new SQLException(ex);
                 }
             }
         }
@@ -215,9 +213,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 {
                     ps.setBinaryStream(paramIndex, inputStream);
                 }
-                catch (IOException ioex)
+                catch (IOException ex)
                 {
-                    throw new SQLException(ioex);
+                    throw new SQLException(ex);
                 }
             }
         }
@@ -233,9 +231,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 // {
                 // dos.writeInt(v);
                 // }
-                // catch (IOException ioex)
+                // catch (IOException ex)
                 // {
-                // throw new SQLException(ioex);
+                // throw new SQLException(ex);
                 // }
 
                 ByteBuffer byteBuffer = ByteBuffer.allocate(data.length * 4);
@@ -255,9 +253,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 {
                     ps.setBinaryStream(paramIndex, inputStream);
                 }
-                catch (IOException ioex)
+                catch (IOException ex)
                 {
-                    throw new SQLException(ioex);
+                    throw new SQLException(ex);
                 }
             }
 
@@ -282,9 +280,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
             {
                 ps.setBinaryStream(paramIndex, inputStream);
             }
-            catch (IOException ioex)
+            catch (IOException ex)
             {
-                throw new SQLException(ioex);
+                throw new SQLException(ex);
             }
         }
         else

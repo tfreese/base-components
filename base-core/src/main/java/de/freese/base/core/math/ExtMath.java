@@ -445,7 +445,7 @@ public final class ExtMath
     }
 
     /**
-     * Falls der übergebene {@link String} eine gültige römische Zahl ist wird <code>true</code> geliefert, sonst <code>false</code>.
+     * Falls der übergebene {@link String} eine gültige römische Zahl ist, wird <code>true</code> geliefert, sonst <code>false</code>.
      *
      * @param roman {@link String}
      *

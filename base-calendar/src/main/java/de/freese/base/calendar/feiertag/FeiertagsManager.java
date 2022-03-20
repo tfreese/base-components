@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import de.freese.base.utils.CalendarUtils;
 
 /**
- * Liefert die Feiertage fuer ein bestimmtes Datum.
+ * Liefert die Feiertage für ein bestimmtes Datum.
  *
  * @author Thomas Freese
  */
@@ -24,7 +24,7 @@ public final class FeiertagsManager
     private final Map<Integer, Map<String, InternerFeiertag>> feiertagsMap = new TreeMap<>();
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     * Liefert einen Feiertag für ein bestimmtes Datum.
      *
      * @param calendar {@link Calendar}
      *
@@ -38,7 +38,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     * Liefert einen Feiertag für ein bestimmtes Datum.
      *
      * @param date {@link Date}
      *
@@ -54,7 +54,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     * Liefert einen Feiertag für ein bestimmtes Datum.
      *
      * @param jahr int
      * @param tagDesJahres int; 1-366
@@ -71,7 +71,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     * Liefert einen Feiertag für ein bestimmtes Datum.
      *
      * @param jahr int
      * @param monat int; 1-12
@@ -95,7 +95,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     * Liefert einen Feiertag für ein bestimmtes Datum.
      *
      * @param localDate {@link LocalDate}
      *
@@ -109,7 +109,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Liefert einen Feiertag fuer ein bestimmtes Datum.
+     * Liefert einen Feiertag für ein bestimmtes Datum.
      *
      * @param localDateTime {@link LocalDateTime}
      *
@@ -137,7 +137,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Einfuegen von Ostern abhaengigen Feiertagen. Geklaut aus CT' (Gauss-Algorithmus).
+     * Einfügen von Ostern abhängigen Feiertagen. Geklaut aus CT' (Gauss-Algorithmus).
      *
      * @param jahr int
      */
@@ -186,7 +186,7 @@ public final class FeiertagsManager
         addFeiertag(jahr, getMonatImJahr(jahr, osterTag + 49), getTagDesMonats(jahr, osterTag + 49), FeiertagTyp.PFINGST_SONNTAG, true);
         addFeiertag(jahr, getMonatImJahr(jahr, osterTag + 50), getTagDesMonats(jahr, osterTag + 50), FeiertagTyp.PFINGST_MONTAG, true);
 
-        // // Nicht in allen Bundeslaendern
+        // // Nicht in allen Bundesländern
         // addFeiertag(
         // jahr, getMonatImJahr(jahr, osterTag + 60), getTagDesMonats(jahr, osterTag + 60),
         // FeiertagTyp.FRONLEICHNAM, true
@@ -211,7 +211,7 @@ public final class FeiertagsManager
     }
 
     /**
-     * Einfuegen von festen Feiertagen.
+     * Einfügen von festen Feiertagen.
      *
      * @param jahr int
      */

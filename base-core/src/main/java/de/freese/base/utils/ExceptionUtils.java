@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Nuetzliches fuer Exceptions.
- *
  * @author Thomas Freese
  */
 public final class ExceptionUtils
@@ -91,7 +89,7 @@ public final class ExceptionUtils
      *
      * @param throwable the throwable to inspect, may be null
      *
-     * @return the list of throwables, never null
+     * @return List, never null
      */
     public static List<Throwable> getThrowableList(Throwable throwable)
     {

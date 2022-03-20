@@ -32,8 +32,8 @@ public class TransactionalInvocationHandler implements InvocationHandler
      */
     private final Object bean;
     /**
-    *
-    */
+     *
+     */
     private final DataSource dataSource;
 
     /**
@@ -108,7 +108,7 @@ public class TransactionalInvocationHandler implements InvocationHandler
         }
         finally
         {
-            // Nested-Aufrufe werden nicht unterstützt (Hierachische Transactionen) !
+            // Nested-Aufrufe werden nicht unterstützt (Hierachische Transaktionen) !
             if (isTransactional)
             {
                 ConnectionHolder.close();

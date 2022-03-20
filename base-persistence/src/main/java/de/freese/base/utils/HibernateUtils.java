@@ -22,8 +22,6 @@ import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 
 /**
- * Nuetzliches fuer Hibernate.
- *
  * @author Thomas Freese
  */
 public final class HibernateUtils
@@ -79,12 +77,11 @@ public final class HibernateUtils
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
      * @param <T> Konkreter Typ
-     * @param maybeProxy moeglicher {@link HibernateProxy}
+     * @param maybeProxy möglicher {@link HibernateProxy}
      *
      * @return Object
      *
      * @throws ClassCastException Falls was schief geht.
-     *
      * @see HibernateProxy
      * @see LazyInitializer
      * @see HibernateProxyHelper
@@ -100,13 +97,12 @@ public final class HibernateUtils
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
      * @param <T> Konkreter Typ
-     * @param maybeProxy moeglicher {@link HibernateProxy}
-     * @param baseClass Klasse fuer den cast
+     * @param maybeProxy möglicher {@link HibernateProxy}
+     * @param baseClass Klasse für den cast
      *
      * @return Object
      *
      * @throws ClassCastException Falls was schief geht.
-     *
      * @see HibernateProxy
      * @see LazyInitializer
      */
@@ -139,7 +135,7 @@ public final class HibernateUtils
     }
 
     /**
-     * Liefert alle Persistenzstatistiken der aktuellen Umgebung.
+     * Liefert alle Persistenz-Statistiken der aktuellen Umgebung.
      *
      * @param sessionFactory {@link SessionFactory}
      * @param pw {@link PrintWriter}
@@ -236,7 +232,7 @@ public final class HibernateUtils
 
             try
             {
-                // Cacheregionen
+                // Cache-Regionen
                 String[] cacheRegions = stats.getSecondLevelCacheRegionNames();
 
                 Arrays.sort(cacheRegions);
@@ -318,7 +314,7 @@ public final class HibernateUtils
 
     /**
      * Force initialization of a proxy or persistent collection.<br>
-     * Note: This only ensures intialization of a proxy object or collection.<br>
+     * Note: This only ensures initialization of a proxy object or collection.<br>
      * It is not guaranteed that the elements INSIDE the collection will be initialized/materialized.
      *
      * @param maybeProxy Object

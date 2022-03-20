@@ -95,7 +95,7 @@ public class CommonsFTPWrapper implements FTPWrapper
             {
                 getFtpClient().makeDirectory(split);
 
-                // Code 550 = Verzeichniss existiert bereits
+                // Code 550 = Verzeichnis existiert bereits
                 if (getFtpClient().getReplyCode() != 550)
                 {
                     checkReply();
@@ -253,7 +253,7 @@ public class CommonsFTPWrapper implements FTPWrapper
     }
 
     /**
-     * Prueft den Reply-Code des letzten FTP-Commandos.
+     * Prüft den Reply-Code des letzten FTP-Commandos.
      *
      * @return String
      *

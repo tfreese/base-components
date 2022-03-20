@@ -12,13 +12,14 @@ import javax.crypto.KeyGenerator;
 /**
  * Builder für die Konfiguration einer Verschlüsselung der "java.security"-API.
  *
- * @author Thomas Freese
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public abstract class CryptoConfig<T extends CryptoConfig<T>>
 {
     /**
-     * Builder einer asymetrischen Public- / Private-Key Verschlüsselung der "java.security"-API.
+     * Builder einer asymmetrischen Public- / Private-Key Verschlüsselung der "java.security"-API.
      *
      * @return {@link CryptoConfigAsymetric}
      */
@@ -28,7 +29,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     }
 
     /**
-     * Builder einer symetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
+     * Builder einer symmetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
      *
      * @return {@link CryptoConfigSymetric}
      */
@@ -122,6 +123,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmCipher String
+     *
      * @return {@link CryptoConfig}
      */
     public T algorythmCipher(final String algorythmCipher)
@@ -136,6 +138,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      *
      * @param algorythmDefault String
+     *
      * @return {@link CryptoConfig}
      */
     public T algorythmDefault(final String algorythmDefault)
@@ -150,6 +153,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmDigest String
+     *
      * @return {@link CryptoConfig}
      */
     public T algorythmDigest(final String algorythmDigest)
@@ -164,6 +168,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmKeyGenerator String
+     *
      * @return {@link CryptoConfig}
      */
     public T algorythmKeyGenerator(final String algorythmKeyGenerator)
@@ -179,6 +184,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Beispiel: "NativePRNG", "SHA1PRNG", {@link SecureRandom#getInstanceStrong()}
      *
      * @param algorythmSecureRandom String
+     *
      * @return {@link CryptoConfig}
      */
     public T algorythmSecureRandom(final String algorythmSecureRandom)
@@ -193,6 +199,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #algorythmDefault(String)}
      *
      * @param algorythmSignature String
+     *
      * @return {@link CryptoConfig}
      */
     public T algorythmSignature(final String algorythmSignature)
@@ -204,31 +211,15 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
 
     /**
      * @return {@link Crypto}
+     *
      * @throws Exception Falls was schief geht.
      */
     public abstract Crypto build() throws Exception;
 
     /**
-     * @see #algorythmCipher(String)
      * @return String
-     */
-    protected String getAlgorythmCipher()
-    {
-        return this.algorythmCipher != null ? this.algorythmCipher : getAlgorythmDefault();
-    }
-
-    /**
-     * @see #algorythmDefault(String)
-     * @return String
-     */
-    protected String getAlgorythmDefault()
-    {
-        return this.algorythmDefault;
-    }
-
-    /**
+     *
      * @see #algorythmDigest(String)
-     * @return String
      */
     public String getAlgorythmDigest()
     {
@@ -236,17 +227,9 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     }
 
     /**
-     * @see #algorythmKeyGenerator(String)
      * @return String
-     */
-    protected String getAlgorythmKeyGenerator()
-    {
-        return this.algorythmKeyGenerator != null ? this.algorythmKeyGenerator : getAlgorythmDefault();
-    }
-
-    /**
+     *
      * @see #algorythmSecureRandom(String)
-     * @return String
      */
     public String getAlgorythmSecureRandom()
     {
@@ -254,44 +237,9 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     }
 
     /**
-     * @see #algorythmSignature(String)
      * @return String
-     */
-    protected String getAlgorythmSignature()
-    {
-        return this.algorythmSignature != null ? this.algorythmSignature : getAlgorythmDefault();
-    }
-
-    /**
-     * @see #keySize(int)
-     * @return int
-     */
-    protected int getKeySize()
-    {
-        return this.keySize;
-    }
-
-    /**
-     * @see #providerCipher(String)
-     * @return String
-     */
-    protected String getProviderCipher()
-    {
-        return this.providerCipher != null ? this.providerCipher : getProviderDefault();
-    }
-
-    /**
-     * @see #providerDefault(String)
-     * @return String
-     */
-    protected String getProviderDefault()
-    {
-        return this.providerDefault;
-    }
-
-    /**
+     *
      * @see #providerDigest(String)
-     * @return String
      */
     public String getProviderDigest()
     {
@@ -299,17 +247,9 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     }
 
     /**
-     * @see #providerKeyGenerator(String)
      * @return String
-     */
-    protected String getProviderKeyGenerator()
-    {
-        return this.providerKeyGenerator != null ? this.providerKeyGenerator : getProviderDefault();
-    }
-
-    /**
+     *
      * @see #providerSecureRandom(String)
-     * @return String
      */
     public String getProviderSecureRandom()
     {
@@ -317,27 +257,10 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     }
 
     /**
-     * @see #providerSignature(String)
-     * @return String
-     */
-    protected String getProviderSignature()
-    {
-        return this.providerSignature != null ? this.providerSignature : getProviderDefault();
-    }
-
-    /**
-     * @return {@link CryptoConfig}
-     */
-    @SuppressWarnings("unchecked")
-    protected T getThis()
-    {
-        return (T) this;
-    }
-
-    /**
      * Default: 0
      *
      * @param keySize int
+     *
      * @return {@link CryptoConfig}
      */
     public T keySize(final int keySize)
@@ -352,6 +275,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #providerDefault(String)}
      *
      * @param providerCipher String
+     *
      * @return {@link CryptoConfig}
      */
     public T providerCipher(final String providerCipher)
@@ -366,6 +290,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      *
      * @param providerDefault String
+     *
      * @return {@link CryptoConfig}
      */
     public T providerDefault(final String providerDefault)
@@ -380,6 +305,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #providerDefault(String)}
      *
      * @param providerDigest String
+     *
      * @return {@link CryptoConfig}
      */
     public T providerDigest(final String providerDigest)
@@ -394,6 +320,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #providerDefault(String)}
      *
      * @param providerKeyGenerator String
+     *
      * @return {@link CryptoConfig}
      */
     public T providerKeyGenerator(final String providerKeyGenerator)
@@ -409,6 +336,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Beispiel: "SUN"
      *
      * @param providerSecureRandom String
+     *
      * @return {@link CryptoConfig}
      */
     public T providerSecureRandom(final String providerSecureRandom)
@@ -423,6 +351,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #providerDefault(String)}
      *
      * @param providerSignature String
+     *
      * @return {@link CryptoConfig}
      */
     public T providerSignature(final String providerSignature)
@@ -430,5 +359,104 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
         this.providerSignature = providerSignature;
 
         return getThis();
+    }
+
+    /**
+     * @return String
+     *
+     * @see #algorythmCipher(String)
+     */
+    protected String getAlgorythmCipher()
+    {
+        return this.algorythmCipher != null ? this.algorythmCipher : getAlgorythmDefault();
+    }
+
+    /**
+     * @return String
+     *
+     * @see #algorythmDefault(String)
+     */
+    protected String getAlgorythmDefault()
+    {
+        return this.algorythmDefault;
+    }
+
+    /**
+     * @return String
+     *
+     * @see #algorythmKeyGenerator(String)
+     */
+    protected String getAlgorythmKeyGenerator()
+    {
+        return this.algorythmKeyGenerator != null ? this.algorythmKeyGenerator : getAlgorythmDefault();
+    }
+
+    /**
+     * @return String
+     *
+     * @see #algorythmSignature(String)
+     */
+    protected String getAlgorythmSignature()
+    {
+        return this.algorythmSignature != null ? this.algorythmSignature : getAlgorythmDefault();
+    }
+
+    /**
+     * @return int
+     *
+     * @see #keySize(int)
+     */
+    protected int getKeySize()
+    {
+        return this.keySize;
+    }
+
+    /**
+     * @return String
+     *
+     * @see #providerCipher(String)
+     */
+    protected String getProviderCipher()
+    {
+        return this.providerCipher != null ? this.providerCipher : getProviderDefault();
+    }
+
+    /**
+     * @return String
+     *
+     * @see #providerDefault(String)
+     */
+    protected String getProviderDefault()
+    {
+        return this.providerDefault;
+    }
+
+    /**
+     * @return String
+     *
+     * @see #providerKeyGenerator(String)
+     */
+    protected String getProviderKeyGenerator()
+    {
+        return this.providerKeyGenerator != null ? this.providerKeyGenerator : getProviderDefault();
+    }
+
+    /**
+     * @return String
+     *
+     * @see #providerSignature(String)
+     */
+    protected String getProviderSignature()
+    {
+        return this.providerSignature != null ? this.providerSignature : getProviderDefault();
+    }
+
+    /**
+     * @return {@link CryptoConfig}
+     */
+    @SuppressWarnings("unchecked")
+    protected T getThis()
+    {
+        return (T) this;
     }
 }

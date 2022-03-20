@@ -3,7 +3,7 @@ package de.freese.base.core.model.tupel;
 import java.util.Objects;
 
 /**
- * Ein 3er-Tupel verknuepft 3 Objekte miteinander.
+ * Ein 3er-Tupel verknüpft 3 Objekte miteinander.
  *
  * @param <A> Konkreter Typ ValueA
  * @param <B> Konkreter Typ ValueB

@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.function.Consumer;
 
 /**
- * Diese Klasse dient dient zur Teilweisen Ausgabe eines StackTraces.
+ * Diese Klasse dient zur teilweisen Ausgabe eines StackTraces.
  *
  * @author Thomas Freese
  */
@@ -26,26 +26,6 @@ public final class StackTraceLimiter
         System.arraycopy(th.getStackTrace(), 0, limitedTrace, 0, elements);
 
         return limitedTrace;
-    }
-
-    /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
-     * @param th {@link Throwable}
-     * @param elements int
-     * @param consumer {@link Consumer}
-     */
-    private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer)
-    {
-        consumer.accept(th);
-        StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
-
-        for (StackTraceElement stackTraceElement : limitedTrace)
-        {
-            consumer.accept("\tat " + stackTraceElement);
-        }
-
-        consumer.accept("\t...");
     }
 
     /**
@@ -82,6 +62,26 @@ public final class StackTraceLimiter
     public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb)
     {
         printStackTrace(th, elements, obj -> sb.append(obj).append("\n"));
+    }
+
+    /**
+     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
+     *
+     * @param th {@link Throwable}
+     * @param elements int
+     * @param consumer {@link Consumer}
+     */
+    private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer)
+    {
+        consumer.accept(th);
+        StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
+
+        for (StackTraceElement stackTraceElement : limitedTrace)
+        {
+            consumer.accept("\tat " + stackTraceElement);
+        }
+
+        consumer.accept("\t...");
     }
 
     /**

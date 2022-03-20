@@ -7,9 +7,9 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Return-Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface ConnectionCallback<T>
@@ -21,7 +21,7 @@ public interface ConnectionCallback<T>
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     T doInConnection(Connection connection) throws SQLException;
 }

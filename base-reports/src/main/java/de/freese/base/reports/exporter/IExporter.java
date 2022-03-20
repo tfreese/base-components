@@ -2,17 +2,15 @@ package de.freese.base.reports.exporter;
 
 import java.io.OutputStream;
 
-import org.springframework.core.io.ResourceLoader;
-
 import de.freese.base.core.progress.ProgressCallback;
 import de.freese.base.reports.exporter.csv.AbstractCSVExporter;
 import de.freese.base.reports.exporter.pdf.AbstractPDFExporter;
+import org.springframework.core.io.ResourceLoader;
 
 /**
- * Interface fuer einen Exporter.
+ * Interface für einen Exporter.
  *
  * @author Thomas Freese
- *
  * @see AbstractPDFExporter
  * @see AbstractCSVExporter
  */

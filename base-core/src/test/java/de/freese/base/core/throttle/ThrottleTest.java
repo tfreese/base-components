@@ -16,14 +16,13 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import de.freese.base.core.throttle.google.GoogleNanoThrottle;
+import de.freese.base.core.throttle.google.GoogleThrottle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import de.freese.base.core.throttle.google.GoogleNanoThrottle;
-import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
  * The following tests were adapted directly from com.google.common.util.concurrent.RateLimiterTest. Changes were made to test the non-burst behavior of
@@ -58,6 +57,15 @@ class ThrottleTest
     }
 
     /**
+     *
+     */
+    @BeforeAll
+    static void warmup()
+    {
+        GoogleThrottle.create(100.0);
+    }
+
+    /**
      * @param throttle {@link Throttle}
      * @param permits int
      *
@@ -80,15 +88,6 @@ class ThrottleTest
         throttle.acquire(1); // to repay for any pending debt
 
         return NANOSECONDS.toMillis(System.nanoTime() - startTime);
-    }
-
-    /**
-     *
-     */
-    @BeforeAll
-    static void warmup()
-    {
-        GoogleThrottle.create(100.0);
     }
 
     /**
@@ -367,7 +366,7 @@ class ThrottleTest
     }
 
     /**
-     * Dieser Test schlägt felh, solange die Methode {@link GoogleThrottle#sleepUninterruptibly} true ist.
+     * Dieser Test schlägt fehl, solange die Methode {@link GoogleThrottle#sleepUninterruptibly} true ist.
      *
      * @throws InterruptedException Falls was schief geht.
      */
@@ -380,7 +379,8 @@ class ThrottleTest
             throttle.acquireUnchecked(10);
 
             final CompletableFuture<Throwable> futureEx = new CompletableFuture<>();
-            Thread thread = new Thread(() -> {
+            Thread thread = new Thread(() ->
+            {
                 try
                 {
                     throttle.acquireUnchecked();
@@ -399,7 +399,8 @@ class ThrottleTest
             assertEquals(InterruptedException.class, futureEx.join().getClass());
 
             final CompletableFuture<Throwable> futureEx2 = new CompletableFuture<>();
-            thread = new Thread(() -> {
+            thread = new Thread(() ->
+            {
                 try
                 {
                     throttle.tryAcquireUnchecked(20, TimeUnit.SECONDS);
@@ -602,9 +603,9 @@ class ThrottleTest
     {
         final Throttle throttle = throttleFunction.apply(100.0);
         final int[] rates =
-        {
-                10000, 100, 1000000, 1000, 100
-        };
+                {
+                        10000, 100, 1000000, 1000, 100
+                };
 
         for (final int oneSecWorthOfWork : rates)
         {

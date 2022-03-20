@@ -58,13 +58,31 @@ public class SSLEngineExample
      */
     private static final String PASSWD = "passphrase";
     /**
-     * Logging code
-     */
-    private static boolean resultOnce = true;
-    /**
      *
      */
     private static final String TRUSTSTORE_FILE = "testkeys.jks";
+    /**
+     * Logging code
+     */
+    private static boolean resultOnce = true;
+
+    /**
+     * @param args String[]
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    public static void main(final String[] args) throws Exception
+    {
+        if (DEBUG)
+        {
+            System.setProperty("javax.net.debug", "all");
+        }
+
+        SSLEngineExample demo = new SSLEngineExample();
+        demo.runDemo();
+
+        System.out.println("Demo Completed.");
+    }
 
     /**
      * Simple check to make sure everything came across as expected.
@@ -133,27 +151,10 @@ public class SSLEngineExample
         }
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    public static void main(final String[] args) throws Exception
-    {
-        if (DEBUG)
-        {
-            System.setProperty("javax.net.debug", "all");
-        }
-
-        SSLEngineExample demo = new SSLEngineExample();
-        demo.runDemo();
-
-        System.out.println("Demo Completed.");
-    }
-
     /*
      * If the result indicates that we have outstanding tasks to do, go ahead and run them in this thread.
      */
+
     /**
      * @param result {@link SSLEngineResult}
      * @param engine {@link SSLEngine}
@@ -182,22 +183,6 @@ public class SSLEngineExample
             log("\tnew HandshakeStatus: " + hsStatus);
         }
     }
-
-    /**
-     *
-     */
-    private SSLEngine clientEngine;
-
-    /**
-     * read side of clientEngine
-     */
-    private ByteBuffer clientIn;
-
-    /**
-     * write side of clientEngine
-     */
-    private ByteBuffer clientOut;
-
     /**
      * For data transport, this example uses local ByteBuffers.<br>
      * This isn't really useful, but the purpose of this example is to show SSLEngine concepts,<br>
@@ -206,31 +191,38 @@ public class SSLEngineExample
      * "reliable" transport client->server
      */
     private ByteBuffer cTOs;
-
     /**
      *
      */
-    private SSLEngine serverEngine;
-
+    private SSLEngine clientEngine;
     /**
-     * read side of serverEngine
+     * read side of clientEngine
      */
-    private ByteBuffer serverIn;
-
+    private ByteBuffer clientIn;
     /**
-     * write side of serverEngine
+     * write side of clientEngine
      */
-    private ByteBuffer serverOut;
-
-    /**
-     *
-     */
-    private SSLContext sslc;
-
+    private ByteBuffer clientOut;
     /**
      * "reliable" transport server->client
      */
     private ByteBuffer sTOc;
+    /**
+     *
+     */
+    private SSLEngine serverEngine;
+    /**
+     * read side of serverEngine
+     */
+    private ByteBuffer serverIn;
+    /**
+     * write side of serverEngine
+     */
+    private ByteBuffer serverOut;
+    /**
+     *
+     */
+    private final SSLContext sslc;
 
     /**
      * Create an initialized SSLContext to use for this demo.
@@ -389,7 +381,7 @@ public class SSLEngineExample
             this.sTOc.compact();
 
             /*
-             * After we've transfered all application data between the client and server, we close the clientEngine's outbound stream. This generates a
+             * After we've transferred all application data between the client and server, we close the clientEngine's outbound stream. This generates a
              * close_notify handshake message, which the server engine receives and responds by closing itself. In normal operation, each SSLEngine should call
              * closeOutbound(). To protect against truncation attacks, SSLEngine.closeInbound() should be called whenever it has determined that no more input
              * data will ever be available (say a closed input stream).

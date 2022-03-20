@@ -9,18 +9,16 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import de.freese.base.core.progress.ProgressCallback;
 import de.freese.base.reports.exporter.AbstractExporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basisklasse eines PDF-Exporters.
@@ -29,6 +27,10 @@ import de.freese.base.reports.exporter.AbstractExporter;
  */
 public abstract class AbstractPDFExporter extends AbstractExporter
 {
+    /**
+     *
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
@@ -41,10 +43,6 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      *
      */
     private Document document;
-    /**
-     *
-     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
@@ -71,6 +69,64 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
+     * Erzeugt das {@link Document} und den {@link PdfWriter} und ruft die {@link #configure(Document, PdfWriter, DocumentMetaData)} Methode auf.
+     *
+     * @param outputStream {@link OutputStream}
+     * @param metaData {@link DocumentMetaData}
+     *
+     * @throws DocumentException Falls was schief geht.
+     * @see #setDocument(Document)
+     * @see #setWriter(PdfWriter)
+     */
+    public final void createDocumentAndWriter(final OutputStream outputStream, final DocumentMetaData metaData) throws DocumentException
+    {
+        setDocument(new Document());
+        setWriter(PdfWriter.getInstance(getDocument(), outputStream));
+
+        getWriter().setPdfVersion(PdfWriter.VERSION_1_5);
+
+        // setFullCompression setzt automatisch die PDF-Version auf 1.5
+        getWriter().setFullCompression();
+
+        configure(getDocument(), getWriter(), metaData);
+    }
+
+    /**
+     * @see de.freese.base.reports.exporter.AbstractExporter#export(java.lang.String, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
+     */
+    @Override
+    public void export(final String fileName, final ProgressCallback progressCallback, final Object model) throws Exception
+    {
+        this.outputStreamIntern = new BufferedOutputStream(new FileOutputStream(fileName));
+
+        export(this.outputStreamIntern, progressCallback, model);
+    }
+
+    /**
+     * Setzt bestehendes {@link Document}.
+     *
+     * @param document {@link Document}
+     *
+     * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
+     */
+    public void setDocument(final Document document)
+    {
+        this.document = document;
+    }
+
+    /**
+     * Setzt bestehenden {@link PdfWriter}.
+     *
+     * @param writer {@link PdfWriter}
+     *
+     * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
+     */
+    public void setWriter(final PdfWriter writer)
+    {
+        this.writer = writer;
+    }
+
+    /**
      * Konfiguriert das Dokument und den Writer.<br>
      * Defaults: A4 Portrait, Margins (40, 20, 20, 20)
      *
@@ -94,32 +150,6 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * Erzeugt das {@link Document} und den {@link PdfWriter} und ruft die {@link #configure(Document, PdfWriter, DocumentMetaData)} Methode auf.
-     *
-     * @param outputStream {@link OutputStream}
-     * @param metaData {@link DocumentMetaData}
-     *
-     * @throws DocumentException Falls was schief geht.
-     *
-     * @see #setDocument(Document)
-     * @see #setWriter(PdfWriter)
-     */
-    public final void createDocumentAndWriter(final OutputStream outputStream, final DocumentMetaData metaData) throws DocumentException
-    {
-        setDocument(new Document());
-        setWriter(PdfWriter.getInstance(getDocument(), outputStream));
-
-        getWriter().setPdfVersion(PdfWriter.VERSION_1_5);
-
-        // setFullCompression setzt automatisch die PDF Version auf 1.5
-        getWriter().setFullCompression();
-
-        configure(getDocument(), getWriter(), metaData);
-    }
-
-    /**
-     * Erstellt die Fusszeile mit ErstellDatum und Telefonnummern des Informationsbueros.
-     *
      * @param xOffset float
      * @param yOffset float
      * @param text String, muss DatumsFormat enthalten String.format(...)
@@ -241,17 +271,6 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * @see de.freese.base.reports.exporter.AbstractExporter#export(java.lang.String, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
-     */
-    @Override
-    public void export(final String fileName, final ProgressCallback progressCallback, final Object model) throws Exception
-    {
-        this.outputStreamIntern = new BufferedOutputStream(new FileOutputStream(fileName));
-
-        export(this.outputStreamIntern, progressCallback, model);
-    }
-
-    /**
      * Liefert den {@link BaseFont}
      *
      * @return {@link BaseFont}
@@ -304,7 +323,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * Liefert die groesste X Koordinate unter Beruecksichtigung des rechten Randes.
+     * Liefert die grösste X Koordinate unter Berücksichtigung des rechten Randes.
      *
      * @return float
      */
@@ -314,7 +333,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * Liefert die groesste Y Koordinate unter Beruecksichtigung des oberen Randes.
+     * Liefert die grösste Y Koordinate unter Berücksichtigung des oberen Randes.
      *
      * @return float
      */
@@ -324,7 +343,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * Liefert die kleinste X Koordinate unter Beruecksichtigung des linken Randes.
+     * Liefert die kleinste X Koordinate unter Berücksichtigung des linken Randes.
      *
      * @return float
      */
@@ -334,7 +353,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * Liefert die kleinste Y Koordinate unter Beruecksichtigung des unteren Randes.
+     * Liefert die kleinste Y Koordinate unter Berücksichtigung des unteren Randes.
      *
      * @return float
      */
@@ -400,47 +419,22 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     }
 
     /**
-     * Mit Passwort versehen und Rechte einschraenken.
+     * Mit Passwort versehen und Rechte einschränken.
      *
      * @param writer {@link PdfWriter}
-     * @param userPassword String, null = Keine Abfrage beim oeffnen
+     * @param userPassword String, null = Keine Abfrage beim Öffnen
      * @param ownerPassword String, Abfrage beim Andern
      *
      * @throws DocumentException Falls was schief geht.
      */
     protected void secure(final PdfWriter writer, final String userPassword, final String ownerPassword) throws DocumentException
     {
-        // UserPassword: null = Keine Abfrage beim oeffnen
+        // UserPassword: null = Keine Abfrage beim Öffnen
         byte[] userPwd = userPassword != null ? userPassword.getBytes(StandardCharsets.UTF_8) : null;
 
         // OwnerPassword: Abfrage beim Andern
         byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes(StandardCharsets.UTF_8) : null;
 
-        // Wegen Informationsbuero deaktiviert
         writer.setEncryption(userPwd, ownerPwd, PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS, PdfWriter.ENCRYPTION_AES_128);
-    }
-
-    /**
-     * Setzt bestehendes {@link Document}.
-     *
-     * @param document {@link Document}
-     *
-     * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
-     */
-    public void setDocument(final Document document)
-    {
-        this.document = document;
-    }
-
-    /**
-     * Setzt bestehenden {@link PdfWriter}.
-     *
-     * @param writer {@link PdfWriter}
-     *
-     * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
-     */
-    public void setWriter(final PdfWriter writer)
-    {
-        this.writer = writer;
     }
 }

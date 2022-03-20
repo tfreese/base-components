@@ -41,13 +41,13 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractNioSslPeer
 {
     /**
-     * Will be used to execute tasks that may emerge during handshake in parallel with the server's main thread.
-     */
-    protected ExecutorService executor = Executors.newSingleThreadExecutor();
-    /**
      * Class' logger.
      */
     protected final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     * Will be used to execute tasks that may emerge during handshake in parallel with the server's main thread.
+     */
+    protected ExecutorService executor = Executors.newSingleThreadExecutor();
     /**
      * Will contain this peer's application data in plaintext, that will be later encrypted using {@link SSLEngine#wrap(ByteBuffer, ByteBuffer)} and sent to the
      * other peer. This buffer can typically be of any size, as long as it is large enough to contain this peer's outgoing messages. If this peer tries to send
@@ -70,7 +70,7 @@ public abstract class AbstractNioSslPeer
      * Will contain the other peer's encrypted data. The SSL/TLS protocols specify that implementations should produce packets containing at most 16 KB of
      * plaintext, so a buffer sized to this value should normally cause no capacity problems. However, some implementations violate the specification and
      * generate large records up to 32 KB. If the {@link SSLEngine#unwrap(ByteBuffer, ByteBuffer)} detects large inbound packets, the buffer sizes returned by
-     * SSLSession will be updated dynamically, so the this peer should check for overflow conditions and enlarge the buffer using the session's (updated) buffer
+     * SSLSession will be updated dynamically, so  this peer should check for overflow conditions and enlarge the buffer using the session's (updated) buffer
      * size.
      */
     protected ByteBuffer peerNetData;
@@ -99,7 +99,7 @@ public abstract class AbstractNioSslPeer
      *
      * @param filepath - the path to the JKS keystore.
      * @param keystorePassword - the keystore's password.
-     * @param keyPassword - the key's passsword.
+     * @param keyPassword - the key's password.
      *
      * @return {@link KeyManager} array that will be used to initiate the {@link SSLContext}.
      *
@@ -297,7 +297,7 @@ public abstract class AbstractNioSslPeer
                             this.myNetData = enlargePacketBuffer(engine, this.myNetData);
                             break;
                         case BUFFER_UNDERFLOW:
-                            throw new SSLException("Buffer underflow occured after a wrap. I don't think we should ever get here.");
+                            throw new SSLException("Buffer underflow occurred after a wrap. I don't think we should ever get here.");
                         case CLOSED:
                             try
                             {
@@ -308,7 +308,7 @@ public abstract class AbstractNioSslPeer
                                     socketChannel.write(this.myNetData);
                                 }
 
-                                // At this point the handshake status will probably be NEED_UNWRAP so we make sure that peerNetData is clear to read.
+                                // At this point the handshake status will probably be NEED_UNWRAP, so we make sure that peerNetData is clear to read.
                                 this.peerNetData.clear();
                             }
                             catch (Exception ex)
@@ -425,7 +425,7 @@ public abstract class AbstractNioSslPeer
     }
 
     /**
-     * In addition to orderly shutdowns, an unorderly shutdown may occur, when the transport link (socket channel) is severed before close messages are
+     * In addition to orderly shutdowns, an unordered shutdown may occur, when the transport link (socket channel) is severed before close messages are
      * exchanged. This may happen by getting an -1 or {@link IOException} when trying to read from the socket channel, or an {@link IOException} when trying to
      * write to it. In both cases {@link SSLEngine#closeInbound()} should be called and then try to follow the standard procedure.
      *

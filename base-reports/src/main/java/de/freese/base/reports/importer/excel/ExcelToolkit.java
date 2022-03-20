@@ -41,7 +41,7 @@ public final class ExcelToolkit
             return " ";
         }
 
-        // Weil erste Spalte die Rownumbers enthaelt und somit KEINEN Namen hat.
+        // Weil erste Spalte die Row-Numbers enthält und somit KEINEN Namen hat.
         int c = column - 1;
 
         StringBuilder sb = new StringBuilder();
@@ -125,7 +125,7 @@ public final class ExcelToolkit
     }
 
     /**
-     * Ergibt ein String im Excel Formatder selektierten Zellen.
+     * Ergibt ein String im Excel Format der selektierten Zellen.
      *
      * @param table {@link JTable}
      *
@@ -303,7 +303,7 @@ public final class ExcelToolkit
                 numRangeValues += (endRow - startRow);
             }
 
-            // Otherwise its a block
+            // Otherwise it's a block
             else
             {
                 int numCols = endCol - startCol;
@@ -316,7 +316,7 @@ public final class ExcelToolkit
     }
 
     /**
-     * Liefert true, wenn in ein Bereich von mehreren mit einem zu vergleichenden übereinstimmt.
+     * Liefert true, wenn in einem Bereich von mehreren mit einem zu vergleichenden übereinstimmt.
      *
      * @param ranges String
      * @param range String

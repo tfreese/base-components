@@ -5,14 +5,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Interface fuer einen FTP Client.
+ * Interface für einen FTP Client.
  *
  * @author Thomas Freese
  */
 public interface FTPWrapper
 {
     /**
-     * Wechselt das Arbeitsverzeichniss (relativ).
+     * Wechselt das Arbeitsverzeichnis (relativ).
      *
      * @param dir String
      *
@@ -21,7 +21,7 @@ public interface FTPWrapper
     void changeWorkingDirectory(final String dir) throws Exception;
 
     /**
-     * Wechselt das Arbeitsverzeichniss.
+     * Wechselt das Arbeitsverzeichnis.
      *
      * @param path String
      * @param createDirs Sollen nicht vorhandene Unter-Verzeichnisse angelegt werden ?
@@ -41,7 +41,7 @@ public interface FTPWrapper
     void connect(final String host) throws Exception;
 
     /**
-     * Der FTP Client wird als letztes auf null gesetzt.
+     * Der FTP Client wird als Letztes auf null gesetzt.
      *
      * @throws Exception Falls was schief geht.
      */
@@ -72,7 +72,7 @@ public interface FTPWrapper
     void logout() throws Exception;
 
     /**
-     * Liefert das aktuelle Arbeitsverzeichniss.
+     * Liefert das aktuelle Arbeitsverzeichnis.
      *
      * @return String
      *

@@ -12,12 +12,11 @@ import java.net.NetworkInterface;
 import java.util.Date;
 import java.util.Enumeration;
 
+import de.freese.base.utils.NetUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.utils.NetUtils;
 
 /**
  * @author Thomas Freese
@@ -101,7 +100,7 @@ class TestNetUtils
         }
         catch (Exception ex)
         {
-            // Bei Betriebssystemen ohne DNS-Konfiguration fuinktioniert InetAddress.getLocalHost nicht !
+            // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
         }
 

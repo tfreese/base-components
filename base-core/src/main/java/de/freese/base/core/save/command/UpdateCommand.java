@@ -2,13 +2,14 @@ package de.freese.base.core.save.command;
 
 import java.io.Serializable;
 import java.util.Collection;
+
 import de.freese.base.core.command.AbstractRemoteCommand;
 import de.freese.base.core.save.SaveContext;
 import de.freese.base.core.save.service.UpdateService;
 
 /**
- * Basisklasse des Command-Patterns fuer ein Update-Kommando.<br>
- * Wird die {@link #execute()} Methode nicht ueberschrieben, wird versucht den CommandInvoker auf {@link UpdateService} zu casten.
+ * Basisklasse des Command-Patterns für ein Update-Kommando.<br>
+ * Wird die {@link #execute()} Methode nicht überschrieben, wird versucht den CommandInvoker auf {@link UpdateService} zu casten.
  *
  * @author Thomas Freese
  * @see UpdateService
@@ -16,13 +17,13 @@ import de.freese.base.core.save.service.UpdateService;
 public class UpdateCommand extends AbstractRemoteCommand
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 2163481914421663100L;
 
     /**
      * Erstellt ein neues {@link UpdateCommand} Object.
-     * 
+     *
      * @param source {@link Serializable}
      */
     public UpdateCommand(final Serializable source)
@@ -38,7 +39,7 @@ public class UpdateCommand extends AbstractRemoteCommand
     public void execute() throws Exception
     {
         UpdateService service = (UpdateService) getCommandInvoker();
-        SaveContext context = (SaveContext) getPayload();
+        SaveContext context = getPayload();
 
         if (getSource() instanceof Collection)
         {

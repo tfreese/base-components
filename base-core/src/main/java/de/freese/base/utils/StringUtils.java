@@ -20,8 +20,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * Nuetzliches fuer Strings.
- *
  * @author Thomas Freese
  */
 public final class StringUtils
@@ -936,18 +934,6 @@ public final class StringUtils
         // @formatter:on
 
         return line;
-    }
-
-    /**
-     * Verwendet intern die neue {@link String#strip()} Methode mit Unicode-Standards.
-     *
-     * @param text String
-     *
-     * @return String
-     */
-    public static String trim(final String text)
-    {
-        return strip(text);
     }
 
     /**

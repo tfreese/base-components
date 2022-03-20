@@ -372,7 +372,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
      *
      * @return {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private Connection getConnectionFromDriver(final Properties props) throws SQLException
     {
@@ -392,7 +392,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
      *
      * @return {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private Connection getConnectionFromDriver(final String username, final String password) throws SQLException
     {
@@ -423,7 +423,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
      *
      * @return {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private Connection getConnectionFromDriverManager(final String url, final Properties props) throws SQLException
     {
@@ -439,7 +439,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private void initConnection() throws SQLException
     {
@@ -464,7 +464,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
     /**
      * @param con {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     private void prepareConnection(final Connection con) throws SQLException
     {

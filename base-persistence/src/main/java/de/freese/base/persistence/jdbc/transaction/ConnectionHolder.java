@@ -21,8 +21,7 @@ public final class ConnectionHolder
      * Setzt autoCommit = false auf der aktuellen {@link Connection}.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schief geht.
-     *
+     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -47,8 +46,7 @@ public final class ConnectionHolder
      * Die {@link Connection} wird anschliessend mit {@link #remove()} aus der {@link ThreadLocal} entfernt.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schief geht.
-     *
+     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -67,8 +65,7 @@ public final class ConnectionHolder
      * Ruft die Methode {@link Connection#commit()} auf der aktuellen {@link Connection} auf.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schief geht.
-     *
+     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -115,8 +112,7 @@ public final class ConnectionHolder
      * Ruft die Methode {@link Connection#rollback()} auf der aktuellen {@link Connection} auf.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schief geht.
-     *
+     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Mit Hilfe dieser Klasse kann man eine Grafikdatei in Java-Quellcode konvertieren.
+ * Mithilfe dieser Klasse kann man eine Grafikdatei in Java-Quellcode konvertieren.
  *
  * @author Thomas Freese
  */
@@ -17,6 +17,7 @@ public final class IconConverter
      *
      * @param source Der Name der Quelldatei
      * @param destination Der Name der Zieldatei
+     *
      * @throws IOException Falls was schief geht.
      */
     public static void convert(final String source, final String destination) throws IOException

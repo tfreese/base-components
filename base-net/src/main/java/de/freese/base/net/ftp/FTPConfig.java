@@ -1,7 +1,7 @@
 package de.freese.base.net.ftp;
 
 /**
- * KonfigurationsObjekt fuer einen {@link FTPWrapper}.
+ * Konfigurations-Objekt für einen {@link FTPWrapper}.
  *
  * @author Thomas Freese
  */

@@ -2,7 +2,6 @@
 package de.freese.base.utils;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
- * Transparenter JDBC-Treiber, der Logausgaben für konfigurierbare Methodennamen erzeugt.<br>
+ * Transparenter JDBC-Treiber, der Log-Ausgaben für konfigurierbare Methodennamen erzeugt.<br>
  * Der Treiber wird aktiviert durch das Url-Postfix: jdbc:logger:<br>
  * <br>
  * J2SE-Konfiguration:<br>

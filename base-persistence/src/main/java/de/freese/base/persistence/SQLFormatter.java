@@ -4,7 +4,7 @@ package de.freese.base.persistence;
 import org.hibernate.engine.jdbc.internal.FormatStyle;
 
 /**
- * Formattiert SQL Strings mit Hilfe des Hibernate Formatters.
+ * Formattiert SQL Strings mithilfe des Hibernate Formatters.
  *
  * @author Thomas Freese
  */

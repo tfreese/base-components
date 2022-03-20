@@ -44,7 +44,7 @@ public class TestLayout
         layoutElement4.setY(200);
         layoutElement4.setWidth(150);
 
-        // Elemente in Hauptelement zusammenfuehren
+        // Elemente in Hauptelement zusammenführen
         masterElement.addElement(layoutElement1);
         masterElement.addElement(layoutElement2);
         masterElement.addElement(layoutElement3);

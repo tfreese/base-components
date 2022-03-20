@@ -144,7 +144,7 @@ public abstract class AbstractResourceCache implements ResourceCache
                 // get redirect url from "location" header field
                 String newUrl = httpURLConnection.getHeaderField("Location");
 
-                // open the new connnection again
+                // pen the new connection again
                 httpURLConnection = (HttpURLConnection) new URL(newUrl).openConnection();
                 httpURLConnection.setRequestMethod("HEAD");
             }
@@ -197,7 +197,7 @@ public abstract class AbstractResourceCache implements ResourceCache
                     // get redirect url from "location" header field
                     String newUrl = httpURLConnection.getHeaderField("Location");
 
-                    // get the cookie if need, for login
+                    // get the cookie if we need, for login
                     String cookies = httpURLConnection.getHeaderField("Set-Cookie");
 
                     httpURLConnection.disconnect();

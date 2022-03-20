@@ -42,18 +42,17 @@ import java.util.concurrent.CompletionException;
  * <br>
  *
  * @author Thomas Freese
- *
  * @see <a href="https://github.com/client-side/throttle">https://github.com/client-side/throttle</a>
  * @see <a href=
- *      "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
+ * "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
  * @see <a href="https://en.wikipedia.org/wiki/Token_bucket">https://en.wikipedia.org/wiki/Token_bucket</a>
  * @see <a href="https://en.wikipedia.org/wiki/Leaky_bucket">https://en.wikipedia.org/wiki/Leaky_bucket</a>
  */
 public interface Throttle
 {
     /**
-    *
-    */
+     *
+     */
     double ONE_SECOND_NANOS = 1_000_000_000.0D;
 
     /**
@@ -141,7 +140,7 @@ public interface Throttle
 
     /**
      * Updates the stable rate of this {@code Throttle}, that is, the {@code permitsPerSecond} argument provided in the factory method that constructed the
-     * {@code Throttle}. Currently throttled threads will <b>not</b> be awakened as a result of this invocation, thus they do not observe the new rate; only
+     * {@code Throttle}. Currently, throttled threads will <b>not</b> be awakened as a result of this invocation, thus they do not observe the new rate; only
      * subsequent requests will.
      * <p>
      * Note though that, since each request repays (by waiting, if necessary) the cost of the <i>previous</i> request, this means that the very next request

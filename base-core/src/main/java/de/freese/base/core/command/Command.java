@@ -1,14 +1,14 @@
 package de.freese.base.core.command;
 
 /**
- * Interface fuer ein Kommando des Command-Patterns.
+ * Interface für ein Kommando des Command-Patterns.
  *
  * @author Thomas Freese
  */
 public interface Command
 {
     /**
-     * Ausfuehren des Kommandos.
+     * Ausführen des Kommandos.
      *
      * @throws Exception Falls was schief geht.
      */

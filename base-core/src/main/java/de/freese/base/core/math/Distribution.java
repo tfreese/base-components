@@ -93,7 +93,7 @@ public final class Distribution
         {
             if (Double.compare(faktorSumme, 0.0D) == 0)
             {
-                break; // NOTE Ohne dieses Abbrechen kann NaN eingetragen werden!
+                break; //  Ohne dieses Abbrechen kann NaN eingetragen werden!
             }
 
             double faktor = faktoren[i];

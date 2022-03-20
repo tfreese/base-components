@@ -37,7 +37,7 @@ class TestStaxWriter
             // XMLStreamWriter writer = factory.createXMLStreamWriter(os, encoding);
             XMLStreamWriter writer = new PrettyPrintXMLStreamWriter(os, encoding);
 
-            // PrettyPring per Proxy
+            // PrettyPrint per Proxy
             // StaxPrettyPrintHandler handler = new StaxPrettyPrintHandler(writer);
             // writer =
             // (XMLStreamWriter) Proxy.newProxyInstance(XMLStreamWriter.class.getClassLoader(),

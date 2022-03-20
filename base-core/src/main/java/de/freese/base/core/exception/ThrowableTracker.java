@@ -23,7 +23,7 @@ public class ThrowableTracker implements Serializable
     private final Map<String, Throwable> throwables = new LinkedHashMap<>();
 
     /**
-     * Hinzufuegen eines {@link Throwable}.
+     * Hinzufügen eines {@link Throwable}.
      *
      * @param th {@link Throwable}
      */
@@ -55,7 +55,7 @@ public class ThrowableTracker implements Serializable
     }
 
     /**
-     * Liefert die Liste der {@link Throwable} in der Reihenfolge in der diese aufgetreten sind.
+     * Liefert eine Liste von {@link Throwable} in der Reihenfolge, in der diese aufgetreten sind.
      *
      * @return {@link List}
      */

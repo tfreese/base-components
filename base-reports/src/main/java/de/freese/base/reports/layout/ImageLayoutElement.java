@@ -4,7 +4,7 @@ package de.freese.base.reports.layout;
 import java.awt.Image;
 
 /**
- * Implementierung eines LayoutElementes fuer Bilder.
+ * Implementierung eines LayoutElementes für Bilder.
  *
  * @author Thomas Freese
  */

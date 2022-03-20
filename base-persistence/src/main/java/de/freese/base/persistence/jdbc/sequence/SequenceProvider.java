@@ -16,7 +16,7 @@ public interface SequenceProvider
      *
      * @return long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     long getNextID(String sequence) throws SQLException;
 }

@@ -248,7 +248,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
     }
 
     /**
-     * Setzt den Timeoput in Millisekunden.
+     * Setzt den Timeout in Millisekunden.
      *
      * @param timeout long
      * @param timeUnit TimeUnit

@@ -12,7 +12,7 @@ public enum MathOperator
      */
     DIFFERENZMENGE,
     /**
-     * 
+     *
      */
     DURCHSCHNITT,
     /**
@@ -22,5 +22,5 @@ public enum MathOperator
     /**
      * Addition
      */
-    PLUS;
+    PLUS
 }

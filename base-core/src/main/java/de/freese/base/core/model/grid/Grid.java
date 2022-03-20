@@ -26,8 +26,8 @@ public class Grid implements Serializable
      */
     private static final long serialVersionUID = -6649946412204459833L;
     /**
-    *
-    */
+     *
+     */
     private final GridMetaData gridMetaData;
     /**
      *
@@ -107,14 +107,6 @@ public class Grid implements Serializable
     }
 
     /**
-     * @return {@link GridMetaData}
-     */
-    protected GridMetaData getGridMetaData()
-    {
-        return this.gridMetaData;
-    }
-
-    /**
      * @param index int
      *
      * @return int
@@ -152,14 +144,6 @@ public class Grid implements Serializable
     public int getPrecision(final int index)
     {
         return getColumn(index).getPrecision();
-    }
-
-    /**
-     * @return {@link List}
-     */
-    protected List<Object[]> getRows()
-    {
-        return this.rows;
     }
 
     /**
@@ -209,7 +193,7 @@ public class Grid implements Serializable
      *
      * @param resultSet {@link ResultSet}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public void read(final ResultSet resultSet) throws SQLException
     {
@@ -267,5 +251,21 @@ public class Grid implements Serializable
                 getColumn(c).write(dataOutput, row[c]);
             }
         }
+    }
+
+    /**
+     * @return {@link GridMetaData}
+     */
+    protected GridMetaData getGridMetaData()
+    {
+        return this.gridMetaData;
+    }
+
+    /**
+     * @return {@link List}
+     */
+    protected List<Object[]> getRows()
+    {
+        return this.rows;
     }
 }

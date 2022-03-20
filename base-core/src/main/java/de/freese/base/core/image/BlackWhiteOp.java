@@ -36,7 +36,7 @@ public class BlackWhiteOp implements BufferedImageOp
     /**
      * Creates a new BlackWhiteOp object.
      *
-     * @param colorLimit int, Wenn eine Farbe > colorLimit wird sie als Weiß interpretiert.
+     * @param colorLimit int, wenn eine Farbe > colorLimit wird sie als Weiß interpretiert.
      */
     public BlackWhiteOp(final int colorLimit)
     {
@@ -47,7 +47,7 @@ public class BlackWhiteOp implements BufferedImageOp
      * Creates a new {@link BlackWhiteOp} object.
      *
      * @param hints {@link RenderingHints}
-     * @param colorLimit int, Wenn eine Farbe > colorLimit wird sie als Weiß interpretiert
+     * @param colorLimit int, wenn eine Farbe > colorLimit wird sie als Weiß interpretiert
      */
     public BlackWhiteOp(final RenderingHints hints, final int colorLimit)
     {

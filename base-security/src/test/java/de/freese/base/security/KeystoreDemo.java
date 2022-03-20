@@ -25,7 +25,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 
 /**
- * Beispeile für JCE-API.
+ * Beispiele für JCE-API.
  *
  * @author Thomas Freese see base-security/keystore.txt
  */

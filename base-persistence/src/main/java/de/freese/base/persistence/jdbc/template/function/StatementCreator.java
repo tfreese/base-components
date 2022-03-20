@@ -18,7 +18,7 @@ public interface StatementCreator
      *
      * @return {@link Statement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     Statement createStatement(Connection connection) throws SQLException;
 }

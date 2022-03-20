@@ -7,9 +7,9 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Return-Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface PreparedStatementCallback<T>
@@ -19,7 +19,7 @@ public interface PreparedStatementCallback<T>
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     T doInStatement(PreparedStatement statement) throws SQLException;
 }

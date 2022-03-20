@@ -15,14 +15,12 @@ import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 
 /**
- * Toolkit zum Arbeiten mit Sockets etc.
- *
  * @author Thomas Freese
  */
 public final class NetUtils
 {
     /**
-     * Wandelt die binaere IP Addresse in ein lesbares Format um.
+     * Wandelt die binäre IP Addresse in ein lesbares Format um.
      *
      * @param ipAddr byte[]
      *

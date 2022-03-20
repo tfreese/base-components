@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Toolkitklasse fuer dier Arbeit mit Arrays.
- *
  * @author Thomas Freese
  */
 public final class ArrayUtils
@@ -39,7 +37,7 @@ public final class ArrayUtils
     }
 
     /**
-     * Füllt das Array mit den Replace-Wert, wenn alle Elemente 0 sind.
+     * Füllt das Array mit dem Replace-Wert, wenn alle Elemente 0 sind.
      *
      * @param values double[]
      * @param filler double

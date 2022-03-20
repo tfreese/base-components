@@ -18,7 +18,7 @@ public interface ObjectPool<T>
      *
      * @return Object
      *
-     * @throws NoSuchElementException Wenn der Pool erschöpft ist
+     * @throws NoSuchElementException, wenn der Pool erschöpft ist
      */
     T borrowObject();
 

@@ -115,7 +115,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testFlowResultSetPublisher() throws SQLException
@@ -134,7 +134,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testFlowResultSetPublisherForEachObject() throws SQLException
@@ -153,7 +153,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testFlowResultSetPublisherForFetchSize() throws SQLException
@@ -172,7 +172,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testFluxResultSetIterable() throws SQLException
@@ -202,7 +202,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testFluxResultSetIterableParallel() throws SQLException
@@ -236,7 +236,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testStreamResultSetIterable() throws SQLException
@@ -267,7 +267,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testStreamResultSetIterableParallel() throws SQLException
@@ -298,7 +298,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testStreamResultSetIterator() throws SQLException
@@ -332,7 +332,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testStreamResultSetIteratorParallel() throws SQLException
@@ -366,7 +366,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testStreamResultSetSpliterator() throws SQLException
@@ -397,7 +397,7 @@ class TestReactiveJdbc
     }
 
     /**
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     @Test
     void testStreamResultSetSpliteratorParallel() throws SQLException

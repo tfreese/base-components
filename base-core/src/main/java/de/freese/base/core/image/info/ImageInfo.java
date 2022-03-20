@@ -18,20 +18,20 @@ import javax.imageio.ImageIO;
 public class ImageInfo
 {
     /**
-    *
-    */
+     *
+     */
     private final List<ImageColorChannelInfo> channelInfos = new ArrayList<>();
     /**
-    *
-    */
+     *
+     */
     private BufferedImage coOccurenceMatrixImage;
     /**
-    *
-    */
+     *
+     */
     private double[] infoVector;
     /**
-    *
-    */
+     *
+     */
     private double[] infoVectorReScaled;
 
     /**
@@ -195,7 +195,7 @@ public class ImageInfo
             {
                 double value = getInfoVector()[i];
 
-                // Sehr große Werte häppchenweise runter rechnen.
+                // Sehr große Werte häppchenweise runterrechnen.
                 if (value > 1_000_000D)
                 {
                     value /= 1_000D;

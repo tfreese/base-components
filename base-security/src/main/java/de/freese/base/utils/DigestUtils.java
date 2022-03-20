@@ -1,5 +1,4 @@
 // Created: 17.11.2018
-
 package de.freese.base.utils;
 
 import java.io.IOException;

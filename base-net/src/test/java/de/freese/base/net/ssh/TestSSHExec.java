@@ -1,10 +1,12 @@
 package de.freese.base.net.ssh;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -68,7 +70,7 @@ class TestSSHExec
         List<String> result = sshExec.execute("df -h");
 
         assertEquals(0, sshExec.getLastExitStatus());
-        assertTrue(!result.isEmpty());
+        assertFalse(result.isEmpty());
 
         result.forEach(System.out::println);
     }
@@ -83,7 +85,7 @@ class TestSSHExec
         List<String> result = resultFuture.get();
 
         assertEquals(0, sshExec.getLastExitStatus());
-        assertTrue(!result.isEmpty());
+        assertFalse(result.isEmpty());
 
         result.forEach(System.out::println);
     }

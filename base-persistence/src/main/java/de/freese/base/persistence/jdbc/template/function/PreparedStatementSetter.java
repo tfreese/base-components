@@ -15,7 +15,7 @@ public interface PreparedStatementSetter
     /**
      * @param preparedStatement {@link PreparedStatement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     void setValues(PreparedStatement preparedStatement) throws SQLException;
 }

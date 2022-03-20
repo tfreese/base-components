@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 /**
- * Uebersicht des Layouts.
+ * Übersicht des Layouts.
  *
  * @author Thomas Freese
  */

@@ -106,7 +106,7 @@ public class SSHExec
     /**
      * Remote-Login.
      *
-     * @throws JSchException Falls was schief geht.
+     * @throws JSchException Falls was schiefgeht.
      */
     public void connect() throws JSchException
     {
@@ -119,9 +119,9 @@ public class SSHExec
         this.session.setTimeout(this.timeOut);
 
         this.session.setConfig("StrictHostKeyChecking", "no");
-        this.session.setConfig("PreferredAuthentications", "password"); // Verhindert Kerberos Authetifizierung
+        this.session.setConfig("PreferredAuthentications", "password"); // Verhindert Kerberos Authentifizierung
         // this.session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password"); // Verhindert Kerberos
-        // Authetifizierung
+        // Authentifizierung
 
         this.session.connect();
 
@@ -159,8 +159,8 @@ public class SSHExec
      *
      * @return {@link List}
      *
-     * @throws JSchException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws JSchException Falls was schiefgeht.
+     * @throws IOException Falls was schiefgeht.
      */
     public List<String> execute(final String command) throws JSchException, IOException
     {
@@ -193,7 +193,7 @@ public class SSHExec
     }
 
     /**
-     * Ausführung des Commandos in einem parallen Thread.<br>
+     * Ausführung des Commandos in einem parallem Thread.<br>
      *
      * @param command String
      * @param executorService {@link ExecutorService}
@@ -208,12 +208,12 @@ public class SSHExec
     }
 
     /**
-     * Ausführung des Commandos in einem parallen Thread.<br>
+     * Ausführung des Commandos in einem parallem Thread.<br>
      *
      * @param <R> Konkreter Return-Typ
      * @param command String
      * @param executorService {@link ExecutorService}
-     * @param responseMapper {@link Function}; Wandelt die Roh-Daten des Response u
+     * @param responseMapper {@link Function}; Wandelt die Roh-Daten des Response um
      *
      * @return {@link List}
      */
@@ -233,8 +233,8 @@ public class SSHExec
      *
      * @return {@link List}
      *
-     * @throws JSchException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws JSchException Falls was schiefgeht.
+     * @throws IOException Falls was schiefgeht.
      */
     public <R> R execute(final String command, final Function<byte[], R> responseMapper) throws JSchException, IOException
     {

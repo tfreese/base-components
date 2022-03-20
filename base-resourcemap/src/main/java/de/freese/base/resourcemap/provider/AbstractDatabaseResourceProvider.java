@@ -65,7 +65,7 @@ public abstract class AbstractDatabaseResourceProvider implements ResourceProvid
      *
      * @return {@link PreparedStatement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected abstract PreparedStatement createPreparedStatement(Connection connection) throws SQLException;
 
@@ -81,7 +81,7 @@ public abstract class AbstractDatabaseResourceProvider implements ResourceProvid
      * @param resultSet {@link ResultSet}
      * @param map {@link Map}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected void populateMap(final ResultSet resultSet, final Map<String, String> map) throws SQLException
     {
@@ -89,12 +89,12 @@ public abstract class AbstractDatabaseResourceProvider implements ResourceProvid
     }
 
     /**
-     * Puts the Locale Paremeter into the {@link PreparedStatement}.
+     * Puts the Locale Parameter into the {@link PreparedStatement}.
      *
      * @param preparedStatement {@link PreparedStatement}
      * @param locale {@link Locale}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     protected abstract void setLocaleProperty(PreparedStatement preparedStatement, Locale locale) throws SQLException;
 }

@@ -67,7 +67,7 @@ public abstract class AbstractIoTest
      *
      * @throws IOException Falls was schief geht.
      */
-    protected static void deleteDirectoryRecursiv(final Path path) throws IOException
+    protected static void deleteDirectoryRecursive(final Path path) throws IOException
     {
         if (!Files.exists(path))
         {

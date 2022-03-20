@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Klasse fuer Object-Informationen.
+ * Klasse für Object-Informationen.
  *
  * @author Thomas Freese
  */
@@ -14,7 +14,6 @@ public class AuditInfo implements Serializable
      *
      */
     private static final long serialVersionUID = 146275334726328864L;
-
     /**
      * Wann wurde das Objekt erstellt.
      */
@@ -24,19 +23,19 @@ public class AuditInfo implements Serializable
      */
     private String erstelltVon = "";
     /**
-     * Wann wurde das Objekt geaendert.
+     * Wann wurde das Objekt geändert.
      */
     private Date geaendertAm;
     /**
-     * Wer hat das Objekt geaendert.
+     * Wer hat das Objekt geändert.
      */
     private String geaendertVon = "";
     /**
-     * Bis wann ist das Objekt gueltig.
+     * Bis wann ist das Objekt gültig.
      */
     private Date gueltigBis;
     /**
-     * Ab wann ist das Objekt gueltig.
+     * Ab wann ist das Objekt gültig.
      */
     private Date gueltigVon;
 

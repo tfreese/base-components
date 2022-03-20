@@ -96,7 +96,7 @@ class StreamPublisherTest
     /**
      * Processor = Subscriber + Publisher
      *
-     * @param <T> Typ der Eingangs
+     * @param <T> Typ des Eingangs
      * @param <R> Typ des Ausgangs
      *
      * @author Thomas Freese

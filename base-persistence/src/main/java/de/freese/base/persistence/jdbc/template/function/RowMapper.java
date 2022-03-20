@@ -7,9 +7,9 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @author Thomas Freese
- *
  * @param <R> Row-Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface RowMapper<R>
@@ -19,7 +19,7 @@ public interface RowMapper<R>
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     R mapRow(ResultSet resultSet) throws SQLException;
 }

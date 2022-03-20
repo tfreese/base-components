@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Functionale switch-case Alternative.<br>
+ * Funktionale switch-case Alternative.<br>
  * Beispiel: <code>
  * <pre>
  * Optional&lt;String&gt; result = Switch.match(
@@ -22,8 +22,9 @@ import java.util.stream.Stream;
  * </pre>
  * </code>
  *
- * @author Thomas Freese
  * @param <T> Typ des Rückgabe-Wertes
+ *
+ * @author Thomas Freese
  */
 public final class Switch<T>
 {
@@ -84,7 +85,7 @@ public final class Switch<T>
      * @return {@link Optional}
      */
     @SafeVarargs
-    public static <T> Optional<T> match(final Case<T> defaultCase, final Case<T>...matchers)
+    public static <T> Optional<T> match(final Case<T> defaultCase, final Case<T>... matchers)
     {
         Objects.requireNonNull(defaultCase, "defaultCase required");
         Objects.requireNonNull(matchers, "matchers required");

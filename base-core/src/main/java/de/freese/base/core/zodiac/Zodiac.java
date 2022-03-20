@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * Klasse fuer die Sternzeichen.
+ * Klasse für die Sternzeichen.
  *
  * @author Thomas Freese
  */
@@ -54,7 +54,7 @@ public enum Zodiac
      */
     PISCES(220, 320),
     /**
-     * Schuetze<br>
+     * Schütze<br>
      * 23.11
      */
     SAGITTARIUS(1123, 1221),
@@ -160,13 +160,13 @@ public enum Zodiac
     }
 
     /**
-     * Enthaelt das Ende des Sternzeichens.<br>
+     * Enthält das Ende des Sternzeichens.<br>
      * Format: (M)MDD, inklusiv dieses Tages
      */
     private final int end;
 
     /**
-     * Enthaelt den Begin des Sternzeichens.<br>
+     * Enthält den Begin des Sternzeichens.<br>
      * Format: (M)MDD
      */
     private final int start;

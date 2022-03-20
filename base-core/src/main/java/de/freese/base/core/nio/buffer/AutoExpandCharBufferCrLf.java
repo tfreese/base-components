@@ -9,7 +9,6 @@ import java.util.Objects;
  * Der carriage return line feed (crlf) wird automatisch bei jeder put-Methode angefügt.
  *
  * @author Thomas Freese
- *
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
@@ -63,47 +62,14 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     }
 
     /**
-     * Fügt CRLF an, wenn dieser != null.
-     */
-    private void appendCRLF()
-    {
-        autoExpand(getCRLF().length());
-        getBuffer().put(getCRLF());
-    }
-
-    /**
-     * @see AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
-    @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
-    {
-        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
-
-        buffer.flip();
-        newBuffer.put(buffer);
-
-        return newBuffer;
-    }
-
-    /**
-     * carriage return line feed (NETASCII_EOL)
-     *
-     * @return String
-     */
-    private String getCRLF()
-    {
-        return this.crlf;
-    }
-
-    /**
      * Fügt eine Leerzeile hinzu.<br>
      * Default: "\r\n"
      *
      * @return {@link AutoExpandCharBufferCrLf}
      */
-    public AutoExpandCharBufferCrLf putln()
+    public AutoExpandCharBufferCrLf putLn()
     {
-        appendCRLF();
+        appendCrlf();
 
         return this;
     }
@@ -119,7 +85,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     {
         super.put(c);
 
-        appendCRLF();
+        appendCrlf();
 
         return this;
     }
@@ -135,7 +101,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     {
         super.put(src);
 
-        appendCRLF();
+        appendCrlf();
 
         return this;
     }
@@ -153,8 +119,41 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     {
         super.put(src, start, end);
 
-        appendCRLF();
+        appendCrlf();
 
         return this;
+    }
+
+    /**
+     * @see AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
+     */
+    @Override
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
+    {
+        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+
+        buffer.flip();
+        newBuffer.put(buffer);
+
+        return newBuffer;
+    }
+
+    /**
+     * Fügt CRLF an, wenn dieser != null.
+     */
+    private void appendCrlf()
+    {
+        autoExpand(getCrlf().length());
+        getBuffer().put(getCrlf());
+    }
+
+    /**
+     * carriage return line feed (NETASCII_EOL)
+     *
+     * @return String
+     */
+    private String getCrlf()
+    {
+        return this.crlf;
     }
 }

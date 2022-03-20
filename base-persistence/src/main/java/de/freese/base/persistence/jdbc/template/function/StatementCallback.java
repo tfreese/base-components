@@ -7,9 +7,9 @@ import java.sql.Statement;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Return-Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface StatementCallback<T>
@@ -19,7 +19,7 @@ public interface StatementCallback<T>
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     T doInStatement(Statement statement) throws SQLException;
 }

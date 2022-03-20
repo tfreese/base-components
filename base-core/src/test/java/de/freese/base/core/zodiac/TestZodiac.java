@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * Testklasse fuer die Sternzeichen.
+ * Testklasse für die Sternzeichen.
  *
  * @author Thomas Freese
  */
@@ -135,7 +135,7 @@ class TestZodiac
     }
 
     /**
-     * Schuetze, 23.11. - 21.12.
+     * Schütze, 23.11. - 21.12.
      */
     @Test
     void testSagittarius()

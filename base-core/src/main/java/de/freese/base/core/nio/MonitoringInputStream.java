@@ -12,28 +12,27 @@ import javax.swing.ProgressMonitorInputStream;
 /**
  * {@link InputStream} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
  *
- * @see ProgressMonitorInputStream
- *
  * @author Thomas Freese
+ * @see ProgressMonitorInputStream
  */
 public class MonitoringInputStream extends InputStream
 {
     /**
-    *
-    */
-    private long bytesRead;
-    /**
-    *
-    */
+     *
+     */
     private final LongConsumer bytesReadConsumer;
     /**
-    *
-    */
+     *
+     */
     private final boolean closeDelegate;
     /**
-    *
-    */
+     *
+     */
     private final InputStream delegate;
+    /**
+     *
+     */
+    private long bytesRead;
 
     /**
      * Erzeugt eine neue Instanz von {@link MonitoringInputStream}
@@ -89,9 +88,9 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#mark(int)
      */
     @Override
-    public synchronized void mark(final int readlimit)
+    public synchronized void mark(final int readLimit)
     {
-        this.delegate.mark(readlimit);
+        this.delegate.mark(readLimit);
     }
 
     /**

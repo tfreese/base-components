@@ -6,23 +6,27 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Wrapper fuer einen SFTP-Client.
+ * Wrapper für einen SFTP-Client.
  *
  * @author Thomas Freese
  */
 public class JCraftFTPSWrapper implements FTPWrapper
 {
     /**
-     * Logger fuer das Jsch-Framework.
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(JCraftFTPSWrapper.class);
+
+    /**
+     * Logger für das Jsch-Framework.
      *
      * @author Thomas Freese
      */
@@ -31,11 +35,11 @@ public class JCraftFTPSWrapper implements FTPWrapper
         /**
          *
          */
-        private int level = -1;
+        private final Logger logger;
         /**
          *
          */
-        private final Logger logger;
+        private int level = -1;
 
         /**
          * Erstellt ein neues {@link JschLoggerAdapter} Object.
@@ -90,11 +94,6 @@ public class JCraftFTPSWrapper implements FTPWrapper
             }
         }
     }
-
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JCraftFTPSWrapper.class);
     /**
      *
      */

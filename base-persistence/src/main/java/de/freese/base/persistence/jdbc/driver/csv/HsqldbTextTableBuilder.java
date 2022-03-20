@@ -68,6 +68,10 @@ public final class HsqldbTextTableBuilder
     /**
      *
      */
+    private final List<String> columns = new ArrayList<>();
+    /**
+     *
+     */
     private boolean allQuoted = true;
     /**
      *
@@ -81,10 +85,6 @@ public final class HsqldbTextTableBuilder
      *
      */
     private Charset charset = StandardCharsets.UTF_8;
-    /**
-    *
-    */
-    private final List<String> columns = new ArrayList<>();
     /**
      *
      */
@@ -144,9 +144,9 @@ public final class HsqldbTextTableBuilder
      *
      * @return {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
-    public Connection build(final HsqldbTextTableBuilder...builders) throws SQLException
+    public Connection build(final HsqldbTextTableBuilder... builders) throws SQLException
     {
         // Damit Text-Tables auch im Memory-Mode funktionieren.
         System.setProperty("textdb.allow_full_path", "true");
@@ -187,7 +187,7 @@ public final class HsqldbTextTableBuilder
                     sql.append("CREATE TEXT TABLE ").append(ttb.tableName);
                     sql.append(" (");
 
-                    for (Iterator<String> iterator = ttb.columns.iterator(); iterator.hasNext();)
+                    for (Iterator<String> iterator = ttb.columns.iterator(); iterator.hasNext(); )
                     {
                         String column = iterator.next();
                         sql.append(column);
@@ -216,7 +216,7 @@ public final class HsqldbTextTableBuilder
                     sql.append(";all_quoted=").append(ttb.allQuoted); // Daten in Doublequotes
                     sql.append(";encoding=").append(ttb.charset.name());
                     sql.append(";cache_rows=").append(ttb.cacheRows); // max. n Zeilen im Cache
-                    sql.append(";cache_size=").append(ttb.cacheSize); // max. Cachegröße in kB
+                    sql.append(";cache_size=").append(ttb.cacheSize); // max. Cache-Größe in kB
                     // sql.append(";qs=\\quote"); // Quote Character falls nicht '"'
                     sql.append("\"");
 
@@ -234,7 +234,7 @@ public final class HsqldbTextTableBuilder
     }
 
     /**
-     * Flag ob alle Daten in Anführungszeichen stehen (Double-Quotes).<br>
+     * Flag, ob alle Daten in Anführungszeichen stehen (Double-Quotes).<br>
      * Default = true
      *
      * @param allQuoted boolean
@@ -264,7 +264,7 @@ public final class HsqldbTextTableBuilder
     }
 
     /**
-     * Maximale Cachegröße in kB.<br>
+     * Maximale Cache-Größe in kB.<br>
      * Default = 1024 KB = 1 MB
      *
      * @param cacheSize int

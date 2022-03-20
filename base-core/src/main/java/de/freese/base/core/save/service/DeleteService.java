@@ -6,14 +6,14 @@ import java.util.Collection;
 import de.freese.base.core.save.SaveContext;
 
 /**
- * Interface eines Services der Deletes ausfuehren kann.
+ * Interface eines Services der Deletes ausführen kann.
  *
  * @author Thomas Freese
  */
 public interface DeleteService
 {
     /**
-     * Fuehrt ein Delete auf einem Objekt aus.
+     * Führt ein Delete auf einem Objekt aus.
      *
      * @param object {@link Serializable}
      * @param context {@link SaveContext}

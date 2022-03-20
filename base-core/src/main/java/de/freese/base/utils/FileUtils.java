@@ -92,7 +92,7 @@ public final class FileUtils
 
         if (!Files.isDirectory(path))
         {
-            throw new IllegalArgumentException("path is not a dirctory: " + path);
+            throw new IllegalArgumentException("path is not a directory: " + path);
         }
 
         Files.walkFileTree(path, new SimpleFileVisitor<>()

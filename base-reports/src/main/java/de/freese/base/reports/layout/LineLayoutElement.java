@@ -4,7 +4,7 @@ package de.freese.base.reports.layout;
 import javax.swing.SwingConstants;
 
 /**
- * Implementierung eines LayoutElementes fuer Linien.
+ * Implementierung eines LayoutElementes für Linien.
  *
  * @author Thomas Freese
  */
@@ -67,7 +67,7 @@ public class LineLayoutElement extends AbstractLayoutElement
     }
 
     /**
-     * Ausrichting der Linie.
+     * Ausrichtung der Linie.
      *
      * @return int; <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
      */

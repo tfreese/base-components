@@ -40,13 +40,21 @@ public class SymetricCrypt
      * AES Initialisierungsvektor, muss dem Empfänger bekannt sein !
      */
     private static final byte[] INIT_VECTOR =
-    {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
+            {
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            };
     /**
      *
      */
     private static final SymetricCrypt INSTANCE = new SymetricCrypt(StandardCharsets.UTF_8);
+
+    /**
+     * @return {@link SymetricCrypt} mit UTF-8 {@link Charset}.
+     */
+    public static SymetricCrypt getUTF8Instance()
+    {
+        return INSTANCE;
+    }
 
     /**
      * Liefert den {@link Key}.
@@ -64,18 +72,9 @@ public class SymetricCrypt
 
         return keySpec;
     }
-
     /**
-     * @return {@link SymetricCrypt} mit UTF-8 {@link Charset}.
+     *
      */
-    public static SymetricCrypt getUTF8Instance()
-    {
-        return INSTANCE;
-    }
-
-    /**
-    *
-    */
     private final Charset charset;
 
     /**
@@ -223,15 +222,7 @@ public class SymetricCrypt
     }
 
     /**
-     * @return {@link Charset}
-     */
-    protected Charset getCharset()
-    {
-        return this.charset;
-    }
-
-    /**
-     * Liefert den {@link OutputStream} zum verschlüsseln.
+     * Liefert den {@link OutputStream} zum Verschlüsseln.
      *
      * @param output {@link OutputStream}
      *
@@ -247,6 +238,14 @@ public class SymetricCrypt
         CipherOutputStream cipherOS = new CipherOutputStream(output, encodeCipher);
 
         return cipherOS;
+    }
+
+    /**
+     * @return {@link Charset}
+     */
+    protected Charset getCharset()
+    {
+        return this.charset;
     }
 
     /**

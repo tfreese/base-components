@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * OutputStream fuer eine {@link CharSequence}.
+ * OutputStream für eine {@link CharSequence}.
  *
  * @author Thomas Freese
  */
@@ -13,6 +13,7 @@ public class StringOutputStream extends ByteArrayOutputStream
 {
     /**
      * @param value {@link CharSequence}
+     *
      * @throws IOException Falls was schief geht.
      */
     public void write(final CharSequence value) throws IOException

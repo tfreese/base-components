@@ -3,7 +3,7 @@ package de.freese.base.core.property;
 import java.util.Date;
 
 /**
- * Object fuer den Inhalt eines Propertys eines Users.
+ * Object für den Inhalt eines Propertys eines Users.
  *
  * @author Thomas Freese
  */
@@ -67,17 +67,9 @@ public class UserProperty extends Property
 
         if (getUserName() == null)
         {
-            if (other.getUserName() != null)
-            {
-                return false;
-            }
+            return other.getUserName() == null;
         }
-        else if (!getUserName().equals(other.getUserName()))
-        {
-            return false;
-        }
-
-        return true;
+        else return getUserName().equals(other.getUserName());
     }
 
     /**
@@ -127,7 +119,7 @@ public class UserProperty extends Property
     }
 
     /**
-     * True, wenn dieses Property als geaendert markiert wurde.
+     * True, wenn dieses Property als geändert markiert wurde.
      *
      * @return boolean
      */
@@ -147,7 +139,7 @@ public class UserProperty extends Property
     }
 
     /**
-     * True, wenn dieses Property als geluescht markiert wurde.
+     * True, wenn dieses Property als gelöscht markiert wurde.
      *
      * @return boolean
      */
@@ -157,7 +149,7 @@ public class UserProperty extends Property
     }
 
     /**
-     * True, wenn dieses Property als geaendert markiert wurde.
+     * True, wenn dieses Property als geändert markiert wurde.
      *
      * @param isChanged boolean
      */
@@ -182,7 +174,7 @@ public class UserProperty extends Property
     }
 
     /**
-     * True, wenn dieses Property als geloescht markiert wurde.
+     * True, wenn dieses Property als gelöscht markiert wurde.
      *
      * @param isDeleted boolean
      */

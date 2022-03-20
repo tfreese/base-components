@@ -18,14 +18,12 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * Toolkitklasse fuer dier Arbeit mit der Crypto API..
- *
  * @author Thomas Freese
  */
 public final class SecurityUtils
 {
     /**
-     * Default {@link KeyPair} zum testen.
+     * Default {@link KeyPair} zum Testen.
      *
      * @return {@link KeyPair}
      *
@@ -59,7 +57,7 @@ public final class SecurityUtils
     {
         Set<String> result = new TreeSet<>();
 
-        // All all providers
+        // All  providers
         Provider[] providers = Security.getProviders();
 
         for (Provider provider : providers)
@@ -106,7 +104,7 @@ public final class SecurityUtils
     {
         Set<String> result = new TreeSet<>();
 
-        // All all providers
+        // All  providers
         Provider[] providers = Security.getProviders();
 
         for (Provider provider : providers)
@@ -151,9 +149,9 @@ public final class SecurityUtils
         SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
         sslSocket = (SSLSocket) socketFactory.createSocket(hostAddress, port);
         sslSocket.setEnabledProtocols(new String[]
-        {
-                "TLSv1.3"
-        });
+                {
+                        "TLSv1.3"
+                });
 
         return sslSocket;
     }

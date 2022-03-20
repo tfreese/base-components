@@ -54,14 +54,14 @@ class TestLoggingJdbcDriver
     private interface ConnectionPool
     {
         /**
-         * @throws SQLException Falls was schief geht.
+         * @throws SQLException Falls was schiefgeht.
          */
         void close() throws SQLException;
 
         /**
          * @return {@link Connection}
          *
-         * @throws SQLException Falls was schief geht.
+         * @throws SQLException Falls was schiefgeht.
          */
         Connection getConnection() throws SQLException;
     }
@@ -285,7 +285,7 @@ class TestLoggingJdbcDriver
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
@@ -326,7 +326,7 @@ class TestLoggingJdbcDriver
     /**
      * @param connectionPool {@link ConnectionPool}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void close(final ConnectionPool connectionPool) throws Exception
     {
@@ -338,7 +338,7 @@ class TestLoggingJdbcDriver
     /**
      * @param connectionPool {@link ConnectionPool}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void driver(final ConnectionPool connectionPool) throws Exception
     {

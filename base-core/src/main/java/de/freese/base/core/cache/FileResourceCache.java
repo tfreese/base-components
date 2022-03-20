@@ -55,7 +55,7 @@ public class FileResourceCache extends AbstractResourceCache
     {
         try
         {
-            // Files.deleteIfExists(directory); // Funktioniert nur, wenn das Verzeichniss leer ist.
+            // Files.deleteIfExists(directory); // Funktioniert nur, wenn das Verzeichnis leer ist.
 
             Files.walkFileTree(getCacheDirectory(), new SimpleFileVisitor<>()
             {

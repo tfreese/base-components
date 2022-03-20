@@ -18,6 +18,15 @@ import java.util.Objects;
 public final class ReflectionUtils
 {
     /**
+     * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
+     */
+    public static final MethodFilter USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
+    /**
+     *
+     */
+    private static final Object[] EMPTY_OBJECT_ARRAY = {};
+
+    /**
      * Callback interface invoked on each field in the hierarchy.
      */
     @FunctionalInterface
@@ -82,17 +91,7 @@ public final class ReflectionUtils
     }
 
     /**
-     *
-     */
-    private static final Object[] EMPTY_OBJECT_ARRAY = {};
-
-    /**
-     * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
-     */
-    public static final MethodFilter USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
-
-    /**
-     * Determine whether the given method explicitly declares the given exception or one of its superclasses, which means that an exception of that type can be
+     * Determine whether the given method explicitly declares the given exception or one of its superclasses, which means that an Exception of that type can be
      * propagated as-is within a reflective invocation.
      *
      * @param method the declaring method
@@ -177,7 +176,6 @@ public final class ReflectionUtils
      * @param fieldCallback the callback to invoke for each field
      *
      * @throws IllegalStateException if introspection fails
-     *
      * @see #doWithFields
      */
     public static void doWithLocalFields(final Class<?> clazz, final FieldCallback fieldCallback)
@@ -204,7 +202,6 @@ public final class ReflectionUtils
      * @param mc the callback to invoke for each method
      *
      * @throws IllegalStateException if introspection fails
-     *
      * @see #doWithMethods(Class, MethodCallback, MethodFilter)
      */
     public static void doWithMethods(final Class<?> clazz, final MethodCallback mc)
@@ -256,109 +253,6 @@ public final class ReflectionUtils
                 doWithMethods(superIfc, mc, mf);
             }
         }
-    }
-
-    /**
-     * @param clazz the class to introspect
-     *
-     * @return {@link List}
-     */
-    private static List<Method> findConcreteMethodsOnInterfaces(final Class<?> clazz)
-    {
-        List<Method> result = new ArrayList<>();
-
-        for (Class<?> ifc : clazz.getInterfaces())
-        {
-            for (Method ifcMethod : ifc.getMethods())
-            {
-                if (!Modifier.isAbstract(ifcMethod.getModifiers()))
-                {
-                    result.add(ifcMethod);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * This variant retrieves {@link Class#getDeclaredFields()} from a local cache in order to avoid the JVM's SecurityManager check and defensive array
-     * copying.
-     *
-     * @param clazz the class to introspect
-     *
-     * @return the array of fields
-     *
-     * @throws IllegalStateException if introspection fails
-     *
-     * @see Class#getDeclaredFields()
-     */
-    private static Field[] getDeclaredFields(final Class<?> clazz)
-    {
-        Objects.requireNonNull(clazz, "clazz required");
-
-        Field[] fields = null; // declaredFieldsCache.get(clazz);
-
-        if (fields == null)
-        {
-            try
-            {
-                fields = clazz.getDeclaredFields();
-                // declaredFieldsCache.put(clazz, (fields.length == 0 ? EMPTY_FIELD_ARRAY : fields));
-            }
-            catch (Exception ex)
-            {
-                throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
-            }
-        }
-
-        return fields;
-    }
-
-    /**
-     * @param clazz the class to introspect
-     *
-     * @return the array of methods
-     */
-    private static Method[] getDeclaredMethods(final Class<?> clazz)
-    {
-        Objects.requireNonNull(clazz, "clazz required");
-
-        Method[] methods = null; // declaredMethodsCache.get(clazz);
-
-        if (methods == null)
-        {
-            try
-            {
-                Method[] declaredMethods = clazz.getDeclaredMethods();
-                List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
-
-                if (defaultMethods != null)
-                {
-                    methods = new Method[declaredMethods.length + defaultMethods.size()];
-                    System.arraycopy(declaredMethods, 0, methods, 0, declaredMethods.length);
-                    int index = declaredMethods.length;
-
-                    for (Method defaultMethod : defaultMethods)
-                    {
-                        methods[index] = defaultMethod;
-                        index++;
-                    }
-                }
-                else
-                {
-                    methods = declaredMethods;
-                }
-
-                // declaredMethodsCache.put(clazz, (methods.length == 0 ? EMPTY_METHOD_ARRAY : methods));
-            }
-            catch (Exception ex)
-            {
-                throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
-            }
-        }
-
-        return methods;
     }
 
     /**
@@ -434,11 +328,11 @@ public final class ReflectionUtils
      *
      * @param method the method to invoke
      * @param target the target object to invoke the method on
-     * @param args the invocation arguments (may be {@code null})
+     * @param args the invocation arguments (maybe {@code null})
      *
      * @return the invocation result, if any
      */
-    public static Object invokeMethod(final Method method, final Object target, final Object...args)
+    public static Object invokeMethod(final Method method, final Object target, final Object... args)
     {
         try
         {
@@ -511,6 +405,108 @@ public final class ReflectionUtils
         }
 
         throw new UndeclaredThrowableException(ex);
+    }
+
+    /**
+     * @param clazz the class to introspect
+     *
+     * @return {@link List}
+     */
+    private static List<Method> findConcreteMethodsOnInterfaces(final Class<?> clazz)
+    {
+        List<Method> result = new ArrayList<>();
+
+        for (Class<?> ifc : clazz.getInterfaces())
+        {
+            for (Method ifcMethod : ifc.getMethods())
+            {
+                if (!Modifier.isAbstract(ifcMethod.getModifiers()))
+                {
+                    result.add(ifcMethod);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * This variant retrieves {@link Class#getDeclaredFields()} from a local cache in order to avoid the JVM's SecurityManager check and defensive array
+     * copying.
+     *
+     * @param clazz the class to introspect
+     *
+     * @return the array of fields
+     *
+     * @throws IllegalStateException if introspection fails
+     * @see Class#getDeclaredFields()
+     */
+    private static Field[] getDeclaredFields(final Class<?> clazz)
+    {
+        Objects.requireNonNull(clazz, "clazz required");
+
+        Field[] fields = null; // declaredFieldsCache.get(clazz);
+
+        if (fields == null)
+        {
+            try
+            {
+                fields = clazz.getDeclaredFields();
+                // declaredFieldsCache.put(clazz, (fields.length == 0 ? EMPTY_FIELD_ARRAY : fields));
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
+            }
+        }
+
+        return fields;
+    }
+
+    /**
+     * @param clazz the class to introspect
+     *
+     * @return the array of methods
+     */
+    private static Method[] getDeclaredMethods(final Class<?> clazz)
+    {
+        Objects.requireNonNull(clazz, "clazz required");
+
+        Method[] methods = null; // declaredMethodsCache.get(clazz);
+
+        if (methods == null)
+        {
+            try
+            {
+                Method[] declaredMethods = clazz.getDeclaredMethods();
+                List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
+
+                if (defaultMethods != null)
+                {
+                    methods = new Method[declaredMethods.length + defaultMethods.size()];
+                    System.arraycopy(declaredMethods, 0, methods, 0, declaredMethods.length);
+                    int index = declaredMethods.length;
+
+                    for (Method defaultMethod : defaultMethods)
+                    {
+                        methods[index] = defaultMethod;
+                        index++;
+                    }
+                }
+                else
+                {
+                    methods = declaredMethods;
+                }
+
+                // declaredMethodsCache.put(clazz, (methods.length == 0 ? EMPTY_METHOD_ARRAY : methods));
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
+            }
+        }
+
+        return methods;
     }
 
     /**

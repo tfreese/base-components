@@ -40,8 +40,8 @@ public class LoggingOutputStream extends OutputStream
     {
         super();
 
-        this.logger = Objects.requireNonNull(logger, "logger requried");
-        this.level = Objects.requireNonNull(level, "level requried");
+        this.logger = Objects.requireNonNull(logger, "logger required");
+        this.level = Objects.requireNonNull(level, "level required");
     }
 
     /**

@@ -1,7 +1,7 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Transformiert Wildcard-Ausdruecke in RegEx-Ausdruecke und zurueck.
+ * Transformiert Wildcard-Ausdrücke in RegEx-Ausdrücke und zurück.
  *
  * @author Thomas Freese
  */

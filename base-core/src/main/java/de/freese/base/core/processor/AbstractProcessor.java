@@ -5,31 +5,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basismplementierung eines Processors.
- *
- * @author Thomas Freese
+ * Basisimplementierung eines Processors.
  *
  * @param <C> Typ des Kontextobjekts
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractProcessor<C> implements Processor<C>
 {
     /**
      *
      */
-    private boolean enabled = true;
-
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * @return {@link Logger}
-     */
-    protected final Logger getLogger()
-    {
-        return this.logger;
-    }
+    private boolean enabled = true;
 
     /**
      * @see de.freese.base.core.processor.Processor#isEnabled()
@@ -47,5 +38,13 @@ public abstract class AbstractProcessor<C> implements Processor<C>
     public void setEnabled(final boolean enabled)
     {
         this.enabled = enabled;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected final Logger getLogger()
+    {
+        return this.logger;
     }
 }

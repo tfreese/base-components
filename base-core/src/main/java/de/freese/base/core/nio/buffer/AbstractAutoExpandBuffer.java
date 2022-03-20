@@ -10,7 +10,6 @@ import java.util.Objects;
  * @param <B> Konkreter Buffer
  *
  * @author Thomas Freese
- *
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
 public abstract class AbstractAutoExpandBuffer<B extends Buffer>
@@ -108,54 +107,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     }
 
     /**
-     * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     *
-     * @param expectedRemaining int
-     */
-    protected void autoExpand(final int expectedRemaining)
-    {
-        autoExpand(position(), expectedRemaining);
-    }
-
-    /**
-     * Erweitert den Buffer soweit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     *
-     * @param position int
-     * @param expectedRemaining int
-     */
-    protected void autoExpand(final int position, final int expectedRemaining)
-    {
-        int newLimit = position + expectedRemaining;
-
-        if (newLimit > capacity())
-        {
-            // Buffer muss erweitert werden.
-            int newCapacity = calculateNewCapacity(newLimit);
-
-            B newBuffer = createNewBuffer(getBuffer(), newCapacity);
-
-            // Alten Zustand wiederherstellen.
-            newBuffer.limit(newCapacity);
-
-            if (this.mark >= 0)
-            {
-                newBuffer.position(this.mark);
-                newBuffer.mark();
-            }
-
-            newBuffer.position(position);
-
-            this.buffer = newBuffer;
-        }
-
-        if (newLimit > limit())
-        {
-            // Limit setzen, um StackOverflowError zu vermeiden.
-            this.buffer.limit(newLimit);
-        }
-    }
-
-    /**
      * @return int
      *
      * @see Buffer#capacity()
@@ -178,14 +129,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
         return this;
     }
-
-    /**
-     * @param buffer {@link Buffer}
-     * @param newCapacity int
-     *
-     * @return {@link Buffer}
-     */
-    protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
     /**
      * @return {@link AbstractAutoExpandBuffer}
@@ -347,5 +290,61 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
         return position(position() + size);
     }
+
+    /**
+     * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
+     *
+     * @param expectedRemaining int
+     */
+    protected void autoExpand(final int expectedRemaining)
+    {
+        autoExpand(position(), expectedRemaining);
+    }
+
+    /**
+     * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
+     *
+     * @param position int
+     * @param expectedRemaining int
+     */
+    protected void autoExpand(final int position, final int expectedRemaining)
+    {
+        int newLimit = position + expectedRemaining;
+
+        if (newLimit > capacity())
+        {
+            // Buffer muss erweitert werden.
+            int newCapacity = calculateNewCapacity(newLimit);
+
+            B newBuffer = createNewBuffer(getBuffer(), newCapacity);
+
+            // Alten Zustand wiederherstellen.
+            newBuffer.limit(newCapacity);
+
+            if (this.mark >= 0)
+            {
+                newBuffer.position(this.mark);
+                newBuffer.mark();
+            }
+
+            newBuffer.position(position);
+
+            this.buffer = newBuffer;
+        }
+
+        if (newLimit > limit())
+        {
+            // Limit setzen, um StackOverflowError zu vermeiden.
+            this.buffer.limit(newLimit);
+        }
+    }
+
+    /**
+     * @param buffer {@link Buffer}
+     * @param newCapacity int
+     *
+     * @return {@link Buffer}
+     */
+    protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
 }

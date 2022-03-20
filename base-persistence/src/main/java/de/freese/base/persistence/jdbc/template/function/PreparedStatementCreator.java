@@ -18,7 +18,7 @@ public interface PreparedStatementCreator
      *
      * @return {@link PreparedStatement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     PreparedStatement createPreparedStatement(Connection connection) throws SQLException;
 }

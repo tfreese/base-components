@@ -2,6 +2,7 @@ package de.freese.base.core.regex;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import de.freese.base.core.regex.transformer.EndsWithTransformer;
 import de.freese.base.core.regex.transformer.EscapeBracketTransformer;
 import de.freese.base.core.regex.transformer.EscapeSlashesTransformer;
@@ -12,7 +13,7 @@ import de.freese.base.core.regex.transformer.SingleSignTransformer;
 import de.freese.base.core.regex.transformer.StartsWithTransformer;
 
 /**
- * Transformiert Wildcard-Ausdruecke in RegEx-Ausdruecke und zurueck.
+ * Transformiert Wildcard-Ausdrücke in RegEx-Ausdrücke und zurück.
  *
  * @author Thomas Freese
  */
@@ -81,7 +82,7 @@ public final class RegEx implements RegExTransformer
     }
 
     /**
-     * Wenn ein '@' am Anfang enthalten ist, wird der Audruck unveraendert zurueckgeliefert und das '@' entfernt.
+     * Wenn ein '@' am Anfang enthalten ist, wird der Ausdruck unverändert zurückgeliefert und das '@' entfernt.
      *
      * @see de.freese.base.core.regex.transformer.RegExTransformer#wildcardToRegEx(java.lang.String)
      */

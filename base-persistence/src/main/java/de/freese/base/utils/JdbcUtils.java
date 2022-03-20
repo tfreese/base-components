@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import javax.sql.DataSource;
 
@@ -26,8 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Utilklasse fuer das Arbeiten mit JDBC.
- *
  * @author Thomas Freese
  */
 public final class JdbcUtils
@@ -42,7 +41,7 @@ public final class JdbcUtils
      *
      * @param connection {@link Connection}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static void close(final Connection connection) throws SQLException
     {
@@ -62,7 +61,7 @@ public final class JdbcUtils
      *
      * @param resultSet {@link ResultSet}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static void close(final ResultSet resultSet) throws SQLException
     {
@@ -82,7 +81,7 @@ public final class JdbcUtils
      *
      * @param statement {@link Statement} geht.
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static void close(final Statement statement) throws SQLException
     {
@@ -187,9 +186,9 @@ public final class JdbcUtils
     }
 
     /**
-     * Erzeugt eine "in"-Clause und beruecksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein duerfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
-     * als weitere "in"-Clause angehaengt.
+     * Erzeugt eine "in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * als weitere "in"-Clause angehängt.
      *
      * @param column String
      * @param sql {@link StringBuilder}
@@ -201,9 +200,9 @@ public final class JdbcUtils
     }
 
     /**
-     * Erzeugt eine "not in"-Clause und beruecksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein duerfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
-     * als weitere "not in"-Clause angehaengt.
+     * Erzeugt eine "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * als weitere "not in"-Clause angehängt.
      *
      * @param column String
      * @param sql {@link StringBuilder}
@@ -220,7 +219,7 @@ public final class JdbcUtils
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException
     {
@@ -233,14 +232,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht false wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht false wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Boolean
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Boolean getBoolean(final CallableStatement cs, final int index) throws SQLException
     {
@@ -250,14 +249,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht false wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht false wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Boolean
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Boolean getBoolean(final ResultSet rs, final int index) throws SQLException
     {
@@ -267,14 +266,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht false wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht false wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Boolean
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Boolean getBoolean(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -282,14 +281,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Byte
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Byte getByte(final CallableStatement cs, final int index) throws SQLException
     {
@@ -299,14 +298,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Byte
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Byte getByte(final ResultSet rs, final int index) throws SQLException
     {
@@ -316,14 +315,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Byte
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Byte getByte(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -337,7 +336,7 @@ public final class JdbcUtils
      *
      * @return String
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException
@@ -364,7 +363,7 @@ public final class JdbcUtils
      *
      * @return String
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException
@@ -385,14 +384,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Double
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Double getDouble(final CallableStatement cs, final int index) throws SQLException
     {
@@ -402,14 +401,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Double
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Double getDouble(final ResultSet rs, final int index) throws SQLException
     {
@@ -419,14 +418,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Double
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Double getDouble(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -434,14 +433,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Float
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Float getFloat(final CallableStatement cs, final int index) throws SQLException
     {
@@ -451,14 +450,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Float
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Float getFloat(final ResultSet rs, final int index) throws SQLException
     {
@@ -468,14 +467,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Float
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Float getFloat(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -483,14 +482,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Integer
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Integer getInteger(final CallableStatement cs, final int index) throws SQLException
     {
@@ -500,14 +499,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Integer
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Integer getInteger(final ResultSet rs, final int index) throws SQLException
     {
@@ -517,14 +516,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Integer
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Integer getInteger(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -532,14 +531,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Long getLong(final CallableStatement cs, final int index) throws SQLException
     {
@@ -549,14 +548,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Long getLong(final ResultSet rs, final int index) throws SQLException
     {
@@ -566,14 +565,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Long getLong(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -581,14 +580,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param cs {@link CallableStatement}
      * @param index int
      *
      * @return Short
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Short getShort(final CallableStatement cs, final int index) throws SQLException
     {
@@ -598,14 +597,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param index int
      *
      * @return Short
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Short getShort(final ResultSet rs, final int index) throws SQLException
     {
@@ -615,14 +614,14 @@ public final class JdbcUtils
     }
 
     /**
-     * Wenn der Wert in SQL NULL ist wird null geliefert und nicht 0 wie in der Defaultimplementierung.
+     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
      *
      * @param rs {@link ResultSet}
      * @param columnName String
      *
      * @return Short
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static Short getShort(final ResultSet rs, final String columnName) throws SQLException
     {
@@ -630,7 +629,7 @@ public final class JdbcUtils
     }
 
     /**
-     * Fuegt zu der IN-Query die entsprechenden Werte hinzu.
+     * Fügt zu der IN-Query die entsprechenden Werte hinzu.
      *
      * @param values {@link Iterable}
      * @param separator char
@@ -662,7 +661,7 @@ public final class JdbcUtils
      *
      * @return {@link StringTable}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static StringTable toStringTable(final ResultSet resultSet) throws SQLException
     {
@@ -725,7 +724,7 @@ public final class JdbcUtils
      *
      * @return {@link StringTable}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static StringTable toStringTable(final ResultSetMetaData rsMeta) throws SQLException
     {
@@ -761,12 +760,12 @@ public final class JdbcUtils
      * Schreibt das ResultSet in den PrintStream.<br>
      * Dabei wird die Spaltenbreite auf den breitesten Wert angepasst.<br>
      * Der Stream wird nicht geschlossen.<br>
-     * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
+     * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      *
      * @param resultSet {@link ResultSet}
      * @param ps {@link PrintStream}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
@@ -787,7 +786,7 @@ public final class JdbcUtils
      * @param rsMeta {@link ResultSetMetaData}
      * @param ps {@link PrintStream}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException
     {
@@ -799,32 +798,38 @@ public final class JdbcUtils
     /**
      * Schreibt das ResultSet als CSV-Datei.<br>
      * Der Stream wird nicht geschlossen.<br>
-     * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
+     * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      *
      * @param resultSet {@link ResultSet}
      * @param ps {@link PrintWriter}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
-    public static void writeCSV(final ResultSet resultSet, final PrintStream ps) throws SQLException
+    public static void writeCsv(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
-        // Enthaltene Anführungszeichen escapen und den Wert selbst in Anführungszeichen setzen.
-        Function<String, String> valueFunction = value ->
+        UnaryOperator<String> valueFunction = value ->
         {
+            if (value == null || value.strip().isBlank())
+            {
+                return "";
+            }
+
             String v = value;
 
+            // Enthaltene Anführungszeichen escapen.
             if (v.contains("\""))
             {
                 v = v.replace("\"", "\"\"");
             }
 
+            // Den Wert selbst in Anführungszeichen setzen.
             return "\"" + v + "\"";
         };
 
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
 
-        StringJoiner stringJoiner = new StringJoiner(";");
+        StringJoiner stringJoiner = new StringJoiner(",");
 
         // Header
         for (int column = 1; column <= columnCount; column++)
@@ -837,24 +842,20 @@ public final class JdbcUtils
         // Daten
         while (resultSet.next())
         {
-            stringJoiner = new StringJoiner(";");
+            stringJoiner = new StringJoiner(",");
 
             for (int column = 1; column <= columnCount; column++)
             {
                 Object obj = resultSet.getObject(column);
                 String value;
 
-                if (obj == null)
-                {
-                    value = "";
-                }
-                else if (obj instanceof byte[] bytes)
+                if (obj instanceof byte[] bytes)
                 {
                     value = new String(bytes, StandardCharsets.UTF_8);
                 }
                 else
                 {
-                    value = obj.toString();
+                    value = Objects.toString(obj, "");
                 }
 
                 stringJoiner.add(valueFunction.apply(value));
@@ -873,9 +874,9 @@ public final class JdbcUtils
     }
 
     /**
-     * Erzeugt eine "in"- oder "not in"-Clause und beruecksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein duerfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
-     * als weitere Clause angehaengt.
+     * Erzeugt eine "in"- oder "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * als weitere Clause angehängt.
      *
      * @param column String
      * @param sql {@link StringBuilder}

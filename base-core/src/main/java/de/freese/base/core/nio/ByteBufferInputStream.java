@@ -41,7 +41,7 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#mark(int)
      */
     @Override
-    public synchronized void mark(final int readlimit)
+    public synchronized void mark(final int readLimit)
     {
         this.buffer.mark();
     }

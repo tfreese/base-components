@@ -39,7 +39,7 @@ public class SequenceQueryExecutor
      *
      * @return long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public long getNextID(final String sequence, final Connection connection) throws SQLException
     {
@@ -62,7 +62,7 @@ public class SequenceQueryExecutor
      *
      * @return long
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     public long getNextID(final String sequence, final DataSource dataSource) throws SQLException
     {

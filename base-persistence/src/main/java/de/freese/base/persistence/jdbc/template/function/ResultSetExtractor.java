@@ -7,9 +7,9 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Return-Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface ResultSetExtractor<T>
@@ -19,7 +19,7 @@ public interface ResultSetExtractor<T>
      *
      * @return Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     T extractData(ResultSet resultSet) throws SQLException;
 }

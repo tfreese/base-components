@@ -78,7 +78,7 @@ public class EncryptFileBC
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias)
-        throws Exception
+            throws Exception
     {
         X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
 
@@ -129,7 +129,7 @@ public class EncryptFileBC
 
     /**
      * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
-     * OHNE Unterverzeichnise.
+     * OHNE Unterverzeichnisse.
      *
      * @param inputFolder String
      * @param outputFolder String
@@ -146,7 +146,7 @@ public class EncryptFileBC
 
     /**
      * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
-     * OHNE Unterverzeichnise.
+     * OHNE Unterverzeichnisse.
      *
      * @param inputFolder String
      * @param outputFolder String
@@ -158,7 +158,7 @@ public class EncryptFileBC
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias)
-        throws Exception
+            throws Exception
     {
         X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
 
@@ -167,7 +167,7 @@ public class EncryptFileBC
 
     /**
      * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
-     * OHNE Unterverzeichnise.
+     * OHNE Unterverzeichnisse.
      *
      * @param inputFolder String
      * @param outputFolder String

@@ -74,35 +74,10 @@ public class SSLServerSocketChannel extends ServerSocketChannel
 
         return filteredItems.toArray(new String[filteredItems.size()]);
     }
-
-    /**
-     * Should the SSLSocketChannels created from the accept method be put in blocking mode. Default is {@code false}.
-     */
-    private boolean blockingMode;
-    /**
-     * A list of ciphers to explicitly exclude for the SSL exchange. Default is none.
-     */
-    public List<String> excludedCipherSuites;
-    /**
-     * A list of SSL protocols (SSLv2, SSLv3, etc.) to explicitly exclude for the SSL exchange. Default is none.
-     */
-    public List<String> excludedProtocols;
     /**
      *
      */
     private final Executor executor;
-    /**
-     * The list of ciphers allowed for the SSL exchange. Default is the JVM default.
-     */
-    public List<String> includedCipherSuites;
-    /**
-     * The list of SSL protocols (TLSv1, TLSv1.1, etc.) supported for the SSL exchange. Default is the JVM default.
-     */
-    public List<String> includedProtocols;
-    /**
-     * Should the SSL server require client certificate authentication? Default is {@code false}.
-     */
-    private boolean needClientAuthentication;
     /**
      *
      */
@@ -112,6 +87,30 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      */
     private final SSLContext sslContext;
     /**
+     * A list of ciphers to explicitly exclude for the SSL exchange. Default is none.
+     */
+    public List<String> excludedCipherSuites;
+    /**
+     * A list of SSL protocols (SSLv2, SSLv3, etc.) to explicitly exclude for the SSL exchange. Default is none.
+     */
+    public List<String> excludedProtocols;
+    /**
+     * The list of ciphers allowed for the SSL exchange. Default is the JVM default.
+     */
+    public List<String> includedCipherSuites;
+    /**
+     * The list of SSL protocols (TLSv1, TLSv1.1, etc.) supported for the SSL exchange. Default is the JVM default.
+     */
+    public List<String> includedProtocols;
+    /**
+     * Should the SSLSocketChannels created from the accept method be put in blocking mode. Default is {@code false}.
+     */
+    private boolean blockingMode;
+    /**
+     * Should the SSL server require client certificate authentication? Default is {@code false}.
+     */
+    private boolean needClientAuthentication;
+    /**
      * Should the SS server ask for client certificate authentication? Default is {@code false}.
      */
     private boolean wantClientAuthentication;
@@ -119,8 +118,8 @@ public class SSLServerSocketChannel extends ServerSocketChannel
     /**
      * @param serverSocketChannel The real server socket channel that accepts network requests.
      * @param sslContext The SSL context used to create the {@link SSLEngine} for incoming requests.
-     * @param executor The thread pool passed to SSLSocketChannel used to execute long running, blocking SSL operations such as certificate validation with a CA
-     *            (<a href="http://docs.oracle.com/javase/7/docs/api/javax/net/ssl/SSLEngineResult.HandshakeStatus.html#NEED_TASK">NEED_TASK</a>)
+     * @param executor The thread pool passed to SSLSocketChannel used to execute long-running, blocking SSL operations such as certificate validation with a CA
+     * (<a href="http://docs.oracle.com/javase/7/docs/api/javax/net/ssl/SSLEngineResult.HandshakeStatus.html#NEED_TASK">NEED_TASK</a>)
      */
     public SSLServerSocketChannel(final ServerSocketChannel serverSocketChannel, final SSLContext sslContext, final Executor executor)
     {
@@ -154,7 +153,7 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      * @throws java.nio.channels.ClosedChannelException If this channel is closed
      * @throws java.nio.channels.AsynchronousCloseException If another thread closes this channel while the read operation is in progress
      * @throws java.nio.channels.ClosedByInterruptException If another thread interrupts the current thread while the read operation is in progress, thereby
-     *             closing the channel and setting the current thread's interrupt status
+     * closing the channel and setting the current thread's interrupt status
      * @throws IOException If some other I/O error occurs
      */
     @Override
@@ -185,7 +184,6 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      * @return An SSLSocketChannel or {@code null} if this channel is in non-blocking mode and no connection is available to be accepted.
      *
      * @throws IOException Falls was schief geht.
-     *
      * @see #accept()
      */
     public SSLSocketChannel acceptOverSSL() throws IOException
@@ -218,24 +216,6 @@ public class SSLServerSocketChannel extends ServerSocketChannel
     public <T> T getOption(final SocketOption<T> name) throws IOException
     {
         return this.serverSocketChannel.getOption(name);
-    }
-
-    /**
-     * @see java.nio.channels.spi.AbstractSelectableChannel#implCloseSelectableChannel()
-     */
-    @Override
-    protected void implCloseSelectableChannel() throws IOException
-    {
-        this.serverSocketChannel.close();
-    }
-
-    /**
-     * @see java.nio.channels.spi.AbstractSelectableChannel#implConfigureBlocking(boolean)
-     */
-    @Override
-    protected void implConfigureBlocking(final boolean b) throws IOException
-    {
-        this.serverSocketChannel.configureBlocking(b);
     }
 
     /**
@@ -293,5 +273,23 @@ public class SSLServerSocketChannel extends ServerSocketChannel
     public Set<SocketOption<?>> supportedOptions()
     {
         return this.serverSocketChannel.supportedOptions();
+    }
+
+    /**
+     * @see java.nio.channels.spi.AbstractSelectableChannel#implCloseSelectableChannel()
+     */
+    @Override
+    protected void implCloseSelectableChannel() throws IOException
+    {
+        this.serverSocketChannel.close();
+    }
+
+    /**
+     * @see java.nio.channels.spi.AbstractSelectableChannel#implConfigureBlocking(boolean)
+     */
+    @Override
+    protected void implConfigureBlocking(final boolean b) throws IOException
+    {
+        this.serverSocketChannel.configureBlocking(b);
     }
 }

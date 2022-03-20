@@ -18,7 +18,7 @@ public interface CallableStatementCreator
      *
      * @return {@link CallableStatement}
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     CallableStatement createCallableStatement(Connection connection) throws SQLException;
 }

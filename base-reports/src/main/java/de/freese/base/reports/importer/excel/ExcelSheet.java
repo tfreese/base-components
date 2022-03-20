@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Container fuer die Daten eines ExcelSheets.
+ * Container für die Daten eines ExcelSheets.
  *
  * @author Thomas Freese
  */
@@ -17,12 +17,12 @@ public class ExcelSheet implements Serializable
      */
     private static final long serialVersionUID = 574094444465628429L;
     // /**
-    // * Wieviele Zeilen sollen MINDESTENDS angezeigt werden ?
+    // * Wie viele Zeilen sollen MINDESTENDS angezeigt werden ?
     // */
     // private static int MIN_ROWNUM = 10;
     //
     // /**
-    // * Wieviele Spalten sollen MINDESTENDS angezeigt werden ?
+    // * Wie viele Spalten sollen MINDESTENDS angezeigt werden ?
     // */
     // private static int MIN_COLUMNNUM = 10;
     /**
@@ -32,11 +32,11 @@ public class ExcelSheet implements Serializable
     /**
      *
      */
-    private List<String[]> rowValues;
+    private final String sheetName;
     /**
      *
      */
-    private final String sheetName;
+    private List<String[]> rowValues;
 
     /**
      * Creates a new {@link ExcelSheet} object.
@@ -169,7 +169,7 @@ public class ExcelSheet implements Serializable
             return;
         }
 
-        for (Iterator<String[]> iterator = this.rowValues.iterator(); iterator.hasNext();)
+        for (Iterator<String[]> iterator = this.rowValues.iterator(); iterator.hasNext(); )
         {
             String[] rowValue = iterator.next();
 

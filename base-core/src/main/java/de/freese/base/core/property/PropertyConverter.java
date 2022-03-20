@@ -47,7 +47,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den double Wert der Property.
+     * Liefert den Wert der Property.
      *
      * @param value String
      *
@@ -59,10 +59,10 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den double Wert der Property.
+     * Liefert den Wert der Property.
      *
      * @param value String
-     * @param defaultValue double, wenn Konvertierung fehlschlaegt
+     * @param defaultValue double, wenn Konvertierung fehlschlägt
      *
      * @return double
      */
@@ -85,7 +85,7 @@ public final class PropertyConverter
      *
      * @return boolean
      *
-     * @throws NumberFormatException wenn die Konvertierung fehlschlaegt.
+     * @throws NumberFormatException, wenn die Konvertierung fehlschlägt.
      */
     public static int getInt(final String value)
     {
@@ -96,7 +96,7 @@ public final class PropertyConverter
      * Liefert den int Wert der Property.
      *
      * @param value String
-     * @param defaultValue int, wenn die Konvertierung fehlschlaegt.
+     * @param defaultValue int, wenn die Konvertierung fehlschlägt.
      *
      * @return boolean
      */
@@ -119,7 +119,7 @@ public final class PropertyConverter
      *
      * @return long
      *
-     * @throws NumberFormatException wenn die Konvertierung fehlschlaegt.
+     * @throws NumberFormatException, wenn die Konvertierung fehlschlägt.
      */
     public static long getLong(final String value)
     {
@@ -130,7 +130,7 @@ public final class PropertyConverter
      * Liefert den long Wert der Property.
      *
      * @param value String
-     * @param defaultValue long, wenn die Konvertierung fehlschlaegt.
+     * @param defaultValue long, wenn die Konvertierung fehlschlägt.
      *
      * @return long
      */
@@ -193,7 +193,7 @@ public final class PropertyConverter
     }
 
     /**
-     * Liefert den String Wert der Property oder defaultValue wenn Wert = null.
+     * Liefert den String Wert der Property oder defaultValue, wenn Wert = null.
      *
      * @param value String
      * @param defaultValue String, wenn Wert = null

@@ -2,17 +2,18 @@ package de.freese.base.utils;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import de.freese.base.reports.exporter.pdf.DocumentMetaData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Extrahiert aus einer PDF-Datei frei waehlbare Bereiche von Seiten als neue PDF-Dateien.
+ * Extrahiert aus einer PDF-Datei frei wählbare Bereiche von Seiten als neue PDF-Dateien.
  *
  * @author Thomas Freese
  */
@@ -27,6 +28,7 @@ public class SplitPDF
      * Zum Testen
      *
      * @param args String[]
+     *
      * @throws Exception Falls was schief geht.
      */
     public static void main(final String[] args) throws Exception
@@ -34,9 +36,9 @@ public class SplitPDF
         SplitPDF splitPdf = new SplitPDF("TEST.pdf");
 
         String[] ranges = new String[]
-        {
-                "1-1", "2-3", "5-11"
-        };
+                {
+                        "1-1", "2-3", "5-11"
+                };
 
         try (OutputStream os1 = new FileOutputStream("Test_1-1.pdf");
              OutputStream os2 = new FileOutputStream("Test_2-3.pdf");
@@ -44,9 +46,9 @@ public class SplitPDF
              OutputStream os4 = new FileOutputStream("Test_Bundle.pdf"))
         {
             OutputStream[] outputStreams = new OutputStream[]
-            {
-                    os1, os2, os3
-            };
+                    {
+                            os1, os2, os3
+                    };
 
             splitPdf.split(ranges, outputStreams, null);
             splitPdf.split(ranges, os4, null);
@@ -67,6 +69,7 @@ public class SplitPDF
      * Creates a new {@link SplitPDF} object.
      *
      * @param pdfFile byte[]
+     *
      * @throws IllegalArgumentException Falls was schief geht.
      */
     public SplitPDF(final byte[] pdfFile)
@@ -85,6 +88,7 @@ public class SplitPDF
      * Creates a new {@link SplitPDF} object.
      *
      * @param pdfFileName String
+     *
      * @throws IllegalArgumentException Falls was schief geht.
      */
     public SplitPDF(final String pdfFileName)
@@ -100,33 +104,14 @@ public class SplitPDF
     }
 
     /**
-     * Liefert den PdfReader in Abhaengigkeit der Eingangsparameter.
-     *
-     * @return {@link PdfReader}
-     * @throws Exception Falls was schief geht.
-     */
-    private PdfReader getPDFReader() throws Exception
-    {
-        if (this.pdfFileName != null)
-        {
-            return new PdfReader(this.pdfFileName);
-        }
-        else if (this.pdfFile != null)
-        {
-            return new PdfReader(this.pdfFile);
-        }
-
-        return null;
-    }
-
-    /**
-     * Extrahiert aus einer PDF-Datei frei waehlbare Bereiche von Seiten als neues PDF-Dokument.
+     * Extrahiert aus einer PDF-Datei frei wählbare Bereiche von Seiten als neues PDF-Dokument.
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
      * @param outStream {@link OutputStream}
      * @param metaData {@link DocumentMetaData} (optional)
+     *
      * @throws Exception Falls was schief geht
-     * @throws IllegalArgumentException Bei ungueltigen Parametern
+     * @throws IllegalArgumentException bei ungültigen Parametern
      */
     public void split(final String[] ranges, final OutputStream outStream, final DocumentMetaData metaData) throws Exception
     {
@@ -168,7 +153,7 @@ public class SplitPDF
 
             if ((startPage > pages) || (endPage > pages))
             {
-                LOGGER.error("Start-/Endpage {} reaches total Pagesize {}, skip splitting.", range, pages);
+                LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", range, pages);
 
                 continue;
             }
@@ -180,10 +165,10 @@ public class SplitPDF
 
             for (int i = startPage; i <= endPage; i++)
             {
-                // Seitengroesse des Originals setzen.
+                // Seitengrösse des Originals setzen.
                 newDoc.setPageSize(pdfReader.getPageSizeWithRotation(i));
 
-                // Neue Seite einfuegen.
+                // Neue Seite einfügen.
                 newDoc.newPage();
 
                 // Seite des Originals importieren.
@@ -212,13 +197,14 @@ public class SplitPDF
     }
 
     /**
-     * Extrahiert aus einer PDF-Datei frei waehlbare Bereiche von Seiten als neue PDF-Dokumente.
+     * Extrahiert aus einer PDF-Datei frei wählbare Bereiche von Seiten als neue PDF-Dokumente.
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
-     * @param outStreams OutputStream[] fuer jede erzeuge Datei eines Range-Bereiches
+     * @param outStreams OutputStream[] für jede erzeuge Datei eines Range-Bereiches
      * @param metaData {@link DocumentMetaData}[] (optional)
+     *
      * @throws Exception Falls was schief geht
-     * @throws IllegalArgumentException Bei ungueltigen Parametern
+     * @throws IllegalArgumentException bei ungültigen Parametern
      */
     public void split(final String[] ranges, final OutputStream[] outStreams, final DocumentMetaData[] metaData) throws Exception
     {
@@ -250,7 +236,7 @@ public class SplitPDF
 
             if ((startPage > pages) || (endPage > pages))
             {
-                LOGGER.error("Start-/Endpage {} reaches total Pagesize {}, skip splitting.", ranges[r], pages);
+                LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", ranges[r], pages);
 
                 continue;
             }
@@ -279,10 +265,10 @@ public class SplitPDF
 
             for (int i = startPage; i <= endPage; i++)
             {
-                // Seitengroesse des Originals setzen.
+                // Seitengrösse des Originals setzen.
                 newDoc.setPageSize(pdfReader.getPageSizeWithRotation(i));
 
-                // Neue Seite einfuegen.
+                // Neue Seite einfügen.
                 newDoc.newPage();
 
                 // Seite des Originals importieren.
@@ -308,5 +294,26 @@ public class SplitPDF
             outStreams[r].close();
             LOGGER.info("New PDF-File created");
         }
+    }
+
+    /**
+     * Liefert den PdfReader in Abhängigkeit der Eingangsparameter.
+     *
+     * @return {@link PdfReader}
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    private PdfReader getPDFReader() throws Exception
+    {
+        if (this.pdfFileName != null)
+        {
+            return new PdfReader(this.pdfFileName);
+        }
+        else if (this.pdfFile != null)
+        {
+            return new PdfReader(this.pdfFile);
+        }
+
+        return null;
     }
 }

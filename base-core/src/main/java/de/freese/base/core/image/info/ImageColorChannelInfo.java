@@ -255,7 +255,7 @@ public class ImageColorChannelInfo
             }
         }
 
-        // Letzte Pixelzeile fuer Histogramm nicht vegessen.
+        // Letzte Pixelzeile für Histogramm nicht vergessen.
         for (int y = 0; y < height; y++)
         {
             int pixel = this.bufferedImage.getRGB(width - 1, y);

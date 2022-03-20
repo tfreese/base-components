@@ -34,8 +34,6 @@ import de.freese.base.core.image.BlackWhiteOp;
 import de.freese.base.core.image.ImageFormat;
 
 /**
- * Nützliches für die Bildverarbeitung.
- *
  * @author Thomas Freese
  */
 public final class ImageUtils
@@ -179,7 +177,7 @@ public final class ImageUtils
     }
 
     /**
-     * Icon für ein Pfeil Zeichen.
+     * Icon für einen Pfeil.
      *
      * @author Thomas Freese
      */
@@ -209,7 +207,7 @@ public final class ImageUtils
 
         /**
          * Creates a new {@link Triangle} object.<br>
-         * Defaults: Widht = 16, Height = 16, ForeGround = Black
+         * Defaults: Width = 16, Height = 16, ForeGround = Black
          *
          * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
          */
@@ -346,8 +344,6 @@ public final class ImageUtils
     }
 
     /**
-     * Erzeugt ein leeres Icon der Größe x mal y.
-     *
      * @param width int Breite
      * @param height int Höhe
      *
@@ -439,9 +435,9 @@ public final class ImageUtils
      */
     public static boolean hasAlpha(final Image image)
     {
-        if (image instanceof BufferedImage bimage)
+        if (image instanceof BufferedImage bImage)
         {
-            return bimage.getColorModel().hasAlpha();
+            return bImage.getColorModel().hasAlpha();
         }
 
         PixelGrabber pg = new PixelGrabber(image, 0, 0, 1, 1, false);
@@ -527,7 +523,7 @@ public final class ImageUtils
         AffineTransform tx = new AffineTransform();
         tx.scale(ratioWidth, ratioHeight);
 
-        // tx.shear(shiftx, shifty);
+        // tx.shear(shiftX, shiftY);
         // tx.translate(x, y);
         // tx.rotate(radians, origin.getWidth()/2, origin.getHeight()/2);
 
@@ -857,7 +853,7 @@ public final class ImageUtils
                         0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F
                 };
 
-        // Kantenglaettung
+        // Kantenglättung
         // float[] matrix =
         // new float[]
         // {

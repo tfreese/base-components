@@ -2,7 +2,7 @@
 package de.freese.base.reports.layout;
 
 /**
- * Implementierung eines LayoutElementes fuer Text.
+ * Implementierung eines LayoutElementes für Text.
  *
  * @author Thomas Freese
  */

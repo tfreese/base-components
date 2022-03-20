@@ -8,17 +8,17 @@ package de.freese.base.core.property;
 public enum PropertyType
 {
     /**
-     * 
+     *
      */
     COMPONENT_STATE,
 
     /**
-     * 
+     *
      */
     TASK_STATISTIK,
 
     /**
-     * 
+     *
      */
-    VARIABLE;
+    VARIABLE
 }

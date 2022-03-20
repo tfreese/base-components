@@ -90,7 +90,7 @@ public abstract class AbstractValidationException extends Exception
     }
 
     /**
-     * Uebersetzt den Inhalt der Exception.
+     * Übersetzt den Inhalt der Exception.
      *
      * @param translatorAdapter {@link Translator}
      *

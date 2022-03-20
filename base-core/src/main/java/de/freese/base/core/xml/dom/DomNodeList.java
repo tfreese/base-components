@@ -2,11 +2,12 @@ package de.freese.base.core.xml.dom;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * {@link NodeList} auf Basis einer {@link ArrayList} fuer die Moeglichkeit der Sortierung.<br>
+ * {@link NodeList} auf Basis einer {@link ArrayList} für die Möglichkeit der Sortierung.<br>
  * Diese Liste kann nur DOM {@link Node} Objekte aufnehmen.
  *
  * @author Thomas Freese
@@ -28,7 +29,7 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
 
     /**
      * Creates a new {@link DomNodeList} object.
-     * 
+     *
      * @param nodeList {@link Collection}
      */
     public DomNodeList(final NodeList nodeList)
@@ -48,8 +49,8 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
     }
 
     /**
-     * Hinzufuegen der Nodes zur Liste.
-     * 
+     * Hinzufügen der Nodes zur Liste.
+     *
      * @param nodeList {@link NodeList}
      */
     public void addAll(final NodeList nodeList)

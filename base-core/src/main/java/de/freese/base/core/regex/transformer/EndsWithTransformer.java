@@ -1,7 +1,7 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Pruefung auf gueltige Endausdruecke.
+ * Prüfung auf gültige Endausdrücke.
  *
  * @author Thomas Freese
  */

@@ -7,9 +7,9 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Argument-Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface ParameterizedPreparedStatementSetter<T>
@@ -18,7 +18,7 @@ public interface ParameterizedPreparedStatementSetter<T>
      * @param preparedStatement {@link PreparedStatement}
      * @param argument Object
      *
-     * @throws SQLException Falls was schief geht.
+     * @throws SQLException Falls was schiefgeht.
      */
     void setValues(PreparedStatement preparedStatement, T argument) throws SQLException;
 }
