@@ -46,17 +46,13 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
-import de.freese.base.swing.macOsX.OSXAdapter;
+import de.freese.base.swing.macOsX.OsxAdapter;
 
 /**
  * @author Thomas Freese
  */
 public class MyApp extends JFrame implements ActionListener
 {
-    /**
-     * Check that we are on Mac OS X. This is crucial to loading and using the OSXAdapter class.
-     */
-    public static boolean IS_OS_MAC_OSX = System.getProperty("os.name").toLowerCase().contains("mac os x");
     /**
      * Ask AWT which menu modifier we should be using.
      */
@@ -65,19 +61,38 @@ public class MyApp extends JFrame implements ActionListener
      *
      */
     private static final long serialVersionUID = -8257153622565922709L;
+    /**
+     * Check that we are on Mac OS X. This is crucial to loading and using the OsxAdapter class.
+     */
+    public static boolean IS_OS_MAC_OSX = System.getProperty("os.name").toLowerCase().contains("mac os x");
 
     /**
      * @param args String[][]
      */
     public static void main(final String[] args)
     {
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
 
             new MyApp().setVisible(true);
         });
     }
 
+    /**
+     *
+     */
+    String[] colorNames =
+            {
+                    "White", "Black", "Red", "Blue", "Yellow", "Orange"
+            };
+    /**
+     *
+     */
+    Color[] colors =
+            {
+                    Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
+            };
     /**
      *
      */
@@ -90,20 +105,6 @@ public class MyApp extends JFrame implements ActionListener
      *
      */
     protected JComboBox<String> colorComboBox;
-    /**
-     *
-     */
-    String[] colorNames =
-    {
-            "White", "Black", "Red", "Blue", "Yellow", "Orange"
-    };
-    /**
-     *
-     */
-    Color[] colors =
-    {
-            Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
-    };
     /**
      *
      */
@@ -150,7 +151,7 @@ public class MyApp extends JFrame implements ActionListener
      */
     public MyApp()
     {
-        super("OSXAdapter");
+        super("OsxAdapter");
 
         addMenus();
 
@@ -162,17 +163,18 @@ public class MyApp extends JFrame implements ActionListener
         this.imageLabel.setOpaque(true);
 
         // set up a simple about box
-        this.aboutBox = new JDialog(this, "About OSXAdapter");
+        this.aboutBox = new JDialog(this, "About OsxAdapter");
         this.aboutBox.getContentPane().setLayout(new BorderLayout());
-        this.aboutBox.getContentPane().add(new JLabel("OSXAdapter", SwingConstants.CENTER));
+        this.aboutBox.getContentPane().add(new JLabel("OsxAdapter", SwingConstants.CENTER));
         this.aboutBox.getContentPane().add(new JLabel("\u00A92003-2007 Apple, Inc.", SwingConstants.CENTER), BorderLayout.SOUTH);
         this.aboutBox.setSize(160, 120);
         this.aboutBox.setResizable(false);
 
         // Preferences dialog lets you select the background color when displaying an image
-        this.prefs = new JDialog(this, "OSXAdapter Preferences");
+        this.prefs = new JDialog(this, "OsxAdapter Preferences");
         this.colorComboBox = new JComboBox<>(this.colorNames);
-        this.colorComboBox.addActionListener(ev -> {
+        this.colorComboBox.addActionListener(ev ->
+        {
             if (MyApp.this.currentImage != null)
             {
                 MyApp.this.imageLabel.setBackground(MyApp.this.colors[MyApp.this.colorComboBox.getSelectedIndex()]);
@@ -193,8 +195,8 @@ public class MyApp extends JFrame implements ActionListener
     }
 
     /**
-     * General info dialog; fed to the OSXAdapter as the method to call when<br>
-     * "About OSXAdapter" is selected from the application menu.
+     * General info dialog; fed to the OsxAdapter as the method to call when<br>
+     * "About OsxAdapter" is selected from the application menu.
      */
     public void about()
     {
@@ -233,7 +235,8 @@ public class MyApp extends JFrame implements ActionListener
                         // File:Open action shows a FileDialog for loading displayable images
                         FileDialog openDialog = new FileDialog(this);
                         openDialog.setMode(FileDialog.LOAD);
-                        openDialog.setFilenameFilter((dir, name) -> {
+                        openDialog.setFilenameFilter((dir, name) ->
+                        {
                             String[] supportedFiles = ImageIO.getReaderFormatNames();
 
                             for (String supportedFile : supportedFiles)
@@ -294,7 +297,7 @@ public class MyApp extends JFrame implements ActionListener
         if (!IS_OS_MAC_OSX)
         {
             this.helpMenu.addSeparator();
-            this.helpMenu.add(this.aboutMI = new JMenuItem("About OSXAdapter"));
+            this.helpMenu.add(this.aboutMI = new JMenuItem("About OsxAdapter"));
             this.aboutMI.addActionListener(this);
         }
 
@@ -322,7 +325,7 @@ public class MyApp extends JFrame implements ActionListener
     }
 
     /**
-     * General preferences dialog; fed to the OSXAdapter as the method to call when<br>
+     * General preferences' dialog; fed to the OsxAdapter as the method to call when<br>
      * "Preferences..." is selected from the application menu.
      */
     public void preferences()
@@ -332,7 +335,7 @@ public class MyApp extends JFrame implements ActionListener
     }
 
     /**
-     * General quit handler; fed to the OSXAdapter as the method to call when a system quit event<br>
+     * General quit handler; fed to the OsxAdapter as the method to call when a system quit event<br>
      * occurs. A quit event is triggered by Cmd-Q, selecting Quit from the application or<br>
      * Dock menu, or logging out.
      * <p/>
@@ -349,7 +352,7 @@ public class MyApp extends JFrame implements ActionListener
     /**
      * Generic registration with the Mac OS X application menu.<br>
      * Checks the platform, then attempts to register with the Apple EAWT.<br>
-     * See OSXAdapter.java to see how this is done without directly referencing any Apple APIs
+     * See OsxAdapter.java to see how this is done without directly referencing any Apple APIs
      */
     public void registerForMacOSXEvents()
     {
@@ -357,16 +360,16 @@ public class MyApp extends JFrame implements ActionListener
         {
             try
             {
-                // Generate and register the OSXAdapter, passing it a hash of all the methods we
+                // Generate and register the OsxAdapter, passing it a hash of all the methods we
                 // wish to use as delegates for various com.apple.eawt.ApplicationListener methods.
-                OSXAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class[]) null));
-                OSXAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class[]) null));
-                OSXAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
-                OSXAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", String.class));
+                OsxAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class[]) null));
+                OsxAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class[]) null));
+                OsxAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
+                OsxAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", String.class));
             }
             catch (NoSuchMethodException | SecurityException ex)
             {
-                System.err.println("Error while loading the OSXAdapter:");
+                System.err.println("Error while loading the OsxAdapter:");
                 ex.printStackTrace();
             }
         }

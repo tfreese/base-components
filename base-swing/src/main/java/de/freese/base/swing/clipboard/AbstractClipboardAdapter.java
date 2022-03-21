@@ -13,9 +13,6 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.swing.clipboard.converter.BooleanClipboardConverter;
 import de.freese.base.swing.clipboard.converter.DoubleClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.FloatClipBoardConverter;
@@ -23,16 +20,18 @@ import de.freese.base.swing.clipboard.converter.IntegerClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.LongClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.ReflectionClipboardConverter;
 import de.freese.base.swing.clipboard.converter.StringClipboardConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * BasisAdapter einer Komponente fuer die Zwischenablage.
+ * BasisAdapter einer Komponente für die Zwischenablage.
  *
  * @author Thomas Freese
  */
 public abstract class AbstractClipboardAdapter
 {
     /**
-     * Action zum kopieren der Daten.
+     * Action zum Kopieren der Daten.
      *
      * @author Thomas Freese
      */
@@ -66,7 +65,7 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Action zum einfuegen der Daten.
+     * Action zum Einfügen der Daten.
      *
      * @author Thomas Freese
      */
@@ -100,7 +99,7 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Action zum einfuegen der Daten mit gedrehten Achsen.
+     * Action zum Einfügen der Daten mit gedrehten Achsen.
      *
      * @author Thomas Freese
      */
@@ -136,18 +135,6 @@ public abstract class AbstractClipboardAdapter
     /**
      *
      */
-    private Action actionCopy;
-    /**
-     *
-     */
-    private Action actionPaste;
-    /**
-     *
-     */
-    private Action actionPasteFlipAxes;
-    /**
-     *
-     */
     private final Clipboard clipboard;
     /**
      *
@@ -160,11 +147,23 @@ public abstract class AbstractClipboardAdapter
     /**
      *
      */
-    private boolean enabled = true;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private Action actionCopy;
+    /**
+     *
+     */
+    private Action actionPaste;
+    /**
+     *
+     */
+    private Action actionPasteFlipAxes;
+    /**
+     *
+     */
+    private boolean enabled = true;
 
     /**
      * Creates a new {@link AbstractClipboardAdapter} object.
@@ -194,7 +193,7 @@ public abstract class AbstractClipboardAdapter
     public abstract void doPaste(boolean flipAxes);
 
     /**
-     * Action zum kopieren der Daten.
+     * Action zum Kopieren der Daten.
      *
      * @return {@link Action}
      */
@@ -209,7 +208,7 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Action zum einfuegen der Daten.
+     * Action zum Einfügen der Daten.
      *
      * @return {@link Action}
      */
@@ -224,7 +223,7 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Action zum einfuegen der Daten mit gedrehten Achsen.
+     * Action zum Einfügen der Daten mit gedrehten Achsen.
      *
      * @return {@link Action}
      */
@@ -236,26 +235,6 @@ public abstract class AbstractClipboardAdapter
         }
 
         return this.actionPasteFlipAxes;
-    }
-
-    /**
-     * Liefert das Objekt der Zwischenbalage.
-     *
-     * @return {@link Clipboard}
-     */
-    protected Clipboard getClipboard()
-    {
-        return this.clipboard;
-    }
-
-    /**
-     * Liefert die adaptierte Komponente.
-     *
-     * @return {@link JComponent}
-     */
-    protected JComponent getComponent()
-    {
-        return this.component;
     }
 
     /**
@@ -283,13 +262,58 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Liefert die Map der ClipboardConverter.
+     * Liefert true, wenn die Actions aktiviert sind.
      *
-     * @return {@link Map}
+     * @return boolean
      */
-    private Map<Class<?>, ClipboardConverter> getConverterMap()
+    public boolean isEnabled()
     {
-        return this.converterMap;
+        return this.enabled;
+    }
+
+    /**
+     * Registriert für eine Klasse den entsprechenden {@link ClipboardConverter}.
+     *
+     * @param clazz Class
+     * @param converter {@link ClipboardConverter}
+     */
+    public void register(final Class<?> clazz, final ClipboardConverter converter)
+    {
+        getConverterMap().put(clazz, converter);
+    }
+
+    /**
+     * Aktiviert oder deaktiviert die Actions.
+     *
+     * @param enabled boolean
+     */
+    public void setEnabled(final boolean enabled)
+    {
+        this.enabled = enabled;
+
+        getActionCopy().setEnabled(enabled);
+        getActionPaste().setEnabled(enabled);
+        getActionPasteFlipAxes().setEnabled(enabled);
+    }
+
+    /**
+     * Liefert das Objekt der Zwischenablage.
+     *
+     * @return {@link Clipboard}
+     */
+    protected Clipboard getClipboard()
+    {
+        return this.clipboard;
+    }
+
+    /**
+     * Liefert die adaptierte Komponente.
+     *
+     * @return {@link JComponent}
+     */
+    protected JComponent getComponent()
+    {
+        return this.component;
     }
 
     /**
@@ -317,27 +341,6 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Liefert true, wenn die Actions aktiviert sind.
-     *
-     * @return boolean
-     */
-    public boolean isEnabled()
-    {
-        return this.enabled;
-    }
-
-    /**
-     * Registriert fuer eine Klasse den entsprechenden {@link ClipboardConverter}.
-     *
-     * @param clazz Class
-     * @param converter {@link ClipboardConverter}
-     */
-    public void register(final Class<?> clazz, final ClipboardConverter converter)
-    {
-        getConverterMap().put(clazz, converter);
-    }
-
-    /**
      * Registrieren von Standartkonverter.<br>
      * Alle anderen Typen werden über {@link ReflectionClipboardConverter} gehandelt.<br>
      *
@@ -356,16 +359,12 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Aktiviert oder deaktiviert die Actions.
+     * Liefert die Map der ClipboardConverter.
      *
-     * @param enabled boolean
+     * @return {@link Map}
      */
-    public void setEnabled(final boolean enabled)
+    private Map<Class<?>, ClipboardConverter> getConverterMap()
     {
-        this.enabled = enabled;
-
-        getActionCopy().setEnabled(enabled);
-        getActionPaste().setEnabled(enabled);
-        getActionPasteFlipAxes().setEnabled(enabled);
+        return this.converterMap;
     }
 }

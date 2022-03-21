@@ -1,8 +1,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * ClipboardConverter fuer Integer.
- *
  * @author Thomas Freese
  */
 public class IntegerClipBoardConverter extends AbstractNumberClipBoardConverter

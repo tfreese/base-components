@@ -2,7 +2,7 @@
 package de.freese.base.swing.components.table.sort;
 
 /**
- * Enum fuer die Sortierungmueglichkeiten.
+ * Enum für die Sortierungsmöglichkeiten.
  *
  * @author Thomas Freese
  */
@@ -48,7 +48,7 @@ public enum Sort
     /**
      * @return {@link Sort}
      */
-    public Sort getPrevios()
+    public Sort getPrevious()
     {
         if (UNSORTED.name().equals(name()))
         {

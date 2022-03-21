@@ -6,9 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
 /**
- * ClipboardConverter für Objekterzeugung über Konstrukturparameter mit Reflection.
- * <p/>
- * 
+ * ClipboardConverter für Objekterzeugung über Konstruktorparameter mit Reflection.
+ *
  * @author Thomas Freese
  */
 public class ReflectionClipboardConverter extends AbstractClipboardConverter
@@ -21,7 +20,7 @@ public class ReflectionClipboardConverter extends AbstractClipboardConverter
     /**
      * Creates a new {@link ReflectionClipboardConverter} object.
      * <p/>
-     * 
+     *
      * @param clazz {@link Class}
      */
     public ReflectionClipboardConverter(final Class<?> clazz)
@@ -39,15 +38,9 @@ public class ReflectionClipboardConverter extends AbstractClipboardConverter
     {
         try
         {
-            Constructor<?> con = this.clazz.getConstructor(new Class<?>[]
-            {
-                    String.class
-            });
+            Constructor<?> con = this.clazz.getConstructor(String.class);
 
-            return con.newInstance(new Object[]
-            {
-                    value
-            });
+            return con.newInstance(value);
         }
         catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException ex)

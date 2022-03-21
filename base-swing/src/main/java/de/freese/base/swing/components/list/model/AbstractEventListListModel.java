@@ -11,14 +11,19 @@ import javax.swing.event.ListDataListener;
 import de.freese.base.swing.eventlist.IEventList;
 
 /**
- * Basis ListModel, welches die Verwendung einer {@link IEventList} ermoeglicht.
- *
- * @author Thomas Freese
+ * Basis ListModel, welches die Verwendung einer {@link IEventList} ermöglicht.
  *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractEventListListModel<T> implements ListModel<T>, Serializable
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1011316820552269417L;
+
     /**
      * Listener auf der {@link IEventList}.
      *
@@ -53,11 +58,6 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
             fireIntervalRemoved(event.getSource(), event.getIndex0(), event.getIndex1());
         }
     }
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1011316820552269417L;
     /**
      *
      */
@@ -85,6 +85,51 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
      */
     @Override
     public synchronized void addListDataListener(final ListDataListener listener)
+    {
+        this.eventListenerList.add(ListDataListener.class, listener);
+    }
+
+    /**
+     * @see javax.swing.ListModel#getElementAt(int)
+     */
+    @Override
+    public T getElementAt(final int index)
+    {
+        return getList().get(index);
+    }
+
+    /**
+     * @return {@link IEventList}<?>
+     */
+    public IEventList<T> getList()
+    {
+        return this.list;
+    }
+
+    /**
+     * @see javax.swing.ListModel#getSize()
+     */
+    @Override
+    public int getSize()
+    {
+        return getList().size();
+    }
+
+    /**
+     * Feuert das ContentsChanged Event.
+     */
+    public void refresh()
+    {
+        getList().update();
+
+        // Die Events werden über die EventList gefeuert.
+    }
+
+    /**
+     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
+     */
+    @Override
+    public synchronized void removeListDataListener(final ListDataListener listener)
     {
         this.eventListenerList.add(ListDataListener.class, listener);
     }
@@ -188,50 +233,5 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
                 ((ListDataListener) listeners[i + 1]).intervalRemoved(e);
             }
         }
-    }
-
-    /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
-    @Override
-    public T getElementAt(final int index)
-    {
-        return getList().get(index);
-    }
-
-    /**
-     * @return {@link IEventList}<?>
-     */
-    public IEventList<T> getList()
-    {
-        return this.list;
-    }
-
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
-    @Override
-    public int getSize()
-    {
-        return getList().size();
-    }
-
-    /**
-     * Feuert das ContentsChanged Event.
-     */
-    public void refresh()
-    {
-        getList().update();
-
-        // Die Events werden ueber die EventList gefeuert.
-    }
-
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
-    @Override
-    public synchronized void removeListDataListener(final ListDataListener listener)
-    {
-        this.eventListenerList.add(ListDataListener.class, listener);
     }
 }

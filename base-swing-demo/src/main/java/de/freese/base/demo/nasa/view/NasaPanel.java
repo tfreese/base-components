@@ -16,8 +16,6 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
- * Panel der NASA-Demo.
- *
  * @author Thomas Freese
  */
 public class NasaPanel extends JPanel

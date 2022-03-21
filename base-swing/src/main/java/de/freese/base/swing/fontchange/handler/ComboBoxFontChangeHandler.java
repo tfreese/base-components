@@ -2,11 +2,12 @@ package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Component;
 import java.awt.Font;
+
 import javax.swing.JComboBox;
 import javax.swing.ListCellRenderer;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung einer {@link JComboBox}.
+ * Defaultimplementierung für die Font-Änderung einer {@link JComboBox}.
  *
  * @author Thomas Freese
  */

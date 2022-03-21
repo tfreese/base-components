@@ -19,7 +19,7 @@ import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements FilterEditor, ItemListener
 {
     /**
-     * Konstante fuer keinen Filter.
+     * Konstante für keinen Filter.
      */
     private static final String KEIN_FILTER = " ";
     /**
@@ -56,9 +56,9 @@ public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements Fi
         this.column = column;
 
         Object[] values =
-        {
-                KEIN_FILTER, Boolean.FALSE, Boolean.TRUE
-        };
+                {
+                        KEIN_FILTER, Boolean.FALSE, Boolean.TRUE
+                };
 
         setModel(new DefaultComboBoxModel<>(values));
         addItemListener(this);

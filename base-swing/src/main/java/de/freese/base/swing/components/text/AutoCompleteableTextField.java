@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * TextField was eine Autovervollstaendigung bietet aus den vorherigen Eingaben.
+ * TextField was eine Autovervollständigung bietet aus den vorherigen Eingaben.
  *
  * @author Thomas Freese
  */
@@ -114,6 +114,7 @@ public class AutoCompleteableTextField extends JTextField
             return this.term;
         }
     }
+
     /**
      *
      */
@@ -167,7 +168,7 @@ public class AutoCompleteableTextField extends JTextField
                 {
                     JPopupMenu popupMenu = AutoCompleteableTextField.this.prevSearchMenu;
 
-                    // Wenn das PopupMenu geoeffnet ist, das selektierte MenuItem ausfuehren.
+                    // Wenn das PopupMenu geöffnet ist, das selektierte MenuItem ausführen.
                     if ((popupMenu != null) && popupMenu.isVisible())
                     {
                         MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
@@ -183,7 +184,7 @@ public class AutoCompleteableTextField extends JTextField
                         return;
                     }
 
-                    // Bei Enter oder Tabulator den Fokus wechseln und so den neuen Text zu Vervollstaendigung aufnehmen.
+                    // Bei Enter oder Tabulator den Fokus wechseln und so den neuen Text zu Vervollständigung aufnehmen.
                     transferFocus();
                 }
                 else if (Character.isJavaIdentifierPart(e.getKeyChar()))
@@ -242,7 +243,7 @@ public class AutoCompleteableTextField extends JTextField
             {
                 this.prevSearchMenu.show(this, x, y);
 
-                // Coursor wieder zurueck ins Textfeld.
+                // Coursor wieder zurück ins Textfeld.
                 // if (!hasFocus())
                 // {
                 requestFocus();
@@ -253,7 +254,7 @@ public class AutoCompleteableTextField extends JTextField
     }
 
     /**
-     * Text im Textfeld in die Historie aufnehmen, max. 10 Eintraege.
+     * Text im Textfeld in die Historie aufnehmen, max. 10 Einträge.
      */
     private void saveLastSearch()
     {

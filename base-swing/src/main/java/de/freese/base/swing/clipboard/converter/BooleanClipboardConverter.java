@@ -2,8 +2,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * Allgemeiner ClipboardConverter für Boolean.
- *
  * @author Thomas Freese
  */
 public class BooleanClipboardConverter extends AbstractClipboardConverter

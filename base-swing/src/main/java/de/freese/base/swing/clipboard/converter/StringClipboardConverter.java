@@ -2,8 +2,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * Allgemeiner ClipboardConverter für String.
- *
  * @author Thomas Freese
  */
 public class StringClipboardConverter extends AbstractClipboardConverter

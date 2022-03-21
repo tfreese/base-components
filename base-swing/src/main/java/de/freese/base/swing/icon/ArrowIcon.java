@@ -64,7 +64,7 @@ public class ArrowIcon implements Icon
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      * @param foreground {@link Color}
      *
-     * @throws IllegalArgumentException Falls Direction ungueltig
+     * @throws IllegalArgumentException Falls Direction ungültig
      */
     public ArrowIcon(final int width, final int height, final int direction, final Color foreground)
     {
@@ -123,46 +123,46 @@ public class ArrowIcon implements Icon
         if (this.direction == SwingConstants.NORTH)
         {
             xPoints = new int[]
-            {
-                    x, x + centerX, x + (centerX * 2)
-            };
+                    {
+                            x, x + centerX, x + (centerX * 2)
+                    };
             yPoints = new int[]
-            {
-                    y + (centerY * 2), y, y + (centerY * 2)
-            };
+                    {
+                            y + (centerY * 2), y, y + (centerY * 2)
+                    };
         }
         else if (this.direction == SwingConstants.SOUTH)
         {
             xPoints = new int[]
-            {
-                    x, x + centerX, x + (centerX * 2)
-            };
+                    {
+                            x, x + centerX, x + (centerX * 2)
+                    };
             yPoints = new int[]
-            {
-                    y, y + (centerY * 2), y
-            };
+                    {
+                            y, y + (centerY * 2), y
+                    };
         }
         else if (this.direction == SwingConstants.WEST)
         {
             xPoints = new int[]
-            {
-                    x + (centerX * 2), x, x + (centerX * 2)
-            };
+                    {
+                            x + (centerX * 2), x, x + (centerX * 2)
+                    };
             yPoints = new int[]
-            {
-                    y, y + centerY, y + (centerY * 2)
-            };
+                    {
+                            y, y + centerY, y + (centerY * 2)
+                    };
         }
         else if (this.direction == SwingConstants.EAST)
         {
             xPoints = new int[]
-            {
-                    x, x + (centerX * 2), x, x
-            };
+                    {
+                            x, x + (centerX * 2), x, x
+                    };
             yPoints = new int[]
-            {
-                    y, y + centerY, y + (centerY * 2)
-            };
+                    {
+                            y, y + centerY, y + (centerY * 2)
+                    };
         }
         else
         {

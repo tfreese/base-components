@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ExpandListener eines Trees fuer das LazyLoading.<br>
+ * ExpandListener eines Trees für das LazyLoading.<br>
  *
  * @author Thomas Freese
  * @see AbstractLazyLoadingTreeNode
@@ -28,7 +28,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeController.class);
 
     /**
-     * Swingworker fuer das LazyLoading.
+     * SwingWorker für das LazyLoading.
      *
      * @author Thomas Freese
      */
@@ -72,37 +72,38 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
         @Override
         protected void done()
         {
-            MutableTreeNode[] childs = null;
+            MutableTreeNode[] children = null;
 
             try
             {
-                childs = get();
+                children = get();
             }
             catch (Exception ex)
             {
-                childs = new MutableTreeNode[0];
+                children = new MutableTreeNode[0];
                 LOGGER.error(null, ex);
             }
 
-            this.node.setAllowsChildren(childs.length > 0);
-            this.node.setChildren(childs);
+            this.node.setAllowsChildren(children.length > 0);
+            this.node.setChildren(children);
 
             // Anderen Threads Warte-Lock entfernen
             this.semaphore.release();
         }
     }
+
     /**
      *
      */
     private final Executor executor;
     /**
-     * BlockingSemaphore fuer den SwingWorker.
+     * BlockingSemaphore für den SwingWorker.
      */
     private final Semaphore semaphore = new Semaphore(1, true);
 
     /**
      * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
-     * Das Laden der Kindsknoten wird als {@link SwingWorker} mit der Methode {@link SwingWorker#execute()} ausgefuehrt.
+     * Das Laden der Kind-Knoten wird als {@link SwingWorker} mit der Methode {@link SwingWorker#execute()} ausgeführt.
      */
     public LazyLoadingTreeController()
     {
@@ -111,8 +112,8 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
 
     /**
      * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
-     * Das Laden der Kindsknoten wird als {@link SwingWorker} in dem uebergebenen {@link Executor} durchgefuehrt. Ist dieser {@link Executor} null, wird
-     * {@link SwingWorker#execute()} ausgefuehrt.
+     * Das Laden der Kind-Knoten wird als {@link SwingWorker} in dem übergebenen {@link Executor} durchgeführt. Ist dieser {@link Executor} null, wird
+     * {@link SwingWorker#execute()} ausgeführt.
      *
      * @param executor {@link Executor}
      */
@@ -163,7 +164,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     }
 
     /**
-     * Liefert den DummyKnoten fuer den Kinderzweig des Parents mit dem "Laden"-Text.
+     * Liefert den DummyKnoten für den Kinderzweig des Parents mit dem "Laden"-Text.
      *
      * @return {@link MutableTreeNode}
      */

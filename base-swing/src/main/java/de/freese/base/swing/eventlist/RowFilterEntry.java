@@ -4,11 +4,11 @@ import javax.swing.RowFilter;
 import javax.swing.RowFilter.Entry;
 
 /**
- * Objekt fuer die Nutzung der {@link RowFilter}-API.
- *
- * @author Thomas Freese
+ * Objekt für die Nutzung der {@link RowFilter}-API.
  *
  * @param <M> Konkreter Typ des zu filternden Objektes.
+ *
+ * @author Thomas Freese
  */
 public class RowFilterEntry<M> extends Entry<M, Integer>
 {

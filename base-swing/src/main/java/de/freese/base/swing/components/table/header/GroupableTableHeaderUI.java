@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicTableHeaderUI;
 import javax.swing.table.TableCellRenderer;
@@ -23,7 +24,104 @@ import javax.swing.table.TableColumnModel;
 public class GroupableTableHeaderUI extends BasicTableHeaderUI
 {
     /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#getPreferredSize(javax.swing.JComponent)
+     */
+    @Override
+    public Dimension getPreferredSize(final JComponent c)
+    {
+        long width = 0;
+        Enumeration<TableColumn> enumeration = this.header.getColumnModel().getColumns();
+
+        while (enumeration.hasMoreElements())
+        {
+            TableColumn aColumn = enumeration.nextElement();
+            width += aColumn.getPreferredWidth();
+        }
+
+        return createHeaderSize(width);
+    }
+
+    /**
+     * @see javax.swing.plaf.basic.BasicTableHeaderUI#paint(java.awt.Graphics, javax.swing.JComponent)
+     */
+    @Override
+    public void paint(final Graphics g, final JComponent c)
+    {
+        Rectangle clipBounds = g.getClipBounds();
+
+        if (this.header.getColumnModel() == null)
+        {
+            return;
+        }
+
+        // Scheint 1. unnötig und behebt ausserdem 2. das Problem der nicht bündigen ColumnHeader,
+        // die von Fall zu Fall durch das Setzen bzw. NichtSetzten der Margin auf 0 (s.u.)
+        // verursacht wurde.
+        // ((GroupableTableHeader) this.header).setColumnMargin();
+
+        int column = 0;
+        Dimension size = this.header.getSize();
+        Rectangle cellRect = new Rectangle(0, 0, size.width, size.height);
+        Map<GroupableColumn, Rectangle> h = new HashMap<>();
+        int columnMargin = this.header.getColumnModel().getColumnMargin();
+
+        // Fehler bei columnMargin>0 werden die Header nicht mehr bündig zu den
+        // Columns gemalt !!!
+        columnMargin = 0;
+
+        Enumeration<TableColumn> enumeration = this.header.getColumnModel().getColumns();
+
+        while (enumeration.hasMoreElements())
+        {
+            cellRect.height = size.height;
+            cellRect.y = 0;
+
+            TableColumn aColumn = enumeration.nextElement();
+            List<Object> columnGroups = ((GroupableTableHeader) this.header).getColumnGroups(aColumn);
+
+            if (columnGroups != null)
+            {
+                int groupHeight = 0;
+
+                for (Object col : columnGroups)
+                {
+                    GroupableColumn cGroup = (GroupableColumn) col;
+                    Rectangle groupRect = h.get(cGroup);
+
+                    if (groupRect == null)
+                    {
+                        groupRect = new Rectangle(cellRect);
+
+                        Dimension d = cGroup.getSize(this.header.getTable());
+                        groupRect.width = d.width;
+                        groupRect.height = d.height;
+                        h.put(cGroup, groupRect);
+                    }
+
+                    paintCell(g, groupRect, cGroup);
+                    groupHeight += groupRect.height;
+                    cellRect.height = size.height - groupHeight;
+                    cellRect.y = groupHeight;
+                }
+            }
+
+            cellRect.width = aColumn.getWidth() + columnMargin;
+
+            if (cellRect.intersects(clipBounds))
+            {
+                paintCell(g, cellRect, column);
+            }
+
+            cellRect.x += cellRect.width;
+            column++;
+        }
+
+        h.clear();
+    }
+
+    /**
      * @param width long
+     *
      * @return {@link Dimension}
      */
     private Dimension createHeaderSize(final long width)
@@ -90,6 +188,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
 
     /**
      * @param columnIndex int
+     *
      * @return {@link Component}
      */
     private Component getHeaderRendererComponent(final int columnIndex)
@@ -103,102 +202,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         }
 
         return renderer.getTableCellRendererComponent(this.header.getTable(), aColumn.getHeaderValue(), false, false, -1, columnIndex);
-    }
-
-    /**
-     * @see javax.swing.plaf.basic.BasicTableHeaderUI#getPreferredSize(javax.swing.JComponent)
-     */
-    @Override
-    public Dimension getPreferredSize(final JComponent c)
-    {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = this.header.getColumnModel().getColumns();
-
-        while (enumeration.hasMoreElements())
-        {
-            TableColumn aColumn = enumeration.nextElement();
-            width += aColumn.getPreferredWidth();
-        }
-
-        return createHeaderSize(width);
-    }
-
-    /**
-     * @see javax.swing.plaf.basic.BasicTableHeaderUI#paint(java.awt.Graphics, javax.swing.JComponent)
-     */
-    @Override
-    public void paint(final Graphics g, final JComponent c)
-    {
-        Rectangle clipBounds = g.getClipBounds();
-
-        if (this.header.getColumnModel() == null)
-        {
-            return;
-        }
-
-        // Scheint 1. unnoetig und behebt ausserdem 2. das Problem der nicht buendigen ColumnHeader,
-        // die von Fall zu Fall durch das Setzen bzw. NichtSetzten der Margin auf 0 (s.u.)
-        // verursacht wurde.
-        // ((GroupableTableHeader) this.header).setColumnMargin();
-
-        int column = 0;
-        Dimension size = this.header.getSize();
-        Rectangle cellRect = new Rectangle(0, 0, size.width, size.height);
-        Map<GroupableColumn, Rectangle> h = new HashMap<>();
-        int columnMargin = this.header.getColumnModel().getColumnMargin();
-
-        // Fehler bei columnMargin>0 werden die Header nicht mehr buendig zu den
-        // Columns gemalt !!!
-        columnMargin = 0;
-
-        Enumeration<TableColumn> enumeration = this.header.getColumnModel().getColumns();
-
-        while (enumeration.hasMoreElements())
-        {
-            cellRect.height = size.height;
-            cellRect.y = 0;
-
-            TableColumn aColumn = enumeration.nextElement();
-            List<Object> columnGroups = ((GroupableTableHeader) this.header).getColumnGroups(aColumn);
-
-            if (columnGroups != null)
-            {
-                int groupHeight = 0;
-
-                for (Object col : columnGroups)
-                {
-                    GroupableColumn cGroup = (GroupableColumn) col;
-                    Rectangle groupRect = h.get(cGroup);
-
-                    if (groupRect == null)
-                    {
-                        groupRect = new Rectangle(cellRect);
-
-                        Dimension d = cGroup.getSize(this.header.getTable());
-                        groupRect.width = d.width;
-                        groupRect.height = d.height;
-                        h.put(cGroup, groupRect);
-                    }
-
-                    paintCell(g, groupRect, cGroup);
-                    groupHeight += groupRect.height;
-                    cellRect.height = size.height - groupHeight;
-                    cellRect.y = groupHeight;
-                }
-            }
-
-            cellRect.width = aColumn.getWidth() + columnMargin;
-
-            if (cellRect.intersects(clipBounds))
-            {
-                paintCell(g, cellRect, column);
-            }
-
-            cellRect.x += cellRect.width;
-            column++;
-        }
-
-        h.clear();
     }
 
     /**

@@ -1,8 +1,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * BasisClipboardConverter fuer Zahlen.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractNumberClipBoardConverter extends AbstractClipboardConverter

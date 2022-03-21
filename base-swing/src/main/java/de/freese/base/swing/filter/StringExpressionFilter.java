@@ -2,10 +2,11 @@ package de.freese.base.swing.filter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import de.freese.base.core.regex.RegEx;
 
 /**
- * Filtert eine Zeichenkette anhand eines regulaeren Ausdrucks.
+ * Filtert eine Zeichenkette anhand eines regulären Ausdrucks.
  *
  * @author Thomas Freese
  */
@@ -68,7 +69,7 @@ public class StringExpressionFilter extends AbstractTextFieldFilter
 
         if (object == null)
         {
-            // Kein Object zum filtern -> weg damit
+            // Kein Object zum Filtern -> weg damit
             return false;
         }
 

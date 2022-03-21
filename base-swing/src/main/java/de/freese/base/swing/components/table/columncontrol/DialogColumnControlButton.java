@@ -22,14 +22,13 @@ import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.icon.ColumnControlIcon;
-import org.jdesktop.swingx.table.TableColumnExt;
-
 import de.freese.base.swing.components.dialog.DialogFactory;
 import de.freese.base.swing.components.dialog.ExtDialog;
 import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.layout.GbcBuilder;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.icon.ColumnControlIcon;
+import org.jdesktop.swingx.table.TableColumnExt;
 
 /**
  * Button für einen Dialog/Popup der Tabelleneigenschaften der {@link ExtTable}.
@@ -43,21 +42,21 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      */
     public static final String COLUMN_CONTROL_DISABLED = "COLUMN_CONTROL_DISABLED";
     /**
-     *
-     */
-    private static final long serialVersionUID = -3076920096726720396L;
-    /**
      * Property für {@link PropertyChangeListener}, wenn Sichtbarkeit geändert.
      */
     public static final String TOGGLE_VISIBILITY = "toggleVisibility";
     /**
      *
      */
-    private int groupedColumnCount = 15;
+    private static final long serialVersionUID = -3076920096726720396L;
     /**
      *
      */
     private final JXTable table;
+    /**
+     *
+     */
+    private int groupedColumnCount = 15;
 
     /**
      * Erstellt ein neues {@link DialogColumnControlButton} Objekt.
@@ -76,6 +75,81 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         this.table = table;
 
         init();
+    }
+
+    /**
+     * Liefert die Anzahl der Spalten, welche untereinander dargestellt werden sollen.<br>
+     * Dieser Wert steuert dadurch die Höhe des Dialoges/Popup.
+     *
+     * @return int, Default 15
+     */
+    public int getGroupedColumnCount()
+    {
+        return this.groupedColumnCount;
+    }
+
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt)
+    {
+        if ("enabled".equals(evt.getPropertyName()))
+        {
+            updateFromTableEnabledChanged();
+        }
+    }
+
+    /**
+     * Setzt die Anzahl der Spalten, welche untereinander dargestellt werden sollen.<br>
+     * Dieser Wert steuert dadurch die Höhe des Dialoges/Popup.
+     *
+     * @param groupedColumnCount int
+     */
+    public void setGroupedColumnCount(final int groupedColumnCount)
+    {
+        this.groupedColumnCount = groupedColumnCount;
+    }
+
+    /**
+     * Zeigt den Dialog/Popup.<br>
+     * Feuert das {@link PropertyChangeEvent} "toggleVisibility", wenn die Spaltensichtbarkeit verändert wird.
+     */
+    public void showPopup()
+    {
+        Map<TableColumnExt, JComponent> columnComponentMap = new HashMap<>();
+
+        JPanel panel = new JPanel();
+        // panel.initGUI();
+        panel.setLayout(new GridBagLayout());
+
+        // Panel aufbauen.
+        populateColumns(panel, columnComponentMap);
+        populateAdditionalComponents(panel);
+        configureColumnComponents(panel, columnComponentMap);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(panel);
+
+        // int choice =
+        // JOptionPane.showOptionDialog(this, scrollPane,
+        // getAction().getValue(Action.SHORT_DESCRIPTION).toString(),
+        // JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        //
+        // if ((choice == JOptionPane.OK_OPTION) || (choice == JOptionPane.YES_OPTION))
+        // {
+        // toggleColumnVisibility(columnComponentMap);
+        // }
+        ExtDialog dialog = DialogFactory.createOkAbbrechen(this, getAction().getValue(Action.SHORT_DESCRIPTION).toString(), scrollPane, false);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        if (dialog.isYesOrOK())
+        {
+            toggleColumnVisibility(columnComponentMap);
+        }
+
+        columnComponentMap.clear();
     }
 
     /**
@@ -98,7 +172,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      */
     protected JComponent createColumnComponent(final TableColumnExt column)
     {
-        if (!isColumnControled(column))
+        if (!isColumnControlled(column))
         {
             return null;
         }
@@ -204,17 +278,6 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     /**
-     * Liefert die Anzahl der Spalten, welche untereinander dargestellt werden sollen.<br>
-     * Dieser Wert steuert dadurch die Höhe des Dialoges/Popup.
-     *
-     * @return int, Default 15
-     */
-    public int getGroupedColumnCount()
-    {
-        return this.groupedColumnCount;
-    }
-
-    /**
      * @return {@link JXTable}
      */
     protected JXTable getTable()
@@ -259,7 +322,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      *
      * @return boolean
      */
-    protected boolean isColumnControled(final TableColumnExt column)
+    protected boolean isColumnControlled(final TableColumnExt column)
     {
         Boolean controlDisabled = (Boolean) column.getClientProperty(COLUMN_CONTROL_DISABLED);
 
@@ -279,7 +342,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     protected void populateAdditionalComponents(final JPanel panel)
     {
         populatePackAll(panel);
-        populateExcelExort(panel);
+        populateExcelExport(panel);
     }
 
     /**
@@ -324,7 +387,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      *
      * @param panel {@link JPanel}
      */
-    protected void populateExcelExort(final JPanel panel)
+    protected void populateExcelExport(final JPanel panel)
     {
         Action action = createExcelExportAction();
 
@@ -342,70 +405,6 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         Action action = getTable().getActionMap().get(JXTable.PACKALL_ACTION_COMMAND);
         GridBagConstraints gbc = new GbcBuilder(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
         panel.add(new JButton(action), gbc);
-    }
-
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(final PropertyChangeEvent evt)
-    {
-        if ("enabled".equals(evt.getPropertyName()))
-        {
-            updateFromTableEnabledChanged();
-        }
-    }
-
-    /**
-     * Setzt die Anzahl der Spalten, welche untereinander dargestellt werden sollen.<br>
-     * Dieser Wert steuert dadurch die Höhe des Dialoges/Popup.
-     *
-     * @param groupedColumnCount int
-     */
-    public void setGroupedColumnCount(final int groupedColumnCount)
-    {
-        this.groupedColumnCount = groupedColumnCount;
-    }
-
-    /**
-     * Zeigt den Dialog/Popup.<br>
-     * Feuert das {@link PropertyChangeEvent} "toggleVisibility", wenn die Spaltensichtbarkeit verändert wird.
-     */
-    public void showPopup()
-    {
-        Map<TableColumnExt, JComponent> columnComponentMap = new HashMap<>();
-
-        JPanel panel = new JPanel();
-        // panel.initGUI();
-        panel.setLayout(new GridBagLayout());
-
-        // Panel aufbauen.
-        populateColumns(panel, columnComponentMap);
-        populateAdditionalComponents(panel);
-        configureColumnComponents(panel, columnComponentMap);
-
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setViewportView(panel);
-
-        // int choice =
-        // JOptionPane.showOptionDialog(this, scrollPane,
-        // getAction().getValue(Action.SHORT_DESCRIPTION).toString(),
-        // JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-        //
-        // if ((choice == JOptionPane.OK_OPTION) || (choice == JOptionPane.YES_OPTION))
-        // {
-        // toggleColumnVisibility(columnComponentMap);
-        // }
-        ExtDialog dialog = DialogFactory.createOkAbbrechen(this, getAction().getValue(Action.SHORT_DESCRIPTION).toString(), scrollPane, false);
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-
-        if (dialog.isYesOrOK())
-        {
-            toggleColumnVisibility(columnComponentMap);
-        }
-
-        columnComponentMap.clear();
     }
 
     /**

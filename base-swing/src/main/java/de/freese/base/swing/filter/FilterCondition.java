@@ -3,7 +3,7 @@ package de.freese.base.swing.filter;
 import de.freese.base.swing.SupportsPropertyChange;
 
 /**
- * Interface fuer eine Filterbedingung.
+ * Interface für eine Filterbedingung.
  *
  * @author Thomas Freese
  */

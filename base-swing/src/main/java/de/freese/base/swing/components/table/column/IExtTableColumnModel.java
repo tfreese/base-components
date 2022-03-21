@@ -6,7 +6,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * Interface fuer ein erweitertes ColumnModel.
+ * Interface für ein erweitertes ColumnModel.
  *
  * @author Thomas Freese
  */

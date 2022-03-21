@@ -1,7 +1,7 @@
 package de.freese.base.swing.components.list.renderer;
 
 /**
- * ListCellRenderer, dem ein Fieldname uebergeben wird, und der seine Objekte ueber Reflection zur Anzeige bringt.
+ * ListCellRenderer, dem ein FieldName übergeben wird, und der seine Objekte über Reflection zur Anzeige bringt.
  *
  * @author Thomas Freese
  */
@@ -14,7 +14,7 @@ public class GenericFieldListCellRenderer extends AbstractGenericListCellRendere
 
     /**
      * Creates a new {@link GenericFieldListCellRenderer} object.
-     * 
+     *
      * @param fieldName String
      */
     public GenericFieldListCellRenderer(final String fieldName)
@@ -24,7 +24,7 @@ public class GenericFieldListCellRenderer extends AbstractGenericListCellRendere
 
     /**
      * Creates a new {@link GenericFieldListCellRenderer} object.
-     * 
+     *
      * @param fieldName String
      * @param nullText String
      */

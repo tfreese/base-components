@@ -34,7 +34,7 @@ import de.freese.base.utils.ImageUtils;
 import org.jdesktop.swingx.JXTaskPane;
 
 /**
- * Ueberschreibt den ContentPaneBorder der SwingX UI der TaskPane, damit der Content nur 2 Pixel Abstand hat und nicht 10.
+ * Überschreibt den ContentPaneBorder der SwingX UI der TaskPane, damit der Content nur 2 Pixel Abstand hat und nicht 10.
  *
  * @author Thomas Freese
  */
@@ -118,7 +118,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
 
             if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
             {
-                // Rausfinden ob unter Courser ein Button liegt, dann Tooltip malen
+                // Rausfinden, ob unter Courser ein Button liegt, dann Tooltip malen
                 // Alternativ im ToggleListener.mouseMoved malen lassen
                 PointerInfo pointerInfo = MouseInfo.getPointerInfo();
                 Point point = new Point(pointerInfo.getLocation());
@@ -160,7 +160,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     }
 
     /**
-     * Listener fuer den Titel.
+     * Listener für den Titel.
      *
      * @author Thomas Freese
      */
@@ -230,9 +230,9 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
 
                     if (button != null)
                     {
-                        // Fuer den Tooltip
-                        // TODO Funktioniert so nicht, da der Button in keiner Komponentenhierachie
-                        // haengt, sondern nur gerendert wird.
+                        // Für den Tooltip
+                        // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierachie
+                        // hängt, sondern nur gerendert wird.
                         // MouseEvent evt =
                         // new MouseEvent(
                         // button, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(),
@@ -270,6 +270,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             }
         }
     }
+
     /**
      *
      */
@@ -294,7 +295,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     }
 
     /**
-     * Hinzufuegen eines Separators in den Title.
+     * Hinzufügen eines Separators in den Title.
      */
     public void addSeparator()
     {
@@ -302,7 +303,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     }
 
     /**
-     * Hinzufuegen eines Separators in den Title.
+     * Hinzufügen eines Separators in den Title.
      *
      * @param dimension {@link Dimension}
      */
@@ -312,7 +313,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     }
 
     /**
-     * Hinzufuegen eines Buttons in den Title.
+     * Hinzufügen eines Buttons in den Title.
      *
      * @param button {@link JButton}
      */
@@ -373,10 +374,10 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     {
         boolean result = super.isInBorder(me);
 
-        // Ueber eigene TitleButtons nicht den Courser aendern
+        // Über eigene TitleButtons nicht den Courser ändern
         if (result)
         {
-            // Pruefen, ob auf einem TitleButton geklickt wurde
+            // Prüfen, ob auf einem TitleButton geklickt wurde
             JButton button = getButtonFor(me.getX(), me.getY());
 
             if (button != null)
@@ -421,9 +422,9 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
                 double maxWidth = ExtWindowsClassicTaskPaneUI.this.group.getBounds().width; // Breite
                 // des
                 // TaskPanes
-                double diff = (textWidth + rectangle.getX()) - maxWidth; // ueberstand
+                double diff = (textWidth + rectangle.getX()) - maxWidth; // Überstand
                 int useX = (int) ((diff > 0) ? (rectangle.getX() - diff) : rectangle.getX());
-                int useY = (int) rectangle.getMaxY() + 16; // 16 : Hoehe des MouseIcons
+                int useY = (int) rectangle.getMaxY() + 16; // 16 : Höhe des MouseIcons
 
                 // Tooltip Background
                 Rectangle rect = new Rectangle(useX, useY, (int) textWidth, fm.getHeight() + 2);
@@ -499,7 +500,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             x -= 5; // Abstand zwischen Icons
         }
 
-        // Button selbst beruecksichtigen
+        // Button selbst berücksichtigen
         x -= button.getBounds().width; // TITLE_ICON_SIZE;
 
         // Rectangle rect = new Rectangle(x, 4, TITLE_ICON_SIZE, TITLE_ICON_SIZE);

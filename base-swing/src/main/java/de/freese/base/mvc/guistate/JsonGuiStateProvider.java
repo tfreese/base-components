@@ -2,6 +2,7 @@
 package de.freese.base.mvc.guistate;
 
 import java.nio.file.Path;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -11,7 +12,7 @@ import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
 /**
- * Der {@link JsonGuiStateProvider} nutzt den {@link LocalStorage} fuer das Speichern im JSON-Format.
+ * Der {@link JsonGuiStateProvider} nutzt den {@link LocalStorage} für das Speichern im JSON-Format.
  *
  * @author Thomas Freese
  */

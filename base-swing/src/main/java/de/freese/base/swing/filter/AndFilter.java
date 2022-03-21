@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Filter zum verknuepfen mehrerer Filter zu einer AND-Bedingung.<br>
- * Dieser Filter reagiert auf die Aenderungen seiner Filter und leitet das Event weiter.
+ * Filter zum Verknüpfen mehrerer Filter zu einer AND-Bedingung.<br>
+ * Dieser Filter reagiert auf die Änderungen seiner Filter und leitet das Event weiter.
  *
  * @author Thomas Freese
  */
@@ -24,11 +24,11 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     private PropertyChangeSupport propertyChangeSupport;
 
     /**
-     * Hinzufuegen eines oder mehrerer Filter.
+     * Hinzufügen eines oder mehrerer Filter.
      *
      * @param filters {@link FilterCondition}[]
      */
-    public void addFilter(final FilterCondition...filters)
+    public void addFilter(final FilterCondition... filters)
     {
         for (FilterCondition filter : filters)
         {
@@ -50,19 +50,6 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     public FilterCondition getFilter(final int index)
     {
         return getFilters().get(index);
-    }
-
-    /**
-     * @return {@link List}<IFilter>
-     */
-    protected List<FilterCondition> getFilters()
-    {
-        if (this.filters == null)
-        {
-            this.filters = new ArrayList<>();
-        }
-
-        return this.filters;
     }
 
     /**
@@ -95,7 +82,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     @Override
     public void propertyChange(final PropertyChangeEvent evt)
     {
-        // Falls sich die Bedingungen innerhalb eines Filters geaendert haben
+        // Falls sich die Bedingungen innerhalb eines Filters geändert haben
         if (Filter.FILTER_CHANGED.equals(evt.getPropertyName()))
         {
             getPropertyChangeSupport().firePropertyChange(evt);
@@ -103,7 +90,7 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
     }
 
     /**
-     * Entfernen eines Filter.
+     * Entfernen eines Filters.
      *
      * @param filter {@link Filter}
      */
@@ -128,5 +115,18 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
         }
 
         return true;
+    }
+
+    /**
+     * @return {@link List}<IFilter>
+     */
+    protected List<FilterCondition> getFilters()
+    {
+        if (this.filters == null)
+        {
+            this.filters = new ArrayList<>();
+        }
+
+        return this.filters;
     }
 }

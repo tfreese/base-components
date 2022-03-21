@@ -38,7 +38,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import de.freese.base.swing.layout.GbcBuilder;
 
 /**
- * Resizeable Dialog, bei dem das ActionHandling der Buttons manuell erfolgen kann, um Validierungen moeglich zu machen.<br>
+ * Resizeable Dialog, bei dem das ActionHandling der Buttons manuell erfolgen kann, um Validierungen möglich zu machen.<br>
  * Strings als Message werden in einer nicht editierbaren {@link JEditorPane} dargestellt, welche auch HTML aufnehmen kann.
  *
  * @author Thomas Freese
@@ -58,7 +58,8 @@ public class ExtDialog
         config.setMessage("Beispieltextdddddddddddddddddddddd<br>dddddddddddddddddddddddddddddddd");
         config.setOwner(null);
         // config.setModal(true);
-        config.setButtonActionListener(0, event -> {
+        config.setButtonActionListener(0, event ->
+        {
             System.out.println("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
             Toolkit.getDefaultToolkit().beep();
         });
@@ -132,8 +133,80 @@ public class ExtDialog
     }
 
     /**
-     * Konfiguriert die Buttons fuer den Dialog.
+     * @see JDialog#dispose()
+     */
+    public void dispose()
+    {
+        this.optionClicked = JOptionPane.CLOSED_OPTION;
+
+        this.dialog.dispose();
+    }
+
+    /**
+     * @return boolean
+     */
+    public boolean isCancel()
+    {
+        return this.optionClicked == JOptionPane.CANCEL_OPTION;
+    }
+
+    /**
+     * @return boolean
+     */
+    public boolean isClosed()
+    {
+        return this.optionClicked == JOptionPane.CLOSED_OPTION;
+    }
+
+    /**
+     * @return boolean
+     */
+    public boolean isNo()
+    {
+        return this.optionClicked == JOptionPane.NO_OPTION;
+    }
+
+    /**
+     * @return boolean
+     */
+    public boolean isYesOrOK()
+    {
+        return (this.optionClicked == JOptionPane.OK_OPTION) || (this.optionClicked == JOptionPane.YES_OPTION);
+    }
+
+    /**
+     * @param component {@link Component}
      *
+     * @see JDialog#setLocationRelativeTo(Component)
+     */
+    public void setLocationRelativeTo(final Component component)
+    {
+        this.dialog.setLocationRelativeTo(component);
+    }
+
+    /**
+     * @param resizable boolean
+     *
+     * @see JDialog#setResizable(boolean)
+     */
+    public void setResizable(final boolean resizable)
+    {
+        this.dialog.setResizable(resizable);
+    }
+
+    /**
+     * @param visible boolean
+     *
+     * @see JDialog#setVisible(boolean)
+     */
+    public void setVisible(final boolean visible)
+    {
+        this.optionClicked = JOptionPane.CLOSED_OPTION;
+
+        this.dialog.setVisible(visible);
+    }
+
+    /**
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -150,9 +223,9 @@ public class ExtDialog
         if (optionType == JOptionPane.DEFAULT_OPTION)
         {
             this.buttons = new JButton[]
-            {
-                    new JButton()
-            };
+                    {
+                            new JButton()
+                    };
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.okButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.okButtonMnemonic", locale));
@@ -163,9 +236,9 @@ public class ExtDialog
         else if (optionType == JOptionPane.YES_NO_OPTION)
         {
             this.buttons = new JButton[]
-            {
-                    new JButton(), new JButton()
-            };
+                    {
+                            new JButton(), new JButton()
+                    };
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.yesButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.yesButtonMnemonic", locale));
@@ -178,9 +251,9 @@ public class ExtDialog
         else if (optionType == JOptionPane.YES_NO_CANCEL_OPTION)
         {
             this.buttons = new JButton[]
-            {
-                    new JButton(), new JButton(), new JButton()
-            };
+                    {
+                            new JButton(), new JButton(), new JButton()
+                    };
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.yesButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.yesButtonMnemonic", locale));
@@ -197,9 +270,9 @@ public class ExtDialog
         else if (optionType == JOptionPane.OK_CANCEL_OPTION)
         {
             this.buttons = new JButton[]
-            {
-                    new JButton(), new JButton()
-            };
+                    {
+                            new JButton(), new JButton()
+                    };
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.okButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.okButtonMnemonic", locale));
@@ -278,8 +351,6 @@ public class ExtDialog
     }
 
     /**
-     * Konfiguriert das Icon fuer den Dialog.
-     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -303,8 +374,6 @@ public class ExtDialog
     }
 
     /**
-     * Konfiguriert die Listener fuer den Dialog.
-     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -319,7 +388,8 @@ public class ExtDialog
             dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
 
-        ActionListener defaultActionListener = event -> {
+        ActionListener defaultActionListener = event ->
+        {
             JComponent component = (JComponent) event.getSource();
             Object option = component.getClientProperty("option");
 
@@ -351,8 +421,6 @@ public class ExtDialog
     }
 
     /**
-     * Konfiguriert die Message fuer den Dialog.
-     *
      * @param dialog {@link JDialog}
      * @param config {@link ExtDialogConfig}
      */
@@ -386,18 +454,6 @@ public class ExtDialog
     }
 
     /**
-     * @see JDialog#dispose()
-     */
-    public void dispose()
-    {
-        this.optionClicked = JOptionPane.CLOSED_OPTION;
-
-        this.dialog.dispose();
-    }
-
-    /**
-     * Liefert den Text fuer einen Button.
-     *
      * @param buttonIndex int
      * @param uiKey String
      * @param locale {@link Locale}
@@ -492,97 +548,5 @@ public class ExtDialog
         }
 
         return 0;
-    }
-
-    /**
-     * Liefert true, wenn {@link JOptionPane#CANCEL_OPTION} gewaehlt wurde.
-     *
-     * @return boolean
-     */
-    public boolean isCancel()
-    {
-        if (this.optionClicked == JOptionPane.CANCEL_OPTION)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Liefert true, wenn {@link JOptionPane#CLOSED_OPTION} gewaehlt wurde.
-     *
-     * @return boolean
-     */
-    public boolean isClosed()
-    {
-        if (this.optionClicked == JOptionPane.CLOSED_OPTION)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Liefert true, wenn {@link JOptionPane#NO_OPTION} gewaehlt wurde.
-     *
-     * @return boolean
-     */
-    public boolean isNo()
-    {
-        if (this.optionClicked == JOptionPane.NO_OPTION)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Liefert true, wenn {@link JOptionPane#YES_OPTION} oder {@link JOptionPane#OK_OPTION} gewaehlt wurde.
-     *
-     * @return boolean
-     */
-    public boolean isYesOrOK()
-    {
-        if ((this.optionClicked == JOptionPane.OK_OPTION) || (this.optionClicked == JOptionPane.YES_OPTION))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param component {@link Component}
-     *
-     * @see JDialog#setLocationRelativeTo(Component)
-     */
-    public void setLocationRelativeTo(final Component component)
-    {
-        this.dialog.setLocationRelativeTo(component);
-    }
-
-    /**
-     * @param resizable boolean
-     *
-     * @see JDialog#setResizable(boolean)
-     */
-    public void setResizable(final boolean resizable)
-    {
-        this.dialog.setResizable(resizable);
-    }
-
-    /**
-     * @param visible boolean
-     *
-     * @see JDialog#setVisible(boolean)
-     */
-    public void setVisible(final boolean visible)
-    {
-        this.optionClicked = JOptionPane.CLOSED_OPTION;
-
-        this.dialog.setVisible(visible);
     }
 }

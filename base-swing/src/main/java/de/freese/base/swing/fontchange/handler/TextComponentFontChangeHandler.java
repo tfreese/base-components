@@ -3,10 +3,11 @@ package de.freese.base.swing.fontchange.handler;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+
 import javax.swing.text.JTextComponent;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung einer {@link JTextComponent}.
+ * Defaultimplementierung für die Font-Änderung einer {@link JTextComponent}.
  *
  * @author Thomas Freese
  */
@@ -25,7 +26,7 @@ public class TextComponentFontChangeHandler extends ComponentFontChangeHandler
         FontMetrics fontMetrics = textComponent.getFontMetrics(textComponent.getFont());
         int newHeight = fontMetrics.getMaxAscent() + fontMetrics.getMaxAscent() + 1;
 
-        // Noch etwas abnehmen, damit die JTextComponent nich zu hoch wird
+        // Noch etwas abnehmen, damit die JTextComponent nicht zu hoch wird.
         if (newFont.getSize() > 10)
         {
             newHeight -= fontMetrics.getDescent();

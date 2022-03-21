@@ -10,25 +10,20 @@ import java.util.List;
 import javax.swing.JRootPane;
 import javax.swing.RootPaneContainer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.utils.GuiUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * InputBlocker können für einen {@link AbstractSwingTask} die GUI-Elemente für die Eingabe blockieren.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ des Targets
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractInputBlocker<T> implements InputBlocker
 {
-    /**
-     *
-     */
-    private boolean changeMouseCursor;
     /**
      *
      */
@@ -36,11 +31,32 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     /**
      *
      */
-    private JRootPane rootPane;
+    private final List<T> targets = new ArrayList<>();
     /**
      *
      */
-    private final List<T> targets = new ArrayList<>();
+    private boolean changeMouseCursor;
+    /**
+     *
+     */
+    private JRootPane rootPane;
+
+    /**
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    @Override
+    public void propertyChange(final PropertyChangeEvent event)
+    {
+        // NO-OP
+    }
+
+    /**
+     * @param rootPane {@link JRootPane}
+     */
+    public void setRootPane(final JRootPane rootPane)
+    {
+        this.rootPane = rootPane;
+    }
 
     /**
      * @param target Object
@@ -137,16 +153,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     }
 
     /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(final PropertyChangeEvent event)
-    {
-        // NO-OP
-    }
-
-    /**
-     * Wenn false, wird der Mousecursor nicht veraendert.
+     * Wenn false, wird der MouseCursor nicht verändert.
      *
      * @param changeMouseCursor boolean
      */
@@ -156,7 +163,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     }
 
     /**
-     * Ändert den Mousecursor.
+     * Ändert den MouseCursor.
      *
      * @param busy boolean
      */
@@ -182,13 +189,5 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
         {
             rp.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
-    }
-
-    /**
-     * @param rootPane {@link JRootPane}
-     */
-    public void setRootPane(final JRootPane rootPane)
-    {
-        this.rootPane = rootPane;
     }
 }

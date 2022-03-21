@@ -11,8 +11,6 @@ import javax.swing.JTextField;
 import de.freese.base.swing.layout.GbcBuilder;
 
 /**
- * Panel für die Fibonacci Demo.
- *
  * @author Thomas Freese
  */
 public class FibonacciPanel extends JPanel

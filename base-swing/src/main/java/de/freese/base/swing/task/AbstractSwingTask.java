@@ -10,10 +10,9 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+import de.freese.base.swing.task.inputblocker.InputBlocker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.swing.task.inputblocker.InputBlocker;
 
 /**
  * Erweitert den {@link SwingWorker} um diverse Methoden und bietet die Möglichkeit detailliertere Listener zu verwenden.<br>
@@ -32,15 +31,15 @@ import de.freese.base.swing.task.inputblocker.InputBlocker;
  * <li>subtitle</li>
  * </ul>
  *
- * @author Thomas Freese
- *
  * @param <T> Typ der {@link #doInBackground()} Methode
  * @param <V> Typ der {@link #publish(Object...)} Methode
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implements SwingTask
 {
     /**
-     * PropertyChangeListener auf die Properties des {@link SwingWorker}s. Dieser wird durch den Swingworker im EDT gefeuert.<br>
+     * PropertyChangeListener auf die Properties des {@link SwingWorker}s. Dieser wird durch den SwingWorker im EDT gefeuert.<br>
      *
      * @author Thomas Freese
      */
@@ -125,19 +124,19 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      *
      */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
+    private final String name;
+    /**
+     *
+     */
     private long doneTime = -1L;
     /**
      *
      */
     private InputBlocker inputBlocker;
-    /**
-     *
-     */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     * Interner Name des Tasks.
-     */
-    private final String name;
     /**
      *
      */
@@ -147,11 +146,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     private long startTime = -1L;
     /**
-     * Untertitel des Tasks fuer ProgressBars oder aehnliches,.
+     *
      */
     private String subTitle;
     /**
-     * Titel des Tasks fuer ProgressBars oder aehnliches,.
+     *
      */
     private String title;
 
@@ -166,7 +165,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      * Erstellt ein neues {@link AbstractSwingTask} Object.
      *
-     * @param name {@link String}, Systemweit Einheitliche ID oder aehnliches.
+     * @param name {@link String}
      */
     protected AbstractSwingTask(final String name)
     {
@@ -185,6 +184,154 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
+     * Liefert die Zeiteinheit, wie lange der Task bis jetzt läuft.
+     *
+     * @param unit {@link TimeUnit}
+     *
+     * @return long
+     */
+    public long getCurrentDuration(final TimeUnit unit)
+    {
+        long sTime;
+        long currentTime;
+
+        synchronized (this)
+        {
+            sTime = this.startTime;
+            currentTime = System.currentTimeMillis();
+        }
+
+        return getDuration(unit, sTime, currentTime);
+    }
+
+    /**
+     * Returns the length of time this Task has run. If the task hasn't started yet (i.e. if its state is still {@code StateValue.PENDING}), then this method
+     * returns 0. Otherwise, it returns the duration in the specified time units. For example, to learn how many seconds a Task has run so far:
+     *
+     * <pre>
+     * long nSeconds = myTask.getExecutionDuration(TimeUnit.SECONDS);
+     * </pre>
+     *
+     * @param unit the time unit of the return value
+     *
+     * @return the length of time this Task has run.
+     *
+     * @see #execute
+     */
+    public long getExecutionDuration(final TimeUnit unit)
+    {
+        long sTime;
+        long dTime;
+
+        synchronized (this)
+        {
+            sTime = this.startTime;
+            dTime = this.doneTime;
+        }
+
+        return getDuration(unit, sTime, dTime);
+    }
+
+    /**
+     * @return {@link InputBlocker}
+     */
+    public InputBlocker getInputBlocker()
+    {
+        return this.inputBlocker;
+    }
+
+    // /**
+    // * Called unconditionally (in a {@code finally} clause) after one of the completion methods, {@code succeeded}, {@code failed}, {@code cancelled}, or
+    // * {@code interrupted}, runs. Subclasses can override this method to clean up before the {@code done} method returns.
+    // * <p>
+    // * This method runs on the EDT. It does nothing by default.
+    // *
+    // * @see #done
+    // * @see #get
+    // * @see #failed
+    // */
+    // protected void finished()
+    // {
+    // // NO-OP
+    // }
+
+    /**
+     * @return String
+     */
+    public String getName()
+    {
+        return this.name;
+    }
+
+    /**
+     * @return String
+     */
+    public String getSubTitle()
+    {
+        return this.subTitle;
+    }
+
+    /**
+     * @return String
+     */
+    public String getTitle()
+    {
+        return this.title;
+    }
+
+    /**
+     * Equivalent to {@code getState() == StateValue.PENDING}.
+     * <p>
+     * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly, when a started
+     * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
+     *
+     * @return boolean
+     */
+    public final boolean isPending()
+    {
+        return getState() == StateValue.PENDING;
+    }
+
+    /**
+     * Returns true if the {@link #setProgress progress} property has been set. Some Tasks don't update the progress property because it's difficult or
+     * impossible to determine how what percentage of the task has been completed. GUI elements that display Task progress, like an application status bar, can
+     * use this property to set the @{link JProgressBar#indeterminate indeterminate} @{code JProgressBar} property.
+     * <p>
+     * A task that does keep the progress property up to date should initialize it to 0, to ensure that {@code isProgressPropertyValid} is always true.
+     *
+     * @return true if the {@link #setProgress progress} property has been set.
+     *
+     * @see #setProgress
+     */
+    public synchronized boolean isProgressPropertyValid()
+    {
+        return this.progressPropertyIsValid;
+    }
+
+    /**
+     * Equivalent to {@code getState() == StateValue.STARTED}.
+     * <p>
+     * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly, when a started
+     * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
+     *
+     * @return boolean
+     */
+    public final boolean isStarted()
+    {
+        return getState() == StateValue.STARTED;
+    }
+
+    /**
+     * @param inputBlocker {@link InputBlocker}
+     */
+    public void setInputBlocker(final InputBlocker inputBlocker)
+    {
+        this.inputBlocker = Objects.requireNonNull(inputBlocker, "inputBlocker required");
+
+        addPropertyChangeListener(this.inputBlocker);
+    }
+
+    /**
      * Called when this Task has been cancelled by {@link #cancel(boolean)}.
      * <p>
      * This method runs on the EDT. It does nothing by default.
@@ -196,13 +343,29 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         // Empty
     }
 
+    // /**
+    // * Called if the Task's Thread is interrupted but not explicitly cancelled.
+    // * <p>
+    // * This method runs on the EDT. It does nothing by default.
+    // *
+    // * @param ex the {@code InterruptedException} thrown by {@code get}
+    // * @see #cancel
+    // * @see #done
+    // * @see #get
+    // */
+    // protected void interrupted(final InterruptedException ex)
+    // {
+    // getLogger().error(null, ex);
+    // }
+
     /**
      * @see javax.swing.SwingWorker#done()
      */
     @Override
     protected final void done()
     {
-        Runnable runnable = () -> {
+        Runnable runnable = () ->
+        {
             // try
             // {
             if (isCancelled())
@@ -242,7 +405,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when an execution of this Task fails and an {@code ExecutionExecption} is thrown by {@code get}.
+     * Called when an execution of this Task fails and an {@code ExecutionException} is thrown by {@code get}.
      * <p>
      * This method runs on the EDT. It Logs an error message by default.
      *
@@ -257,107 +420,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         getLogger().error(null, cause);
     }
 
-    // /**
-    // * Called unconditionally (in a {@code finally} clause) after one of the completion methods, {@code succeeded}, {@code failed}, {@code cancelled}, or
-    // * {@code interrupted}, runs. Subclasses can override this method to cleanup before the {@code done} method returns.
-    // * <p>
-    // * This method runs on the EDT. It does nothing by default.
-    // *
-    // * @see #done
-    // * @see #get
-    // * @see #failed
-    // */
-    // protected void finished()
-    // {
-    // // NO-OP
-    // }
-
-    /**
-     * Liefert die Zeiteinheit, wie lange der Task bis jetzt laeuft.
-     *
-     * @param unit {@link TimeUnit}
-     *
-     * @return long
-     */
-    public long getCurrentDuration(final TimeUnit unit)
-    {
-        long sTime;
-        long currentTime;
-
-        synchronized (this)
-        {
-            sTime = this.startTime;
-            currentTime = System.currentTimeMillis();
-        }
-
-        return getDuration(unit, sTime, currentTime);
-    }
-
-    /**
-     * Liefert die Zeiteinheit der Start und Endzeit.
-     *
-     * @param unit {@link TimeUnit}
-     * @param startTime long
-     * @param endTime long
-     *
-     * @return long
-     */
-    private long getDuration(final TimeUnit unit, final long startTime, final long endTime)
-    {
-        long dt;
-
-        if (startTime == -1L)
-        {
-            dt = 0L;
-        }
-        else if (endTime == -1L)
-        {
-            dt = System.currentTimeMillis() - startTime;
-        }
-        else
-        {
-            dt = endTime - startTime;
-        }
-
-        return unit.convert(Math.max(0L, dt), TimeUnit.MILLISECONDS);
-    }
-
-    /**
-     * Returns the length of time this Task has run. If the task hasn't started yet (i.e. if its state is still {@code StateValue.PENDING}), then this method
-     * returns 0. Otherwise it returns the duration in the specified time units. For example, to learn how many seconds a Task has run so far:
-     *
-     * <pre>
-     * long nSeconds = myTask.getExecutionDuration(TimeUnit.SECONDS);
-     * </pre>
-     *
-     * @param unit the time unit of the return value
-     *
-     * @return the length of time this Task has run.
-     *
-     * @see #execute
-     */
-    public long getExecutionDuration(final TimeUnit unit)
-    {
-        long sTime;
-        long dTime;
-
-        synchronized (this)
-        {
-            sTime = this.startTime;
-            dTime = this.doneTime;
-        }
-
-        return getDuration(unit, sTime, dTime);
-    }
-
-    /**
-     * @return {@link InputBlocker}
-     */
-    public InputBlocker getInputBlocker()
-    {
-        return this.inputBlocker;
-    }
-
     /**
      * @return {@link Logger}
      */
@@ -367,109 +429,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Liefert den Namen des Tasks, Systemweit Einheitliche ID oder ähnliches.
-     *
-     * @return String
-     */
-    public String getName()
-    {
-        return this.name;
-    }
-
-    /**
-     * Liefert den Untertitel des Tasks, zb. fuer ProgressBars etc.
-     *
-     * @return String
-     */
-    public String getSubTitle()
-    {
-        return this.subTitle;
-    }
-
-    /**
-     * Liefert den Titel des Tasks, zb. fuer ProgressBars etc.
-     *
-     * @return String
-     */
-    public String getTitle()
-    {
-        return this.title;
-    }
-
-    // /**
-    // * Called if the Task's Thread is interrupted but not explicitly cancelled.
-    // * <p>
-    // * This method runs on the EDT. It does nothing by default.
-    // *
-    // * @param ex the {@code InterruptedException} thrown by {@code get}
-    // * @see #cancel
-    // * @see #done
-    // * @see #get
-    // */
-    // protected void interrupted(final InterruptedException ex)
-    // {
-    // getLogger().error(null, ex);
-    // }
-
-    /**
-     * Equivalent to {@code getState() == StateValue.PENDING}.
-     * <p>
-     * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly when a started
-     * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
-     *
-     * @return boolean
-     */
-    public final boolean isPending()
-    {
-        return getState() == StateValue.PENDING;
-    }
-
-    /**
-     * Returns true if the {@link #setProgress progress} property has been set. Some Tasks don't update the progress property because it's difficult or
-     * impossible to determine how what percentage of the task has been completed. GUI elements that display Task progress, like an application status bar, can
-     * use this property to set the @{link JProgressBar#indeterminate indeterminate} @{code JProgressBar} property.
-     * <p>
-     * A task that does keep the progress property up to date should initialize it to 0, to ensure that {@code isProgressPropertyValid} is always true.
-     *
-     * @return true if the {@link #setProgress progress} property has been set.
-     *
-     * @see #setProgress
-     */
-    public synchronized boolean isProgressPropertyValid()
-    {
-        return this.progressPropertyIsValid;
-    }
-
-    /**
-     * Equivalent to {@code getState() == StateValue.STARTED}.
-     * <p>
-     * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly when a started
-     * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
-     *
-     * @return boolean
-     */
-    public final boolean isStarted()
-    {
-        return getState() == StateValue.STARTED;
-    }
-
-    /**
      * @see javax.swing.SwingWorker#process(java.util.List)
      */
     @Override
     protected void process(final List<V> chunks)
     {
         firePropertyChange(PROPERTY_PROCESS, null, chunks);
-    }
-
-    /**
-     * @param inputBlocker {@link InputBlocker}
-     */
-    public void setInputBlocker(final InputBlocker inputBlocker)
-    {
-        this.inputBlocker = Objects.requireNonNull(inputBlocker, "inputBlocker required");
-
-        addPropertyChangeListener(this.inputBlocker);
     }
 
     /**
@@ -577,8 +542,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Setzt den Untertitel des Tasks, zb. fuer ProgressBars etc.
-     *
      * @param subTitle String
      */
     protected void setSubTitle(final String subTitle)
@@ -591,8 +554,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Setzt den Titel des Tasks, zb. fuer ProgressBars etc.
-     *
      * @param title String
      */
     protected void setTitle(final String title)
@@ -620,5 +581,34 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     protected void succeeded(final T result)
     {
         // Empty
+    }
+
+    /**
+     * Liefert die Zeiteinheit der Start und Endzeit.
+     *
+     * @param unit {@link TimeUnit}
+     * @param startTime long
+     * @param endTime long
+     *
+     * @return long
+     */
+    private long getDuration(final TimeUnit unit, final long startTime, final long endTime)
+    {
+        long dt;
+
+        if (startTime == -1L)
+        {
+            dt = 0L;
+        }
+        else if (endTime == -1L)
+        {
+            dt = System.currentTimeMillis() - startTime;
+        }
+        else
+        {
+            dt = endTime - startTime;
+        }
+
+        return unit.convert(Math.max(0L, dt), TimeUnit.MILLISECONDS);
     }
 }

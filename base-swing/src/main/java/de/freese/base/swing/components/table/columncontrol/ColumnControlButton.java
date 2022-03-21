@@ -10,7 +10,7 @@ import de.freese.base.swing.components.table.column.IExtTableColumnModel;
 import de.freese.base.swing.icon.ColumnControlIcon;
 
 /**
- * Button fuer die Spaltenkontrolle.
+ * Button für die Spaltenkontrolle.
  *
  * @author Thomas Freese
  */
@@ -23,11 +23,11 @@ public class ColumnControlButton extends JButton
     /**
      *
      */
-    private ColumnControlWindow columnControlWindow;
+    private final List<ExtTable> tables = new ArrayList<>();
     /**
      *
      */
-    private final List<ExtTable> tables = new ArrayList<>();
+    private ColumnControlWindow columnControlWindow;
 
     /**
      * Erstellt ein neues {@link ColumnControlButton} Object.
@@ -45,11 +45,20 @@ public class ColumnControlButton extends JButton
 
         this.tables.add(table);
         setIcon(new ColumnControlIcon());
-        addActionListener(e -> {
+        addActionListener(e ->
+        {
             getColumnControlWindow().clear();
             getColumnControlWindow().fill();
             getColumnControlWindow().show();
         });
+    }
+
+    /**
+     * @return {@link List}
+     */
+    public List<ExtTable> getTables()
+    {
+        return this.tables;
     }
 
     /**
@@ -73,13 +82,5 @@ public class ColumnControlButton extends JButton
         }
 
         return this.columnControlWindow;
-    }
-
-    /**
-     * @return {@link List}
-     */
-    public List<ExtTable> getTables()
-    {
-        return this.tables;
     }
 }

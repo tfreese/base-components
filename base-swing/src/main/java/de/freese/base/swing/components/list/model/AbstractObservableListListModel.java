@@ -13,11 +13,11 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 /**
- * Basis {@link ListModel}, welches die Verwendung einer {@link ObservableList} ermoeglicht.
- *
- * @author Thomas Freese
+ * Basis {@link ListModel}, welches die Verwendung einer {@link ObservableList} ermöglicht.
  *
  * @param <T> Typ der Entity
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T>
 {
@@ -48,6 +48,65 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      */
     @Override
     public synchronized void addListDataListener(final ListDataListener listener)
+    {
+        this.eventListenerList.add(ListDataListener.class, listener);
+    }
+
+    /**
+     * @see javax.swing.ListModel#getElementAt(int)
+     */
+    @Override
+    public T getElementAt(final int index)
+    {
+        return getList().get(index);
+    }
+
+    /**
+     * @see javax.swing.ListModel#getSize()
+     */
+    @Override
+    public int getSize()
+    {
+        return getList().size();
+    }
+
+    /**
+     * @see javafx.collections.ListChangeListener#onChanged(javafx.collections.ListChangeListener.Change)
+     */
+    @Override
+    public void onChanged(final Change<? extends T> change)
+    {
+        while (change.next())
+        {
+            if (change.wasAdded())
+            {
+                int firstRow = change.getFrom();
+                int lastRow = change.getTo();
+
+                fireIntervalAdded(change.getList(), firstRow, lastRow);
+            }
+            else if (change.wasRemoved())
+            {
+                int firstRow = change.getFrom();
+                int lastRow = change.getTo();
+
+                fireIntervalRemoved(change.getList(), firstRow, lastRow);
+            }
+            else
+            {
+                fireContentsChanged(change.getList(), 0, getSize());
+
+                // 1x reicht
+                return;
+            }
+        }
+    }
+
+    /**
+     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
+     */
+    @Override
+    public synchronized void removeListDataListener(final ListDataListener listener)
     {
         this.eventListenerList.add(ListDataListener.class, listener);
     }
@@ -144,15 +203,6 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
     }
 
     /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
-    @Override
-    public T getElementAt(final int index)
-    {
-        return getList().get(index);
-    }
-
-    /**
      * Liefert die Liste des ListModels.
      *
      * @return {@link ObservableList}
@@ -160,55 +210,5 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
     protected ObservableList<T> getList()
     {
         return this.list;
-    }
-
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
-    @Override
-    public int getSize()
-    {
-        return getList().size();
-    }
-
-    /**
-     * @see javafx.collections.ListChangeListener#onChanged(javafx.collections.ListChangeListener.Change)
-     */
-    @Override
-    public void onChanged(final Change<? extends T> change)
-    {
-        while (change.next())
-        {
-            if (change.wasAdded())
-            {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
-
-                fireIntervalAdded(change.getList(), firstRow, lastRow);
-            }
-            else if (change.wasRemoved())
-            {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
-
-                fireIntervalRemoved(change.getList(), firstRow, lastRow);
-            }
-            else
-            {
-                fireContentsChanged(change.getList(), 0, getSize());
-
-                // 1x reicht
-                return;
-            }
-        }
-    }
-
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
-    @Override
-    public synchronized void removeListDataListener(final ListDataListener listener)
-    {
-        this.eventListenerList.add(ListDataListener.class, listener);
     }
 }

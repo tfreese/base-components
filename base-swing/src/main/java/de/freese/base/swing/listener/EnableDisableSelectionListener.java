@@ -14,7 +14,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 /**
  * Diese Klasse dient als {@link ListSelectionListener} oder {@link TreeSelectionListener}.<br>
- * Sie deaktiviert oder aktiviert eine Componente/Action, je nachdem ob<br>
+ * Sie deaktiviert oder aktiviert eine Component/Action, je nachdem ob<br>
  * eine Auswahl in einem {@link ListSelectionModel} oder {@link TreeSelectionListener} getroffen wurde.
  *
  * @author Thomas Freese
@@ -22,7 +22,7 @@ import javax.swing.tree.TreeSelectionModel;
 public class EnableDisableSelectionListener implements ListSelectionListener, TreeSelectionListener
 {
     /**
-     * Interface als Adapter um Componenten oder Actions zu kapseln.
+     * Interface als Adapter um Komponenten oder Actions zu kapseln.
      *
      * @author Thomas Freese
      */
@@ -66,34 +66,6 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         this.adapter = component::setEnabled;
 
         this.adapter.setEnabled(false);
-    }
-
-    /**
-     * Bestimmt, ob die Komponente aktiviert werden soll.
-     *
-     * @param e {@link ListSelectionEvent}
-     * @param selectionModel {@link ListSelectionModel}
-     *
-     * @return <code>true</code> wenn ja, sonst <code>false</code>
-     */
-    protected boolean componentEnabled(final ListSelectionEvent e, final ListSelectionModel selectionModel)
-    {
-        // Moeglicher Nullpointer wird hier bewusst NICHT abgefangen !
-        return !selectionModel.isSelectionEmpty();
-    }
-
-    /**
-     * Bestimmt, ob die Komponente aktiviert werden soll.
-     *
-     * @param e {@link TreeSelectionEvent}
-     * @param selectionModel {@link TreeSelectionModel}
-     *
-     * @return <code>true</code> wenn ja, sonst <code>false</code>
-     */
-    protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel)
-    {
-        // Moeglicher Nullpointer wird hier bewusst NICHT abgefangen !
-        return !selectionModel.isSelectionEmpty();
     }
 
     /**
@@ -143,5 +115,33 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         }
 
         this.adapter.setEnabled(componentEnabled(e, selectionModel));
+    }
+
+    /**
+     * Bestimmt, ob die Komponente aktiviert werden soll.
+     *
+     * @param e {@link ListSelectionEvent}
+     * @param selectionModel {@link ListSelectionModel}
+     *
+     * @return <code>true</code> wenn ja, sonst <code>false</code>
+     */
+    protected boolean componentEnabled(final ListSelectionEvent e, final ListSelectionModel selectionModel)
+    {
+        // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
+        return !selectionModel.isSelectionEmpty();
+    }
+
+    /**
+     * Bestimmt, ob die Komponente aktiviert werden soll.
+     *
+     * @param e {@link TreeSelectionEvent}
+     * @param selectionModel {@link TreeSelectionModel}
+     *
+     * @return <code>true</code> wenn ja, sonst <code>false</code>
+     */
+    protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel)
+    {
+        // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
+        return !selectionModel.isSelectionEmpty();
     }
 }

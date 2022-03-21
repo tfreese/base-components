@@ -1,8 +1,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * ClipboardConverter fuer Long.
- *
  * @author Thomas Freese
  */
 public class LongClipBoardConverter extends AbstractNumberClipBoardConverter

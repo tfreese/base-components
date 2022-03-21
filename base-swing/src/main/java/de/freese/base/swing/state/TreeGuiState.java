@@ -137,25 +137,25 @@ public class TreeGuiState extends AbstractGuiState
             if (treePath != null)
             {
                 int count = treePath.getPathCount();
-                int[] indeces = new int[count - 1];
+                int[] indices = new int[count - 1];
                 Object parent = model.getRoot();
 
                 for (int counter = 1; counter < count; counter++)
                 {
                     Object pathComponent = treePath.getPathComponent(counter);
 
-                    indeces[counter - 1] = model.getIndexOfChild(parent, pathComponent);
+                    indices[counter - 1] = model.getIndexOfChild(parent, pathComponent);
                     parent = treePath.getPathComponent(counter);
 
-                    if (indeces[counter - 1] < 0)
+                    if (indices[counter - 1] < 0)
                     {
                         break;
                     }
                 }
 
-                if (indeces.length > 0)
+                if (indices.length > 0)
                 {
-                    this.expansionIndices.add(indeces);
+                    this.expansionIndices.add(indices);
                 }
             }
         }

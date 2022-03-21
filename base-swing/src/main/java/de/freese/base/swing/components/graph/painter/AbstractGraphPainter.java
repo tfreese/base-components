@@ -5,7 +5,9 @@ import java.awt.AlphaComposite;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+
 import javax.swing.Painter;
+
 import de.freese.base.swing.components.graph.AbstractGraphComponent;
 import de.freese.base.swing.components.graph.model.AbstractPainterModel;
 
@@ -21,6 +23,28 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     {
         super();
     }
+
+    /**
+     * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
+     */
+    @Override
+    public void paint(final Graphics2D g, final Component parent, final int width, final int height)
+    {
+        configureGraphics(g, parent);
+        configureBackground(g, parent, width, height);
+
+        paintGraph(g, parent, width, height);
+
+        // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
+    }
+
+    /**
+     * @param g {@link Graphics2D}
+     * @param parent {@link Component}
+     * @param width float
+     * @param height float
+     */
+    public abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
 
     /**
      * Der Default-Background wird vom Panel/Frame entnommen.
@@ -68,28 +92,6 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     }
 
     /**
-     * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
-     */
-    @Override
-    public void paint(final Graphics2D g, final Component parent, final int width, final int height)
-    {
-        configureGraphics(g, parent);
-        configureBackground(g, parent, width, height);
-
-        paintGraph(g, parent, width, height);
-
-        // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
-    }
-
-    /**
-     * @param g {@link Graphics2D}
-     * @param parent {@link Component}
-     * @param width float
-     * @param height float
-     */
-    public abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
-
-    /**
      * Koordinatenursprung von oben links nach unten links verlegen.
      *
      * @param g {@link Graphics2D}
@@ -97,7 +99,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
      */
     protected void translateCoordinates(final Graphics2D g, final int height)
     {
-        // Kippt die Y-Achse nach oben.
+        // Kippt die y-Achse nach oben.
         g.scale(1.0D, -1.0D);
 
         // Verschiebt die 0-0 Koordinate nach unten.

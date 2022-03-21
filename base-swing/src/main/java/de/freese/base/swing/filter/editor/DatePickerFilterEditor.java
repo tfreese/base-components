@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 import de.freese.base.swing.components.datepicker.DatePicker;
 
 /**
- * Editor fuer das Filtern von Tabellen fuer {@link Date}s.
+ * Editor für das Filtern von Tabellen für {@link Date}s.
  *
  * @author Thomas Freese
  */
@@ -64,7 +64,7 @@ public class DatePickerFilterEditor extends DatePicker implements FilterEditor
     {
         // return getClass().getSimpleName();
 
-        // "date" trigert das comit im DatePicker an
+        // "date" triggert das commit im DatePicker an
         return "date";
     }
 

@@ -21,12 +21,12 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
          */
         DOWN,
         /**
-        *
-        */
+         *
+         */
         LEFT,
         /**
-        *
-        */
+         *
+         */
         RIGHT,
         /**
          *
@@ -35,7 +35,7 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
         /**
          *
          */
-        UP;
+        UP
     }
 
     /**

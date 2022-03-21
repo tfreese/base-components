@@ -24,12 +24,11 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableColumn;
 
-import org.jdesktop.swingx.plaf.UIAction;
-
 import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
 import de.freese.base.swing.layout.VerticalLayout;
+import org.jdesktop.swingx.plaf.UIAction;
 
 /**
  * Window des {@link ColumnControlButton}.
@@ -116,7 +115,8 @@ public class ColumnControlWindow implements AWTEventListener
                 JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem();
                 menuItem.setSelected(extTableColumn.isVisible());
                 menuItem.setText(tableColumn.getHeaderValue().toString());
-                menuItem.addActionListener(e -> {
+                menuItem.addActionListener(e ->
+                {
                     JCheckBoxMenuItem menuItem1 = (JCheckBoxMenuItem) e.getSource();
 
                     extTableColumn.setVisible(menuItem1.isSelected());
@@ -155,7 +155,29 @@ public class ColumnControlWindow implements AWTEventListener
     }
 
     /**
-     * Ermittelt rekursiv den Frame, zu dem diese Komponente gehoert.
+     * Anzeigen der GUI.
+     */
+    public void show()
+    {
+        getWindow().setVisible(true);
+
+        Dimension windowSize = getWindow().getSize();
+
+        int dX = this.controlButton.getComponentOrientation().isLeftToRight() ? (-windowSize.width) : 0;
+
+        Point pt = this.controlButton.getLocationOnScreen();
+        pt.translate(dX, 0);
+        getWindow().setLocation(pt);
+        getWindow().pack();
+        getWindow().setVisible(true);
+        getWindow().toFront();
+        getWindow().requestFocusInWindow();
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(ColumnControlWindow.this, AWTEvent.MOUSE_EVENT_MASK);
+    }
+
+    /**
+     * Ermittelt rekursiv den Frame, zu dem diese Komponente gehört.
      *
      * @param comp {@link Component}
      *
@@ -233,7 +255,7 @@ public class ColumnControlWindow implements AWTEventListener
     }
 
     /**
-     * Bestimmt ob die Uebergebendene Komponente in den Unterkomponenten vorkommt.
+     * Bestimmt, ob die übergebene Komponente in den Unterkomponenten vorkommt.
      *
      * @param src Component
      * @param component Component
@@ -251,27 +273,5 @@ public class ColumnControlWindow implements AWTEventListener
         }
 
         return false;
-    }
-
-    /**
-     * Anzeigen der GUI.
-     */
-    public void show()
-    {
-        getWindow().setVisible(true);
-
-        Dimension windowSize = getWindow().getSize();
-
-        int dX = this.controlButton.getComponentOrientation().isLeftToRight() ? (-windowSize.width) : 0;
-
-        Point pt = this.controlButton.getLocationOnScreen();
-        pt.translate(dX, 0);
-        getWindow().setLocation(pt);
-        getWindow().pack();
-        getWindow().setVisible(true);
-        getWindow().toFront();
-        getWindow().requestFocusInWindow();
-
-        Toolkit.getDefaultToolkit().addAWTEventListener(ColumnControlWindow.this, AWTEvent.MOUSE_EVENT_MASK);
     }
 }

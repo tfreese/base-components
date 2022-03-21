@@ -3,7 +3,7 @@ package de.freese.base.swing.fontchange;
 import java.awt.Font;
 
 /**
- * Interface fuer eine Klasse zum aendern eines Fonts eine Objectes.
+ * Interface für eine Klasse zum Ändern eines Fonts eines Objektes.
  *
  * @author Thomas Freese
  */

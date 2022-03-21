@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * BasisListCellRenderer, der seine Objekte ueber Reflection zur Anzeige bringt.
+ * BasisListCellRenderer, der seine Objekte über Reflection zur Anzeige bringt.
  *
  * @author Thomas Freese
  */
@@ -109,7 +109,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     }
 
     /**
-     * Liefert mit Hilfe eines Attributes den Wert eines bestimmten Objektes.
+     * Liefert mithilfe eines Attributes den Wert eines bestimmten Objektes.
      *
      * @param object Object
      * @param attribute String
@@ -121,7 +121,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     protected abstract String getString(Object object, String attribute) throws Exception;
 
     /**
-     * Aufrufen des Methodennames des Values.
+     * Aufrufen des Methoden Names des Values.
      *
      * @param value Object
      * @param fieldName String
@@ -138,7 +138,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     }
 
     /**
-     * Aufrufen des Methodennames des Values.
+     * Aufrufen des Methoden Names des Values.
      *
      * @param value Object
      * @param methodName String

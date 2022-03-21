@@ -4,8 +4,6 @@ import de.freese.base.mvc.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * Konkrete Implementierung der IView.
- *
  * @author Thomas Freese
  */
 public class DefaultFibonacciView extends AbstractView implements FibonacciView

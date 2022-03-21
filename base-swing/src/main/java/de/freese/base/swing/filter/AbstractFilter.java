@@ -2,13 +2,12 @@ package de.freese.base.swing.filter;
 
 import java.beans.PropertyChangeSupport;
 
+import de.freese.base.swing.eventlist.FilterableEventList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.swing.eventlist.FilterableEventList;
-
 /**
- * Basisklasse eines Filters fuer eine {@link FilterableEventList}.
+ * Basisklasse eines Filters für eine {@link FilterableEventList}.
  *
  * @author Thomas Freese
  */
@@ -17,33 +16,15 @@ public abstract class AbstractFilter implements Filter
     /**
      *
      */
-    private Object filterValue;
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */
-    private PropertyChangeSupport propertyChangeSupport;
-
+    private Object filterValue;
     /**
-     * Liefert die Werte mit dem der Filter arbeitet.
      *
-     * @return Object
      */
-    protected Object getFilterValue()
-    {
-        return this.filterValue;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected final Logger getLogger()
-    {
-        return this.logger;
-    }
+    private PropertyChangeSupport propertyChangeSupport;
 
     /**
      * @see de.freese.base.swing.SupportsPropertyChange#getPropertyChangeSupport()
@@ -83,5 +64,23 @@ public abstract class AbstractFilter implements Filter
         this.filterValue = filterValue;
 
         getPropertyChangeSupport().firePropertyChange(FILTER_CHANGED, old, this.filterValue);
+    }
+
+    /**
+     * Liefert die Werte, mit dem der Filter arbeitet.
+     *
+     * @return Object
+     */
+    protected Object getFilterValue()
+    {
+        return this.filterValue;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected final Logger getLogger()
+    {
+        return this.logger;
     }
 }

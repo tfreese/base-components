@@ -13,8 +13,6 @@ import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 
 /**
- * Task für die Nasa Demo.
- *
  * @author Thomas Freese
  */
 public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
@@ -28,10 +26,6 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      */
     private final ResourceMap resourceMap;
     /**
-    *
-    */
-    private URL url;
-    /**
      *
      */
     private final Callable<URL> urlCallable;
@@ -39,6 +33,10 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      *
      */
     private final NasaView view;
+    /**
+     *
+     */
+    private URL url;
 
     /**
      * Erstellt ein neues {@link NasaImageTask} Object.

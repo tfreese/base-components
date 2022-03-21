@@ -20,8 +20,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 
-import org.jdesktop.swingx.plaf.UIAction;
-
 import de.freese.base.swing.components.table.column.DefaultExtTableColumnModel;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
@@ -30,6 +28,7 @@ import de.freese.base.swing.components.table.columncontrol.ColumnControlButton;
 import de.freese.base.swing.components.table.sort.Sort;
 import de.freese.base.swing.components.table.sort.TableColumnSorter;
 import de.freese.base.utils.TableUtils;
+import org.jdesktop.swingx.plaf.UIAction;
 
 /**
  * Erweiterte JTable.
@@ -43,6 +42,10 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
      */
     private static final long serialVersionUID = -4454292369350861849L;
     /**
+     * Gibt an, ob ein alternativer Header verwendet werden soll.
+     */
+    private final boolean showHeader;
+    /**
      *
      */
     private ColumnControlButton columnControlButton;
@@ -54,10 +57,6 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
      *
      */
     private JComponent rowHeaderReplacement;
-    /**
-     * Gibt an, ob ein alternativer Header vewendet werden soll.
-     */
-    private final boolean showHeader;
     /**
      *
      */
@@ -160,65 +159,6 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     }
 
     /**
-     * Ueberschrieben um den Tableheader nicht zu zeigen.
-     *
-     * @see javax.swing.JTable#configureEnclosingScrollPane()
-     */
-    @Override
-    protected void configureEnclosingScrollPane()
-    {
-        configureColumnControl();
-
-        if (!showHeader())
-        {
-            super.configureEnclosingScrollPane();
-
-            return;
-        }
-
-        // well, this is a copy of JTable source code, where the tableheader installation
-        // has been removed as it created problems with installHeader method.
-        Container p = getParent();
-
-        if (p instanceof JViewport)
-        {
-            Container gp = p.getParent();
-
-            if (gp instanceof JScrollPane scrollPane)
-            {
-                Border border = scrollPane.getBorder();
-
-                if ((border == null) || (border instanceof UIResource))
-                {
-                    scrollPane.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
-                }
-            }
-        }
-    }
-
-    /**
-     * Erzeugt eine neue Komponente zur Spaltenkontrolle.
-     *
-     * @return {@link ColumnControlButton}
-     */
-    protected JComponent createDefaultColumnControl()
-    {
-        return new ColumnControlButton(this);
-    }
-
-    /**
-     * @see javax.swing.JTable#createDefaultColumnModel()
-     */
-    @Override
-    protected TableColumnModel createDefaultColumnModel()
-    {
-        DefaultExtTableColumnModel columnModel = new DefaultExtTableColumnModel();
-        // columnModel.addColumnModelListener(this);
-
-        return columnModel;
-    }
-
-    /**
      * @see javax.swing.JTable#createDefaultColumnsFromModel()
      */
     @Override
@@ -246,7 +186,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     }
 
     /**
-     * Liefert die Komponente fuer die Spaltenkontrolle.
+     * Liefert die Komponente für die Spaltenkontrolle.
      *
      * @return {@link ColumnControlButton}
      */
@@ -268,38 +208,6 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     public IExtTableColumnModel getColumnModelExt()
     {
         return (IExtTableColumnModel) getColumnModel();
-    }
-
-    /**
-     * @see javax.swing.JTable#initializeLocalVars()
-     */
-    @Override
-    protected void initializeLocalVars()
-    {
-        super.initializeLocalVars();
-
-        // CellEditor schliesen bei FocusLost
-        putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-
-        // Automatisch CellEditor bei KeyStrokes
-        putClientProperty("JTable.autoStartsEdit", Boolean.TRUE);
-
-        // Pack Actions
-        ActionMap map = getActionMap();
-        map.put("pack_all", new UIAction("pack_all")
-        {
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            @Override
-            public void actionPerformed(final ActionEvent e)
-            {
-                packAll(-1);
-            }
-        });
-
-        // Sortierung
-        TableColumnSorter.add(this);
     }
 
     /**
@@ -361,7 +269,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     }
 
     /**
-     * Sichtbarkeit der Komponente fuer die Spaltenkontrolle.
+     * Sichtbarkeit der Komponente für die Spaltenkontrolle.
      *
      * @return boolean
      */
@@ -421,7 +329,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     public Component prepareEditor(final TableCellEditor editor, final int row, final int column)
     {
         // Bei einer Textkomponente den ganzen Inhalt selektieren, damit bei Eingabe der Inhalt
-        // komplett ueberschrieben wird.
+        // komplett überschrieben wird.
         if (!isFocusOwner())
         {
             requestFocus();
@@ -438,7 +346,7 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     }
 
     /**
-     * Sichtbarkeit der Komponente fuer die Spaltenkontrolle.
+     * Sichtbarkeit der Komponente für die Spaltenkontrolle.
      *
      * @param visible boolean
      */
@@ -455,6 +363,97 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     public void setSortable(final boolean sortable)
     {
         this.sortable = sortable;
+    }
+
+    /**
+     * Überschrieben, um den TableHeader nicht zu zeigen.
+     *
+     * @see javax.swing.JTable#configureEnclosingScrollPane()
+     */
+    @Override
+    protected void configureEnclosingScrollPane()
+    {
+        configureColumnControl();
+
+        if (!showHeader())
+        {
+            super.configureEnclosingScrollPane();
+
+            return;
+        }
+
+        // well, this is a copy of JTable source code, where the tableheader installation
+        // has been removed as it created problems with installHeader method.
+        Container p = getParent();
+
+        if (p instanceof JViewport)
+        {
+            Container gp = p.getParent();
+
+            if (gp instanceof JScrollPane scrollPane)
+            {
+                Border border = scrollPane.getBorder();
+
+                if ((border == null) || (border instanceof UIResource))
+                {
+                    scrollPane.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
+                }
+            }
+        }
+    }
+
+    /**
+     * Erzeugt eine neue Komponente zur Spaltenkontrolle.
+     *
+     * @return {@link ColumnControlButton}
+     */
+    protected JComponent createDefaultColumnControl()
+    {
+        return new ColumnControlButton(this);
+    }
+
+    /**
+     * @see javax.swing.JTable#createDefaultColumnModel()
+     */
+    @Override
+    protected TableColumnModel createDefaultColumnModel()
+    {
+        DefaultExtTableColumnModel columnModel = new DefaultExtTableColumnModel();
+        // columnModel.addColumnModelListener(this);
+
+        return columnModel;
+    }
+
+    /**
+     * @see javax.swing.JTable#initializeLocalVars()
+     */
+    @Override
+    protected void initializeLocalVars()
+    {
+        super.initializeLocalVars();
+
+        // CellEditor schliessen bei FocusLost
+        putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+
+        // Automatisch CellEditor bei KeyStrokes
+        putClientProperty("JTable.autoStartsEdit", Boolean.TRUE);
+
+        // Pack Actions
+        ActionMap map = getActionMap();
+        map.put("pack_all", new UIAction("pack_all")
+        {
+            /**
+             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+             */
+            @Override
+            public void actionPerformed(final ActionEvent e)
+            {
+                packAll(-1);
+            }
+        });
+
+        // Sortierung
+        TableColumnSorter.add(this);
     }
 
     /**

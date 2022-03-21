@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * GuiState fuer eine {@link JTabbedPane}.
+ * GuiState für eine {@link JTabbedPane}.
  *
  * @author Thomas Freese
  */

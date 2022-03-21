@@ -22,7 +22,7 @@ import javax.activation.DataSource;
 import de.freese.base.utils.ByteArrayDataSource;
 
 /**
- * Klasse fuer lokalen Dateizugriff.<br>
+ * Klasse für lokalen Dateizugriff.<br>
  * Alle Operationen finden unterhalb des User-Verzeichnisses statt.
  *
  * @author Thomas Freese
@@ -49,27 +49,7 @@ public final class LocalStorage
     }
 
     /**
-     * Erzeugt das Verzeichniss, inlusive der Parent-Verzeichnisse.
-     *
-     * @param path {@link Path}
-     */
-    private void createDirectories(final Path path)
-    {
-        if (!Files.exists(path))
-        {
-            try
-            {
-                Files.createDirectories(path);
-            }
-            catch (IOException ex)
-            {
-                throw new UncheckedIOException(ex);
-            }
-        }
-    }
-
-    /**
-     * Erzeugt eine temporaere Datei im BasisVerzeichnis
+     * Erzeugt eine temporäre Datei im BasisVerzeichnis
      *
      * @param prefix String
      * @param suffix String
@@ -89,49 +69,9 @@ public final class LocalStorage
     }
 
     /**
-     * Loescht rekursiv ein Verzeichnis inkl. aller Dateien. Gefaehrliche Methode, deswegen private !!!
+     * Liefert true, wenn das Verzeichnis gelöscht wurde.
      *
-     * @param path {@link Path}
-     *
-     * @return true, wenn erfolgreich geloescht
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    private boolean deleteDirectory(final Path path) throws IOException
-    {
-        if (Files.isDirectory(path))
-        {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>()
-            {
-                /**
-                 * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
-                 */
-                @Override
-                public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
-                {
-                    Files.delete(dir);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                /**
-                 * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
-                 */
-                @Override
-                public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
-                {
-                    Files.delete(file);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        }
-
-        return Files.deleteIfExists(path);
-    }
-
-    /**
-     * Liefert true, wenn das Verzeichniss geloescht wurde.
-     *
-     * @param fileName String, wenn "" wird das Basisverzeichniss geloescht
+     * @param fileName String, wenn "" wird das Basisverzeichnis gelöscht
      *
      * @return boolean
      *
@@ -147,7 +87,7 @@ public final class LocalStorage
     }
 
     /**
-     * Liefert true, wenn die Datei geloescht wurde.
+     * Liefert true, wenn die Datei gelöscht wurde.
      *
      * @param fileName String
      *
@@ -165,7 +105,7 @@ public final class LocalStorage
     }
 
     /**
-     * Basisverzeichniss.
+     * Basisverzeichnis.
      *
      * @return {@link Path}
      */
@@ -232,7 +172,7 @@ public final class LocalStorage
      *
      * @throws IOException Falls was schief geht.
      */
-    public InputStream getInputStream(final String fileName, final OpenOption...options) throws IOException
+    public InputStream getInputStream(final String fileName, final OpenOption... options) throws IOException
     {
         validateFileName(fileName);
 
@@ -255,7 +195,7 @@ public final class LocalStorage
      *
      * @throws IOException Falls was schief geht.
      */
-    public OutputStream getOutputStream(final String fileName, final OpenOption...options) throws IOException
+    public OutputStream getOutputStream(final String fileName, final OpenOption... options) throws IOException
     {
         validateFileName(fileName);
 
@@ -323,10 +263,9 @@ public final class LocalStorage
      *
      * @param dataSource {@link DataSource}
      *
-     * @return String ggf. korrogierter Dateiname
+     * @return String ggf. korrigierter Dateiname
      *
      * @throws IOException Falls was schief geht.
-     *
      * @see DataSource#getName()
      * @see DataSource#getInputStream()
      */
@@ -386,7 +325,7 @@ public final class LocalStorage
     }
 
     /**
-     * Basisverzeichniss.
+     * Basisverzeichnis.
      *
      * @param directory Path
      */
@@ -395,6 +334,67 @@ public final class LocalStorage
         this.directory = directory;
 
         createDirectories(this.directory);
+    }
+
+    /**
+     * Erzeugt das Verzeichnis, inklusive der Parent-Verzeichnisse.
+     *
+     * @param path {@link Path}
+     */
+    private void createDirectories(final Path path)
+    {
+        if (!Files.exists(path))
+        {
+            try
+            {
+                Files.createDirectories(path);
+            }
+            catch (IOException ex)
+            {
+                throw new UncheckedIOException(ex);
+            }
+        }
+    }
+
+    /**
+     * Löscht rekursiv ein Verzeichnis inklusive aller Dateien.<br>
+     * Gefährliche Methode, deswegen private !!!
+     *
+     * @param path {@link Path}
+     *
+     * @return true, wenn erfolgreich gelöscht
+     *
+     * @throws IOException Falls was schief geht.
+     */
+    private boolean deleteDirectory(final Path path) throws IOException
+    {
+        if (Files.isDirectory(path))
+        {
+            Files.walkFileTree(path, new SimpleFileVisitor<Path>()
+            {
+                /**
+                 * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
+                 */
+                @Override
+                public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
+                {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                /**
+                 * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
+                 */
+                @Override
+                public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
+                {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
+
+        return Files.deleteIfExists(path);
     }
 
     /**
@@ -416,7 +416,7 @@ public final class LocalStorage
 
         if (internalName.indexOf('.') == -1)
         {
-            throw new IllegalArgumentException("Filename dont have extension");
+            throw new IllegalArgumentException("Filename don't have extension");
         }
     }
 }

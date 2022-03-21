@@ -1,11 +1,13 @@
 package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Font;
+
 import javax.swing.border.TitledBorder;
+
 import de.freese.base.swing.fontchange.FontChangeHandler;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung eines {@link TitledBorder}.
+ * Defaultimplementierung für die Font-Änderung eines {@link TitledBorder}.
  *
  * @author Thomas Freese
  */
@@ -21,7 +23,7 @@ public class TitledBorderFontChangeHandler implements FontChangeHandler
 
         Font oldFont = titledBorder.getTitleFont();
 
-        // Nur die Schriftgroesse aendern
+        // Nur die Schriftgrösse ändern.
         if (oldFont == null)
         {
             titledBorder.setTitleFont(newFont);

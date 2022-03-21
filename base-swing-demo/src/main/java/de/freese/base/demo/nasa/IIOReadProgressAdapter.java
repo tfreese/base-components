@@ -4,8 +4,6 @@ import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 
 /**
- * Adapter fuer den {@link IIOReadProgressListener}.
- *
  * @author Thomas Freese
  */
 public class IIOReadProgressAdapter implements IIOReadProgressListener

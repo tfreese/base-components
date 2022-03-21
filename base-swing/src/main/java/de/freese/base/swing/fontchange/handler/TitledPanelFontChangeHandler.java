@@ -1,10 +1,11 @@
 package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Font;
+
 import org.jdesktop.swingx.JXTitledPanel;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung eines {@link JXTitledPanel}.
+ * Defaultimplementierung für die Font-Änderung eines {@link JXTitledPanel}.
  *
  * @author Thomas Freese
  */
@@ -22,7 +23,7 @@ public class TitledPanelFontChangeHandler extends ComponentFontChangeHandler
 
         Font oldFont = titledPanel.getFont();
 
-        // Nur die Schriftgroesse aendern
+        // Nur die Schriftgrösse ändern.
         if (oldFont == null)
         {
             titledPanel.setTitleFont(newFont.deriveFont(Font.BOLD));

@@ -13,14 +13,14 @@ import de.freese.base.swing.ui.HTMLTextButtonUI;
 import de.freese.base.utils.FontUtils;
 
 /**
- * Factory fuer verschiedene Buttontypen.
+ * Factory für verschiedene ButtonTypen.
  *
  * @author Thomas Freese
  */
 public final class ButtonFactory
 {
     /**
-     * Enum fuer die Pfeilrichtung von "Move"-Buttons des Marvosym-Fonts.
+     * Enum für die Pfeilrichtung von "Move"-Buttons des Marvosym-Fonts.
      *
      * @author Thomas Freese
      */
@@ -94,7 +94,7 @@ public final class ButtonFactory
     }
 
     /**
-     * Liefert einen "Move"-Button mit 16 px Seitenlaenge.
+     * Liefert einen "Move"-Button mit 16 px Seitenlänge.
      *
      * @param direction {@link ArrowDirection}
      *
@@ -109,9 +109,9 @@ public final class ButtonFactory
     }
 
     /**
-     * Liefert einen JButton mit bestimmter Seitenlaenge.
+     * Liefert einen JButton mit bestimmter Seitenlänge.
      *
-     * @param size Seitenlaenge des Buttons
+     * @param size int Seitenlänge des Buttons
      *
      * @return {@link JButton}
      */
@@ -134,7 +134,7 @@ public final class ButtonFactory
     }
 
     /**
-     * Liefert einen JButton mit 16 px Seitenlaenge.
+     * Liefert einen JButton mit 16 px Seitenlänge.
      *
      * @return {@link JButton}
      */

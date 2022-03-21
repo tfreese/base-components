@@ -6,10 +6,11 @@ import javax.swing.ListModel;
 import javafx.collections.ObservableList;
 
 /**
- * Defaultimplementierung eines {@link ListModel} fuer die {@link ObservableList}.
+ * Defaultimplementierung eines {@link ListModel} für die {@link ObservableList}.
+ *
+ * @param <T> Typ der Entity
  *
  * @author Thomas Freese
- * @param <T> Typ der Entity
  */
 public class DefaultObservableListListModel<T> extends AbstractObservableListListModel<T>
 {

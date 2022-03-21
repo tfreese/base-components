@@ -57,7 +57,7 @@ public final class GuiStateManager
     }
 
     /**
-     * Hinzufuegen eines neuen {@link GUIState}s.
+     * Hinzufügen eines neuen {@link GUIState}s.
      *
      * @param stateClass {@link Class}
      *
@@ -135,7 +135,7 @@ public final class GuiStateManager
     }
 
     /**
-     * Speichern eines {@link GUIState}s fuer eine {@link Component}.
+     * Speichern eines {@link GUIState}s für eine {@link Component}.
      *
      * @param component {@link Component}
      * @param name String
@@ -156,7 +156,7 @@ public final class GuiStateManager
     }
 
     /**
-     * Liefert den GuiState fuer eine {@link Component}.
+     * Liefert den GuiState für eine {@link Component}.
      *
      * @param componentClass Class
      *

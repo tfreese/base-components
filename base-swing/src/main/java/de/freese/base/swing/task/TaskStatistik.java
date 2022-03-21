@@ -23,7 +23,7 @@ public class TaskStatistik implements Serializable
     /**
      * Immer N Werte vorhalten.
      */
-    private Queue<Long> durations = new ConcurrentLinkedQueue<>();
+    private final Queue<Long> durations = new ConcurrentLinkedQueue<>();
     /**
      *
      */
@@ -34,22 +34,7 @@ public class TaskStatistik implements Serializable
     private String taskName = "";
 
     /**
-     * Hinzufügen einer Zeit und ggf. entfernen der ältesten Zeit aus der Liste.
-     *
-     * @param zeit long
-     */
-    protected void appendDuration(final long zeit)
-    {
-        this.durations.add(zeit);
-
-        if (this.durations.size() > MAX_SIZE)
-        {
-            this.durations.poll();
-        }
-    }
-
-    /**
-     * Durchschnittliche Ausfuehrungszeit in ms.
+     * Durchschnittliche Ausführungszeit in ms.
      *
      * @return long
      */
@@ -65,6 +50,16 @@ public class TaskStatistik implements Serializable
         }
 
         return summe > 0 ? summe / anzahl : 0;
+    }
+
+    /**
+     * Datum des letzten Zugriffs.
+     *
+     * @return {@link Date}
+     */
+    public Date getLastAccess()
+    {
+        return this.lastAccess;
     }
 
     // /**
@@ -92,17 +87,7 @@ public class TaskStatistik implements Serializable
     // }
 
     /**
-     * Datum des letzten Zugriffs.
-     *
-     * @return {@link Date}
-     */
-    public Date getLastAccess()
-    {
-        return this.lastAccess;
-    }
-
-    /**
-     * Maximale Ausfuehrungszeit in ms.
+     * Maximale Ausführungszeit in ms.
      *
      * @return long
      */
@@ -119,7 +104,7 @@ public class TaskStatistik implements Serializable
     }
 
     /**
-     * Minimale Ausfuehrungszeit in ms.
+     * Minimale Ausführungszeit in ms.
      *
      * @return long
      */
@@ -214,5 +199,20 @@ public class TaskStatistik implements Serializable
         builder.append("; Datum=").append(String.format(format, getLastAccess()));
 
         return builder.toString();
+    }
+
+    /**
+     * Hinzufügen einer Zeit und ggf. entfernen der ältesten Zeit aus der Liste.
+     *
+     * @param zeit long
+     */
+    protected void appendDuration(final long zeit)
+    {
+        this.durations.add(zeit);
+
+        if (this.durations.size() > MAX_SIZE)
+        {
+            this.durations.poll();
+        }
     }
 }

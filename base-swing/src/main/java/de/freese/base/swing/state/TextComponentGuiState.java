@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * GuiState fuer ein {@link JTextField}.
+ * GuiState für ein {@link JTextField}.
  *
  * @author Thomas Freese
  */
@@ -81,11 +81,6 @@ public class TextComponentGuiState extends AbstractGuiState
     @Override
     public boolean supportsType(final Class<?> type)
     {
-        if (JTextComponent.class.isAssignableFrom(type))
-        {
-            return true;
-        }
-
-        return false;
+        return JTextComponent.class.isAssignableFrom(type);
     }
 }

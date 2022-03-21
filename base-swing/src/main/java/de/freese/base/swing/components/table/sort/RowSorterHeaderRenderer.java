@@ -14,7 +14,7 @@ import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.icon.ArrowIcon;
 
 /**
- * Renderer fuer sortierbare Spalten.
+ * Renderer für sortierbare Spalten.
  *
  * @author Thomas Freese
  */
@@ -58,44 +58,6 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
     }
 
     /**
-     * Liefert das Icon fuer den Renderer fuer die Sortierung des Tableheaders.
-     *
-     * @param tableColumnExt {@link ExtTableColumn}
-     *
-     * @return {@link Icon}
-     */
-    protected Icon getIcon(final ExtTableColumn tableColumnExt)
-    {
-        Sort sort = tableColumnExt.getSort();
-
-        return (Sort.DESCENDING.equals(sort)) ? ICON_DESCENDING : ICON_ASCENDING;
-    }
-
-    /**
-     * Liefert die Reichenfolge in der Sortierung der Spalte.
-     *
-     * @param tableColumnExt {@link ExtTableColumn}
-     *
-     * @return String
-     */
-    protected String getSortPriority(final ExtTableColumn tableColumnExt)
-    {
-        int index = this.rowSorter.getSortPriority(tableColumnExt);
-
-        return (index == -1) ? null : ("" + (index + 1));
-    }
-
-    /**
-     * Liefert den TableCellRenderer fuer die Tabellenueberschrift.
-     *
-     * @return {@link TableCellRenderer}
-     */
-    protected final TableCellRenderer getTableCellRenderer()
-    {
-        return this.tableCellRenderer;
-    }
-
-    /**
      * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
      */
     @Override
@@ -126,11 +88,49 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
 
         JComponent src = new SortRendererComponent(component, sortIcon, priority, COLOR_MEDIUM_LIGHT_BROWN);
         // src.setMinimumSize(c.getMinimumSize());
-        // Breite der Spalte in die Componente setzen
+        // Breite der Spalte in die Komponente setzen
         // c.setPreferredSize(new Dimension(tc.getWidth(), 1));
         // c.setMinimumSize(new Dimension(tc.getWidth(), 1));
 
         return src;
+    }
+
+    /**
+     * Liefert das Icon für den Renderer für die Sortierung des TableHeaders.
+     *
+     * @param tableColumnExt {@link ExtTableColumn}
+     *
+     * @return {@link Icon}
+     */
+    protected Icon getIcon(final ExtTableColumn tableColumnExt)
+    {
+        Sort sort = tableColumnExt.getSort();
+
+        return (Sort.DESCENDING.equals(sort)) ? ICON_DESCENDING : ICON_ASCENDING;
+    }
+
+    /**
+     * Liefert die Reihenfolge in der Sortierung der Spalte.
+     *
+     * @param tableColumnExt {@link ExtTableColumn}
+     *
+     * @return String
+     */
+    protected String getSortPriority(final ExtTableColumn tableColumnExt)
+    {
+        int index = this.rowSorter.getSortPriority(tableColumnExt);
+
+        return (index == -1) ? null : ("" + (index + 1));
+    }
+
+    /**
+     * Liefert den TableCellRenderer für die Tabellenüberschrift.
+     *
+     * @return {@link TableCellRenderer}
+     */
+    protected final TableCellRenderer getTableCellRenderer()
+    {
+        return this.tableCellRenderer;
     }
 
     // /**

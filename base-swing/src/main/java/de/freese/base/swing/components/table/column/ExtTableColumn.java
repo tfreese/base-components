@@ -12,7 +12,7 @@ import javax.swing.table.TableColumn;
 import de.freese.base.swing.components.table.sort.Sort;
 
 /**
- * Erweiterte {@link TableColumn} die das sortieren und ausblenden unterstuetzt.
+ * Erweiterte {@link TableColumn} die das sortieren und ausblenden unterstützt.
  *
  * @author Thomas Freese
  */
@@ -110,7 +110,7 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Aktualle Sortierung.
+     * Aktuelle Sortierung.
      *
      * @return {@link Sort}
      */
@@ -120,7 +120,7 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Liefert den Headertext.
+     * Liefert den HeaderText.
      *
      * @return String
      */
@@ -152,7 +152,7 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Aenderung der Sichtbarkeit erlaubt ?
+     * Änderung der Sichtbarkeit erlaubt ?
      *
      * @return boolean
      */
@@ -203,7 +203,7 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Aktualle Sortierung.
+     * Aktuelle Sortierung.
      *
      * @param sort {@link Sort}
      */
@@ -224,7 +224,7 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Setzt den Headertext.
+     * Setzt den HeaderText.
      *
      * @param title String
      */
@@ -249,7 +249,7 @@ public class ExtTableColumn extends TableColumn
     }
 
     /**
-     * Ae‚nderung der Sichtbarkeit erlaubt ?
+     * Änderung der Sichtbarkeit erlaubt ?
      *
      * @param visibleChange boolean
      */

@@ -8,11 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JViewport;
 
 /**
- * Viewport fuer ein Watermark.
- *
  * @author Thomas Freese
  */
-public class WatermarkViewport extends JViewport implements IWatermarkComponent
+public class WatermarkViewport extends JViewport implements WatermarkComponent
 {
     /**
      *
@@ -41,7 +39,7 @@ public class WatermarkViewport extends JViewport implements IWatermarkComponent
     }
 
     /**
-     * @see de.freese.base.swing.components.watermark.IWatermarkComponent#getWatermark()
+     * @see WatermarkComponent#getWatermark()
      */
     @Override
     public ImageIcon getWatermark()
@@ -80,7 +78,7 @@ public class WatermarkViewport extends JViewport implements IWatermarkComponent
     }
 
     /**
-     * @see de.freese.base.swing.components.watermark.IWatermarkComponent#setPosition(java.awt.Point)
+     * @see WatermarkComponent#setPosition(java.awt.Point)
      */
     @Override
     public void setPosition(final Point position)
@@ -89,7 +87,7 @@ public class WatermarkViewport extends JViewport implements IWatermarkComponent
     }
 
     /**
-     * @see de.freese.base.swing.components.watermark.IWatermarkComponent#setWatermark(javax.swing.ImageIcon)
+     * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
      */
     @Override
     public void setWatermark(final ImageIcon watermark)

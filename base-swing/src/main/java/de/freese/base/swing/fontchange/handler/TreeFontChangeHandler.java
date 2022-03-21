@@ -2,12 +2,13 @@ package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Component;
 import java.awt.Font;
+
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreeCellRenderer;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung eines {@link JTree}.
+ * Defaultimplementierung für die Font-Änderung eines {@link JTree}.
  *
  * @author Thomas Freese
  */

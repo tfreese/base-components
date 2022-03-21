@@ -14,7 +14,7 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 /**
- * Label mit einem drehenden Kreis, aehnlich wie bei Mozilla.
+ * Label mit einem drehenden Kreis, ähnlich wie bei Mozilla.
  *
  * @author Thomas Freese
  */
@@ -43,7 +43,10 @@ public class BusyMozillaLabel extends JLabel
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
+    /**
+     * Anzahl animierter Kreise.
+     */
+    private final int maxCircles = 8;
     /**
      *
      */
@@ -61,15 +64,11 @@ public class BusyMozillaLabel extends JLabel
      */
     private int circleRadius = 40;
     /**
-     * Farbe des fuehrendes Kreises.
+     * Farbe des führenden Kreises.
      */
     private Color highlightColor = Color.BLACK;
     /**
-     * Anzahl animierter Kreise.
-     */
-    private int maxCircles = 8;
-    /**
-     * Laenge des Schwanzes.
+     * Länge des Schwanzes.
      */
     private int trail = 8;
 
@@ -136,35 +135,6 @@ public class BusyMozillaLabel extends JLabel
     }
 
     /**
-     * Berechnet fuer den Index eines Kreises die entsprechende Farbe.
-     *
-     * @param index int
-     *
-     * @return {@link Color}
-     */
-    private Color calcCircleColor(final int index)
-    {
-        if (index == this.circleIndex)
-        {
-            return getHighlightColor();
-        }
-
-        for (int t = 0; t < getTrail(); t++)
-        {
-            if (index == (((this.circleIndex - t) + getMaxCircles()) % getMaxCircles()))
-            {
-                // Faktor fuer interpolation
-                float terp = 1 - (((float) (getTrail() - t)) / (float) getTrail());
-
-                // Farbe interpolieren
-                return interpolate(getHighlightColor(), getBaseColor(), terp);
-            }
-        }
-
-        return getBaseColor();
-    }
-
-    /**
      * Farbe des letzten Kreises.
      *
      * @return {@link Color}
@@ -194,23 +164,13 @@ public class BusyMozillaLabel extends JLabel
     }
 
     /**
-     * Farbe des fuehrenden Kreises.
+     * Farbe des führenden Kreises.
      *
      * @return {@link Color}
      */
     public Color getHighlightColor()
     {
         return this.highlightColor;
-    }
-
-    /**
-     * Max. Anzahl an Kreisen.
-     *
-     * @return int
-     */
-    private int getMaxCircles()
-    {
-        return this.maxCircles;
     }
 
     /**
@@ -246,7 +206,7 @@ public class BusyMozillaLabel extends JLabel
     }
 
     /**
-     * Laenge des Schwanzes.
+     * Länge des Schwanzes.
      *
      * @return int
      */
@@ -256,7 +216,70 @@ public class BusyMozillaLabel extends JLabel
     }
 
     /**
-     * Initialisierung der Farben und Schwanzlaenge.
+     * Farbe des letzten Kreises.
+     *
+     * @param baseColor {@link Color}
+     */
+    public void setBaseColor(final Color baseColor)
+    {
+        this.baseColor = baseColor;
+    }
+
+    /**
+     * Gesamtdurchmesser des Kreises.
+     *
+     * @param circleRadius int
+     */
+    public void setCircleRadius(final int circleRadius)
+    {
+        this.circleRadius = circleRadius;
+    }
+
+    /**
+     * Farbe des führenden Kreises.
+     *
+     * @param highlightColor {@link Color}
+     */
+    public void setHighlightColor(final Color highlightColor)
+    {
+        this.highlightColor = highlightColor;
+    }
+
+    /**
+     * Länge des Schwanzes.
+     *
+     * @param trail int
+     */
+    public void setTrail(final int trail)
+    {
+        this.trail = trail;
+
+        if (this.trail > 8)
+        {
+            this.trail = 8;
+        }
+    }
+
+    /**
+     * @see javax.swing.JComponent#setVisible(boolean)
+     */
+    @Override
+    public void setVisible(final boolean visible)
+    {
+        super.setVisible(visible);
+
+        if (visible && !this.animateTimer.isRunning())
+        {
+            this.animateTimer.start();
+        }
+        else if (!visible)
+        {
+            this.animateTimer.stop();
+        }
+    }
+
+    /**
+     * Initialisierung der Farben und Schwanzlänge.
      *
      * @param highlightColor {@link Color}
      * @param baseColor {@link Color}
@@ -273,39 +296,6 @@ public class BusyMozillaLabel extends JLabel
 
         // // Trick: Startet den Timer
         // setVisible(true);
-    }
-
-    /**
-     * Mischen von 2 Farben mit Interpolationsfaktor.
-     *
-     * @param a Color
-     * @param b Color
-     * @param factor float
-     *
-     * @return Color
-     */
-    private Color interpolate(final Color a, final Color b, final float factor)
-    {
-        float[] acomp = a.getRGBComponents(null);
-        float[] bcomp = b.getRGBComponents(null);
-        float[] ccomp = new float[4];
-
-        // System.out.println("a comp ");
-        // for(float f : acomp) {
-        // System.out.println(f);
-        // }
-        // for(float f : bcomp) {
-        // System.out.println(f);
-        // }
-        for (int i = 0; i < 4; i++)
-        {
-            ccomp[i] = acomp[i] + ((bcomp[i] - acomp[i]) * factor);
-        }
-
-        // for(float f : ccomp) {
-        // System.out.println(f);
-        // }
-        return new Color(ccomp[0], ccomp[1], ccomp[2], ccomp[3]);
     }
 
     /**
@@ -376,65 +366,74 @@ public class BusyMozillaLabel extends JLabel
     }
 
     /**
-     * Farbe des letzten Kreises.
+     * Berechnet für den Index eines Kreises die entsprechende Farbe.
      *
-     * @param baseColor {@link Color}
-     */
-    public void setBaseColor(final Color baseColor)
-    {
-        this.baseColor = baseColor;
-    }
-
-    /**
-     * Gesamtdurchmesser des Kreises.
+     * @param index int
      *
-     * @param circleRadius int
+     * @return {@link Color}
      */
-    public void setCircleRadius(final int circleRadius)
+    private Color calcCircleColor(final int index)
     {
-        this.circleRadius = circleRadius;
-    }
-
-    /**
-     * Farbe des fuehrenden Kreises.
-     *
-     * @param highlightColor {@link Color}
-     */
-    public void setHighlightColor(final Color highlightColor)
-    {
-        this.highlightColor = highlightColor;
-    }
-
-    /**
-     * Laenge des Schwanzes.
-     *
-     * @param trail int
-     */
-    public void setTrail(final int trail)
-    {
-        this.trail = trail;
-
-        if (this.trail > 8)
+        if (index == this.circleIndex)
         {
-            this.trail = 8;
+            return getHighlightColor();
         }
+
+        for (int t = 0; t < getTrail(); t++)
+        {
+            if (index == (((this.circleIndex - t) + getMaxCircles()) % getMaxCircles()))
+            {
+                // Faktor für interpolation
+                float terp = 1 - (((float) (getTrail() - t)) / (float) getTrail());
+
+                // Farbe interpolieren
+                return interpolate(getHighlightColor(), getBaseColor(), terp);
+            }
+        }
+
+        return getBaseColor();
     }
 
     /**
-     * @see javax.swing.JComponent#setVisible(boolean)
+     * Max. Anzahl an Kreisen.
+     *
+     * @return int
      */
-    @Override
-    public void setVisible(final boolean visible)
+    private int getMaxCircles()
     {
-        super.setVisible(visible);
+        return this.maxCircles;
+    }
 
-        if (visible && !this.animateTimer.isRunning())
+    /**
+     * Mischen von 2 Farben mit Interpolationsfaktor.
+     *
+     * @param a Color
+     * @param b Color
+     * @param factor float
+     *
+     * @return Color
+     */
+    private Color interpolate(final Color a, final Color b, final float factor)
+    {
+        float[] acomp = a.getRGBComponents(null);
+        float[] bcomp = b.getRGBComponents(null);
+        float[] ccomp = new float[4];
+
+        // System.out.println("a comp ");
+        // for(float f : acomp) {
+        // System.out.println(f);
+        // }
+        // for(float f : bcomp) {
+        // System.out.println(f);
+        // }
+        for (int i = 0; i < 4; i++)
         {
-            this.animateTimer.start();
+            ccomp[i] = acomp[i] + ((bcomp[i] - acomp[i]) * factor);
         }
-        else if (!visible)
-        {
-            this.animateTimer.stop();
-        }
+
+        // for(float f : ccomp) {
+        // System.out.println(f);
+        // }
+        return new Color(ccomp[0], ccomp[1], ccomp[2], ccomp[3]);
     }
 }

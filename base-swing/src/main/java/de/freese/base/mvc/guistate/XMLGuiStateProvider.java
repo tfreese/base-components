@@ -10,7 +10,7 @@ import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GUIState;
 
 /**
- * Der {@link XMLGuiStateProvider} nutzt den {@link LocalStorage} fuer das Speichern im XML-Format.
+ * Der {@link XMLGuiStateProvider} nutzt den {@link LocalStorage} für das Speichern im XML-Format.
  *
  * @author Thomas Freese
  */
@@ -103,7 +103,7 @@ public final class XMLGuiStateProvider extends AbstractGuiStateProvider
 
             // try (OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
             // {
-            // XMLStorage.saveBean(outputStream, state);
+            // XmlStorage.saveBean(outputStream, state);
             // }
         }
         catch (Exception ex)

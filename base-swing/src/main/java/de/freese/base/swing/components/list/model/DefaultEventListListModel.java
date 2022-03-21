@@ -1,13 +1,15 @@
 package de.freese.base.swing.components.list.model;
 
 import javax.swing.ListModel;
+
 import de.freese.base.swing.eventlist.IEventList;
 
 /**
- * Defaultimplementierung eines {@link ListModel} fuer die {@link IEventList}.
+ * Defaultimplementierung eines {@link ListModel} für die {@link IEventList}.
+ *
+ * @param <T> <T> Konkreter Typ
  *
  * @author Thomas Freese
- * @param <T> <T> Konkreter Typ
  */
 public class DefaultEventListListModel<T> extends AbstractEventListListModel<T>
 {

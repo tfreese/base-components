@@ -18,12 +18,12 @@ import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.filter.FilterCondition;
 
 /**
- * Implementierung einer Liste, welche eine {@link IEventList} aufnimmt, auf deren Aenderungen reagiert und die Inhalte filtert.<br>
- * Saemtliche Events werden im EDT gefeuert.
- *
- * @author Thomas Freese
+ * Implementierung einer Liste, welche eine {@link IEventList} aufnimmt, auf deren AÄnderungen reagiert und die Inhalte filtert.<br>
+ * Sämtliche Events werden im EDT gefeuert.
  *
  * @param <E> Type
+ *
+ * @author Thomas Freese
  */
 public class FilterableEventList<E> implements IEventList<E>, PropertyChangeListener
 {
@@ -69,15 +69,15 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      *
      */
-    private FilterCondition filter;
-    /**
-     *
-     */
     private final List<E> filteredList;
     /**
      *
      */
     private final EventListenerList listenerList = new EventListenerList();
+    /**
+     *
+     */
+    private FilterCondition filter;
 
     /**
      * Erstellt ein neues {@link FilterableEventList} Object.
@@ -165,66 +165,6 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     public boolean containsAll(final Collection<?> c)
     {
         return this.filteredList.containsAll(c);
-    }
-
-    /**
-     * Filter die gewrappte {@link IEventList}.
-     */
-    private void filter()
-    {
-        reset();
-
-        if (getFilter() != null)
-        {
-            for (Iterator<E> iterator = this.filteredList.iterator(); iterator.hasNext();)
-            {
-                E object = iterator.next();
-
-                if (!getFilter().test(object))
-                {
-                    iterator.remove();
-                }
-            }
-        }
-
-        fireContentsChanged(0, size() - 1);
-    }
-
-    /**
-     * Benachrichtigt die Listener, dass sich die Struktur geaendert hat.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
-     */
-    private void fireContentsChanged(final int startIndex, final int endIndex)
-    {
-        if (!isListenerEnabled())
-        {
-            return;
-        }
-
-        int start = Math.min(startIndex, endIndex);
-        int end = Math.max(startIndex, endIndex);
-
-        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
-        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
-
-        Runnable runnable = () -> {
-            for (int i = listeners.length - 1; i >= 0; i--)
-            {
-                listeners[i].contentsChanged(event);
-            }
-        };
-
-        if (!SwingUtilities.isEventDispatchThread())
-        {
-            SwingUtilities.invokeLater(runnable);
-        }
-        else
-        {
-            runnable.run();
-        }
     }
 
     /**
@@ -322,7 +262,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     @Override
     public void propertyChange(final PropertyChangeEvent evt)
     {
-        // Falls sich die Bedingungen innerhalb des Filters geaendert haben
+        // Falls sich die Bedingungen innerhalb des Filters geändert haben
         if (Filter.FILTER_CHANGED.equals(evt.getPropertyName()))
         {
             filter();
@@ -403,7 +343,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * Setzt den Filter fuer die FilterableEventList.
+     * Setzt den Filter für die FilterableEventList.
      *
      * @param filter {@link FilterCondition}
      */
@@ -487,5 +427,66 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     public void update()
     {
         this.delegate.update();
+    }
+
+    /**
+     * Filter die gewrappte {@link IEventList}.
+     */
+    private void filter()
+    {
+        reset();
+
+        if (getFilter() != null)
+        {
+            for (Iterator<E> iterator = this.filteredList.iterator(); iterator.hasNext(); )
+            {
+                E object = iterator.next();
+
+                if (!getFilter().test(object))
+                {
+                    iterator.remove();
+                }
+            }
+        }
+
+        fireContentsChanged(0, size() - 1);
+    }
+
+    /**
+     * Benachrichtigt die Listener, dass sich die Struktur geändert hat.<br>
+     * Alle Listener werden im EDT benachrichtigt.
+     *
+     * @param startIndex int
+     * @param endIndex int
+     */
+    private void fireContentsChanged(final int startIndex, final int endIndex)
+    {
+        if (!isListenerEnabled())
+        {
+            return;
+        }
+
+        int start = Math.min(startIndex, endIndex);
+        int end = Math.max(startIndex, endIndex);
+
+        final ListDataListener[] listeners = this.listenerList.getListeners(ListDataListener.class);
+        final ListDataEvent event = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, start, end);
+
+        Runnable runnable = () ->
+        {
+            for (int i = listeners.length - 1; i >= 0; i--)
+            {
+                listeners[i].contentsChanged(event);
+            }
+        };
+
+        if (!SwingUtilities.isEventDispatchThread())
+        {
+            SwingUtilities.invokeLater(runnable);
+        }
+        else
+        {
+            runnable.run();
+        }
     }
 }

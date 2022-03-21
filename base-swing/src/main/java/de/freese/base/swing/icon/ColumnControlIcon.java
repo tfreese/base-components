@@ -13,7 +13,7 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.UIResource;
 
 /**
- * Icon fuer die column-control einer {@link JTable}.
+ * Icon für die column-control einer {@link JTable}.
  *
  * @author Thomas Freese
  */

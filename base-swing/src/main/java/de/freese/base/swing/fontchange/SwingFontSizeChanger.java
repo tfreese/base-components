@@ -21,9 +21,6 @@ import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 
-import org.jdesktop.swingx.JXDatePicker;
-import org.jdesktop.swingx.JXTitledPanel;
-
 import de.freese.base.swing.fontchange.handler.ComboBoxFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.DatePickerFontChangeHandler;
@@ -35,9 +32,11 @@ import de.freese.base.swing.fontchange.handler.TitledBorderFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.TitledPanelFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.TreeFontChangeHandler;
 import de.freese.base.utils.UICustomization;
+import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXTitledPanel;
 
 /**
- * Aendert bei allen registrierten Componenten den Font.
+ * Ändert bei allen registrierten Komponenten den Font.
  *
  * @author Thomas Freese
  */
@@ -59,12 +58,12 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * Verknuepft ein oder mehrere Objecte mit einem Listener, der bei Font-Aenderungen reagiert.
+     * Verknüpft ein oder mehrere Objekte mit einem Listener, der bei Font-Änderungen reagiert.
      *
      * @param object Object
      * @param others Object[]
      */
-    public static void register(final Object object, final Object...others)
+    public static void register(final Object object, final Object... others)
     {
         getInstance().register(object);
 
@@ -77,15 +76,15 @@ public final class SwingFontSizeChanger
     /**
      *
      */
-    private Font font;
-    /**
-     *
-     */
     private final Map<Class<?>, FontChangeHandler> handlers = new HashMap<>();
     /**
      *
      */
     private final PropertyChangeSupport propertyChangeSupport;
+    /**
+     *
+     */
+    private Font font;
 
     /**
      * Erstellt ein neues {@link SwingFontSizeChanger} Object.
@@ -118,18 +117,7 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * Hinzufuegen eines neuen Handlers fuer eine {@link Component}.
-     *
-     * @param componenClass {@link Class}
-     * @param handler {@link FontChangeHandler}
-     */
-    private void addFontChangeHandler(final Class<?> componenClass, final FontChangeHandler handler)
-    {
-        this.handlers.put(componenClass, handler);
-    }
-
-    /**
-     * Hinzufuegen eines neuen Listeners.
+     * Hinzufügen eines neuen Listeners.
      *
      * @param listener {@link PropertyChangeListener}
      */
@@ -149,7 +137,7 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * Liefert die Fontfamilie.
+     * Liefert die Font-Familie.
      *
      * @return String
      */
@@ -159,7 +147,7 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * Liefert die Fontgroesse.
+     * Liefert die Font-Grösse.
      *
      * @return int
      */
@@ -169,7 +157,7 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * Liefert die Fontart.
+     * Liefert die Font-Art.
      *
      * @return int; z.B. Font.PLAIN
      */
@@ -179,13 +167,14 @@ public final class SwingFontSizeChanger
     }
 
     /**
-     * Verknuepft ein Object mit einem Listener, der bei Font-Aenderungen reagiert.
+     * Verknüpft ein Objekt mit einem Listener, der bei Font-Änderungen reagiert.
      *
      * @param object Object
      */
     public void register(final Object object)
     {
-        PropertyChangeListener fontListener = event -> {
+        PropertyChangeListener fontListener = event ->
+        {
             if (object instanceof JComponent c)
             {
                 updateFontForComponent(getFont(), c);
@@ -225,31 +214,12 @@ public final class SwingFontSizeChanger
 
         this.propertyChangeSupport.firePropertyChange("font", oldFont, this.font);
 
-        // UI-Konstanten anpassen fuer neue Komponenten.
+        // UI-Konstanten anpassen für neue Komponenten.
         UICustomization.setDefaultFont(font);
     }
 
-    // /**
-    // * Setzt eine neue Fontfamilie.
-    // *
-    // * @param fontFamily String
-    // * @deprecated Entfaellt
-    // */
-    // @Deprecated
-    // private void setFontFamily(final String fontFamily)
-    // {
-    // if (getFontFamily().equals(fontFamily))
-    // {
-    // return;
-    // }
-    //
-    // Font newFont = new Font(fontFamily, this.font.getStyle(), this.font.getSize());
-    //
-    // setFont(newFont);
-    // }
-
     /**
-     * Setzt eine neue Fontgroesse.
+     * Setzt eine neue Font-Grösse.
      *
      * @param fontSize float
      */
@@ -268,10 +238,40 @@ public final class SwingFontSizeChanger
     }
 
     // /**
-    // * Setzt die Art des Fonts.
+    // * Setzt eine neue Font-Familie.
+    // *
+    // * @param fontFamily String
+    // * @deprecated Entfällt
+    // */
+    // @Deprecated
+    // private void setFontFamily(final String fontFamily)
+    // {
+    // if (getFontFamily().equals(fontFamily))
+    // {
+    // return;
+    // }
+    //
+    // Font newFont = new Font(fontFamily, this.font.getStyle(), this.font.getSize());
+    //
+    // setFont(newFont);
+    // }
+
+    /**
+     * Hinzufügen eines neuen Handlers für eine {@link Component}.
+     *
+     * @param componentClass {@link Class}
+     * @param handler {@link FontChangeHandler}
+     */
+    private void addFontChangeHandler(final Class<?> componentClass, final FontChangeHandler handler)
+    {
+        this.handlers.put(componentClass, handler);
+    }
+
+    // /**
+    // * Setzt den Style des Fonts.
     // *
     // * @param fontStyle int; {zB Font.PLAIN}
-    // * @deprecated Entfaellt
+    // * @deprecated Entfällt
     // */
     // @Deprecated
     // private void setFontStyle(final int fontStyle)

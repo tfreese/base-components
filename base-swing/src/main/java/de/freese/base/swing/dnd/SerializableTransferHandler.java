@@ -13,13 +13,12 @@ import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
+import de.freese.base.utils.TableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.utils.TableUtils;
-
 /**
- * Basisklasse eines {@link TransferHandler}s fuer {@link Serializable}s.
+ * Basisklasse eines {@link TransferHandler}s für {@link Serializable}s.
  *
  * @author Thomas Freese
  */
@@ -49,6 +48,15 @@ public class SerializableTransferHandler extends TransferHandler
         }
 
         return false;
+    }
+
+    /**
+     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
+     */
+    @Override
+    public int getSourceActions(final JComponent c)
+    {
+        return COPY;
     }
 
     /**
@@ -103,14 +111,5 @@ public class SerializableTransferHandler extends TransferHandler
     protected Logger getLogger()
     {
         return this.logger;
-    }
-
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
-    @Override
-    public int getSourceActions(final JComponent c)
-    {
-        return COPY;
     }
 }

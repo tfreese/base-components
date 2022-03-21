@@ -6,13 +6,10 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.tree.TreeSelectionModel;
 
+import de.freese.base.swing.components.table.ExtTable;
 import org.jdesktop.swingx.JXTree;
 
-import de.freese.base.swing.components.table.ExtTable;
-
 /**
- * Enthaelt einen {@link JTree} und eine {@link JTable}, kombiniert zu der TreeTable Ansicht.
- *
  * @author Thomas Freese
  */
 public class TreeUndTable

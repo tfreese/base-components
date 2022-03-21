@@ -20,8 +20,16 @@ public class LedPanel extends Component implements LedConfig
      */
     private static final long serialVersionUID = -2419621712513872997L;
     /**
-    *
-    */
+     *
+     */
+    private final LedMatrix ledMatrix;
+    /**
+     *
+     */
+    private final List<Token<?>> tokens = new LinkedList<>();
+    /**
+     *
+     */
     private Color colorBackground;
     /**
      *
@@ -42,18 +50,10 @@ public class LedPanel extends Component implements LedConfig
     /**
      *
      */
-    private final LedMatrix ledMatrix;
-    /**
-    *
-    */
     private int tokenGap;
     /**
      *
      */
-    private final List<Token<?>> tokens = new LinkedList<>();
-    /**
-    *
-    */
     private int vgap;
 
     /**
@@ -160,7 +160,7 @@ public class LedPanel extends Component implements LedConfig
     }
 
     /**
-     * Nur verwenden wenn Klasse von Component vererbt !!!
+     * Nur verwenden, wenn Klasse von Component vererbt !!!
      *
      * @see java.awt.Component#paint(java.awt.Graphics)
      */

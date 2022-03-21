@@ -16,13 +16,10 @@ import de.freese.base.demo.fibonacci.view.FibonacciPanel;
 import de.freese.base.demo.fibonacci.view.FibonacciTaskListener;
 import de.freese.base.demo.fibonacci.view.FibonacciView;
 import de.freese.base.mvc.AbstractController;
-import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 
 /**
- * {@link Controller} des Fibonacci Beispiels.
- *
  * @author Thomas Freese
  */
 public class FibonacciController extends AbstractController
@@ -38,11 +35,11 @@ public class FibonacciController extends AbstractController
     /**
      *
      */
-    private ForkJoinPool forkJoinPool;
-    /**
-    *
-    */
     private final FibonacciView view;
+    /**
+     *
+     */
+    private ForkJoinPool forkJoinPool;
 
     /**
      * Erstellt ein neues {@link FibonacciController} Object.
@@ -72,28 +69,6 @@ public class FibonacciController extends AbstractController
         }
 
         return fibonacci(n, operationConsumer, new AtomicLong(0));
-    }
-
-    /**
-     * Liefert den Fibonacci-Wert des Parameters.
-     *
-     * @param n int
-     * @param operationConsumer {@link LongConsumer}
-     * @param operationCount {@link AtomicLong}
-     *
-     * @return long
-     */
-    private long fibonacci(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount)
-    {
-        if (n <= 1)
-        {
-            return n;
-        }
-
-        FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, operationConsumer, operationCount, false);
-        long result = this.forkJoinPool.invoke(task);
-
-        return result;
     }
 
     /**
@@ -146,7 +121,8 @@ public class FibonacciController extends AbstractController
 
         FibonacciPanel panel = getView().getComponent();
 
-        panel.getButtonGlassPaneBlock().addActionListener(event -> {
+        panel.getButtonGlassPaneBlock().addActionListener(event ->
+        {
             getView().setResult(0);
 
             // Task mit GlassPaneInputBlocker
@@ -161,7 +137,8 @@ public class FibonacciController extends AbstractController
             getContext().getTaskManager().execute(task);
         });
 
-        panel.getButtonComponentBlock().addActionListener(event -> {
+        panel.getButtonComponentBlock().addActionListener(event ->
+        {
             getView().setResult(0);
 
             // Task mit ComponentInputBlocker
@@ -186,5 +163,27 @@ public class FibonacciController extends AbstractController
         super.release();
 
         this.forkJoinPool.shutdown();
+    }
+
+    /**
+     * Liefert den Fibonacci-Wert des Parameters.
+     *
+     * @param n int
+     * @param operationConsumer {@link LongConsumer}
+     * @param operationCount {@link AtomicLong}
+     *
+     * @return long
+     */
+    private long fibonacci(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount)
+    {
+        if (n <= 1)
+        {
+            return n;
+        }
+
+        FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, operationConsumer, operationCount, false);
+        long result = this.forkJoinPool.invoke(task);
+
+        return result;
     }
 }

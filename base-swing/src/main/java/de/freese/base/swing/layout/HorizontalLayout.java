@@ -7,7 +7,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 
 /**
- * LayoutManager fuer ein horizontales Layout.
+ * LayoutManager für ein horizontales Layout.
  *
  * @author Thomas Freese
  */
@@ -28,7 +28,7 @@ public class HorizontalLayout implements LayoutManager
 
     /**
      * Erstellt ein neues {@link HorizontalLayout} Object.
-     * 
+     *
      * @param gap int
      */
     public HorizontalLayout(final int gap)
@@ -49,7 +49,7 @@ public class HorizontalLayout implements LayoutManager
 
     /**
      * Liefert den Abstand zwischen den Komponenten.
-     * 
+     *
      * @return int
      */
     public int getGap()
@@ -128,7 +128,7 @@ public class HorizontalLayout implements LayoutManager
 
     /**
      * Setzt den Abstand zwischen den Komponenten.
-     * 
+     *
      * @param gap int
      */
     public void setGap(final int gap)

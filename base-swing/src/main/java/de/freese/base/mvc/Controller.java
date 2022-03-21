@@ -44,7 +44,7 @@ public interface Controller
     void initialize();
 
     /**
-     * Freigeben verwendeter Resourcen.
+     * Freigeben verwendeter Ressourcen.
      */
     void release();
 }

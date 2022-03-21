@@ -8,12 +8,17 @@ import de.freese.base.swing.eventlist.IEventList;
 /**
  * TableModel das intern eine {@link IEventList} verwendet.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ der List-Objekte.
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractEventListTableModel<T> extends AbstractListTableModel<T>
 {
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4124337499231623139L;
+
     /**
      * Listener auf der {@link IEventList}.
      *
@@ -62,11 +67,6 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     }
 
     /**
-     *
-     */
-    private static final long serialVersionUID = -4124337499231623139L;
-
-    /**
      * Erstellt ein neues {@link AbstractEventListTableModel} Objekt.
      *
      * @param columnCount int
@@ -80,15 +80,6 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     }
 
     /**
-     * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
-     */
-    @Override
-    protected IEventList<T> getList()
-    {
-        return (IEventList<T>) super.getList();
-    }
-
-    /**
      * @see de.freese.base.swing.components.table.AbstractListTableModel#refresh()
      */
     @Override
@@ -96,6 +87,15 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     {
         getList().update();
 
-        // Die Events werden ueber die EventList gefeuert.
+        // Die Events werden über die EventList gefeuert.
+    }
+
+    /**
+     * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
+     */
+    @Override
+    protected IEventList<T> getList()
+    {
+        return (IEventList<T>) super.getList();
     }
 }

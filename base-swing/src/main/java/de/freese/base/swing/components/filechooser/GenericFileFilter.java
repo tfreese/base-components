@@ -5,15 +5,14 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * {@link FileFilter} fuer bestimmte DatenTypen.
+ * {@link FileFilter} für bestimmte DatenTypen.
  *
  * @author Thomas Freese
- *
- * @see CSVFileFilter
+ * @see CsvFileFilter
  * @see ImageFileFilter
- * @see PDFFileFilter
- * @see PPTFileFilter
- * @see XLSFileFilter
+ * @see PdfFileFilter
+ * @see PptFileFilter
+ * @see XlsFileFilter
  */
 public class GenericFileFilter extends FileFilter implements java.io.FileFilter
 {
@@ -32,7 +31,7 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter
      * @param includeDirectories boolean
      * @param types String[] Dateitypen, .csv, .xls usw
      */
-    public GenericFileFilter(final boolean includeDirectories, final String...types)
+    public GenericFileFilter(final boolean includeDirectories, final String... types)
     {
         super();
 

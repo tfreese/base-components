@@ -6,9 +6,9 @@ import javax.swing.ComboBoxModel;
 import de.freese.base.swing.components.list.model.DefaultListListModel;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> implements ComboBoxModel<T>
 {
@@ -20,33 +20,6 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
      * Das momentan selektierte Objekt, in der ComboBox.
      */
     private Object selectedObject;
-
-    /**
-     * @see de.freese.base.swing.components.list.model.DefaultListListModel#fireContentsChanged(java.lang.Object, int, int)
-     */
-    @Override
-    protected void fireContentsChanged(final Object source, final int index0, final int index1)
-    {
-        this.selectedObject = null;
-
-        super.fireContentsChanged(source, index0, index1);
-    }
-
-    /**
-     * Ueberschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
-     *
-     * @see de.freese.base.swing.components.list.model.DefaultListListModel#fireIntervalRemoved(java.lang.Object, int, int)
-     */
-    @Override
-    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
-    {
-        if (this.selectedObject != null)
-        {
-            setSelectedItem(null);
-        }
-
-        super.fireIntervalRemoved(source, index0, index1);
-    }
 
     /**
      * @see javax.swing.ComboBoxModel#getSelectedItem()
@@ -75,5 +48,32 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
         }
 
         fireContentsChanged(this, index, index);
+    }
+
+    /**
+     * @see de.freese.base.swing.components.list.model.DefaultListListModel#fireContentsChanged(java.lang.Object, int, int)
+     */
+    @Override
+    protected void fireContentsChanged(final Object source, final int index0, final int index1)
+    {
+        this.selectedObject = null;
+
+        super.fireContentsChanged(source, index0, index1);
+    }
+
+    /**
+     * Überschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
+     *
+     * @see de.freese.base.swing.components.list.model.DefaultListListModel#fireIntervalRemoved(java.lang.Object, int, int)
+     */
+    @Override
+    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
+    {
+        if (this.selectedObject != null)
+        {
+            setSelectedItem(null);
+        }
+
+        super.fireIntervalRemoved(source, index0, index1);
     }
 }

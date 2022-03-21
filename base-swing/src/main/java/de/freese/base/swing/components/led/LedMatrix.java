@@ -573,7 +573,7 @@ public class LedMatrix implements Painter<LedConfig>
         // TODO Hier Ansetzen für das Scrolling.
         // LinkedList<byte[]> des gesamten Elements.
         // byte[] mask = linkedList.remove(0);
-        // linkedList.add(maskr);
+        // linkedList.add(mask);
 
         for (Token<?> token : config.getTokens())
         {

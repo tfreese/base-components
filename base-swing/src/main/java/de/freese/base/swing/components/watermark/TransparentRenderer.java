@@ -18,8 +18,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
 /**
- * Renderer fuer den Watermark.
- *
  * @author Thomas Freese
  */
 public class TransparentRenderer extends JLabel implements ListCellRenderer<Object>, TreeCellRenderer, TableCellRenderer
@@ -215,7 +213,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     }
 
     /**
-     * Sets the Components colors relevent to ist current status.
+     * Sets the Components colors relevant to ist current status.
      *
      * @param parent {@link JComponent}
      * @param isSelected boolean

@@ -4,8 +4,6 @@ import de.freese.base.mvc.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * BeispielView.
- *
  * @author Thomas Freese
  */
 public class ExampleView extends AbstractView

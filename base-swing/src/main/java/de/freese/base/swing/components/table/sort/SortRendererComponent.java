@@ -29,17 +29,17 @@ public class SortRendererComponent extends JPanel
      */
     private static final long serialVersionUID = -5261935215031937262L;
     /**
-     * Label mit dem Sortiericon und der Sortierprioritaet
-     */
-    private JLabel jLabelIcon;
-    /**
      * MainComponent
      */
     private final JComponent mainComponent;
     /**
-     * Die Farbe fuer den Prioritaetstext
+     * Die Farbe für den Prioritätstext.
      */
     private final Color textSortColor;
+    /**
+     * Label mit dem Sortiericon und der Sortierpriorität.
+     */
+    private JLabel jLabelIcon;
 
     /**
      * Erstellt ein neues {@link SortRendererComponent} Objekt.
@@ -77,7 +77,7 @@ public class SortRendererComponent extends JPanel
     }
 
     /**
-     * Liefert das Label fuer die Sortierung.
+     * Liefert das Label für die Sortierung.
      *
      * @return {@link JLabel}
      */
@@ -120,7 +120,7 @@ public class SortRendererComponent extends JPanel
     }
 
     /**
-     * Setzt die Prioritaet in der Sortierreihenfolge.
+     * Setzt die Priorität in der Sortierreihenfolge.
      *
      * @param priority String
      */

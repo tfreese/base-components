@@ -3,7 +3,7 @@ package de.freese.base.swing.filter;
 import java.util.Date;
 
 /**
- * Filter fuer {@link Date}s.
+ * Filter für {@link Date}s.
  *
  * @author Thomas Freese
  */
@@ -17,7 +17,7 @@ public class DateFilter extends AbstractFilter
     /**
      * Erstellt ein neues {@link DateFilter} Object.
      *
-     * @param dateFormat String; Format: %1$td.%1$tm.%1$tY %1$tH:%1$tM:%1$tS fuer dd.MM.YYYY hh:mm:ss
+     * @param dateFormat String; Format: %1$td.%1$tm.%1$tY %1$tH:%1$tM:%1$tS für dd.MM.YYYY hh:mm:ss
      */
     public DateFilter(final String dateFormat)
     {
@@ -43,11 +43,6 @@ public class DateFilter extends AbstractFilter
         String filterDateString = String.format(this.dateFormat, filterDate);
         String dateString = String.format(this.dateFormat, date);
 
-        if (filterDateString.equals(dateString))
-        {
-            return true;
-        }
-
-        return false;
+        return filterDateString.equals(dateString);
     }
 }

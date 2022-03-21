@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import javax.swing.Action;
 
 /**
- * InputBlocker für eine GUI-Komponenten.
+ * InputBlocker für eine GUI-Komponente.
  *
  * @author Thomas Freese
  */
@@ -38,7 +38,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
      *
      * @return {@link DefaultInputBlocker}
      */
-    public DefaultInputBlocker add(final Action action, final Action...actions)
+    public DefaultInputBlocker add(final Action action, final Action... actions)
     {
         addTarget(action);
 
@@ -56,7 +56,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
      *
      * @return {@link DefaultInputBlocker}
      */
-    public DefaultInputBlocker add(final Component component, final Component...components)
+    public DefaultInputBlocker add(final Component component, final Component... components)
     {
         addTarget(component);
 
@@ -75,7 +75,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
      * @return {@link DefaultInputBlocker}
      */
     @SuppressWarnings("unchecked")
-    public DefaultInputBlocker add(final Consumer<Boolean> consumer, final Consumer<Boolean>...consumers)
+    public DefaultInputBlocker add(final Consumer<Boolean> consumer, final Consumer<Boolean>... consumers)
     {
         addTarget(consumer);
 
@@ -91,9 +91,9 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#block()
      */
     @SuppressWarnings(
-    {
-            "unchecked", "rawtypes"
-    })
+            {
+                    "unchecked", "rawtypes"
+            })
     @Override
     public void block()
     {
@@ -122,9 +122,9 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
      */
     @SuppressWarnings(
-    {
-            "unchecked", "rawtypes"
-    })
+            {
+                    "unchecked", "rawtypes"
+            })
     @Override
     public void unblock()
     {

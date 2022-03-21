@@ -25,17 +25,17 @@ public abstract class AbstractGraphComponent extends Component
      */
     private static final long serialVersionUID = -7006824316195250962L;
     /**
-    *
-    */
-    private transient BufferedImage bufferedImage;
-    /**
-    *
-    */
-    private transient Graphics2D bufferedImageGraphics2d;
-    /**
      *
      */
     private final transient Painter<Component> painter;
+    /**
+     *
+     */
+    private transient BufferedImage bufferedImage;
+    /**
+     *
+     */
+    private transient Graphics2D bufferedImageGraphics2d;
     /**
      *
      */
@@ -53,6 +53,63 @@ public abstract class AbstractGraphComponent extends Component
         this.painter = Objects.requireNonNull(painter, "painter required");
 
         init();
+    }
+
+    /**
+     * @return boolean
+     */
+    public boolean isUseBufferedImage()
+    {
+        return this.useBufferedImage;
+    }
+
+    /**
+     * Nur verwenden, wenn Klasse von Component vererbt !!!
+     *
+     * @see java.awt.Component#paint(java.awt.Graphics)
+     */
+    @Override
+    public void paint(final Graphics g)
+    {
+        // super.paint(g);
+
+        if (isUseBufferedImage() && (getBufferedImage() != null))
+        {
+            getPainter().paint(getBufferedImageGraphics2d(), this, getWidth(), getHeight());
+
+            g.drawImage(getBufferedImage(), 0, 0, this);
+        }
+        else
+        {
+            Graphics2D g2d = (Graphics2D) g;
+
+            getPainter().paint(g2d, this, getWidth(), getHeight());
+        }
+    }
+
+    /**
+     * Führt den Repaint immer im EDT aus.
+     */
+    public void paintGraph()
+    {
+        // ((AbstractGraphPainter) getPainter()).generateValue(getWidth());
+
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            repaint();
+        }
+        else
+        {
+            SwingUtilities.invokeLater(this::repaint);
+        }
+    }
+
+    /**
+     * @param useBufferedImage boolean
+     */
+    public void useBufferedImage(final boolean useBufferedImage)
+    {
+        this.useBufferedImage = useBufferedImage;
     }
 
     /**
@@ -110,14 +167,6 @@ public abstract class AbstractGraphComponent extends Component
     }
 
     /**
-     * @return boolean
-     */
-    public boolean isUseBufferedImage()
-    {
-        return this.useBufferedImage;
-    }
-
-    /**
      * @param event {@link ComponentEvent}
      */
     protected void onComponentResized(final ComponentEvent event)
@@ -127,55 +176,6 @@ public abstract class AbstractGraphComponent extends Component
         // this.bufferedImage = (BufferedImage) createImage(getWidth(), getHeight());
 
         this.bufferedImageGraphics2d = this.bufferedImage.createGraphics();
-    }
-
-    /**
-     * @param event {@link MouseEvent}
-     */
-    protected void onMouseClicked(final MouseEvent event)
-    {
-        // Empty
-    }
-
-    /**
-     * Nur verwenden wenn Klasse von Component vererbt !!!
-     *
-     * @see java.awt.Component#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(final Graphics g)
-    {
-        // super.paint(g);
-
-        if (isUseBufferedImage() && (getBufferedImage() != null))
-        {
-            getPainter().paint(getBufferedImageGraphics2d(), this, getWidth(), getHeight());
-
-            g.drawImage(getBufferedImage(), 0, 0, this);
-        }
-        else
-        {
-            Graphics2D g2d = (Graphics2D) g;
-
-            getPainter().paint(g2d, this, getWidth(), getHeight());
-        }
-    }
-
-    /**
-     * Führt den Repaint immer im EDT aus.
-     */
-    public void paintGraph()
-    {
-        // ((AbstractGraphPainter) getPainter()).generateValue(getWidth());
-
-        if (SwingUtilities.isEventDispatchThread())
-        {
-            repaint();
-        }
-        else
-        {
-            SwingUtilities.invokeLater(this::repaint);
-        }
     }
 
     // /**
@@ -203,10 +203,10 @@ public abstract class AbstractGraphComponent extends Component
     // }
 
     /**
-     * @param useBufferedImage boolean
+     * @param event {@link MouseEvent}
      */
-    public void useBufferedImage(final boolean useBufferedImage)
+    protected void onMouseClicked(final MouseEvent event)
     {
-        this.useBufferedImage = useBufferedImage;
+        // Empty
     }
 }

@@ -3,22 +3,21 @@ package de.freese.base.mvc.guistate;
 import java.util.Objects;
 import java.util.Set;
 
+import de.freese.base.mvc.storage.LocalStorage;
+import de.freese.base.swing.state.GUIState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.mvc.storage.LocalStorage;
-import de.freese.base.swing.state.GUIState;
-
 /**
- * Der {@link AbstractGuiStateProvider} nutzt den {@link LocalStorage} fuer das Speichern im verschiedenen Formaten.
+ * Der {@link AbstractGuiStateProvider} nutzt den {@link LocalStorage} für das Speichern im verschiedenen Formaten.
  *
  * @author Thomas Freese
  */
 public abstract class AbstractGuiStateProvider implements GuiStateProvider
 {
     /**
-    *
-    */
+     *
+     */
     private final Class<?>[] guiStateClasses;
     /**
      *

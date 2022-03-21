@@ -22,8 +22,6 @@ import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;
 
 /**
- * Beispiel Panel fuer Watermarks.
- *
  * @author Thomas Freese
  */
 public class WatermarkExample extends JPanel implements ActionListener
@@ -59,6 +57,7 @@ public class WatermarkExample extends JPanel implements ActionListener
         frame.pack();
         frame.setVisible(true);
     }
+
     /**
      *
      */

@@ -4,6 +4,7 @@ import javax.swing.JComponent;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicColorChooserUI;
+
 import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
 
 /**
@@ -15,8 +16,9 @@ public class ColorChooserUI extends BasicColorChooserUI
 {
     /**
      * Erzeugt eine UI Instanz.
-     * 
+     *
      * @param c {@link JComponent}
+     *
      * @return {@link ComponentUI}
      */
     public static ComponentUI createUI(final JComponent c)
@@ -32,7 +34,7 @@ public class ColorChooserUI extends BasicColorChooserUI
     {
         AbstractColorChooserPanel[] chooserPanels = super.createDefaultChoosers();
 
-        // SwingX Panel dranhaengen
+        // SwingX Panel dranhängen
         AbstractColorChooserPanel[] panels = new AbstractColorChooserPanel[chooserPanels.length + 1];
         System.arraycopy(chooserPanels, 0, panels, 0, chooserPanels.length);
 

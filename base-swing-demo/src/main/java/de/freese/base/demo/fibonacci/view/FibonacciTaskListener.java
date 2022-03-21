@@ -8,8 +8,6 @@ import java.util.Objects;
 import de.freese.base.swing.task.SwingTask;
 
 /**
- * {@link PropertyChangeListener} für das Fibonacci Beispiel.
- *
  * @author Thomas Freese
  */
 public class FibonacciTaskListener implements PropertyChangeListener

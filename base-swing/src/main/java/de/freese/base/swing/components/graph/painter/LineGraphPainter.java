@@ -14,8 +14,8 @@ import java.util.List;
 public class LineGraphPainter extends AbstractGraphPainter
 {
     /**
-    *
-    */
+     *
+     */
     private final Line2D line2d = new Line2D.Float();
 
     /**
@@ -36,7 +36,7 @@ public class LineGraphPainter extends AbstractGraphPainter
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
-        // Sinus: X-Achse auf halber Höhe
+        // Sinus: x-Achse auf halber Höhe
         float middle = height / 2F;
         float yLast = middle - (values.get(0) * middle);
 

@@ -5,10 +5,9 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 
 /**
- * Basisknoten fuer ein TreeModel, welches die Kinderknoten erst beim aufklappen des Parents laedt.
+ * Basisknoten für ein TreeModel, welches die Kinderknoten erst beim Aufklappen des Parents lädt.
  *
  * @author Thomas Freese
- *
  * @see LazyLoadingTreeController
  */
 public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
@@ -37,6 +36,15 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
     }
 
     /**
+     * @see javax.swing.tree.DefaultMutableTreeNode#isLeaf()
+     */
+    @Override
+    public boolean isLeaf()
+    {
+        return !getAllowsChildren();
+    }
+
+    /**
      * Liefert true, wenn dieser Knoten seine Kinder bereits geladen hat.
      *
      * @return boolean
@@ -47,35 +55,11 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
     }
 
     /**
-     * @return {@link DefaultTreeModel}
-     */
-    protected DefaultTreeModel getModel()
-    {
-        return this.model;
-    }
-
-    /**
-     * @see javax.swing.tree.DefaultMutableTreeNode#isLeaf()
-     */
-    @Override
-    public boolean isLeaf()
-    {
-        return !getAllowsChildren();
-    }
-
-    /**
-     * Laden der Kinder dieses Knotens.
-     *
-     * @return {@link MutableTreeNode}[]
-     */
-    protected abstract MutableTreeNode[] loadChilds();
-
-    /**
      * Setzt die geladenen Kinder in das {@link DefaultTreeModel}.
      *
      * @param nodes {@link MutableTreeNode}[]
      */
-    void setChildren(final MutableTreeNode...nodes)
+    void setChildren(final MutableTreeNode... nodes)
     {
         int childCount = getChildCount();
 
@@ -98,4 +82,19 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
             this.model.insertNodeInto(nodes[i], this, i);
         }
     }
+
+    /**
+     * @return {@link DefaultTreeModel}
+     */
+    protected DefaultTreeModel getModel()
+    {
+        return this.model;
+    }
+
+    /**
+     * Laden der Kinder dieses Knotens.
+     *
+     * @return {@link MutableTreeNode}[]
+     */
+    protected abstract MutableTreeNode[] loadChilds();
 }

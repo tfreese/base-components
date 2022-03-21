@@ -10,9 +10,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+
 import de.freese.base.swing.components.graph.DefaultGraphComponent;
 import de.freese.base.swing.components.graph.painter.BarGraphPainter;
 import de.freese.base.swing.components.graph.painter.LineGraphPainter;
@@ -53,7 +55,7 @@ public final class RandomGraphDemo
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
                 // return value * height;
 
-                // Sinus: X-Achse auf halber Höhe
+                // Sinus: x-Achse auf halber Höhe
                 float middle = height / 2F;
 
                 return (value * middle) + middle;
@@ -73,7 +75,7 @@ public final class RandomGraphDemo
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
                 // return value * height;
 
-                // Sinus: X-Achse auf halber Höhe
+                // Sinus: x-Achse auf halber Höhe
                 float middle = height / 2F;
 
                 return (value * middle) + middle;
@@ -85,7 +87,8 @@ public final class RandomGraphDemo
         Supplier<Float> valueSupplier = new SinusValueSupplier();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        scheduledExecutorService.scheduleWithFixedDelay(() -> {
+        scheduledExecutorService.scheduleWithFixedDelay(() ->
+        {
             float value = valueSupplier.get();
             linePainter.getValues().addValue(value);
             barPainter.getValues().addValue(value);

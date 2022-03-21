@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import de.freese.base.utils.GuiUtils;
 
 /**
- * JLabel fuer die Farbauswahl.
+ * JLabel für die Farbauswahl.
  *
  * @author Thomas Freese
  */

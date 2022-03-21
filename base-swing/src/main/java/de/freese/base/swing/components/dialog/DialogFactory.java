@@ -1,37 +1,38 @@
 package de.freese.base.swing.components.dialog;
 
 import java.awt.Component;
+
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
+
 import de.freese.base.resourcemap.ResourceMap;
 
 /**
- * Factory fuer {@link ExtDialog}e.
- *
  * @author Thomas Freese
  */
 public final class DialogFactory
 {
     /**
      * Erzeugt einen Dialog.
-     * 
+     *
      * @param parent {@link Component}
      * @param title String
      * @param message Object
-     * @param messagetType int
+     * @param messageType int
      * @param optionType int
      * @param icon {@link Icon}
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
-    public static ExtDialog create(final Component parent, final String title, final Object message, final int messagetType, final int optionType,
+    public static ExtDialog create(final Component parent, final String title, final Object message, final int messageType, final int optionType,
                                    final Icon icon, final boolean show)
     {
         ExtDialogConfig config = new ExtDialogConfig();
         config.setOwner(parent);
         config.setTitle(title);
         config.setMessage(message);
-        config.setMessageType(messagetType);
+        config.setMessageType(messageType);
         config.setOptionType(optionType);
         config.setIcon(icon);
 
@@ -44,11 +45,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Error-Dialog mit OK Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param resourceMap {@link ResourceMap}
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createFehler(final Component parent, final ResourceMap resourceMap, final Object message, final boolean show)
@@ -58,10 +60,11 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Information-Dialog mit OK Option als Dummy.
-     * 
+     *
      * @param parent {@link Component}
      * @param resourceMap {@link ResourceMap}
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createInArbeit(final Component parent, final ResourceMap resourceMap, final boolean show)
@@ -72,11 +75,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Information-Dialog mit OK Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param resourceMap {@link ResourceMap}
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createInfo(final Component parent, final ResourceMap resourceMap, final Object message, final boolean show)
@@ -86,11 +90,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Question-Dialog mit YES-NO Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param resourceMap {@link ResourceMap}
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createJaNein(final Component parent, final ResourceMap resourceMap, final Object message, final boolean show)
@@ -100,11 +105,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Question-Dialog mit YES-NO Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param title String
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createJaNein(final Component parent, final String title, final Object message, final boolean show)
@@ -114,12 +120,13 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Dialog mit YES-NO Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param title String
      * @param message Object
      * @param messageType int
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createJaNein(final Component parent, final String title, final Object message, final int messageType, final boolean show)
@@ -129,11 +136,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Plain-Dialog mit OK-CANCEL Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param resourceMap {@link ResourceMap}
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createOkAbbrechen(final Component parent, final ResourceMap resourceMap, final Object message, final boolean show)
@@ -143,11 +151,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Dialog mit OK-CANCEL Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param title String
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createOkAbbrechen(final Component parent, final String title, final Object message, final boolean show)
@@ -157,12 +166,13 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Dialog mit OK-CANCEL Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param title String
      * @param message Object
      * @param messageType int
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createOkAbbrechen(final Component parent, final String title, final Object message, final int messageType, final boolean show)
@@ -172,11 +182,12 @@ public final class DialogFactory
 
     /**
      * Erzeugt einen Warning-Dialog mit OK Option.
-     * 
+     *
      * @param parent {@link Component}
      * @param resourceMap {@link ResourceMap}
      * @param message Object
      * @param show boolean
+     *
      * @return {@link ExtDialog}
      */
     public static ExtDialog createWarnung(final Component parent, final ResourceMap resourceMap, final Object message, final boolean show)

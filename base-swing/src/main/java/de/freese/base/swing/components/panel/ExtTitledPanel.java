@@ -10,19 +10,23 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import de.freese.base.utils.UICustomization;
 import org.jdesktop.swingx.JXTitledPanel;
 
-import de.freese.base.utils.UICustomization;
-
 /**
- * TitledPanel fuer Buttons auf der rechten Seite.
+ * TitledPanel für Buttons auf der rechten Seite.
  *
  * @author Thomas Freese
  */
 public class ExtTitledPanel extends JXTitledPanel
 {
     /**
-     * Wenn Buttonstatus ausserhalb des TitledPanel geaendert wird, muss er neu gezeichnet werden.
+     *
+     */
+    private static final long serialVersionUID = 421436804144877867L;
+
+    /**
+     * Wenn ButtonStatus ausserhalb des TitledPanel geändert wird, muss er neu gezeichnet werden.
      *
      * @author Thomas Freese
      */
@@ -37,11 +41,6 @@ public class ExtTitledPanel extends JXTitledPanel
             repaint();
         }
     }
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 421436804144877867L;
     /**
      * {@link PropertyChangeListener}
      */
@@ -70,7 +69,7 @@ public class ExtTitledPanel extends JXTitledPanel
     }
 
     /**
-     * Fuegt der linken Seite des TitlePanes einen Separator hinzu. (Breite abhaengig vom LaF)
+     * Fügt der linken Seite des TitlePanes einen Separator hinzu. (Breite abhängig vom LaF)
      */
     public void addSeparatorLeft()
     {
@@ -78,7 +77,7 @@ public class ExtTitledPanel extends JXTitledPanel
     }
 
     /**
-     * Fuegt der rechten Seite des TitlePanes einen Separator hinzu. (Breite abhaengig vom LaF)
+     * Fügt der rechten Seite des TitlePanes einen Separator hinzu. (Breite abhängig vom LaF)
      */
     public void addSeparatorRight()
     {
@@ -86,7 +85,7 @@ public class ExtTitledPanel extends JXTitledPanel
     }
 
     /**
-     * Hinzufuegen einer Komponente zur linken Seite des TitlePane.
+     * Hinzufügen einer Komponente zur linken Seite des TitlePane.
      *
      * @param component {@link JComponent}
      */
@@ -98,7 +97,7 @@ public class ExtTitledPanel extends JXTitledPanel
     }
 
     /**
-     * Hinzufuegen einer Komponente zur rechten Seite des TitlePane.
+     * Hinzufügen einer Komponente zur rechten Seite des TitlePane.
      *
      * @param component {@link JComponent}
      */

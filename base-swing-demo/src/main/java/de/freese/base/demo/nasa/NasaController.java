@@ -24,13 +24,10 @@ import de.freese.base.demo.nasa.view.DefaultNasaView;
 import de.freese.base.demo.nasa.view.NasaPanel;
 import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.mvc.AbstractController;
-import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
 /**
- * {@link Controller} des Nasa Beispiels.
- *
  * @author Thomas Freese
  */
 public class NasaController extends AbstractController

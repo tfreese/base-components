@@ -10,7 +10,7 @@ import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 /**
- * Konfigurationsobjekt fuer den {@link ExtDialog}.
+ * Konfigurationsobjekt für den {@link ExtDialog}.
  *
  * @author Thomas Freese
  */
@@ -19,7 +19,7 @@ public class ExtDialogConfig
     /**
      *
      */
-    private Map<Integer, ActionListener> buttonActionListeners = new HashMap<>();
+    private final Map<Integer, ActionListener> buttonActionListeners = new HashMap<>();
     /**
      *
      */
@@ -41,16 +41,16 @@ public class ExtDialogConfig
      */
     private boolean modal = true;
     /**
-     * Eigene Texte.
-     */
-    private String[] options;
-    /**
      * @see JOptionPane#DEFAULT_OPTION
      * @see JOptionPane#YES_NO_OPTION
      * @see JOptionPane#YES_NO_CANCEL_OPTION
      * @see JOptionPane#OK_CANCEL_OPTION
      */
     private int optionType = JOptionPane.OK_OPTION;
+    /**
+     * Eigene Texte.
+     */
+    private String[] options;
     /**
      *
      */
@@ -69,7 +69,7 @@ public class ExtDialogConfig
     private WindowListener windowListener;
 
     /**
-     * Liefert den {@link ActionListener} fuer eine Buttonoption oder null.
+     * Liefert den {@link ActionListener} für eine ButtonOption oder null.
      *
      * @param buttonIndex int
      *
@@ -99,7 +99,7 @@ public class ExtDialogConfig
     }
 
     /**
-     * Liefert den Message Typ.
+     * Liefert den Message type.
      *
      * @return int
      *
@@ -112,16 +112,6 @@ public class ExtDialogConfig
     public int getMessageType()
     {
         return this.messageType;
-    }
-
-    /**
-     * Eigene Texte fuer die Buttons.
-     *
-     * @return String[]
-     */
-    public String[] getOptions()
-    {
-        return this.options;
     }
 
     /**
@@ -138,6 +128,16 @@ public class ExtDialogConfig
     public int getOptionType()
     {
         return this.optionType;
+    }
+
+    /**
+     * Eigene Texte für die Buttons.
+     *
+     * @return String[]
+     */
+    public String[] getOptions()
+    {
+        return this.options;
     }
 
     /**
@@ -185,7 +185,7 @@ public class ExtDialogConfig
     }
 
     /**
-     * Setzt den {@link ActionListener} fuer einen Button.
+     * Setzt den {@link ActionListener} für einen Button.
      *
      * @param buttonIndex int
      * @param actionListener {@link ActionListener}
@@ -214,7 +214,7 @@ public class ExtDialogConfig
     }
 
     /**
-     * Setzt den Message Typ.
+     * Setzt den Message type.
      *
      * @param messageType int
      *
@@ -238,16 +238,6 @@ public class ExtDialogConfig
     }
 
     /**
-     * Eigene Texte fuer die Buttons.
-     *
-     * @param options String[]
-     */
-    public void setOptions(final String...options)
-    {
-        this.options = options;
-    }
-
-    /**
      * Setzt die Dialogoptionen.
      *
      * @param optionType int
@@ -261,6 +251,16 @@ public class ExtDialogConfig
     public void setOptionType(final int optionType)
     {
         this.optionType = optionType;
+    }
+
+    /**
+     * Eigene Texte für die Buttons.
+     *
+     * @param options String[]
+     */
+    public void setOptions(final String... options)
+    {
+        this.options = options;
     }
 
     /**

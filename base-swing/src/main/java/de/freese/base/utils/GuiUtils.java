@@ -20,15 +20,13 @@ import javax.swing.JPanel;
 import de.freese.base.core.image.ImageFormat;
 
 /**
- * Nuetzliches Allerlei fuer die GUI.
- *
  * @author Thomas Freese
  */
 public final class GuiUtils
 {
     /**
      * Selbstgebauter ToolBar Separator.<br>
-     * Hat einen kleinen Strich und eine graue Flaeche.
+     * Hat einen kleinen Strich und eine graue Fläche.
      *
      * @author Thomas Freese
      */
@@ -59,10 +57,10 @@ public final class GuiUtils
     }
 
     /**
-     * Passt die Groesse des uebergebenen Fensters der aktuellen Bildschirmaufloesung an.<br>
+     * Passt die Grösse des übergebenen Fensters der aktuellen Bildschirmauflösung an.<br>
      * <br>
-     * Solange das Fenster vollstaendig dargestellt werden kann, werden keine Aenderungen vorgenommen. Ansonsten wird das Fenster entsprechend der aktuellen
-     * Bildschirmaufloesung verkleinert.<br>
+     * Solange das Fenster vollständig dargestellt werden kann, werden keine Änderungen vorgenommen. Ansonsten wird das Fenster entsprechend der aktuellen
+     * Bildschirmauflösung verkleinert.<br>
      *
      * @param frame {@link JFrame}
      */
@@ -77,7 +75,7 @@ public final class GuiUtils
     }
 
     /**
-     * Liefert die Breite eines Strings in der uebergebenen Komponente.
+     * Liefert die Breite eines Strings in der übergebenen Komponente.
      *
      * @param component {@link JComponent}
      * @param text {@link String}
@@ -90,7 +88,7 @@ public final class GuiUtils
     }
 
     /**
-     * Erzeugt einen PNG-Screenschot als {@link DataSource}.
+     * Erzeugt einen PNG-Screenshot als {@link DataSource}.
      *
      * @return {@link DataSource}
      *
@@ -115,7 +113,7 @@ public final class GuiUtils
     }
 
     /**
-     * Erzeugt einen PNG-Screenschot einer {@link Component} als {@link DataSource}.
+     * Erzeugt einen PNG-Screenshot einer {@link Component} als {@link DataSource}.
      *
      * @param c {@link Component}
      *
@@ -148,7 +146,7 @@ public final class GuiUtils
     }
 
     /**
-     * Erzeugt einen PNG-Screenschot des Koordinatenbereichs als {@link DataSource}.
+     * Erzeugt einen PNG-Screenshot des Koordinatenbereichs als {@link DataSource}.
      *
      * @param x int
      * @param y int
@@ -178,8 +176,8 @@ public final class GuiUtils
     }
 
     /**
-     * Findet in einer Componente eine andere Component mit der angegebene Klasse.<br>
-     * Wird nichts gefunden, kommt null zurueck.
+     * Findet in einer Component eine andere Component mit der angegebene Klasse.<br>
+     * Wird nichts gefunden, kommt null zurück.
      *
      * @param comp {@link Component}
      * @param clazz Class
@@ -212,7 +210,7 @@ public final class GuiUtils
 
     /**
      * Findet in einer Component eine andere Component mit dem angegebenen Namen.<br>
-     * Wird nichts gefunden, kommt null zurueck.<br>
+     * Wird nichts gefunden, kommt null zurück.<br>
      *
      * @param comp {@link Component}
      * @param name String
@@ -273,7 +271,7 @@ public final class GuiUtils
     }
 
     /**
-     * Gibt die Root-Komponente einer Komponente zurueck.
+     * Gibt die Root-Komponente einer Komponente zurück.
      *
      * @param component {@link Component}
      *
@@ -292,7 +290,7 @@ public final class GuiUtils
     }
 
     /**
-     * Gibt die {@link Dimension} des Bildschirms in Pixel zurueck.<br>
+     * Gibt die {@link Dimension} des Bildschirms in Pixel zurück.<br>
      *
      * @return {@link Dimension}
      *
@@ -304,7 +302,7 @@ public final class GuiUtils
     }
 
     /**
-     * Liefert den selbstgebauten ToolBar Separator.
+     * Liefert den selbstgebauten ToolBar-Separator.
      *
      * @return {@link JPanel}
      */

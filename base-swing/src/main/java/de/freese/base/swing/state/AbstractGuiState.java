@@ -18,7 +18,7 @@ public abstract class AbstractGuiState implements GUIState
      */
     private static final long serialVersionUID = 5367608044965230104L;
     /**
-     * Um veraltete States auch mal loeschen zu koennen.
+     * Um veraltete States auch mal löschen zu können.
      */
     private final long created = System.currentTimeMillis();
     /**

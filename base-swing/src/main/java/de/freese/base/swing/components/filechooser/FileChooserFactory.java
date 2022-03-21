@@ -4,7 +4,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * Factory fuer einen {@link JFileChooser}
+ * Factory für einen {@link JFileChooser}
  *
  * @author Thomas Freese
  */
@@ -12,10 +12,12 @@ public final class FileChooserFactory
 {
     /**
      * @param fileFilter {@link FileFilter}
+     *
      * @return {@link JFileChooser}
+     *
      * @see GenericFileFilter
      */
-    public static JFileChooser createFileChooser(final FileFilter...fileFilter)
+    public static JFileChooser createFileChooser(final FileFilter... fileFilter)
     {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);

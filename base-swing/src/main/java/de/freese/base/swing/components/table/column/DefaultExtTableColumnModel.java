@@ -65,6 +65,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
             }
         }
     }
+
     /**
      * contains a list of all column, in the order they would appear if all were visible.
      */
@@ -74,7 +75,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      */
     private final List<TableColumn> initialColumns = new ArrayList<>();
     /**
-     * Listener attached to TableColumnExt instances to listen for changes to their visibility status, and to hide/show the column as oppropriate
+     * Listener attached to TableColumnExt instances to listen for changes to their visibility status, and to hide/show the column as appropriate
      */
     private final VisibilityListener visibilityListener = new VisibilityListener();
 

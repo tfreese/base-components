@@ -10,8 +10,6 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 /**
- * Utilmethoden fuer einen JTree.
- *
  * @author Thomas Freese
  */
 public final class TreeUtils
@@ -122,7 +120,7 @@ public final class TreeUtils
     }
 
     /**
-     * Methode expandiert den Baum bis auf das angegebende Level.
+     * Methode expandiert den Baum bis auf das angegebene Level.
      *
      * @param tree {@link JTree}
      * @param path {@link TreePath}
@@ -219,7 +217,7 @@ public final class TreeUtils
     }
 
     /**
-     * Liefert den Parent fuer das Child Objekt. Durchlaeuft dabei den Baum rekursiv durch die Pfade.
+     * Liefert den Parent für das Child Objekt. Durchläuft dabei den Baum rekursiv durch die Pfade.
      *
      * @param tree {@link JTree}
      * @param object Object
@@ -246,7 +244,7 @@ public final class TreeUtils
     }
 
     /**
-     * Liefert den Parent fuer das Child Objekt. Durchlaeuft dabei den Baum rekursiv durch die Pfade.
+     * Liefert den Parent für das Child Objekt. Durchläuft dabei den Baum rekursiv durch die Pfade.
      *
      * @param treeModel {@link TreeModel}
      * @param object Object
@@ -366,7 +364,7 @@ public final class TreeUtils
     }
 
     /**
-     * Liefert den ersten Knoten, der ein UserObject vom gewuenschten Typ enthaelt.
+     * Liefert den ersten Knoten, der ein UserObject vom gewünschten Typ enthält.
      *
      * @param <K> extends {@link DefaultMutableTreeNode}
      * @param tree {@link JTree}
@@ -375,9 +373,9 @@ public final class TreeUtils
      * @return {@link DefaultMutableTreeNode}
      */
     @SuppressWarnings("unchecked")
-    public static final <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>...userObjectType)
+    public static final <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType)
     {
-        // Ueberpruefen, ob selektierte Elemente vorhanden sind.
+        // Überprüfen, ob selektierte Elemente vorhanden sind.
         Object[] selectedObjects = getSelectedObjects(tree);
 
         if (selectedObjects == null)
@@ -402,7 +400,7 @@ public final class TreeUtils
     }
 
     /**
-     * Liefert das UserObject des ersten Knoten, der das UserObject vom gewuenschten Typ enthaelt.
+     * Liefert das UserObject des ersten Knotens, der das UserObject vom gewünschten Typ enthält.
      *
      * @param <T> Konkretes Objekt
      * @param tree {@link JTree}
@@ -419,7 +417,7 @@ public final class TreeUtils
     }
 
     /**
-     * Liefert das Object des Paths zurueck, wenn der Mauszeiger genau darueber steht und selektiert es bei Bedarf.
+     * Liefert das Object des Paths zurück, wenn der Mauszeiger genau darüber steht und selektiert es bei Bedarf.
      *
      * @param me {@link MouseEvent}
      *
@@ -429,7 +427,7 @@ public final class TreeUtils
     {
         Object obj = null;
 
-        if ((me != null) && (me.getSource()instanceof JTree tree))
+        if ((me != null) && (me.getSource() instanceof JTree tree))
         {
             if (tree.getRowForLocation(me.getX(), me.getY()) == -1)
             {
@@ -455,7 +453,7 @@ public final class TreeUtils
     }
 
     /**
-     * Selektiert den Uebergebenen Node.
+     * Selektiert den übergebenen Node.
      *
      * @param tree {@link JTree}
      * @param node {@link DefaultMutableTreeNode}

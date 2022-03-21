@@ -3,6 +3,7 @@ package de.freese.base.swing.undo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
@@ -20,7 +21,7 @@ public class ExtUndoManager extends UndoManager
 
     /**
      * Liefert eine unmodifiableList der vorhandenen {@link UndoableEdit}s.
-     * 
+     *
      * @return {@link List}
      */
     public synchronized List<UndoableEdit> getEdits()
@@ -29,8 +30,8 @@ public class ExtUndoManager extends UndoManager
     }
 
     /**
-     * Liefert eine unmodifiableList der vorhandenen {@link UndoableEdit}s, welche noch ein Undo ausfuehren koennen.
-     * 
+     * Liefert eine unmodifiableList der vorhandenen {@link UndoableEdit}s, welche noch ein Undo ausführen können.
+     *
      * @return {@link List}
      */
     public synchronized List<UndoableEdit> getUndoableEdits()

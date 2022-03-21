@@ -2,12 +2,12 @@ package de.freese.base.utils;
 
 import java.util.Arrays;
 import java.util.Iterator;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
 /**
- * Utilmethoden fuer eine {@link JComboBox}.<br>
- * Die fill-Methoden setzen vorraus das die {@link JComboBox} ein {@link DefaultComboBoxModel} besitzt.
+ * Die fill-Methoden setzen voraus, dass die {@link JComboBox} ein {@link DefaultComboBoxModel} besitzt.
  *
  * @author Thomas Freese
  */
@@ -15,7 +15,7 @@ public final class ComboBoxUtils
 {
     /**
      * Setzt die Daten des Iterables in das ComboBoxModel.
-     * 
+     *
      * @param comboBox {@link JComboBox}
      * @param iterable {@link Iterable}
      */
@@ -26,7 +26,7 @@ public final class ComboBoxUtils
 
     /**
      * Setzt die Daten des Iterators in das ComboBoxModel.
-     * 
+     *
      * @param comboBox {@link JComboBox}
      * @param iterator {@link Iterator}
      */
@@ -44,13 +44,13 @@ public final class ComboBoxUtils
 
     /**
      * Setzt die Daten des Iterables in das ComboBoxModel.
-     * 
+     *
      * @param <T> Konkreter Typ der Objekte.
      * @param comboBox {@link JComboBox}
      * @param objects @link Object[]
      */
     @SuppressWarnings("unchecked")
-    public static <T> void fillComboBox(final JComboBox<T> comboBox, final T...objects)
+    public static <T> void fillComboBox(final JComboBox<T> comboBox, final T... objects)
     {
         fillComboBox(comboBox, Arrays.asList(objects));
     }

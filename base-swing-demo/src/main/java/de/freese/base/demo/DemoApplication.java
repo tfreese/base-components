@@ -38,7 +38,21 @@ import de.freese.base.swing.components.frame.ExtFrame;
 public class DemoApplication extends AbstractApplication
 {
     /**
-     * WindowListener zum beenden.
+     * @param args String[]
+     */
+    public static void main(final String[] args)
+    {
+        final AbstractApplication application = new DemoApplication();
+
+        SwingUtilities.invokeLater(() ->
+        {
+            application.initialize();
+            // application.getContext().getMainFrame().setVisible(true);
+        });
+    }
+
+    /**
+     * WindowListener zum Beenden.
      *
      * @author Thomas Freese
      */
@@ -59,19 +73,6 @@ public class DemoApplication extends AbstractApplication
                 getLogger().error(null, ex);
             }
         }
-    }
-
-    /**
-     * @param args String[]
-     */
-    public static void main(final String[] args)
-    {
-        final AbstractApplication application = new DemoApplication();
-
-        SwingUtilities.invokeLater(() -> {
-            application.initialize();
-            // application.getContext().getMainFrame().setVisible(true);
-        });
     }
 
     /**
@@ -182,10 +183,10 @@ public class DemoApplication extends AbstractApplication
     }
 
     /**
-     * @see de.freese.base.mvc.AbstractApplication#initRecourceMap()
+     * @see de.freese.base.mvc.AbstractApplication#initRessourceMap()
      */
     @Override
-    protected void initRecourceMap()
+    protected void initRessourceMap()
     {
         ResourceProvider resourceProvider = new ResourceBundleProvider();
         // ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};

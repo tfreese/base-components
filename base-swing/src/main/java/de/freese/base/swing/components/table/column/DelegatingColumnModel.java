@@ -12,10 +12,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * Delegator fuer ein {@link TableColumnModel}. Damit wird sichergestellt dass die Spaltenbreiten dieselben sind, wie die Tabelle mit dem übergebenden
- * {@link TableColumnModel}. Zusätzlich wird verhindert, das beide ColumnModels das gleiche Selectionmodel haben.<br>
+ * Delegator für ein {@link TableColumnModel}. Damit wird sichergestellt, dass die Spaltenbreiten dieselben sind, wie die Tabelle mit dem übergebenden
+ * {@link TableColumnModel}. Zusätzlich wird verhindert, das beide ColumnModels das gleiche SelectionModel haben.<br>
  * Achtung!!!: Die Methoden removeColumn(), getSelectedColumns(), getSelectedColumnCount()<br>
- * und moveColumn() müssen angepasst werden, wenn das SelectionModel richtig funktioneren soll.
+ * und moveColumn() müssen angepasst werden, wenn das SelectionModel richtig funktionieren soll.
  *
  * @author Thomas Freese
  */
@@ -108,15 +108,6 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     }
 
     /**
-     * @see javax.swing.table.TableColumnModel#getColumns()
-     */
-    @Override
-    public Enumeration<TableColumn> getColumns()
-    {
-        return getDelegateColumnModel().getColumns();
-    }
-
-    /**
      * @see javax.swing.table.TableColumnModel#getColumnSelectionAllowed()
      */
     @Override
@@ -126,7 +117,16 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     }
 
     /**
-     * Liefert das orginal {@link TableColumnModel}.
+     * @see javax.swing.table.TableColumnModel#getColumns()
+     */
+    @Override
+    public Enumeration<TableColumn> getColumns()
+    {
+        return getDelegateColumnModel().getColumns();
+    }
+
+    /**
+     * Liefert das original {@link TableColumnModel}.
      *
      * @return {@link TableColumnModel}
      */
@@ -136,7 +136,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     }
 
     /**
-     * Liefert die orginal {@link JTable}.
+     * Liefert die original {@link JTable}.
      *
      * @return {@link JTable}
      */
@@ -242,7 +242,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     @Override
     public void valueChanged(final ListSelectionEvent e)
     {
-        if (getDelegateColumnModel()instanceof ListSelectionListener l)
+        if (getDelegateColumnModel() instanceof ListSelectionListener l)
         {
             l.valueChanged(e);
         }

@@ -1,7 +1,7 @@
 package de.freese.base.swing.filter;
 
 /**
- * Filter, die die Uebergebenden {@link Boolean} Objekte einer Tabellenspalte ausfiltert.
+ * Filter, die die übergebenden {@link Boolean} Objekte einer Tabellenspalte ausfiltert.
  *
  * @author Thomas Freese
  */

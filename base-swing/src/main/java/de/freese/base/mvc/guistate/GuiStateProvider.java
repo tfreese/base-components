@@ -3,7 +3,7 @@ package de.freese.base.mvc.guistate;
 import de.freese.base.swing.state.GUIState;
 
 /**
- * Ein {@link GuiStateProvider} ist zustaendig fuer das laden und speichern der {@link GUIState}s.
+ * Ein {@link GuiStateProvider} ist zuständig für das laden und speichern der {@link GUIState}s.
  *
  * @author Thomas Freese
  */

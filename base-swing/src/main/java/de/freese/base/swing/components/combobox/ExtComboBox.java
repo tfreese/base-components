@@ -16,25 +16,30 @@ import javax.swing.plaf.metal.MetalComboBoxUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 
 /**
- * ExtComboBox, deren Popup automatisch die Groesse besitzt, um den Inhalt komplett darzustellen, auch wenn die ExtComboBox kleiner ist.
- *
- * @author Thomas Freese
+ * ExtComboBox, deren Popup automatisch die Grösse besitzt, um den Inhalt komplett darzustellen, auch wenn die ExtComboBox kleiner ist.
  *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public class ExtComboBox<T> extends JComboBox<T>
 {
     /**
-     * UI fuer die automatische Popupgroesse.
      *
-     * @author Thomas Freese
+     */
+    private static final long serialVersionUID = -5210391879154918454L;
+
+    /**
+     * UI für die automatische Popup Grösse.
      *
      * @param <T> Konkreter Typ
+     *
+     * @author Thomas Freese
      */
     private static class AutowidthComboBoxUI<T> extends MetalComboBoxUI
     {
         /**
-         * Popup mit automatischer Groesse.
+         * Popup mit automatischer Grösse.
          *
          * @author Thomas Freese
          */
@@ -60,9 +65,9 @@ public class ExtComboBox<T> extends JComboBox<T>
              * @see javax.swing.plaf.basic.BasicComboPopup#computePopupBounds(int, int, int, int)
              */
             @SuppressWarnings(
-            {
-                    "rawtypes", "unchecked"
-            })
+                    {
+                            "rawtypes", "unchecked"
+                    })
             @Override
             protected Rectangle computePopupBounds(final int px, final int py, final int pw, final int ph)
             {
@@ -72,7 +77,7 @@ public class ExtComboBox<T> extends JComboBox<T>
                 int itemCount = this.comboBox.getItemCount();
                 ListCellRenderer renderer = this.comboBox.getRenderer();
 
-                // If the scroll bar appears, need to accomodate !
+                // If the scroll bar appears, need to accommodate !
                 int scroll = 0;
 
                 if (this.comboBox.getMaximumRowCount() < itemCount)
@@ -139,10 +144,6 @@ public class ExtComboBox<T> extends JComboBox<T>
     /**
      *
      */
-    private static final long serialVersionUID = -5210391879154918454L;
-    /**
-     *
-     */
     private boolean fireOnNull;
 
     /**
@@ -192,15 +193,6 @@ public class ExtComboBox<T> extends JComboBox<T>
     }
 
     /**
-     * Initialisiert die Combobox
-     */
-    private void initialize()
-    {
-        setUI(new AutowidthComboBoxUI<T>());
-        setKeySelectionManager(new RendererKeySelectionManager(this));
-    }
-
-    /**
      * true = SelectedEvent wird auch gefeuert wenn Object = NULL, false = Defaultverhalten
      *
      * @return boolean
@@ -208,6 +200,16 @@ public class ExtComboBox<T> extends JComboBox<T>
     public boolean isFireOnNull()
     {
         return this.fireOnNull;
+    }
+
+    /**
+     * true = SelectedEvent soll auch gefeuert werden, wenn Object = NULL, false = Defaultverhalten
+     *
+     * @param fireOnNull boolean
+     */
+    public void setFireOnNull(final boolean fireOnNull)
+    {
+        this.fireOnNull = fireOnNull;
     }
 
     /**
@@ -233,12 +235,11 @@ public class ExtComboBox<T> extends JComboBox<T>
     }
 
     /**
-     * true = SelectedEvent soll auch gefeuert werden, wenn Object = NULL, false = Defaultverhalten
-     *
-     * @param fireOnNull boolean
+     * Initialisiert die ComboBox.
      */
-    public void setFireOnNull(final boolean fireOnNull)
+    private void initialize()
     {
-        this.fireOnNull = fireOnNull;
+        setUI(new AutowidthComboBoxUI<T>());
+        setKeySelectionManager(new RendererKeySelectionManager(this));
     }
 }

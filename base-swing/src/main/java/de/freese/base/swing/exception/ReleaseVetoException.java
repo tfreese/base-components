@@ -4,7 +4,7 @@ package de.freese.base.swing.exception;
 import java.util.Objects;
 
 /**
- * Exception für ein nicht durchführbaren Releasevorgang.
+ * Exception für ein nicht durchführbaren Release-Vorgang.
  *
  * @author Thomas Freese
  */

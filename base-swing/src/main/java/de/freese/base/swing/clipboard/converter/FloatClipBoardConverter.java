@@ -1,8 +1,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * ClipboardConverter fuer Float.
- *
  * @author Thomas Freese
  */
 public class FloatClipBoardConverter extends AbstractNumberClipBoardConverter

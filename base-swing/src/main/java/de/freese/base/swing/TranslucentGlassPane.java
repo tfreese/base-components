@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
- * Transparente Glasspane, zum Teil von SwingX Komponenten geklaut.
+ * Transparente Glass-pane, zum Teil von SwingX Komponenten geklaut.
  *
  * @author Thomas Freese
  */
@@ -38,6 +38,10 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
+    private final List<Component> dispatchList;
+    /**
+     *
+     */
     private float alpha = 1.0F;
     /**
      *
@@ -47,10 +51,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      *
      */
     private float alphaStart;
-    /**
-     *
-     */
-    private final List<Component> dispatchList;
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
      * opacity to its default setting if the alpha is 1.0. Honestly, I don't know if this is necessary or not, but it sounded good on paper :)
@@ -258,7 +258,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     // */
     // protected void paintChildren(Graphics g)
     // {
-    // // Die Children werden in der tranzparenz der Glasspane gezeichnet,
+    // // Die Children werden in der tranzparenz der Glass-pane gezeichnet,
     // deswegen
     // // wird paintChildren(Graphics) am Ende der paintComponent(Graphics)
     // aufgerufen.
@@ -293,7 +293,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
             this.animateTimer.stop();
         }
 
-        // Compositewert auf default fuer Children
+        // Compositewert auf default für Children
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // 1));
         // super.paintChildren(g);

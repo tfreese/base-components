@@ -11,7 +11,7 @@ import javax.swing.tree.TreePath;
 import de.freese.base.swing.components.table.AbstractListTableModel;
 
 /**
- * Ein {@link AbstractListTableModel}, welches ein {@link TreeModelListener} ist und sich bei Aenderungen des Trees automatisch aktualisiert.
+ * Ein {@link AbstractListTableModel}, welches ein {@link TreeModelListener} ist und sich bei Änderungen des Trees automatisch aktualisiert.
  *
  * @author Thomas Freese
  */
@@ -30,24 +30,16 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * Erstellt ein neues {@link AbstractTreeListenerTableModel} Object.
      *
      * @param columnCount int
-     * @param tree {@link JTree}, Wird benoetigt um die Liste mit Objekten zu fuellen, NICHT um die Listener zu registrieren !<br>
-     *            Setzten der Listener:<br>
-     *            JTree.addTreeExpansionListener(this)<br>
-     *            JTree.getModel().addTreeModelListener(this)
+     * @param tree {@link JTree}, Wird benötigt um die Liste mit Objekten zu füllen, NICHT um die Listener zu registrieren !<br>
+     * Setzten der Listener:<br>
+     * JTree.addTreeExpansionListener(this)<br>
+     * JTree.getModel().addTreeModelListener(this)
      */
     protected AbstractTreeListenerTableModel(final int columnCount, final JTree tree)
     {
         super(columnCount);
 
         this.tree = tree;
-    }
-
-    /**
-     * @return {@link JTree}
-     */
-    protected JTree getTree()
-    {
-        return this.tree;
     }
 
     /**
@@ -128,7 +120,8 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      */
     public void updateFromTree()
     {
-        Runnable runnable = () -> {
+        Runnable runnable = () ->
+        {
             getList().clear();
 
             for (int row = 0; row < getTree().getRowCount(); row++)
@@ -146,5 +139,13 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
         {
             SwingUtilities.invokeLater(runnable);
         }
+    }
+
+    /**
+     * @return {@link JTree}
+     */
+    protected JTree getTree()
+    {
+        return this.tree;
     }
 }

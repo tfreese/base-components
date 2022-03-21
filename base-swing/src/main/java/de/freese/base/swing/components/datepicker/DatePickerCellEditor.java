@@ -17,48 +17,14 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.plaf.basic.BasicDatePickerUI;
 
 /**
- * CellEditor mit fuer den {@link DatePicker}.
- *
  * @author Thomas Freese
  */
 public class DatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor
 {
     /**
-     * Beendet die Eingabe bei Enter (Event kommt aus {@link BasicDatePickerUI}).
      *
-     * @author Thomas Freese
      */
-    public static class DatePickerCommitListerner implements ActionListener
-    {
-        /**
-         *
-         */
-        private final CellEditor cellEditor;
-
-        /**
-         * Erstellt ein neues {@link DatePickerCommitListerner} Object.
-         *
-         * @param cellEditor {@link CellEditor}
-         */
-        public DatePickerCommitListerner(final CellEditor cellEditor)
-        {
-            super();
-
-            this.cellEditor = cellEditor;
-        }
-
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
-        @Override
-        public void actionPerformed(final ActionEvent e)
-        {
-            if (JXDatePicker.COMMIT_KEY.equals(e.getActionCommand()))
-            {
-                this.cellEditor.stopCellEditing();
-            }
-        }
-    }
+    private static final long serialVersionUID = 1L;
 
     // /**
     // * Beendet die Eingabe mit Enter.
@@ -87,13 +53,46 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     // }
 
     /**
+     * Beendet die Eingabe bei Enter (Event kommt aus {@link BasicDatePickerUI}).
      *
+     * @author Thomas Freese
      */
-    private static final long serialVersionUID = 1L;
+    public static class DatePickerCommitListener implements ActionListener
+    {
+        /**
+         *
+         */
+        private final CellEditor cellEditor;
+
+        /**
+         * Erstellt ein neues {@link DatePickerCommitListener} Object.
+         *
+         * @param cellEditor {@link CellEditor}
+         */
+        public DatePickerCommitListener(final CellEditor cellEditor)
+        {
+            super();
+
+            this.cellEditor = cellEditor;
+        }
+
+        /**
+         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+         */
+        @Override
+        public void actionPerformed(final ActionEvent e)
+        {
+            if (JXDatePicker.COMMIT_KEY.equals(e.getActionCommand()))
+            {
+                this.cellEditor.stopCellEditing();
+            }
+        }
+    }
+
     /**
      *
      */
-    private DatePicker datePicker;
+    private final DatePicker datePicker;
 
     /**
      * Creates a new {@link DatePickerCellEditor} object.
@@ -105,7 +104,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         super();
 
         this.datePicker = datePicker;
-        this.datePicker.addActionListener(new DatePickerCommitListerner(this));
+        this.datePicker.addActionListener(new DatePickerCommitListener(this));
 
         // datePicker.getActionMap().put(JXDatePicker.COMMIT_KEY, new EnterAction());
         // datePicker.getInputMap().put(

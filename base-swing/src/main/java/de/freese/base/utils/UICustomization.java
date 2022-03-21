@@ -15,9 +15,8 @@ import java.util.Objects;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
-import org.jdesktop.swingx.painter.MattePainter;
-
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
+import org.jdesktop.swingx.painter.MattePainter;
 
 /**
  * UI Konfiguration.
@@ -71,47 +70,6 @@ public final class UICustomization
     }
 
     /**
-     * UI Konstanten definieren/ueberschreiben.
-     */
-    private static void installDefaults()
-    {
-        UIDefaults defaults = UIManager.getLookAndFeelDefaults();
-
-        UIManager.put("FileChooser.useSystemIcons", Boolean.TRUE);
-
-        setDefaultFont(SwingFontSizeChanger.getInstance().getFont());
-
-        // Platz fuer die Ausnahmen
-        defaults.put(COLOR_LIGHT_GRAY, new Color(215, 215, 215));
-        defaults.put(COLOR_ALTERNATING, new Color(215, 215, 215));
-
-        defaults.put("ColorChooserUI", "de.freese.base.swing.ui.ColorChooserUI");
-        defaults.put("Table.alternatingBackground", getColorAlternating());
-        defaults.put("Table.alternateRowColor", getColorAlternating());
-        defaults.put("Tree.alternatingBackground", getColorAlternating());
-        defaults.put("List.alternatingBackground", getColorAlternating());
-        defaults.put("TreeTableCellRenderer.alternatingBackground", getColorAlternating());
-
-        // Konstanten fuer SwingX Komponenten
-        defaults.put("TaskPane.titleBackgroundGradientStart", Color.WHITE);
-        defaults.put("TaskPane.titleBackgroundGradientEnd", Color.LIGHT_GRAY);
-        defaults.put("TaskPane.specialTitleBackground", Color.DARK_GRAY);
-        defaults.put("TaskPane.specialTitleForeground", Color.WHITE);
-        defaults.put("TaskPane.titleForeground", Color.BLACK);
-        defaults.put("TaskPaneContainer.useGradient", Boolean.FALSE);
-        defaults.put("TaskPaneContainer.backgroundPainter",
-                new MattePainter(new GradientPaint(0, 0, UIManager.getColor("Panel.background"), 0, 1, UIManager.getColor("Panel.background")), true));
-
-        defaults.put("JXTitledPanel.titlePainter", new MattePainter(new GradientPaint(0, 0, UIManager.getColor("TaskPane.titleBackgroundGradientStart"), 0, 1,
-                UIManager.getColor("TaskPane.titleBackgroundGradientEnd")), true));
-
-        // Wizard
-        defaults.put("nb.errorColor", Color.RED);
-        // fuer Wizard-Hintergrundfarben
-        // System.setProperty("WizardDisplayer.default",".wizard.WizardDisplayerImpl");
-    }
-
-    /**
      * @param args String[]
      *
      * @throws Exception Falls was schief geht.
@@ -146,7 +104,7 @@ public final class UICustomization
     }
 
     /**
-     * Setzt einen neuen Defaultfont fuer alle {@link Component}s.
+     * Setzt einen neuen Defaultfont für alle {@link Component}s.
      *
      * @param font {@link Font}
      */
@@ -217,7 +175,48 @@ public final class UICustomization
     }
 
     /**
-     * Schreibt die UI-KLonstanten in eine Datei.
+     * UI Konstanten definieren/überschreiben.
+     */
+    private static void installDefaults()
+    {
+        UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+
+        UIManager.put("FileChooser.useSystemIcons", Boolean.TRUE);
+
+        setDefaultFont(SwingFontSizeChanger.getInstance().getFont());
+
+        // Platz für die Ausnahmen
+        defaults.put(COLOR_LIGHT_GRAY, new Color(215, 215, 215));
+        defaults.put(COLOR_ALTERNATING, new Color(215, 215, 215));
+
+        defaults.put("ColorChooserUI", "de.freese.base.swing.ui.ColorChooserUI");
+        defaults.put("Table.alternatingBackground", getColorAlternating());
+        defaults.put("Table.alternateRowColor", getColorAlternating());
+        defaults.put("Tree.alternatingBackground", getColorAlternating());
+        defaults.put("List.alternatingBackground", getColorAlternating());
+        defaults.put("TreeTableCellRenderer.alternatingBackground", getColorAlternating());
+
+        // Konstanten für SwingX Komponenten
+        defaults.put("TaskPane.titleBackgroundGradientStart", Color.WHITE);
+        defaults.put("TaskPane.titleBackgroundGradientEnd", Color.LIGHT_GRAY);
+        defaults.put("TaskPane.specialTitleBackground", Color.DARK_GRAY);
+        defaults.put("TaskPane.specialTitleForeground", Color.WHITE);
+        defaults.put("TaskPane.titleForeground", Color.BLACK);
+        defaults.put("TaskPaneContainer.useGradient", Boolean.FALSE);
+        defaults.put("TaskPaneContainer.backgroundPainter",
+                new MattePainter(new GradientPaint(0, 0, UIManager.getColor("Panel.background"), 0, 1, UIManager.getColor("Panel.background")), true));
+
+        defaults.put("JXTitledPanel.titlePainter", new MattePainter(new GradientPaint(0, 0, UIManager.getColor("TaskPane.titleBackgroundGradientStart"), 0, 1,
+                UIManager.getColor("TaskPane.titleBackgroundGradientEnd")), true));
+
+        // Wizard
+        defaults.put("nb.errorColor", Color.RED);
+        // Für Wizard-Hintergrundfarben
+        // System.setProperty("WizardDisplayer.default",".wizard.WizardDisplayerImpl");
+    }
+
+    /**
+     * Schreibt die UI-Konstanten in eine Datei.
      *
      * @param outputStream {@link OutputStream}
      */

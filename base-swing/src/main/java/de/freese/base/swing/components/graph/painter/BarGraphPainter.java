@@ -14,8 +14,8 @@ import java.util.List;
 public class BarGraphPainter extends AbstractGraphPainter
 {
     /**
-    *
-    */
+     *
+     */
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
     /**
@@ -36,7 +36,7 @@ public class BarGraphPainter extends AbstractGraphPainter
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
-        // Sinus: X-Achse auf halber Höhe
+        // Sinus: x-Achse auf halber Höhe
         float middle = height / 2F;
 
         for (int i = 0; i < values.size(); i++)

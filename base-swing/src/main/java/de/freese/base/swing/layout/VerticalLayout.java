@@ -7,7 +7,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 
 /**
- * LayoutManager fuer ein vertikales Layout.
+ * LayoutManager für ein vertikales Layout.
  *
  * @author Thomas Freese
  */
@@ -28,7 +28,7 @@ public class VerticalLayout implements LayoutManager
 
     /**
      * Erstellt ein neues {@link VerticalLayout} Object.
-     * 
+     *
      * @param gap int
      */
     public VerticalLayout(final int gap)
@@ -49,7 +49,7 @@ public class VerticalLayout implements LayoutManager
 
     /**
      * Liefert den Abstand zwischen den Komponenten.
-     * 
+     *
      * @return int
      */
     public int getGap()
@@ -128,7 +128,7 @@ public class VerticalLayout implements LayoutManager
 
     /**
      * Setzt den Abstand zwischen den Komponenten.
-     * 
+     *
      * @param gap int
      */
     public void setGap(final int gap)

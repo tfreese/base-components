@@ -2,11 +2,12 @@ package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Component;
 import java.awt.Font;
+
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung einer {@link JList}.
+ * Defaultimplementierung für die Font-Änderung einer {@link JList}.
  *
  * @author Thomas Freese
  */

@@ -11,15 +11,17 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * Gemeinsames SelectionModel fuer einen {@link JTree} und eine {@link JTable}.<br>
- * Zum Teil von SwingX geklaut.
- *
  * @author Thomas Freese
  */
 public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 {
     /**
-     * SelectionListener der {@link JTable} um die Selection auf den {@link JTree} zu uebertragen.
+     *
+     */
+    private static final long serialVersionUID = -7214861962851009038L;
+
+    /**
+     * SelectionListener der {@link JTable} um die Selection auf den {@link JTree} zu übertragen.
      *
      * @author Thomas Freese
      */
@@ -36,7 +38,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
     }
 
     /**
-     * {@link ListSelectionModel}, welche bei Aenderung des SelectionModes das {@link TreeSelectionModel} aktualisiert.
+     * {@link ListSelectionModel}, welche bei Änderung des SelectionModes das {@link TreeSelectionModel} aktualisiert.
      *
      * @author Thomas Freese
      */
@@ -81,10 +83,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
     /**
      *
      */
-    private static final long serialVersionUID = -7214861962851009038L;
-    /**
-     *
-     */
     private final JTree tree;
     /**
      *
@@ -110,7 +108,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
     }
 
     /**
-     * SelectionModel fuer die {@link JTable}.
+     * SelectionModel für die {@link JTable}.
      *
      * @return {@link ListSelectionModel}
      */

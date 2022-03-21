@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import javax.swing.JTable;
 
 /**
- * Interface fuer eine {@link Component}, deren Inhalt als FilterValue verwendet wird.
+ * Interface für eine {@link Component}, deren Inhalt als FilterValue verwendet wird.
  *
  * @author Thomas Freese
  */
@@ -29,21 +29,21 @@ public interface FilterEditor
     void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
 
     /**
-     * Liefert die Spalte fuer die {@link JTable}.
+     * Liefert die Spalte für die {@link JTable}.
      *
      * @return int
      */
     int getColumn();
 
     /**
-     * Liefertn die Komponente des FilterEditors.
+     * Liefert die Komponente des FilterEditors.
      *
      * @return {@link JComponent}
      */
     JComponent getComponent();
 
     /**
-     * Liefert den Namen fuer das {@link PropertyChangeEvent}.
+     * Liefert den Namen für das {@link PropertyChangeEvent}.
      *
      * @return String
      */

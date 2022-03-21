@@ -16,7 +16,7 @@ public class NotSerializableDataFlavor extends DataFlavor
 
     /**
      * Erstellt ein neues {@link NotSerializableDataFlavor} Object.
-     * 
+     *
      * @param representationClass {@link Class}
      * @param humanPresentableName String
      */
@@ -31,7 +31,7 @@ public class NotSerializableDataFlavor extends DataFlavor
     @Override
     public boolean isFlavorSerializedObjectType()
     {
-        // Sonst wuerde er beim Transfer das Object clonen !
+        // Sonst würde er beim Transfer das Object clonen !
         return false;
     }
 }

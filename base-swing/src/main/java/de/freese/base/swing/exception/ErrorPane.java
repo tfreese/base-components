@@ -29,12 +29,11 @@ import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.jdesktop.swingx.error.ErrorInfo;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.net.mail.MailWrapper;
 import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.utils.GuiUtils;
+import org.jdesktop.swingx.error.ErrorInfo;
+import org.slf4j.LoggerFactory;
 
 /**
  * Panel zur Darstellung von Exceptions.
@@ -46,15 +45,15 @@ public final class ErrorPane extends JPanel
     /**
      *
      */
-    private static final long serialVersionUID = 8841473190098899651L;
-    /**
-     *
-     */
     private static final Dimension SIZE_DETAIL = new Dimension(6400, 350);
     /**
      *
      */
     private static final Dimension SIZE_MESSAGE = new Dimension(640, 130);
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8841473190098899651L;
 
     /**
      * @param args String[]
@@ -86,14 +85,21 @@ public final class ErrorPane extends JPanel
     public static void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail)
     {
         JOptionPane pane =
-                new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new String[] {});
+                new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new String[]{});
 
         JDialog dialog = pane.createDialog(owner, errorInfo.getTitle());
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.setResizable(true);
         dialog.setVisible(true);
     }
-
+    /**
+     *
+     */
+    private final ErrorInfo errorInfo;
+    /**
+     *
+     */
+    private final Component owner;
     /**
      *
      */
@@ -125,15 +131,7 @@ public final class ErrorPane extends JPanel
     /**
      *
      */
-    private final ErrorInfo errorInfo;
-    /**
-     *
-     */
     private JLabel labelIcon;
-    /**
-     *
-     */
-    private final Component owner;
     /**
      *
      */
@@ -173,7 +171,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * Button zum kopieren der Exception in die Zwischenablage.
+     * Button zum Kopieren der Exception in die Zwischenablage.
      *
      * @return {@link JButton}
      */
@@ -192,7 +190,8 @@ public final class ErrorPane extends JPanel
                 this.buttonClipboard.setText("Copy to Clipboard");
             }
 
-            this.buttonClipboard.addActionListener(event -> {
+            this.buttonClipboard.addActionListener(event ->
+            {
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
                 getEditorPaneDetails().selectAll();
@@ -278,7 +277,8 @@ public final class ErrorPane extends JPanel
                 }
             });
 
-            this.buttonClose.addActionListener(event -> {
+            this.buttonClose.addActionListener(event ->
+            {
                 Component c = getOwner();
 
                 if (c instanceof Window w)
@@ -292,7 +292,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * Button fuer die Details.
+     * Button für die Details.
      *
      * @return {@link JButton}
      */
@@ -320,7 +320,8 @@ public final class ErrorPane extends JPanel
                 }
             });
 
-            this.buttonDetails.addActionListener(event -> {
+            this.buttonDetails.addActionListener(event ->
+            {
                 Dimension newSize = null;
 
                 Component component = getOwner();
@@ -349,7 +350,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * Button zum versenden der Fehlermeldung.
+     * Button zum Versenden der Fehlermeldung.
      *
      * @return {@link JButton}
      */
@@ -368,8 +369,9 @@ public final class ErrorPane extends JPanel
                 this.buttonSend.setText("Send");
             }
 
-            this.buttonSend.addActionListener(event -> {
-                // TODO Noch nich ganz fertich
+            this.buttonSend.addActionListener(event ->
+            {
+                // TODO Noch nicht ganz fertig
                 // String userID = Context.getUser().getUserId();
 
                 try
@@ -403,7 +405,7 @@ public final class ErrorPane extends JPanel
                     // mailWrapper.addInline(dataSource);
                     mailWrapper.send();
 
-                    // NOTE Spring's JavaMailSender funktioniert nur mit gueltiger
+                    // NOTE Spring's JavaMailSender funktioniert nur mit gültiger
                     // Absender Email und Username + Passwort.
                     //
                     // JavaMailSenderImpl mailSender = SpringContext.getBean("mailSender");
@@ -454,7 +456,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * Panel der Detailuebersicht.
+     * Panel der Detail-Übersicht.
      *
      * @return {@link JPanel}
      */
@@ -480,7 +482,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * Liefrt einen HTML-String des StackTraces der Exception.
+     * Liefert einen HTML-String des StackTraces der Exception.
      *
      * @param errorInfo {@link ErrorInfo}
      *
@@ -533,7 +535,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * JEditorPane fuer die Fehlermeldung.
+     * JEditorPane für die Fehlermeldung.
      *
      * @return {@link JEditorPane}
      */
@@ -556,7 +558,7 @@ public final class ErrorPane extends JPanel
     }
 
     /**
-     * JEditorPane fuer die Fehlermeldung.
+     * JEditorPane für die Fehlermeldung.
      *
      * @return {@link JEditorPane}
      */
@@ -675,7 +677,8 @@ public final class ErrorPane extends JPanel
 
         getDetailPanel().setVisible(false);
 
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             getButtonClose().setSelected(true);
             getButtonClose().requestFocus();
         });

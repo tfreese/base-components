@@ -1,20 +1,20 @@
 package de.freese.base.swing.components.list.renderer;
 
 /**
- * ListCellRenderer, dem ein Methodenname uebergeben wird, und der seine Objekte ueber Reflection zur Anzeige bringt.
+ * ListCellRenderer, dem ein Methodenname übergeben wird, und der seine Objekte über Reflection zur Anzeige bringt.
  *
  * @author Thomas Freese
  */
 public class GenericMethodListCellRenderer extends AbstractGenericListCellRenderer
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4533421995241634353L;
 
     /**
      * Creates a new {@link GenericMethodListCellRenderer} object.
-     * 
+     *
      * @param methodName String
      */
     public GenericMethodListCellRenderer(final String methodName)
@@ -24,7 +24,7 @@ public class GenericMethodListCellRenderer extends AbstractGenericListCellRender
 
     /**
      * Creates a new {@link GenericMethodListCellRenderer} object.
-     * 
+     *
      * @param methodName String
      * @param nullText String
      */

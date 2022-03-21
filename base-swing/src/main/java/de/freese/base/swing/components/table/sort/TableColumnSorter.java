@@ -14,12 +14,25 @@ import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
 
 /**
- * Kapselt die Sortierung fuer mehrere Spalten einer Tabelle.
+ * Kapselt die Sortierung für mehrere Spalten einer Tabelle.
  *
  * @author Thomas Freese
  */
 public class TableColumnSorter
 {
+    /**
+     * @param table {@link ExtTable}
+     */
+    public static void add(final ExtTable table)
+    {
+        new TableColumnSorter(table);
+    }
+
+    // /**
+    // *
+    // */
+    // private final PropertyChangeSupport propertyChangeSupport;
+
     /**
      * Listener des TableHeaders.
      *
@@ -67,27 +80,14 @@ public class TableColumnSorter
             if (columnModelIndex != -1)
             {
                 Sort sort = extTableColumn.getSort();
-                // System.out.println(sort.getPrevios() + "<-" + sort);
+                // System.out.println(sort.getPrevious() + "<-" + sort);
                 // System.out.println(sort + "->" + sort.getNext());
 
-                Sort newSort = e.isShiftDown() ? sort.getPrevios() : sort.getNext();
+                Sort newSort = e.isShiftDown() ? sort.getPrevious() : sort.getNext();
 
                 setSortStatus(extTableColumn, newSort);
             }
         }
-    }
-
-    // /**
-    // *
-    // */
-    // private final PropertyChangeSupport propertyChangeSupport;
-
-    /**
-     * @param table {@link ExtTable}
-     */
-    public static void add(final ExtTable table)
-    {
-        new TableColumnSorter(table);
     }
 
     /**
@@ -146,32 +146,16 @@ public class TableColumnSorter
     // }
 
     /**
-     * Liefert die Reichenfolge in der Sortierung der Spalte.
+     * Liefert die Reihenfolge in der Sortierung der Spalte.
      *
      * @param tableColumnExt {@link ExtTableColumn}
      *
-     * @return int, -1 = Keine Sortierung auf Spalte moeglich, 0 = erste Spalte, 1 = zweite Spalte
+     * @return int, -1 = Keine Sortierung auf Spalte möglich, 0 = erste Spalte, 1 = zweite Spalte
      */
     public int getSortPriority(final ExtTableColumn tableColumnExt)
     {
         return this.sortIndexList.indexOf(tableColumnExt);
     }
-
-    /**
-     * @return {@link ExtTable}
-     */
-    private ExtTable getTable()
-    {
-        return this.table;
-    }
-
-    // /**
-    // * @param listener {@link PropertyChangeListener}
-    // */
-    // public void removePropertyChangeListener(final PropertyChangeListener listener)
-    // {
-    // getPropertyChangeSupport().removePropertyChangeListener(listener);
-    // }
 
     /**
      * Setzt die Sortierungsrichtung in einer Spalte.
@@ -205,5 +189,21 @@ public class TableColumnSorter
         // }
         // };
         // SwingUtilities.invokeLater(runnable);
+    }
+
+    // /**
+    // * @param listener {@link PropertyChangeListener}
+    // */
+    // public void removePropertyChangeListener(final PropertyChangeListener listener)
+    // {
+    // getPropertyChangeSupport().removePropertyChangeListener(listener);
+    // }
+
+    /**
+     * @return {@link ExtTable}
+     */
+    private ExtTable getTable()
+    {
+        return this.table;
     }
 }

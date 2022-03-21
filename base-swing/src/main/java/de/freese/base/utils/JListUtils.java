@@ -2,12 +2,12 @@ package de.freese.base.utils;
 
 import java.util.Arrays;
 import java.util.Iterator;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 /**
- * Utilmethoden fuer eine JList.<br>
- * Die fill-Methoden setzen vorraus das die {@link JList} ein {@link DefaultListModel} besitzt.
+ * Die fill-Methoden setzen voraus, dass die {@link JList} ein {@link DefaultListModel} besitzt.
  *
  * @author Thomas Freese
  */
@@ -15,7 +15,7 @@ public final class JListUtils
 {
     /**
      * Setzt die Daten des Iterables in das {@link DefaultListModel}.
-     * 
+     *
      * @param list {@link JList}
      * @param iterable {@link Iterable}
      */
@@ -26,7 +26,7 @@ public final class JListUtils
 
     /**
      * Setzt die Daten des Iterators in das {@link DefaultListModel}.
-     * 
+     *
      * @param list {@link JList}
      * @param iterator {@link Iterator}
      */
@@ -44,13 +44,13 @@ public final class JListUtils
 
     /**
      * Setzt die Daten des Enums in das {@link DefaultListModel}.
-     * 
+     *
      * @param <T> Konkreter Typ der Objekte.
      * @param list {@link JList}
      * @param objects {@link Object}
      */
     @SuppressWarnings("unchecked")
-    public static <T> void fillList(final JList<T> list, final T...objects)
+    public static <T> void fillList(final JList<T> list, final T... objects)
     {
         fillList(list, Arrays.asList(objects));
     }

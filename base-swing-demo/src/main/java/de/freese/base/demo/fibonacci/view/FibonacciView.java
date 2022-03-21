@@ -3,8 +3,6 @@ package de.freese.base.demo.fibonacci.view;
 import de.freese.base.mvc.View;
 
 /**
- * Viewinterface für die Fibonacci Demo.
- *
  * @author Thomas Freese
  */
 public interface FibonacciView extends View
@@ -16,7 +14,7 @@ public interface FibonacciView extends View
     FibonacciPanel getComponent();
 
     /**
-     * Setzt das Ergebniss des Prozesses in die IView.
+     * Setzt das Ergebnis des Prozesses in die IView.
      *
      * @param value long
      */

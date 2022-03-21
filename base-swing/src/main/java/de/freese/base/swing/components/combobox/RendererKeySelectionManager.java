@@ -11,9 +11,9 @@ import javax.swing.ListCellRenderer;
 import javax.swing.text.JTextComponent;
 
 /**
- * KeySelectionManager einer ComboBox. Dieser sucht auf Tastendruck einen Eintrag aus der Combobox, der mit einer eingegebenen Zeichfolge uebereinstimmt. Diese
+ * KeySelectionManager einer ComboBox. Dieser sucht auf Tastendruck einen Eintrag aus der ComboBox, der mit einer eingegebenen Zeichenfolge übereinstimmt. Diese
  * Zeichenfolge wird mit dem Wert aus dem {@link ListCellRenderer} verglichen. Des Weiteren kann nach Zeichenketten in der ComboBox gesucht werden, in dem
- * innerhalb kurzer Zeit aufeinanderfolgende Tastendruecke erfolgen.
+ * innerhalb kurzer Zeit aufeinanderfolgende Tastendrücke erfolgen.
  *
  * @author Thomas Freese
  */
@@ -25,15 +25,15 @@ public class RendererKeySelectionManager implements KeySelectionManager
     @SuppressWarnings("rawtypes")
     private final JComboBox comboBox;
     /**
+     * JList temporäre Liste zum Rendern des Inhalts
+     */
+    private final JList<Object> list = new JList<>();
+    /**
      * Zeitpunkt, der letzten Suche (des Tastendrucks)
      */
     private long lastKeyTime;
     /**
-     * JList temporaere Liste zum Rendern des Inhalts
-     */
-    private JList<Object> list = new JList<>();
-    /**
-     * Pattern auf das ueberprueft wird.
+     * Pattern auf das überprüft wird.
      */
     private String pattern = "";
 
@@ -50,7 +50,30 @@ public class RendererKeySelectionManager implements KeySelectionManager
     }
 
     /**
-     * Bestimmt das aktuell gewaehlte Objekt in der Combobox
+     * @see javax.swing.JComboBox.KeySelectionManager#selectionForKey(char, javax.swing.ComboBoxModel)
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    public int selectionForKey(final char key, final ComboBoxModel model)
+    {
+        int selectedIndex = getSelectedIndex(model);
+
+        setPattern(key);
+
+        int resultIndex = search(model, selectedIndex + 1, model.getSize());
+
+        if (resultIndex != -1)
+        {
+            return resultIndex;
+        }
+
+        resultIndex = search(model, 0, selectedIndex);
+
+        return resultIndex;
+    }
+
+    /**
+     * Bestimmt das aktuell gewählte Objekt in der ComboBox.
      *
      * @param model {@link ComboBoxModel}
      *
@@ -77,7 +100,7 @@ public class RendererKeySelectionManager implements KeySelectionManager
     /**
      * Liefert den String aus dem {@link ListCellRenderer} der Zeile.
      *
-     * @param row Zeileinindex
+     * @param row int
      *
      * @return String
      */
@@ -86,7 +109,7 @@ public class RendererKeySelectionManager implements KeySelectionManager
     {
         if (this.list.getModel() != this.comboBox.getModel())
         {
-            // JList wird nur fuer den ComboBoxRenderer gebraucht
+            // JList wird nur für den ComboBoxRenderer gebraucht
             this.list.setModel(this.comboBox.getModel());
         }
 
@@ -141,31 +164,8 @@ public class RendererKeySelectionManager implements KeySelectionManager
     }
 
     /**
-     * @see javax.swing.JComboBox.KeySelectionManager#selectionForKey(char, javax.swing.ComboBoxModel)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    public int selectionForKey(final char key, final ComboBoxModel model)
-    {
-        int selectedIndex = getSelectedIndex(model);
-
-        setPattern(key);
-
-        int resultIndex = search(model, selectedIndex + 1, model.getSize());
-
-        if (resultIndex != -1)
-        {
-            return resultIndex;
-        }
-
-        resultIndex = search(model, 0, selectedIndex);
-
-        return (resultIndex != -1) ? resultIndex : (-1);
-    }
-
-    /**
-     * Bestimmt die Zeichenfolge, nach der im {@link ComboBoxModel} gesucht werden soll. Wenn innerhlab von 250 ms nach einem Tastendruck erneut eine Taste
-     * gedrueckt wird, so wird das Tastaturzeichen an die bestehende Zeichenfolge angehaengt.
+     * Bestimmt die Zeichenfolge, nach der im {@link ComboBoxModel} gesucht werden soll. Wenn innerhalb von 250 ms nach einem Tastendruck erneut eine Taste
+     * gedrückt wird, so wird das Tastaturzeichen an die bestehende Zeichenfolge angehängt.
      *
      * @param aKey char
      */

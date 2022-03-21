@@ -14,7 +14,7 @@ import javax.swing.border.Border;
 import de.freese.base.utils.ImageUtils;
 
 /**
- * Setzt ein Icon in eine waehlbare Ecke des Borders.
+ * Setzt ein Icon in eine wählbare Ecke des Borders.
  *
  * @author Thomas Freese
  */
@@ -27,6 +27,10 @@ public class IconBorder implements Border, Serializable
     /**
      *
      */
+    private final int iconPosition;
+    /**
+     *
+     */
     private Insets borderInsets;
     /**
      *
@@ -36,10 +40,6 @@ public class IconBorder implements Border, Serializable
      *
      */
     private JButton iconButton = new JButton();
-    /**
-     *
-     */
-    private final int iconPosition;
 
     /**
      * Erstellt ein neues {@link IconBorder} Object.

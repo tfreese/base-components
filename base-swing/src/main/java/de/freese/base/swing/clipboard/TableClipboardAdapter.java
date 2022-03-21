@@ -14,14 +14,14 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
 /**
- * Adapter einer JTable fuer die Zwischenablage.
+ * Adapter einer JTable für die Zwischenablage.
  *
  * @author Thomas Freese
  */
 public class TableClipboardAdapter extends AbstractClipboardAdapter
 {
     /**
-     * MouseAdapter der Tabelle fuer das Popup.
+     * MouseAdapter der Tabelle für das Popup.
      *
      * @author Thomas Freese
      */
@@ -226,7 +226,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
             }
         }
 
-        // Selektiere alle eingefuegten Werte
+        // Selektiere alle eingefügten Werte.
         for (Point point : points)
         {
             int rowIndex = startRow + (int) point.getX();
@@ -237,6 +237,42 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
                 getTable().addRowSelectionInterval(rowIndex, rowIndex);
                 getTable().addColumnSelectionInterval(columnIndex, columnIndex);
             }
+        }
+    }
+
+    /**
+     * PopupMenu der Tabelle.
+     *
+     * @return {@link JPopupMenu}
+     */
+    public JPopupMenu getPopupMenu()
+    {
+        if (this.popup == null)
+        {
+            this.popup = new JPopupMenu();
+        }
+
+        return this.popup;
+    }
+
+    /**
+     * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#initialize()
+     */
+    @Override
+    protected void initialize()
+    {
+        super.initialize();
+
+        getPopupMenu().add(getActionCopy());
+        getPopupMenu().add(getActionPaste());
+        getPopupMenu().add(getActionPasteFlipAxes());
+
+        getTable().setColumnSelectionAllowed(true);
+        getTable().setRowSelectionAllowed(true);
+
+        if (!this.externalPopup)
+        {
+            getTable().addMouseListener(new PopupListener());
         }
     }
 
@@ -268,7 +304,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
     }
 
     /**
-     * Liefert ein 2 dim String Array fuer die Paste Action.
+     * Liefert ein 2 dim String Array für die Paste Action.
      *
      * @param clipboardString String
      *
@@ -293,7 +329,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
             return new String[rows.length][0];
         }
 
-        // 2. StringMatrix fuellen
+        // 2. StringMatrix füllen
         String[][] matrix = new String[rows.length][maxCols];
 
         for (int row = 0; row < rows.length; row++)
@@ -312,21 +348,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
     }
 
     /**
-     * PopupMenu der Tabelle.
-     *
-     * @return {@link JPopupMenu}
-     */
-    public JPopupMenu getPopupMenu()
-    {
-        if (this.popup == null)
-        {
-            this.popup = new JPopupMenu();
-        }
-
-        return this.popup;
-    }
-
-    /**
      * Liefert die Tabelle.
      *
      * @return {@link JTable}
@@ -334,26 +355,5 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
     private JTable getTable()
     {
         return (JTable) getComponent();
-    }
-
-    /**
-     * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#initialize()
-     */
-    @Override
-    protected void initialize()
-    {
-        super.initialize();
-
-        getPopupMenu().add(getActionCopy());
-        getPopupMenu().add(getActionPaste());
-        getPopupMenu().add(getActionPasteFlipAxes());
-
-        getTable().setColumnSelectionAllowed(true);
-        getTable().setRowSelectionAllowed(true);
-
-        if (!this.externalPopup)
-        {
-            getTable().addMouseListener(new PopupListener());
-        }
     }
 }

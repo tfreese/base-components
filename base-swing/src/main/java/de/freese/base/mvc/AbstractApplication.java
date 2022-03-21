@@ -7,14 +7,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.mvc.guistate.GuiStateProvider;
 import de.freese.base.mvc.guistate.JsonGuiStateProvider;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.utils.ExecutorUtils;
 import de.freese.base.utils.UICustomization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basisklasse einer Java Anwendung.
@@ -26,15 +25,15 @@ public abstract class AbstractApplication
     /**
      *
      */
-    private ApplicationContext context;
-    /**
-     *
-     */
     private final List<Controller> controllers = new ArrayList<>();
     /**
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
+    private ApplicationContext context;
     /**
      *
      */
@@ -51,14 +50,6 @@ public abstract class AbstractApplication
     }
 
     /**
-     * @return {@link List}<Controller>
-     */
-    protected List<Controller> getControllers()
-    {
-        return this.controllers;
-    }
-
-    /**
      * @return {@link Logger}
      */
     public Logger getLogger()
@@ -67,12 +58,72 @@ public abstract class AbstractApplication
     }
 
     /**
-     * Liefert den Namen der Application fuer den Titel der View.<br>
-     * Dieser Name wird auch fuer den Daten-Ordner im User-Verzeichnis verwendet.
+     * Liefert den Namen der Application für den Titel der View.<br>
+     * Dieser Name wird auch für den Daten-Ordner im User-Verzeichnis verwendet.
      *
      * @return String
      */
     public abstract String getName();
+
+    /**
+     * Initialisiert das PlugIns.
+     */
+    public void initialize()
+    {
+        getLogger().info("Start Application");
+
+        initContext();
+        initRessourceMap();
+        initLaF();
+        initController();
+        initFrameAndGui();
+        initShutdownHook();
+    }
+
+    /**
+     * Freigeben verwendeter Ressourcen.
+     */
+    public void release()
+    {
+        getLogger().info("Release");
+
+        int option = JOptionPane.showConfirmDialog(getContext().getMainFrame(), "Really Exit ?");
+
+        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
+        {
+            getLogger().info("Release aborted");
+
+            return;
+        }
+
+        try
+        {
+            getContext().getGuiStateManager().store(getContext().getMainFrame(), "ApplicationFrame");
+        }
+        catch (Exception ex)
+        {
+            getLogger().error(null, ex);
+        }
+
+        for (Controller controller : getControllers())
+        {
+            controller.release();
+        }
+
+        ExecutorUtils.shutdown(getContext().getExecutorService(), getLogger());
+
+        Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
+
+        System.exit(0);
+    }
+
+    /**
+     * @return {@link List}<Controller>
+     */
+    protected List<Controller> getControllers()
+    {
+        return this.controllers;
+    }
 
     /**
      * Initialisiert den {@link ApplicationContext} der Application.
@@ -98,21 +149,6 @@ public abstract class AbstractApplication
      * Konfiguration der Gui.
      */
     protected abstract void initFrameAndGui();
-
-    /**
-     * Initialisiert das PlugIns.
-     */
-    public void initialize()
-    {
-        getLogger().info("Start Application");
-
-        initContext();
-        initRecourceMap();
-        initLaF();
-        initController();
-        initFrameAndGui();
-        initShutdownHook();
-    }
 
     /**
      * Initialisiert das LookAndFeel.
@@ -163,7 +199,7 @@ public abstract class AbstractApplication
     /**
      * Liefert die {@link ResourceMap} der Application.
      */
-    protected abstract void initRecourceMap();
+    protected abstract void initRessourceMap();
 
     /**
      * Initialisiert den ShutdownHook.
@@ -201,43 +237,6 @@ public abstract class AbstractApplication
         };
 
         Runtime.getRuntime().addShutdownHook(this.shutdownHook);
-    }
-
-    /**
-     * Freigeben verwendeter Resourcen.
-     */
-    public void release()
-    {
-        getLogger().info("Release");
-
-        int option = JOptionPane.showConfirmDialog(getContext().getMainFrame(), "Really Exit ?");
-
-        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
-        {
-            getLogger().info("Release aborted");
-
-            return;
-        }
-
-        try
-        {
-            getContext().getGuiStateManager().store(getContext().getMainFrame(), "ApplicationFrame");
-        }
-        catch (Exception ex)
-        {
-            getLogger().error(null, ex);
-        }
-
-        for (Controller controller : getControllers())
-        {
-            controller.release();
-        }
-
-        ExecutorUtils.shutdown(getContext().getExecutorService(), getLogger());
-
-        Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
-
-        System.exit(0);
     }
 
     /**

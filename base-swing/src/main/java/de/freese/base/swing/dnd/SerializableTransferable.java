@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * {@link Transferable} fuer {@link Serializable}s.
+ * {@link Transferable} für {@link Serializable}s.
  *
  * @author Thomas Freese
  */

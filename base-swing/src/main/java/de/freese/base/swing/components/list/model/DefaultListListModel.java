@@ -14,11 +14,11 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 /**
- * {@link ListModel}, welches die Verwendung einer {@link List} ermoeglicht.
- *
- * @author Thomas Freese
+ * {@link ListModel}, welches die Verwendung einer {@link List} ermöglicht.
  *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public class DefaultListListModel<T> implements ListModel<T>, Serializable
 {
@@ -87,13 +87,82 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     }
 
     /**
-    *
-    */
+     *
+     */
     public void clear()
     {
         getList().clear();
 
         refresh();
+    }
+
+    /**
+     * @see javax.swing.ListModel#getElementAt(int)
+     */
+    @Override
+    public T getElementAt(final int index)
+    {
+        return getList().get(index);
+    }
+
+    /**
+     * Liefert ein Objekt für einen Index einer Zeile.
+     *
+     * @param rowIndex int
+     *
+     * @return Object
+     */
+    public T getObjectAt(final int rowIndex)
+    {
+        return getList().get(rowIndex);
+    }
+
+    /**
+     * Liefert den ZeilenIndex für ein Objekt zurück.
+     *
+     * @param object Object
+     *
+     * @return int
+     */
+    public int getRowOf(final T object)
+    {
+        return getList().indexOf(object);
+    }
+
+    /**
+     * @see javax.swing.ListModel#getSize()
+     */
+    @Override
+    public int getSize()
+    {
+        return getList().size();
+    }
+
+    /**
+     * Liefert den {@link Stream} des TableModels.
+     *
+     * @return {@link Stream}
+     */
+    public Stream<T> getStream()
+    {
+        return getList().stream();
+    }
+
+    /**
+     * Feuert das ContentsChanged Event.
+     */
+    public void refresh()
+    {
+        fireContentsChanged(this, 0, getSize() - 1);
+    }
+
+    /**
+     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
+     */
+    @Override
+    public synchronized void removeListDataListener(final ListDataListener listener)
+    {
+        this.eventListenerList.add(ListDataListener.class, listener);
     }
 
     /**
@@ -188,79 +257,10 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     }
 
     /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
-    @Override
-    public T getElementAt(final int index)
-    {
-        return getList().get(index);
-    }
-
-    /**
      * @return {@link List}<T>
      */
     protected List<T> getList()
     {
         return this.list;
-    }
-
-    /**
-     * Liefert ein Objekt fuer einen Index einer Zeile.
-     *
-     * @param rowIndex int
-     *
-     * @return Object
-     */
-    public T getObjectAt(final int rowIndex)
-    {
-        return getList().get(rowIndex);
-    }
-
-    /**
-     * Liefert den ZeilenIndex fuer ein Objekt zurueck.
-     *
-     * @param object Object
-     *
-     * @return int
-     */
-    public int getRowOf(final T object)
-    {
-        return getList().indexOf(object);
-    }
-
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
-    @Override
-    public int getSize()
-    {
-        return getList().size();
-    }
-
-    /**
-     * Liefert den {@link Stream} des TableModels.
-     *
-     * @return {@link Stream}
-     */
-    public Stream<T> getStream()
-    {
-        return getList().stream();
-    }
-
-    /**
-     * Feuert das ContentsChanged Event.
-     */
-    public void refresh()
-    {
-        fireContentsChanged(this, 0, getSize() - 1);
-    }
-
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
-    @Override
-    public synchronized void removeListDataListener(final ListDataListener listener)
-    {
-        this.eventListenerList.add(ListDataListener.class, listener);
     }
 }

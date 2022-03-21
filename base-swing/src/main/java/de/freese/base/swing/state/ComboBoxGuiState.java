@@ -24,11 +24,11 @@ public class ComboBoxGuiState extends AbstractGuiState
      */
     private static final long serialVersionUID = -8701963133645177327L;
     /**
-     * Der Selektierte Index in der Combobox. Per Default, ist das erste Element in der Combobox vorselektiert.
+     * Der selektierte Index in der ComboBox. Per Default, ist das erste Element in der ComboBox vorselektiert.
      */
     private int selectedIndex;
     /**
-     * Name des gewaehlten Objectes.
+     * Name des gewählten Objektes.
      */
     private String selectedName = "";
 
@@ -51,7 +51,7 @@ public class ComboBoxGuiState extends AbstractGuiState
 
         JComboBox<Object> comboBox = (JComboBox<Object>) component;
 
-        // Zuerst versuchen ueber den Namen das Object zu selektieren
+        // Zuerst versuchen über den Namen das Object zu selektieren
         try
         {
             if ((this.selectedName != null) && (this.selectedName.length() > 0))

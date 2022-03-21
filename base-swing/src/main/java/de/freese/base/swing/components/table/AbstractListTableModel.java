@@ -11,9 +11,9 @@ import javax.swing.table.AbstractTableModel;
 /**
  * TableModel das intern eine Liste verwendet.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ der List-Objekte.
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel
 {
@@ -56,7 +56,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
 
         if (columnCount < 0)
         {
-            throw new IllegalArgumentException("columncount < 0: " + columnCount);
+            throw new IllegalArgumentException("column count < 0: " + columnCount);
         }
 
         this.columnNames = null;
@@ -168,25 +168,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     }
 
     /**
-     * @return {@link List}<String>
-     */
-    protected List<String> getColumnNames()
-    {
-        return this.columnNames;
-    }
-
-    /**
-     * Liefert die Liste des TableModels.
-     *
-     * @return {@link List}
-     */
-    protected List<T> getList()
-    {
-        return this.list;
-    }
-
-    /**
-     * Liefert ein Objekt fuer einen Index einer Zeile.
+     * Liefert ein Objekt für einen Index einer Zeile.
      *
      * @param rowIndex int
      *
@@ -207,7 +189,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     }
 
     /**
-     * Liefert den ZeilenIndex fuer ein Objekt zurueck.
+     * Liefert den ZeilenIndex für ein Objekt zurück.
      *
      * @param object Object
      *
@@ -268,5 +250,23 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         fireTableRowsDeleted(rowIndex, rowIndex);
 
         return object;
+    }
+
+    /**
+     * @return {@link List}<String>
+     */
+    protected List<String> getColumnNames()
+    {
+        return this.columnNames;
+    }
+
+    /**
+     * Liefert die Liste des TableModels.
+     *
+     * @return {@link List}
+     */
+    protected List<T> getList()
+    {
+        return this.list;
     }
 }

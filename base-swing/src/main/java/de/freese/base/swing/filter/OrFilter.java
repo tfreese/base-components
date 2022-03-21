@@ -1,8 +1,8 @@
 package de.freese.base.swing.filter;
 
 /**
- * Filter zum verknuepfen mehrerer Filter zu einer OR-Bedingung.<br>
- * Dieser Filter reagiert auf die Aenderungen seiner Filter und leitet das Event weiter.
+ * Filter zum Verknüpfen mehrerer Filter zu einer OR-Bedingung.<br>
+ * Dieser Filter reagiert auf die Änderungen seiner Filter und leitet das Event weiter.
  *
  * @author Thomas Freese
  */

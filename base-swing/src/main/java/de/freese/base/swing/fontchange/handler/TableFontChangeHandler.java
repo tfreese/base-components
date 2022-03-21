@@ -2,11 +2,12 @@ package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Component;
 import java.awt.Font;
+
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung einer {@link JTable}.
+ * Defaultimplementierung für die Font-Änderung einer {@link JTable}.
  *
  * @author Thomas Freese
  */
@@ -38,7 +39,7 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler
         // super.fontChanged(newFont, table.getDefaultRenderer(Object.class));
         // }
 
-        // CellRenderer beruecksichtigen
+        // CellRenderer berücksichtigen
         for (int c = 0; c < table.getColumnCount(); c++)
         {
             Class<?> columnClass = table.getColumnClass(c);

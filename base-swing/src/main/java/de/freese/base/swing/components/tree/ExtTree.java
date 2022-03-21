@@ -29,7 +29,7 @@ public class ExtTree extends JTree implements Autoscroll
      */
     private int margin = 15;
     /**
-     * Zeichenen des Autoscroll Rahmens ?
+     * Zeichnen des Autoscroll Rahmens ?
      */
     private boolean paintAutoscrollBorder;
 
@@ -150,13 +150,43 @@ public class ExtTree extends JTree implements Autoscroll
     }
 
     /**
-     * Abstrand vom Rand des Trees fuer DnD Scrolling.
+     * Abstand vom Rand des Trees für DnD Scrolling.
      *
      * @return int
      */
     public int getMargin()
     {
         return this.margin;
+    }
+
+    /**
+     * Rendert einen Border die DnD sensitive Fläche.
+     *
+     * @return boolean
+     */
+    public boolean isPaintAutoscrollBorder()
+    {
+        return this.paintAutoscrollBorder;
+    }
+
+    /**
+     * Abstand vom Rand des Trees für DnD Scrolling.
+     *
+     * @param margin int
+     */
+    public void setMargin(final int margin)
+    {
+        this.margin = margin;
+    }
+
+    /**
+     * Rendert einen Border die DnD sensitive Fläche.
+     *
+     * @param paintAutoscrollBorder boolean
+     */
+    public void setPaintAutoscrollBorder(final boolean paintAutoscrollBorder)
+    {
+        this.paintAutoscrollBorder = paintAutoscrollBorder;
     }
 
     /**
@@ -168,17 +198,7 @@ public class ExtTree extends JTree implements Autoscroll
     }
 
     /**
-     * Rendert einen Border die DnD sensitive Flaeche.
-     *
-     * @return boolean
-     */
-    public boolean isPaintAutoscrollBorder()
-    {
-        return this.paintAutoscrollBorder;
-    }
-
-    /**
-     * Zeichnet den Tree, in Abhaengigkeit von isPaintAutoscrollBorder auch den Autoscroll-Rahmen.
+     * Zeichnet den Tree, in Abhängigkeit von isPaintAutoscrollBorder auch den Autoscroll-Rahmen.
      *
      * @param g {@link Graphics}
      *
@@ -197,25 +217,5 @@ public class ExtTree extends JTree implements Autoscroll
             g.setColor(Color.red);
             g.drawRect(-outer.x + getMargin(), -outer.y + getMargin(), inner.width - (getMargin() * 2), inner.height - (getMargin() * 2));
         }
-    }
-
-    /**
-     * Abstrand vom Rand des Trees fuer DnD Scrolling.
-     *
-     * @param margin int
-     */
-    public void setMargin(final int margin)
-    {
-        this.margin = margin;
-    }
-
-    /**
-     * Rendert einen Border die DnD sensitive Flaeche.
-     *
-     * @param paintAutoscrollBorder boolean
-     */
-    public void setPaintAutoscrollBorder(final boolean paintAutoscrollBorder)
-    {
-        this.paintAutoscrollBorder = paintAutoscrollBorder;
     }
 }

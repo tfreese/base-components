@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.io.Serializable;
 
 /**
- * Interface um Zustaende von {@link Component}s zu speichern und wieder herzustellen.
+ * Interface um Zustände von {@link Component}s zu speichern und wieder herzustellen.
  *
  * @author Thomas Freese
  */
@@ -25,7 +25,7 @@ public interface GUIState extends Serializable
     void store(Component component);
 
     /**
-     * Liefert true wenn der {@link GUIState} diesen Typ unterstuetzt.
+     * Liefert true wenn der {@link GUIState} diesen Typ unterstützt.
      *
      * @param type Class
      *

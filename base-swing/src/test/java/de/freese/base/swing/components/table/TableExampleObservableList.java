@@ -21,7 +21,7 @@ public final class TableExampleObservableList
     /**
      * @author Thomas Freese
      */
-    private static class MyTabelModel extends AbstractObservableListTableModel<int[]>
+    private static class MyTableModel extends AbstractObservableListTableModel<int[]>
     {
         /**
          *
@@ -29,12 +29,12 @@ public final class TableExampleObservableList
         private static final long serialVersionUID = -2601221304098179771L;
 
         /**
-         * Erzeugt eine neue Instanz von {@link MyTabelModel}.
+         * Erzeugt eine neue Instanz von {@link MyTableModel}.
          *
          * @param columnCount int
          * @param list {@link ObservableList}
          */
-        MyTabelModel(final int columnCount, final ObservableList<int[]> list)
+        MyTableModel(final int columnCount, final ObservableList<int[]> list)
         {
             super(columnCount, list);
         }
@@ -61,7 +61,7 @@ public final class TableExampleObservableList
         ObservableList<int[]> list = FXCollections.observableArrayList();
 
         JTable table = new JTable();
-        table.setModel(new MyTabelModel(5, list));
+        table.setModel(new MyTableModel(5, list));
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
@@ -92,9 +92,9 @@ public final class TableExampleObservableList
                 for (int i = 1; i < 6; i++)
                 {
                     publish(new int[]
-                    {
-                            i, 2, 3, 4, 5
-                    });
+                            {
+                                    i, 2, 3, 4, 5
+                            });
 
                     TimeUnit.MILLISECONDS.sleep(2000);
                 }

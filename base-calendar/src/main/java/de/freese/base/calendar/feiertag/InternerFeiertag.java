@@ -1,8 +1,6 @@
 package de.freese.base.calendar.feiertag;
 
 /**
- * Representiert einen internen Feiertag.
- *
  * @author Thomas Freese
  */
 public class InternerFeiertag extends Feiertag

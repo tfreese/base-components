@@ -12,7 +12,7 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.plaf.windows.ExtWindowsClassicTaskPaneUI;
 
 /**
- * Erzeugt eine TaskPane mit angepasster UI fuer Buttons im Header.
+ * Erzeugt eine TaskPane mit angepasster UI für Buttons im Header.
  *
  * @author Thomas Freese
  */
@@ -36,7 +36,7 @@ public class ExtTaskPane extends JXTaskPane
     }
 
     /**
-     * Fuegt dem TaskPane einen Separator hinzu.
+     * Fügt dem TaskPane einen Separator hinzu.
      */
     public void addSeparator()
     {
@@ -44,7 +44,7 @@ public class ExtTaskPane extends JXTaskPane
     }
 
     /**
-     * Fuegt dem TitlePane einen Separator hinzu.
+     * Fügt dem TitlePane einen Separator hinzu.
      *
      * @param dimension {@link Dimension}
      */
@@ -54,7 +54,7 @@ public class ExtTaskPane extends JXTaskPane
     }
 
     /**
-     * Hinzufuegen eines Buttons zur TitlePane.
+     * Hinzufügen eines Buttons zur TitlePane.
      *
      * @param button JButton
      */

@@ -12,13 +12,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import de.freese.base.swing.components.table.AbstractListTableModel;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.swing.components.table.AbstractListTableModel;
-
 /**
- * Utilmethoden fuer eine JTable.
- *
  * @author Thomas Freese
  */
 public final class TableUtils
@@ -45,7 +42,7 @@ public final class TableUtils
 
     /**
      * http://www.exampledepot.com/egs/javax.swing.table/VisCenter.html <br>
-     * Selektiert die Zelle an der gewuenschten Position und zentriert sie innerhalb der ScrollPane.
+     * Selektiert die Zelle an der gewünschten Position und zentriert sie innerhalb der ScrollPane.
      *
      * @param table {@link JTable}
      * @param row int
@@ -196,9 +193,9 @@ public final class TableUtils
             {
                 value = label.getText().trim();
             }
-            else if (c instanceof JCheckBox ceckBox)
+            else if (c instanceof JCheckBox checkBox)
             {
-                if (ceckBox.isSelected())
+                if (checkBox.isSelected())
                 {
                     value = Boolean.TRUE.toString();
                 }
@@ -235,7 +232,7 @@ public final class TableUtils
         int[] rows = table.getSelectedRows();
         Object[] result = new Object[rows.length];
 
-        if (table.getModel()instanceof AbstractListTableModel<?> model)
+        if (table.getModel() instanceof AbstractListTableModel<?> model)
         {
             for (int i = 0; i < rows.length; i++)
             {

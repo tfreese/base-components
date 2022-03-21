@@ -4,21 +4,18 @@ package de.freese.base.demo.example;
 import de.freese.base.demo.example.view.ExamplePanel;
 import de.freese.base.demo.example.view.ExampleView;
 import de.freese.base.mvc.AbstractController;
-import de.freese.base.mvc.Controller;
 import de.freese.base.swing.task.AbstractSwingTask;
-import de.freese.base.swing.task.DurationStatisikTaskListener;
+import de.freese.base.swing.task.DurationStatistikTaskListener;
 import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
 /**
- * Beispiel-{@link Controller}
- *
  * @author Thomas Freese
  */
 public class ExampleController extends AbstractController
 {
     /**
-    *
-    */
+     *
+     */
     private final ExampleView view;
 
     /**
@@ -50,12 +47,13 @@ public class ExampleController extends AbstractController
 
         ExamplePanel panel = getView().getComponent();
 
-        panel.getButtonTaskStatistik().addActionListener(event -> {
-            AbstractSwingTask<?, ?> task = new DurationStatisikTask();
+        panel.getButtonTaskStatistik().addActionListener(event ->
+        {
+            AbstractSwingTask<?, ?> task = new DurationStatistikTask();
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
 
             // Könnte als konfigurierbare Funktion im Task implementiert werden.
-            task.addPropertyChangeListener(new DurationStatisikTaskListener());
+            task.addPropertyChangeListener(new DurationStatistikTaskListener());
 
             getContext().getTaskManager().execute(task);
         });

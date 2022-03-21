@@ -2,10 +2,11 @@ package de.freese.base.swing.fontchange.handler;
 
 import java.awt.Component;
 import java.awt.Font;
+
 import de.freese.base.swing.fontchange.FontChangeHandler;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung einer {@link Component}.
+ * Defaultimplementierung für die Font-Änderung einer {@link Component}.
  *
  * @author Thomas Freese
  */
@@ -21,7 +22,7 @@ public class ComponentFontChangeHandler implements FontChangeHandler
 
         Font oldFont = component.getFont();
 
-        // Nur die Schriftgroesse aendern
+        // Nur die Schriftgrösse ändern.
         if (oldFont == null)
         {
             component.setFont(newFont);

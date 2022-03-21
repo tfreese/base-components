@@ -9,8 +9,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 
 /**
- * Defaultimplementierung fuer die Fontaenderung einer {@link JMenuBar}.<br>
- * Zusaetzlich werden die {@link JMenu} und {@link JMenuItem} Elemente angepasst.
+ * Defaultimplementierung für die Font-Änderung einer {@link JMenuBar}.<br>
+ * Zusätzlich werden die {@link JMenu} und {@link JMenuItem} Elemente angepasst.
  *
  * @author Thomas Freese
  */

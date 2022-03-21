@@ -5,8 +5,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * Panel als Beispiel.
- *
  * @author Thomas Freese
  */
 public class ExamplePanel extends JPanel

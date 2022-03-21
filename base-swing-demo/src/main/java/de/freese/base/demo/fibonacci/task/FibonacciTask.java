@@ -7,8 +7,6 @@ import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 
 /**
- * Task für die Fibonacci Demo.
- *
  * @author Thomas Freese
  */
 public class FibonacciTask extends AbstractSwingTask<Long, Void>
@@ -62,7 +60,8 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
         final long operations = this.controller.getOperationCount(this.value);
         // System.out.println(this.operations);
 
-        long result = this.controller.fibonacci(this.value, v -> {
+        long result = this.controller.fibonacci(this.value, v ->
+        {
             setProgress(v, 0, operations);
 
             // Etwas auf die Bremse treten, damit die Demo etwas dauert.

@@ -7,21 +7,29 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import de.freese.base.core.processor.AbstractProcessor;
+import de.freese.base.core.processor.ProcessorChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.core.processor.AbstractProcessor;
-import de.freese.base.core.processor.ProcessorChain;
-
 /**
- * Konfigurierbares Textdocument, fuer eine bestimmte Anzahl von Zeichen, nur Zahlen, uppercase fuer Text etc.
+ * Konfigurierbares Text-Dokument, für eine bestimmte Anzahl von Zeichen, nur Zahlen, uppercase für Text etc.
  *
  * @author Thomas Freese
  */
 public class ConfigureableDocument extends PlainDocument
 {
     /**
-     * Processor zur Pruefung ob nur Zahlen, ',' oder '.' eingegeben wurden.
+     *
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigureableDocument.class);
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4200946186651706734L;
+
+    /**
+     * Processor zur Prüfung ob nur Zahlen, ',' oder '.' eingegeben wurden.
      *
      * @author Thomas Freese
      */
@@ -48,20 +56,9 @@ public class ConfigureableDocument extends PlainDocument
         }
 
         /**
-         * Liefert die Angabe, ob Zahlen mit Nachkommastellen erlaubt sind.
-         *
-         * @return <code>true</code> wenn ja, sonst <code>false</code>
-         */
-        private boolean areFloatsAllowed()
-        {
-            return this.floatsAllowed;
-        }
-
-        /**
          * @param context {@link DocumentContext}
          *
          * @throws Exception Falls was schief geht.
-         *
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -117,6 +114,16 @@ public class ConfigureableDocument extends PlainDocument
         {
             this.floatsAllowed = floatsAllowed;
         }
+
+        /**
+         * Liefert die Angabe, ob Zahlen mit Nachkommastellen erlaubt sind.
+         *
+         * @return <code>true</code> wenn ja, sonst <code>false</code>
+         */
+        private boolean areFloatsAllowed()
+        {
+            return this.floatsAllowed;
+        }
     }
 
     /**
@@ -141,7 +148,7 @@ public class ConfigureableDocument extends PlainDocument
     }
 
     /**
-     * Processor zur Pruefung der Laenge.
+     * Processor zur Prüfung der Länge.
      *
      * @author Thomas Freese
      */
@@ -166,7 +173,6 @@ public class ConfigureableDocument extends PlainDocument
          * @param context {@link DocumentContext}
          *
          * @throws Exception Falls was schief geht.
-         *
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -176,12 +182,12 @@ public class ConfigureableDocument extends PlainDocument
 
             if (fullText.length() > this.maxLength)
             {
-                throw new IllegalStateException("Max. lenght of Document reached !");
+                throw new IllegalStateException("Max. length of Document reached !");
             }
         }
 
         /**
-         * Max. Laenge des Dokumentes.
+         * Max. Länge des Dokumentes.
          *
          * @param maxLength int
          */
@@ -192,7 +198,7 @@ public class ConfigureableDocument extends PlainDocument
     }
 
     /**
-     * Processor fuer UpperCase der Texte..
+     * Processor für UpperCase der Texte.
      *
      * @author Thomas Freese
      */
@@ -212,7 +218,6 @@ public class ConfigureableDocument extends PlainDocument
          * @param context {@link DocumentContext}
          *
          * @throws Exception Falls was schief geht.
-         *
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -222,14 +227,6 @@ public class ConfigureableDocument extends PlainDocument
         }
     }
 
-    /**
-     *
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigureableDocument.class);
-    /**
-     *
-     */
-    private static final long serialVersionUID = 4200946186651706734L;
     /**
      *
      */
@@ -254,32 +251,21 @@ public class ConfigureableDocument extends PlainDocument
     {
         super();
 
-        // Sorgt dafuer das \n als Zeilenumbruch verarbeitet wird und nicht als
+        // Sorgt dafür das \n als Zeilenumbruch verarbeitet wird und nicht als
         // normaler Text.
         putProperty("filterNewlines", Boolean.TRUE);
 
-        // Laengenueberpruefung
+        // Längenüberprüfung
         this.lengthProcessor = new LengthProcessor();
         this.processorChain.addProcessor(this.lengthProcessor);
 
-        // Zahlenpruefung
+        // Zahlenprüfung
         this.digitProcessor = new DigitProcessor();
         this.processorChain.addProcessor(this.digitProcessor);
 
         // UpperCase
         this.upperCaseProcessor = new UpperCaseProcessor();
         this.processorChain.addProcessor(this.upperCaseProcessor);
-    }
-
-    /**
-     * Behandeln von Eingabefehlern.
-     *
-     * @param ex {@link Exception}
-     */
-    protected void handleException(final Exception ex)
-    {
-        Toolkit.getDefaultToolkit().beep();
-        LOGGER.warn(null, ex);
     }
 
     /**
@@ -358,5 +344,16 @@ public class ConfigureableDocument extends PlainDocument
     public void setToUpperCase(final boolean toUpperCase)
     {
         this.upperCaseProcessor.setEnabled(toUpperCase);
+    }
+
+    /**
+     * Behandeln von Eingabefehlern.
+     *
+     * @param ex {@link Exception}
+     */
+    protected void handleException(final Exception ex)
+    {
+        Toolkit.getDefaultToolkit().beep();
+        LOGGER.warn(null, ex);
     }
 }

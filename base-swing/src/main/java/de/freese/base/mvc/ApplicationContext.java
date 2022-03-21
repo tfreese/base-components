@@ -27,14 +27,10 @@ public class ApplicationContext
     /**
      *
      */
-    private Clipboard clipboard;
+    private final SwingExceptionHandler exceptionHandler;
     /**
      *
      */
-    private final SwingExceptionHandler exceptionHandler;
-    /**
-    *
-    */
     private final ExecutorService executorService;
     /**
      *
@@ -45,17 +41,21 @@ public class ApplicationContext
      */
     private final LocalStorage localStorage;
     /**
-    *
-    */
-    private JFrame mainFrame;
-    /**
-    *
-    */
-    private ResourceMap resourceMapRoot;
-    /**
      *
      */
     private final TaskManager taskManager;
+    /**
+     *
+     */
+    private Clipboard clipboard;
+    /**
+     *
+     */
+    private JFrame mainFrame;
+    /**
+     *
+     */
+    private ResourceMap resourceMapRoot;
     /**
      *
      */
@@ -178,7 +178,7 @@ public class ApplicationContext
 
     /**
      * ID des angemeldeten Users.<br>
-     * Wurde keine ID gesetzt wird, der Wert der Systemproperty "user.name" geliefert.
+     * Wurde keine ID gesetzt wird, der Wert der SystemProperty "user.name" geliefert.
      *
      * @return String
      */

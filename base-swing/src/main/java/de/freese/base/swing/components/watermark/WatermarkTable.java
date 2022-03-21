@@ -16,7 +16,7 @@ import de.freese.base.swing.components.table.ExtTable;
  *
  * @author Thomas Freese
  */
-public class WatermarkTable extends JPanel implements IWatermarkComponent
+public class WatermarkTable extends JPanel implements WatermarkComponent
 {
     /**
      *
@@ -25,7 +25,7 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
     /**
      *
      */
-    private JScrollPane scrollpane;
+    private JScrollPane scrollPane;
     /**
      *
      */
@@ -58,21 +58,19 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
     }
 
     /**
-     * Returns the customized scrollpane
-     *
      * @return {@link JScrollPane}
      */
     public JScrollPane getScrollPane()
     {
-        if (null == this.scrollpane)
+        if (null == this.scrollPane)
         {
-            this.scrollpane = new JScrollPane();
+            this.scrollPane = new JScrollPane();
             setBackground(Color.WHITE);
-            this.scrollpane.setOpaque(false);
-            this.scrollpane.setViewport(getViewport());
+            this.scrollPane.setOpaque(false);
+            this.scrollPane.setViewport(getViewport());
         }
 
-        return this.scrollpane;
+        return this.scrollPane;
     }
 
     /**
@@ -93,6 +91,33 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
     }
 
     /**
+     * @see WatermarkComponent#getWatermark()
+     */
+    @Override
+    public ImageIcon getWatermark()
+    {
+        return getViewport().getWatermark();
+    }
+
+    /**
+     * @see WatermarkComponent#setPosition(java.awt.Point)
+     */
+    @Override
+    public void setPosition(final Point position)
+    {
+        getViewport().setPosition(position);
+    }
+
+    /**
+     * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
+     */
+    @Override
+    public void setWatermark(final ImageIcon watermark)
+    {
+        getViewport().setWatermark(watermark);
+    }
+
+    /**
      * Returns the special viewport which draws the image
      *
      * @return {@link WatermarkViewport}
@@ -108,38 +133,11 @@ public class WatermarkTable extends JPanel implements IWatermarkComponent
     }
 
     /**
-     * @see de.freese.base.swing.components.watermark.IWatermarkComponent#getWatermark()
-     */
-    @Override
-    public ImageIcon getWatermark()
-    {
-        return getViewport().getWatermark();
-    }
-
-    /**
      * Initializes the Component.
      */
     private void init()
     {
         setLayout(new BorderLayout());
         add(getScrollPane(), BorderLayout.CENTER);
-    }
-
-    /**
-     * @see de.freese.base.swing.components.watermark.IWatermarkComponent#setPosition(java.awt.Point)
-     */
-    @Override
-    public void setPosition(final Point position)
-    {
-        getViewport().setPosition(position);
-    }
-
-    /**
-     * @see de.freese.base.swing.components.watermark.IWatermarkComponent#setWatermark(javax.swing.ImageIcon)
-     */
-    @Override
-    public void setWatermark(final ImageIcon watermark)
-    {
-        getViewport().setWatermark(watermark);
     }
 }

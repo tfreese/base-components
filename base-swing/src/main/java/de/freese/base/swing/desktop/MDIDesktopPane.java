@@ -114,48 +114,7 @@ public final class MDIDesktopPane extends JDesktopPane
     // }
 
     /**
-     * Cascade all internal frames.
-     *
-     * @param minWidth int
-     * @param minHeight int
-     */
-    private void cascadeFrames(final int minWidth, final int minHeight)
-    {
-        JInternalFrame allFrames[] = getAllFrames();
-        int x = 0;
-        int y = 0;
-
-        this.manager.setNormalSize();
-        int frameHeight = (getHeight() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
-        int frameWidth = (getWidth() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
-
-        frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
-        frameWidth = frameWidth < minWidth ? minWidth : frameWidth;
-
-        for (int i = allFrames.length - 1; i >= 0; i--)
-        {
-            allFrames[i].setSize(frameWidth, frameHeight);
-            allFrames[i].setLocation(x, y);
-            x = x + FRAME_OFFSET;
-            y = y + FRAME_OFFSET;
-        }
-
-        checkDesktopSize();
-    }
-
-    /**
-     *
-     */
-    private void checkDesktopSize()
-    {
-        if ((getParent() != null) && isVisible())
-        {
-            this.manager.resizeDesktop();
-        }
-    }
-
-    /**
-     * Liefert die Hoehe des Titels.
+     * Liefert die Höhe des Titels.
      *
      * @return int
      */
@@ -232,6 +191,55 @@ public final class MDIDesktopPane extends JDesktopPane
     }
 
     /**
+     * Tile all internal frames in flat style.
+     */
+    public void tileFramesFlat()
+    {
+        tileFramesFlat(getTitleHeight());
+    }
+
+    /**
+     * Cascade all internal frames.
+     *
+     * @param minWidth int
+     * @param minHeight int
+     */
+    private void cascadeFrames(final int minWidth, final int minHeight)
+    {
+        JInternalFrame[] allFrames = getAllFrames();
+        int x = 0;
+        int y = 0;
+
+        this.manager.setNormalSize();
+        int frameHeight = (getHeight() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
+        int frameWidth = (getWidth() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
+
+        frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
+        frameWidth = frameWidth < minWidth ? minWidth : frameWidth;
+
+        for (int i = allFrames.length - 1; i >= 0; i--)
+        {
+            allFrames[i].setSize(frameWidth, frameHeight);
+            allFrames[i].setLocation(x, y);
+            x = x + FRAME_OFFSET;
+            y = y + FRAME_OFFSET;
+        }
+
+        checkDesktopSize();
+    }
+
+    /**
+     *
+     */
+    private void checkDesktopSize()
+    {
+        if ((getParent() != null) && isVisible())
+        {
+            this.manager.resizeDesktop();
+        }
+    }
+
+    /**
      * Tile all internal frames.
      *
      * @param minWidth int
@@ -239,7 +247,7 @@ public final class MDIDesktopPane extends JDesktopPane
      */
     private void tileFrames(final int minWidth, final int minHeight)
     {
-        JInternalFrame allFrames[] = getAllFrames();
+        JInternalFrame[] allFrames = getAllFrames();
         this.manager.setNormalSize();
 
         // count frames that aren't iconized
@@ -299,20 +307,12 @@ public final class MDIDesktopPane extends JDesktopPane
 
     /**
      * Tile all internal frames in flat style.
-     */
-    public void tileFramesFlat()
-    {
-        tileFramesFlat(getTitleHeight());
-    }
-
-    /**
-     * Tile all internal frames in flat style.
      *
      * @param minHeight int
      */
     private void tileFramesFlat(final int minHeight)
     {
-        JInternalFrame allFrames[] = getAllFrames();
+        JInternalFrame[] allFrames = getAllFrames();
         this.manager.setNormalSize();
         int y = 0;
 

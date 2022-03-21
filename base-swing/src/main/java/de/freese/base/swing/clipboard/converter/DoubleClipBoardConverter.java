@@ -1,8 +1,6 @@
 package de.freese.base.swing.clipboard.converter;
 
 /**
- * ClipboardConverter fuer Double.
- *
  * @author Thomas Freese
  */
 public class DoubleClipBoardConverter extends AbstractNumberClipBoardConverter

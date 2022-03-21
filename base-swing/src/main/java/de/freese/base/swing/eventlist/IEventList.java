@@ -6,23 +6,23 @@ import java.util.List;
 import javax.swing.event.ListDataListener;
 
 /**
- * Interface einer eigenen Liste, welche bei Aenderungen Events feuert.
+ * Interface einer eigenen Liste, welche bei Änderungen Events feuert.
+ *
+ * @param <E> Type
  *
  * @author Thomas Freese
- *
- * @param <E> Konkreter Typ der Listobjekte.
  */
 public interface IEventList<E> extends List<E>
 {
     /**
-     * Hinzufuegen eines {@link ListDataListener}s.
+     * Hinzufügen eines {@link ListDataListener}s.
      *
      * @param listener {@link ListDataListener}
      */
     void addListDataListener(final ListDataListener listener);
 
     /**
-     * Liefert den Eigentuemer der Liste.
+     * Liefert den Eigentümer der Liste.
      *
      * @return Object
      */
@@ -43,7 +43,7 @@ public interface IEventList<E> extends List<E>
     void removeListDataListener(final ListDataListener listener);
 
     /**
-     * Stellt einen urspruenglichen Zustand wieder her.
+     * Stellt einen ursprünglichen Zustand wieder her.
      */
     void reset();
 
@@ -62,14 +62,14 @@ public interface IEventList<E> extends List<E>
     void setListenerEnabled(final boolean listenerEnabled);
 
     /**
-     * Setzt den Eigentuemer der Liste.
+     * Setzt den Eigentümer der Liste.
      *
      * @param owner Object
      */
     void setOwner(final Object owner);
 
     /**
-     * Feuert ein ContentsChanged Event fuer die ganze Liste.<br>
+     * Feuert ein ContentsChanged Event für die ganze Liste.<br>
      * Nur relevant, wenn {@link #setListenerEnabled(boolean)} verwendet wurde.
      */
     void update();

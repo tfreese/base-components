@@ -3,7 +3,7 @@ package de.freese.base.swing.filter;
 import de.freese.base.swing.eventlist.FilterableEventList;
 
 /**
- * Interface fuer einen Filter fuer die {@link FilterableEventList}.
+ * Interface für einen Filter für die {@link FilterableEventList}.
  *
  * @author Thomas Freese
  */
@@ -30,12 +30,12 @@ public interface Filter extends FilterCondition
     String NOT_EMPTY = "nicht leer";
 
     /**
-     * Setzt den Filter zurueck.
+     * Setzt den Filter zurück.
      */
     void reset();
 
     /**
-     * Setzt den Wert mit dem der Filter arbeiten soll.
+     * Setzt den Wert, mit dem der Filter arbeiten soll.
      *
      * @param filterValue Object[]
      */
