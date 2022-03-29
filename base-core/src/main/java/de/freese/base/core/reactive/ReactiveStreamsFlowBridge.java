@@ -2,11 +2,16 @@
 package de.freese.base.core.reactive;
 
 import java.util.concurrent.Flow;
+import java.util.concurrent.Flow.Processor;
+import java.util.concurrent.Flow.Publisher;
+import java.util.concurrent.Flow.Subscriber;
+import java.util.concurrent.Flow.Subscription;
 
 /***
  * Bridge between Reactive Streams API and the Java 9{@link java.util.concurrent.Flow} API.
  *
  * @see <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
+ *
  * @author Thomas Freese
  */
 public final class ReactiveStreamsFlowBridge
@@ -237,7 +242,7 @@ public final class ReactiveStreamsFlowBridge
         /**
          * Erstellt ein neues {@link ReactivePublisherFromFlow} Object.
          *
-         * @param flowPublisher {@link Flow.Publisher}
+         * @param flowPublisher {@link Publisher}
          */
         public ReactivePublisherFromFlow(final Flow.Publisher<? extends T> flowPublisher)
         {
@@ -276,7 +281,7 @@ public final class ReactiveStreamsFlowBridge
         /**
          * Erstellt ein neues {@link ReactiveToFlowProcessor} Object.
          *
-         * @param flow {@link Flow.Processor}
+         * @param flow {@link Processor}
          */
         public ReactiveToFlowProcessor(final Flow.Processor<? super T, ? extends U> flow)
         {
@@ -350,7 +355,7 @@ public final class ReactiveStreamsFlowBridge
         /**
          * Erstellt ein neues {@link ReactiveToFlowSubscriber} Object.
          *
-         * @param flow {@link Flow.Subscriber}
+         * @param flow {@link Subscriber}
          */
         public ReactiveToFlowSubscriber(final Flow.Subscriber<? super T> flow)
         {
@@ -407,7 +412,7 @@ public final class ReactiveStreamsFlowBridge
         /**
          * Erstellt ein neues {@link ReactiveToFlowSubscription} Object.
          *
-         * @param flow {@link Flow.Subscription}
+         * @param flow {@link Subscription}
          */
         public ReactiveToFlowSubscription(final Flow.Subscription flow)
         {

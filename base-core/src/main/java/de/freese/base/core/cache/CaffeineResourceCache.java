@@ -17,8 +17,14 @@ import com.github.benmanes.caffeine.cache.Weigher;
  */
 public class CaffeineResourceCache extends FileResourceCache
 {
+    /**
+     *
+     */
     private final LoadingCache<URI, byte[]> cache;
 
+    /**
+     * Erstellt ein neues {@link CaffeineResourceCache} Object.
+     */
     public CaffeineResourceCache()
     {
         super();
@@ -30,7 +36,7 @@ public class CaffeineResourceCache extends FileResourceCache
      * @param cacheDirectory {@link Path}
      * @param keepBytesInMemory int; Disable Caching = 0
      */
-    public CaffeineResourceCache(final Path cacheDirectory, int keepBytesInMemory)
+    public CaffeineResourceCache(final Path cacheDirectory, final int keepBytesInMemory)
     {
         super(cacheDirectory);
 
@@ -40,8 +46,8 @@ public class CaffeineResourceCache extends FileResourceCache
     @Override
     public void clear()
     {
-        cache.invalidateAll();
-        cache.cleanUp();
+        this.cache.invalidateAll();
+        this.cache.cleanUp();
 
         super.clear();
     }
@@ -49,9 +55,9 @@ public class CaffeineResourceCache extends FileResourceCache
     @Override
     public Optional<InputStream> getResource(final URI uri)
     {
-        byte[] content = cache.get(uri);
+        byte[] content = this.cache.get(uri);
 
-        if (content == null || content.length == 0)
+        if ((content == null) || (content.length == 0))
         {
             return Optional.empty();
         }
@@ -64,20 +70,20 @@ public class CaffeineResourceCache extends FileResourceCache
      *
      * @return LoadingCache
      */
-    private LoadingCache<URI, byte[]> createCache(int keepBytesInMemory)
+    private LoadingCache<URI, byte[]> createCache(final int keepBytesInMemory)
     {
         // Größe der Datei = Gewicht
         Weigher<URI, byte[]> weigher = (key, value) -> value.length;
 
         CacheLoader<URI, byte[]> cacheLoader = key ->
         {
-            byte[] content = new byte[0];
+            byte[] content = {};
 
             Optional<InputStream> optional = super.getResource(key);
 
             if (optional.isPresent())
             {
-                //int size = (int) getContentLength(key);
+                // int size = (int) getContentLength(key);
                 int size = 1024;
 
                 try (InputStream inputStream = optional.get();

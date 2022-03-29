@@ -26,8 +26,7 @@ public class BuilderGenerator
      */
     public static void main(final String[] args)
     {
-        BuilderGenerator generator = new BuilderGenerator(fields ->
-        {
+        BuilderGenerator generator = new BuilderGenerator(fields -> {
             fields.remove("serialVersionUID");
             fields.remove("valueB");
             return fields;
@@ -40,15 +39,22 @@ public class BuilderGenerator
      */
     private final UnaryOperator<Map<String, Field>> fieldHandler;
 
+    /**
+     * Erstellt ein neues {@link BuilderGenerator} Object.
+     */
     public BuilderGenerator()
     {
-        this(fields ->
-        {
+        this(fields -> {
             fields.remove("serialVersionUID");
             return fields;
         });
     }
 
+    /**
+     * Erstellt ein neues {@link BuilderGenerator} Object.
+     *
+     * @param fieldHandler {@link UnaryOperator}
+     */
     public BuilderGenerator(final UnaryOperator<Map<String, Field>> fieldHandler)
     {
         super();
@@ -90,8 +96,7 @@ public class BuilderGenerator
         printStream.println("{");
 
         // Fields
-        fields.values().forEach(field ->
-        {
+        fields.values().forEach(field -> {
             printStream.println(INDENT + "/**");
             printStream.println(INDENT + " *");
             printStream.println(INDENT + " */");
@@ -110,8 +115,7 @@ public class BuilderGenerator
         printStream.println(INDENT + "}");
 
         // Methods
-        fields.values().forEach(field ->
-        {
+        fields.values().forEach(field -> {
             String fieldName = field.getName();
             String typeName = field.getType().getSimpleName();
 
@@ -149,6 +153,6 @@ public class BuilderGenerator
             ReflectionUtils.doWithLocalFields(clazz, field -> fields.put(field.getName(), field));
         }
 
-        return fieldHandler.apply(fields);
+        return this.fieldHandler.apply(fields);
     }
 }

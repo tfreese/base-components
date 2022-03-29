@@ -1,5 +1,7 @@
 package de.freese.base.persistence.jdbc.benchmark;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
@@ -13,12 +15,11 @@ import org.openjdk.jmh.runner.options.TimeValue;
  */
 class TestBenchmark
 {
-    private final Options DEFAULT_OPTIONS = new OptionsBuilder()
-            .shouldFailOnError(true)
-            .warmupIterations(0).warmupTime(TimeValue.milliseconds(100))
-            .measurementIterations(1).measurementTime(TimeValue.milliseconds(200))
-            .forks(0)
-            .build();
+    /**
+     *
+     */
+    private final Options DEFAULT_OPTIONS = new OptionsBuilder().shouldFailOnError(true).warmupIterations(0).warmupTime(TimeValue.milliseconds(100))
+            .measurementIterations(1).measurementTime(TimeValue.milliseconds(200)).forks(0).build();
 
     /**
      * @throws Exception Falls was schief geht
@@ -28,13 +29,15 @@ class TestBenchmark
     {
         // @formatter:off
         Options options = new OptionsBuilder()
-                .parent(DEFAULT_OPTIONS)
+                .parent(this.DEFAULT_OPTIONS)
                 .include(StagedResultSizeBenchmarks.class.getSimpleName())
                 .build()
                 ;
         // @formatter:on
 
         new Runner(options).run();
+
+        assertTrue(true);
     }
 
     /**
@@ -45,12 +48,14 @@ class TestBenchmark
     {
         // @formatter:off
         Options options = new OptionsBuilder()
-                .parent(DEFAULT_OPTIONS)
+                .parent(this.DEFAULT_OPTIONS)
                 .include(StatementBenchmarks.class.getSimpleName())
                 .build()
                 ;
         // @formatter:on
 
         new Runner(options).run();
+
+        assertTrue(true);
     }
 }

@@ -26,23 +26,51 @@ import org.openjdk.jmh.infra.Blackhole;
  */
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
-//@org.junit.platform.commons.annotation.Testable
+// @org.junit.platform.commons.annotation.Testable
 public class StagedResultSizeBenchmarks extends BenchmarkSettings
 {
+    /**
+     * @author Thomas Freese
+     */
     @State(Scope.Benchmark)
     public static class ConnectionHolder
     {
+        /**
+         *
+         */
         private final Connection derby;
+        /**
+         *
+         */
         private final Connection h2;
+        /**
+         *
+         */
         private final Connection hsqldb;
+        /**
+         *
+         */
         Connection connection;
-
-        @Param({"h2", "hsqldb", "derby"})
+        /**
+         *
+         */
+        @Param(
+                {
+                        "h2", "hsqldb", "derby"
+                })
         String db;
-
-        @Param({"1", "10", "100", "200"})
+        /**
+         *
+         */
+        @Param(
+                {
+                        "1", "10", "100", "200"
+                })
         int resultSize;
 
+        /**
+         * Erstellt ein neues {@link ConnectionHolder} Object.
+         */
         public ConnectionHolder()
         {
             try
@@ -63,7 +91,7 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
         @Setup
         public void setup()
         {
-            this.connection = switch (db)
+            this.connection = switch (this.db)
                     {
                         case "h2" -> this.h2;
                         case "hsqldb" -> this.hsqldb;
@@ -83,7 +111,10 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
             this.connection = null;
         }
 
-        private void populateDb(Connection connection)
+        /**
+         * @param connection {@link Connection}
+         */
+        private void populateDb(final Connection connection)
         {
             try (Statement statement = connection.createStatement())
             {
@@ -119,8 +150,14 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
         }
     }
 
+    /**
+     * @param connectionHolder {@link ConnectionHolder}
+     * @param blackhole {@link Blackhole}
+     *
+     * @throws SQLException Falls was schiefgeht.
+     */
     @Benchmark
-    public void preparedStatement(ConnectionHolder connectionHolder, Blackhole blackhole) throws SQLException
+    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
     {
         try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM result_sizes WHERE name != ?"))
         {
@@ -136,8 +173,14 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
         }
     }
 
+    /**
+     * @param connectionHolder {@link ConnectionHolder}
+     * @param blackhole {@link Blackhole}
+     *
+     * @throws SQLException Falls was schiefgeht.
+     */
     @Benchmark
-    public void statement(ConnectionHolder connectionHolder, Blackhole blackhole) throws SQLException
+    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
     {
         try (Statement statement = connectionHolder.connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM result_sizes"))

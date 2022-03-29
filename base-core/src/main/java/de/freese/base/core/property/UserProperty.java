@@ -45,17 +45,7 @@ public class UserProperty extends Property
             return true;
         }
 
-        if (!super.equals(obj) || !(obj instanceof UserProperty other))
-        {
-            return false;
-        }
-
-        if (this.changed != other.changed)
-        {
-            return false;
-        }
-
-        if (this.deleted != other.deleted)
+        if (!super.equals(obj) || !(obj instanceof UserProperty other) || (this.changed != other.changed) || (this.deleted != other.deleted))
         {
             return false;
         }
@@ -69,7 +59,8 @@ public class UserProperty extends Property
         {
             return other.getUserName() == null;
         }
-        else return getUserName().equals(other.getUserName());
+
+        return getUserName().equals(other.getUserName());
     }
 
     /**
