@@ -16,6 +16,7 @@
     <description>Common Patterns and Classes for the Persistence Layer.</description>
 
     <properties>
+        <!--<h2.version>2.1.210</h2.version>-->
     </properties>
 
     <build>
