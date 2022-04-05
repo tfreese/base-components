@@ -2,12 +2,8 @@
 package de.freese.base.core.concurrent;
 
 import java.util.Objects;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -49,28 +45,6 @@ public class BoundedExecutor implements Executor
     /**
      * Blockiert bis der RateLimiter freie Slots hat.
      *
-     * @param <T> Type
-     * @param callable {@link Callable}
-     *
-     * @return {@link Future}
-     */
-    public <T> Future<T> execute(final Callable<T> callable)
-    {
-        if (callable == null)
-        {
-            throw new NullPointerException();
-        }
-
-        RunnableFuture<T> task = new FutureTask<>(callable);
-
-        execute(task);
-
-        return task;
-    }
-
-    /**
-     * Blockiert bis der RateLimiter freie Slots hat.
-     *
      * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
      */
     @Override
@@ -85,7 +59,8 @@ public class BoundedExecutor implements Executor
         {
             this.rateLimiter.acquire();
 
-            this.delegate.execute(() -> {
+            this.delegate.execute(() ->
+            {
                 try
                 {
                     runnable.run();

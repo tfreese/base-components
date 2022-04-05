@@ -4,12 +4,8 @@ package de.freese.base.core.concurrent;
 import java.util.ArrayDeque;
 import java.util.Objects;
 import java.util.Queue;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -50,26 +46,6 @@ public class BoundedExecutorQueued implements Executor
         }
 
         this.rateLimiter = new Semaphore(parallelism, true);
-    }
-
-    /**
-     * @param <T> Type
-     * @param callable {@link Callable}
-     *
-     * @return {@link Future}
-     */
-    public <T> Future<T> execute(final Callable<T> callable)
-    {
-        if (callable == null)
-        {
-            throw new NullPointerException();
-        }
-
-        RunnableFuture<T> task = new FutureTask<>(callable);
-
-        execute(task);
-
-        return task;
     }
 
     /**
@@ -117,7 +93,8 @@ public class BoundedExecutorQueued implements Executor
         {
             this.rateLimiter.acquire();
 
-            this.delegate.execute(() -> {
+            this.delegate.execute(() ->
+            {
                 try
                 {
                     runnable.run();

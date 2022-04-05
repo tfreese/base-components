@@ -3,13 +3,9 @@ package de.freese.base.core.concurrent;
 
 import java.util.Objects;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -20,6 +16,13 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedExecutorQueuedWithScheduler implements Executor
 {
+    /**
+     *
+     */
+    private static final Runnable SHUTDOWN_RUNNABLE = () ->
+    {
+    };
+
     /**
      * @author Thomas Freese
      */
@@ -61,7 +64,8 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
             {
                 BoundedExecutorQueuedWithScheduler.this.rateLimiter.acquire();
 
-                BoundedExecutorQueuedWithScheduler.this.delegate.execute(() -> {
+                BoundedExecutorQueuedWithScheduler.this.delegate.execute(() ->
+                {
                     try
                     {
                         runnable.run();
@@ -93,13 +97,6 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
             // }
         }
     }
-
-    /**
-     *
-     */
-    private static final Runnable SHUTDOWN_RUNNABLE = () -> {
-    };
-
     /**
      *
      */
@@ -133,26 +130,6 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
         this.rateLimiter = new Semaphore(parallelism, true);
 
         delegate.execute(new QueueScheduler());
-    }
-
-    /**
-     * @param <T> Type
-     * @param callable {@link Callable}
-     *
-     * @return {@link Future}
-     */
-    public <T> Future<T> execute(final Callable<T> callable)
-    {
-        if (callable == null)
-        {
-            throw new NullPointerException();
-        }
-
-        RunnableFuture<T> task = new FutureTask<>(callable);
-
-        execute(task);
-
-        return task;
     }
 
     /**
