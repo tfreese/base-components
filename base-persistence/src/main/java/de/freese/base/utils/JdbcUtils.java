@@ -855,7 +855,7 @@ public final class JdbcUtils
                 }
                 else
                 {
-                    value = Objects.toString(obj, "");
+                    value = Objects.toString(obj, null);
                 }
 
                 stringJoiner.add(valueFunction.apply(value));
