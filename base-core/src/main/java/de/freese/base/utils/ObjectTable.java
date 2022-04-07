@@ -30,6 +30,16 @@ public final class ObjectTable
     /**
      * Erstellt ein neues {@link ObjectTable} Object.
      *
+     * @param header String[]
+     */
+    public ObjectTable(final String[] header)
+    {
+        this(Arrays.asList(header));
+    }
+
+    /**
+     * Erstellt ein neues {@link ObjectTable} Object.
+     *
      * @param header {@link Iterable}
      */
     public ObjectTable(final Iterable<String> header)
@@ -46,6 +56,16 @@ public final class ObjectTable
         }
 
         this.data = new ArrayList<>();
+    }
+
+    /**
+     * Die Row muss die gleiche Anzahl an Daten haben, wie die Anzahl der Spalten, sonst knallt es.
+     *
+     * @param row Object[]
+     */
+    public void addRow(Object[] row)
+    {
+        addRow(Arrays.asList(row));
     }
 
     /**

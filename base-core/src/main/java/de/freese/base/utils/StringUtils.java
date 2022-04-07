@@ -9,7 +9,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HexFormat;
@@ -112,7 +111,7 @@ public final class StringUtils
             return EMPTY;
         }
 
-        if (text.indexOf("\\u") == -1)
+        if (!text.contains("\\u"))
         {
             return text;
         }
@@ -591,14 +590,16 @@ public final class StringUtils
             return EMPTY;
         }
 
-        StringBuilder sb = new StringBuilder();
+//        StringBuilder sb = new StringBuilder();
+//
+//        for (int i = 0; i < repeat; i++)
+//        {
+//            sb.append(cs);
+//        }
+//
+//        return sb.toString();
 
-        for (int i = 0; i < repeat; i++)
-        {
-            sb.append(cs);
-        }
-
-        return sb.toString();
+        return cs.toString().repeat(repeat);
     }
 
     /**
@@ -625,81 +626,6 @@ public final class StringUtils
         // return String.format("%-" + size + "s", text).replace(" ", padding);
 
         return org.apache.commons.lang3.StringUtils.rightPad(text, size, padding);
-    }
-
-    /**
-     * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
-     * Ist das Padding null oder leer wird nichts gemacht.<br>
-     * Beim Padding werden die CharSequences durch Strings ersetzt.
-     *
-     * @param <T> Konkreter Typ
-     * @param list {@link List}
-     * @param widths int[]
-     * @param padding String
-     *
-     * @see #write(List, PrintStream, String)
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends CharSequence> void rightpad(final List<T[]> list, final int[] widths, final String padding)
-    {
-        if (ListUtils.isEmpty(list) || ArrayUtils.isEmpty(widths) || isEmpty(padding))
-        {
-            return;
-        }
-
-        if (list.get(0).length != widths.length)
-        {
-            throw new IllegalArgumentException("row element length != widths length");
-        }
-
-        int columnCount = widths.length;
-
-        // Strings pro Spalte formatieren und schreiben.
-        list.stream().parallel().forEach(r ->
-        {
-            for (int column = 0; column < columnCount; column++)
-            {
-                String value = rightPad(r[column].toString(), widths[column], padding);
-
-                r[column] = (T) value;
-            }
-        });
-    }
-
-    /**
-     * Die Spaltenbreite der Elemente wird auf den breitesten Wert durch das Padding aufgefüllt.<br>
-     * Ist das Padding null oder leer wird nichts gemacht.<br>
-     * Beim Padding werden die CharSequences durch Strings ersetzt.
-     *
-     * @param <T> Konkreter Typ
-     * @param array {@link CharSequence}[]
-     * @param widths int[]
-     * @param padding String
-     *
-     * @see #write(List, PrintStream, String)
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends CharSequence> void rightpad(final T[] array, final int[] widths, final String padding)
-    {
-        if (ArrayUtils.isEmpty(array) || ArrayUtils.isEmpty(widths) || isEmpty(padding))
-        {
-            return;
-        }
-
-        if (array.length != widths.length)
-        {
-            throw new IllegalArgumentException("array length != widths length");
-        }
-
-        int columnCount = widths.length;
-
-        // Strings pro Spalte formatieren und schreiben.
-        for (int column = 0; column < columnCount; column++)
-        {
-            String value = rightPad(array[column].toString(), widths[column], padding);
-
-            array[column] = (T) value;
-        }
     }
 
     /**
@@ -1003,51 +929,6 @@ public final class StringUtils
         }
 
         return HexFormat.of().withUpperCase().formatHex(bytearrayoutputstream.toByteArray());
-    }
-
-    /**
-     * Schreibt die Liste in den PrintStream.<br>
-     * Der Stream wird nicht geschlossen.
-     *
-     * @param <T> Konkreter Typ von CharSequence
-     * @param rows {@link List}
-     * @param printStream {@link PrintStream}
-     * @param separator String
-     */
-    public static <T extends CharSequence> void write(final List<T[]> rows, final PrintStream printStream, final String separator)
-    {
-        Objects.requireNonNull(rows, "rows required");
-        Objects.requireNonNull(printStream, "printStream required");
-
-        if (rows.isEmpty())
-        {
-            return;
-        }
-
-        rows.forEach(r -> printStream.println(Stream.of(r).map(Object::toString).collect(Collectors.joining(separator))));
-
-        printStream.flush();
-    }
-
-    /**
-     * Schreibt die Liste in den PrintStream.<br>
-     * Der Stream wird nicht geschlossen.
-     *
-     * @param <T> Konkreter Typ von CharSequence
-     * @param array {@link CharSequence}[]
-     * @param printStream {@link PrintStream}
-     * @param separator String
-     */
-    public static <T extends CharSequence> void write(final T[] array, final PrintStream printStream, final String separator)
-    {
-        Objects.requireNonNull(array, "rows required");
-        Objects.requireNonNull(printStream, "printStream required");
-
-        String value = Stream.of(array).map(Object::toString).collect(Collectors.joining(separator));
-
-        printStream.println(value);
-
-        printStream.flush();
     }
 
     /**

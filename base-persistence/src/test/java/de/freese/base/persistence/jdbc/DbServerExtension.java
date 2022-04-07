@@ -213,6 +213,11 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 config.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
                 config.setJdbcUrl("jdbc:hsqldb:mem:" + createDbName() + ";shutdown=true");
 
+//                JDBCPool pool = new JDBCPool(3);
+//                pool.setUrl("jdbc:hsqldb:mem:" + createDbName() + ";shutdown=true");
+//                pool.setUser("sa");
+//                pool.setPassword(null);
+
                 break;
 
             case H2:
@@ -220,6 +225,10 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 // ;DB_CLOSE_ON_EXIT=FALSE schliesst NICHT die DB nach Ende der Runtime
                 config.setDriverClassName("org.h2.Driver");
                 config.setJdbcUrl("jdbc:h2:mem:" + createDbName() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true");
+
+//                JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:" + createDbName() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
+//                pool.setMaxConnections(3);
+
                 break;
 
             case DERBY:

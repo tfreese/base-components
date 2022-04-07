@@ -16,7 +16,7 @@ class TestObjectTable
     @Test
     void testAdd()
     {
-        ObjectTable objectTable = new ObjectTable(List.of("h1", "h2", "h3"));
+        ObjectTable objectTable = new ObjectTable(new String[]{"h1", "h2", "h3"});
         objectTable.addRow(List.of("d1", "d2", "d3"));
         objectTable.addRow(List.of("d1", "d2", "d3"));
 
@@ -39,7 +39,7 @@ class TestObjectTable
     void testWriteCsv()
     {
         ObjectTable objectTable = new ObjectTable(List.of("h1", "h2", "h3"));
-        objectTable.addRow(Arrays.asList("\"d1\"", null, "d3"));
+        objectTable.addRow(new String[]{"\"d1\"", null, "d3"});
         objectTable.addRow(List.of("d1", "d2", "d3"));
 
         objectTable.writeCsv(System.out);

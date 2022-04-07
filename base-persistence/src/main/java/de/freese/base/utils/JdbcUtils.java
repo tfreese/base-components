@@ -12,9 +12,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -654,16 +652,16 @@ public final class JdbcUtils
     }
 
     /**
-     * Erzeugt aus dem {@link ResultSet} eine {@link StringTable}.<br>
+     * Erzeugt aus dem {@link ResultSet} eine {@link ObjectTable}.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      *
      * @param resultSet {@link ResultSet}
      *
-     * @return {@link StringTable}
+     * @return {@link ObjectTable}
      *
      * @throws SQLException Falls was schiefgeht.
      */
-    public static StringTable toStringTable(final ResultSet resultSet) throws SQLException
+    public static ObjectTable toObjectTable(final ResultSet resultSet) throws SQLException
     {
         Objects.requireNonNull(resultSet, "resultSet required");
 
@@ -678,18 +676,17 @@ public final class JdbcUtils
             header[column - 1] = metaData.getColumnLabel(column).toUpperCase();
         }
 
-        List<String[]> rows = new ArrayList<>();
+        ObjectTable objectTable = new ObjectTable(header);
 
         // Daten
         while (resultSet.next())
         {
-            String[] row = new String[columnCount];
-            rows.add(row);
+            Object[] row = new Object[columnCount];
 
             for (int column = 1; column <= columnCount; column++)
             {
                 Object obj = resultSet.getObject(column);
-                String value;
+                Object value;
 
                 if (obj == null)
                 {
@@ -701,11 +698,13 @@ public final class JdbcUtils
                 }
                 else
                 {
-                    value = obj.toString();
+                    value = obj;
                 }
 
                 row[column - 1] = value;
             }
+
+            objectTable.addRow(row);
         }
 
         // ResultSet wieder zurück auf Anfang.
@@ -714,19 +713,19 @@ public final class JdbcUtils
             resultSet.first();
         }
 
-        return new StringTable(header, rows);
+        return objectTable;
     }
 
     /**
-     * Erzeugt aus den {@link ResultSetMetaData} eine {@link StringTable}.<br>
+     * Erzeugt aus den {@link ResultSetMetaData} eine {@link ObjectTable}.<br>
      *
      * @param rsMeta {@link ResultSetMetaData}
      *
-     * @return {@link StringTable}
+     * @return {@link ObjectTable}
      *
      * @throws SQLException Falls was schiefgeht.
      */
-    public static StringTable toStringTable(final ResultSetMetaData rsMeta) throws SQLException
+    public static ObjectTable toObjectTable(final ResultSetMetaData rsMeta) throws SQLException
     {
         Objects.requireNonNull(rsMeta, "resultSetMetaData required");
 
@@ -738,22 +737,23 @@ public final class JdbcUtils
         header[3] = "Type";
         header[4] = "Nullable";
 
-        List<String[]> rows = new ArrayList<>();
+        ObjectTable objectTable = new ObjectTable(header);
 
         // Daten
         for (int col = 1; col <= rsMeta.getColumnCount(); col++)
         {
-            String[] row = new String[5];
-            rows.add(row);
+            Object[] row = new String[5];
 
             row[0] = rsMeta.getColumnName(col);
             row[1] = rsMeta.getColumnClassName(col);
             row[2] = rsMeta.getColumnTypeName(col);
             row[3] = "" + rsMeta.getColumnType(col);
             row[4] = "" + rsMeta.isNullable(col);
+
+            objectTable.addRow(row);
         }
 
-        return new StringTable(header, rows);
+        return objectTable;
     }
 
     /**
@@ -769,9 +769,8 @@ public final class JdbcUtils
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
-        StringTable stringTable = toStringTable(resultSet);
-        stringTable.rightpad(" ");
-        stringTable.write(ps, "-", " | ");
+        ObjectTable objectTable = toObjectTable(resultSet);
+        objectTable.writeStringTable(ps, '-', '|');
 
         // ResultSet wieder zurück auf Anfang.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
@@ -790,9 +789,8 @@ public final class JdbcUtils
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException
     {
-        StringTable stringTable = toStringTable(rsMeta);
-        stringTable.rightpad(" ");
-        stringTable.write(ps, "-", " | ");
+        ObjectTable objectTable = toObjectTable(rsMeta);
+        objectTable.writeStringTable(ps, '-', '|');
     }
 
     /**
