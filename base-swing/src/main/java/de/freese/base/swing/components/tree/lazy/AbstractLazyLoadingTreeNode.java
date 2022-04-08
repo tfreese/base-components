@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.tree.lazy;
 
+import java.util.List;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
@@ -57,9 +59,9 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
     /**
      * Setzt die geladenen Kinder in das {@link DefaultTreeModel}.
      *
-     * @param nodes {@link MutableTreeNode}[]
+     * @param nodes {@link List}
      */
-    void setChildren(final MutableTreeNode... nodes)
+    void setChildren(final List<MutableTreeNode> nodes)
     {
         int childCount = getChildCount();
 
@@ -77,9 +79,9 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
             return;
         }
 
-        for (int i = 0; i < nodes.length; i++)
+        for (int i = 0; i < nodes.size(); i++)
         {
-            this.model.insertNodeInto(nodes[i], this, i);
+            this.model.insertNodeInto(nodes.get(i), this, i);
         }
     }
 
@@ -94,7 +96,7 @@ public abstract class AbstractLazyLoadingTreeNode extends DefaultMutableTreeNode
     /**
      * Laden der Kinder dieses Knotens.
      *
-     * @return {@link MutableTreeNode}[]
+     * @return {@link List}
      */
-    protected abstract MutableTreeNode[] loadChilds();
+    protected abstract List<MutableTreeNode> loadChilds();
 }

@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.tree.lazy;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Semaphore;
 
@@ -32,7 +34,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
      *
      * @author Thomas Freese
      */
-    private static class LoadWorker extends SwingWorker<MutableTreeNode[], Void>
+    private static class LoadWorker extends SwingWorker<List<MutableTreeNode>, Void>
     {
         /**
          *
@@ -61,7 +63,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
          * @see javax.swing.SwingWorker#doInBackground()
          */
         @Override
-        protected MutableTreeNode[] doInBackground() throws Exception
+        protected List<MutableTreeNode> doInBackground() throws Exception
         {
             return this.node.loadChilds();
         }
@@ -72,7 +74,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
         @Override
         protected void done()
         {
-            MutableTreeNode[] children = null;
+            List<MutableTreeNode> children = null;
 
             try
             {
@@ -80,11 +82,11 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
             }
             catch (Exception ex)
             {
-                children = new MutableTreeNode[0];
+                children = Collections.emptyList();
                 LOGGER.error(null, ex);
             }
 
-            this.node.setAllowsChildren(children.length > 0);
+            this.node.setAllowsChildren(!children.isEmpty());
             this.node.setChildren(children);
 
             // Anderen Threads Warte-Lock entfernen
@@ -191,8 +193,8 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
             return;
         }
 
-        node.setChildren(createLoadingNode());
-        SwingWorker<MutableTreeNode[], Void> worker = new LoadWorker(node, this.semaphore);
+        node.setChildren(List.of(createLoadingNode()));
+        SwingWorker<List<MutableTreeNode>, Void> worker = new LoadWorker(node, this.semaphore);
 
         if (getExecutor() == null)
         {

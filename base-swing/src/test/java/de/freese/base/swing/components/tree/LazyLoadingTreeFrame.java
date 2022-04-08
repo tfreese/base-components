@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.tree;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -61,13 +62,13 @@ public class LazyLoadingTreeFrame extends JFrame
          * @see de.freese.base.swing.components.tree.lazy.AbstractLazyLoadingTreeNode#loadChilds()
          */
         @Override
-        public MutableTreeNode[] loadChilds()
+        public List<MutableTreeNode> loadChilds()
         {
-            MutableTreeNode[] childs = new MutableTreeNode[5];
+            List<MutableTreeNode> childs = new ArrayList<>();
 
-            for (int i = 0; i < childs.length; i++)
+            for (int i = 0; i < 3; i++)
             {
-                childs[i] = new LazyLoadingTreeNode("Node " + (i + 1), getModel());
+                childs.add(new LazyLoadingTreeNode("Node " + (i + 1), getModel()));
 
                 try
                 {
@@ -104,7 +105,7 @@ public class LazyLoadingTreeFrame extends JFrame
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root", true);
         DefaultTreeModel model = new DefaultTreeModel(rootNode);
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             rootNode.add(new LazyLoadingTreeNode("Node " + (i + 1), model));
         }
@@ -137,7 +138,7 @@ public class LazyLoadingTreeFrame extends JFrame
                 {
                     int[] expansionIndices = new int[]
                             {
-                                    0, 1, 2, 3, 4
+                                    0, 1, 2
                             };
 
                     Object parent = tree.getModel().getRoot();
