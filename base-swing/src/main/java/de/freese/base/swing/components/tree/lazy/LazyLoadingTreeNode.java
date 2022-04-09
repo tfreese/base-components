@@ -3,12 +3,12 @@ package de.freese.base.swing.components.tree.lazy;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
- * Basisknoten für ein TreeModel, welches die Kinderknoten erst beim Aufklappen des Parents lädt.
+ * TreeNode for LazyLoading of the Child-Nodes.
  *
  * @author Thomas Freese
  * @see LazyLoadingTreeController
  */
-public class DefaultLazyLoadingTreeNode extends DefaultMutableTreeNode
+public class LazyLoadingTreeNode extends DefaultMutableTreeNode
 {
     /**
      *
@@ -20,11 +20,11 @@ public class DefaultLazyLoadingTreeNode extends DefaultMutableTreeNode
     private boolean childrenLoaded = false;
 
     /**
-     * Erstellt ein neues {@link DefaultLazyLoadingTreeNode} Object.
+     * Erstellt ein neues {@link LazyLoadingTreeNode} Object.
      *
      * @param userObject Object
      */
-    public DefaultLazyLoadingTreeNode(final Object userObject)
+    public LazyLoadingTreeNode(final Object userObject)
     {
         super(userObject);
     }

@@ -1,14 +1,17 @@
 package de.freese.base.swing.components.tree.lazy;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Semaphore;
+import java.util.function.Function;
 
+import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -17,99 +20,39 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ExpandListener eines Trees für das LazyLoading.<br>
+ * A Tree ExpandListener for LazyLoading of the Children for a MutableTreeNode.<br>
  *
  * @author Thomas Freese
- * @see AbstractLazyLoadingTreeNode
+ * @see LazyLoadingTreeNode
  */
 public class LazyLoadingTreeController implements TreeWillExpandListener
 {
     /**
      *
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeController.class);
-
-    /**
-     * SwingWorker für das LazyLoading.
-     *
-     * @author Thomas Freese
-     */
-    private static class LoadWorker extends SwingWorker<List<MutableTreeNode>, Void>
-    {
-        /**
-         *
-         */
-        private final AbstractLazyLoadingTreeNode node;
-        /**
-         *
-         */
-        private final Semaphore semaphore;
-
-        /**
-         * Erstellt ein neues {@link LoadWorker} Object.
-         *
-         * @param node {@link AbstractLazyLoadingTreeNode}
-         * @param semaphore {@link Semaphore}
-         */
-        public LoadWorker(final AbstractLazyLoadingTreeNode node, final Semaphore semaphore)
-        {
-            super();
-
-            this.node = node;
-            this.semaphore = semaphore;
-        }
-
-        /**
-         * @see javax.swing.SwingWorker#doInBackground()
-         */
-        @Override
-        protected List<MutableTreeNode> doInBackground() throws Exception
-        {
-            return this.node.loadChilds();
-        }
-
-        /**
-         * @see javax.swing.SwingWorker#done()
-         */
-        @Override
-        protected void done()
-        {
-            List<MutableTreeNode> children = null;
-
-            try
-            {
-                children = get();
-            }
-            catch (Exception ex)
-            {
-                children = Collections.emptyList();
-                LOGGER.error(null, ex);
-            }
-
-            this.node.setAllowsChildren(!children.isEmpty());
-            this.node.setChildren(children);
-
-            // Anderen Threads Warte-Lock entfernen
-            this.semaphore.release();
-        }
-    }
-
-    /**
-     *
-     */
     private final Executor executor;
     /**
-     * BlockingSemaphore für den SwingWorker.
+     *
+     */
+    private final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction;
+    /**
+     *
+     */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
      */
     private final Semaphore semaphore = new Semaphore(1, true);
 
     /**
      * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
      * Das Laden der Kind-Knoten wird als {@link SwingWorker} mit der Methode {@link SwingWorker#execute()} ausgeführt.
+     *
+     * @param loadFunction {@link Function}
      */
-    public LazyLoadingTreeController()
+    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction)
     {
-        this(null);
+        this(loadFunction, null);
     }
 
     /**
@@ -117,32 +60,27 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
      * Das Laden der Kind-Knoten wird als {@link SwingWorker} in dem übergebenen {@link Executor} durchgeführt. Ist dieser {@link Executor} null, wird
      * {@link SwingWorker#execute()} ausgeführt.
      *
-     * @param executor {@link Executor}
+     * @param loadFunction {@link Function}
+     * @param executor {@link Executor}; Optional
      */
-    public LazyLoadingTreeController(final Executor executor)
+    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction, final Executor executor)
     {
         super();
 
+        this.loadFunction = Objects.requireNonNull(loadFunction, "loadFunction required");
         this.executor = executor;
     }
 
     /**
-     * Blockiert den rufenden Thread solange, bis die Children des Knotens geladen worden sind.
+     * Blockiert den rufenden Thread solange, bis die Children des aktuellen Knotens geladen worden sind.
      */
-    public final void awaitChildNodes()
+    public void awaitChildNodes()
     {
-        try
-        {
-            this.semaphore.acquire();
-        }
-        catch (Exception ex)
-        {
-            LOGGER.error(null, ex);
-        }
+        this.semaphore.acquireUninterruptibly();
     }
 
     /**
-     * @see javax.swing.event.TreeWillExpandListener#treeWillCollapse(javax.swing.event.TreeExpansionEvent)
+     * @see TreeWillExpandListener#treeWillCollapse(TreeExpansionEvent)
      */
     @Override
     public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException
@@ -151,17 +89,18 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     }
 
     /**
-     * @see javax.swing.event.TreeWillExpandListener#treeWillExpand(javax.swing.event.TreeExpansionEvent)
+     * @see TreeWillExpandListener#treeWillExpand(TreeExpansionEvent)
      */
     @Override
     public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException
     {
+        DefaultTreeModel treeModel = (DefaultTreeModel) ((JTree) event.getSource()).getModel();
         TreePath path = event.getPath();
         Object lastPathComponent = path.getLastPathComponent();
 
-        if (lastPathComponent instanceof AbstractLazyLoadingTreeNode lazyNode)
+        if (lastPathComponent instanceof LazyLoadingTreeNode lazyNode)
         {
-            expandNode(lazyNode);
+            loadChildren(treeModel, lazyNode);
         }
     }
 
@@ -184,17 +123,63 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     }
 
     /**
-     * @param node {@link AbstractLazyLoadingTreeNode}
+     * @return Logger
      */
-    private void expandNode(final AbstractLazyLoadingTreeNode node)
+    protected Logger getLogger()
     {
-        if (node.areChildrenLoaded())
-        {
-            return;
-        }
+        return this.logger;
+    }
 
-        node.setChildren(List.of(createLoadingNode()));
-        SwingWorker<List<MutableTreeNode>, Void> worker = new LoadWorker(node, this.semaphore);
+    /**
+     * @param treeModel {@link DefaultTreeModel}
+     * @param node {@link LazyLoadingTreeNode}
+     */
+    protected void loadChildren(DefaultTreeModel treeModel, final LazyLoadingTreeNode node)
+    {
+        // Alle Children entfernen.
+        node.removeAllChildren();
+
+        // Loading Node setzen.
+        MutableTreeNode loadingNode = createLoadingNode();
+        node.add(loadingNode);
+        //treeModel.insertNodeInto(loadingNode, node, 0);
+        treeModel.nodeStructureChanged(node);
+
+        SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>()
+        {
+            @Override
+            protected List<MutableTreeNode> doInBackground() throws Exception
+            {
+                getLogger().debug("Loading children for {}", node);
+
+                return loadFunction.apply(node);
+            }
+
+            @Override
+            protected void done()
+            {
+                loadingNode.removeFromParent();
+
+                try
+                {
+                    List<MutableTreeNode> children = get();
+
+                    children.forEach(node::add);
+
+                    node.setChildrenLoaded(true);
+                }
+                catch (Exception ex)
+                {
+                    getLogger().error(null, ex);
+                }
+                finally
+                {
+                    treeModel.nodeStructureChanged(node);
+
+                    semaphore.release();
+                }
+            }
+        };
 
         if (getExecutor() == null)
         {

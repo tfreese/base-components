@@ -12,7 +12,7 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 /**
- * Basis TreeModel, welches die Verwendung von normalen Objekten ermöglicht ohne jedes mal einen TreeNode erzeugen zu müssen.
+ * Basis TreeModel, welches die Verwendung von normalen Objekten ermöglicht ohne jedes Mal einen TreeNode erzeugen zu müssen.
  *
  * @author Thomas Freese
  */
@@ -242,28 +242,30 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      */
     public void nodesChanged(final Object node, final int[] childIndices)
     {
-        if (node != null)
+        if (node == null)
         {
-            if (childIndices != null)
-            {
-                int cCount = childIndices.length;
+            return;
+        }
 
-                if (cCount > 0)
+        if (childIndices != null)
+        {
+            int cCount = childIndices.length;
+
+            if (cCount > 0)
+            {
+                Object[] cChildren = new Object[cCount];
+
+                for (int counter = 0; counter < cCount; counter++)
                 {
-                    Object[] cChildren = new Object[cCount];
-
-                    for (int counter = 0; counter < cCount; counter++)
-                    {
-                        cChildren[counter] = getChild(node, childIndices[counter]);
-                    }
-
-                    fireTreeNodesChanged(this, getPathToRoot(node), childIndices, cChildren);
+                    cChildren[counter] = getChild(node, childIndices[counter]);
                 }
+
+                fireTreeNodesChanged(this, getPathToRoot(node), childIndices, cChildren);
             }
-            else if (node == getRoot())
-            {
-                fireTreeNodesChanged(this, getPathToRoot(node), null, null);
-            }
+        }
+        else if (node == getRoot())
+        {
+            fireTreeNodesChanged(this, getPathToRoot(node), null, null);
         }
     }
 
@@ -343,7 +345,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     @Override
     public void valueForPathChanged(final TreePath path, final Object newValue)
     {
-        // NOOP
+        // Empty
     }
 
     /**
@@ -365,8 +367,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners last to first, notifying those that are interested in this event.
             for (int i = listeners.length - 2; i >= 0; i -= 2)
             {
                 if (listeners[i] == TreeModelListener.class)
@@ -402,8 +403,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners last to first, notifying those that are interested in this event.
             for (int i = listeners.length - 2; i >= 0; i -= 2)
             {
                 if (listeners[i] == TreeModelListener.class)
@@ -439,8 +439,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners last to first, notifying those that are interested in this event.
             for (int i = listeners.length - 2; i >= 0; i -= 2)
             {
                 if (listeners[i] == TreeModelListener.class)
@@ -476,8 +475,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
+            // Process the listeners last to first, notifying those that are interested in this event.
             for (int i = listeners.length - 2; i >= 0; i -= 2)
             {
                 if (listeners[i] == TreeModelListener.class)

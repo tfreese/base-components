@@ -122,14 +122,14 @@ public class ExtTree extends JTree implements Autoscroll
     @Override
     public void autoscroll(final Point p)
     {
-        int realrow = getRowForLocation(p.x, p.y);
+        int realRow = getRowForLocation(p.x, p.y);
 
         // Rectangle outer = getBounds();
-        // realrow = (
-        // ((p.y + outer.y) <= getMargin()) ? ((realrow < 1) ? 0 : (realrow - 1))
-        // : ((realrow < (getRowCount() - 1)) ? (realrow + 1) : realrow)
+        // realRow = (
+        // ((p.y + outer.y) <= getMargin()) ? ((realRow < 1) ? 0 : (realRow - 1))
+        // : ((realRow < (getRowCount() - 1)) ? (realRow + 1) : realRow)
         // );
-        scrollRowToVisible(realrow);
+        scrollRowToVisible(realRow);
     }
 
     /**

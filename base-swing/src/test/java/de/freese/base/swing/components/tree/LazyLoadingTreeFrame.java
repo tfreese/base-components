@@ -3,9 +3,9 @@ package de.freese.base.swing.components.tree;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,9 +19,11 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import de.freese.base.swing.components.tree.lazy.AbstractLazyLoadingTreeNode;
 import de.freese.base.swing.components.tree.lazy.LazyLoadingTreeController;
+import de.freese.base.swing.components.tree.lazy.LazyLoadingTreeNode;
 import de.freese.base.utils.TreeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Zum Testen.
@@ -33,56 +35,11 @@ public class LazyLoadingTreeFrame extends JFrame
     /**
      *
      */
-    private static final long serialVersionUID = 3374150787460216252L;
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrame.class);
     /**
-     * Test Knoten.
      *
-     * @author Thomas Freese
      */
-    private static class LazyLoadingTreeNode extends AbstractLazyLoadingTreeNode
-    {
-        /**
-         *
-         */
-        private static final long serialVersionUID = -3561718904179675230L;
-
-        /**
-         * Erstellt ein neues {@link LazyLoadingTreeNode} Object.
-         *
-         * @param userObject Object
-         * @param model {@link DefaultTreeModel}
-         */
-        public LazyLoadingTreeNode(final Object userObject, final DefaultTreeModel model)
-        {
-            super(userObject, model);
-        }
-
-        /**
-         * @see de.freese.base.swing.components.tree.lazy.AbstractLazyLoadingTreeNode#loadChilds()
-         */
-        @Override
-        public List<MutableTreeNode> loadChilds()
-        {
-            List<MutableTreeNode> childs = new ArrayList<>();
-
-            for (int i = 0; i < 3; i++)
-            {
-                childs.add(new LazyLoadingTreeNode("Node " + (i + 1), getModel()));
-
-                try
-                {
-                    TimeUnit.MILLISECONDS.sleep(250);
-                }
-                catch (InterruptedException ex)
-                {
-                    Thread.currentThread().interrupt();
-                }
-            }
-
-            return childs;
-        }
-    }
+    private static final long serialVersionUID = 3374150787460216252L;
 
     /**
      * @param args String[]
@@ -107,13 +64,34 @@ public class LazyLoadingTreeFrame extends JFrame
 
         for (int i = 0; i < 3; i++)
         {
-            rootNode.add(new LazyLoadingTreeNode("Node " + (i + 1), model));
+            rootNode.add(new LazyLoadingTreeNode("Node " + (i + 1)));
         }
 
         tree.setModel(model);
 
-        Executor executor = Executors.newCachedThreadPool();
-        final LazyLoadingTreeController controller = new LazyLoadingTreeController(executor);
+        Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction = node ->
+        {
+            List<MutableTreeNode> children = new ArrayList<>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                children.add(new LazyLoadingTreeNode("Node " + (i + 1)));
+            }
+
+            try
+            {
+                TimeUnit.MILLISECONDS.sleep(250);
+            }
+            catch (InterruptedException ex)
+            {
+                Thread.currentThread().interrupt();
+            }
+
+            return children;
+        };
+
+        //LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction);
+        LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction, Executors.newCachedThreadPool());
         tree.addTreeWillExpandListener(controller);
 
         // Frame
@@ -131,7 +109,7 @@ public class LazyLoadingTreeFrame extends JFrame
             SwingWorker<Void, TreePath> testWorker = new SwingWorker<>()
             {
                 /**
-                 * @see javax.swing.SwingWorker#doInBackground()
+                 * @see SwingWorker#doInBackground()
                  */
                 @Override
                 protected Void doInBackground() throws Exception
@@ -147,6 +125,7 @@ public class LazyLoadingTreeFrame extends JFrame
                     for (int index : expansionIndices)
                     {
                         controller.awaitChildNodes();
+
                         System.out.println();
 
                         parent = tree.getModel().getChild(parent, index);
@@ -158,25 +137,33 @@ public class LazyLoadingTreeFrame extends JFrame
 
                         treePath = treePath.pathByAddingChild(parent);
 
-                        System.out.println("publish");
+                        try
+                        {
+                            TimeUnit.MILLISECONDS.sleep(350);
+                        }
+                        catch (InterruptedException ex)
+                        {
+                            Thread.currentThread().interrupt();
+                        }
+
+                        LOGGER.debug("publish");
                         publish(treePath);
                     }
 
-                    System.out.println("return");
+                    LOGGER.debug("return");
 
                     return null;
                 }
 
                 /**
-                 * @see javax.swing.SwingWorker#process(java.util.List)
+                 * @see SwingWorker#process(List)
                  */
                 @Override
                 protected void process(final List<TreePath> chunks)
                 {
-                    System.out.println("process");
-
                     for (TreePath treePath : chunks)
                     {
+                        LOGGER.debug("process: {}", treePath);
                         tree.expandPath(treePath);
                     }
                 }
