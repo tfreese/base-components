@@ -28,8 +28,7 @@ import java.util.function.IntSupplier;
  *
  * <pre>
  * TunedLinkedBlockingQueue<Runnable> queue = new TunedLinkedBlockingQueue<>(SIZE);
- * ThreadPoolExecutor tpe =
- *         new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
+ * ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
  * queue.setPoolCurrentSize(tpe::getPoolSize);
  * queue.setPoolMaxSize(tpe::getMaximumPoolSize);
  * </pre>
