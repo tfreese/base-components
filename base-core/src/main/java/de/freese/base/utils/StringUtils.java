@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -513,7 +516,6 @@ public final class StringUtils
 
     /**
      * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
-     * Ausgenommen: ASCII 09 (Horizontal Tab), ASCII 10 (Line Feed), ASCII 13 (Carriage Return).<br>
      *
      * @param input input
      *
@@ -521,36 +523,35 @@ public final class StringUtils
      *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
-    public static String removeControlCharacters(final String input)
+    public static String removeNonAscii(final String input)
     {
-        if (isBlank(input))
+        return removeNonAscii(input, c -> false);
+    }
+
+    /**
+     * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
+     * Andere nicht entfernbare Zeichen können über das {@link Predicate} definiert werden.
+     *
+     * @param input input
+     * @param keep {@link IntPredicate}
+     *
+     * @return String
+     *
+     * @see org.apache.commons.lang3.StringUtils#remove(String, char)
+     */
+    public static String removeNonAscii(final String input, Predicate<Character> keep)
+    {
+        if (input == null || input.isBlank())
         {
             return input;
         }
 
-        int pos = 0;
         char[] chars = input.toCharArray();
+        int pos = 0;
 
         for (char c : chars)
         {
-            if (c < 32)
-            {
-                // if (!((c == 9) || (c == 10) || (c == 13)))
-                // {
-                // continue;
-                // }
-
-                switch (c)
-                {
-                    case 9: // ASCII 09 (Horizontal Tab)
-                    case 10: // ASCII 10 (Line Feed)
-                    case 13: // ASCII 13 (Carriage Return)
-                        break;
-                    default:
-                        continue;
-                }
-            }
-            else if (c > 126)
+            if (!keep.test(c) && (c < 32 || c > 126))
             {
                 continue;
             }
@@ -559,6 +560,38 @@ public final class StringUtils
         }
 
         return new String(chars, 0, pos);
+    }
+
+    /**
+     * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
+     * Behält die Umlaute und das 'ß'.
+     *
+     * @param input input
+     *
+     * @return String
+     *
+     * @see org.apache.commons.lang3.StringUtils#remove(String, char)
+     */
+    public static String removeNonAsciiGerman(final String input)
+    {
+        Set<Character> keepChars = Set.of(
+                // 228
+                'ä',
+                // 196
+                'Ä',
+                // 252
+                'ü',
+                // 220
+                'Ü',
+                // 246
+                'ö',
+                // 214
+                'Ö',
+                // 223
+                'ß'
+        );
+
+        return removeNonAscii(input, keepChars::contains);
     }
 
     /**

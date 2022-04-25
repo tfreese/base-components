@@ -3,6 +3,8 @@ package de.freese.base.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -14,7 +16,7 @@ class TestStringUtils
      *
      */
     @Test
-    void testRemoveControlCharacters()
+    void testRemoveNonAscii()
     {
         StringBuilder sb = new StringBuilder();
         sb.append((char) 97); // a
@@ -27,9 +29,23 @@ class TestStringUtils
         sb.append((char) 11); // Vertical Tab
         sb.append((char) 127); // DEL
 
-        String result = StringUtils.removeControlCharacters(sb.toString());
+        String result = StringUtils.removeNonAscii(sb.toString());
+        assertEquals("abcd", result);
 
-        assertEquals(sb.substring(0, sb.length() - 2), result);
+        Set<Character> keepChars = Set.of(
+                // Horizontal Tab
+                (char) 9
+        );
+        result = StringUtils.removeNonAscii(sb.toString(), keepChars::contains);
+        assertEquals("a" + (char) 9 + "bcd", result);
+
+        sb.append('ä');
+        sb.append('ß');
+        result = StringUtils.removeNonAsciiGerman(sb.toString());
+        assertEquals("abcdäß", result);
+
+        result = StringUtils.removeNonAsciiGerman("\uD83D\uDC9A iPhone 13 jetzt im GigaDeal ");
+        assertEquals(" iPhone 13 jetzt im GigaDeal ", result);
     }
 
     /**
