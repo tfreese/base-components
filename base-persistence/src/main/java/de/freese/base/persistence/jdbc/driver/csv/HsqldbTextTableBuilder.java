@@ -213,7 +213,7 @@ public final class HsqldbTextTableBuilder
                     sql.append(ttb.path);
                     sql.append(";ignore_first=").append(ttb.ignoreFirst); // Header
                     sql.append(";fs=").append(ttb.fieldSeparator); // Field Separator; \space, \t
-                    sql.append(";all_quoted=").append(ttb.allQuoted); // Daten in Doublequotes
+                    sql.append(";all_quoted=").append(ttb.allQuoted); // Daten in DoubleQuotes
                     sql.append(";encoding=").append(ttb.charset.name());
                     sql.append(";cache_rows=").append(ttb.cacheRows); // max. n Zeilen im Cache
                     sql.append(";cache_size=").append(ttb.cacheSize); // max. Cache-Größe in kB
