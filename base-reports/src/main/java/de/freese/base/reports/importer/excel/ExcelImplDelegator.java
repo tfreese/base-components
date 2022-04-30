@@ -190,7 +190,7 @@ public class ExcelImplDelegator implements IExcelImport
                 lastException = null;
                 inputStream.reset();
                 is = new NotClosingInputStream(inputStream);
-                this.excelImpl = new POIExcelXlsxImpl();
+                this.excelImpl = new PoiExcelXlsxImpl();
                 this.excelImpl.openExcelFile(is);
                 open = true;
             }
@@ -212,7 +212,7 @@ public class ExcelImplDelegator implements IExcelImport
                 lastException = null;
                 inputStream.reset();
                 is = new NotClosingInputStream(inputStream);
-                this.excelImpl = new POIExcelXlsImpl();
+                this.excelImpl = new PoiExcelXlsImpl();
                 this.excelImpl.openExcelFile(is);
                 open = true;
             }
