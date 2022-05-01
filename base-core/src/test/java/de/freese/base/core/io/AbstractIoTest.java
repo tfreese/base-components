@@ -37,37 +37,13 @@ public abstract class AbstractIoTest
     protected static final long SIZE_10kb = 1024 * 10;
 
     /**
-     * Verzeichnis-Struktur zum Testen löschen.
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    @AfterAll
-    protected static void afterAll() throws Exception
-    {
-        // Würde auch die Dateien andere IO-Tests löschen.
-        // deleteDirectoryRecursiv(PATH_TEST);
-    }
-
-    /**
-     * @throws IOException Falls was schief geht.
-     */
-    @BeforeAll
-    protected static void beforeAll() throws IOException
-    {
-        if (Files.notExists(PATH_TEST))
-        {
-            Files.createDirectories(PATH_TEST);
-        }
-    }
-
-    /**
      * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.
      *
      * @param path {@link Path}
      *
      * @throws IOException Falls was schief geht.
      */
-    protected static void deleteDirectoryRecursive(final Path path) throws IOException
+    public static void deleteDirectoryRecursive(final Path path) throws IOException
     {
         if (!Files.exists(path))
         {
@@ -76,7 +52,7 @@ public abstract class AbstractIoTest
 
         if (!Files.isDirectory(path))
         {
-            throw new IllegalArgumentException("path is not a dirctory: " + path);
+            throw new IllegalArgumentException("path is not a directory: " + path);
         }
 
         Files.walkFileTree(path, new SimpleFileVisitor<Path>()
@@ -101,6 +77,30 @@ public abstract class AbstractIoTest
                 return FileVisitResult.CONTINUE;
             }
         });
+    }
+
+    /**
+     * Verzeichnis-Struktur zum Testen löschen.
+     *
+     * @throws Exception Falls was schief geht.
+     */
+    @AfterAll
+    protected static void afterAll() throws Exception
+    {
+        // Würde auch die Dateien andere IO-Tests löschen.
+        // deleteDirectoryRecursiv(PATH_TEST);
+    }
+
+    /**
+     * @throws IOException Falls was schief geht.
+     */
+    @BeforeAll
+    protected static void beforeAll() throws IOException
+    {
+        if (Files.notExists(PATH_TEST))
+        {
+            Files.createDirectories(PATH_TEST);
+        }
     }
 
     /**
