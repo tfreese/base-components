@@ -4,6 +4,7 @@ package de.freese.base.core.blobstore;
 import java.io.InputStream;
 import java.util.Objects;
 
+import de.freese.base.core.function.ThrowingConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,24 +37,22 @@ public abstract class AbstractBlob implements Blob
     }
 
     @Override
-    public final BlobId getId()
-    {
-        return this.id;
-    }
-
-    @Override
-    public InputStream getInputStream()
+    public void consumeInputStream(final ThrowingConsumer<InputStream, Exception> consumer)
     {
         try
         {
-            return doGetInputStream();
+            doConsumeInputStream(consumer);
         }
         catch (Exception ex)
         {
             getLogger().error(null, ex);
         }
+    }
 
-        return null;
+    @Override
+    public final BlobId getId()
+    {
+        return this.id;
     }
 
     @Override
@@ -81,11 +80,11 @@ public abstract class AbstractBlob implements Blob
     }
 
     /**
-     * @return {@link InputStream}
+     * @param consumer {@link ThrowingConsumer}
      *
      * @throws Exception Falls was schief geht.
      */
-    protected abstract InputStream doGetInputStream() throws Exception;
+    protected abstract void doConsumeInputStream(final ThrowingConsumer<InputStream, Exception> consumer) throws Exception;
 
     /**
      * @return long

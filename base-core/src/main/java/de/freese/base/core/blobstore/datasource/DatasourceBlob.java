@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import de.freese.base.core.blobstore.AbstractBlob;
 import de.freese.base.core.blobstore.BlobId;
+import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * @author Thomas Freese
@@ -15,6 +16,11 @@ class DatasourceBlob extends AbstractBlob
      *
      */
     private final DatasourceBlobStore blobStore;
+
+    /**
+     *
+     */
+    private long length = -1;
 
     /**
      * @param id {@link BlobId}
@@ -28,20 +34,19 @@ class DatasourceBlob extends AbstractBlob
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception
+    protected void doConsumeInputStream(final ThrowingConsumer<InputStream, Exception> consumer) throws Exception
     {
-        String sql = "select BLOB from BLOB_STORE where URI = ?";
-
-        // TODO
-        return null;
+        blobStore.readInputStream(getId(), consumer);
     }
 
     @Override
     protected long doGetLength() throws Exception
     {
-        String sql = "select LENGTH from BLOB_STORE where URI = ?";
+        if (length < 0)
+        {
+            length = blobStore.getLength(getId());
+        }
 
-        // TODO
-        return 0;
+        return length;
     }
 }

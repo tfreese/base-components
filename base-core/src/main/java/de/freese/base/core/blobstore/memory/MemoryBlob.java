@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import de.freese.base.core.blobstore.AbstractBlob;
 import de.freese.base.core.blobstore.BlobId;
+import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * @author Thomas Freese
@@ -15,28 +16,31 @@ class MemoryBlob extends AbstractBlob
     /**
      *
      */
-    private final byte[] data;
+    private final byte[] bytes;
 
     /**
      * @param id {@link BlobId}
-     * @param data byte[]
+     * @param bytes byte[]
      */
-    MemoryBlob(final BlobId id, final byte[] data)
+    MemoryBlob(final BlobId id, final byte[] bytes)
     {
         super(id);
 
-        this.data = Objects.requireNonNull(data, "data required");
+        this.bytes = Objects.requireNonNull(bytes, "bytes required");
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception
+    protected void doConsumeInputStream(final ThrowingConsumer<InputStream, Exception> consumer) throws Exception
     {
-        return new ByteArrayInputStream(data);
+        try (InputStream inputStream = new ByteArrayInputStream(bytes))
+        {
+            consumer.accept(inputStream);
+        }
     }
 
     @Override
     protected long doGetLength() throws Exception
     {
-        return data.length;
+        return bytes.length;
     }
 }

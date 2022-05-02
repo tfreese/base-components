@@ -57,7 +57,8 @@ public class DatasourceBlobStore extends AbstractBlobStore
             return;
         }
 
-        String createSql = "create BLOB_STORE (URI varchar not null primary key, LENGTH bigint not null, BLOB blob not null)";
+        // LENGTH bigint not null,
+        String createSql = "create table BLOB_STORE (URI varchar(1000) not null primary key, BLOB blob not null)";
 
         try (Connection connection = this.dataSource.getConnection();
              Statement statement = connection.createStatement())
@@ -66,16 +67,152 @@ public class DatasourceBlobStore extends AbstractBlobStore
         }
     }
 
+    /**
+     * @param id {@link BlobId}
+     *
+     * @return InputStream
+     *
+     * @throws Exception Falls was schiefgeht
+     */
+    InputStream getInputStream(BlobId id) throws Exception
+    {
+        String sql = "select BLOB from BLOB_STORE where URI = ?";
+
+        try (Connection connection = this.dataSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql))
+        {
+            prepareStatement.setString(1, id.getUri().toString());
+
+            try (ResultSet resultSet = prepareStatement.executeQuery())
+            {
+                if (resultSet.next())
+                {
+                    java.sql.Blob blob = resultSet.getBlob("BLOB");
+
+                    return blob.getBinaryStream();
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param id {@link BlobId}
+     *
+     * @return long
+     *
+     * @throws Exception Falls was schiefgeht
+     */
+    long getLength(BlobId id) throws Exception
+    {
+        String sql = "select BLOB from BLOB_STORE where URI = ?";
+
+        try (Connection connection = this.dataSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql))
+        {
+            prepareStatement.setString(1, id.getUri().toString());
+
+            try (ResultSet resultSet = prepareStatement.executeQuery())
+            {
+                if (resultSet.next())
+                {
+                    java.sql.Blob blob = resultSet.getBlob("BLOB");
+
+                    return blob.length();
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * @param id {@link BlobId}
+     *
+     * @return InputStream
+     *
+     * @throws Exception Falls was schiefgeht
+     */
+    void readInputStream(BlobId id, ThrowingConsumer<InputStream, Exception> consumer) throws Exception
+    {
+        String sql = "select BLOB from BLOB_STORE where URI = ?";
+
+        try (Connection connection = this.dataSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql))
+        {
+            prepareStatement.setString(1, id.getUri().toString());
+
+            try (ResultSet resultSet = prepareStatement.executeQuery())
+            {
+                if (resultSet.next())
+                {
+                    java.sql.Blob blob = resultSet.getBlob("BLOB");
+
+                    consumer.accept(blob.getBinaryStream());
+                }
+            }
+        }
+    }
+
     @Override
     protected void doCreate(final BlobId id, final ThrowingConsumer<OutputStream, Exception> consumer) throws Exception
     {
-        // TODO
+        String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
+
+        try (Connection connection = this.dataSource.getConnection())
+        {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
+            {
+                java.sql.Blob blob = connection.createBlob();
+
+                try (OutputStream outputStreamBlob = blob.setBinaryStream(1))
+                {
+                    consumer.accept(outputStreamBlob);
+                    outputStreamBlob.flush();
+                }
+
+                prepareStatement.setString(1, id.getUri().toString());
+                prepareStatement.setBlob(2, blob);
+                prepareStatement.executeUpdate();
+
+                connection.commit();
+            }
+            catch (Exception ex)
+            {
+                connection.rollback();
+
+                throw ex;
+            }
+        }
     }
 
     @Override
     protected void doCreate(final BlobId id, final InputStream inputStream) throws Exception
     {
-        // TODO
+        String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
+
+        try (Connection connection = this.dataSource.getConnection())
+        {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
+            {
+                prepareStatement.setString(1, id.getUri().toString());
+                prepareStatement.setBlob(2, inputStream);
+                prepareStatement.executeUpdate();
+
+                connection.commit();
+            }
+            catch (Exception ex)
+            {
+                connection.rollback();
+
+                throw ex;
+            }
+        }
     }
 
     @Override
@@ -83,12 +220,23 @@ public class DatasourceBlobStore extends AbstractBlobStore
     {
         String sql = "delete from BLOB_STORE where URI = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
+        try (Connection connection = this.dataSource.getConnection())
         {
-            prepareStatement.setString(1, id.getUri().toString());
+            connection.setAutoCommit(false);
 
-            prepareStatement.executeUpdate();
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
+            {
+                prepareStatement.setString(1, id.getUri().toString());
+                prepareStatement.executeUpdate();
+
+                connection.commit();
+            }
+            catch (Exception ex)
+            {
+                connection.rollback();
+
+                throw ex;
+            }
         }
     }
 

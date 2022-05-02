@@ -1,27 +1,31 @@
 plugins {
-	id "java-library"
+    id "java-library"
 }
 
 description = "Common Classes, Patterns and Interfaces."
 
 dependencies {
-	// api =  scope compile
-	api("commons-codec:commons-codec")
-	api("io.projectreactor:reactor-core")
-	api("javax.xml.bind:jaxb-api")
-	api("org.apache.commons:commons-collections4")
-	api('org.apache.commons:commons-lang3')
-	api("org.slf4j:slf4j-api")
-	api("org.springframework:spring-context")
+    // api =  scope compile
+    api("com.github.ben-manes.caffeine:caffeine")
+    api("io.projectreactor:reactor-core")
+    api("javax.xml.bind:jaxb-api")
+    api('org.apache.commons:commons-lang3')
+    api("org.slf4j:slf4j-api")
+    api("org.springframework:spring-context")
 
-	// implementation = scope runtime
-	implementation("org.openjdk.jmh:jmh-core")
-	implementation("org.openjdk.jmh:jmh-generator-annprocess")
+    // implementation = scope runtime
+    //implementation("org.openjdk.jmh:jmh-core")
 
-	// runtimeOnly = scope runtime
-	runtimeOnly("org.slf4j:jcl-over-slf4j")
+    // runtimeOnly = scope runtime
+    //runtimeOnly("org.slf4j:jcl-over-slf4j")
 
-	testImplementation("org.junit.jupiter:junit-jupiter-engine")
-	testImplementation("org.junit.jupiter:junit-jupiter-params")
-	testImplementation("org.mockito:mockito-junit-jupiter")
+    testImplementation("com.h2database:h2")
+    testImplementation("com.zaxxer:HikariCP")
+    testImplementation("org.apache.derby:derby")
+    testImplementation("org.hsqldb:hsqldb")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testImplementation("org.mockito:mockito-junit-jupiter")
+    testImplementation("org.slf4j:jul-to-slf4j")
+    testImplementation("org.slf4j:slf4j-simple")
 }
