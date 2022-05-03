@@ -6,7 +6,7 @@ import java.net.URI;
 import java.util.Objects;
 
 /**
- * Eindeutige ID für einen Blob in einem {@link BlobStore}.<br>
+ * Unique ID for a Blob from a {@link BlobStore}.<br>
  * {@link "https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api"}
  *
  * @author Thomas Freese
@@ -23,8 +23,6 @@ public class BlobId implements Serializable, Comparable<BlobId>
     private final URI uri;
 
     /**
-     * Erstellt ein neues {@link BlobId} Object.
-     *
      * @param uri {@link URI}
      */
     public BlobId(final URI uri)

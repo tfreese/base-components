@@ -12,7 +12,6 @@ import de.freese.base.core.blobstore.AbstractBlobStore;
 import de.freese.base.core.blobstore.Blob;
 import de.freese.base.core.blobstore.BlobId;
 import de.freese.base.core.blobstore.BlobStore;
-import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * {@link BlobStore} Implementierung für eine Datei.
@@ -53,6 +52,45 @@ public class FileBlobStore extends AbstractBlobStore
         }
     }
 
+    @Override
+    public OutputStream create(final BlobId id) throws Exception
+    {
+        Path path = toContentPath(id);
+
+        Files.createDirectories(path.getParent());
+
+        return Files.newOutputStream(path);
+    }
+
+    @Override
+    public void create(final BlobId id, final InputStream inputStream) throws Exception
+    {
+        Path path = toContentPath(id);
+
+        Files.createDirectories(path.getParent());
+
+        Files.copy(inputStream, path);
+    }
+
+    @Override
+    public void delete(final BlobId id) throws Exception
+    {
+        Path path = toContentPath(id);
+
+        if (Files.exists(path))
+        {
+            Files.delete(path);
+        }
+    }
+
+    @Override
+    public boolean exists(final BlobId id) throws Exception
+    {
+        Path path = toContentPath(id);
+
+        return Files.exists(path);
+    }
+
     /**
      * @see java.lang.Object#toString()
      */
@@ -71,6 +109,8 @@ public class FileBlobStore extends AbstractBlobStore
     {
         Path path = null;
         String key = id.getUri().getPath();
+        key = key.replace(' ', '_');
+        //key = URLEncoder.encode(key, StandardCharsets.UTF_8);
 
         if (key.startsWith("/"))
         {
@@ -82,50 +122,23 @@ public class FileBlobStore extends AbstractBlobStore
         }
 
         return path;
-    }
 
-    @Override
-    protected void doCreate(final BlobId id, final ThrowingConsumer<OutputStream, Exception> consumer) throws Exception
-    {
-        Path path = toContentPath(id);
-
-        Files.createDirectories(path.getParent());
-
-        try (OutputStream outputStream = Files.newOutputStream(path))
-        {
-            consumer.accept(outputStream);
-
-            outputStream.flush();
-        }
-    }
-
-    @Override
-    protected void doCreate(final BlobId id, final InputStream inputStream) throws Exception
-    {
-        Path path = toContentPath(id);
-
-        Files.createDirectories(path.getParent());
-
-        Files.copy(inputStream, path);
-    }
-
-    @Override
-    protected void doDelete(final BlobId id) throws Exception
-    {
-        Path path = toContentPath(id);
-
-        if (Files.exists(path))
-        {
-            Files.delete(path);
-        }
-    }
-
-    @Override
-    protected boolean doExists(final BlobId id) throws Exception
-    {
-        Path path = toContentPath(id);
-
-        return Files.exists(path);
+        //        String uriString = id.getUri().getPath();
+        //        uriString = uriString.replace(' ', '_');
+        //        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
+        //        String hex = HexFormat.of().withUpperCase().formatHex(uriBytes);
+        //
+        //        Path path = this.basePath;
+        //
+        //        // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
+        //        for (int i = 0; i < 3; i++)
+        //        {
+        //            path = path.resolve(hex.substring(i * 2, (i * 2) + 2));
+        //        }
+        //
+        //        path = path.resolve(hex);
+        //
+        //        return path;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package de.freese.base.core.blobstore.memory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -9,7 +10,6 @@ import java.util.Map;
 import de.freese.base.core.blobstore.AbstractBlobStore;
 import de.freese.base.core.blobstore.Blob;
 import de.freese.base.core.blobstore.BlobId;
-import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * @author Thomas Freese
@@ -22,20 +22,22 @@ public class MemoryBlobStore extends AbstractBlobStore
     private final Map<BlobId, byte[]> cache = new HashMap<>();
 
     @Override
-    protected void doCreate(final BlobId id, final ThrowingConsumer<OutputStream, Exception> consumer) throws Exception
+    public OutputStream create(final BlobId id) throws Exception
     {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        return new ByteArrayOutputStream()
         {
-            consumer.accept(baos);
+            @Override
+            public void close() throws IOException
+            {
+                super.close();
 
-            baos.flush();
-
-            cache.put(id, baos.toByteArray());
-        }
+                cache.put(id, toByteArray());
+            }
+        };
     }
 
     @Override
-    protected void doCreate(final BlobId id, final InputStream inputStream) throws Exception
+    public void create(final BlobId id, final InputStream inputStream) throws Exception
     {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
         {
@@ -48,13 +50,13 @@ public class MemoryBlobStore extends AbstractBlobStore
     }
 
     @Override
-    protected void doDelete(final BlobId id) throws Exception
+    public void delete(final BlobId id) throws Exception
     {
         cache.remove(id);
     }
 
     @Override
-    protected boolean doExists(final BlobId id) throws Exception
+    public boolean exists(final BlobId id) throws Exception
     {
         return cache.containsKey(id);
     }

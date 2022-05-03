@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import de.freese.base.core.blobstore.AbstractBlobStore;
 import de.freese.base.core.blobstore.Blob;
 import de.freese.base.core.blobstore.BlobId;
-import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * @author Thomas Freese
@@ -33,6 +32,43 @@ public class DatasourceBlobStore extends AbstractBlobStore
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
+    }
+
+    @Override
+    public OutputStream create(final BlobId id) throws Exception
+    {
+        String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
+
+        Connection connection = this.dataSource.getConnection();
+        PreparedStatement prepareStatement = connection.prepareStatement(sql);
+
+        return new SqlBlobOutputStream(id.getUri(), connection, prepareStatement);
+    }
+
+    @Override
+    public void create(final BlobId id, final InputStream inputStream) throws Exception
+    {
+        String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
+
+        try (Connection connection = this.dataSource.getConnection())
+        {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
+            {
+                prepareStatement.setString(1, id.getUri().toString());
+                prepareStatement.setBlob(2, inputStream);
+                prepareStatement.executeUpdate();
+
+                connection.commit();
+            }
+            catch (Exception ex)
+            {
+                connection.rollback();
+
+                throw ex;
+            }
+        }
     }
 
     /**
@@ -67,156 +103,8 @@ public class DatasourceBlobStore extends AbstractBlobStore
         }
     }
 
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return InputStream
-     *
-     * @throws Exception Falls was schiefgeht
-     */
-    InputStream getInputStream(BlobId id) throws Exception
-    {
-        String sql = "select BLOB from BLOB_STORE where URI = ?";
-
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
-            prepareStatement.setString(1, id.getUri().toString());
-
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
-                if (resultSet.next())
-                {
-                    java.sql.Blob blob = resultSet.getBlob("BLOB");
-
-                    return blob.getBinaryStream();
-                }
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return long
-     *
-     * @throws Exception Falls was schiefgeht
-     */
-    long getLength(BlobId id) throws Exception
-    {
-        String sql = "select BLOB from BLOB_STORE where URI = ?";
-
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
-            prepareStatement.setString(1, id.getUri().toString());
-
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
-                if (resultSet.next())
-                {
-                    java.sql.Blob blob = resultSet.getBlob("BLOB");
-
-                    return blob.length();
-                }
-            }
-        }
-
-        return 0;
-    }
-
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return InputStream
-     *
-     * @throws Exception Falls was schiefgeht
-     */
-    void readInputStream(BlobId id, ThrowingConsumer<InputStream, Exception> consumer) throws Exception
-    {
-        String sql = "select BLOB from BLOB_STORE where URI = ?";
-
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
-            prepareStatement.setString(1, id.getUri().toString());
-
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
-                if (resultSet.next())
-                {
-                    java.sql.Blob blob = resultSet.getBlob("BLOB");
-
-                    consumer.accept(blob.getBinaryStream());
-                }
-            }
-        }
-    }
-
     @Override
-    protected void doCreate(final BlobId id, final ThrowingConsumer<OutputStream, Exception> consumer) throws Exception
-    {
-        String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
-
-        try (Connection connection = this.dataSource.getConnection())
-        {
-            connection.setAutoCommit(false);
-
-            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
-            {
-                java.sql.Blob blob = connection.createBlob();
-
-                try (OutputStream outputStreamBlob = blob.setBinaryStream(1))
-                {
-                    consumer.accept(outputStreamBlob);
-                    outputStreamBlob.flush();
-                }
-
-                prepareStatement.setString(1, id.getUri().toString());
-                prepareStatement.setBlob(2, blob);
-                prepareStatement.executeUpdate();
-
-                connection.commit();
-            }
-            catch (Exception ex)
-            {
-                connection.rollback();
-
-                throw ex;
-            }
-        }
-    }
-
-    @Override
-    protected void doCreate(final BlobId id, final InputStream inputStream) throws Exception
-    {
-        String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
-
-        try (Connection connection = this.dataSource.getConnection())
-        {
-            connection.setAutoCommit(false);
-
-            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
-            {
-                prepareStatement.setString(1, id.getUri().toString());
-                prepareStatement.setBlob(2, inputStream);
-                prepareStatement.executeUpdate();
-
-                connection.commit();
-            }
-            catch (Exception ex)
-            {
-                connection.rollback();
-
-                throw ex;
-            }
-        }
-    }
-
-    @Override
-    protected void doDelete(final BlobId id) throws Exception
+    public void delete(final BlobId id) throws Exception
     {
         String sql = "delete from BLOB_STORE where URI = ?";
 
@@ -241,7 +129,7 @@ public class DatasourceBlobStore extends AbstractBlobStore
     }
 
     @Override
-    protected boolean doExists(final BlobId id) throws Exception
+    public boolean exists(final BlobId id) throws Exception
     {
         String sql = "select count(*) from BLOB_STORE where URI = ?";
 
@@ -259,6 +147,55 @@ public class DatasourceBlobStore extends AbstractBlobStore
                 return result > 0;
             }
         }
+    }
+
+    /**
+     * @param id {@link BlobId}
+     *
+     * @return InputStream
+     *
+     * @throws Exception Falls was schiefgeht
+     */
+    InputStream inputStream(BlobId id) throws Exception
+    {
+        String sql = "select BLOB from BLOB_STORE where URI = ?";
+
+        Connection connection = this.dataSource.getConnection();
+
+        PreparedStatement prepareStatement = connection.prepareStatement(sql);
+        prepareStatement.setString(1, id.getUri().toString());
+
+        return new SqlBlobInputStream(connection, prepareStatement);
+    }
+
+    /**
+     * @param id {@link BlobId}
+     *
+     * @return long
+     *
+     * @throws Exception Falls was schiefgeht
+     */
+    long length(BlobId id) throws Exception
+    {
+        String sql = "select BLOB from BLOB_STORE where URI = ?";
+
+        try (Connection connection = this.dataSource.getConnection();
+             PreparedStatement prepareStatement = connection.prepareStatement(sql))
+        {
+            prepareStatement.setString(1, id.getUri().toString());
+
+            try (ResultSet resultSet = prepareStatement.executeQuery())
+            {
+                if (resultSet.next())
+                {
+                    java.sql.Blob blob = resultSet.getBlob("BLOB");
+
+                    return blob.length();
+                }
+            }
+        }
+
+        return 0;
     }
 
     @Override

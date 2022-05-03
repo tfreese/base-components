@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import de.freese.base.core.blobstore.AbstractBlob;
 import de.freese.base.core.blobstore.BlobId;
-import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * @author Thomas Freese
@@ -34,17 +33,17 @@ class DatasourceBlob extends AbstractBlob
     }
 
     @Override
-    protected void doConsumeInputStream(final ThrowingConsumer<InputStream, Exception> consumer) throws Exception
+    public InputStream getInputStream() throws Exception
     {
-        blobStore.readInputStream(getId(), consumer);
+        return blobStore.inputStream(getId());
     }
 
     @Override
-    protected long doGetLength() throws Exception
+    public long getLength() throws Exception
     {
         if (length < 0)
         {
-            length = blobStore.getLength(getId());
+            length = blobStore.length(getId());
         }
 
         return length;

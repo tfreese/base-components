@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import de.freese.base.core.blobstore.AbstractBlob;
 import de.freese.base.core.blobstore.Blob;
 import de.freese.base.core.blobstore.BlobId;
-import de.freese.base.core.function.ThrowingConsumer;
 
 /**
  * {@link Blob} Implementierung für eine Datei.
@@ -34,6 +33,18 @@ final class FileBlob extends AbstractBlob
         this.absolutePath = store.toContentPath(id);
     }
 
+    @Override
+    public InputStream getInputStream() throws Exception
+    {
+        return Files.newInputStream(this.absolutePath);
+    }
+
+    @Override
+    public long getLength() throws Exception
+    {
+        return Files.size(this.absolutePath);
+    }
+
     /**
      * @see Object#toString()
      */
@@ -43,21 +54,4 @@ final class FileBlob extends AbstractBlob
         return this.absolutePath.toString();
     }
 
-    @Override
-    protected void doConsumeInputStream(final ThrowingConsumer<InputStream, Exception> consumer) throws Exception
-    {
-        try (InputStream inputStream = Files.newInputStream(this.absolutePath))
-        {
-            consumer.accept(inputStream);
-        }
-    }
-
-    /**
-     * @see AbstractBlob#doGetLength()
-     */
-    @Override
-    protected long doGetLength() throws Exception
-    {
-        return Files.size(this.absolutePath);
-    }
 }

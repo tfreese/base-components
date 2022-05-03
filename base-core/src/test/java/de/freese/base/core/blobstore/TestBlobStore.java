@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.Closeable;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -184,9 +185,10 @@ class TestBlobStore
 
         assertFalse(blobStore.exists(blobId));
 
-        try (InputStream inputStream = Files.newInputStream(path))
+        try (InputStream inputStream = Files.newInputStream(path);
+             OutputStream outputStream = blobStore.create(blobId))
         {
-            blobStore.create(blobId, inputStream::transferTo);
+            inputStream.transferTo(outputStream);
         }
 
         assertTrue(blobStore.exists(blobId));

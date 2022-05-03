@@ -4,10 +4,8 @@ package de.freese.base.core.blobstore;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import de.freese.base.core.function.ThrowingConsumer;
-
 /**
- * Interface eines BlobStores.<br>
+ * Interface of a BlobStore.<br>
  * {@link "https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api"}
  *
  * @author Thomas Freese
@@ -15,33 +13,46 @@ import de.freese.base.core.function.ThrowingConsumer;
 public interface BlobStore
 {
     /**
+     * <b>This Stream MUST be closed to avoid resource exhausting !</b>
+     *
      * @param id {@link BlobId}
-     * @param consumer {@link ThrowingConsumer}
+     *
+     * @return OutputStream
+     *
+     * @throws Exception Falls was schiefgeht
      */
-    void create(BlobId id, ThrowingConsumer<OutputStream, Exception> consumer);
+    OutputStream create(BlobId id) throws Exception;
 
     /**
      * @param id {@link BlobId}
      * @param inputStream {@link InputStream}
+     *
+     * @throws Exception Falls was schiefgeht
      */
-    void create(BlobId id, InputStream inputStream);
+    void create(BlobId id, InputStream inputStream) throws Exception;
 
     /**
      * @param id {@link BlobId}
+     *
+     * @throws Exception Falls was schiefgeht
      */
-    void delete(BlobId id);
+    void delete(BlobId id) throws Exception;
 
     /**
      * @param id {@link BlobId}
      *
      * @return boolean
+     *
+     * @throws Exception Falls was schiefgeht
      */
-    boolean exists(BlobId id);
+    boolean exists(BlobId id) throws Exception;
 
     /**
      * @param id {@link BlobId}
      *
      * @return {@link Blob}
+     *
+     * @throws Exception Falls was schiefgeht
      */
-    Blob get(BlobId id);
+    Blob get(BlobId id) throws Exception;
 }
