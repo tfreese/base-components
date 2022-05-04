@@ -4,9 +4,13 @@ package de.freese.base.core.blobstore.file;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import de.freese.base.core.blobstore.AbstractBlobStore;
 import de.freese.base.core.blobstore.Blob;
@@ -107,25 +111,29 @@ public class FileBlobStore extends AbstractBlobStore
      */
     Path toContentPath(final BlobId id)
     {
-        Path path = null;
-        String key = id.getUri().getPath();
-        key = key.replace(' ', '_');
-        //key = URLEncoder.encode(key, StandardCharsets.UTF_8);
+        URI uri = id.getUri();
 
-        if (key.startsWith("/"))
-        {
-            path = this.basePath.resolve(key.substring(1));
-        }
-        else
-        {
-            path = this.basePath.resolve(key);
-        }
+        List<String> fragments = new ArrayList<>();
+        fragments.add(uri.getScheme()); // Protokoll
+        fragments.add(uri.getHost());
+        fragments.add(uri.getPath().substring(1)); // Führendes / entfernen
+        fragments.add(uri.getQuery());
 
-        return path;
+        // @formatter:off
+        String key = fragments.stream()
+                .filter(Objects::nonNull)
+                .map(String::strip)
+                .filter(s -> s.length() > 0)
+                .map(s -> s.replace(' ', '_'))
+                .collect(Collectors.joining("/"))
+                ;
+        // @formatter:on
+
+        return this.basePath.resolve(key);
 
         //        String uriString = id.getUri().getPath();
-        //        uriString = uriString.replace(' ', '_');
         //        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
+        //        byte[] digest = getMessageDigest().digest(uriBytes);
         //        String hex = HexFormat.of().withUpperCase().formatHex(uriBytes);
         //
         //        Path path = this.basePath;
@@ -136,9 +144,7 @@ public class FileBlobStore extends AbstractBlobStore
         //            path = path.resolve(hex.substring(i * 2, (i * 2) + 2));
         //        }
         //
-        //        path = path.resolve(hex);
-        //
-        //        return path;
+        //        return path.resolve(hex);
     }
 
     @Override

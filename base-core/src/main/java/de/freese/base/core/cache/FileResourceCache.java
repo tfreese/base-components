@@ -99,10 +99,10 @@ public class FileResourceCache extends AbstractResourceCache
         Path path = getCacheDirectory();
 
         // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
-//        for (int i = 0; i < 3; i++)
-//        {
-//            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
-//        }
+        //        for (int i = 0; i < 3; i++)
+        //        {
+        //            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
+        //        }
 
         path = path.resolve(key);
 

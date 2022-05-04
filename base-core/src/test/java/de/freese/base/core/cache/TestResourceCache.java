@@ -82,7 +82,7 @@ class TestResourceCache
     static Stream<Arguments> createArgumentes() throws Exception
     {
         URI urlLocalFile = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri();
-        URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
+        URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4&s=0"); // Redirect -> https
 
         // @formatter:off
         return Stream.of(
