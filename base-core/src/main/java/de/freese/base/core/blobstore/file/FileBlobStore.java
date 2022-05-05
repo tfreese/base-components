@@ -7,10 +7,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import de.freese.base.core.blobstore.AbstractBlobStore;
 import de.freese.base.core.blobstore.Blob;
@@ -112,26 +109,19 @@ public class FileBlobStore extends AbstractBlobStore
     Path toContentPath(final BlobId id)
     {
         URI uri = id.getUri();
+        String uriString = uri.toString();
 
-        List<String> fragments = new ArrayList<>();
-        fragments.add(uri.getScheme()); // Protokoll
-        fragments.add(uri.getHost());
-        fragments.add(uri.getPath().substring(1)); // Führendes / entfernen
-        fragments.add(uri.getQuery());
+        uriString = uriString.replace(':', '/');
+        uriString = uriString.replace('?', '/');
+        uriString = uriString.replace('&', '/');
 
-        // @formatter:off
-        String key = fragments.stream()
-                .filter(Objects::nonNull)
-                .map(String::strip)
-                .filter(s -> s.length() > 0)
-                .map(s -> s.replace(' ', '_'))
-                .collect(Collectors.joining("/"))
-                ;
-        // @formatter:on
+        while (uriString.contains("//"))
+        {
+            uriString = uriString.replace("//", "/");
+        }
 
-        return this.basePath.resolve(key);
+        return this.basePath.resolve(uriString);
 
-        //        String uriString = id.getUri().getPath();
         //        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
         //        byte[] digest = getMessageDigest().digest(uriBytes);
         //        String hex = HexFormat.of().withUpperCase().formatHex(uriBytes);
@@ -144,7 +134,7 @@ public class FileBlobStore extends AbstractBlobStore
         //            path = path.resolve(hex.substring(i * 2, (i * 2) + 2));
         //        }
         //
-        //        return path.resolve(hex);
+        //        return this.basePath.resolve(hex);
     }
 
     @Override
