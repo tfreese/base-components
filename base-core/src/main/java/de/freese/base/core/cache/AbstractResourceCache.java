@@ -107,6 +107,8 @@ public abstract class AbstractResourceCache implements ResourceCache
         uriString = uriString.replace(':', '/');
         uriString = uriString.replace('?', '/');
         uriString = uriString.replace('&', '/');
+        uriString = uriString.replace(' ', '_');
+        uriString = uriString.replace("%20", "_");
 
         while (uriString.contains("//"))
         {
