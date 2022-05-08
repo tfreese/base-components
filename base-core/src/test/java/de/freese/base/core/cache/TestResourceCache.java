@@ -67,7 +67,10 @@ class TestResourceCache
     @BeforeAll
     static void beforeAll() throws Exception
     {
-        // Caffeine JUL-Logger auf slf4j umleiten.
+        // JUL-Logger ausschalten.
+        // LogManager.getLogManager().reset();
+        
+        // JUL-Logger auf slf4j umleiten.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
     }

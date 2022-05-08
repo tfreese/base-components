@@ -89,6 +89,9 @@ class TestBlobStore
     @BeforeAll
     static void beforeAll() throws Exception
     {
+        // JUL-Logger ausschalten.
+        // LogManager.getLogManager().reset();
+
         // JUL-Logger auf slf4j umleiten.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();

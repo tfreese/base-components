@@ -94,8 +94,7 @@ public class DemoApplication extends AbstractApplication
         super.initContext();
 
         LocalStorage localStorage = getContext().getLocalStorage();
-        // localStorage.setDirectory(Paths.get(System.getProperty("user.home"), ".java-apps", getName().replace(' ', '_')));
-        localStorage.setDirectory(Paths.get(System.getProperty("java.io.tmpdir"), ".java-apps", getName().replace(' ', '_')));
+        localStorage.setDirectory(Paths.get(System.getProperty("user.home"), ".java-apps", getName().replace(' ', '_')));
     }
 
     /**

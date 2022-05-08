@@ -120,7 +120,7 @@ public final class LocalStorage
                 throw new IllegalStateException("user.home is null");
             }
 
-            Path path = Paths.get(userHome, ".java-apps", "unknown");
+            Path path = Paths.get(userHome, ".java-apps");
 
             // OS os = ApplicationContext.getOS();
             // if (os.name().toLowerCase().startsWith("windows"))
@@ -409,7 +409,7 @@ public final class LocalStorage
             throw new NullPointerException("Filename");
         }
 
-        if (internalName.trim().length() == 0)
+        if (internalName.strip().length() == 0)
         {
             throw new IllegalArgumentException("Filename is empty");
         }

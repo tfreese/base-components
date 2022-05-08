@@ -23,16 +23,6 @@ public class CaffeineResourceCache extends FileResourceCache
     private final LoadingCache<URI, byte[]> cache;
 
     /**
-     * Erstellt ein neues {@link CaffeineResourceCache} Object.
-     */
-    public CaffeineResourceCache()
-    {
-        super();
-
-        this.cache = createCache(0);
-    }
-
-    /**
      * @param cacheDirectory {@link Path}
      * @param keepBytesInMemory int; Disable Caching = 0
      */

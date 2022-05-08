@@ -7,7 +7,6 @@ import java.net.URI;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
@@ -26,14 +25,6 @@ public class FileResourceCache extends AbstractResourceCache
      *
      */
     private final Path cacheDirectory;
-
-    /**
-     * Erstellt ein neues {@link FileResourceCache} Object im Ordner "java.io.tmpdir/.javacache".
-     */
-    public FileResourceCache()
-    {
-        this(Paths.get(System.getProperty("java.io.tmpdir"), ".javacache"));
-    }
 
     /**
      * Erstellt ein neues {@link FileResourceCache} Object.
