@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import de.freese.base.utils.JdbcUtils;
 
 /**
- * Geklaut von org.springframework.data.jdbc.support.DatabaseType
+ * Geklaut von org.springframework.boot.jdbc.DatabaseDriver
  *
  * @author Thomas Freese
  */
@@ -142,6 +142,7 @@ public enum DatabaseType
 
         return name;
     }
+
     /**
      *
      */
