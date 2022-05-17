@@ -18,6 +18,8 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.sql.DataSource;
 
@@ -155,7 +157,7 @@ public final class JdbcUtils
     }
 
     /**
-     * Erstellt einen String aus per komma getrennten ids.
+     * Erstellt einen String aus per Komma getrennten ids.
      *
      * @param ids {@link Iterable}
      *
@@ -163,24 +165,7 @@ public final class JdbcUtils
      */
     public static String createIDsAsString(final Iterable<? extends Number> ids)
     {
-        boolean firstParameter = true;
-        StringBuilder builder = new StringBuilder();
-
-        for (Number each : ids)
-        {
-            if (!firstParameter)
-            {
-                builder.append(",");
-            }
-            else
-            {
-                firstParameter = false;
-            }
-
-            builder.append(each.toString());
-        }
-
-        return builder.toString();
+        return StreamSupport.stream(ids.spliterator(), false).map(String::valueOf).collect(Collectors.joining(","));
     }
 
     /**

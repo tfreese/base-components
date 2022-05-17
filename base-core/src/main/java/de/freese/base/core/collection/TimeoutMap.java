@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * {@link HashMap} Implementierung mit einer Timeout-Funktion der Elemente.<br>
@@ -286,7 +285,7 @@ public class TimeoutMap<K, V> implements Map<K, V>
     @Override
     public Collection<V> values()
     {
-        return entrySet().stream().map(Entry::getValue).collect(Collectors.toList());
+        return entrySet().stream().map(Entry::getValue).toList();
     }
 
     /**

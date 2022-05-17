@@ -129,9 +129,7 @@ public final class HibernateUtils
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getClassFromProxy(final Object maybeProxy)
     {
-        Class<T> baseClass = HibernateProxyHelper.getClassWithoutInitializingProxy(maybeProxy);
-
-        return baseClass;
+        return HibernateProxyHelper.getClassWithoutInitializingProxy(maybeProxy);
     }
 
     /**
@@ -188,9 +186,9 @@ public final class HibernateUtils
             pw.println("Commit Transaction Count: " + successfulTxCount);
             pw.println();
 
-            double hitCount = 0;
-            double missCount = 0;
-            double hitRatio = 0;
+            double hitCount = 0D;
+            double missCount = 0D;
+            double hitRatio = 0D;
 
             try
             {
@@ -266,7 +264,6 @@ public final class HibernateUtils
                 // Objektspezifische Statistiken
                 // Map<String, ?> metaData = sessionFactory.getAllClassMetadata();
                 // .collect(Collectors.toCollection(TreeSet::new))
-                @SuppressWarnings("deprecation")
                 Metamodel metamodel = sessionFactory.getMetamodel();
 
                 // entityType.getJavaType().getName()
@@ -397,13 +394,12 @@ public final class HibernateUtils
      */
     private static double round(final double value, final int scale)
     {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (value == 0.0D))
+        if (Double.isNaN(value) || Double.isInfinite(value) || Double.compare(value, 0.0D) == 0)
         {
             return 0.0D;
         }
 
-        BigDecimal bigDecimal = BigDecimal.valueOf(value);
-        bigDecimal = bigDecimal.setScale(scale, RoundingMode.HALF_UP);
+        BigDecimal bigDecimal = BigDecimal.valueOf(value).setScale(scale, RoundingMode.HALF_UP);
 
         return bigDecimal.doubleValue();
     }

@@ -78,7 +78,7 @@ public final class StringUtils
     @SuppressWarnings("unchecked")
     public static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
     {
-        if (ListUtils.isEmpty(rows))
+        if (rows == null || rows.isEmpty())
         {
             return;
         }
@@ -180,7 +180,7 @@ public final class StringUtils
      */
     public static void escape(final List<String[]> list, final char escape)
     {
-        if (ListUtils.isEmpty(list))
+        if (list == null || list.isEmpty())
         {
             return;
         }
@@ -222,7 +222,7 @@ public final class StringUtils
      */
     public static int[] getWidths(final List<String[]> list)
     {
-        if (ListUtils.isEmpty(list))
+        if (list == null || list.isEmpty())
         {
             return new int[0];
         }
@@ -623,14 +623,14 @@ public final class StringUtils
             return EMPTY;
         }
 
-//        StringBuilder sb = new StringBuilder();
-//
-//        for (int i = 0; i < repeat; i++)
-//        {
-//            sb.append(cs);
-//        }
-//
-//        return sb.toString();
+        //        StringBuilder sb = new StringBuilder();
+        //
+        //        for (int i = 0; i < repeat; i++)
+        //        {
+        //            sb.append(cs);
+        //        }
+        //
+        //        return sb.toString();
 
         return cs.toString().repeat(repeat);
     }

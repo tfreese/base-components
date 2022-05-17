@@ -28,7 +28,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      */
     public static final String MIMETYPE_APPLICATION_HTTP = "application/http";
     /**
-     * MimeTypes siehe auch http://www.iana.org/assignments/media-types/
+     * MimeTypes siehe auch <a href="http://www.iana.org/assignments/media-types">http://www.iana.org/assignments/media-types</a>
      */
     public static final String MIMETYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
     /**
@@ -83,7 +83,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      * @return String
      */
-    public static final String getMimeType(final String resourceName)
+    public static String getMimeType(final String resourceName)
     {
         if (resourceName == null)
         {
@@ -137,7 +137,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      * @return boolean
      */
-    public static final boolean isImageMimeType(final String mimeType)
+    public static boolean isImageMimeType(final String mimeType)
     {
         return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType)
                 || MIMETYPE_IMAGE_BMP.equals(mimeType);

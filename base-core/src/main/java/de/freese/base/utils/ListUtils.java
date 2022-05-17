@@ -92,26 +92,6 @@ public final class ListUtils
     }
 
     /**
-     * @param list {@link List}
-     *
-     * @return boolean
-     */
-    public static boolean isEmpty(final List<?> list)
-    {
-        return CollectionUtils.isEmpty(list);
-    }
-
-    /**
-     * @param list {@link List}
-     *
-     * @return boolean
-     */
-    public static boolean isNotEmpty(final List<?> list)
-    {
-        return CollectionUtils.isNotEmpty(list);
-    }
-
-    /**
      * Erstellt ein neues {@link ListUtils} Object.
      */
     private ListUtils()

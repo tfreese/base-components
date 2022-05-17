@@ -7,15 +7,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Simplest possible Object-Pool.
  *
- * @author Thomas Freese
- *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public abstract class SimplestPool<T>
 {
     /**
-    *
-    */
+     *
+     */
     private final Queue<T> freeObjects = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
 
     /**
@@ -25,11 +25,6 @@ public abstract class SimplestPool<T>
     {
         this.freeObjects.clear();
     }
-
-    /**
-     * @return Object
-     */
-    protected abstract T create();
 
     /**
      * @param object Object
@@ -54,4 +49,8 @@ public abstract class SimplestPool<T>
         return object != null ? object : create();
     }
 
+    /**
+     * @return Object
+     */
+    protected abstract T create();
 }
