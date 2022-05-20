@@ -34,7 +34,7 @@ import reactor.core.scheduler.Schedulers;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-// @Disabled // Häufige API-Änderungen lassen den Test fehlschlagen.
+        // @Disabled // Häufige API-Änderungen lassen den Test fehlschlagen.
 class TestR2DBC
 {
     /**
@@ -82,8 +82,6 @@ class TestR2DBC
     @BeforeAll
     static void beforeAll()
     {
-        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
-
         // Connection Factory Discovery (Client-API)
         // @formatter:off
         ConnectionFactory connectionFactoryDB = ConnectionFactories.get(ConnectionFactoryOptions.builder()
@@ -92,7 +90,7 @@ class TestR2DBC
                 .option(ConnectionFactoryOptions.DATABASE, DbServerExtension.createDbName())
                 //.option(ConnectionFactoryOptions.PROTOCOL, H2ConnectionFactoryProvider.PROTOCOL_FILE)
                 //.option(ConnectionFactoryOptions.DATABASE, System.getProperty("user.dir") + "/db/h2/" + DbServerExtension.createDbName())
-                .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=FALSE;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true") // ;DB_CLOSE_DELAY=-1 // DB bleibt nach letzter Connection erhalten.
+                .option(H2ConnectionFactoryProvider.OPTIONS, "AUTOCOMMIT=TRUE;DB_CLOSE_DELAY=-1") // ;DB_CLOSE_DELAY=-1 // DB bleibt nach letzter Connection erhalten.
                 .build());
         // @formatter:on
 
@@ -103,10 +101,13 @@ class TestR2DBC
 //                 .build());
         // @formatter:on
 
+        int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
+        
         // @formatter:off
         ConnectionPoolConfiguration poolConfiguration = ConnectionPoolConfiguration.builder(connectionFactoryDB)
                 .validationQuery("SELECT 1")
                 .maxIdleTime(Duration.ofMinutes(10))
+                .initialSize(1)
                 .maxSize(poolSize)
                 .build()
                 ;
@@ -205,7 +206,7 @@ class TestR2DBC
         r2dbc.withHandle(handle -> handle
                 .select("SELECT * FROM PERSON ORDER BY ID ASC")
                         .mapResult(result -> result.map((row, rowMetadata) -> {
-                                    LOGGER.debug("map [{}]", Thread.currentThread().getName());
+                            LOGGER.debug("map [{}]", Thread.currentThread().getName());
                             return new Person(row.get("ID", Long.class), row.get("NAME", String.class), row.get("VORNAME", String.class));
                         }
                         ))
