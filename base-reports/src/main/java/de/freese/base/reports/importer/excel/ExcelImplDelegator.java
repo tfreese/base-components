@@ -226,28 +226,6 @@ public class ExcelImplDelegator implements IExcelImport
             }
         }
 
-        if (!open)
-        {
-            try
-            {
-                // Versuchen mit JExcel zu öffnen.
-                lastException = null;
-                inputStream.reset();
-                is = new NotClosingInputStream(inputStream);
-                this.excelImpl = new JExcelImpl();
-                this.excelImpl.openExcelFile(is);
-                open = true;
-            }
-            catch (Exception ex)
-            {
-                lastException = ex;
-            }
-            finally
-            {
-                IOUtils.closeQuietly(is);
-            }
-        }
-
         is = null;
 
         if (lastException != null)
