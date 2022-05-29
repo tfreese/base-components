@@ -266,18 +266,18 @@ public class MailWrapper
             throw new NullPointerException("key");
         }
 
-        if (key.trim().length() == 0)
+        if (key.strip().length() == 0)
         {
             throw new IllegalArgumentException("key is empty");
         }
 
-        if ((value == null) || (value.trim().length() == 0))
+        if ((value == null) || (value.strip().length() == 0))
         {
             this.additionalHeaderProperties.remove(key);
             return;
         }
 
-        this.additionalHeaderProperties.put(key.trim(), value.trim());
+        this.additionalHeaderProperties.put(key.strip(), value.strip());
     }
 
     /**

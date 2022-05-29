@@ -238,7 +238,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
     {
         Objects.requireNonNull(driverClassName);
 
-        final String driverClassNameToUse = driverClassName.trim();
+        final String driverClassNameToUse = driverClassName.strip();
 
         try
         {
@@ -280,7 +280,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
     {
         Objects.requireNonNull(password);
 
-        this.password = password.trim();
+        this.password = password.strip();
     }
 
     /**
@@ -298,7 +298,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
     {
         Objects.requireNonNull(url);
 
-        this.url = url.trim();
+        this.url = url.strip();
     }
 
     /**
@@ -308,7 +308,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
     {
         Objects.requireNonNull(username);
 
-        this.username = username.trim();
+        this.username = username.strip();
     }
 
     /**

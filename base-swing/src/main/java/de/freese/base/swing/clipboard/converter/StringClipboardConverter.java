@@ -17,6 +17,6 @@ public class StringClipboardConverter extends AbstractClipboardConverter
             return null;
         }
 
-        return value.trim();
+        return value.strip();
     }
 }

@@ -293,9 +293,9 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
             // Durch alle Sheets gehen und Namen trimmen
             for (int i = 0; i < sheetCount; i++)
             {
-                String sName = this.workBook.getSheetName(i).trim();
+                String sName = this.workBook.getSheetName(i).strip();
 
-                if (sName.equals(sheetName.trim()))
+                if (sName.equals(sheetName.strip()))
                 {
                     this.sheet = this.workBook.getSheetAt(i);
 

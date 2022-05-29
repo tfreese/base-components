@@ -106,7 +106,7 @@ public final class ExtMath
             return -1;
         }
 
-        char[] numArray = number.trim().toCharArray();
+        char[] numArray = number.strip().toCharArray();
         long result = 0;
 
         for (int i = 0; i < numArray.length; i++)

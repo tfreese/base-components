@@ -17,7 +17,7 @@ public class BooleanClipboardConverter extends AbstractClipboardConverter
             return Boolean.FALSE;
         }
 
-        String temp = value.trim();
+        String temp = value.strip();
 
         if ("true".equalsIgnoreCase(temp) || "1".equalsIgnoreCase(temp) || "yes".equalsIgnoreCase(temp) || "ja".equalsIgnoreCase(temp)
                 || "on".equalsIgnoreCase(temp) || "an".equalsIgnoreCase(temp) || "active".equalsIgnoreCase(temp) || "aktiv".equalsIgnoreCase(temp))

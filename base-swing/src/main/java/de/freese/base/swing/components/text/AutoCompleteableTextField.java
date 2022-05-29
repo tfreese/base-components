@@ -211,7 +211,7 @@ public class AutoCompleteableTextField extends JTextField
             this.prevSearchMenu = null;
         }
 
-        if ((!this.prevSearches.isEmpty()) && (getText().trim().length() > 0))
+        if ((!this.prevSearches.isEmpty()) && (getText().strip().length() > 0))
         {
             this.prevSearchMenu = new JPopupMenu();
 
@@ -223,7 +223,7 @@ public class AutoCompleteableTextField extends JTextField
             {
                 String search = it.next();
 
-                if (search.contains(getText().trim()))
+                if (search.contains(getText().strip()))
                 {
                     matches.add(search);
                 }
@@ -258,7 +258,7 @@ public class AutoCompleteableTextField extends JTextField
      */
     private void saveLastSearch()
     {
-        String search = getText().trim();
+        String search = getText().strip();
 
         if ((search != null) && (search.length() > 1) && !this.prevSearches.contains(search))
         {

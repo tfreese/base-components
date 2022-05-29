@@ -169,7 +169,7 @@ public final class FileUtils
      */
     public static String rewriteFileName(final String fileName)
     {
-        if ((fileName == null) || (fileName.trim().length() == 0))
+        if ((fileName == null) || (fileName.strip().length() == 0))
         {
             return fileName;
         }

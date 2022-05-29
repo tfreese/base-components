@@ -191,7 +191,7 @@ public final class TableUtils
 
             if (c instanceof JLabel label)
             {
-                value = label.getText().trim();
+                value = label.getText().strip();
             }
             else if (c instanceof JCheckBox checkBox)
             {
@@ -213,7 +213,7 @@ public final class TableUtils
             if (tm != null)
             {
                 int colIdxModel = table.convertColumnIndexToModel(column);
-                value = tm.getValueAt(row, colIdxModel).toString().trim();
+                value = tm.getValueAt(row, colIdxModel).toString().strip();
             }
         }
 

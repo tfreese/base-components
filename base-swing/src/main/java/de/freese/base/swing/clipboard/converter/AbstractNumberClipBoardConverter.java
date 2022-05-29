@@ -18,7 +18,7 @@ public abstract class AbstractNumberClipBoardConverter extends AbstractClipboard
         temp = temp.replaceAll("[a-zA-Z]", "");
         temp = temp.replace("%", "");
 
-        return temp.trim();
+        return temp.strip();
     }
 
     /**

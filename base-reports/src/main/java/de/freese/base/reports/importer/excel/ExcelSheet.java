@@ -177,7 +177,7 @@ public class ExcelSheet implements Serializable
 
             for (String element : rowValue)
             {
-                if ((element != null) && (element.trim().length() > 0))
+                if ((element != null) && (element.strip().length() > 0))
                 {
                     isEmpty = false;
                     break;

@@ -232,7 +232,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
             dataOutput.write(bytes);
 
             // Name
-            String name = Optional.ofNullable(column.getName()).orElse("").trim();
+            String name = Optional.ofNullable(column.getName()).orElse("").strip();
             name = name.length() == 0 ? null : name;
 
             dataOutput.writeBoolean(name == null); // NULL-Marker
@@ -251,7 +251,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
             dataOutput.writeInt(column.getPrecision());
 
             // Comments
-            String comment = Optional.ofNullable(column.getComment()).orElse("").trim();
+            String comment = Optional.ofNullable(column.getComment()).orElse("").strip();
             comment = comment.length() == 0 ? null : comment;
 
             dataOutput.writeBoolean(comment == null); // NULL-Marker

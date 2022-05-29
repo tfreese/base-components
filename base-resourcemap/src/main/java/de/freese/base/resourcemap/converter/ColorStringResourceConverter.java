@@ -53,17 +53,17 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
                 // with alpha component
                 if (parts.length == 4)
                 {
-                    int r = Integer.parseInt(parts[0].trim());
-                    int g = Integer.parseInt(parts[1].trim());
-                    int b = Integer.parseInt(parts[2].trim());
-                    int a = Integer.parseInt(parts[3].trim());
+                    int r = Integer.parseInt(parts[0].strip());
+                    int g = Integer.parseInt(parts[1].strip());
+                    int b = Integer.parseInt(parts[2].strip());
+                    int a = Integer.parseInt(parts[3].strip());
                     color = new Color(r, g, b, a);
                 }
                 else
                 {
-                    int r = Integer.parseInt(parts[0].trim());
-                    int g = Integer.parseInt(parts[1].trim());
-                    int b = Integer.parseInt(parts[2].trim());
+                    int r = Integer.parseInt(parts[0].strip());
+                    int g = Integer.parseInt(parts[1].strip());
+                    int b = Integer.parseInt(parts[2].strip());
                     color = new Color(r, g, b);
                 }
             }

@@ -307,7 +307,7 @@ public class ExcelToCsv
         // value = Double.toString(v);
         // }
 
-        value = Optional.ofNullable(value).map(String::trim).orElse("");
+        value = Optional.ofNullable(value).map(String::strip).orElse("");
 
         if (value.isBlank())
         {

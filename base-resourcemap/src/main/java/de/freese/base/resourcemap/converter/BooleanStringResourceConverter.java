@@ -15,7 +15,7 @@ public class BooleanStringResourceConverter extends AbstractResourceConverter<Bo
      *
      * @param trueStrings String, zb. true, on, yes, 1
      */
-    public BooleanStringResourceConverter(final String...trueStrings)
+    public BooleanStringResourceConverter(final String... trueStrings)
     {
         super();
 
@@ -28,7 +28,7 @@ public class BooleanStringResourceConverter extends AbstractResourceConverter<Bo
     @Override
     public Boolean convert(final String key, final String value)
     {
-        String v = value.trim();
+        String v = value.strip();
 
         for (String trueString : this.trueStrings)
         {

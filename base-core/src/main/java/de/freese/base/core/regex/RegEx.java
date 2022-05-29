@@ -68,7 +68,7 @@ public final class RegEx implements RegExTransformer
             return null;
         }
 
-        if ("".equals(expression.trim()))
+        if ("".equals(expression.strip()))
         {
             return "";
         }
@@ -98,7 +98,7 @@ public final class RegEx implements RegExTransformer
         }
 
         // .* als default IST NICHT ZULAESSIG !!!
-        if ("".equals(expression.trim()))
+        if ("".equals(expression.strip()))
         {
             return "";
         }
