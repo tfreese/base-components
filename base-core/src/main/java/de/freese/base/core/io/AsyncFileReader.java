@@ -27,6 +27,7 @@ import java.util.function.Supplier;
  *
  * @author Oliver Heger
  * @author Thomas Freese
+ *
  * @see <a href="https://github.com/oheger/JavaMagReact">https://github.com/oheger/JavaMagReact (JavaMagazin 02/2018 )</a>
  */
 public final class AsyncFileReader<CH>
@@ -68,7 +69,7 @@ public final class AsyncFileReader<CH>
          * @param bufferSize int
          */
         public ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler,
-                           final int bufferSize)
+                final int bufferSize)
         {
             super();
 
@@ -112,12 +113,10 @@ public final class AsyncFileReader<CH>
     /**
      * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.
      */
-    @SuppressWarnings("unchecked")
     private Supplier<CH> contentHolderSupplier;
     /**
      * Nimmt die gelesenen Daten entgegen.
      */
-    @SuppressWarnings("unchecked")
     private BiConsumer<CH, byte[]> dataConsumer;
     /**
      * Führt die parallelen Lese-Operationen aus.
@@ -207,50 +206,6 @@ public final class AsyncFileReader<CH>
     }
 
     /**
-     * Blockgröße pro Lese-Operation.<br>
-     * Default: 1024
-     *
-     * @return int
-     */
-    protected int getByteBufferSize()
-    {
-        return this.byteBufferSize;
-    }
-
-    /**
-     * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.<br>
-     * Default: new StringBuilder(4096);
-     *
-     * @return {@link Supplier}
-     */
-    protected Supplier<CH> getContentHolderSupplier()
-    {
-        return this.contentHolderSupplier;
-    }
-
-    /**
-     * Nimmt die gelesenen Daten entgegen.<br>
-     * Default: StringBuilder.append(new String(data));
-     *
-     * @return {@link BiConsumer}
-     */
-    protected BiConsumer<CH, byte[]> getDataConsumer()
-    {
-        return this.dataConsumer;
-    }
-
-    /**
-     * Führt die parallelen Lese-Operationen aus.<br>
-     * Default: ForkJoinPool.commonPool()
-     *
-     * @return {@link ExecutorService}
-     */
-    protected ExecutorService getExecutorService()
-    {
-        return this.executorService;
-    }
-
-    /**
      * Erzeugt den Handler für die {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.
      *
      * @param contentHolderSupplier Object; erzeugt das Objekt um die gelesenen Daten aufzunehmen.
@@ -312,5 +267,49 @@ public final class AsyncFileReader<CH>
     {
         context.buffer.clear();
         context.channel.read(context.buffer, context.position, context, context.handler);
+    }
+
+    /**
+     * Blockgröße pro Lese-Operation.<br>
+     * Default: 1024
+     *
+     * @return int
+     */
+    protected int getByteBufferSize()
+    {
+        return this.byteBufferSize;
+    }
+
+    /**
+     * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.<br>
+     * Default: new StringBuilder(4096);
+     *
+     * @return {@link Supplier}
+     */
+    protected Supplier<CH> getContentHolderSupplier()
+    {
+        return this.contentHolderSupplier;
+    }
+
+    /**
+     * Nimmt die gelesenen Daten entgegen.<br>
+     * Default: StringBuilder.append(new String(data));
+     *
+     * @return {@link BiConsumer}
+     */
+    protected BiConsumer<CH, byte[]> getDataConsumer()
+    {
+        return this.dataConsumer;
+    }
+
+    /**
+     * Führt die parallelen Lese-Operationen aus.<br>
+     * Default: ForkJoinPool.commonPool()
+     *
+     * @return {@link ExecutorService}
+     */
+    protected ExecutorService getExecutorService()
+    {
+        return this.executorService;
     }
 }

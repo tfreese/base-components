@@ -24,7 +24,7 @@ public final class ListUtils
      */
     public static <T> List<List<T>> getPartitions(final List<T> values, final int numberOfPartitions)
     {
-        if (values == null || values.isEmpty())
+        if ((values == null) || values.isEmpty())
         {
             return Collections.emptyList();
         }
@@ -80,9 +80,16 @@ public final class ListUtils
         return partitions;
     }
 
-    public static <T> List<List<T>> getPartitionsByBatches(List<T> values, int batchSize)
+    /**
+     * @param <T> Txpe
+     * @param values {@link List}
+     * @param batchSize int
+     *
+     * @return {@link List}
+     */
+    public static <T> List<List<T>> getPartitionsByBatches(final List<T> values, final int batchSize)
     {
-        if (values == null || values.isEmpty())
+        if ((values == null) || values.isEmpty())
         {
             return Collections.emptyList();
         }
@@ -113,7 +120,7 @@ public final class ListUtils
      */
     public static <T> List<List<T>> getPartitionsByModulo(final List<T> values, final int numberOfPartitions)
     {
-        if (values == null || values.isEmpty())
+        if ((values == null) || values.isEmpty())
         {
             return Collections.emptyList();
         }

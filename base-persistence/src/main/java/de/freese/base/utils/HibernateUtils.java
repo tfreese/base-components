@@ -81,7 +81,7 @@ public final class HibernateUtils
      *
      * @return Object
      *
-     * @throws ClassCastException Falls was schief geht.
+     * @throws ClassCastException Falls was schiefgeht.
      * @see HibernateProxy
      * @see LazyInitializer
      * @see HibernateProxyHelper
@@ -102,7 +102,7 @@ public final class HibernateUtils
      *
      * @return Object
      *
-     * @throws ClassCastException Falls was schief geht.
+     * @throws ClassCastException Falls was schiefgeht.
      * @see HibernateProxy
      * @see LazyInitializer
      */
@@ -266,7 +266,6 @@ public final class HibernateUtils
                 // .collect(Collectors.toCollection(TreeSet::new))
                 Metamodel metamodel = sessionFactory.getMetamodel();
 
-                // entityType.getJavaType().getName()
                 // @formatter:off
                 metamodel.getEntities().stream()
                     .map(entityType -> entityType.getJavaType().getName())
@@ -385,7 +384,7 @@ public final class HibernateUtils
 
     /**
      * Rundet ein Double Wert auf eine bestimmte Anzahl Nachkommastellen.<br>
-     * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
+     * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      *
      * @param value double
      * @param scale int Anzahl Nachkommastellen
@@ -394,7 +393,7 @@ public final class HibernateUtils
      */
     private static double round(final double value, final int scale)
     {
-        if (Double.isNaN(value) || Double.isInfinite(value) || Double.compare(value, 0.0D) == 0)
+        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0))
         {
             return 0.0D;
         }
