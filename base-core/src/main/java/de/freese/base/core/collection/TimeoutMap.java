@@ -1,63 +1,167 @@
 package de.freese.base.core.collection;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 /**
- * {@link HashMap} Implementierung mit einer Timeout-Funktion der Elemente.<br>
+ * {@link Map} Implementierung mit einer Timeout-Funktion der Elemente.<br>
  * Nach Ablauf des Timeouts werden die Elemente beim nächsten Zugriff gelöscht.
  *
- * @param <K> Konkreter Key
- * @param <V> Konkretes Value
+ * @param <K> Key-Type
+ * @param <V> Value-Type
  *
  * @author Thomas Freese
+ * @see <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java</a>
  */
-public class TimeoutMap<K, V> implements Map<K, V>
+public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
 {
     /**
+     * A policy to determine the expiration time for key-value entries.
      *
+     * @param <K> Key-Type
+     * @param <V> Value-Type
      */
-    private final Map<K, V> backend;
-    /**
-     *
-     */
-    private final Map<K, Long> timestampMap;
-    /**
-     * Millisekunden, Default = 24 Stunden
-     */
-    private long timeoutInMillis = 1000 * 60 * 60 * 24L;
-
-    /**
-     * Erstellt ein neues {@link TimeoutMap} Object mit einer {@link HashMap} als Backend.
-     *
-     * @param timeout long
-     * @param timeUnit {@link TimeUnit}
-     */
-    public TimeoutMap(final long timeout, final TimeUnit timeUnit)
+    @FunctionalInterface
+    public interface ExpirationPolicy<K, V>
     {
-        this(new HashMap<>(), timeout, timeUnit);
+        /**
+         * Determine the expiration time for the given key-value entry.
+         *
+         * @param key the key for the entry.
+         * @param value the value for the entry.
+         *
+         * @return the expiration time value measured in milliseconds. A
+         * negative return value indicates the entry never expires.
+         */
+        long expirationTime(K key, V value);
     }
 
     /**
-     * Erstellt ein neues {@link TimeoutMap} Object.
+     * A {@link ExpirationPolicy} that returns a expiration time that is a  constant about of time in the future from the current time.
      *
-     * @param backend {@link Map}
-     * @param timeout long
-     * @param timeUnit {@link TimeUnit}
+     * @param <K> Key-Type
+     * @param <V> Value-Type
      */
-    public TimeoutMap(final Map<K, V> backend, final long timeout, final TimeUnit timeUnit)
+    public static class ConstantTimeToLiveExpirationPolicy<K, V>
+            implements ExpirationPolicy<K, V>
     {
-        super();
+        /**
+         * the constant time-to-live value measured in milliseconds.
+         */
+        private final long timeToLiveMillis;
 
-        this.backend = Objects.requireNonNull(backend, "backend required");
-        this.timeoutInMillis = Objects.requireNonNull(timeUnit, "timeUnit required").toMillis(timeout);
-        this.timestampMap = new HashMap<>();
+        /**
+         * Default constructor. Constructs a policy using a negative
+         * time-to-live value that results in entries never expiring.
+         */
+        public ConstantTimeToLiveExpirationPolicy()
+        {
+            this(-1L);
+        }
+
+        public ConstantTimeToLiveExpirationPolicy(Duration timeToLiveDuration)
+        {
+            this(Objects.requireNonNull(timeToLiveDuration, "timeToLiveDuration required").toMillis());
+        }
+
+        /**
+         * Construct a policy with the given time-to-live constant measured in
+         * milliseconds. A negative time-to-live value indicates entries never
+         * expire. A zero time-to-live value indicates entries expire (nearly)
+         * immediately.
+         *
+         * @param timeToLiveMillis the constant amount of time (in milliseconds)
+         * an entry is available before it expires. A negative value
+         * results in entries that NEVER expire. A zero value results in
+         * entries that ALWAYS expire.
+         */
+        public ConstantTimeToLiveExpirationPolicy(final long timeToLiveMillis)
+        {
+            super();
+
+            this.timeToLiveMillis = timeToLiveMillis;
+        }
+
+        /**
+         * Determine the expiration time for the given key-value entry.
+         *
+         * @param key the key for the entry (ignored).
+         * @param value the value for the entry (ignored).
+         *
+         * @return if {@link #timeToLiveMillis} &ge; 0, an expiration time of
+         * {@link #timeToLiveMillis} +
+         * {@link System#currentTimeMillis()} is returned. Otherwise, -1
+         * is returned indicating the entry never expires.
+         */
+        @Override
+        public long expirationTime(final K key, final V value)
+        {
+            if (timeToLiveMillis >= 0L)
+            {
+                // avoid numerical overflow
+                final long nowMillis = now();
+
+                if (nowMillis > Long.MAX_VALUE - timeToLiveMillis)
+                {
+                    // expiration would be greater than Long.MAX_VALUE never expire
+                    return -1;
+                }
+
+                // timeToLiveMillis in the future
+                return nowMillis + timeToLiveMillis;
+            }
+
+            // never expire
+            return -1L;
+        }
+    }
+
+    private static long now()
+    {
+        return System.currentTimeMillis();
+    }
+
+    /**
+     *
+     */
+    private final Map<K, Long> expirationMap;
+    /**
+     *
+     */
+    private final ExpirationPolicy expirationPolicy;
+
+    /**
+     * @param expirationDuration {@link Duration}
+     */
+    public TimeoutMap(Duration expirationDuration)
+    {
+        this(expirationDuration, new HashMap<>());
+    }
+
+    /**
+     * @param expirationDuration {@link Duration}
+     * @param decoratedMap {@link Map}
+     */
+    public TimeoutMap(Duration expirationDuration, Map<K, V> decoratedMap)
+    {
+        this(new ConstantTimeToLiveExpirationPolicy(expirationDuration), decoratedMap);
+    }
+
+    /**
+     * @param expirationPolicy {@link ExpirationPolicy}
+     * @param decoratedMap {@link Map}
+     */
+    public TimeoutMap(ExpirationPolicy expirationPolicy, Map<K, V> decoratedMap)
+    {
+        super(decoratedMap);
+
+        this.expirationPolicy = Objects.requireNonNull(expirationPolicy, "expirationPolicy required");
+        this.expirationMap = new HashMap<>();
     }
 
     /**
@@ -66,8 +170,8 @@ public class TimeoutMap<K, V> implements Map<K, V>
     @Override
     public void clear()
     {
-        this.timestampMap.clear();
-        this.backend.clear();
+        this.expirationMap.clear();
+        super.clear();
     }
 
     /**
@@ -76,235 +180,157 @@ public class TimeoutMap<K, V> implements Map<K, V>
     @Override
     public boolean containsKey(final Object key)
     {
-        if (isTimedOut(key))
-        {
-            remove(key);
-            return false;
-        }
+        removeIfExpired(key, now());
 
-        return this.backend.containsKey(key);
+        return super.containsKey(key);
     }
 
-    /**
-     * @see java.util.Map#containsValue(java.lang.Object)
-     */
     @Override
     public boolean containsValue(final Object value)
     {
-        return entrySet().stream().anyMatch(entry -> entry.getValue() == value);
+        removeAllExpired(now());
+
+        return super.containsValue(value);
     }
 
-    /**
-     * Es werden nur die Entries geliefert, welche noch nicht abgelaufen sind.<br>
-     * Abgelaufene Entries werden gelöscht.
-     *
-     * @see java.util.Map#entrySet()
-     */
     @Override
     public Set<Map.Entry<K, V>> entrySet()
     {
-        // Löschen über Iterator des HashMap.EntrySet funktioniert nicht.
-        Set<Map.Entry<K, V>> backendEntrySet = new HashSet<>(this.backend.entrySet());
+        removeAllExpired(now());
 
-        for (Iterator<Map.Entry<K, V>> iterator = backendEntrySet.iterator(); iterator.hasNext(); )
-        {
-            Entry<K, V> entry = iterator.next();
-
-            if (isTimedOut(entry.getKey()))
-            {
-                remove(entry.getKey());
-                iterator.remove();
-            }
-        }
-
-        return backendEntrySet;
+        return super.entrySet();
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(final Object obj)
-    {
-        return this.backend.equals(obj);
-    }
-
-    /**
-     * @see java.util.Map#get(java.lang.Object)
-     */
     @Override
     public V get(final Object key)
     {
-        if (isTimedOut(key))
-        {
-            remove(key);
-            return null;
-        }
+        removeIfExpired(key, now());
 
-        return this.backend.get(key);
+        return super.get(key);
     }
 
-    /**
-     * Liefert den Timeout.
-     *
-     * @param timeUnit {@link TimeUnit}
-     *
-     * @return long
-     */
-    public long getTimeout(final TimeUnit timeUnit)
-    {
-        return timeUnit.convert(getTimeoutInMillis(), TimeUnit.MILLISECONDS);
-    }
-
-    /**
-     * Liefert den Timeout in Millisekunden.
-     *
-     * @return long
-     */
-    public long getTimeoutInMillis()
-    {
-        return this.timeoutInMillis;
-    }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode()
-    {
-        return this.backend.hashCode();
-    }
-
-    /**
-     * size = 0 = Anzahl der nicht abgelaufenen Keys.
-     *
-     * @see java.util.Map#isEmpty()
-     */
     @Override
     public boolean isEmpty()
     {
-        return size() == 0;
+        removeAllExpired(now());
+
+        return super.isEmpty();
     }
 
-    /**
-     * Es werden nur die Keys geliefert, welche noch nicht abgelaufen sind.<br>
-     * Abgelaufene Keys werden gelöscht.
-     *
-     * @see java.util.Map#keySet()
-     */
     @Override
     public Set<K> keySet()
     {
-        // Löschen über Iterator des HashMap.KeySet funktioniert nicht.
-        Set<K> backendKeySet = new HashSet<>(this.backend.keySet());
+        removeAllExpired(now());
 
-        for (Iterator<K> iterator = backendKeySet.iterator(); iterator.hasNext(); )
-        {
-            K key = iterator.next();
-
-            if (isTimedOut(key))
-            {
-                remove(key);
-                iterator.remove();
-            }
-        }
-
-        return backendKeySet;
+        return super.keySet();
     }
 
-    /**
-     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
-     */
     @Override
-    public synchronized V put(final K key, final V value)
+    public V put(final K key, final V value)
     {
-        this.timestampMap.put(key, System.currentTimeMillis());
+        // remove the previous record
+        removeIfExpired(key, now());
 
-        return this.backend.put(key, value);
+        // record expiration time of new entry
+        final long expirationTime = expirationPolicy.expirationTime(key, value);
+
+        this.expirationMap.put(key, expirationTime);
+
+        return super.put(key, value);
     }
 
-    /**
-     * @see java.util.Map#putAll(java.util.Map)
-     */
     @Override
     public void putAll(final Map<? extends K, ? extends V> map)
     {
-        for (Entry<? extends K, ? extends V> entry : map.entrySet())
-        {
-            put(entry.getKey(), entry.getValue());
-        }
+        map.forEach(this::put);
     }
 
-    /**
-     * @see java.util.Map#remove(java.lang.Object)
-     */
     @Override
     public V remove(final Object key)
     {
-        this.timestampMap.remove(key);
+        this.expirationMap.remove(key);
 
-        return this.backend.remove(key);
+        return super.remove(key);
     }
 
-    /**
-     * Setzt den Timeout in Millisekunden.
-     *
-     * @param timeout long
-     * @param timeUnit TimeUnit
-     */
-    public void setTimeout(final long timeout, final TimeUnit timeUnit)
-    {
-        this.timeoutInMillis = Objects.requireNonNull(timeUnit, "timeUnit required").toMillis(timeout);
-    }
-
-    /**
-     * size = Anzahl der nicht abgelaufenen Keys.
-     *
-     * @see java.util.Map#size()
-     */
     @Override
     public int size()
     {
-        return keySet().size();
+        removeAllExpired(now());
+
+        return super.size();
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return this.backend.toString();
-    }
-
-    /**
-     * Alle Values deren Keys nicht abgelaufen sind.
-     *
-     * @see java.util.Map#values()
-     */
     @Override
     public Collection<V> values()
     {
-        return entrySet().stream().map(Entry::getValue).toList();
+        removeAllExpired(now());
+
+        return super.values();
     }
 
     /**
-     * Ein Key ohne Timestamp ist nicht in der Map.<br>
-     * Dann soll die normale Implementierung der HashMap greifen.
+     * Determines if the given expiration time is less than {@code now}.
      *
-     * @param key Object
+     * @param nowMillis the time in milliseconds used to compare against the
+     * expiration time.
+     * @param expirationTimeObject the expiration time value retrieved from
+     * {@link #expirationMap}, can be null.
      *
-     * @return boolean
+     * @return {@code true} if {@code expirationTimeObject} is &ge; 0
+     * and {@code expirationTimeObject} &lt; {@code now}.
+     * {@code false} otherwise.
      */
-    protected boolean isTimedOut(final Object key)
+    private boolean isExpired(final long nowMillis, final Long expirationTimeObject)
     {
-        Long timestamp = this.timestampMap.get(key);
-
-        if (timestamp == null)
+        if (expirationTimeObject != null)
         {
-            return false;
+            final long expirationTime = expirationTimeObject.longValue();
+
+            return expirationTime >= 0 && nowMillis >= expirationTime;
         }
 
-        return (System.currentTimeMillis() - timestamp) >= getTimeoutInMillis();
+        return false;
+    }
+
+    /**
+     * Removes all entries in the map whose expiration time is less than
+     * {@code now}. The exceptions are entries with negative expiration
+     * times; those entries are never removed.
+     *
+     * @see #isExpired(long, Long)
+     */
+    private void removeAllExpired(final long nowMillis)
+    {
+        final Iterator<Map.Entry<K, Long>> iter = expirationMap.entrySet().iterator();
+
+        while (iter.hasNext())
+        {
+            final Map.Entry<K, Long> expirationEntry = iter.next();
+
+            if (isExpired(nowMillis, expirationEntry.getValue()))
+            {
+                // remove entry from collection
+                super.remove(expirationEntry.getKey());
+
+                // remove entry from expiration map
+                iter.remove();
+            }
+        }
+    }
+
+    /**
+     * Removes the entry with the given key if the entry's expiration time is
+     * less than {@code now}. If the entry has a negative expiration time,
+     * the entry is never removed.
+     */
+    private void removeIfExpired(final Object key, final long nowMillis)
+    {
+        final Long expirationTimeObject = expirationMap.get(key);
+
+        if (isExpired(nowMillis, expirationTimeObject))
+        {
+            remove(key);
+        }
     }
 }

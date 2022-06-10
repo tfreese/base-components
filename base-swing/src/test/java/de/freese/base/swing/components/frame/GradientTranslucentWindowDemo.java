@@ -11,6 +11,7 @@ import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.Paint;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -51,11 +52,12 @@ public class GradientTranslucentWindowDemo extends JFrame
             System.exit(0);
         }
 
-        // Sonst kommt Exception: The frame is decorated
+        // Sonst kommt Exception: The frame is getDecoratedMap
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create the GUI on the event-dispatching thread
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             GradientTranslucentWindowDemo gtw = new GradientTranslucentWindowDemo();
 
             // Display the window.

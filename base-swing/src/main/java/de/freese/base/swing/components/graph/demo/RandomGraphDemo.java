@@ -101,7 +101,7 @@ public final class RandomGraphDemo
 
         if (translucency)
         {
-            // Sonst kommt Exception: The frame is decorated
+            // Sonst kommt Exception: The frame is getDecoratedMap
             JFrame.setDefaultLookAndFeelDecorated(true);
         }
 
