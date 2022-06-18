@@ -24,15 +24,14 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.TrustManagerFactory;
 
+import de.freese.base.security.ssl.nio.SSLServerSocketChannel;
+import de.freese.base.security.ssl.nio.SSLSocketChannel;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.security.ssl.nio.SSLServerSocketChannel;
-import de.freese.base.security.ssl.nio.SSLSocketChannel;
 
 /**
  * @author Thomas Freese
@@ -44,27 +43,27 @@ class TestNioSsl
     /**
      *
      */
-    private static SSLContext clientSslContext;
+    private static final boolean USE_SSL = true;
     /**
      *
      */
     public static boolean isShutdown;
     /**
-    *
-    */
-    private static Selector selector;
-    /**
-    *
-    */
-    private static ServerSocketChannel serverSocketChannel;
-    /**
-    *
-    */
-    private static SSLContext serverSslContext;
+     *
+     */
+    private static SSLContext clientSslContext;
     /**
      *
      */
-    private static final boolean USE_SSL = true;
+    private static Selector selector;
+    /**
+     *
+     */
+    private static ServerSocketChannel serverSocketChannel;
+    /**
+     *
+     */
+    private static SSLContext serverSslContext;
 
     /**
      * @throws Exception Falls was schief geht.
@@ -105,7 +104,8 @@ class TestNioSsl
             serverSocketChannel = new SSLServerSocketChannel(serverSocketChannel, serverSslContext, Executors.newSingleThreadExecutor());
         }
 
-        ForkJoinPool.commonPool().execute(() -> {
+        ForkJoinPool.commonPool().execute(() ->
+        {
             while (!Thread.interrupted())
             {
                 try

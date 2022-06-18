@@ -42,7 +42,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
     }
 
     /**
-     * A {@link ExpirationPolicy} that returns a expiration time that is a  constant about of time in the future from the current time.
+     * A {@link ExpirationPolicy} that returns a expiration time that is a constant about of time in the future from the current time.
      *
      * @param <K> Key-Type
      * @param <V> Value-Type
@@ -133,7 +133,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
     /**
      *
      */
-    private final ExpirationPolicy expirationPolicy;
+    private final ExpirationPolicy<K, V> expirationPolicy;
 
     /**
      * @param expirationDuration {@link Duration}
@@ -149,14 +149,14 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
      */
     public TimeoutMap(Duration expirationDuration, Map<K, V> decoratedMap)
     {
-        this(new ConstantTimeToLiveExpirationPolicy(expirationDuration), decoratedMap);
+        this(new ConstantTimeToLiveExpirationPolicy<>(expirationDuration), decoratedMap);
     }
 
     /**
      * @param expirationPolicy {@link ExpirationPolicy}
      * @param decoratedMap {@link Map}
      */
-    public TimeoutMap(ExpirationPolicy expirationPolicy, Map<K, V> decoratedMap)
+    public TimeoutMap(ExpirationPolicy<K, V> expirationPolicy, Map<K, V> decoratedMap)
     {
         super(decoratedMap);
 
@@ -285,7 +285,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
     {
         if (expirationTimeObject != null)
         {
-            final long expirationTime = expirationTimeObject.longValue();
+            final long expirationTime = expirationTimeObject;
 
             return expirationTime >= 0 && nowMillis >= expirationTime;
         }

@@ -5,7 +5,7 @@ plugins {
 description = "Common Classes, Patterns and Interfaces."
 
 dependencies {
-    // api =  scope compile
+    // api = scope compile
     api("com.github.ben-manes.caffeine:caffeine")
     api("io.projectreactor:reactor-core")
     api("javax.xml.bind:jaxb-api")
@@ -14,10 +14,8 @@ dependencies {
     api("org.springframework:spring-context")
 
     // implementation = scope runtime
-    //implementation("org.openjdk.jmh:jmh-core")
-
     // runtimeOnly = scope runtime
-    //runtimeOnly("org.slf4j:jcl-over-slf4j")
+    // compileOnly = scope runtime
 
     testImplementation("com.h2database:h2")
     testImplementation("com.zaxxer:HikariCP")

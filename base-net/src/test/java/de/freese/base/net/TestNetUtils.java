@@ -105,7 +105,7 @@ class TestNetUtils
         }
 
         // Cross Platform (Windows, Linux, Unix, Mac)
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())))
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream())))
         {
             hostName = br.readLine();
             assertNotNull(hostName);

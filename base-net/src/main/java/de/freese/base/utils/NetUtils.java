@@ -62,7 +62,7 @@ public final class NetUtils
         if (hostName == null)
         {
             // Cross Platform (Windows, Linux, Unix, Mac)
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream(), StandardCharsets.UTF_8)))
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream(), StandardCharsets.UTF_8)))
             {
                 hostName = br.readLine();
             }

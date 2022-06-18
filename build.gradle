@@ -16,10 +16,6 @@ subprojects {
 
             dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
 
-            dependency("net.sourceforge.jexcelapi:jxl:$version_jexcelapi") {
-                exclude "log4j:log4j"
-            }
-
             dependency "org.bouncycastle:bcpg-jdk15on:$version_bouncycastle"
             dependency "org.bouncycastle:bcmail-jdk15on:$version_bouncycastle"
 
@@ -38,11 +34,11 @@ subprojects {
             dependency "org.swinglabs.swingx:swingx-core:$version_swingx"
         }
     }
-    
-	dependencies {
-		//implementation(platform("de.freese:maven-bom:$version_mavenBom"))
-		//testImplementation("org.junit.jupiter:junit-jupiter-engine")
-	}
+
+    dependencies {
+        //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
+        //testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    }
 }
 
 /*project("base-core") {
@@ -50,26 +46,27 @@ subprojects {
 	description = "Common Classes, Patterns and Interfaces."
 
 	dependencies {
-		// api =  scope compile
-		api("commons-codec:commons-codec")
-		api("io.projectreactor:reactor-core")
-		api("javax.xml.bind:jaxb-api")
-		api("org.apache.commons:commons-collections4")
-		api("org.apache.commons:commons-lang3")
-		api("org.slf4j:slf4j-api")
-		api("org.springframework:spring-context")
-		
+		// api = scope compile
+        api("com.github.ben-manes.caffeine:caffeine")
+        api("io.projectreactor:reactor-core")
+        api("javax.xml.bind:jaxb-api")
+        api('org.apache.commons:commons-lang3')
+        api("org.slf4j:slf4j-api")
+        api("org.springframework:spring-context")")
+
+		// compileOnly = scope provided
 		// implementation = scope runtime
-		implementation("org.openjdk.jmh:jmh-core")
-		implementation("org.openjdk.jmh:jmh-generator-annprocess")
-
 		// runtimeOnly = scope runtime
-		runtimeOnly("org.slf4j:jcl-over-slf4j")
 
-		testImplementation("io.github.artsok:rerunner-jupiter")
-		testImplementation("org.junit.jupiter:junit-jupiter-engine")
-		testImplementation("org.junit.jupiter:junit-jupiter-params")
-		testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("com.h2database:h2")
+        testImplementation("com.zaxxer:HikariCP")
+        testImplementation("org.apache.derby:derby")
+        testImplementation("org.hsqldb:hsqldb")
+        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("org.slf4j:jul-to-slf4j")
+        testImplementation("org.slf4j:slf4j-simple")
 	}
 }*/
 
@@ -124,7 +121,19 @@ project("base-persistence") {
         testImplementation("org.junit.platform:junit-platform-runner")
         testImplementation("org.junit.platform:junit-platform-suite-api")
         testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("org.openjdk.jmh:jmh-core")
+        //testImplementation("org.openjdk.jmh:jmh-generator-annprocess")
         testImplementation("org.xerial:sqlite-jdbc")
+    }
+
+    test {
+        filter {
+            // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
+            excludeTestsMatching "de.freese.base.persistence.jdbc.benchmark.*"
+
+            // R2DBC 0.9.1.RELEASE hat ne Macke.
+            excludeTestsMatching "de.freese.base.persistence.jdbc.reactive.TestR2DBC"
+        }
     }
 }
 
@@ -138,7 +147,6 @@ project("base-reports") {
         api("org.jfree:jfreechart")
         api("org.apache.poi:poi-ooxml")
         api("org.springframework:spring-core")
-        api("net.sourceforge.jexcelapi:jxl")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
     }
@@ -146,7 +154,7 @@ project("base-reports") {
 
 project("base-resourcemap") {
     apply plugin: "java-library"
-    description = "ResoureMaps to use hierarchical ResourceBundles."
+    description = "ResourceMaps to use hierarchical ResourceBundles."
     dependencies {
         api(project(":base-core"))
 
@@ -183,7 +191,7 @@ project("base-swing") {
         api(project(":base-resourcemap"))
 
         javafx {
-        	version = "$version_javafxBase"
+            version = "$version_javafxBase"
             modules = ["javafx.controls"]
         }
 
