@@ -16,8 +16,10 @@ subprojects {
 
             dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
 
-            dependency "org.bouncycastle:bcpg-jdk15on:$version_bouncycastle"
-            dependency "org.bouncycastle:bcmail-jdk15on:$version_bouncycastle"
+            dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
+                entry "bcpg-jdk15on"
+                entry "bcmail-jdk15on"
+            }
 
             dependency "org.apache.commons:commons-collections4:$version_commonsCollections"
             dependency "org.apache.poi:poi-ooxml:$version_poi"
@@ -27,8 +29,11 @@ subprojects {
                 exclude "xml-apis:xml-apis"
             }
 
-            dependency "org.openjdk.jmh:jmh-core:$version_jmh"
-            dependency "org.openjdk.jmh:jmh-generator-annprocess:$version_jmh"
+            dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
+                entry "jmh-core"
+                entry "jmh-generator-annprocess"
+            }
+
             dependency "org.openjfx:javafx-controls:$version_javafx"
 
             dependency "org.swinglabs.swingx:swingx-core:$version_swingx"
@@ -46,13 +51,15 @@ subprojects {
 	description = "Common Classes, Patterns and Interfaces."
 
 	dependencies {
-		// api = scope compile
-        api("com.github.ben-manes.caffeine:caffeine")
-        api("io.projectreactor:reactor-core")
-        api("javax.xml.bind:jaxb-api")
-        api('org.apache.commons:commons-lang3')
-        api("org.slf4j:slf4j-api")
-        api("org.springframework:spring-context")")
+	    // api als transitive Dependency beim Test
+	    api("io.projectreactor:reactor-core")
+	    api("org.slf4j:slf4j-api")
+
+		// implementation = scope compile
+        implementation("com.github.ben-manes.caffeine:caffeine")
+        implementation("javax.xml.bind:jaxb-api")
+        implementation('org.apache.commons:commons-lang3')
+        implementation("org.springframework:spring-context")")
 
 		// compileOnly = scope provided
 		// implementation = scope runtime
@@ -71,7 +78,7 @@ subprojects {
 }*/
 
 project("base-calendar") {
-    apply plugin: "java-library"
+//    apply plugin: "java-library"
     description = "Common Classes for Calendar."
     dependencies {
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -85,10 +92,10 @@ project("base-net") {
     dependencies {
         api(project(":base-core"))
 
-        api("com.jcraft:jsch")
-        api("com.sun.mail:jakarta.mail")
-        api("commons-net:commons-net")
-        api("org.slf4j:slf4j-api")
+        implementation("com.jcraft:jsch")
+        implementation("com.sun.mail:jakarta.mail")
+        implementation("commons-net:commons-net")
+//        implementation("org.slf4j:slf4j-api")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
         testImplementation("org.slf4j:slf4j-simple")
@@ -101,11 +108,13 @@ project("base-persistence") {
     dependencies {
         api(project(":base-core"))
 
-        api("org.apache.poi:poi-ooxml")
-        api("org.apache.commons:commons-dbcp2")
         api("org.apache.tomcat:tomcat-jdbc")
-        api("org.springframework.boot:spring-boot-starter-jdbc")
-        api("org.springframework.boot:spring-boot-starter-data-jpa")
+
+        implementation("org.apache.poi:poi-ooxml")
+        implementation("org.apache.commons:commons-dbcp2")
+        implementation("org.apache.logging.log4j:log4j-to-slf4j")
+        implementation("org.springframework.boot:spring-boot-starter-jdbc")
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
         compileOnly("javax.servlet:javax.servlet-api")
 
@@ -119,10 +128,10 @@ project("base-persistence") {
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
         testImplementation("org.junit.jupiter:junit-jupiter-params")
         testImplementation("org.junit.platform:junit-platform-runner")
-        testImplementation("org.junit.platform:junit-platform-suite-api")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("org.openjdk.jmh:jmh-core")
         //testImplementation("org.openjdk.jmh:jmh-generator-annprocess")
+        testImplementation("org.slf4j:slf4j-simple")
         testImplementation("org.xerial:sqlite-jdbc")
     }
 
@@ -143,10 +152,10 @@ project("base-reports") {
     dependencies {
         api(project(":base-core"))
 
-        api("com.itextpdf:itextpdf")
-        api("org.jfree:jfreechart")
-        api("org.apache.poi:poi-ooxml")
-        api("org.springframework:spring-core")
+        implementation("com.itextpdf:itextpdf")
+        implementation("org.jfree:jfreechart")
+        implementation("org.apache.poi:poi-ooxml")
+        implementation("org.springframework:spring-core")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
     }
@@ -173,9 +182,9 @@ project("base-security") {
     dependencies {
         api(project(":base-core"))
 
-        api("org.bouncycastle:bcpg-jdk15on")
-        api("org.bouncycastle:bcmail-jdk15on")
-        api("org.slf4j:slf4j-api")
+        implementation("org.bouncycastle:bcpg-jdk15on")
+        implementation("org.bouncycastle:bcmail-jdk15on")
+        implementation("org.slf4j:slf4j-api")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
         testImplementation("org.slf4j:slf4j-simple")
@@ -195,19 +204,19 @@ project("base-swing") {
             modules = ["javafx.controls"]
         }
 
-        api("com.fasterxml.jackson.core:jackson-databind")
-        api("com.sun.mail:jakarta.mail")
-        api("javax.xml.bind:jaxb-api")
-        api("org.apache.commons:commons-collections4")
-        //api("org.openjfx:javafx-controls")
-        api("org.swinglabs.swingx:swingx-core")
+        implementation("com.fasterxml.jackson.core:jackson-databind")
+        implementation("com.sun.mail:jakarta.mail")
+        implementation("javax.xml.bind:jaxb-api")
+        implementation("org.apache.commons:commons-collections4")
+        //implementation("org.openjfx:javafx-controls")
+        implementation("org.swinglabs.swingx:swingx-core")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
     }
 }
 
 project("base-swing-demo") {
-    apply plugin: "java"
+//    apply plugin: "java"
     description = "Demo for the Swing Components."
     dependencies {
         implementation(project(":base-swing"))

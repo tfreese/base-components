@@ -5,13 +5,15 @@ plugins {
 description = "Common Classes, Patterns and Interfaces."
 
 dependencies {
-    // api = scope compile
-    api("com.github.ben-manes.caffeine:caffeine")
+    // api als transitive Dependency beim Test
     api("io.projectreactor:reactor-core")
-    api("javax.xml.bind:jaxb-api")
-    api('org.apache.commons:commons-lang3')
     api("org.slf4j:slf4j-api")
-    api("org.springframework:spring-context")
+
+    // implementation = scope compile
+    implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("javax.xml.bind:jaxb-api")
+    implementation('org.apache.commons:commons-lang3')
+    implementation("org.springframework:spring-context")
 
     // implementation = scope runtime
     // runtimeOnly = scope runtime
