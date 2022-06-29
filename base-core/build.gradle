@@ -15,9 +15,9 @@ dependencies {
     implementation('org.apache.commons:commons-lang3')
     implementation("org.springframework:spring-context")
 
-    // implementation = scope runtime
+    // implementation = scope compile
+    // compileOnly = scope provided
     // runtimeOnly = scope runtime
-    // compileOnly = scope runtime
 
     testImplementation("com.h2database:h2")
     testImplementation("com.zaxxer:HikariCP")

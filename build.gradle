@@ -61,8 +61,8 @@ subprojects {
         implementation('org.apache.commons:commons-lang3')
         implementation("org.springframework:spring-context")")
 
-		// compileOnly = scope provided
-		// implementation = scope runtime
+        // implementation = scope compile
+        // compileOnly = scope provided
 		// runtimeOnly = scope runtime
 
         testImplementation("com.h2database:h2")
@@ -78,7 +78,6 @@ subprojects {
 }*/
 
 project("base-calendar") {
-//    apply plugin: "java-library"
     description = "Common Classes for Calendar."
     dependencies {
         testImplementation("org.junit.jupiter:junit-jupiter-engine")
@@ -216,7 +215,6 @@ project("base-swing") {
 }
 
 project("base-swing-demo") {
-//    apply plugin: "java"
     description = "Demo for the Swing Components."
     dependencies {
         implementation(project(":base-swing"))
