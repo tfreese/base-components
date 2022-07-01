@@ -53,7 +53,7 @@ public class FarbCodeLabel extends JLabel
              * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
              */
             @Override
-            public void mouseReleased(final MouseEvent e)
+            public void mouseReleased(final MouseEvent event)
             {
                 int oldRGB = getBackground().getRGB();
 

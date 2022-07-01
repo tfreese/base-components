@@ -43,6 +43,7 @@ public class BusyMozillaLabel extends JLabel
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
     /**
      * Anzahl animierter Kreise.
      */
@@ -292,7 +293,7 @@ public class BusyMozillaLabel extends JLabel
         setTrail(trail);
         setVerticalTextPosition(SwingConstants.CENTER);
 
-        this.animateTimer = new Timer(150, e -> performAnimation());
+        this.animateTimer = new Timer(150, event -> performAnimation());
 
         // // Trick: Startet den Timer
         // setVisible(true);

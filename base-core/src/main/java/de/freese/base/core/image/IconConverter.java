@@ -29,10 +29,15 @@ public final class IconConverter
 
             output.write("return new ImageIcon(new byte[] {");
 
-            while ((i = input.read()) != -1)
+            if ((i = input.read()) != -1)
             {
                 output.write(Byte.toString((byte) i));
+            }
+
+            while ((i = input.read()) != -1)
+            {
                 output.write(",");
+                output.write(Byte.toString((byte) i));
             }
 
             output.write("});");
