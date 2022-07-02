@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -341,6 +342,10 @@ public class BusyMozillaLabel extends JLabel
         {
             this.animateTimer.start();
         }
+
+        // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
+        // Without this line, the animation might not be smooth on Linux.
+        Toolkit.getDefaultToolkit().sync();
     }
 
     /**

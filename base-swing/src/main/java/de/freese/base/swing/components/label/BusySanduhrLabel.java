@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -94,6 +95,10 @@ public class BusySanduhrLabel extends JLabel
             else
             {
                 repaint();
+
+                // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
+                // Without this line, the animation might not be smooth on Linux.
+                Toolkit.getDefaultToolkit().sync();
             }
         });
     }
