@@ -12,9 +12,11 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenuItem;
@@ -28,7 +30,6 @@ import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.IExtTableColumnModel;
 import de.freese.base.swing.layout.VerticalLayout;
-import org.jdesktop.swingx.plaf.UIAction;
 
 /**
  * Window des {@link ColumnControlButton}.
@@ -129,8 +130,11 @@ public class ColumnControlWindow implements AWTEventListener
         // ZusatzActions
         String packText = Locale.GERMAN.equals(Locale.getDefault()) ? "Spalten anpassen" : "Pack Columns";
 
-        Action packAllAction = new UIAction(packText)
+        Action packAllAction = new AbstractAction(packText)
         {
+            @Serial
+            private static final long serialVersionUID = 7374736910757374058L;
+
             /**
              * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */

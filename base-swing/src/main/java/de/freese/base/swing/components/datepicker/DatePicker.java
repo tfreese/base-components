@@ -1,9 +1,14 @@
 package de.freese.base.swing.components.datepicker;
 
+import java.awt.BorderLayout;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
@@ -19,6 +24,20 @@ public class DatePicker extends JXDatePicker
     private static final long serialVersionUID = -4014651391029802229L;
 
     /**
+     * @param args String[]
+     */
+    public static void main(final String[] args)
+    {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.getContentPane().add(BorderLayout.CENTER, new DatePicker());
+        //        frame.setSize(300, 300);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    /**
      * Erstellt ein neues {@link DatePicker} Object.
      */
     public DatePicker()
@@ -30,7 +49,7 @@ public class DatePicker extends JXDatePicker
 
     /**
      * Erstellt ein neues {@link DatePicker} Object.
-     * 
+     *
      * @param selected {@link Date}
      */
     public DatePicker(final Date selected)
@@ -42,7 +61,7 @@ public class DatePicker extends JXDatePicker
 
     /**
      * Erstellt ein neues {@link DatePicker} Object.
-     * 
+     *
      * @param selection {@link Date}
      * @param locale {@link Locale}
      */
@@ -55,7 +74,7 @@ public class DatePicker extends JXDatePicker
 
     /**
      * Erstellt ein neues {@link DatePicker} Object.
-     * 
+     *
      * @param locale {@link Locale}
      */
     public DatePicker(final Locale locale)
@@ -77,6 +96,14 @@ public class DatePicker extends JXDatePicker
     }
 
     /**
+     * @param calendar {@link Calendar}
+     */
+    public void setCalendar(final Calendar calendar)
+    {
+        setDate(calendar.getTime());
+    }
+
+    /**
      * Defaultkonfiguration.
      */
     protected void initialize()
@@ -86,13 +113,5 @@ public class DatePicker extends JXDatePicker
         getMonthView().setPreferredRowCount(2);
 
         setDate(new Date());
-    }
-
-    /**
-     * @param calendar {@link Calendar}
-     */
-    public void setCalendar(final Calendar calendar)
-    {
-        setDate(calendar.getTime());
     }
 }

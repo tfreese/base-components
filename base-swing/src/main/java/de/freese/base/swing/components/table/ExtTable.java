@@ -4,7 +4,9 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
+import java.io.Serial;
 
+import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -28,7 +30,6 @@ import de.freese.base.swing.components.table.columncontrol.ColumnControlButton;
 import de.freese.base.swing.components.table.sort.Sort;
 import de.freese.base.swing.components.table.sort.TableColumnSorter;
 import de.freese.base.utils.TableUtils;
-import org.jdesktop.swingx.plaf.UIAction;
 
 /**
  * Erweiterte JTable.
@@ -100,9 +101,6 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
         }
     }
 
-    /**
-     * @see org.jdesktop.swingx.JXTable#columnPropertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void columnPropertyChange(final PropertyChangeEvent event)
     {
@@ -322,9 +320,6 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
         TableUtils.packColumn(this, columnIndex, margin, 20, max);
     }
 
-    /**
-     * @see org.jdesktop.swingx.JXTable#prepareEditor(javax.swing.table.TableCellEditor, int, int)
-     */
     @Override
     public Component prepareEditor(final TableCellEditor editor, final int row, final int column)
     {
@@ -440,8 +435,11 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
 
         // Pack Actions
         ActionMap map = getActionMap();
-        map.put("pack_all", new UIAction("pack_all")
+        map.put("pack_all", new AbstractAction("pack_all")
         {
+            @Serial
+            private static final long serialVersionUID = -5537831177642642702L;
+
             /**
              * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */

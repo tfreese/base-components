@@ -4,7 +4,6 @@ package de.freese.base.swing.exception;
 import java.awt.Component;
 
 import de.freese.base.core.i18n.Translator;
-import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.Logger;
 
@@ -45,8 +44,6 @@ public class DialogExceptionHandler extends DefaultExceptionHandler
     }
 
     /**
-     * Anzeige über {@link JXErrorPane}.
-     *
      * @param parentComponent {@link Component}
      * @param message String
      * @param throwable {@link Throwable}

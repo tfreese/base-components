@@ -28,7 +28,8 @@ public class ColumnControlIcon implements Icon, UIResource
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JLabel label = new JLabel(new ColumnControlIcon());
         frame.getContentPane().add(BorderLayout.CENTER, label);
-        frame.pack();
+        frame.setSize(300, 300);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
