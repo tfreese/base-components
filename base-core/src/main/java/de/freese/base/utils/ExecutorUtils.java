@@ -14,10 +14,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import de.freese.base.core.concurrent.SimpleThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.freese.base.core.concurrent.SimpleThreadFactory;
 
 /**
  * @author Thomas Freese
@@ -62,7 +61,7 @@ public final class ExecutorUtils
      * @param coreSize int
      * @param maxSize int
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
-     *            other value will lead to a SynchronousQueue instance.
+     * other value will lead to a SynchronousQueue instance.
      * @param keepAliveSeconds int
      *
      * @return {@link ExecutorService}
@@ -78,11 +77,11 @@ public final class ExecutorUtils
      * @param coreSize int
      * @param maxSize int
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
-     *            other value will lead to a SynchronousQueue instance.
+     * other value will lead to a SynchronousQueue instance.
      * @param keepAliveSeconds int
      * @param rejectedExecutionHandler {@link RejectedExecutionHandler}
      * @param allowCoreThreadTimeOut boolean If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out
-     *            waiting for work.
+     * waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      *
      * @return {@link ExecutorService}
@@ -91,7 +90,7 @@ public final class ExecutorUtils
                                                    final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler,
                                                    final boolean allowCoreThreadTimeOut, final boolean exposeUnconfigurableExecutor)
     {
-        BlockingQueue<Runnable> queue = null;
+        BlockingQueue<Runnable> queue;
 
         if (queueSize > 0)
         {
@@ -209,13 +208,13 @@ public final class ExecutorUtils
                 logger.warn("Timed out while waiting for ExecutorService");
 
                 // Cancel currently executing tasks.
-                for (Runnable remainingTask : executorService.shutdownNow())
-                {
-                    if (remainingTask instanceof Future)
-                    {
-                        ((Future<?>) remainingTask).cancel(true);
-                    }
-                }
+                // @formatter:off
+                executorService.shutdownNow().stream()
+                        .filter(Future.class::isInstance)
+                        .map(Future.class::cast)
+                        .forEach(future -> future.cancel(true))
+                ;
+                // @formatter:on
 
                 // Wait a while for tasks to respond to being cancelled.
                 if (!executorService.awaitTermination(5, TimeUnit.SECONDS))
