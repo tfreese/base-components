@@ -62,8 +62,6 @@
 
         <!-- runtime scope -->
         <!-- provided scope -->
-
-
         <!-- test scope -->
         <dependency>
             <groupId>com.h2database</groupId>

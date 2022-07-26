@@ -15,33 +15,15 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Common Classes for the Security Layer.</description>
 
-    <!--build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <release combine.self="override"></release>
-                        <compilerArgs>
-                            <arg>- -add-exports</arg>
-                            <arg>java.base/sun.security.x509=ALL-UNNAMED</arg>
-                        </compilerArgs>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build-->
-
     <dependencies>
         <!-- compile scope -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpg-jdk15on</artifactId>
+            <artifactId>bcpg-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcmail-jdk15on</artifactId>
+            <artifactId>bcmail-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
