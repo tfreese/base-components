@@ -16,15 +16,15 @@ public class ThrottleInputStream extends InputStream
     /**
      *
      */
-    private long bytesRead;
-    /**
-     *
-     */
     private final InputStream inputStream;
     /**
      *
      */
     private final Throttle throttle;
+    /**
+     *
+     */
+    private long bytesRead;
     /**
      *
      */
@@ -105,50 +105,6 @@ public class ThrottleInputStream extends InputStream
     }
 
     /**
-     * @see java.io.InputStream#read(byte[])
-     */
-    @Override
-    public int read(final byte[] b) throws IOException
-    {
-        throttle(b.length);
-
-        int readLen = this.inputStream.read(b);
-
-        if (readLen != -1)
-        {
-            this.bytesRead += readLen;
-        }
-
-        return readLen;
-    }
-
-    /**
-     * @see java.io.InputStream#read(byte[], int, int)
-     */
-    @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException
-    {
-        throttle(len);
-
-        int readLen = this.inputStream.read(b, off, len);
-
-        if (readLen != -1)
-        {
-            this.bytesRead += readLen;
-        }
-
-        return readLen;
-    }
-
-    /**
-     * @param permits int
-     */
-    protected void throttle(final int permits)
-    {
-        this.totalSleepTimeNanos += this.throttle.acquireUnchecked(permits);
-    }
-
-    /**
      * @see java.lang.Object#toString()
      */
     @Override
@@ -163,5 +119,13 @@ public class ThrottleInputStream extends InputStream
         sb.append("]");
 
         return sb.toString();
+    }
+
+    /**
+     * @param permits int
+     */
+    protected void throttle(final int permits)
+    {
+        this.totalSleepTimeNanos += this.throttle.acquireUnchecked(permits);
     }
 }

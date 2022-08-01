@@ -114,15 +114,6 @@ public class ThrottleOutputStream extends OutputStream
     }
 
     /**
-     * @see java.io.OutputStream#write(byte[])
-     */
-    @Override
-    public void write(final byte[] b) throws IOException
-    {
-        write(b, 0, b.length);
-    }
-
-    /**
      * @see java.io.OutputStream#write(byte[], int, int)
      */
     @Override

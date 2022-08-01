@@ -12,17 +12,13 @@ import java.util.concurrent.TimeUnit;
 public class SleepThrottledInputStream extends InputStream
 {
     /**
-    *
-    */
+     *
+     */
     private static final double ONE_SECOND_NANOS = 1_000_000_000.0D;
     /**
      *
      */
-    private static final long SLEEP_DURATION_MS = 30;
-    /**
-     *
-     */
-    private long bytesRead;
+    private static final long SLEEP_DURATION_MS = 10;
     /**
      *
      */
@@ -35,6 +31,10 @@ public class SleepThrottledInputStream extends InputStream
      *
      */
     private final long startTime = System.nanoTime();
+    /**
+     *
+     */
+    private long bytesRead;
     /**
      *
      */
@@ -138,39 +138,20 @@ public class SleepThrottledInputStream extends InputStream
     }
 
     /**
-     * @see java.io.InputStream#read(byte[])
+     * @see java.lang.Object#toString()
      */
     @Override
-    public int read(final byte[] b) throws IOException
+    public String toString()
     {
-        throttle();
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName()).append(" [");
+        sb.append("bytesRead=").append(getTotalBytesRead());
+        sb.append(", maxBytesPerSec=").append(this.maxBytesPerSec);
+        sb.append(", bytesPerSec=").append(getBytesPerSec());
+        sb.append(", totalSleepTimeMillis=").append(getTotalSleepTimeMillis());
+        sb.append("]");
 
-        int readLen = this.inputStream.read(b);
-
-        if (readLen != -1)
-        {
-            this.bytesRead += readLen;
-        }
-
-        return readLen;
-    }
-
-    /**
-     * @see java.io.InputStream#read(byte[], int, int)
-     */
-    @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException
-    {
-        throttle();
-
-        int readLen = this.inputStream.read(b, off, len);
-
-        if (readLen != -1)
-        {
-            this.bytesRead += readLen;
-        }
-
-        return readLen;
+        return sb.toString();
     }
 
     /**
@@ -190,22 +171,5 @@ public class SleepThrottledInputStream extends InputStream
                 throw new IOException("Thread interrupted", ex);
             }
         }
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("bytesRead=").append(getTotalBytesRead());
-        sb.append(", maxBytesPerSec=").append(this.maxBytesPerSec);
-        sb.append(", bytesPerSec=").append(getBytesPerSec());
-        sb.append(", totalSleepTimeMillis=").append(getTotalSleepTimeMillis());
-        sb.append("]");
-
-        return sb.toString();
     }
 }

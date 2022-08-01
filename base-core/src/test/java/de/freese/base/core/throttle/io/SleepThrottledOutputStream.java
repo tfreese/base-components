@@ -18,7 +18,7 @@ public class SleepThrottledOutputStream extends OutputStream
     /**
      *
      */
-    private static final long SLEEP_DURATION_MS = 30;
+    private static final long SLEEP_DURATION_MS = 10;
     /**
      *
      */
@@ -128,7 +128,6 @@ public class SleepThrottledOutputStream extends OutputStream
         {
             try
             {
-                // Thread.sleep(SLEEP_DURATION_MS);
                 TimeUnit.MILLISECONDS.sleep(SLEEP_DURATION_MS);
                 this.totalSleepTimeMillis += SLEEP_DURATION_MS;
             }
@@ -155,15 +154,6 @@ public class SleepThrottledOutputStream extends OutputStream
         sb.append("]");
 
         return sb.toString();
-    }
-
-    /**
-     * @see java.io.OutputStream#write(byte[])
-     */
-    @Override
-    public void write(final byte[] b) throws IOException
-    {
-        write(b, 0, b.length);
     }
 
     /**

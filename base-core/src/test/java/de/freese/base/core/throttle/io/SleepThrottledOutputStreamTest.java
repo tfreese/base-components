@@ -22,7 +22,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class SleepThrottledOutputStreamTest extends AbstractIoTest
 {
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testPermits3000() throws IOException
@@ -31,7 +31,7 @@ class SleepThrottledOutputStreamTest extends AbstractIoTest
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testPermits4000() throws IOException
@@ -40,7 +40,7 @@ class SleepThrottledOutputStreamTest extends AbstractIoTest
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testPermits5000() throws IOException
@@ -51,7 +51,7 @@ class SleepThrottledOutputStreamTest extends AbstractIoTest
     /**
      * @param permits int
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private void doTest(final int permits) throws IOException
     {

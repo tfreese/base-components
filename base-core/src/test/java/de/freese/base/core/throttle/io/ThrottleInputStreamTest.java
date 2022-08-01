@@ -46,7 +46,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -59,7 +59,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -72,7 +72,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -85,7 +85,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
      * @param throttleFunction {@link Function}
      * @param permits int
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private void doTest(final Function<Integer, Throttle> throttleFunction, final int permits) throws IOException
     {
