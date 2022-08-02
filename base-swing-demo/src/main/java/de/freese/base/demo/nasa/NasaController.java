@@ -119,7 +119,7 @@ public class NasaController extends AbstractController
     /**
      * @return {@link URL}
      *
-     * @throws MalformedURLException Falls was schief geht.
+     * @throws MalformedURLException Falls was schiefgeht.
      */
     public URL getNextURL() throws MalformedURLException
     {
@@ -148,7 +148,7 @@ public class NasaController extends AbstractController
     /**
      * @return {@link URL}
      *
-     * @throws MalformedURLException Falls was schief geht.
+     * @throws MalformedURLException Falls was schiefgeht.
      */
     public URL getPreviousURL() throws MalformedURLException
     {
@@ -231,7 +231,7 @@ public class NasaController extends AbstractController
      *
      * @return {@link BufferedImage}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public BufferedImage loadImage(final URL url, final IIOReadProgressListener listener) throws Exception
     {
@@ -347,7 +347,7 @@ public class NasaController extends AbstractController
      *
      * @return {@link URL}
      *
-     * @throws MalformedURLException Falls was schief geht.
+     * @throws MalformedURLException Falls was schiefgeht.
      */
     protected URL generateUrl() throws MalformedURLException
     {

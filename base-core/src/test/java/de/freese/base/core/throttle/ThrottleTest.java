@@ -71,7 +71,7 @@ class ThrottleTest
      *
      * @return long
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     private static long measureTotalTimeMillis(final Throttle throttle, int permits) throws InterruptedException
     {
@@ -94,7 +94,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -111,7 +111,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -130,7 +130,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testAcquireDelayDuration() throws InterruptedException
@@ -150,7 +150,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testAcquireParameterValidation() throws InterruptedException
@@ -216,7 +216,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -235,7 +235,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -255,7 +255,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -271,7 +271,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testDoubleMinValueCanAcquireExactlyOnce() throws InterruptedException
@@ -286,7 +286,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testIllegalConstructorArgs() throws InterruptedException
@@ -355,7 +355,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testImmediateTryAcquire() throws InterruptedException
@@ -368,7 +368,7 @@ class ThrottleTest
     /**
      * Dieser Test schlägt fehl, solange die Methode {@link GoogleThrottle#sleepUninterruptibly} true ist.
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testInterruptUnchecked() throws InterruptedException
@@ -425,7 +425,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -443,7 +443,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
@@ -533,7 +533,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testTryAcquireNegative() throws InterruptedException
@@ -549,7 +549,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testTryAcquireNoWaitAllowed() throws InterruptedException
@@ -564,7 +564,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testTryAcquireOverflow() throws InterruptedException
@@ -577,7 +577,7 @@ class ThrottleTest
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testTryAcquireSomeWaitAllowed() throws InterruptedException
@@ -595,7 +595,7 @@ class ThrottleTest
      * @param name String
      * @param throttleFunction {@link Function}
      *
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")

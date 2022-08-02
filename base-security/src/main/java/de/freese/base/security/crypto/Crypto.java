@@ -18,7 +18,7 @@ public interface Crypto
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     byte[] decrypt(byte[] bytes) throws Exception;
 
@@ -28,7 +28,7 @@ public interface Crypto
      * @param in {@link InputStream}
      * @param out {@link OutputStream}; Entschlüsselt
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void decrypt(InputStream in, OutputStream out) throws Exception;
 
@@ -39,7 +39,7 @@ public interface Crypto
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     byte[] digest(byte[] bytes) throws Exception;
 
@@ -50,7 +50,7 @@ public interface Crypto
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     byte[] digest(final InputStream in) throws Exception;
 
@@ -61,7 +61,7 @@ public interface Crypto
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     byte[] encrypt(byte[] bytes) throws Exception;
 
@@ -71,7 +71,7 @@ public interface Crypto
      * @param in {@link InputStream}
      * @param out {@link OutputStream}; Verschlüsselt
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void encrypt(InputStream in, OutputStream out) throws Exception;
 
@@ -81,7 +81,7 @@ public interface Crypto
      * @param in {@link InputStream}, Verschlüsselt
      * @param out {@link OutputStream};
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void sign(InputStream in, OutputStream out) throws Exception;
 
@@ -93,7 +93,7 @@ public interface Crypto
      *
      * @return boolean
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     boolean verify(InputStream in, InputStream signIn) throws Exception;
 }

@@ -257,7 +257,7 @@ public class CommonsFTPWrapper implements FTPWrapper
      *
      * @return String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected String checkReply() throws Exception
     {

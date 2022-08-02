@@ -123,11 +123,11 @@ public class ExcelSheet implements Serializable
     /**
      * Komplettes Einlesen des selektierten Worksheets des Excel Interfaces.
      *
-     * @param excel {@link IExcelImport}
+     * @param excel {@link ExcelImport}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
-    public void readCurrentSheet(final IExcelImport excel) throws Exception
+    public void readCurrentSheet(final ExcelImport excel) throws Exception
     {
         int rows = excel.getNumRows();
         int cols = excel.getNumColumns();

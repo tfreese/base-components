@@ -39,29 +39,13 @@ public class ExcelPanel extends JPanel
     }
 
     /**
-     * Hinzufuegen eines Excelsheets als Tab.
+     * Hinzufügen eines Excelsheets als Tab.
      *
      * @param excelSheet {@link ExcelSheet}
      */
     public void addExcelSheet(final ExcelSheet excelSheet)
     {
         getJTabbedPane().addTab(excelSheet.getSheetName(), null, new ExcelSheetPanel(excelSheet), null);
-    }
-
-    /**
-     * Liefert die TabbedPane der Excelsheets.
-     *
-     * @return {@link JTabbedPane}
-     */
-    private JTabbedPane getJTabbedPane()
-    {
-        if (this.tabbedPane == null)
-        {
-            this.tabbedPane = new JTabbedPane();
-            this.tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
-        }
-
-        return this.tabbedPane;
     }
 
     /**
@@ -76,23 +60,6 @@ public class ExcelPanel extends JPanel
         String range = ExcelToolkit.getRange(table);
 
         return range;
-    }
-
-    /**
-     * This method initializes this
-     */
-    private void initialize()
-    {
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.fill = GridBagConstraints.BOTH;
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        setLayout(new GridBagLayout());
-        this.setSize(800, 600);
-        setPreferredSize(new Dimension(800, 600));
-        this.add(getJTabbedPane(), gridBagConstraints);
     }
 
     /**
@@ -116,5 +83,38 @@ public class ExcelPanel extends JPanel
                 break;
             }
         }
+    }
+
+    /**
+     * Liefert die TabbedPane der Excelsheets.
+     *
+     * @return {@link JTabbedPane}
+     */
+    private JTabbedPane getJTabbedPane()
+    {
+        if (this.tabbedPane == null)
+        {
+            this.tabbedPane = new JTabbedPane();
+            this.tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
+        }
+
+        return this.tabbedPane;
+    }
+
+    /**
+     * This method initializes this
+     */
+    private void initialize()
+    {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        setLayout(new GridBagLayout());
+        this.setSize(800, 600);
+        setPreferredSize(new Dimension(800, 600));
+        this.add(getJTabbedPane(), gridBagConstraints);
     }
 }

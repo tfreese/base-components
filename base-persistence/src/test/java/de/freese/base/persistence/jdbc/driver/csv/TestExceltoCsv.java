@@ -34,7 +34,7 @@ class TestExceltoCsv
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     static void afterAll() throws Exception
@@ -43,7 +43,7 @@ class TestExceltoCsv
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testExcelToCsv01() throws Exception
@@ -78,7 +78,7 @@ class TestExceltoCsv
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testExcelToCsv02() throws Exception

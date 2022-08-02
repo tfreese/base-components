@@ -114,11 +114,109 @@ class SSLEngineBuffer
     }
 
     /**
+     * @return int
+     *
+     * @throws IOException Falls was schiefgeht.
+     */
+    int flushNetworkOutbound() throws IOException
+    {
+        return send(this.socketChannel, this.networkOutboundBuffer);
+    }
+
+    /**
+     * @param channel {@link SocketChannel}
+     * @param buffer {@link ByteBuffer}
+     *
+     * @return int
+     *
+     * @throws IOException Falls was schiefgeht.
+     */
+    int send(final SocketChannel channel, final ByteBuffer buffer) throws IOException
+    {
+        int totalWritten = 0;
+
+        while (buffer.hasRemaining())
+        {
+            int written = channel.write(buffer);
+
+            if (written == 0)
+            {
+                break;
+            }
+            else if (written < 0)
+            {
+                return (totalWritten == 0) ? written : totalWritten;
+            }
+
+            totalWritten += written;
+        }
+
+        getLogger().debug("sent: {} out to socket", totalWritten);
+
+        return totalWritten;
+    }
+
+    /**
      * @param applicationInputBuffer {@link ByteBuffer}
      *
      * @return int
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     */
+    int unwrap(final ByteBuffer applicationInputBuffer) throws IOException
+    {
+        if (applicationInputBuffer.capacity() < this.minimumApplicationBufferSize)
+        {
+            throw new IllegalArgumentException("Application buffer size must be at least: " + this.minimumApplicationBufferSize);
+        }
+
+        if (this.unwrapBuffer.position() != 0)
+        {
+            this.unwrapBuffer.flip();
+
+            while (this.unwrapBuffer.hasRemaining() && applicationInputBuffer.hasRemaining())
+            {
+                applicationInputBuffer.put(this.unwrapBuffer.get());
+            }
+
+            this.unwrapBuffer.compact();
+        }
+
+        int totalUnwrapped = 0;
+        int unwrapped = 0;
+        int wrapped = 0;
+
+        do
+        {
+            totalUnwrapped += unwrapped = doUnwrap(applicationInputBuffer);
+            wrapped = doWrap(this.wrapBuffer);
+        }
+        while ((unwrapped > 0) || ((wrapped > 0) && (this.networkOutboundBuffer.hasRemaining() && this.networkInboundBuffer.hasRemaining())));
+
+        return totalUnwrapped;
+    }
+
+    /**
+     * @param applicationOutboundBuffer {@link ByteBuffer}
+     *
+     * @return int
+     *
+     * @throws IOException Falls was schiefgeht.
+     */
+    int wrap(final ByteBuffer applicationOutboundBuffer) throws IOException
+    {
+        int wrapped = doWrap(applicationOutboundBuffer);
+        doUnwrap(this.unwrapBuffer);
+
+        return wrapped;
+    }
+
+    /**
+     * @param applicationInputBuffer {@link ByteBuffer}
+     *
+     * @return int
+     *
+     * @throws IOException Falls was schiefgeht.
      */
     private int doUnwrap(final ByteBuffer applicationInputBuffer) throws IOException
     {
@@ -226,7 +324,7 @@ class SSLEngineBuffer
      *
      * @return int
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @SuppressWarnings("incomplete-switch")
     private int doWrap(final ByteBuffer applicationOutboundBuffer) throws IOException
@@ -326,16 +424,6 @@ class SSLEngineBuffer
     }
 
     /**
-     * @return int
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    int flushNetworkOutbound() throws IOException
-    {
-        return send(this.socketChannel, this.networkOutboundBuffer);
-    }
-
-    /**
      * @return {@link Logger}
      */
     private Logger getLogger()
@@ -359,93 +447,5 @@ class SSLEngineBuffer
 
             this.executor.execute(runnable);
         }
-    }
-
-    /**
-     * @param channel {@link SocketChannel}
-     * @param buffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    int send(final SocketChannel channel, final ByteBuffer buffer) throws IOException
-    {
-        int totalWritten = 0;
-
-        while (buffer.hasRemaining())
-        {
-            int written = channel.write(buffer);
-
-            if (written == 0)
-            {
-                break;
-            }
-            else if (written < 0)
-            {
-                return (totalWritten == 0) ? written : totalWritten;
-            }
-
-            totalWritten += written;
-        }
-
-        getLogger().debug("sent: {} out to socket", totalWritten);
-
-        return totalWritten;
-    }
-
-    /**
-     * @param applicationInputBuffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    int unwrap(final ByteBuffer applicationInputBuffer) throws IOException
-    {
-        if (applicationInputBuffer.capacity() < this.minimumApplicationBufferSize)
-        {
-            throw new IllegalArgumentException("Application buffer size must be at least: " + this.minimumApplicationBufferSize);
-        }
-
-        if (this.unwrapBuffer.position() != 0)
-        {
-            this.unwrapBuffer.flip();
-
-            while (this.unwrapBuffer.hasRemaining() && applicationInputBuffer.hasRemaining())
-            {
-                applicationInputBuffer.put(this.unwrapBuffer.get());
-            }
-
-            this.unwrapBuffer.compact();
-        }
-
-        int totalUnwrapped = 0;
-        int unwrapped = 0;
-        int wrapped = 0;
-
-        do
-        {
-            totalUnwrapped += unwrapped = doUnwrap(applicationInputBuffer);
-            wrapped = doWrap(this.wrapBuffer);
-        }
-        while ((unwrapped > 0) || ((wrapped > 0) && (this.networkOutboundBuffer.hasRemaining() && this.networkInboundBuffer.hasRemaining())));
-
-        return totalUnwrapped;
-    }
-
-    /**
-     * @param applicationOutboundBuffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    int wrap(final ByteBuffer applicationOutboundBuffer) throws IOException
-    {
-        int wrapped = doWrap(applicationOutboundBuffer);
-        doUnwrap(this.unwrapBuffer);
-
-        return wrapped;
     }
 }

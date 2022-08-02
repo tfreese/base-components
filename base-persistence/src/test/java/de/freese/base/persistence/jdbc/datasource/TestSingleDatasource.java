@@ -46,7 +46,7 @@ class TestSingleDatasource
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSingleDataSource() throws Exception

@@ -15,27 +15,27 @@ public class AuditInfo implements Serializable
      */
     private static final long serialVersionUID = 146275334726328864L;
     /**
-     * Wann wurde das Objekt erstellt.
+     * Wann wurde das Objekt erstellt ?
      */
     private Date erstelltAm;
     /**
-     * Wer hat das Objekt erstellt.
+     * Wer hat das Objekt erstellt ?
      */
     private String erstelltVon = "";
     /**
-     * Wann wurde das Objekt geändert.
+     * Wann wurde das Objekt geändert ?
      */
     private Date geaendertAm;
     /**
-     * Wer hat das Objekt geändert.
+     * Wer hat das Objekt geändert ?
      */
     private String geaendertVon = "";
     /**
-     * Bis wann ist das Objekt gültig.
+     * Bis wann ist das Objekt gültig ?
      */
     private Date gueltigBis;
     /**
-     * Ab wann ist das Objekt gültig.
+     * Ab wann ist das Objekt gültig ?
      */
     private Date gueltigVon;
 

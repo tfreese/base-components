@@ -46,7 +46,7 @@ public final class XmlStorage
      *
      * @return Object
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @SuppressWarnings("unchecked")
     public static <T> T loadBean(final InputStream inputStream) throws IOException
@@ -77,7 +77,7 @@ public final class XmlStorage
      *
      * @return {@link ByteArrayOutputStream}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static ByteArrayOutputStream saveBean(final Object bean) throws IOException
     {
@@ -107,7 +107,7 @@ public final class XmlStorage
      * @param outputStream {@link OutputStream}
      * @param bean Object
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void saveBean(final OutputStream outputStream, final Object bean) throws IOException
     {

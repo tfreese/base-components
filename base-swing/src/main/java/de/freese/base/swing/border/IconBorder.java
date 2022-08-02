@@ -216,7 +216,7 @@ public class IconBorder implements Border, Serializable
      *
      * @param position int
      *
-     * @throws IllegalArgumentException Falls was schief geht.
+     * @throws IllegalArgumentException Falls was schiefgeht.
      */
     private void validatePosition(final int position)
     {

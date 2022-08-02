@@ -50,7 +50,7 @@ class TestCrypto
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testAsymetricRsa() throws Exception
@@ -74,7 +74,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testAsymetricRsaBc() throws Exception
@@ -100,7 +100,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSymetricAesCbc() throws Exception
@@ -121,7 +121,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSymetricAesCbcBC() throws Exception
@@ -148,7 +148,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSymetricAesGcm() throws Exception
@@ -168,7 +168,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSymetricAesGcmPlain() throws Exception
@@ -208,7 +208,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSymetricBlowfish() throws Exception
@@ -228,7 +228,7 @@ class TestCrypto
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSymetricDes() throws Exception
@@ -250,7 +250,7 @@ class TestCrypto
     /**
      * @param crypto {@link Crypto}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void testCodec(final Crypto crypto) throws Exception
     {
@@ -292,7 +292,7 @@ class TestCrypto
     /**
      * @param crypto {@link Crypto}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void testSignAndVerify(final Crypto crypto) throws Exception
     {

@@ -26,7 +26,7 @@ public class LayoutPreviewFrame extends JFrame
      *
      * @param layoutElement {@link AbstractLayoutElement}
      *
-     * @throws HeadlessException Falls was schief geht.
+     * @throws HeadlessException Falls was schiefgeht.
      */
     public LayoutPreviewFrame(final AbstractLayoutElement layoutElement) throws HeadlessException
     {

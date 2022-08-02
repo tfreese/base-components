@@ -21,7 +21,7 @@ public class LineInputStream extends FilterInputStream
 
     /**
      * Creates a new {@link LineInputStream} object.
-     * 
+     *
      * @param in {@link InputStream}
      */
     public LineInputStream(final InputStream in)
@@ -35,9 +35,10 @@ public class LineInputStream extends FilterInputStream
      * <p>
      * This class is similar to the deprecated <code>DataInputStream.readLine()</code>
      * </p>
-     * 
+     *
      * @return String
-     * @throws IOException Falls was schief geht.
+     *
+     * @throws IOException Falls was schiefgeht.
      */
     public String readLine() throws IOException
     {

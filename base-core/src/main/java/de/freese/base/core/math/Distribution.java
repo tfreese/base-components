@@ -113,7 +113,7 @@ public final class Distribution
     }
 
     /**
-     * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente ohne Nachkommastellen<br>
+     * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente ohne Nachkommastellen.<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
      *
      * @param faktoren Double[]

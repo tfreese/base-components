@@ -120,7 +120,7 @@ public class SleepThrottledOutputStream extends OutputStream
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void throttle() throws IOException
     {

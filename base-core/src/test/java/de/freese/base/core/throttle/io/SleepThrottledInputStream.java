@@ -155,7 +155,7 @@ public class SleepThrottledInputStream extends InputStream
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void throttle() throws IOException
     {

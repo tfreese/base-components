@@ -38,7 +38,7 @@ class TestCsvDriver
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     static void afterAll() throws Exception
@@ -47,7 +47,7 @@ class TestCsvDriver
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
@@ -58,7 +58,7 @@ class TestCsvDriver
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCsvBackedTextTables() throws Exception
@@ -125,7 +125,7 @@ class TestCsvDriver
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCsvDriver01() throws Exception
@@ -163,7 +163,7 @@ class TestCsvDriver
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCsvDriver02() throws Exception

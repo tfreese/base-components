@@ -616,7 +616,7 @@ public final class ExtMath
     }
 
     /**
-     * Liefert den abgerundeten Integer Wert des Double Wertes.<br>
+     * Liefert den abgerundeten Integer Wert des Double-Wertes.<br>
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
      *
      * @param value double
@@ -651,7 +651,7 @@ public final class ExtMath
     }
 
     /**
-     * Liefert den aufgerundeten Integer Wert des Double Wertes.<br>
+     * Liefert den aufgerundeten Integer Wert des Double-Wertes.<br>
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
      *
      * @param value double

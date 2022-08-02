@@ -92,7 +92,7 @@ public final class GuiUtils
      *
      * @return {@link DataSource}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static DataSource createScreenShot() throws Exception
     {
@@ -119,7 +119,7 @@ public final class GuiUtils
      *
      * @return String der Dateiname des ScreenShots
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static DataSource createScreenShot(final Component c) throws Exception
     {
@@ -155,7 +155,7 @@ public final class GuiUtils
      *
      * @return {@link DataSource}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws Exception
     {

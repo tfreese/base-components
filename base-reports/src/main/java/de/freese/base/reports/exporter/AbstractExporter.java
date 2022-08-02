@@ -4,16 +4,15 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import org.springframework.core.io.ResourceLoader;
-
 import de.freese.base.core.progress.ProgressCallback;
+import org.springframework.core.io.ResourceLoader;
 
 /**
  * Basisklasse eines CSV-Exporters.
  *
  * @author Thomas Freese
  */
-public abstract class AbstractExporter implements IExporter
+public abstract class AbstractExporter implements Exporter
 {
     /**
      * Zum laden von Icons, Dateien etc...
@@ -21,7 +20,7 @@ public abstract class AbstractExporter implements IExporter
     private ResourceLoader resourceLoader;
 
     /**
-     * @see de.freese.base.reports.exporter.IExporter#export(java.lang.String, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
+     * @see Exporter#export(java.lang.String, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
      */
     @Override
     public void export(final String fileName, final ProgressCallback progressCallback, final Object model) throws Exception
@@ -33,6 +32,15 @@ public abstract class AbstractExporter implements IExporter
     }
 
     /**
+     * @see Exporter#setResourceLoader(org.springframework.core.io.ResourceLoader)
+     */
+    @Override
+    public void setResourceLoader(final ResourceLoader resourceLoader)
+    {
+        this.resourceLoader = resourceLoader;
+    }
+
+    /**
      * Zum laden von Icons, Dateien etc...
      *
      * @return {@link ResourceLoader}
@@ -40,14 +48,5 @@ public abstract class AbstractExporter implements IExporter
     protected ResourceLoader getResourceLoader()
     {
         return this.resourceLoader;
-    }
-
-    /**
-     * @see de.freese.base.reports.exporter.IExporter#setResourceLoader(org.springframework.core.io.ResourceLoader)
-     */
-    @Override
-    public void setResourceLoader(final ResourceLoader resourceLoader)
-    {
-        this.resourceLoader = resourceLoader;
     }
 }

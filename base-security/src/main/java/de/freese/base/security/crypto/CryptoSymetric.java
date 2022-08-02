@@ -25,8 +25,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class CryptoSymetric extends AbstractCrypto
 {
     /**
-    *
-    */
+     *
+     */
     private Key key;
 
     /**
@@ -34,11 +34,46 @@ public class CryptoSymetric extends AbstractCrypto
      *
      * @param cryptoConfig {@link CryptoConfig}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     CryptoSymetric(final CryptoConfig<?> cryptoConfig) throws Exception
     {
         super(cryptoConfig);
+    }
+
+    /**
+     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
+     *
+     * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
+     */
+    @Override
+    public void sign(final InputStream in, final OutputStream out) throws Exception
+    {
+        byte[] digest = digest(in);
+
+        out.write(digest);
+    }
+
+    /**
+     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
+     *
+     * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
+     */
+    @Override
+    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
+    {
+        byte[] digest = digest(in);
+        byte[] sig = signIn.readAllBytes();
+
+        return Arrays.equals(digest, sig);
+    }
+
+    /**
+     * @param key {@link Key}
+     */
+    void setKey(final Key key)
+    {
+        this.key = key;
     }
 
     /**
@@ -124,40 +159,5 @@ public class CryptoSymetric extends AbstractCrypto
     protected Key getKey()
     {
         return this.key;
-    }
-
-    /**
-     * @param key {@link Key}
-     */
-    void setKey(final Key key)
-    {
-        this.key = key;
-    }
-
-    /**
-     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
-     *
-     * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
-     */
-    @Override
-    public void sign(final InputStream in, final OutputStream out) throws Exception
-    {
-        byte[] digest = digest(in);
-
-        out.write(digest);
-    }
-
-    /**
-     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
-     *
-     * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
-     */
-    @Override
-    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
-    {
-        byte[] digest = digest(in);
-        byte[] sig = signIn.readAllBytes();
-
-        return Arrays.equals(digest, sig);
     }
 }

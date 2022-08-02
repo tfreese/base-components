@@ -84,7 +84,7 @@ class TestBlobStore
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
@@ -133,7 +133,7 @@ class TestBlobStore
     /**
      * @return {@link Stream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static Stream<Arguments> createArgumentes() throws Exception
     {
@@ -167,7 +167,7 @@ class TestBlobStore
      * @param name String
      * @param blobStore {@link BlobStore}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")

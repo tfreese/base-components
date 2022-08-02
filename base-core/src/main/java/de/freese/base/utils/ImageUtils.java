@@ -399,7 +399,7 @@ public final class ImageUtils
      *
      * @return The byte[] that is the encoded image.
      *
-     * @throws IOException Falls was schief geht
+     * @throws IOException Falls was schiefgeht
      */
     public static byte[] encode(final Image image, final ImageFormat format) throws IOException
     {
@@ -896,7 +896,7 @@ public final class ImageUtils
      * @param format {@link ImageFormat}
      * @param outputStream {@link OutputStream}
      *
-     * @throws IOException Falls was schief geht
+     * @throws IOException Falls was schiefgeht
      */
     public static void writeImage(final BufferedImage image, final ImageFormat format, final OutputStream outputStream) throws IOException
     {
@@ -910,7 +910,7 @@ public final class ImageUtils
      * @param format {@link ImageFormat}
      * @param outputStream {@link OutputStream}
      *
-     * @throws IOException Falls was schief geht
+     * @throws IOException Falls was schiefgeht
      */
     public static void writeImage(final Image image, final ImageFormat format, final OutputStream outputStream) throws IOException
     {

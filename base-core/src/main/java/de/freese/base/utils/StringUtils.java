@@ -273,7 +273,7 @@ public final class StringUtils
      *
      * @return String, not null
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static String hexStringToUnicode(final CharSequence cs) throws Exception
     {

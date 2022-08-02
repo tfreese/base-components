@@ -18,16 +18,16 @@ import javax.imageio.ImageIO;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractLayoutElement implements ILayoutElement
+public abstract class AbstractLayoutElement implements LayoutElement
 {
     /**
      *
      */
-    private Color background = Color.WHITE;
+    private final List<LayoutElement> elements = new ArrayList<>(20);
     /**
      *
      */
-    private final List<ILayoutElement> elements = new ArrayList<>(20);
+    private Color background = Color.WHITE;
     /**
      *
      */
@@ -51,7 +51,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     /**
      *
      */
-    private ILayoutElement parent;
+    private LayoutElement parent;
     /**
      *
      */
@@ -86,10 +86,10 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#addElement(de.freese.base.reports.layout.ILayoutElement)
+     * @see LayoutElement#addElement(LayoutElement)
      */
     @Override
-    public void addElement(final ILayoutElement element)
+    public void addElement(final LayoutElement element)
     {
         if (!this.elements.contains(element))
         {
@@ -121,7 +121,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getBackground()
+     * @see LayoutElement#getBackground()
      */
     @Override
     public Color getBackground()
@@ -130,16 +130,16 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getElementAt(int)
+     * @see LayoutElement#getElementAt(int)
      */
     @Override
-    public ILayoutElement getElementAt(final int index)
+    public LayoutElement getElementAt(final int index)
     {
         return this.elements.get(index);
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getElementCount()
+     * @see LayoutElement#getElementCount()
      */
     @Override
     public int getElementCount()
@@ -148,7 +148,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getFont()
+     * @see LayoutElement#getFont()
      */
     @Override
     public Font getFont()
@@ -157,7 +157,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getForeground()
+     * @see LayoutElement#getForeground()
      */
     @Override
     public Color getForeground()
@@ -166,7 +166,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getHeight()
+     * @see LayoutElement#getHeight()
      */
     @Override
     public float getHeight()
@@ -175,7 +175,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getInsets()
+     * @see LayoutElement#getInsets()
      */
     @Override
     public Insets getInsets()
@@ -184,26 +184,16 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * Name des Elements.
-     *
-     * @return String
-     */
-    protected String getName()
-    {
-        return this.name;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getParent()
+     * @see LayoutElement#getParent()
      */
     @Override
-    public ILayoutElement getParent()
+    public LayoutElement getParent()
     {
         return this.parent;
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getWidth()
+     * @see LayoutElement#getWidth()
      */
     @Override
     public float getWidth()
@@ -212,7 +202,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getX()
+     * @see LayoutElement#getX()
      */
     @Override
     public float getX()
@@ -221,7 +211,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#getY()
+     * @see LayoutElement#getY()
      */
     @Override
     public float getY()
@@ -230,7 +220,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#paint(java.awt.Graphics2D)
+     * @see LayoutElement#paint(java.awt.Graphics2D)
      */
     @Override
     public void paint(final Graphics2D g2d)
@@ -247,6 +237,128 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
+     * @see LayoutElement#removeElement(LayoutElement)
+     */
+    @Override
+    public boolean removeElement(final LayoutElement element)
+    {
+        boolean contains = this.elements.remove(element);
+
+        if (contains)
+        {
+            element.setParent(null);
+        }
+
+        return contains;
+    }
+
+    /**
+     * Speichert das Image als JPG oder PNG.
+     *
+     * @param bufferedImage BufferedImage
+     * @param fileName String
+     * @param type jpg oder png
+     *
+     * @throws Exception Falls was schiefgeht.
+     */
+    public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception
+    {
+        File file = new File(fileName);
+        ImageIO.write(bufferedImage, type, file);
+    }
+
+    /**
+     * @see LayoutElement#setBackground(java.awt.Color)
+     */
+    @Override
+    public void setBackground(final Color color)
+    {
+        this.background = color;
+    }
+
+    /**
+     * @see LayoutElement#setFont(java.awt.Font)
+     */
+    @Override
+    public void setFont(final Font font)
+    {
+        this.font = font;
+    }
+
+    /**
+     * @see LayoutElement#setForeground(java.awt.Color)
+     */
+    @Override
+    public void setForeground(final Color color)
+    {
+        this.foreground = color;
+    }
+
+    /**
+     * @see LayoutElement#setHeight(float)
+     */
+    @Override
+    public void setHeight(final float height)
+    {
+        this.height = height;
+    }
+
+    /**
+     * @see LayoutElement#setInsets(java.awt.Insets)
+     */
+    @Override
+    public void setInsets(final Insets insets)
+    {
+        this.insets = insets;
+    }
+
+    /**
+     * @see LayoutElement#setParent(LayoutElement)
+     */
+    @Override
+    public void setParent(final LayoutElement parent)
+    {
+        this.parent = parent;
+    }
+
+    /**
+     * @see LayoutElement#setWidth(float)
+     */
+    @Override
+    public void setWidth(final float width)
+    {
+        this.width = width;
+    }
+
+    /**
+     * @see LayoutElement#setX(float)
+     */
+    @Override
+    public void setX(final float x)
+    {
+        this.x = x;
+    }
+
+    /**
+     * @see LayoutElement#setY(float)
+     */
+    @Override
+    public void setY(final float y)
+    {
+        this.y = y;
+    }
+
+    /**
+     * Name des Elements.
+     *
+     * @return String
+     */
+    protected String getName()
+    {
+        return this.name;
+    }
+
+    /**
      * Malt die ChildElemente.
      *
      * @param g2d Graphics2D
@@ -255,7 +367,7 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     {
         for (int i = 0; i < getElementCount(); i++)
         {
-            ILayoutElement element = getElementAt(i);
+            LayoutElement element = getElementAt(i);
 
             element.paint(g2d);
         }
@@ -275,82 +387,6 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     }
 
     /**
-     * @see de.freese.base.reports.layout.ILayoutElement#removeElement(de.freese.base.reports.layout.ILayoutElement)
-     */
-    @Override
-    public boolean removeElement(final ILayoutElement element)
-    {
-        boolean contains = this.elements.remove(element);
-
-        if (contains)
-        {
-            element.setParent(null);
-        }
-
-        return contains;
-    }
-
-    /**
-     * Speichert das Image als JPG oder PNG.
-     *
-     * @param bufferedImage BufferedImage
-     * @param fileName String
-     * @param type jpg oder png
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception
-    {
-        File file = new File(fileName);
-        ImageIO.write(bufferedImage, type, file);
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setBackground(java.awt.Color)
-     */
-    @Override
-    public void setBackground(final Color color)
-    {
-        this.background = color;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setFont(java.awt.Font)
-     */
-    @Override
-    public void setFont(final Font font)
-    {
-        this.font = font;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setForeground(java.awt.Color)
-     */
-    @Override
-    public void setForeground(final Color color)
-    {
-        this.foreground = color;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setHeight(float)
-     */
-    @Override
-    public void setHeight(final float height)
-    {
-        this.height = height;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setInsets(java.awt.Insets)
-     */
-    @Override
-    public void setInsets(final Insets insets)
-    {
-        this.insets = insets;
-    }
-
-    /**
      * Name des Elements.
      *
      * @param name String
@@ -358,41 +394,5 @@ public abstract class AbstractLayoutElement implements ILayoutElement
     protected void setName(final String name)
     {
         this.name = name;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setParent(de.freese.base.reports.layout.ILayoutElement)
-     */
-    @Override
-    public void setParent(final ILayoutElement parent)
-    {
-        this.parent = parent;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setWidth(float)
-     */
-    @Override
-    public void setWidth(final float width)
-    {
-        this.width = width;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setX(float)
-     */
-    @Override
-    public void setX(final float x)
-    {
-        this.x = x;
-    }
-
-    /**
-     * @see de.freese.base.reports.layout.ILayoutElement#setY(float)
-     */
-    @Override
-    public void setY(final float y)
-    {
-        this.y = y;
     }
 }

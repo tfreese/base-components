@@ -28,7 +28,7 @@ public final class FileUtils
      *
      * @param path {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void copy(final Path path) throws IOException
     {
@@ -59,7 +59,7 @@ public final class FileUtils
      *
      * @param file {@link File}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void deleteDirectoryRecursive(final File file) throws IOException
     {
@@ -76,7 +76,7 @@ public final class FileUtils
      *
      * @param path {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void deleteDirectoryRecursive(final Path path) throws IOException
     {
@@ -126,7 +126,7 @@ public final class FileUtils
      *
      * @param path {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void rename(final Path path) throws IOException
     {

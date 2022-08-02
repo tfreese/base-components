@@ -31,7 +31,7 @@ public class FileBlobStore extends AbstractBlobStore
      *
      * @param basePath {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public FileBlobStore(final Path basePath) throws IOException
     {

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import com.jcraft.jsch.ChannelExec;
@@ -272,7 +273,7 @@ public class SSHExec
                 {
                     getLogger().debug("wait for response");
 
-                    Thread.sleep(100);
+                    TimeUnit.MILLISECONDS.sleep(100);
                 }
                 catch (Exception ex)
                 {

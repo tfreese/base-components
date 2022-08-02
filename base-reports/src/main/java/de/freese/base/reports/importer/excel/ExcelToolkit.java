@@ -156,7 +156,7 @@ public final class ExcelToolkit
      *
      * @return int
      *
-     * @throws IllegalStateException Falls was schief geht.
+     * @throws IllegalStateException Falls was schiefgeht.
      */
     public static int getRowColumnCount(final String range) throws IllegalStateException
     {

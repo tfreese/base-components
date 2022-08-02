@@ -54,7 +54,7 @@ public class Pop3Protocol extends AbstractProtocol
      * @param propPrefix String
      * @param isSSL boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public Pop3Protocol(final String host, final int port, final Properties props, final String propPrefix, final boolean isSSL) throws IOException
     {
@@ -142,7 +142,7 @@ public class Pop3Protocol extends AbstractProtocol
         {
             if (this.serverSocket != null)
             {
-                // Forgot to logout ?!
+                // Forgot to log out ?!
                 quit();
             }
         }
@@ -159,7 +159,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean dele(final int messageNumber) throws IOException
     {
@@ -175,7 +175,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return int
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized int list(final int messageNumber) throws IOException
     {
@@ -205,7 +205,7 @@ public class Pop3Protocol extends AbstractProtocol
      * @param user String
      * @param password String
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized void login(final String user, final String password) throws IOException
     {
@@ -258,7 +258,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean noop() throws IOException
     {
@@ -272,7 +272,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean quit() throws IOException
     {
@@ -309,7 +309,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return {@link InputStream}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized InputStream retr(final int messageNumber, final int size) throws IOException
     {
@@ -323,7 +323,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean rset() throws IOException
     {
@@ -337,7 +337,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return int[]; 0 = Messages, 1 = Size of Messages
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized int[] stat() throws IOException
     {
@@ -370,7 +370,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return {@link InputStream}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized InputStream top(final int messageNumber, final int n) throws IOException
     {
@@ -386,7 +386,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return String
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized String uidl(final int messageNumber) throws IOException
     {
@@ -414,7 +414,7 @@ public class Pop3Protocol extends AbstractProtocol
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean uidl(final String[] uids) throws IOException
     {

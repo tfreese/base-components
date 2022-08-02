@@ -18,7 +18,7 @@ public interface DeleteService
      * @param object {@link Serializable}
      * @param context {@link SaveContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void delete(Serializable object, SaveContext context) throws Exception;
 
@@ -28,7 +28,7 @@ public interface DeleteService
      * @param toDelete {@link Collection}
      * @param context {@link SaveContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void deleteAll(Collection<? extends Serializable> toDelete, SaveContext context) throws Exception;
 }

@@ -72,6 +72,7 @@ public class SymetricCrypt
 
         return keySpec;
     }
+
     /**
      *
      */
@@ -111,7 +112,7 @@ public class SymetricCrypt
      *
      * @return Entschlüsselter {@link InputStream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public InputStream decrypt(final InputStream input) throws Exception
     {
@@ -147,7 +148,7 @@ public class SymetricCrypt
      *
      * @return Klartext
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public String decrypt(final String input) throws Exception
     {
@@ -170,7 +171,7 @@ public class SymetricCrypt
      *
      * @return Entschlüsselter {@link InputStream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public InputStream encrypt(final InputStream input) throws Exception
     {
@@ -203,7 +204,7 @@ public class SymetricCrypt
      *
      * @return Verschlüsselter String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public String encrypt(final String input) throws Exception
     {
@@ -228,7 +229,7 @@ public class SymetricCrypt
      *
      * @return {@link OutputStream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public OutputStream getCipherOutputStream(final OutputStream output) throws Exception
     {

@@ -34,7 +34,7 @@ public class KeystoreDemo
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -117,7 +117,7 @@ public class KeystoreDemo
              CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher))
         {
             // OutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1 * 1024];
+            byte[] buffer = new byte[1024];
             int numRead = 0;
 
             while ((numRead = in.read(buffer)) >= 0)
@@ -136,7 +136,7 @@ public class KeystoreDemo
      * @param encryptCipher {@link Cipher}
      * @param decryptCipher {@link Cipher}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception
     {

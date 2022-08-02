@@ -46,7 +46,7 @@ public final class DigestUtils
      *
      * @return {@link MessageDigest}
      *
-     * @throws RuntimeException Falls was schief geht.
+     * @throws RuntimeException Falls was schiefgeht.
      */
     public static MessageDigest createMessageDigest(final String algorithm)
     {
@@ -113,7 +113,7 @@ public final class DigestUtils
      *
      * @return byte[]
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static byte[] digest(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
     {
@@ -135,7 +135,7 @@ public final class DigestUtils
      *
      * @return byte[]
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static byte[] digest(final MessageDigest messageDigest, final Path file) throws IOException
     {
@@ -180,7 +180,7 @@ public final class DigestUtils
      *
      * @return String
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static String digestAsHex(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
     {
@@ -195,7 +195,7 @@ public final class DigestUtils
      *
      * @return String
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static String digestAsHex(final MessageDigest messageDigest, final Path file) throws IOException
     {

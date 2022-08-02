@@ -26,37 +26,37 @@ public final class SSLContextFactory
      *
      */
     public static final TrustManager[] X509_TRUST_ALL_MANAGER =
-    {
-            new X509TrustManager()
             {
-                /**
-                 * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
-                 */
-                @Override
-                public void checkClientTrusted(final X509Certificate[] certs, final String authType)
-                {
-                    // Empty
-                }
+                    new X509TrustManager()
+                    {
+                        /**
+                         * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
+                         */
+                        @Override
+                        public void checkClientTrusted(final X509Certificate[] certs, final String authType)
+                        {
+                            // Empty
+                        }
 
-                /**
-                 * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
-                 */
-                @Override
-                public void checkServerTrusted(final X509Certificate[] certs, final String authType)
-                {
-                    // Empty
-                }
+                        /**
+                         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
+                         */
+                        @Override
+                        public void checkServerTrusted(final X509Certificate[] certs, final String authType)
+                        {
+                            // Empty
+                        }
 
-                /**
-                 * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
-                 */
-                @Override
-                public X509Certificate[] getAcceptedIssuers()
-                {
-                    return null;
-                }
-            }
-    };
+                        /**
+                         * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
+                         */
+                        @Override
+                        public X509Certificate[] getAcceptedIssuers()
+                        {
+                            return null;
+                        }
+                    }
+            };
 
     // /**
     // * @return {@link SSLContext}
@@ -93,7 +93,8 @@ public final class SSLContextFactory
 
         final HostnameVerifier defaultHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
 
-        return (hostname, session) -> {
+        return (hostname, session) ->
+        {
             // Localhost immer vertrauen
             if ((trustLocalHost && hostname.contains("localhost")) || hostname.contains(invokeHost))
             {
@@ -120,11 +121,11 @@ public final class SSLContextFactory
      *
      * @return {@link SSLContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile,
                                               final char[] trustStorePassword, final char[] certPassword)
-        throws Exception
+            throws Exception
     {
         // KeyStore.getInstance("JKS", "SUN")
         KeyStore keyStore = KeyStore.getInstance("JKS");

@@ -71,7 +71,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#closeSheet()
+     * @see ExcelImport#closeSheet()
      */
     @Override
     public final void closeSheet()
@@ -80,7 +80,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumColumns()
+     * @see ExcelImport#getNumColumns()
      */
     @Override
     public final int getNumColumns()
@@ -102,7 +102,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumRows()
+     * @see ExcelImport#getNumRows()
      */
     @Override
     public final int getNumRows()
@@ -115,7 +115,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
+     * @see ExcelImport#getNumberOfSheets()
      */
     @Override
     public final int getNumberOfSheets()
@@ -124,7 +124,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getSheetName()
+     * @see ExcelImport#getSheetName()
      */
     @Override
     public final String getSheetName()
@@ -133,7 +133,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getValueAt(int, int)
+     * @see ExcelImport#getValueAt(int, int)
      */
     @Override
     public final String getValueAt(final int row, final int column) throws ExcelException
@@ -236,7 +236,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#isSheetReadable()
+     * @see ExcelImport#isSheetReadable()
      */
     @Override
     public final boolean isSheetReadable()
@@ -249,7 +249,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#openExcelFile(java.io.InputStream)
+     * @see ExcelImport#openExcelFile(java.io.InputStream)
      */
     @Override
     public final void openExcelFile(final InputStream inputStream) throws Exception
@@ -263,7 +263,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#selectSheet(int)
+     * @see ExcelImport#selectSheet(int)
      */
     @Override
     public final void selectSheet(final int sheetIndex) throws Exception
@@ -278,7 +278,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#selectSheet(java.lang.String)
+     * @see ExcelImport#selectSheet(java.lang.String)
      */
     @Override
     public final void selectSheet(final String sheetName) throws Exception
@@ -338,7 +338,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      *
      * @return {@link Workbook}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;
 
@@ -351,17 +351,13 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      */
     private String getDateFormatByExcelIndex(final int index)
     {
-        return switch (index)
-                {
-                    // case 165 -> "dd.MM.yy HH:mm";
-                    // case 167 -> "dd.M.yyyy";
-                    // case 169 -> "dd.MMMM.yyyy";
-                    // case 170 -> "dd.MMM.yy";
-                    // case 171, 191 -> "dd.MMM yy";
-                    // case 201 -> "dd.MM.yy";
-
-                    default -> "dd.MM.yyyy";
-                };
+        // case 165 -> "dd.MM.yy HH:mm";
+        // case 167 -> "dd.M.yyyy";
+        // case 169 -> "dd.MMMM.yyyy";
+        // case 170 -> "dd.MMM.yy";
+        // case 171, 191 -> "dd.MMM yy";
+        // case 201 -> "dd.MM.yy";
+        return "dd.MM.yyyy";
     }
 
     /**

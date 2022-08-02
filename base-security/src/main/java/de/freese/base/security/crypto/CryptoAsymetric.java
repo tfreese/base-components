@@ -18,19 +18,52 @@ import javax.crypto.Cipher;
 public class CryptoAsymetric extends AbstractCrypto
 {
     /**
-    *
-    */
+     *
+     */
     private KeyPair keyPair;
 
     /**
      * Erstellt ein neues {@link CryptoAsymetric} Object.
      *
      * @param cryptoConfig {@link CryptoConfig}
-     * @throws Exception Falls was schief geht.
+     *
+     * @throws Exception Falls was schiefgeht.
      */
     CryptoAsymetric(final CryptoConfig<?> cryptoConfig) throws Exception
     {
         super(cryptoConfig);
+    }
+
+    /**
+     * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
+     */
+    @Override
+    public void sign(final InputStream in, final OutputStream out) throws Exception
+    {
+        Signature signature = createSignatureSign();
+
+        sign(signature, in, out);
+    }
+
+    /**
+     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
+     *
+     * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
+     */
+    @Override
+    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
+    {
+        Signature signature = createSignatureVerify();
+
+        return verify(signature, in, signIn);
+    }
+
+    /**
+     * @param keyPair {@link KeyPair}
+     */
+    void setKeyPair(final KeyPair keyPair)
+    {
+        this.keyPair = keyPair;
     }
 
     /**
@@ -59,7 +92,8 @@ public class CryptoAsymetric extends AbstractCrypto
 
     /**
      * @return {@link Signature}
-     * @throws Exception Falls was schief geht.
+     *
+     * @throws Exception Falls was schiefgeht.
      */
     protected Signature createSignatureSign() throws Exception
     {
@@ -71,7 +105,8 @@ public class CryptoAsymetric extends AbstractCrypto
 
     /**
      * @return {@link Signature}
-     * @throws Exception Falls was schief geht.
+     *
+     * @throws Exception Falls was schiefgeht.
      */
     protected Signature createSignatureVerify() throws Exception
     {
@@ -96,37 +131,5 @@ public class CryptoAsymetric extends AbstractCrypto
     protected KeyPair getKeyPair()
     {
         return this.keyPair;
-    }
-
-    /**
-     * @param keyPair {@link KeyPair}
-     */
-    void setKeyPair(final KeyPair keyPair)
-    {
-        this.keyPair = keyPair;
-    }
-
-    /**
-     * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
-     */
-    @Override
-    public void sign(final InputStream in, final OutputStream out) throws Exception
-    {
-        Signature signature = createSignatureSign();
-
-        sign(signature, in, out);
-    }
-
-    /**
-     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
-     *
-     * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
-     */
-    @Override
-    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
-    {
-        Signature signature = createSignatureVerify();
-
-        return verify(signature, in, signIn);
     }
 }

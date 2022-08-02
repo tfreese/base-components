@@ -42,7 +42,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer
 
         Double num = null;
 
-        // Wenn mögl. Ganzzahlen anzeigen
+        // Wenn möglich Ganzzahlen anzeigen
         try
         {
             num = value != null ? Double.valueOf(value.toString()) : null;

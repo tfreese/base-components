@@ -110,8 +110,8 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      *
      * @param dataInput {@link DataInput}
      *
-     * @throws IOException Falls was schief geht.
-     * @throws ClassNotFoundException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws ClassNotFoundException Falls was schiefgeht.
      */
     public void readMetaData(final DataInput dataInput) throws IOException, ClassNotFoundException
     {
@@ -217,7 +217,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      *
      * @param dataOutput {@link DataOutput}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void writeMetaData(final DataOutput dataOutput) throws IOException
     {

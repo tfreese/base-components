@@ -41,7 +41,7 @@ public abstract class AbstractIoTest
      *
      * @param path {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void deleteDirectoryRecursive(final Path path) throws IOException
     {
@@ -82,7 +82,7 @@ public abstract class AbstractIoTest
     /**
      * Verzeichnis-Struktur zum Testen löschen.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     protected static void afterAll() throws Exception
@@ -92,7 +92,7 @@ public abstract class AbstractIoTest
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @BeforeAll
     protected static void beforeAll() throws IOException
@@ -108,7 +108,7 @@ public abstract class AbstractIoTest
      *
      * @return {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected Path createFile(final long size) throws IOException
     {
@@ -133,7 +133,7 @@ public abstract class AbstractIoTest
      *
      * @return {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected Path createFile(final String fileName) throws IOException
     {

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>
 {
@@ -60,7 +60,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      *
      * @return {@link List}
      *
-     * @throws RuntimeException Falls was schief geht.
+     * @throws RuntimeException Falls was schiefgeht.
      */
     protected List<Double> parseDoubles(final String key, final String value, final int n, final String message) throws RuntimeException
     {
@@ -86,7 +86,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * @param value String
      * @param message String
      *
-     * @throws RuntimeException Falls was schief geht.
+     * @throws RuntimeException Falls was schiefgeht.
      */
     protected void throwException(final String key, final String value, final String message) throws RuntimeException
     {
@@ -100,7 +100,7 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * @param value String
      * @param cause {@link Throwable}
      *
-     * @throws RuntimeException Falls was schief geht.
+     * @throws RuntimeException Falls was schiefgeht.
      */
     protected void throwException(final String key, final String value, final Throwable cause) throws RuntimeException
     {

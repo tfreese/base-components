@@ -41,7 +41,7 @@ public final class LocalStorage
      * @param src {@link InputStream}
      * @param dest {@link OutputStream}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public synchronized void copy(final InputStream src, final OutputStream dest) throws IOException
     {
@@ -56,7 +56,7 @@ public final class LocalStorage
      *
      * @return {@link File}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public File createTemporaryFile(final String prefix, final String suffix) throws IOException
     {
@@ -75,7 +75,7 @@ public final class LocalStorage
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public boolean deleteDirectory(final String fileName) throws IOException
     {
@@ -93,7 +93,7 @@ public final class LocalStorage
      *
      * @return boolean
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public boolean deleteFile(final String fileName) throws IOException
     {
@@ -170,7 +170,7 @@ public final class LocalStorage
      *
      * @return {@link InputStream}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public InputStream getInputStream(final String fileName, final OpenOption... options) throws IOException
     {
@@ -193,7 +193,7 @@ public final class LocalStorage
      *
      * @return {@link OutputStream}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public OutputStream getOutputStream(final String fileName, final OpenOption... options) throws IOException
     {
@@ -225,7 +225,7 @@ public final class LocalStorage
      *
      * @param file {@link Path}, relativ zum Basisverzeichnis
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void openPath(final Path file) throws IOException
     {
@@ -265,7 +265,7 @@ public final class LocalStorage
      *
      * @return String ggf. korrigierter Dateiname
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      * @see DataSource#getName()
      * @see DataSource#getInputStream()
      */
@@ -296,7 +296,7 @@ public final class LocalStorage
      *
      * @return String absoluter Dateiname
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public synchronized String save(final String fileName, final byte[] data) throws Exception
     {
@@ -314,7 +314,7 @@ public final class LocalStorage
      *
      * @return String absoluter Dateiname
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public synchronized String saveTemp(final String fileName, final InputStream inputStream) throws Exception
     {
@@ -364,7 +364,7 @@ public final class LocalStorage
      *
      * @return true, wenn erfolgreich gelöscht
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private boolean deleteDirectory(final Path path) throws IOException
     {

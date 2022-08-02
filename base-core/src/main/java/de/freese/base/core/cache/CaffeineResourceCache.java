@@ -97,6 +97,6 @@ public class CaffeineResourceCache extends FileResourceCache
                 .removalListener((key,  value,  cause) -> getLogger().info("Removal: {} - {} - {}kB",  cause, key,value.length / 1024))
                 .build(cacheLoader)
                 ;
-        // @formatter:o
+        // @formatter:on
     }
 }

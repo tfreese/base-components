@@ -18,7 +18,7 @@ public interface InsertService
      * @param object {@link Serializable}
      * @param context {@link SaveContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void insert(Serializable object, SaveContext context) throws Exception;
 
@@ -28,7 +28,7 @@ public interface InsertService
      * @param toInsert {@link Collection}
      * @param context {@link SaveContext}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void insertAll(Collection<? extends Serializable> toInsert, SaveContext context) throws Exception;
 }

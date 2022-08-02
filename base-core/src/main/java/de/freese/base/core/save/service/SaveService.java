@@ -20,7 +20,7 @@ public interface SaveService
      *
      * @return {@link Map}, Map für das Mapping der Temporären- zu den DB-PrimaryKeys.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     Map<Long, Long> save(List<AbstractRemoteCommand> commands) throws Exception;
 }

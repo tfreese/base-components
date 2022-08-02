@@ -10,7 +10,7 @@ public interface ResultHandler
     /**
      * @param result {@link RequestResult}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void handle(RequestResult result) throws Exception;
 }

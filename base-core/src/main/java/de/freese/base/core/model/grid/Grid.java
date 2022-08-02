@@ -165,8 +165,8 @@ public class Grid implements Serializable
      *
      * @param dataInput {@link DataInput}
      *
-     * @throws IOException Falls was schief geht.
-     * @throws ClassNotFoundException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws ClassNotFoundException Falls was schiefgeht.
      */
     public void read(final DataInput dataInput) throws IOException, ClassNotFoundException
     {
@@ -235,7 +235,7 @@ public class Grid implements Serializable
      *
      * @param dataOutput {@link DataOutput}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void write(final DataOutput dataOutput) throws IOException
     {

@@ -212,7 +212,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * @return {@link Crypto}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public abstract Crypto build() throws Exception;
 

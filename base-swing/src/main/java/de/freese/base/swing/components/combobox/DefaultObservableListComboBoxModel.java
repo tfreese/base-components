@@ -6,10 +6,11 @@ import javax.swing.ComboBoxModel;
 import javafx.collections.ObservableList;
 
 /**
- * Defaultimplementierung eines {@link ComboBoxModel} fuer die {@link ObservableList}.
+ * Defaultimplementierung eines {@link ComboBoxModel} für die {@link ObservableList}.
+ *
+ * @param <T> Konkreter Typ
  *
  * @author Thomas Freese
- * @param <T> Konkreter Typ
  */
 public class DefaultObservableListComboBoxModel<T> extends AbstractObservableListComboBoxModel<T>
 {

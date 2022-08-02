@@ -66,7 +66,7 @@ class TestNioSsl
     private static SSLContext serverSslContext;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     static void afterAll() throws Exception
@@ -79,7 +79,7 @@ class TestNioSsl
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
@@ -208,7 +208,7 @@ class TestNioSsl
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private static void setUpClientSslContext() throws Exception
     {
@@ -237,7 +237,7 @@ class TestNioSsl
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private static void setUpServerSslContext() throws Exception
     {
@@ -266,7 +266,7 @@ class TestNioSsl
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @SuppressWarnings("resource")
     @Test

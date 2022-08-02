@@ -20,7 +20,7 @@ public class BenchmarkRunner
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht
+     * @throws Exception Falls was schiefgeht
      */
     public static void main(String[] args) throws Exception
     {

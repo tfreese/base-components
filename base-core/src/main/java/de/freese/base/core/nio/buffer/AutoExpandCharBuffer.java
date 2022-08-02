@@ -41,25 +41,11 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
     }
 
     /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
-    @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
-    {
-        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
-
-        buffer.flip();
-        newBuffer.put(buffer);
-
-        return newBuffer;
-    }
-
-    /**
      * @param encoder {@link CharsetEncoder}
      *
      * @return {@link ByteBuffer}
      *
-     * @throws CharacterCodingException Falls was schief geht.
+     * @throws CharacterCodingException Falls was schiefgeht.
      */
     public ByteBuffer encode(final CharsetEncoder encoder) throws CharacterCodingException
     {
@@ -192,5 +178,19 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
         getBuffer().put(src.toString(), start, end);
 
         return this;
+    }
+
+    /**
+     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
+     */
+    @Override
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
+    {
+        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+
+        buffer.flip();
+        newBuffer.put(buffer);
+
+        return newBuffer;
     }
 }

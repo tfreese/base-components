@@ -210,7 +210,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      *
      * @return Class
      *
-     * @throws ClassCastException Falls was schief geht.
+     * @throws ClassCastException Falls was schiefgeht.
      */
     @SuppressWarnings("unchecked")
     protected Class<T> tryDetermineObjectClazz() throws ClassCastException

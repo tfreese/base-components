@@ -18,7 +18,7 @@ public final class IconConverter
      * @param source Der Name der Quelldatei
      * @param destination Der Name der Zieldatei
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static void convert(final String source, final String destination) throws IOException
     {

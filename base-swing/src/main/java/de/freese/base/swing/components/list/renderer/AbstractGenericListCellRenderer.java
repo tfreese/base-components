@@ -116,7 +116,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      * @return String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected abstract String getString(Object object, String attribute) throws Exception;
 
@@ -128,7 +128,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      * @return Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected Object invokeField(final Object value, final String fieldName) throws Exception
     {
@@ -145,7 +145,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      *
      * @return Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected Object invokeMethod(final Object value, final String methodName) throws Exception
     {

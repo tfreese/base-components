@@ -67,7 +67,7 @@ class SleepThrottledInputStreamTest extends AbstractIoTest
 
             while (throttledStream.read() != -1)
             {
-                // NO-OP
+                // Empty
             }
 
             System.out.println(throttledStream);

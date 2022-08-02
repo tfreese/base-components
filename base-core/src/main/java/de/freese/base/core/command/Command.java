@@ -10,7 +10,7 @@ public interface Command
     /**
      * Ausführen des Kommandos.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void execute() throws Exception;
 

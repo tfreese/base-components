@@ -74,7 +74,7 @@ public final class Pop3Command
      */
     public static final String UIDL = "UIDL";
     /**
-     * Send user name.
+     * Send username.
      */
     public static final String USER = "USER";
 

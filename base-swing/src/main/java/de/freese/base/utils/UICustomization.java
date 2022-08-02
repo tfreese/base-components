@@ -60,7 +60,7 @@ public final class UICustomization
      *
      * @param className String LookAndFeel Klassenname, optional
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void install(final String className) throws Exception
     {
@@ -72,7 +72,7 @@ public final class UICustomization
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {

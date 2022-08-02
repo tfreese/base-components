@@ -42,7 +42,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
     }
 
     /**
-     * A {@link ExpirationPolicy} that returns a expiration time that is a constant about of time in the future from the current time.
+     * A {@link ExpirationPolicy} that returns an expiration time that is a constant about of time in the future from the current time.
      *
      * @param <K> Key-Type
      * @param <V> Value-Type

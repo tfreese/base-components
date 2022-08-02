@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Thomas Freese
  */
-public class SimpleThreadFactory implements ThreadFactory
+public class NamedThreadFactory implements ThreadFactory
 {
     /**
      *
@@ -29,7 +29,7 @@ public class SimpleThreadFactory implements ThreadFactory
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
     /**
-     * Erstellt ein neues {@link SimpleThreadFactory} Object.
+     * Erstellt ein neues {@link NamedThreadFactory} Object.
      *
      * <pre>
      * Defaults:
@@ -38,18 +38,18 @@ public class SimpleThreadFactory implements ThreadFactory
      *
      * @param namePattern String; Example: "thread-%d"
      */
-    public SimpleThreadFactory(final String namePattern)
+    public NamedThreadFactory(final String namePattern)
     {
         this(namePattern, true);
     }
 
     /**
-     * Erstellt ein neues {@link SimpleThreadFactory} Object.
+     * Erstellt ein neues {@link NamedThreadFactory} Object.
      *
      * @param namePattern String; Example: "thread-%d"
      * @param daemon boolean
      */
-    public SimpleThreadFactory(final String namePattern, final boolean daemon)
+    public NamedThreadFactory(final String namePattern, final boolean daemon)
     {
         super();
 

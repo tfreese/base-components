@@ -12,7 +12,7 @@ public interface RequestPerformer
     /**
      * @param builder {@link RequestBuilder}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void perform(RequestBuilder builder) throws Exception;
 }

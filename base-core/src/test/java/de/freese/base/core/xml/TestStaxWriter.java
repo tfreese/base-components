@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 class TestStaxWriter
 {
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testStaxWriter() throws Exception

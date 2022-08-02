@@ -27,34 +27,39 @@ import java.util.Set;
  */
 public final class ClassUtils
 {
-    /** Suffix for array class names: {@code "[]"}. */
+    /**
+     * Suffix for array class names: {@code "[]"}.
+     */
     public static final String ARRAY_SUFFIX = "[]";
 
-    /** The CGLIB class separator: {@code "$$"}. */
+    /**
+     * The CGLIB class separator: {@code "$$"}.
+     */
     public static final String CGLIB_CLASS_SEPARATOR = "$$";
-
+    /**
+     * The inner class separator character: {@code '$'}.
+     */
+    private static final char INNER_CLASS_SEPARATOR = '$';
+    /**
+     * Prefix for internal array class names: {@code "["}.
+     */
+    private static final String INTERNAL_ARRAY_PREFIX = "[";
+    /**
+     * Prefix for internal non-primitive array class names: {@code "[L"}.
+     */
+    private static final String NON_PRIMITIVE_ARRAY_PREFIX = "[L";
+    /**
+     * The package separator character: {@code '.'}.
+     */
+    private static final char PACKAGE_SEPARATOR = '.';
     /**
      * Map with common Java language class name as key and corresponding Class as value. Primarily for efficient deserialization of remote invocations.
      */
     private static final Map<String, Class<?>> commonClassCache = new HashMap<>(64);
-
-    /** The inner class separator character: {@code '$'}. */
-    private static final char INNER_CLASS_SEPARATOR = '$';
-
-    /** Prefix for internal array class names: {@code "["}. */
-    private static final String INTERNAL_ARRAY_PREFIX = "[";
-
     /**
      * Common Java language interfaces which are supposed to be ignored when searching for 'primary' user-level interfaces.
      */
     private static final Set<Class<?>> javaLanguageInterfaces;
-
-    /** Prefix for internal non-primitive array class names: {@code "[L"}. */
-    private static final String NON_PRIMITIVE_ARRAY_PREFIX = "[L";
-
-    /** The package separator character: {@code '.'}. */
-    private static final char PACKAGE_SEPARATOR = '.';
-
     /**
      * Map with primitive type name as key and corresponding primitive type as value, for example: "int" -> "int.class".
      */
@@ -107,9 +112,9 @@ public final class ClassUtils
                 Map.Entry.class, Optional.class);
 
         Class<?>[] javaLanguageInterfaceArray =
-        {
-                Serializable.class, Externalizable.class, Closeable.class, AutoCloseable.class, Cloneable.class, Comparable.class
-        };
+                {
+                        Serializable.class, Externalizable.class, Closeable.class, AutoCloseable.class, Cloneable.class, Comparable.class
+                };
 
         registerCommonClasses(javaLanguageInterfaceArray);
         javaLanguageInterfaces = new HashSet<>(Arrays.asList(javaLanguageInterfaceArray));
@@ -120,13 +125,12 @@ public final class ClassUtils
      * Furthermore, it is also capable of resolving inner class names in Java source style (e.g. "java.lang.Thread.State" instead of "java.lang.Thread$State").
      *
      * @param name the name of the Class
-     * @param classLoader the class loader to use (may be {@code null}, which indicates the default class loader)
+     * @param classLoader the class loader to use (maybe {@code null}, which indicates the default class loader)
      *
      * @return a class instance for the supplied name
      *
      * @throws ClassNotFoundException if the class was not found
      * @throws LinkageError if the class file could not be loaded
-     *
      * @see Class#forName(String, boolean, ClassLoader)
      */
     public static Class<?> forName(final String name, final ClassLoader classLoader) throws ClassNotFoundException, LinkageError
@@ -365,19 +369,6 @@ public final class ClassUtils
     }
 
     /**
-     * Register the given common classes with the ClassUtils cache.
-     *
-     * @param commonClasses Class[]
-     */
-    private static void registerCommonClasses(final Class<?>...commonClasses)
-    {
-        for (Class<?> clazz : commonClasses)
-        {
-            commonClassCache.put(clazz.getName(), clazz);
-        }
-    }
-
-    /**
      * Resolve the given class name as primitive class, if appropriate, according to the JVM's naming rules for primitive classes.
      * <p>
      * Also supports the JVM's internal class names for primitive arrays. Does <i>not</i> support the "[]" suffix notation for primitive arrays; this is only
@@ -400,6 +391,19 @@ public final class ClassUtils
         }
 
         return result;
+    }
+
+    /**
+     * Register the given common classes with the ClassUtils cache.
+     *
+     * @param commonClasses Class[]
+     */
+    private static void registerCommonClasses(final Class<?>... commonClasses)
+    {
+        for (Class<?> clazz : commonClasses)
+        {
+            commonClassCache.put(clazz.getName(), clazz);
+        }
     }
 
     /**

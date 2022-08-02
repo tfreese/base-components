@@ -89,7 +89,7 @@ public class ThrottleOutputStream extends OutputStream
     /**
      * @param permits int
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void throttle(final int permits) throws IOException
     {

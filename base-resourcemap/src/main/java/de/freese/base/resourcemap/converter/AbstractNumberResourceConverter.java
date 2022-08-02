@@ -1,9 +1,9 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Konkreter konvertierter Typ
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractNumberResourceConverter<T extends Number> extends AbstractResourceConverter<T>
 {
@@ -25,7 +25,7 @@ public abstract class AbstractNumberResourceConverter<T extends Number> extends 
      *
      * @return {@link Number}
      *
-     * @throws NumberFormatException Falls was schief geht.
+     * @throws NumberFormatException Falls was schiefgeht.
      */
     protected abstract T convertString(String value, int radix) throws NumberFormatException;
 }

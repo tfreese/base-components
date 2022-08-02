@@ -123,7 +123,7 @@ public abstract class AbstractResourceCache implements ResourceCache
      *
      * @return long
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected long getContentLength(final URI uri) throws IOException
     {
@@ -188,7 +188,7 @@ public abstract class AbstractResourceCache implements ResourceCache
      *
      * @return {@link InputStream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected InputStream toInputStream(final URI uri) throws Exception
     {

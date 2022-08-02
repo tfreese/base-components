@@ -62,14 +62,14 @@ class TestResourceCache
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
     {
         // JUL-Logger ausschalten.
         // LogManager.getLogManager().reset();
-        
+
         // JUL-Logger auf slf4j umleiten.
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
@@ -80,7 +80,7 @@ class TestResourceCache
      *
      * @return {@link Stream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     static Stream<Arguments> createArgumentes() throws Exception
     {
@@ -122,7 +122,7 @@ class TestResourceCache
      * @param resourceCache {@link ResourceCache}
      * @param uri {@link URI}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
@@ -151,7 +151,7 @@ class TestResourceCache
      * @param resourceCache {@link ResourceCache}
      * @param uri {@link URI}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")

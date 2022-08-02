@@ -37,7 +37,7 @@ class TestBoundedExecutor
     private static ExecutorService executorService;
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     static void afterAll() throws Exception
@@ -90,7 +90,7 @@ class TestBoundedExecutor
     @ParameterizedTest(name = "{0}")
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutor")
-    void execute(final String name, final int parallelism)
+    void testExecute(final String name, final int parallelism)
     {
         BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
 
@@ -104,7 +104,7 @@ class TestBoundedExecutor
     @ParameterizedTest(name = "{0}")
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutorQueued")
-    void executeQueued(final String name, final int parallelism)
+    void testExecuteQueued(final String name, final int parallelism)
     {
         BoundedExecutorQueued boundedExecutor = new BoundedExecutorQueued(executorService, parallelism);
 
@@ -118,7 +118,7 @@ class TestBoundedExecutor
     @ParameterizedTest(name = "{0}")
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutorQueuedWithScheduler")
-    void executeQueuedWithScheduler(final String name, final int parallelism)
+    void testExecuteQueuedWithScheduler(final String name, final int parallelism)
     {
         BoundedExecutorQueuedWithScheduler boundedExecutor = new BoundedExecutorQueuedWithScheduler(executorService, parallelism);
 

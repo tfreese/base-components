@@ -53,7 +53,7 @@ public class NioSslServer extends AbstractNioSslPeer
      * @param hostAddress - the IP address this server will listen to.
      * @param port - the port this server will listen to.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public NioSslServer(final String protocol, final String hostAddress, final int port) throws Exception
     {
@@ -83,7 +83,7 @@ public class NioSslServer extends AbstractNioSslPeer
      * stop the server you should use {@link NioSslServer#stop()} which will set it to inactive state and also wake up the listener, which may be in blocking
      * select() state.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void start() throws Exception
     {
@@ -242,7 +242,7 @@ public class NioSslServer extends AbstractNioSslPeer
      *
      * @param key - the key dedicated to the {@link ServerSocketChannel} used by the server to listen to new connection requests.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void accept(final SelectionKey key) throws Exception
     {

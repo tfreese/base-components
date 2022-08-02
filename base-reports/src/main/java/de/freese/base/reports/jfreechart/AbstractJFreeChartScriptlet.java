@@ -323,7 +323,7 @@ public abstract class AbstractJFreeChartScriptlet<T>
      *
      * @return double
      *
-     * @throws IllegalArgumentException Falls was schief geht.
+     * @throws IllegalArgumentException Falls was schiefgeht.
      */
     protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits)
     {

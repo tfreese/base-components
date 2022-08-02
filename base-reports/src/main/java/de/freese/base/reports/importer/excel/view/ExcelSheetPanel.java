@@ -50,7 +50,7 @@ public class ExcelSheetPanel extends JPanel
     }
 
     /**
-     * Liefert die Tabelle eines Exceksheets.
+     * Liefert die Tabelle eines Excelsheets.
      *
      * @return {@link JTable}
      */

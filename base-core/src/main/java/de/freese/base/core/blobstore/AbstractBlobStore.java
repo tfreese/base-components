@@ -32,7 +32,7 @@ public abstract class AbstractBlobStore implements BlobStore
      *
      * @return {@link Blob}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected abstract Blob doGet(final BlobId id) throws Exception;
 

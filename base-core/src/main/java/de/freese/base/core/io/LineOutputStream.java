@@ -3,6 +3,7 @@ package de.freese.base.core.io;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import de.freese.base.utils.ByteUtils;
 
 /**
@@ -19,9 +20,9 @@ public class LineOutputStream extends FilterOutputStream
      *
      */
     private static final byte[] NEW_LINE = new byte[]
-    {
-            (byte) '\r', (byte) '\n'
-    };
+            {
+                    (byte) '\r', (byte) '\n'
+            };
 
     /**
      * Creates a new {@link LineOutputStream} object.
@@ -34,7 +35,7 @@ public class LineOutputStream extends FilterOutputStream
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void writeln() throws IOException
     {
@@ -43,7 +44,8 @@ public class LineOutputStream extends FilterOutputStream
 
     /**
      * @param s String
-     * @throws IOException Falls was schief geht.
+     *
+     * @throws IOException Falls was schiefgeht.
      */
     public void writeln(final String s) throws IOException
     {

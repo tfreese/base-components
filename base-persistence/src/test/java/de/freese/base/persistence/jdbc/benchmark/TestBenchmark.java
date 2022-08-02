@@ -22,7 +22,7 @@ class TestBenchmark
             .measurementIterations(1).measurementTime(TimeValue.milliseconds(200)).forks(0).build();
 
     /**
-     * @throws Exception Falls was schief geht
+     * @throws Exception Falls was schiefgeht
      */
     @Test
     void testStagedResultSizeBenchmarks() throws Exception
@@ -41,7 +41,7 @@ class TestBenchmark
     }
 
     /**
-     * @throws Exception Falls was schief geht
+     * @throws Exception Falls was schiefgeht
      */
     @Test
     void testStatementBenchmarks() throws Exception

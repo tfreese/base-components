@@ -15,7 +15,7 @@ public interface Processor<C>
      *
      * @param context Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void execute(C context) throws Exception;
 

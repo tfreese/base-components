@@ -32,7 +32,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -92,8 +91,8 @@ class TestGrid
     }
 
     /**
-     * @throws IOException Falls was schief geht.
-     * @throws ClassNotFoundException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws ClassNotFoundException Falls was schiefgeht.
      */
     @Test
     void testGridMetaSave() throws IOException, ClassNotFoundException
@@ -172,10 +171,10 @@ class TestGrid
         ResultSetMetaData metaDataMock = Mockito.mock(ResultSetMetaData.class);
         Mockito.when(metaDataMock.getColumnCount()).then(invocation -> 3);
 
-        Mockito.when(metaDataMock.getColumnType(ArgumentMatchers.eq(1))).then(invocation -> Types.BOOLEAN);
-        Mockito.when(metaDataMock.getColumnLabel(ArgumentMatchers.eq(1))).then(invocation -> "boolean");
-        Mockito.when(metaDataMock.getColumnDisplaySize(ArgumentMatchers.eq(1))).then(invocation -> 1);
-        Mockito.when(metaDataMock.getPrecision(ArgumentMatchers.eq(1))).then(invocation -> 1);
+        Mockito.when(metaDataMock.getColumnType(1)).then(invocation -> Types.BOOLEAN);
+        Mockito.when(metaDataMock.getColumnLabel(1)).then(invocation -> "boolean");
+        Mockito.when(metaDataMock.getColumnDisplaySize(1)).then(invocation -> 1);
+        Mockito.when(metaDataMock.getPrecision(1)).then(invocation -> 1);
 
         Mockito.when(metaDataMock.getColumnType(2)).thenReturn(Types.DOUBLE);
         Mockito.when(metaDataMock.getColumnLabel(2)).thenReturn("double");
@@ -242,8 +241,8 @@ class TestGrid
     }
 
     /**
-     * @throws IOException Falls was schief geht.
-     * @throws ClassNotFoundException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws ClassNotFoundException Falls was schiefgeht.
      */
     @Test
     void testGridSave() throws IOException, ClassNotFoundException

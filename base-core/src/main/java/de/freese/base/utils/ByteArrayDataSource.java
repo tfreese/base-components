@@ -176,7 +176,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @param is {@link InputStream}
      * @param mimeType String
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException
     {
@@ -212,7 +212,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      * @param object Serializable
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public ByteArrayDataSource(final Serializable object) throws IOException
     {
@@ -225,7 +225,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @param value String
      * @param mimeType String
      *
-     * @throws UnsupportedEncodingException Falls was schief geht.
+     * @throws UnsupportedEncodingException Falls was schiefgeht.
      */
     public ByteArrayDataSource(final String value, final String mimeType) throws UnsupportedEncodingException
     {

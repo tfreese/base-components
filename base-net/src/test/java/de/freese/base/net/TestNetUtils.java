@@ -85,7 +85,7 @@ class TestNetUtils
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testLocalHost() throws Exception
@@ -163,7 +163,7 @@ class TestNetUtils
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testPTBZeit() throws Exception
@@ -175,7 +175,7 @@ class TestNetUtils
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testValidHost() throws Exception

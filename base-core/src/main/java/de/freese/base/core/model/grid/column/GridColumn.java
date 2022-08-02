@@ -6,9 +6,9 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public interface GridColumn<T>
 {
@@ -55,7 +55,7 @@ public interface GridColumn<T>
      *
      * @return Object
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     T read(DataInput dataInput) throws IOException;
 
@@ -85,7 +85,7 @@ public interface GridColumn<T>
      * @param dataOutput {@link DataOutput}
      * @param object Object
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     void write(DataOutput dataOutput, Object object) throws IOException;
 }

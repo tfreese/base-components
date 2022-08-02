@@ -44,11 +44,15 @@ class TestSqLite
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
      */
     private static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java", TestSqLite.class.getSimpleName());
+    /**
+     *
+     */
+    private static SQLiteDataSource dataSource;
 
     /**
      * Verzeichnis-Struktur zum Testen löschen.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     protected static void afterAll() throws Exception
@@ -58,7 +62,7 @@ class TestSqLite
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     protected static void beforeAll() throws Exception
@@ -88,12 +92,7 @@ class TestSqLite
     }
 
     /**
-     *
-     */
-    private static SQLiteDataSource dataSource;
-
-    /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSqliteJDBC() throws Exception
@@ -157,7 +156,7 @@ class TestSqLite
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSqliteSpring() throws Exception

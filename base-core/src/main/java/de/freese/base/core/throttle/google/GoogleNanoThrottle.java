@@ -8,9 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * @author Dimitris Andreou - Original author.
  * @author James P Edwards - Throttle project derivations.
- *
  * @see <a href=
- *      "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
+ * "https://github.com/google/guava/blob/master/guava/src/com/google/common/util/concurrent/RateLimiter.java">com.google.common.util.concurrent.RateLimiter</a>
  */
 public abstract class GoogleNanoThrottle implements GoogleThrottle
 {
@@ -69,17 +68,6 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
     }
 
     /**
-     * @param permits int
-     */
-    private static void checkPermits(final int permits)
-    {
-        if (permits <= 0)
-        {
-            throw new IllegalArgumentException(String.format("Requested permits (%s) must be positive", permits));
-        }
-    }
-
-    /**
      * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
      * returned, respectively.
      *
@@ -101,13 +89,19 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
     }
 
     /**
-     *
+     * @param permits int
      */
-    private final ReentrantLock lock;
+    private static void checkPermits(final int permits)
+    {
+        if (permits <= 0)
+        {
+            throw new IllegalArgumentException(String.format("Requested permits (%s) must be positive", permits));
+        }
+    }
     /**
      *
      */
-    double maxPermits;
+    private final ReentrantLock lock;
     /**
      *
      */
@@ -115,7 +109,7 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
     /**
      *
      */
-    private long nextFreeTicketNanos;
+    double maxPermits;
     /**
      *
      */
@@ -124,6 +118,10 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
      *
      */
     double storedPermits;
+    /**
+     *
+     */
+    private long nextFreeTicketNanos;
 
     /**
      * Erstellt ein neues {@link GoogleNanoThrottle} Object.
@@ -185,42 +183,6 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
     }
 
     /**
-     * @param elapsedNanos long
-     * @param timeoutNanos long
-     *
-     * @return boolean
-     */
-    private boolean canAcquire(final long elapsedNanos, final long timeoutNanos)
-    {
-        return (this.nextFreeTicketNanos - timeoutNanos) <= elapsedNanos;
-    }
-
-    /**
-     * Returns the number of nanoseconds during cool down that we have to wait to get a new permit.
-     *
-     * @return double
-     */
-    abstract double coolDownIntervalNanos();
-
-    /**
-     * @param permitsPerSecond double
-     */
-    private void doSetRate(final double permitsPerSecond)
-    {
-        reSync(System.nanoTime() - this.nanoStart);
-
-        this.stableIntervalNanos = ONE_SECOND_NANOS / permitsPerSecond;
-
-        doSetRate(permitsPerSecond, this.stableIntervalNanos);
-    }
-
-    /**
-     * @param permitsPerSecond double
-     * @param stableIntervalNanos double
-     */
-    abstract void doSetRate(final double permitsPerSecond, final double stableIntervalNanos);
-
-    /**
      * @see de.freese.base.core.throttle.Throttle#getRate()
      */
     @Override
@@ -235,43 +197,6 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
         finally
         {
             this.lock.unlock();
-        }
-    }
-
-    /**
-     * Reserves the requested number of permits and returns the time that those permits can be used (with one caveat).
-     *
-     * @param requiredPermits int
-     * @param elapsedNanos long
-     *
-     * @return the time that the permits may be used, or, if the permits may be used immediately, an arbitrary past or present time
-     */
-    private long reserveEarliestAvailable(final int requiredPermits, final long elapsedNanos)
-    {
-        reSync(elapsedNanos);
-
-        final long returnValue = this.nextFreeTicketNanos;
-        final double storedPermitsToSpend = Math.min(requiredPermits, this.storedPermits);
-        final double freshPermits = requiredPermits - storedPermitsToSpend;
-        final long waitNanos = storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend) + (long) (freshPermits * this.stableIntervalNanos);
-        this.nextFreeTicketNanos = saturatedAdd(this.nextFreeTicketNanos, waitNanos);
-        this.storedPermits -= storedPermitsToSpend;
-
-        return returnValue;
-    }
-
-    /**
-     * Updates {@code storedPermits} and {@code nextFreeTicketNanos} based on the current time.
-     *
-     * @param elapsedNanos long
-     */
-    private void reSync(final long elapsedNanos)
-    {
-        if (elapsedNanos > this.nextFreeTicketNanos)
-        {
-            final double newPermits = (elapsedNanos - this.nextFreeTicketNanos) / coolDownIntervalNanos();
-            this.storedPermits = Math.min(this.maxPermits, this.storedPermits + newPermits);
-            this.nextFreeTicketNanos = elapsedNanos;
         }
     }
 
@@ -297,82 +222,6 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
             this.lock.unlock();
         }
     }
-
-    /**
-     * @param nanos long
-     *
-     * @throws InterruptedException Falls was schief geht.
-     */
-    protected void sleep(final long nanos) throws InterruptedException
-    {
-        if (GoogleThrottle.sleepUninterruptibly)
-        {
-            sleepUninterruptibly(nanos, TimeUnit.NANOSECONDS);
-        }
-        else
-        {
-            TimeUnit.NANOSECONDS.sleep(nanos);
-        }
-    }
-
-    /**
-     * @param sleepFor {@link Duration}
-     */
-    protected void sleepUninterruptibly(final Duration sleepFor)
-    {
-        sleepUninterruptibly(sleepFor.toNanos(), TimeUnit.NANOSECONDS);
-    }
-
-    /**
-     * @param sleepFor long
-     * @param unit {@link TimeUnit}
-     */
-    protected void sleepUninterruptibly(final long sleepFor, final TimeUnit unit)
-    {
-        boolean interrupted = false;
-
-        try
-        {
-            long remainingNanos = unit.toNanos(sleepFor);
-            long end = System.nanoTime() + remainingNanos;
-
-            while (true)
-            {
-                try
-                {
-                    // TimeUnit.sleep() treats negative timeouts just like zero.
-                    TimeUnit.NANOSECONDS.sleep(remainingNanos);
-
-                    return;
-                }
-                catch (InterruptedException ex)
-                {
-                    interrupted = true;
-                    remainingNanos = end - System.nanoTime();
-                }
-            }
-        }
-        finally
-        {
-            if (interrupted)
-            {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
-    /**
-     * Translates a specified portion of our currently stored permits which we want to spend/acquire, into a throttling time. Conceptually, this evaluates the
-     * integral of the underlying function we use, for the range of [(storedPermits - permitsToTake), storedPermits].
-     * <p>
-     * This always holds: {@code 0 <= permitsToTake <= storedPermits}
-     *
-     * @param storedPermits double
-     * @param permitsToTake double
-     *
-     * @return long
-     */
-    abstract long storedPermitsToWaitTime(final double storedPermits, final double permitsToTake);
 
     /**
      * @see java.lang.Object#toString()
@@ -470,5 +319,154 @@ public abstract class GoogleNanoThrottle implements GoogleThrottle
         }
 
         return momentAvailable - durationElapsed;
+    }
+
+    /**
+     * Returns the number of nanoseconds during cool down that we have to wait to get a new permit.
+     *
+     * @return double
+     */
+    abstract double coolDownIntervalNanos();
+
+    /**
+     * @param permitsPerSecond double
+     * @param stableIntervalNanos double
+     */
+    abstract void doSetRate(final double permitsPerSecond, final double stableIntervalNanos);
+
+    /**
+     * Translates a specified portion of our currently stored permits which we want to spend/acquire, into a throttling time. Conceptually, this evaluates the
+     * integral of the underlying function we use, for the range of [(storedPermits - permitsToTake), storedPermits].
+     * <p>
+     * This always holds: {@code 0 <= permitsToTake <= storedPermits}
+     *
+     * @param storedPermits double
+     * @param permitsToTake double
+     *
+     * @return long
+     */
+    abstract long storedPermitsToWaitTime(final double storedPermits, final double permitsToTake);
+
+    /**
+     * @param nanos long
+     *
+     * @throws InterruptedException Falls was schiefgeht.
+     */
+    protected void sleep(final long nanos) throws InterruptedException
+    {
+        if (GoogleThrottle.sleepUninterruptibly)
+        {
+            sleepUninterruptibly(nanos, TimeUnit.NANOSECONDS);
+        }
+        else
+        {
+            TimeUnit.NANOSECONDS.sleep(nanos);
+        }
+    }
+
+    /**
+     * @param sleepFor {@link Duration}
+     */
+    protected void sleepUninterruptibly(final Duration sleepFor)
+    {
+        sleepUninterruptibly(sleepFor.toNanos(), TimeUnit.NANOSECONDS);
+    }
+
+    /**
+     * @param sleepFor long
+     * @param unit {@link TimeUnit}
+     */
+    protected void sleepUninterruptibly(final long sleepFor, final TimeUnit unit)
+    {
+        boolean interrupted = false;
+
+        try
+        {
+            long remainingNanos = unit.toNanos(sleepFor);
+            long end = System.nanoTime() + remainingNanos;
+
+            while (true)
+            {
+                try
+                {
+                    // TimeUnit.sleep() treats negative timeouts just like zero.
+                    TimeUnit.NANOSECONDS.sleep(remainingNanos);
+
+                    return;
+                }
+                catch (InterruptedException ex)
+                {
+                    interrupted = true;
+                    remainingNanos = end - System.nanoTime();
+                }
+            }
+        }
+        finally
+        {
+            if (interrupted)
+            {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    /**
+     * @param elapsedNanos long
+     * @param timeoutNanos long
+     *
+     * @return boolean
+     */
+    private boolean canAcquire(final long elapsedNanos, final long timeoutNanos)
+    {
+        return (this.nextFreeTicketNanos - timeoutNanos) <= elapsedNanos;
+    }
+
+    /**
+     * @param permitsPerSecond double
+     */
+    private void doSetRate(final double permitsPerSecond)
+    {
+        reSync(System.nanoTime() - this.nanoStart);
+
+        this.stableIntervalNanos = ONE_SECOND_NANOS / permitsPerSecond;
+
+        doSetRate(permitsPerSecond, this.stableIntervalNanos);
+    }
+
+    /**
+     * Updates {@code storedPermits} and {@code nextFreeTicketNanos} based on the current time.
+     *
+     * @param elapsedNanos long
+     */
+    private void reSync(final long elapsedNanos)
+    {
+        if (elapsedNanos > this.nextFreeTicketNanos)
+        {
+            final double newPermits = (elapsedNanos - this.nextFreeTicketNanos) / coolDownIntervalNanos();
+            this.storedPermits = Math.min(this.maxPermits, this.storedPermits + newPermits);
+            this.nextFreeTicketNanos = elapsedNanos;
+        }
+    }
+
+    /**
+     * Reserves the requested number of permits and returns the time that those permits can be used (with one caveat).
+     *
+     * @param requiredPermits int
+     * @param elapsedNanos long
+     *
+     * @return the time that the permits may be used, or, if the permits may be used immediately, an arbitrary past or present time
+     */
+    private long reserveEarliestAvailable(final int requiredPermits, final long elapsedNanos)
+    {
+        reSync(elapsedNanos);
+
+        final long returnValue = this.nextFreeTicketNanos;
+        final double storedPermitsToSpend = Math.min(requiredPermits, this.storedPermits);
+        final double freshPermits = requiredPermits - storedPermitsToSpend;
+        final long waitNanos = storedPermitsToWaitTime(this.storedPermits, storedPermitsToSpend) + (long) (freshPermits * this.stableIntervalNanos);
+        this.nextFreeTicketNanos = saturatedAdd(this.nextFreeTicketNanos, waitNanos);
+        this.storedPermits -= storedPermitsToSpend;
+
+        return returnValue;
     }
 }

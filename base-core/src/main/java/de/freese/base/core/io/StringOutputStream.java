@@ -14,7 +14,7 @@ public class StringOutputStream extends ByteArrayOutputStream
     /**
      * @param value {@link CharSequence}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void write(final CharSequence value) throws IOException
     {

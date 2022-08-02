@@ -40,31 +40,31 @@ public final class ByteUtils
     public static String bytesToHex(final byte[] bytes)
     {
         return HexFormat.of().withUpperCase().formatHex(bytes);
-//        // final int l = bytes.length;
-//        // final char[] out = new char[l << 1];
-//        //
-//        // // two characters form the hex value.
-//        // for (int i = 0, j = 0; i < l; i++) {
-//        // out[j++] = HEX_CHARS[(0xF0 & bytes[i]) >>> 4];
-//        // out[j++] = HEX_CHARS[0x0F & bytes[i]];
-//        // }
-//        //
-//        // return out;
-//
-//        StringBuilder sbuf = new StringBuilder(bytes.length * 2);
-//
-//        for (byte b : bytes)
-//        {
-//            // int temp = b & 0xFF;
-//            //
-//            // sbuf.append(HEX_CHARS[temp >> 4]);
-//            // sbuf.append(HEX_CHARS[temp & 0x0F]);
-//
-//            sbuf.append(HEX_CHARS[(b & 0xF0) >>> 4]);
-//            sbuf.append(HEX_CHARS[b & 0x0F]);
-//        }
-//
-//        return sbuf.toString();
+        //        // final int l = bytes.length;
+        //        // final char[] out = new char[l << 1];
+        //        //
+        //        // // two characters form the hex value.
+        //        // for (int i = 0, j = 0; i < l; i++) {
+        //        // out[j++] = HEX_CHARS[(0xF0 & bytes[i]) >>> 4];
+        //        // out[j++] = HEX_CHARS[0x0F & bytes[i]];
+        //        // }
+        //        //
+        //        // return out;
+        //
+        //        StringBuilder sbuf = new StringBuilder(bytes.length * 2);
+        //
+        //        for (byte b : bytes)
+        //        {
+        //            // int temp = b & 0xFF;
+        //            //
+        //            // sbuf.append(HEX_CHARS[temp >> 4]);
+        //            // sbuf.append(HEX_CHARS[temp & 0x0F]);
+        //
+        //            sbuf.append(HEX_CHARS[(b & 0xF0) >>> 4]);
+        //            sbuf.append(HEX_CHARS[b & 0x0F]);
+        //        }
+        //
+        //        return sbuf.toString();
     }
 
     /**
@@ -74,7 +74,7 @@ public final class ByteUtils
      *
      * @return byte[]
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static byte[] compressBytes(final byte[] bytes) throws IOException
     {
@@ -127,7 +127,7 @@ public final class ByteUtils
      *
      * @return byte[]
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static byte[] decompressBytes(final byte[] bytes) throws IOException
     {
@@ -227,32 +227,32 @@ public final class ByteUtils
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static byte[] hexToBytes(final CharSequence hexString) throws Exception
     {
         return HexFormat.of().parseHex(hexString);
-//        if ((hexString.length() % 2) == 1)
-//        {
-//            throw new IllegalArgumentException("Invalid hexadecimal String supplied.");
-//        }
-//
-//        byte[] bytes = new byte[hexString.length() / 2];
-//
-//        for (int i = 0; i < hexString.length(); i += 2)
-//        {
-//            int firstDigit = Character.digit(hexString.charAt(i), 16);
-//            int secondDigit = Character.digit(hexString.charAt(i + 1), 16);
-//
-//            if ((firstDigit < 0) || (secondDigit < 0))
-//            {
-//                throw new IllegalArgumentException("Invalid Hexadecimal Character in: " + hexString);
-//            }
-//
-//            bytes[i / 2] = (byte) ((firstDigit << 4) + secondDigit);
-//        }
-//
-//        return bytes;
+        //        if ((hexString.length() % 2) == 1)
+        //        {
+        //            throw new IllegalArgumentException("Invalid hexadecimal String supplied.");
+        //        }
+        //
+        //        byte[] bytes = new byte[hexString.length() / 2];
+        //
+        //        for (int i = 0; i < hexString.length(); i += 2)
+        //        {
+        //            int firstDigit = Character.digit(hexString.charAt(i), 16);
+        //            int secondDigit = Character.digit(hexString.charAt(i + 1), 16);
+        //
+        //            if ((firstDigit < 0) || (secondDigit < 0))
+        //            {
+        //                throw new IllegalArgumentException("Invalid Hexadecimal Character in: " + hexString);
+        //            }
+        //
+        //            bytes[i / 2] = (byte) ((firstDigit << 4) + secondDigit);
+        //        }
+        //
+        //        return bytes;
     }
 
     /**

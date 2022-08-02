@@ -20,7 +20,7 @@ import org.apache.commons.net.ntp.TimeInfo;
 public final class NetUtils
 {
     /**
-     * Wandelt die binäre IP Addresse in ein lesbares Format um.
+     * Wandelt die binäre IP-Adresse in ein lesbares Format um.
      *
      * @param ipAddr byte[]
      *
@@ -123,11 +123,11 @@ public final class NetUtils
     }
 
     /**
-     * Liefert die Zeit der Atomuhr in der Physikalisch Technischen Bundesanstalt.
+     * Liefert die Zeit der Atomuhr in der Physikalisch-Technischen Bundesanstalt.
      *
      * @return {@link Date}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static Date getPTBZeit() throws IOException
     {

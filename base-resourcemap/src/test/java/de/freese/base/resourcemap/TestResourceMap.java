@@ -299,7 +299,7 @@ class TestResourceMap
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testImage() throws IOException
@@ -399,8 +399,8 @@ class TestResourceMap
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testNotExist()
     {
@@ -535,7 +535,7 @@ class TestResourceMap
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testURI() throws Exception
@@ -549,7 +549,7 @@ class TestResourceMap
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testURL() throws Exception

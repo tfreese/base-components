@@ -52,7 +52,7 @@ public class DatabasePopulator
      *
      * @param connection {@link Connection}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void populate(final Connection connection) throws Exception
     {
@@ -85,7 +85,7 @@ public class DatabasePopulator
      *
      * @param dataSource {@link DataSource}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void populate(final DataSource dataSource) throws Exception
     {
@@ -102,7 +102,7 @@ public class DatabasePopulator
      *
      * @return {@link List}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected List<String> getScriptLines(final URL script) throws Exception
     {
@@ -161,7 +161,7 @@ public class DatabasePopulator
      *
      * @return {@link List}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected List<String> getScriptSQLs(final URL script) throws Exception
     {

@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.base.core.concurrent.SimpleThreadFactory;
+import de.freese.base.core.concurrent.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +101,7 @@ public final class ExecutorUtils
             queue = new SynchronousQueue<>();
         }
 
-        ThreadFactory threadFactory = new SimpleThreadFactory(threadNamePattern, true);
+        ThreadFactory threadFactory = new NamedThreadFactory(threadNamePattern, true);
 
         ThreadPoolExecutor threadPoolExecutor =
                 new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);

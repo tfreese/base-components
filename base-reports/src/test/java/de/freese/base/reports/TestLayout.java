@@ -2,7 +2,7 @@
 package de.freese.base.reports;
 
 import de.freese.base.reports.layout.DefaultLayoutElement;
-import de.freese.base.reports.layout.ILayoutElement;
+import de.freese.base.reports.layout.LayoutElement;
 import de.freese.base.reports.layout.LayoutPreviewFrame;
 import de.freese.base.reports.layout.LineLayoutElement;
 
@@ -23,23 +23,23 @@ public class TestLayout
         masterElement.setHeight(300);
         masterElement.setWidth(300);
 
-        ILayoutElement layoutElement1 = new DefaultLayoutElement("Element 1");
+        LayoutElement layoutElement1 = new DefaultLayoutElement("Element 1");
         layoutElement1.setHeight(50);
         layoutElement1.setWidth(80);
 
-        ILayoutElement layoutElement2 = new DefaultLayoutElement("Element 2");
+        LayoutElement layoutElement2 = new DefaultLayoutElement("Element 2");
         layoutElement2.setX(45);
         layoutElement2.setY(45);
         layoutElement2.setHeight(100);
         layoutElement2.setWidth(100);
 
-        ILayoutElement layoutElement3 = new DefaultLayoutElement("Element 3");
+        LayoutElement layoutElement3 = new DefaultLayoutElement("Element 3");
         layoutElement3.setX(110);
         layoutElement3.setY(40);
         layoutElement3.setHeight(50);
         layoutElement3.setWidth(150);
 
-        ILayoutElement layoutElement4 = new LineLayoutElement();
+        LayoutElement layoutElement4 = new LineLayoutElement();
         layoutElement4.setX(100);
         layoutElement4.setY(200);
         layoutElement4.setWidth(150);

@@ -58,7 +58,7 @@ public class ConfigureableDocument extends PlainDocument
         /**
          * @param context {@link DocumentContext}
          *
-         * @throws Exception Falls was schief geht.
+         * @throws Exception Falls was schiefgeht.
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -172,7 +172,7 @@ public class ConfigureableDocument extends PlainDocument
         /**
          * @param context {@link DocumentContext}
          *
-         * @throws Exception Falls was schief geht.
+         * @throws Exception Falls was schiefgeht.
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -217,7 +217,7 @@ public class ConfigureableDocument extends PlainDocument
         /**
          * @param context {@link DocumentContext}
          *
-         * @throws Exception Falls was schief geht.
+         * @throws Exception Falls was schiefgeht.
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override

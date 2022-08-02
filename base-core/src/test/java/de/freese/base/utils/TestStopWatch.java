@@ -28,7 +28,7 @@ class TestStopWatch
     }
 
     /**
-     * @throws InterruptedException Falls was schief geht.
+     * @throws InterruptedException Falls was schiefgeht.
      */
     @Test
     void testPrettyPrint() throws InterruptedException

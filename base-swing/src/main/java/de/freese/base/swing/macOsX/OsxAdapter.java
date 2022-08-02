@@ -239,7 +239,7 @@ public class OsxAdapter implements InvocationHandler
      * @return boolean
      * <p/>
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public boolean callTarget(final Object appleEvent) throws Exception
     {

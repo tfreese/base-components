@@ -3,7 +3,7 @@ package de.freese.base.swing.components.filechooser;
 import javax.swing.filechooser.FileFilter;
 
 /**
- * {@link FileFilter} fuer Bild-Dateien.
+ * {@link FileFilter} für Bild-Dateien.
  *
  * @author Thomas Freese
  */

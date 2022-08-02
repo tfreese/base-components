@@ -41,7 +41,7 @@ class TestHsqldbTextTables
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     static void afterAll() throws Exception
@@ -50,7 +50,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
@@ -62,7 +62,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testTextTableBuilder01() throws Exception
@@ -92,7 +92,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testTextTableBuilder02() throws Exception
@@ -117,7 +117,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testTextTableBuilder03() throws Exception
@@ -143,7 +143,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testTextTableBuilder04() throws Exception
@@ -169,7 +169,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testTextTableBuilder05() throws Exception
@@ -196,7 +196,7 @@ class TestHsqldbTextTables
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testTextTableBuilder06() throws Exception

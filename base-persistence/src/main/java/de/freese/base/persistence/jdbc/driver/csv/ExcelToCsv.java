@@ -81,7 +81,7 @@ public class ExcelToCsv
      * @param excelSource {@link Path}
      * @param csvDest {@link Path}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public void convert(final Path excelSource, final Path csvDest) throws IOException
     {
@@ -100,7 +100,7 @@ public class ExcelToCsv
      * @param excelSource {@link Path}
      * @param csvWriter {@link Writer}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @SuppressWarnings("resource")
     public void convert(final Path excelSource, final Writer csvWriter) throws IOException
@@ -333,7 +333,7 @@ public class ExcelToCsv
      *
      * @return {@link Workbook}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private Workbook getWorkbook(final Path excelSource) throws IOException
     {
@@ -363,7 +363,7 @@ public class ExcelToCsv
      * @param writer {@link Writer}
      * @param values String[]
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private void writeCSV(final Writer writer, final String[] values) throws IOException
     {

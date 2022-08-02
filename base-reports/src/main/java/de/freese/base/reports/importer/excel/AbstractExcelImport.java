@@ -12,12 +12,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractExcelImport implements IExcelImport
+public abstract class AbstractExcelImport implements ExcelImport
 {
-    /**
-     *
-     */
-    private InputStream inputStream;
     /**
      *
      */
@@ -25,16 +21,40 @@ public abstract class AbstractExcelImport implements IExcelImport
     /**
      *
      */
+    private InputStream inputStream;
+    /**
+     *
+     */
     private boolean throwExcelException = true;
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#closeExcelFile()
+     * @see ExcelImport#closeExcelFile()
      */
     @Override
     public void closeExcelFile() throws Exception
     {
         IOUtils.closeQuietly(this.inputStream);
         this.inputStream = null;
+    }
+
+    /**
+     * @see ExcelImport#openExcelFile(java.lang.String)
+     */
+    @Override
+    public void openExcelFile(final String fileName) throws Exception
+    {
+        this.inputStream = new FileInputStream(fileName);
+
+        openExcelFile(this.inputStream);
+    }
+
+    /**
+     * @see ExcelImport#setThrowExcelException(boolean)
+     */
+    @Override
+    public void setThrowExcelException(final boolean value)
+    {
+        this.throwExcelException = value;
     }
 
     /**
@@ -51,25 +71,5 @@ public abstract class AbstractExcelImport implements IExcelImport
     protected boolean isThrowExcelException()
     {
         return this.throwExcelException;
-    }
-
-    /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#openExcelFile(java.lang.String)
-     */
-    @Override
-    public void openExcelFile(final String fileName) throws Exception
-    {
-        this.inputStream = new FileInputStream(fileName);
-
-        openExcelFile(this.inputStream);
-    }
-
-    /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#setThrowExcelException(boolean)
-     */
-    @Override
-    public void setThrowExcelException(final boolean value)
-    {
-        this.throwExcelException = value;
     }
 }

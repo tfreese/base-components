@@ -40,7 +40,7 @@ class TestSSHExec
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @BeforeAll
     static void beforeAll() throws Exception
@@ -62,7 +62,7 @@ class TestSSHExec
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSSH() throws Exception
@@ -76,7 +76,7 @@ class TestSSHExec
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testSSHAsync() throws Exception

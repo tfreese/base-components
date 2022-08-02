@@ -12,13 +12,12 @@ import java.security.interfaces.RSAPublicKey;
 
 import javax.crypto.Cipher;
 
+import de.freese.base.utils.SecurityUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.utils.SecurityUtils;
 
 /**
  * @author Thomas Freese
@@ -72,7 +71,7 @@ class TestSecurityUtils
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testCreateRsaKeyPair() throws Exception
@@ -102,8 +101,8 @@ class TestSecurityUtils
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testKeyManagerFactory()
     {
@@ -186,8 +185,8 @@ class TestSecurityUtils
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testSecureRandom()
     {
@@ -249,8 +248,8 @@ class TestSecurityUtils
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testTrustManagerFactory()
     {

@@ -22,7 +22,7 @@ public final class XmlUtils
      *
      * @return {@link Document}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final byte[] bytes) throws Exception
     {
@@ -36,7 +36,7 @@ public final class XmlUtils
      *
      * @return {@link Document}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final InputSource inputSource) throws Exception
     {
@@ -60,7 +60,7 @@ public final class XmlUtils
      *
      * @return {@link Document}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final InputStream inputStream) throws Exception
     {
@@ -74,7 +74,7 @@ public final class XmlUtils
      *
      * @return {@link Document}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final String string) throws Exception
     {

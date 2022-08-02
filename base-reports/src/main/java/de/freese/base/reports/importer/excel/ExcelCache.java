@@ -65,7 +65,7 @@ public final class ExcelCache
      *
      * @return {@link ExcelSheet}[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public ExcelSheet[] getExcelSheets(final String fileName, final boolean throwExceptions) throws Exception
     {
@@ -81,7 +81,7 @@ public final class ExcelCache
      *
      * @return {@link ExcelSheet}[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public ExcelSheet[] getExcelSheets(final String fileName, final boolean throwExceptions, final ProgressCallback progressCallback) throws Exception
     {
@@ -95,7 +95,7 @@ public final class ExcelCache
 
         if (sheets == null)
         {
-            IExcelImport excel = new ExcelImplDelegator();
+            ExcelImport excel = new ExcelImplDelegator();
             excel.setThrowExcelException(throwExceptions);
             excel.openExcelFile(fileName);
 

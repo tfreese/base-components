@@ -21,16 +21,16 @@ import javax.crypto.CipherOutputStream;
 abstract class AbstractCrypto implements Crypto
 {
     /**
-    *
-    */
+     *
+     */
     private static final int DEFAULT_BUFFER_SIZE = 8192;
     /**
      *
      */
     private final CryptoConfig<?> config;
     /**
-    *
-    */
+     *
+     */
     private final SecureRandom secureRandom;
 
     /**
@@ -38,7 +38,7 @@ abstract class AbstractCrypto implements Crypto
      *
      * @param cryptoConfig {@link CryptoConfig}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     AbstractCrypto(final CryptoConfig<?> cryptoConfig) throws Exception
     {
@@ -48,38 +48,6 @@ abstract class AbstractCrypto implements Crypto
 
         // SecureRandom ist ThreadSafe.
         this.secureRandom = SecureRandom.getInstance(this.config.getAlgorythmSecureRandom(), this.config.getProviderSecureRandom());
-    }
-
-    /**
-     * {@link Cipher} ist nicht ThreadSafe.
-     *
-     * @return {@link Cipher}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected abstract Cipher createCipherDecrypt() throws Exception;
-
-    /**
-     * {@link Cipher} ist nicht ThreadSafe.
-     *
-     * @return {@link Cipher}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected abstract Cipher createCipherEncrypt() throws Exception;
-
-    /**
-     * {@link MessageDigest} ist nicht ThreadSafe.
-     *
-     * @return {@link MessageDigest}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected MessageDigest createMessageDigest() throws Exception
-    {
-        MessageDigest messageDigest = MessageDigest.getInstance(getConfig().getAlgorythmDigest(), getConfig().getProviderDigest());
-
-        return messageDigest;
     }
 
     /**
@@ -93,46 +61,6 @@ abstract class AbstractCrypto implements Crypto
         byte[] decypted = decrypt(cipher, bytes);
 
         return decypted;
-    }
-
-    /**
-     * @param cipher {@link Cipher}
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected byte[] decrypt(final Cipher cipher, final byte[] bytes) throws Exception
-    {
-        byte[] decypted = cipher.doFinal(bytes);
-
-        return decypted;
-    }
-
-    /**
-     * @param cipher {@link Cipher}
-     * @param in {@link InputStream}
-     * @param out {@link OutputStream}
-     *
-     * @throws Exception Falls was schief geht.
-     */
-    protected void decrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception
-    {
-        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
-
-        try (CipherInputStream cipherInputStream = new CipherInputStream(in, cipher))
-        {
-            int numRead = 0;
-
-            while ((numRead = cipherInputStream.read(buffer)) >= 0)
-            {
-                out.write(buffer, 0, numRead);
-            }
-        }
-
-        out.flush();
-        buffer = null;
     }
 
     /**
@@ -181,7 +109,7 @@ abstract class AbstractCrypto implements Crypto
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public byte[] digest(final MessageDigest messageDigest, final InputStream in) throws Exception
     {
@@ -212,12 +140,95 @@ abstract class AbstractCrypto implements Crypto
     }
 
     /**
+     * @see de.freese.base.security.crypto.Crypto#encrypt(java.io.InputStream, java.io.OutputStream)
+     */
+    @Override
+    public void encrypt(final InputStream in, final OutputStream out) throws Exception
+    {
+        Cipher cipher = createCipherEncrypt();
+
+        encrypt(cipher, in, out);
+    }
+
+    /**
+     * {@link Cipher} ist nicht ThreadSafe.
+     *
+     * @return {@link Cipher}
+     *
+     * @throws Exception Falls was schiefgeht.
+     */
+    protected abstract Cipher createCipherDecrypt() throws Exception;
+
+    /**
+     * {@link Cipher} ist nicht ThreadSafe.
+     *
+     * @return {@link Cipher}
+     *
+     * @throws Exception Falls was schiefgeht.
+     */
+    protected abstract Cipher createCipherEncrypt() throws Exception;
+
+    /**
+     * {@link MessageDigest} ist nicht ThreadSafe.
+     *
+     * @return {@link MessageDigest}
+     *
+     * @throws Exception Falls was schiefgeht.
+     */
+    protected MessageDigest createMessageDigest() throws Exception
+    {
+        MessageDigest messageDigest = MessageDigest.getInstance(getConfig().getAlgorythmDigest(), getConfig().getProviderDigest());
+
+        return messageDigest;
+    }
+
+    /**
+     * @param cipher {@link Cipher}
+     * @param bytes byte[]
+     *
+     * @return byte[]
+     *
+     * @throws Exception Falls was schiefgeht.
+     */
+    protected byte[] decrypt(final Cipher cipher, final byte[] bytes) throws Exception
+    {
+        byte[] decypted = cipher.doFinal(bytes);
+
+        return decypted;
+    }
+
+    /**
+     * @param cipher {@link Cipher}
+     * @param in {@link InputStream}
+     * @param out {@link OutputStream}
+     *
+     * @throws Exception Falls was schiefgeht.
+     */
+    protected void decrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception
+    {
+        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+
+        try (CipherInputStream cipherInputStream = new CipherInputStream(in, cipher))
+        {
+            int numRead = 0;
+
+            while ((numRead = cipherInputStream.read(buffer)) >= 0)
+            {
+                out.write(buffer, 0, numRead);
+            }
+        }
+
+        out.flush();
+        buffer = null;
+    }
+
+    /**
      * @param cipher cipher {@link Cipher}
      * @param bytes byte[]
      *
      * @return byte[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected byte[] encrypt(final Cipher cipher, final byte[] bytes) throws Exception
     {
@@ -231,7 +242,7 @@ abstract class AbstractCrypto implements Crypto
      * @param in {@link InputStream}
      * @param out {@link OutputStream}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected void encrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception
     {
@@ -249,17 +260,6 @@ abstract class AbstractCrypto implements Crypto
 
         out.flush();
         buffer = null;
-    }
-
-    /**
-     * @see de.freese.base.security.crypto.Crypto#encrypt(java.io.InputStream, java.io.OutputStream)
-     */
-    @Override
-    public void encrypt(final InputStream in, final OutputStream out) throws Exception
-    {
-        Cipher cipher = createCipherEncrypt();
-
-        encrypt(cipher, in, out);
     }
 
     /**
@@ -285,7 +285,7 @@ abstract class AbstractCrypto implements Crypto
      * @param in {@link InputStream}, Verschlüsselt
      * @param out {@link OutputStream};
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected void sign(final Signature signature, final InputStream in, final OutputStream out) throws Exception
     {
@@ -313,7 +313,7 @@ abstract class AbstractCrypto implements Crypto
      *
      * @return boolean
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected boolean verify(final Signature signature, final InputStream in, final InputStream signIn) throws Exception
     {

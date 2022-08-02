@@ -7,12 +7,11 @@ import java.util.function.BiConsumer;
 /**
  * Interface eines {@link BiConsumer} mit einer Exception.<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Parameter-Typ
  * @param <U> Konkreter Parameter-Typ
  * @param <E> Konkreter Exception-Typ
  *
+ * @author Thomas Freese
  * @see java.util.function.BiConsumer
  */
 @FunctionalInterface
@@ -22,7 +21,7 @@ public interface ThrowingBiConsumer<T, U, E extends Exception>
      * @param t Object
      * @param u Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void accept(T t, U u) throws E;
 
@@ -35,7 +34,8 @@ public interface ThrowingBiConsumer<T, U, E extends Exception>
     {
         Objects.requireNonNull(after);
 
-        return (l, r) -> {
+        return (l, r) ->
+        {
             accept(l, r);
             after.accept(l, r);
         };

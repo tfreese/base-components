@@ -9,13 +9,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 
+import de.freese.base.utils.ExecutorUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-
-import de.freese.base.utils.ExecutorUtils;
 
 /**
  * @author Thomas Freese
@@ -71,7 +70,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test010RunAsyncThenAccept() throws Exception
@@ -80,9 +79,11 @@ class TestCompletableFuture
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.runAsync(() ->
+        {
             threadNameRun.set(getCurrentThreadName());
-        }, executorService).thenAccept(VOID -> {
+        }, executorService).thenAccept(VOID ->
+        {
             threadNameThen.set(getCurrentThreadName());
         });
 
@@ -103,7 +104,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test011RunAsyncThenAcceptAsync() throws Exception
@@ -111,9 +112,11 @@ class TestCompletableFuture
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.runAsync(() ->
+        {
             threadNameRun.set(getCurrentThreadName());
-        }, executorService).thenAcceptAsync(VOID -> {
+        }, executorService).thenAcceptAsync(VOID ->
+        {
             threadNameThen.set(getCurrentThreadName());
         }, executorService);
 
@@ -132,7 +135,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test012RunAsyncThenApply() throws Exception
@@ -141,9 +144,11 @@ class TestCompletableFuture
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.runAsync(() ->
+        {
             threadNameRun.set(getCurrentThreadName());
-        }, executorService).thenApply(VOID -> {
+        }, executorService).thenApply(VOID ->
+        {
             threadNameThen.set(getCurrentThreadName());
             return null;
         });
@@ -166,7 +171,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test013RunAsyncThenApplyAsync() throws Exception
@@ -174,9 +179,11 @@ class TestCompletableFuture
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.runAsync(() ->
+        {
             threadNameRun.set(getCurrentThreadName());
-        }, executorService).thenApplyAsync(VOID -> {
+        }, executorService).thenApplyAsync(VOID ->
+        {
             threadNameThen.set(getCurrentThreadName());
             return null;
         }, executorService);
@@ -196,7 +203,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test014RunAsyncThenRun() throws Exception
@@ -205,9 +212,11 @@ class TestCompletableFuture
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.runAsync(() ->
+        {
             threadNameRun.set(getCurrentThreadName());
-        }, executorService).thenRun(() -> {
+        }, executorService).thenRun(() ->
+        {
             threadNameThen.set(getCurrentThreadName());
         });
 
@@ -229,7 +238,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test015RunAsyncThenRunAsync() throws Exception
@@ -237,9 +246,11 @@ class TestCompletableFuture
         AtomicReference<String> threadNameRun = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.runAsync(() ->
+        {
             threadNameRun.set(getCurrentThreadName());
-        }, executorService).thenRunAsync(() -> {
+        }, executorService).thenRunAsync(() ->
+        {
             threadNameThen.set(getCurrentThreadName());
         }, executorService);
 
@@ -258,7 +269,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test020SupplyAsyncThenAccept() throws Exception
@@ -267,10 +278,12 @@ class TestCompletableFuture
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() ->
+        {
             threadNameSupply.set(getCurrentThreadName());
             return null;
-        }, executorService).thenAccept(VOID -> {
+        }, executorService).thenAccept(VOID ->
+        {
             threadNameThen.set(getCurrentThreadName());
         });
 
@@ -292,7 +305,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test021SupplyAsyncThenAcceptAsync() throws Exception
@@ -300,10 +313,12 @@ class TestCompletableFuture
         AtomicReference<String> threadNameSupply = new AtomicReference<>("");
         AtomicReference<String> threadNameThen = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() ->
+        {
             threadNameSupply.set(getCurrentThreadName());
             return null;
-        }, executorService).thenAcceptAsync(VOID -> {
+        }, executorService).thenAcceptAsync(VOID ->
+        {
             threadNameThen.set(getCurrentThreadName());
         }, executorService);
 
@@ -322,7 +337,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test022SupplyAsyncThenApplyThenAccept() throws Exception
@@ -332,13 +347,16 @@ class TestCompletableFuture
         AtomicReference<String> threadNameThen1 = new AtomicReference<>("");
         AtomicReference<String> threadNameThen2 = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() ->
+        {
             threadNameSupply.set(getCurrentThreadName());
             return null;
-        }, executorService).thenApply(VOID -> {
+        }, executorService).thenApply(VOID ->
+        {
             threadNameThen1.set(getCurrentThreadName());
             return null;
-        }).thenAccept(VOID -> {
+        }).thenAccept(VOID ->
+        {
             threadNameThen2.set(getCurrentThreadName());
         });
 
@@ -364,7 +382,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test023SupplyAsyncThenApplyAsyncThenAccept() throws Exception
@@ -374,13 +392,16 @@ class TestCompletableFuture
         AtomicReference<String> threadNameThen1 = new AtomicReference<>("");
         AtomicReference<String> threadNameThen2 = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() ->
+        {
             threadNameSupply.set(getCurrentThreadName());
             return null;
-        }, executorService).thenApplyAsync(VOID -> {
+        }, executorService).thenApplyAsync(VOID ->
+        {
             threadNameThen1.set(getCurrentThreadName());
             return null;
-        }, executorService).thenAccept(VOID -> {
+        }, executorService).thenAccept(VOID ->
+        {
             threadNameThen2.set(getCurrentThreadName());
         });
 
@@ -405,7 +426,7 @@ class TestCompletableFuture
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void test024SupplyAsyncThenApplyAsyncThenAcceptAsync() throws Exception
@@ -414,10 +435,12 @@ class TestCompletableFuture
         AtomicReference<String> threadNameThen1 = new AtomicReference<>("");
         AtomicReference<String> threadNameThen2 = new AtomicReference<>("");
 
-        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<Void> cf = CompletableFuture.supplyAsync(() ->
+        {
             threadNameSupply.set(getCurrentThreadName());
             return null;
-        }, executorService).thenApplyAsync(VOID -> {
+        }, executorService).thenApplyAsync(VOID ->
+        {
             threadNameThen1.set(getCurrentThreadName());
             return null;
         }, executorService).thenAcceptAsync(VOID -> threadNameThen2.set(getCurrentThreadName()), executorService);

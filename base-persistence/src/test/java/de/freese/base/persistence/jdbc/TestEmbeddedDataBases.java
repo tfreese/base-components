@@ -42,7 +42,7 @@ class TestEmbeddedDataBases
      * @param databaseType {@link EmbeddedDatabaseType}
      * @param server {@link DbServerExtension}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
@@ -103,7 +103,7 @@ class TestEmbeddedDataBases
      * @param databaseType {@link EmbeddedDatabaseType}
      * @param server {@link DbServerExtension}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
@@ -139,7 +139,7 @@ class TestEmbeddedDataBases
      * @param databaseType {@link EmbeddedDatabaseType}
      * @param server {@link DbServerExtension}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")

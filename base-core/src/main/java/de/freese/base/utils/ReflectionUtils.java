@@ -9,6 +9,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * Geklaut von org.springframework.util.ReflectionUtils.
@@ -20,7 +21,7 @@ public final class ReflectionUtils
     /**
      * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
      */
-    public static final MethodFilter USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
+    public static final Predicate<Method> USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
     /**
      *
      */
@@ -37,25 +38,9 @@ public final class ReflectionUtils
          *
          * @param field the field to operate on
          *
-         * @throws IllegalAccessException Falls was schief geht.
+         * @throws IllegalAccessException Falls was schiefgeht.
          */
         void doWith(Field field) throws IllegalAccessException;
-    }
-
-    /**
-     * Callback optionally used to filter fields to be operated on by a field callback.
-     */
-    @FunctionalInterface
-    public interface FieldFilter
-    {
-        /**
-         * Determine whether the given field matches.
-         *
-         * @param field the field to check
-         *
-         * @return boolean
-         */
-        boolean matches(Field field);
     }
 
     /**
@@ -69,25 +54,9 @@ public final class ReflectionUtils
          *
          * @param method the method to operate on
          *
-         * @throws IllegalAccessException Falls was schief geht.
+         * @throws IllegalAccessException Falls was schiefgeht.
          */
         void doWith(Method method) throws IllegalAccessException;
-    }
-
-    /**
-     * Callback optionally used to filter methods to be operated on by a method callback.
-     */
-    @FunctionalInterface
-    public interface MethodFilter
-    {
-        /**
-         * Determine whether the given method matches.
-         *
-         * @param method the method to check
-         *
-         * @return boolean
-         */
-        boolean matches(Method method);
     }
 
     /**
@@ -138,7 +107,7 @@ public final class ReflectionUtils
      *
      * @throws IllegalStateException if introspection fails
      */
-    public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback, final FieldFilter fieldFilter)
+    public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback, final Predicate<Field> fieldFilter)
     {
         // Keep backing up the inheritance hierarchy.
         Class<?> targetClass = clazz;
@@ -149,7 +118,7 @@ public final class ReflectionUtils
 
             for (Field field : fields)
             {
-                if ((fieldFilter != null) && !fieldFilter.matches(field))
+                if ((fieldFilter != null) && !fieldFilter.test(field))
                 {
                     continue;
                 }
@@ -196,13 +165,13 @@ public final class ReflectionUtils
     /**
      * Perform the given callback operation on all matching methods of the given class and superclasses.
      * <p>
-     * The same named method occurring on subclass and superclass will appear twice, unless excluded by a {@link MethodFilter}.
+     * The same named method occurring on subclass and superclass will appear twice, unless excluded by a {@link Predicate}.
      *
      * @param clazz the class to introspect
      * @param mc the callback to invoke for each method
      *
      * @throws IllegalStateException if introspection fails
-     * @see #doWithMethods(Class, MethodCallback, MethodFilter)
+     * @see #doWithMethods(Class, MethodCallback, Predicate)
      */
     public static void doWithMethods(final Class<?> clazz, final MethodCallback mc)
     {
@@ -212,22 +181,22 @@ public final class ReflectionUtils
     /**
      * Perform the given callback operation on all matching methods of the given class and superclasses (or given interface and super-interfaces).
      * <p>
-     * The same named method occurring on subclass and superclass will appear twice, unless excluded by the specified {@link MethodFilter}.
+     * The same named method occurring on subclass and superclass will appear twice, unless excluded by the specified {@link Predicate}.
      *
      * @param clazz the class to introspect
      * @param mc the callback to invoke for each method
-     * @param mf the filter that determines the methods to apply the callback to
+     * @param methodFilter the filter that determines the methods to apply the callback to
      *
      * @throws IllegalStateException if introspection fails
      */
-    public static void doWithMethods(final Class<?> clazz, final MethodCallback mc, final MethodFilter mf)
+    public static void doWithMethods(final Class<?> clazz, final MethodCallback mc, final Predicate<Method> methodFilter)
     {
         // Keep backing up the inheritance hierarchy.
         Method[] methods = getDeclaredMethods(clazz);
 
         for (Method method : methods)
         {
-            if ((mf != null) && !mf.matches(method))
+            if ((methodFilter != null) && !methodFilter.test(method))
             {
                 continue;
             }
@@ -242,15 +211,15 @@ public final class ReflectionUtils
             }
         }
 
-        if ((clazz.getSuperclass() != null) && ((mf != USER_DECLARED_METHODS) || (clazz.getSuperclass() != Object.class)))
+        if ((clazz.getSuperclass() != null) && ((methodFilter != USER_DECLARED_METHODS) || (clazz.getSuperclass() != Object.class)))
         {
-            doWithMethods(clazz.getSuperclass(), mc, mf);
+            doWithMethods(clazz.getSuperclass(), mc, methodFilter);
         }
         else if (clazz.isInterface())
         {
             for (Class<?> superIfc : clazz.getInterfaces())
             {
-                doWithMethods(superIfc, mc, mf);
+                doWithMethods(superIfc, mc, methodFilter);
             }
         }
     }
@@ -289,9 +258,9 @@ public final class ReflectionUtils
             throw new IllegalStateException("Could not access method or field: " + ex.getMessage());
         }
 
-        if (ex instanceof InvocationTargetException)
+        if (ex instanceof InvocationTargetException ite)
         {
-            handleInvocationTargetException((InvocationTargetException) ex);
+            handleInvocationTargetException(ite);
         }
 
         if (ex instanceof RuntimeException)
@@ -394,14 +363,14 @@ public final class ReflectionUtils
      */
     public static void rethrowRuntimeException(final Throwable ex)
     {
-        if (ex instanceof RuntimeException)
+        if (ex instanceof RuntimeException re)
         {
-            throw (RuntimeException) ex;
+            throw re;
         }
 
-        if (ex instanceof Error)
+        if (ex instanceof Error e)
         {
-            throw (Error) ex;
+            throw e;
         }
 
         throw new UndeclaredThrowableException(ex);

@@ -7,12 +7,11 @@ import java.util.function.Function;
 /**
  * Interface einer {@link Function} mit einer Exception.<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Parameter-Typ
  * @param <R> Konkreter Ergebnis-Typ
  * @param <E> Konkreter Exception-Typ
  *
+ * @author Thomas Freese
  * @see java.util.function.Function
  */
 @FunctionalInterface
@@ -43,7 +42,7 @@ public interface ThrowingFunction<T, R, E extends Exception>
      *
      * @return Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     R apply(T t) throws E;
 

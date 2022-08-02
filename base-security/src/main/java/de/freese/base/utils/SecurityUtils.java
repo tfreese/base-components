@@ -27,7 +27,7 @@ public final class SecurityUtils
      *
      * @return {@link KeyPair}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static KeyPair createDefaultKeyPair() throws Exception
     {
@@ -138,7 +138,7 @@ public final class SecurityUtils
      *
      * @return {@link Socket}
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     public static Socket startSSL(final Socket socket) throws IOException
     {

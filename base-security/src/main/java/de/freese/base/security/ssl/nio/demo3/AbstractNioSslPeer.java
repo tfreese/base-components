@@ -103,7 +103,7 @@ public abstract class AbstractNioSslPeer
      *
      * @return {@link KeyManager} array that will be used to initiate the {@link SSLContext}.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected KeyManager[] createKeyManagers(final String filepath, final String keystorePassword, final String keyPassword) throws Exception
     {
@@ -128,7 +128,7 @@ public abstract class AbstractNioSslPeer
      *
      * @return {@link TrustManager} array, that will be used to initiate the {@link SSLContext}.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected TrustManager[] createTrustManagers(final String filepath, final String keystorePassword) throws Exception
     {
@@ -453,7 +453,7 @@ public abstract class AbstractNioSslPeer
      * @param socketChannel {@link SocketChannel}
      * @param engine {@link SSLEngine}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected abstract void read(SocketChannel socketChannel, SSLEngine engine) throws Exception;
 
@@ -462,7 +462,7 @@ public abstract class AbstractNioSslPeer
      * @param engine {@link SSLEngine}
      * @param message String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected abstract void write(SocketChannel socketChannel, SSLEngine engine, String message) throws Exception;
 }

@@ -59,7 +59,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @param outputStream {@link OutputStream}
      *
      * @throws FactoryConfigurationError if an instance of this factory cannot be loaded
-     * @throws XMLStreamException Falls was schief geht.
+     * @throws XMLStreamException Falls was schiefgeht.
      */
     public PrettyPrintXMLStreamWriter(final OutputStream outputStream) throws XMLStreamException, FactoryConfigurationError
     {
@@ -73,7 +73,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @param encoding String; UTF8, ISO-8859-1...
      *
      * @throws FactoryConfigurationError if an instance of this factory cannot be loaded
-     * @throws XMLStreamException Falls was schief geht.
+     * @throws XMLStreamException Falls was schiefgeht.
      */
     public PrettyPrintXMLStreamWriter(final OutputStream outputStream, final String encoding) throws XMLStreamException, FactoryConfigurationError
     {
@@ -462,7 +462,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     }
 
     /**
-     * @throws XMLStreamException Falls was schief geht.
+     * @throws XMLStreamException Falls was schiefgeht.
      */
     protected void handleWriteEmptyElement() throws XMLStreamException
     {
@@ -476,7 +476,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     }
 
     /**
-     * @throws XMLStreamException Falls was schief geht.
+     * @throws XMLStreamException Falls was schiefgeht.
      */
     protected void handleWriteEndElement() throws XMLStreamException
     {
@@ -490,7 +490,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     }
 
     /**
-     * @throws XMLStreamException Falls was schief geht.
+     * @throws XMLStreamException Falls was schiefgeht.
      */
     protected void handleWriteStartElement() throws XMLStreamException
     {

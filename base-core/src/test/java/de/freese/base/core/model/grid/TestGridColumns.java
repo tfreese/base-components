@@ -43,7 +43,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 class TestGridColumns
 {
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testBinary() throws IOException
@@ -65,7 +65,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testBoolean() throws IOException
@@ -84,7 +84,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testDate() throws IOException
@@ -106,7 +106,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testDouble() throws IOException
@@ -125,7 +125,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testGeneric() throws IOException
@@ -172,7 +172,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testInteger() throws IOException
@@ -191,7 +191,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testLong() throws IOException
@@ -210,7 +210,7 @@ class TestGridColumns
     }
 
     /**
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     @Test
     void testString() throws IOException
@@ -234,7 +234,7 @@ class TestGridColumns
      *
      * @return Object
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private <T> T read(final GridColumn<T> column, final byte[] bytes) throws IOException
     {
@@ -254,7 +254,7 @@ class TestGridColumns
      *
      * @return byte[]
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     private <T> byte[] write(final GridColumn<T> column, final Object object) throws IOException
     {

@@ -69,7 +69,7 @@ public class SSLEngineExample
     /**
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -90,7 +90,7 @@ public class SSLEngineExample
      * @param a {@link ByteBuffer}
      * @param b {@link ByteBuffer}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private static void checkTransfer(final ByteBuffer a, final ByteBuffer b) throws Exception
     {
@@ -159,7 +159,7 @@ public class SSLEngineExample
      * @param result {@link SSLEngineResult}
      * @param engine {@link SSLEngine}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private static void runDelegatedTasks(final SSLEngineResult result, final SSLEngine engine) throws Exception
     {
@@ -183,6 +183,10 @@ public class SSLEngineExample
             log("\tnew HandshakeStatus: " + hsStatus);
         }
     }
+    /**
+     *
+     */
+    private final SSLContext sslc;
     /**
      * For data transport, this example uses local ByteBuffers.<br>
      * This isn't really useful, but the purpose of this example is to show SSLEngine concepts,<br>
@@ -219,15 +223,11 @@ public class SSLEngineExample
      * write side of serverEngine
      */
     private ByteBuffer serverOut;
-    /**
-     *
-     */
-    private final SSLContext sslc;
 
     /**
      * Create an initialized SSLContext to use for this demo.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public SSLEngineExample() throws Exception
     {
@@ -330,7 +330,7 @@ public class SSLEngineExample
      * back they are closed. The main loop handles all of the I/O phases of the SSLEngine's lifetime: initial handshaking application data transfer engine
      * closing One could easily separate these phases into separate sections of code.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private void runDemo() throws Exception
     {

@@ -10,9 +10,9 @@ import java.lang.reflect.ParameterizedType;
 /**
  * Definiert eine Spalte des Grids.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Spalten-Typ
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<T>
 {
@@ -21,24 +21,24 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
      */
     private static final long serialVersionUID = -3866701962046000404L;
     /**
-    *
-    */
-    private String comment;
-    /**
-    *
-    */
-    private int length = -1;
-    /**
-    *
-    */
-    private String name;
-    /**
      *
      */
     private final Class<T> objectClazz;
     /**
-    *
-    */
+     *
+     */
+    private String comment;
+    /**
+     *
+     */
+    private int length = -1;
+    /**
+     *
+     */
+    private String name;
+    /**
+     *
+     */
     private int precision = -1;
 
     /**
@@ -132,17 +132,6 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
     }
 
     /**
-     * Liest den Wert aus dem Stream, der NULL-Marker wurde bereits in {@link #read(DataInput)} gelesen.
-     *
-     * @param dataInput {@link DataInput}
-     *
-     * @return Object
-     *
-     * @throws IOException Falls was schief geht.
-     */
-    protected abstract T readNullSafe(final DataInput dataInput) throws IOException;
-
-    /**
      * @see de.freese.base.core.model.grid.column.GridColumn#setComment(java.lang.String)
      */
     @Override
@@ -216,12 +205,23 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
     }
 
     /**
+     * Liest den Wert aus dem Stream, der NULL-Marker wurde bereits in {@link #read(DataInput)} gelesen.
+     *
+     * @param dataInput {@link DataInput}
+     *
+     * @return Object
+     *
+     * @throws IOException Falls was schiefgeht.
+     */
+    protected abstract T readNullSafe(final DataInput dataInput) throws IOException;
+
+    /**
      * Schreibt den Wert in den Stream, der NULL-Marker wurde bereits in {@link #write(DataOutput, Object)} gesetzt.
      *
      * @param dataOutput {@link DataOutput}
      * @param value Object
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected abstract void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException;
 }

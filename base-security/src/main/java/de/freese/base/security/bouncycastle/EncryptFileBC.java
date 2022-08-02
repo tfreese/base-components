@@ -56,7 +56,7 @@ public class EncryptFileBC
      * @param encryptedFile String
      * @param zertifikatFile String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String zertifikatFile) throws Exception
     {
@@ -74,7 +74,7 @@ public class EncryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias)
@@ -92,7 +92,7 @@ public class EncryptFileBC
      * @param encryptedFile String
      * @param cert {@link X509Certificate}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509File(final String decrytpedFile, final String encryptedFile, final X509Certificate cert) throws Exception
     {
@@ -135,7 +135,7 @@ public class EncryptFileBC
      * @param outputFolder String
      * @param zertifikatFile String
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile) throws Exception
     {
@@ -154,7 +154,7 @@ public class EncryptFileBC
      * @param keyStorePassword char[]
      * @param alias String, Zertifikat
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias)
@@ -173,7 +173,7 @@ public class EncryptFileBC
      * @param outputFolder String
      * @param cert {@link X509Certificate}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final X509Certificate cert) throws Exception
     {
@@ -203,7 +203,7 @@ public class EncryptFileBC
      *
      * @return {@link X509Certificate}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private X509Certificate getCertificate(final String zertifikatFile) throws Exception
     {
@@ -231,7 +231,7 @@ public class EncryptFileBC
      *
      * @return {@link X509Certificate}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias) throws Exception
     {

@@ -62,7 +62,7 @@ public class DecryptFileBC
      * @param decryptedFile String
      * @param privateKey {@link PrivateKey}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws Exception
     {
@@ -122,7 +122,7 @@ public class DecryptFileBC
      * @param zertifikatFile String
      * @param password char[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password) throws Exception
     {
@@ -141,7 +141,7 @@ public class DecryptFileBC
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias, final char[] aliasPassword)
@@ -159,7 +159,7 @@ public class DecryptFileBC
      * @param outputFolder String
      * @param privateKey {@link PrivateKey}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception
     {
@@ -183,7 +183,7 @@ public class DecryptFileBC
      * @param zertifikatFile String
      * @param password char[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password) throws Exception
     {
@@ -202,7 +202,7 @@ public class DecryptFileBC
      * @param alias String, Zertifikat
      * @param aliasPassword char[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias, final char[] aliasPassword)
@@ -217,7 +217,7 @@ public class DecryptFileBC
      * @param ks {@link KeyStore}
      * @param password char[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception
     {
@@ -300,7 +300,7 @@ public class DecryptFileBC
      *
      * @return {@link PrivateKey}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception
     {
@@ -347,7 +347,7 @@ public class DecryptFileBC
      *
      * @return {@link PrivateKey}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception
     {

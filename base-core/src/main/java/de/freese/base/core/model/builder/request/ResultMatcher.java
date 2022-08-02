@@ -10,7 +10,7 @@ public interface ResultMatcher
     /**
      * @param result {@link RequestResult}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     void match(RequestResult result) throws Exception;
 }

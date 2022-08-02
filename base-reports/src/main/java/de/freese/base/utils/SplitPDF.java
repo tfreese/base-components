@@ -29,7 +29,7 @@ public class SplitPDF
      *
      * @param args String[]
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public static void main(final String[] args) throws Exception
     {
@@ -70,7 +70,7 @@ public class SplitPDF
      *
      * @param pdfFile byte[]
      *
-     * @throws IllegalArgumentException Falls was schief geht.
+     * @throws IllegalArgumentException Falls was schiefgeht.
      */
     public SplitPDF(final byte[] pdfFile)
     {
@@ -89,7 +89,7 @@ public class SplitPDF
      *
      * @param pdfFileName String
      *
-     * @throws IllegalArgumentException Falls was schief geht.
+     * @throws IllegalArgumentException Falls was schiefgeht.
      */
     public SplitPDF(final String pdfFileName)
     {
@@ -110,7 +110,7 @@ public class SplitPDF
      * @param outStream {@link OutputStream}
      * @param metaData {@link DocumentMetaData} (optional)
      *
-     * @throws Exception Falls was schief geht
+     * @throws Exception Falls was schiefgeht
      * @throws IllegalArgumentException bei ungültigen Parametern
      */
     public void split(final String[] ranges, final OutputStream outStream, final DocumentMetaData metaData) throws Exception
@@ -203,7 +203,7 @@ public class SplitPDF
      * @param outStreams OutputStream[] für jede erzeuge Datei eines Range-Bereiches
      * @param metaData {@link DocumentMetaData}[] (optional)
      *
-     * @throws Exception Falls was schief geht
+     * @throws Exception Falls was schiefgeht
      * @throws IllegalArgumentException bei ungültigen Parametern
      */
     public void split(final String[] ranges, final OutputStream[] outStreams, final DocumentMetaData[] metaData) throws Exception
@@ -301,7 +301,7 @@ public class SplitPDF
      *
      * @return {@link PdfReader}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     private PdfReader getPDFReader() throws Exception
     {

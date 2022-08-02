@@ -74,6 +74,7 @@ public class SSLServerSocketChannel extends ServerSocketChannel
 
         return filteredItems.toArray(new String[filteredItems.size()]);
     }
+
     /**
      *
      */
@@ -183,7 +184,7 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      *
      * @return An SSLSocketChannel or {@code null} if this channel is in non-blocking mode and no connection is available to be accepted.
      *
-     * @throws IOException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
      * @see #accept()
      */
     public SSLSocketChannel acceptOverSSL() throws IOException

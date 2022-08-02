@@ -30,7 +30,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * Erstellt ein neues {@link AbstractTreeListenerTableModel} Object.
      *
      * @param columnCount int
-     * @param tree {@link JTree}, Wird benötigt um die Liste mit Objekten zu füllen, NICHT um die Listener zu registrieren !<br>
+     * @param tree {@link JTree}, Wird benötigt, um die Liste mit Objekten zu füllen, NICHT um die Listener zu registrieren !<br>
      * Setzten der Listener:<br>
      * JTree.addTreeExpansionListener(this)<br>
      * JTree.getModel().addTreeModelListener(this)

@@ -50,7 +50,7 @@ public class NioSslClient extends AbstractNioSslPeer
      * @param remoteAddress The IP address of the peer.
      * @param port The peer's port that will be used.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public NioSslClient(final String protocol, final String remoteAddress, final int port) throws Exception
     {
@@ -75,7 +75,7 @@ public class NioSslClient extends AbstractNioSslPeer
      *
      * @return True if client established a connection with the server, false otherwise.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public boolean connect() throws Exception
     {
@@ -95,7 +95,7 @@ public class NioSslClient extends AbstractNioSslPeer
     /**
      * Public method to try to read from the server.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void read() throws Exception
     {
@@ -139,7 +139,7 @@ public class NioSslClient extends AbstractNioSslPeer
      * @param socketChannel {@link SocketChannel}
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Override
     protected void read(final SocketChannel socketChannel, final SSLEngine engine) throws Exception

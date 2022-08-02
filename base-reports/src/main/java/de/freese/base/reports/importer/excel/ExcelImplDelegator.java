@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class ExcelImplDelegator implements IExcelImport
+public class ExcelImplDelegator implements ExcelImport
 {
     /**
      *
@@ -64,7 +64,7 @@ public class ExcelImplDelegator implements IExcelImport
     /**
      *
      */
-    private IExcelImport excelImpl;
+    private ExcelImport excelImpl;
     /**
      *
      */
@@ -75,7 +75,7 @@ public class ExcelImplDelegator implements IExcelImport
     private boolean throwExcelException = true;
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#closeExcelFile()
+     * @see ExcelImport#closeExcelFile()
      */
     @Override
     public void closeExcelFile() throws Exception
@@ -88,7 +88,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#closeSheet()
+     * @see ExcelImport#closeSheet()
      */
     @Override
     public void closeSheet()
@@ -97,7 +97,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumColumns()
+     * @see ExcelImport#getNumColumns()
      */
     @Override
     public int getNumColumns()
@@ -106,7 +106,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumRows()
+     * @see ExcelImport#getNumRows()
      */
     @Override
     public int getNumRows()
@@ -115,7 +115,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getNumberOfSheets()
+     * @see ExcelImport#getNumberOfSheets()
      */
     @Override
     public int getNumberOfSheets()
@@ -124,7 +124,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getSheetName()
+     * @see ExcelImport#getSheetName()
      */
     @Override
     public String getSheetName()
@@ -133,7 +133,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#getValueAt(int, int)
+     * @see ExcelImport#getValueAt(int, int)
      */
     @Override
     public String getValueAt(final int row, final int column) throws ExcelException
@@ -154,7 +154,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#isSheetReadable()
+     * @see ExcelImport#isSheetReadable()
      */
     @Override
     public boolean isSheetReadable()
@@ -163,7 +163,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#openExcelFile(java.io.InputStream)
+     * @see ExcelImport#openExcelFile(java.io.InputStream)
      */
     @SuppressWarnings("resource")
     @Override
@@ -245,7 +245,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#openExcelFile(java.lang.String)
+     * @see ExcelImport#openExcelFile(java.lang.String)
      */
     @Override
     public void openExcelFile(final String fileName) throws Exception
@@ -257,7 +257,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#selectSheet(int)
+     * @see ExcelImport#selectSheet(int)
      */
     @Override
     public void selectSheet(final int sheetIndex) throws Exception
@@ -266,7 +266,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#selectSheet(java.lang.String)
+     * @see ExcelImport#selectSheet(java.lang.String)
      */
     @Override
     public void selectSheet(final String sheetName) throws Exception
@@ -275,7 +275,7 @@ public class ExcelImplDelegator implements IExcelImport
     }
 
     /**
-     * @see de.freese.base.reports.importer.excel.IExcelImport#setThrowExcelException(boolean)
+     * @see ExcelImport#setThrowExcelException(boolean)
      */
     @Override
     public void setThrowExcelException(final boolean value)

@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import de.freese.base.core.io.WindowsPrintWriter;
 import de.freese.base.core.progress.ProgressCallback;
 import de.freese.base.reports.exporter.AbstractExporter;
+import de.freese.base.reports.exporter.Exporter;
 
 /**
  * Basisklasse eines CSV-Exporters.
@@ -26,7 +27,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
     }
 
     /**
-     * @see de.freese.base.reports.exporter.IExporter#export(java.io.OutputStream, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
+     * @see Exporter#export(java.io.OutputStream, de.freese.base.core.progress.ProgressCallback, java.lang.Object)
      */
     @Override
     public void export(final OutputStream outputStream, final ProgressCallback progressCallback, final Object model) throws Exception
@@ -44,7 +45,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
      * @param progressCallback {@link ProgressCallback}, optional
      * @param model Object
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public abstract void export(PrintWriter pw, ProgressCallback progressCallback, Object model) throws Exception;
 
@@ -56,7 +57,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
      *
      * @return {@link StringBuffer}
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public StringBuffer export(final ProgressCallback progressCallback, final Object model) throws Exception
     {

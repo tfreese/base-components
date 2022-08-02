@@ -55,7 +55,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
     /**
      * Schliesst das {@link Document} und den {@link PdfWriter}.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     public void closeDocumentAndWriter() throws Exception
     {
@@ -74,7 +74,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      * @param outputStream {@link OutputStream}
      * @param metaData {@link DocumentMetaData}
      *
-     * @throws DocumentException Falls was schief geht.
+     * @throws DocumentException Falls was schiefgeht.
      * @see #setDocument(Document)
      * @see #setWriter(PdfWriter)
      */
@@ -155,8 +155,8 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      * @param text String, muss DatumsFormat enthalten String.format(...)
      * @param datum {@link Date}
      *
-     * @throws DocumentException Falls was schief geht.
-     * @throws IOException Falls was schief geht.
+     * @throws DocumentException Falls was schiefgeht.
+     * @throws IOException Falls was schiefgeht.
      */
     protected void createFussZeile(final float xOffset, final float yOffset, final String text, final Date datum) throws DocumentException, IOException
     {
@@ -243,8 +243,8 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      * @param fontSize int
      * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
      *
-     * @throws IOException Falls was schief geht.
-     * @throws DocumentException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws DocumentException Falls was schiefgeht.
      */
     protected void drawText(final String text, final float x, final float y, final int fontSize, final int align) throws DocumentException, IOException
     {
@@ -275,8 +275,8 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      *
      * @return {@link BaseFont}
      *
-     * @throws IOException Falls was schief geht.
-     * @throws DocumentException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws DocumentException Falls was schiefgeht.
      */
     protected BaseFont getBaseFont() throws DocumentException, IOException
     {
@@ -293,8 +293,8 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      *
      * @return {@link BaseFont}
      *
-     * @throws IOException Falls was schief geht.
-     * @throws DocumentException Falls was schief geht.
+     * @throws IOException Falls was schiefgeht.
+     * @throws DocumentException Falls was schiefgeht.
      */
     protected BaseFont getBaseFontBold() throws DocumentException, IOException
     {
@@ -425,7 +425,7 @@ public abstract class AbstractPDFExporter extends AbstractExporter
      * @param userPassword String, null = Keine Abfrage beim Öffnen
      * @param ownerPassword String, Abfrage beim Andern
      *
-     * @throws DocumentException Falls was schief geht.
+     * @throws DocumentException Falls was schiefgeht.
      */
     protected void secure(final PdfWriter writer, final String userPassword, final String ownerPassword) throws DocumentException
     {

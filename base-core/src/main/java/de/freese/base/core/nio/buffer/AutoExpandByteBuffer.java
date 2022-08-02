@@ -197,7 +197,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      *
      * @return {@link CharBuffer}
      *
-     * @throws CharacterCodingException Falls was schief geht.
+     * @throws CharacterCodingException Falls was schiefgeht.
      */
     public CharBuffer decode(final CharsetDecoder decoder) throws CharacterCodingException
     {

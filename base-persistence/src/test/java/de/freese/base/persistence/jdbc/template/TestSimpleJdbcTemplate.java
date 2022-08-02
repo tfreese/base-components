@@ -83,7 +83,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testInsert() throws Exception
@@ -99,7 +99,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testInsertBatch() throws Exception
@@ -127,7 +127,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testInsertPrepared() throws Exception
@@ -157,7 +157,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsFlux() throws Exception
@@ -204,7 +204,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsFluxPreparedParam() throws Exception
@@ -231,7 +231,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsFluxPreparedSetter() throws Exception
@@ -258,7 +258,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsMap() throws Exception
@@ -288,7 +288,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsMapPreparedParam() throws Exception
@@ -322,7 +322,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsMapPreparedSetter() throws Exception
@@ -356,7 +356,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsPreparedParam() throws Exception
@@ -379,7 +379,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsPreparedSetter() throws Exception
@@ -402,7 +402,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsPublisherPreparedParam() throws Exception
@@ -429,7 +429,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsPublisherPreparedSetter() throws Exception
@@ -456,7 +456,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsStream() throws Exception
@@ -498,7 +498,7 @@ class TestSimpleJdbcTemplate
     /**
      * Die Methoden im {@link ResultSetIterator} müssen bei {@link Stream#parallel()} synchronisiert werden.
      *
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsStreamParallel() throws Exception
@@ -535,7 +535,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsStreamPreparedParam() throws Exception
@@ -572,7 +572,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsStreamPreparedSetter() throws Exception
@@ -609,7 +609,7 @@ class TestSimpleJdbcTemplate
     }
 
     /**
-     * @throws Exception Falls was schief geht.
+     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryWithMaxRows() throws Exception
