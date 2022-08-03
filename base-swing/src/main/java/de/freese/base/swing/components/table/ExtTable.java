@@ -24,8 +24,8 @@ import javax.swing.text.JTextComponent;
 
 import de.freese.base.swing.components.table.column.DefaultExtTableColumnModel;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
-import de.freese.base.swing.components.table.column.IExtTableColumnModel;
-import de.freese.base.swing.components.table.column.IExtTableColumnModelListener;
+import de.freese.base.swing.components.table.column.ExtTableColumnModel;
+import de.freese.base.swing.components.table.column.ExtTableColumnModelListener;
 import de.freese.base.swing.components.table.columncontrol.ColumnControlButton;
 import de.freese.base.swing.components.table.sort.Sort;
 import de.freese.base.swing.components.table.sort.TableColumnSorter;
@@ -36,7 +36,7 @@ import de.freese.base.utils.TableUtils;
  *
  * @author Thomas Freese
  */
-public class ExtTable extends JTable implements IExtTableColumnModelListener
+public class ExtTable extends JTable implements ExtTableColumnModelListener
 {
     /**
      *
@@ -199,13 +199,13 @@ public class ExtTable extends JTable implements IExtTableColumnModelListener
     }
 
     /**
-     * Liefert das erweiterte {@link IExtTableColumnModel}.
+     * Liefert das erweiterte {@link ExtTableColumnModel}.
      *
-     * @return {@link IExtTableColumnModel}
+     * @return {@link ExtTableColumnModel}
      */
-    public IExtTableColumnModel getColumnModelExt()
+    public ExtTableColumnModel getColumnModelExt()
     {
-        return (IExtTableColumnModel) getColumnModel();
+        return (ExtTableColumnModel) getColumnModel();
     }
 
     /**

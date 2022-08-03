@@ -80,10 +80,10 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
         this.view.setMessage("nasa.load.start", this.url, null);
         setSubTitle(this.resourceMap.getString("nasa.load.start", this.url));
 
-        IIOReadProgressListener rpl = new IIOReadProgressAdapter()
+        IIOReadProgressListener rpl = new IioReadProgressAdapter()
         {
             /**
-             * @see de.freese.base.demo.nasa.IIOReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
+             * @see IioReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
              */
             @Override
             public void imageProgress(final ImageReader source, final float percentageDone)

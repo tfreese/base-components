@@ -13,8 +13,8 @@ import javax.swing.SwingWorker;
 
 import de.freese.base.swing.components.table.column.ExtTableColumn;
 import de.freese.base.swing.components.table.column.ExtTableColumnModelListenerAdapter;
+import de.freese.base.swing.eventlist.DefaultEventList;
 import de.freese.base.swing.eventlist.EventList;
-import de.freese.base.swing.eventlist.IEventList;
 
 /**
  * @author Thomas Freese
@@ -34,9 +34,9 @@ public final class TableExampleEventList
         /**
          * Erstellt ein neues {@link MyTableModel} Object.
          *
-         * @param list {@link IEventList}
+         * @param list {@link EventList}
          */
-        MyTableModel(final IEventList<int[]> list)
+        MyTableModel(final EventList<int[]> list)
         {
             super(5, list);
         }
@@ -58,7 +58,7 @@ public final class TableExampleEventList
      */
     public static void main(final String[] args)
     {
-        EventList<int[]> eventList = new EventList<>();
+        DefaultEventList<int[]> eventList = new DefaultEventList<>();
 
         MyTableModel tableModel = new MyTableModel(eventList);
         ExtTable table = new ExtTable();
@@ -116,9 +116,9 @@ public final class TableExampleEventList
                 for (int i = 1; i < 6; i++)
                 {
                     publish(new int[]
-                    {
-                            i, 2, 3, 4, 5
-                    });
+                            {
+                                    i, 2, 3, 4, 5
+                            });
 
                     TimeUnit.MILLISECONDS.sleep(2000);
                 }

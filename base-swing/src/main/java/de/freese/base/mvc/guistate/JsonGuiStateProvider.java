@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import de.freese.base.mvc.storage.LocalStorage;
-import de.freese.base.swing.state.GUIState;
+import de.freese.base.swing.state.GuiState;
 
 /**
  * Der {@link JsonGuiStateProvider} nutzt den {@link LocalStorage} für das Speichern im JSON-Format.
@@ -59,10 +59,10 @@ public class JsonGuiStateProvider extends AbstractGuiStateProvider
      * @see de.freese.base.mvc.guistate.GuiStateProvider#load(java.lang.String, java.lang.Class)
      */
     @Override
-    public GUIState load(final String filePrefix, final Class<GUIState> stateClazz)
+    public GuiState load(final String filePrefix, final Class<GuiState> stateClazz)
     {
         String fileName = filePrefix + ".json";
-        GUIState state = null;
+        GuiState state = null;
 
         try
         {
@@ -78,17 +78,17 @@ public class JsonGuiStateProvider extends AbstractGuiStateProvider
         {
             // StringBuilder sb = new StringBuilder();
             // StackTraceLimiter.printStackTrace(ex, sb, 3);
-            // getLogger().warn("Can not load GUIState for {}: ", fileName);
+            // getLogger().warn("Can not load GuiState for {}: ", fileName);
         }
 
         return state;
     }
 
     /**
-     * @see de.freese.base.mvc.guistate.GuiStateProvider#save(java.lang.String, de.freese.base.swing.state.GUIState)
+     * @see de.freese.base.mvc.guistate.GuiStateProvider#save(java.lang.String, GuiState)
      */
     @Override
-    public void save(final String filePrefix, final GUIState state)
+    public void save(final String filePrefix, final GuiState state)
     {
         String fileName = filePrefix + ".json";
 
@@ -104,7 +104,7 @@ public class JsonGuiStateProvider extends AbstractGuiStateProvider
             // StackTraceLimiter.printStackTrace(ex, sb, 3);
             // LOGGER.warn(sb.toString());
 
-            getLogger().warn("Can not save GUIState for {}", fileName, ex);
+            getLogger().warn("Can not save GuiState for {}", fileName, ex);
         }
     }
 }

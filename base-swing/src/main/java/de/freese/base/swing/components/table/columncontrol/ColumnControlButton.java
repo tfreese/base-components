@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JButton;
 
 import de.freese.base.swing.components.table.ExtTable;
-import de.freese.base.swing.components.table.column.IExtTableColumnModel;
+import de.freese.base.swing.components.table.column.ExtTableColumnModel;
 import de.freese.base.swing.icon.ColumnControlIcon;
 
 /**
@@ -38,7 +38,7 @@ public class ColumnControlButton extends JButton
     {
         super();
 
-        if (!(table.getColumnModel() instanceof IExtTableColumnModel))
+        if (!(table.getColumnModel() instanceof ExtTableColumnModel))
         {
             throw new IllegalArgumentException("TableColumnModel muss vom Typ IExtTableColumnModel sein !");
         }

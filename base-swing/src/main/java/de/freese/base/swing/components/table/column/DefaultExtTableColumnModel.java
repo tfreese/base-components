@@ -18,7 +18,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author Thomas Freese
  */
-public class DefaultExtTableColumnModel extends DefaultTableColumnModel implements IExtTableColumnModel
+public class DefaultExtTableColumnModel extends DefaultTableColumnModel implements ExtTableColumnModel
 {
     /**
      * flag to distinguish a shown/hidden column from really added/removed columns during notification. This is brittle!
@@ -119,14 +119,14 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     {
         super.addColumnModelListener(listener);
 
-        if (listener instanceof IExtTableColumnModelListener l)
+        if (listener instanceof ExtTableColumnModelListener l)
         {
-            this.listenerList.add(IExtTableColumnModelListener.class, l);
+            this.listenerList.add(ExtTableColumnModelListener.class, l);
         }
     }
 
     /**
-     * @see de.freese.base.swing.components.table.column.IExtTableColumnModel#getColumnCount(boolean)
+     * @see ExtTableColumnModel#getColumnCount(boolean)
      */
     @Override
     public int getColumnCount(final boolean includeHidden)
@@ -140,7 +140,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     }
 
     /**
-     * @see de.freese.base.swing.components.table.column.IExtTableColumnModel#getColumnExt(int)
+     * @see ExtTableColumnModel#getColumnExt(int)
      */
     @Override
     public ExtTableColumn getColumnExt(final int columnIndex)
@@ -156,7 +156,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     }
 
     /**
-     * @see de.freese.base.swing.components.table.column.IExtTableColumnModel#getColumnExt(java.lang.Object)
+     * @see ExtTableColumnModel#getColumnExt(java.lang.Object)
      */
     @Override
     public ExtTableColumn getColumnExt(final Object identifier)
@@ -173,7 +173,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     }
 
     /**
-     * @see de.freese.base.swing.components.table.column.IExtTableColumnModel#getColumns(boolean)
+     * @see ExtTableColumnModel#getColumns(boolean)
      */
     @Override
     public List<TableColumn> getColumns(final boolean includeHidden)
@@ -187,11 +187,11 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     }
 
     /**
-     * @return {@link IExtTableColumnModelListener}
+     * @return {@link ExtTableColumnModelListener}
      */
-    public IExtTableColumnModelListener[] getTableColumnModelExtListeners()
+    public ExtTableColumnModelListener[] getTableColumnModelExtListeners()
     {
-        return this.listenerList.getListeners(IExtTableColumnModelListener.class);
+        return this.listenerList.getListeners(ExtTableColumnModelListener.class);
     }
 
     /**
@@ -280,9 +280,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     {
         super.removeColumnModelListener(listener);
 
-        if (listener instanceof IExtTableColumnModelListener l)
+        if (listener instanceof ExtTableColumnModelListener l)
         {
-            this.listenerList.remove(IExtTableColumnModelListener.class, l);
+            this.listenerList.remove(ExtTableColumnModelListener.class, l);
         }
     }
 
@@ -308,9 +308,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         // those that are interested in this event
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
-            if (listeners[i] == IExtTableColumnModelListener.class)
+            if (listeners[i] == ExtTableColumnModelListener.class)
             {
-                ((IExtTableColumnModelListener) listeners[i + 1]).columnPropertyChange(evt);
+                ((ExtTableColumnModelListener) listeners[i + 1]).columnPropertyChange(evt);
             }
         }
     }

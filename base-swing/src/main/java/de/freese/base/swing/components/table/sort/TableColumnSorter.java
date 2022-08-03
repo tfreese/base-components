@@ -11,7 +11,7 @@ import javax.swing.table.TableColumnModel;
 
 import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
-import de.freese.base.swing.components.table.column.IExtTableColumnModel;
+import de.freese.base.swing.components.table.column.ExtTableColumnModel;
 
 /**
  * Kapselt die Sortierung für mehrere Spalten einer Tabelle.
@@ -54,7 +54,7 @@ public class TableColumnSorter
             JTableHeader header = (JTableHeader) e.getSource();
             TableColumnModel columnModel = header.getColumnModel();
 
-            if (!(columnModel instanceof IExtTableColumnModel))
+            if (!(columnModel instanceof ExtTableColumnModel))
             {
                 return;
             }

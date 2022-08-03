@@ -6,12 +6,12 @@ import java.util.Objects;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Basisimplementierung eines {@link GUIState}.
+ * Basisimplementierung eines {@link GuiState}.
  *
  * @author Thomas Freese
  */
 @XmlTransient
-public abstract class AbstractGuiState implements GUIState
+public abstract class AbstractGuiState implements GuiState
 {
     /**
      *
@@ -57,7 +57,7 @@ public abstract class AbstractGuiState implements GUIState
     }
 
     /**
-     * @see de.freese.base.swing.state.GUIState#restore(java.awt.Component)
+     * @see GuiState#restore(java.awt.Component)
      */
     @Override
     public void restore(final Component component)
@@ -72,7 +72,7 @@ public abstract class AbstractGuiState implements GUIState
     }
 
     /**
-     * @see de.freese.base.swing.state.GUIState#store(java.awt.Component)
+     * @see GuiState#store(java.awt.Component)
      */
     @Override
     public void store(final Component component)
@@ -84,7 +84,7 @@ public abstract class AbstractGuiState implements GUIState
     }
 
     /**
-     * @see de.freese.base.swing.state.GUIState#supportsType(java.lang.Class)
+     * @see GuiState#supportsType(java.lang.Class)
      */
     @Override
     public boolean supportsType(final Class<?> type)

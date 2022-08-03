@@ -1,21 +1,15 @@
 // Created: 29.03.2020
-package de.freese.base.core.throttle.io;
+package de.freese.base.core.throttle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import java.io.OutputStream;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 import de.freese.base.core.io.AbstractIoTest;
-import de.freese.base.core.io.throttle.ThrottleInputStream;
-import de.freese.base.core.throttle.Throttle;
-import de.freese.base.core.throttle.UnderstandableThrottle;
-import de.freese.base.core.throttle.google.GoogleThrottle;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
+import de.freese.base.core.throttle.io.ThrottledOutputStream;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,9 +19,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+//@TestMethodOrder(MethodOrderer.MethodName.class)
 @Execution(ExecutionMode.CONCURRENT)
-class ThrottleInputStreamTest extends AbstractIoTest
+class ThrottleOutputStreamTest extends AbstractIoTest
 {
     /**
      * @return {@link Stream}
@@ -36,8 +30,7 @@ class ThrottleInputStreamTest extends AbstractIoTest
     {
         // @formatter:off
         return Stream.of(
-                Arguments.of("GoogleThrottle", (Function<Integer, Throttle>) (GoogleThrottle::create))
-                , Arguments.of("UnderstandableThrottle", (Function<Integer, Throttle>) (UnderstandableThrottle::create))
+                Arguments.of("UnderstandableThrottle", (Function<Integer, Throttle>) (UnderstandableThrottle::create))
                 );
         // @formatter:on
     }
@@ -50,9 +43,9 @@ class ThrottleInputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits3000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void testPermits2000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
-        doTest(throttleFunction, 3000);
+        doTest(throttleFunction, 2000);
     }
 
     /**
@@ -76,9 +69,9 @@ class ThrottleInputStreamTest extends AbstractIoTest
      */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits5000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
+    void testPermits6000(final String name, final Function<Integer, Throttle> throttleFunction) throws IOException
     {
-        doTest(throttleFunction, 5000);
+        doTest(throttleFunction, 6000);
     }
 
     /**
@@ -89,24 +82,26 @@ class ThrottleInputStreamTest extends AbstractIoTest
      */
     private void doTest(final Function<Integer, Throttle> throttleFunction, final int permits) throws IOException
     {
-        try (InputStream is = Files.newInputStream(createFile(SIZE_10kb));
-             ThrottleInputStream throttledStream = new ThrottleInputStream(is, throttleFunction.apply(permits)))
-        {
-            // int data = 0;
-            //
-            // while ((data = throttledStream.read()) != -1)
-            // {
-            // System.out.print((char) data);
-            // }
+        int size = 12 * 1024;
 
-            while (throttledStream.read() != -1)
+        try (OutputStream outputStream = OutputStream.nullOutputStream();
+             ThrottledOutputStream throttledStream = new ThrottledOutputStream(outputStream, throttleFunction.apply(permits)))
+        {
+            long start = System.nanoTime();
+
+            for (int b = 0; b < size; b++)
             {
-                // Empty
+                throttledStream.write(b);
             }
 
-            System.out.println(throttledStream);
+            long elapsed = System.nanoTime() - start;
+            double rate = size / (elapsed / 1_000_000_000D);
 
-            assertEquals(permits, throttledStream.getBytesPerSec(), permits * 0.02D); // Max. 2% Abweichung
+            throttledStream.flush();
+
+            System.out.printf("Time = %.3f ms; Permits = %d; Rate = %.3f b/s%n", (double) elapsed / 1_000_000D, permits, rate);
+
+            assertEquals(permits, rate, permits * 0.02D); // Max. 2% Abweichung
         }
     }
 }

@@ -3,10 +3,10 @@ package de.freese.base.swing.components.table;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import de.freese.base.swing.eventlist.IEventList;
+import de.freese.base.swing.eventlist.EventList;
 
 /**
- * TableModel das intern eine {@link IEventList} verwendet.
+ * TableModel das intern eine {@link EventList} verwendet.
  *
  * @param <T> Konkreter Typ der List-Objekte.
  *
@@ -20,7 +20,7 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     private static final long serialVersionUID = -4124337499231623139L;
 
     /**
-     * Listener auf der {@link IEventList}.
+     * Listener auf der {@link EventList}.
      *
      * @author Thomas Freese
      */
@@ -70,9 +70,9 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
      * Erstellt ein neues {@link AbstractEventListTableModel} Objekt.
      *
      * @param columnCount int
-     * @param list {@link IEventList}
+     * @param list {@link EventList}
      */
-    protected AbstractEventListTableModel(final int columnCount, final IEventList<T> list)
+    protected AbstractEventListTableModel(final int columnCount, final EventList<T> list)
     {
         super(columnCount, list);
 
@@ -94,8 +94,8 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
      * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
      */
     @Override
-    protected IEventList<T> getList()
+    protected EventList<T> getList()
     {
-        return (IEventList<T>) super.getList();
+        return (EventList<T>) super.getList();
     }
 }

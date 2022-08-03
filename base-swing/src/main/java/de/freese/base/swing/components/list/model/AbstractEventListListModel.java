@@ -8,10 +8,10 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-import de.freese.base.swing.eventlist.IEventList;
+import de.freese.base.swing.eventlist.EventList;
 
 /**
- * Basis ListModel, welches die Verwendung einer {@link IEventList} ermöglicht.
+ * Basis ListModel, welches die Verwendung einer {@link EventList} ermöglicht.
  *
  * @param <T> Konkreter Typ
  *
@@ -25,7 +25,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     private static final long serialVersionUID = -1011316820552269417L;
 
     /**
-     * Listener auf der {@link IEventList}.
+     * Listener auf der {@link EventList}.
      *
      * @author Thomas Freese
      */
@@ -58,6 +58,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
             fireIntervalRemoved(event.getSource(), event.getIndex0(), event.getIndex1());
         }
     }
+
     /**
      *
      */
@@ -65,14 +66,14 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     /**
      *
      */
-    private final IEventList<T> list;
+    private final EventList<T> list;
 
     /**
      * Creates a new {@link AbstractEventListListModel} object.
      *
-     * @param list {@link IEventList}
+     * @param list {@link EventList}
      */
-    protected AbstractEventListListModel(final IEventList<T> list)
+    protected AbstractEventListListModel(final EventList<T> list)
     {
         super();
 
@@ -99,9 +100,9 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     }
 
     /**
-     * @return {@link IEventList}<?>
+     * @return {@link EventList}<?>
      */
-    public IEventList<T> getList()
+    public EventList<T> getList()
     {
         return this.list;
     }

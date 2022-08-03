@@ -7,7 +7,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import de.freese.base.mvc.storage.LocalStorage;
-import de.freese.base.swing.state.GUIState;
+import de.freese.base.swing.state.GuiState;
 
 /**
  * Der {@link XMLGuiStateProvider} nutzt den {@link LocalStorage} für das Speichern im XML-Format.
@@ -57,32 +57,32 @@ public final class XMLGuiStateProvider extends AbstractGuiStateProvider
      * @see de.freese.base.mvc.guistate.GuiStateProvider#load(java.lang.String, java.lang.Class)
      */
     @Override
-    public GUIState load(final String filePrefix, final Class<GUIState> stateClazz)
+    public GuiState load(final String filePrefix, final Class<GuiState> stateClazz)
     {
         String fileName = filePrefix + ".xml";
-        GUIState state = null;
+        GuiState state = null;
 
         try
         {
             Path path = getLocalStorage().getPath(fileName);
 
-            state = (GUIState) this.unMarshaller.unmarshal(path.toFile());
+            state = (GuiState) this.unMarshaller.unmarshal(path.toFile());
         }
         catch (Exception ex)
         {
             // StringBuilder sb = new StringBuilder();
             // StackTraceLimiter.printStackTrace(ex, sb, 3);
-            getLogger().warn("Can not load GUIState for {}: ", fileName, ex);
+            getLogger().warn("Can not load GuiState for {}: ", fileName, ex);
         }
 
         return state;
     }
 
     /**
-     * @see de.freese.base.mvc.guistate.GuiStateProvider#save(java.lang.String, de.freese.base.swing.state.GUIState)
+     * @see de.freese.base.mvc.guistate.GuiStateProvider#save(java.lang.String, GuiState)
      */
     @Override
-    public void save(final String filePrefix, final GUIState state)
+    public void save(final String filePrefix, final GuiState state)
     {
         String fileName = filePrefix + ".xml";
 
@@ -112,7 +112,7 @@ public final class XMLGuiStateProvider extends AbstractGuiStateProvider
             // StackTraceLimiter.printStackTrace(ex, sb, 3);
             // LOGGER.warn(sb.toString());
 
-            getLogger().warn("Can not save GUIState for {}", fileName);
+            getLogger().warn("Can not save GuiState for {}", fileName);
         }
     }
 }

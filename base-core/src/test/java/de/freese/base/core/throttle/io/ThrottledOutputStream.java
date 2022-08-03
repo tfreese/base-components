@@ -1,5 +1,5 @@
 // Created: 29.03.2020
-package de.freese.base.core.io.throttle;
+package de.freese.base.core.throttle.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,7 +11,7 @@ import de.freese.base.core.throttle.Throttle;
 /**
  * @author Thomas Freese
  */
-public class ThrottleOutputStream extends OutputStream
+public class ThrottledOutputStream extends OutputStream
 {
     /**
      *
@@ -31,12 +31,12 @@ public class ThrottleOutputStream extends OutputStream
     private long totalSleepTimeNanos;
 
     /**
-     * Erstellt ein neues {@link ThrottleOutputStream} Object.
+     * Erstellt ein neues {@link ThrottledOutputStream} Object.
      *
      * @param outputStream {@link OutputStream}
      * @param throttle {@link Throttle}
      */
-    public ThrottleOutputStream(final OutputStream outputStream, final Throttle throttle)
+    public ThrottledOutputStream(final OutputStream outputStream, final Throttle throttle)
     {
         super();
 
@@ -63,14 +63,6 @@ public class ThrottleOutputStream extends OutputStream
     }
 
     /**
-     * @return double
-     */
-    public double getBytesPerSec()
-    {
-        return this.throttle.getRate();
-    }
-
-    /**
      * @return long
      */
     public long getTotalBytesWrite()
@@ -87,16 +79,6 @@ public class ThrottleOutputStream extends OutputStream
     }
 
     /**
-     * @param permits int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
-    public void throttle(final int permits) throws IOException
-    {
-        this.totalSleepTimeNanos += this.throttle.acquireUnchecked(permits);
-    }
-
-    /**
      * @see java.lang.Object#toString()
      */
     @Override
@@ -106,24 +88,10 @@ public class ThrottleOutputStream extends OutputStream
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttle);
         sb.append(", bytesWrite=").append(getTotalBytesWrite());
-        sb.append(", bytesPerSec=").append(getBytesPerSec());
         sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
         sb.append("]");
 
         return sb.toString();
-    }
-
-    /**
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
-    @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
-        throttle(len);
-
-        this.outputStream.write(b, off, len);
-
-        this.bytesWrite += len;
     }
 
     /**
@@ -136,5 +104,29 @@ public class ThrottleOutputStream extends OutputStream
 
         this.outputStream.write(b);
         this.bytesWrite++;
+    }
+
+    /**
+     * @param permits int
+     *
+     * @throws IOException Falls was schiefgeht.
+     */
+    private void throttle(final int permits) throws IOException
+    {
+        long waitNanos = this.throttle.reservePermits(permits);
+
+        if (waitNanos > 0L)
+        {
+            try
+            {
+                TimeUnit.NANOSECONDS.sleep(waitNanos);
+            }
+            catch (InterruptedException ex)
+            {
+                throw new IOException(ex);
+            }
+
+            this.totalSleepTimeNanos += waitNanos;
+        }
     }
 }

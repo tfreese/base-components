@@ -2,10 +2,10 @@ package de.freese.base.swing.components.combobox;
 
 import javax.swing.ComboBoxModel;
 
-import de.freese.base.swing.eventlist.IEventList;
+import de.freese.base.swing.eventlist.EventList;
 
 /**
- * Defaultimplementierung eines {@link ComboBoxModel} für die {@link IEventList}.
+ * Defaultimplementierung eines {@link ComboBoxModel} für die {@link EventList}.
  *
  * @param <T> Konkreter Typ
  *
@@ -21,9 +21,9 @@ public class DefaultEventListComboBoxModel<T> extends AbstractEventListComboBoxM
     /**
      * Erstellt ein neues {@link DefaultEventListComboBoxModel} Object.
      *
-     * @param list {@link IEventList}
+     * @param list {@link EventList}
      */
-    public DefaultEventListComboBoxModel(final IEventList<T> list)
+    public DefaultEventListComboBoxModel(final EventList<T> list)
     {
         super(list);
     }

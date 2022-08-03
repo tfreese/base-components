@@ -28,7 +28,7 @@ import javax.swing.table.TableColumn;
 
 import de.freese.base.swing.components.table.ExtTable;
 import de.freese.base.swing.components.table.column.ExtTableColumn;
-import de.freese.base.swing.components.table.column.IExtTableColumnModel;
+import de.freese.base.swing.components.table.column.ExtTableColumnModel;
 import de.freese.base.swing.layout.VerticalLayout;
 
 /**
@@ -103,7 +103,7 @@ public class ColumnControlWindow implements AWTEventListener
         // Spalten der Tabellen
         for (ExtTable table : this.controlButton.getTables())
         {
-            IExtTableColumnModel tableColumnModelExt = (IExtTableColumnModel) table.getColumnModel();
+            ExtTableColumnModel tableColumnModelExt = (ExtTableColumnModel) table.getColumnModel();
             List<TableColumn> columns = tableColumnModelExt.getColumns(true);
 
             for (TableColumn tableColumn : columns)

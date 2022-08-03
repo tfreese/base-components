@@ -18,17 +18,17 @@ import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.filter.FilterCondition;
 
 /**
- * Implementierung einer Liste, welche eine {@link IEventList} aufnimmt, auf deren AÄnderungen reagiert und die Inhalte filtert.<br>
+ * Implementierung einer Liste, welche eine {@link EventList} aufnimmt, auf deren AÄnderungen reagiert und die Inhalte filtert.<br>
  * Sämtliche Events werden im EDT gefeuert.
  *
  * @param <E> Type
  *
  * @author Thomas Freese
  */
-public class FilterableEventList<E> implements IEventList<E>, PropertyChangeListener
+public class FilterableEventList<E> implements EventList<E>, PropertyChangeListener
 {
     /**
-     * Listener auf der {@link IEventList}.
+     * Listener auf der {@link EventList}.
      *
      * @author Thomas Freese
      */
@@ -65,7 +65,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      *
      */
-    private final IEventList<E> delegate;
+    private final EventList<E> delegate;
     /**
      *
      */
@@ -82,9 +82,9 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     /**
      * Erstellt ein neues {@link FilterableEventList} Object.
      *
-     * @param delegate {@link IEventList}
+     * @param delegate {@link EventList}
      */
-    public FilterableEventList(final IEventList<E> delegate)
+    public FilterableEventList(final EventList<E> delegate)
     {
         super();
 
@@ -132,7 +132,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#addListDataListener(javax.swing.event.ListDataListener)
+     * @see EventList#addListDataListener(javax.swing.event.ListDataListener)
      */
     @Override
     public void addListDataListener(final ListDataListener listener)
@@ -185,7 +185,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#getOwner()
+     * @see EventList#getOwner()
      */
     @Override
     public Object getOwner()
@@ -212,7 +212,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#isListenerEnabled()
+     * @see EventList#isListenerEnabled()
      */
     @Override
     public boolean isListenerEnabled()
@@ -297,7 +297,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#removeListDataListener(javax.swing.event.ListDataListener)
+     * @see EventList#removeListDataListener(javax.swing.event.ListDataListener)
      */
     @Override
     public void removeListDataListener(final ListDataListener listener)
@@ -306,7 +306,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#reset()
+     * @see EventList#reset()
      */
     @Override
     public void reset()
@@ -334,7 +334,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#setComparator(java.util.Comparator)
+     * @see EventList#setComparator(java.util.Comparator)
      */
     @Override
     public void setComparator(final Comparator<? super E> comparator)
@@ -367,7 +367,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#setListenerEnabled(boolean)
+     * @see EventList#setListenerEnabled(boolean)
      */
     @Override
     public void setListenerEnabled(final boolean listenerEnabled)
@@ -376,7 +376,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#setOwner(java.lang.Object)
+     * @see EventList#setOwner(java.lang.Object)
      */
     @Override
     public void setOwner(final Object owner)
@@ -421,7 +421,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * @see de.freese.base.swing.eventlist.IEventList#update()
+     * @see EventList#update()
      */
     @Override
     public void update()
@@ -430,7 +430,7 @@ public class FilterableEventList<E> implements IEventList<E>, PropertyChangeList
     }
 
     /**
-     * Filter die gewrappte {@link IEventList}.
+     * Filter die gewrappte {@link EventList}.
      */
     private void filter()
     {

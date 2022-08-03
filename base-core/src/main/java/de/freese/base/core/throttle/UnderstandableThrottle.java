@@ -1,10 +1,7 @@
 // Created: 01.04.2020
 package de.freese.base.core.throttle;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-
-import de.freese.base.core.throttle.google.GoogleThrottle;
 
 /**
  * Verständlich aufgebaute {@link Throttle}-Implementierung analog dem Google RateLimiter.
@@ -19,21 +16,13 @@ public final class UnderstandableThrottle implements Throttle
     private static final boolean SLEEP_UNINTERRUPTIBLY = false;
 
     /**
-     * @param permitsPerSecond double
+     * @param permitsPerSecond int
      *
-     * @return {@link GoogleThrottle}
+     * @return {@link UnderstandableThrottle}
      */
-    public static UnderstandableThrottle create(final double permitsPerSecond)
+    public static UnderstandableThrottle create(final int permitsPerSecond)
     {
         return new UnderstandableThrottle(permitsPerSecond);
-    }
-
-    /**
-     * @param sleepFor {@link Duration}
-     */
-    static void sleepUninterruptibly(final Duration sleepFor)
-    {
-        sleepUninterruptibly(sleepFor.toNanos(), TimeUnit.NANOSECONDS);
     }
 
     /**
@@ -71,16 +60,15 @@ public final class UnderstandableThrottle implements Throttle
     /**
      * Inspired by com.google.common.util.concurrent.Uninterruptibles.
      *
-     * @param sleepFor long
-     * @param unit {@link TimeUnit}
+     * @param waitNanos long
      */
-    private static void sleepUninterruptibly(final long sleepFor, final TimeUnit unit)
+    private static void sleepUninterruptibly(final long waitNanos)
     {
         boolean interrupted = false;
 
         try
         {
-            long remainingNanos = unit.toNanos(sleepFor);
+            long remainingNanos = waitNanos;
             long end = System.nanoTime() + remainingNanos;
 
             while (true)
@@ -111,85 +99,45 @@ public final class UnderstandableThrottle implements Throttle
     /**
      *
      */
-    private long nextFreeSlot;
+    private final double permitIntervalNanos;
     /**
      *
      */
-    private double permitInterval;
+    private long nextFreeSlotNanos;
 
     /**
      * Erstellt ein neues {@link UnderstandableThrottle} Object.
      *
      * @param permitsPerSecond double
      */
-    private UnderstandableThrottle(final double permitsPerSecond)
+    private UnderstandableThrottle(final int permitsPerSecond)
     {
         super();
 
-        this.nextFreeSlot = System.nanoTime();
+        this.nextFreeSlotNanos = System.nanoTime();
 
-        setRate(permitsPerSecond);
+        this.permitIntervalNanos = 1_000_000_000D / permitsPerSecond;
     }
 
-    /**
-     * @see de.freese.base.core.throttle.Throttle#acquire(int)
-     */
     @Override
-    public long acquire(final int permits) throws InterruptedException
-    {
-        final long waitDuration = acquireDelayDuration(permits);
-
-        sleep(waitDuration);
-
-        return waitDuration;
-    }
-
-    /**
-     * @see de.freese.base.core.throttle.Throttle#acquireDelayDuration(int)
-     */
-    @Override
-    public synchronized long acquireDelayDuration(final int permits)
+    public long reservePermits(final int permits)
     {
         checkPermits(permits);
 
-        long delay = 0;
+        long delayNanos = 0L;
 
-        long now = System.nanoTime();
+        long nowNanos = System.nanoTime();
 
         // Aktueller Timestamp liegt noch vor dem nächsten verfügbaren Zeitfenster -> warten.
-        if (now < this.nextFreeSlot)
+        if (nowNanos <= this.nextFreeSlotNanos)
         {
-            delay = this.nextFreeSlot - now;
+            delayNanos = this.nextFreeSlotNanos - nowNanos;
         }
 
         // Nächstes verfügbares Zeitfenster berechnen.
-        // this.nextFreeSlot = now + delay + (long) (permits * this.permitInterval);
-        this.nextFreeSlot = saturatedAdd(saturatedAdd(now, delay), (long) (permits * this.permitInterval));
+        this.nextFreeSlotNanos = saturatedAdd(this.nextFreeSlotNanos, (long) (permits * this.permitIntervalNanos));
 
-        return delay;
-    }
-
-    /**
-     * @see de.freese.base.core.throttle.Throttle#getRate()
-     */
-    @Override
-    public double getRate()
-    {
-        return ONE_SECOND_NANOS / this.permitInterval;
-    }
-
-    /**
-     * @see de.freese.base.core.throttle.Throttle#setRate(double)
-     */
-    @Override
-    public void setRate(final double permitsPerSecond)
-    {
-        if ((permitsPerSecond <= 0.0) || !Double.isFinite(permitsPerSecond))
-        {
-            throw new IllegalArgumentException("rate must be positive");
-        }
-
-        this.permitInterval = ONE_SECOND_NANOS / permitsPerSecond;
+        return delayNanos;
     }
 
     /**
@@ -200,31 +148,31 @@ public final class UnderstandableThrottle implements Throttle
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("rate=").append(getRate());
+        sb.append("permitIntervalNanos=").append(this.permitIntervalNanos);
         sb.append("]");
 
         return sb.toString();
     }
 
     /**
-     * @param nanos long
+     * @param waitNanos long
      *
      * @throws InterruptedException Falls was schiefgeht.
      */
-    private void sleep(final long nanos) throws InterruptedException
+    private void sleep(final long waitNanos) throws InterruptedException
     {
-        if (nanos == 0L)
+        if (waitNanos <= 0L)
         {
             return;
         }
 
         if (SLEEP_UNINTERRUPTIBLY)
         {
-            sleepUninterruptibly(nanos, TimeUnit.NANOSECONDS);
+            sleepUninterruptibly(waitNanos);
         }
         else
         {
-            TimeUnit.NANOSECONDS.sleep(nanos);
+            TimeUnit.NANOSECONDS.sleep(waitNanos);
         }
     }
 }

@@ -1,5 +1,5 @@
 // Created: 29.03.2020
-package de.freese.base.core.io.throttle;
+package de.freese.base.core.throttle.io;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +11,7 @@ import de.freese.base.core.throttle.Throttle;
 /**
  * @author Thomas Freese
  */
-public class ThrottleInputStream extends InputStream
+public class ThrottledInputStream extends InputStream
 {
     /**
      *
@@ -31,12 +31,12 @@ public class ThrottleInputStream extends InputStream
     private long totalSleepTimeNanos;
 
     /**
-     * Erstellt ein neues {@link ThrottleInputStream} Object.
+     * Erstellt ein neues {@link ThrottledInputStream} Object.
      *
      * @param inputStream {@link InputStream}
      * @param throttle {@link Throttle}
      */
-    public ThrottleInputStream(final InputStream inputStream, final Throttle throttle)
+    public ThrottledInputStream(final InputStream inputStream, final Throttle throttle)
     {
         super();
 
@@ -60,14 +60,6 @@ public class ThrottleInputStream extends InputStream
     public void close() throws IOException
     {
         this.inputStream.close();
-    }
-
-    /**
-     * @return double
-     */
-    public double getBytesPerSec()
-    {
-        return this.throttle.getRate();
     }
 
     /**
@@ -114,7 +106,6 @@ public class ThrottleInputStream extends InputStream
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttle);
         sb.append(", bytesRead=").append(this.bytesRead);
-        sb.append(", bytesPerSec=").append(getBytesPerSec());
         sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
         sb.append("]");
 
@@ -123,9 +114,25 @@ public class ThrottleInputStream extends InputStream
 
     /**
      * @param permits int
+     *
+     * @throws IOException Falls was schiefgeht.
      */
-    protected void throttle(final int permits)
+    protected void throttle(final int permits) throws IOException
     {
-        this.totalSleepTimeNanos += this.throttle.acquireUnchecked(permits);
+        long waitNanos = this.throttle.reservePermits(permits);
+
+        if (waitNanos > 0L)
+        {
+            try
+            {
+                TimeUnit.NANOSECONDS.sleep(waitNanos);
+            }
+            catch (InterruptedException ex)
+            {
+                throw new IOException(ex);
+            }
+
+            this.totalSleepTimeNanos += waitNanos;
+        }
     }
 }

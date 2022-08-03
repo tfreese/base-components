@@ -30,11 +30,11 @@ public abstract class AbstractIoTest
     /**
      *
      */
-    protected static final long SIZE_100kb = 1024 * 100;
+    protected static final long SIZE_100kb = 100 * 1024;
     /**
      *
      */
-    protected static final long SIZE_10kb = 1024 * 10;
+    protected static final long SIZE_10kb = 10 * 1024;
 
     /**
      * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.
@@ -113,7 +113,7 @@ public abstract class AbstractIoTest
     protected Path createFile(final long size) throws IOException
     {
         // Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile." + COUNTER.incrementAndGet());
-        Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile.bin");
+        Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(size + "_testfile.bin");
 
         if (Files.notExists(path))
         {

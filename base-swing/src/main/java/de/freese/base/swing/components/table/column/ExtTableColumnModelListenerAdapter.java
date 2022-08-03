@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.table.column;
 
 import java.beans.PropertyChangeEvent;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
@@ -10,7 +11,7 @@ import javax.swing.event.TableColumnModelEvent;
  *
  * @author Thomas Freese
  */
-public class ExtTableColumnModelListenerAdapter implements IExtTableColumnModelListener
+public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelListener
 {
     /**
      * @see javax.swing.event.TableColumnModelListener#columnAdded(javax.swing.event.TableColumnModelEvent)
@@ -40,7 +41,7 @@ public class ExtTableColumnModelListenerAdapter implements IExtTableColumnModelL
     }
 
     /**
-     * @see de.freese.base.swing.components.table.column.IExtTableColumnModelListener#columnPropertyChange(java.beans.PropertyChangeEvent)
+     * @see ExtTableColumnModelListener#columnPropertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
     public void columnPropertyChange(final PropertyChangeEvent event)

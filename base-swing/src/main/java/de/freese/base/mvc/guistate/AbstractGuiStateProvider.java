@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import de.freese.base.mvc.storage.LocalStorage;
-import de.freese.base.swing.state.GUIState;
+import de.freese.base.swing.state.GuiState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,11 +41,11 @@ public abstract class AbstractGuiStateProvider implements GuiStateProvider
         this.localStorage = Objects.requireNonNull(localStorage, "localStorage required");
         Objects.requireNonNull(guiStateManager, "guiStateManager required");
 
-        Set<Class<? extends GUIState>> guiStates = guiStateManager.getGuiStates();
+        Set<Class<? extends GuiState>> guiStates = guiStateManager.getGuiStates();
         this.guiStateClasses = new Class<?>[guiStates.size()];
         int i = 0;
 
-        for (Class<? extends GUIState> guiStateClazz : guiStates)
+        for (Class<? extends GuiState> guiStateClazz : guiStates)
         {
             this.guiStateClasses[i] = guiStateClazz;
             i++;

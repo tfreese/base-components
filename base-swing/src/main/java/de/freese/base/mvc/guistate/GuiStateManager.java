@@ -11,7 +11,7 @@ import de.freese.base.swing.state.ButtonGuiState;
 import de.freese.base.swing.state.ComboBoxGuiState;
 import de.freese.base.swing.state.ContainerGuiState;
 import de.freese.base.swing.state.FrameGuiState;
-import de.freese.base.swing.state.GUIState;
+import de.freese.base.swing.state.GuiState;
 import de.freese.base.swing.state.LabelGuiState;
 import de.freese.base.swing.state.ListGuiState;
 import de.freese.base.swing.state.StringGuiState;
@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Der {@link GuiStateManager} verwaltet die {@link GUIState}s.
+ * Der {@link GuiStateManager} verwaltet die {@link GuiState}s.
  *
  * @author Thomas Freese
  */
@@ -32,11 +32,11 @@ public final class GuiStateManager
     /**
      *
      */
-    private final Set<Class<? extends GUIState>> guiStates = new HashSet<>();
+    private final Set<Class<? extends GuiState>> guiStates = new HashSet<>();
     /**
      *
      */
-    private final Map<Class<? extends GUIState>, GUIState> instanceMap = new HashMap<>();
+    private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
     /**
      *
      */
@@ -57,13 +57,13 @@ public final class GuiStateManager
     }
 
     /**
-     * Hinzufügen eines neuen {@link GUIState}s.
+     * Hinzufügen eines neuen {@link GuiState}s.
      *
      * @param stateClass {@link Class}
      *
      * @return boolean
      */
-    public boolean addGUIState(final Class<? extends GUIState> stateClass)
+    public boolean addGUIState(final Class<? extends GuiState> stateClass)
     {
         if (!this.guiStates.contains(stateClass))
         {
@@ -74,11 +74,11 @@ public final class GuiStateManager
     }
 
     /**
-     * Liefert alle {@link GUIState}.
+     * Liefert alle {@link GuiState}.
      *
      * @return {@link Set}
      */
-    public Set<Class<? extends GUIState>> getGuiStates()
+    public Set<Class<? extends GuiState>> getGuiStates()
     {
         return Collections.unmodifiableSet(this.guiStates);
     }
@@ -92,19 +92,19 @@ public final class GuiStateManager
     }
 
     /**
-     * Entfernt den {@link GUIState}.
+     * Entfernt den {@link GuiState}.
      *
      * @param stateClass {@link Class}
      *
      * @return boolean
      */
-    public boolean removeGuiState(final Class<? extends GUIState> stateClass)
+    public boolean removeGuiState(final Class<? extends GuiState> stateClass)
     {
         return this.guiStates.remove(stateClass);
     }
 
     /**
-     * Wiederherstellen einer {@link Component} aus einem {@link GUIState}.
+     * Wiederherstellen einer {@link Component} aus einem {@link GuiState}.
      *
      * @param component {@link Component}
      * @param name String
@@ -112,9 +112,9 @@ public final class GuiStateManager
     @SuppressWarnings("unchecked")
     public void restore(final Component component, final String name)
     {
-        GUIState stateTemplate = getState(component.getClass());
+        GuiState stateTemplate = getState(component.getClass());
 
-        GUIState state = getStateProvider().load(name, (Class<GUIState>) stateTemplate.getClass());
+        GuiState state = getStateProvider().load(name, (Class<GuiState>) stateTemplate.getClass());
 
         if (state == null)
         {
@@ -135,14 +135,14 @@ public final class GuiStateManager
     }
 
     /**
-     * Speichern eines {@link GUIState}s für eine {@link Component}.
+     * Speichern eines {@link GuiState}s für eine {@link Component}.
      *
      * @param component {@link Component}
      * @param name String
      */
     public void store(final Component component, final String name)
     {
-        GUIState state = getState(component.getClass());
+        GuiState state = getState(component.getClass());
 
         if (state == null)
         {
@@ -160,13 +160,13 @@ public final class GuiStateManager
      *
      * @param componentClass Class
      *
-     * @return {@link GUIState}
+     * @return {@link GuiState}
      */
-    private synchronized GUIState getState(final Class<? extends Component> componentClass)
+    private synchronized GuiState getState(final Class<? extends Component> componentClass)
     {
-        for (Class<? extends GUIState> stateClass : this.guiStates)
+        for (Class<? extends GuiState> stateClass : this.guiStates)
         {
-            GUIState state = this.instanceMap.get(stateClass);
+            GuiState state = this.instanceMap.get(stateClass);
 
             if (state == null)
             {
