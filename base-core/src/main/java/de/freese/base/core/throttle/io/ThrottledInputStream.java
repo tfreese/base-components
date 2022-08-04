@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.base.core.throttle.Throttle;
+import de.freese.base.core.throttle.Throttler;
 
 /**
  * @author Thomas Freese
@@ -20,7 +20,7 @@ public class ThrottledInputStream extends InputStream
     /**
      *
      */
-    private final Throttle throttle;
+    private final Throttler throttler;
     /**
      *
      */
@@ -34,14 +34,14 @@ public class ThrottledInputStream extends InputStream
      * Erstellt ein neues {@link ThrottledInputStream} Object.
      *
      * @param inputStream {@link InputStream}
-     * @param throttle {@link Throttle}
+     * @param throttler {@link Throttler}
      */
-    public ThrottledInputStream(final InputStream inputStream, final Throttle throttle)
+    public ThrottledInputStream(final InputStream inputStream, final Throttler throttler)
     {
         super();
 
         this.inputStream = Objects.requireNonNull(inputStream, "inputStream required");
-        this.throttle = Objects.requireNonNull(throttle, "throttle required");
+        this.throttler = Objects.requireNonNull(throttler, "throttler required");
     }
 
     /**
@@ -104,7 +104,7 @@ public class ThrottledInputStream extends InputStream
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("throttle=").append(this.throttle);
+        sb.append("throttle=").append(this.throttler);
         sb.append(", bytesRead=").append(this.bytesRead);
         sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
         sb.append("]");
@@ -117,9 +117,9 @@ public class ThrottledInputStream extends InputStream
      *
      * @throws IOException Falls was schiefgeht.
      */
-    protected void throttle(final int permits) throws IOException
+    private void throttle(final int permits) throws IOException
     {
-        long waitNanos = this.throttle.reservePermits(permits);
+        long waitNanos = this.throttler.reservePermits(permits);
 
         if (waitNanos > 0L)
         {

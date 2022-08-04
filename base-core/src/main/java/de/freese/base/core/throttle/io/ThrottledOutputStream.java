@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.base.core.throttle.Throttle;
+import de.freese.base.core.throttle.Throttler;
 
 /**
  * @author Thomas Freese
@@ -20,7 +20,7 @@ public class ThrottledOutputStream extends OutputStream
     /**
      *
      */
-    private final Throttle throttle;
+    private final Throttler throttler;
     /**
      *
      */
@@ -34,14 +34,14 @@ public class ThrottledOutputStream extends OutputStream
      * Erstellt ein neues {@link ThrottledOutputStream} Object.
      *
      * @param outputStream {@link OutputStream}
-     * @param throttle {@link Throttle}
+     * @param throttler {@link Throttler}
      */
-    public ThrottledOutputStream(final OutputStream outputStream, final Throttle throttle)
+    public ThrottledOutputStream(final OutputStream outputStream, final Throttler throttler)
     {
         super();
 
         this.outputStream = Objects.requireNonNull(outputStream, "outputStream required");
-        this.throttle = Objects.requireNonNull(throttle, "throttle required");
+        this.throttler = Objects.requireNonNull(throttler, "throttler required");
     }
 
     /**
@@ -86,7 +86,7 @@ public class ThrottledOutputStream extends OutputStream
     {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
-        sb.append("throttle=").append(this.throttle);
+        sb.append("throttle=").append(this.throttler);
         sb.append(", bytesWrite=").append(getTotalBytesWrite());
         sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
         sb.append("]");
@@ -113,7 +113,7 @@ public class ThrottledOutputStream extends OutputStream
      */
     private void throttle(final int permits) throws IOException
     {
-        long waitNanos = this.throttle.reservePermits(permits);
+        long waitNanos = this.throttler.reservePermits(permits);
 
         if (waitNanos > 0L)
         {

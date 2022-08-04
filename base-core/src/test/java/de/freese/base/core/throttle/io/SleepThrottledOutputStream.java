@@ -44,16 +44,6 @@ public class SleepThrottledOutputStream extends OutputStream
      * Erstellt ein neues {@link SleepThrottledOutputStream} Object.
      *
      * @param outputStream {@link OutputStream}
-     */
-    public SleepThrottledOutputStream(final OutputStream outputStream)
-    {
-        this(outputStream, Long.MAX_VALUE);
-    }
-
-    /**
-     * Erstellt ein neues {@link SleepThrottledOutputStream} Object.
-     *
-     * @param outputStream {@link OutputStream}
      * @param maxBytesPerSec long
      */
     public SleepThrottledOutputStream(final OutputStream outputStream, final long maxBytesPerSec)

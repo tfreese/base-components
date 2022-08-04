@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Thomas Freese
  */
-public interface Throttle
+public interface Throttler
 {
     /**
      * Attempts to acquire a permit to perform an execution against the rate limiter, waiting until one is available or
@@ -43,7 +43,7 @@ public interface Throttle
     }
 
     /**
-     * Reserves a permit to perform an execution against the rate limiter, and returns the time that the caller is
+     * Reserves a permit to perform an execution against the rate limiter, and returns the nanoseconds that the caller is
      * expected to wait before acting on the permit. Returns {@code 0} if the permit is immediately available and no
      * waiting is needed.
      *
@@ -56,7 +56,7 @@ public interface Throttle
     }
 
     /**
-     * Reserves the {@code permits} to perform executions against the rate limiter, and returns the time that the caller
+     * Reserves the {@code permits} to perform executions against the rate limiter, and returns the nanoseconds that the caller
      * is expected to wait before acting on the permits. Returns {@code 0} if the permits are immediately available and no
      * waiting is needed.
      *

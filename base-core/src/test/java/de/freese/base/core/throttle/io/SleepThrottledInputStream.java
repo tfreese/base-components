@@ -44,16 +44,6 @@ public class SleepThrottledInputStream extends InputStream
      * Erstellt ein neues {@link SleepThrottledInputStream} Object.
      *
      * @param inputStream {@link InputStream}
-     */
-    public SleepThrottledInputStream(final InputStream inputStream)
-    {
-        this(inputStream, Long.MAX_VALUE);
-    }
-
-    /**
-     * Erstellt ein neues {@link SleepThrottledInputStream} Object.
-     *
-     * @param inputStream {@link InputStream}
      * @param maxBytesPerSec long
      */
     public SleepThrottledInputStream(final InputStream inputStream, final long maxBytesPerSec)
