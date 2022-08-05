@@ -20,7 +20,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * @author Thomas Freese
  */
-//@TestMethodOrder(MethodOrderer.MethodName.class)
 @Execution(ExecutionMode.CONCURRENT)
 class ThrottledInputStreamTest //extends AbstractIoTest
 {
@@ -37,11 +36,15 @@ class ThrottledInputStreamTest //extends AbstractIoTest
                 )
                 , Arguments.of(
                         "Input - Failsafe",
-                        (BiFunction<InputStream, Integer, InputStream>) (inputStream, permits) -> new ThrottledInputStream(inputStream, FailsafeThrottlerAdapter.createBurstyBuilder(permits))
+                        (BiFunction<InputStream, Integer, InputStream>) (inputStream, permits) -> new ThrottledInputStream(inputStream, FailsafeThrottlerAdapter.createBuilder(permits))
+                )
+                , Arguments.of(
+                        "Input - Resilience4J",
+                        (BiFunction<InputStream, Integer, InputStream>) (inputStream, permits) -> new ThrottledInputStream(inputStream, Resilience4JThrottlerAdapter.createBuilder(permits))
                 )
                 , Arguments.of(
                         "Input - SleepThrottled",
-                        (BiFunction<InputStream, Integer, InputStream>) (inputStream, permits) -> new SleepThrottledInputStream(inputStream, permits)
+                        (BiFunction<InputStream, Integer, InputStream>) SleepThrottledInputStream::new
                 )
                 );
         // @formatter:on
@@ -54,7 +57,7 @@ class ThrottledInputStreamTest //extends AbstractIoTest
     @MethodSource("createThrottler")
     void testPermits2000(final String name, final BiFunction<InputStream, Integer, InputStream> throttleFunction) throws IOException
     {
-        doTest(name, throttleFunction, 2000);
+        doTest(name, 2000, throttleFunction);
     }
 
     /**
@@ -64,7 +67,7 @@ class ThrottledInputStreamTest //extends AbstractIoTest
     @MethodSource("createThrottler")
     void testPermits4000(final String name, final BiFunction<InputStream, Integer, InputStream> throttleFunction) throws IOException
     {
-        doTest(name, throttleFunction, 4000);
+        doTest(name, 4000, throttleFunction);
     }
 
     /**
@@ -74,13 +77,13 @@ class ThrottledInputStreamTest //extends AbstractIoTest
     @MethodSource("createThrottler")
     void testPermits6000(final String name, final BiFunction<InputStream, Integer, InputStream> throttleFunction) throws IOException
     {
-        doTest(name, throttleFunction, 6000);
+        doTest(name, 6000, throttleFunction);
     }
 
     /**
      *
      */
-    private void doTest(String name, final BiFunction<InputStream, Integer, InputStream> throttleFunction, final int permits) throws IOException
+    private void doTest(String name, final int permits, final BiFunction<InputStream, Integer, InputStream> throttleFunction) throws IOException
     {
         int size = 12 * 1024;
 

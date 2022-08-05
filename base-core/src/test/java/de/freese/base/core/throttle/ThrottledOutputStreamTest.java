@@ -20,7 +20,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * @author Thomas Freese
  */
-//@TestMethodOrder(MethodOrderer.MethodName.class)
 @Execution(ExecutionMode.CONCURRENT)
 class ThrottledOutputStreamTest extends AbstractIoTest
 {
@@ -37,11 +36,15 @@ class ThrottledOutputStreamTest extends AbstractIoTest
                 )
                 , Arguments.of(
                         "Output - Failsafe",
-                        (BiFunction<OutputStream,Integer, OutputStream>) (outputStream, permits) -> new ThrottledOutputStream(outputStream, FailsafeThrottlerAdapter.createBurstyBuilder(permits))
+                        (BiFunction<OutputStream,Integer, OutputStream>) (outputStream, permits) -> new ThrottledOutputStream(outputStream, FailsafeThrottlerAdapter.createBuilder(permits))
+                )
+                , Arguments.of(
+                        "Output - Resilience4J",
+                        (BiFunction<OutputStream,Integer, OutputStream>) (outputStream, permits) -> new ThrottledOutputStream(outputStream, Resilience4JThrottlerAdapter.createBuilder(permits))
                 )
                 , Arguments.of(
                         "Output - SleepThrottled",
-                        (BiFunction<OutputStream, Integer, OutputStream>) (outputStream, permits) -> new SleepThrottledOutputStream(outputStream, permits)
+                        (BiFunction<OutputStream, Integer, OutputStream>) SleepThrottledOutputStream::new
                 )
                 );
         // @formatter:on

@@ -66,6 +66,7 @@ public final class SimpleThrottler implements Throttler
     //        if (!SLEEP_UNINTERRUPTIBLY)
     //        {
     //            TimeUnit.NANOSECONDS.sleep(waitNanos);
+    //            //LockSupport.parkNanos(waitNanos);
     //
     //            return;
     //        }
@@ -129,7 +130,7 @@ public final class SimpleThrottler implements Throttler
     }
 
     @Override
-    public long reservePermits(final int permits)
+    public synchronized long reservePermits(final int permits)
     {
         if (permits <= 0)
         {
