@@ -1,4 +1,4 @@
-package de.freese.base.core.throttle.io;
+package de.freese.base.core.io;
 
 import java.io.IOException;
 import java.io.InputStream;

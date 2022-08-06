@@ -28,7 +28,7 @@ public class ThrottledInputStream extends InputStream
     /**
      *
      */
-    private long totalSleepTimeNanos;
+    private long sleepTimeNanos;
 
     /**
      * Erstellt ein neues {@link ThrottledInputStream} Object.
@@ -65,7 +65,7 @@ public class ThrottledInputStream extends InputStream
     /**
      * @return long
      */
-    public long getTotalBytesRead()
+    public long getBytesRead()
     {
         return this.bytesRead;
     }
@@ -73,9 +73,9 @@ public class ThrottledInputStream extends InputStream
     /**
      * @return long
      */
-    public long getTotalSleepTimeNanos()
+    public long getSleepTimeNanos()
     {
-        return this.totalSleepTimeNanos;
+        return this.sleepTimeNanos;
     }
 
     /**
@@ -106,18 +106,16 @@ public class ThrottledInputStream extends InputStream
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttler);
         sb.append(", bytesRead=").append(this.bytesRead);
-        sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
+        sb.append(", sleepTimeNanos=").append(TimeUnit.NANOSECONDS.toMillis(getSleepTimeNanos()));
         sb.append("]");
 
         return sb.toString();
     }
 
     /**
-     * @param permits int
      *
-     * @throws IOException Falls was schiefgeht.
      */
-    private void throttle(final int permits) throws IOException
+    private void throttle(final int permits)
     {
         long waitNanos = this.throttler.reservePermits(permits);
 
@@ -129,10 +127,11 @@ public class ThrottledInputStream extends InputStream
             }
             catch (InterruptedException ex)
             {
-                throw new IOException(ex);
+                // Preserve interrupt status
+                Thread.currentThread().interrupt();
             }
 
-            this.totalSleepTimeNanos += waitNanos;
+            this.sleepTimeNanos += waitNanos;
         }
     }
 }

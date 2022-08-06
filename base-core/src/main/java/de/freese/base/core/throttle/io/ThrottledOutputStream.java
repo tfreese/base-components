@@ -24,11 +24,11 @@ public class ThrottledOutputStream extends OutputStream
     /**
      *
      */
-    private long bytesWrite;
+    private long bytesWritten;
     /**
      *
      */
-    private long totalSleepTimeNanos;
+    private long sleepTimeNanos;
 
     /**
      * Erstellt ein neues {@link ThrottledOutputStream} Object.
@@ -65,17 +65,17 @@ public class ThrottledOutputStream extends OutputStream
     /**
      * @return long
      */
-    public long getTotalBytesWrite()
+    public long getBytesWritten()
     {
-        return this.bytesWrite;
+        return this.bytesWritten;
     }
 
     /**
      * @return long
      */
-    public long getTotalSleepTimeNanos()
+    public long getSleepTimeNanos()
     {
-        return this.totalSleepTimeNanos;
+        return this.sleepTimeNanos;
     }
 
     /**
@@ -87,8 +87,8 @@ public class ThrottledOutputStream extends OutputStream
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttler);
-        sb.append(", bytesWrite=").append(getTotalBytesWrite());
-        sb.append(", totalSleepTimeMillis=").append(TimeUnit.NANOSECONDS.toMillis(getTotalSleepTimeNanos()));
+        sb.append(", bytesWritten=").append(getBytesWritten());
+        sb.append(", sleepTimeNanos=").append(TimeUnit.NANOSECONDS.toMillis(getSleepTimeNanos()));
         sb.append("]");
 
         return sb.toString();
@@ -103,15 +103,13 @@ public class ThrottledOutputStream extends OutputStream
         throttle(1);
 
         this.outputStream.write(b);
-        this.bytesWrite++;
+        this.bytesWritten++;
     }
 
     /**
-     * @param permits int
      *
-     * @throws IOException Falls was schiefgeht.
      */
-    private void throttle(final int permits) throws IOException
+    private void throttle(final int permits)
     {
         long waitNanos = this.throttler.reservePermits(permits);
 
@@ -123,10 +121,11 @@ public class ThrottledOutputStream extends OutputStream
             }
             catch (InterruptedException ex)
             {
-                throw new IOException(ex);
+                // Preserve interrupt status
+                Thread.currentThread().interrupt();
             }
 
-            this.totalSleepTimeNanos += waitNanos;
+            this.sleepTimeNanos += waitNanos;
         }
     }
 }

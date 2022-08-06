@@ -14,11 +14,10 @@ public interface Throttler
      * Attempts to acquire a permit to perform an execution against the rate limiter, waiting until one is available or
      * the thread is interrupted.
      *
-     * @throws InterruptedException if the current thread is interrupted while waiting to acquire a permit
      * @see #tryAcquirePermit()
      * @see #reservePermit()
      */
-    default void acquirePermit() throws InterruptedException
+    default void acquirePermit()
     {
         acquirePermits(1);
     }
@@ -28,18 +27,52 @@ public interface Throttler
      * they are available or the thread is interrupted.
      *
      * @throws IllegalArgumentException if {@code permits} is < 1
-     * @throws InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
      * @see #tryAcquirePermits(int)
      * @see #reservePermits(int)
      */
-    default void acquirePermits(final int permits) throws InterruptedException
+    default void acquirePermits(final int permits)
     {
         long waitNanos = reservePermits(permits);
 
         if (waitNanos > 0L)
         {
-            TimeUnit.NANOSECONDS.sleep(waitNanos);
+            //TimeUnit.NANOSECONDS.sleep(waitNanos);
             //LockSupport.parkNanos(waitNanos);
+
+            // Inspired by com.google.common.util.concurrent.Uninterruptibles.
+            boolean interrupted = false;
+
+            try
+            {
+                long remainingNanos = waitNanos;
+                long end = System.nanoTime() + remainingNanos;
+
+                while (true)
+                {
+                    try
+                    {
+                        // TimeUnit.sleep() treats negative timeouts just like zero.
+                        TimeUnit.NANOSECONDS.sleep(remainingNanos);
+
+                        return;
+                    }
+                    catch (InterruptedException ex)
+                    {
+                        // InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
+
+                        interrupted = true;
+                        remainingNanos = end - System.nanoTime();
+                    }
+                }
+            }
+            finally
+            {
+                if (interrupted)
+                {
+                    // Preserve interrupt status
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
     }
 

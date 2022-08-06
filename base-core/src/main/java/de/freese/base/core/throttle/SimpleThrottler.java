@@ -25,11 +25,6 @@ public final class SimpleThrottler implements Throttler
         return create(permitsPerSecond, Duration.ofSeconds(1));
     }
 
-    //    /**
-    //     *
-    //     */
-    //    private static final boolean SLEEP_UNINTERRUPTIBLY = false;
-
     /**
      * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
      * returned, respectively.
@@ -50,59 +45,6 @@ public final class SimpleThrottler implements Throttler
 
         return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
     }
-
-    //    /**
-    //     * @param waitNanos long
-    //     *
-    //     * @throws InterruptedException Falls was schiefgeht.
-    //     */
-    //    private static void sleep(final long waitNanos) throws InterruptedException
-    //    {
-    //        if (waitNanos <= 0L)
-    //        {
-    //            return;
-    //        }
-    //
-    //        if (!SLEEP_UNINTERRUPTIBLY)
-    //        {
-    //            TimeUnit.NANOSECONDS.sleep(waitNanos);
-    //            //LockSupport.parkNanos(waitNanos);
-    //
-    //            return;
-    //        }
-    //
-    //        // Inspired by com.google.common.util.concurrent.Uninterruptibles.
-    //        boolean interrupted = false;
-    //
-    //        try
-    //        {
-    //            long remainingNanos = waitNanos;
-    //            long end = System.nanoTime() + remainingNanos;
-    //
-    //            while (true)
-    //            {
-    //                try
-    //                {
-    //                    // TimeUnit.sleep() treats negative timeouts just like zero.
-    //                    TimeUnit.NANOSECONDS.sleep(remainingNanos);
-    //
-    //                    return;
-    //                }
-    //                catch (InterruptedException ex)
-    //                {
-    //                    interrupted = true;
-    //                    remainingNanos = end - System.nanoTime();
-    //                }
-    //            }
-    //        }
-    //        finally
-    //        {
-    //            if (interrupted)
-    //            {
-    //                Thread.currentThread().interrupt();
-    //            }
-    //        }
-    //    }
 
     /**
      *
