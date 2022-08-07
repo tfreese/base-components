@@ -1,5 +1,7 @@
 package de.freese.base.calendar.utils;
 
+import static de.freese.base.utils.CalendarUtils.calendarToDayOfWeek;
+import static de.freese.base.utils.CalendarUtils.dayOfWeekToCalendar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Timestamp;
@@ -124,7 +126,7 @@ class TestCalendarUtils
 
         assertEquals(calendarRef.get(Calendar.DAY_OF_YEAR), zonedDateTime.getDayOfYear());
         assertEquals(calendarRef.get(Calendar.DAY_OF_MONTH), zonedDateTime.getDayOfMonth());
-        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK) - 1, zonedDateTime.getDayOfWeek().getValue());
+        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK), dayOfWeekToCalendar(zonedDateTime.getDayOfWeek()));
 
         assertEquals(calendarRef.get(Calendar.HOUR_OF_DAY), zonedDateTime.getHour());
         assertEquals(calendarRef.get(Calendar.MINUTE), zonedDateTime.getMinute());
@@ -148,7 +150,7 @@ class TestCalendarUtils
 
         assertEquals(calendarRef.get(Calendar.DAY_OF_YEAR), zonedDateTime.getDayOfYear());
         assertEquals(calendarRef.get(Calendar.DAY_OF_MONTH), zonedDateTime.getDayOfMonth());
-        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK) - 1, zonedDateTime.getDayOfWeek().getValue());
+        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK), dayOfWeekToCalendar(zonedDateTime.getDayOfWeek()));
 
         assertEquals(calendarRef.get(Calendar.HOUR_OF_DAY), zonedDateTime.getHour());
         assertEquals(calendarRef.get(Calendar.MINUTE), zonedDateTime.getMinute());
@@ -213,7 +215,7 @@ class TestCalendarUtils
 
         assertEquals(calendarRef.get(Calendar.DAY_OF_YEAR), localDate.getDayOfYear());
         assertEquals(calendarRef.get(Calendar.DAY_OF_MONTH), localDate.getDayOfMonth());
-        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK) - 1, localDate.getDayOfWeek().getValue());
+        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK), dayOfWeekToCalendar(localDate.getDayOfWeek()));
     }
 
     /**
@@ -269,7 +271,7 @@ class TestCalendarUtils
 
         assertEquals(calendarRef.get(Calendar.DAY_OF_YEAR), localDateTime.getDayOfYear());
         assertEquals(calendarRef.get(Calendar.DAY_OF_MONTH), localDateTime.getDayOfMonth());
-        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK) - 1, localDateTime.getDayOfWeek().getValue());
+        assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK), dayOfWeekToCalendar(localDateTime.getDayOfWeek()));
 
         assertEquals(calendarRef.get(Calendar.HOUR_OF_DAY), localDateTime.getHour());
         assertEquals(calendarRef.get(Calendar.MINUTE), localDateTime.getMinute());
@@ -341,7 +343,7 @@ class TestCalendarUtils
 
         assertEquals(localDateRef.getDayOfYear(), calendar.get(Calendar.DAY_OF_YEAR));
         assertEquals(localDateRef.getDayOfMonth(), calendar.get(Calendar.DAY_OF_MONTH));
-        assertEquals(localDateRef.getDayOfWeek().getValue(), calendar.get(Calendar.DAY_OF_WEEK) - 1);
+        assertEquals(localDateRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
     }
 
     /**
@@ -360,7 +362,7 @@ class TestCalendarUtils
 
         assertEquals(localDateRef.getDayOfYear(), calendar.get(Calendar.DAY_OF_YEAR));
         assertEquals(localDateRef.getDayOfMonth(), calendar.get(Calendar.DAY_OF_MONTH));
-        assertEquals(localDateRef.getDayOfWeek().getValue(), calendar.get(Calendar.DAY_OF_WEEK) - 1);
+        assertEquals(localDateRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
     }
 
     /**
@@ -379,7 +381,7 @@ class TestCalendarUtils
 
         assertEquals(localDateTimeRef.getDayOfYear(), calendar.get(Calendar.DAY_OF_YEAR));
         assertEquals(localDateTimeRef.getDayOfMonth(), calendar.get(Calendar.DAY_OF_MONTH));
-        assertEquals(localDateTimeRef.getDayOfWeek().getValue(), calendar.get(Calendar.DAY_OF_WEEK) - 1);
+        assertEquals(localDateTimeRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
 
         assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
         assertEquals(0, calendar.get(Calendar.MINUTE));
@@ -404,7 +406,7 @@ class TestCalendarUtils
 
         assertEquals(localDateRef.getDayOfYear(), calendar.get(Calendar.DAY_OF_YEAR));
         assertEquals(localDateRef.getDayOfMonth(), calendar.get(Calendar.DAY_OF_MONTH));
-        assertEquals(localDateRef.getDayOfWeek().getValue(), calendar.get(Calendar.DAY_OF_WEEK) - 1);
+        assertEquals(localDateRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
 
         assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
         assertEquals(0, calendar.get(Calendar.MINUTE));
@@ -427,7 +429,7 @@ class TestCalendarUtils
 
         assertEquals(localDateRef.getDayOfYear(), calendar.get(Calendar.DAY_OF_YEAR));
         assertEquals(localDateRef.getDayOfMonth(), calendar.get(Calendar.DAY_OF_MONTH));
-        assertEquals(localDateRef.getDayOfWeek().getValue(), calendar.get(Calendar.DAY_OF_WEEK) - 1);
+        assertEquals(localDateRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
 
         assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
         assertEquals(0, calendar.get(Calendar.MINUTE));
@@ -450,7 +452,7 @@ class TestCalendarUtils
 
         assertEquals(localDateTimeRef.getDayOfYear(), calendar.get(Calendar.DAY_OF_YEAR));
         assertEquals(localDateTimeRef.getDayOfMonth(), calendar.get(Calendar.DAY_OF_MONTH));
-        assertEquals(localDateTimeRef.getDayOfWeek().getValue(), calendar.get(Calendar.DAY_OF_WEEK) - 1);
+        assertEquals(localDateTimeRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
 
         assertEquals(localDateTimeRef.getHour(), calendar.get(Calendar.HOUR_OF_DAY));
         assertEquals(localDateTimeRef.getMinute(), calendar.get(Calendar.MINUTE));

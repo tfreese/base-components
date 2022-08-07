@@ -2,6 +2,7 @@
 package de.freese.base.utils;
 
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,6 +55,47 @@ public final class CalendarUtils
         calendar.setTime(date);
 
         return calendar;
+    }
+
+    /**
+     * @param calendar {@link Calendar}
+     *
+     * @return DayOfWeek
+     */
+    public static DayOfWeek calendarToDayOfWeek(Calendar calendar)
+    {
+        int dow = calendar.get(Calendar.DAY_OF_WEEK);
+
+        return switch (dow)
+                {
+                    case Calendar.MONDAY -> DayOfWeek.MONDAY;
+                    case Calendar.TUESDAY -> DayOfWeek.TUESDAY;
+                    case Calendar.WEDNESDAY -> DayOfWeek.WEDNESDAY;
+                    case Calendar.THURSDAY -> DayOfWeek.THURSDAY;
+                    case Calendar.FRIDAY -> DayOfWeek.FRIDAY;
+                    case Calendar.SATURDAY -> DayOfWeek.SATURDAY;
+                    case Calendar.SUNDAY -> DayOfWeek.SUNDAY;
+                    default -> throw new IllegalStateException("Unexpected day of week: " + dow);
+                };
+    }
+
+    /**
+     * @param dayOfWeek {@link DayOfWeek}
+     *
+     * @return int
+     */
+    public static int dayOfWeekToCalendar(DayOfWeek dayOfWeek)
+    {
+        return switch (dayOfWeek)
+                {
+                    case MONDAY -> Calendar.MONDAY;
+                    case TUESDAY -> Calendar.TUESDAY;
+                    case WEDNESDAY -> Calendar.WEDNESDAY;
+                    case THURSDAY -> Calendar.THURSDAY;
+                    case FRIDAY -> Calendar.FRIDAY;
+                    case SATURDAY -> Calendar.SATURDAY;
+                    case SUNDAY -> Calendar.SUNDAY;
+                };
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Thomas Freese
  */
+@FunctionalInterface
 public interface Throttler
 {
     /**
@@ -59,7 +60,6 @@ public interface Throttler
                     catch (InterruptedException ex)
                     {
                         // InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
-
                         interrupted = true;
                         remainingNanos = end - System.nanoTime();
                     }

@@ -25,12 +25,11 @@ public final class Resilience4JThrottlerAdapter implements Throttler
         RateLimiterConfig config = RateLimiterConfig.custom()
                 .limitForPeriod(permits)
                 .limitRefreshPeriod(duration)
+                //.timeoutDuration(Duration.ofMinutes(1))
                 .build();
 
-        String name = Long.toString(System.nanoTime());
-
         // Sorgt für Wiederverwendung des RateLimiters bei gleicher Permit/Duration Kombination.
-        //        String name = permits + "_" + duration;
+        String name = permits + "_" + duration;
 
         RateLimiter rateLimiter = RATELIMITER_REGISTRY.rateLimiter(name, config);
 

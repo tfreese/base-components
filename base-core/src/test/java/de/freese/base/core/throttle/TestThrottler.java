@@ -1,7 +1,7 @@
 // Created: 29.03.2020
 package de.freese.base.core.throttle;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -69,7 +69,9 @@ class TestThrottler //extends AbstractIoTest
     {
         Throttler throttler = throttleFunction.apply(permits);
 
-        // Interessant: Je mehr Durchläufe, desto genauer werden Failsafe und Resilience4J im Delta.
+        // Warmup...sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.
+        throttler.acquirePermit();
+
         int size = 12_000;
 
         long start = System.nanoTime();
@@ -85,9 +87,8 @@ class TestThrottler //extends AbstractIoTest
         double timeMillis = (double) elapsed / 1_000_000D;
         double delta = Math.abs(rate - permits);
 
-        System.out.printf("Name: %-20s; Time = %.3f ms; Permits = %d; Rate = %.3f 1/s; Delta = %.3f%n", name, timeMillis, permits, rate, delta);
+        System.out.printf("%-20s; Time = %.3f ms; Permits = %d; Rate = %.3f 1/s; Delta = %.3f%n", name, timeMillis, permits, rate, delta);
 
-        //        assertEquals(permits, rate, permits * 0.03D); // Max. 3% Abweichung
-        assertTrue(true);
+        assertEquals(permits, rate, permits * 0.01D); // Max. 1 % Abweichung
     }
 }
