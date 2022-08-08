@@ -310,7 +310,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
 
             if (isExpired(nowMillis, expirationEntry.getValue()))
             {
-                // remove entry from collection
+                // remove entry from decorated map
                 super.remove(expirationEntry.getKey());
 
                 // remove entry from expiration map

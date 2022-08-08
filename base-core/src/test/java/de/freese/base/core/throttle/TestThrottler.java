@@ -87,7 +87,7 @@ class TestThrottler //extends AbstractIoTest
         double timeMillis = (double) elapsed / 1_000_000D;
         double delta = Math.abs(rate - permits);
 
-        System.out.printf("%-20s; Time = %.3f ms; Permits = %d; Rate = %.3f 1/s; Delta = %.3f%n", name, timeMillis, permits, rate, delta);
+        System.out.printf("%-20s; Time = %9.3f ms; Permits = %d; Rate = %8.3f 1/s; Delta = %8.3f%n", name, timeMillis, permits, rate, delta);
 
         assertEquals(permits, rate, permits * 0.01D); // Max. 1 % Abweichung
     }
