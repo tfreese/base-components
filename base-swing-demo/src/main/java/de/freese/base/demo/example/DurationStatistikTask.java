@@ -1,5 +1,7 @@
 package de.freese.base.demo.example;
 
+import java.util.concurrent.TimeUnit;
+
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatistikTaskListener;
 
@@ -30,7 +32,7 @@ public class DurationStatistikTask extends AbstractSwingTask<Void, Void>
 
         for (int i = 0; i < 50; i++)
         {
-            Thread.sleep(100);
+            TimeUnit.MILLISECONDS.sleep(100);
         }
 
         getLogger().info("Finished");

@@ -510,7 +510,7 @@ class TestSimpleJdbcTemplate
 
         try (Stream<Person> stream = supplier.get())
         {
-            // Thread.sleep(1000);
+            // TimeUnit.MILLISECONDS.sleep(1000);
 
             // @formatter:off
             stream

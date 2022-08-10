@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -196,7 +197,7 @@ public class NioSslClient extends AbstractNioSslPeer
                 return;
             }
 
-            Thread.sleep(waitToReadMillis);
+            TimeUnit.MILLISECONDS.sleep(waitToReadMillis);
         }
     }
 

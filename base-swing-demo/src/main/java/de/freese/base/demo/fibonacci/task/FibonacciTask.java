@@ -67,7 +67,7 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
             // Etwas auf die Bremse treten, damit die Demo etwas dauert.
             // try
             // {
-            // Thread.sleep(300);
+            // TimeUnit.MILLISECONDS.sleep(300);
             // }
             // catch (Exception ex)
             // {

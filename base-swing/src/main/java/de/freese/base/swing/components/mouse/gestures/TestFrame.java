@@ -26,6 +26,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.io.Serial;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -70,7 +71,7 @@ public class TestFrame extends JFrame
         setTitle("Mouse Gestures Test Frame");
         getContentPane().setLayout(new BorderLayout());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        
+
         initSize();
         initControls();
         initStatusBar();
@@ -132,7 +133,7 @@ public class TestFrame extends JFrame
             {
                 try
                 {
-                    Thread.sleep(200);
+                    TimeUnit.MILLISECONDS.sleep(200);
                 }
                 catch (InterruptedException ex)
                 {

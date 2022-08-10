@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -30,11 +31,11 @@ class TestAsyncFileReader
             sb.append(new String(data, StandardCharsets.UTF_8));
         };
 
-//        AsyncFileReader<StringBuilder> reader = new AsyncFileReader<>();
-//        reader.setContentHolderSupplier(contentHolderSupplier);
-//        reader.setDataConsumer(dataConsumer);
-//        reader.setByteBufferSize(1024);
-//        reader.setExecutorService(ForkJoinPool.commonPool());
+        //        AsyncFileReader<StringBuilder> reader = new AsyncFileReader<>();
+        //        reader.setContentHolderSupplier(contentHolderSupplier);
+        //        reader.setDataConsumer(dataConsumer);
+        //        reader.setByteBufferSize(1024);
+        //        reader.setExecutorService(ForkJoinPool.commonPool());
 
         //@formatter:off
         AsyncFileReader<StringBuilder> reader = GenericBuilder.
@@ -69,7 +70,7 @@ class TestAsyncFileReader
         future2.thenAccept(cs -> printer.accept(startTime2, cs));
 
         // Dient nur dazu, damit das Programm nicht vorzeitig beendet wird
-        Thread.sleep(100);
+        TimeUnit.MILLISECONDS.sleep(100);
 
         assertTrue(true);
     }

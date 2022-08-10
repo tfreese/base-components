@@ -265,7 +265,7 @@ public class SSHExec
             getLogger().debug("channel connected");
 
             // Warten auf Response.
-            // Thread.sleep(1000L);
+            // TimeUnit.MILLISECONDS.sleep(1000L);
             while (channel.getExitStatus() == -1)
             // while (!channel.isClosed())
             {
