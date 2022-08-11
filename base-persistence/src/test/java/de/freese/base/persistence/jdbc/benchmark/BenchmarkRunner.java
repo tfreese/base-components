@@ -5,7 +5,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 /**
- * https://github.com/r2dbc/r2dbc-h2/tree/main/src/jmh/java/io/r2dbc/h2<br>
+ * <a href="https://github.com/r2dbc/r2dbc-h2/tree/main/src/jmh/java/io/r2dbc/h2">r2dbc-h2</a><br>
  * <br>
  * Console:<br>
  * - java -jar target/benchmarks.jar -h<br>

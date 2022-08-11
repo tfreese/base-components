@@ -373,7 +373,7 @@ public final class TreeUtils
      * @return {@link DefaultMutableTreeNode}
      */
     @SuppressWarnings("unchecked")
-    public static final <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType)
+    public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType)
     {
         // Überprüfen, ob selektierte Elemente vorhanden sind.
         Object[] selectedObjects = getSelectedObjects(tree);

@@ -5,13 +5,14 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html<br>
+ * <a href="https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html">trans_shaped_windows</a><br>
  * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
  * PERPIXEL_TRANSLUCENT – The underlying platform supports windows with per-pixel translucency. This capability is required to implement windows that fade
  * away.<br>
@@ -47,7 +48,8 @@ public class TranslucentWindowDemo extends JFrame
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create the GUI on the event-dispatching thread
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             TranslucentWindowDemo tw = new TranslucentWindowDemo();
 
             // Set the window to 55% opaque (45% translucent).

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * <p/>
  * It makes use of the JSSE framework, and specifically the {@link SSLEngine} logic, which is described by Oracle as "an advanced API, not appropriate for
  * casual use", since it requires the user to implement much of the communication establishment procedure himself. More information about it can be found here:
- * http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#SSLEngine
+ * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#SSLEngine">JSSERefGuide</a>
  * <p/>
  * {@link AbstractNioSslPeer} implements the handshake protocol, required to establish a connection between two peers, which is common for both client and
  * server and provides the abstract {@link AbstractNioSslPeer#read(SocketChannel, SSLEngine)} and

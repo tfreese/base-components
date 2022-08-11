@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 /**
  * Interface of a BlobStore.<br>
- * {@link "https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api"}
+ * <a href="https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api">nexus-blobstore-api</a>
  *
  * @author Thomas Freese
  */

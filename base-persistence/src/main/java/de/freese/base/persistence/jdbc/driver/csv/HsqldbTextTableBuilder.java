@@ -28,8 +28,8 @@ import java.util.Objects;
  * <li>cacheSize = 1024 KB = 1 MB
  * </ul>
  * Weitere Infos unter:<br>
- * http://hsqldb.org/doc/guide/texttables-chapt.html<br>
- * http://hsqldb.org/doc/guide/ch06.html<br>
+ * <a href="http://hsqldb.org/doc/guide/texttables-chapt.html">texttables</a><br>
+ * <a href="http://hsqldb.org/doc/guide/ch06.html">ch06</a><br>
  *
  * @author Thomas Freese
  */

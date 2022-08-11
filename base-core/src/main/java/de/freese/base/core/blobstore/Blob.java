@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 /**
  * Reference for binary Data from a {@link BlobStore}.<br>
- * {@link "https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api"}
+ * <a href="https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api">nexus-blobstore-api</a>
  *
  * @author Thomas Freese
  */
@@ -22,7 +22,7 @@ public interface Blob
         {
             return inputStream.readAllBytes();
         }
-        
+
         //        byte[] bytes = null;
         //
         //        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();

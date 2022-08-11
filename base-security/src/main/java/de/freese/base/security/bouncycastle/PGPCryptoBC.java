@@ -61,10 +61,11 @@ import org.bouncycastle.util.encoders.Hex;
 
 /**
  * Links:<br>
- * http://sloanseaman.com/wordpress/2012/05/13/revisited-pgp-encryptiondecryption-in-java/<br>
- * http://blog.sealyu.com/2012/08/23/revisited-pgp-encryptiondecryption-in-java-waiting-for-wit/<br>
- * http://www.torsten-horn.de/techdocs/java-crypto.htm#CryptoOpenPgpBouncyCastle<br>
- * http://oreilly.com/catalog/javacrypt/chapter/ch06.html<br>
+ * <a href="http://www.lockboxlabs.org/content/downloads">lockboxlabs.org/</a><br>
+ * <a href="http://sloanseaman.com/wordpress/2012/05/13/revisited-pgp-encryptiondecryption-in-java">revisited-pgp-encryptiondecryption-in-java</a><br>
+ * <a href="http://blog.sealyu.com/2012/08/23/revisited-pgp-encryptiondecryption-in-java-waiting-for-wit">revisited-pgp-encryptiondecryption-in-java-waiting-for-wit</a><br>
+ * <a href="http://www.torsten-horn.de/techdocs/java-crypto.htm#CryptoOpenPgpBouncyCastle">torsten-horn</a><br>
+ * <a href="http://oreilly.com/catalog/javacrypt/chapter/ch06.html">oreilly</a><br>
  * <br>
  *
  * @author Thomas Freese
@@ -389,7 +390,6 @@ class PGPCryptoBC
 
     /**
      * From LockBox Lobs PGP Encryption tools.<br>
-     * http://www.lockboxlabs.org/content/downloads<br>
      * I didn't think it was worth having to import a 4meg lib for three methods.
      *
      * @param key {@link PGPPublicKey}
@@ -710,7 +710,6 @@ class PGPCryptoBC
 
     /**
      * From LockBox Lobs PGP Encryption tools.<br>
-     * http://www.lockboxlabs.org/content/downloads<br>
      * I didn't think it was worth having to import a 4meg lib for three methods.
      *
      * @param encKey {@link PGPPublicKey}
@@ -753,7 +752,6 @@ class PGPCryptoBC
 
     /**
      * From LockBox Lobs PGP Encryption tools.<br>
-     * http://www.lockboxlabs.org/content/downloads<br>
      * I didn't think it was worth having to import a 4meg lib for three methods.
      *
      * @param sig {@link PGPSignature}

@@ -12,7 +12,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  * An extension of JDesktopPane that supports often used MDI functionality. This class also handles setting scroll bars for when windows move too far to the
  * left or bottom, providing the MDIDesktopPane is in a ScrollPane.<br>
  * <br>
- * Quelle: http://www.javaworld.com/javaworld/jw-05-2001/jw-0525-mdi.html?page=1
+ * Quelle: <a href="http://www.javaworld.com/javaworld/jw-05-2001/jw-0525-mdi.html?page=1">jw-05-2001</a>
  *
  * @author Thomas Freese
  */

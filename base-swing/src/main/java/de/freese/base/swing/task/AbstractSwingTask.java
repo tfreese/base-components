@@ -171,14 +171,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     {
         super();
 
-        if (name == null)
-        {
-            this.name = getClass().getName();
-        }
-        else
-        {
-            this.name = name;
-        }
+        this.name = Objects.requireNonNullElse(name, getClass().getName());
 
         addPropertyChangeListener(new SwingWorkerPCL());
     }

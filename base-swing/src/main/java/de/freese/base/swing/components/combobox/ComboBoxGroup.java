@@ -20,7 +20,7 @@ public class ComboBoxGroup implements ItemListener
     /**
      *
      */
-    private final List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<JComboBox<?>>());
+    private final List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Verbindet eine {@link JComboBox} mit der Gruppe.

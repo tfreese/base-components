@@ -12,15 +12,10 @@ import javax.swing.table.TableColumnModel;
  * GroupableTableHeader
  *
  * @author Nobuo Tamemasa
- *
  * @version 1.0 10/20/98
  */
 public class GroupableTableHeader extends JTableHeader
 {
-    /**
-     *
-     */
-    private static final long serialVersionUID = -1642321287557836367L;
     /**
      *
      */
@@ -29,7 +24,11 @@ public class GroupableTableHeader extends JTableHeader
     /**
      *
      */
-    protected final List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<GroupableColumn>());
+    private static final long serialVersionUID = -1642321287557836367L;
+    /**
+     *
+     */
+    protected final List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Creates a new {@link GroupableTableHeader} object.

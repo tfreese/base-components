@@ -64,14 +64,12 @@ import javax.swing.SwingUtilities;
  *  }
  * </pre>
  *
- * @author Igor Kushnirskiy
- * @author Thomas Freese
- *
  * @param <T> the type this {@code Runnable} accumulates
  *
- * @since 1.6
- *
+ * @author Igor Kushnirskiy
+ * @author Thomas Freese
  * @see "sun.swing.AccumulativeRunnable"
+ * @since 1.6
  */
 public abstract class AccumulativeRunnable<T> implements Runnable
 {
@@ -88,7 +86,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
      * @param args the arguments to accumulate
      */
     @SafeVarargs
-    public final synchronized void add(final T...args)
+    public final synchronized void add(final T... args)
     {
         boolean isSubmitted = true;
 
@@ -104,19 +102,6 @@ public abstract class AccumulativeRunnable<T> implements Runnable
         {
             submit();
         }
-    }
-
-    /**
-     * Returns accumulated arguments and flashes the arguments storage.
-     *
-     * @return accumulated arguments
-     */
-    private final synchronized List<T> flush()
-    {
-        List<T> list = this.arguments;
-        this.arguments = null;
-
-        return list;
     }
 
     /**
@@ -145,5 +130,18 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     protected void submit()
     {
         SwingUtilities.invokeLater(this);
+    }
+
+    /**
+     * Returns accumulated arguments and flashes the arguments storage.
+     *
+     * @return accumulated arguments
+     */
+    private synchronized List<T> flush()
+    {
+        List<T> list = this.arguments;
+        this.arguments = null;
+
+        return list;
     }
 }

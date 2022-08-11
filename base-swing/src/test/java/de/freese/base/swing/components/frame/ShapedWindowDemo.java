@@ -8,13 +8,14 @@ import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Ellipse2D;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html<br>
+ * <a href="https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html">trans_shaped_windows</a><br>
  * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
  * PERPIXEL_TRANSLUCENT – The underlying platform supports windows with per-pixel translucency. This capability is required to implement windows that fade
  * away.<br>
@@ -56,7 +57,8 @@ public class ShapedWindowDemo extends JFrame
         }
 
         // Create the GUI on the event-dispatching thread
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             ShapedWindowDemo sw = new ShapedWindowDemo();
 
             // Set the window to 70% translucency, if supported.

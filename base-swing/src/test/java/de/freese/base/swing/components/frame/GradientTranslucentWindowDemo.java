@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /**
- * https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html<br>
+ * <a href="https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html">trans_shaped_windows</a><br>
  * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
  * PERPIXEL_TRANSLUCENT – The underlying platform supports windows with per-pixel translucency. This capability is required to implement windows that fade
  * away.<br>
@@ -90,7 +90,7 @@ public class GradientTranslucentWindowDemo extends JFrame
             @Override
             protected void paintComponent(final Graphics g)
             {
-                if (g instanceof Graphics2D)
+                if (g instanceof Graphics2D g2d)
                 {
                     final int R = 240;
                     final int G = 240;
@@ -98,7 +98,6 @@ public class GradientTranslucentWindowDemo extends JFrame
 
                     Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
                     // Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
-                    Graphics2D g2d = (Graphics2D) g;
                     g2d.setPaint(paint);
                     g2d.fillRect(0, 0, getWidth(), getHeight());
                 }

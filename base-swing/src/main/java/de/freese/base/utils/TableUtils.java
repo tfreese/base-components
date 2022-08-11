@@ -41,7 +41,7 @@ public final class TableUtils
     }
 
     /**
-     * http://www.exampledepot.com/egs/javax.swing.table/VisCenter.html <br>
+     * <a href="http://www.exampledepot.com/egs/javax.swing.table/VisCenter.html">VisCenter</a><br>
      * Selektiert die Zelle an der gewünschten Position und zentriert sie innerhalb der ScrollPane.
      *
      * @param table {@link JTable}

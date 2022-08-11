@@ -12,7 +12,7 @@ import javax.swing.JViewport;
 /**
  * Private class used to replace the standard DesktopManager for JDesktopPane. Used to provide scrollbar functionality.<br>
  * <br>
- * Quelle: http://www.javaworld.com/javaworld/jw-05-2001/jw-0525-mdi.html?page=1
+ * Quelle: <a href="http://www.javaworld.com/javaworld/jw-05-2001/jw-0525-mdi.html?page=1">jw-05-2001</a>
  *
  * @author Thomas Freese
  */
@@ -62,43 +62,6 @@ final class MDIDesktopManager extends DefaultDesktopManager
     }
 
     /**
-     * Liefert die {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
-     *
-     * @return {@link JScrollPane}
-     */
-    private JScrollPane getScrollPane()
-    {
-        if (this.desktop.getParent()instanceof JViewport v)
-        {
-            JViewport viewPort = v;
-
-            if (viewPort.getParent()instanceof JScrollPane p)
-            {
-                return p;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Liefert die {@link Insets} der {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
-     *
-     * @return {@link Insets}
-     */
-    private Insets getScrollPaneInsets()
-    {
-        JScrollPane scrollPane = getScrollPane();
-
-        if (scrollPane == null)
-        {
-            return new Insets(0, 0, 0, 0);
-        }
-
-        return getScrollPane().getBorder().getBorderInsets(scrollPane);
-    }
-
-    /**
      *
      */
     public void resizeDesktop()
@@ -110,7 +73,7 @@ final class MDIDesktopManager extends DefaultDesktopManager
 
         if (scrollPane != null)
         {
-            JInternalFrame allFrames[] = this.desktop.getAllFrames();
+            JInternalFrame[] allFrames = this.desktop.getAllFrames();
 
             for (JInternalFrame allFrame : allFrames)
             {
@@ -175,5 +138,42 @@ final class MDIDesktopManager extends DefaultDesktopManager
             scrollPane.invalidate();
             scrollPane.validate();
         }
+    }
+
+    /**
+     * Liefert die {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
+     *
+     * @return {@link JScrollPane}
+     */
+    private JScrollPane getScrollPane()
+    {
+        if (this.desktop.getParent() instanceof JViewport v)
+        {
+            JViewport viewPort = v;
+
+            if (viewPort.getParent() instanceof JScrollPane p)
+            {
+                return p;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Liefert die {@link Insets} der {@link JScrollPane} in der die {@link MDIDesktopPane} liegt.
+     *
+     * @return {@link Insets}
+     */
+    private Insets getScrollPaneInsets()
+    {
+        JScrollPane scrollPane = getScrollPane();
+
+        if (scrollPane == null)
+        {
+            return new Insets(0, 0, 0, 0);
+        }
+
+        return getScrollPane().getBorder().getBorderInsets(scrollPane);
     }
 }

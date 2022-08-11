@@ -370,7 +370,7 @@ public final class LocalStorage
     {
         if (Files.isDirectory(path))
         {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>()
+            Files.walkFileTree(path, new SimpleFileVisitor<>()
             {
                 /**
                  * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
