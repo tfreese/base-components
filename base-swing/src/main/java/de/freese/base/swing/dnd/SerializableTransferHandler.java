@@ -67,10 +67,8 @@ public class SerializableTransferHandler extends TransferHandler
     {
         List<Serializable> objects = new ArrayList<>();
 
-        if (c instanceof JList)
+        if (c instanceof JList list)
         {
-            JList<?> list = (JList<?>) c;
-
             List<?> selectedValues = list.getSelectedValuesList();
 
             for (Object value : selectedValues)

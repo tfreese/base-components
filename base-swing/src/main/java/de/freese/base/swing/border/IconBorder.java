@@ -80,28 +80,14 @@ public class IconBorder implements Border, Serializable
 
             switch (this.iconPosition)
             {
-                case SwingConstants.NORTH_WEST:
-                    this.borderInsets = new Insets(this.icon.getIconHeight(), this.icon.getIconWidth(), 0, 0);
-
-                    break;
-
-                case SwingConstants.NORTH_EAST:
-                    this.borderInsets = new Insets(this.icon.getIconHeight(), 0, 0, this.icon.getIconWidth());
-
-                    break;
-
-                case SwingConstants.SOUTH_WEST:
-                    this.borderInsets = new Insets(0, this.icon.getIconWidth(), this.icon.getIconHeight(), 0);
-
-                    break;
-
-                case SwingConstants.SOUTH_EAST:
-                    this.borderInsets = new Insets(0, 0, this.icon.getIconHeight(), this.icon.getIconWidth());
-
-                    break;
-
-                default:
-                    break;
+                case SwingConstants.NORTH_WEST -> this.borderInsets = new Insets(this.icon.getIconHeight(), this.icon.getIconWidth(), 0, 0);
+                case SwingConstants.NORTH_EAST -> this.borderInsets = new Insets(this.icon.getIconHeight(), 0, 0, this.icon.getIconWidth());
+                case SwingConstants.SOUTH_WEST -> this.borderInsets = new Insets(0, this.icon.getIconWidth(), this.icon.getIconHeight(), 0);
+                case SwingConstants.SOUTH_EAST -> this.borderInsets = new Insets(0, 0, this.icon.getIconHeight(), this.icon.getIconWidth());
+                default ->
+                {
+                    // Empty
+                }
             }
         }
 

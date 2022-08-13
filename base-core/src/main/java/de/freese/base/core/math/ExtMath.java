@@ -234,29 +234,17 @@ public final class ExtMath
         {
             switch (chars[i])
             {
-                case 'I':
-                    value += ((lastChar == 'X') || (lastChar == 'V')) ? -1 : 1;
-                    break;
-                case 'V':
-                    value += 5;
-                    break;
-                case 'X':
-                    value += ((lastChar == 'C') || (lastChar == 'L')) ? -10 : 10;
-                    break;
-                case 'L':
-                    value += 50;
-                    break;
-                case 'C':
-                    value += ((lastChar == 'M') || (lastChar == 'D')) ? -100 : 100;
-                    break;
-                case 'D':
-                    value += 500;
-                    break;
-                case 'M':
-                    value += 1000;
-                    break;
-                default:
-                    break;
+                case 'I' -> value += ((lastChar == 'X') || (lastChar == 'V')) ? -1 : 1;
+                case 'V' -> value += 5;
+                case 'X' -> value += ((lastChar == 'C') || (lastChar == 'L')) ? -10 : 10;
+                case 'L' -> value += 50;
+                case 'C' -> value += ((lastChar == 'M') || (lastChar == 'D')) ? -100 : 100;
+                case 'D' -> value += 500;
+                case 'M' -> value += 1000;
+                default ->
+                {
+                    // Empty
+                }
             }
 
             lastChar = chars[i];

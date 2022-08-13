@@ -65,17 +65,13 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
             // TreeSelectionModel anpassen
             switch (selectionMode)
             {
-                case ListSelectionModel.SINGLE_SELECTION:
-                    updateTreeSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-                    break;
-                case ListSelectionModel.SINGLE_INTERVAL_SELECTION:
-                    updateTreeSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
-                    break;
-                case ListSelectionModel.MULTIPLE_INTERVAL_SELECTION:
-                    updateTreeSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-                    break;
-                default:
-                    break;
+                case ListSelectionModel.SINGLE_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+                case ListSelectionModel.SINGLE_INTERVAL_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
+                case ListSelectionModel.MULTIPLE_INTERVAL_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+                default ->
+                {
+                    // Empty
+                }
             }
         }
     }
@@ -157,17 +153,13 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
         // TableSelectionModel anpassen
         switch (mode)
         {
-            case TreeSelectionModel.SINGLE_TREE_SELECTION:
-                getListSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                break;
-            case TreeSelectionModel.CONTIGUOUS_TREE_SELECTION:
-                getListSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-                break;
-            case TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION:
-                getListSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                break;
-            default:
-                break;
+            case TreeSelectionModel.SINGLE_TREE_SELECTION -> getListSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            case TreeSelectionModel.CONTIGUOUS_TREE_SELECTION -> getListSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+            case TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION -> getListSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+            default ->
+            {
+                // Empty
+            }
         }
 
         this.updateTreeSelectionMode = true;

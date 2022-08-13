@@ -2,6 +2,7 @@ package de.freese.base.security.ssl.nio.demo2;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
+
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLEngineResult.HandshakeStatus;
@@ -65,70 +66,12 @@ public abstract class AbstractSSLProvider implements Runnable
     }
 
     /**
-     * @return boolean
-     */
-    @SuppressWarnings("incomplete-switch")
-    private synchronized boolean isHandShaking()
-    {
-        switch (this.engine.getHandshakeStatus())
-        {
-            case NOT_HANDSHAKING:
-                boolean occupied = false;
-
-            {
-                if (this.clientWrap.position() > 0)
-                {
-                    occupied |= wrap();
-                }
-
-                if (this.clientUnwrap.position() > 0)
-                {
-                    occupied |= unwrap();
-                }
-            }
-
-                return occupied;
-
-            case NEED_WRAP:
-                if (!wrap())
-                {
-                    return false;
-                }
-
-                break;
-
-            case NEED_UNWRAP:
-                if (!unwrap())
-                {
-                    return false;
-                }
-
-                break;
-
-            case NEED_TASK:
-                final Runnable sslTask = this.engine.getDelegatedTask();
-
-                Runnable wrappedTask = () -> {
-                    sslTask.run();
-                    AbstractSSLProvider.this.ioWorker.execute(AbstractSSLProvider.this);
-                };
-
-                this.taskWorkers.execute(wrappedTask);
-                return false;
-
-            case FINISHED:
-                throw new IllegalStateException("FINISHED");
-        }
-
-        return true;
-    }
-
-    /**
      * @param data {@link ByteBuffer}
      */
     public void notify(final ByteBuffer data)
     {
-        this.ioWorker.execute(() -> {
+        this.ioWorker.execute(() ->
+        {
             AbstractSSLProvider.this.clientUnwrap.put(data);
             AbstractSSLProvider.this.run();
         });
@@ -168,7 +111,7 @@ public abstract class AbstractSSLProvider implements Runnable
         // executes non-blocking tasks on the IO-Worker
         while (isHandShaking())
         {
-            continue;
+            // Empty
         }
     }
 
@@ -177,11 +120,72 @@ public abstract class AbstractSSLProvider implements Runnable
      */
     public void sendAsync(final ByteBuffer data)
     {
-        this.ioWorker.execute(() -> {
+        this.ioWorker.execute(() ->
+        {
             this.clientWrap.put(data);
 
             AbstractSSLProvider.this.run();
         });
+    }
+
+    /**
+     * @return boolean
+     */
+    @SuppressWarnings("incomplete-switch")
+    private synchronized boolean isHandShaking()
+    {
+        switch (this.engine.getHandshakeStatus())
+        {
+            case NOT_HANDSHAKING:
+                boolean occupied = false;
+
+            {
+                if (this.clientWrap.position() > 0)
+                {
+                    occupied |= wrap();
+                }
+
+                if (this.clientUnwrap.position() > 0)
+                {
+                    occupied |= unwrap();
+                }
+            }
+
+            return occupied;
+
+            case NEED_WRAP:
+                if (!wrap())
+                {
+                    return false;
+                }
+
+                break;
+
+            case NEED_UNWRAP:
+                if (!unwrap())
+                {
+                    return false;
+                }
+
+                break;
+
+            case NEED_TASK:
+                final Runnable sslTask = this.engine.getDelegatedTask();
+
+                Runnable wrappedTask = () ->
+                {
+                    sslTask.run();
+                    AbstractSSLProvider.this.ioWorker.execute(AbstractSSLProvider.this);
+                };
+
+                this.taskWorkers.execute(wrappedTask);
+                return false;
+
+            case FINISHED:
+                throw new IllegalStateException("FINISHED");
+        }
+
+        return true;
     }
 
     /**

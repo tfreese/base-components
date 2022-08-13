@@ -47,10 +47,6 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     /**
      *
      */
-    private char indentChar = ' ';
-    /**
-     *
-     */
     private String lineSeparator;
 
     /**
@@ -121,14 +117,6 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     }
 
     /**
-     * @return char
-     */
-    public char getIndentChar()
-    {
-        return this.indentChar;
-    }
-
-    /**
      * @return String
      */
     public String getLineSeparator()
@@ -178,14 +166,6 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     public void setIndentAmount(final int indentAmount)
     {
         this.indentAmount = indentAmount;
-    }
-
-    /**
-     * @param indentChar char
-     */
-    public void setIndentChar(final char indentChar)
-    {
-        this.indentChar = indentChar;
     }
 
     /**
@@ -472,7 +452,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
         }
 
         getDelegate().writeCharacters(getLineSeparator());
-        getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
+        getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
     }
 
     /**
@@ -485,7 +465,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
         if (getNodeStates().get(getDepth()))
         {
             getDelegate().writeCharacters(getLineSeparator());
-            getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
+            getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
         }
     }
 
@@ -502,7 +482,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
         getNodeStates().put(getDepth(), false);
 
         getDelegate().writeCharacters(getLineSeparator());
-        getDelegate().writeCharacters(repeat(getDepth(), getIndentAmount(), getIndentChar()));
+        getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
 
         this.depth++;
     }
@@ -510,25 +490,17 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
     /**
      * @param depth int
      * @param amount int
-     * @param filler char
      *
      * @return String
      */
-    protected String repeat(final int depth, final int amount, final char filler)
+    protected String indent(final int depth, final int amount)
     {
         if (depth == 0)
         {
             return null;
         }
 
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < (depth * amount); i++)
-        {
-            sb.append(filler);
-        }
-
-        return sb.toString();
+        return " ".repeat(depth * amount);
     }
 
     /**

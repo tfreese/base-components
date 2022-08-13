@@ -149,7 +149,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      */
     protected Object invokeMethod(final Object value, final String methodName) throws Exception
     {
-        Method method = value.getClass().getMethod(methodName, (Class[]) null);
+        Method method = value.getClass().getMethod(methodName, (Class<?>[]) null);
 
         return method.invoke(value, (Object[]) null);
     }

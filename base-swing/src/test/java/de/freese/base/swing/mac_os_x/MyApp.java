@@ -362,9 +362,9 @@ public class MyApp extends JFrame implements ActionListener
             {
                 // Generate and register the OsxAdapter, passing it a hash of all the methods we
                 // wish to use as delegates for various com.apple.eawt.ApplicationListener methods.
-                OsxAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class[]) null));
-                OsxAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class[]) null));
-                OsxAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class[]) null));
+                OsxAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class<?>[]) null));
+                OsxAdapter.setAboutHandler(this, getClass().getDeclaredMethod("about", (Class<?>[]) null));
+                OsxAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class<?>[]) null));
                 OsxAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", String.class));
             }
             catch (NoSuchMethodException | SecurityException ex)

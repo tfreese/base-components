@@ -2,7 +2,6 @@ package de.freese.base.swing.eventlist;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 
 import javax.swing.SwingUtilities;
@@ -481,7 +480,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
         }
 
         this.isSorting = true;
-        Collections.sort(this, getComparator());
+        super.sort(getComparator());
         this.isSorting = false;
     }
 }

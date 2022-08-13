@@ -1,98 +1,120 @@
 // Created: 29.04.2022
 package de.freese.base.core.logging.generic;
 
+import java.util.Iterator;
+import java.util.ServiceConfigurationError;
+import java.util.ServiceLoader;
+
 /**
  * @author Thomas Freese
+ * @see org.jboss.logging.LoggerProviders
  */
 public final class LoggerFactory
 {
     /**
      *
      */
-    private static LoggerFactoryDelegate loggerFactoryDelegate;
+    private static final LoggerProvider LOGGER_PROVIDER = find();
 
-    static
-    {
-        String className = null;
-
-        try
-        {
-            Class.forName("org.slf4j.impl.StaticLoggerBinder");
-            className = "de.freese.base.core.logging.Slf4JLoggerFactoryDelegate";
-        }
-        catch (Throwable ex)
-        {
-            System.err.println("No org.slf4j.impl.StaticLoggerBinder found in ClassPath, trying with log4j2...");
-        }
-
-        if (className == null)
-        {
-            try
-            {
-                Class.forName("org.apache.logging.log4j.Logger");
-                className = "de.freese.base.core.logging.Log4j2LoggerFactoryDelegate";
-            }
-            catch (Throwable ex)
-            {
-                System.err.println("No org.apache.logging.log4j.Logger found in ClassPath, trying with log4j...");
-            }
-        }
-
-        if (className == null)
-        {
-            try
-            {
-                Class.forName("org.apache.log4j.Logger");
-                className = "de.freese.base.core.logging.Log4JLoggerFactoryDelegate";
-            }
-            catch (Throwable ex)
-            {
-                System.err.println("No org.apache.log4j.Logger found in ClassPath, falling back default...");
-            }
-        }
-
-        try
-        {
-            if (className != null)
-            {
-                Class<?> loggerClass = Class.forName(className.strip(), true, LoggerFactory.class.getClassLoader());
-                loggerFactoryDelegate = (LoggerFactoryDelegate) loggerClass.getDeclaredConstructor().newInstance();
-            }
-            else
-            {
-                fallbackToDefault();
-            }
-        }
-        catch (Throwable ex)
-        {
-            fallbackToDefault();
-        }
-
-        Logger logger = createLogger(LoggerFactory.class);
-        logger.debug("Using %s for logging.", loggerFactoryDelegate);
-    }
-
-    /**
-     * @param clazz Class
-     *
-     * @return Logger
-     */
     public static Logger createLogger(Class<?> clazz)
     {
-        return loggerFactoryDelegate.createLogger(clazz);
+        return LOGGER_PROVIDER.createLogger(clazz);
     }
 
-    /**
-     * Java Util Logging
-     */
-    private static void fallbackToDefault()
+    public static Logger createLogger(String name)
     {
-        loggerFactoryDelegate = new JulLoggerFactoryDelegate();
+        return LOGGER_PROVIDER.createLogger(name);
     }
 
-    /**
-     *
-     */
+    private static LoggerProvider find()
+    {
+        final ClassLoader classLoader = LoggerFactory.class.getClassLoader();
+
+        try
+        {
+            // Check the system property.
+            final String loggerProvider = System.getProperty("logger.provider");
+
+            if (loggerProvider != null)
+            {
+                if ("jdk".equalsIgnoreCase(loggerProvider))
+                {
+                    return tryJdk("system property");
+                }
+                else if ("slf4j".equalsIgnoreCase(loggerProvider))
+                {
+                    return trySlf4j("system property");
+                }
+            }
+        }
+        catch (Throwable th)
+        {
+            // Ignore
+        }
+
+        // Next try for a service provider.
+        try
+        {
+            final ServiceLoader<LoggerProvider> loader = ServiceLoader.load(LoggerProvider.class, classLoader);
+
+            for (Iterator<LoggerProvider> iterator = loader.iterator(); iterator.hasNext(); )
+            {
+                LoggerProvider loggerProvider = iterator.next();
+
+                logProvider(loggerProvider, "service loader");
+
+                return loggerProvider;
+            }
+        }
+        catch (ServiceConfigurationError ignore)
+        {
+            // Ignore
+        }
+
+        try
+        {
+            return trySlf4j(null);
+        }
+        catch (Exception ex)
+        {
+            // Ignore
+        }
+
+        return tryJdk(null);
+    }
+
+    private static void logProvider(final LoggerProvider provider, final String via)
+    {
+        final Logger logger = provider.createLogger(LoggerFactory.class);
+
+        if (via == null)
+        {
+            logger.info("Using Logging Provider: %s", provider);
+        }
+        else
+        {
+            logger.info("Using Logging Provider: %s found via %s", provider, via);
+        }
+    }
+
+    private static JdkLoggerProvider tryJdk(final String via)
+    {
+        final JdkLoggerProvider provider = new JdkLoggerProvider();
+
+        logProvider(provider, via);
+
+        return provider;
+    }
+
+    private static LoggerProvider trySlf4j(final String via)
+    {
+        final LoggerProvider provider = new Slf4JLoggerProvider();
+
+        logProvider(provider, via);
+
+        return provider;
+    }
+
     private LoggerFactory()
     {
         super();

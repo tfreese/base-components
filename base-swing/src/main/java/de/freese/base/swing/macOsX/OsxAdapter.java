@@ -98,7 +98,7 @@ public class OsxAdapter implements InvocationHandler
                 {
                     try
                     {
-                        Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class[]) null);
+                        Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class<?>[]) null);
                         String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
                         this.targetMethod.invoke(this.targetObject, filename);
                     }
@@ -127,7 +127,7 @@ public class OsxAdapter implements InvocationHandler
 
             if (OsxAdapter.macOSXApplication == null)
             {
-                OsxAdapter.macOSXApplication = applicationClass.getConstructor((Class[]) null).newInstance((Object[]) null);
+                OsxAdapter.macOSXApplication = applicationClass.getConstructor((Class<?>[]) null).newInstance((Object[]) null);
             }
 
             Class<?> applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");

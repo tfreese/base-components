@@ -41,6 +41,7 @@ public class Segment7 extends Canvas
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
     /**
      *
      */
@@ -78,14 +79,6 @@ public class Segment7 extends Canvas
                             // Ziffer 9
                     }
             };
-    /**
-     *
-     */
-    private int digit;
-    /**
-     *
-     */
-    private boolean hasfocus;
     /**
      *
      */
@@ -140,6 +133,14 @@ public class Segment7 extends Canvas
                             9, 8, 8, 9, 10, 10
                     }, // Segment 6
             };
+    /**
+     *
+     */
+    private int digit;
+    /**
+     *
+     */
+    private boolean hasfocus;
 
     /**
      * Creates a new Segment7 object.
@@ -173,7 +174,7 @@ public class Segment7 extends Canvas
     @Override
     public Dimension getMinimumSize()
     {
-        return new Dimension(1 * 10, 1 * 18);
+        return new Dimension(10, 18);
     }
 
     /**

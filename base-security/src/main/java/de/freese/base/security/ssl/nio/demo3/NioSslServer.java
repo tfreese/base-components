@@ -157,23 +157,21 @@ public class NioSslServer extends AbstractNioSslPeer
 
                 switch (result.getStatus())
                 {
-                    case OK:
+                    case OK ->
+                    {
                         this.peerAppData.flip();
                         getLogger().debug("Incoming message: {}", new String(this.peerAppData.array(), StandardCharsets.UTF_8));
-                        break;
-                    case BUFFER_OVERFLOW:
-                        this.peerAppData = enlargeApplicationBuffer(engine, this.peerAppData);
-                        break;
-                    case BUFFER_UNDERFLOW:
-                        this.peerNetData = handleBufferUnderflow(engine, this.peerNetData);
-                        break;
-                    case CLOSED:
+                    }
+                    case BUFFER_OVERFLOW -> this.peerAppData = enlargeApplicationBuffer(engine, this.peerAppData);
+                    case BUFFER_UNDERFLOW -> this.peerNetData = handleBufferUnderflow(engine, this.peerNetData);
+                    case CLOSED ->
+                    {
                         getLogger().debug("Client wants to close connection...");
                         closeConnection(socketChannel, engine);
                         getLogger().debug("Goodbye client!");
                         return;
-                    default:
-                        throw new IllegalStateException("Invalid SSL status: " + result.getStatus());
+                    }
+                    default -> throw new IllegalStateException("Invalid SSL status: " + result.getStatus());
                 }
             }
 
@@ -212,26 +210,25 @@ public class NioSslServer extends AbstractNioSslPeer
 
             switch (result.getStatus())
             {
-                case OK:
+                case OK ->
+                {
                     this.myNetData.flip();
 
                     while (this.myNetData.hasRemaining())
                     {
                         socketChannel.write(this.myNetData);
                     }
-
+                    
                     getLogger().debug("Message sent to the client: {}", message);
-                    break;
-                case BUFFER_OVERFLOW:
-                    this.myNetData = enlargePacketBuffer(engine, this.myNetData);
-                    break;
-                case BUFFER_UNDERFLOW:
-                    throw new SSLException("Buffer underflow occurred after a wrap. I don't think we should ever get here.");
-                case CLOSED:
+                }
+                case BUFFER_OVERFLOW -> this.myNetData = enlargePacketBuffer(engine, this.myNetData);
+                case BUFFER_UNDERFLOW -> throw new SSLException("Buffer underflow occurred after a wrap. I don't think we should ever get here.");
+                case CLOSED ->
+                {
                     closeConnection(socketChannel, engine);
                     return;
-                default:
-                    throw new IllegalStateException("Invalid SSL status: " + result.getStatus());
+                }
+                default -> throw new IllegalStateException("Invalid SSL status: " + result.getStatus());
             }
         }
     }

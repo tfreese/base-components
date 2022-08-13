@@ -57,23 +57,12 @@ public class LoggingOutputStream extends OutputStream
 
             switch (this.level)
             {
-                case TRACE:
-                    this.logger.trace(line);
-                    break;
-                case DEBUG:
-                    this.logger.debug(line);
-                    break;
-                case ERROR:
-                    this.logger.error(line);
-                    break;
-                case INFO:
-                    this.logger.info(line);
-                    break;
-                case WARN:
-                    this.logger.warn(line);
-                    break;
-                default:
-                    throw new UnsupportedOperationException("Level not supported:" + this.level);
+                case TRACE -> this.logger.trace(line);
+                case DEBUG -> this.logger.debug(line);
+                case ERROR -> this.logger.error(line);
+                case INFO -> this.logger.info(line);
+                case WARN -> this.logger.warn(line);
+                default -> throw new UnsupportedOperationException("Level not supported:" + this.level);
             }
         }
         else

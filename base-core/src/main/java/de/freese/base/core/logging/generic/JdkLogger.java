@@ -6,19 +6,16 @@ import java.util.logging.Level;
 /**
  * @author Thomas Freese
  */
-class JulLogger implements Logger
+class JdkLogger implements Logger
 {
     /**
      *
      */
     private final java.util.logging.Logger julLogger;
 
-    /**
-     * @param clazz Class
-     */
-    public JulLogger(Class<?> clazz)
+    JdkLogger(String name)
     {
-        this.julLogger = java.util.logging.Logger.getLogger(clazz.getName());
+        this.julLogger = java.util.logging.Logger.getLogger(name);
     }
 
     @Override

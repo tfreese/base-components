@@ -36,13 +36,14 @@ public class TaskManager
 
             switch (event.getPropertyName())
             {
-                case SwingTask.PROPERTY_CANCELLED:
-                case SwingTask.PROPERTY_FAILED:
-                case SwingTask.PROPERTY_SUCCEEDED:
+                case SwingTask.PROPERTY_CANCELLED, SwingTask.PROPERTY_FAILED, SwingTask.PROPERTY_SUCCEEDED ->
+                {
                     removeForegroundTask(task);
-                    return;
-                default:
-                    // NO-OP
+                }
+                default ->
+                {
+                    // Empty
+                }
             }
         }
     }
@@ -64,36 +65,38 @@ public class TaskManager
 
             switch (event.getPropertyName())
             {
-                case SwingTask.PROPERTY_STARTED:
-                case SwingTask.PROPERTY_PROGRESS:
+                case SwingTask.PROPERTY_STARTED, SwingTask.PROPERTY_PROGRESS ->
+                {
                     setForegroundTask(task);
-                    return;
-                default:
-                    // NO-OP
+                }
+                default ->
+                {
+                    // Empty
+                }
             }
         }
     }
 
     /**
-    *
-    */
+     *
+     */
     private final ExecutorService executorService;
     /**
-    *
-    */
-    private AbstractSwingTask<?, ?> foregroundTask;
-    /**
-    *
-    */
+     *
+     */
     private final PropertyChangeListener foregroundTaskPCL;
     /**
-    *
-    */
+     *
+     */
     private final PropertyChangeSupport propertyChangeSupport;
     /**
-    *
-    */
+     *
+     */
     private final PropertyChangeListener taskPCL;
+    /**
+     *
+     */
+    private AbstractSwingTask<?, ?> foregroundTask;
 
     /**
      * Erstellt ein neues {@link TaskManager} Object.
@@ -140,6 +143,24 @@ public class TaskManager
     }
 
     /**
+     * @return {@link AbstractSwingTask}
+     */
+    public AbstractSwingTask<?, ?> getForegroundTask()
+    {
+        return this.foregroundTask;
+    }
+
+    /**
+     * Entfernen eines PropertyChangeListeners.
+     *
+     * @param listener {@link PropertyChangeListener}
+     */
+    public void removePropertyChangeListener(final PropertyChangeListener listener)
+    {
+        this.propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    /**
      * Feuert ein PropertyChangeEvent.
      *
      * @param event {@link PropertyChangeEvent}
@@ -170,14 +191,6 @@ public class TaskManager
     }
 
     /**
-     * @return {@link AbstractSwingTask}
-     */
-    public AbstractSwingTask<?, ?> getForegroundTask()
-    {
-        return this.foregroundTask;
-    }
-
-    /**
      * Entfernen des aktuell aktiven Tasks.
      *
      * @param task {@link AbstractSwingTask}
@@ -190,16 +203,6 @@ public class TaskManager
         }
 
         this.foregroundTask = null;
-    }
-
-    /**
-     * Entfernen eines PropertyChangeListeners.
-     *
-     * @param listener {@link PropertyChangeListener}
-     */
-    public void removePropertyChangeListener(final PropertyChangeListener listener)
-    {
-        this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
     /**

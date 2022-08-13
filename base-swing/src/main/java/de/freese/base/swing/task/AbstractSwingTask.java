@@ -60,14 +60,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
 
                 switch (state)
                 {
-                    case STARTED:
-                        taskStarted(task);
-                        break;
-                    case DONE:
-                        taskDone(task);
-                        break;
-                    default:
-                        break;
+                    case STARTED -> taskStarted(task);
+                    case DONE -> taskDone(task);
+                    default ->
+                    {
+                        // Empty
+                    }
                 }
             }
             else if (PROPERTY_PROGRESS.equals(propertyName))

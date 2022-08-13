@@ -11,12 +11,9 @@ class Slf4jLogger implements Logger
      */
     private final org.slf4j.Logger slf4jLogger;
 
-    /**
-     * @param clazz Class
-     */
-    public Slf4jLogger(Class<?> clazz)
+    Slf4jLogger(String name)
     {
-        this.slf4jLogger = org.slf4j.LoggerFactory.getLogger(clazz);
+        this.slf4jLogger = org.slf4j.LoggerFactory.getLogger(name);
     }
 
     @Override

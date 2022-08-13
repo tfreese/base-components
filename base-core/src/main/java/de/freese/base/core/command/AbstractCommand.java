@@ -42,7 +42,7 @@ public abstract class AbstractCommand implements Command
             return false;
         }
 
-        if (!(obj instanceof AbstractCommand))
+        if (!(obj instanceof AbstractCommand other))
         {
             return false;
         }
@@ -51,8 +51,6 @@ public abstract class AbstractCommand implements Command
         {
             return false;
         }
-
-        AbstractCommand other = (AbstractCommand) obj;
 
         if (this.source == null)
         {

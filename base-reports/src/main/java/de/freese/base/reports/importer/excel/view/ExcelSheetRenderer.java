@@ -52,7 +52,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer
             // th.printStackTrace();
         }
 
-        if ((num != null) && (((num.intValue()) - num.doubleValue()) == 0.0D))
+        if ((num != null) && (((num.intValue()) - num) == 0.0D))
         {
             setText("" + num.intValue());
         }

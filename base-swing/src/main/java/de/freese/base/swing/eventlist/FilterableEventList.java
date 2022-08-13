@@ -438,15 +438,7 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
 
         if (getFilter() != null)
         {
-            for (Iterator<E> iterator = this.filteredList.iterator(); iterator.hasNext(); )
-            {
-                E object = iterator.next();
-
-                if (!getFilter().test(object))
-                {
-                    iterator.remove();
-                }
-            }
+            this.filteredList.removeIf(object -> !getFilter().test(object));
         }
 
         fireContentsChanged(0, size() - 1);

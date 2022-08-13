@@ -30,7 +30,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private final float alphaEnd = 0.6F;
+    private final double alphaEnd = 0.6D;
     /**
      *
      */
@@ -42,15 +42,15 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private float alpha = 1.0F;
+    private double alpha = 1.0D;
     /**
      *
      */
-    private float alphaIncrement = 0.02F;
+    private double alphaIncrement = 0.02D;
     /**
      *
      */
-    private float alphaStart;
+    private double alphaStart;
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
      * opacity to its default setting if the alpha is 1.0. Honestly, I don't know if this is necessary or not, but it sounded good on paper :)
@@ -99,11 +99,11 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      *
      * @return This will be a value between 0 and 1, inclusive.
      */
-    public float getAlpha()
+    public double getAlpha()
     {
-        if (this.alpha > 1F)
+        if (this.alpha > 1D)
         {
-            this.alpha = 1F;
+            this.alpha = 1D;
         }
 
         return this.alpha;
@@ -133,9 +133,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseClicked(final MouseEvent e)
+    public void mouseClicked(final MouseEvent event)
     {
-        redispatchMouseEvent(e, false);
+        redispatchMouseEvent(event, false);
 
         Toolkit.getDefaultToolkit().beep();
     }
@@ -144,36 +144,36 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseEntered(final MouseEvent e)
+    public void mouseEntered(final MouseEvent event)
     {
-        redispatchMouseEvent(e, false);
+        redispatchMouseEvent(event, false);
     }
 
     /**
      * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseExited(final MouseEvent e)
+    public void mouseExited(final MouseEvent event)
     {
-        redispatchMouseEvent(e, false);
+        redispatchMouseEvent(event, false);
     }
 
     /**
      * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
-    public void mousePressed(final MouseEvent e)
+    public void mousePressed(final MouseEvent event)
     {
-        redispatchMouseEvent(e, false);
+        redispatchMouseEvent(event, false);
     }
 
     /**
      * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseReleased(final MouseEvent e)
+    public void mouseReleased(final MouseEvent event)
     {
-        redispatchMouseEvent(e, true);
+        redispatchMouseEvent(event, true);
     }
 
     /**
@@ -181,26 +181,25 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      *
      * @param alpha must be a value between 0 and 1 inclusive.
      */
-    public void setAlpha(final float alpha)
+    public void setAlpha(final double alpha)
     {
         if (this.alpha != alpha)
         {
-            float oldAlpha = this.alpha;
+            double oldAlpha = this.alpha;
             this.alpha = alpha;
 
-            if ((alpha > 0F) && (alpha < 1F))
+            if ((alpha > 0D) && (alpha < 1D))
             {
-                if (oldAlpha == 1F)
+                if (oldAlpha == 1D)
                 {
                     // it used to be 1, but now is not. Save the oldOpaque
                     this.oldOpaque = isOpaque();
                     setOpaque(false);
                 }
             }
-            else if (alpha == 1F)
+            else if (alpha == 1D)
             {
-                // restore the oldOpaque if it was true (since opaque is false
-                // now)
+                // restore the oldOpaque if it was true (since opaque is false now)
                 if (this.oldOpaque)
                 {
                     setOpaque(true);
@@ -245,9 +244,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         super.setVisible(flag);
 
         // Ueber setVisible den Timer der Childs beenden, falls implementiert
-        Component[] childs = getComponents();
-
-        for (Component child : childs)
+        for (Component child : getComponents())
         {
             child.setVisible(flag);
         }

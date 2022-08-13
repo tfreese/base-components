@@ -71,15 +71,14 @@ public class TreeGuiState extends AbstractGuiState
         // Wiederherstellen der aufgeklappten TreePaths.
         for (int[] indices : this.expansionIndices)
         {
-            int count = indices.length;
             Object parent = model.getRoot();
             TreePath treePath = new TreePath(parent);
 
             try
             {
-                for (int counter = 0; counter < count; counter++)
+                for (int index : indices)
                 {
-                    parent = model.getChild(parent, indices[counter]);
+                    parent = model.getChild(parent, index);
 
                     if (parent == null)
                     {

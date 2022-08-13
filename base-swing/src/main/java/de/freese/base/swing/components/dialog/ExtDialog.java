@@ -487,33 +487,14 @@ public class ExtDialog
             return null;
         }
 
-        String propertyName = null;
-
-        switch (messageType)
-        {
-            case JOptionPane.ERROR_MESSAGE:
-                propertyName = "OptionPane.errorIcon";
-
-                break;
-
-            case JOptionPane.INFORMATION_MESSAGE:
-                propertyName = "OptionPane.informationIcon";
-
-                break;
-
-            case JOptionPane.WARNING_MESSAGE:
-                propertyName = "OptionPane.warningIcon";
-
-                break;
-
-            case JOptionPane.QUESTION_MESSAGE:
-                propertyName = "OptionPane.questionIcon";
-
-                break;
-
-            default:
-                break;
-        }
+        String propertyName = switch (messageType)
+                {
+                    case JOptionPane.ERROR_MESSAGE -> propertyName = "OptionPane.errorIcon";
+                    case JOptionPane.INFORMATION_MESSAGE -> propertyName = "OptionPane.informationIcon";
+                    case JOptionPane.WARNING_MESSAGE -> propertyName = "OptionPane.warningIcon";
+                    case JOptionPane.QUESTION_MESSAGE -> propertyName = "OptionPane.questionIcon";
+                    default -> null;
+                };
 
         if (propertyName != null)
         {

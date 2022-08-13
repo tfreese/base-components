@@ -72,28 +72,18 @@ public class JCraftFTPSWrapper implements FTPWrapper
         {
             switch (i)
             {
-                case DEBUG:
-                    this.logger.debug(s);
-                    break;
-
-                case INFO:
-                    this.logger.info(s);
-                    break;
-
-                case WARN:
-                    this.logger.warn(s);
-                    break;
-
-                case FATAL:
-                case ERROR:
-                    this.logger.error(s);
-                    break;
-
-                default:
-                    break;
+                case DEBUG -> this.logger.debug(s);
+                case INFO -> this.logger.info(s);
+                case WARN -> this.logger.warn(s);
+                case FATAL, ERROR -> this.logger.error(s);
+                default ->
+                {
+                    // Empty
+                }
             }
         }
     }
+
     /**
      *
      */

@@ -147,36 +147,17 @@ public final class CsvDriver implements java.sql.Driver
 
                     switch (keyValue[0])
                     {
-                        case "ignore_first":
-                            ttb.setIgnoreFirst(Boolean.parseBoolean(keyValue[1]));
-                            break;
-
-                        case "fs":
-                            ttb.setFieldSeparator(keyValue[1]);
-                            break;
-
-                        case "all_quoted":
-                            ttb.setAllQuoted(Boolean.parseBoolean(keyValue[1]));
-                            break;
-
-                        case "encoding":
-                            ttb.setEncoding(Charset.forName(keyValue[1]));
-                            break;
-
-                        case "cache_rows":
-                            ttb.setCacheRows(Integer.parseInt(keyValue[1]));
-                            break;
-
-                        case "cache_size":
-                            ttb.setCacheSize(Integer.parseInt(keyValue[1]));
-                            break;
-
-                        case "tableName":
-                            ttb.setTableName(keyValue[1]);
-                            break;
-
-                        default:
-                            break;
+                        case "ignore_first" -> ttb.setIgnoreFirst(Boolean.parseBoolean(keyValue[1]));
+                        case "fs" -> ttb.setFieldSeparator(keyValue[1]);
+                        case "all_quoted" -> ttb.setAllQuoted(Boolean.parseBoolean(keyValue[1]));
+                        case "encoding" -> ttb.setEncoding(Charset.forName(keyValue[1]));
+                        case "cache_rows" -> ttb.setCacheRows(Integer.parseInt(keyValue[1]));
+                        case "cache_size" -> ttb.setCacheSize(Integer.parseInt(keyValue[1]));
+                        case "tableName" -> ttb.setTableName(keyValue[1]);
+                        default ->
+                        {
+                            // Empty
+                        }
                     }
                 }
             }

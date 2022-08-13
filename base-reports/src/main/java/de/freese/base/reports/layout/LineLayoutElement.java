@@ -45,25 +45,12 @@ public class LineLayoutElement extends AbstractLayoutElement
     @Override
     public float getHeight()
     {
-        float height = -1;
-
-        switch (getOrientation())
-        {
-            case SwingConstants.HORIZONTAL:
-                height = getThickness();
-
-                break;
-
-            case SwingConstants.VERTICAL:
-                height = super.getHeight();
-
-                break;
-
-            default:
-                break;
-        }
-
-        return height;
+        return switch (getOrientation())
+                {
+                    case SwingConstants.HORIZONTAL -> getThickness();
+                    case SwingConstants.VERTICAL -> super.getHeight();
+                    default -> -1;
+                };
     }
 
     /**
@@ -92,25 +79,12 @@ public class LineLayoutElement extends AbstractLayoutElement
     @Override
     public float getWidth()
     {
-        float width = -1;
-
-        switch (getOrientation())
-        {
-            case SwingConstants.HORIZONTAL:
-                width = super.getWidth();
-
-                break;
-
-            case SwingConstants.VERTICAL:
-                width = getThickness();
-
-                break;
-
-            default:
-                break;
-        }
-
-        return width;
+        return switch (getOrientation())
+                {
+                    case SwingConstants.HORIZONTAL -> super.getWidth();
+                    case SwingConstants.VERTICAL -> getThickness();
+                    default -> -1;
+                };
     }
 
     /**

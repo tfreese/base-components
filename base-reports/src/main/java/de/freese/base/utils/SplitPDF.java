@@ -146,7 +146,7 @@ public class SplitPDF
         for (String range : ranges)
         {
             // Range in konkrete Zahlen wandeln.
-            String[] splits = range.split("[-]");
+            String[] splits = range.split("-");
 
             int startPage = Integer.parseInt(splits[0]);
             int endPage = Integer.parseInt(splits[1]);
@@ -229,7 +229,7 @@ public class SplitPDF
             String range = ranges[r];
 
             // Range in konkrete Zahlen wandeln.
-            String[] splits = range.split("[-]");
+            String[] splits = range.split("-");
 
             int startPage = Integer.parseInt(splits[0]);
             int endPage = Integer.parseInt(splits[1]);

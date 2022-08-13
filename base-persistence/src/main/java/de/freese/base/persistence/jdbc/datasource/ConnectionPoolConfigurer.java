@@ -1,11 +1,12 @@
 // Created: 26.01.2018
 package de.freese.base.persistence.jdbc.datasource;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
+import java.time.Duration;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.pool.HikariPool;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 /**
  * Konfiguriert die Tomcat {@link PoolProperties} mit vernünftigen Default-Werten.
@@ -46,7 +47,7 @@ public final class ConnectionPoolConfigurer
         basicDataSource.setInitialSize(1);
 
         // Max. 5 Sekunden warten auf Connection.
-        basicDataSource.setMaxWaitMillis(5 * 1000L);
+        basicDataSource.setMaxWaitMillis(Duration.ofSeconds(5).toMillis());
 
         basicDataSource.setDefaultAutoCommit(Boolean.FALSE);
         basicDataSource.setDefaultReadOnly(Boolean.FALSE);
@@ -56,7 +57,7 @@ public final class ConnectionPoolConfigurer
             basicDataSource.setValidationQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
-            basicDataSource.setValidationQueryTimeout(3);
+            basicDataSource.setValidationQueryTimeout((int) Duration.ofSeconds(3).toSeconds());
 
             // Connections prüfen, die IDLE sind.
             basicDataSource.setTestWhileIdle(true);
@@ -69,14 +70,14 @@ public final class ConnectionPoolConfigurer
         }
 
         // 60 Sekunden: Zeit nach der eine Connection als "Idle" markiert wird.
-        basicDataSource.setMinEvictableIdleTimeMillis(60 * 1000L);
+        basicDataSource.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
 
         // Alle 60 Sekunden auf Idle-Connections prüfen.
-        basicDataSource.setTimeBetweenEvictionRunsMillis(60 * 1000L);
+        basicDataSource.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(60).toMillis());
         basicDataSource.setNumTestsPerEvictionRun(1);
 
         // Eine Connection darf max. 1 Stunde alt werden, 0 = keine Alterung.
-        basicDataSource.setMaxConnLifetimeMillis(1 * 60 * 60 * 1000L);
+        basicDataSource.setMaxConnLifetimeMillis(Duration.ofHours(1).toMillis());
 
         // Entfernen von verwaisten (Timeout) Connections/Langläufern.
         basicDataSource.setAbandonedUsageTracking(true);
@@ -85,7 +86,7 @@ public final class ConnectionPoolConfigurer
         basicDataSource.setRemoveAbandonedOnMaintenance(true);
 
         // Nach 10 Minuten Connections/Langläufer als verwaist markieren.
-        basicDataSource.setRemoveAbandonedTimeout(10 * 60);
+        basicDataSource.setRemoveAbandonedTimeout((int) Duration.ofMinutes(10).toSeconds());
     }
 
     /**
@@ -116,10 +117,10 @@ public final class ConnectionPoolConfigurer
         config.setMinimumIdle(1);
 
         // Max. 5 Sekunden warten auf Connection.
-        config.setConnectionTimeout(5 * 1000L);
+        config.setConnectionTimeout(Duration.ofSeconds(5).toMillis());
 
         // 60 Sekunden: Zeit nach der eine Connection als "Idle" markiert wird.
-        config.setIdleTimeout(60 * 1000L);
+        config.setIdleTimeout(Duration.ofSeconds(60).toMillis());
         config.setMaxLifetime(config.getIdleTimeout() * 3);
 
         config.setAutoCommit(false);
@@ -130,7 +131,7 @@ public final class ConnectionPoolConfigurer
             config.setConnectionTestQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
-            config.setValidationTimeout(3 * 1000L);
+            config.setValidationTimeout(Duration.ofSeconds(3).toMillis());
         }
 
         config.addDataSourceProperty("cachePrepStmts", "true");
@@ -185,7 +186,7 @@ public final class ConnectionPoolConfigurer
         poolProperties.setInitialSize(1);
 
         // Max. 5 Sekunden warten auf Connection.
-        poolProperties.setMaxWait(5 * 1000);
+        poolProperties.setMaxWait((int) Duration.ofSeconds(5).toMillis());
 
         poolProperties.setDefaultAutoCommit(Boolean.FALSE);
         poolProperties.setDefaultReadOnly(Boolean.FALSE);
@@ -198,7 +199,7 @@ public final class ConnectionPoolConfigurer
             poolProperties.setValidationQueryTimeout(3);
 
             // Wurde eine Connection vor 60 Sekunden validiert, nicht nochmal validieren.
-            poolProperties.setValidationInterval(60 * 1000L);
+            poolProperties.setValidationInterval(Duration.ofSeconds(60).toMillis());
 
             // Connections prüfen, die IDLE sind.
             poolProperties.setTestWhileIdle(true);
@@ -211,20 +212,20 @@ public final class ConnectionPoolConfigurer
         }
 
         // 60 Sekunden: Zeit nach der eine Connection als "Idle" markiert wird.
-        poolProperties.setMinEvictableIdleTimeMillis(60 * 1000);
+        poolProperties.setMinEvictableIdleTimeMillis((int) Duration.ofSeconds(60).toMillis());
 
         // Alle 60 Sekunden auf Idle-Connections prüfen.
-        poolProperties.setTimeBetweenEvictionRunsMillis(60 * 1000);
+        poolProperties.setTimeBetweenEvictionRunsMillis((int) Duration.ofSeconds(5).toMillis());
 
         // Eine Connection darf max. 1 Stunde alt werden, 0 = keine Alterung.
-        poolProperties.setMaxAge(1 * 60 * 60 * 1000L);
+        poolProperties.setMaxAge(Duration.ofHours(1).toMillis());
 
         // Entfernen von verwaisten (Timeout) Connections/Langläufern.
         poolProperties.setRemoveAbandoned(true);
         poolProperties.setLogAbandoned(true);
 
         // Nach 10 Minuten Connections/Langläufer als verwaist markieren.
-        poolProperties.setRemoveAbandonedTimeout(10 * 60);
+        poolProperties.setRemoveAbandonedTimeout((int) Duration.ofMinutes(10).toSeconds());
 
         // Entfernen von verwaisten (Timeout) Connections/Langläufer erst ab x% des Poolstands.
         poolProperties.setAbandonWhenPercentageFull(90);

@@ -82,7 +82,7 @@ public class CommonsFTPWrapper implements FTPWrapper
         mPath = mPath.replace('\\', '/');
 
         // Unterverzeichnisse auslesen
-        String[] splits = mPath.split("[/]");
+        String[] splits = mPath.split("/");
 
         for (String split : splits)
         {

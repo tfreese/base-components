@@ -567,7 +567,7 @@ public class LedMatrix implements Painter<LedConfig>
      */
     public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height)
     {
-        int leftInset = 1 * (config.getDotWidth() + config.getHgap());
+        int leftInset = config.getDotWidth() + config.getHgap();
         int x = leftInset;
 
         // TODO Hier Ansetzen für das Scrolling.

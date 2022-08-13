@@ -22,21 +22,19 @@ public class ColorStringResourceConverter extends AbstractResourceConverter<Colo
         {
             switch (value.length())
             {
-                case 7:
+                case 7 ->
+                {
                     // RGB/hex color
                     color = Color.decode(value);
-
-                    break;
-
-                case 9:
+                }
+                case 9 ->
+                {
                     // ARGB/hex color
                     int alpha = Integer.decode(value.substring(0, 3));
                     int rgb = Integer.decode("#" + value.substring(3));
                     color = new Color((alpha << 24) | rgb, true);
-
-                    break;
-                default:
-                    throwException(key, value, "invalid #RRGGBB or #AARRGGBB color string");
+                }
+                default -> throwException(key, value, "invalid #RRGGBB or #AARRGGBB color string");
             }
         }
         else

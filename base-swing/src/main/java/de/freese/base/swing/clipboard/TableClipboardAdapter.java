@@ -312,14 +312,14 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      */
     private String[][] getPasteMatrix(final String clipboardString)
     {
-        String[] rows = clipboardString.split("[\n]");
+        String[] rows = clipboardString.split("\n");
 
         // 1. max. Anzahl an Spalten ermitteln
         int maxCols = Integer.MIN_VALUE;
 
         for (String row2 : rows)
         {
-            String[] cols = row2.split("[\t]");
+            String[] cols = row2.split("\t");
 
             maxCols = Math.max(maxCols, cols.length);
         }
@@ -334,7 +334,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
         for (int row = 0; row < rows.length; row++)
         {
-            String[] cols = rows[row].split("[\t]");
+            String[] cols = rows[row].split("\t");
 
             for (int col = 0; col < cols.length; col++)
             {
