@@ -36,7 +36,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert den boolean Wert des Propertys für einen Key und {@link PropertyType}.
+     * Liefert den boolean Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -78,7 +78,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert den Wert des Propertys für einen Key und {@link PropertyType}.
+     * Liefert den Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -99,7 +99,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert den int Wert des Propertys für einen Key und {@link PropertyType}.
+     * Liefert den int Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -120,7 +120,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert den long Wert des Propertys für einen Key und {@link PropertyType}.
+     * Liefert den long Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -141,7 +141,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert das Object des Propertys für einen Key und {@link PropertyType}.<br>
+     * Liefert das Object des Property's für einen Key und {@link PropertyType}.<br>
      * Dieses Object wird aus einem byte[] deserialisiert.
      *
      * @param <T> Type
@@ -178,7 +178,7 @@ public class UserProperties
 
         for (Entry<PropertyType, Map<String, UserProperty>> typeCache : this.cache.entrySet())
         {
-            if ((type != null) && typeCache.getKey().equals(type))
+            if (typeCache.getKey().equals(type))
             {
                 properties.addAll(typeCache.getValue().values());
                 break;
@@ -291,7 +291,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den boolean Wert des Propertys für einen Key und {@link PropertyType}.
+     * Setzt den boolean Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type PropertyType
@@ -333,7 +333,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den long Wert des Propertys für einen Key und {@link PropertyType}.
+     * Setzt den long Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -353,7 +353,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den int Wert des Propertys für einen Key und {@link PropertyType}.
+     * Setzt den int Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -373,7 +373,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den long Wert des Propertys für einen Key und {@link PropertyType}.
+     * Setzt den long Wert des Property's für einen Key und {@link PropertyType}.
      *
      * @param key String
      * @param type {@link PropertyType}
@@ -393,7 +393,7 @@ public class UserProperties
     }
 
     /**
-     * Setzt den Object Wert des Propertys für einen Key und {@link PropertyType}.<br>
+     * Setzt den Object Wert des Property's für einen Key und {@link PropertyType}.<br>
      * Dieses Object wird als byte[] serialisiert.
      *
      * @param key String

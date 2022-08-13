@@ -133,7 +133,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     }
 
     /**
-     * Returns accumulated arguments and flashes the arguments storage.
+     * Returns accumulated arguments and flashes the argument's storage.
      *
      * @return accumulated arguments
      */

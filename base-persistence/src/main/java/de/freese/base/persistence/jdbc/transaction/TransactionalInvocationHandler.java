@@ -108,7 +108,7 @@ public class TransactionalInvocationHandler implements InvocationHandler
         }
         finally
         {
-            // Nested-Aufrufe werden nicht unterstützt (Hierachische Transaktionen) !
+            // Nested-Aufrufe werden nicht unterstützt (Hierarchische Transaktionen) !
             if (isTransactional)
             {
                 ConnectionHolder.close();

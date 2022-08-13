@@ -153,7 +153,7 @@ public class DecryptFileBC
     }
 
     /**
-     * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnise.
+     * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      *
      * @param inputFolder String
      * @param outputFolder String
@@ -176,7 +176,7 @@ public class DecryptFileBC
     }
 
     /**
-     * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnise.
+     * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      *
      * @param inputFolder String
      * @param outputFolder String
@@ -193,7 +193,7 @@ public class DecryptFileBC
     }
 
     /**
-     * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnise.
+     * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      *
      * @param inputFolder String
      * @param outputFolder String

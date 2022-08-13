@@ -27,7 +27,7 @@ import java.util.Objects;
  * <li>cacheRows = 10000
  * <li>cacheSize = 1024 KB = 1 MB
  * </ul>
- * Weitere Infos unter:<br>
+ * Weitere Informationen unter:<br>
  * <a href="http://hsqldb.org/doc/guide/texttables-chapt.html">texttables</a><br>
  * <a href="http://hsqldb.org/doc/guide/ch06.html">ch06</a><br>
  *

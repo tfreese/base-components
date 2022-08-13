@@ -13,7 +13,7 @@ import de.freese.base.utils.ByteUtils;
 public final class PropertyConverter
 {
     /**
-     * Liefert den boolean Wert des Propertys.<br>
+     * Liefert den boolean Wert des Property's.<br>
      *
      * @param value String
      *

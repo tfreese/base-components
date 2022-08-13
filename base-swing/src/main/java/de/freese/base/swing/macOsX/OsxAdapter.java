@@ -270,7 +270,7 @@ public class OsxAdapter implements InvocationHandler
             setApplicationEventHandled(args[0], handled);
         }
 
-        // All of the ApplicationListener methods are void; return null regardless of what happens
+        // All the ApplicationListener methods are void; return null regardless of what happens
         return null;
     }
 

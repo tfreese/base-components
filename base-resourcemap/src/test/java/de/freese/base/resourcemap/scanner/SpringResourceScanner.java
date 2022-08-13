@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
- * ResourceScanner fuer Property-Dateien mit der Springimpelemtierung.
+ * ResourceScanner fuer Property-Dateien mit der Spring-Impelemtierung.
  *
  * @author Thomas Freese
  */

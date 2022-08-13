@@ -3,7 +3,7 @@ package de.freese.base.core.property;
 import java.util.Date;
 
 /**
- * Object für den Inhalt eines Propertys eines Users.
+ * Object für den Inhalt eines Property's eines Users.
  *
  * @author Thomas Freese
  */

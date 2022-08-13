@@ -183,6 +183,7 @@ public class SSLEngineExample
             log("\tnew HandshakeStatus: " + hsStatus);
         }
     }
+
     /**
      *
      */
@@ -327,7 +328,7 @@ public class SSLEngineExample
 
     /**
      * Run the demo. Sit in a tight loop, both engines calling wrap/unwrap regardless of whether data is available or not. We do this until both engines report
-     * back they are closed. The main loop handles all of the I/O phases of the SSLEngine's lifetime: initial handshaking application data transfer engine
+     * back they are closed. The main loop handles all the I/O phases of the SSLEngine's lifetime: initial handshaking application data transfer engine
      * closing One could easily separate these phases into separate sections of code.
      *
      * @throws Exception Falls was schiefgeht.

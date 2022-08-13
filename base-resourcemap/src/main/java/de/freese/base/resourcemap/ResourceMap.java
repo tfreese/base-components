@@ -20,7 +20,7 @@ import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 
 /**
- * ResourceMap for hierachical internationalisations.<br>
+ * ResourceMap for hierarchical internationalization.<br>
  * Configuration Example:
  *
  * <pre>
@@ -64,16 +64,16 @@ public interface ResourceMap
          *
          */
         TEXT
-        {
-            /**
-             * @see de.freese.base.resourcemap.DefaultResourceMap.EnumResourceType#getPostFix()
-             */
-            @Override
-            protected String getPostFix()
-            {
-                return "";
-            }
-        };
+                {
+                    /**
+                     * @see de.freese.base.resourcemap.DefaultResourceMap.EnumResourceType#getPostFix()
+                     */
+                    @Override
+                    protected String getPostFix()
+                    {
+                        return "";
+                    }
+                };
 
         /**
          * @param enumValue {@link Enum}
@@ -571,7 +571,7 @@ public interface ResourceMap
      *
      * @return String
      */
-    String getString(final String key, final Object...args);
+    String getString(final String key, final Object... args);
 
     /**
      * @param key String

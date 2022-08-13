@@ -539,7 +539,7 @@ public abstract class AbstractJFreeChartScriptlet<T>
     }
 
     /**
-     * Normalisiert die Daten für die 1000er Darstellung.
+     * Normalisiert die Daten für die 1000-er Darstellung.
      *
      * @param dataSet {@link DefaultCategoryDataset}
      */
