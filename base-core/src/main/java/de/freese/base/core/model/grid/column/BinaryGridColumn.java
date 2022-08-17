@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Binary-Spalte des Grids.
@@ -15,6 +16,7 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -728952526278052497L;
 
     /**

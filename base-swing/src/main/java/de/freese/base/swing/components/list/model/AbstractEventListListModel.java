@@ -1,5 +1,6 @@
 package de.freese.base.swing.components.list.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.swing.DefaultListModel;
@@ -22,6 +23,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1011316820552269417L;
 
     /**

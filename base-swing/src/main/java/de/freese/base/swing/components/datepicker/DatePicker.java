@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.datepicker;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,6 +22,7 @@ public class DatePicker extends JXDatePicker
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -4014651391029802229L;
 
     /**

@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.list.renderer;
 
 import java.awt.Component;
+import java.io.Serial;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -21,6 +22,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 335775306955315738L;
     /**
      *

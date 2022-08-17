@@ -2,6 +2,7 @@ package de.freese.base.swing.dnd;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SerializableTransferHandler extends TransferHandler
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5613552763719090039L;
     /**
      *

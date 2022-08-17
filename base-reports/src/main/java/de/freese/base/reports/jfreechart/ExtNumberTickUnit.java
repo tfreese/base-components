@@ -1,5 +1,6 @@
 package de.freese.base.reports.jfreechart;
 
+import java.io.Serial;
 import java.text.NumberFormat;
 
 import org.jfree.chart.axis.NumberTickUnit;
@@ -14,6 +15,7 @@ public class ExtNumberTickUnit extends NumberTickUnit
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8151941607328082952L;
     /**
      *

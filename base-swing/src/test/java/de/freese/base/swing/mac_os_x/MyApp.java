@@ -29,6 +29,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -54,17 +55,18 @@ import de.freese.base.swing.macOsX.OsxAdapter;
 public class MyApp extends JFrame implements ActionListener
 {
     /**
+     * Check that we are on Mac OS X. This is crucial to loading and using the OsxAdapter class.
+     */
+    public static final boolean IS_OS_MAC_OSX = System.getProperty("os.name").toLowerCase().contains("mac os x");
+    /**
      * Ask AWT which menu modifier we should be using.
      */
     final static int MENU_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -8257153622565922709L;
-    /**
-     * Check that we are on Mac OS X. This is crucial to loading and using the OsxAdapter class.
-     */
-    public static boolean IS_OS_MAC_OSX = System.getProperty("os.name").toLowerCase().contains("mac os x");
 
     /**
      * @param args String[][]
@@ -82,29 +84,37 @@ public class MyApp extends JFrame implements ActionListener
     /**
      *
      */
-    String[] colorNames =
+    final String[] colorNames =
             {
                     "White", "Black", "Red", "Blue", "Yellow", "Orange"
             };
     /**
      *
      */
-    Color[] colors =
+    final Color[] colors =
             {
                     Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
             };
     /**
      *
      */
-    protected JDialog aboutBox;
+    protected final JDialog aboutBox;
+    /**
+     *
+     */
+    protected final JComboBox<String> colorComboBox;
+    /**
+     *
+     */
+    protected final JLabel imageLabel;
+    /**
+     *
+     */
+    protected final JDialog prefs;
     /**
      *
      */
     protected JMenuItem aboutMI;
-    /**
-     *
-     */
-    protected JComboBox<String> colorComboBox;
     /**
      *
      */
@@ -124,19 +134,11 @@ public class MyApp extends JFrame implements ActionListener
     /**
      *
      */
-    protected JLabel imageLabel;
-    /**
-     *
-     */
     protected JMenuItem openMI;
     /**
      *
      */
     protected JMenuItem optionsMI;
-    /**
-     *
-     */
-    protected JDialog prefs;
     /**
      *
      */

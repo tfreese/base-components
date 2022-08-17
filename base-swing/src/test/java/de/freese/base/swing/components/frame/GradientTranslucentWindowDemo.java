@@ -11,6 +11,7 @@ import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.Paint;
+import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,6 +33,7 @@ public class GradientTranslucentWindowDemo extends JFrame
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -368071555470247071L;
 
     /**
@@ -82,6 +84,7 @@ public class GradientTranslucentWindowDemo extends JFrame
             /**
              *
              */
+            @Serial
             private static final long serialVersionUID = 1L;
 
             /**

@@ -1,6 +1,7 @@
 // Created: 12.02.2017
 package de.freese.base.core.concurrent.pool;
 
+import java.io.Serial;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -37,6 +38,7 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4992566896817015389L;
 
     /**

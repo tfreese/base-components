@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -16,6 +17,7 @@ public abstract class AbstractGuiState implements GuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 5367608044965230104L;
     /**
      * Um veraltete States auch mal löschen zu können.

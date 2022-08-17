@@ -1,6 +1,7 @@
 package de.freese.base.demo.fibonacci.view;
 
 import java.awt.GridBagLayout;
+import java.io.Serial;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,6 +19,7 @@ public class FibonacciPanel extends JPanel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -2648632168520329957L;
     /**
      *

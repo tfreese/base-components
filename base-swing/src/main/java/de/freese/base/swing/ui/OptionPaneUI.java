@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.Serial;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -72,6 +73,7 @@ public class OptionPaneUI extends BasicOptionPaneUI
         {
             JPanel sep = new JPanel()
             {
+                @Serial
                 private static final long serialVersionUID = 1L;
 
                 /**

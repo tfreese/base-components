@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.combobox;
 
+import java.io.Serial;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.event.ListDataEvent;
 
@@ -18,6 +20,7 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -711561284816478818L;
 
     /**

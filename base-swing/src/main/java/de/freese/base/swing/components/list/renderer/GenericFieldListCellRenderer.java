@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.list.renderer;
 
+import java.io.Serial;
+
 /**
  * ListCellRenderer, dem ein FieldName übergeben wird, und der seine Objekte über Reflection zur Anzeige bringt.
  *
@@ -10,6 +12,7 @@ public class GenericFieldListCellRenderer extends AbstractGenericListCellRendere
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -4533421995241634353L;
 
     /**

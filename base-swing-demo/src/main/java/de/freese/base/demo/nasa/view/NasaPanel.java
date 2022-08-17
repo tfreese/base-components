@@ -2,6 +2,7 @@ package de.freese.base.demo.nasa.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class NasaPanel extends JPanel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2482594442090386688L;
     /**
      *

@@ -1,5 +1,6 @@
 package de.freese.base.core.exception;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -16,6 +17,7 @@ public class ThrowableTracker implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -8095454479589758508L;
     /**
      * Map verhindert Exceptions mit gleichen Messages.

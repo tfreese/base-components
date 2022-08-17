@@ -3,6 +3,7 @@ package de.freese.base.swing.layout;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.io.Serial;
 
 /**
  * Erweitert die {@link GridBagConstraints} um das Builder-Pattern.
@@ -14,6 +15,7 @@ public class GbcBuilder extends GridBagConstraints
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 9216852015033867169L;
 
     /**

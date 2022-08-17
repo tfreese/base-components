@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serial;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -8037679488481229262L;
     /**
      *

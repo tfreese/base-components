@@ -2,6 +2,7 @@ package de.freese.base.resourcemap;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.util.Locale;
 
 /**
@@ -16,6 +17,7 @@ public final class LookupException extends RuntimeException
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 7433783834856512381L;
 
     /**
@@ -48,8 +50,8 @@ public final class LookupException extends RuntimeException
      */
     private final String key;
     /**
-    *
-    */
+     *
+     */
     private final Locale locale;
     /**
      *

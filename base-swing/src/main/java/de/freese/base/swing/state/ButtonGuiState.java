@@ -1,5 +1,7 @@
 package de.freese.base.swing.state;
 
+import java.io.Serial;
+
 import javax.swing.JButton;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,6 +19,7 @@ public class ButtonGuiState extends AbstractGuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8640371387385687109L;
 
     /**

@@ -1,6 +1,7 @@
 // Created: 12.02.2017
 package de.freese.base.core.concurrent.pool;
 
+import java.io.Serial;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +43,7 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 6374300294609033461L;
     /**
      *

@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.Serial;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ public class WatermarkExample extends JPanel implements ActionListener
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -4609321404275287633L;
 
     /**

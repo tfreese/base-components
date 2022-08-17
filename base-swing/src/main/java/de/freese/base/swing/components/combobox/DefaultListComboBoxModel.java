@@ -1,6 +1,8 @@
 // Created: 29.07.2021
 package de.freese.base.swing.components.combobox;
 
+import java.io.Serial;
+
 import javax.swing.ComboBoxModel;
 
 import de.freese.base.swing.components.list.model.DefaultListListModel;
@@ -15,6 +17,7 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8956293128753923538L;
     /**
      * Das momentan selektierte Objekt, in der ComboBox.

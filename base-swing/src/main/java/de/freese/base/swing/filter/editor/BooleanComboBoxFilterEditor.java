@@ -2,6 +2,7 @@ package de.freese.base.swing.filter.editor;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.Serial;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -25,6 +26,7 @@ public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements Fi
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8226362008750444885L;
     /**
      *

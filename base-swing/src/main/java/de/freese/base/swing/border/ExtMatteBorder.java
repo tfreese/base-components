@@ -2,6 +2,8 @@ package de.freese.base.swing.border;
 
 import java.awt.Color;
 import java.awt.Insets;
+import java.io.Serial;
+
 import javax.swing.Icon;
 import javax.swing.border.MatteBorder;
 
@@ -15,6 +17,7 @@ public class ExtMatteBorder extends MatteBorder
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 823952493901941086L;
 
     /**

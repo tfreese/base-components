@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +25,7 @@ public class Grid implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -6649946412204459833L;
     /**
      *

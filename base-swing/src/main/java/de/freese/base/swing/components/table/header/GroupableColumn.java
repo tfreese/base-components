@@ -2,6 +2,7 @@ package de.freese.base.swing.components.table.header;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,6 @@ import javax.swing.table.TableColumn;
  * ColumnGroup.
  *
  * @author Nobuo Tamemasa
- *
  * @version 1.0 10/20/98
  */
 public class GroupableColumn
@@ -26,7 +26,7 @@ public class GroupableColumn
     /**
      *
      */
-    protected List<Object> columns = Collections.synchronizedList(new ArrayList<>());
+    protected final List<Object> columns = Collections.synchronizedList(new ArrayList<>());
     /**
      *
      */
@@ -62,6 +62,7 @@ public class GroupableColumn
         {
             this.renderer = new DefaultTableCellRenderer()
             {
+                @Serial
                 private static final long serialVersionUID = -7722809265471063718L;
 
                 @Override
@@ -117,37 +118,6 @@ public class GroupableColumn
         }
 
         this.columns.add(tableColumn);
-    }
-
-    /**
-     * @param tableColumn {@link TableColumn}
-     * @param columns {@link List}
-     *
-     * @return {@link List}
-     */
-    List<Object> getColumnGroups(final TableColumn tableColumn, final List<Object> columns)
-    {
-        columns.add(this);
-
-        if (this.columns.contains(tableColumn))
-        {
-            return columns;
-        }
-
-        for (Object column : this.columns)
-        {
-            if (column instanceof GroupableColumn c)
-            {
-                List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
-
-                if (groups != null)
-                {
-                    return groups;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -226,5 +196,36 @@ public class GroupableColumn
     public void setText(final String text)
     {
         this.text = text;
+    }
+
+    /**
+     * @param tableColumn {@link TableColumn}
+     * @param columns {@link List}
+     *
+     * @return {@link List}
+     */
+    List<Object> getColumnGroups(final TableColumn tableColumn, final List<Object> columns)
+    {
+        columns.add(this);
+
+        if (this.columns.contains(tableColumn))
+        {
+            return columns;
+        }
+
+        for (Object column : this.columns)
+        {
+            if (column instanceof GroupableColumn c)
+            {
+                List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
+
+                if (groups != null)
+                {
+                    return groups;
+                }
+            }
+        }
+
+        return null;
     }
 }

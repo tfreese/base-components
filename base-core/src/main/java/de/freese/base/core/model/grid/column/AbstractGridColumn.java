@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
@@ -19,6 +20,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3866701962046000404L;
     /**
      *

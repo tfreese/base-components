@@ -27,7 +27,6 @@ import java.util.function.Supplier;
  *
  * @author Oliver Heger
  * @author Thomas Freese
- *
  * @see <a href="https://github.com/oheger/JavaMagReact">https://github.com/oheger/JavaMagReact (JavaMagazin 02/2018 )</a>
  */
 public final class AsyncFileReader<CH>
@@ -69,7 +68,7 @@ public final class AsyncFileReader<CH>
          * @param bufferSize int
          */
         public ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler,
-                final int bufferSize)
+                           final int bufferSize)
         {
             super();
 
@@ -259,23 +258,12 @@ public final class AsyncFileReader<CH>
     }
 
     /**
-     * Liest den nächsten Datenblock.
-     *
-     * @param context {@link ReadContext}
-     */
-    private void readBlock(final ReadContext<CH> context)
-    {
-        context.buffer.clear();
-        context.channel.read(context.buffer, context.position, context, context.handler);
-    }
-
-    /**
      * Blockgröße pro Lese-Operation.<br>
      * Default: 1024
      *
      * @return int
      */
-    protected int getByteBufferSize()
+    private int getByteBufferSize()
     {
         return this.byteBufferSize;
     }
@@ -286,7 +274,7 @@ public final class AsyncFileReader<CH>
      *
      * @return {@link Supplier}
      */
-    protected Supplier<CH> getContentHolderSupplier()
+    private Supplier<CH> getContentHolderSupplier()
     {
         return this.contentHolderSupplier;
     }
@@ -297,7 +285,7 @@ public final class AsyncFileReader<CH>
      *
      * @return {@link BiConsumer}
      */
-    protected BiConsumer<CH, byte[]> getDataConsumer()
+    private BiConsumer<CH, byte[]> getDataConsumer()
     {
         return this.dataConsumer;
     }
@@ -308,8 +296,19 @@ public final class AsyncFileReader<CH>
      *
      * @return {@link ExecutorService}
      */
-    protected ExecutorService getExecutorService()
+    private ExecutorService getExecutorService()
     {
         return this.executorService;
+    }
+
+    /**
+     * Liest den nächsten Datenblock.
+     *
+     * @param context {@link ReadContext}
+     */
+    private void readBlock(final ReadContext<CH> context)
+    {
+        context.buffer.clear();
+        context.channel.read(context.buffer, context.position, context, context.handler);
     }
 }

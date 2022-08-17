@@ -1,6 +1,7 @@
 // Created: 22.06.2021
 package de.freese.base.core.pool;
 
+import java.io.Serial;
 import java.lang.ref.SoftReference;
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -14,11 +15,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * The pool is optionally thread safe and can be configured to use soft references.<br>
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Github</a>
  *
+ * @param <T> Type
+ *
  * @author Nathan Sweet
  * @author Martin Grotzke
  * @author Thomas Freese
- *
- * @param <T> Type
  */
 public abstract class KryoPool<T>
 {
@@ -36,10 +37,10 @@ public abstract class KryoPool<T>
     /**
      * Wraps queue values with {@link SoftReference} for {@link KryoPool}.
      *
+     * @param <T> Type
+     *
      * @author Martin Grotzke
      * @author Thomas Freese
-     *
-     * @param <T> Type
      */
     static class SoftReferenceQueue<T> implements Queue<T>
     {
@@ -74,29 +75,6 @@ public abstract class KryoPool<T>
         public boolean addAll(final Collection<? extends T> c)
         {
             return false;
-        }
-
-        /**
-         *
-         */
-        void clean()
-        {
-            this.delegate.removeIf(o -> o.get() == null);
-        }
-
-        /**
-         *
-         */
-        void cleanOne()
-        {
-            for (Iterator<SoftReference<T>> iter = this.delegate.iterator(); iter.hasNext();)
-            {
-                if (iter.next().get() == null)
-                {
-                    iter.remove();
-                    break;
-                }
-            }
         }
 
         /**
@@ -257,6 +235,29 @@ public abstract class KryoPool<T>
         {
             return null;
         }
+
+        /**
+         *
+         */
+        void clean()
+        {
+            this.delegate.removeIf(o -> o.get() == null);
+        }
+
+        /**
+         *
+         */
+        void cleanOne()
+        {
+            for (Iterator<SoftReference<T>> iter = this.delegate.iterator(); iter.hasNext(); )
+            {
+                if (iter.next().get() == null)
+                {
+                    iter.remove();
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -284,7 +285,7 @@ public abstract class KryoPool<T>
      * @param threadSafe boolean
      * @param softReferences boolean
      * @param maximumCapacity int; The maximum number of free objects to store in this pool.<br>
-     *            Objects are not created until {@link #obtain()} is called and no free objects are available.
+     * Objects are not created until {@link #obtain()} is called and no free objects are available.
      */
     @SuppressWarnings("unchecked")
     protected KryoPool(final boolean threadSafe, final boolean softReferences, final int maximumCapacity)
@@ -298,6 +299,7 @@ public abstract class KryoPool<T>
                 /**
                  *
                  */
+                @Serial
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -315,6 +317,7 @@ public abstract class KryoPool<T>
                 /**
                  *
                  */
+                @Serial
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -338,6 +341,7 @@ public abstract class KryoPool<T>
                 /**
                  *
                  */
+                @Serial
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -376,11 +380,6 @@ public abstract class KryoPool<T>
     {
         this.freeObjects.clear();
     }
-
-    /**
-     * @return Object
-     */
-    protected abstract T create();
 
     /**
      * Puts the specified object in the pool, making it eligible to be returned by {@link #obtain()}. If the pool already contains the maximum number of free
@@ -449,6 +448,19 @@ public abstract class KryoPool<T>
     }
 
     /**
+     *
+     */
+    public void resetPeak()
+    {
+        this.peak = 0;
+    }
+
+    /**
+     * @return Object
+     */
+    protected abstract T create();
+
+    /**
      * Called when an object is freed to clear the state of the object for possible later reuse. The default implementation calls {@link Poolable#reset()} if
      * the object is {@link Poolable}.
      *
@@ -460,13 +472,5 @@ public abstract class KryoPool<T>
         {
             poolable.reset();
         }
-    }
-
-    /**
-     *
-     */
-    public void resetPeak()
-    {
-        this.peak = 0;
     }
 }

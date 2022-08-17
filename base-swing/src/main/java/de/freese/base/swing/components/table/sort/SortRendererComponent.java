@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.Serial;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -27,6 +28,7 @@ public class SortRendererComponent extends JPanel
     /**
      * serialVersionUID
      */
+    @Serial
     private static final long serialVersionUID = -5261935215031937262L;
     /**
      * MainComponent

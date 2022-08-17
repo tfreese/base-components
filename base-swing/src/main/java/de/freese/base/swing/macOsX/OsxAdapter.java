@@ -199,15 +199,15 @@ public class OsxAdapter implements InvocationHandler
     /**
      *
      */
-    protected String proxySignature;
+    protected final String proxySignature;
     /**
      *
      */
-    protected Method targetMethod;
+    protected final Method targetMethod;
     /**
      *
      */
-    protected Object targetObject;
+    protected final Object targetObject;
 
     /**
      * Each OsxAdapter has the name of the EAWT method it intends to listen for (handleAbout, forexample),<br>

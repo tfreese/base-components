@@ -23,6 +23,7 @@ import java.awt.image.PixelGrabber;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serial;
 
 import javax.imageio.ImageIO;
 import javax.swing.GrayFilter;
@@ -48,6 +49,7 @@ public final class ImageUtils
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = 102999713634663152L;
 
         /**
@@ -124,6 +126,7 @@ public final class ImageUtils
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -3986977626709987448L;
 
         /**
@@ -186,6 +189,7 @@ public final class ImageUtils
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = 6491045895051309036L;
 
         /**

@@ -137,7 +137,7 @@ final class SqlBlobOutputStream extends OutputStream
     /**
      * @return {@link Logger}
      */
-    protected Logger getLogger()
+    private Logger getLogger()
     {
         return logger;
     }

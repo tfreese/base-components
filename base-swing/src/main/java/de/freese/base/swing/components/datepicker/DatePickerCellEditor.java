@@ -3,6 +3,7 @@ package de.freese.base.swing.components.datepicker;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,6 +25,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 1L;
 
     // /**

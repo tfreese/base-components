@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+import java.io.Serial;
 
 import javax.swing.JList;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,6 +20,7 @@ public class ListGuiState extends AbstractGuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -6237079790822368033L;
     /**
      * Die selektierten Indizies der Liste

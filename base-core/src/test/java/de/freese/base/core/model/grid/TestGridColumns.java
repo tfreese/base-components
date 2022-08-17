@@ -58,7 +58,7 @@ class TestGridColumns
                 };
 
         assertNull(column.getValue(null));
-        assertEquals(object, column.getValue(object));
+        assertArrayEquals(object, column.getValue(object));
 
         assertNull(read(column, write(column, null)));
         assertArrayEquals(object, read(column, write(column, object)));

@@ -1,5 +1,6 @@
 package de.freese.base.swing.undo;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,7 @@ public class ExtUndoManager extends UndoManager
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8132103408414717090L;
 
     /**

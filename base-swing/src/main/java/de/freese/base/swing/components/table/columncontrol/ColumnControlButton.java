@@ -1,5 +1,6 @@
 package de.freese.base.swing.components.table.columncontrol;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ColumnControlButton extends JButton
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1209957795127294654L;
     /**
      *

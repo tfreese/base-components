@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Long-Spalte des Grids.
@@ -15,6 +16,7 @@ public class LongGridColumn extends AbstractGridColumn<Long>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8557737117908767551L;
 
     /**

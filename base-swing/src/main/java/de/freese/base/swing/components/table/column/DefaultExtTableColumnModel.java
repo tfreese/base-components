@@ -2,6 +2,7 @@ package de.freese.base.swing.components.table.column;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +28,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 7120329832987702244L;
 
     /**
@@ -37,6 +39,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -5146125743167750699L;
 
         /**

@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Double-Spalte des Grids.
@@ -15,6 +16,7 @@ public class DoubleGridColumn extends AbstractGridColumn<Double>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 5426214923097786498L;
 
     /**

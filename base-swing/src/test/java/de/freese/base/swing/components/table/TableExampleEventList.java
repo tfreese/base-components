@@ -3,6 +3,7 @@ package de.freese.base.swing.components.table;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
+import java.io.Serial;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +30,7 @@ public final class TableExampleEventList
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = 6289962608942473870L;
 
         /**

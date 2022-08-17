@@ -11,6 +11,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 import java.util.Locale;
 import java.util.logging.Level;
 
@@ -53,6 +54,7 @@ public final class ErrorPane extends JPanel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8841473190098899651L;
 
     /**

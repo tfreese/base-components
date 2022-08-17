@@ -2,6 +2,8 @@
 package de.freese.base.swing.components.graph;
 
 import java.awt.Component;
+import java.io.Serial;
+
 import javax.swing.Painter;
 
 /**
@@ -12,6 +14,7 @@ public class DefaultGraphComponent extends AbstractGraphComponent
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -7419689107251752519L;
 
     /**

@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class TreeGuiState extends AbstractGuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3862916832341697120L;
     /**
      *

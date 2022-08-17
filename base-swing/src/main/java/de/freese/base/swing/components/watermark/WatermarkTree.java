@@ -3,6 +3,7 @@ package de.freese.base.swing.components.watermark;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;
+import java.io.Serial;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -7736500453003929181L;
     /**
      *

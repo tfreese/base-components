@@ -1,5 +1,6 @@
 package de.freese.base.core.xml.dom;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -17,6 +18,7 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 510442491147365569L;
 
     /**

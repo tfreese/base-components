@@ -3,6 +3,7 @@ package de.freese.base.swing.components.combobox;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
+import java.io.Serial;
 import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
@@ -27,6 +28,7 @@ public class ExtComboBox<T> extends JComboBox<T>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5210391879154918454L;
 
     /**
@@ -48,6 +50,7 @@ public class ExtComboBox<T> extends JComboBox<T>
             /**
              *
              */
+            @Serial
             private static final long serialVersionUID = 5619503805323024632L;
 
             /**

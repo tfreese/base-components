@@ -1,5 +1,6 @@
 package de.freese.base.core.model.tupel;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -16,6 +17,7 @@ public class Tupel3<A, B, C> extends Tupel2<A, B>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3964125548346645907L;
     /**
      *

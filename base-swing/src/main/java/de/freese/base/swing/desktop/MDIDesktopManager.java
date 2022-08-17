@@ -2,6 +2,7 @@ package de.freese.base.swing.desktop;
 
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.io.Serial;
 
 import javax.swing.DefaultDesktopManager;
 import javax.swing.JComponent;
@@ -21,6 +22,7 @@ final class MDIDesktopManager extends DefaultDesktopManager
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8998750700453491893L;
     /**
      *

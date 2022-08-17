@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +49,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3076920096726720396L;
     /**
      *
@@ -196,6 +198,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
             /**
              *
              */
+            @Serial
             private static final long serialVersionUID = 1L;
 
             /**
@@ -241,6 +244,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
             /**
              *
              */
+            @Serial
             private static final long serialVersionUID = -6186677548811556005L;
 
             /**

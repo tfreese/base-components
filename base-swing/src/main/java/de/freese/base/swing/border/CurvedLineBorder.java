@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.io.Serial;
 
 import javax.swing.AbstractButton;
 import javax.swing.JToolBar;
@@ -20,6 +21,7 @@ public class CurvedLineBorder extends LineBorder
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 3562280264054463491L;
     /**
      *

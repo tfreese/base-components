@@ -6,6 +6,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ public class AutoCompleteableTextField extends JTextField
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8765972663291526963L;
 
     /**
@@ -69,6 +71,7 @@ public class AutoCompleteableTextField extends JTextField
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -6115968950918667824L;
         /**
          *

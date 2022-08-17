@@ -13,6 +13,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 import java.util.Locale;
 
 import javax.swing.AbstractAction;
@@ -311,6 +312,7 @@ public class ExtDialog
             /**
              *
              */
+            @Serial
             private static final long serialVersionUID = -1121213878070135406L;
 
             /**
@@ -336,6 +338,7 @@ public class ExtDialog
                 /**
                  *
                  */
+                @Serial
                 private static final long serialVersionUID = -1982802474829843159L;
 
                 /**

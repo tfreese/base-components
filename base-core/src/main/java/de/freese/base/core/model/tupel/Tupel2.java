@@ -1,5 +1,6 @@
 package de.freese.base.core.model.tupel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,6 +17,7 @@ public class Tupel2<A, B> implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -2114823921211413095L;
     /**
      *

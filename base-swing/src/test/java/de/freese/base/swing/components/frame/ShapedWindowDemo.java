@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Ellipse2D;
+import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,6 +29,7 @@ public class ShapedWindowDemo extends JFrame
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 3875661376456849952L;
 
     /**

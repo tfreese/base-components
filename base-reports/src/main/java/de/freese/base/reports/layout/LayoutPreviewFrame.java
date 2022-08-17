@@ -3,6 +3,7 @@ package de.freese.base.reports.layout;
 
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.io.Serial;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ public class LayoutPreviewFrame extends JFrame
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -2245301418603208848L;
 
     /**

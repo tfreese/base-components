@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -32,6 +33,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4337541530394314432L;
     /**
      *

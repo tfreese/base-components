@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.Icon;
@@ -30,6 +31,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5987325109823650807L;
     /**
      *

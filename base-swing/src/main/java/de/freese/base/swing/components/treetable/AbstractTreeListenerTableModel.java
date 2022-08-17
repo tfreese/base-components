@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.treetable;
 
+import java.io.Serial;
+
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeExpansionEvent;
@@ -20,6 +22,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3225572645684058554L;
     /**
      *

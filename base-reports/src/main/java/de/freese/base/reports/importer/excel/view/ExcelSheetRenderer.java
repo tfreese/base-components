@@ -1,6 +1,7 @@
 package de.freese.base.reports.importer.excel.view;
 
 import java.awt.Component;
+import java.io.Serial;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -15,6 +16,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2719021291033059644L;
 
     /**

@@ -41,6 +41,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -4454292369350861849L;
     /**
      * Gibt an, ob ein alternativer Header verwendet werden soll.

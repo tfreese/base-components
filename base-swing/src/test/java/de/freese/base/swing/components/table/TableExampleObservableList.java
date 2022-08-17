@@ -2,6 +2,7 @@ package de.freese.base.swing.components.table;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serial;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +27,7 @@ public final class TableExampleObservableList
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -2601221304098179771L;
 
         /**

@@ -1,5 +1,6 @@
 package de.freese.base.swing.components.table;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +21,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8219964863357772409L;
     /**
      *

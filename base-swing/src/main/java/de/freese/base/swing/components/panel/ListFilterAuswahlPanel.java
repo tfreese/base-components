@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.panel;
 
+import java.io.Serial;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -24,6 +26,7 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 9023884779864134283L;
     /**
      *

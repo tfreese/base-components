@@ -10,6 +10,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.activation.DataSource;
@@ -35,6 +36,7 @@ public final class GuiUtils
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -7069549788210052499L;
 
         /**

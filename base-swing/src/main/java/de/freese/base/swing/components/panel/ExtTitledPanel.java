@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -23,6 +24,7 @@ public class ExtTitledPanel extends JXTitledPanel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 421436804144877867L;
 
     /**

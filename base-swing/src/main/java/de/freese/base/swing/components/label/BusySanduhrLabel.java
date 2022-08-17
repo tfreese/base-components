@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.io.Serial;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ public class BusySanduhrLabel extends JLabel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
     /**

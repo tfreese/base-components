@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -24,6 +25,7 @@ public class Segment7 extends Canvas
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2856977851119006250L;
 
     /**

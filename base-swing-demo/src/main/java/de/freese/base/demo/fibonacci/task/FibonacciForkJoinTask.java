@@ -1,6 +1,7 @@
 // Created: 12.05.2012
 package de.freese.base.demo.fibonacci.task;
 
+import java.io.Serial;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
@@ -21,6 +22,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 67781993370162624L;
     /**
      *

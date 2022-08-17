@@ -41,13 +41,13 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractNioSslPeer
 {
     /**
+     * Will be used to execute tasks that may emerge during handshake in parallel with the server's main thread.
+     */
+    protected final ExecutorService executor = Executors.newSingleThreadExecutor();
+    /**
      * Class' logger.
      */
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     * Will be used to execute tasks that may emerge during handshake in parallel with the server's main thread.
-     */
-    protected ExecutorService executor = Executors.newSingleThreadExecutor();
     /**
      * Will contain this peer's application data in plaintext, that will be later encrypted using {@link SSLEngine#wrap(ByteBuffer, ByteBuffer)} and sent to the
      * other peer. This buffer can typically be of any size, as long as it is large enough to contain this peer's outgoing messages. If this peer tries to send

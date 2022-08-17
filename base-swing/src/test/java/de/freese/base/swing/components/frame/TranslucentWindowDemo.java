@@ -5,6 +5,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
+import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ public class TranslucentWindowDemo extends JFrame
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2882466471490385780L;
 
     /**

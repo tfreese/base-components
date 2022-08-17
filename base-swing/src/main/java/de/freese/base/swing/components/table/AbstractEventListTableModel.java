@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.table;
 
+import java.io.Serial;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -17,6 +19,7 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -4124337499231623139L;
 
     /**

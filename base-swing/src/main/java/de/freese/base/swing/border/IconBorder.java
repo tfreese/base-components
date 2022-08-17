@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.io.Serial;
 import java.io.Serializable;
 
 import javax.swing.Icon;
@@ -23,6 +24,7 @@ public class IconBorder implements Border, Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -9139492820598238887L;
     /**
      *

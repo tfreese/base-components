@@ -1,5 +1,6 @@
 package de.freese.base.core.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ public class AuditInfo implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 146275334726328864L;
     /**
      * Wann wurde das Objekt erstellt ?

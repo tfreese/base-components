@@ -2,6 +2,8 @@ package de.freese.base.swing.components.frame;
 
 import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
+import java.io.Serial;
+
 import javax.swing.JFrame;
 
 /**
@@ -15,6 +17,7 @@ public class ExtFrame extends JFrame
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4014880096241781642L;
 
     /**

@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.Painter;
@@ -23,6 +24,7 @@ public abstract class AbstractGraphComponent extends Component
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -7006824316195250962L;
     /**
      *

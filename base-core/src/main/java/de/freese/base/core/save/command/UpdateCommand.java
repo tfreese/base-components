@@ -1,5 +1,6 @@
 package de.freese.base.core.save.command;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -19,6 +20,7 @@ public class UpdateCommand extends AbstractRemoteCommand
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2163481914421663100L;
 
     /**

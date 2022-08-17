@@ -1,5 +1,6 @@
 package de.freese.base.swing.components.tree;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 3330350835354351508L;
     /**
      *

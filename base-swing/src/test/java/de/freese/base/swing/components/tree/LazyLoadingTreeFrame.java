@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.tree;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -39,6 +40,7 @@ public class LazyLoadingTreeFrame extends JFrame
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 3374150787460216252L;
 
     /**

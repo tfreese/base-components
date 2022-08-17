@@ -1,5 +1,6 @@
 package de.freese.base.swing.filter.editor;
 
+import java.io.Serial;
 import java.util.Date;
 
 import javax.swing.JComponent;
@@ -17,6 +18,7 @@ public class DatePickerFilterEditor extends DatePicker implements FilterEditor
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3308667881098631844L;
     /**
      *

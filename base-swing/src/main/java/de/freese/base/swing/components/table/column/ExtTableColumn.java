@@ -2,6 +2,7 @@ package de.freese.base.swing.components.table.column;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ public class ExtTableColumn extends TableColumn
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4220187542201364522L;
     /**
      *

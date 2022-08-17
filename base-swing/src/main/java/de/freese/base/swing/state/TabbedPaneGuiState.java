@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+import java.io.Serial;
 
 import javax.swing.JTabbedPane;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,6 +20,7 @@ public class TabbedPaneGuiState extends AbstractGuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5629441991603272347L;
     /**
      *

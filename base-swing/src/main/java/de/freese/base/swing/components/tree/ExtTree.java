@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.dnd.Autoscroll;
+import java.io.Serial;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -23,6 +24,7 @@ public class ExtTree extends JTree implements Autoscroll
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -9201687902908324380L;
     /**
      * Rand zur Aussenkomponente.

@@ -2,6 +2,7 @@ package de.freese.base.swing.state;
 
 import java.awt.Component;
 import java.awt.Frame;
+import java.io.Serial;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,6 +25,7 @@ public class FrameGuiState extends ContainerGuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3974478602033414091L;
     /**
      *

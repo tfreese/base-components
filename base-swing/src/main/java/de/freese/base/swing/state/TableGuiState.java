@@ -2,6 +2,7 @@ package de.freese.base.swing.state;
 
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,12 @@ import org.jdesktop.swingx.table.TableColumnExt;
 public class TableGuiState extends AbstractGuiState
 {
     /**
+     *
+     */
+    @Serial
+    private static final long serialVersionUID = -8164953430592111778L;
+
+    /**
      * Statusklasse einer TableColumn.
      *
      * @author Thomas Freese
@@ -35,6 +42,7 @@ public class TableGuiState extends AbstractGuiState
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -4666054569112117571L;
         /**
          *
@@ -144,11 +152,6 @@ public class TableGuiState extends AbstractGuiState
             }
         }
     }
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = -8164953430592111778L;
     /**
      *
      */
@@ -164,52 +167,6 @@ public class TableGuiState extends AbstractGuiState
     public TableGuiState()
     {
         super(JTable.class);
-    }
-
-    /**
-     * Liefert den gespeicherten ModelIndex einer Spalte.
-     *
-     * @param index int
-     *
-     * @return int
-     */
-    private int findModelIndex(final int index)
-    {
-        for (int j = 0; j < this.columnStates.length; j++)
-        {
-            if (this.columnStates[j].modelIndex == index)
-            {
-                return j;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Liefert eine Liste mit den {@link TableColumn}s.
-     *
-     * @param table {@link JTable}
-     *
-     * @return {@link List}
-     */
-    private List<TableColumn> getColumns(final JTable table)
-    {
-        List<TableColumn> columns = new ArrayList<>();
-
-        if (table instanceof JXTable jxTable)
-        {
-            columns.addAll(jxTable.getColumns(true));
-        }
-        else
-        {
-            for (int i = 0; i < table.getColumnCount(); i++)
-            {
-                columns.add(table.getColumnModel().getColumn(i));
-            }
-        }
-
-        return columns;
     }
 
     /**
@@ -299,5 +256,51 @@ public class TableGuiState extends AbstractGuiState
             TableColumn column = columns.get(i);
             this.columnStates[i] = new ColumnState(column);
         }
+    }
+
+    /**
+     * Liefert den gespeicherten ModelIndex einer Spalte.
+     *
+     * @param index int
+     *
+     * @return int
+     */
+    private int findModelIndex(final int index)
+    {
+        for (int j = 0; j < this.columnStates.length; j++)
+        {
+            if (this.columnStates[j].modelIndex == index)
+            {
+                return j;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Liefert eine Liste mit den {@link TableColumn}s.
+     *
+     * @param table {@link JTable}
+     *
+     * @return {@link List}
+     */
+    private List<TableColumn> getColumns(final JTable table)
+    {
+        List<TableColumn> columns = new ArrayList<>();
+
+        if (table instanceof JXTable jxTable)
+        {
+            columns.addAll(jxTable.getColumns(true));
+        }
+        else
+        {
+            for (int i = 0; i < table.getColumnCount(); i++)
+            {
+                columns.add(table.getColumnModel().getColumn(i));
+            }
+        }
+
+        return columns;
     }
 }

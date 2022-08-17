@@ -3,6 +3,7 @@ package de.freese.base.swing.components.table;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ public final class TableExampleScrollPaneRowHeader
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = 767661536272989643L;
 
         /**
@@ -132,7 +134,8 @@ public final class TableExampleScrollPaneRowHeader
         frame.getContentPane().add(scrollPane);
         frame.setSize(new Dimension(800, 600));
 
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });

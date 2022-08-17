@@ -1,21 +1,25 @@
 // Created: 12.01.2018
 package de.freese.base.swing.components.table;
 
+import java.io.Serial;
 import java.util.List;
+
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 /**
  * TableModel das Intern eine {@link ObservableList} verwendet.
  *
- * @author Thomas Freese
  * @param <T> Typ der Entity
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> implements ListChangeListener<T>
 {
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5542628813153019029L;
 
     /**
@@ -42,15 +46,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         super(columnNames, list);
 
         list.addListener(this);
-    }
-
-    /**
-     * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
-     */
-    @Override
-    protected ObservableList<T> getList()
-    {
-        return (ObservableList<T>) super.getList();
     }
 
     /**
@@ -90,5 +85,14 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
                 return;
             }
         }
+    }
+
+    /**
+     * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
+     */
+    @Override
+    protected ObservableList<T> getList()
+    {
+        return (ObservableList<T>) super.getList();
     }
 }

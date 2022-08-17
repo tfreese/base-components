@@ -1,5 +1,6 @@
 package de.freese.base.swing.task;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Queue;
@@ -19,6 +20,7 @@ public class TaskStatistik implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 1789042123984173851L;
     /**
      * Immer N Werte vorhalten.

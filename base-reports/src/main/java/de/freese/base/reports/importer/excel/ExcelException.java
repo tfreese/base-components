@@ -1,5 +1,7 @@
 package de.freese.base.reports.importer.excel;
 
+import java.io.Serial;
+
 /**
  * {@link Exception} für die Excel API.
  *
@@ -10,6 +12,7 @@ public class ExcelException extends Exception
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4357042787522085265L;
     /**
      *

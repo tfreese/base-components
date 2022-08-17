@@ -1,5 +1,7 @@
 package de.freese.base.swing.filter.editor;
 
+import java.io.Serial;
+
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -18,6 +20,7 @@ public class TextFieldFilterEditor extends AutoCompleteableTextField implements 
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1202264255047823398L;
     /**
      *

@@ -1,5 +1,6 @@
 package de.freese.base.reports.importer.excel;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,6 +16,7 @@ public class ExcelSheet implements Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 574094444465628429L;
     // /**
     // * Wie viele Zeilen sollen MINDESTENDS angezeigt werden ?

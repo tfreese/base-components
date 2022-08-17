@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.treetable;
 
 import java.awt.Rectangle;
+import java.io.Serial;
 
 import javax.swing.JTable;
 import javax.swing.JTree;
@@ -64,6 +65,7 @@ public class TreeUndTable
                 /**
                  *
                  */
+                @Serial
                 private static final long serialVersionUID = 1L;
 
                 /**

@@ -1,6 +1,7 @@
 // Created: 18.09.2019
 package de.freese.base.core.blobstore;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class BlobId implements Serializable, Comparable<BlobId>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -5581749917166864024L;
     /**
      *

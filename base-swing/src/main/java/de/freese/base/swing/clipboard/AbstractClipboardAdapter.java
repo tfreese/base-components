@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public abstract class AbstractClipboardAdapter
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = -6829341578505146619L;
 
         /**
@@ -74,6 +76,7 @@ public abstract class AbstractClipboardAdapter
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = 4473841629940450442L;
 
         /**
@@ -108,6 +111,7 @@ public abstract class AbstractClipboardAdapter
         /**
          *
          */
+        @Serial
         private static final long serialVersionUID = 6114190778366220106L;
 
         /**

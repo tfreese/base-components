@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.Serial;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class LedPanel extends Component implements LedConfig
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -2419621712513872997L;
     /**
      *

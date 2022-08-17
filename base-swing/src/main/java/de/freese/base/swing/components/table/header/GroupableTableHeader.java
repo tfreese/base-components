@@ -1,5 +1,6 @@
 package de.freese.base.swing.components.table.header;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class GroupableTableHeader extends JTableHeader
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1642321287557836367L;
     /**
      *

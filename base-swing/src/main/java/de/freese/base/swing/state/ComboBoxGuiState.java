@@ -1,6 +1,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+import java.io.Serial;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -22,6 +23,7 @@ public class ComboBoxGuiState extends AbstractGuiState
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -8701963133645177327L;
     /**
      * Der selektierte Index in der ComboBox. Per Default, ist das erste Element in der ComboBox vorselektiert.

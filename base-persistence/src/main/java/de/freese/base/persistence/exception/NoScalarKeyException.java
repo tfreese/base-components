@@ -1,5 +1,7 @@
 package de.freese.base.persistence.exception;
 
+import java.io.Serial;
+
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -12,6 +14,7 @@ class NoScalarKeyException extends DataAccessException
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -8320833456066908985L;
 
     /**

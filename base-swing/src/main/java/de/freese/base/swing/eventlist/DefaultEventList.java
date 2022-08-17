@@ -1,5 +1,6 @@
 package de.freese.base.swing.eventlist;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -22,6 +23,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4109095121391156624L;
     /**
      *

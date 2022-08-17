@@ -3,6 +3,7 @@ package de.freese.base.swing.components.watermark;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.io.Serial;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -25,6 +26,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 2387759630865685848L;
     /**
      *

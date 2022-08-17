@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -74,6 +75,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -3420529375053580438L;
 
     /**

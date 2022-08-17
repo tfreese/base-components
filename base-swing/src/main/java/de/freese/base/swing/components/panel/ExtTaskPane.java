@@ -3,6 +3,7 @@ package de.freese.base.swing.components.panel;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class ExtTaskPane extends JXTaskPane
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -2295264313854376854L;
 
     /**

@@ -1,5 +1,6 @@
 package de.freese.base.core.save.command;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -19,6 +20,7 @@ public class DeleteCommand extends AbstractRemoteCommand
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 5013006885212315385L;
 
     /**

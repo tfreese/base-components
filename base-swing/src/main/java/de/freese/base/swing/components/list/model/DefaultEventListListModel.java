@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.list.model;
 
+import java.io.Serial;
+
 import javax.swing.ListModel;
 
 import de.freese.base.swing.eventlist.EventList;
@@ -16,6 +18,7 @@ public class DefaultEventListListModel<T> extends AbstractEventListListModel<T>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 6807392049340392193L;
 
     /**

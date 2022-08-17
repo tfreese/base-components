@@ -4,6 +4,7 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serial;
 
 import de.freese.base.core.model.grid.GridMetaData;
 
@@ -17,6 +18,7 @@ public class StringGridColumn extends AbstractGridColumn<String>
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -6201540763441206227L;
 
     /**

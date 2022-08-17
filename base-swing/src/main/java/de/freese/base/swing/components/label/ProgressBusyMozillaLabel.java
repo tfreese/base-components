@@ -2,6 +2,7 @@ package de.freese.base.swing.components.label;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.Serial;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -18,6 +19,7 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -2376101531012003243L;
 
     /**

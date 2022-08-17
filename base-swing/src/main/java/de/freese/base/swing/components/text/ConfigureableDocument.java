@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.text;
 
 import java.awt.Toolkit;
+import java.io.Serial;
 import java.util.regex.Pattern;
 
 import javax.swing.text.AttributeSet;
@@ -26,6 +27,7 @@ public class ConfigureableDocument extends PlainDocument
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 4200946186651706734L;
 
     /**

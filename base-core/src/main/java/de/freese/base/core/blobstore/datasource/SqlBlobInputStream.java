@@ -195,7 +195,7 @@ final class SqlBlobInputStream extends InputStream
     /**
      * @return {@link Logger}
      */
-    protected Logger getLogger()
+    private Logger getLogger()
     {
         return logger;
     }

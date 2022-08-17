@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.tree.lazy;
 
+import java.io.Serial;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -13,6 +15,7 @@ public class LazyLoadingTreeNode extends DefaultMutableTreeNode
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -8434762605446347104L;
     /**
      *

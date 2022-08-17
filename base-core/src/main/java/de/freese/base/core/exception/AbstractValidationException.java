@@ -1,5 +1,7 @@
 package de.freese.base.core.exception;
 
+import java.io.Serial;
+
 import de.freese.base.core.i18n.Translator;
 
 /**
@@ -12,6 +14,7 @@ public abstract class AbstractValidationException extends Exception
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 9102013053396263064L;
     /**
      *

@@ -3,6 +3,7 @@ package de.freese.base.swing.desktop;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
+import java.io.Serial;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -25,6 +26,7 @@ public final class MDIDesktopPane extends JDesktopPane
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1067444001367381670L;
     /**
      *

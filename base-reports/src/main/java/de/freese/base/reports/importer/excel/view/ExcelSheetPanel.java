@@ -3,6 +3,7 @@ package de.freese.base.reports.importer.excel.view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.JPanel;
@@ -22,6 +23,7 @@ public class ExcelSheetPanel extends JPanel
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -1946632829758128806L;
     /**
      *

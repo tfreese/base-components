@@ -2,6 +2,8 @@
 
 package de.freese.base.security.util;
 
+import java.io.Serial;
+
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -21,6 +23,7 @@ public class DefaultSecretKey extends SecretKeySpec
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = -218843118467501326L;
 
     /**

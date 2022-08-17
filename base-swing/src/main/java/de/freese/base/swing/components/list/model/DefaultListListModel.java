@@ -1,5 +1,6 @@
 package de.freese.base.swing.components.list.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +26,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 8362504657702002619L;
     /**
      *

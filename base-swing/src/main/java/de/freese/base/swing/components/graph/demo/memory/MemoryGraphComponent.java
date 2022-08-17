@@ -3,6 +3,7 @@ package de.freese.base.swing.components.graph.demo.memory;
 
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -18,6 +19,7 @@ public class MemoryGraphComponent extends AbstractGraphComponent
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 162498448539283119L;
     /**
      *
