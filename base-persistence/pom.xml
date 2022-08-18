@@ -54,15 +54,15 @@
                     <validateOnMigrate>true</validateOnMigrate>
                 </configuration>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                <verbose>true</verbose>
-                <fork>true</fork>
-                <argLine>-Xms256m -Xmx512m</argLine>
+                    <excludes>
+                        <exclude>**/TestR2DBC.java</exclude>
+                    </excludes>
                 </configuration>
-                </plugin -->
+            </plugin>
         </plugins>
     </build>
 

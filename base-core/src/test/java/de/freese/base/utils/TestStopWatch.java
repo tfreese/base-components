@@ -6,10 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * @author Thomas Freese
  */
+@Execution(ExecutionMode.CONCURRENT)
 class TestStopWatch
 {
     /**

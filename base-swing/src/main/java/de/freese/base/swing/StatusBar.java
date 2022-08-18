@@ -44,7 +44,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private final Icon[] busyIcons = new Icon[15];
+    private final transient Icon[] busyIcons = new Icon[15];
     /**
      *
      */
@@ -52,7 +52,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private final Icon idleIcon;
+    private final transient Icon idleIcon;
     /**
      *
      */

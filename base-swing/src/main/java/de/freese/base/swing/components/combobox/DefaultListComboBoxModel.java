@@ -22,7 +22,7 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
     /**
      * Das momentan selektierte Objekt, in der ComboBox.
      */
-    private Object selectedObject;
+    private transient Object selectedObject;
 
     /**
      * @see javax.swing.ComboBoxModel#getSelectedItem()

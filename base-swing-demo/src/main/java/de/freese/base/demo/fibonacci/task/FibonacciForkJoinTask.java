@@ -35,7 +35,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
     /**
      *
      */
-    private final LongConsumer operationConsumer;
+    private final transient LongConsumer operationConsumer;
     /**
      *
      */

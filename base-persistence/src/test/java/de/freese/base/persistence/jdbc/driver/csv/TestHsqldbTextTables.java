@@ -18,9 +18,7 @@ import de.freese.base.core.logging.LoggingOutputStream;
 import de.freese.base.utils.JdbcUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
@@ -28,7 +26,6 @@ import org.slf4j.event.Level;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestHsqldbTextTables
 {
     /**

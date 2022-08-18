@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -29,6 +31,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 /**
  * @author Thomas Freese
  */
+@Execution(ExecutionMode.CONCURRENT)
 class TestTimeoutMap
 {
     static Stream<Arguments> createArguments() throws Exception

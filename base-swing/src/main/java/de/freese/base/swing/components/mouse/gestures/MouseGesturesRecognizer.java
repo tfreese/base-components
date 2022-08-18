@@ -148,9 +148,9 @@ class MouseGesturesRecognizer
             return;
         }
 
-        float absTangent = ((float) absDeltaX) / absDeltaY;
+        double absTangent = ((double) absDeltaX) / absDeltaY;
 
-        if (absTangent < 1)
+        if (absTangent < 1D)
         {
             if (deltaY < 0)
             {

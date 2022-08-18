@@ -24,14 +24,14 @@ import de.freese.base.security.crypto.CryptoAsymetric;
 import de.freese.base.security.crypto.CryptoConfig;
 import de.freese.base.security.crypto.CryptoConfigSymetric;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class TestCrypto
 {
     /**

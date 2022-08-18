@@ -25,11 +25,11 @@ public class ColumnControlButton extends JButton
     /**
      *
      */
-    private final List<ExtTable> tables = new ArrayList<>();
+    private final transient List<ExtTable> tables = new ArrayList<>();
     /**
      *
      */
-    private ColumnControlWindow columnControlWindow;
+    private transient ColumnControlWindow columnControlWindow;
 
     /**
      * Erstellt ein neues {@link ColumnControlButton} Object.

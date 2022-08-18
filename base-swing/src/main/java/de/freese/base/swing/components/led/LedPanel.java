@@ -24,11 +24,11 @@ public class LedPanel extends Component implements LedConfig
     /**
      *
      */
-    private final LedMatrix ledMatrix;
+    private final transient LedMatrix ledMatrix;
     /**
      *
      */
-    private final List<Token<?>> tokens = new LinkedList<>();
+    private final transient List<Token<?>> tokens = new LinkedList<>();
     /**
      *
      */

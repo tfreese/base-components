@@ -30,11 +30,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     /**
      *
      */
-    private final List<String> columnNames;
+    private final transient List<String> columnNames;
     /**
      *
      */
-    private final List<T> list;
+    private final transient List<T> list;
 
     /**
      * Erstellt ein neues {@link AbstractListTableModel} Objekt.

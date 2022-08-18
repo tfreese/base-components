@@ -97,7 +97,7 @@ public final class ErrorPane extends JPanel
     /**
      *
      */
-    private final ErrorInfo errorInfo;
+    private final transient ErrorInfo errorInfo;
     /**
      *
      */

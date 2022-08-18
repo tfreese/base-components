@@ -42,7 +42,6 @@ import reactor.core.scheduler.Schedulers;
  *
  * @author Thomas Freese
  */
-// @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSimpleJdbcTemplate
 {
     /**

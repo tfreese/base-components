@@ -1,14 +1,15 @@
 package de.freese.base.core.nio.buffer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.MethodOrderer;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class TestAutoExpandBuffer
 {
     /**
@@ -96,8 +97,8 @@ class TestAutoExpandBuffer
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testCharBufferCrLfWithChar()
     {
@@ -146,8 +147,8 @@ class TestAutoExpandBuffer
     }
 
     /**
-       *
-       */
+     *
+     */
     @Test
     void testCharBufferCrLfWithString()
     {
@@ -234,8 +235,8 @@ class TestAutoExpandBuffer
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testCharBufferWithString()
     {

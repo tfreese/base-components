@@ -31,7 +31,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     /**
      *
      */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final transient Logger logger = LoggerFactory.getLogger(getClass());
     /**
      *
      */

@@ -27,7 +27,7 @@ public class ExtTableColumn extends TableColumn
     /**
      *
      */
-    private Map<Object, Object> clientProperties;
+    private transient Map<Object, Object> clientProperties;
     /**
      *
      */

@@ -27,6 +27,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.io.Serial;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -63,7 +64,7 @@ public class TestFrame extends JFrame
     /**
      *
      */
-    private MouseGestures mouseGestures = new MouseGestures();
+    private transient MouseGestures mouseGestures = new MouseGestures();
 
     public TestFrame()
     {
@@ -125,7 +126,9 @@ public class TestFrame extends JFrame
             @Override
             public void gestureMovementRecognized(String currentGesture)
             {
-                setGestureString(addCommas(currentGesture));
+                String displayValue = currentGesture.chars().mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining(","));
+
+                setGestureString(displayValue);
             }
 
             @Override
@@ -141,22 +144,6 @@ public class TestFrame extends JFrame
                 }
 
                 setGestureString("");
-            }
-
-            private String addCommas(String gesture)
-            {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < gesture.length(); i++)
-                {
-                    sb.append(gesture.charAt(i));
-
-                    if (i != gesture.length() - 1)
-                    {
-                        sb.append(",");
-                    }
-                }
-
-                return sb.toString();
             }
         });
 

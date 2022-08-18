@@ -232,19 +232,19 @@ public class ConfigureableDocument extends PlainDocument
     /**
      *
      */
-    private final DigitProcessor digitProcessor;
+    private final transient DigitProcessor digitProcessor;
     /**
      *
      */
-    private final LengthProcessor lengthProcessor;
+    private final transient LengthProcessor lengthProcessor;
     /**
      *
      */
-    private final ProcessorChain<DocumentContext> processorChain = new ProcessorChain<>();
+    private final transient ProcessorChain<DocumentContext> processorChain = new ProcessorChain<>();
     /**
      *
      */
-    private final UpperCaseProcessor upperCaseProcessor;
+    private final transient UpperCaseProcessor upperCaseProcessor;
 
     /**
      * Creates a new {@link ConfigureableDocument} object.

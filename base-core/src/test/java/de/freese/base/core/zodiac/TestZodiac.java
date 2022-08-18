@@ -9,16 +9,16 @@ import java.time.Month;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * Testklasse für die Sternzeichen.
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class TestZodiac
 {
     /**

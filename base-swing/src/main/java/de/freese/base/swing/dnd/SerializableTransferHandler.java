@@ -33,7 +33,7 @@ public class SerializableTransferHandler extends TransferHandler
     /**
      *
      */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final transient Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])

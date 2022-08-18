@@ -68,7 +68,7 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     /**
      *
      */
-    private final EventList<T> list;
+    private final transient EventList<T> list;
 
     /**
      * Creates a new {@link AbstractEventListListModel} object.

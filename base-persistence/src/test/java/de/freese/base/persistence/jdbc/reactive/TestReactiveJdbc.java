@@ -224,15 +224,14 @@ class TestReactiveJdbc
 
         // @formatter:off
         flux.parallel()
-            .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
-            .subscribe(p -> {
-                result.add(p);
-                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
-             })
+                .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
+                .doOnTerminate(() -> assertData(result))
+                .subscribe(p -> {
+                    result.add(p);
+                    LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
+                 })
             ;
         // @formatter:on
-
-        assertData(result);
     }
 
     /**

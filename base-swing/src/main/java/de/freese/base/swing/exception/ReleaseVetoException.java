@@ -19,7 +19,7 @@ public class ReleaseVetoException extends Exception
     /**
      *
      */
-    private final Object source;
+    private final transient Object source;
 
     /**
      * Erstellt ein neues {@link ReleaseVetoException} Object.

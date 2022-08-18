@@ -27,26 +27,26 @@ import javax.swing.border.EmptyBorder;
 
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * Testklasse der ResourceMap.
  *
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class TestResourceMap
 {
     /**
      *
      */
-    private static ResourceMap resourceMap = null;
+    private static ResourceMap resourceMap;
     /**
      *
      */
-    private static ResourceMap resourceMapRoot = null;
+    private static ResourceMap resourceMapRoot;
 
     /**
      *

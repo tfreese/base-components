@@ -25,7 +25,7 @@ public class TaskStatistik implements Serializable
     /**
      * Immer N Werte vorhalten.
      */
-    private final Queue<Long> durations = new ConcurrentLinkedQueue<>();
+    private final transient Queue<Long> durations = new ConcurrentLinkedQueue<>();
     /**
      *
      */

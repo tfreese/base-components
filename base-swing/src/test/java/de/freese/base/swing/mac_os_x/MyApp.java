@@ -118,7 +118,7 @@ public class MyApp extends JFrame implements ActionListener
     /**
      *
      */
-    protected BufferedImage currentImage;
+    protected transient BufferedImage currentImage;
     /**
      *
      */

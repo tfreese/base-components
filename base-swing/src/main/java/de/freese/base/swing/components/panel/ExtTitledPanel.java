@@ -46,7 +46,7 @@ public class ExtTitledPanel extends JXTitledPanel
     /**
      * {@link PropertyChangeListener}
      */
-    private final PropertyChangeListener buttonEnabledPropertyChangeListener;
+    private final transient PropertyChangeListener buttonEnabledPropertyChangeListener;
     /**
      * {@link JPanel} Steuerelemente auf der linken Seite.
      */

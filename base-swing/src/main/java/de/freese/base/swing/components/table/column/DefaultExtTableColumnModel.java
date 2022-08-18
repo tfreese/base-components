@@ -72,11 +72,11 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     /**
      * contains a list of all column, in the order they would appear if all were visible.
      */
-    private final List<TableColumn> currentColumns = new ArrayList<>();
+    private final transient List<TableColumn> currentColumns = new ArrayList<>();
     /**
      * contains a list of all columns, in the order in which were added to the model.
      */
-    private final List<TableColumn> initialColumns = new ArrayList<>();
+    private final transient List<TableColumn> initialColumns = new ArrayList<>();
     /**
      * Listener attached to TableColumnExt instances to listen for changes to their visibility status, and to hide/show the column as appropriate
      */

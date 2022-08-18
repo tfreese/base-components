@@ -3,29 +3,31 @@ package de.freese.base.core.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.base.core.model.builder.GenericBuilder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class TestGenericBuilder
 {
     /**
-    *
-    */
+     *
+     */
     @Test
     void testMultiple()
     {
         // 3 Objekte bauen
         int n = 3;
 
-       //@formatter:off
+        //@formatter:off
         List<String[]> list = GenericBuilder.of(() -> new String[2])
            .with(a -> a[0] = "A")
            .with(a -> a[1] = "B")
@@ -35,7 +37,8 @@ class TestGenericBuilder
         assertNotNull(list);
         assertEquals(3, list.size());
 
-        list.forEach(obj -> {
+        list.forEach(obj ->
+        {
             assertEquals("A", obj[0]);
             assertEquals("B", obj[1]);
         });
@@ -80,12 +83,12 @@ class TestGenericBuilder
     }
 
     /**
-    *
-    */
+     *
+     */
     @Test
     void testWithMix()
     {
-       //@formatter:off
+        //@formatter:off
        List<String> list = GenericBuilder.of(ArrayList<String>::new)
            .with(l -> l.add("A"))
            .with(ArrayList::add, "B")

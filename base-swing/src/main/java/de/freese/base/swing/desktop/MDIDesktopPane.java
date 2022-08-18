@@ -216,8 +216,8 @@ public final class MDIDesktopPane extends JDesktopPane
         int frameHeight = (getHeight() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
         int frameWidth = (getWidth() + FRAME_OFFSET) - (allFrames.length * FRAME_OFFSET);
 
-        frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
-        frameWidth = frameWidth < minWidth ? minWidth : frameWidth;
+        frameHeight = Math.max(frameHeight, minHeight);
+        frameWidth = Math.max(frameWidth, minWidth);
 
         for (int i = allFrames.length - 1; i >= 0; i--)
         {
@@ -269,9 +269,9 @@ public final class MDIDesktopPane extends JDesktopPane
         // number of columns with an extra row
 
         int width = getWidth() / cols;
-        width = width < minWidth ? minWidth : width;
+        width = Math.max(width, minWidth);
         int height = getHeight() / rows;
-        height = height < minHeight ? minHeight : height;
+        height = Math.max(height, minHeight);
         int r = 0;
         int c = 0;
 
@@ -319,7 +319,7 @@ public final class MDIDesktopPane extends JDesktopPane
         int y = 0;
 
         int frameHeight = getHeight() / allFrames.length;
-        frameHeight = frameHeight < minHeight ? minHeight : frameHeight;
+        frameHeight = Math.max(frameHeight, minHeight);
 
         for (JInternalFrame allFrame : allFrames)
         {

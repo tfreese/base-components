@@ -29,7 +29,7 @@ public class TreeGuiState extends AbstractGuiState
     /**
      *
      */
-    private final List<int[]> expansionIndices = new ArrayList<>();
+    private final transient List<int[]> expansionIndices = new ArrayList<>();
     /**
      * int[]
      */

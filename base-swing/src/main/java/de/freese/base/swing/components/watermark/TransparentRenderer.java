@@ -31,7 +31,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      *
      */
-    protected final Border noFocusBorder;
+    protected final transient Border noFocusBorder;
     /**
      *
      */
@@ -44,7 +44,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      *
      */
-    private final Border focusBorder;
+    private final transient Border focusBorder;
     /**
      *
      */

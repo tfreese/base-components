@@ -40,7 +40,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      *
      */
-    private final List<Component> dispatchList;
+    private final transient List<Component> dispatchList;
     /**
      *
      */

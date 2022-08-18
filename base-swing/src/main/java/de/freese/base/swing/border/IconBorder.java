@@ -37,7 +37,7 @@ public class IconBorder implements Border, Serializable
     /**
      *
      */
-    private Icon icon;
+    private transient Icon icon;
     /**
      *
      */

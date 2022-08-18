@@ -30,7 +30,7 @@ public class GroupableTableHeader extends JTableHeader
     /**
      *
      */
-    protected final List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
+    protected final transient List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Creates a new {@link GroupableTableHeader} object.

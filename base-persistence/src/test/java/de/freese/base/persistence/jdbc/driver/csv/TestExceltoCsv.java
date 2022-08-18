@@ -11,9 +11,9 @@ import java.util.function.Function;
 
 import de.freese.base.core.logging.LoggingOutputStream;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
@@ -21,7 +21,7 @@ import org.slf4j.event.Level;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+@Execution(ExecutionMode.CONCURRENT)
 class TestExceltoCsv
 {
     /**

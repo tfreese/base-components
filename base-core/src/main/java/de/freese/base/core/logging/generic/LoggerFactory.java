@@ -37,9 +37,9 @@ public final class LoggerFactory
 
             if (loggerProvider != null)
             {
-                if ("jdk".equalsIgnoreCase(loggerProvider))
+                if ("jul".equalsIgnoreCase(loggerProvider))
                 {
-                    return tryJdk("system property");
+                    return tryJuL("system property");
                 }
                 else if ("slf4j".equalsIgnoreCase(loggerProvider))
                 {
@@ -80,7 +80,7 @@ public final class LoggerFactory
             // Ignore
         }
 
-        return tryJdk(null);
+        return tryJuL(null);
     }
 
     private static void logProvider(final LoggerProvider provider, final String via)
@@ -97,9 +97,9 @@ public final class LoggerFactory
         }
     }
 
-    private static JdkLoggerProvider tryJdk(final String via)
+    private static JulLoggerProvider tryJuL(final String via)
     {
-        final JdkLoggerProvider provider = new JdkLoggerProvider();
+        final JulLoggerProvider provider = new JulLoggerProvider();
 
         logProvider(provider, via);
 

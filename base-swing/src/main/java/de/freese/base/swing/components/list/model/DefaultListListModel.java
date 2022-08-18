@@ -35,7 +35,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     /**
      *
      */
-    private final List<T> list;
+    private final transient List<T> list;
 
     /**
      * Creates a new {@link DefaultListListModel} object.

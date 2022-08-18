@@ -32,7 +32,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     /**
      *
      */
-    private Comparator<? super E> comparator;
+    private transient Comparator<? super E> comparator;
     /**
      * True, wenn der Comparator in Gange ist.
      */
@@ -44,7 +44,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     /**
      *
      */
-    private Object owner;
+    private transient Object owner;
 
     /**
      * @see java.util.ArrayList#add(java.lang.Object)
