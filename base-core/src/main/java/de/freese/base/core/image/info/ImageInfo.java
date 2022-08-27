@@ -247,7 +247,7 @@ public class ImageInfo
         for (ImageColorChannelInfo channelInfo : this.channelInfos)
         {
             sb.append(channelInfo.toString());
-            sb.append("\n");
+            sb.append(System.lineSeparator());
         }
 
         return sb.toString();

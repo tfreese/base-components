@@ -18,7 +18,6 @@ public final class ExceptionUtils
      *
      * @return {@link Exception}, kann auch null sein
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Exception> T findCause(final Throwable throwable, final Class<T> type)
     {
         if (type.isInstance(throwable))

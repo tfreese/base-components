@@ -61,7 +61,7 @@ public class BoundedExecutorQueued implements Executor
 
         if (this.rateLimiter.availablePermits() > 0)
         {
-            // Sind noch Slots frei -> direkt ausführen.
+            // Sind noch Slots frei, dann direkt ausführen.
             schedule(runnable);
         }
         else

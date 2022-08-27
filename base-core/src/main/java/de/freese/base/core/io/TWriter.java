@@ -39,7 +39,7 @@ public class TWriter extends Writer
     @Override
     public void close() throws IOException
     {
-        IOException ioex = null;
+        IOException exception = null;
 
         try
         {
@@ -47,7 +47,7 @@ public class TWriter extends Writer
         }
         catch (IOException ex)
         {
-            ioex = ex;
+            exception = ex;
         }
 
         try
@@ -56,9 +56,9 @@ public class TWriter extends Writer
         }
         catch (IOException ex)
         {
-            if (ioex != null)
+            if (exception != null)
             {
-                throw ioex;
+                throw exception;
             }
 
             throw ex;

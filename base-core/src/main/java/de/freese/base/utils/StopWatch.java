@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 /**
- * Geklaut und elegantisiert von org.springframework.util.StopWatch.
+ * Geklaut von org.springframework.util.StopWatch.
  *
  * @author Thomas Freese
  */

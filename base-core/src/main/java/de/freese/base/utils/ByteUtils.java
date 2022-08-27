@@ -20,7 +20,7 @@ public final class ByteUtils
     /**
      *
      */
-    public static final char[] HEX_CHARS =
+    static final char[] HEX_CHARS =
             {
                     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
             };
@@ -28,7 +28,7 @@ public final class ByteUtils
     /**
      *
      */
-    public static final String HEX_INDEX = "0123456789abcdefABCDEF";
+    static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
     /**
      * Wandelt das Array in einen HEX-String um.
@@ -40,31 +40,21 @@ public final class ByteUtils
     public static String bytesToHex(final byte[] bytes)
     {
         return HexFormat.of().withUpperCase().formatHex(bytes);
-        //        // final int l = bytes.length;
-        //        // final char[] out = new char[l << 1];
-        //        //
-        //        // // two characters form the hex value.
-        //        // for (int i = 0, j = 0; i < l; i++) {
-        //        // out[j++] = HEX_CHARS[(0xF0 & bytes[i]) >>> 4];
-        //        // out[j++] = HEX_CHARS[0x0F & bytes[i]];
-        //        // }
-        //        //
-        //        // return out;
         //
-        //        StringBuilder sbuf = new StringBuilder(bytes.length * 2);
+        //        StringBuilder sb = new StringBuilder(bytes.length * 2);
         //
         //        for (byte b : bytes)
         //        {
         //            // int temp = b & 0xFF;
         //            //
-        //            // sbuf.append(HEX_CHARS[temp >> 4]);
-        //            // sbuf.append(HEX_CHARS[temp & 0x0F]);
+        //            // sb.append(HEX_CHARS[temp >> 4]);
+        //            // sb.append(HEX_CHARS[temp & 0x0F]);
         //
-        //            sbuf.append(HEX_CHARS[(b & 0xF0) >>> 4]);
-        //            sbuf.append(HEX_CHARS[b & 0x0F]);
+        //            sb.append(HEX_CHARS[(b & 0xF0) >>> 4]);
+        //            sb.append(HEX_CHARS[b & 0x0F]);
         //        }
         //
-        //        return sbuf.toString();
+        //        return sb.toString();
     }
 
     /**
@@ -83,17 +73,16 @@ public final class ByteUtils
             return new byte[0];
         }
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        try (GZIPOutputStream zos = new GZIPOutputStream(bos))
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             GZIPOutputStream zos = new GZIPOutputStream(bos))
         {
             zos.write(bytes);
 
             zos.flush();
             bos.flush();
-        }
 
-        byte[] compressed = bos.toByteArray();
+            return bos.toByteArray();
+        }
 
         // Deflater compressor = new Deflater();
         // compressor.setLevel(Deflater.BEST_COMPRESSION);
@@ -116,8 +105,6 @@ public final class ByteUtils
         // catch (IOException ex)
         // {
         // }
-
-        return compressed;
     }
 
     /**
@@ -174,7 +161,6 @@ public final class ByteUtils
      *
      * @return Object
      */
-    @SuppressWarnings("unchecked")
     public static <T> T deserializeObject(final byte[] bytes)
     {
         if (bytes == null)
@@ -182,7 +168,6 @@ public final class ByteUtils
             return null;
         }
 
-        // Object object = SerializationUtils.deserialize(bytes);
         final Object object;
 
         try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
@@ -281,9 +266,7 @@ public final class ByteUtils
             throw new UncheckedIOException(ex);
         }
 
-        byte[] bytes = baos.toByteArray();
-
-        return bytes;
+        return baos.toByteArray();
     }
 
     /**
@@ -328,10 +311,6 @@ public final class ByteUtils
         if (value)
         {
             buf[0] = (byte) 1;
-        }
-        else
-        {
-            buf[0] = (byte) 0;
         }
 
         return buf;

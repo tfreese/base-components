@@ -108,9 +108,7 @@ public final class ExecutorUtils
 
         threadPoolExecutor.allowCoreThreadTimeOut(allowCoreThreadTimeOut);
 
-        ExecutorService executorService = exposeUnconfigurableExecutor ? Executors.unconfigurableExecutorService(threadPoolExecutor) : threadPoolExecutor;
-
-        return executorService;
+        return exposeUnconfigurableExecutor ? Executors.unconfigurableExecutorService(threadPoolExecutor) : threadPoolExecutor;
     }
 
     /**

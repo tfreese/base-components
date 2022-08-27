@@ -263,9 +263,9 @@ public final class ReflectionUtils
             handleInvocationTargetException(ite);
         }
 
-        if (ex instanceof RuntimeException)
+        if (ex instanceof RuntimeException re)
         {
-            throw (RuntimeException) ex;
+            throw re;
         }
 
         throw new UndeclaredThrowableException(ex);

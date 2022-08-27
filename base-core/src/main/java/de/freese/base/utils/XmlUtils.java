@@ -48,9 +48,7 @@ public final class XmlUtils
 
         factory.setValidating(false);
 
-        Document document = factory.newDocumentBuilder().parse(inputSource);
-
-        return document;
+        return factory.newDocumentBuilder().parse(inputSource);
     }
 
     /**

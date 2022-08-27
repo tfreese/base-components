@@ -7,9 +7,9 @@ import java.util.NoSuchElementException;
 /**
  * {@link Iterator} für Arrays.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public class ArrayIterator<T> implements Iterator<T>
 {
@@ -64,7 +64,6 @@ public class ArrayIterator<T> implements Iterator<T>
     /**
      * @see java.util.Iterator#next()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public T next()
     {

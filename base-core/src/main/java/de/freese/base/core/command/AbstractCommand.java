@@ -26,38 +26,20 @@ public abstract class AbstractCommand implements Command
         this.source = Objects.requireNonNull(source, "source required");
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public final boolean equals(final Object obj)
+    public boolean equals(final Object o)
     {
-        if (this == obj)
+        if (this == o)
         {
             return true;
         }
-
-        if (obj == null)
+        
+        if (!(o instanceof final AbstractCommand that))
         {
             return false;
         }
 
-        if (!(obj instanceof AbstractCommand other))
-        {
-            return false;
-        }
-
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-
-        if (this.source == null)
-        {
-            return other.source == null;
-        }
-
-        return this.source.equals(other.source);
+        return Objects.equals(getSource(), that.getSource());
     }
 
     /**
@@ -69,18 +51,10 @@ public abstract class AbstractCommand implements Command
         return this.source;
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
-    public final int hashCode()
+    public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + getClass().hashCode();
-        result = (prime * result) + ((this.source == null) ? 0 : this.source.hashCode());
-
-        return result;
+        return Objects.hash(getSource());
     }
 
     /**

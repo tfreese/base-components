@@ -75,7 +75,6 @@ public final class StringUtils
      * @param rows {@link List}
      * @param separator String
      */
-    @SuppressWarnings("unchecked")
     public static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
     {
         if (rows == null || rows.isEmpty())
@@ -882,7 +881,7 @@ public final class StringUtils
         }
 
         // @formatter:off
-        String line = Stream.of(text)
+        return Stream.of(text)
                 .map(t -> t.replace("\n", SPACE)) // Keine Zeilenumbrüche
                 .map(t -> t.replace("\t", SPACE)) // Keine Tabulatoren
                 .map(t -> t.split(SPACE))
@@ -891,8 +890,6 @@ public final class StringUtils
                 .filter(StringUtils::isNotBlank) // leere Strings filtern
                 .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
         // @formatter:on
-
-        return line;
     }
 
     /**

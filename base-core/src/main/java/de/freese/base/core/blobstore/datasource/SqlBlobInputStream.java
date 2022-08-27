@@ -121,9 +121,9 @@ final class SqlBlobInputStream extends InputStream
     }
 
     @Override
-    public synchronized void mark(final int readlimit)
+    public synchronized void mark(final int readLimit)
     {
-        this.blobInputStream.mark(readlimit);
+        this.blobInputStream.mark(readLimit);
     }
 
     @Override

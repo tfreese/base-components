@@ -198,10 +198,8 @@ public final class FileUtils
         int unitIndex = (int) (Math.log10(size) / 3);
         double unitValue = 1 << (unitIndex * 10);
 
-        // String readableSize = new DecimalFormat("#,##0.#").format(size / unitValue) + " " + SIZE_UNITS[unitIndex];
-        String readableSize = String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);
-
-        return readableSize;
+        // return new DecimalFormat("#,##0.#").format(size / unitValue) + " " + SIZE_UNITS[unitIndex];
+        return String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);
     }
 
     /**

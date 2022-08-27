@@ -121,11 +121,34 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
         }
     }
 
+    /**
+     * Determines if the given expiration time is less than {@code now}.
+     *
+     * @param nowMillis the time in milliseconds used to compare against the
+     * expiration time.
+     * @param expirationTimeObject the expiration time value retrieved from
+     * {@link #expirationMap}, can be null.
+     *
+     * @return {@code true} if {@code expirationTimeObject} is &ge; 0
+     * and {@code expirationTimeObject} &lt; {@code now}.
+     * {@code false} otherwise.
+     */
+    private static boolean isExpired(final long nowMillis, final Long expirationTimeObject)
+    {
+        if (expirationTimeObject != null)
+        {
+            final long expirationTime = expirationTimeObject;
+
+            return expirationTime >= 0 && nowMillis >= expirationTime;
+        }
+
+        return false;
+    }
+
     private static long now()
     {
         return System.currentTimeMillis();
     }
-
     /**
      *
      */
@@ -267,30 +290,6 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
         removeAllExpired(now());
 
         return super.values();
-    }
-
-    /**
-     * Determines if the given expiration time is less than {@code now}.
-     *
-     * @param nowMillis the time in milliseconds used to compare against the
-     * expiration time.
-     * @param expirationTimeObject the expiration time value retrieved from
-     * {@link #expirationMap}, can be null.
-     *
-     * @return {@code true} if {@code expirationTimeObject} is &ge; 0
-     * and {@code expirationTimeObject} &lt; {@code now}.
-     * {@code false} otherwise.
-     */
-    private boolean isExpired(final long nowMillis, final Long expirationTimeObject)
-    {
-        if (expirationTimeObject != null)
-        {
-            final long expirationTime = expirationTimeObject;
-
-            return expirationTime >= 0 && nowMillis >= expirationTime;
-        }
-
-        return false;
     }
 
     /**

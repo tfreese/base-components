@@ -61,7 +61,7 @@ public final class StackTraceLimiter
      */
     public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb)
     {
-        printStackTrace(th, elements, obj -> sb.append(obj).append("\n"));
+        printStackTrace(th, elements, obj -> sb.append(obj).append(System.lineSeparator()));
     }
 
     /**

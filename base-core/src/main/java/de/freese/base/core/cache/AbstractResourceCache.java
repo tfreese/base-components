@@ -133,9 +133,7 @@ public abstract class AbstractResourceCache implements ResourceCache
         {
             Path path = Path.of(uri);
 
-            long length = Files.size(path);
-
-            return length;
+            return Files.size(path);
         }
         else if ("http".equals(protocol) || "https".equals(protocol))
         {

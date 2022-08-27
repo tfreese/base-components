@@ -66,11 +66,7 @@ public final class SystemUtils
             }
         }
 
-        int version = Integer.parseInt(versionString.replace(".", ""));
-
-        // getLogger().info("JavaVersion = {} = {} = {}", javaVersion, versionString, version);
-
-        return version;
+        return Integer.parseInt(versionString.replace(".", ""));
     }
 
     /**

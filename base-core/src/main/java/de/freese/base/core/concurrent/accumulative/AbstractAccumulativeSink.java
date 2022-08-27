@@ -15,7 +15,6 @@ import reactor.core.scheduler.Scheduler;
  *
  * @author Thomas Freese
  */
-@SuppressWarnings("javadoc")
 abstract class AbstractAccumulativeSink
 {
     /**

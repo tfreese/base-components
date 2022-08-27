@@ -14,7 +14,6 @@ import reactor.core.scheduler.Schedulers;
  *
  * @author Thomas Freese
  */
-@SuppressWarnings("javadoc")
 public class AccumulativeSinkForkJoin extends AbstractAccumulativeSink
 {
     /**
@@ -22,9 +21,6 @@ public class AccumulativeSinkForkJoin extends AbstractAccumulativeSink
      */
     private static final Scheduler FORK_JOIN__SCHEDULER = Schedulers.fromExecutor(ForkJoinPool.commonPool());
 
-    /**
-     * @see de.freese.jsync.swing.components.accumulative.AbstractAccumulativeSink#getScheduler()
-     */
     @Override
     protected Scheduler getScheduler()
     {

@@ -35,7 +35,7 @@ public final class ListUtils
         int[] partitionSizes = new int[partitionCount];
         Arrays.fill(partitionSizes, partitionLength);
 
-        // Die Gesamtgröße der einzelnen Partitionen ggf. anpasssen.
+        // Die Gesamtgröße der einzelnen Partitionen ggf. anpassen.
         int sum = partitionCount * partitionLength;
 
         if (sum > values.size())
@@ -81,7 +81,7 @@ public final class ListUtils
     }
 
     /**
-     * @param <T> Txpe
+     * @param <T> Type
      * @param values {@link List}
      * @param batchSize int
      *

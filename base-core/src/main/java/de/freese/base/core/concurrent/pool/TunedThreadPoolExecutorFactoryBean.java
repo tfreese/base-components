@@ -52,10 +52,10 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
         ThreadPoolExecutor tpe =
                 new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
-        if (queue instanceof TunedLinkedBlockingQueue tlbq)
+        if (queue instanceof TunedLinkedBlockingQueue<?> q)
         {
-            tlbq.setPoolCurrentSize(tpe::getPoolSize);
-            tlbq.setPoolMaxSize(tpe::getMaximumPoolSize);
+            q.setPoolCurrentSize(tpe::getPoolSize);
+            q.setPoolMaxSize(tpe::getMaximumPoolSize);
         }
 
         return tpe;
