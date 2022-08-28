@@ -209,9 +209,7 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
      */
     public GridColumn<?> removeColumn(final int columnIndex)
     {
-        GridColumn<?> column = getColumns().remove(columnIndex);
-
-        return column;
+        return getColumns().remove(columnIndex);
     }
 
     /**

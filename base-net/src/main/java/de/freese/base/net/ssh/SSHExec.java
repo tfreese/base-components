@@ -194,7 +194,7 @@ public class SSHExec
     }
 
     /**
-     * Ausführung des Commandos in einem parallem Thread.<br>
+     * Ausführung des Commandos in einem parallelen Thread.<br>
      *
      * @param command String
      * @param executorService {@link ExecutorService}
@@ -209,7 +209,7 @@ public class SSHExec
     }
 
     /**
-     * Ausführung des Commandos in einem parallem Thread.<br>
+     * Ausführung des Commandos in einem parallelen Thread.<br>
      *
      * @param <R> Konkreter Return-Typ
      * @param command String
@@ -295,9 +295,7 @@ public class SSHExec
         // Kompletter String
         // String result = new String(response, "UTF-8");
 
-        R result = responseMapper.apply(response);
-
-        return result;
+        return responseMapper.apply(response);
     }
 
     /**

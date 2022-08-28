@@ -98,7 +98,7 @@ public abstract class AbstractNioSslPeer
      * Creates the key managers required to initiate the {@link SSLContext}, using a JKS keystore as an input.
      *
      * @param filepath - the path to the JKS keystore.
-     * @param keystorePassword - the keystore's password.
+     * @param keystorePassword - the keystore password.
      * @param keyPassword - the key's password.
      *
      * @return {@link KeyManager} array that will be used to initiate the {@link SSLContext}.
@@ -124,7 +124,7 @@ public abstract class AbstractNioSslPeer
      * Creates the trust managers required to initiate the {@link SSLContext}, using a JKS keystore as an input.
      *
      * @param filepath - the path to the JKS keystore.
-     * @param keystorePassword - the keystore's password.
+     * @param keystorePassword - the keystore password.
      *
      * @return {@link TrustManager} array, that will be used to initiate the {@link SSLContext}.
      *

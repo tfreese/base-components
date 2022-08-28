@@ -182,8 +182,7 @@ public class FibonacciController extends AbstractController
         }
 
         FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, operationConsumer, operationCount, false);
-        long result = this.forkJoinPool.invoke(task);
 
-        return result;
+        return this.forkJoinPool.invoke(task);
     }
 }

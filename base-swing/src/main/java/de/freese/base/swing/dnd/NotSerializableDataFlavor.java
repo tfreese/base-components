@@ -33,7 +33,7 @@ public class NotSerializableDataFlavor extends DataFlavor
     @Override
     public boolean isFlavorSerializedObjectType()
     {
-        // Sonst würde er beim Transfer das Object clonen !
+        // Sonst würde er beim Transfer das Object klonen !
         return false;
     }
 }

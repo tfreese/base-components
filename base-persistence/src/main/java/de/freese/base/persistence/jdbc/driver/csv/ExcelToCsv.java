@@ -102,7 +102,6 @@ public class ExcelToCsv
      *
      * @throws IOException Falls was schiefgeht.
      */
-    @SuppressWarnings("resource")
     public void convert(final Path excelSource, final Writer csvWriter) throws IOException
     {
         Objects.requireNonNull(excelSource, "excelSource required");

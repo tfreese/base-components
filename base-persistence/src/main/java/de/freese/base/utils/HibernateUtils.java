@@ -58,10 +58,13 @@ public final class HibernateUtils
                 logInfo(logger, "evict QueryRegions");
                 cache.evictQueryRegions();
             }
+            catch (NullPointerException ex)
+            {
+                logWarn(logger, "evict QueryRegions: NullPointerException");
+            }
             catch (Exception ex)
             {
-                String message = ex instanceof NullPointerException ? "evict QueryRegions: NullPointerException" : ex.getMessage();
-                logWarn(logger, message);
+                logWarn(logger, ex.getMessage());
             }
 
             logInfo(logger, "evict Statistics");

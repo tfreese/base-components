@@ -44,15 +44,13 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
      */
     public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
     {
-        Object valueToUse = value;
-
-        if (valueToUse == null)
+        if (value == null)
         {
             setNull(ps, paramIndex);
         }
         else
         {
-            setValue(ps, paramIndex, valueToUse);
+            setValue(ps, paramIndex, value);
         }
     }
 
@@ -68,9 +66,9 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
         int sqlTypeToUse = Types.NULL;
 
         // Proceed with database-specific checks
-        DatabaseMetaData dbmd = ps.getConnection().getMetaData();
-        String jdbcDriverName = dbmd.getDriverName();
-        String databaseProductName = dbmd.getDatabaseProductName();
+        DatabaseMetaData metaData = ps.getConnection().getMetaData();
+        String jdbcDriverName = metaData.getDriverName();
+        String databaseProductName = metaData.getDatabaseProductName();
 
         if (databaseProductName.startsWith("Informix") || (jdbcDriverName.startsWith("Microsoft") && jdbcDriverName.contains("SQL Server")))
         {

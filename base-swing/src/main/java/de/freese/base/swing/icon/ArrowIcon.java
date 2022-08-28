@@ -65,7 +65,7 @@ public class ArrowIcon implements Icon
 
     /**
      * Creates a new {@link ArrowIcon} object.<br>
-     * Defaults: Widht = 16, Height = 16, ForeGround = Black
+     * Defaults: Width = 16, Height = 16, ForeGround = Black
      *
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      */

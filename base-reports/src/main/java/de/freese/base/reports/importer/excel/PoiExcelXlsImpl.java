@@ -18,10 +18,7 @@ public final class PoiExcelXlsImpl extends AbstractPoiExcelImpl
     @Override
     protected Workbook openWorkbook(final InputStream inputStream) throws Exception
     {
-        // POIFSFileSystem fs = new POIFSFileSystem(inputStream);
-        // Workbook workbook = new HSSFWorkbook(fs);
-        Workbook workbook = new HSSFWorkbook(inputStream);
-
-        return workbook;
+        // return new HSSFWorkbook(new POIFSFileSystem(inputStream));
+        return new HSSFWorkbook(inputStream);
     }
 }

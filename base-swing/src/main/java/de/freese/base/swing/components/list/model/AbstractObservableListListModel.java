@@ -143,7 +143,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
 
     /**
      * <code>AbstractListModel</code> subclasses must call this method <b>after</b> one or more elements are added to the model. The new elements are specified
-     * by a closed interval index0, index1 -- the enpoints are included. Note that index0 need not be less than or equal to index1.
+     * by a closed interval index0, index1 -- the endpoints are included. Note that index0 need not be less than or equal to index1.
      *
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval

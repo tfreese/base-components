@@ -40,6 +40,7 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
     /**
      * ms
      */
@@ -61,7 +62,7 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
      * Creates a new ProgressBusyMozillaLabel object.
      *
      * @param text String
-     * @param progressMax long, Progressdauer
+     * @param progressMax long
      */
     public ProgressBusyMozillaLabel(final String text, final long progressMax)
     {

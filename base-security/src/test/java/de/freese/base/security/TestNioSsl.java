@@ -268,7 +268,6 @@ class TestNioSsl
     /**
      * @throws Exception Falls was schiefgeht.
      */
-    @SuppressWarnings("resource")
     @Test
     void testNio() throws Exception
     {

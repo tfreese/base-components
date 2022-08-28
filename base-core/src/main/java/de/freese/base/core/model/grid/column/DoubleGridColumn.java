@@ -59,9 +59,7 @@ public class DoubleGridColumn extends AbstractGridColumn<Double>
     @Override
     protected Double readNullSafe(final DataInput dataInput) throws IOException
     {
-        double value = dataInput.readDouble();
-
-        return value;
+        return dataInput.readDouble();
     }
 
     /**

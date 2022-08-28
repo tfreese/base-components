@@ -65,9 +65,7 @@ public final class ErrorPane extends JPanel
         try
         {
             Exception cause = new Exception("I'm the cause");
-            Exception ex = new Exception("I'm a secondary exception", cause);
-
-            throw ex;
+            throw new Exception("I'm a secondary exception", cause);
         }
         catch (Exception ex)
         {
@@ -94,6 +92,7 @@ public final class ErrorPane extends JPanel
         dialog.setResizable(true);
         dialog.setVisible(true);
     }
+
     /**
      *
      */

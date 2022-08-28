@@ -186,7 +186,6 @@ class TestGrid
         Mockito.when(metaDataMock.getColumnDisplaySize(3)).thenReturn(10);
         Mockito.when(metaDataMock.getPrecision(3)).thenReturn(10);
 
-        @SuppressWarnings("resource")
         ResultSet resultSetMock = Mockito.mock(ResultSet.class);
         Mockito.when(resultSetMock.getMetaData()).thenReturn(metaDataMock);
 

@@ -142,13 +142,12 @@ public class ExcelImplDelegator implements ExcelImport
         {
             return this.excelImpl.getValueAt(row, column);
         }
+        catch (ExcelException ex)
+        {
+            throw ex;
+        }
         catch (Exception ex)
         {
-            if (ex instanceof ExcelException exEx)
-            {
-                throw exEx;
-            }
-
             throw new ExcelException(this.excelImpl.getSheetName(), row, column, ex);
         }
     }
@@ -165,7 +164,6 @@ public class ExcelImplDelegator implements ExcelImport
     /**
      * @see ExcelImport#openExcelFile(java.io.InputStream)
      */
-    @SuppressWarnings("resource")
     @Override
     public void openExcelFile(InputStream inputStream) throws Exception
     {

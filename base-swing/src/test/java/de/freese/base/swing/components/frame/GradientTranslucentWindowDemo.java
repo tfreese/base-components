@@ -28,14 +28,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class GradientTranslucentWindowDemo extends JFrame
+public class GradientTranslucentWindowDemo
 {
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = -368071555470247071L;
-
     /**
      * @param args String[]
      */
@@ -60,55 +54,46 @@ public class GradientTranslucentWindowDemo extends JFrame
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() ->
         {
-            GradientTranslucentWindowDemo gtw = new GradientTranslucentWindowDemo();
+            JFrame frame = new JFrame("GradientTranslucentWindow");
+            frame.setBackground(new Color(0, 0, 0, 0));
+            frame.setSize(new Dimension(600, 400));
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+            JPanel panel = new JPanel()
+            {
+                /**
+                 *
+                 */
+                @Serial
+                private static final long serialVersionUID = 1L;
+
+                /**
+                 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+                 */
+                @Override
+                protected void paintComponent(final Graphics g)
+                {
+                    if (g instanceof Graphics2D g2d)
+                    {
+                        final int R = 240;
+                        final int G = 240;
+                        final int B = 240;
+
+                        Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
+                        // Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
+                        g2d.setPaint(paint);
+                        g2d.fillRect(0, 0, getWidth(), getHeight());
+                    }
+                }
+            };
+
+            frame.setContentPane(panel);
+            frame.setLayout(new GridBagLayout());
+            frame.add(new JButton("I am a Button"));
 
             // Display the window.
-            gtw.setVisible(true);
+            frame.setVisible(true);
         });
-    }
-
-    /**
-     * Erstellt ein neues {@link GradientTranslucentWindowDemo} Object.
-     */
-    public GradientTranslucentWindowDemo()
-    {
-        super("GradientTranslucentWindow");
-
-        setBackground(new Color(0, 0, 0, 0));
-        setSize(new Dimension(600, 400));
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        JPanel panel = new JPanel()
-        {
-            /**
-             *
-             */
-            @Serial
-            private static final long serialVersionUID = 1L;
-
-            /**
-             * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-             */
-            @Override
-            protected void paintComponent(final Graphics g)
-            {
-                if (g instanceof Graphics2D g2d)
-                {
-                    final int R = 240;
-                    final int G = 240;
-                    final int B = 240;
-
-                    Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
-                    // Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
-                    g2d.setPaint(paint);
-                    g2d.fillRect(0, 0, getWidth(), getHeight());
-                }
-            }
-        };
-
-        setContentPane(panel);
-        setLayout(new GridBagLayout());
-        add(new JButton("I am a Button"));
     }
 }

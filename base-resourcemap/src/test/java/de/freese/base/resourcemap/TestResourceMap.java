@@ -43,10 +43,6 @@ class TestResourceMap
      *
      */
     private static ResourceMap resourceMap;
-    /**
-     *
-     */
-    private static ResourceMap resourceMapRoot;
 
     /**
      *
@@ -55,7 +51,7 @@ class TestResourceMap
     static void beforeAll()
     {
         // @formatter:off
-        resourceMapRoot = ResourceMapBuilder.create()
+        ResourceMap resourceMapRoot = ResourceMapBuilder.create()
                 .resourceProvider(new ResourceBundleProvider())
             .defaultConverters()
             .cacheDisabled()
@@ -457,8 +453,7 @@ class TestResourceMap
     {
         Short value = resourceMap.getShort("test.short");
 
-        short i = 1;
-        Short ref = i;
+        Short ref = 1;
 
         assertNotNull(value);
         assertEquals(ref, value);

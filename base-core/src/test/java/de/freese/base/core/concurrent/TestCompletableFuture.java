@@ -50,10 +50,7 @@ class TestCompletableFuture
      */
     String getCurrentThreadName()
     {
-        String threadName = Thread.currentThread().getName();
-        // System.out.println(threadName);
-
-        return threadName;
+        return Thread.currentThread().getName();
     }
 
     /**

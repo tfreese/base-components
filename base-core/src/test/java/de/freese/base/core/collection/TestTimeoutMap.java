@@ -72,8 +72,8 @@ class TestTimeoutMap
         TimeUnit.MILLISECONDS.sleep(500);
 
         assertEquals(0, map.size());
-        assertTrue(map.isEmpty());
         assertNull(map.get("a"));
+        assertTrue(map.isEmpty());
         assertIterableEquals(Set.of(), map.keySet());
         assertIterableEquals(Set.of(), map.values());
     }
@@ -101,8 +101,8 @@ class TestTimeoutMap
         TimeUnit.MILLISECONDS.sleep(500);
 
         assertEquals(0, map.size());
-        assertTrue(map.isEmpty());
         assertNull(map.get("a"));
+        assertTrue(map.isEmpty());
         assertIterableEquals(Set.of(), map.keySet());
         assertIterableEquals(Set.of(), map.values());
     }
@@ -123,8 +123,8 @@ class TestTimeoutMap
         TimeUnit.MILLISECONDS.sleep(500);
 
         assertEquals(0, map.size());
-        assertTrue(map.isEmpty());
         assertNull(map.get("a"));
+        assertTrue(map.isEmpty());
         assertIterableEquals(Set.of(), map.keySet());
         assertIterableEquals(Set.of(), map.values());
     }

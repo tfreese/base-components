@@ -229,7 +229,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
         g2d.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
 
         paintName(g2d);
-        paintChilds(g2d);
+        paintChildren(g2d);
 
         // Rahmen des Elements malen
         g2d.setColor(Color.BLUE);
@@ -363,7 +363,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      *
      * @param g2d Graphics2D
      */
-    protected void paintChilds(final Graphics2D g2d)
+    protected void paintChildren(final Graphics2D g2d)
     {
         for (int i = 0; i < getElementCount(); i++)
         {

@@ -66,9 +66,7 @@ public class StringGridColumn extends AbstractGridColumn<String>
 
         dataInput.readFully(bytes);
 
-        String value = new String(bytes, GridMetaData.DEFAULT_CHARSET);
-
-        return value;
+        return new String(bytes, GridMetaData.DEFAULT_CHARSET);
     }
 
     /**

@@ -4,7 +4,6 @@ package de.freese.base.security.crypto;
 import java.security.Key;
 
 import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -48,18 +47,18 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
     //@formatter:on
 
     /**
-    *
-    */
+     *
+     */
     private byte[] initVector;
 
     /**
-    *
-    */
+     *
+     */
     private Key key;
 
     /**
-    *
-    */
+     *
+     */
     private byte[] keyBytes;
 
     /**
@@ -87,8 +86,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         }
         else if ((getKeyBytes() != null) && (getKeyBytes().length > 0))
         {
-            SecretKey secretKey = new SecretKeySpec(getKeyBytes(), getAlgorythmKeyGenerator());
-            theKey = secretKey;
+            theKey = new SecretKeySpec(getKeyBytes(), getAlgorythmKeyGenerator());
         }
         // else if ((getKeyPassword() != null) && (getKeyPassword().length() > 0))
         // {
@@ -97,13 +95,11 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         // KeySpec keySpec = new PBEKeySpec(getKeyPassword().toCharArray(), getInitVector(), 4096);
         //
         // SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(getAlgorythmKeyGenerator(), getProviderKeyGenerator());
-        // SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
-        // theKey = secretKey;
+        // theKey = secretKeyFactory.generateSecret(keySpec);
         // }
         // else
         // {
-        // SecretKey secretKey = new SecretKeySpec(getKeyPassword().getBytes(StandardCharsets.UTF_8), getAlgorythmKeyGenerator());
-        // theKey = secretKey;
+        // theKey = new SecretKeySpec(getKeyPassword().getBytes(StandardCharsets.UTF_8), getAlgorythmKeyGenerator());
         // }
         // }
         else if (getKeySize() > 0)
@@ -111,8 +107,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
             KeyGenerator keyGenerator = KeyGenerator.getInstance(getAlgorythmKeyGenerator(), getProviderKeyGenerator());
             keyGenerator.init(getKeySize(), crypto.getSecureRandom());
 
-            SecretKey secretKey = keyGenerator.generateKey();
-            theKey = secretKey;
+            theKey = keyGenerator.generateKey();
         }
         else
         {
@@ -122,6 +117,44 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         crypto.setKey(theKey);
 
         return crypto;
+    }
+
+    /**
+     * Initialisierungsvector für die {@link IvParameterSpec}.
+     *
+     * @param initVector byte[]
+     *
+     * @return {@link CryptoConfigSymetric}
+     */
+    public CryptoConfigSymetric initVector(final byte[] initVector)
+    {
+        this.initVector = initVector;
+
+        return this;
+    }
+
+    /**
+     * @param key {@link Key}
+     *
+     * @return {@link CryptoConfigSymetric}
+     */
+    public CryptoConfigSymetric key(final Key key)
+    {
+        this.key = key;
+
+        return this;
+    }
+
+    /**
+     * @param keyBytes byte[]
+     *
+     * @return {@link CryptoConfigSymetric}
+     */
+    public CryptoConfigSymetric keyBytes(final byte[] keyBytes)
+    {
+        this.keyBytes = keyBytes;
+
+        return this;
     }
 
     /**
@@ -146,40 +179,5 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
     protected byte[] getKeyBytes()
     {
         return this.keyBytes;
-    }
-
-    /**
-     * Initialisierungsvector für die {@link IvParameterSpec}.
-     *
-     * @param initVector byte[]
-     * @return {@link CryptoConfigSymetric}
-     */
-    public CryptoConfigSymetric initVector(final byte[] initVector)
-    {
-        this.initVector = initVector;
-
-        return this;
-    }
-
-    /**
-     * @param key {@link Key}
-     * @return {@link CryptoConfigSymetric}
-     */
-    public CryptoConfigSymetric key(final Key key)
-    {
-        this.key = key;
-
-        return this;
-    }
-
-    /**
-     * @param keyBytes byte[]
-     * @return {@link CryptoConfigSymetric}
-     */
-    public CryptoConfigSymetric keyBytes(final byte[] keyBytes)
-    {
-        this.keyBytes = keyBytes;
-
-        return this;
     }
 }

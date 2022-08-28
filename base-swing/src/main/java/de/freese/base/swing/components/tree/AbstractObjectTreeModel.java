@@ -220,7 +220,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Invoke this method if you've totally changed the children of node and its childrens children... This will post a treeStructureChanged event.
+     * Invoke this method if you've totally changed the children of node and its children children... This will post a treeStructureChanged event.
      *
      * @param node Object
      */
@@ -235,7 +235,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Invoke this method after you've changed how the children identified by childIndicies are to be represented in the tree.
+     * Invoke this method after you've changed how the children identified by childIndices are to be represented in the tree.
      *
      * @param node Object
      * @param childIndices int[]

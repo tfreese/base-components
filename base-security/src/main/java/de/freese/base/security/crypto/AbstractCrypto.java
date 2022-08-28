@@ -58,9 +58,7 @@ abstract class AbstractCrypto implements Crypto
     {
         Cipher cipher = createCipherDecrypt();
 
-        byte[] decypted = decrypt(cipher, bytes);
-
-        return decypted;
+        return decrypt(cipher, bytes);
     }
 
     /**
@@ -98,9 +96,7 @@ abstract class AbstractCrypto implements Crypto
     {
         MessageDigest messageDigest = createMessageDigest();
 
-        byte[] digest = digest(messageDigest, in);
-
-        return digest;
+        return digest(messageDigest, in);
     }
 
     /**
@@ -121,9 +117,7 @@ abstract class AbstractCrypto implements Crypto
             messageDigest.update(buffer, 0, numRead);
         }
 
-        byte[] digest = messageDigest.digest();
-
-        return digest;
+        return messageDigest.digest();
     }
 
     /**
@@ -134,9 +128,7 @@ abstract class AbstractCrypto implements Crypto
     {
         Cipher cipher = createCipherEncrypt();
 
-        byte[] encrypted = encrypt(cipher, bytes);
-
-        return encrypted;
+        return encrypt(cipher, bytes);
     }
 
     /**
@@ -177,9 +169,7 @@ abstract class AbstractCrypto implements Crypto
      */
     protected MessageDigest createMessageDigest() throws Exception
     {
-        MessageDigest messageDigest = MessageDigest.getInstance(getConfig().getAlgorythmDigest(), getConfig().getProviderDigest());
-
-        return messageDigest;
+        return MessageDigest.getInstance(getConfig().getAlgorythmDigest(), getConfig().getProviderDigest());
     }
 
     /**
@@ -192,9 +182,7 @@ abstract class AbstractCrypto implements Crypto
      */
     protected byte[] decrypt(final Cipher cipher, final byte[] bytes) throws Exception
     {
-        byte[] decypted = cipher.doFinal(bytes);
-
-        return decypted;
+        return cipher.doFinal(bytes);
     }
 
     /**
@@ -219,7 +207,6 @@ abstract class AbstractCrypto implements Crypto
         }
 
         out.flush();
-        buffer = null;
     }
 
     /**
@@ -232,9 +219,7 @@ abstract class AbstractCrypto implements Crypto
      */
     protected byte[] encrypt(final Cipher cipher, final byte[] bytes) throws Exception
     {
-        byte[] encrypted = cipher.doFinal(bytes);
-
-        return encrypted;
+        return cipher.doFinal(bytes);
     }
 
     /**
@@ -259,7 +244,6 @@ abstract class AbstractCrypto implements Crypto
         }
 
         out.flush();
-        buffer = null;
     }
 
     /**
@@ -338,8 +322,6 @@ abstract class AbstractCrypto implements Crypto
             sig = baos.toByteArray();
         }
 
-        boolean verified = signature.verify(sig);
-
-        return verified;
+        return signature.verify(sig);
     }
 }

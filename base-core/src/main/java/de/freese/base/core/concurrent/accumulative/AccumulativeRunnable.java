@@ -46,7 +46,7 @@ import javax.swing.SwingUtilities;
  * }
  * </pre>
  * <p>
- * Say we want to implement addDirtyRegion(Rectangle rect) which sends this region to the {@code handleDirtyRegions(List<Rect> regiouns)} on the EDT.
+ * Say we want to implement addDirtyRegion(Rectangle rect) which sends this region to the {@code handleDirtyRegions(List<Rect> regions)} on the EDT.
  * addDirtyRegions better be accumulated before handling on the EDT.
  * <p>
  * Here is how it can be implemented using AccumulativeRunnable:
@@ -116,7 +116,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
     /**
      * Equivalent to {@code Runnable.run} method with the accumulated arguments to process.
      *
-     * @param args accumulated argumets to process.
+     * @param args accumulated arguments to process.
      */
     protected abstract void run(List<T> args);
 

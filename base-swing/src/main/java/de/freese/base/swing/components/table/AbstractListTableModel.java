@@ -128,7 +128,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      */
     @Override
-    public Class<? extends Object> getColumnClass(final int columnIndex)
+    public Class<?> getColumnClass(final int columnIndex)
     {
         if (getRowCount() != 0)
         {

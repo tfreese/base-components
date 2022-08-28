@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Ellipse2D;
-import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,14 +23,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class ShapedWindowDemo extends JFrame
+public class ShapedWindowDemo
 {
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = 3875661376456849952L;
-
     /**
      * @param args String[]
      */
@@ -61,46 +54,38 @@ public class ShapedWindowDemo extends JFrame
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() ->
         {
-            ShapedWindowDemo sw = new ShapedWindowDemo();
+            JFrame frame = new JFrame("ShapedWindow");
+            frame.setLayout(new GridBagLayout());
+
+            // It is best practice to set the window's shape in
+            // the componentResized method. Then, if the window
+            // changes size, the shape will be correctly recalculated.
+            frame.addComponentListener(new ComponentAdapter()
+            {
+                // Give the window an elliptical shape.
+                // If the window is resized, the shape is recalculated here.
+                @Override
+                public void componentResized(final ComponentEvent event)
+                {
+                    frame.setShape(new Ellipse2D.Double(0, 0, frame.getWidth(), frame.getHeight()));
+                }
+            });
+
+            frame.setUndecorated(true);
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+            frame.add(new JButton("I am a Button"));
 
             // Set the window to 70% translucency, if supported.
             if (isTranslucencySupported)
             {
-                sw.setOpacity(0.7F);
+                frame.setOpacity(0.7F);
             }
 
             // Display the window.
-            sw.setVisible(true);
+            frame.setVisible(true);
         });
-    }
-
-    /**
-     * Erstellt ein neues {@link ShapedWindowDemo} Object.
-     */
-    public ShapedWindowDemo()
-    {
-        super("ShapedWindow");
-        setLayout(new GridBagLayout());
-
-        // It is best practice to set the window's shape in
-        // the componentResized method. Then, if the window
-        // changes size, the shape will be correctly recalculated.
-        addComponentListener(new ComponentAdapter()
-        {
-            // Give the window an elliptical shape.
-            // If the window is resized, the shape is recalculated here.
-            @Override
-            public void componentResized(final ComponentEvent e)
-            {
-                setShape(new Ellipse2D.Double(0, 0, getWidth(), getHeight()));
-            }
-        });
-
-        setUndecorated(true);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        add(new JButton("I am a Button"));
     }
 }

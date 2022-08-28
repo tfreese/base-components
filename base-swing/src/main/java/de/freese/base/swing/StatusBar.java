@@ -36,11 +36,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private final int busyAnimationRate;
-    /**
-     *
-     */
-    private int busyIconIndex;
+    private final Timer busyIconTimer;
     /**
      *
      */
@@ -48,19 +44,23 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      *
      */
-    private final Timer busyIconTimer;
-    /**
-     *
-     */
     private final transient Icon idleIcon;
     /**
      *
      */
-    private JLabel messageLabel;
+    private final Timer messageTimer;
     /**
      *
      */
-    private final Timer messageTimer;
+    private final Insets zeroInsets = new Insets(0, 0, 0, 0);
+    /**
+     *
+     */
+    private int busyIconIndex;
+    /**
+     *
+     */
+    private JLabel messageLabel;
     /**
      *
      */
@@ -69,10 +69,6 @@ public class StatusBar extends JPanel implements PropertyChangeListener
      *
      */
     private JLabel statusAnimationLabel;
-    /**
-     *
-     */
-    private final Insets zeroInsets = new Insets(0, 0, 0, 0);
 
     /**
      * Erstellt ein neues {@link StatusBar} Object.<br>
@@ -91,15 +87,16 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
         this.messageTimer = new Timer(messageTimeout, event -> this.messageLabel.setText(""));
         this.messageTimer.setRepeats(false);
-        this.busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
         this.idleIcon = resourceMap.getIcon("statusbar.icon.idle");
+        int busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
 
         for (int i = 0; i < this.busyIcons.length; i++)
         {
             this.busyIcons[i] = resourceMap.getIcon("statusbar.icon." + i);
         }
 
-        this.busyIconTimer = new Timer(this.busyAnimationRate, event -> {
+        this.busyIconTimer = new Timer(busyAnimationRate, event ->
+        {
             this.busyIconIndex = (this.busyIconIndex + 1) % this.busyIcons.length;
             this.statusAnimationLabel.setIcon(this.busyIcons[this.busyIconIndex]);
         });

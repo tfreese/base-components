@@ -26,7 +26,61 @@ public class DefaultResourceScanner implements ResourceScanner
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceScanner.class);
 
     /**
-     * Durchsucht die Resourcen eines ClassPath-Elements.
+     * Versucht alle Property-Dateien im Package zu finden und setzt diese als BundleBaseNames.<br>
+     * Die Packages duerfen im bin-, META_INF- oder im Jar-Ordner liegen.
+     *
+     * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
+     */
+    @Override
+    public Set<String> scanResources(final String basePath)
+    {
+        String searchPath = basePath == null ? "" : basePath;
+
+        if (searchPath.length() > 0)
+        {
+            // Package kann durch / oder \ getrennt sein
+            searchPath = searchPath.replace("/", "[/\\\\]");
+            searchPath = "(" + searchPath + ")";
+        }
+
+        // Packages duerfen im bin-, META_INF- oder im Jar-Ordner liegen
+        String folderRegex = "(.*bin[/\\\\]|^META-INF[/\\\\]|^)";
+
+        // Properties-Struktur
+        String propertyRegex = ".[^/\\\\]+(_[a-z]{2})?(_[A-Z]{2})?\\.properties$";
+
+        // Nach dem Package darf kein / oder \ Zeichen kommen
+        String pathRegex = searchPath.length() > 0 ? searchPath + "[/\\\\]" : searchPath;
+
+        // Alles zusammenbauen
+        String resourceRegex = folderRegex + pathRegex + propertyRegex;
+
+        Set<String> resources = getResources(resourceRegex);
+
+        if (resources.isEmpty())
+        {
+            DefaultResourceScanner.LOGGER.error("No Bundles in Path \"{}\"", basePath);
+
+            return Collections.emptySet();
+        }
+
+        // Fuer ResourceBundle normalisieren
+        Set<String> bundleNames = new HashSet<>();
+
+        for (String resource : resources)
+        {
+            // Den reinen Dateinamen rausfummeln, Unterstrich beruecksichtigen
+            String[] splits = resource.split(folderRegex);
+            splits = splits[splits.length - 1].split("(_+[a-zA-Z]{2}|\\.properties$)");
+
+            bundleNames.add(splits[0]);
+        }
+
+        return bundleNames;
+    }
+
+    /**
+     * Durchsucht die Ressourcen eines ClassPath-Elements.
      *
      * @param pattern {@link Pattern}
      *
@@ -153,59 +207,5 @@ public class DefaultResourceScanner implements ResourceScanner
         }
 
         return resources;
-    }
-
-    /**
-     * Versucht alle Property-Dateien im Package zu finden und setzt diese als BundleBaseNames.<br>
-     * Die Packages duerfen im bin-, META_INF- oder im Jar-Ordner liegen.
-     *
-     * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
-     */
-    @Override
-    public Set<String> scanResources(final String basePath)
-    {
-        String searchPath = basePath == null ? "" : basePath;
-
-        if (searchPath.length() > 0)
-        {
-            // Package kann durch / oder \ getrennt sein
-            searchPath = searchPath.replace("/", "[/\\\\]");
-            searchPath = "(" + searchPath + ")";
-        }
-
-        // Packages duerfen im bin-, META_INF- oder im Jar-Ordner liegen
-        String folderRegex = "(.*bin[/\\\\]|^META-INF[/\\\\]|^)";
-
-        // Properties-Struktur
-        String propertyRegex = ".[^/\\\\]+(_[a-z]{2})?(_[A-Z]{2})?\\.properties$";
-
-        // Nach dem Package darf kein / oder \ Zeichen kommen
-        String pathRegex = searchPath.length() > 0 ? searchPath + "[/\\\\]" : searchPath;
-
-        // Alles zusammenbauen
-        String resourceRegex = folderRegex + pathRegex + propertyRegex;
-
-        Set<String> resources = getResources(resourceRegex);
-
-        if (resources.isEmpty())
-        {
-            DefaultResourceScanner.LOGGER.error("No Bundles in Path \"{}\"", basePath);
-
-            return Collections.emptySet();
-        }
-
-        // Fuer ResourceBundle normalisieren
-        Set<String> bundleNames = new HashSet<>();
-
-        for (String resource : resources)
-        {
-            // Den reinen Dateinamen rausfummeln, Unterstrich beruecksichtigen
-            String[] splits = resource.split(folderRegex);
-            splits = splits[splits.length - 1].split("(_+[a-zA-Z]{2}|\\.properties$)");
-
-            bundleNames.add(splits[0]);
-        }
-
-        return bundleNames;
     }
 }

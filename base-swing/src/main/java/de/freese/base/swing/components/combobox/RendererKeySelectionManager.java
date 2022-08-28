@@ -52,7 +52,6 @@ public class RendererKeySelectionManager implements KeySelectionManager
     /**
      * @see javax.swing.JComboBox.KeySelectionManager#selectionForKey(char, javax.swing.ComboBoxModel)
      */
-    @SuppressWarnings("rawtypes")
     @Override
     public int selectionForKey(final char key, final ComboBoxModel model)
     {

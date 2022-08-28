@@ -270,6 +270,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             }
         }
     }
+
     /**
      * Liste aller Buttons TitelLeiste
      */
@@ -502,9 +503,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
         // Button selbst berücksichtigen
         x -= button.getBounds().width; // TITLE_ICON_SIZE;
 
-        // Rectangle rect = new Rectangle(x, 4, TITLE_ICON_SIZE, TITLE_ICON_SIZE);
-        Rectangle rect = new Rectangle(x, 4, button.getBounds().width, button.getBounds().height);
-
-        return rect;
+        // return new Rectangle(x, 4, TITLE_ICON_SIZE, TITLE_ICON_SIZE);
+        return new Rectangle(x, 4, button.getBounds().width, button.getBounds().height);
     }
 }

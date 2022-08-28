@@ -464,7 +464,7 @@ public final class StringUtils
     }
 
     /**
-     * Entfernt mehrfach hintereinander auftretende Whitespace Characters und führt ein abschliesendes {@link String#strip()} durch.<br>
+     * Entfernt mehrfach hintereinander auftretende Whitespace Characters und führt ein abschliessendes {@link String#strip()} durch.<br>
      * ASCII 160 (non-breaking space) wird als Space interpretiert.
      *
      * @param cs {@link CharSequence}

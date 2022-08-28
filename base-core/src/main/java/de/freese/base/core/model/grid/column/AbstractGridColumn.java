@@ -128,9 +128,7 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
             return null;
         }
 
-        T value = readNullSafe(dataInput);
-
-        return value;
+        return readNullSafe(dataInput);
     }
 
     /**

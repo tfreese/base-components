@@ -8,8 +8,6 @@ import javax.swing.table.AbstractTableModel;
 import de.freese.base.reports.importer.excel.ExcelSheet;
 
 /**
- * Tabelmodell eines ExcelSheets.
- *
  * @author Thomas Freese
  */
 public class ExcelSheetTableModel extends AbstractTableModel

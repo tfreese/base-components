@@ -33,9 +33,8 @@ class TestObjectTable
         ObjectTable objectTable = new ObjectTable(List.of("h1", "h2", "h3"));
 
         Exception exception = assertThrows(IndexOutOfBoundsException.class, () ->
-        {
-            objectTable.addRow(List.of("d1", "d2", "d3", "d4"));
-        });
+                objectTable.addRow(List.of("d1", "d2", "d3", "d4"))
+        );
     }
 
     @Test

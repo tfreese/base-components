@@ -200,7 +200,7 @@ public class MouseGestures
     }
 
     /**
-     * Fires event when full mouse gesture is recogized (mouse button is released).
+     * Fires event when full mouse gesture is recognized (mouse button is released).
      *
      * @param gesture String representation of mouse gesture. "L" for left, "R" for right,
      * "U" for up, "D" for down movements. For example: "ULD".

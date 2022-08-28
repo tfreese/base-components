@@ -67,10 +67,8 @@ public class SymetricCrypt
         // SecureRandom secureRandom = new SecureRandom();
         // secureRandom.nextBytes(key);
         //
-        // Key keySpec = new SecretKeySpec(key, "AES");
-        Key keySpec = new DefaultSecretKey("AES");
-
-        return keySpec;
+        // return new SecretKeySpec(key, "AES");
+        return new DefaultSecretKey("AES");
     }
 
     /**
@@ -236,9 +234,7 @@ public class SymetricCrypt
         Cipher encodeCipher = Cipher.getInstance(AES_ALGORYTHM);
         encodeCipher.init(Cipher.ENCRYPT_MODE, getKey(), new IvParameterSpec(INIT_VECTOR));
 
-        CipherOutputStream cipherOS = new CipherOutputStream(output, encodeCipher);
-
-        return cipherOS;
+        return new CipherOutputStream(output, encodeCipher);
     }
 
     /**

@@ -93,10 +93,10 @@ public final class JdbcUtils
             return;
         }
 
-        if (statement instanceof PreparedStatement psmt)
+        if (statement instanceof PreparedStatement s)
         {
-            psmt.clearBatch();
-            psmt.clearParameters();
+            s.clearBatch();
+            s.clearParameters();
         }
 
         statement.close();
@@ -324,7 +324,7 @@ public final class JdbcUtils
      */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException
     {
-        String databaseProductName = extractDatabaseMetaData(dataSource, dbMd ->
+        return extractDatabaseMetaData(dataSource, dbMd ->
         {
             try
             {
@@ -335,8 +335,6 @@ public final class JdbcUtils
                 throw new RuntimeException(ex);
             }
         });
-
-        return databaseProductName;
     }
 
     /**
@@ -351,7 +349,7 @@ public final class JdbcUtils
      */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException
     {
-        String databaseProductVersion = extractDatabaseMetaData(dataSource, dbMd ->
+        return extractDatabaseMetaData(dataSource, dbMd ->
         {
             try
             {
@@ -362,8 +360,6 @@ public final class JdbcUtils
                 throw new RuntimeException(ex);
             }
         });
-
-        return databaseProductVersion;
     }
 
     /**

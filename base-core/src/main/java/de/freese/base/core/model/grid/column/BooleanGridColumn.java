@@ -59,9 +59,7 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean>
     @Override
     protected Boolean readNullSafe(final DataInput dataInput) throws IOException
     {
-        boolean value = dataInput.readBoolean();
-
-        return value;
+        return dataInput.readBoolean();
     }
 
     /**

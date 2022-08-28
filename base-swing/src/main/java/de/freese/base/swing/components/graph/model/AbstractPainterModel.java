@@ -49,8 +49,6 @@ public abstract class AbstractPainterModel
         float minNorm = 0.0F;
         float maxNorm = height;
 
-        float y = minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
-
-        return y;
+        return minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
     }
 }

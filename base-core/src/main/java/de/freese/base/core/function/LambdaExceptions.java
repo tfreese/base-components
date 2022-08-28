@@ -22,14 +22,15 @@ public final class LambdaExceptions
      * Default Exception-Handler.<br>
      * Exceptions werden als {@link RuntimeException} geworfen.
      */
-    private static final ExceptionHandler THROW_RUNTIME_EXCEPTION_HANDLER = ex -> {
-        if (ex instanceof RuntimeException rex)
+    private static final ExceptionHandler THROW_RUNTIME_EXCEPTION_HANDLER = ex ->
+    {
+        if (ex instanceof RuntimeException e)
         {
-            throw rex;
+            throw e;
         }
-        else if (ex instanceof IOException ioex)
+        else if (ex instanceof IOException e)
         {
-            throw new UncheckedIOException(ioex);
+            throw new UncheckedIOException(e);
         }
 
         throw new RuntimeException(ex);
@@ -60,7 +61,8 @@ public final class LambdaExceptions
     public static <T, U, E extends Exception> BiConsumer<T, U> toBiConsumer(final ThrowingBiConsumer<T, U, E> exceptionalBiConsumer,
                                                                             final ExceptionHandler handler)
     {
-        return (t, u) -> {
+        return (t, u) ->
+        {
             try
             {
                 exceptionalBiConsumer.accept(t, u);
@@ -97,7 +99,8 @@ public final class LambdaExceptions
     public static <T, U, R, E extends Exception> BiFunction<T, U, R> toBiFunction(final ThrowingBiFunction<T, U, R, E> exceptionalFunction,
                                                                                   final ExceptionHandler handler)
     {
-        return (t, u) -> {
+        return (t, u) ->
+        {
             try
             {
                 return exceptionalFunction.apply(t, u);
@@ -135,7 +138,8 @@ public final class LambdaExceptions
      */
     public static <T, E extends Exception> Consumer<T> toConsumer(final ThrowingConsumer<T, E> exceptionalConsumer, final ExceptionHandler handler)
     {
-        return t -> {
+        return t ->
+        {
             try
             {
                 exceptionalConsumer.accept(t);
@@ -171,7 +175,8 @@ public final class LambdaExceptions
      */
     public static <T, R, E extends Exception> Function<T, R> toFunction(final ThrowingFunction<T, R, E> exceptionalFunction, final ExceptionHandler handler)
     {
-        return t -> {
+        return t ->
+        {
             try
             {
                 return exceptionalFunction.apply(t);
@@ -209,7 +214,8 @@ public final class LambdaExceptions
      */
     public static <T, E extends Exception> Predicate<T> toPredicate(final ThrowingPredicate<T, E> exceptionalPredicate, final ExceptionHandler handler)
     {
-        return t -> {
+        return t ->
+        {
             try
             {
                 return exceptionalPredicate.test(t);
@@ -247,7 +253,8 @@ public final class LambdaExceptions
      */
     public static <R, E extends Exception> Supplier<R> toSupplier(final ThrowingSupplier<R, E> exceptionalSupplier, final ExceptionHandler handler)
     {
-        return () -> {
+        return () ->
+        {
             try
             {
                 return exceptionalSupplier.get();
@@ -285,7 +292,8 @@ public final class LambdaExceptions
      */
     public static <T, U> BiConsumer<T, U> wrapBiConsumer(final BiConsumer<T, U> consumer, final ExceptionHandler handler)
     {
-        return (t, u) -> {
+        return (t, u) ->
+        {
             try
             {
                 consumer.accept(t, u);
@@ -321,7 +329,8 @@ public final class LambdaExceptions
      */
     public static <T, U, R> BiFunction<T, U, R> wrapBiFunction(final BiFunction<T, U, R> function, final ExceptionHandler handler)
     {
-        return (t, u) -> {
+        return (t, u) ->
+        {
             try
             {
                 return function.apply(t, u);
@@ -359,7 +368,8 @@ public final class LambdaExceptions
      */
     public static <T> Consumer<T> wrapConsumer(final Consumer<T> consumer, final ExceptionHandler handler)
     {
-        return t -> {
+        return t ->
+        {
             try
             {
                 consumer.accept(t);
@@ -395,7 +405,8 @@ public final class LambdaExceptions
      */
     public static <T, R> Function<T, R> wrapFunction(final Function<T, R> function, final ExceptionHandler handler)
     {
-        return t -> {
+        return t ->
+        {
             try
             {
                 return function.apply(t);
@@ -433,7 +444,8 @@ public final class LambdaExceptions
      */
     public static <T> Predicate<T> wrapPredicate(final Predicate<T> predicate, final ExceptionHandler handler)
     {
-        return t -> {
+        return t ->
+        {
             try
             {
                 return predicate.test(t);
@@ -471,7 +483,8 @@ public final class LambdaExceptions
      */
     public static <R> Supplier<R> wrapSupplier(final Supplier<R> supplier, final ExceptionHandler handler)
     {
-        return () -> {
+        return () ->
+        {
             try
             {
                 return supplier.get();

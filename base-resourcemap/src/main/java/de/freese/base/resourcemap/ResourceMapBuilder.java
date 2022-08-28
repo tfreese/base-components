@@ -193,7 +193,7 @@ public final class ResourceMapBuilder
     }
 
     /**
-     * Disable cacheing.
+     * Disable caching.
      *
      * @return {@link ResourceMapBuilder}
      */
@@ -236,7 +236,7 @@ public final class ResourceMapBuilder
     }
 
     /**
-     * Optional for Childs, the Parent one's will be taken.
+     * Optional for Children, the Parent one's will be taken.
      *
      * @return {@link ResourceMapBuilder}
      */
@@ -296,7 +296,7 @@ public final class ResourceMapBuilder
     }
 
     /**
-     * Optional for Childs: Default = parent#getResourceProvider
+     * Optional for Children: Default = parent#getResourceProvider
      *
      * @param resourceProvider {@link ResourceProvider}
      *

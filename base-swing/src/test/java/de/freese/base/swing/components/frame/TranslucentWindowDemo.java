@@ -5,7 +5,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsDevice.WindowTranslucency;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
-import java.io.Serial;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,14 +20,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class TranslucentWindowDemo extends JFrame
+public class TranslucentWindowDemo
 {
-    /**
-     *
-     */
-    @Serial
-    private static final long serialVersionUID = 2882466471490385780L;
-
     /**
      * @param args String[]
      */
@@ -52,30 +45,21 @@ public class TranslucentWindowDemo extends JFrame
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() ->
         {
-            TranslucentWindowDemo tw = new TranslucentWindowDemo();
+            JFrame frame = new JFrame("TranslucentWindow");
+            frame.setLayout(new GridBagLayout());
+
+            frame.setSize(600, 400);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+            // Add a sample button.
+            frame.add(new JButton("I am a Button"));
 
             // Set the window to 55% opaque (45% translucent).
-            tw.setOpacity(0.55F);
+            frame.setOpacity(0.55F);
 
             // Display the window.
-            tw.setVisible(true);
+            frame.setVisible(true);
         });
-    }
-
-    /**
-     * Erstellt ein neues {@link TranslucentWindowDemo} Object.
-     */
-    public TranslucentWindowDemo()
-    {
-        super("TranslucentWindow");
-
-        setLayout(new GridBagLayout());
-
-        setSize(600, 400);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        // Add a sample button.
-        add(new JButton("I am a Button"));
     }
 }

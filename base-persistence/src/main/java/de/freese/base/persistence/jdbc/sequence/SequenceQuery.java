@@ -32,21 +32,19 @@ public interface SequenceQuery extends Function<String, String>
      */
     static SequenceQuery determineQuery(final Connection connection) throws SQLException
     {
-        DatabaseMetaData dbmd = connection.getMetaData();
+        DatabaseMetaData metaData = connection.getMetaData();
 
-        String product = dbmd.getDatabaseProductName().toLowerCase();
+        String product = metaData.getDatabaseProductName().toLowerCase();
         product = product.split(" ")[0];
-        // int majorVersion = dbmd.getDatabaseMajorVersion();
-        // int minorVersion = dbmd.getDatabaseMinorVersion();
+        // int majorVersion = metaData.getDatabaseMajorVersion();
+        // int minorVersion = metaData.getDatabaseMinorVersion();
 
-        SequenceQuery query = switch (product)
+        return switch (product)
                 {
                     case "oracle" -> seq -> "select " + seq + ".nextval from dual";
                     case "hsql" -> seq -> "call next value for " + seq;
                     case "sqlite" -> seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
                     default -> throw new IllegalArgumentException("Unexpected value: " + product);
                 };
-
-        return query;
     }
 }

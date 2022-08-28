@@ -69,7 +69,7 @@ public class StringExpressionFilter extends AbstractTextFieldFilter
 
         if (object == null)
         {
-            // Kein Object zum Filtern -> weg damit
+            // Kein Object zum Filtern = weg damit
             return false;
         }
 

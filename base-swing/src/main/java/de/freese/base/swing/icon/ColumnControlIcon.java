@@ -34,21 +34,12 @@ public class ColumnControlIcon implements Icon, UIResource
     }
 
     /**
-     *
-     */
-    private final int height = 10;
-    /**
-     *
-     */
-    private final int width = 10;
-
-    /**
      * @see javax.swing.Icon#getIconHeight()
      */
     @Override
     public int getIconHeight()
     {
-        return this.height;
+        return 10;
     }
 
     /**
@@ -57,7 +48,7 @@ public class ColumnControlIcon implements Icon, UIResource
     @Override
     public int getIconWidth()
     {
-        return this.width;
+        return 10;
     }
 
     /**

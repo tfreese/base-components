@@ -62,9 +62,7 @@ public class DateGridColumn extends AbstractGridColumn<Date>
     {
         long time = dataInput.readLong();
 
-        Date value = new Date(time);
-
-        return value;
+        return new Date(time);
     }
 
     /**

@@ -402,19 +402,17 @@ public final class LocalStorage
      */
     private void validateFileName(final String fileName)
     {
-        String internalName = fileName;
-
-        if (internalName == null)
+        if (fileName == null)
         {
             throw new NullPointerException("Filename");
         }
 
-        if (internalName.strip().length() == 0)
+        if (fileName.strip().length() == 0)
         {
             throw new IllegalArgumentException("Filename is empty");
         }
 
-        if (internalName.indexOf('.') == -1)
+        if (fileName.indexOf('.') == -1)
         {
             throw new IllegalArgumentException("Filename don't have extension");
         }

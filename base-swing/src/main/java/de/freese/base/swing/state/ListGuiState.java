@@ -23,7 +23,7 @@ public class ListGuiState extends AbstractGuiState
     @Serial
     private static final long serialVersionUID = -6237079790822368033L;
     /**
-     * Die selektierten Indizies der Liste
+     * Die selektierten Indizes der Liste
      */
     private int[] selectedIndices;
 

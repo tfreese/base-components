@@ -130,9 +130,7 @@ public enum Zodiac
             entry = ZODIAC_MAP.lastEntry();
         }
 
-        Zodiac zodiac = entry.getValue();
-
-        return zodiac;
+        return entry.getValue();
     }
 
     /**

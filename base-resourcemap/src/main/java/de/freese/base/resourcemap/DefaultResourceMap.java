@@ -51,7 +51,7 @@ class DefaultResourceMap implements ResourceMap
     /**
      *
      */
-    private final List<DefaultResourceMap> childs = new ArrayList<>();
+    private final List<DefaultResourceMap> children = new ArrayList<>();
     /**
      *
      */
@@ -113,7 +113,7 @@ class DefaultResourceMap implements ResourceMap
             return this;
         }
 
-        for (ResourceMap child : getChilds())
+        for (ResourceMap child : getChildren())
         {
             ResourceMap rm = child.getChild(bundleName);
 
@@ -235,7 +235,7 @@ class DefaultResourceMap implements ResourceMap
 
         substitutePlaceholder(resourcesLocale);
 
-        getChilds().forEach(child -> child.load(locale));
+        getChildren().forEach(child -> child.load(locale));
     }
 
     /**
@@ -259,15 +259,15 @@ class DefaultResourceMap implements ResourceMap
      */
     void addChild(final DefaultResourceMap child)
     {
-        getChilds().add(Objects.requireNonNull(child, "child required"));
+        getChildren().add(Objects.requireNonNull(child, "child required"));
     }
 
     /**
      * @return {@link List}
      */
-    List<DefaultResourceMap> getChilds()
+    List<DefaultResourceMap> getChildren()
     {
-        return this.childs;
+        return this.children;
     }
 
     /**

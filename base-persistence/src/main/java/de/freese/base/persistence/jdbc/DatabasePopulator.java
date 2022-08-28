@@ -140,7 +140,7 @@ public class DatabasePopulator
         }
 
         // @formatter:off
-        List<String> scriptLines = fileLines.stream()
+        return fileLines.stream()
                 .map(String::strip)
                 .filter(l -> !l.isEmpty())
                 .filter(l -> !l.startsWith("--"))
@@ -150,8 +150,6 @@ public class DatabasePopulator
                 .toList()
                 ;
         // @formatter:on
-
-        return scriptLines;
     }
 
     /**

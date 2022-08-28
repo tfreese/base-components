@@ -332,7 +332,7 @@ public final class HsqldbTextTableBuilder
 
     /**
      * Setzt den {@link Path} zur CSV-Datei.<br>
-     * Der Tabellenname wird groß geschrieben und '.' durch '_' ersetzt,
+     * Der Tabellenname wird großgeschrieben und '.' durch '_' ersetzt,
      *
      * @param path {@link Path}
      *

@@ -18,8 +18,6 @@ public final class PoiExcelXlsxImpl extends AbstractPoiExcelImpl
     @Override
     protected Workbook openWorkbook(final InputStream inputStream) throws Exception
     {
-        Workbook workbook = new XSSFWorkbook(inputStream);
-
-        return workbook;
+        return new XSSFWorkbook(inputStream);
     }
 }

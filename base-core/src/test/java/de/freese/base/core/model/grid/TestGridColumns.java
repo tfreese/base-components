@@ -139,7 +139,7 @@ class TestGridColumns
         // long time = value.atZone(zoneId).toInstant().toEpochMilli();
         // LocalDateTime value = LocalDateTime.ofEpochSecond(time, 0, zoneOffset);
 
-        Function<Object, LocalDateTime> mapper = obj -> (LocalDateTime) obj;
+        Function<Object, LocalDateTime> mapper = LocalDateTime.class::cast;
 
         ThrowingBiConsumer<DataOutput, LocalDateTime, IOException> writer = (dataOutput, value) ->
         {
@@ -153,9 +153,8 @@ class TestGridColumns
             long time = dataInput.readLong();
 
             Instant instant = Instant.ofEpochMilli(time);
-            LocalDateTime value = LocalDateTime.ofInstant(instant, zoneId);
 
-            return value;
+            return LocalDateTime.ofInstant(instant, zoneId);
         };
 
         GenericGridColumn<LocalDateTime> column = new GenericGridColumn<>(LocalDateTime.class, mapper, writer, reader);
@@ -265,8 +264,6 @@ class TestGridColumns
             column.write(dos, object);
         }
 
-        byte[] bytes = baos.toByteArray();
-
-        return bytes;
+        return baos.toByteArray();
     }
 }

@@ -6,24 +6,24 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Entity Type
+ *
+ * @author Thomas Freese
  */
-public final class Values<T>
+public final class Values<T extends Comparable<?>>
 {
     /**
-    *
-    */
-    private LinkedList<T> newValues;
-    /**
-    *
-    */
+     *
+     */
     private final TreeSet<T> treeSet = new TreeSet<>();
     /**
-    *
-    */
+     *
+     */
     private final LinkedList<T> valueList = new LinkedList<>();
+    /**
+     *
+     */
+    private LinkedList<T> newValues;
 
     /**
      * @param value Object
@@ -86,9 +86,7 @@ public final class Values<T>
      */
     public T getMaxValue()
     {
-        T maxValue = getTreeSet().last();
-
-        return maxValue;
+        return getTreeSet().last();
     }
 
     /**
@@ -96,9 +94,7 @@ public final class Values<T>
      */
     public T getMinValue()
     {
-        T minValue = getTreeSet().first();
-
-        return minValue;
+        return getTreeSet().first();
     }
 
     /**

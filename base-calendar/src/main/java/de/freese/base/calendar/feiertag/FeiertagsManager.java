@@ -32,9 +32,7 @@ public final class FeiertagsManager
      */
     public Feiertag getFeiertag(final Calendar calendar)
     {
-        Feiertag feiertag = getFeiertag(calendar.getTime());
-
-        return feiertag;
+        return getFeiertag(calendar.getTime());
     }
 
     /**
@@ -48,9 +46,7 @@ public final class FeiertagsManager
     {
         LocalDate localDate = CalendarUtils.toLocalDate(date);
 
-        Feiertag feiertag = getFeiertag(localDate);
-
-        return feiertag;
+        return getFeiertag(localDate);
     }
 
     /**
@@ -65,9 +61,7 @@ public final class FeiertagsManager
     {
         LocalDate localDate = LocalDate.ofYearDay(jahr, tagDesJahres);
 
-        Feiertag feiertag = getFeiertag(localDate);
-
-        return feiertag;
+        return getFeiertag(localDate);
     }
 
     /**
@@ -103,9 +97,7 @@ public final class FeiertagsManager
      */
     public Feiertag getFeiertag(final LocalDate localDate)
     {
-        Feiertag feiertag = getFeiertag(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
-
-        return feiertag;
+        return getFeiertag(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
     }
 
     /**
@@ -117,9 +109,7 @@ public final class FeiertagsManager
      */
     public Feiertag getFeiertag(final LocalDateTime localDateTime)
     {
-        Feiertag feiertag = getFeiertag(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
-
-        return feiertag;
+        return getFeiertag(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
     }
 
     /**

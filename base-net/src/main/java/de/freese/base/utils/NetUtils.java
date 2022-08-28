@@ -22,25 +22,25 @@ public final class NetUtils
     /**
      * Wandelt die binäre IP-Adresse in ein lesbares Format um.
      *
-     * @param ipAddr byte[]
+     * @param ipAddress byte[]
      *
      * @return String
      */
-    public static String convertAddressToDotRepresentation(final byte[] ipAddr)
+    public static String convertAddressToDotRepresentation(final byte[] ipAddress)
     {
-        StringBuilder ipAddrStr = new StringBuilder();
+        StringBuilder ipAddressStr = new StringBuilder();
 
-        for (int i = 0; i < ipAddr.length; i++)
+        for (int i = 0; i < ipAddress.length; i++)
         {
             if (i > 0)
             {
-                ipAddrStr.append(".");
+                ipAddressStr.append(".");
             }
 
-            ipAddrStr.append(ipAddr[i] & 0xFF);
+            ipAddressStr.append(ipAddress[i] & 0xFF);
         }
 
-        return ipAddrStr.toString();
+        return ipAddressStr.toString();
     }
 
     /**

@@ -83,23 +83,17 @@ public class TestFrame extends JFrame
     {
         JCheckBox jCheckBoxButton1 = new JCheckBox("Right button");
         jCheckBoxButton1.addActionListener(event ->
-                {
-                    mouseGestures.setMouseButton(MouseEvent.BUTTON3_DOWN_MASK);
-                }
+                mouseGestures.setMouseButton(MouseEvent.BUTTON3_DOWN_MASK)
         );
 
         JCheckBox jCheckBoxButton2 = new JCheckBox("Middle button");
         jCheckBoxButton2.addActionListener(event ->
-                {
-                    mouseGestures.setMouseButton(MouseEvent.BUTTON2_DOWN_MASK);
-                }
+                mouseGestures.setMouseButton(MouseEvent.BUTTON2_DOWN_MASK)
         );
 
         JCheckBox jCheckBoxButton3 = new JCheckBox("Left button");
         jCheckBoxButton3.addActionListener(event ->
-                {
-                    mouseGestures.setMouseButton(MouseEvent.BUTTON1_DOWN_MASK);
-                }
+                mouseGestures.setMouseButton(MouseEvent.BUTTON1_DOWN_MASK)
         );
 
         ButtonGroup buttonGroup = new ButtonGroup();

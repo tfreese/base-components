@@ -149,10 +149,8 @@ final class MDIDesktopManager extends DefaultDesktopManager
      */
     private JScrollPane getScrollPane()
     {
-        if (this.desktop.getParent() instanceof JViewport v)
+        if (this.desktop.getParent() instanceof JViewport viewPort)
         {
-            JViewport viewPort = v;
-
             if (viewPort.getParent() instanceof JScrollPane p)
             {
                 return p;

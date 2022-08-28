@@ -59,9 +59,8 @@ public class ExcelPanel extends JPanel
     {
         ExcelSheetPanel selectedPanel = (ExcelSheetPanel) getJTabbedPane().getSelectedComponent();
         JTable table = selectedPanel.getTable();
-        String range = ExcelToolkit.getRange(table);
 
-        return range;
+        return ExcelToolkit.getRange(table);
     }
 
     /**

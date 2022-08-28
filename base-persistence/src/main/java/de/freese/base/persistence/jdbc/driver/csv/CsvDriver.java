@@ -47,7 +47,7 @@ public final class CsvDriver implements java.sql.Driver
 
             try
             {
-                // HSQLDB registrieren, ist bei JDBC 4.0 nicht mehr notwending.
+                // HSQLDB registrieren, ist bei JDBC 4.0 nicht mehr notwendig.
                 // Class.forName("org.hsqldb.jdbc.JDBCDriver");
 
                 // Den CsvDriver registrieren.
@@ -55,7 +55,6 @@ public final class CsvDriver implements java.sql.Driver
             }
             catch (Exception ex)
             {
-                @SuppressWarnings("resource")
                 PrintWriter writer = DriverManager.getLogWriter();
 
                 if (writer != null)

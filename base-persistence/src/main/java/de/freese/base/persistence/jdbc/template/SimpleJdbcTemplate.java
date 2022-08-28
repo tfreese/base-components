@@ -436,9 +436,9 @@ public class SimpleJdbcTemplate
 
     /**
      * Erzeugt über den {@link RowMapper} einen {@link Flux} aus Entities.<br>
-     * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Flux#doFinally}-Methode.<br>
+     * Das Schliessen der DB-Ressourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Flux#doFinally}-Methode.<br>
      * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Fluxes ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Resourcen geschlossen sind.<br>
+     * Eine Wiederverwendung des Fluxes ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Ressourcen geschlossen sind.<br>
      * Beispiel: <code>
      * <pre>
      * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
@@ -532,10 +532,10 @@ public class SimpleJdbcTemplate
 
     /**
      * Erzeugt einen {@link Publisher} aus dem {@link ResultSet}.<br>
-     * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der
+     * Das Schliessen der DB-Ressourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der
      * {@link ResultSetSubscription#closeJdbcResources}-Methode.<br>
      * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Publishers ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Resourcen geschlossen sind.<br>
+     * Eine Wiederverwendung des Publishers ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Ressourcen geschlossen sind.<br>
      * Beispiel: <code>
      * <pre>
      * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
@@ -606,7 +606,7 @@ public class SimpleJdbcTemplate
 
     /**
      * Erzeugt über den {@link RowMapper} einen {@link Stream} aus Entities.<br>
-     * Das Schliessen der DB-Resourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Stream#onClose}-Methode.<br>
+     * Das Schliessen der DB-Ressourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Stream#onClose}-Methode.<br>
      * Daher MUSS die {@link Stream#close}-Methode zwingend aufgerufen werden (try-resource).<br>
      * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
      * Beispiel: <code>
@@ -1127,8 +1127,8 @@ public class SimpleJdbcTemplate
      */
     protected boolean isBatchSupported(final Connection connection) throws SQLException
     {
-        DatabaseMetaData dbmd = connection.getMetaData();
+        DatabaseMetaData metaData = connection.getMetaData();
 
-        return dbmd.supportsBatchUpdates();
+        return metaData.supportsBatchUpdates();
     }
 }

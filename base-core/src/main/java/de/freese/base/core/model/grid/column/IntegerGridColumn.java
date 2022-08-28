@@ -59,9 +59,7 @@ public class IntegerGridColumn extends AbstractGridColumn<Integer>
     @Override
     protected Integer readNullSafe(final DataInput dataInput) throws IOException
     {
-        int value = dataInput.readInt();
-
-        return value;
+        return dataInput.readInt();
     }
 
     /**

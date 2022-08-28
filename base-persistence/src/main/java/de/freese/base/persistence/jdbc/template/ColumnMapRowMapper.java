@@ -80,14 +80,14 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
      */
     protected String[] getColumnNames(final ResultSet resultSet) throws SQLException
     {
-        ResultSetMetaData rsmd = resultSet.getMetaData();
-        int columnCount = rsmd.getColumnCount();
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnCount = metaData.getColumnCount();
 
         String[] names = new String[columnCount];
 
         for (int i = 0; i < columnCount; i++)
         {
-            String key = getColumnName(rsmd, i + 1);
+            String key = getColumnName(metaData, i + 1);
 
             names[i] = key;
         }

@@ -595,7 +595,7 @@ public interface ResourceMap
 
     /**
      * Load Resources if absent for {@link Locale}.<br>
-     * Calls the childs recursive.
+     * Calls the children recursive.
      *
      * @param locale {@link Locale}
      */

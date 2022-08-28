@@ -149,9 +149,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter
     protected float getYKoordinate(final float value, final float height)
     {
         // Prozent-Wert umrechnen.
-        float y = value * height;
-
-        return y;
+        return value * height;
     }
 
     /**

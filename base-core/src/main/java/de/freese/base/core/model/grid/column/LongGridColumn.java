@@ -59,9 +59,7 @@ public class LongGridColumn extends AbstractGridColumn<Long>
     @Override
     protected Long readNullSafe(final DataInput dataInput) throws IOException
     {
-        long value = dataInput.readLong();
-
-        return value;
+        return dataInput.readLong();
     }
 
     /**
