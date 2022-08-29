@@ -159,7 +159,8 @@ class TestEmbeddedDataBases
                     // INSERT INTO ... VALUES (next value FOR person_seq, ...);
 
                     case DERBY -> "values next value for person_seq";
-                    case H2, HSQL -> "call next value for person_seq";
+                    case H2 -> "select next value for person_seq";
+                    case HSQL -> "call next value for person_seq";
                 };
 
         String sqlDropSequence = switch (databaseType)
