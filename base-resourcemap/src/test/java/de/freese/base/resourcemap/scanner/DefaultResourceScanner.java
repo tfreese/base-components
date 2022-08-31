@@ -146,7 +146,7 @@ public class DefaultResourceScanner implements ResourceScanner
                 }
                 catch (IOException ex)
                 {
-                    DefaultResourceScanner.LOGGER.error(null, ex);
+                    DefaultResourceScanner.LOGGER.error(ex.getMessage(), ex);
                 }
             }
         }
@@ -173,7 +173,7 @@ public class DefaultResourceScanner implements ResourceScanner
         }
         catch (IOException ex)
         {
-            LOGGER.error(null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         if (zf == null)
@@ -203,7 +203,7 @@ public class DefaultResourceScanner implements ResourceScanner
         }
         catch (IOException ex)
         {
-            DefaultResourceScanner.LOGGER.error(null, ex);
+            DefaultResourceScanner.LOGGER.error(ex.getMessage(), ex);
         }
 
         return resources;

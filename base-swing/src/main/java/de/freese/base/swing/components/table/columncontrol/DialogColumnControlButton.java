@@ -271,7 +271,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
                 // }
                 // catch (Exception ex)
                 // {
-                // LoggerFactory.getLogger(getClass()).error(null, ex);
+                // LoggerFactory.getLogger(getClass()).error(ex.getMessage(), ex);
                 // }
             }
         };

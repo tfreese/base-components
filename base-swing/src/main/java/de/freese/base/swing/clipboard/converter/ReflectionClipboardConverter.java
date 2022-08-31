@@ -43,9 +43,9 @@ public class ReflectionClipboardConverter extends AbstractClipboardConverter
             return con.newInstance(value);
         }
         catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException ex)
+               | InvocationTargetException ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
 
             return null;
         }

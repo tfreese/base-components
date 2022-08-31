@@ -180,7 +180,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
         // 2 dim String Array der Werte aufbauen
         String[][] matrix = getPasteMatrix(clipboardString);

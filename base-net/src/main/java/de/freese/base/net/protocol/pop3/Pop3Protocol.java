@@ -148,7 +148,7 @@ public class Pop3Protocol extends AbstractProtocol
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
     }
 
@@ -192,7 +192,7 @@ public class Pop3Protocol extends AbstractProtocol
             }
             catch (Exception ex)
             {
-                getLogger().error(null, ex);
+                getLogger().error(ex.getMessage(), ex);
             }
         }
 

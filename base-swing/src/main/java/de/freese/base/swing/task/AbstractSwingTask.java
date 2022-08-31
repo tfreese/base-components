@@ -346,7 +346,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     // */
     // protected void interrupted(final InterruptedException ex)
     // {
-    // getLogger().error(null, ex);
+    // getLogger().error(ex.getMessage(), ex);
     // }
 
     /**
@@ -408,7 +408,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      */
     protected void failed(final Throwable cause)
     {
-        getLogger().error(null, cause);
+        getLogger().error(cause.getMessage(), cause);
     }
 
     /**

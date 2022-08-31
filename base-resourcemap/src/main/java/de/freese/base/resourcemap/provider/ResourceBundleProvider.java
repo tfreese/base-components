@@ -45,7 +45,7 @@ public final class ResourceBundleProvider implements ResourceProvider
         }
         catch (Exception ex)
         {
-            LOGGER.error(null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         return bundles;

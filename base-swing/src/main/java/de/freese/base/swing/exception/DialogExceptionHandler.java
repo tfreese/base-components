@@ -36,7 +36,7 @@ public class DialogExceptionHandler extends DefaultExceptionHandler
     @Override
     public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translatorAdapter)
     {
-        logger.error(null, throwable);
+        logger.error(throwable.getMessage(), throwable);
 
         String message = getTranslatedMessage(throwable, translatorAdapter);
 

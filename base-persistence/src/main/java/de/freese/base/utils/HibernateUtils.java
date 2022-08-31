@@ -339,7 +339,7 @@ public final class HibernateUtils
     {
         if (logger != null)
         {
-            logger.error(null, th);
+            logger.error(th.getMessage(), th);
         }
     }
 

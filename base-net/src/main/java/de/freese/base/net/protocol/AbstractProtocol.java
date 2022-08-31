@@ -49,7 +49,7 @@ public abstract class AbstractProtocol
         }
         catch (NoSuchAlgorithmException ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
 
         return null;

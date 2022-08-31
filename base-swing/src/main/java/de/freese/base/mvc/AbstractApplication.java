@@ -102,7 +102,7 @@ public abstract class AbstractApplication
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
 
         for (Controller controller : getControllers())
@@ -171,7 +171,7 @@ public abstract class AbstractApplication
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
 
         getLogger().info("Initialize System LookAndFeel");
@@ -222,7 +222,7 @@ public abstract class AbstractApplication
                 // }
                 // catch (Exception ex)
                 // {
-                // getLogger().error(null, ex);
+                // getLogger().error(ex.getMessage(), ex);
                 // }
 
                 try
@@ -231,7 +231,7 @@ public abstract class AbstractApplication
                 }
                 catch (Exception ex)
                 {
-                    getLogger().error(null, ex);
+                    getLogger().error(ex.getMessage(), ex);
                 }
             }
         };

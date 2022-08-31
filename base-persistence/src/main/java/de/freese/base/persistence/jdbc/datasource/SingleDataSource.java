@@ -78,7 +78,7 @@ public class SingleDataSource implements DataSource, AutoCloseable
         }
         catch (Exception th)
         {
-            LOGGER.error(null, th);
+            LOGGER.error(th.getMessage(), th);
         }
     }
 

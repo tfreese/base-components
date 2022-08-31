@@ -65,7 +65,7 @@ public class SpringResourceScanner implements ResourceScanner
         }
         catch (Exception ex)
         {
-            LOGGER.error(null, ex);
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         return Collections.emptySet();

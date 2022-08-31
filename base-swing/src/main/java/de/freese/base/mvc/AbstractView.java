@@ -3,11 +3,10 @@ package de.freese.base.mvc;
 import java.awt.Component;
 import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.exception.SwingExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * BasisImplementierung einer IView.
@@ -19,18 +18,18 @@ public abstract class AbstractView implements View
     /**
      *
      */
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    /**
+     *
+     */
     private Component component;
     /**
      *
      */
     private ApplicationContext context;
     /**
-    *
-    */
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-    *
-    */
+     *
+     */
     private ResourceMap resourceMap;
 
     /**
@@ -43,34 +42,6 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * Liefert den {@link ApplicationContext} dieser View.
-     *
-     * @return {@link ApplicationContext}
-     */
-    protected ApplicationContext getContext()
-    {
-        return this.context;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * Liefert die {@link ResourceMap} dieser View.
-     *
-     * @return {@link ResourceMap}
-     */
-    protected ResourceMap getResourceMap()
-    {
-        return this.resourceMap;
-    }
-
-    /**
      * @see de.freese.base.mvc.View#handleException(java.lang.Throwable)
      */
     @Override
@@ -80,7 +51,7 @@ public abstract class AbstractView implements View
 
         exceptionHandler.handleException(throwable, getLogger(), getComponent(), (key, args) -> getResourceMap().getString(key, args));
 
-        // getLogger().error(null, throwable);
+        // getLogger().error(throwable.getMessage(), throwable);
         //
         // // Dialoge sollten nicht die Tasks blockieren bei Fehlermeldungen
         // SwingUtilities.invokeLater(new Runnable()
@@ -116,14 +87,6 @@ public abstract class AbstractView implements View
     }
 
     /**
-     * @param component {@link Component}
-     */
-    protected void setComponent(final Component component)
-    {
-        this.component = Objects.requireNonNull(component, "component required");
-    }
-
-    /**
      * Setzt den {@link ApplicationContext} dieser View
      *
      * @param context {@link ApplicationContext}
@@ -141,5 +104,41 @@ public abstract class AbstractView implements View
     void setResourceMap(final ResourceMap resourceMap)
     {
         this.resourceMap = resourceMap;
+    }
+
+    /**
+     * Liefert den {@link ApplicationContext} dieser View.
+     *
+     * @return {@link ApplicationContext}
+     */
+    protected ApplicationContext getContext()
+    {
+        return this.context;
+    }
+
+    /**
+     * @return {@link Logger}
+     */
+    protected Logger getLogger()
+    {
+        return this.logger;
+    }
+
+    /**
+     * Liefert die {@link ResourceMap} dieser View.
+     *
+     * @return {@link ResourceMap}
+     */
+    protected ResourceMap getResourceMap()
+    {
+        return this.resourceMap;
+    }
+
+    /**
+     * @param component {@link Component}
+     */
+    protected void setComponent(final Component component)
+    {
+        this.component = Objects.requireNonNull(component, "component required");
     }
 }

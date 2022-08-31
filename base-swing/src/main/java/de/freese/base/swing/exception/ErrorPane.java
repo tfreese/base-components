@@ -446,7 +446,7 @@ public final class ErrorPane extends JPanel
                 }
                 catch (Exception ex)
                 {
-                    LoggerFactory.getLogger(getClass()).error(null, ex);
+                    LoggerFactory.getLogger(getClass()).error(ex.getMessage(), ex);
                 }
 
                 ErrorPane.this.buttonSend.setEnabled(false);

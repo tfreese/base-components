@@ -2,11 +2,10 @@ package de.freese.base.swing.exception;
 
 import java.awt.Component;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.core.exception.AbstractValidationException;
 import de.freese.base.core.i18n.Translator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default Implementierung des ExceptionHandlers.
@@ -23,6 +22,46 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
      *
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    /**
+     * @see de.freese.base.core.function.ExceptionHandler#handle(java.lang.Exception)
+     */
+    @Override
+    public void handle(final Exception ex)
+    {
+        handleException(ex, getLogger());
+    }
+
+    /**
+     * @see de.freese.base.swing.exception.SwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger)
+     */
+    @Override
+    public void handleException(final Throwable throwable, final Logger logger)
+    {
+        handleException(throwable, logger, null);
+    }
+
+    /**
+     * @see de.freese.base.swing.exception.SwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger, java.awt.Component)
+     */
+    @Override
+    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent)
+    {
+        handleException(throwable, logger, parentComponent, null);
+    }
+
+    /**
+     * @see de.freese.base.swing.exception.SwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger, java.awt.Component,
+     * de.freese.base.core.i18n.Translator)
+     */
+    @Override
+    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translator)
+    {
+        String message = getTranslatedMessage(throwable, translator);
+
+        logger.error(message);
+        logger.error(throwable.getMessage(), throwable);
+    }
 
     /**
      * @return {@link Logger}
@@ -70,45 +109,5 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
         }
 
         return message;
-    }
-
-    /**
-     * @see de.freese.base.core.function.ExceptionHandler#handle(java.lang.Exception)
-     */
-    @Override
-    public void handle(final Exception ex)
-    {
-        handleException(ex, getLogger());
-    }
-
-    /**
-     * @see de.freese.base.swing.exception.SwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger)
-     */
-    @Override
-    public void handleException(final Throwable throwable, final Logger logger)
-    {
-        handleException(throwable, logger, null);
-    }
-
-    /**
-     * @see de.freese.base.swing.exception.SwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger, java.awt.Component)
-     */
-    @Override
-    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent)
-    {
-        handleException(throwable, logger, parentComponent, null);
-    }
-
-    /**
-     * @see de.freese.base.swing.exception.SwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger, java.awt.Component,
-     *      de.freese.base.core.i18n.Translator)
-     */
-    @Override
-    public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translator)
-    {
-        String message = getTranslatedMessage(throwable, translator);
-
-        logger.error(message);
-        logger.error(null, throwable);
     }
 }

@@ -161,7 +161,7 @@ class DefaultResourceMap implements ResourceMap
             }
             catch (Exception ex)
             {
-                getLogger().error(null, ex);
+                getLogger().error(ex.getMessage(), ex);
             }
         }
         else

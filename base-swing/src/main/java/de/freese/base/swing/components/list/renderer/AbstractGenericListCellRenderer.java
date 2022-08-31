@@ -86,7 +86,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
                 }
                 catch (Exception ex2)
                 {
-                    getLogger().error(null, ex2);
+                    getLogger().error(ex2.getMessage(), ex2);
 
                     label.setText("Unknown Attribute: " + this.attribute);
                 }

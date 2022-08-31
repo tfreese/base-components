@@ -70,7 +70,7 @@ public class DemoApplication extends AbstractApplication
             }
             catch (Exception ex)
             {
-                getLogger().error(null, ex);
+                getLogger().error(ex.getMessage(), ex);
             }
         }
     }
@@ -164,7 +164,7 @@ public class DemoApplication extends AbstractApplication
         }
         catch (Exception ex)
         {
-            getLogger().error(null, ex);
+            getLogger().error(ex.getMessage(), ex);
         }
 
         frame.setVisible(true);

@@ -21,27 +21,6 @@ public abstract class AbstractTextFieldFilter extends AbstractFilter implements 
     }
 
     /**
-     * Ermittelt den aktuellen Text aus dem {@link Document}.
-     * 
-     * @param event {@link DocumentEvent}
-     */
-    private void handleDocumentEvent(final DocumentEvent event)
-    {
-        Document document = event.getDocument();
-        String newValue = null;
-
-        try
-        {
-            newValue = document.getText(0, document.getLength());
-            setFilterValue(newValue);
-        }
-        catch (Exception ex)
-        {
-            getLogger().error(null, ex);
-        }
-    }
-
-    /**
      * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
      */
     @Override
@@ -57,5 +36,26 @@ public abstract class AbstractTextFieldFilter extends AbstractFilter implements 
     public void removeUpdate(final DocumentEvent e)
     {
         handleDocumentEvent(e);
+    }
+
+    /**
+     * Ermittelt den aktuellen Text aus dem {@link Document}.
+     *
+     * @param event {@link DocumentEvent}
+     */
+    private void handleDocumentEvent(final DocumentEvent event)
+    {
+        Document document = event.getDocument();
+        String newValue = null;
+
+        try
+        {
+            newValue = document.getText(0, document.getLength());
+            setFilterValue(newValue);
+        }
+        catch (Exception ex)
+        {
+            getLogger().error(ex.getMessage(), ex);
+        }
     }
 }

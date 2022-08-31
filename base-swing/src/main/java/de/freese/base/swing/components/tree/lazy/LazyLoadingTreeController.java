@@ -170,7 +170,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
                 }
                 catch (Exception ex)
                 {
-                    getLogger().error(null, ex);
+                    getLogger().error(ex.getMessage(), ex);
                 }
                 finally
                 {
