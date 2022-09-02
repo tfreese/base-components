@@ -667,11 +667,11 @@ class PGPCryptoBC
         {
             PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
-            Iterator<PGPPublicKeyRing> iteratorKeyrings = pubRings.getKeyRings();
+            Iterator<PGPPublicKeyRing> iteratorKeyring = pubRings.getKeyRings();
 
-            while (iteratorKeyrings.hasNext())
+            while (iteratorKeyring.hasNext())
             {
-                PGPPublicKeyRing pgpPub = iteratorKeyrings.next();
+                PGPPublicKeyRing pgpPub = iteratorKeyring.next();
 
                 Iterator<PGPPublicKey> iteratorPublicKeys = pgpPub.getPublicKeys();
 

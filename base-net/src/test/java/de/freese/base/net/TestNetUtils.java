@@ -52,7 +52,7 @@ class TestNetUtils
         //
         // ProxySelector.getDefault().select(new URI("http://www.yahoo.com"));
         //
-        // Use the default network proxies configured in the sytem.
+        // Use the default network proxies configured in the system.
         // System.setProperty("java.net.useSystemProxies", "true");
         // Proxy konfigurieren.
         // System.setProperty("proxySet", "true");

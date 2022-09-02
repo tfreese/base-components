@@ -14,19 +14,19 @@ import org.slf4j.LoggerFactory;
 /**
  * {@link Subscriber} der die Objekte in Blöcken anfordert.
  *
- * @author Thomas Freese
- *
  * @param <T> Entity-Type
+ *
+ * @author Thomas Freese
  */
 public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
 {
     /**
-    *
-    */
+     *
+     */
     private static final int DEFAULT_FETCH_SIZE = 100;
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);
     /**
      *
@@ -45,8 +45,8 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
      */
     private final int fetchSize;
     /**
-    *
-    */
+     *
+     */
     private Subscription subscription;
 
     /**
@@ -94,7 +94,7 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
     @Override
     public void onError(final Throwable throwable)
     {
-        throwable.printStackTrace();
+        LOGGER.error(throwable.getMessage(), throwable);
 
         // Wird bereits in der ResultSetSubscription verarbeitet.
         // this.subscription.cancel();

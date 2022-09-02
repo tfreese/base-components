@@ -245,7 +245,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
         super.setVisible(flag);
 
-        // Ueber setVisible den Timer der Childs beenden, falls implementiert
+        // Über setVisible den Timer der Children beenden, falls implementiert
         for (Component child : getComponents())
         {
             child.setVisible(flag);
@@ -257,7 +257,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     // */
     // protected void paintChildren(Graphics g)
     // {
-    // // Die Children werden in der tranzparenz der Glass-pane gezeichnet,
+    // // Die Children werden in der transparenz der Glass-pane gezeichnet,
     // deswegen
     // // wird paintChildren(Graphics) am Ende der paintComponent(Graphics)
     // aufgerufen.
@@ -292,14 +292,14 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
             this.animateTimer.stop();
         }
 
-        // Compositewert auf default für Children
+        // Composite-Wert auf default für Children
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // 1));
         // super.paintChildren(g);
     }
 
     /**
-     * Liefert die JMmenuBar, wenn sie in der DispatchList enthalten ist.
+     * Liefert die JMenuBar, wenn sie in der DispatchList enthalten ist.
      *
      * @return {@link JMenuBar}
      */

@@ -38,14 +38,14 @@ public class ExtComboBox<T> extends JComboBox<T>
      *
      * @author Thomas Freese
      */
-    private static class AutowidthComboBoxUI<T> extends MetalComboBoxUI
+    private static class AutoWidthComboBoxUI<T> extends MetalComboBoxUI
     {
         /**
          * Popup mit automatischer Grösse.
          *
          * @author Thomas Freese
          */
-        protected class AutowidthComboPopup extends BasicComboPopup
+        protected class AutoWidthComboPopup extends BasicComboPopup
         {
             /**
              *
@@ -54,12 +54,12 @@ public class ExtComboBox<T> extends JComboBox<T>
             private static final long serialVersionUID = 5619503805323024632L;
 
             /**
-             * Erstellt ein neues {@link AutowidthComboPopup} Objekt.
+             * Erstellt ein neues {@link AutoWidthComboPopup} Objekt.
              *
              * @param comboBox {@link JComboBox}
              */
             @SuppressWarnings("unchecked")
-            public AutowidthComboPopup(final JComboBox<T> comboBox)
+            public AutoWidthComboPopup(final JComboBox<T> comboBox)
             {
                 super((JComboBox<Object>) comboBox);
             }
@@ -137,7 +137,7 @@ public class ExtComboBox<T> extends JComboBox<T>
         @Override
         protected ComboPopup createPopup()
         {
-            BasicComboPopup popup = new AutowidthComboPopup((JComboBox<T>) this.comboBox);
+            BasicComboPopup popup = new AutoWidthComboPopup((JComboBox<T>) this.comboBox);
             popup.getAccessibleContext().setAccessibleParent(this.comboBox);
 
             return popup;
@@ -242,7 +242,7 @@ public class ExtComboBox<T> extends JComboBox<T>
      */
     private void initialize()
     {
-        setUI(new AutowidthComboBoxUI<T>());
+        setUI(new AutoWidthComboBoxUI<T>());
         setKeySelectionManager(new RendererKeySelectionManager(this));
     }
 }

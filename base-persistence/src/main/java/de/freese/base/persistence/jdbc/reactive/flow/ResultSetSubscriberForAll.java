@@ -12,15 +12,15 @@ import org.slf4j.LoggerFactory;
 /**
  * {@link Subscriber} der alle Objekte auf einmal anfordert.
  *
- * @author Thomas Freese
- *
  * @param <T> Entity-Type
+ *
+ * @author Thomas Freese
  */
 public class ResultSetSubscriberForAll<T> implements Subscriber<T>
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForAll.class);
     /**
      *
@@ -54,7 +54,7 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T>
     @Override
     public void onError(final Throwable throwable)
     {
-        throwable.printStackTrace();
+        LOGGER.error(throwable.getMessage(), throwable);
 
         // Wird bereits in der ResultSetSubscription verarbeitet.
         // this.subscription.cancel();

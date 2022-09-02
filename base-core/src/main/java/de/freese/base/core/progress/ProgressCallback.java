@@ -1,7 +1,7 @@
 package de.freese.base.core.progress;
 
 /**
- * Interface für einen Progressverlauf.
+ * Interface für einen Progress-Verlauf.
  *
  * @author Thomas Freese
  */

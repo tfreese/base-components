@@ -82,12 +82,12 @@ public class CryptoSymetric extends AbstractCrypto
     @Override
     protected Cipher createCipherDecrypt() throws Exception
     {
-        if (getConfig().getAlgorythmCipher().contains("/GCM/"))
+        if (getConfig().getAlgorithmCipher().contains("/GCM/"))
         {
             // GCM braucht speziellen ParameterSpec.
             final AlgorithmParameterSpec parameterSpec = new GCMParameterSpec(128, getConfig().getInitVector());
 
-            Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorythmCipher(), getConfig().getProviderCipher());
+            Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
             cipherDecrypt.init(Cipher.DECRYPT_MODE, getKey(), parameterSpec, getSecureRandom());
 
             return cipherDecrypt;
@@ -104,7 +104,7 @@ public class CryptoSymetric extends AbstractCrypto
             parameterSpec = new IvParameterSpec(getConfig().getInitVector());
         }
 
-        Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorythmCipher(), getConfig().getProviderCipher());
+        Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherDecrypt.init(Cipher.DECRYPT_MODE, getKey(), parameterSpec, getSecureRandom());
 
         return cipherDecrypt;
@@ -116,12 +116,12 @@ public class CryptoSymetric extends AbstractCrypto
     @Override
     protected Cipher createCipherEncrypt() throws Exception
     {
-        if (getConfig().getAlgorythmCipher().contains("/GCM/"))
+        if (getConfig().getAlgorithmCipher().contains("/GCM/"))
         {
             // GCM braucht speziellen ParameterSpec.
             final AlgorithmParameterSpec parameterSpec = new GCMParameterSpec(128, getConfig().getInitVector());
 
-            Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorythmCipher(), getConfig().getProviderCipher());
+            Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
             cipherEncrypt.init(Cipher.ENCRYPT_MODE, getKey(), parameterSpec, getSecureRandom());
 
             return cipherEncrypt;
@@ -138,7 +138,7 @@ public class CryptoSymetric extends AbstractCrypto
             parameterSpec = new IvParameterSpec(getConfig().getInitVector());
         }
 
-        Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorythmCipher(), getConfig().getProviderCipher());
+        Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherEncrypt.init(Cipher.ENCRYPT_MODE, getKey(), parameterSpec, getSecureRandom());
 
         return cipherEncrypt;

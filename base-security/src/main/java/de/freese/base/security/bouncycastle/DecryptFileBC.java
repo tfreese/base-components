@@ -267,7 +267,7 @@ public class DecryptFileBC
                 if (LOGGER.isInfoEnabled())
                 {
                     LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
-                    LOGGER.info("Key Endcoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
+                    LOGGER.info("Key Encoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
                 }
 
                 // Now retrieve the certificate chain for this key.

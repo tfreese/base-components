@@ -68,7 +68,7 @@ public final class StringUtils
     }
 
     /**
-     * Fügt vor und nach dem ersten Eintrag der Liste eine Trenn-Linie ein.<br>
+     * Fügt vor und nach dem ersten Eintrag der Liste eine Trennlinie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      *
      * @param <T> Konkreter Typ
@@ -867,7 +867,7 @@ public final class StringUtils
     }
 
     /**
-     * Konvertiert mehrzeiligen Text in einen zeiligen Text.<br>
+     * Konvertiert mehrzeiligen Text in einen einzeiligen Text.<br>
      *
      * @param text String
      *

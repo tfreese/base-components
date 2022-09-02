@@ -231,7 +231,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
                     if (button != null)
                     {
                         // Für den Tooltip
-                        // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierachie
+                        // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierarchie
                         // hängt, sondern nur gerendert wird.
                         // MouseEvent evt =
                         // new MouseEvent(

@@ -1,8 +1,6 @@
 package de.freese.base.calendar.feiertag;
 
 /**
- * Representiert einen Feiertag.
- *
  * @author Thomas Freese
  */
 public class Feiertag

@@ -60,10 +60,10 @@ class TestCrypto
              .providerCipher("SunJCE")
              .providerKeyGenerator("SunRsaSign")
              .providerSignature("SunRsaSign")
-             .algorythmCipher("RSA/ECB/NoPadding")
-             .algorythmDigest("SHA-512")
-             .algorythmKeyGenerator("RSA")
-             .algorythmSignature("SHA512withRSA")
+             .algorithmCipher("RSA/ECB/NoPadding")
+             .algorithmDigest("SHA-512")
+             .algorithmKeyGenerator("RSA")
+             .algorithmSignature("SHA512withRSA")
              .keySize(4096)
              .build()
              ;
@@ -87,9 +87,9 @@ class TestCrypto
         // @formatter:off
          Crypto crypto = CryptoConfig.asymetric()
              .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
-             .algorythmCipher("RSA/ECB/NoPadding")
-             .algorythmKeyGenerator("RSA")
-             .algorythmSignature("SHA512withRSA")
+             .algorithmCipher("RSA/ECB/NoPadding")
+             .algorithmKeyGenerator("RSA")
+             .algorithmSignature("SHA512withRSA")
              .keySize(4096)
              .build()
              ;
@@ -108,8 +108,8 @@ class TestCrypto
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
             //.providerDefault("SunJCE")
-            .algorythmDefault("AES")
-            .algorythmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
+            .algorithmDefault("AES")
+            .algorithmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
             .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 16))
             .keySize(256)
             .build()
@@ -134,8 +134,8 @@ class TestCrypto
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
             .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
-            .algorythmDefault("PBEWITHSHA256AND256BITAES-CBC-BC")
-            .algorythmKeyGenerator("AES")
+            .algorithmDefault("PBEWITHSHA256AND256BITAES-CBC-BC")
+            .algorithmKeyGenerator("AES")
             .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
             .keySize(4096)
 //            .keyPassword("gehaim")
@@ -155,8 +155,8 @@ class TestCrypto
     {
         // @formatter:off
          Crypto crypto = CryptoConfig.symetric()
-             .algorythmDefault("AES")
-             .algorythmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
+             .algorithmDefault("AES")
+             .algorithmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
              .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
              .keySize(256)
              .build()
@@ -215,8 +215,8 @@ class TestCrypto
     {
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
-            .algorythmDefault("Blowfish")
-            .algorythmCipher("Blowfish/CBC/PKCS5Padding")
+            .algorithmDefault("Blowfish")
+            .algorithmCipher("Blowfish/CBC/PKCS5Padding")
             .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 8))
             .keySize(448)
             .build()
@@ -235,8 +235,8 @@ class TestCrypto
     {
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
-            .algorythmDefault("DES")
-            .algorythmCipher("DES/CBC/PKCS5Padding")
+            .algorithmDefault("DES")
+            .algorithmCipher("DES/CBC/PKCS5Padding")
             .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 8))
             .keySize(56)
             .build()
@@ -308,9 +308,9 @@ class TestCrypto
 
             bais.reset();
 
-            try (ByteArrayInputStream baisSig = new ByteArrayInputStream(sig))
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig))
             {
-                boolean verified = crypto.verify(bais, baisSig);
+                boolean verified = crypto.verify(bais, inputStream);
                 assertTrue(verified, "Wrong Signature");
             }
         }

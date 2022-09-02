@@ -47,7 +47,7 @@ abstract class AbstractCrypto implements Crypto
         this.config = Objects.requireNonNull(cryptoConfig, "cryptoConfig required");
 
         // SecureRandom ist ThreadSafe.
-        this.secureRandom = SecureRandom.getInstance(this.config.getAlgorythmSecureRandom(), this.config.getProviderSecureRandom());
+        this.secureRandom = SecureRandom.getInstance(this.config.getAlgorithmSecureRandom(), this.config.getProviderSecureRandom());
     }
 
     /**
@@ -169,7 +169,7 @@ abstract class AbstractCrypto implements Crypto
      */
     protected MessageDigest createMessageDigest() throws Exception
     {
-        return MessageDigest.getInstance(getConfig().getAlgorythmDigest(), getConfig().getProviderDigest());
+        return MessageDigest.getInstance(getConfig().getAlgorithmDigest(), getConfig().getProviderDigest());
     }
 
     /**
@@ -281,7 +281,7 @@ abstract class AbstractCrypto implements Crypto
             signature.update(buffer, 0, numRead);
         }
 
-        // Bei einer RSA Keysize von 4096 wird die Blocksize 512 betragen (4096/8).
+        // Bei einer RSA KeySize von 4096 wird die BlockSize 512 betragen (4096/8).
         byte[] sig = signature.sign();
         out.write(sig);
 
@@ -309,7 +309,7 @@ abstract class AbstractCrypto implements Crypto
             signature.update(buffer, 0, numRead);
         }
 
-        // Bei einer RSA Keysize von 4096 wird die Blocksize 512 betragen (4096/8).
+        // Bei einer RSA KeySize von 4096 wird die BlockSize 512 betragen (4096/8).
         byte[] sig = null;
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream())

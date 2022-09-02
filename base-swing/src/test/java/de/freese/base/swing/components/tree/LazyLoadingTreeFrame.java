@@ -128,8 +128,6 @@ public class LazyLoadingTreeFrame extends JFrame
                     {
                         controller.awaitChildNodes();
 
-                        System.out.println();
-
                         parent = tree.getModel().getChild(parent, index);
 
                         if (parent == null)

@@ -140,10 +140,10 @@ class TestCsvDriver
         // Layout
         file1.append(";ignore_first=true"); // Header
         file1.append(",fs=\\semi"); // Field Separator
-        file1.append(",all_quoted=true"); // Daten in Doublequotes
+        file1.append(",all_quoted=true"); // Daten in DoubleQuotes
         file1.append(",encoding=UTF-8");
         file1.append(",cache_rows=10000"); // max. n Zeilen im Cache
-        file1.append(",cache_size=1024"); // max. Cachegröße in kB
+        file1.append(",cache_size=1024"); // max. CacheGröße in kB
         file1.append("]");
 
         try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1);
@@ -178,10 +178,10 @@ class TestCsvDriver
         // Layout
         file1.append(";ignore_first=true"); // Header
         file1.append(",fs=\\semi"); // Field Separator
-        file1.append(",all_quoted=true"); // Daten in Doublequotes
+        file1.append(",all_quoted=true"); // Daten in DoubleQuotes
         file1.append(",encoding=UTF-8");
         file1.append(",cache_rows=10000"); // max. n Zeilen im Cache
-        file1.append(",cache_size=1024"); // max. Cachegröße in kB
+        file1.append(",cache_size=1024"); // max. CacheGröße in kB
         file1.append("]");
 
         StringBuilder file2 = new StringBuilder();

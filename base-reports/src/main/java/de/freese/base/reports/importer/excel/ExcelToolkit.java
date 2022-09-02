@@ -26,11 +26,11 @@ public final class ExcelToolkit
     }
 
     /**
-     * Liefert die Spaltenamen, zB 2 -> B.
+     * Liefert die Spaltennamen, zB 2 -> B.
      *
      * @param column int
      *
-     * @return Spaltenname als Excel Spaltename
+     * @return Spaltenname als Excel Spaltenname
      */
     public static String getColumnName(final int column)
     {
@@ -172,7 +172,7 @@ public final class ExcelToolkit
 
         if (columnStartNumber == columnEndNumber)
         {
-            // Eine Spalte selekiert, d.h. mehrere Zeilen
+            // Eine Spalte selektiert, d.h. mehrere Zeilen
             return (rowEndNumber - rowStartNumber) + 1;
         }
         else if (rowEndNumber == rowStartNumber)
@@ -226,40 +226,40 @@ public final class ExcelToolkit
         StringTokenizer tokenizer = new StringTokenizer(value, ":");
         String start = tokenizer.nextToken();
         String end = tokenizer.nextToken();
-        StringBuilder rowbuf = new StringBuilder();
-        StringBuilder colbuf = new StringBuilder();
+        StringBuilder rowBuf = new StringBuilder();
+        StringBuilder colBuf = new StringBuilder();
 
         for (int i = 0; i < start.length(); i++)
         {
             if (!Character.isDigit(start.charAt(i)))
             {
-                colbuf.append(start.charAt(i));
+                colBuf.append(start.charAt(i));
             }
             else
             {
-                rowbuf.append(start.charAt(i));
+                rowBuf.append(start.charAt(i));
             }
         }
 
-        String rowStart = rowbuf.toString();
-        String colStart = colbuf.toString();
-        rowbuf = new StringBuilder();
-        colbuf = new StringBuilder();
+        String rowStart = rowBuf.toString();
+        String colStart = colBuf.toString();
+        rowBuf = new StringBuilder();
+        colBuf = new StringBuilder();
 
         for (int i = 0; i < end.length(); i++)
         {
             if (!Character.isDigit(end.charAt(i)))
             {
-                colbuf.append(end.charAt(i));
+                colBuf.append(end.charAt(i));
             }
             else
             {
-                rowbuf.append(end.charAt(i));
+                rowBuf.append(end.charAt(i));
             }
         }
 
-        String rowEnd = rowbuf.toString();
-        String colEnd = colbuf.toString();
+        String rowEnd = rowBuf.toString();
+        String colEnd = colBuf.toString();
 
         return (!rowStart.equals(rowEnd)) && (!colStart.equals(colEnd));
     }

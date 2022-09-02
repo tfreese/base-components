@@ -56,7 +56,7 @@ public class ExcelSheetTableModel extends AbstractTableModel
             return " ";
         }
 
-        // -1: Damit zweite Spalte mit A anfaengt.
+        // -1: Damit zweite Spalte mit A anfängt.
         return super.getColumnName(column - 1);
     }
 

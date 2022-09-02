@@ -52,17 +52,17 @@ public class EncryptFileBC
     /**
      * Verschlüsselt die Datei mit einem {@link X509Certificate}.
      *
-     * @param decrytpedFile String
+     * @param decryptedFile String
      * @param encryptedFile String
      * @param zertifikatFile String
      *
      * @throws Exception Falls was schiefgeht.
      */
-    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String zertifikatFile) throws Exception
+    public void encryptX509File(final String decryptedFile, final String encryptedFile, final String zertifikatFile) throws Exception
     {
         X509Certificate cert = getCertificate(zertifikatFile);
 
-        encryptX509File(decrytpedFile, encryptedFile, cert);
+        encryptX509File(decryptedFile, encryptedFile, cert);
     }
 
     /**

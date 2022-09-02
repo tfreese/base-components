@@ -391,8 +391,8 @@ public final class ExtMath
 
                 long root = (long) Math.sqrt(number);
 
-                // Zahl finden, deren Quadrat etwas groesser
-                // ist, als die zu pruefende Zahl
+                // Zahl finden, deren Quadrat etwas grösser
+                // ist, als die zu prüfende Zahl
                 if ((root % 2) == 0)
                 {
                     root++;

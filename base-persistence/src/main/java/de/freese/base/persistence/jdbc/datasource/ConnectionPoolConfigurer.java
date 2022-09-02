@@ -236,7 +236,7 @@ public final class ConnectionPoolConfigurer
         // Jede Query bei Langläufern setzt den Abandon-Timer zurück.
         jdbcInterceptors += "org.apache.tomcat.jdbc.pool.interceptor.ResetAbandonedTimer;";
 
-        // Schliesst alle Statments die durch createStatement, prepareStatement oder prepareCall erzeugt wurden, falls nötig.
+        // Schliesst alle Statements die durch createStatement, prepareStatement oder prepareCall erzeugt wurden, falls nötig.
         jdbcInterceptors += "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer";
 
         poolProperties.setJdbcInterceptors(jdbcInterceptors);

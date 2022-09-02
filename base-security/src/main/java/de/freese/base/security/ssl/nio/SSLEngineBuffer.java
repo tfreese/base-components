@@ -241,7 +241,7 @@ class SSLEngineBuffer
                 {
                     if ((read < 0) && (readFromChannel == 0) && (totalReadFromChannel == 0))
                     {
-                        // No work done and we've reached the end of the channel from peer
+                        // No work done and we've reached the end of the channel from peer.
                         getLogger().debug("unwrap: exit: end of channel");
 
                         return read;

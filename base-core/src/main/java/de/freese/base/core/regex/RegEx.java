@@ -91,13 +91,13 @@ public final class RegEx implements RegExTransformer
     {
         String expression = wildcard;
 
-        // .* als default IST NICHT ZULAESSIG !!!
+        // .* als default IST NICHT ZULÄSSIG !!!
         if (expression == null)
         {
             return null;
         }
 
-        // .* als default IST NICHT ZULAESSIG !!!
+        // .* als default IST NICHT ZULÄSSIG !!!
         if ("".equals(expression.strip()))
         {
             return "";

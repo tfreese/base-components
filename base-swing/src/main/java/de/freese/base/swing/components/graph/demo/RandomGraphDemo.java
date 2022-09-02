@@ -124,7 +124,7 @@ public final class RandomGraphDemo
         // if (frame.getGraphicsConfiguration().getBufferCapabilities().isPageFlipping())
         // {
         // try
-        // { // no pageflipping available with opengl
+        // { // no PageFlipping available with opengl
         // BufferCapabilities cap =
         // new BufferCapabilities(new ImageCapabilities(true), new ImageCapabilities(true), BufferCapabilities.FlipContents.BACKGROUND);
         // // ExtendedBufferCapabilities is supposed to do a vsync

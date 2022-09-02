@@ -45,7 +45,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     @Override
     public Object getChild(final Object parent, final int index)
     {
-        return getChilds(parent).get(index);
+        return getChildren(parent).get(index);
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     @Override
     public int getChildCount(final Object parent)
     {
-        return getChilds(parent).size();
+        return getChildren(parent).size();
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     @Override
     public int getIndexOfChild(final Object parent, final Object child)
     {
-        return getChilds(parent).indexOf(child);
+        return getChildren(parent).indexOf(child);
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     @Override
     public boolean isLeaf(final Object node)
     {
-        return ((getChilds(node) == null) || (getChilds(node).isEmpty()));
+        return ((getChildren(node) == null) || (getChildren(node).isEmpty()));
     }
 
     /**
@@ -213,7 +213,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
                         node
                 });
 
-        getChilds(parent).remove(node);
+        getChildren(parent).remove(node);
 
         // Liste des Parents entfernen
         // getTreeCache().put(parent, null);
@@ -499,7 +499,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      *
      * @return {@link List}
      */
-    protected abstract List<?> getChilds(Object parent);
+    protected abstract List<?> getChildren(Object parent);
 
     /**
      * Wird von getParentFor(Object child) mit Root als Parent aufgerufen und durchsucht den Baum rekursiv durch die Pfade.

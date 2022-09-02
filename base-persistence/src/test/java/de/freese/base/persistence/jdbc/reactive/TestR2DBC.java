@@ -102,7 +102,7 @@ class TestR2DBC
         // @formatter:on
 
         int poolSize = Math.max(2, Runtime.getRuntime().availableProcessors() / 2);
-        
+
         // @formatter:off
         ConnectionPoolConfiguration poolConfiguration = ConnectionPoolConfiguration.builder(connectionFactoryDB)
                 .validationQuery("SELECT 1")
@@ -113,8 +113,7 @@ class TestR2DBC
                 ;
         // @formatter:on
 
-        ConnectionPool pool = new ConnectionPool(poolConfiguration);
-        connectionFactory = pool;
+        connectionFactory = new ConnectionPool(poolConfiguration);
 
         // Mono<Connection> connection = (Mono<Connection>) connectionFactory.create();
         // connection.close();

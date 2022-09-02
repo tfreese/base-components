@@ -86,7 +86,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         }
         else if ((getKeyBytes() != null) && (getKeyBytes().length > 0))
         {
-            theKey = new SecretKeySpec(getKeyBytes(), getAlgorythmKeyGenerator());
+            theKey = new SecretKeySpec(getKeyBytes(), getAlgorithmKeyGenerator());
         }
         // else if ((getKeyPassword() != null) && (getKeyPassword().length() > 0))
         // {
@@ -94,17 +94,17 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         // {
         // KeySpec keySpec = new PBEKeySpec(getKeyPassword().toCharArray(), getInitVector(), 4096);
         //
-        // SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(getAlgorythmKeyGenerator(), getProviderKeyGenerator());
+        // SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
         // theKey = secretKeyFactory.generateSecret(keySpec);
         // }
         // else
         // {
-        // theKey = new SecretKeySpec(getKeyPassword().getBytes(StandardCharsets.UTF_8), getAlgorythmKeyGenerator());
+        // theKey = new SecretKeySpec(getKeyPassword().getBytes(StandardCharsets.UTF_8), getAlgorithmKeyGenerator());
         // }
         // }
         else if (getKeySize() > 0)
         {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(getAlgorythmKeyGenerator(), getProviderKeyGenerator());
+            KeyGenerator keyGenerator = KeyGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
             keyGenerator.init(getKeySize(), crypto.getSecureRandom());
 
             theKey = keyGenerator.generateKey();

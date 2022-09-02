@@ -184,7 +184,7 @@ class TestResourceMap
     }
 
     /**
-     * Gegeben sind die folgenden Resourcen:
+     * Gegeben sind die folgenden Ressourcen:
      *
      * <pre>
      *  hello = Hello

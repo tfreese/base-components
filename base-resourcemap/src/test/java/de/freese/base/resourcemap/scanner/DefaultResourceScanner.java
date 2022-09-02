@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ResourceScanner fuer Property-Dateien ueber den gesamten ClassPath mittels Regulaeren Ausdruecken.
+ * ResourceScanner für Property-Dateien über den gesamten ClassPath mittels regulären Ausdrücken.
  *
  * @author Thomas Freese
  */
@@ -27,7 +27,7 @@ public class DefaultResourceScanner implements ResourceScanner
 
     /**
      * Versucht alle Property-Dateien im Package zu finden und setzt diese als BundleBaseNames.<br>
-     * Die Packages duerfen im bin-, META_INF- oder im Jar-Ordner liegen.
+     * Die Packages dürfen im bin-, META_INF- oder im Jar-Ordner liegen.
      *
      * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
      */
@@ -43,7 +43,7 @@ public class DefaultResourceScanner implements ResourceScanner
             searchPath = "(" + searchPath + ")";
         }
 
-        // Packages duerfen im bin-, META_INF- oder im Jar-Ordner liegen
+        // Packages dürfen im bin-, META_INF- oder im Jar-Ordner liegen
         String folderRegex = "(.*bin[/\\\\]|^META-INF[/\\\\]|^)";
 
         // Properties-Struktur
@@ -64,12 +64,12 @@ public class DefaultResourceScanner implements ResourceScanner
             return Collections.emptySet();
         }
 
-        // Fuer ResourceBundle normalisieren
+        // Für ResourceBundle normalisieren
         Set<String> bundleNames = new HashSet<>();
 
         for (String resource : resources)
         {
-            // Den reinen Dateinamen rausfummeln, Unterstrich beruecksichtigen
+            // Den reinen Dateinamen rausfummeln, Unterstrich berücksichtigen
             String[] splits = resource.split(folderRegex);
             splits = splits[splits.length - 1].split("(_+[a-zA-Z]{2}|\\.properties$)");
 

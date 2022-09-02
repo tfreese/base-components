@@ -92,7 +92,7 @@ class TestReactiveJdbc
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         try
@@ -101,7 +101,7 @@ class TestReactiveJdbc
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
 
         try
@@ -110,7 +110,7 @@ class TestReactiveJdbc
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
         }
     }
 

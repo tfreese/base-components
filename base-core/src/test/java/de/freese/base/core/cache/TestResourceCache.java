@@ -27,7 +27,6 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * @author Thomas Freese
  */
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TestResourceCache
 {
     /**

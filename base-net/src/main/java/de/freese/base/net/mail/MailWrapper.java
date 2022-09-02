@@ -295,8 +295,8 @@ public class MailWrapper
      *
      * @param from String
      *
-     * @throws NullPointerException, wenn die Addresse null ist
-     * @throws MessagingException, wenn der Addresse ein ungültiges Format hat
+     * @throws NullPointerException, wenn die Adresse null ist
+     * @throws MessagingException, wenn der Adresse ein ungültiges Format hat
      */
     public void setFrom(final String from) throws NullPointerException, MessagingException
     {
@@ -347,14 +347,14 @@ public class MailWrapper
     }
 
     /**
-     * Überprüft und wandelt eine E-Mail Addresse in ein {@link InternetAddress} Objekt um.
+     * Überprüft und wandelt eine E-Mail Adresse in ein {@link InternetAddress} Objekt um.
      *
      * @param address String
      *
      * @return {@link InternetAddress}
      *
-     * @throws NullPointerException, wenn die Addresse null ist
-     * @throws MessagingException, wenn die Addresse ein ungültiges Format hat
+     * @throws NullPointerException, wenn die Adresse null ist
+     * @throws MessagingException, wenn die Adresse ein ungültiges Format hat
      */
     private InternetAddress parseAddress(final String address) throws NullPointerException, MessagingException
     {

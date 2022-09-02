@@ -161,7 +161,7 @@ class TestGrid
         Object[][] data = new Object[][]
                 {
                         {
-                                true, 1.23456D, "nur ein täschd"
+                                true, 1.23456D, "nur ein test"
                         },
                         {
                                 false, 654321D, "-"
@@ -260,7 +260,7 @@ class TestGrid
                         new byte[]
                                 {
                                         1, 2, 3
-                                }, false, new Date(), 1.23456D, 42, 123456L, "dies ist ein täschd"
+                                }, false, new Date(), 1.23456D, 42, 123456L, "dies ist ein test"
                 };
         grid1.addRow(row1);
 

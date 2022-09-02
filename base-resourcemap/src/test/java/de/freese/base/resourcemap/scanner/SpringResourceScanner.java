@@ -11,7 +11,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
- * ResourceScanner fuer Property-Dateien mit der Spring-Implementierung.
+ * ResourceScanner für Property-Dateien mit der Spring-Implementierung.
  *
  * @author Thomas Freese
  */
@@ -53,7 +53,7 @@ public class SpringResourceScanner implements ResourceScanner
         {
             Resource[] resources = this.resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
 
-            // Fuer ResourceBundle normalisieren
+            // Für ResourceBundle normalisieren
             Set<String> bundleNames = new HashSet<>();
 
             for (Resource resource : resources)

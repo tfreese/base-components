@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.text.JTextComponent;
 
 /**
- * Erzeugt mit gerundeten Ecken, Radius ist frei waehlbar.
+ * Erzeugt mit gerundeten Ecken, Radius ist frei wählbar.
  *
  * @author Thomas Freese
  */

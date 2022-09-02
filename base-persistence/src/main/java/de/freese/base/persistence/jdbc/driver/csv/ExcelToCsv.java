@@ -53,7 +53,7 @@ public class ExcelToCsv
     /**
      * Beginnend mit 0.
      */
-    private int[] columnIndicies;
+    private int[] columnIndices;
     /**
      *
      */
@@ -117,11 +117,11 @@ public class ExcelToCsv
             throw new IllegalArgumentException("excelSource not readable");
         }
 
-        Objects.requireNonNull(this.columnIndicies, "columnIndicies required");
+        Objects.requireNonNull(this.columnIndices, "columnIndices required");
 
-        if (this.columnIndicies.length == 0)
+        if (this.columnIndices.length == 0)
         {
-            throw new IllegalArgumentException("columnIndicies length is " + this.columnIndicies.length + "; expected >= 1");
+            throw new IllegalArgumentException("columnIndices length is " + this.columnIndices.length + "; expected >= 1");
         }
 
         try (Workbook workbook = getWorkbook(excelSource))
@@ -146,11 +146,11 @@ public class ExcelToCsv
                     continue;
                 }
 
-                String[] values = new String[this.columnIndicies.length];
+                String[] values = new String[this.columnIndices.length];
 
-                for (int c = 0; c < this.columnIndicies.length; c++)
+                for (int c = 0; c < this.columnIndices.length; c++)
                 {
-                    values[c] = getValue(row, this.columnIndicies[c]);
+                    values[c] = getValue(row, this.columnIndices[c]);
                 }
 
                 // Keine leeren Zeilen schreiben.
@@ -165,18 +165,18 @@ public class ExcelToCsv
     }
 
     /**
-     * @param columnIndicies int[]
+     * @param columnIndices int[]
      */
-    public void setColumnIndicies(final int... columnIndicies)
+    public void setColumnIndices(final int... columnIndices)
     {
-        Objects.requireNonNull(columnIndicies, "columnIndicies required");
+        Objects.requireNonNull(columnIndices, "columnIndices required");
 
-        if (columnIndicies.length == 0)
+        if (columnIndices.length == 0)
         {
-            throw new IllegalArgumentException("columnIndicies length is " + columnIndicies.length + "; expected >= 1");
+            throw new IllegalArgumentException("columnIndices length is " + columnIndices.length + "; expected >= 1");
         }
 
-        this.columnIndicies = columnIndicies;
+        this.columnIndices = columnIndices;
     }
 
     /**
@@ -257,11 +257,11 @@ public class ExcelToCsv
 
         Row row = sheet.getRow(this.headerRow);
 
-        String[] headers = new String[this.columnIndicies.length];
+        String[] headers = new String[this.columnIndices.length];
 
-        for (int c = 0; c < this.columnIndicies.length; c++)
+        for (int c = 0; c < this.columnIndices.length; c++)
         {
-            headers[c] = getValue(row, this.columnIndicies[c]);
+            headers[c] = getValue(row, this.columnIndices[c]);
         }
 
         return headers;

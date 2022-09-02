@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * @author Thomas Freese
  */
-public class DateToLongConverter extends Converter<Date, Long>
+public class DateToLongConverter extends AbstractConverter<Date, Long>
 {
     /**
      * @param time long

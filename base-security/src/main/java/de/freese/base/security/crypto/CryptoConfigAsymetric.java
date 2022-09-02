@@ -12,8 +12,8 @@ import java.security.KeyPairGenerator;
 public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
 {
     /**
-    *
-    */
+     *
+     */
     private KeyPair keyPair;
 
     /**
@@ -41,7 +41,7 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
         }
         else if (getKeySize() > 0)
         {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(getAlgorythmKeyGenerator(), getProviderKeyGenerator());
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
             keyPairGenerator.initialize(getKeySize(), crypto.getSecureRandom());
 
             theKeyPair = keyPairGenerator.generateKeyPair();
@@ -57,15 +57,8 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
     }
 
     /**
-     * @return {@link KeyPair}
-     */
-    protected KeyPair getKeyPair()
-    {
-        return this.keyPair;
-    }
-
-    /**
      * @param keyPair {@link KeyPair}
+     *
      * @return {@link CryptoConfigAsymetric}
      */
     public CryptoConfigAsymetric keyPair(final KeyPair keyPair)
@@ -73,5 +66,13 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
         this.keyPair = keyPair;
 
         return this;
+    }
+
+    /**
+     * @return {@link KeyPair}
+     */
+    protected KeyPair getKeyPair()
+    {
+        return this.keyPair;
     }
 }

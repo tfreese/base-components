@@ -12,23 +12,23 @@ import org.slf4j.LoggerFactory;
 /**
  * {@link Subscriber} der jedes Objekt einzeln anfordert.
  *
- * @author Thomas Freese
- *
  * @param <T> Entity-Type
+ *
+ * @author Thomas Freese
  */
 public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
 {
     /**
-    *
-    */
+     *
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForEachObject.class);
     /**
-    *
-    */
+     *
+     */
     private final Consumer<T> consumer;
     /**
-    *
-    */
+     *
+     */
     private Subscription subscription;
 
     /**
@@ -58,7 +58,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
     @Override
     public void onError(final Throwable throwable)
     {
-        throwable.printStackTrace();
+        LOGGER.error(throwable.getMessage(), throwable);
 
         // Wird bereits in der ResultSetSubscription verarbeitet..
         // this.subscription.cancel();

@@ -41,32 +41,32 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Algorithmus für {@link Cipher}.
      */
-    private String algorythmCipher;
+    private String algorithmCipher;
 
     /**
      * Algorithmus als Default.
      */
-    private String algorythmDefault;
+    private String algorithmDefault;
 
     /**
      * Algorithmus für {@link MessageDigest}.
      */
-    private String algorythmDigest;
+    private String algorithmDigest;
 
     /**
      * Algorithmus für {@link KeyGenerator} oder {@link KeyPairGenerator}.
      */
-    private String algorythmKeyGenerator;
+    private String algorithmKeyGenerator;
 
     /**
      * Algorithmus für {@link SecureRandom}.
      */
-    private String algorythmSecureRandom;
+    private String algorithmSecureRandom;
 
     /**
      * Algorithmus für {@link Signature}.
      */
-    private String algorythmSignature;
+    private String algorithmSignature;
 
     /**
      *
@@ -114,21 +114,21 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
         providerDigest("SUN");
         providerSecureRandom("SUN");
 
-        algorythmDigest("SHA-512");
-        algorythmSecureRandom("NativePRNG");
+        algorithmDigest("SHA-512");
+        algorithmSecureRandom("NativePRNG");
     }
 
     /**
      * Algorithmus für {@link Cipher}.<br>
-     * Default: {@link #algorythmDefault(String)}
+     * Default: {@link #algorithmDefault(String)}
      *
-     * @param algorythmCipher String
+     * @param algorithmCipher String
      *
      * @return {@link CryptoConfig}
      */
-    public T algorythmCipher(final String algorythmCipher)
+    public T algorithmCipher(final String algorithmCipher)
     {
-        this.algorythmCipher = algorythmCipher;
+        this.algorithmCipher = algorithmCipher;
 
         return getThis();
     }
@@ -137,74 +137,74 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Algorithmus als Default.<br>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      *
-     * @param algorythmDefault String
+     * @param algorithmDefault String
      *
      * @return {@link CryptoConfig}
      */
-    public T algorythmDefault(final String algorythmDefault)
+    public T algorithmDefault(final String algorithmDefault)
     {
-        this.algorythmDefault = algorythmDefault;
+        this.algorithmDefault = algorithmDefault;
 
         return getThis();
     }
 
     /**
      * Algorithmus für {@link MessageDigest}.<br>
-     * Default: {@link #algorythmDefault(String)}
+     * Default: {@link #algorithmDefault(String)}
      *
-     * @param algorythmDigest String
+     * @param algorithmDigest String
      *
      * @return {@link CryptoConfig}
      */
-    public T algorythmDigest(final String algorythmDigest)
+    public T algorithmDigest(final String algorithmDigest)
     {
-        this.algorythmDigest = algorythmDigest;
+        this.algorithmDigest = algorithmDigest;
 
         return getThis();
     }
 
     /**
      * Algorithmus für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
-     * Default: {@link #algorythmDefault(String)}
+     * Default: {@link #algorithmDefault(String)}
      *
-     * @param algorythmKeyGenerator String
+     * @param algorithmKeyGenerator String
      *
      * @return {@link CryptoConfig}
      */
-    public T algorythmKeyGenerator(final String algorythmKeyGenerator)
+    public T algorithmKeyGenerator(final String algorithmKeyGenerator)
     {
-        this.algorythmKeyGenerator = algorythmKeyGenerator;
+        this.algorithmKeyGenerator = algorithmKeyGenerator;
 
         return getThis();
     }
 
     /**
      * Algorithmus für {@link SecureRandom}.<br>
-     * Default: {@link #algorythmDefault(String)}<br>
+     * Default: {@link #algorithmDefault(String)}<br>
      * Beispiel: "NativePRNG", "SHA1PRNG", {@link SecureRandom#getInstanceStrong()}
      *
-     * @param algorythmSecureRandom String
+     * @param algorithmSecureRandom String
      *
      * @return {@link CryptoConfig}
      */
-    public T algorythmSecureRandom(final String algorythmSecureRandom)
+    public T algorithmSecureRandom(final String algorithmSecureRandom)
     {
-        this.algorythmSecureRandom = algorythmSecureRandom;
+        this.algorithmSecureRandom = algorithmSecureRandom;
 
         return getThis();
     }
 
     /**
      * Algorithmus für {@link Signature}.<br>
-     * Default: {@link #algorythmDefault(String)}
+     * Default: {@link #algorithmDefault(String)}
      *
-     * @param algorythmSignature String
+     * @param algorithmSignature String
      *
      * @return {@link CryptoConfig}
      */
-    public T algorythmSignature(final String algorythmSignature)
+    public T algorithmSignature(final String algorithmSignature)
     {
-        this.algorythmSignature = algorythmSignature;
+        this.algorithmSignature = algorithmSignature;
 
         return getThis();
     }
@@ -219,21 +219,21 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * @return String
      *
-     * @see #algorythmDigest(String)
+     * @see #algorithmDigest(String)
      */
-    public String getAlgorythmDigest()
+    public String getAlgorithmDigest()
     {
-        return this.algorythmDigest != null ? this.algorythmDigest : getAlgorythmDefault();
+        return this.algorithmDigest != null ? this.algorithmDigest : getAlgorithmDefault();
     }
 
     /**
      * @return String
      *
-     * @see #algorythmSecureRandom(String)
+     * @see #algorithmSecureRandom(String)
      */
-    public String getAlgorythmSecureRandom()
+    public String getAlgorithmSecureRandom()
     {
-        return this.algorythmSecureRandom != null ? this.algorythmSecureRandom : getAlgorythmDefault();
+        return this.algorithmSecureRandom != null ? this.algorithmSecureRandom : getAlgorithmDefault();
     }
 
     /**
@@ -364,41 +364,41 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * @return String
      *
-     * @see #algorythmCipher(String)
+     * @see #algorithmCipher(String)
      */
-    protected String getAlgorythmCipher()
+    protected String getAlgorithmCipher()
     {
-        return this.algorythmCipher != null ? this.algorythmCipher : getAlgorythmDefault();
+        return this.algorithmCipher != null ? this.algorithmCipher : getAlgorithmDefault();
     }
 
     /**
      * @return String
      *
-     * @see #algorythmDefault(String)
+     * @see #algorithmDefault(String)
      */
-    protected String getAlgorythmDefault()
+    protected String getAlgorithmDefault()
     {
-        return this.algorythmDefault;
+        return this.algorithmDefault;
     }
 
     /**
      * @return String
      *
-     * @see #algorythmKeyGenerator(String)
+     * @see #algorithmKeyGenerator(String)
      */
-    protected String getAlgorythmKeyGenerator()
+    protected String getAlgorithmKeyGenerator()
     {
-        return this.algorythmKeyGenerator != null ? this.algorythmKeyGenerator : getAlgorythmDefault();
+        return this.algorithmKeyGenerator != null ? this.algorithmKeyGenerator : getAlgorithmDefault();
     }
 
     /**
      * @return String
      *
-     * @see #algorythmSignature(String)
+     * @see #algorithmSignature(String)
      */
-    protected String getAlgorythmSignature()
+    protected String getAlgorithmSignature()
     {
-        return this.algorythmSignature != null ? this.algorythmSignature : getAlgorythmDefault();
+        return this.algorithmSignature != null ? this.algorithmSignature : getAlgorithmDefault();
     }
 
     /**

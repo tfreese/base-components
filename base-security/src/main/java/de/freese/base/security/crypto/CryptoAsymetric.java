@@ -72,7 +72,7 @@ public class CryptoAsymetric extends AbstractCrypto
     @Override
     protected Cipher createCipherDecrypt() throws Exception
     {
-        Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorythmCipher(), getConfig().getProviderCipher());
+        Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherDecrypt.init(Cipher.DECRYPT_MODE, getKeyPair().getPrivate(), getSecureRandom());
 
         return cipherDecrypt;
@@ -84,7 +84,7 @@ public class CryptoAsymetric extends AbstractCrypto
     @Override
     protected Cipher createCipherEncrypt() throws Exception
     {
-        Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorythmCipher(), getConfig().getProviderCipher());
+        Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherEncrypt.init(Cipher.ENCRYPT_MODE, getKeyPair().getPublic(), getSecureRandom());
 
         return cipherEncrypt;
@@ -97,7 +97,7 @@ public class CryptoAsymetric extends AbstractCrypto
      */
     protected Signature createSignatureSign() throws Exception
     {
-        Signature signatureSign = Signature.getInstance(getConfig().getAlgorythmSignature(), getConfig().getProviderSignature());
+        Signature signatureSign = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
         signatureSign.initSign(getKeyPair().getPrivate(), getSecureRandom());
 
         return signatureSign;
@@ -110,7 +110,7 @@ public class CryptoAsymetric extends AbstractCrypto
      */
     protected Signature createSignatureVerify() throws Exception
     {
-        Signature signatureVerify = Signature.getInstance(getConfig().getAlgorythmSignature(), getConfig().getProviderSignature());
+        Signature signatureVerify = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
         signatureVerify.initVerify(getKeyPair().getPublic());
 
         return signatureVerify;

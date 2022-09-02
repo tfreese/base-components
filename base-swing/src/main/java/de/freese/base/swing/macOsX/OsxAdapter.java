@@ -210,7 +210,7 @@ public class OsxAdapter implements InvocationHandler
     protected final Object targetObject;
 
     /**
-     * Each OsxAdapter has the name of the EAWT method it intends to listen for (handleAbout, forexample),<br>
+     * Each OsxAdapter has the name of the EAWT method it intends to listen for (handleAbout, for example),<br>
      * the Object that will ultimately perform the task, and the Method to be called on that Object Erstellt ein neues {@link OsxAdapter} Object.
      * <p/>
      *
@@ -310,8 +310,8 @@ public class OsxAdapter implements InvocationHandler
             }
             catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
             {
-                System.err.println("OsxAdapter was unable to handle an ApplicationEvent: " + event);
-                ex.printStackTrace();
+                LOGGER.error("OsxAdapter was unable to handle an ApplicationEvent: {}", event);
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
     }

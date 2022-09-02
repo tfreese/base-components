@@ -22,11 +22,11 @@ public class ImageColorChannelInfo
     /**
      *
      */
-    private int[][] coOccurenceMatrix;
+    private int[][] coOccurrenceMatrix;
     /**
      *
      */
-    private double entrophie = -1.0D;
+    private double entropie = -1.0D;
     /**
      *
      */
@@ -90,9 +90,9 @@ public class ImageColorChannelInfo
      *
      * @return int[][]
      */
-    public int[][] getCoOccurenceMatrix()
+    public int[][] getCoOccurrenceMatrix()
     {
-        return this.coOccurenceMatrix;
+        return this.coOccurrenceMatrix;
     }
 
     /**
@@ -106,9 +106,9 @@ public class ImageColorChannelInfo
     /**
      * @return double
      */
-    public double getEntrophie()
+    public double getEntropie()
     {
-        return this.entrophie;
+        return this.entropie;
     }
 
     /**
@@ -206,7 +206,7 @@ public class ImageColorChannelInfo
         sb.append("Minimaler Farbwert: ").append(getMinimalerFarbwert()).append("\n");
         sb.append("Maximaler Farbwert: ").append(getMaximalerFarbwert()).append("\n");
         sb.append("Mittlerer Farbwert: ").append(getMittlererFarbwert()).append("\n");
-        sb.append("Entropie: ").append(getEntrophie()).append("\n");
+        sb.append("Entropie: ").append(getEntropie()).append("\n");
         sb.append("Uniformität: ").append(getUniformitaet()).append("\n");
         sb.append("Unähnlichkeit: ").append(getUnaehnlichkeit()).append("\n");
         sb.append("Inverse Differenz: ").append(getInverseDifferenz()).append("\n");
@@ -228,14 +228,14 @@ public class ImageColorChannelInfo
         double pixelSize = colorModel.getPixelSize();
         double colorBands = colorModel.getNumComponents();
         this.farbTiefe = (int) Math.pow(2.0, pixelSize / colorBands);
-        this.coOccurenceMatrix = new int[this.farbTiefe][this.farbTiefe];
+        this.coOccurrenceMatrix = new int[this.farbTiefe][this.farbTiefe];
         this.histogramm = new int[this.farbTiefe];
 
         this.minimalerFarbwert = 0;
         this.maximalerFarbwert = 0;
         this.mittlererFarbwert = 0;
 
-        // Co-Occurence-Matrix berechnen
+        // Co-Occurrence-Matrix berechnen
         for (int x = 0; x < (width - 1); x++)
         {
             for (int y = 0; y < height; y++)
@@ -246,7 +246,7 @@ public class ImageColorChannelInfo
                 int color1 = this.colorChannel.getValue(pixel1);
                 int color2 = this.colorChannel.getValue(pixel2);
 
-                this.coOccurenceMatrix[color1][color2]++;
+                this.coOccurrenceMatrix[color1][color2]++;
 
                 this.minimalerFarbwert = Math.min(this.minimalerFarbwert, color1);
                 this.maximalerFarbwert = Math.max(this.maximalerFarbwert, color1);
@@ -270,8 +270,8 @@ public class ImageColorChannelInfo
 
         this.mittlererFarbwert /= (width * height);
 
-        // Weitere Paramerter
-        this.entrophie = 0.0D;
+        // Weitere Parameter
+        this.entropie = 0.0D;
         this.uniformitaet = 0.0D;
         this.unaehnlichkeit = 0.0D;
         this.inverseDifferenz = 0.0D;
@@ -282,12 +282,12 @@ public class ImageColorChannelInfo
         {
             for (int y = 0; y < this.farbTiefe; ++y)
             {
-                final double c = this.coOccurenceMatrix[x][y];
+                final double c = this.coOccurrenceMatrix[x][y];
                 final double d = (double) x - y;
 
                 if (Double.compare(c, 0.0D) != 0)
                 {
-                    this.entrophie += (c * Math.log(c));
+                    this.entropie += (c * Math.log(c));
                 }
 
                 this.uniformitaet += (c * c);

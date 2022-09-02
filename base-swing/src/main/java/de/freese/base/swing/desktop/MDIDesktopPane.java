@@ -65,7 +65,7 @@ public final class MDIDesktopPane extends JDesktopPane
     // int w = 0;
     // int h = 0;
     //
-    // Component retval = super.add(frame);
+    // Component retVal = super.add(frame);
     //
     // checkDesktopSize();
     //
@@ -112,7 +112,7 @@ public final class MDIDesktopPane extends JDesktopPane
     // frame.toBack();
     // }
     //
-    // return retval;
+    // return retVal;
     // }
 
     /**
