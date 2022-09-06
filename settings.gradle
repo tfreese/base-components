@@ -1,8 +1,8 @@
 // Ohne rootProject.name würde der Name des Projekt-Verzeichnises verwendet werden.
 rootProject.name = "base"
 
-include "base-core"
 include "base-calendar"
+include "base-core"
 include "base-net"
 include "base-persistence"
 include "base-reports"
@@ -10,6 +10,3 @@ include "base-resourcemap"
 include "base-security"
 include "base-swing"
 include "base-swing-demo"
-
-
-

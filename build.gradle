@@ -14,11 +14,14 @@ subprojects {
             dependency "com.jcraft:jsch:$version_jsch"
             dependency "commons-net:commons-net:$version_commonsNet"
 
+            dependency "dev.failsafe:failsafe:$version_failsafe"
+            dependency "io.github.resilience4j:resilience4j-ratelimiter:$version_resilience4j"
+
             dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
 
             dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
-                entry "bcpg-jdk15on"
-                entry "bcmail-jdk15on"
+                entry "bcpg-jdk18on"
+                entry "bcmail-jdk18on"
             }
 
             dependency "org.apache.commons:commons-collections4:$version_commonsCollections"
@@ -57,6 +60,8 @@ subprojects {
 
 		// implementation = scope compile
         implementation("com.github.ben-manes.caffeine:caffeine")
+        implementation("dev.failsafe:failsafe")
+        implementation "io.github.resilience4j:version_resilience4j"
         implementation("javax.xml.bind:jaxb-api")
         implementation('org.apache.commons:commons-lang3')
         implementation("org.springframework:spring-context")")
@@ -181,8 +186,8 @@ project("base-security") {
     dependencies {
         api(project(":base-core"))
 
-        implementation("org.bouncycastle:bcpg-jdk15on")
-        implementation("org.bouncycastle:bcmail-jdk15on")
+        implementation("org.bouncycastle:bcpg-jdk18on")
+        implementation("org.bouncycastle:bcmail-jdk18on")
         implementation("org.slf4j:slf4j-api")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")

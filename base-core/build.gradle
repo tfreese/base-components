@@ -11,6 +11,8 @@ dependencies {
 
     // implementation = scope compile
     implementation("com.github.ben-manes.caffeine:caffeine")
+    implementation("dev.failsafe:failsafe")
+    implementation "io.github.resilience4j:resilience4j-ratelimiter"
     implementation("javax.xml.bind:jaxb-api")
     implementation('org.apache.commons:commons-lang3')
     implementation("org.springframework:spring-context")
