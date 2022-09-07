@@ -68,7 +68,7 @@ public class EncryptFileBC
     /**
      * Verschlüsselt die Datei mit einem {@link X509Certificate}.
      *
-     * @param decrytpedFile String
+     * @param decryptedFile String
      * @param encryptedFile String
      * @param keystoreFile String
      * @param keyStorePassword char[]
@@ -76,41 +76,41 @@ public class EncryptFileBC
      *
      * @throws Exception Falls was schiefgeht.
      */
-    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
+    public void encryptX509File(final String decryptedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias)
             throws Exception
     {
         X509Certificate cert = getCertificate(keystoreFile, keyStorePassword, alias);
 
-        encryptX509File(decrytpedFile, encryptedFile, cert);
+        encryptX509File(decryptedFile, encryptedFile, cert);
     }
 
     /**
      * Verschlüsselt die Datei mit einem {@link X509Certificate}.
      *
-     * @param decrytpedFile String
+     * @param decryptedFile String
      * @param encryptedFile String
      * @param cert {@link X509Certificate}
      *
      * @throws Exception Falls was schiefgeht.
      */
-    public void encryptX509File(final String decrytpedFile, final String encryptedFile, final X509Certificate cert) throws Exception
+    public void encryptX509File(final String decryptedFile, final String encryptedFile, final X509Certificate cert) throws Exception
     {
-        File file = new File(decrytpedFile);
+        File file = new File(decryptedFile);
 
         if (file.isDirectory())
         {
-            LOGGER.warn("Skipping Folder: {}", decrytpedFile);
+            LOGGER.warn("Skipping Folder: {}", decryptedFile);
             return;
         }
 
         if (!file.canRead())
         {
-            String msg = String.format("unable to read file %s", decrytpedFile);
+            String msg = String.format("unable to read file %s", decryptedFile);
             throw new IOException(msg);
         }
 
-        LOGGER.info("Encrypt File \"{}\" to \"{}\" with \"{}\"", decrytpedFile, encryptedFile, cert.getSubjectX500Principal());
+        LOGGER.info("Encrypt File \"{}\" to \"{}\" with \"{}\"", decryptedFile, encryptedFile, cert.getSubjectX500Principal());
 
         byte[] data = Files.readAllBytes(file.toPath());
 

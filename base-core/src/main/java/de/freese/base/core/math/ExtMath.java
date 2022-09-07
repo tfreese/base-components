@@ -135,7 +135,7 @@ public final class ExtMath
     }
 
     /**
-     * Returns a String with the new Baseformat of a Decimal-Value.
+     * Returns a String with the new BaseFormat of a Decimal-Value.
      *
      * @param value The Value which is to be converted
      * @param base the new Base of the Value

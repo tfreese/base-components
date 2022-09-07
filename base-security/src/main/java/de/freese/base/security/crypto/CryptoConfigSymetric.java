@@ -8,7 +8,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Builder einer symetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
+ * Builder einer symmetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
  *
  * @author Thomas Freese
  */
@@ -120,7 +120,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
     }
 
     /**
-     * Initialisierungsvector für die {@link IvParameterSpec}.
+     * Initialisierungsvektor für die {@link IvParameterSpec}.
      *
      * @param initVector byte[]
      *

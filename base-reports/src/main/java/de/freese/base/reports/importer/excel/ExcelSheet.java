@@ -19,12 +19,12 @@ public class ExcelSheet implements Serializable
     @Serial
     private static final long serialVersionUID = 574094444465628429L;
     // /**
-    // * Wie viele Zeilen sollen MINDESTENDS angezeigt werden ?
+    // * Wie viele Zeilen sollen MINDESTENS angezeigt werden ?
     // */
     // private static int MIN_ROWNUM = 10;
     //
     // /**
-    // * Wie viele Spalten sollen MINDESTENDS angezeigt werden ?
+    // * Wie viele Spalten sollen MINDESTENS angezeigt werden ?
     // */
     // private static int MIN_COLUMNNUM = 10;
     /**

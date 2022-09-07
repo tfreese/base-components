@@ -69,7 +69,7 @@ public class DefaultResourceScanner implements ResourceScanner
 
         for (String resource : resources)
         {
-            // Den reinen Dateinamen rausfummeln, Unterstrich berücksichtigen
+            // Den reinen Dateinamen raus fummeln, Unterstrich berücksichtigen
             String[] splits = resource.split(folderRegex);
             splits = splits[splits.length - 1].split("(_+[a-zA-Z]{2}|\\.properties$)");
 

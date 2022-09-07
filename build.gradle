@@ -7,6 +7,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$version_springCloud"
         }
 
         dependencies {
@@ -15,7 +16,6 @@ subprojects {
             dependency "commons-net:commons-net:$version_commonsNet"
 
             dependency "dev.failsafe:failsafe:$version_failsafe"
-            dependency "io.github.resilience4j:resilience4j-ratelimiter:$version_resilience4j"
 
             dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
 

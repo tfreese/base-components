@@ -227,7 +227,7 @@ public final class ConnectionPoolConfigurer
         // Nach 10 Minuten Connections/Langläufer als verwaist markieren.
         poolProperties.setRemoveAbandonedTimeout((int) Duration.ofMinutes(10).toSeconds());
 
-        // Entfernen von verwaisten (Timeout) Connections/Langläufer erst ab x% des Poolstands.
+        // Entfernen von verwaisten (Timeout) Connections/Langläufer erst ab x% des Poolstandes.
         poolProperties.setAbandonWhenPercentageFull(90);
 
         // Caching für die Attribute autoCommit, readOnly, transactionIsolation und catalog.

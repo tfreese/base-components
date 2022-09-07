@@ -712,9 +712,9 @@ public final class JdbcUtils
 
         // Spaltennamen / Header
         String[] header = new String[5];
-        header[0] = "Columnname";
-        header[1] = "Classname";
-        header[2] = "Typename";
+        header[0] = "ColumnName";
+        header[1] = "ClassName";
+        header[2] = "TypeName";
         header[3] = "Type";
         header[4] = "Nullable";
 

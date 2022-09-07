@@ -246,7 +246,7 @@ public class AutoCompleteableTextField extends JTextField
             {
                 this.prevSearchMenu.show(this, x, y);
 
-                // Coursor wieder zurück ins Textfeld.
+                // Cursor wieder zurück ins Textfeld.
                 // if (!hasFocus())
                 // {
                 requestFocus();

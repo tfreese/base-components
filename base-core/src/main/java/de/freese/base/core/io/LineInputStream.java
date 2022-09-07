@@ -56,7 +56,7 @@ public class LineInputStream extends FilterInputStream
 
         while ((c1 = in.read()) != -1)
         {
-            if (c1 == '\n') // Got NL, outa here.
+            if (c1 == '\n') // Got NL
             {
                 break;
             }
@@ -81,7 +81,7 @@ public class LineInputStream extends FilterInputStream
                     ((PushbackInputStream) in).unread(c2);
                 }
 
-                break; // outa here.
+                break;
             }
 
             // Not CR, NL or CR-NL ...

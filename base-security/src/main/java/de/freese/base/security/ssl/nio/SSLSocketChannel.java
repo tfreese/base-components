@@ -178,7 +178,7 @@ public class SSLSocketChannel extends SocketChannel
     {
         getLogger().debug("read: {} {}", applicationBuffer.position(), applicationBuffer.limit());
 
-        int intialPosition = applicationBuffer.position();
+        int intitialPosition = applicationBuffer.position();
         int readFromChannel = this.sslEngineBuffer.unwrap(applicationBuffer);
 
         getLogger().debug("read: from channel: {}", readFromChannel);
@@ -190,7 +190,7 @@ public class SSLSocketChannel extends SocketChannel
             return readFromChannel;
         }
 
-        int totalRead = applicationBuffer.position() - intialPosition;
+        int totalRead = applicationBuffer.position() - intitialPosition;
 
         getLogger().debug("read: total read: {}", totalRead);
 
@@ -365,7 +365,7 @@ public class SSLSocketChannel extends SocketChannel
     {
         getLogger().debug("write:");
 
-        int intialPosition = applicationBuffer.position();
+        int intitialPosition = applicationBuffer.position();
         int writtenToChannel = this.sslEngineBuffer.wrap(applicationBuffer);
 
         if (writtenToChannel < 0)
@@ -375,7 +375,7 @@ public class SSLSocketChannel extends SocketChannel
             return writtenToChannel;
         }
 
-        int totalWritten = applicationBuffer.position() - intialPosition;
+        int totalWritten = applicationBuffer.position() - intitialPosition;
 
         getLogger().debug("write: total written: {} amount available in network outbound: {}", totalWritten, applicationBuffer.remaining());
 

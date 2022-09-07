@@ -16,8 +16,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
- * ColumnGroup.
- *
  * @author Nobuo Tamemasa
  * @version 1.0 10/20/98
  */

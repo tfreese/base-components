@@ -10,8 +10,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * GroupableTableHeader
- *
  * @author Nobuo Tamemasa
  * @version 1.0 10/20/98
  */

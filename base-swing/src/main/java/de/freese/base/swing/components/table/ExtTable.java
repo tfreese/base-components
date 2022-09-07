@@ -378,7 +378,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
             return;
         }
 
-        // well, this is a copy of JTable source code, where the tableheader installation
+        // well, this is a copy of JTable source code, where the TableHeader installation
         // has been removed as it created problems with installHeader method.
         Container p = getParent();
 

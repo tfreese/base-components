@@ -100,8 +100,8 @@ public class MailWrapper
      *
      * @param to String
      *
-     * @throws NullPointerException, wenn die Addresse null ist
-     * @throws MessagingException, wenn die Addresse ein ungültiges Format hat
+     * @throws NullPointerException, wenn die Adresse null ist
+     * @throws MessagingException, wenn die Adresse ein ungültiges Format hat
      */
     public void addTO(final String to) throws NullPointerException, MessagingException
     {

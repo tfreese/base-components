@@ -16,8 +16,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 /**
- * GroupableTableHeaderUI
- *
  * @author Nobuo Tamemasa
  * @version 1.0 pre 2004
  */
@@ -129,7 +127,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         long w = width;
 
         TableColumnModel columnModel = this.header.getColumnModel();
-        w += (columnModel.getColumnMargin() * columnModel.getColumnCount());
+        w += ((long) columnModel.getColumnMargin() * columnModel.getColumnCount());
 
         if (w > Integer.MAX_VALUE)
         {

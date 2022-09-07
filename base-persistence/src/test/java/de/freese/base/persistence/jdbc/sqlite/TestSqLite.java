@@ -58,7 +58,7 @@ class TestSqLite
     protected static void afterAll() throws Exception
     {
         // Würde auch die Dateien anderer Tests löschen.
-        // deleteDirectoryRecursiv(PATH_TEST);
+        // deleteDirectoryRecursive(PATH_TEST);
     }
 
     /**

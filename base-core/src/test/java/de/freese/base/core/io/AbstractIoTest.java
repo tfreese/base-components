@@ -88,7 +88,7 @@ public abstract class AbstractIoTest
     protected static void afterAll() throws Exception
     {
         // Würde auch die Dateien andere IO-Tests löschen.
-        // deleteDirectoryRecursiv(PATH_TEST);
+        // deleteDirectoryRecursive(PATH_TEST);
     }
 
     /**
