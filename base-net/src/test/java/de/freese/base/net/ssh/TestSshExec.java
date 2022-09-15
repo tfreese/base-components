@@ -14,7 +14,7 @@ import org.junit.jupiter.api.condition.OS;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@Disabled("No passwords")
+@Disabled("sshd not always available")
 class TestSshExec
 {
     /**
