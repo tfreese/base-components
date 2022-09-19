@@ -132,7 +132,8 @@ public final class HibernateUtils
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getClassFromProxy(final Object maybeProxy)
     {
-        return HibernateProxyHelper.getClassWithoutInitializingProxy(maybeProxy);
+        // HibernateProxyHelper
+        return getClassWithoutInitializingProxy(maybeProxy);
     }
 
     /**
@@ -326,6 +327,25 @@ public final class HibernateUtils
         if (!Hibernate.isInitialized(maybeProxy))
         {
             Hibernate.initialize(maybeProxy);
+        }
+    }
+
+    /**
+     * Get the class of an instance or the underlying class
+     * of a proxy (without initializing the proxy!). It is
+     * almost always better to use the entity name!
+     */
+    private static Class getClassWithoutInitializingProxy(Object object)
+    {
+        if (object instanceof HibernateProxy hibernateProxy)
+        {
+            LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
+
+            return initializer.getPersistentClass();
+        }
+        else
+        {
+            return object.getClass();
         }
     }
 

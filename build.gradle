@@ -62,7 +62,7 @@ subprojects {
         implementation("com.github.ben-manes.caffeine:caffeine")
         implementation("dev.failsafe:failsafe")
         implementation "io.github.resilience4j:version_resilience4j"
-        implementation("javax.xml.bind:jaxb-api")
+        implementation("jakarta.xml.bind:jakarta.xml.bind-api")
         implementation('org.apache.commons:commons-lang3')
         implementation("org.springframework:spring-context")")
 
@@ -120,7 +120,7 @@ project("base-persistence") {
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-        compileOnly("javax.servlet:javax.servlet-api")
+        compileOnly("jakarta.servlet:jakarta.servlet-api")
 
         testImplementation("com.h2database:h2")
         testImplementation("io.r2dbc:r2dbc-client")
@@ -210,7 +210,7 @@ project("base-swing") {
 
         implementation("com.fasterxml.jackson.core:jackson-databind")
         implementation("com.sun.mail:jakarta.mail")
-        implementation("javax.xml.bind:jaxb-api")
+        implementation("jakarta.xml.bind:jakarta.xml.bind-api")
         implementation("org.apache.commons:commons-collections4")
         //implementation("org.openjfx:javafx-controls")
         implementation("org.swinglabs.swingx:swingx-core")
