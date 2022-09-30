@@ -350,7 +350,7 @@ public final class ByteUtils
     {
         byte[] buf = new byte[2];
 
-        buf[0] = (byte) ((value >>> 8) & 0xFF);
+        buf[0] = (byte) ((value >> 8) & 0xFF);
         buf[1] = (byte) (value & 0xFF);
 
         return buf;
@@ -491,9 +491,9 @@ public final class ByteUtils
     {
         byte[] bytes = new byte[4];
 
-        bytes[0] = (byte) ((value >>> 24) & 0xFF);
-        bytes[1] = (byte) ((value >>> 16) & 0xFF);
-        bytes[2] = (byte) ((value >>> 8) & 0xFF);
+        bytes[0] = (byte) ((value >> 24) & 0xFF);
+        bytes[1] = (byte) ((value >> 16) & 0xFF);
+        bytes[2] = (byte) ((value >> 8) & 0xFF);
         bytes[3] = (byte) (value & 0xFF);
 
         return bytes;
@@ -542,13 +542,13 @@ public final class ByteUtils
     {
         byte[] bytes = new byte[8];
 
-        bytes[0] = (byte) ((value >>> 56) & 0xFF);
-        bytes[1] = (byte) ((value >>> 48) & 0xFF);
-        bytes[2] = (byte) ((value >>> 40) & 0xFF);
-        bytes[3] = (byte) ((value >>> 32) & 0xFF);
-        bytes[4] = (byte) ((value >>> 24) & 0xFF);
-        bytes[5] = (byte) ((value >>> 16) & 0xFF);
-        bytes[6] = (byte) ((value >>> 8) & 0xFF);
+        bytes[0] = (byte) ((value >> 56) & 0xFF);
+        bytes[1] = (byte) ((value >> 48) & 0xFF);
+        bytes[2] = (byte) ((value >> 40) & 0xFF);
+        bytes[3] = (byte) ((value >> 32) & 0xFF);
+        bytes[4] = (byte) ((value >> 24) & 0xFF);
+        bytes[5] = (byte) ((value >> 16) & 0xFF);
+        bytes[6] = (byte) ((value >> 8) & 0xFF);
         bytes[7] = (byte) (value & 0xFF);
 
         return bytes;
@@ -597,7 +597,7 @@ public final class ByteUtils
     {
         byte[] bytes = new byte[2];
 
-        bytes[0] = (byte) ((value >>> 8) & 0xFF);
+        bytes[0] = (byte) ((value >> 8) & 0xFF);
         bytes[1] = (byte) (value & 0xFF);
 
         return bytes;
@@ -845,13 +845,14 @@ public final class ByteUtils
                 + ((value[5] & 0xFF) << 16)
                 + ((value[6] & 0xFF) << 8)
                 + (value[7] & 0xFF);
-        // @formatter:off
+        // @formatter:on
     }
 
     /**
      * Convert a byte[] into an instance of our value class.
      *
      * @param value byte[]
+     *
      * @return long[]
      */
     public static long[] toLongArray(final byte[] value)
@@ -880,6 +881,7 @@ public final class ByteUtils
 
     /**
      * @param value byte[]
+     *
      * @return short
      */
     public static short toShort(final byte[] value)
@@ -891,6 +893,7 @@ public final class ByteUtils
      * Convert a byte[] into an instance of our value class.
      *
      * @param value byte[]
+     *
      * @return short[]
      */
     public static short[] toShortArray(final byte[] value)
