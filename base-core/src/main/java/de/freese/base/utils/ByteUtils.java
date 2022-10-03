@@ -17,18 +17,17 @@ import java.util.zip.GZIPOutputStream;
  */
 public final class ByteUtils
 {
-    /**
-     *
-     */
-    static final char[] HEX_CHARS =
-            {
-                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-            };
-
-    /**
-     *
-     */
-    static final String HEX_INDEX = "0123456789abcdefABCDEF";
+    //    /**
+    //     *
+    //     */
+    //    static final char[] HEX_CHARS =
+    //            {
+    //                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    //            };
+    //    /**
+    //     *
+    //     */
+    //    static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
     /**
      * Wandelt das Array in einen HEX-String um.
@@ -280,65 +279,20 @@ public final class ByteUtils
     }
 
     /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return boolean[]
-     */
-    public static boolean[] toBooleanArray(final byte[] value)
-    {
-        int n = value.length;
-        boolean[] a = new boolean[n];
-
-        for (int i = 0; i < n; i++)
-        {
-            a[i] = toBoolean(value[i]);
-        }
-
-        return a;
-    }
-
-    /**
      * @param value boolean
      *
      * @return byte[]
      */
     public static byte[] toByteArray(final boolean value)
     {
-        byte[] buf = new byte[1];
+        byte[] bytes = new byte[1];
 
         if (value)
         {
-            buf[0] = (byte) 1;
+            bytes[0] = (byte) 1;
         }
 
-        return buf;
-    }
-
-    /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value boolean[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final boolean[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] buf = new byte[n];
-
-        for (int i = 0; i < n; i++)
-        {
-            buf[i] = toByteArray(value[i])[0];
-        }
-
-        return buf;
+        return bytes;
     }
 
     /**
@@ -348,44 +302,10 @@ public final class ByteUtils
      */
     public static byte[] toByteArray(final char value)
     {
-        byte[] buf = new byte[2];
+        byte[] bytes = new byte[2];
 
-        buf[0] = (byte) ((value >> 8) & 0xFF);
-        buf[1] = (byte) (value & 0xFF);
-
-        return buf;
-    }
-
-    /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value char[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final char[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] bytes = new byte[n * 2];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = toByteArray(value[i]);
-            i++;
-
-            for (byte element : tmp)
-            {
-                bytes[j] = element;
-                j++;
-            }
-        }
+        bytes[0] = (byte) ((value >> 8) & 0xFF);
+        bytes[1] = (byte) (value & 0xFF);
 
         return bytes;
     }
@@ -403,40 +323,6 @@ public final class ByteUtils
     }
 
     /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value double[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final double[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] bytes = new byte[n * 8];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = toByteArray(value[i]);
-            i++;
-
-            for (byte element : tmp)
-            {
-                bytes[j] = element;
-                j++;
-            }
-        }
-
-        return bytes;
-    }
-
-    /**
      * @param value float
      *
      * @return byte[]
@@ -446,40 +332,6 @@ public final class ByteUtils
         int intValue = Float.floatToRawIntBits(value);
 
         return toByteArray(intValue);
-    }
-
-    /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value float[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final float[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] bytes = new byte[n * 4];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = toByteArray(value[i]);
-            i++;
-
-            for (byte element : tmp)
-            {
-                bytes[j] = element;
-                j++;
-            }
-        }
-
-        return bytes;
     }
 
     /**
@@ -495,40 +347,6 @@ public final class ByteUtils
         bytes[1] = (byte) ((value >> 16) & 0xFF);
         bytes[2] = (byte) ((value >> 8) & 0xFF);
         bytes[3] = (byte) (value & 0xFF);
-
-        return bytes;
-    }
-
-    /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value int[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final int[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] bytes = new byte[n * 4];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = toByteArray(value[i]);
-            i++;
-
-            for (byte element : tmp)
-            {
-                bytes[j] = element;
-                j++;
-            }
-        }
 
         return bytes;
     }
@@ -555,40 +373,6 @@ public final class ByteUtils
     }
 
     /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value long[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final long[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] bytes = new byte[n * 8];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = toByteArray(value[i]);
-            i++;
-
-            for (byte element : tmp)
-            {
-                bytes[j] = element;
-                j++;
-            }
-        }
-
-        return bytes;
-    }
-
-    /**
      * @param value short
      *
      * @return byte[]
@@ -599,40 +383,6 @@ public final class ByteUtils
 
         bytes[0] = (byte) ((value >> 8) & 0xFF);
         bytes[1] = (byte) (value & 0xFF);
-
-        return bytes;
-    }
-
-    /**
-     * Convert an instance of our value class into a byte[].
-     *
-     * @param value short[]
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final short[] value)
-    {
-        if (value == null)
-        {
-            return new byte[0];
-        }
-
-        int n = value.length;
-        byte[] bytes = new byte[n * 2];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = toByteArray(value[i]);
-            i++;
-
-            for (byte element : tmp)
-            {
-                bytes[j] = element;
-                j++;
-            }
-        }
 
         return bytes;
     }
@@ -667,37 +417,6 @@ public final class ByteUtils
     }
 
     /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return char[]
-     */
-    public static char[] toCharArray(final byte[] value)
-    {
-        int n = value.length / 2;
-        char[] a = new char[n];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = new byte[2];
-
-            for (int k = 0; k < tmp.length; k++)
-            {
-                tmp[k] = value[j];
-                j++;
-            }
-
-            a[i] = toChar(tmp);
-            i++;
-        }
-
-        return a;
-    }
-
-    /**
      * @param value byte[]
      *
      * @return double
@@ -710,37 +429,6 @@ public final class ByteUtils
     }
 
     /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return double[]
-     */
-    public static double[] toDoubleArray(final byte[] value)
-    {
-        int n = value.length / 8;
-        double[] a = new double[n];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = new byte[8];
-
-            for (int k = 0; k < tmp.length; k++)
-            {
-                tmp[k] = value[j];
-                j++;
-            }
-
-            a[i] = toDouble(tmp);
-            i++;
-        }
-
-        return a;
-    }
-
-    /**
      * @param value byte[]
      *
      * @return float
@@ -750,37 +438,6 @@ public final class ByteUtils
         int intValue = toInt(value);
 
         return Float.intBitsToFloat(intValue);
-    }
-
-    /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return float[]
-     */
-    public static float[] toFloatArray(final byte[] value)
-    {
-        int n = value.length / 4;
-        float[] a = new float[n];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = new byte[4];
-
-            for (int k = 0; k < tmp.length; k++)
-            {
-                tmp[k] = value[j];
-                j++;
-            }
-
-            a[i] = toFloat(tmp);
-            i++;
-        }
-
-        return a;
     }
 
     /**
@@ -842,41 +499,10 @@ public final class ByteUtils
                 + ((long) (value[2] & 0xFF) << 40)
                 + ((long) (value[3] & 0xFF) << 32)
                 + ((long) (value[4] & 0xFF) << 24)
-                + ((value[5] & 0xFF) << 16)
-                + ((value[6] & 0xFF) << 8)
-                + (value[7] & 0xFF);
+                + ((long) (value[5] & 0xFF) << 16)
+                + ((long) (value[6] & 0xFF) << 8)
+                + ((long) value[7] & 0xFF);
         // @formatter:on
-    }
-
-    /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return long[]
-     */
-    public static long[] toLongArray(final byte[] value)
-    {
-        int n = value.length / 8;
-        long[] a = new long[n];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = new byte[8];
-
-            for (int k = 0; k < tmp.length; k++)
-            {
-                tmp[k] = value[j];
-                j++;
-            }
-
-            a[i] = toLong(tmp);
-            i++;
-        }
-
-        return a;
     }
 
     /**
@@ -887,37 +513,6 @@ public final class ByteUtils
     public static short toShort(final byte[] value)
     {
         return (short) (((value[0] & 0xFF) << 8) + (value[1] & 0xFF));
-    }
-
-    /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return short[]
-     */
-    public static short[] toShortArray(final byte[] value)
-    {
-        int n = value.length / 2;
-        short[] a = new short[n];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = new byte[2];
-
-            for (int k = 0; k < tmp.length; k++)
-            {
-                tmp[k] = value[j];
-                j++;
-            }
-
-            a[i] = toShort(tmp);
-            i++;
-        }
-
-        return a;
     }
 
     /**

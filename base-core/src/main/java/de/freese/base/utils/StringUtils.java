@@ -1,9 +1,6 @@
 // Created: 16.07.2011
 package de.freese.base.utils;
 
-import static de.freese.base.utils.ByteUtils.HEX_CHARS;
-import static de.freese.base.utils.ByteUtils.HEX_INDEX;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -30,17 +27,14 @@ public final class StringUtils
      * non-breaking space
      */
     public static final char ASCII_NON_BREAKING_SPACE = 160;
-
     /**
      *
      */
     public static final char ASCII_SPACE = 32;
-
     /**
      *
      */
     public static final String EMPTY = "";
-
     /**
      *
      */
@@ -99,59 +93,6 @@ public final class StringUtils
 
         rows.add(1, (T[]) row);
         rows.add(0, (T[]) row);
-    }
-
-    /**
-     * @param text String
-     *
-     * @return String, not null
-     */
-    public static String asciiToUnicode(final String text)
-    {
-        if (isBlank(text))
-        {
-            return EMPTY;
-        }
-
-        if (!text.contains("\\u"))
-        {
-            return text;
-        }
-
-        int i = text.length();
-        char[] ac = new char[i];
-        int j = 0;
-
-        for (int k = 0; k < i; k++)
-        {
-            char c = text.charAt(k);
-
-            if ((c == '\\') && (k < (i - 5)))
-            {
-                char c1 = text.charAt(k + 1);
-
-                if (c1 == 'u')
-                {
-                    k++;
-
-                    int l = HEX_INDEX.indexOf(text.charAt(++k)) << 12;
-                    l += (HEX_INDEX.indexOf(text.charAt(++k)) << 8);
-                    l += (HEX_INDEX.indexOf(text.charAt(++k)) << 4);
-                    l += HEX_INDEX.indexOf(text.charAt(++k));
-                    ac[j++] = (char) l;
-                }
-                else
-                {
-                    ac[j++] = c;
-                }
-            }
-            else
-            {
-                ac[j++] = c;
-            }
-        }
-
-        return new String(ac, 0, j);
     }
 
     /**
@@ -890,54 +831,6 @@ public final class StringUtils
                 .filter(StringUtils::isNotBlank) // leere Strings filtern
                 .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
         // @formatter:on
-    }
-
-    /**
-     * @param cs {@link CharSequence}
-     *
-     * @return String, not null
-     */
-    public static String unicodeToAscii(final CharSequence cs)
-    {
-        if (isBlank(cs))
-        {
-            return EMPTY;
-        }
-
-        int i = cs.length();
-        StringBuilder sb = new StringBuilder(i + 16);
-
-        for (int j = 0; j < i; j++)
-        {
-            char c = cs.charAt(j);
-
-            if (c == '\\')
-            {
-                if ((j < (i - 1)) && (cs.charAt(j + 1) == 'u'))
-                {
-                    sb.append(c);
-                    sb.append("u005c");
-                }
-                else
-                {
-                    sb.append(c);
-                }
-            }
-            else if ((c >= ' ') && (c <= '\177'))
-            {
-                sb.append(c);
-            }
-            else
-            {
-                sb.append("\\u");
-                sb.append(HEX_CHARS[(c >> 12) & 0xf]);
-                sb.append(HEX_CHARS[(c >> 8) & 0xf]);
-                sb.append(HEX_CHARS[(c >> 4) & 0xf]);
-                sb.append(HEX_CHARS[c & 0xf]);
-            }
-        }
-
-        return sb.toString();
     }
 
     /**
