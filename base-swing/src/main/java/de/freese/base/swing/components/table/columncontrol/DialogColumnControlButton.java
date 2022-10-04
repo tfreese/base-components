@@ -262,7 +262,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
                 // baos.close();
                 //
                 // ByteArrayDataSource dataSource =
-                // new ByteArrayDataSource(baos.toByteArray(),
+                // new ByteArrayDataSource(baos.toBytes(),
                 // ByteArrayDataSource.MIMETYPE_APPLICATION_EXCEL);
                 // dataSource.setName(String.format("%d.xls",
                 // Long.valueOf(System.currentTimeMillis())));

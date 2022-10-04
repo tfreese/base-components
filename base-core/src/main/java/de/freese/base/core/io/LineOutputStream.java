@@ -49,7 +49,7 @@ public class LineOutputStream extends FilterOutputStream
      */
     public void writeln(final String s) throws IOException
     {
-        byte[] bytes = ByteUtils.toByteArray(s);
+        byte[] bytes = ByteUtils.toBytes(s);
         this.out.write(bytes);
         this.out.write(NEW_LINE);
     }

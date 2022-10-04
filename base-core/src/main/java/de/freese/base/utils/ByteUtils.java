@@ -13,7 +13,7 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * @author Thomas Freese
+ * @author Thomas Freeses
  */
 public final class ByteUtils
 {
@@ -29,13 +29,6 @@ public final class ByteUtils
     //     */
     //    static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
-    /**
-     * Wandelt das Array in einen HEX-String um.
-     *
-     * @param bytes byte[]
-     *
-     * @return String
-     */
     public static String bytesToHex(final byte[] bytes)
     {
         return HexFormat.of().withUpperCase().formatHex(bytes);
@@ -56,15 +49,6 @@ public final class ByteUtils
         //        return sb.toString();
     }
 
-    /**
-     * Komprimierung eines ByteArrays.
-     *
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static byte[] compressBytes(final byte[] bytes) throws IOException
     {
         if (bytes == null)
@@ -106,15 +90,6 @@ public final class ByteUtils
         // }
     }
 
-    /**
-     * Dekomprimierung eines ByteArrays.
-     *
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static byte[] decompressBytes(final byte[] bytes) throws IOException
     {
         if (bytes == null)
@@ -152,14 +127,6 @@ public final class ByteUtils
         return decompressed;
     }
 
-    /**
-     * Liefert das deserialisierte ByteArray.
-     *
-     * @param <T> Konkreter Typ des Objektes.
-     * @param bytes byte[]
-     *
-     * @return Object
-     */
     public static <T> T deserializeObject(final byte[] bytes)
     {
         if (bytes == null)
@@ -186,11 +153,6 @@ public final class ByteUtils
         return (T) object;
     }
 
-    /**
-     * Generiert eine zufällige negative OID.
-     *
-     * @return long
-     */
     public static long generateTempOID()
     {
         UUID uuid = UUID.randomUUID();
@@ -206,13 +168,6 @@ public final class ByteUtils
         return oid;
     }
 
-    /**
-     * @param hexString {@link CharSequence}
-     *
-     * @return byte[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static byte[] hexToBytes(final CharSequence hexString) throws Exception
     {
         return HexFormat.of().parseHex(hexString);
@@ -239,13 +194,6 @@ public final class ByteUtils
         //        return bytes;
     }
 
-    /**
-     * Liefert das serialisierte Object.
-     *
-     * @param object {@link Serializable}
-     *
-     * @return byte[]
-     */
     public static byte[] serializeObject(final Serializable object)
     {
         if (object == null)
@@ -253,7 +201,6 @@ public final class ByteUtils
             return new byte[0];
         }
 
-        // byte[] bytes = SerializationUtils.serialize(object);
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
 
         try (ObjectOutputStream out = new ObjectOutputStream(baos))
@@ -268,22 +215,12 @@ public final class ByteUtils
         return baos.toByteArray();
     }
 
-    /**
-     * @param value byte
-     *
-     * @return boolean
-     */
     public static boolean toBoolean(final byte value)
     {
         return value != 0;
     }
 
-    /**
-     * @param value boolean
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final boolean value)
+    public static byte[] toBytes(final boolean value)
     {
         byte[] bytes = new byte[1];
 
@@ -295,104 +232,69 @@ public final class ByteUtils
         return bytes;
     }
 
-    /**
-     * @param value char
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final char value)
+    public static byte[] toBytes(final char value)
     {
         byte[] bytes = new byte[2];
 
-        bytes[0] = (byte) ((value >> 8) & 0xFF);
-        bytes[1] = (byte) (value & 0xFF);
+        bytes[0] = (byte) (0xFF & (value >> 8));
+        bytes[1] = (byte) (0xFF & value);
 
         return bytes;
     }
 
-    /**
-     * @param value double
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final double value)
+    public static byte[] toBytes(final double value)
     {
         long longValue = Double.doubleToRawLongBits(value);
 
-        return toByteArray(longValue);
+        return toBytes(longValue);
     }
 
-    /**
-     * @param value float
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final float value)
+    public static byte[] toBytes(final float value)
     {
         int intValue = Float.floatToRawIntBits(value);
 
-        return toByteArray(intValue);
+        return toBytes(intValue);
     }
 
-    /**
-     * @param value int
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final int value)
+    public static byte[] toBytes(final int value)
     {
         byte[] bytes = new byte[4];
 
-        bytes[0] = (byte) ((value >> 24) & 0xFF);
-        bytes[1] = (byte) ((value >> 16) & 0xFF);
-        bytes[2] = (byte) ((value >> 8) & 0xFF);
-        bytes[3] = (byte) (value & 0xFF);
+        bytes[0] = (byte) (0xFF & (value >> 24));
+        bytes[1] = (byte) (0xFF & (value >> 16));
+        bytes[2] = (byte) (0xFF & (value >> 8));
+        bytes[3] = (byte) (0xFF & value);
 
         return bytes;
     }
 
-    /**
-     * @param value long
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final long value)
+    public static byte[] toBytes(final long value)
     {
         byte[] bytes = new byte[8];
 
-        bytes[0] = (byte) ((value >> 56) & 0xFF);
-        bytes[1] = (byte) ((value >> 48) & 0xFF);
-        bytes[2] = (byte) ((value >> 40) & 0xFF);
-        bytes[3] = (byte) ((value >> 32) & 0xFF);
-        bytes[4] = (byte) ((value >> 24) & 0xFF);
-        bytes[5] = (byte) ((value >> 16) & 0xFF);
-        bytes[6] = (byte) ((value >> 8) & 0xFF);
-        bytes[7] = (byte) (value & 0xFF);
+        bytes[0] = (byte) (0xFF & (value >> 56));
+        bytes[1] = (byte) (0xFF & (value >> 48));
+        bytes[2] = (byte) (0xFF & (value >> 40));
+        bytes[3] = (byte) (0xFF & (value >> 32));
+        bytes[4] = (byte) (0xFF & (value >> 24));
+        bytes[5] = (byte) (0xFF & (value >> 16));
+        bytes[6] = (byte) (0xFF & (value >> 8));
+        bytes[7] = (byte) (0xFF & value);
 
         return bytes;
     }
 
-    /**
-     * @param value short
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final short value)
+    public static byte[] toBytes(final short value)
     {
         byte[] bytes = new byte[2];
 
-        bytes[0] = (byte) ((value >> 8) & 0xFF);
-        bytes[1] = (byte) (value & 0xFF);
+        bytes[0] = (byte) (0xFF & (value >> 8));
+        bytes[1] = (byte) (0xFF & value);
 
         return bytes;
     }
 
-    /**
-     * @param value String
-     *
-     * @return byte[]
-     */
-    public static byte[] toByteArray(final String value)
+    public static byte[] toBytes(final String value)
     {
         char[] chars = value.toCharArray();
         int size = chars.length;
@@ -406,21 +308,11 @@ public final class ByteUtils
         return bytes;
     }
 
-    /**
-     * @param value byte[]
-     *
-     * @return char
-     */
     public static char toChar(final byte[] value)
     {
         return (char) (((value[0] & 0xFF) << 8) + (value[1] & 0xFF));
     }
 
-    /**
-     * @param value byte[]
-     *
-     * @return double
-     */
     public static double toDouble(final byte[] value)
     {
         long longValue = toLong(value);
@@ -428,11 +320,6 @@ public final class ByteUtils
         return Double.longBitsToDouble(longValue);
     }
 
-    /**
-     * @param value byte[]
-     *
-     * @return float
-     */
     public static float toFloat(final byte[] value)
     {
         int intValue = toInt(value);
@@ -440,11 +327,6 @@ public final class ByteUtils
         return Float.intBitsToFloat(intValue);
     }
 
-    /**
-     * @param value byte[]
-     *
-     * @return int
-     */
     public static int toInt(final byte[] value)
     {
         // @formatter:off
@@ -455,42 +337,6 @@ public final class ByteUtils
         // @formatter:on
     }
 
-    /**
-     * Convert a byte[] into an instance of our value class.
-     *
-     * @param value byte[]
-     *
-     * @return int[]
-     */
-    public static int[] toIntArray(final byte[] value)
-    {
-        int n = value.length / 4;
-        int[] a = new int[n];
-        int i = 0;
-        int j = 0;
-
-        while (i < n)
-        {
-            byte[] tmp = new byte[4];
-
-            for (int k = 0; k < tmp.length; k++)
-            {
-                tmp[k] = value[j];
-                j++;
-            }
-
-            a[i] = toInt(tmp);
-            i++;
-        }
-
-        return a;
-    }
-
-    /**
-     * @param value byte[]
-     *
-     * @return long
-     */
     public static long toLong(final byte[] value)
     {
         // @formatter:off
@@ -505,19 +351,11 @@ public final class ByteUtils
         // @formatter:on
     }
 
-    /**
-     * @param value byte[]
-     *
-     * @return short
-     */
     public static short toShort(final byte[] value)
     {
         return (short) (((value[0] & 0xFF) << 8) + (value[1] & 0xFF));
     }
 
-    /**
-     * Erstellt ein neues {@link ByteUtils} Object.
-     */
     private ByteUtils()
     {
         super();

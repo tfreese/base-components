@@ -32,7 +32,7 @@ public interface Blob
         //
         //            baos.flush();
         //
-        //            bytes = baos.toByteArray();
+        //            bytes = baos.toBytes();
         //        }
         //
         //        return bytes;
