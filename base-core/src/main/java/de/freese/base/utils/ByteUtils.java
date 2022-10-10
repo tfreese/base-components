@@ -17,16 +17,11 @@ import java.util.zip.GZIPOutputStream;
  */
 public final class ByteUtils
 {
-    //    /**
-    //     *
-    //     */
     //    static final char[] HEX_CHARS =
     //            {
     //                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     //            };
-    //    /**
-    //     *
-    //     */
+    //
     //    static final String HEX_INDEX = "0123456789abcdefABCDEF";
 
     public static String bytesToHex(final byte[] bytes)

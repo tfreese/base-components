@@ -18,13 +18,8 @@ import java.util.stream.StreamSupport;
  */
 public final class ObjectTable
 {
-    /**
-     *
-     */
     private final List<Object[]> data;
-    /**
-     *
-     */
+
     private final List<String> header;
 
     /**
@@ -87,33 +82,21 @@ public final class ObjectTable
         data.add(rowData);
     }
 
-    /**
-     * @return int
-     */
     public int getColumnCount()
     {
         return header.size();
     }
 
-    /**
-     * @return List<Object [ ]>
-     */
     public List<Object[]> getData()
     {
         return List.copyOf(this.data);
     }
 
-    /**
-     * @return List<String>
-     */
     public List<String> getHeader()
     {
         return List.copyOf(this.header);
     }
 
-    /**
-     * @return int
-     */
     public int getRowCount()
     {
         return data.size();
