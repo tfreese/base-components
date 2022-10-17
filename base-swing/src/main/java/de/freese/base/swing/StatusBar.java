@@ -28,50 +28,28 @@ import de.freese.base.swing.task.TaskManager;
  */
 public class StatusBar extends JPanel implements PropertyChangeListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5987325109823650807L;
-    /**
-     *
-     */
+
     private final Timer busyIconTimer;
-    /**
-     *
-     */
+
     private final transient Icon[] busyIcons = new Icon[15];
-    /**
-     *
-     */
+
     private final transient Icon idleIcon;
-    /**
-     *
-     */
+
     private final Timer messageTimer;
-    /**
-     *
-     */
+
     private final Insets zeroInsets = new Insets(0, 0, 0, 0);
-    /**
-     *
-     */
+
     private int busyIconIndex;
-    /**
-     *
-     */
+
     private JLabel messageLabel;
-    /**
-     *
-     */
+
     private JProgressBar progressBar;
-    /**
-     *
-     */
+
     private JLabel statusAnimationLabel;
 
     /**
-     * Erstellt ein neues {@link StatusBar} Object.<br>
      * Die StatusBar reagiert auf Events des aktuell im {@link TaskManager} enthaltenen ForegroundTasks.
      *
      * @param context {@link ApplicationContext}
@@ -104,9 +82,6 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         context.getTaskManager().addPropertyChangeListener(this);
     }
 
-    /**
-     * Initialisiert die GUI.
-     */
     public void initialize()
     {
         setLayout(new GridBagLayout());
@@ -167,20 +142,12 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         }
     }
 
-    /**
-     * Nachricht in der Fußleiste.
-     *
-     * @param s String
-     */
     public void setMessage(final String s)
     {
         this.messageLabel.setText((s == null) ? "" : s);
         this.messageTimer.restart();
     }
 
-    /**
-     * Zeigt die Busy-Animation.
-     */
     public void showBusyAnimation()
     {
         if (!this.busyIconTimer.isRunning())
@@ -191,9 +158,6 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         }
     }
 
-    /**
-     * Stoppt die Busy-Animation.
-     */
     public void stopBusyAnimation()
     {
         this.busyIconTimer.stop();

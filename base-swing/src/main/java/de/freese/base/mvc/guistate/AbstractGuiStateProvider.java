@@ -15,25 +15,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractGuiStateProvider implements GuiStateProvider
 {
-    /**
-     *
-     */
     private final Class<?>[] guiStateClasses;
-    /**
-     *
-     */
+
     private final LocalStorage localStorage;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * Erstellt ein neues {@link AbstractGuiStateProvider} Object.
-     *
-     * @param localStorage {@link LocalStorage}
-     * @param guiStateManager {@link GuiStateManager}
-     */
     protected AbstractGuiStateProvider(final LocalStorage localStorage, final GuiStateManager guiStateManager)
     {
         super();
@@ -52,25 +39,16 @@ public abstract class AbstractGuiStateProvider implements GuiStateProvider
         }
     }
 
-    /**
-     * @return Class<?>[]
-     */
     protected Class<?>[] getGuiStateClasses()
     {
         return this.guiStateClasses;
     }
 
-    /**
-     * @return {@link LocalStorage}
-     */
     protected LocalStorage getLocalStorage()
     {
         return this.localStorage;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;

@@ -1,7 +1,6 @@
 package de.freese.base.utils;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.io.FileOutputStream;
@@ -25,37 +24,22 @@ import org.jdesktop.swingx.painter.MattePainter;
  */
 public final class UICustomization
 {
-    /**
-     *
-     */
     private static final String COLOR_ALTERNATING = "color.alternating";
-    /**
-     *
-     */
+
     private static final String COLOR_LIGHT_GRAY = "color.lightgray";
 
-    /**
-     * Alternierende Hintergrundfarbe.
-     *
-     * @return {@link Color}
-     */
     public static Color getColorAlternating()
     {
         return UIManager.getColor(COLOR_ALTERNATING);
     }
 
-    /**
-     * Graue Farbe.
-     *
-     * @return {@link Color}
-     */
     public static Color getColorLightGray()
     {
         return UIManager.getColor(COLOR_LIGHT_GRAY);
     }
 
     /**
-     * L&F Installation.<br>
+     * Look&Feel Installation.<br>
      * Wenn der Klassenname null ist wird <code>UIManager.getSystemLookAndFeelClassName()</code> verwendet.
      *
      * @param className String LookAndFeel Klassenname, optional
@@ -69,11 +53,6 @@ public final class UICustomization
         installDefaults();
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         install(UIManager.getSystemLookAndFeelClassName());
@@ -103,11 +82,6 @@ public final class UICustomization
         // }
     }
 
-    /**
-     * Setzt einen neuen Defaultfont für alle {@link Component}s.
-     *
-     * @param font {@link Font}
-     */
     public static void setDefaultFont(final Font font)
     {
         for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet())
@@ -174,9 +148,6 @@ public final class UICustomization
         // UIManager.put("Viewport.font", font);
     }
 
-    /**
-     * UI Konstanten definieren/überschreiben.
-     */
     private static void installDefaults()
     {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -215,11 +186,6 @@ public final class UICustomization
         // System.setProperty("WizardDisplayer.default",".wizard.WizardDisplayerImpl");
     }
 
-    /**
-     * Schreibt die UI-Konstanten in eine Datei.
-     *
-     * @param outputStream {@link OutputStream}
-     */
     private static void writeUIDefaults(final OutputStream outputStream)
     {
         // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
@@ -250,9 +216,6 @@ public final class UICustomization
         }
     }
 
-    /**
-     * Erstellt ein neues {@link UICustomization} Object.
-     */
     private UICustomization()
     {
         super();

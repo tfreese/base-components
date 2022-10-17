@@ -40,26 +40,14 @@ import org.jdesktop.swingx.JXTaskPane;
  */
 public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
 {
-    /**
-     *
-     */
     protected static final int TITLE_ICON_SIZE = 16;
 
-    /**
-     * Erzeugt eine UI Instanz.
-     *
-     * @param c {@link JComponent}
-     *
-     * @return {@link ComponentUI}
-     */
     public static ComponentUI createUI(final JComponent c)
     {
         return new ExtWindowsClassicTaskPaneUI();
     }
 
     /**
-     * TitledBorder.
-     *
      * @author Thomas Freese
      */
     private class ExtPaneBorder extends ClassicPaneBorder
@@ -84,15 +72,6 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             return true;
         }
 
-        /**
-         * Malen weiterer TitleButtons.
-         *
-         * @param g Graphics
-         * @param x int
-         * @param y int
-         * @param width int
-         * @param height int
-         */
         protected void paintTitleActions(final Graphics g, final int x, final int y, final int width, final int height)
         {
             // Weitere Buttons malen
@@ -276,7 +255,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      */
     protected final List<JButton> titleButtons = new ArrayList<>();
     /**
-     * Liste aller Buttons & Separators der TitelLeiste
+     * Liste aller Buttons und Separators der TitelLeiste
      */
     protected final List<Object> titleObjects = new ArrayList<>();
     /**

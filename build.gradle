@@ -28,7 +28,6 @@ subprojects {
 
         dependencies {
             dependency "com.itextpdf:itextpdf:$version_itext"
-            dependency "com.jcraft:jsch:$version_jsch"
             dependency "commons-net:commons-net:$version_commonsNet"
 
             dependency "dev.failsafe:failsafe:$version_failsafe"
