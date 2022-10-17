@@ -28,46 +28,24 @@ import javax.mail.internet.MimeMultipart;
  */
 public class MailWrapper
 {
-    /**
-     *
-     */
     private final Properties additionalHeaderProperties = new Properties();
-    /**
-     *
-     */
+
     private final List<DataSource> attachments = new ArrayList<>();
-    /**
-     *
-     */
+
     private final List<DataSource> inlines = new ArrayList<>();
-    /**
-     *
-     */
+
     private final Properties javaMailProperties = new Properties();
-    /**
-     *
-     */
+
     private final List<InternetAddress> to = new ArrayList<>();
-    /**
-     *
-     */
+
     private InternetAddress from;
-    /**
-     *
-     */
+
     private boolean html;
-    /**
-     *
-     */
+
     private String subject;
-    /**
-     *
-     */
+
     private String text;
 
-    /**
-     * Erstellt ein neues {@link MailWrapper} Object.
-     */
     public MailWrapper()
     {
         super();

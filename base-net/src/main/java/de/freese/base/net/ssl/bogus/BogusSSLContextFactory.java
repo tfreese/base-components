@@ -38,17 +38,10 @@ import javax.net.ssl.TrustManager;
  */
 public final class BogusSSLContextFactory
 {
-    /**
-     *
-     */
     private static final SSLContext CLIENT_CONTEXT;
-    /**
-     *
-     */
+
     private static final String PROTOCOL = "TLSv3";
-    /**
-     *
-     */
+
     private static final SSLContext SERVER_CONTEXT;
 
     static
@@ -100,25 +93,16 @@ public final class BogusSSLContextFactory
         CLIENT_CONTEXT = clientContext;
     }
 
-    /**
-     * @return {@link SSLContext}
-     */
     public static SSLContext getClientContext()
     {
         return CLIENT_CONTEXT;
     }
 
-    /**
-     * @return {@link SSLContext}
-     */
     public static SSLContext getServerContext()
     {
         return SERVER_CONTEXT;
     }
 
-    /**
-     * Erstellt ein neues {@link BogusSSLContextFactory} Object.
-     */
     private BogusSSLContextFactory()
     {
         super();

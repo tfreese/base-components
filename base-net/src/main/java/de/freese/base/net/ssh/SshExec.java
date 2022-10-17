@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -30,9 +29,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class SshExec
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SshExec.class);
 
     public static SshExec connectByUserCertificate(final String user, final CharSequence password, final String host, final int port) throws IOException
@@ -87,22 +83,12 @@ public final class SshExec
         return new SshExec(sshClient, clientSession, host);
     }
 
-    /**
-     *
-     */
     private final ClientSession clientSession;
-    /**
-     *
-     */
+
     private final String host;
-    /**
-     *
-     */
+
     private final SshClient sshClient;
 
-    /**
-     *
-     */
     private SshExec(SshClient sshClient, ClientSession clientSession, final String host)
     {
         super();
@@ -112,9 +98,6 @@ public final class SshExec
         this.host = Objects.requireNonNull(host, "host required");
     }
 
-    /**
-     * Verbindung beenden.
-     */
     public void disconnect()
     {
         LOGGER.debug("disconnecting session");
@@ -139,15 +122,6 @@ public final class SshExec
         LOGGER.debug("session disconnected");
     }
 
-    /**
-     * Ausführung des Commandos.<br>
-     *
-     * @param command String
-     *
-     * @return {@link List}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public String execute(final String command) throws IOException
     {
         //        this.clientSession.createChannel(Channel.CHANNEL_EXEC);

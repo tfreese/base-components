@@ -19,9 +19,6 @@ import java.io.InputStream;
  */
 public final class BogusSSLKeyStore
 {
-    /**
-     *
-     */
     // @formatter:off
     private static final short[] DATA = {
         0xfe, 0xed, 0xfe, 0xed, 0x00, 0x00, 0x00, 0x02,
@@ -284,9 +281,6 @@ public final class BogusSSLKeyStore
         0xd6, 0x9a, 0x6d, 0xb9, 0x8e, 0x15, 0x51 };
     // @formatter:on
 
-    /**
-     * @return {@link InputStream}
-     */
     public static InputStream asInputStream()
     {
         byte[] data = new byte[DATA.length];
@@ -299,25 +293,16 @@ public final class BogusSSLKeyStore
         return new ByteArrayInputStream(data);
     }
 
-    /**
-     * @return char[]
-     */
     public static char[] getCertificatePassword()
     {
         return "secret".toCharArray();
     }
 
-    /**
-     * @return char[]
-     */
     public static char[] getKeyStorePassword()
     {
         return "secret".toCharArray();
     }
 
-    /**
-     * Erstellt ein neues {@link BogusSSLKeyStore} Object.
-     */
     private BogusSSLKeyStore()
     {
         super();

@@ -24,38 +24,18 @@ import de.freese.base.net.protocol.AbstractProtocol;
 /**
  * Diese Klasse implementiert das POP3-Protokoll.
  *
- * @author Rhomas Freese
+ * @author Thomas Freese
  */
 public class Pop3Protocol extends AbstractProtocol
 {
-    /**
-     *
-     */
     private String apopChallenge;
-    /**
-     *
-     */
+
     private BufferedReader inputReader;
-    /**
-     *
-     */
+
     private Writer outputWriter;
-    /**
-     *
-     */
+
     private Socket serverSocket;
 
-    /**
-     * Erstellt ein neues {@link Pop3Protocol} Object.
-     *
-     * @param host String
-     * @param port int
-     * @param props {@link Properties}
-     * @param propPrefix String
-     * @param isSSL boolean
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public Pop3Protocol(final String host, final int port, final Properties props, final String propPrefix, final boolean isSSL) throws IOException
     {
         super();

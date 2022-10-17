@@ -17,9 +17,6 @@ import org.junit.jupiter.api.condition.OS;
 @Disabled("sshd not always available")
 class TestSshExec
 {
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @EnabledOnOs(
             {
@@ -39,9 +36,6 @@ class TestSshExec
         sshExec.disconnect();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     @EnabledOnOs(
             {

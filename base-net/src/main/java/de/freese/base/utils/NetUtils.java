@@ -43,9 +43,6 @@ public final class NetUtils
         return ipAddressStr.toString();
     }
 
-    /**
-     * @return String
-     */
     public static String getHostName()
     {
         String hostName = null;
@@ -227,9 +224,6 @@ public final class NetUtils
         return isValid;
     }
 
-    /**
-     * Erstellt ein neues {@link NetUtils} Object.
-     */
     private NetUtils()
     {
         super();

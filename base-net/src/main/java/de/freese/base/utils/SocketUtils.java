@@ -44,14 +44,9 @@ public final class SocketUtils
      * socket port.
      */
     public static final int PORT_RANGE_MIN = 1024;
-    /**
-     *
-     */
+
     private static final Random random = new Random(System.nanoTime());
 
-    /**
-     *
-     */
     private enum SocketType
     {
         TCP

@@ -15,18 +15,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractProtocol
 {
-    /**
-     *
-     */
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     *
-     */
     public abstract void close();
 
     /**
@@ -55,9 +47,6 @@ public abstract class AbstractProtocol
         return null;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;

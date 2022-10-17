@@ -25,9 +25,6 @@ import javax.net.ssl.X509TrustManager;
  */
 public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
 {
-    /**
-     *
-     */
     private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager()
     {
         /**
@@ -64,15 +61,12 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
         }
     };
 
-    /**
-     * @return {@link TrustManager}[]
-     */
     public static TrustManager[] getTrustManagers()
     {
         return new TrustManager[]
-        {
-                DUMMY_TRUST_MANAGER
-        };
+                {
+                        DUMMY_TRUST_MANAGER
+                };
     }
 
     /**

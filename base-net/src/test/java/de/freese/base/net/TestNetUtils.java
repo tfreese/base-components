@@ -24,9 +24,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestNetUtils
 {
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -84,9 +81,6 @@ class TestNetUtils
         // });
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testLocalHost() throws Exception
     {
@@ -162,9 +156,6 @@ class TestNetUtils
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testPTBZeit() throws Exception
     {
@@ -174,9 +165,6 @@ class TestNetUtils
         // System.out.println(String.format("%1$tY-%1$tm-%1$td %1$tT", ptbDate));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testValidHost() throws Exception
     {
