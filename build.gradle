@@ -1,8 +1,24 @@
 // Tasks im SubModul ausführen: gradle MODUL:clean build
+buildscript {
+    // Für Plugins
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal() // maven { url "https://plugins.gradle.org/m2"; name "plugins-gradle" }
+    }
+
+    dependencies {
+        classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
+        classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot"
+        classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
+    }
+}
 
 subprojects {
     apply plugin: "java"
     apply plugin: "io.spring.dependency-management"
+    apply plugin: "de.freese.gradle.plugin.conventions"
 
     dependencyManagement {
         imports {
@@ -26,6 +42,7 @@ subprojects {
 
             dependency "org.apache.commons:commons-collections4:$version_commonsCollections"
             dependency "org.apache.poi:poi-ooxml:$version_poi"
+            dependency "org.apache.sshd:sshd-core:$version_sshd"
 
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 exclude "com.lowagie:itext"
@@ -96,7 +113,7 @@ project("base-net") {
     dependencies {
         api(project(":base-core"))
 
-        implementation("com.jcraft:jsch")
+        implementation("org.apache.sshd:sshd-core")
         implementation("com.sun.mail:jakarta.mail")
         implementation("commons-net:commons-net")
 //        implementation("org.slf4j:slf4j-api")
