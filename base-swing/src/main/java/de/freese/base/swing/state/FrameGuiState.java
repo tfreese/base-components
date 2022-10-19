@@ -7,9 +7,10 @@ import java.io.Serial;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import de.freese.base.swing.components.frame.ExtFrame;
 
@@ -22,19 +23,11 @@ import de.freese.base.swing.components.frame.ExtFrame;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FrameGuiState extends ContainerGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3974478602033414091L;
-    /**
-     *
-     */
+
     private int extendedState = Frame.NORMAL;
 
-    /**
-     * Creates a new {@link FrameGuiState} object.
-     */
     public FrameGuiState()
     {
         super(JFrame.class, JWindow.class, JDialog.class, ExtFrame.class);

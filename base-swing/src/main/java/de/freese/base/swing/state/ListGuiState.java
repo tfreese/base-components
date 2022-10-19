@@ -4,9 +4,10 @@ import java.awt.Component;
 import java.io.Serial;
 
 import javax.swing.JList;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * State für eine Liste.
@@ -17,19 +18,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ListGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -6237079790822368033L;
-    /**
-     * Die selektierten Indizes der Liste
-     */
+
     private int[] selectedIndices;
 
-    /**
-     * Creates a new {@link ListGuiState} object.
-     */
     public ListGuiState()
     {
         super(JList.class);

@@ -17,7 +17,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 
 import de.freese.base.utils.ByteArrayDataSource;
 
@@ -29,35 +29,13 @@ import de.freese.base.utils.ByteArrayDataSource;
  */
 public final class LocalStorage
 {
-    /**
-     *
-     */
     private Path directory;
 
-    /**
-     * Kopiert den {@link InputStream} in den {@link OutputStream}.<br>
-     * Die Streams werden NICHT geschlossen.
-     *
-     * @param src {@link InputStream}
-     * @param dest {@link OutputStream}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public synchronized void copy(final InputStream src, final OutputStream dest) throws IOException
     {
         src.transferTo(dest);
     }
 
-    /**
-     * Erzeugt eine temporäre Datei im BasisVerzeichnis
-     *
-     * @param prefix String
-     * @param suffix String
-     *
-     * @return {@link File}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public File createTemporaryFile(final String prefix, final String suffix) throws IOException
     {
         Path path = Files.createTempFile(getDirectory(), prefix, suffix);
@@ -68,15 +46,6 @@ public final class LocalStorage
         return file;
     }
 
-    /**
-     * Liefert true, wenn das Verzeichnis gelöscht wurde.
-     *
-     * @param fileName String, wenn "" wird das Basisverzeichnis gelöscht
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public boolean deleteDirectory(final String fileName) throws IOException
     {
         validateFileName(fileName);
@@ -86,15 +55,6 @@ public final class LocalStorage
         return deleteDirectory(path);
     }
 
-    /**
-     * Liefert true, wenn die Datei gelöscht wurde.
-     *
-     * @param fileName String
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public boolean deleteFile(final String fileName) throws IOException
     {
         Path path = getPath(fileName);
@@ -104,11 +64,6 @@ public final class LocalStorage
         return true;
     }
 
-    /**
-     * Basisverzeichnis.
-     *
-     * @return {@link Path}
-     */
     public Path getDirectory()
     {
         if (this.directory == null)
@@ -161,17 +116,6 @@ public final class LocalStorage
         return this.directory;
     }
 
-    /**
-     * Liefert den InputStream einer Datei.<br>
-     * If no options are present then it is equivalent to opening the file with the {@link StandardOpenOption#READ READ} option
-     *
-     * @param fileName String, relativ zum Basisverzeichnis
-     * @param options {@link OpenOption}[]
-     *
-     * @return {@link InputStream}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public InputStream getInputStream(final String fileName, final OpenOption... options) throws IOException
     {
         validateFileName(fileName);
@@ -183,18 +127,6 @@ public final class LocalStorage
         return new BufferedInputStream(Files.newInputStream(path, options));
     }
 
-    /**
-     * Liefert den {@link OutputStream} einer Datei.<br>
-     * If no options are present then this method works as if the {@link StandardOpenOption#CREATE CREATE}, {@link StandardOpenOption#TRUNCATE_EXISTING
-     * TRUNCATE_EXISTING}, and {@link StandardOpenOption#WRITE WRITE} options are present.
-     *
-     * @param fileName {@link String}, relativ zum Basisverzeichnis
-     * @param options {@link OpenOption}[]
-     *
-     * @return {@link OutputStream}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public OutputStream getOutputStream(final String fileName, final OpenOption... options) throws IOException
     {
         validateFileName(fileName);
@@ -206,13 +138,6 @@ public final class LocalStorage
         return new BufferedOutputStream(Files.newOutputStream(path, options));
     }
 
-    /**
-     * Liefert das Path Objekt des Datei-Namens.
-     *
-     * @param fileName {@link Path}
-     *
-     * @return {@link File}
-     */
     public Path getPath(final String fileName)
     {
         validateFileName(fileName);
@@ -220,25 +145,11 @@ public final class LocalStorage
         return getDirectory().resolve(fileName);
     }
 
-    /**
-     * Öffnet eine Datei mit dem Default Systemprogramm.
-     *
-     * @param file {@link Path}, relativ zum Basisverzeichnis
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public void openPath(final Path file) throws IOException
     {
         Desktop.getDesktop().open(getDirectory().resolve(file).toFile());
     }
 
-    /**
-     * Entfernt illegale Zeichen im Dateinamen.
-     *
-     * @param fileName String
-     *
-     * @return String
-     */
     public String removeIllegalChars(final String fileName)
     {
         validateFileName(fileName);
@@ -258,17 +169,6 @@ public final class LocalStorage
         return internalName;
     }
 
-    /**
-     * Speichert die {@link DataSource} in das temp. Verzeichnis.
-     *
-     * @param dataSource {@link DataSource}
-     *
-     * @return String ggf. korrigierter Dateiname
-     *
-     * @throws IOException Falls was schiefgeht.
-     * @see DataSource#getName()
-     * @see DataSource#getInputStream()
-     */
     public synchronized String save(final DataSource dataSource) throws IOException
     {
         String fileName = dataSource.getName();
@@ -288,16 +188,6 @@ public final class LocalStorage
         return fileName;
     }
 
-    /**
-     * Speichert das byte[] in das temp. Verzeichnis.
-     *
-     * @param fileName String, der relative Dateiname
-     * @param data byte[]
-     *
-     * @return String absoluter Dateiname
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public synchronized String save(final String fileName, final byte[] data) throws Exception
     {
         ByteArrayDataSource dataSource = new ByteArrayDataSource(data, ByteArrayDataSource.MIMETYPE_APPLICATION_OCTET_STREAM);
@@ -306,16 +196,6 @@ public final class LocalStorage
         return save(dataSource);
     }
 
-    /**
-     * Speichert den {@link InputStream} in das temp. Verzeichnis.
-     *
-     * @param fileName String, der relative Dateiname
-     * @param inputStream {@link InputStream}
-     *
-     * @return String absoluter Dateiname
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public synchronized String saveTemp(final String fileName, final InputStream inputStream) throws Exception
     {
         ByteArrayDataSource dataSource = new ByteArrayDataSource(inputStream, ByteArrayDataSource.MIMETYPE_APPLICATION_OCTET_STREAM);
@@ -324,11 +204,6 @@ public final class LocalStorage
         return save(dataSource);
     }
 
-    /**
-     * Basisverzeichnis.
-     *
-     * @param directory Path
-     */
     public void setDirectory(final Path directory)
     {
         this.directory = directory;
@@ -336,11 +211,6 @@ public final class LocalStorage
         createDirectories(this.directory);
     }
 
-    /**
-     * Erzeugt das Verzeichnis, inklusive der Parent-Verzeichnisse.
-     *
-     * @param path {@link Path}
-     */
     private void createDirectories(final Path path)
     {
         if (!Files.exists(path))
@@ -356,16 +226,6 @@ public final class LocalStorage
         }
     }
 
-    /**
-     * Löscht rekursiv ein Verzeichnis inklusive aller Dateien.<br>
-     * Gefährliche Methode, deswegen private !!!
-     *
-     * @param path {@link Path}
-     *
-     * @return true, wenn erfolgreich gelöscht
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private boolean deleteDirectory(final Path path) throws IOException
     {
         if (Files.isDirectory(path))
@@ -397,9 +257,6 @@ public final class LocalStorage
         return Files.deleteIfExists(path);
     }
 
-    /**
-     * @param fileName String
-     */
     private void validateFileName(final String fileName)
     {
         if (fileName == null)

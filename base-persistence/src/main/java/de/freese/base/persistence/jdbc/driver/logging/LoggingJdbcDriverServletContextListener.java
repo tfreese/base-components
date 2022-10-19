@@ -3,8 +3,8 @@ package de.freese.base.persistence.jdbc.driver.logging;
 
 import java.sql.DriverManager;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
 
 /**
  * @author Thomas Freese
@@ -12,7 +12,7 @@ import javax.servlet.ServletContextListener;
 public class LoggingJdbcDriverServletContextListener implements ServletContextListener
 {
     /**
-     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
+     * @see jakarta.servlet.ServletContextListener#contextDestroyed(jakarta.servlet.ServletContextEvent)
      */
     @Override
     public void contextDestroyed(final ServletContextEvent sce)
@@ -21,7 +21,7 @@ public class LoggingJdbcDriverServletContextListener implements ServletContextLi
     }
 
     /**
-     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
+     * @see jakarta.servlet.ServletContextListener#contextInitialized(jakarta.servlet.ServletContextEvent)
      */
     @Override
     public void contextInitialized(final ServletContextEvent sce)

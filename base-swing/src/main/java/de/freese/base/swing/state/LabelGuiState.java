@@ -4,9 +4,10 @@ import java.awt.Component;
 import java.io.Serial;
 
 import javax.swing.JLabel;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * State eines Labels.
@@ -17,19 +18,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LabelGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8640371387385687109L;
-    /**
-     *
-     */
+
     private String text = "";
 
-    /**
-     * Creates a new {@link LabelGuiState} object.
-     */
     public LabelGuiState()
     {
         super(JLabel.class);

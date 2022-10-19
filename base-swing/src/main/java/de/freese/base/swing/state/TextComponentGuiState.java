@@ -5,9 +5,10 @@ import java.io.Serial;
 
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * GuiState für ein {@link JTextField}.
@@ -18,27 +19,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TextComponentGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2574739641182232056L;
-    /**
-     *
-     */
+
     private String text;
 
-    /**
-     * Erstellt ein neues {@link TextComponentGuiState} Object.
-     */
     public TextComponentGuiState()
     {
         super((Class<?>) null);
     }
 
-    /**
-     * @return String
-     */
     public String getText()
     {
         return this.text;

@@ -30,22 +30,12 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  */
 public final class DbServerExtension implements BeforeAllCallback, BeforeTestExecutionCallback, AfterAllCallback, AfterTestExecutionCallback
 {
-    /**
-     *
-     */
     private static final AtomicInteger ATOMIC_INTEGER = new AtomicInteger(1);
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DbServerExtension.class);
-    /**
-     *
-     */
+
     private static final Duration SQL_TIMEOUT = Duration.ofSeconds(5);
 
-    /**
-     * @return String
-     */
     public static String createDbName()
     {
         String dbName = "db-" + ATOMIC_INTEGER.getAndIncrement();
@@ -58,17 +48,11 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         return dbName;
     }
 
-    /**
-     * @return {@link Duration}
-     */
     public static Duration getSqlTimeout()
     {
         return SQL_TIMEOUT;
     }
 
-    /**
-     *
-     */
     public static void showMemory()
     {
         if (!LOGGER.isDebugEnabled())
@@ -92,24 +76,12 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         LOGGER.debug("Total free memory: {}", format.format((freeMemory + (maxMemory - allocatedMemory)) / divider) + unit);
     }
 
-    /**
-     *
-     */
     private final EmbeddedDatabaseType databaseType;
-    /**
-     *
-     */
+
     private HikariDataSource dataSource;
-    /**
-     *
-     */
+
     private JdbcOperations jdbcOperations;
 
-    /**
-     * Erstellt ein neues {@link DbServerExtension} Object.
-     *
-     * @param databaseType {@link EmbeddedDatabaseType}
-     */
     public DbServerExtension(final EmbeddedDatabaseType databaseType)
     {
         super();
@@ -233,7 +205,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
             case DERBY ->
             {
-                config.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
+                config.setDriverClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
                 config.setJdbcUrl("jdbc:derby:memory:" + createDbName() + ";create=true");
             }
             default -> throw new IllegalArgumentException("unsupported databaseType: " + this.databaseType);
@@ -271,57 +243,36 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         getStoreForMethod(context).put("start-time", System.currentTimeMillis());
     }
 
-    /**
-     * @return {@link DataSource}
-     */
     public DataSource getDataSource()
     {
         return this.dataSource;
     }
 
-    /**
-     * @return {@link EmbeddedDatabaseType}
-     */
     public EmbeddedDatabaseType getDatabaseType()
     {
         return this.databaseType;
     }
 
-    /**
-     * @return String
-     */
     public String getDriver()
     {
         return this.dataSource.getDriverClassName();
     }
 
-    /**
-     * @return {@link JdbcOperations}
-     */
     public JdbcOperations getJdbcOperations()
     {
         return this.jdbcOperations;
     }
 
-    /**
-     * @return String
-     */
     public String getPassword()
     {
         return this.dataSource.getPassword();
     }
 
-    /**
-     * @return String
-     */
     public String getUrl()
     {
         return this.dataSource.getJdbcUrl();
     }
 
-    /**
-     * @return String
-     */
     public String getUsername()
     {
         return this.dataSource.getUsername();

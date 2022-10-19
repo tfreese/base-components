@@ -7,9 +7,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * State einer ComboBox.
@@ -20,23 +21,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ComboBoxGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8701963133645177327L;
-    /**
-     * Der selektierte Index in der ComboBox. Per Default, ist das erste Element in der ComboBox vorselektiert.
-     */
+
     private int selectedIndex;
-    /**
-     * Name des gewählten Objektes.
-     */
+
     private String selectedName = "";
 
-    /**
-     * Erstellt ein neues {@link ComboBoxGuiState} Objekt.
-     */
     public ComboBoxGuiState()
     {
         super(JComboBox.class);

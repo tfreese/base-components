@@ -8,9 +8,10 @@ import java.util.List;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * Verwaltet den Status eines Trees.
@@ -21,33 +22,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TreeGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3862916832341697120L;
-    /**
-     *
-     */
+
     private final transient List<int[]> expansionIndices = new ArrayList<>();
-    /**
-     * int[]
-     */
+
     private int[] selectedRows;
 
-    /**
-     * Creates a new {@link TreeGuiState} object.
-     */
     public TreeGuiState()
     {
         super(JTree.class);
     }
 
-    /**
-     * Liefert true, wenn selektierte Rows vorhanden sind.
-     *
-     * @return boolean
-     */
     public boolean hasSelectedRows()
     {
         return (this.selectedRows != null) && (this.selectedRows.length > 0);

@@ -15,7 +15,6 @@ import java.io.Serial;
 import java.util.Locale;
 import java.util.logging.Level;
 
-import javax.activation.DataSource;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -29,6 +28,8 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.html.HTMLEditorKit;
+
+import jakarta.activation.DataSource;
 
 import de.freese.base.net.mail.MailWrapper;
 import de.freese.base.swing.layout.GbcBuilder;

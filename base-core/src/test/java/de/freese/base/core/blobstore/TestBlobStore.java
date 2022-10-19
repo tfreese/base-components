@@ -41,26 +41,14 @@ import org.springframework.beans.factory.DisposableBean;
  */
 class TestBlobStore
 {
-    /**
-     *
-     */
     private static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "blobStore");
-    /**
-     *
-     */
+
     private static DataSource dataSourceDerby;
-    /**
-     *
-     */
+
     private static DataSource dataSourceH2;
-    /**
-     *
-     */
+
     private static DataSource dataSourceHsqldb;
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
@@ -83,9 +71,6 @@ class TestBlobStore
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -124,17 +109,12 @@ class TestBlobStore
 
         // Derby
         config = new HikariConfig();
-        config.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
+        config.setDriverClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
         config.setJdbcUrl("jdbc:derby:memory:test;create=true");
         hikariConfigurer.accept("derby", config);
         dataSourceDerby = new HikariDataSource(config);
     }
 
-    /**
-     * @return {@link Stream}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static Stream<Arguments> createArgumentes() throws Exception
     {
         // @formatter:off
@@ -154,21 +134,12 @@ class TestBlobStore
         // Empty
     }
 
-    /**
-     *
-     */
     @BeforeEach
     void beforeEach()
     {
         // Empty
     }
 
-    /**
-     * @param name String
-     * @param blobStore {@link BlobStore}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(1)

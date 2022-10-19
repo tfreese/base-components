@@ -5,9 +5,9 @@ import java.awt.Container;
 import java.awt.Rectangle;
 import java.io.Serial;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * State eines Containers (JFrame, JPanel etc.).
@@ -18,42 +18,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ContainerGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 3075009969118716461L;
-    /**
-     *
-     */
+
     private int height;
-    /**
-     *
-     */
+
     private int width;
-    /**
-     *
-     */
+
     private int x;
-    /**
-     *
-     */
+
     private int y;
 
-    /**
-     * Creates a new {@link ContainerGuiState} object.
-     */
     public ContainerGuiState()
     {
         super(Container.class);
     }
 
-    /**
-     * Erstellt ein neues {@link ContainerGuiState} Object.
-     *
-     * @param supportedTypes supportedTypes Class[]
-     */
-    protected ContainerGuiState(final Class<?>...supportedTypes)
+    protected ContainerGuiState(final Class<?>... supportedTypes)
     {
         super(supportedTypes);
     }

@@ -1,7 +1,8 @@
 package de.freese.base.core.xml.jaxb;
 
 import java.awt.Color;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * JAXB Adapter für ein {@link Color} Objekt.
@@ -11,7 +12,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class ColorAdapter extends XmlAdapter<String, Color>
 {
     /**
-     * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+     * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
      */
     @Override
     public String marshal(final Color arg0) throws Exception
@@ -26,7 +27,7 @@ public class ColorAdapter extends XmlAdapter<String, Color>
     }
 
     /**
-     * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+     * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
      */
     @Override
     public Color unmarshal(final String arg0) throws Exception

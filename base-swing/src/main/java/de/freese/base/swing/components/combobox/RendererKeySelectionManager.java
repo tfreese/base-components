@@ -19,29 +19,15 @@ import javax.swing.text.JTextComponent;
  */
 public class RendererKeySelectionManager implements KeySelectionManager
 {
-    /**
-     *
-     */
     @SuppressWarnings("rawtypes")
     private final JComboBox comboBox;
-    /**
-     * JList temporäre Liste zum Rendern des Inhalts
-     */
+
     private final JList<Object> list = new JList<>();
-    /**
-     * Zeitpunkt, der letzten Suche (des Tastendrucks)
-     */
+
     private long lastKeyTime;
-    /**
-     * Pattern auf das überprüft wird.
-     */
+
     private String pattern = "";
 
-    /**
-     * Erstellt ein neues {@link RendererKeySelectionManager} Objekt.
-     *
-     * @param comboBox {@link JComboBox}
-     */
     public RendererKeySelectionManager(final JComboBox<?> comboBox)
     {
         super();
@@ -53,7 +39,7 @@ public class RendererKeySelectionManager implements KeySelectionManager
      * @see javax.swing.JComboBox.KeySelectionManager#selectionForKey(char, javax.swing.ComboBoxModel)
      */
     @Override
-    public int selectionForKey(final char key, final ComboBoxModel model)
+    public int selectionForKey(final char key, final ComboBoxModel<?> model)
     {
         int selectedIndex = getSelectedIndex(model);
 
@@ -71,13 +57,6 @@ public class RendererKeySelectionManager implements KeySelectionManager
         return resultIndex;
     }
 
-    /**
-     * Bestimmt das aktuell gewählte Objekt in der ComboBox.
-     *
-     * @param model {@link ComboBoxModel}
-     *
-     * @return Index des selektierten Objekts, sonst 0
-     */
     private int getSelectedIndex(final ComboBoxModel<?> model)
     {
         Object selectedObject = model.getSelectedItem();
@@ -96,13 +75,6 @@ public class RendererKeySelectionManager implements KeySelectionManager
         return 0;
     }
 
-    /**
-     * Liefert den String aus dem {@link ListCellRenderer} der Zeile.
-     *
-     * @param row int
-     *
-     * @return String
-     */
     @SuppressWarnings("unchecked")
     private String getString(final int row)
     {

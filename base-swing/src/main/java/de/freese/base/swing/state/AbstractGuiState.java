@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.io.Serial;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 /**
  * Basisimplementierung eines {@link GuiState}.
@@ -14,33 +14,19 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlTransient
 public abstract class AbstractGuiState implements GuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 5367608044965230104L;
     /**
      * Um veraltete States auch mal löschen zu können.
      */
     private final long created = System.currentTimeMillis();
-    /**
-     *
-     */
+
     private final transient Class<?>[] supportedTypes;
-    /**
-     *
-     */
+
     private boolean enabled = true;
-    /**
-     *
-     */
+
     private boolean visible = true;
 
-    /**
-     * Erstellt ein neues {@link AbstractGuiState} Object.
-     *
-     * @param supportedTypes Class[]
-     */
     protected AbstractGuiState(final Class<?>... supportedTypes)
     {
         super();
@@ -48,11 +34,6 @@ public abstract class AbstractGuiState implements GuiState
         this.supportedTypes = supportedTypes;
     }
 
-    /**
-     * Liefert den Timestamp der Erzeugung.
-     *
-     * @return long
-     */
     public long getCreated()
     {
         return this.created;
@@ -102,9 +83,6 @@ public abstract class AbstractGuiState implements GuiState
         return false;
     }
 
-    /**
-     * @param visible boolean
-     */
     protected void setVisible(final boolean visible)
     {
         this.visible = visible;

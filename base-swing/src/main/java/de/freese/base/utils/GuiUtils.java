@@ -13,10 +13,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serial;
 import java.util.Objects;
 
-import javax.activation.DataSource;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import jakarta.activation.DataSource;
 
 import de.freese.base.core.image.ImageFormat;
 

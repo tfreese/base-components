@@ -4,17 +4,16 @@ package de.freese.base.utils;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Locale;
 
-import javax.persistence.metamodel.Metamodel;
+import jakarta.persistence.metamodel.Metamodel;
 
 import org.hibernate.Cache;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.proxy.HibernateProxy;
-import org.hibernate.proxy.HibernateProxyHelper;
 import org.hibernate.proxy.LazyInitializer;
 import org.hibernate.stat.CacheRegionStatistics;
 import org.hibernate.stat.EntityStatistics;
@@ -87,7 +86,6 @@ public final class HibernateUtils
      * @throws ClassCastException Falls was schiefgeht.
      * @see HibernateProxy
      * @see LazyInitializer
-     * @see HibernateProxyHelper
      */
     public static <T> T deProxy(final Object maybeProxy) throws ClassCastException
     {
@@ -133,7 +131,7 @@ public final class HibernateUtils
     public static <T> Class<T> getClassFromProxy(final Object maybeProxy)
     {
         // HibernateProxyHelper
-        return getClassWithoutInitializingProxy(maybeProxy);
+        return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
     /**
@@ -159,18 +157,11 @@ public final class HibernateUtils
             pw.println("Statistics enabled......: " + stats.isStatisticsEnabled());
             pw.println();
 
-            Calendar calendar = Calendar.getInstance(Locale.GERMAN);
+            final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             // Allgemeine Statistiken
-            calendar.setTimeInMillis(stats.getStartTime());
-
-            String formatDate = "%1$td.%1$tm.%1$tY %1$tT";
-            String sCalendar = String.format(formatDate, calendar.getTime());
-
-            pw.println("Start Date..............: " + sCalendar);
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            sCalendar = String.format(formatDate, calendar.getTime());
-            pw.println("Current Date............: " + sCalendar);
+            pw.println("Start Date..............: " + DATE_TIME_FORMATTER.format(stats.getStart()));
+            pw.println("Current Date............: " + DATE_TIME_FORMATTER.format(LocalDateTime.now()));
             pw.println();
             pw.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
             pw.println("Session open Count......: " + stats.getSessionOpenCount());
@@ -335,7 +326,7 @@ public final class HibernateUtils
      * of a proxy (without initializing the proxy!). It is
      * almost always better to use the entity name!
      */
-    private static Class getClassWithoutInitializingProxy(Object object)
+    private static Class<?> getClassWithoutInitializingProxy(Object object)
     {
         if (object instanceof HibernateProxy hibernateProxy)
         {

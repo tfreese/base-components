@@ -3,9 +3,10 @@ package de.freese.base.swing.state;
 import java.io.Serial;
 
 import javax.swing.JButton;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * State eines Buttons.
@@ -16,15 +17,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ButtonGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8640371387385687109L;
 
-    /**
-     * Creates a new {@link ButtonGuiState} object.
-     */
     public ButtonGuiState()
     {
         super(JButton.class);

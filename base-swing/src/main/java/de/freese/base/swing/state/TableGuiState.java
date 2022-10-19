@@ -9,9 +9,10 @@ import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
@@ -25,75 +26,38 @@ import org.jdesktop.swingx.table.TableColumnExt;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TableGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8164953430592111778L;
 
-    /**
-     * Statusklasse einer TableColumn.
-     *
-     * @author Thomas Freese
-     */
     @XmlRootElement(name = "ColumnState")
     public static class ColumnState implements Serializable
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -4666054569112117571L;
-        /**
-         *
-         */
+
         private boolean editable = true;
-        /**
-         *
-         */
+
         private int maxWidth = 30;
-        /**
-         *
-         */
+
         private int minWidth = 30;
-        /**
-         *
-         */
+
         private int modelIndex;
-        /**
-         *
-         */
+
         private int preferredWidth = 50;
-        /**
-         *
-         */
+
         private boolean resizeable = true;
-        /**
-         *
-         */
+
         private boolean sortable = true;
-        /**
-         *
-         */
+
         private boolean visible = true;
-        /**
-         *
-         */
+
         private int width = 50;
 
-        /**
-         * Erstellt ein neues {@link ColumnState} Object.
-         */
         public ColumnState()
         {
             super();
         }
 
-        /**
-         * Creates a new {@link ColumnState} object.
-         *
-         * @param tableColumn {@link TableColumn}
-         */
         public ColumnState(final TableColumn tableColumn)
         {
             super();
@@ -113,11 +77,6 @@ public class TableGuiState extends AbstractGuiState
             }
         }
 
-        /**
-         * Konfiguriert die Spalte.
-         *
-         * @param tableColumn {@link TableColumn}
-         */
         public void update(final TableColumn tableColumn)
         {
             if (this.width != -1)
@@ -152,18 +111,11 @@ public class TableGuiState extends AbstractGuiState
             }
         }
     }
-    /**
-     *
-     */
+
     private ColumnState[] columnStates;
-    /**
-     *
-     */
+
     private int[] selectedRows;
 
-    /**
-     * Creates a new {@link TableGuiState} object.
-     */
     public TableGuiState()
     {
         super(JTable.class);
@@ -258,13 +210,6 @@ public class TableGuiState extends AbstractGuiState
         }
     }
 
-    /**
-     * Liefert den gespeicherten ModelIndex einer Spalte.
-     *
-     * @param index int
-     *
-     * @return int
-     */
     private int findModelIndex(final int index)
     {
         for (int j = 0; j < this.columnStates.length; j++)
@@ -278,13 +223,6 @@ public class TableGuiState extends AbstractGuiState
         return -1;
     }
 
-    /**
-     * Liefert eine Liste mit den {@link TableColumn}s.
-     *
-     * @param table {@link JTable}
-     *
-     * @return {@link List}
-     */
     private List<TableColumn> getColumns(final JTable table)
     {
         List<TableColumn> columns = new ArrayList<>();

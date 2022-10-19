@@ -11,7 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 
 /**
  * Einfache {@link DataSource} für ein ByteArray.
@@ -20,71 +20,37 @@ import javax.activation.DataSource;
  */
 public class ByteArrayDataSource implements DataSource, Serializable
 {
-    /**
-     *
-     */
     public static final String MIMETYPE_APPLICATION_EXCEL = "application/vnd.ms-excel";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_APPLICATION_HTTP = "application/http";
     /**
      * MimeTypes siehe auch <a href="http://www.iana.org/assignments/media-types">http://www.iana.org/assignments/media-types</a>
      */
     public static final String MIMETYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_APPLICATION_PDF = "application/pdf";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_APPLICATION_POWERPOINT = "application/vnd.ms-powerpoint";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_APPLICATION_XML = "application/xml";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_IMAGE_BMP = "image/bmp";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_IMAGE_GIF = "image/gif";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_IMAGE_JPEG = "image/jpeg";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_IMAGE_PNG = "image/png";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_TEXT_CSV = "text/csv";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_TEXT_HTML = "text/html";
-    /**
-     *
-     */
+
     public static final String MIMETYPE_TEXT_PLAIN = "text/plain";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = -3420529375053580438L;
 
-    /**
-     * Liefert anhand des Resource Namens den passenden MimeType.
-     *
-     * @param resourceName String
-     *
-     * @return String
-     */
     public static String getMimeType(final String resourceName)
     {
         if (resourceName == null)
@@ -132,38 +98,18 @@ public class ByteArrayDataSource implements DataSource, Serializable
         return mimeType;
     }
 
-    /**
-     * Liefert true, wenn der MimeType ein ImageTyp ist.
-     *
-     * @param mimeType String
-     *
-     * @return boolean
-     */
     public static boolean isImageMimeType(final String mimeType)
     {
         return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType)
                 || MIMETYPE_IMAGE_BMP.equals(mimeType);
     }
 
-    /**
-     * Daten
-     */
     private final byte[] data;
-    /**
-     * content-type
-     */
+
     private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
-    /**
-     *
-     */
+
     private String name = "";
 
-    /**
-     * Create a {@link ByteArrayDataSource} from a byte array.
-     *
-     * @param data byte[]
-     * @param mimeType String
-     */
     public ByteArrayDataSource(final byte[] data, final String mimeType)
     {
         super();
@@ -172,14 +118,6 @@ public class ByteArrayDataSource implements DataSource, Serializable
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
     }
 
-    /**
-     * InputStream wird 1:1 kopiert.
-     *
-     * @param is {@link InputStream}
-     * @param mimeType String
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException
     {
         super();
@@ -209,26 +147,11 @@ public class ByteArrayDataSource implements DataSource, Serializable
         this.data = baos.toByteArray();
     }
 
-    /**
-     * Create a {@link ByteArrayDataSource} from an Object.
-     *
-     * @param object Serializable
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public ByteArrayDataSource(final Serializable object) throws IOException
     {
         this(ByteUtils.serializeObject(object), MIMETYPE_APPLICATION_OCTET_STREAM);
     }
 
-    /**
-     * Create a {@link ByteArrayDataSource} from a String.
-     *
-     * @param value String
-     * @param mimeType String
-     *
-     * @throws UnsupportedEncodingException Falls was schiefgeht.
-     */
     public ByteArrayDataSource(final String value, final String mimeType) throws UnsupportedEncodingException
     {
         super();
@@ -249,7 +172,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     }
 
     /**
-     * @see javax.activation.DataSource#getContentType()
+     * @see jakarta.activation.DataSource#getContentType()
      */
     @Override
     public String getContentType()
@@ -258,7 +181,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     }
 
     /**
-     * @see javax.activation.DataSource#getInputStream()
+     * @see jakarta.activation.DataSource#getInputStream()
      */
     @Override
     public InputStream getInputStream() throws IOException
@@ -272,7 +195,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     }
 
     /**
-     * @see javax.activation.DataSource#getName()
+     * @see jakarta.activation.DataSource#getName()
      */
     @Override
     public String getName()
@@ -281,7 +204,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
     }
 
     /**
-     * @see javax.activation.DataSource#getOutputStream()
+     * @see jakarta.activation.DataSource#getOutputStream()
      */
     @Override
     public OutputStream getOutputStream() throws IOException
@@ -297,11 +220,6 @@ public class ByteArrayDataSource implements DataSource, Serializable
         return baos;
     }
 
-    /**
-     * Setzt den Namen der DataSource.
-     *
-     * @param value String
-     */
     public void setName(final String value)
     {
         if (value != null)

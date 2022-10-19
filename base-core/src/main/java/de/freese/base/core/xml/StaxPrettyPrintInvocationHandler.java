@@ -13,32 +13,16 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public class StaxPrettyPrintInvocationHandler implements InvocationHandler
 {
-    /**
-     *
-     */
     private static final String INDENT_CHAR = " ";
-    /**
-     *
-     */
+
     private final Map<Integer, Boolean> hasChildElement = new HashMap<>();
-    /**
-     *
-     */
+
     private final String lineSeparator;
-    /**
-     *
-     */
+
     private final XMLStreamWriter target;
-    /**
-     *
-     */
+
     private int depth;
 
-    /**
-     * Erstellt ein neues {@link StaxPrettyPrintInvocationHandler} Object.
-     *
-     * @param target {@link XMLStreamWriter}
-     */
     public StaxPrettyPrintInvocationHandler(final XMLStreamWriter target)
     {
         super();
@@ -69,7 +53,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
                 {
                     this.hasChildElement.put(this.depth - 1, true);
                 }
-                
+
                 this.hasChildElement.put(this.depth, false);
                 this.target.writeCharacters(this.lineSeparator);
                 this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
@@ -102,12 +86,6 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
         return null;
     }
 
-    /**
-     * @param amount int
-     * @param indent String
-     *
-     * @return String
-     */
     private String indent(final int amount, final String indent)
     {
         if (amount == 0)

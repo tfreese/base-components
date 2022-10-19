@@ -4,9 +4,10 @@ import java.awt.Component;
 import java.io.Serial;
 
 import javax.swing.JTabbedPane;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * GuiState für eine {@link JTabbedPane}.
@@ -17,27 +18,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TabbedPaneGuiState extends AbstractGuiState
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5629441991603272347L;
-    /**
-     *
-     */
+
     private int selectedIndex;
 
-    /**
-     * Erstellt ein neues {@link TabbedPaneGuiState} Object.
-     */
     public TabbedPaneGuiState()
     {
         super(JTabbedPane.class);
     }
 
-    /**
-     * @return int
-     */
     public int getSelectedIndex()
     {
         return this.selectedIndex;
@@ -63,9 +53,6 @@ public class TabbedPaneGuiState extends AbstractGuiState
         }
     }
 
-    /**
-     * @param selectedIndex int
-     */
     public void setSelectedIndex(final int selectedIndex)
     {
         this.selectedIndex = selectedIndex;
