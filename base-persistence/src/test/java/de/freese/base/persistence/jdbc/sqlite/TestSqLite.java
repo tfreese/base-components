@@ -35,24 +35,17 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSqLite
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(TestSqLite.class);
     /**
      * Paths.get(System.getProperty("user.dir"), "target")<br>
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
      */
     private static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java", TestSqLite.class.getSimpleName());
-    /**
-     *
-     */
+
     private static SQLiteDataSource dataSource;
 
     /**
      * Verzeichnis-Struktur zum Testen löschen.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     protected static void afterAll() throws Exception
@@ -61,9 +54,6 @@ class TestSqLite
         // deleteDirectoryRecursive(PATH_TEST);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     protected static void beforeAll() throws Exception
     {
@@ -91,9 +81,6 @@ class TestSqLite
         dataSource.setUrl("jdbc:sqlite:" + PATH_TEST + "/sqlite.db");
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testSqliteJDBC() throws Exception
     {
@@ -155,9 +142,6 @@ class TestSqLite
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testSqliteSpring() throws Exception
     {

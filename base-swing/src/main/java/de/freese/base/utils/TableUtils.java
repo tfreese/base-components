@@ -20,11 +20,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class TableUtils
 {
-    /**
-     * Abbrechen der Eingabe des CellEditors.
-     *
-     * @param table {@link JTable}
-     */
     public static void cancelCellEditing(final JTable table)
     {
         try
@@ -86,14 +81,6 @@ public final class TableUtils
         viewport.scrollRectToVisible(rect);
     }
 
-    /**
-     * Liefert den {@link TableCellRenderer} einer bestimmten Column einer Table.
-     *
-     * @param table {@link JTable}
-     * @param column int
-     *
-     * @return {@link TableCellRenderer}
-     */
     public static TableCellRenderer getCellRenderer(final JTable table, final int column)
     {
         int viewIndex = table.convertColumnIndexToView(column);
@@ -113,26 +100,11 @@ public final class TableUtils
         return renderer;
     }
 
-    /**
-     * Liefert den {@link TableCellRenderer} einer bestimmten Column einer Table.
-     *
-     * @param table {@link JTable}
-     * @param column {@link TableColumn}
-     *
-     * @return {@link TableCellRenderer}
-     */
     public static TableCellRenderer getCellRenderer(final JTable table, final TableColumn column)
     {
         return getCellRenderer(table, column.getModelIndex());
     }
 
-    /**
-     * Liefert das erste selektierte Object.
-     *
-     * @param table {@link JTable}
-     *
-     * @return Object
-     */
     public static Object getFirstSelectedObject(final JTable table)
     {
         Object[] obj = getSelectedObjects(table);
@@ -145,14 +117,6 @@ public final class TableUtils
         return null;
     }
 
-    /**
-     * Liefert den Header {@link TableCellRenderer} einer bestimmten Column einer Table.
-     *
-     * @param table {@link JTable}
-     * @param column {@link TableColumn}
-     *
-     * @return {@link TableCellRenderer}
-     */
     public static TableCellRenderer getHeaderRenderer(final JTable table, final TableColumn column)
     {
         TableCellRenderer renderer = column.getHeaderRenderer();
@@ -170,15 +134,6 @@ public final class TableUtils
         return renderer;
     }
 
-    /**
-     * Liefert den gerenderten Wert der Tabelle.
-     *
-     * @param table {@link JTable}
-     * @param row int
-     * @param column int
-     *
-     * @return String
-     */
     public static String getRenderedValueAt(final JTable table, final int row, final int column)
     {
         String value = null;
@@ -220,13 +175,6 @@ public final class TableUtils
         return value;
     }
 
-    /**
-     * Liefert die Objekte der selektierten Zeilen, das TableModel muss dabei vom Typ {@link AbstractListTableModel} sein !
-     *
-     * @param table {@link JTable}
-     *
-     * @return Object[]
-     */
     public static Object[] getSelectedObjects(final JTable table)
     {
         int[] rows = table.getSelectedRows();
@@ -355,11 +303,6 @@ public final class TableUtils
         }
     }
 
-    /**
-     * Schliessen des CellEditors.
-     *
-     * @param table {@link JTable}
-     */
     public static void stopCellEditing(final JTable table)
     {
         try

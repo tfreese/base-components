@@ -8,46 +8,24 @@ import java.io.Serial;
  */
 class PersistenceException extends Exception
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4679691790131023241L;
 
-    /**
-     * Erstellt ein neues {@link PersistenceException} Object.
-     */
     public PersistenceException()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link PersistenceException} Object.
-     *
-     * @param message String
-     */
     public PersistenceException(final String message)
     {
         super(message);
     }
 
-    /**
-     * Erstellt ein neues {@link PersistenceException} Object.
-     *
-     * @param message String
-     * @param cause {@link Throwable}
-     */
     public PersistenceException(final String message, final Throwable cause)
     {
         super(message, cause);
     }
 
-    /**
-     * Erstellt ein neues {@link PersistenceException} Object.
-     *
-     * @param cause {@link Throwable}
-     */
     public PersistenceException(final Throwable cause)
     {
         super(cause);

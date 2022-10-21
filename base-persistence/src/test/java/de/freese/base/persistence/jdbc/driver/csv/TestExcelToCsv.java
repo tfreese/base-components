@@ -24,27 +24,18 @@ import org.slf4j.event.Level;
 @Execution(ExecutionMode.CONCURRENT)
 class TestExcelToCsv
 {
-    /**
-     *
-     */
     static final Logger LOGGER = LoggerFactory.getLogger(TestExcelToCsv.class);
     /**
      * System.out
      */
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         PRINT_STREAM.flush();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testExcelToCsv01() throws Exception
     {
@@ -77,9 +68,6 @@ class TestExcelToCsv
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testExcelToCsv02() throws Exception
     {

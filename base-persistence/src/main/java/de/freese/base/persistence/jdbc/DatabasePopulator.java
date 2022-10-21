@@ -28,32 +28,15 @@ import org.slf4j.LoggerFactory;
  */
 public class DatabasePopulator
 {
-    /**
-     *
-     */
     public static final Logger LOGGER = LoggerFactory.getLogger(DatabasePopulator.class);
-    /**
-     *
-     */
+
     private final List<URL> scripts = new ArrayList<>();
 
-    /**
-     * Fügt ein SQL-Skript hinzu,
-     *
-     * @param script {@link URL}
-     */
     public void addScript(final URL script)
     {
         this.scripts.add(script);
     }
 
-    /**
-     * Erstellt die DB-Struktur anhand der definierten SQL-Skripte.
-     *
-     * @param connection {@link Connection}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void populate(final Connection connection) throws Exception
     {
         for (URL script : this.scripts)
@@ -80,13 +63,6 @@ public class DatabasePopulator
         }
     }
 
-    /**
-     * Erstellt die DB-Struktur anhand der definierten SQL-Skripte.
-     *
-     * @param dataSource {@link DataSource}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void populate(final DataSource dataSource) throws Exception
     {
         try (Connection connection = dataSource.getConnection())
@@ -95,15 +71,6 @@ public class DatabasePopulator
         }
     }
 
-    /**
-     * Liefert die Zeilen aus dem SQL-Skript.
-     *
-     * @param script String
-     *
-     * @return {@link List}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected List<String> getScriptLines(final URL script) throws Exception
     {
         List<String> fileLines = null;
@@ -152,15 +119,6 @@ public class DatabasePopulator
         // @formatter:on
     }
 
-    /**
-     * Liefert die SQLs aus dem Skript.
-     *
-     * @param script {@link URL}
-     *
-     * @return {@link List}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected List<String> getScriptSQLs(final URL script) throws Exception
     {
         List<String> scriptLines = getScriptLines(script);

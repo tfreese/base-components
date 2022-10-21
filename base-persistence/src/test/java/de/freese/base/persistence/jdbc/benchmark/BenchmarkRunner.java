@@ -17,11 +17,6 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  */
 public class BenchmarkRunner
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     public static void main(String[] args) throws Exception
     {
         // Der Builder überschreibt die Klassen-Annotationen.

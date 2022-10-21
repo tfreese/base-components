@@ -11,17 +11,9 @@ import org.springframework.dao.DataAccessException;
  */
 class NoScalarKeyException extends DataAccessException
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8320833456066908985L;
 
-    /**
-     * Erstellt ein neues {@link NoScalarKeyException} Object.
-     *
-     * @param msg String
-     */
     public NoScalarKeyException(final String msg)
     {
         super(msg);

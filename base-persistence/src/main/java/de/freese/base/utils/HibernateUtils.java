@@ -25,13 +25,6 @@ import org.slf4j.Logger;
  */
 public final class HibernateUtils
 {
-    /**
-     * Leeren aller Caches der Hibernate Instanz.
-     *
-     * @param sessionFactory {@link SessionFactory}
-     * @param name String
-     * @param logger {@link Logger}, optional
-     */
     public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger)
     {
         logInfo(logger, String.format("Clear Cache: %s", name));
@@ -134,13 +127,6 @@ public final class HibernateUtils
         return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
-    /**
-     * Liefert alle Persistenz-Statistiken der aktuellen Umgebung.
-     *
-     * @param sessionFactory {@link SessionFactory}
-     * @param pw {@link PrintWriter}
-     * @param logger {@link Logger}, optional
-     */
     public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw, final Logger logger)
     {
         logInfo(logger, String.format("Read PersistenceStatistics: %s", sessionFactory.getSessionFactoryOptions().getSessionFactoryName()));
@@ -194,7 +180,7 @@ public final class HibernateUtils
 
                 pw.println("Second Cache Hit Count...: " + hitCount);
                 pw.println("Second Cache Miss Count..: " + missCount);
-                pw.println("Second Cache Hit ratio[%]: " + round(hitRatio * 100, 3));
+                pw.println("Second Cache Hit ratio[%]: " + round(hitRatio * 100D, 3));
                 pw.println();
             }
             catch (Exception ex)
@@ -213,7 +199,7 @@ public final class HibernateUtils
 
                 pw.println("SQL Query Hit Count...: " + hitCount);
                 pw.println("SQL Query Miss Count..: " + missCount);
-                pw.println("SQL Query Hit ratio[%]: " + round(hitRatio * 100, 3));
+                pw.println("SQL Query Hit ratio[%]: " + round(hitRatio * 100D, 3));
                 pw.println();
             }
             catch (Exception ex)
@@ -243,7 +229,7 @@ public final class HibernateUtils
                     pw.println("Objects in Memory[MB]: " + round(cacheStatistics.getSizeInMemory() / 1024D / 1024D, 3));
                     pw.println("Hit Count............: " + hitCount);
                     pw.println("Miss Count...........: " + missCount);
-                    pw.println("Hit ratio[%].........: " + round(hitRatio * 100, 3));
+                    pw.println("Hit ratio[%].........: " + round(hitRatio * 100D, 3));
                     pw.println();
                 }
             }
@@ -340,12 +326,6 @@ public final class HibernateUtils
         }
     }
 
-    /**
-     * Util-Methode.
-     *
-     * @param logger {@link Logger}, optional
-     * @param th {@link Throwable}
-     */
     private static void logErr(final Logger logger, final Throwable th)
     {
         if (logger != null)
@@ -354,12 +334,6 @@ public final class HibernateUtils
         }
     }
 
-    /**
-     * Util-Methode.
-     *
-     * @param logger {@link Logger}, optional
-     * @param message String
-     */
     private static void logInfo(final Logger logger, final String message)
     {
         if (logger != null)
@@ -368,12 +342,6 @@ public final class HibernateUtils
         }
     }
 
-    /**
-     * Util-Methode.
-     *
-     * @param logger {@link Logger}, optional
-     * @param message String
-     */
     private static void logWarn(final Logger logger, final String message)
     {
         if (logger != null)
@@ -382,12 +350,6 @@ public final class HibernateUtils
         }
     }
 
-    /**
-     * Util-Methode.
-     *
-     * @param logger {@link Logger}, optional
-     * @param th {@link Throwable}
-     */
     private static void logWarn(final Logger logger, final Throwable th)
     {
         if (logger != null)
@@ -417,9 +379,6 @@ public final class HibernateUtils
         return bigDecimal.doubleValue();
     }
 
-    /**
-     * Erstellt ein neues {@link HibernateUtils} Object.
-     */
     private HibernateUtils()
     {
         super();

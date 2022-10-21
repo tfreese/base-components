@@ -31,18 +31,8 @@ import org.slf4j.LoggerFactory;
  */
 public final class JdbcUtils
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcUtils.class);
 
-    /**
-     * Schliesst die {@link Connection}.<br>
-     *
-     * @param connection {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static void close(final Connection connection) throws SQLException
     {
         // Spring-Variante
@@ -56,13 +46,6 @@ public final class JdbcUtils
         connection.close();
     }
 
-    /**
-     * Schliesst das {@link ResultSet}.<br>
-     *
-     * @param resultSet {@link ResultSet}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static void close(final ResultSet resultSet) throws SQLException
     {
         // Spring-Variante
@@ -76,13 +59,6 @@ public final class JdbcUtils
         resultSet.close();
     }
 
-    /**
-     * Schliesst das {@link Statement}.<br>
-     *
-     * @param statement {@link Statement} geht.
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static void close(final Statement statement) throws SQLException
     {
         // Spring-Variante
@@ -102,12 +78,6 @@ public final class JdbcUtils
         statement.close();
     }
 
-    /**
-     * Schliesst die {@link Connection}.<br>
-     * Eine {@link SQLException} wird ignoriert.
-     *
-     * @param connection {@link Connection}
-     */
     public static void closeSilent(final Connection connection)
     {
         try
@@ -120,12 +90,6 @@ public final class JdbcUtils
         }
     }
 
-    /**
-     * Schliesst das {@link ResultSet}.<br>
-     * Eine {@link SQLException} wird ignoriert.
-     *
-     * @param resultSet {@link ResultSet}
-     */
     public static void closeSilent(final ResultSet resultSet)
     {
         try
@@ -138,12 +102,6 @@ public final class JdbcUtils
         }
     }
 
-    /**
-     * Schliesst das {@link Statement}.<br>
-     * Eine {@link SQLException} wird ignoriert.
-     *
-     * @param statement {@link Statement} geht.
-     */
     public static void closeSilent(final Statement statement)
     {
         try
@@ -196,14 +154,6 @@ public final class JdbcUtils
         createInOrNotInClause(column, sql, elements, "not in");
     }
 
-    /**
-     * @param dataSource {@link DataSource}
-     * @param callback {@link Function}
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException
     {
         try (Connection connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection())
@@ -214,16 +164,6 @@ public final class JdbcUtils
         }
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht false wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Boolean
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Boolean getBoolean(final CallableStatement cs, final int index) throws SQLException
     {
         boolean value = cs.getBoolean(index);
@@ -231,16 +171,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht false wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Boolean
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Boolean getBoolean(final ResultSet rs, final int index) throws SQLException
     {
         boolean value = rs.getBoolean(index);
@@ -248,31 +178,11 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht false wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Boolean
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Boolean getBoolean(final ResultSet rs, final String columnName) throws SQLException
     {
         return getBoolean(rs, rs.findColumn(columnName));
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Byte
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Byte getByte(final CallableStatement cs, final int index) throws SQLException
     {
         byte value = cs.getByte(index);
@@ -280,16 +190,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Byte
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Byte getByte(final ResultSet rs, final int index) throws SQLException
     {
         byte value = rs.getByte(index);
@@ -297,16 +197,6 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Byte
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Byte getByte(final ResultSet rs, final String columnName) throws SQLException
     {
         return getByte(rs, rs.findColumn(columnName));
@@ -362,16 +252,6 @@ public final class JdbcUtils
         });
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Double
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Double getDouble(final CallableStatement cs, final int index) throws SQLException
     {
         double value = cs.getDouble(index);
@@ -379,16 +259,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Double
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Double getDouble(final ResultSet rs, final int index) throws SQLException
     {
         double value = rs.getDouble(index);
@@ -396,31 +266,11 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Double
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Double getDouble(final ResultSet rs, final String columnName) throws SQLException
     {
         return getDouble(rs, rs.findColumn(columnName));
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Float
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Float getFloat(final CallableStatement cs, final int index) throws SQLException
     {
         float value = cs.getFloat(index);
@@ -428,16 +278,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Float
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Float getFloat(final ResultSet rs, final int index) throws SQLException
     {
         float value = rs.getFloat(index);
@@ -445,31 +285,11 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Float
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Float getFloat(final ResultSet rs, final String columnName) throws SQLException
     {
         return getFloat(rs, rs.findColumn(columnName));
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Integer
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Integer getInteger(final CallableStatement cs, final int index) throws SQLException
     {
         int value = cs.getInt(index);
@@ -477,16 +297,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Integer
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Integer getInteger(final ResultSet rs, final int index) throws SQLException
     {
         int value = rs.getInt(index);
@@ -494,31 +304,11 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Integer
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Integer getInteger(final ResultSet rs, final String columnName) throws SQLException
     {
         return getInteger(rs, rs.findColumn(columnName));
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Long getLong(final CallableStatement cs, final int index) throws SQLException
     {
         long value = cs.getLong(index);
@@ -526,16 +316,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Long getLong(final ResultSet rs, final int index) throws SQLException
     {
         long value = rs.getLong(index);
@@ -543,31 +323,11 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Long getLong(final ResultSet rs, final String columnName) throws SQLException
     {
         return getLong(rs, rs.findColumn(columnName));
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param cs {@link CallableStatement}
-     * @param index int
-     *
-     * @return Short
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Short getShort(final CallableStatement cs, final int index) throws SQLException
     {
         short value = cs.getShort(index);
@@ -575,16 +335,6 @@ public final class JdbcUtils
         return cs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int
-     *
-     * @return Short
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Short getShort(final ResultSet rs, final int index) throws SQLException
     {
         short value = rs.getShort(index);
@@ -592,16 +342,6 @@ public final class JdbcUtils
         return rs.wasNull() ? null : value;
     }
 
-    /**
-     * Wenn der Wert in SQL NULL ist, wird null geliefert und nicht 0 wie in der Defaultimplementierung.
-     *
-     * @param rs {@link ResultSet}
-     * @param columnName String
-     *
-     * @return Short
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static Short getShort(final ResultSet rs, final String columnName) throws SQLException
     {
         return getShort(rs, rs.findColumn(columnName));
@@ -898,9 +638,6 @@ public final class JdbcUtils
         sql.append(")");
     }
 
-    /**
-     * Erstellt ein neues {@link JdbcUtils} Object.
-     */
     private JdbcUtils()
     {
         super();

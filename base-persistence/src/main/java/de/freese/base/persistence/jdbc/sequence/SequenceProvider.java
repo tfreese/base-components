@@ -11,12 +11,5 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface SequenceProvider
 {
-    /**
-     * @param sequence String
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     long getNextID(String sequence) throws SQLException;
 }

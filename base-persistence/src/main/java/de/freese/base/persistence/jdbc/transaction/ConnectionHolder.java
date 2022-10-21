@@ -12,9 +12,6 @@ import java.util.Objects;
  */
 public final class ConnectionHolder
 {
-    /**
-     *
-     */
     private static final ThreadLocal<Connection> THREAD_LOCAL = new ThreadLocal<>();
 
     /**
@@ -142,9 +139,6 @@ public final class ConnectionHolder
         THREAD_LOCAL.set(connection);
     }
 
-    /**
-     * Erstellt ein neues {@link ConnectionHolder} Object.
-     */
     private ConnectionHolder()
     {
         super();

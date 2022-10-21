@@ -19,23 +19,14 @@ import org.junit.jupiter.api.Test;
  */
 class TestSingleDatasource
 {
-    /**
-     *
-     */
     private static SingleDataSource dataSource;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
         dataSource.destroy();
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -45,9 +36,6 @@ class TestSingleDatasource
         dataSource.setAutoCommit(false);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testSingleDataSource() throws Exception
     {

@@ -46,28 +46,17 @@ import reactor.core.scheduler.Schedulers;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestReactiveJdbc
 {
-    /**
-     *
-     */
     @RegisterExtension
     static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2);
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TestReactiveJdbc.class);
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
         Schedulers.shutdownNow();
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -77,11 +66,6 @@ class TestReactiveJdbc
         populator.execute(SERVER.getDataSource());
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param statement {@link Statement}
-     * @param resultSet {@link ResultSet}
-     */
     static void close(final Connection connection, final Statement statement, final ResultSet resultSet)
     {
         LOGGER.debug("close");
@@ -114,9 +98,6 @@ class TestReactiveJdbc
         }
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testFlowResultSetPublisher() throws SQLException
     {
@@ -133,9 +114,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testFlowResultSetPublisherForEachObject() throws SQLException
     {
@@ -152,9 +130,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testFlowResultSetPublisherForFetchSize() throws SQLException
     {
@@ -171,9 +146,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testFluxResultSetIterable() throws SQLException
     {
@@ -201,9 +173,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testFluxResultSetIterableParallel() throws SQLException
     {
@@ -234,9 +203,6 @@ class TestReactiveJdbc
         // @formatter:on
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testStreamResultSetIterable() throws SQLException
     {
@@ -265,9 +231,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testStreamResultSetIterableParallel() throws SQLException
     {
@@ -296,9 +259,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testStreamResultSetIterator() throws SQLException
     {
@@ -330,9 +290,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testStreamResultSetIteratorParallel() throws SQLException
     {
@@ -364,9 +321,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testStreamResultSetSpliterator() throws SQLException
     {
@@ -395,9 +349,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testStreamResultSetSpliteratorParallel() throws SQLException
     {
@@ -428,9 +379,6 @@ class TestReactiveJdbc
         assertData(result);
     }
 
-    /**
-     * @param result {@link List}
-     */
     private void assertData(final List<Person> result)
     {
         assertNotNull(result);

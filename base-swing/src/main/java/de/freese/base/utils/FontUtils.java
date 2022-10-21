@@ -11,16 +11,8 @@ import java.io.InputStream;
  */
 public final class FontUtils
 {
-    /**
-     *
-     */
     private static Font symbolFont;
 
-    /**
-     * Font für die Symbole
-     *
-     * @return {@link Font}
-     */
     public static Font getSymbolFont()
     {
         if (symbolFont == null)
@@ -39,9 +31,6 @@ public final class FontUtils
         return symbolFont;
     }
 
-    /**
-     * Erstellt ein neues {@link FontUtils} Object.
-     */
     private FontUtils()
     {
         super();

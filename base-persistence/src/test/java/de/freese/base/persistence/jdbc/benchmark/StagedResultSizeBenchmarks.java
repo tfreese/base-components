@@ -35,42 +35,26 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
     @State(Scope.Benchmark)
     public static class ConnectionHolder
     {
-        /**
-         *
-         */
         private final Connection derby;
-        /**
-         *
-         */
+
         private final Connection h2;
-        /**
-         *
-         */
+
         private final Connection hsqldb;
-        /**
-         *
-         */
+
         Connection connection;
-        /**
-         *
-         */
+
         @Param(
                 {
                         "h2", "hsqldb", "derby"
                 })
         String db;
-        /**
-         *
-         */
+
         @Param(
                 {
                         "1", "10", "100", "200"
                 })
         int resultSize;
 
-        /**
-         * Erstellt ein neues {@link ConnectionHolder} Object.
-         */
         public ConnectionHolder()
         {
             try
@@ -111,9 +95,6 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
             this.connection = null;
         }
 
-        /**
-         * @param connection {@link Connection}
-         */
         private void populateDb(final Connection connection)
         {
             try (Statement statement = connection.createStatement())
@@ -150,12 +131,6 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
         }
     }
 
-    /**
-     * @param connectionHolder {@link ConnectionHolder}
-     * @param blackhole {@link Blackhole}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Benchmark
     public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
     {
@@ -173,12 +148,6 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
         }
     }
 
-    /**
-     * @param connectionHolder {@link ConnectionHolder}
-     * @param blackhole {@link Blackhole}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Benchmark
     public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
     {

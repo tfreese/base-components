@@ -37,26 +37,14 @@ import reactor.core.scheduler.Schedulers;
         // @Disabled // Häufige API-Änderungen lassen den Test fehlschlagen.
 class TestR2DBC
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(TestR2DBC.class);
-    /**
-     *
-     */
+
     static ConnectionFactory connectionFactory;
-    /**
-     *
-     */
+
     static R2dbc r2dbc;
-    /**
-     *
-     */
+
     static Scheduler scheduler;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
@@ -76,9 +64,6 @@ class TestR2DBC
         Schedulers.shutdownNow();
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -126,9 +111,6 @@ class TestR2DBC
         // r2dbc.open().doFinally(Handle::close).subscribe(handle -> handle...);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     @Order(1)
     void testCreate() throws SQLException
@@ -146,9 +128,6 @@ class TestR2DBC
         // @formatter:on
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     @Order(2)
     void testInsert() throws SQLException
@@ -166,9 +145,6 @@ class TestR2DBC
         // @formatter:on
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     @Order(4)
     void testInsertBatch() throws SQLException
@@ -192,9 +168,6 @@ class TestR2DBC
         // @formatter:on
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     @Order(10)
     void testSelect() throws SQLException
@@ -234,9 +207,6 @@ class TestR2DBC
         assertEquals("VORNAME_B", list.get(2).getVorname());
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     @Order(3)
     void testUpdate() throws SQLException

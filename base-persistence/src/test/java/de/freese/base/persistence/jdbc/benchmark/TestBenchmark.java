@@ -15,15 +15,9 @@ import org.openjdk.jmh.runner.options.TimeValue;
  */
 class TestBenchmark
 {
-    /**
-     *
-     */
     private final Options DEFAULT_OPTIONS = new OptionsBuilder().shouldFailOnError(true).warmupIterations(0).warmupTime(TimeValue.milliseconds(100))
             .measurementIterations(1).measurementTime(TimeValue.milliseconds(200)).forks(0).build();
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @Test
     void testStagedResultSizeBenchmarks() throws Exception
     {
@@ -40,9 +34,6 @@ class TestBenchmark
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @Test
     void testStatementBenchmarks() throws Exception
     {

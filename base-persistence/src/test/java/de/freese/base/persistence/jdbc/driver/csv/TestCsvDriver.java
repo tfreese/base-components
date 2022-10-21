@@ -25,27 +25,18 @@ import org.slf4j.event.Level;
  */
 class TestCsvDriver
 {
-    /**
-     *
-     */
     static final Logger LOGGER = LoggerFactory.getLogger(TestCsvDriver.class);
     /**
      * System.out
      */
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         PRINT_STREAM.flush();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -54,9 +45,6 @@ class TestCsvDriver
         DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCsvBackedTextTables() throws Exception
     {
@@ -121,9 +109,6 @@ class TestCsvDriver
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCsvDriver01() throws Exception
     {
@@ -159,9 +144,6 @@ class TestCsvDriver
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testCsvDriver02() throws Exception
     {

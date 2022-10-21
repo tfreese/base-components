@@ -21,14 +21,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestJdbcUtils
 {
-    /**
-     *
-     */
     private static DataSource dataSource;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
@@ -40,9 +34,6 @@ class TestJdbcUtils
         dataSource = null;
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -73,9 +64,6 @@ class TestJdbcUtils
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @Test
     void testObjectTableResultSet() throws Exception
     {
@@ -87,9 +75,6 @@ class TestJdbcUtils
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @Test
     void testObjectTableResultSetMetaData() throws Exception
     {

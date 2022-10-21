@@ -28,27 +28,18 @@ import org.slf4j.event.Level;
  */
 class TestHsqldbTextTables
 {
-    /**
-     *
-     */
     static final Logger LOGGER = LoggerFactory.getLogger(TestHsqldbTextTables.class);
     /**
      * System.out
      */
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         PRINT_STREAM.flush();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -58,9 +49,6 @@ class TestHsqldbTextTables
         DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextTableBuilder01() throws Exception
     {
@@ -71,7 +59,8 @@ class TestHsqldbTextTables
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
                 .addColumn("LONG bigint")
-                .addColumn("DOUBLE decimal(4,3)");
+                .addColumn("DOUBLE decimal(4,3)")
+                ;
         // @formatter:on
 
         // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
@@ -88,9 +77,6 @@ class TestHsqldbTextTables
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextTableBuilder02() throws Exception
     {
@@ -102,7 +88,8 @@ class TestHsqldbTextTables
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
                 .addColumn("LONG bigint")
-                .addColumn("DOUBLE decimal(4,3)");
+                .addColumn("DOUBLE decimal(4,3)")
+                ;
         // @formatter:on
 
         // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
@@ -113,9 +100,6 @@ class TestHsqldbTextTables
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextTableBuilder03() throws Exception
     {
@@ -128,7 +112,8 @@ class TestHsqldbTextTables
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
                 .addColumn("LONG bigint")
-                .addColumn("DOUBLE decimal(4,3)");
+                .addColumn("DOUBLE decimal(4,3)")
+                ;
         // @formatter:on
 
         // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
@@ -139,9 +124,6 @@ class TestHsqldbTextTables
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextTableBuilder04() throws Exception
     {
@@ -154,7 +136,8 @@ class TestHsqldbTextTables
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
                 .addColumn("LONG bigint")
-                .addColumn("DOUBLE decimal(4,3)");
+                .addColumn("DOUBLE decimal(4,3)")
+                ;
         // @formatter:on
 
         // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
@@ -165,9 +148,6 @@ class TestHsqldbTextTables
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextTableBuilder05() throws Exception
     {
@@ -181,7 +161,8 @@ class TestHsqldbTextTables
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
                 .addColumn("LONG bigint")
-                .addColumn("DOUBLE decimal(4,3)");
+                .addColumn("DOUBLE decimal(4,3)")
+                ;
         // @formatter:on
 
         // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
@@ -192,9 +173,6 @@ class TestHsqldbTextTables
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testTextTableBuilder06() throws Exception
     {
@@ -205,7 +183,8 @@ class TestHsqldbTextTables
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
                 .addColumn("LONG bigint")
-                .addColumn("DOUBLE decimal(4,3)");
+                .addColumn("DOUBLE decimal(4,3)")
+                ;
 
         HsqldbTextTableBuilder builder2 = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test2.csv"))
@@ -214,7 +193,8 @@ class TestHsqldbTextTables
                 .addColumn("TEXT varchar(10) PRIMARY KEY")
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
-                .addColumn("LONG bigint");
+                .addColumn("LONG bigint")
+                ;
 
         HsqldbTextTableBuilder builder3 = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test3.csv"))
@@ -223,7 +203,8 @@ class TestHsqldbTextTables
                 .addColumn("TEXT varchar(10) PRIMARY KEY")
                 .addColumn("DATE date")
                 .addColumn("TIMESTAMP timestamp")
-                .addColumn("LONG bigint");
+                .addColumn("LONG bigint")
+                ;
         // @formatter:on
 
         StringBuilder sql = new StringBuilder();
@@ -248,11 +229,6 @@ class TestHsqldbTextTables
         }
     }
 
-    /**
-     * @param statement {@link Statement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private void executeSelects(final Statement statement) throws SQLException
     {
         try (ResultSet resultSet = statement.executeQuery("select * from test_csv"))

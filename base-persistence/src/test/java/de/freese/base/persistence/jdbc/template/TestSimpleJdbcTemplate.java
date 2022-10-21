@@ -49,27 +49,17 @@ class TestSimpleJdbcTemplate
      */
     @RegisterExtension
     static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2);
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TestSimpleJdbcTemplate.class);
-    /**
-     *
-     */
+
     private static SimpleJdbcTemplate jdbcTemplate;
 
-    /**
-     *
-     */
     @AfterEach
     void afterEach()
     {
         // Delete Db passiert in hsqldb-schema.sql.
     }
 
-    /**
-     *
-     */
     @BeforeEach
     void beforeEach()
     {
@@ -81,9 +71,6 @@ class TestSimpleJdbcTemplate
         jdbcTemplate = new SimpleJdbcTemplate(SERVER.getDataSource());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testInsert() throws Exception
     {
@@ -97,9 +84,6 @@ class TestSimpleJdbcTemplate
         assertEquals(1, affectedRows);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testInsertBatch() throws Exception
     {
@@ -125,9 +109,6 @@ class TestSimpleJdbcTemplate
         assertEquals(1, affectedRows[1]);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testInsertPrepared() throws Exception
     {
@@ -155,9 +136,6 @@ class TestSimpleJdbcTemplate
         assertEquals(1, affectedRows);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsFlux() throws Exception
     {
@@ -183,9 +161,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname2", p.getVorname());
     }
 
-    /**
-     *
-     */
     @Test
     void testQueryAsFluxParallel()
     {
@@ -202,9 +177,6 @@ class TestSimpleJdbcTemplate
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsFluxPreparedParam() throws Exception
     {
@@ -229,9 +201,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", p.getVorname());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsFluxPreparedSetter() throws Exception
     {
@@ -256,9 +225,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", p.getVorname());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsMap() throws Exception
     {
@@ -286,9 +252,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", map.get("VORNAME"));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsMapPreparedParam() throws Exception
     {
@@ -320,9 +283,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", map.get("VORNAME"));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsMapPreparedSetter() throws Exception
     {
@@ -354,9 +314,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", map.get("VORNAME"));
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsPreparedParam() throws Exception
     {
@@ -377,9 +334,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", results.get(1).getVorname());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsPreparedSetter() throws Exception
     {
@@ -400,9 +354,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", results.get(1).getVorname());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsPublisherPreparedParam() throws Exception
     {
@@ -427,9 +378,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", p.getVorname());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsPublisherPreparedSetter() throws Exception
     {
@@ -454,9 +402,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname1", p.getVorname());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsStream() throws Exception
     {
@@ -496,8 +441,6 @@ class TestSimpleJdbcTemplate
 
     /**
      * Die Methoden im {@link ResultSetIterator} müssen bei {@link Stream#parallel()} synchronisiert werden.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Test
     void testQueryAsStreamParallel() throws Exception
@@ -533,9 +476,6 @@ class TestSimpleJdbcTemplate
         assertTrue(true);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsStreamPreparedParam() throws Exception
     {
@@ -570,9 +510,6 @@ class TestSimpleJdbcTemplate
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryAsStreamPreparedSetter() throws Exception
     {
@@ -607,9 +544,6 @@ class TestSimpleJdbcTemplate
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testQueryWithMaxRows() throws Exception
     {
@@ -638,13 +572,6 @@ class TestSimpleJdbcTemplate
         assertEquals("Vorname2", results.get(0).getVorname());
     }
 
-    /**
-     * @param sequence String
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private long getNextID(final String sequence) throws SQLException
     {
         String sql = "call next value for " + sequence;

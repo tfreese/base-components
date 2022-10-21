@@ -16,50 +16,26 @@ import de.freese.base.utils.JdbcUtils;
  */
 public enum DatabaseType
 {
-    /**
-     *
-     */
     DB2("DB2"),
-    /**
-     *
-     */
+
     DB2ZOS("DB2ZOS"),
-    /**
-     *
-     */
+
     DERBY("Apache Derby"),
-    /**
-     *
-     */
+
     H2("H2"),
-    /**
-     *
-     */
+
     HSQL("HSQL Database Engine"),
-    /**
-     *
-     */
+
     MYSQL("MySQL"),
-    /**
-     *
-     */
+
     ORACLE("Oracle"),
-    /**
-     *
-     */
+
     POSTGRES("PostgreSQL"),
-    /**
-     *
-     */
+
     SQLSERVER("Microsoft SQL Server"),
-    /**
-     *
-     */
+
     SYBASE("Sybase");
 
-    /**
-     *
-     */
     private static final Map<String, DatabaseType> cache;
 
     static
@@ -72,15 +48,6 @@ public enum DatabaseType
         }
     }
 
-    /**
-     * Convenience method that pulls a database product name from the DataSource's metadata.
-     *
-     * @param dataSource {@link DataSource}
-     *
-     * @return {@link DatabaseType}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public static DatabaseType fromMetaData(final DataSource dataSource) throws SQLException
     {
         String databaseProductName = JdbcUtils.getDatabaseProductName(dataSource);
@@ -106,11 +73,6 @@ public enum DatabaseType
         return fromProductName(databaseProductName);
     }
 
-    /**
-     * @param productName String
-     *
-     * @return {@link DatabaseType}
-     */
     public static DatabaseType fromProductName(final String productName)
     {
         if (!cache.containsKey(productName))
@@ -121,11 +83,6 @@ public enum DatabaseType
         return cache.get(productName);
     }
 
-    /**
-     * @param source String
-     *
-     * @return String
-     */
     private static String commonDatabaseName(final String source)
     {
         String name = source;
@@ -143,24 +100,13 @@ public enum DatabaseType
         return name;
     }
 
-    /**
-     *
-     */
     private final String productName;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link DatabaseType}.
-     *
-     * @param productName String
-     */
     DatabaseType(final String productName)
     {
         this.productName = productName;
     }
 
-    /**
-     * @return String
-     */
     public String getProductName()
     {
         return this.productName;

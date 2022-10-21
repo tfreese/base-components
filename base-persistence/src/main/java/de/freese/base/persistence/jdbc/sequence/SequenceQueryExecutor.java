@@ -16,16 +16,8 @@ import javax.sql.DataSource;
  */
 public class SequenceQueryExecutor
 {
-    /**
-     *
-     */
     private final SequenceQuery sequenceQuery;
 
-    /**
-     * Erstellt ein neues {@link SequenceQueryExecutor} Object.
-     *
-     * @param sequenceQuery {@link SequenceQuery}
-     */
     public SequenceQueryExecutor(final SequenceQuery sequenceQuery)
     {
         super();
@@ -33,14 +25,6 @@ public class SequenceQueryExecutor
         this.sequenceQuery = Objects.requireNonNull(sequenceQuery, "sequenceQuery required");
     }
 
-    /**
-     * @param sequence String
-     * @param connection {@link Connection}
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public long getNextID(final String sequence, final Connection connection) throws SQLException
     {
         String sql = this.sequenceQuery.apply(sequence);
@@ -56,14 +40,6 @@ public class SequenceQueryExecutor
         return id;
     }
 
-    /**
-     * @param sequence String
-     * @param dataSource {@link DataSource}
-     *
-     * @return long
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public long getNextID(final String sequence, final DataSource dataSource) throws SQLException
     {
         try (Connection connection = dataSource.getConnection())

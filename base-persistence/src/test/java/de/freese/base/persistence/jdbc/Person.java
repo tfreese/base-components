@@ -6,26 +6,12 @@ package de.freese.base.persistence.jdbc;
  */
 public class Person
 {
-    /**
-     *
-     */
     private final long id;
-    /**
-     *
-     */
+
     private final String nachname;
-    /**
-     *
-     */
+
     private final String vorname;
 
-    /**
-     * Erstellt ein neues {@link Person} Object.
-     *
-     * @param id long
-     * @param nachname String
-     * @param vorname String
-     */
     public Person(final long id, final String nachname, final String vorname)
     {
         super();
@@ -35,25 +21,16 @@ public class Person
         this.vorname = vorname;
     }
 
-    /**
-     * @return long
-     */
     public long getId()
     {
         return this.id;
     }
 
-    /**
-     * @return String
-     */
     public String getNachname()
     {
         return this.nachname;
     }
 
-    /**
-     * @return String
-     */
     public String getVorname()
     {
         return this.vorname;

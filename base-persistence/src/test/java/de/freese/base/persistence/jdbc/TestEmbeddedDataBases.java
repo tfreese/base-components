@@ -24,26 +24,14 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestEmbeddedDataBases
 {
-    /**
-     *
-     */
     @RegisterExtension
     static final MultiDatabaseExtension DATABASE_EXTENSION = new MultiDatabaseExtension();
 
-    /**
-     * @return {@link Stream}
-     */
     static Stream<Arguments> getDatabases()
     {
         return DATABASE_EXTENSION.getServers().stream().map(server -> Arguments.of(server.getDatabaseType(), server));
     }
 
-    /**
-     * @param databaseType {@link EmbeddedDatabaseType}
-     * @param server {@link DbServerExtension}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("createTableWithAutoIncrement")
@@ -97,12 +85,6 @@ class TestEmbeddedDataBases
         assertTrue(true);
     }
 
-    /**
-     * @param databaseType {@link EmbeddedDatabaseType}
-     * @param server {@link DbServerExtension}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("dropTables")
@@ -133,12 +115,6 @@ class TestEmbeddedDataBases
         assertTrue(true);
     }
 
-    /**
-     * @param databaseType {@link EmbeddedDatabaseType}
-     * @param server {@link DbServerExtension}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("getNextSequenceId")

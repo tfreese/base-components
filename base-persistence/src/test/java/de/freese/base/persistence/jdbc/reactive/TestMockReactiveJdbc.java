@@ -41,9 +41,6 @@ import reactor.core.publisher.SynchronousSink;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestMockReactiveJdbc
 {
-    /**
-     *
-     */
     static final Function<ResultSet, City> MAPPING_FUNCTION_ = resultSet ->
     {
         try
@@ -56,14 +53,9 @@ class TestMockReactiveJdbc
             throw new RuntimeException(ex);
         }
     };
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TestMockReactiveJdbc.class);
 
-    // /**
-    // *
-    // */
     // private static final ExceptionalFunction<ResultSet, City, SQLException> MAPPING_FUNCTION = resultSet -> {
     // // return rowMapper.mapRow(resultSet, 0);
     // return new City(resultSet.getString("country"), resultSet.getString("city"));
@@ -74,21 +66,10 @@ class TestMockReactiveJdbc
      */
     private static class City
     {
-        /**
-         *
-         */
         private final String city;
-        /**
-         *
-         */
+
         private final String country;
 
-        /**
-         * Erstellt ein neues {@link City} Object.
-         *
-         * @param country String
-         * @param city String
-         */
         private City(final String country, final String city)
         {
             super();
@@ -114,9 +95,6 @@ class TestMockReactiveJdbc
         }
     }
 
-    /**
-     *
-     */
     private final String[][] data =
             {
                     {
@@ -141,30 +119,17 @@ class TestMockReactiveJdbc
                             "Spain", "Madrid"
                     }
             };
-    /**
-     *
-     */
+
     private Connection connection;
-    /**
-     *
-     */
+
     private DataSource datasource;
-    /**
-     *
-     */
+
     private ResultSet resultSet;
-    /**
-     *
-     */
+
     private int resultSetIndex;
-    /**
-     *
-     */
+
     private PreparedStatement statement;
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @BeforeEach
     void setup() throws SQLException
     {
@@ -190,9 +155,6 @@ class TestMockReactiveJdbc
         when(this.resultSet.getString("city")).then(invocation -> this.data[this.resultSetIndex][1]);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testResultSetFlux() throws SQLException
     {
@@ -217,9 +179,6 @@ class TestMockReactiveJdbc
         validateIterator(cities);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testResultSetFluxSynchronousSink() throws SQLException
     {
@@ -270,9 +229,6 @@ class TestMockReactiveJdbc
         validateIterator(cities);
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testResultSetStream() throws SQLException
     {
@@ -296,9 +252,6 @@ class TestMockReactiveJdbc
         }
     }
 
-    /**
-     * @param cities {@link Iterator}
-     */
     private void validateIterator(final Iterator<City> cities)
     {
         assertThat(cities.hasNext()).isTrue();

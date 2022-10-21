@@ -35,17 +35,10 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestLoggingJdbcDriver
 {
-    /**
-     *
-     */
     private static final String DRIVER = "org.h2.Driver";
-    /**
-     *
-     */
+
     private static final List<ConnectionPool> POOLS = new ArrayList<>();
-    /**
-     *
-     */
+
     private static final String URL = "jdbc:logger:jdbc:h2:mem:" + DbServerExtension.createDbName();
 
     /**
@@ -53,16 +46,8 @@ class TestLoggingJdbcDriver
      */
     private interface ConnectionPool
     {
-        /**
-         * @throws SQLException Falls was schiefgeht.
-         */
         void close() throws SQLException;
 
-        /**
-         * @return {@link Connection}
-         *
-         * @throws SQLException Falls was schiefgeht.
-         */
         Connection getConnection() throws SQLException;
     }
 
@@ -71,14 +56,8 @@ class TestLoggingJdbcDriver
      */
     private static class BasicDataSourceConnectionPool implements ConnectionPool
     {
-        /**
-         *
-         */
         private final BasicDataSource dataSource;
 
-        /**
-         * Erstellt ein neues {@link BasicDataSourceConnectionPool} Object.
-         */
         BasicDataSourceConnectionPool()
         {
             super();
@@ -120,7 +99,7 @@ class TestLoggingJdbcDriver
         @Override
         public void close() throws SQLException
         {
-            // NOOP
+            // Empty
         }
 
         /**
@@ -138,14 +117,8 @@ class TestLoggingJdbcDriver
      */
     private static class HikariConnectionPool implements ConnectionPool
     {
-        /**
-         *
-         */
         private final HikariDataSource dataSource;
 
-        /**
-         * Erstellt ein neues {@link HikariConnectionPool} Object.
-         */
         HikariConnectionPool()
         {
             super();
@@ -182,14 +155,8 @@ class TestLoggingJdbcDriver
      */
     private static class SpringSingleConnectionDataSource implements ConnectionPool
     {
-        /**
-         *
-         */
         private final SingleConnectionDataSource dataSource;
 
-        /**
-         * Erstellt ein neues {@link SpringSingleConnectionDataSource} Object.
-         */
         SpringSingleConnectionDataSource()
         {
             super();
@@ -226,14 +193,8 @@ class TestLoggingJdbcDriver
      */
     private static class TomcatConnectionPool implements ConnectionPool
     {
-        /**
-         *
-         */
         private final DataSource dataSource;
 
-        /**
-         * Erstellt ein neues {@link TomcatConnectionPool} Object.
-         */
         TomcatConnectionPool()
         {
             super();
@@ -265,9 +226,6 @@ class TestLoggingJdbcDriver
         }
     }
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
@@ -284,9 +242,6 @@ class TestLoggingJdbcDriver
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -323,11 +278,6 @@ class TestLoggingJdbcDriver
     // return POOLS.stream();
     // }
 
-    /**
-     * @param connectionPool {@link ConnectionPool}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void close(final ConnectionPool connectionPool) throws Exception
     {
         connectionPool.close();
@@ -335,11 +285,6 @@ class TestLoggingJdbcDriver
         assertTrue(true);
     }
 
-    /**
-     * @param connectionPool {@link ConnectionPool}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void driver(final ConnectionPool connectionPool) throws Exception
     {
         int i = 0;
@@ -365,9 +310,6 @@ class TestLoggingJdbcDriver
         assertTrue(i > 1);
     }
 
-    /**
-     * @return {@link Stream}
-     */
     @TestFactory
     Stream<DynamicNode> testConnectionPools()
     {

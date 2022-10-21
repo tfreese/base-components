@@ -280,10 +280,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     /**
      * Object-Store pro Test-Klasse.
-     *
-     * @param context {@link ExtensionContext}
-     *
-     * @return {@link Store}
      */
     Store getStoreForClass(final ExtensionContext context)
     {
@@ -292,10 +288,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     /**
      * Object-Store für den gesamten Test.
-     *
-     * @param context {@link ExtensionContext}
-     *
-     * @return {@link Store}
      */
     Store getStoreForGlobal(final ExtensionContext context)
     {
@@ -304,10 +296,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     /**
      * Object-Store pro Test-Methode.
-     *
-     * @param context {@link ExtensionContext}
-     *
-     * @return {@link Store}
      */
     Store getStoreForMethod(final ExtensionContext context)
     {

@@ -34,9 +34,6 @@ public final class GuiUtils
      */
     private static class ToolBarSeparator extends JPanel
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -7069549788210052499L;
 
