@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Flow.Publisher;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -174,36 +173,6 @@ class TestReactiveJdbc
     }
 
     @Test
-    void testFluxResultSetIterableParallel() throws SQLException
-    {
-        List<Person> result = new ArrayList<>();
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
-
-        Flux<Person> flux = Flux.fromIterable(iterable).doFinally(state ->
-        {
-            LOGGER.debug("close jdbc flux");
-            close(connection, statement, resultSet);
-        });
-
-        // @formatter:off
-        flux.parallel()
-                .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
-                .doOnTerminate(() -> assertData(result))
-                .subscribe(p -> {
-                    result.add(p);
-                    LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
-                 })
-            ;
-        // @formatter:on
-    }
-
-    @Test
     void testStreamResultSetIterable() throws SQLException
     {
         List<Person> result = new ArrayList<>();
@@ -222,34 +191,6 @@ class TestReactiveJdbc
         }))
         {
             stream.forEach(p ->
-            {
-                result.add(p);
-                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
-            });
-        }
-
-        assertData(result);
-    }
-
-    @Test
-    void testStreamResultSetIterableParallel() throws SQLException
-    {
-        List<Person> result = new ArrayList<>();
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Spliterator<Person> spliterator = new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator();
-
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
-        {
-            LOGGER.debug("close jdbc stream");
-            close(connection, statement, resultSet);
-        }))
-        {
-            stream.parallel().forEach(p ->
             {
                 result.add(p);
                 LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
@@ -291,37 +232,6 @@ class TestReactiveJdbc
     }
 
     @Test
-    void testStreamResultSetIteratorParallel() throws SQLException
-    {
-        List<Person> result = new ArrayList<>();
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Iterator<Person> iterator = new ResultSetIterator<>(resultSet, new PersonRowMapper());
-
-        int characteristics = Spliterator.CONCURRENT | Spliterator.ORDERED | Spliterator.NONNULL;
-        Spliterator<Person> spliterator = Spliterators.spliteratorUnknownSize(iterator, characteristics);
-
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
-        {
-            LOGGER.debug("close jdbc stream");
-            close(connection, statement, resultSet);
-        }))
-        {
-            stream.parallel().forEach(p ->
-            {
-                result.add(p);
-                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
-            });
-        }
-
-        assertData(result);
-    }
-
-    @Test
     void testStreamResultSetSpliterator() throws SQLException
     {
         List<Person> result = new ArrayList<>();
@@ -340,36 +250,6 @@ class TestReactiveJdbc
         }))
         {
             stream.forEach(p ->
-            {
-                result.add(p);
-                LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
-            });
-        }
-
-        assertData(result);
-    }
-
-    @Test
-    void testStreamResultSetSpliteratorParallel() throws SQLException
-    {
-        List<Person> result = new ArrayList<>();
-
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
-
-        Spliterator<Person> spliterator = new ResultSetSpliterator<>(resultSet, new PersonRowMapper());
-
-        // Die Methode ResultSetSpliterator.trySplit liefert null.
-        // Daher daher wird der Stream trotz StreamSupport.stream(spliterator, true) NICHT parallel sein.
-        try (Stream<Person> stream = StreamSupport.stream(spliterator, true).onClose(() ->
-        {
-            LOGGER.debug("close jdbc stream");
-            close(connection, statement, resultSet);
-        }))
-        {
-            stream.parallel().forEach(p ->
             {
                 result.add(p);
                 LOGGER.debug("{}: {}", Thread.currentThread().getName(), p);
