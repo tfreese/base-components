@@ -31,14 +31,8 @@ import org.slf4j.LoggerFactory;
  */
 public class EncryptFileBC
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(EncryptFileBC.class);
 
-    /**
-     * Erstellt ein neues {@link EncryptFileBC} Objekt.
-     */
     public EncryptFileBC()
     {
         super();
@@ -51,12 +45,6 @@ public class EncryptFileBC
 
     /**
      * Verschlüsselt die Datei mit einem {@link X509Certificate}.
-     *
-     * @param decryptedFile String
-     * @param encryptedFile String
-     * @param zertifikatFile String
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509File(final String decryptedFile, final String encryptedFile, final String zertifikatFile) throws Exception
     {
@@ -67,14 +55,6 @@ public class EncryptFileBC
 
     /**
      * Verschlüsselt die Datei mit einem {@link X509Certificate}.
-     *
-     * @param decryptedFile String
-     * @param encryptedFile String
-     * @param keystoreFile String
-     * @param keyStorePassword char[]
-     * @param alias String, Zertifikat
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509File(final String decryptedFile, final String encryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias)
@@ -87,12 +67,6 @@ public class EncryptFileBC
 
     /**
      * Verschlüsselt die Datei mit einem {@link X509Certificate}.
-     *
-     * @param decryptedFile String
-     * @param encryptedFile String
-     * @param cert {@link X509Certificate}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509File(final String decryptedFile, final String encryptedFile, final X509Certificate cert) throws Exception
     {
@@ -130,12 +104,6 @@ public class EncryptFileBC
     /**
      * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
      * OHNE Unterverzeichnisse.
-     *
-     * @param inputFolder String
-     * @param outputFolder String
-     * @param zertifikatFile String
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile) throws Exception
     {
@@ -147,14 +115,6 @@ public class EncryptFileBC
     /**
      * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
      * OHNE Unterverzeichnisse.
-     *
-     * @param inputFolder String
-     * @param outputFolder String
-     * @param keystoreFile String
-     * @param keyStorePassword char[]
-     * @param alias String, Zertifikat
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias)
@@ -168,12 +128,6 @@ public class EncryptFileBC
     /**
      * Verschlüsselt alle Dateien innerhalb des Verzeichnisses mit einem {@link X509Certificate}<br>
      * OHNE Unterverzeichnisse.
-     *
-     * @param inputFolder String
-     * @param outputFolder String
-     * @param cert {@link X509Certificate}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void encryptX509Folder(final String inputFolder, final String outputFolder, final X509Certificate cert) throws Exception
     {
@@ -198,12 +152,6 @@ public class EncryptFileBC
 
     /**
      * Laden des {@link X509Certificate}s.
-     *
-     * @param zertifikatFile String
-     *
-     * @return {@link X509Certificate}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private X509Certificate getCertificate(final String zertifikatFile) throws Exception
     {
@@ -224,14 +172,6 @@ public class EncryptFileBC
 
     /**
      * Laden des {@link X509Certificate}s.
-     *
-     * @param keystoreFile String
-     * @param keyStorePassword char[]
-     * @param alias String, Zertifikat
-     *
-     * @return {@link X509Certificate}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias) throws Exception
     {

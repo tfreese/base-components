@@ -37,14 +37,8 @@ import org.slf4j.LoggerFactory;
  */
 public class DecryptFileBC
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DecryptFileBC.class);
 
-    /**
-     * Erstellt ein neues {@link DecryptFileBC} Objekt.
-     */
     public DecryptFileBC()
     {
         super();
@@ -57,12 +51,6 @@ public class DecryptFileBC
 
     /**
      * Entschlüsselt die Datei mit dem {@link PrivateKey} eines {@link X509Certificate}.
-     *
-     * @param encryptedFile String
-     * @param decryptedFile String
-     * @param privateKey {@link PrivateKey}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws Exception
     {
@@ -116,13 +104,6 @@ public class DecryptFileBC
 
     /**
      * Entschlüsselt die Datei mit dem {@link PrivateKey} eines {@link X509Certificate}.
-     *
-     * @param encryptedFile String
-     * @param decryptedFile String
-     * @param zertifikatFile String
-     * @param password char[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password) throws Exception
     {
@@ -133,15 +114,6 @@ public class DecryptFileBC
 
     /**
      * Entschlüsselt die Datei mit einem {@link X509Certificate}.
-     *
-     * @param encryptedFile String
-     * @param decryptedFile String
-     * @param keystoreFile String
-     * @param keyStorePassword char[]
-     * @param alias String, Zertifikat
-     * @param aliasPassword char[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword,
                                 final String alias, final char[] aliasPassword)
@@ -154,12 +126,6 @@ public class DecryptFileBC
 
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
-     *
-     * @param inputFolder String
-     * @param outputFolder String
-     * @param privateKey {@link PrivateKey}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception
     {
@@ -177,13 +143,6 @@ public class DecryptFileBC
 
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
-     *
-     * @param inputFolder String
-     * @param outputFolder String
-     * @param zertifikatFile String
-     * @param password char[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password) throws Exception
     {
@@ -194,15 +153,6 @@ public class DecryptFileBC
 
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
-     *
-     * @param inputFolder String
-     * @param outputFolder String
-     * @param keystoreFile String
-     * @param keyStorePassword char[]
-     * @param alias String, Zertifikat
-     * @param aliasPassword char[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
                                   final String alias, final char[] aliasPassword)
@@ -213,12 +163,6 @@ public class DecryptFileBC
         decryptX509Folder(inputFolder, outputFolder, privateKey);
     }
 
-    /**
-     * @param ks {@link KeyStore}
-     * @param password char[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception
     {
         LOGGER.info("Start printKeyStoreInfo.");
@@ -294,13 +238,6 @@ public class DecryptFileBC
 
     /**
      * Laden des {@link PrivateKey}s.
-     *
-     * @param zertifikatFile String
-     * @param password char[]
-     *
-     * @return {@link PrivateKey}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception
     {
@@ -339,15 +276,6 @@ public class DecryptFileBC
 
     /**
      * Laden des {@link PrivateKey}s.
-     *
-     * @param keystoreFile String
-     * @param keyStorePassword char[]
-     * @param alias String, Zertifikat
-     * @param aliasPassword char[]
-     *
-     * @return {@link PrivateKey}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception
     {

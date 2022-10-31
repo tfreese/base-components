@@ -103,9 +103,6 @@
 // System.out.println(certText);
 // }
 //
-// /**
-// * @param args String[]
-// */
 // public static void main(final String[] args) throws Exception
 // {
 // cryptoSelfSignedCert();

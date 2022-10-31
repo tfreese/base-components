@@ -72,28 +72,15 @@ import org.bouncycastle.util.encoders.Hex;
  */
 class PGPCryptoBC
 {
-    /**
-     *
-     */
     private static final int DEFAULT_BUFFER_SIZE = 4096;
 
-    /**
-     *
-     */
     private static final int KEY_FLAGS = 27;
-    /**
-     *
-     */
+
     private static final int[] MASTER_KEY_CERTIFICATION_TYPES =
             {
                     PGPSignature.POSITIVE_CERTIFICATION, PGPSignature.CASUAL_CERTIFICATION, PGPSignature.NO_CERTIFICATION, PGPSignature.DEFAULT_CERTIFICATION
             };
 
-    /**
-     * @param algorithm int
-     *
-     * @return String
-     */
     public static String getAlgorithm(final int algorithm)
     {
         return switch (algorithm)
@@ -112,11 +99,6 @@ class PGPCryptoBC
                 };
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         // KeyID = -3266217749052483355
@@ -147,11 +129,6 @@ class PGPCryptoBC
         }
     }
 
-    /**
-     * @param file String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static void pubRingDump(final String file) throws Exception
     {
         try (InputStream inputStream = new FileInputStream(file);
@@ -216,9 +193,6 @@ class PGPCryptoBC
     // setPrivateKey(keyPair.getPrivate());
     // }
 
-    /**
-     * Erstellt ein neues {@link PGPCryptoBC} Object.
-     */
     public PGPCryptoBC()
     {
         super();
@@ -252,14 +226,6 @@ class PGPCryptoBC
 
     /**
      * Load a secret key ring collection from keyIn and find the private key corresponding to keyID if it exists.
-     *
-     * @param keyIn input stream representing a key ring collection.
-     * @param keyID keyID we want.
-     * @param pass passphrase to decrypt secret key with.
-     *
-     * @return {@link PGPPrivateKey}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public PGPPrivateKey findPrivateKey(final InputStream keyIn, final long keyID, final char[] pass) throws Exception
     {
@@ -272,14 +238,7 @@ class PGPCryptoBC
     }
 
     /**
-     * Load a secret key and find the private key in it
-     *
-     * @param secretKey {@link PGPSecretKey}
-     * @param pass passphrase to decrypt secret key with
-     *
-     * @return {@link PGPPrivateKey}
-     *
-     * @throws Exception Falls was schiefgeht.
+     * Load a secret key and find the private key in it.
      */
     public PGPPrivateKey findPrivateKey(final PGPSecretKey secretKey, final char[] pass) throws Exception
     {
@@ -313,10 +272,6 @@ class PGPCryptoBC
     /**
      * From LockBox Lobs PGP Encryption tools.<br>
      * I didn't think it was worth having to import a 4meg lib for three methods.
-     *
-     * @param key {@link PGPPublicKey}
-     *
-     * @return boolean
      */
     public boolean isForEncryption(final PGPPublicKey key)
     {
@@ -329,13 +284,6 @@ class PGPCryptoBC
         return hasKeyFlags(key, KeyFlags.ENCRYPT_COMMS | KeyFlags.ENCRYPT_STORAGE);
     }
 
-    /**
-     * @param keyIn String
-     *
-     * @return {@link PGPSecretKey}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public PGPSecretKey readSecretKey(final String keyIn) throws Exception
     {
         PGPSecretKey secretKey = null;
@@ -390,17 +338,6 @@ class PGPCryptoBC
         return secretKey;
     }
 
-    /**
-     * @param encryptedFile String
-     * @param fileName String
-     * @param publicKey {@link PGPPublicKey}
-     * @param secretKey {@link PGPSecretKey}
-     * @param password char[]
-     * @param armored boolean
-     * @param withIntegrityCheck boolean
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void signEncryptFile(final String encryptedFile, final String fileName, final PGPPublicKey publicKey, final PGPSecretKey secretKey,
                                 final char[] password, final boolean armored, final boolean withIntegrityCheck)
             throws Exception
@@ -467,15 +404,6 @@ class PGPCryptoBC
         }
     }
 
-    /**
-     * @param in {@link InputStream}
-     * @param keyIn {@link InputStream}
-     * @param extractContentFile String
-     *
-     * @return boolean
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public boolean verifyFile(InputStream in, final InputStream keyIn, final String extractContentFile) throws Exception
     {
         in = PGPUtil.getDecoderStream(in);
@@ -518,9 +446,6 @@ class PGPCryptoBC
      * @param in {@link InputStream}, verschlüsselt
      * @param out {@link OutputStream}, unverschlüsselt
      * @param keyIn {@link InputStream}, PrivateKey
-     * @param password char[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private void decryptFile(final InputStream in, final OutputStream out, final InputStream keyIn, final char[] password) throws Exception
     {
@@ -610,11 +535,6 @@ class PGPCryptoBC
     /**
      * @param encryptedFile String, verschlüsselt
      * @param rawFile String, unverschlüsselt
-     * @param publicKey {@link PGPPublicKey}
-     * @param armored boolean
-     * @param integrityCheck boolean
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private void encryptFile(final String encryptedFile, final String rawFile, final PGPPublicKey publicKey, final boolean armored,
                              final boolean integrityCheck)
@@ -649,14 +569,6 @@ class PGPCryptoBC
         }
     }
 
-    /**
-     * @param keyIn String
-     * @param hexCode String
-     *
-     * @return {@link PGPPublicKey}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     private PGPPublicKey findPublicKey(final String keyIn, final String hexCode) throws Exception
     {
         PGPPublicKey publicKey = null;
@@ -710,11 +622,6 @@ class PGPCryptoBC
     /**
      * From LockBox Lobs PGP Encryption tools.<br>
      * I didn't think it was worth having to import a 4meg lib for three methods.
-     *
-     * @param encKey {@link PGPPublicKey}
-     * @param keyUsage int
-     *
-     * @return boolean
      */
     private boolean hasKeyFlags(final PGPPublicKey encKey, final int keyUsage)
     {
@@ -752,11 +659,6 @@ class PGPCryptoBC
     /**
      * From LockBox Lobs PGP Encryption tools.<br>
      * I didn't think it was worth having to import a 4meg lib for three methods.
-     *
-     * @param sig {@link PGPSignature}
-     * @param keyUsage int
-     *
-     * @return boolean
      */
     private boolean isMatchingUsage(final PGPSignature sig, final int keyUsage)
     {

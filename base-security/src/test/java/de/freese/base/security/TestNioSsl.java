@@ -40,34 +40,18 @@ import org.junit.jupiter.api.TestMethodOrder;
 @Disabled
 class TestNioSsl
 {
-    /**
-     *
-     */
     private static final boolean USE_SSL = true;
-    /**
-     *
-     */
+
     public static boolean isShutdown;
-    /**
-     *
-     */
+
     private static SSLContext clientSslContext;
-    /**
-     *
-     */
+
     private static Selector selector;
-    /**
-     *
-     */
+
     private static ServerSocketChannel serverSocketChannel;
-    /**
-     *
-     */
+
     private static SSLContext serverSslContext;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
@@ -78,9 +62,6 @@ class TestNioSsl
         serverSocketChannel.close();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -207,9 +188,6 @@ class TestNioSsl
         });
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     private static void setUpClientSslContext() throws Exception
     {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
@@ -236,9 +214,6 @@ class TestNioSsl
         clientSslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new SecureRandom());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     private static void setUpServerSslContext() throws Exception
     {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
@@ -265,9 +240,6 @@ class TestNioSsl
         serverSslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), new SecureRandom());
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testNio() throws Exception
     {

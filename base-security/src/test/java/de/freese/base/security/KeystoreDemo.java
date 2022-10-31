@@ -31,11 +31,6 @@ import javax.crypto.spec.GCMParameterSpec;
  */
 public class KeystoreDemo
 {
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         String PROVIDER = "SunJCE";// "SUN";
@@ -132,12 +127,6 @@ public class KeystoreDemo
         }
     }
 
-    /**
-     * @param encryptCipher {@link Cipher}
-     * @param decryptCipher {@link Cipher}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception
     {
         String message = "abcABC123";
