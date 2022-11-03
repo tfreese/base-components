@@ -66,39 +66,6 @@ subprojects {
     }
 }
 
-/*project("base-core") {
-	apply plugin: "java-library"
-	description = "Common Classes, Patterns and Interfaces."
-
-	dependencies {
-	    // api als transitive Dependency beim Test
-	    api("io.projectreactor:reactor-core")
-	    api("org.slf4j:slf4j-api")
-
-		// implementation = scope compile
-        implementation("com.github.ben-manes.caffeine:caffeine")
-        implementation("dev.failsafe:failsafe")
-        implementation "io.github.resilience4j:version_resilience4j"
-        implementation("jakarta.xml.bind:jakarta.xml.bind-api")
-        implementation('org.apache.commons:commons-lang3')
-        implementation("org.springframework:spring-context")")
-
-        // implementation = scope compile
-        // compileOnly = scope provided
-		// runtimeOnly = scope runtime
-
-        testImplementation("com.h2database:h2")
-        testImplementation("com.zaxxer:HikariCP")
-        testImplementation("org.apache.derby:derby")
-        testImplementation("org.hsqldb:hsqldb")
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
-        testImplementation("org.mockito:mockito-junit-jupiter")
-        testImplementation("org.slf4j:jul-to-slf4j")
-        testImplementation("org.slf4j:slf4j-simple")
-	}
-}*/
-
 project("base-calendar") {
     description = "Common Classes for Calendar."
     dependencies {

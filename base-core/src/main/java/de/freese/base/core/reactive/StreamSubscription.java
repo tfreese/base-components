@@ -11,44 +11,24 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Entity-Type
+ *
+ * @author Thomas Freese
  */
 class StreamSubscription<T> implements Subscription
 {
-    /**
-     *
-     */
     private final AtomicLong demand = new AtomicLong();
-    /**
-     *
-     */
+
     private final AtomicReference<Throwable> error = new AtomicReference<>();
-    /**
-     *
-     */
+
     private final Executor executor;
-    /**
-     *
-     */
+
     private final AtomicBoolean isTerminated = new AtomicBoolean(false);
-    /**
-     *
-     */
+
     private final Iterator<? extends T> iterator;
-    /**
-     *
-     */
+
     private final Subscriber<? super T> subscriber;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link StreamSubscription}.
-     *
-     * @param executor {@link Executor}
-     * @param iterator {@link Iterator}
-     * @param subscriber {@link Subscriber}
-     */
     StreamSubscription(final Executor executor, final Iterator<? extends T> iterator, final Subscriber<? super T> subscriber)
     {
         super();
@@ -68,35 +48,6 @@ class StreamSubscription<T> implements Subscription
     }
 
     /**
-     *
-     */
-    void doOnSubscribed()
-    {
-        Throwable throwable = this.error.get();
-
-        if ((throwable != null) && !terminate())
-        {
-            getExecutor().execute(() -> this.subscriber.onError(throwable));
-        }
-    }
-
-    /**
-     * @return {@link Executor}
-     */
-    private Executor getExecutor()
-    {
-        return this.executor;
-    }
-
-    /**
-     * @return boolean
-     */
-    private boolean isTerminated()
-    {
-        return this.isTerminated.get();
-    }
-
-    /**
      * @see java.util.concurrent.Flow.Subscription#request(long)
      */
     @Override
@@ -109,7 +60,7 @@ class StreamSubscription<T> implements Subscription
             return;
         }
 
-        for (;;)
+        for (; ; )
         {
             long currentDemand = this.demand.getAcquire(); // >= Java9
             // long currentDemand = this.demand.get(); // <= Java8
@@ -158,9 +109,26 @@ class StreamSubscription<T> implements Subscription
         }
     }
 
-    /**
-     * @return boolean
-     */
+    void doOnSubscribed()
+    {
+        Throwable throwable = this.error.get();
+
+        if ((throwable != null) && !terminate())
+        {
+            getExecutor().execute(() -> this.subscriber.onError(throwable));
+        }
+    }
+
+    private Executor getExecutor()
+    {
+        return this.executor;
+    }
+
+    private boolean isTerminated()
+    {
+        return this.isTerminated.get();
+    }
+
     private boolean terminate()
     {
         return this.isTerminated.getAndSet(true);

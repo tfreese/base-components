@@ -9,22 +9,13 @@ import org.slf4j.LoggerFactory;
  */
 public final class SystemUtils
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);
 
-    /**
-     * @return String
-     */
     public static String getJavaHome()
     {
         return System.getProperty("java.home");
     }
 
-    /**
-     * @return String
-     */
     public static String getJavaIoTmpDir()
     {
         return System.getProperty("java.io.tmpdir");
@@ -69,41 +60,26 @@ public final class SystemUtils
         return Integer.parseInt(versionString.replace(".", ""));
     }
 
-    /**
-     * @return String
-     */
     public static String getOsArch()
     {
         return System.getProperty("os.arch");
     }
 
-    /**
-     * @return String
-     */
     public static String getOsName()
     {
         return System.getProperty("os.name");
     }
 
-    /**
-     * @return String
-     */
     public static String getUserDir()
     {
         return System.getProperty("user.dir");
     }
 
-    /**
-     * @return String
-     */
     public static String getUserHome()
     {
         return System.getProperty("user.home");
     }
 
-    /**
-     * @return boolean
-     */
     public static boolean isLinux()
     {
         String os = getOsName().toLowerCase();
@@ -111,9 +87,6 @@ public final class SystemUtils
         return os.contains("linux");
     }
 
-    /**
-     * @return boolean
-     */
     public static boolean isUnix()
     {
         String os = getOsName().toLowerCase();
@@ -121,9 +94,6 @@ public final class SystemUtils
         return os.contains("nix") || os.contains("nux") || os.contains("aix");
     }
 
-    /**
-     * @return boolean
-     */
     public static boolean isWindows()
     {
         String os = getOsName().toLowerCase();
@@ -131,9 +101,6 @@ public final class SystemUtils
         return os.startsWith("win");
     }
 
-    /**
-     * Erstellt ein neues {@link SystemUtils} Object.
-     */
     private SystemUtils()
     {
         super();

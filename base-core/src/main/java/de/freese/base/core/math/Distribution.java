@@ -11,11 +11,6 @@ public final class Distribution
 {
     /**
      * Teilt den Wert durch die gewünschte Anzahl.
-     *
-     * @param anzahl int
-     * @param wert double[]
-     *
-     * @return double[]
      */
     public static double[] linear(final int anzahl, final double wert)
     {
@@ -24,12 +19,6 @@ public final class Distribution
 
     /**
      * Teilt den Wert durch die gewünschte Anzahl.
-     *
-     * @param anzahl int
-     * @param wert double[]
-     * @param nachkommaStellen int
-     *
-     * @return double[]
      */
     public static double[] linear(final int anzahl, final double wert, final int nachkommaStellen)
     {
@@ -43,11 +32,6 @@ public final class Distribution
     /**
      * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente ohne Nachkommastelle.<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
-     *
-     * @param faktoren double[]
-     * @param wert double
-     *
-     * @return double[]
      */
     public static double[] proportional(final double[] faktoren, final double wert)
     {
@@ -57,12 +41,6 @@ public final class Distribution
     /**
      * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente mit Nachkommastellen.<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
-     *
-     * @param faktoren double[]
-     * @param wert double[]
-     * @param nachkommaStellen int
-     *
-     * @return double[]
      */
     public static double[] proportional(final double[] faktoren, final double wert, final int nachkommaStellen)
     {
@@ -115,11 +93,6 @@ public final class Distribution
     /**
      * Verteilt den Wert anhand der Faktoren auf die einzelnen Elemente ohne Nachkommastellen.<br>
      * Sind ALLE Faktoren null, so wird linear verteilt.
-     *
-     * @param faktoren Double[]
-     * @param wert double
-     *
-     * @return double[]
      */
     public static double[] proportional(final Double[] faktoren, final double wert)
     {
@@ -138,9 +111,6 @@ public final class Distribution
         return proportional(faktorenDouble, wert, 0);
     }
 
-    /**
-     * Erstellt ein neues {@link Distribution} Object.
-     */
     private Distribution()
     {
         super();

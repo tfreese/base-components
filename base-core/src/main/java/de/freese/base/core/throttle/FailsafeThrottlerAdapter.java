@@ -10,25 +10,16 @@ import dev.failsafe.RateLimiter;
  */
 public final class FailsafeThrottlerAdapter implements Throttler
 {
-    /**
-     * @return {@link Throttler}
-     */
     public static Throttler create(final int permits, Duration duration)
     {
         return new FailsafeThrottlerAdapter(RateLimiter.burstyBuilder(permits, duration).build());
     }
 
-    /**
-     * @return {@link Throttler}
-     */
     public static Throttler create(final int permitsPerSecond)
     {
         return create(permitsPerSecond, Duration.ofSeconds(1));
     }
 
-    /**
-     *
-     */
     private final RateLimiter<Object> rateLimiter;
 
     private FailsafeThrottlerAdapter(final RateLimiter<Object> rateLimiter)

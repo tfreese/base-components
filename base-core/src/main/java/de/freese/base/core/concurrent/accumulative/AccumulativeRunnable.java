@@ -73,18 +73,8 @@ import javax.swing.SwingUtilities;
  */
 public abstract class AccumulativeRunnable<T> implements Runnable
 {
-    /**
-     *
-     */
     private List<T> arguments;
 
-    /**
-     * appends arguments and sends this {@link Runnable} for the execution if needed.
-     * <p>
-     * This implementation uses {@link #submit()} to send this {@code Runnable} for execution.
-     *
-     * @param args the arguments to accumulate
-     */
     @SafeVarargs
     public final synchronized void add(final T... args)
     {

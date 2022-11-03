@@ -15,9 +15,6 @@ import org.junit.jupiter.api.Test;
  */
 class TestSwitchCase
 {
-    /**
-     *
-     */
     @Test
     void testUseCase()
     {

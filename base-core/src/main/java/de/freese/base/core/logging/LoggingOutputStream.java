@@ -17,25 +17,12 @@ import org.slf4j.event.Level;
  */
 public class LoggingOutputStream extends OutputStream
 {
-    /**
-     *
-     */
     private final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-    /**
-     *
-     */
+
     private final Level level;
-    /**
-     *
-     */
+
     private final Logger logger;
 
-    /**
-     * Erstellt ein neues {@link LoggingOutputStream} Object.
-     *
-     * @param logger {@link Logger}
-     * @param level {@link Level}
-     */
     public LoggingOutputStream(final Logger logger, final Level level)
     {
         super();

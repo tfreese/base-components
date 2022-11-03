@@ -11,10 +11,5 @@ package de.freese.base.core.function;
 @FunctionalInterface
 public interface ExceptionHandler// <E extends Exception>
 {
-    /**
-     * Behandlung der Exception.
-     *
-     * @param ex {@link Exception}
-     */
     void handle(Exception ex);
 }

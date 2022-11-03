@@ -22,21 +22,11 @@ public final class ObjectTable
 
     private final List<String> header;
 
-    /**
-     * Erstellt ein neues {@link ObjectTable} Object.
-     *
-     * @param header String[]
-     */
     public ObjectTable(final String[] header)
     {
         this(Arrays.asList(header));
     }
 
-    /**
-     * Erstellt ein neues {@link ObjectTable} Object.
-     *
-     * @param header {@link Iterable}
-     */
     public ObjectTable(final Iterable<String> header)
     {
         super();
@@ -55,8 +45,6 @@ public final class ObjectTable
 
     /**
      * Die Row muss die gleiche Anzahl an Daten haben, wie die Anzahl der Spalten, sonst knallt es.
-     *
-     * @param row Object[]
      */
     public void addRow(Object[] row)
     {
@@ -65,8 +53,6 @@ public final class ObjectTable
 
     /**
      * Die Row muss die gleiche Anzahl an Daten haben, wie die Anzahl der Spalten, sonst knallt es.
-     *
-     * @param row {@link Iterable}
      */
     public void addRow(Iterable<Object> row)
     {
@@ -105,8 +91,6 @@ public final class ObjectTable
     /**
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
-     *
-     * @param printStream {@link PrintStream}
      */
     public void writeCsv(final PrintStream printStream)
     {
@@ -116,9 +100,6 @@ public final class ObjectTable
     /**
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
-     *
-     * @param printStream {@link PrintStream}
-     * @param csvDataFunction {@link Function}
      */
     public void writeCsv(final PrintStream printStream, Function<Object[], Stream<String>> csvDataFunction)
     {
@@ -152,10 +133,6 @@ public final class ObjectTable
     /**
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
-     *
-     * @param printStream {@link PrintStream}
-     * @param separatorHeader char
-     * @param separatorData char
      */
     public void writeStringTable(final PrintStream printStream, final char separatorHeader, final char separatorData)
     {
@@ -165,11 +142,6 @@ public final class ObjectTable
     /**
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
-     *
-     * @param printStream {@link PrintStream}
-     * @param separatorHeader char
-     * @param separatorData char
-     * @param dataFunction {@link Function}
      */
     public void writeStringTable(final PrintStream printStream, final char separatorHeader, final char separatorData, Function<Object, String> dataFunction)
     {

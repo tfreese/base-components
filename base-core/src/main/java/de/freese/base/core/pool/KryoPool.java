@@ -44,16 +44,8 @@ public abstract class KryoPool<T>
      */
     static class SoftReferenceQueue<T> implements Queue<T>
     {
-        /**
-         *
-         */
         private final Queue<SoftReference<T>> delegate;
 
-        /**
-         * Erstellt ein neues {@link SoftReferenceQueue} Object.
-         *
-         * @param delegate {@link Queue}
-         */
         public SoftReferenceQueue(final Queue<SoftReference<T>> delegate)
         {
             this.delegate = delegate;
@@ -236,17 +228,11 @@ public abstract class KryoPool<T>
             return null;
         }
 
-        /**
-         *
-         */
         void clean()
         {
             this.delegate.removeIf(o -> o.get() == null);
         }
 
-        /**
-         *
-         */
         void cleanOne()
         {
             for (Iterator<SoftReference<T>> iter = this.delegate.iterator(); iter.hasNext(); )
@@ -260,21 +246,12 @@ public abstract class KryoPool<T>
         }
     }
 
-    /**
-     *
-     */
     private final Queue<T> freeObjects;
 
-    /**
-     *
-     */
     private int peak;
 
     /**
      * Creates a pool with no maximum.
-     *
-     * @param threadSafe boolean
-     * @param softReferences boolean
      */
     protected KryoPool(final boolean threadSafe, final boolean softReferences)
     {
@@ -282,12 +259,9 @@ public abstract class KryoPool<T>
     }
 
     /**
-     * @param threadSafe boolean
-     * @param softReferences boolean
      * @param maximumCapacity int; The maximum number of free objects to store in this pool.<br>
      * Objects are not created until {@link #obtain()} is called and no free objects are available.
      */
-    @SuppressWarnings("unchecked")
     protected KryoPool(final boolean threadSafe, final boolean softReferences, final int maximumCapacity)
     {
         Queue<T> queue;
@@ -296,9 +270,6 @@ public abstract class KryoPool<T>
         {
             queue = new LinkedBlockingQueue<>(maximumCapacity)
             {
-                /**
-                 *
-                 */
                 @Serial
                 private static final long serialVersionUID = 1L;
 
@@ -387,8 +358,6 @@ public abstract class KryoPool<T>
      * <p>
      * If using soft references and the pool contains the maximum number of free objects, the first soft reference whose object has been garbage collected is
      * discarded to make room.
-     *
-     * @param object Object
      */
     public void free(final T object)
     {
@@ -414,8 +383,6 @@ public abstract class KryoPool<T>
      * <p>
      * If using soft references, this number may include objects that have been garbage collected. {@link #clean()} may be used first to remove empty soft
      * references.
-     *
-     * @return int
      */
     public int getFree()
     {
@@ -427,8 +394,6 @@ public abstract class KryoPool<T>
      * {@link #resetPeak()}.
      * <p>
      * If using soft references, this number may include objects that have been garbage collected.
-     *
-     * @return int
      */
     public int getPeak()
     {
@@ -437,8 +402,6 @@ public abstract class KryoPool<T>
 
     /**
      * Returns an object from this pool. The object may be new (from {@link #create()}) or reused (previously {@link #free(Object) freed}).
-     *
-     * @return Object
      */
     public T obtain()
     {
@@ -447,24 +410,16 @@ public abstract class KryoPool<T>
         return object != null ? object : create();
     }
 
-    /**
-     *
-     */
     public void resetPeak()
     {
         this.peak = 0;
     }
 
-    /**
-     * @return Object
-     */
     protected abstract T create();
 
     /**
      * Called when an object is freed to clear the state of the object for possible later reuse. The default implementation calls {@link Poolable#reset()} if
      * the object is {@link Poolable}.
-     *
-     * @param object Object
      */
     protected void reset(final T object)
     {

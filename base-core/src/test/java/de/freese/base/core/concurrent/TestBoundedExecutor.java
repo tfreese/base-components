@@ -31,32 +31,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 @Execution(ExecutionMode.CONCURRENT)
 class TestBoundedExecutor
 {
-    /**
-     *
-     */
     private static ExecutorService executorService;
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
         ExecutorUtils.shutdown(executorService);
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
         executorService = Executors.newCachedThreadPool();
     }
 
-    /**
-     * @return {@link Stream}
-     */
     static Stream<Arguments> createTestData()
     {
         // @formatter:off
@@ -68,9 +56,6 @@ class TestBoundedExecutor
         // @formatter:on
     }
 
-    /**
-     *
-     */
     private static void sleep()
     {
         try
@@ -83,10 +68,6 @@ class TestBoundedExecutor
         }
     }
 
-    /**
-     * @param name String
-     * @param parallelism int
-     */
     @ParameterizedTest(name = "{0}")
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutor")
@@ -97,10 +78,6 @@ class TestBoundedExecutor
         execute(boundedExecutor, null);
     }
 
-    /**
-     * @param name String
-     * @param parallelism int
-     */
     @ParameterizedTest(name = "{0}")
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutorQueued")
@@ -111,10 +88,6 @@ class TestBoundedExecutor
         execute(boundedExecutor, boundedExecutor::getQueueSize);
     }
 
-    /**
-     * @param name String
-     * @param parallelism int
-     */
     @ParameterizedTest(name = "{0}")
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutorQueuedWithScheduler")
@@ -127,10 +100,6 @@ class TestBoundedExecutor
         boundedExecutor.shutdown();
     }
 
-    /**
-     * @param executor {@link Executor}
-     * @param queueSizeSupplier {@link Supplier}
-     */
     private void execute(final Executor executor, final Supplier<Integer> queueSizeSupplier)
     {
         System.out.println();

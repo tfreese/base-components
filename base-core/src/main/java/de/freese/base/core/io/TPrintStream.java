@@ -10,18 +10,8 @@ import java.nio.charset.StandardCharsets;
  */
 public class TPrintStream extends PrintStream
 {
-    /**
-     *
-     */
     private final PrintStream out2;
 
-    /**
-     * Creates a new {@link TPrintStream} object.
-     *
-     * @param out1 {@link PrintStream}
-     * @param out2 {@link PrintStream}
-     * @param autoFlush1 boolean
-     */
     public TPrintStream(final PrintStream out1, final PrintStream out2, final boolean autoFlush1)
     {
         super(out1, autoFlush1, StandardCharsets.UTF_8);

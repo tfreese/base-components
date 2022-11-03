@@ -22,9 +22,7 @@ public final class ReflectionUtils
      * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
      */
     public static final Predicate<Method> USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
-    /**
-     *
-     */
+
     private static final Object[] EMPTY_OBJECT_ARRAY = {};
 
     /**
@@ -35,10 +33,6 @@ public final class ReflectionUtils
     {
         /**
          * Perform an operation using the given field.
-         *
-         * @param field the field to operate on
-         *
-         * @throws IllegalAccessException Falls was schiefgeht.
          */
         void doWith(Field field) throws IllegalAccessException;
     }
@@ -51,10 +45,6 @@ public final class ReflectionUtils
     {
         /**
          * Perform an operation using the given method.
-         *
-         * @param method the method to operate on
-         *
-         * @throws IllegalAccessException Falls was schiefgeht.
          */
         void doWith(Method method) throws IllegalAccessException;
     }
@@ -280,8 +270,6 @@ public final class ReflectionUtils
      * @param method the method to invoke
      * @param target the target object to invoke the method on
      *
-     * @return the invocation result, if any
-     *
      * @see #invokeMethod(java.lang.reflect.Method, Object, Object[])
      */
     public static Object invokeMethod(final Method method, final Object target)
@@ -298,8 +286,6 @@ public final class ReflectionUtils
      * @param method the method to invoke
      * @param target the target object to invoke the method on
      * @param args the invocation arguments (maybe {@code null})
-     *
-     * @return the invocation result, if any
      */
     public static Object invokeMethod(final Method method, final Object target, final Object... args)
     {
@@ -319,8 +305,6 @@ public final class ReflectionUtils
      * Make the given field accessible, explicitly setting it accessible if necessary. The {@code setAccessible(true)} method is only called when actually
      * necessary, to avoid unnecessary conflicts with a JVM SecurityManager (if active).
      *
-     * @param field the field to make accessible
-     *
      * @see java.lang.reflect.Field#setAccessible
      */
     @SuppressWarnings("deprecation")  // on JDK 9
@@ -336,8 +320,6 @@ public final class ReflectionUtils
     /**
      * Make the given method accessible, explicitly setting it accessible if necessary. The {@code setAccessible(true)} method is only called when actually
      * necessary, to avoid unnecessary conflicts with a JVM SecurityManager (if active).
-     *
-     * @param method the method to make accessible
      *
      * @see java.lang.reflect.Method#setAccessible
      */
@@ -357,8 +339,6 @@ public final class ReflectionUtils
      * Rethrows the underlying exception cast to a {@link RuntimeException} or {@link Error} if appropriate; otherwise, throws an
      * {@link UndeclaredThrowableException}.
      *
-     * @param ex the exception to rethrow
-     *
      * @throws RuntimeException the rethrown exception
      */
     public static void rethrowRuntimeException(final Throwable ex)
@@ -376,11 +356,6 @@ public final class ReflectionUtils
         throw new UndeclaredThrowableException(ex);
     }
 
-    /**
-     * @param clazz the class to introspect
-     *
-     * @return {@link List}
-     */
     private static List<Method> findConcreteMethodsOnInterfaces(final Class<?> clazz)
     {
         List<Method> result = new ArrayList<>();
@@ -402,10 +377,6 @@ public final class ReflectionUtils
     /**
      * This variant retrieves {@link Class#getDeclaredFields()} from a local cache in order to avoid the JVM's SecurityManager check and defensive array
      * copying.
-     *
-     * @param clazz the class to introspect
-     *
-     * @return the array of fields
      *
      * @throws IllegalStateException if introspection fails
      * @see Class#getDeclaredFields()
@@ -432,11 +403,6 @@ public final class ReflectionUtils
         return fields;
     }
 
-    /**
-     * @param clazz the class to introspect
-     *
-     * @return the array of methods
-     */
     private static Method[] getDeclaredMethods(final Class<?> clazz)
     {
         Objects.requireNonNull(clazz, "clazz required");
@@ -478,9 +444,6 @@ public final class ReflectionUtils
         return methods;
     }
 
-    /**
-     * Erstellt ein neues {@link ReflectionUtils} Object.
-     */
     private ReflectionUtils()
     {
         super();

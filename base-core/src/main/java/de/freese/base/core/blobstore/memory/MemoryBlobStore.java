@@ -16,9 +16,6 @@ import de.freese.base.core.blobstore.BlobId;
  */
 public class MemoryBlobStore extends AbstractBlobStore
 {
-    /**
-     *
-     */
     private final Map<BlobId, byte[]> cache = new HashMap<>();
 
     @Override

@@ -18,30 +18,13 @@ import de.freese.base.utils.CalendarUtils;
  */
 public final class FeiertagsManager
 {
-    /**
-     *
-     */
     private final Map<Integer, Map<String, InternerFeiertag>> feiertagsMap = new TreeMap<>();
 
-    /**
-     * Liefert einen Feiertag für ein bestimmtes Datum.
-     *
-     * @param calendar {@link Calendar}
-     *
-     * @return {@link Feiertag}
-     */
     public Feiertag getFeiertag(final Calendar calendar)
     {
         return getFeiertag(calendar.getTime());
     }
 
-    /**
-     * Liefert einen Feiertag für ein bestimmtes Datum.
-     *
-     * @param date {@link Date}
-     *
-     * @return {@link Feiertag}
-     */
     public Feiertag getFeiertag(final Date date)
     {
         LocalDate localDate = CalendarUtils.toLocalDate(date);
@@ -88,37 +71,16 @@ public final class FeiertagsManager
         return feiertag;
     }
 
-    /**
-     * Liefert einen Feiertag für ein bestimmtes Datum.
-     *
-     * @param localDate {@link LocalDate}
-     *
-     * @return {@link Feiertag}
-     */
     public Feiertag getFeiertag(final LocalDate localDate)
     {
         return getFeiertag(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
     }
 
-    /**
-     * Liefert einen Feiertag für ein bestimmtes Datum.
-     *
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link Feiertag}
-     */
     public Feiertag getFeiertag(final LocalDateTime localDateTime)
     {
         return getFeiertag(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
     }
 
-    /**
-     * @param jahr int
-     * @param monat int
-     * @param tag int
-     * @param typ {@link FeiertagTyp}
-     * @param berechneterFeiertag boolean
-     */
     private void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag)
     {
         Map<String, InternerFeiertag> jahrMap = this.feiertagsMap.computeIfAbsent(jahr, key -> new HashMap<>());
@@ -127,9 +89,8 @@ public final class FeiertagsManager
     }
 
     /**
-     * Einfügen von Ostern abhängigen Feiertagen. Geklaut aus CT' (Gauss-Algorithmus).
-     *
-     * @param jahr int
+     * Einfügen von Ostern abhängigen Feiertagen.<br/>
+     * Geklaut aus CT' (Gauss-Algorithmus).
      */
     private void erzeugeDynamischeFeiertage(final int jahr)
     {
@@ -185,8 +146,6 @@ public final class FeiertagsManager
 
     /**
      * Erzeuge alle Feiertage des Jahres, wenn noch nicht vorhanden.
-     *
-     * @param jahr int
      */
     private void erzeugeFeiertage(final int jahr)
     {
@@ -202,8 +161,6 @@ public final class FeiertagsManager
 
     /**
      * Einfügen von festen Feiertagen.
-     *
-     * @param jahr int
      */
     private void erzeugeFesteFeiertage(final int jahr)
     {
@@ -224,11 +181,6 @@ public final class FeiertagsManager
      * Eingabe: Jahr Tagesnummer rel. zum Jahresanfang (1=1.1.,2=2.1.,...365/366=31.12)<br>
      * Ausgabe: Wochentag (0=So, 1=Mo,..., 6=Sa)<br>
      * Algorithmus von Zeller, aus CT 15/98
-     *
-     * @param jahr int
-     * @param tagDesJahres int
-     *
-     * @return int
      */
     private int getMonatImJahr(final int jahr, final int tagDesJahres)
     {
@@ -255,11 +207,6 @@ public final class FeiertagsManager
      * Eingabe: Jahr Tagesnummer rel. zum Jahresanfang (1=1.1.,2=2.1.,...365/366=31.12)<br>
      * Ausgabe: Tag (1..31)<br>
      * Algorithmus von R. A. Stone, aus CT 15/98
-     *
-     * @param jahr int
-     * @param tagDesJahres int
-     *
-     * @return int
      */
     private int getTagDesMonats(final int jahr, final int tagDesJahres)
     {
@@ -284,11 +231,6 @@ public final class FeiertagsManager
         return dtj - ((611 * m) / 20);
     }
 
-    /**
-     * @param jahr int
-     *
-     * @return boolean
-     */
     private boolean isSchaltJahr(final int jahr)
     {
         return ((jahr % 4) == 0) && (((jahr % 100) != 0) || ((jahr % 400) == 0));

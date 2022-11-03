@@ -9,9 +9,6 @@ import java.util.Date;
  */
 public class YYYYMMDD_DateAdapter extends DateAdapter
 {
-    /**
-     * Erstellt ein neues {@link YYYYMMDD_DateAdapter} Object.
-     */
     public YYYYMMDD_DateAdapter()
     {
         super("yyyy-MM-dd");

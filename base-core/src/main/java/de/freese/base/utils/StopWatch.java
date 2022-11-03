@@ -17,13 +17,8 @@ import java.util.function.Consumer;
  */
 public class StopWatch
 {
-    /**
-     *
-     */
     private static final AtomicInteger ID_NUMBER = new AtomicInteger(1);
-    /**
-     *
-     */
+
     private static final AtomicInteger TASK_NUMBER = new AtomicInteger(1);
 
     /**
@@ -31,16 +26,8 @@ public class StopWatch
      */
     public static class DefaultPrettyPrinter implements Consumer<StopWatch>
     {
-        /**
-         *
-         */
         private final PrintStream printStream;
 
-        /**
-         * Erstellt ein neues {@link DefaultPrettyPrinter} Object.
-         *
-         * @param printStream {@link PrintStream}
-         */
         public DefaultPrettyPrinter(final PrintStream printStream)
         {
             super();
@@ -61,11 +48,6 @@ public class StopWatch
             this.printStream.flush();
         }
 
-        /**
-         * @param sw {@link StopWatch}
-         * @param printStream {@link PrintStream}
-         * @param timeUnit {@link TimeUnit}
-         */
         protected void printSummary(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit)
         {
             // @formatter:off
@@ -80,11 +62,6 @@ public class StopWatch
             // @formatter:on
         }
 
-        /**
-         * @param sw {@link StopWatch}
-         * @param printStream {@link PrintStream}
-         * @param timeUnit {@link TimeUnit}
-         */
         protected void printTasks(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit)
         {
             if (!sw.isKeepTaskList())
@@ -112,78 +89,38 @@ public class StopWatch
         }
     }
 
-    /**
-     * @param taskName String
-     * @param timeNanos long
-     *
-     * @author Thomas Freese
-     */
     public record TaskInfo(String taskName, long timeNanos)
     {
-        /**
-         * Erstellt ein neues {@link TaskInfo} Object.
-         *
-         * @param taskName String
-         * @param timeNanos long
-         */
         public TaskInfo
         {
             Objects.requireNonNull(taskName);
         }
 
-        /**
-         * @param timeUnit {@link TimeUnit}
-         *
-         * @return long
-         */
         public long getTime(final TimeUnit timeUnit)
         {
             return timeUnit.convert(this.timeNanos, TimeUnit.NANOSECONDS);
         }
     }
 
-    /**
-     *
-     */
     private final String id;
-    /**
-     *
-     */
+
     private final List<TaskInfo> taskList = new LinkedList<>();
-    /**
-     *
-     */
+
     private String currentTaskName;
-    /**
-     *
-     */
+
     private boolean keepTaskList = true;
-    /**
-     *
-     */
+
     private TaskInfo lastTaskInfo;
-    /**
-     * Start time of the current task.
-     */
+
     private long startTimeNanos;
-    /**
-     * Total running time.
-     */
+
     private long totalTimeNanos;
 
-    /**
-     * Erstellt ein neues {@link StopWatch} Object.
-     */
     public StopWatch()
     {
         this("StopWatch-" + ID_NUMBER.getAndIncrement());
     }
 
-    /**
-     * Erstellt ein neues {@link StopWatch} Object.
-     *
-     * @param id String
-     */
     public StopWatch(final String id)
     {
         super();
@@ -191,35 +128,21 @@ public class StopWatch
         this.id = id;
     }
 
-    /**
-     *
-     */
     public void clearTaskList()
     {
         this.taskList.clear();
     }
 
-    /**
-     * Get the name of the currently running task, if any.
-     *
-     * @return String
-     */
     public String getCurrentTaskName()
     {
         return this.currentTaskName;
     }
 
-    /**
-     * @return String
-     */
     public String getId()
     {
         return this.id;
     }
 
-    /**
-     * @return {@link TaskInfo}
-     */
     public TaskInfo getLastTaskInfo()
     {
         if (this.lastTaskInfo == null)
@@ -230,21 +153,11 @@ public class StopWatch
         return this.lastTaskInfo;
     }
 
-    /**
-     * Get the number of tasks timed.
-     *
-     * @return int
-     */
     public int getTaskCount()
     {
         return this.taskList.size();
     }
 
-    /**
-     * Returns a copy of the TaskList.
-     *
-     * @return List<TaskInfo>
-     */
     public List<TaskInfo> getTaskList()
     {
         List<TaskInfo> copy = new ArrayList<>(getTaskCount());
@@ -253,11 +166,6 @@ public class StopWatch
         return copy;
     }
 
-    /**
-     * Get the total time in nanoseconds for all tasks.
-     *
-     * @return long
-     */
     public long getTotalTimeNanos()
     {
         return this.totalTimeNanos;
@@ -268,19 +176,12 @@ public class StopWatch
      * Set this to {@code false} when using a {@code StopWatch} for millions of intervals; otherwise, the {@code TaskInfo} structure will consume excessive
      * memory.<br>
      * Default is {@code true}.
-     *
-     * @return boolean
      */
     public boolean isKeepTaskList()
     {
         return this.keepTaskList;
     }
 
-    /**
-     * Determine whether this {@code StopWatch} is currently running.
-     *
-     * @return boolean
-     */
     public boolean isRunning()
     {
         return getCurrentTaskName() != null;
@@ -288,8 +189,6 @@ public class StopWatch
 
     /**
      * Prints all the task details on the {@link PrintStream}.
-     *
-     * @param consumer {@link Consumer}
      *
      * @see DefaultPrettyPrinter
      */
@@ -300,8 +199,6 @@ public class StopWatch
 
     /**
      * Prints all the task details on the {@link PrintStream}.
-     *
-     * @param printStream {@link PrintStream}
      *
      * @see DefaultPrettyPrinter
      */
@@ -315,8 +212,6 @@ public class StopWatch
      * Set this to {@code false} when using a {@code StopWatch} for millions of intervals; otherwise, the {@code TaskInfo} structure will consume excessive
      * memory.<br>
      * Default is {@code true}.
-     *
-     * @param keepTaskList boolean
      */
     public void setKeepTaskList(final boolean keepTaskList)
     {
@@ -335,8 +230,6 @@ public class StopWatch
     /**
      * Start a named task.<br>
      * The results are undefined if {@link #stop()} is called without invoking this method first.t.
-     *
-     * @param taskName String
      */
     public void start(final String taskName)
     {

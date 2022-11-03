@@ -13,18 +13,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractBlob implements Blob
 {
-    /**
-     *
-     */
     private final BlobId id;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @param id {@link BlobId}
-     */
     protected AbstractBlob(final BlobId id)
     {
         super();
@@ -47,9 +39,6 @@ public abstract class AbstractBlob implements Blob
         return getId().toString();
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;

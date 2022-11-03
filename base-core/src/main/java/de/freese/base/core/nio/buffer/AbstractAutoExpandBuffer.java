@@ -29,11 +29,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     private static final int MAX_CAPACITY = Integer.MAX_VALUE - 8;
 
     /**
-     * Berechnet die neue Größe des Buffers..<br>
-     *
-     * @param neededCapacity int
-     *
-     * @return int
+     * Berechnet die neue Größe des Buffers.<br>
      *
      * @see "io.netty.buffer.AbstractByteBufAllocator.calculateNewCapacity(int, int)"
      * @see "org.springframework.core.io.buffer.DefaultDataBuffer.calculateCapacity(int)"
@@ -84,9 +80,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return Math.min(newCapacity, MAX_CAPACITY);
     }
 
-    /**
-     *
-     */
     private B buffer;
 
     /**
@@ -94,11 +87,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
      */
     private int mark = -1;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link AbstractAutoExpandBuffer}
-     *
-     * @param buffer {@link Buffer}
-     */
     protected AbstractAutoExpandBuffer(final B buffer)
     {
         super();
@@ -106,21 +94,11 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         this.buffer = Objects.requireNonNull(buffer, "buffer required");
     }
 
-    /**
-     * @return int
-     *
-     * @see Buffer#capacity()
-     */
     public final int capacity()
     {
         return getBuffer().capacity();
     }
 
-    /**
-     * @return {@link AbstractAutoExpandBuffer}
-     *
-     * @see Buffer#clear()
-     */
     public final AbstractAutoExpandBuffer<B> clear()
     {
         getBuffer().clear();
@@ -130,11 +108,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    /**
-     * @return {@link AbstractAutoExpandBuffer}
-     *
-     * @see Buffer#flip()
-     */
     public final AbstractAutoExpandBuffer<B> flip()
     {
         getBuffer().flip();
@@ -144,61 +117,31 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    /**
-     * @return {@link Buffer}
-     */
     public final B getBuffer()
     {
         return this.buffer;
     }
 
-    /**
-     * @return boolean
-     *
-     * @see Buffer#hasRemaining()
-     */
     public final boolean hasRemaining()
     {
         return getBuffer().hasRemaining();
     }
 
-    /**
-     * @return boolean
-     *
-     * @see Buffer#isDirect()
-     */
     public final boolean isDirect()
     {
         return getBuffer().isDirect();
     }
 
-    /**
-     * @return boolean
-     *
-     * @see Buffer#isReadOnly()
-     */
     public final boolean isReadOnly()
     {
         return getBuffer().isReadOnly();
     }
 
-    /**
-     * @return int
-     *
-     * @see Buffer#limit()
-     */
     public final int limit()
     {
         return getBuffer().limit();
     }
 
-    /**
-     * @param newLimit int
-     *
-     * @return {@link AbstractAutoExpandBuffer}
-     *
-     * @see Buffer#limit(int)
-     */
     public final AbstractAutoExpandBuffer<B> limit(final int newLimit)
     {
         autoExpand(newLimit, 0);
@@ -212,11 +155,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    /**
-     * @return {@link AbstractAutoExpandBuffer}
-     *
-     * @see Buffer#mark()
-     */
     public final AbstractAutoExpandBuffer<B> mark()
     {
         getBuffer().mark();
@@ -225,23 +163,11 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    /**
-     * @return int
-     *
-     * @see Buffer#position()
-     */
     public final int position()
     {
         return getBuffer().position();
     }
 
-    /**
-     * @param newPosition int
-     *
-     * @return {@link AbstractAutoExpandBuffer}
-     *
-     * @see Buffer#position(int)
-     */
     public final AbstractAutoExpandBuffer<B> position(final int newPosition)
     {
         autoExpand(newPosition, 0);
@@ -255,21 +181,11 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    /**
-     * @return int
-     *
-     * @see Buffer#remaining()
-     */
     public final int remaining()
     {
         return limit() - position();
     }
 
-    /**
-     * @return {@link AbstractAutoExpandBuffer}
-     *
-     * @see Buffer#reset()
-     */
     public final AbstractAutoExpandBuffer<B> reset()
     {
         getBuffer().reset();
@@ -279,10 +195,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * Forwards the position of this buffer as the specified <code>size</code> bytes.
-     *
-     * @param size int
-     *
-     * @return {@link AbstractAutoExpandBuffer}
      */
     public final AbstractAutoExpandBuffer<B> skip(final int size)
     {
@@ -293,8 +205,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     *
-     * @param expectedRemaining int
      */
     protected void autoExpand(final int expectedRemaining)
     {
@@ -303,9 +213,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
     /**
      * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     *
-     * @param position int
-     * @param expectedRemaining int
      */
     protected void autoExpand(final int position, final int expectedRemaining)
     {
@@ -339,12 +246,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         }
     }
 
-    /**
-     * @param buffer {@link Buffer}
-     * @param newCapacity int
-     *
-     * @return {@link Buffer}
-     */
     protected abstract B createNewBuffer(final B buffer, final int newCapacity);
 
 }

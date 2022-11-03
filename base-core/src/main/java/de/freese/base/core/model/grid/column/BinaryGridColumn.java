@@ -13,25 +13,14 @@ import java.io.Serial;
  */
 public class BinaryGridColumn extends AbstractGridColumn<byte[]>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -728952526278052497L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link BinaryGridColumn}.
-     */
     public BinaryGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link BinaryGridColumn}.
-     *
-     * @param name String
-     */
     public BinaryGridColumn(final String name)
     {
         super();
@@ -61,8 +50,6 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
     }
 
     /**
-     * /**
-     *
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override

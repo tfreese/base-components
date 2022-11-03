@@ -12,9 +12,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestAutoExpandBuffer
 {
-    /**
-     *
-     */
     @Test
     void testByteBufferWithByte()
     {
@@ -54,9 +51,6 @@ class TestAutoExpandBuffer
         assertEquals(3, bb.get(3));
     }
 
-    /**
-     *
-     */
     @Test
     void testByteBufferWithLong()
     {
@@ -96,9 +90,6 @@ class TestAutoExpandBuffer
         assertEquals(3L, bb.getLong(24));
     }
 
-    /**
-     *
-     */
     @Test
     void testCharBufferCrLfWithChar()
     {
@@ -146,9 +137,6 @@ class TestAutoExpandBuffer
         assertEquals('\n', bb.get(11));
     }
 
-    /**
-     *
-     */
     @Test
     void testCharBufferCrLfWithString()
     {
@@ -192,9 +180,6 @@ class TestAutoExpandBuffer
         assertEquals("\r\n", bb.getString(22, 2));
     }
 
-    /**
-     *
-     */
     @Test
     void testCharBufferWithChar()
     {
@@ -234,9 +219,6 @@ class TestAutoExpandBuffer
         assertEquals('d', bb.get(3));
     }
 
-    /**
-     *
-     */
     @Test
     void testCharBufferWithString()
     {

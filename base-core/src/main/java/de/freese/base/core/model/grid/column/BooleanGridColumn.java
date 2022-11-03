@@ -13,25 +13,14 @@ import java.io.Serial;
  */
 public class BooleanGridColumn extends AbstractGridColumn<Boolean>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 9093089212970979017L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link BooleanGridColumn}.
-     */
     public BooleanGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link BooleanGridColumn}.
-     *
-     * @param name String
-     */
     public BooleanGridColumn(final String name)
     {
         super();

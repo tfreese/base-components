@@ -29,30 +29,19 @@ public class GenericBuilder<T> implements Builder<T>
 {
     /**
      * Beispiel: of(ArrayList::new)
-     *
-     * @param instantiator {@link Supplier}
-     *
-     * @return {@link GenericBuilder}
      */
     public static <T> GenericBuilder<T> of(final Supplier<T> instantiator)
     {
         return new GenericBuilder<>(instantiator);
     }
 
-    /**
-     *
-     */
     private final List<Consumer<T>> instanceModifiers = new ArrayList<>();
-    /**
-     *
-     */
+
     private final Supplier<T> instantiator;
 
     /**
      * Erzeugt eine neue Instanz von {@link GenericBuilder}.<br>
      * Beispiel: ArrayList::new
-     *
-     * @param instantiator {@link Supplier}
      */
     public GenericBuilder(final Supplier<T> instantiator)
     {
@@ -74,10 +63,6 @@ public class GenericBuilder<T> implements Builder<T>
 
     /**
      * Erzeugt das Objekt n-mal.
-     *
-     * @param n int
-     *
-     * @return {@link List}
      */
     public List<T> build(final int n)
     {
@@ -98,11 +83,6 @@ public class GenericBuilder<T> implements Builder<T>
 
     /**
      * Beispiel: with(ArrayList::add, "Sample object")
-     *
-     * @param setter {@link BiConsumer}
-     * @param value Object
-     *
-     * @return {@link GenericBuilder}
      */
     public <U> GenericBuilder<T> with(final BiConsumer<T, U> setter, final U value)
     {
@@ -113,10 +93,6 @@ public class GenericBuilder<T> implements Builder<T>
 
     /**
      * Beispiel: with(list -> list.add("Sample object"))
-     *
-     * @param setter {@link Consumer}
-     *
-     * @return {@link GenericBuilder}
      */
     public GenericBuilder<T> with(final Consumer<T> setter)
     {
@@ -125,17 +101,11 @@ public class GenericBuilder<T> implements Builder<T>
         return this;
     }
 
-    /**
-     * @return {@link List}
-     */
     protected List<Consumer<T>> getInstanceModifiers()
     {
         return this.instanceModifiers;
     }
 
-    /**
-     * @return {@link Supplier}
-     */
     protected Supplier<T> getInstantiator()
     {
         return this.instantiator;

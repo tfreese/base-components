@@ -11,13 +11,6 @@ import de.freese.base.core.model.grid.column.GridColumn;
  */
 public interface GridColumnFactory
 {
-    /**
-     * Liefert für den SQL-Type die entsprechende Column.
-     *
-     * @param sqlType int
-     *
-     * @return {@link GridColumn}
-     */
     default GridColumn<?> getColumnForSQL(final int sqlType)
     {
         Class<?> objectClazz = switch (sqlType)
@@ -36,12 +29,5 @@ public interface GridColumnFactory
         return getColumnForType(objectClazz);
     }
 
-    /**
-     * Liefert für den Object-Typ die entsprechende Column.
-     *
-     * @param objectClazz Class
-     *
-     * @return {@link GridColumn}
-     */
     GridColumn<?> getColumnForType(final Class<?> objectClazz);
 }

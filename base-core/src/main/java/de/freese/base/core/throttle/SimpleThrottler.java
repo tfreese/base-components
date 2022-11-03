@@ -9,17 +9,11 @@ import java.util.Objects;
  */
 public final class SimpleThrottler implements Throttler
 {
-    /**
-     * @return {@link Throttler}
-     */
     static Throttler create(final int permits, Duration duration)
     {
         return new SimpleThrottler(permits, duration);
     }
 
-    /**
-     * @return {@link Throttler}
-     */
     static Throttler create(final int permitsPerSecond)
     {
         return create(permitsPerSecond, Duration.ofSeconds(1));
@@ -28,11 +22,6 @@ public final class SimpleThrottler implements Throttler
     /**
      * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
      * returned, respectively.
-     *
-     * @param val1 long
-     * @param val2 long
-     *
-     * @return long
      */
     private static long saturatedAdd(final long val1, final long val2)
     {
@@ -46,13 +35,8 @@ public final class SimpleThrottler implements Throttler
         return Long.MAX_VALUE + ((naiveSum >>> (Long.SIZE - 1)) ^ 1);
     }
 
-    /**
-     *
-     */
     private final long permitIntervalNanos;
-    /**
-     *
-     */
+
     private long nextFreeSlotNanos;
 
     private SimpleThrottler(final int permits, Duration duration)

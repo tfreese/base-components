@@ -18,9 +18,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestGenericBuilder
 {
-    /**
-     *
-     */
     @Test
     void testMultiple()
     {
@@ -44,9 +41,6 @@ class TestGenericBuilder
         });
     }
 
-    /**
-     *
-     */
     @Test
     void testWithBiConsumer()
     {
@@ -63,9 +57,6 @@ class TestGenericBuilder
         assertEquals("B", list.get(1));
     }
 
-    /**
-     *
-     */
     @Test
     void testWithConsumer()
     {
@@ -82,9 +73,6 @@ class TestGenericBuilder
         assertEquals("B", list.get(1));
     }
 
-    /**
-     *
-     */
     @Test
     void testWithMix()
     {

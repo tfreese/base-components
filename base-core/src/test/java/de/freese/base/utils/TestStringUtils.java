@@ -15,9 +15,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestStringUtils
 {
-    /**
-     *
-     */
     @Test
     void testRemoveNonAscii()
     {
@@ -51,9 +48,6 @@ class TestStringUtils
         assertEquals(" iPhone 13 jetzt im GigaDeal ", result);
     }
 
-    /**
-     *
-     */
     @Test
     void testStringUtilsNormalizeSpace()
     {

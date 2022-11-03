@@ -14,34 +14,18 @@ import java.util.Objects;
  */
 public class Tupel2<A, B> implements Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2114823921211413095L;
-    /**
-     *
-     */
+
     private A valueA;
-    /**
-     *
-     */
+
     private B valueB;
 
-    /**
-     * Erstellt ein neues {@link Tupel2} Object.
-     */
     public Tupel2()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link Tupel2} Object.
-     *
-     * @param valueA Object
-     * @param valueB Object
-     */
     public Tupel2(final A valueA, final B valueB)
     {
         super();
@@ -71,17 +55,11 @@ public class Tupel2<A, B> implements Serializable
         return Objects.equals(valueA, tupel2.valueA) && Objects.equals(valueB, tupel2.valueB);
     }
 
-    /**
-     * @return Object
-     */
     public final A getValueA()
     {
         return this.valueA;
     }
 
-    /**
-     * @return Object
-     */
     public final B getValueB()
     {
         return this.valueB;
@@ -93,17 +71,11 @@ public class Tupel2<A, B> implements Serializable
         return Objects.hash(valueA, valueB);
     }
 
-    /**
-     * @param valueA Object
-     */
     public final void setValueA(final A valueA)
     {
         this.valueA = valueA;
     }
 
-    /**
-     * @param valueB Object
-     */
     public final void setValueB(final B valueB)
     {
         this.valueB = valueB;
@@ -123,13 +95,6 @@ public class Tupel2<A, B> implements Serializable
         return sb.toString();
     }
 
-    /**
-     * Liefert Object.toString oder "null".
-     *
-     * @param object Object
-     *
-     * @return String
-     */
     protected String toString(final Object object)
     {
         return object == null ? "null" : object.toString();

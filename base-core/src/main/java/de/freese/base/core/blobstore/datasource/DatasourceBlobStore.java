@@ -19,14 +19,8 @@ import de.freese.base.core.blobstore.BlobId;
  */
 public class DatasourceBlobStore extends AbstractBlobStore
 {
-    /**
-     *
-     */
     private final DataSource dataSource;
 
-    /**
-     * @param dataSource {@link DataSource}
-     */
     public DatasourceBlobStore(DataSource dataSource)
     {
         super();
@@ -71,9 +65,6 @@ public class DatasourceBlobStore extends AbstractBlobStore
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     public void createDatabaseIfNotExist() throws Exception
     {
         boolean databaseExists = false;
@@ -149,13 +140,6 @@ public class DatasourceBlobStore extends AbstractBlobStore
         }
     }
 
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return InputStream
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     InputStream inputStream(BlobId id) throws Exception
     {
         String sql = "select BLOB from BLOB_STORE where URI = ?";
@@ -168,13 +152,6 @@ public class DatasourceBlobStore extends AbstractBlobStore
         return new SqlBlobInputStream(connection, prepareStatement);
     }
 
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return long
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     long length(BlobId id) throws Exception
     {
         String sql = "select BLOB from BLOB_STORE where URI = ?";

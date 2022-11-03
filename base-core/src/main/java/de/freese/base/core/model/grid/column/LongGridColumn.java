@@ -13,25 +13,14 @@ import java.io.Serial;
  */
 public class LongGridColumn extends AbstractGridColumn<Long>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8557737117908767551L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link LongGridColumn}.
-     */
     public LongGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link LongGridColumn}.
-     *
-     * @param name String
-     */
     public LongGridColumn(final String name)
     {
         super();

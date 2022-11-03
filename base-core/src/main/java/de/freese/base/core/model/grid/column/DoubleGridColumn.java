@@ -13,25 +13,14 @@ import java.io.Serial;
  */
 public class DoubleGridColumn extends AbstractGridColumn<Double>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 5426214923097786498L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link DoubleGridColumn}.
-     */
     public DoubleGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link DoubleGridColumn}.
-     *
-     * @param name String
-     */
     public DoubleGridColumn(final String name)
     {
         super();

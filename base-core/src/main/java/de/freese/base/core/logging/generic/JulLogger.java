@@ -8,9 +8,6 @@ import java.util.logging.Level;
  */
 class JulLogger implements Logger
 {
-    /**
-     *
-     */
     private final java.util.logging.Logger julLogger;
 
     JulLogger(String name)

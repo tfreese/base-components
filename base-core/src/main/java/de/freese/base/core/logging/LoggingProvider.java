@@ -9,8 +9,5 @@ import org.slf4j.Logger;
 @FunctionalInterface
 public interface LoggingProvider
 {
-    /**
-     * @return {@link Logger}
-     */
     Logger getLogger();
 }

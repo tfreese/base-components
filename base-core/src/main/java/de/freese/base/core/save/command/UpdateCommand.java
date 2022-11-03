@@ -17,17 +17,9 @@ import de.freese.base.core.save.service.UpdateService;
  */
 public class UpdateCommand extends AbstractRemoteCommand
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2163481914421663100L;
 
-    /**
-     * Erstellt ein neues {@link UpdateCommand} Object.
-     *
-     * @param source {@link Serializable}
-     */
     public UpdateCommand(final Serializable source)
     {
         super(source);
@@ -36,7 +28,6 @@ public class UpdateCommand extends AbstractRemoteCommand
     /**
      * @see de.freese.base.core.command.Command#execute()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void execute() throws Exception
     {

@@ -13,29 +13,14 @@ import de.freese.base.core.throttle.Throttler;
  */
 public class ThrottledOutputStream extends OutputStream
 {
-    /**
-     *
-     */
     private final OutputStream outputStream;
-    /**
-     *
-     */
+
     private final Throttler throttler;
-    /**
-     *
-     */
+
     private long bytesWritten;
-    /**
-     *
-     */
+
     private long sleepTimeNanos;
 
-    /**
-     * Erstellt ein neues {@link ThrottledOutputStream} Object.
-     *
-     * @param outputStream {@link OutputStream}
-     * @param throttler {@link Throttler}
-     */
     public ThrottledOutputStream(final OutputStream outputStream, final Throttler throttler)
     {
         super();
@@ -62,17 +47,11 @@ public class ThrottledOutputStream extends OutputStream
         this.outputStream.flush();
     }
 
-    /**
-     * @return long
-     */
     public long getBytesWritten()
     {
         return this.bytesWritten;
     }
 
-    /**
-     * @return long
-     */
     public long getSleepTimeNanos()
     {
         return this.sleepTimeNanos;
@@ -106,9 +85,6 @@ public class ThrottledOutputStream extends OutputStream
         this.bytesWritten++;
     }
 
-    /**
-     *
-     */
     private void throttle(final int permits)
     {
         long waitNanos = this.throttler.reservePermits(permits);

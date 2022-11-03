@@ -13,36 +13,17 @@ import java.util.NoSuchElementException;
  */
 public class ArrayIterator<T> implements Iterator<T>
 {
-    /**
-     *
-     */
     private final Object array;
-    /**
-     *
-     */
+
     private final int endIndex;
-    /**
-     *
-     */
+
     private int position;
 
-    /**
-     * Erstellt ein neues {@link ArrayIterator} Objekt.
-     *
-     * @param array Object[]
-     */
     public ArrayIterator(final Object array)
     {
         this(array, 0, Array.getLength(array));
     }
 
-    /**
-     * Erstellt ein neues {@link ArrayIterator} Objekt.
-     *
-     * @param array Object[]
-     * @param startIndex int; inklusive
-     * @param endIndex int; exklusive
-     */
     public ArrayIterator(final Object array, final int startIndex, final int endIndex)
     {
         super();

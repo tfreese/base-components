@@ -8,27 +8,15 @@ import java.util.stream.StreamSupport;
  */
 public interface Converter<SOURCE, TARGET>
 {
-    /**
-     *
-     */
     TARGET convertFromSource(final SOURCE source);
 
-    /**
-     *
-     */
     SOURCE convertFromTarget(final TARGET target);
 
-    /**
-     *
-     */
     default List<SOURCE> convertFromTarget(final Iterable<TARGET> target)
     {
         return StreamSupport.stream(target.spliterator(), false).map(this::convertFromTarget).toList();
     }
 
-    /**
-     *
-     */
     default List<TARGET> createFromSource(final Iterable<SOURCE> source)
     {
         return StreamSupport.stream(source.spliterator(), false).map(this::convertFromSource).toList();

@@ -8,22 +8,12 @@ import java.io.InputStream;
  */
 public class FakeInputStream extends InputStream
 {
-    /**
-     *
-     */
     private final int size;
-    /**
-     *
-     */
+
     private volatile boolean closed;
-    /**
-     *
-     */
+
     private int position;
 
-    /**
-     * @param size int
-     */
     public FakeInputStream(final int size)
     {
         super();
@@ -58,9 +48,6 @@ public class FakeInputStream extends InputStream
         return -1;
     }
 
-    /**
-     *
-     */
     private void ensureOpen() throws IOException
     {
         if (closed)

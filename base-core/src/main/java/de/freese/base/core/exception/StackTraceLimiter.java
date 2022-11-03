@@ -13,11 +13,6 @@ public final class StackTraceLimiter
 {
     /**
      * Liefert die ersten n Elemente des StackTraces.
-     *
-     * @param th {@link Throwable}
-     * @param elements int
-     *
-     * @return {@link StackTraceElement}[]
      */
     public static StackTraceElement[] getLimitedStackTrace(final Throwable th, final int elements)
     {
@@ -30,10 +25,6 @@ public final class StackTraceLimiter
 
     /**
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
-     * @param th {@link Throwable}
-     * @param elements int
-     * @param ps {@link PrintStream}
      */
     public static void printStackTrace(final Throwable th, final int elements, final PrintStream ps)
     {
@@ -42,10 +33,6 @@ public final class StackTraceLimiter
 
     /**
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
-     * @param th {@link Throwable}
-     * @param elements int
-     * @param pw {@link PrintWriter}
      */
     public static void printStackTrace(final Throwable th, final int elements, final PrintWriter pw)
     {
@@ -54,10 +41,6 @@ public final class StackTraceLimiter
 
     /**
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
-     * @param th {@link Throwable}
-     * @param elements int
-     * @param sb {@link StringBuilder}
      */
     public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb)
     {
@@ -66,10 +49,6 @@ public final class StackTraceLimiter
 
     /**
      * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     *
-     * @param th {@link Throwable}
-     * @param elements int
-     * @param consumer {@link Consumer}
      */
     private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer)
     {
@@ -84,9 +63,6 @@ public final class StackTraceLimiter
         consumer.accept("\t...");
     }
 
-    /**
-     * Erstellt ein neues {@link StackTraceLimiter} Objekt.
-     */
     private StackTraceLimiter()
     {
         super();

@@ -9,14 +9,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractLoggingProvider implements LoggingProvider
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * Erstellt ein neues {@link AbstractLoggingProvider} Object.
-     */
     protected AbstractLoggingProvider()
     {
         super();

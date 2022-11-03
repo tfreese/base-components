@@ -15,9 +15,6 @@ import java.util.Objects;
  */
 public final class FileUtils
 {
-    /**
-     *
-     */
     private static final String[] SIZE_UNITS =
             {
                     "B", "KB", "MB", "GB", "TB"
@@ -25,10 +22,6 @@ public final class FileUtils
 
     /**
      * Kopiert die bestehende Datei nach *.last.
-     *
-     * @param path {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static void copy(final Path path) throws IOException
     {
@@ -54,13 +47,6 @@ public final class FileUtils
         Files.copy(path, last); // StandardCopyOption
     }
 
-    /**
-     * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.
-     *
-     * @param file {@link File}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static void deleteDirectoryRecursive(final File file) throws IOException
     {
         if (file == null)
@@ -71,13 +57,6 @@ public final class FileUtils
         deleteDirectoryRecursive(file.toPath());
     }
 
-    /**
-     * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.
-     *
-     * @param path {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static void deleteDirectoryRecursive(final Path path) throws IOException
     {
         if (path == null)
@@ -123,10 +102,6 @@ public final class FileUtils
 
     /**
      * Benennt die bestehende Datei in *.last um.
-     *
-     * @param path {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static void rename(final Path path) throws IOException
     {
@@ -162,10 +137,6 @@ public final class FileUtils
      * <li>* -> _
      * <li>' ' -> _
      * </ul>
-     *
-     * @param fileName String
-     *
-     * @return String
      */
     public static String rewriteFileName(final String fileName)
     {
@@ -189,8 +160,6 @@ public final class FileUtils
     }
 
     /**
-     * @param size long
-     *
      * @return String, z.B. '___,___ MB'
      */
     public static String toHumanReadableSize(final long size)
@@ -202,9 +171,6 @@ public final class FileUtils
         return String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);
     }
 
-    /**
-     * Erstellt ein neues {@link FileUtils} Object.
-     */
     private FileUtils()
     {
         super();

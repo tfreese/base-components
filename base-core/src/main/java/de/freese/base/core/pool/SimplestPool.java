@@ -13,22 +13,13 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public abstract class SimplestPool<T>
 {
-    /**
-     *
-     */
     private final Queue<T> freeObjects = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
 
-    /**
-     *
-     */
     public void clear()
     {
         this.freeObjects.clear();
     }
 
-    /**
-     * @param object Object
-     */
     public void free(final T object)
     {
         if (object == null)
@@ -39,9 +30,6 @@ public abstract class SimplestPool<T>
         this.freeObjects.offer(object);
     }
 
-    /**
-     * @return Object
-     */
     public T get()
     {
         T object = this.freeObjects.poll();
@@ -49,8 +37,5 @@ public abstract class SimplestPool<T>
         return object != null ? object : create();
     }
 
-    /**
-     * @return Object
-     */
     protected abstract T create();
 }

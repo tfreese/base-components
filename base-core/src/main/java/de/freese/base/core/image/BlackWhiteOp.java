@@ -16,26 +16,16 @@ import java.awt.image.ColorModel;
  */
 public class BlackWhiteOp implements BufferedImageOp
 {
-    /**
-     *
-     */
     private final int colorLimit;
-    /**
-     *
-     */
+
     private final RenderingHints hints;
 
-    /**
-     * Creates a new {@link BlackWhiteOp} object.
-     */
     public BlackWhiteOp()
     {
         this(0);
     }
 
     /**
-     * Creates a new BlackWhiteOp object.
-     *
      * @param colorLimit int, wenn eine Farbe > colorLimit wird sie als Weiß interpretiert.
      */
     public BlackWhiteOp(final int colorLimit)
@@ -44,9 +34,6 @@ public class BlackWhiteOp implements BufferedImageOp
     }
 
     /**
-     * Creates a new {@link BlackWhiteOp} object.
-     *
-     * @param hints {@link RenderingHints}
      * @param colorLimit int, wenn eine Farbe > colorLimit wird sie als Weiß interpretiert
      */
     public BlackWhiteOp(final RenderingHints hints, final int colorLimit)

@@ -14,40 +14,23 @@ import de.freese.base.core.function.ThrowingFunction;
 /**
  * Generische-Spalte des Grids.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Spalten-Typ
+ *
+ * @author Thomas Freese
  */
 public class GenericGridColumn<T> extends AbstractGridColumn<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2794233911590975341L;
-    /**
-     *
-     */
+
     private final Function<Object, T> mapper;
-    /**
-    *
-    */
+
     private final ThrowingFunction<DataInput, T, IOException> reader;
-    /**
-    *
-    */
+
     private final ThrowingBiConsumer<DataOutput, T, IOException> writer;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link GenericGridColumn}.
-     *
-     * @param objectClazz Class
-     * @param mapper {@link Function}
-     * @param writer {@link ThrowingBiConsumer}
-     * @param reader {@link ThrowingFunction}
-     */
     public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer,
-            final ThrowingFunction<DataInput, T, IOException> reader)
+                             final ThrowingFunction<DataInput, T, IOException> reader)
     {
         super(Objects.requireNonNull(objectClazz, "objectClazz required"));
 

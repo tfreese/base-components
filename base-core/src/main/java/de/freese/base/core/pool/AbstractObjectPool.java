@@ -21,22 +21,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger("ObjectPool");
-    /**
-     *
-     */
+
     private final Set<T> busy = new HashSet<>();
-    /**
-     *
-     */
+
     private final Queue<T> freeObjects;
 
-    /**
-     * Erstellt ein neues {@link AbstractObjectPool} Object.
-     */
     protected AbstractObjectPool()
     {
         super();
@@ -161,15 +151,10 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
         return builder.toString();
     }
 
-    /**
-     * @return Object
-     */
     protected abstract T create();
 
     /**
      * Wird in {@link #borrowObject()} ausgeführt.
-     *
-     * @param object Object
      */
     protected void doActivate(final T object)
     {
@@ -178,8 +163,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 
     /**
      * Wird in {@link #shutdown()} ausgeführt.
-     *
-     * @param object Object
      */
     protected void doDestroy(final T object)
     {
@@ -188,8 +171,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
 
     /**
      * Wird in {@link #returnObject(Object)} ausgeführt.
-     *
-     * @param object Object
      */
     protected void doPassivate(final T object)
     {
@@ -205,12 +186,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * public class MyObjectPool extends AbstractObjectPool<Integer>
      * }
      * </pre>
-     *
-     * <br>
-     *
-     * @return Class
-     *
-     * @throws ClassCastException Falls was schiefgeht.
      */
     @SuppressWarnings("unchecked")
     protected Class<T> tryDetermineObjectClazz() throws ClassCastException

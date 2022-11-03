@@ -16,11 +16,6 @@ public final class ListUtils
     /**
      * Aufsplitten der {@link List} in N Partitionen.<br>
      * Ist die Liste kleiner als N, gibt es pro Element eine SubList.
-     *
-     * @param values {@link List}
-     * @param numberOfPartitions int
-     *
-     * @return {@link List}
      */
     public static <T> List<List<T>> getPartitions(final List<T> values, final int numberOfPartitions)
     {
@@ -80,13 +75,6 @@ public final class ListUtils
         return partitions;
     }
 
-    /**
-     * @param <T> Type
-     * @param values {@link List}
-     * @param batchSize int
-     *
-     * @return {@link List}
-     */
     public static <T> List<List<T>> getPartitionsByBatches(final List<T> values, final int batchSize)
     {
         if ((values == null) || values.isEmpty())
@@ -112,11 +100,6 @@ public final class ListUtils
 
     /**
      * Großer Nachteil: Es muss über die gesamte Liste iteriert werden und die Reihenfolge der Elemente ist hinüber.
-     *
-     * @param values {@link List}
-     * @param numberOfPartitions int
-     *
-     * @return {@link List}
      */
     public static <T> List<List<T>> getPartitionsByModulo(final List<T> values, final int numberOfPartitions)
     {
@@ -138,9 +121,6 @@ public final class ListUtils
         return new ArrayList<>(partitionMap.values());
     }
 
-    /**
-     * Erstellt ein neues {@link ListUtils} Object.
-     */
     private ListUtils()
     {
         super();

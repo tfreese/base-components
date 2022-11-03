@@ -36,8 +36,6 @@ public final class ExecutorUtils
      * </pre>
      *
      * @param threadNamePattern String; Beispiel: thread-%02d<br>
-     *
-     * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern)
     {
@@ -58,13 +56,8 @@ public final class ExecutorUtils
      * </pre>
      *
      * @param threadNamePattern String; Beispiel: thread-%02d<br>
-     * @param coreSize int
-     * @param maxSize int
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
      * other value will lead to a SynchronousQueue instance.
-     * @param keepAliveSeconds int
-     *
-     * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
                                                    final int keepAliveSeconds)
@@ -74,17 +67,11 @@ public final class ExecutorUtils
 
     /**
      * @param threadNamePattern String; Beispiel: thread-%02d
-     * @param coreSize int
-     * @param maxSize int
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
      * other value will lead to a SynchronousQueue instance.
-     * @param keepAliveSeconds int
-     * @param rejectedExecutionHandler {@link RejectedExecutionHandler}
      * @param allowCoreThreadTimeOut boolean If false (default), core threads stay alive even when idle. If true, core threads use keepAliveTime to time out
      * waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
-     *
-     * @return {@link ExecutorService}
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
                                                    final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler,
@@ -111,12 +98,6 @@ public final class ExecutorUtils
         return exposeUnconfigurableExecutor ? Executors.unconfigurableExecutorService(threadPoolExecutor) : threadPoolExecutor;
     }
 
-    /**
-     * Shutdown der {@link AsynchronousChannelGroup}.
-     *
-     * @param channelGroup {@link AsynchronousChannelGroup}
-     * @param logger {@link Logger}
-     */
     public static void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger)
     {
         logger.info("shutdown AsynchronousChannelGroup");
@@ -169,22 +150,11 @@ public final class ExecutorUtils
         }
     }
 
-    /**
-     * Shutdown des {@link ExecutorService}.
-     *
-     * @param executorService {@link ExecutorService}
-     */
     public static void shutdown(final ExecutorService executorService)
     {
         shutdown(executorService, LoggerFactory.getLogger(ExecutorUtils.class));
     }
 
-    /**
-     * Shutdown des {@link ExecutorService}.
-     *
-     * @param executorService {@link ExecutorService}
-     * @param logger {@link Logger}
-     */
     public static void shutdown(final ExecutorService executorService, final Logger logger)
     {
         logger.info("shutdown ExecutorService");
@@ -241,9 +211,6 @@ public final class ExecutorUtils
         }
     }
 
-    /**
-     * Erstellt ein neues {@link ExecutorUtils} Object.
-     */
     private ExecutorUtils()
     {
         super();

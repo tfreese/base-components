@@ -21,16 +21,8 @@ import java.util.Optional;
  */
 public class FileResourceCache extends AbstractResourceCache
 {
-    /**
-     *
-     */
     private final Path cacheDirectory;
 
-    /**
-     * Erstellt ein neues {@link FileResourceCache} Object.
-     *
-     * @param cacheDirectory {@link Path}
-     */
     public FileResourceCache(final Path cacheDirectory)
     {
         super();
@@ -119,9 +111,6 @@ public class FileResourceCache extends AbstractResourceCache
         }
     }
 
-    /**
-     * @return Path
-     */
     protected Path getCacheDirectory()
     {
         return this.cacheDirectory;

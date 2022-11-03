@@ -18,9 +18,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 @Execution(ExecutionMode.CONCURRENT)
 class TestThrottler //extends AbstractIoTest
 {
-    /**
-     * @return {@link Stream}
-     */
     static Stream<Arguments> createThrottler()
     {
         // @formatter:off
@@ -32,9 +29,6 @@ class TestThrottler //extends AbstractIoTest
         // @formatter:on
     }
 
-    /**
-     *
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
     void testPermits2000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception
@@ -42,9 +36,6 @@ class TestThrottler //extends AbstractIoTest
         doTest(name, 2000, throttleFunction);
     }
 
-    /**
-     *
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
     void testPermits4000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception
@@ -52,9 +43,6 @@ class TestThrottler //extends AbstractIoTest
         doTest(name, 4000, throttleFunction);
     }
 
-    /**
-     *
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
     void testPermits6000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception
@@ -62,9 +50,6 @@ class TestThrottler //extends AbstractIoTest
         doTest(name, 6000, throttleFunction);
     }
 
-    /**
-     *
-     */
     private void doTest(String name, final int permits, final Function<Integer, Throttler> throttleFunction) throws Exception
     {
         Throttler throttler = throttleFunction.apply(permits);

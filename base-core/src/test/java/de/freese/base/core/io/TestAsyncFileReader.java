@@ -18,9 +18,6 @@ import org.junit.jupiter.api.Test;
  */
 class TestAsyncFileReader
 {
-    /**
-     * @throws Exception Falls was schiefgeht
-     */
     @Test
     void testAsyncFileReader() throws Exception
     {

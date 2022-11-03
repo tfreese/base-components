@@ -13,25 +13,14 @@ import java.io.Serial;
  */
 public class IntegerGridColumn extends AbstractGridColumn<Integer>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1817847484639082368L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link IntegerGridColumn}.
-     */
     public IntegerGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link IntegerGridColumn}.
-     *
-     * @param name String
-     */
     public IntegerGridColumn(final String name)
     {
         super();

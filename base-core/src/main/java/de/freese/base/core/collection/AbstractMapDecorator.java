@@ -118,9 +118,6 @@ public abstract class AbstractMapDecorator<K, V> implements Map<K, V>
         return getDecoratedMap().values();
     }
 
-    /**
-     * @return java.util.Map<K, V>
-     */
     protected Map<K, V> getDecoratedMap()
     {
         return this.decoratedMap;

@@ -15,17 +15,8 @@ import de.freese.base.core.blobstore.BlobId;
  */
 final class FileBlob extends AbstractBlob
 {
-    /**
-     *
-     */
     private final Path absolutePath;
 
-    /**
-     * Erstellt ein neues {@link FileBlob} Object.
-     *
-     * @param id {@link BlobId}
-     * @param store {@link FileBlobStore}
-     */
     FileBlob(final BlobId id, final FileBlobStore store)
     {
         super(id);

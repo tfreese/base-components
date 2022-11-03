@@ -149,36 +149,21 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
     {
         return System.currentTimeMillis();
     }
-    /**
-     *
-     */
+
     private final Map<K, Long> expirationMap;
-    /**
-     *
-     */
+
     private final ExpirationPolicy<K, V> expirationPolicy;
 
-    /**
-     * @param expirationDuration {@link Duration}
-     */
     public TimeoutMap(Duration expirationDuration)
     {
         this(expirationDuration, new HashMap<>());
     }
 
-    /**
-     * @param expirationDuration {@link Duration}
-     * @param decoratedMap {@link Map}
-     */
     public TimeoutMap(Duration expirationDuration, Map<K, V> decoratedMap)
     {
         this(new ConstantTimeToLiveExpirationPolicy<>(expirationDuration), decoratedMap);
     }
 
-    /**
-     * @param expirationPolicy {@link ExpirationPolicy}
-     * @param decoratedMap {@link Map}
-     */
     public TimeoutMap(ExpirationPolicy<K, V> expirationPolicy, Map<K, V> decoratedMap)
     {
         super(decoratedMap);

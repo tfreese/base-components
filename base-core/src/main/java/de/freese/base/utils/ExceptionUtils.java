@@ -11,12 +11,6 @@ public final class ExceptionUtils
 {
     /**
      * Liefert den Cause des Typs, falls vorhanden.<br>
-     *
-     * @param <T> Type
-     * @param throwable {@link Throwable}
-     * @param type {@link Class}
-     *
-     * @return {@link Exception}, kann auch null sein
      */
     public static <T extends Exception> T findCause(final Throwable throwable, final Class<T> type)
     {
@@ -32,10 +26,6 @@ public final class ExceptionUtils
 
     /**
      * Liefert die enthaltene SQL-Exception, falls vorhanden.<br>
-     *
-     * @param throwable {@link Throwable}
-     *
-     * @return {@link SQLException}, kann auch null sein
      */
     public static SQLException findSQLException(final Throwable throwable)
     {
@@ -103,9 +93,6 @@ public final class ExceptionUtils
         return list;
     }
 
-    /**
-     * Erstellt ein neues {@link ExceptionUtils} Object.
-     */
     private ExceptionUtils()
     {
         super();

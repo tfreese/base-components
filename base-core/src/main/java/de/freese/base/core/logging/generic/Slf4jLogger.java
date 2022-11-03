@@ -6,9 +6,6 @@ package de.freese.base.core.logging.generic;
  */
 class Slf4jLogger implements Logger
 {
-    /**
-     *
-     */
     private final org.slf4j.Logger slf4jLogger;
 
     Slf4jLogger(String name)

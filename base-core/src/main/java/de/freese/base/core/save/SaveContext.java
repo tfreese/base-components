@@ -10,18 +10,10 @@ import java.util.Map;
  */
 public class SaveContext
 {
-    /**
-     *
-     */
     private Map<Object, Object> attributes = new HashMap<>();
-    /**
-     *
-     */
+
     private Map<Class<?>, Map<Long, Long>> primaryKeyMap = new HashMap<>();
 
-    /**
-     * Aufräumen.
-     */
     public void clear()
     {
         this.primaryKeyMap.clear();
@@ -31,13 +23,6 @@ public class SaveContext
         this.attributes = null;
     }
 
-    /**
-     * Liefert den Wert für den Key oder null.
-     *
-     * @param key Object
-     *
-     * @return Object
-     */
     public Object getAttribute(final Object key)
     {
         return this.attributes.get(key);
@@ -46,11 +31,6 @@ public class SaveContext
     /**
      * Liefert für eine Klasse und einer OID den konkreten PrimaryKey.<br>
      * Existiert kein konkreter PrimaryKey wird die OID geliefert.
-     *
-     * @param clazz Class
-     * @param oid Long
-     *
-     * @return Long
      */
     public long getPrimaryKey(final Class<?> clazz, final Long oid)
     {
@@ -63,20 +43,12 @@ public class SaveContext
 
     /**
      * Liefert die Map für das Mapping der Temporären- zu den DB-PrimaryKeys.
-     *
-     * @return {@link Map}
      */
     public Map<Class<?>, Map<Long, Long>> getPrimaryKeyMap()
     {
         return this.primaryKeyMap;
     }
 
-    /**
-     * Setzt das Value fär den Key.
-     *
-     * @param key Object
-     * @param value Object
-     */
     public void putAttribute(final Object key, final Object value)
     {
         this.attributes.put(key, value);
@@ -84,10 +56,6 @@ public class SaveContext
 
     /**
      * Setzt fär eine Klasse und einer temporären OID den konkreten PrimaryKey.
-     *
-     * @param clazz Class
-     * @param tempOID Long
-     * @param oid long
      */
     public void putPrimaryKey(final Class<?> clazz, final Long tempOID, final long oid)
     {
@@ -98,10 +66,6 @@ public class SaveContext
 
     /**
      * Liefert die Map der temporären und konkreten PrimaryKeys einer Klasse.
-     *
-     * @param clazz Class
-     *
-     * @return {@link Map}
      */
     private Map<Long, Long> getClazzMap(final Class<?> clazz)
     {

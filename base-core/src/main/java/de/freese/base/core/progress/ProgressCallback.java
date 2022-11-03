@@ -13,10 +13,6 @@ public interface ProgressCallback
      */
     void setProgress(final float percentage);
 
-    /**
-     * @param value long
-     * @param max long
-     */
     default void setProgress(final long value, final long max)
     {
         if ((value <= 0) || (value > max))

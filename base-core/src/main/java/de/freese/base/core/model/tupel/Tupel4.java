@@ -15,32 +15,16 @@ import java.util.Objects;
  */
 public class Tupel4<A, B, C, D> extends Tupel3<A, B, C>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2117258925171560740L;
-    /**
-     *
-     */
+
     private D valueD;
 
-    /**
-     * Erstellt ein neues {@link Tupel4} Object.
-     */
     public Tupel4()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link Tupel4} Object.
-     *
-     * @param valueA Object
-     * @param valueB Object
-     * @param valueC Object
-     * @param valueD Object
-     */
     public Tupel4(final A valueA, final B valueB, final C valueC, final D valueD)
     {
         super(valueA, valueB, valueC);
@@ -71,9 +55,6 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C>
         return Objects.equals(valueD, tupel4.valueD);
     }
 
-    /**
-     * @return Object
-     */
     public final D getValueD()
     {
         return this.valueD;
@@ -85,9 +66,6 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C>
         return Objects.hash(super.hashCode(), valueD);
     }
 
-    /**
-     * @param valueD Object
-     */
     public final void setValueD(final D valueD)
     {
         this.valueD = valueD;

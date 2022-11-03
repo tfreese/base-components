@@ -17,17 +17,9 @@ import de.freese.base.core.save.service.DeleteService;
  */
 public class DeleteCommand extends AbstractRemoteCommand
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 5013006885212315385L;
 
-    /**
-     * Erstellt ein neues {@link DeleteCommand} Object.
-     *
-     * @param source {@link Serializable}
-     */
     public DeleteCommand(final Serializable source)
     {
         super(source);
@@ -36,7 +28,6 @@ public class DeleteCommand extends AbstractRemoteCommand
     /**
      * @see de.freese.base.core.command.Command#execute()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void execute() throws Exception
     {

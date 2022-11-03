@@ -17,19 +17,8 @@ import java.util.function.BiConsumer;
 @FunctionalInterface
 public interface ThrowingBiConsumer<T, U, E extends Exception>
 {
-    /**
-     * @param t Object
-     * @param u Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void accept(T t, U u) throws E;
 
-    /**
-     * @param after {@link ThrowingBiConsumer}
-     *
-     * @return {@link ThrowingBiConsumer}
-     */
     default ThrowingBiConsumer<T, U, E> andThen(final ThrowingBiConsumer<? super T, ? super U, E> after)
     {
         Objects.requireNonNull(after);

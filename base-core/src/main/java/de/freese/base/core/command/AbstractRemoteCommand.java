@@ -11,25 +11,13 @@ import java.util.Objects;
  */
 public abstract class AbstractRemoteCommand extends AbstractCommand implements Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4744210429650586724L;
-    /**
-     *
-     */
+
     private transient Object commandInvoker;
-    /**
-     *
-     */
+
     private transient Object payload;
 
-    /**
-     * Erstellt ein neues {@link AbstractRemoteCommand} Object.
-     *
-     * @param source {@link Serializable}
-     */
     protected AbstractRemoteCommand(final Serializable source)
     {
         super(source);
@@ -42,7 +30,7 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
         {
             return true;
         }
-        
+
         if (!(o instanceof final AbstractRemoteCommand that))
         {
             return false;
@@ -73,8 +61,6 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Setzt das Objekt für die Verarbeitung des Kommandos.
-     *
-     * @param commandInvoker Object
      */
     public void setCommandInvoker(final Object commandInvoker)
     {
@@ -83,8 +69,6 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Setzt das Objekt, welches dem CommandInvoker übergeben werden kann.
-     *
-     * @param payload Object
      */
     public void setPayload(final Object payload)
     {
@@ -93,8 +77,6 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Liefert das Objekt für die Verarbeitung des Kommandos.
-     *
-     * @return Object
      */
     protected Object getCommandInvoker()
     {
@@ -103,10 +85,6 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
 
     /**
      * Liefert das Objekt, welches dem CommandInvoker übergeben werden kann.
-     *
-     * @param <T> Konkreter Typ
-     *
-     * @return Object
      */
     protected <T> T getPayload()
     {

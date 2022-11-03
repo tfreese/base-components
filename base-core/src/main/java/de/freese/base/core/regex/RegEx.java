@@ -19,27 +19,15 @@ import de.freese.base.core.regex.transformer.StartsWithTransformer;
  */
 public final class RegEx implements RegExTransformer
 {
-    /**
-     *
-     */
     private static final RegExTransformer INSTANCE = new RegEx();
 
-    /**
-     * @return {@link RegExTransformer}
-     */
     public static RegExTransformer getInstance()
     {
         return INSTANCE;
     }
 
-    /**
-     *
-     */
     private final List<RegExTransformer> transformers;
 
-    /**
-     * Erstellt ein neues {@link RegEx} Object.
-     */
     private RegEx()
     {
         super();

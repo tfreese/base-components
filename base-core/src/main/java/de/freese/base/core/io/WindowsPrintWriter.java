@@ -15,35 +15,15 @@ import java.nio.charset.Charset;
  */
 public class WindowsPrintWriter extends PrintWriter
 {
-    /**
-     *
-     */
     private static final String LINE_SEPARATOR = "\r\n";
-    /**
-     *
-     */
+
     private boolean autoFlush;
 
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param file {@link File}
-     * @param charset {@link Charset}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public WindowsPrintWriter(final File file, final Charset charset) throws IOException
     {
         super(file, charset);
     }
 
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param out {@link OutputStream}
-     * @param autoFlush boolean
-     * @param charset {@link Charset}
-     */
     public WindowsPrintWriter(final OutputStream out, final boolean autoFlush, final Charset charset)
     {
         super(out, autoFlush, charset);
@@ -51,25 +31,11 @@ public class WindowsPrintWriter extends PrintWriter
         this.autoFlush = autoFlush;
     }
 
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param fileName String
-     * @param charset {@link Charset}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public WindowsPrintWriter(final String fileName, final Charset charset) throws IOException
     {
         super(fileName, charset);
     }
 
-    /**
-     * Erstellt ein neues {@link WindowsPrintWriter} Object.
-     *
-     * @param out {@link Writer}
-     * @param autoFlush boolean
-     */
     public WindowsPrintWriter(final Writer out, final boolean autoFlush)
     {
         super(out, autoFlush);

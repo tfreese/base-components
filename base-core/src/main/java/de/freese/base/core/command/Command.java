@@ -7,17 +7,7 @@ package de.freese.base.core.command;
  */
 public interface Command
 {
-    /**
-     * Ausführen des Kommandos.
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void execute() throws Exception;
 
-    /**
-     * Quelle, Ursprung, Inhalt des Kommandos.
-     *
-     * @return {@link Object}
-     */
     Object getSource();
 }

@@ -9,16 +9,8 @@ import java.util.Objects;
  */
 public abstract class AbstractCommand implements Command
 {
-    /**
-     *
-     */
     private final Object source;
 
-    /**
-     * Creates a new {@link AbstractCommand} object.
-     *
-     * @param source {@link Object}
-     */
     protected AbstractCommand(final Object source)
     {
         super();
@@ -33,7 +25,7 @@ public abstract class AbstractCommand implements Command
         {
             return true;
         }
-        
+
         if (!(o instanceof final AbstractCommand that))
         {
             return false;
@@ -66,12 +58,6 @@ public abstract class AbstractCommand implements Command
         return getSource().toString();
     }
 
-    // /**
-    // * @param in java.io.ObjectInputStream
-    // *
-    // * @throws IOException Falls was schief geht.
-    // * @throws ClassNotFoundException Falls was schief geht.
-    // */
     // private void readObject(java.io.ObjectInputStream in)
     // throws IOException, ClassNotFoundException
     // {
@@ -79,11 +65,6 @@ public abstract class AbstractCommand implements Command
     // this.source = (Serializable) in.readObject();
     // }
     //
-    // /**
-    // * @param out java.io.ObjectOutputStream
-    // *
-    // * @throws IOException Falls was schief geht.
-    // */
     // private void writeObject(java.io.ObjectOutputStream out)
     // throws IOException
     // {

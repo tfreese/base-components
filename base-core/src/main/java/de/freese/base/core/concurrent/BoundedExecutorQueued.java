@@ -15,23 +15,13 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedExecutorQueued implements Executor
 {
-    /**
-     *
-     */
     private final Executor delegate;
-    /**
-     *
-     */
+
     private final Queue<Runnable> queue = new ArrayDeque<>();
-    /**
-     *
-     */
+
     private final Semaphore rateLimiter;
 
     /**
-     * Erstellt ein neues {@link BoundedExecutorQueued} Object.
-     *
-     * @param delegate {@link Executor}
      * @param parallelism int; Anzahl zu nutzender Threads des Delegates
      */
     public BoundedExecutorQueued(final Executor delegate, final int parallelism)
@@ -71,17 +61,11 @@ public class BoundedExecutorQueued implements Executor
         }
     }
 
-    /**
-     * @return int
-     */
     public int getQueueSize()
     {
         return this.queue.size();
     }
 
-    /**
-     * @param runnable {@link Runnable}
-     */
     private void schedule(final Runnable runnable)
     {
         if (runnable == null)

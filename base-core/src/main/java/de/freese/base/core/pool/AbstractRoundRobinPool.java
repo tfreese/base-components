@@ -3,7 +3,6 @@ package de.freese.base.core.pool;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,42 +13,19 @@ import org.slf4j.LoggerFactory;
  * sondern im Round-Robin Verfahren bereitgestellt und erst erzeugt, wenn diese benötigt werden.<br>
  * Die Default Grösse des Pools beträgt <code>Runtime.availableProcessors() + 1</code>.<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Objekttyp
+ *
+ * @author Thomas Freese
  */
 public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
 {
-    /**
-    *
-    */
     private static final Logger LOGGER = LoggerFactory.getLogger("RoundRobinPool");
 
-    /**
-    *
-    */
-    @SuppressWarnings(
-    {
-            "unused", "rawtypes"
-    })
-    private static final AtomicIntegerFieldUpdater<AbstractRoundRobinPool> NEXT_INDEX =
-            AtomicIntegerFieldUpdater.newUpdater(AbstractRoundRobinPool.class, "nextIndex");
-
-    /**
-    *
-    */
+    //    private static final AtomicIntegerFieldUpdater<AbstractRoundRobinPool> NEXT_INDEX =
+    //            AtomicIntegerFieldUpdater.newUpdater(AbstractRoundRobinPool.class, "nextIndex");
+    private final List<T> queue;
     private volatile int nextIndex;
 
-    /**
-     *
-     */
-    private final List<T> queue;
-
-    /**
-     * Erstellt ein neues {@link AbstractRoundRobinPool} Object.
-     *
-     * @param size int
-     */
     protected AbstractRoundRobinPool(final int size)
     {
         super();
@@ -90,11 +66,6 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
 
         return object;
     }
-
-    /**
-     * @return Object
-     */
-    protected abstract T create();
 
     /**
      * @see de.freese.base.core.pool.ObjectPool#getNumActive()
@@ -151,4 +122,6 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
 
         return builder.toString();
     }
+
+    protected abstract T create();
 }

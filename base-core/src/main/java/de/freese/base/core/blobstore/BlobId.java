@@ -14,19 +14,11 @@ import java.util.Objects;
  */
 public class BlobId implements Serializable, Comparable<BlobId>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5581749917166864024L;
-    /**
-     *
-     */
+
     private final URI uri;
 
-    /**
-     * @param uri {@link URI}
-     */
     public BlobId(final URI uri)
     {
         super();
@@ -64,9 +56,6 @@ public class BlobId implements Serializable, Comparable<BlobId>
         return this.uri.equals(blobId.uri);
     }
 
-    /**
-     * @return URI
-     */
     public URI getUri()
     {
         return this.uri;

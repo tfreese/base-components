@@ -17,13 +17,9 @@ import com.github.benmanes.caffeine.cache.Weigher;
  */
 public class CaffeineResourceCache extends FileResourceCache
 {
-    /**
-     *
-     */
     private final LoadingCache<URI, byte[]> cache;
 
     /**
-     * @param cacheDirectory {@link Path}
      * @param keepBytesInMemory int; Disable Caching = 0
      */
     public CaffeineResourceCache(final Path cacheDirectory, final int keepBytesInMemory)
@@ -57,8 +53,6 @@ public class CaffeineResourceCache extends FileResourceCache
 
     /**
      * @param keepBytesInMemory int; Disable Caching = 0
-     *
-     * @return LoadingCache
      */
     private LoadingCache<URI, byte[]> createCache(final int keepBytesInMemory)
     {

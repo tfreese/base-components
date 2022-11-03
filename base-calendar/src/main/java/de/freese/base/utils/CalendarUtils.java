@@ -20,8 +20,6 @@ public final class CalendarUtils
 {
     /**
      * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
-     *
-     * @param calendar {@link Calendar}
      */
     public static void calendarAtStartOfDay(final Calendar calendar)
     {
@@ -33,8 +31,6 @@ public final class CalendarUtils
 
     /**
      * Liefert einen Gregorianischen Kalender.
-     *
-     * @return {@link Calendar}
      */
     public static Calendar calendarCreate()
     {
@@ -44,10 +40,6 @@ public final class CalendarUtils
     /**
      * Liefert einen Gregorianischen Kalender.<br>
      * Calendar calendar = new GregorianCalendar(Locale.GERMAN);<br>
-     *
-     * @param date {@link Date}
-     *
-     * @return {@link Calendar}
      */
     public static Calendar calendarCreate(final Date date)
     {
@@ -57,11 +49,6 @@ public final class CalendarUtils
         return calendar;
     }
 
-    /**
-     * @param calendar {@link Calendar}
-     *
-     * @return DayOfWeek
-     */
     public static DayOfWeek calendarToDayOfWeek(Calendar calendar)
     {
         int dow = calendar.get(Calendar.DAY_OF_WEEK);
@@ -79,11 +66,6 @@ public final class CalendarUtils
                 };
     }
 
-    /**
-     * @param dayOfWeek {@link DayOfWeek}
-     *
-     * @return int
-     */
     public static int dayOfWeekToCalendar(DayOfWeek dayOfWeek)
     {
         return switch (dayOfWeek)
@@ -98,21 +80,11 @@ public final class CalendarUtils
                 };
     }
 
-    /**
-     * @param instant {@link Instant}
-     *
-     * @return {@link Date}
-     */
     public static Date toDate(final Instant instant)
     {
         return Date.from(instant);
     }
 
-    /**
-     * @param localDate {@link LocalDate}
-     *
-     * @return {@link Date}
-     */
     public static Date toDate(final LocalDate localDate)
     {
         Instant instant = toInstant(localDate);
@@ -120,11 +92,6 @@ public final class CalendarUtils
         return toDate(instant);
     }
 
-    /**
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link Date}
-     */
     public static Date toDate(final LocalDateTime localDateTime)
     {
         Instant instant = toInstant(localDateTime);
@@ -132,11 +99,6 @@ public final class CalendarUtils
         return toDate(instant);
     }
 
-    /**
-     * @param date {@link Date}
-     *
-     * @return {@link Instant}
-     */
     public static Instant toInstant(final Date date)
     {
         if (date instanceof java.sql.Date d)
@@ -153,10 +115,6 @@ public final class CalendarUtils
     /**
      * Da LocalDate keine Zeiten enthält, kommt es hier zu einer Exception:<br>
      * Instant.from(localDate);<br>
-     *
-     * @param localDate {@link Date}
-     *
-     * @return {@link Instant}
      */
     public static Instant toInstant(final LocalDate localDate)
     {
@@ -168,10 +126,6 @@ public final class CalendarUtils
     /**
      * LocalDateTime.toInstant(ZoneOffset.UTC);<br>
      * LocalDateTime.atZone(ZoneId.systemDefault()).toInstant();<br>
-     *
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link Instant}
      */
     public static Instant toInstant(final LocalDateTime localDateTime)
     {
@@ -180,11 +134,6 @@ public final class CalendarUtils
         return zonedDateTime.toInstant();
     }
 
-    /**
-     * @param date {@link Date}
-     *
-     * @return {@link LocalDate}
-     */
     public static LocalDate toLocalDate(final Date date)
     {
         if (date instanceof java.sql.Date d)
@@ -197,21 +146,11 @@ public final class CalendarUtils
         return toLocalDate(instant);
     }
 
-    /**
-     * @param instant {@link Instant}
-     *
-     * @return {@link LocalDate}
-     */
     public static LocalDate toLocalDate(final Instant instant)
     {
         return LocalDate.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    /**
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link LocalDate}
-     */
     public static LocalDate toLocalDate(final LocalDateTime localDateTime)
     {
         return localDateTime.toLocalDate();
@@ -219,10 +158,6 @@ public final class CalendarUtils
 
     /**
      * toLocalDate(date).atStartOfDay();<br>
-     *
-     * @param date {@link Date}
-     *
-     * @return {@link LocalDateTime}
      */
     public static LocalDateTime toLocalDateTime(final Date date)
     {
@@ -236,11 +171,6 @@ public final class CalendarUtils
         return toLocalDateTime(instant);
     }
 
-    /**
-     * @param instant {@link Instant}
-     *
-     * @return {@link LocalDateTime}
-     */
     public static LocalDateTime toLocalDateTime(final Instant instant)
     {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
@@ -248,21 +178,12 @@ public final class CalendarUtils
 
     /**
      * LocalDate.atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();<br>
-     *
-     * @param localDate {@link LocalDate}
-     *
-     * @return {@link LocalDateTime}
      */
     public static LocalDateTime toLocalDateTime(final LocalDate localDate)
     {
         return localDate.atStartOfDay();
     }
 
-    /**
-     * @param instant {@link Instant}
-     *
-     * @return {@link java.sql.Date}
-     */
     public static java.sql.Date toSqlDate(final Instant instant)
     {
         LocalDate localDate = toLocalDate(instant);
@@ -270,21 +191,11 @@ public final class CalendarUtils
         return toSqlDate(localDate);
     }
 
-    /**
-     * @param localDate {@link LocalDate}
-     *
-     * @return {@link java.sql.Date}
-     */
     public static java.sql.Date toSqlDate(final LocalDate localDate)
     {
         return java.sql.Date.valueOf(localDate);
     }
 
-    /**
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link java.sql.Date}
-     */
     public static java.sql.Date toSqlDate(final LocalDateTime localDateTime)
     {
         LocalDate localDate = toLocalDate(localDateTime);
@@ -292,21 +203,11 @@ public final class CalendarUtils
         return toSqlDate(localDate);
     }
 
-    /**
-     * @param instant {@link Instant}
-     *
-     * @return {@link Timestamp}
-     */
     public static Timestamp toSqlTimestamp(final Instant instant)
     {
         return Timestamp.from(instant);
     }
 
-    /**
-     * @param localDate {@link LocalDate}
-     *
-     * @return {@link Timestamp}
-     */
     public static Timestamp toSqlTimestamp(final LocalDate localDate)
     {
         LocalDateTime localDateTime = toLocalDateTime(localDate);
@@ -314,31 +215,16 @@ public final class CalendarUtils
         return toSqlTimestamp(localDateTime);
     }
 
-    /**
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link Timestamp}
-     */
     public static Timestamp toSqlTimestamp(final LocalDateTime localDateTime)
     {
         return Timestamp.valueOf(localDateTime);
     }
 
-    /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link Instant}
-     */
     static Instant toInstant(final TemporalAccessor accessor)
     {
         return Instant.from(accessor);
     }
 
-    /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link LocalDate}
-     */
     static LocalDate toLocalDate(final TemporalAccessor accessor)
     {
         if (accessor instanceof LocalDate ld)
@@ -355,11 +241,6 @@ public final class CalendarUtils
         return toLocalDate(instant);
     }
 
-    /**
-     * @param accessor {@link TemporalAccessor}
-     *
-     * @return {@link LocalDateTime}
-     */
     static LocalDateTime toLocalDateTime(final TemporalAccessor accessor)
     {
         if (accessor instanceof LocalDateTime ldt)
@@ -372,9 +253,6 @@ public final class CalendarUtils
         return toLocalDateTime(instant);
     }
 
-    /**
-     * Erstellt ein neues {@link CalendarUtils} Object.
-     */
     private CalendarUtils()
     {
         super();

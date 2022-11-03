@@ -26,43 +26,20 @@ import org.slf4j.LoggerFactory;
  */
 public class ScheduledFutureAwareRunnable implements Runnable
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledFutureAwareRunnable.class);
-    /**
-    *
-    */
-    private final BooleanSupplier exitCondition;
-    /**
-     *
-     */
-    private final String name;
-    /**
-    *
-    */
-    private ScheduledFuture<?> scheduledFuture;
-    /**
-    *
-    */
-    private final Runnable task;
 
-    /**
-     * Erstellt ein neues {@link ScheduledFutureAwareRunnable} Object.
-     *
-     * @param exitCondition {@link BooleanSupplier}
-     * @param task {@link Runnable}
-     */
+    private final BooleanSupplier exitCondition;
+
+    private final String name;
+    private final Runnable task;
+    private ScheduledFuture<?> scheduledFuture;
+
     public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task)
     {
         this(exitCondition, task, null);
     }
 
     /**
-     * Erstellt ein neues {@link ScheduledFutureAwareRunnable} Object.
-     *
-     * @param exitCondition {@link BooleanSupplier}
-     * @param task {@link Runnable}
      * @param name String; Optional
      */
     public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task, final String name)
@@ -97,9 +74,6 @@ public class ScheduledFutureAwareRunnable implements Runnable
         }
     }
 
-    /**
-     * @param scheduledFuture {@link ScheduledFuture}
-     */
     public void setScheduledFuture(final ScheduledFuture<?> scheduledFuture)
     {
         this.scheduledFuture = scheduledFuture;

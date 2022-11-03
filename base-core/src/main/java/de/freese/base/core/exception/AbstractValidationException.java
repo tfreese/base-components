@@ -11,59 +11,28 @@ import de.freese.base.core.i18n.Translator;
  */
 public abstract class AbstractValidationException extends Exception
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 9102013053396263064L;
-    /**
-     *
-     */
+
     private final String appendMessage;
-    /**
-     *
-     */
+
     private final String[] parameters;
 
-    /**
-     * Creates a new {@link AbstractValidationException} object.
-     *
-     * @param message String
-     */
     protected AbstractValidationException(final String message)
     {
         this(message, null, null);
     }
 
-    /**
-     * Creates a new {@link AbstractValidationException} object.
-     *
-     * @param message String
-     * @param appendMessage String
-     */
     protected AbstractValidationException(final String message, final String appendMessage)
     {
         this(message, null, appendMessage);
     }
 
-    /**
-     * Creates a new {@link AbstractValidationException} object.
-     *
-     * @param message String
-     * @param parameters String[]
-     */
     protected AbstractValidationException(final String message, final String[] parameters)
     {
         this(message, parameters, null);
     }
 
-    /**
-     * Creates a new {@link AbstractValidationException} object.
-     *
-     * @param message String
-     * @param parameters String[]
-     * @param appendMessage String
-     */
     protected AbstractValidationException(final String message, final String[] parameters, final String appendMessage)
     {
         super(message);
@@ -72,33 +41,16 @@ public abstract class AbstractValidationException extends Exception
         this.appendMessage = appendMessage;
     }
 
-    /**
-     * Zusatztext.
-     *
-     * @return String
-     */
     public String getAppendMessage()
     {
         return this.appendMessage;
     }
 
-    /**
-     * Zusatzparameter.
-     *
-     * @return String[]
-     */
     public String[] getParameters()
     {
         return this.parameters;
     }
 
-    /**
-     * Übersetzt den Inhalt der Exception.
-     *
-     * @param translatorAdapter {@link Translator}
-     *
-     * @return String
-     */
     public String translate(final Translator translatorAdapter)
     {
         StringBuilder sb = new StringBuilder();

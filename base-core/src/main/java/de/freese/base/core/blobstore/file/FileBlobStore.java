@@ -21,18 +21,8 @@ import de.freese.base.core.blobstore.BlobStore;
  */
 public class FileBlobStore extends AbstractBlobStore
 {
-    /**
-     *
-     */
     private final Path basePath;
 
-    /**
-     * Erstellt ein neues {@link FileBlobStore} Object.
-     *
-     * @param basePath {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public FileBlobStore(final Path basePath) throws IOException
     {
         super();
@@ -101,11 +91,6 @@ public class FileBlobStore extends AbstractBlobStore
         return this.basePath.toString();
     }
 
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return {@link Path}
-     */
     Path toContentPath(final BlobId id)
     {
         URI uri = id.getUri();

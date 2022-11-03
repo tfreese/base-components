@@ -15,10 +15,5 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface ThrowingSupplier<R, E extends Exception>
 {
-    /**
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     R get() throws E;
 }

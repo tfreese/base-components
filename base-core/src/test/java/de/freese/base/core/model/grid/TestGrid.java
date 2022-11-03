@@ -47,9 +47,6 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestGrid
 {
-    /**
-     *
-     */
     @Test
     void testGridBuilder()
     {
@@ -90,10 +87,6 @@ class TestGrid
         assertEquals("boolean", grid.getName(2));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     * @throws ClassNotFoundException Falls was schiefgeht.
-     */
     @Test
     void testGridMetaSave() throws IOException, ClassNotFoundException
     {
@@ -152,9 +145,6 @@ class TestGrid
         }
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     @Test
     void testGridResultSet() throws SQLException
     {
@@ -239,10 +229,6 @@ class TestGrid
         }
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     * @throws ClassNotFoundException Falls was schiefgeht.
-     */
     @Test
     void testGridSave() throws IOException, ClassNotFoundException
     {

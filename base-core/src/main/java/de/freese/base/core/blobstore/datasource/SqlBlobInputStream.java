@@ -17,37 +17,18 @@ import org.slf4j.LoggerFactory;
  */
 final class SqlBlobInputStream extends InputStream
 {
-    /**
-     *
-     */
     private final java.sql.Blob blob;
-    /**
-     *
-     */
+
     private final InputStream blobInputStream;
-    /**
-     *
-     */
+
     private final Connection connection;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final PreparedStatement prepareStatement;
-    /**
-     *
-     */
+
     private final ResultSet resultSet;
 
-    /**
-     * @param connection {@link Connection}
-     * @param prepareStatement {@link PreparedStatement}
-     *
-     * @throws SQLException Falls was schiefgeht
-     */
     SqlBlobInputStream(Connection connection, PreparedStatement prepareStatement) throws SQLException
     {
         this.connection = Objects.requireNonNull(connection, "connection required");
@@ -192,9 +173,6 @@ final class SqlBlobInputStream extends InputStream
         return this.blobInputStream.transferTo(out);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return logger;

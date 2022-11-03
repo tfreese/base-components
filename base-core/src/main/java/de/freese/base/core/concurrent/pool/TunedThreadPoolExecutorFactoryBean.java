@@ -35,9 +35,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
  */
 public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactoryBean
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4992566896817015389L;
 

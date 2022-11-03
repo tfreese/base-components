@@ -18,31 +18,15 @@ import java.util.Set;
  */
 public class UserProperties
 {
-    /**
-     * Temporärer Cache für schnelleren Zugriff.
-     */
     private final Map<PropertyType, Map<String, UserProperty>> cache = new HashMap<>();
-    /**
-     *
-     */
+
     private String userID;
 
-    /**
-     * Leeren der Properties.
-     */
     public void clear()
     {
         this.cache.clear();
     }
 
-    /**
-     * Liefert den boolean Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return boolean; default = false
-     */
     public boolean getBoolean(final String key, final PropertyType type)
     {
         UserProperty property = getProperty(key, type);
@@ -55,16 +39,6 @@ public class UserProperties
         return property.getBoolean();
     }
 
-    /**
-     * Liefert das ByteArray des Properties für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return byte[]; default = null
-     *
-     * @throws IOException, wenn die Konvertierung fehlschlägt.
-     */
     public byte[] getByteArray(final String key, final PropertyType type) throws IOException
     {
         UserProperty property = getProperty(key, type);
@@ -77,15 +51,6 @@ public class UserProperties
         return property.getByteArray();
     }
 
-    /**
-     * Liefert den Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param defaultValue double, wenn Property null oder die Konvertierung fehlschlägt.
-     *
-     * @return double
-     */
     public double getDouble(final String key, final PropertyType type, final double defaultValue)
     {
         UserProperty property = getProperty(key, type);
@@ -98,15 +63,6 @@ public class UserProperties
         return property.getDouble(defaultValue);
     }
 
-    /**
-     * Liefert den int Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param defaultValue int, wenn Property null oder die Konvertierung fehlschlägt.
-     *
-     * @return boolean
-     */
     public int getInt(final String key, final PropertyType type, final int defaultValue)
     {
         UserProperty property = getProperty(key, type);
@@ -119,15 +75,6 @@ public class UserProperties
         return property.getInt(defaultValue);
     }
 
-    /**
-     * Liefert den long Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param defaultValue long, wenn Property null oder die Konvertierung fehlschlägt.
-     *
-     * @return long
-     */
     public long getLong(final String key, final PropertyType type, final long defaultValue)
     {
         UserProperty property = getProperty(key, type);
@@ -140,19 +87,6 @@ public class UserProperties
         return property.getLong(defaultValue);
     }
 
-    /**
-     * Liefert das Object des Property's für einen Key und {@link PropertyType}.<br>
-     * Dieses Object wird aus einem byte[] deserialisiert.
-     *
-     * @param <T> Type
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return Object; default = null
-     *
-     * @throws Exception Falls bei der Deserialisierung was schiefgeht.
-     */
-    @SuppressWarnings("unchecked")
     public <T> T getObject(final String key, final PropertyType type) throws Exception
     {
         UserProperty property = getProperty(key, type);
@@ -166,11 +100,7 @@ public class UserProperties
     }
 
     /**
-     * Liefert alle {@link UserProperty} des {@link PropertyType} oder alle.
-     *
      * @param type {@link PropertyType}; optional
-     *
-     * @return {@link List}
      */
     public List<UserProperty> getProperties(final PropertyType type)
     {
@@ -190,13 +120,6 @@ public class UserProperties
         return properties;
     }
 
-    /**
-     * Liefert alle Keys des {@link PropertyType}.
-     *
-     * @param type {@link PropertyType}
-     *
-     * @return {@link Set}
-     */
     public Set<String> getPropertyKeys(final PropertyType type)
     {
         if (type == null)
@@ -218,14 +141,6 @@ public class UserProperties
         return keys;
     }
 
-    /**
-     * Liefert den String Wert des Properties für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return String
-     */
     public String getString(final String key, final PropertyType type)
     {
         UserProperty property = getProperty(key, type);
@@ -238,12 +153,6 @@ public class UserProperties
         return property.getString();
     }
 
-    /**
-     * Markiert das {@link UserProperty} für den Key und den {@link PropertyType} als gelöscht.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     */
     public void markDeleted(final String key, final PropertyType type)
     {
         UserProperty property = getProperty(key, type);
@@ -290,13 +199,6 @@ public class UserProperties
         }
     }
 
-    /**
-     * Setzt den boolean Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type PropertyType
-     * @param value boolean
-     */
     public void setBoolean(final String key, final PropertyType type, final boolean value)
     {
         UserProperty property = getProperty(key, type);
@@ -310,15 +212,6 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt das ByteArray des Properties für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param value byte[]
-     *
-     * @throws Throwable, wenn Konvertierung fehlschlägt
-     */
     public void setByteArray(final String key, final PropertyType type, final byte[] value) throws Throwable
     {
         UserProperty property = getProperty(key, type);
@@ -332,13 +225,6 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt den long Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param value double
-     */
     public void setDouble(final String key, final PropertyType type, final double value)
     {
         UserProperty property = getProperty(key, type);
@@ -352,13 +238,6 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt den int Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param value int
-     */
     public void setInt(final String key, final PropertyType type, final int value)
     {
         UserProperty property = getProperty(key, type);
@@ -372,13 +251,6 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt den long Wert des Property's für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param value long
-     */
     public void setLong(final String key, final PropertyType type, final long value)
     {
         UserProperty property = getProperty(key, type);
@@ -392,16 +264,6 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt den Object Wert des Property's für einen Key und {@link PropertyType}.<br>
-     * Dieses Object wird als byte[] serialisiert.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param value Object
-     *
-     * @throws Throwable, wenn Konvertierung fehlschlägt
-     */
     public void setObject(final String key, final PropertyType type, final Object value) throws Throwable
     {
         UserProperty property = getProperty(key, type);
@@ -415,11 +277,6 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt eine neue Liste der {@link UserProperty}.
-     *
-     * @param properties {@link Iterable}
-     */
     public void setProperties(final Iterable<UserProperty> properties)
     {
         // TypeCache aufbauen
@@ -437,13 +294,6 @@ public class UserProperties
         }
     }
 
-    /**
-     * Setzt den String Wert des Properties für einen Key und {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     * @param value String
-     */
     public void setString(final String key, final PropertyType type, final String value)
     {
         UserProperty property = getProperty(key, type);
@@ -457,32 +307,16 @@ public class UserProperties
         property.setChanged(true);
     }
 
-    /**
-     * Setzt den gewählten SystemNamen.
-     *
-     * @param systemName String
-     */
     public void setSystemSprache(final String systemName)
     {
         setString("SYSTEM_NAME", PropertyType.VARIABLE, systemName);
     }
 
-    /**
-     * @param userID String
-     */
     public void setUserID(final String userID)
     {
         this.userID = userID;
     }
 
-    /**
-     * Erzeugt ein neues UserProperty für einen Key und einen {@link PropertyType}.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return {@link UserProperty}
-     */
     private UserProperty createProperty(final String key, final PropertyType type)
     {
         UserProperty property = new UserProperty();
@@ -496,14 +330,6 @@ public class UserProperties
         return property;
     }
 
-    /**
-     * Liefert das {@link UserProperty} für den Key und den Typen.
-     *
-     * @param key String
-     * @param type {@link PropertyType}
-     *
-     * @return {@link UserProperty}; kann auch null sein
-     */
     private UserProperty getProperty(final String key, final PropertyType type)
     {
         return this.cache.computeIfAbsent(type, k -> new HashMap<>()).get(key);

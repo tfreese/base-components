@@ -40,25 +40,13 @@ import java.util.function.IntSupplier;
  */
 public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 6374300294609033461L;
-    /**
-     *
-     */
+
     private IntSupplier poolCurrentSize;
-    /**
-     *
-     */
+
     private IntSupplier poolMaxSize;
 
-    /**
-     * Erstellt ein neues {@link TunedLinkedBlockingQueue} Object.
-     *
-     * @param capacity int
-     */
     public TunedLinkedBlockingQueue(final int capacity)
     {
         super(capacity);
@@ -94,17 +82,11 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
         return super.offer(e, timeout, unit);
     }
 
-    /**
-     * @param poolCurrentSize {@link IntSupplier}
-     */
     public void setPoolCurrentSize(final IntSupplier poolCurrentSize)
     {
         this.poolCurrentSize = poolCurrentSize;
     }
 
-    /**
-     * @param poolMaxSize {@link IntSupplier}
-     */
     public void setPoolMaxSize(final IntSupplier poolMaxSize)
     {
         this.poolMaxSize = poolMaxSize;

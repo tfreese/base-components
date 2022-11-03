@@ -10,21 +10,10 @@ import java.io.Writer;
  */
 public class TWriter extends Writer
 {
-    /**
-     *
-     */
     private final Writer out1;
-    /**
-     *
-     */
+
     private final Writer out2;
 
-    /**
-     * Creates a new {@link TWriter} object.
-     *
-     * @param out1 {@link Writer}
-     * @param out2 {@link Writer}
-     */
     public TWriter(final Writer out1, final Writer out2)
     {
         super();

@@ -29,26 +29,14 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  */
 class TestResourceCache
 {
-    /**
-     *
-     */
     private static final ResourceCache CACHE_CAFFEINE = new CaffeineResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache2"), 6000);
-    /**
-     *
-     */
+
     private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache1"));
-    /**
-     *
-     */
+
     private static final ResourceCache CACHE_MEMORY = new MemoryResourceCache();
-    /**
-     *
-     */
+
     private static final Map<String, byte[]> MAP = new ConcurrentHashMap<>();
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
@@ -58,9 +46,6 @@ class TestResourceCache
         CACHE_CAFFEINE.clear();
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @BeforeAll
     static void beforeAll() throws Exception
     {
@@ -72,13 +57,6 @@ class TestResourceCache
         SLF4JBridgeHandler.install();
     }
 
-    /**
-     * Create objects stream.
-     *
-     * @return {@link Stream}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     static Stream<Arguments> createArgumentes() throws Exception
     {
         URI urlLocalFile = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri();
@@ -96,31 +74,18 @@ class TestResourceCache
         // @formatter:on
     }
 
-    /**
-     *
-     */
     @AfterEach
     void afterEach()
     {
         // Empty
     }
 
-    /**
-     *
-     */
     @BeforeEach
     void beforeEach()
     {
         // Empty
     }
 
-    /**
-     * @param name String
-     * @param resourceCache {@link ResourceCache}
-     * @param uri {@link URI}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(1)
@@ -143,13 +108,6 @@ class TestResourceCache
         MAP.put(name, bytes);
     }
 
-    /**
-     * @param name String
-     * @param resourceCache {@link ResourceCache}
-     * @param uri {@link URI}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(2)

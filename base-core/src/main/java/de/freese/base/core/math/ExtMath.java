@@ -15,9 +15,6 @@ import java.util.regex.Pattern;
  */
 public final class ExtMath
 {
-    /**
-     *
-     */
     public static final double LOG_E = Math.log(Math.E);
     /**
      * <pre>
@@ -69,12 +66,6 @@ public final class ExtMath
                     'Z'
             };
 
-    /**
-     * @param n long
-     * @param m long
-     *
-     * @return long
-     */
     public static long ackermann(final long n, final long m)
     {
         if (n == 0)
@@ -96,8 +87,6 @@ public final class ExtMath
      *
      * @param number The String which is to be converted
      * @param base The Base of the Value
-     *
-     * @return long
      */
     public static long base2Dec(final String number, final int base)
     {
@@ -119,10 +108,6 @@ public final class ExtMath
 
     /**
      * Returns the Checksum of a Value.
-     *
-     * @param n long
-     *
-     * @return long
      */
     public static long checksum(final long n)
     {
@@ -139,8 +124,6 @@ public final class ExtMath
      *
      * @param value The Value which is to be converted
      * @param base the new Base of the Value
-     *
-     * @return String
      */
     public static String dec2Base(final long value, final int base)
     {
@@ -170,10 +153,6 @@ public final class ExtMath
 
     /**
      * Returns a String-Vector of Factors.
-     *
-     * @param bi BigInteger Value
-     *
-     * @return {@link List}
      */
     public static List<String> factors(final BigInteger bi)
     {
@@ -183,10 +162,7 @@ public final class ExtMath
     /**
      * Returns a String-Vector of Factors.
      *
-     * @param value {@link BigInteger}
      * @param certainty Accuracy (Genauigkeit)
-     *
-     * @return {@link List}
      */
     public static List<String> factors(final BigInteger value, final int certainty)
     {
@@ -214,10 +190,6 @@ public final class ExtMath
 
     /**
      * Liefert die Übergebene römische Zahl als <code>int</code> zurück.
-     *
-     * @param roman {@link String}
-     *
-     * @return int
      */
     public static int getIntFromRoman(final String roman)
     {
@@ -255,10 +227,6 @@ public final class ExtMath
 
     /**
      * Liefert die übergebene Zahl als römische Zahl zurück.
-     *
-     * @param value int
-     *
-     * @return {@link String}
      */
     public static String getRomanNumber(final int value)
     {
@@ -353,10 +321,6 @@ public final class ExtMath
 
     /**
      * Liefert true, wenn der Wert Nachkommastellen hat.
-     *
-     * @param value double
-     *
-     * @return boolean
      */
     public static boolean hasFractionDigits(final double value)
     {
@@ -370,10 +334,6 @@ public final class ExtMath
 
     /**
      * Checks if number is prime or not.
-     *
-     * @param number Value to be checked
-     *
-     * @return boolean
      */
     public static boolean isPrime(final long number)
     {
@@ -434,10 +394,6 @@ public final class ExtMath
 
     /**
      * Falls der übergebene {@link String} eine gültige römische Zahl ist, wird <code>true</code> geliefert, sonst <code>false</code>.
-     *
-     * @param roman {@link String}
-     *
-     * @return boolean
      */
     public static boolean isValidRomanNumber(final String roman)
     {
@@ -462,11 +418,6 @@ public final class ExtMath
 
     /**
      * Calculates the largest common divisor.
-     *
-     * @param a First Value
-     * @param b Second Value
-     *
-     * @return long
      */
     public static long lcd(final long a, final long b)
     {
@@ -478,11 +429,6 @@ public final class ExtMath
         return lcd(b, a % b);
     }
 
-    /**
-     * @param x double
-     *
-     * @return double
-     */
     public static double ln(final double x)
     {
         return Math.log(x) / LOG_E;
@@ -490,12 +436,6 @@ public final class ExtMath
 
     /**
      * Normalisiert einen Wert (Wikipedia).
-     *
-     * @param value double
-     * @param max double
-     * @param min double
-     *
-     * @return double
      */
     public static double normalize(final double value, final double max, final double min)
     {
@@ -504,10 +444,6 @@ public final class ExtMath
 
     /**
      * Returns a String-Vector of Prime Factors.
-     *
-     * @param bi BigInteger Value
-     *
-     * @return {@link List}
      */
     public static List<String> primeFactors(final BigInteger bi)
     {
@@ -517,10 +453,7 @@ public final class ExtMath
     /**
      * Returns a String-Vector of Prime Factors.
      *
-     * @param value {@link BigInteger}
      * @param certainty Accuracy (Genauigkeit)
-     *
-     * @return {@link List}
      */
     public static List<String> primeFactors(final BigInteger value, final int certainty)
     {
@@ -557,8 +490,6 @@ public final class ExtMath
      * @param max double; max. Wert aller Werte
      * @param minNorm double; neuer min. Wert
      * @param maxNorm double; neuer max. Wert
-     *
-     * @return double
      */
     public static double reScale(final double value, final double min, final double max, final double minNorm, final double maxNorm)
     {
@@ -570,10 +501,7 @@ public final class ExtMath
      * Als {@link RoundingMode} wird HALF_UP verwendet.<br>
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
      *
-     * @param value double
      * @param scale int Anzahl Nachkommastellen
-     *
-     * @return double
      */
     public static double round(final double value, final int scale)
     {
@@ -584,11 +512,7 @@ public final class ExtMath
      * Rundet ein Double Wert auf eine bestimmte Anzahl Nachkommastellen und des RoundingModes.<br>
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
      *
-     * @param value double
      * @param scale int Anzahl Nachkommastellen
-     * @param roundingMode {@link RoundingMode}
-     *
-     * @return double
      */
     public static double round(final double value, final int scale, final RoundingMode roundingMode)
     {
@@ -606,10 +530,6 @@ public final class ExtMath
     /**
      * Liefert den abgerundeten Integer Wert des Double-Wertes.<br>
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
-     *
-     * @param value double
-     *
-     * @return int
      */
     public static int roundDown(final double value)
     {
@@ -628,10 +548,6 @@ public final class ExtMath
      * Rundet ein Double Wert auf einen Integer Wert.<br>
      * Als {@link RoundingMode} wird HALF_UP verwendet.<br>
      * Ist der Wert NaN oder Infinite wird 0 geliefert.
-     *
-     * @param value double
-     *
-     * @return int
      */
     public static int roundToInt(final double value)
     {
@@ -641,10 +557,6 @@ public final class ExtMath
     /**
      * Liefert den aufgerundeten Integer Wert des Double-Wertes.<br>
      * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
-     *
-     * @param value double
-     *
-     * @return int
      */
     public static int roundUp(final double value)
     {
@@ -661,11 +573,6 @@ public final class ExtMath
 
     /**
      * Calculates the smallest common multiple.
-     *
-     * @param a First Value
-     * @param b Second Value
-     *
-     * @return long
      */
     public static long scm(final long a, final long b)
     {
@@ -674,11 +581,6 @@ public final class ExtMath
 
     /**
      * Subtrahiert (a-b) zwei Double (NULL safe). Sind beide NULL, wird NULL geliefert.
-     *
-     * @param a Double
-     * @param b Double
-     *
-     * @return Double
      */
     public static Double sub(final Double a, final Double b)
     {
@@ -695,11 +597,6 @@ public final class ExtMath
 
     /**
      * Subtrahiert (a-b) zwei Integers (NULL safe). Sind beide NULL, wird NULL geliefert.
-     *
-     * @param a Integer
-     * @param b Integer
-     *
-     * @return Integer
      */
     public static Integer sub(final Integer a, final Integer b)
     {
@@ -716,11 +613,6 @@ public final class ExtMath
 
     /**
      * Subtrahiert (a-b) zwei Longs (NULL safe). Sind beide NULL, wird NULL geliefert.
-     *
-     * @param a Long
-     * @param b Long
-     *
-     * @return Long
      */
     public static Long sub(final Long a, final Long b)
     {
@@ -737,11 +629,6 @@ public final class ExtMath
 
     /**
      * Summiert (a+b) zwei Doubles (NULL safe). Sind beide NULL, wird NULL geliefert.
-     *
-     * @param a Double
-     * @param b Double
-     *
-     * @return Double
      */
     public static Double sum(final Double a, final Double b)
     {
@@ -761,11 +648,6 @@ public final class ExtMath
 
     /**
      * Summiert (a+b) zwei Integers (NULL safe). Sind beide NULL, wird NULL geliefert.
-     *
-     * @param a Integer
-     * @param b Integer
-     *
-     * @return Integer
      */
     public static Integer sum(final Integer a, final Integer b)
     {
@@ -782,11 +664,6 @@ public final class ExtMath
 
     /**
      * Summiert (a+b) zwei Longs (NULL safe). Sind beide NULL, wird NULL geliefert.
-     *
-     * @param a Long
-     * @param b Long
-     *
-     * @return Long
      */
     public static Long sum(final Long a, final Long b)
     {
@@ -801,9 +678,6 @@ public final class ExtMath
         return aValue + bValue;
     }
 
-    /**
-     * Erstellt ein neues {@link ExtMath} Object.
-     */
     private ExtMath()
     {
         super();

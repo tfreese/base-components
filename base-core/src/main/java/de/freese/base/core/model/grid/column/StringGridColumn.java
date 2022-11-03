@@ -15,25 +15,14 @@ import de.freese.base.core.model.grid.GridMetaData;
  */
 public class StringGridColumn extends AbstractGridColumn<String>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -6201540763441206227L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link StringGridColumn}.
-     */
     public StringGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link StringGridColumn}.
-     *
-     * @param name String
-     */
     public StringGridColumn(final String name)
     {
         super();

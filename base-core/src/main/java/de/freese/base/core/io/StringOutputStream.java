@@ -11,11 +11,6 @@ import java.nio.charset.StandardCharsets;
  */
 public class StringOutputStream extends ByteArrayOutputStream
 {
-    /**
-     * @param value {@link CharSequence}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public void write(final CharSequence value) throws IOException
     {
         super.write(value.toString().getBytes(StandardCharsets.UTF_8));

@@ -7,8 +7,5 @@ package de.freese.base.core.model.builder.request;
 @FunctionalInterface
 public interface RequestBuilder
 {
-    /**
-     * @return Object
-     */
     Object buildRequest();
 }

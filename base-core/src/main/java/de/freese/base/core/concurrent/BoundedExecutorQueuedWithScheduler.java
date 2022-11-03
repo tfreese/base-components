@@ -16,9 +16,6 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedExecutorQueuedWithScheduler implements Executor
 {
-    /**
-     *
-     */
     private static final Runnable SHUTDOWN_RUNNABLE = () ->
     {
     };
@@ -55,9 +52,6 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
             }
         }
 
-        /**
-         * @param runnable {@link Runnable}
-         */
         private void schedule(final Runnable runnable)
         {
             try
@@ -97,23 +91,14 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
             // }
         }
     }
-    /**
-     *
-     */
+
     private final Executor delegate;
-    /**
-     *
-     */
+
     private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
-    /**
-     *
-     */
+
     private final Semaphore rateLimiter;
 
     /**
-     * Erstellt ein neues {@link BoundedExecutorQueuedWithScheduler} Object.
-     *
-     * @param delegate {@link Executor}
      * @param parallelism int; Anzahl zu nutzender Threads des Delegates
      */
     public BoundedExecutorQueuedWithScheduler(final Executor delegate, final int parallelism)
@@ -146,17 +131,11 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
         this.queue.add(runnable);
     }
 
-    /**
-     * @return int
-     */
     public int getQueueSize()
     {
         return this.queue.size();
     }
 
-    /**
-     *
-     */
     public void shutdown()
     {
         execute(SHUTDOWN_RUNNABLE);

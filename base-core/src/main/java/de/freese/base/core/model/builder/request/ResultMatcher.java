@@ -7,10 +7,5 @@ package de.freese.base.core.model.builder.request;
 @FunctionalInterface
 public interface ResultMatcher
 {
-    /**
-     * @param result {@link RequestResult}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void match(RequestResult result) throws Exception;
 }

@@ -16,9 +16,6 @@ import reactor.core.scheduler.Schedulers;
  */
 public class AccumulativeSinkForkJoin extends AbstractAccumulativeSink
 {
-    /**
-     *
-     */
     private static final Scheduler FORK_JOIN__SCHEDULER = Schedulers.fromExecutor(ForkJoinPool.commonPool());
 
     @Override

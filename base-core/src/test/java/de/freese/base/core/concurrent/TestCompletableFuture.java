@@ -22,42 +22,25 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestCompletableFuture
 {
-    /**
-     *
-     */
     private static ExecutorService executorService;
 
-    /**
-     *
-     */
     @AfterAll
     static void afterAll()
     {
         ExecutorUtils.shutdown(executorService);
     }
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
         executorService = Executors.newFixedThreadPool(4);
     }
 
-    /**
-     * @return String
-     */
     String getCurrentThreadName()
     {
         return Thread.currentThread().getName();
     }
 
-    /**
-     * @param threadName String
-     *
-     * @return String
-     */
     String getPoolName(final String threadName)
     {
         int firstIndex = threadName.indexOf('-');
@@ -66,9 +49,6 @@ class TestCompletableFuture
         return threadName.substring(0, secondIndex);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test010RunAsyncThenAccept() throws Exception
     {
@@ -100,9 +80,6 @@ class TestCompletableFuture
         assertNotEquals(poolNameRun, poolNameThen, poolNameRun + " != " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test011RunAsyncThenAcceptAsync() throws Exception
     {
@@ -131,9 +108,6 @@ class TestCompletableFuture
         assertEquals(poolNameRun, poolNameThen, poolNameRun + " != " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test012RunAsyncThenApply() throws Exception
     {
@@ -167,9 +141,6 @@ class TestCompletableFuture
         assertNotEquals(poolNameRun, poolNameThen, poolNameRun + " == " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test013RunAsyncThenApplyAsync() throws Exception
     {
@@ -199,9 +170,6 @@ class TestCompletableFuture
         assertEquals(poolNameRun, poolNameThen, poolNameRun + " != " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test014RunAsyncThenRun() throws Exception
     {
@@ -234,9 +202,6 @@ class TestCompletableFuture
         assertNotEquals(poolNameRun, poolNameThen, poolNameRun + " == " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test015RunAsyncThenRunAsync() throws Exception
     {
@@ -265,9 +230,6 @@ class TestCompletableFuture
         assertEquals(poolNameRun, poolNameThen, poolNameRun + " != " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test020SupplyAsyncThenAccept() throws Exception
     {
@@ -301,9 +263,6 @@ class TestCompletableFuture
         assertNotEquals(poolNameSupply, poolNameThen, poolNameSupply + " == " + poolNameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test021SupplyAsyncThenAcceptAsync() throws Exception
     {
@@ -333,9 +292,6 @@ class TestCompletableFuture
         assertEquals(poolNameSupply, poolNameThen, poolNameSupply + " != " + nameThen);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test022SupplyAsyncThenApplyThenAccept() throws Exception
     {
@@ -378,9 +334,6 @@ class TestCompletableFuture
         assertNotEquals(poolNameSupply, poolNameThen1, poolNameSupply + " == " + poolNameThen1);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test023SupplyAsyncThenApplyAsyncThenAccept() throws Exception
     {
@@ -422,9 +375,6 @@ class TestCompletableFuture
         assertEquals(poolNameSupply, poolNameThen1);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void test024SupplyAsyncThenApplyAsyncThenAcceptAsync() throws Exception
     {

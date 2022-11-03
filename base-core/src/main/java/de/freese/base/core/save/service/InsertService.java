@@ -14,21 +14,11 @@ public interface InsertService
 {
     /**
      * Führt ein Insert auf einem Objekt aus.
-     *
-     * @param object {@link Serializable}
-     * @param context {@link SaveContext}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     void insert(Serializable object, SaveContext context) throws Exception;
 
     /**
      * Führt ein Insert pro vorhandenen Objekt aus
-     *
-     * @param toInsert {@link Collection}
-     * @param context {@link SaveContext}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     void insertAll(Collection<? extends Serializable> toInsert, SaveContext context) throws Exception;
 }

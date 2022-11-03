@@ -10,28 +10,13 @@ import java.nio.ByteBuffer;
  */
 public class SharedByteArrayInputStream extends ByteArrayInputStream
 {
-    /**
-     *
-     */
     private int startIndex;
 
-    /**
-     * Erstellt ein neues {@link SharedByteArrayInputStream} Object.
-     *
-     * @param buf byte[]
-     */
     public SharedByteArrayInputStream(final byte[] buf)
     {
         super(buf);
     }
 
-    /**
-     * Erstellt ein neues {@link SharedByteArrayInputStream} Object.
-     *
-     * @param buf byte[]
-     * @param offset int
-     * @param length int
-     */
     public SharedByteArrayInputStream(final byte[] buf, final int offset, final int length)
     {
         super(buf, offset, length);
@@ -39,29 +24,16 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream
         this.startIndex = offset;
     }
 
-    /**
-     * @return int
-     */
     public int getStartIndex()
     {
         return this.startIndex;
     }
 
-    /**
-     * Kapselt das interne ByteArray.
-     *
-     * @return {@link ByteBuffer}
-     */
     public ByteBuffer toByteBuffer()
     {
         return ByteBuffer.wrap(this.buf, 0, this.count);
     }
 
-    /**
-     * @param start long
-     * @param end long
-     * @return {@link InputStream}
-     */
     public InputStream toStream(final long start, long end)
     {
         if (start < 0)

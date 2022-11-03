@@ -13,19 +13,11 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedExecutor implements Executor
 {
-    /**
-     *
-     */
     private final Executor delegate;
-    /**
-     *
-     */
+
     private final Semaphore rateLimiter;
 
     /**
-     * Erstellt ein neues {@link BoundedExecutor} Object.
-     *
-     * @param delegate {@link Executor}
      * @param parallelism int; Anzahl zu nutzender Threads des Delegates
      */
     public BoundedExecutor(final Executor delegate, final int parallelism)

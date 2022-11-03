@@ -11,9 +11,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractBlobStore implements BlobStore
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -27,18 +24,8 @@ public abstract class AbstractBlobStore implements BlobStore
         return doGet(id);
     }
 
-    /**
-     * @param id {@link BlobId}
-     *
-     * @return {@link Blob}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected abstract Blob doGet(final BlobId id) throws Exception;
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;

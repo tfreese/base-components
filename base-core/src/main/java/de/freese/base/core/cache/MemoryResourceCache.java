@@ -16,14 +16,8 @@ import java.util.TreeMap;
  */
 public class MemoryResourceCache extends AbstractResourceCache
 {
-    /**
-     *
-     */
     private final Map<URI, byte[]> map;
 
-    /**
-     * Erstellt ein neues {@link MemoryResourceCache} Object.
-     */
     public MemoryResourceCache()
     {
         super();

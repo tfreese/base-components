@@ -11,10 +11,5 @@ package de.freese.base.core.function;
 @FunctionalInterface
 public interface ThrowingRunnable<E extends Exception>
 {
-    /**
-     * Performs this operation.
-     *
-     * @throws E Falls was schiefgeht.
-     */
     void run() throws E;
 }

@@ -17,17 +17,9 @@ import de.freese.base.core.save.service.InsertService;
  */
 public class InsertCommand extends AbstractRemoteCommand
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8490815726760924228L;
 
-    /**
-     * Erstellt ein neues {@link InsertCommand} Object.
-     *
-     * @param source {@link Serializable}
-     */
     public InsertCommand(final Serializable source)
     {
         super(source);
@@ -36,7 +28,6 @@ public class InsertCommand extends AbstractRemoteCommand
     /**
      * @see de.freese.base.core.command.Command#execute()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public void execute() throws Exception
     {

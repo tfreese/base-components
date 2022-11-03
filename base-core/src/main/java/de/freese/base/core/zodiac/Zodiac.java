@@ -95,13 +95,6 @@ public enum Zodiac
         ZODIAC_MAP.put(Zodiac.CAPRICORN.getStart(), Zodiac.CAPRICORN);
     }
 
-    /**
-     * Liefert für ein Datum das passende Sternzeichen.
-     *
-     * @param date {@link Date}
-     *
-     * @return {@link Zodiac}
-     */
     public static Zodiac getZodiac(final Date date)
     {
         int monat = Integer.parseInt(String.format("%1$tm", date));
@@ -110,14 +103,6 @@ public enum Zodiac
         return getZodiac(monat, tag);
     }
 
-    /**
-     * Liefert für ein Datum das passende Sternzeichen.
-     *
-     * @param month int
-     * @param dayOfMonth int
-     *
-     * @return {@link Zodiac}
-     */
     public static Zodiac getZodiac(final int month, final int dayOfMonth)
     {
         Integer monatTag = Integer.valueOf(month + "" + dayOfMonth);
@@ -133,25 +118,11 @@ public enum Zodiac
         return entry.getValue();
     }
 
-    /**
-     * Liefert für ein Datum das passende Sternzeichen.
-     *
-     * @param localDate {@link LocalDate}
-     *
-     * @return {@link Zodiac}
-     */
     public static Zodiac getZodiac(final LocalDate localDate)
     {
         return getZodiac(localDate.getMonthValue(), localDate.getDayOfMonth());
     }
 
-    /**
-     * Liefert für ein Datum das passende Sternzeichen.
-     *
-     * @param localDateTime {@link LocalDateTime}
-     *
-     * @return {@link Zodiac}
-     */
     public static Zodiac getZodiac(final LocalDateTime localDateTime)
     {
         return getZodiac(localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
@@ -169,12 +140,6 @@ public enum Zodiac
      */
     private final int start;
 
-    /**
-     * Erstellt ein neues {@link Zodiac} Object.
-     *
-     * @param start int
-     * @param end int
-     */
     Zodiac(final int start, final int end)
     {
         this.start = start;

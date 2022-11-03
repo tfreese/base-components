@@ -17,43 +17,23 @@ import javax.swing.ProgressMonitorInputStream;
  */
 public class MonitoringInputStream extends InputStream
 {
-    /**
-     *
-     */
     private final LongConsumer bytesReadConsumer;
-    /**
-     *
-     */
+
     private final boolean closeDelegate;
-    /**
-     *
-     */
+
     private final InputStream delegate;
-    /**
-     *
-     */
+
     private long bytesRead;
 
     /**
-     * Erzeugt eine neue Instanz von {@link MonitoringInputStream}
-     *
-     * @param delegate {@link InputStream}
      * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
-     * @param closeDelegate boolean
      */
     public MonitoringInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size, final boolean closeDelegate)
     {
         this(delegate, br -> bytesReadConsumer.accept(br, size), closeDelegate);
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link MonitoringInputStream}
-     *
-     * @param delegate {@link InputStream}
-     * @param bytesReadConsumer {@link LongConsumer}
-     * @param closeDelegate boolean
-     */
     public MonitoringInputStream(final InputStream delegate, final LongConsumer bytesReadConsumer, final boolean closeDelegate)
     {
         super();

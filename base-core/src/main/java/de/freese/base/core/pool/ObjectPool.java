@@ -16,30 +16,22 @@ public interface ObjectPool<T>
     /**
      * Liefert ein Objekt aus dem Pool.
      *
-     * @return Object
-     *
      * @throws NoSuchElementException, wenn der Pool erschöpft ist
      */
     T borrowObject();
 
     /**
      * Liefert die Anzahl der aktiven, dem Pool entnommenen, Objekte.
-     *
-     * @return int
      */
     int getNumActive();
 
     /**
      * Liefert die Anzahl der zur Verfügung stehenden, im Pool vorhandenen, Objekte.
-     *
-     * @return int
      */
     int getNumIdle();
 
     /**
      * Liefert die Anzahl aller durch den Pool verwalteten Objekte,
-     *
-     * @return int
      */
     default int getTotalSize()
     {
@@ -48,8 +40,6 @@ public interface ObjectPool<T>
 
     /**
      * Übergibt ein Objekt zurück in den Pool.
-     *
-     * @param object Object
      */
     void returnObject(T object);
 

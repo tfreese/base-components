@@ -12,15 +12,8 @@ import de.freese.base.core.blobstore.BlobId;
  */
 class MemoryBlob extends AbstractBlob
 {
-    /**
-     *
-     */
     private final byte[] bytes;
 
-    /**
-     * @param id {@link BlobId}
-     * @param bytes byte[]
-     */
     MemoryBlob(final BlobId id, final byte[] bytes)
     {
         super(id);

@@ -11,24 +11,10 @@ import java.util.concurrent.Executor;
  */
 public class SerialExecutor implements Executor
 {
-    /**
-     *
-     */
-    private Runnable active;
-    /**
-    *
-    */
     private final Executor delegate;
-    /**
-    *
-    */
     private final Queue<Runnable> queue = new ArrayDeque<>();
+    private Runnable active;
 
-    /**
-     * Erstellt ein neues {@link SerialExecutor} Object.
-     *
-     * @param delegate {@link Executor}
-     */
     public SerialExecutor(final Executor delegate)
     {
         super();
@@ -42,7 +28,8 @@ public class SerialExecutor implements Executor
     @Override
     public synchronized void execute(final Runnable runnable)
     {
-        this.queue.add(() -> {
+        this.queue.add(() ->
+        {
             try
             {
                 runnable.run();
@@ -59,9 +46,6 @@ public class SerialExecutor implements Executor
         }
     }
 
-    /**
-     *
-     */
     private synchronized void scheduleNext()
     {
         if ((this.active = this.queue.poll()) != null)

@@ -12,24 +12,13 @@ import org.slf4j.LoggerFactory;
  */
 public class LoggerProgressCallback implements ProgressCallback
 {
-    /**
-     *
-     */
     private final Logger logger;
 
-    /**
-     * Erstellt ein neues {@link LoggerProgressCallback} Objekt.
-     */
     public LoggerProgressCallback()
     {
         this(LoggerFactory.getLogger(LoggerProgressCallback.class));
     }
 
-    /**
-     * Erstellt ein neues {@link LoggerProgressCallback} Objekt.
-     *
-     * @param logger {@link Logger}
-     */
     public LoggerProgressCallback(final Logger logger)
     {
         super();

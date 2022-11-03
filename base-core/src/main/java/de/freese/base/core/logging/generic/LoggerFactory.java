@@ -11,9 +11,6 @@ import java.util.ServiceLoader;
  */
 public final class LoggerFactory
 {
-    /**
-     *
-     */
     private static final LoggerProvider LOGGER_PROVIDER = find();
 
     public static Logger createLogger(Class<?> clazz)

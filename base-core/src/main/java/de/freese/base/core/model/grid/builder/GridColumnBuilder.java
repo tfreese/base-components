@@ -12,36 +12,16 @@ import de.freese.base.core.model.grid.column.GridColumn;
  */
 public class GridColumnBuilder
 {
-    /**
-    *
-    */
-    private String comment;
-    /**
-     *
-     */
     private final GridMetaData gridMetaData;
-    /**
-    *
-    */
+    private String comment;
     private int length = -1;
-    /**
-    *
-    */
+
     private String name;
-    /**
-     *
-     */
+
     private Class<?> objectClazz;
-    /**
-    *
-    */
+
     private int precision = -1;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link GridColumnBuilder}.
-     *
-     * @param gridMetaData {@link GridMetaData}
-     */
     GridColumnBuilder(final GridMetaData gridMetaData)
     {
         super();
@@ -49,11 +29,6 @@ public class GridColumnBuilder
         this.gridMetaData = Objects.requireNonNull(gridMetaData, "gridMetaData required");
     }
 
-    /**
-     * Erzeugt eine neue Spalte, fügt diese {@link GridBuilder} hinzu und liefert den {@link GridBuilder} zurück.
-     *
-     * @return {@link GridBuilder}
-     */
     public GridBuilder and()
     {
         GridColumn<?> gc = this.gridMetaData.getGridColumnFactory().getColumnForType(this.objectClazz);
@@ -67,21 +42,11 @@ public class GridColumnBuilder
         return new GridBuilder(this.gridMetaData);
     }
 
-    /**
-     * Erzeugt eine neue Spalte, fügt die {@link GridBuilder} hinzu und ruft {@link GridBuilder#build()} auf.
-     *
-     * @return {@link Grid}
-     */
     public Grid build()
     {
         return and().build();
     }
 
-    /**
-     * @param comment String
-     *
-     * @return {@link GridColumnBuilder}
-     */
     public GridColumnBuilder comment(final String comment)
     {
         this.comment = comment;
@@ -89,11 +54,6 @@ public class GridColumnBuilder
         return this;
     }
 
-    /**
-     * @param length int
-     *
-     * @return {@link GridColumnBuilder}
-     */
     public GridColumnBuilder length(final int length)
     {
         this.length = length;
@@ -101,11 +61,6 @@ public class GridColumnBuilder
         return this;
     }
 
-    /**
-     * @param name String
-     *
-     * @return {@link GridColumnBuilder}
-     */
     public GridColumnBuilder name(final String name)
     {
         this.name = name;
@@ -113,11 +68,6 @@ public class GridColumnBuilder
         return this;
     }
 
-    /**
-     * @param objectClazz Class
-     *
-     * @return {@link GridColumnBuilder}
-     */
     public GridColumnBuilder objectClazz(final Class<?> objectClazz)
     {
         this.objectClazz = objectClazz;
@@ -125,11 +75,6 @@ public class GridColumnBuilder
         return this;
     }
 
-    /**
-     * @param precision int
-     *
-     * @return {@link GridColumnBuilder}
-     */
     public GridColumnBuilder precision(final int precision)
     {
         this.precision = precision;

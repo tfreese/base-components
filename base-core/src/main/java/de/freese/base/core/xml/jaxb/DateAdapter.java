@@ -16,8 +16,6 @@ public class DateAdapter extends XmlAdapter<String, Date>
     private final DateFormat formatter;
 
     /**
-     * Erstellt ein neues {@link DateAdapter} Object.
-     *
      * @param pattern String, z.B. "yyyy-MM-dd"
      */
     public DateAdapter(final String pattern)

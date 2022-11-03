@@ -9,10 +9,5 @@ package de.freese.base.core.model.builder.request;
 @FunctionalInterface
 public interface RequestPerformer
 {
-    /**
-     * @param builder {@link RequestBuilder}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     void perform(RequestBuilder builder) throws Exception;
 }

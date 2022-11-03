@@ -17,12 +17,6 @@ public final class XmlUtils
 {
     /**
      * Liefert das {@link Document} aus dem Byte-Array.
-     *
-     * @param bytes byte[]
-     *
-     * @return {@link Document}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final byte[] bytes) throws Exception
     {
@@ -31,12 +25,6 @@ public final class XmlUtils
 
     /**
      * Liefert das {@link Document} aus der {@link InputSource}.
-     *
-     * @param inputSource {@link InputSource}
-     *
-     * @return {@link Document}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final InputSource inputSource) throws Exception
     {
@@ -53,12 +41,6 @@ public final class XmlUtils
 
     /**
      * Liefert das {@link Document} aus dem Stream.<br>
-     *
-     * @param inputStream {@link InputStream}
-     *
-     * @return {@link Document}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final InputStream inputStream) throws Exception
     {
@@ -67,21 +49,12 @@ public final class XmlUtils
 
     /**
      * Liefert das {@link Document} aus dem String.
-     *
-     * @param string String
-     *
-     * @return {@link Document}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static Document getDocument(final String string) throws Exception
     {
         return getDocument(new InputSource(new StringReader(string)));
     }
 
-    /**
-     * Erstellt ein neues {@link XmlUtils} Object.
-     */
     private XmlUtils()
     {
         super();

@@ -26,37 +26,20 @@ import de.freese.base.core.model.grid.factory.GridColumnFactory;
  */
 public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
 {
-    /**
-     *
-     */
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 4337541530394314432L;
-    /**
-     *
-     */
+
     private final List<GridColumn<?>> columns = new ArrayList<>();
-    /**
-     *
-     */
+
     private final GridColumnFactory gridColumnFactory;
 
-    /**
-     * Erstellt ein neues {@link GridMetaData} Object.
-     */
     public GridMetaData()
     {
         this(new DefaultGridColumnFactory());
     }
 
-    /**
-     * Erstellt ein neues {@link GridMetaData} Object.
-     *
-     * @param gridColumnFactory {@link GridColumnFactory}
-     */
     public GridMetaData(final GridColumnFactory gridColumnFactory)
     {
         super();
@@ -64,9 +47,6 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
         this.gridColumnFactory = Objects.requireNonNull(gridColumnFactory, "gridColumnFactory required");
     }
 
-    /**
-     * @param column {@link GridColumn}
-     */
     public void addColumn(final GridColumn<?> column)
     {
         // StreamSupport.stream(spliterator(), false);
@@ -81,40 +61,21 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
         getColumns().add(column);
     }
 
-    /**
-     * @return int
-     */
     public int columnCount()
     {
         return getColumns().size();
     }
 
-    /**
-     * @param index int
-     *
-     * @return {@link GridColumn}
-     */
     public GridColumn<?> getColumn(final int index)
     {
         return getColumns().get(index);
     }
 
-    /**
-     * @return {@link GridColumnFactory}
-     */
     public GridColumnFactory getGridColumnFactory()
     {
         return this.gridColumnFactory;
     }
 
-    /**
-     * Liest die Grid-Struktur aus dem Stream.
-     *
-     * @param dataInput {@link DataInput}
-     *
-     * @throws IOException Falls was schiefgeht.
-     * @throws ClassNotFoundException Falls was schiefgeht.
-     */
     public void readMetaData(final DataInput dataInput) throws IOException, ClassNotFoundException
     {
         // Anzahl Spalten
@@ -178,13 +139,6 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
     // return getColumns().iterator();
     // }
 
-    /**
-     * Liest die Grid-Struktur aus dem {@link ResultSetMetaData}.
-     *
-     * @param metaData {@link ResultSetMetaData}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public void readMetaData(final ResultSetMetaData metaData) throws SQLException
     {
         // Anzahl Spalten
@@ -202,23 +156,11 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
         }
     }
 
-    /**
-     * @param columnIndex int
-     *
-     * @return {@link GridColumn}
-     */
     public GridColumn<?> removeColumn(final int columnIndex)
     {
         return getColumns().remove(columnIndex);
     }
 
-    /**
-     * Schreibt die Grid-Struktur in den Stream.
-     *
-     * @param dataOutput {@link DataOutput}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public void writeMetaData(final DataOutput dataOutput) throws IOException
     {
         // Anzahl Spalten
@@ -265,9 +207,6 @@ public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
         }
     }
 
-    /**
-     * @return {@link List}
-     */
     protected List<GridColumn<?>> getColumns()
     {
         return this.columns;

@@ -29,13 +29,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestStreamPublisher
 {
-    /**
-     *
-     */
     static final Executor EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    /**
-     *
-     */
+
     static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
 
     /**
@@ -45,9 +40,6 @@ class TestStreamPublisher
      */
     static class MyTestSubscriber<T> implements Subscriber<T>
     {
-        /**
-         *
-         */
         private Subscription subscription;
 
         /**
@@ -103,22 +95,10 @@ class TestStreamPublisher
      */
     static class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R>
     {
-        /**
-         *
-         */
         private final Function<T, R> function;
 
-        /**
-         *
-         */
         private Subscription subscription;
 
-        /**
-         * Erstellt ein neues {@link MyTransformProcessor} Object.
-         *
-         * @param executor {@link Executor}
-         * @param function {@link Function}
-         */
         MyTransformProcessor(final Executor executor, final Function<T, R> function)
         {
             super(executor, Flow.defaultBufferSize());
@@ -126,11 +106,6 @@ class TestStreamPublisher
             this.function = function;
         }
 
-        /**
-         * Erstellt ein neues {@link MyTransformProcessor} Object.
-         *
-         * @param function {@link Function}
-         */
         MyTransformProcessor(final Function<T, R> function)
         {
             super();
@@ -186,9 +161,6 @@ class TestStreamPublisher
         }
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @AfterAll
     static void afterAll() throws Exception
     {
@@ -200,9 +172,6 @@ class TestStreamPublisher
         }
     }
 
-    /**
-     *
-     */
     @Test
     void testStreamPublisherToSubscriber()
     {
@@ -215,9 +184,6 @@ class TestStreamPublisher
         assertTrue(true);
     }
 
-    /**
-     *
-     */
     @Test
     void testSubmissionPublisherToProcessorToSubscriber()
     {
@@ -241,9 +207,6 @@ class TestStreamPublisher
         assertTrue(true);
     }
 
-    /**
-     *
-     */
     @Test
     void testSubmissionPublisherToSubscriber()
     {

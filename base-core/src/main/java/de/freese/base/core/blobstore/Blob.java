@@ -11,11 +11,6 @@ import java.io.InputStream;
  */
 public interface Blob
 {
-    /**
-     * @return byte[]
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     default byte[] getAllBytes() throws Exception
     {
         try (InputStream inputStream = getInputStream())
@@ -38,28 +33,15 @@ public interface Blob
         //        return bytes;
     }
 
-    /**
-     * @return {@link BlobId}
-     *
-     * @throws Exception Falls was schiefgeht
-     */
     BlobId getId() throws Exception;
 
     /**
      * <b>This Stream MUST be closed to avoid resource exhausting !</b>
-     *
-     * @return InputStream
-     *
-     * @throws Exception Falls was schiefgeht
      */
     InputStream getInputStream() throws Exception;
 
     /**
      * Blob length in Byte.
-     *
-     * @return long
-     *
-     * @throws Exception Falls was schiefgeht
      */
     long getLength() throws Exception;
 }

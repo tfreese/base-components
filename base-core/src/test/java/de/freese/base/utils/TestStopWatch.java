@@ -15,9 +15,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestStopWatch
 {
-    /**
-     *
-     */
     @Test
     void testNanoConvert()
     {
@@ -30,9 +27,6 @@ class TestStopWatch
         assertEquals(1L, TimeUnit.SECONDS.convert(nanos, TimeUnit.NANOSECONDS));
     }
 
-    /**
-     * @throws InterruptedException Falls was schiefgeht.
-     */
     @Test
     void testPrettyPrint() throws InterruptedException
     {

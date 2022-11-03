@@ -34,8 +34,6 @@ public interface ResourceCache extends Function<URL, Optional<InputStream>>
      * Laden der Resource, wenn nicht vorhanden.
      *
      * @param uri {@link URI}; file://...; http://...
-     *
-     * @return {@link Optional}
      */
     Optional<InputStream> getResource(final URI uri);
 
@@ -43,8 +41,6 @@ public interface ResourceCache extends Function<URL, Optional<InputStream>>
      * Laden der Resource, wenn nicht vorhanden.
      *
      * @param url {@link URL}; file://...; http://...
-     *
-     * @return {@link Optional}
      */
     default Optional<InputStream> getResource(final URL url)
     {

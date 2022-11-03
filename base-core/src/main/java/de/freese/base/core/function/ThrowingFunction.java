@@ -17,19 +17,11 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface ThrowingFunction<T, R, E extends Exception>
 {
-    /**
-     * @return {@link Function}
-     */
     static <T> Function<T, T> identity()
     {
         return t -> t;
     }
 
-    /**
-     * @param after {@link ThrowingFunction}
-     *
-     * @return {@link ThrowingFunction}
-     */
     default <V> ThrowingFunction<T, V, E> andThen(final ThrowingFunction<? super R, V, E> after)
     {
         Objects.requireNonNull(after);
@@ -37,20 +29,8 @@ public interface ThrowingFunction<T, R, E extends Exception>
         return t -> after.apply(apply(t));
     }
 
-    /**
-     * @param t Object
-     *
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     R apply(T t) throws E;
 
-    /**
-     * @param before {@link ThrowingFunction}
-     *
-     * @return {@link ThrowingFunction}
-     */
     default <V> ThrowingFunction<V, R, E> compose(final ThrowingFunction<? super V, T, E> before)
     {
         Objects.requireNonNull(before);

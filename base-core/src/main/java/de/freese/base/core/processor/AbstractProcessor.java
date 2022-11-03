@@ -13,13 +13,8 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractProcessor<C> implements Processor<C>
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private boolean enabled = true;
 
     /**
@@ -40,9 +35,6 @@ public abstract class AbstractProcessor<C> implements Processor<C>
         this.enabled = enabled;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected final Logger getLogger()
     {
         return this.logger;

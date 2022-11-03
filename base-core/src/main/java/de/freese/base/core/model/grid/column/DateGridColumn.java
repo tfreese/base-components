@@ -14,25 +14,14 @@ import java.util.Date;
  */
 public class DateGridColumn extends AbstractGridColumn<Date>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3731527807869940447L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link DateGridColumn}.
-     */
     public DateGridColumn()
     {
         super();
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link DateGridColumn}.
-     *
-     * @param name String
-     */
     public DateGridColumn(final String name)
     {
         super();

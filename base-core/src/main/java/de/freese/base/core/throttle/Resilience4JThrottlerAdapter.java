@@ -12,14 +12,8 @@ import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
  */
 public final class Resilience4JThrottlerAdapter implements Throttler
 {
-    /**
-     *
-     */
     private static final RateLimiterRegistry RATELIMITER_REGISTRY = RateLimiterRegistry.ofDefaults();
 
-    /**
-     * @return {@link Throttler}
-     */
     public static Throttler create(final int permits, Duration duration)
     {
         RateLimiterConfig config = RateLimiterConfig.custom()
@@ -36,17 +30,11 @@ public final class Resilience4JThrottlerAdapter implements Throttler
         return new Resilience4JThrottlerAdapter(rateLimiter);
     }
 
-    /**
-     * @return {@link Throttler}
-     */
     public static Throttler create(final int permitsPerSecond)
     {
         return create(permitsPerSecond, Duration.ofSeconds(1));
     }
 
-    /**
-     *
-     */
     private final RateLimiter rateLimiter;
 
     private Resilience4JThrottlerAdapter(final RateLimiter rateLimiter)

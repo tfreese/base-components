@@ -12,7 +12,6 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,17 +26,11 @@ public final class StringUtils
      * non-breaking space
      */
     public static final char ASCII_NON_BREAKING_SPACE = 160;
-    /**
-     *
-     */
+
     public static final char ASCII_SPACE = 32;
-    /**
-     *
-     */
+
     public static final String EMPTY = "";
-    /**
-     *
-     */
+
     public static final String SPACE = " ";
 
     /**
@@ -50,11 +43,6 @@ public final class StringUtils
      * StringUtils.abbreviate("abcdefg", 4) = "a..."
      * StringUtils.abbreviate("abcdefg", 3) = IllegalArgumentException
      * </pre>
-     *
-     * @param str String
-     * @param maxWidth int
-     *
-     * @return String
      */
     public static String abbreviate(final String str, final int maxWidth)
     {
@@ -64,10 +52,6 @@ public final class StringUtils
     /**
      * Fügt vor und nach dem ersten Eintrag der Liste eine Trennlinie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
-     *
-     * @param <T> Konkreter Typ
-     * @param rows {@link List}
-     * @param separator String
      */
     public static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
     {
@@ -103,10 +87,6 @@ public final class StringUtils
      * StringUtils.capitalize("cAt") = "CAt"
      * StringUtils.capitalize("'cat'") = "'cat'"
      * </pre>
-     *
-     * @param text String
-     *
-     * @return String
      */
     public static String capitalize(final String text)
     {
@@ -114,10 +94,6 @@ public final class StringUtils
         return org.apache.commons.lang3.StringUtils.capitalize(text);
     }
 
-    /**
-     * @param list {@link List}
-     * @param escape char
-     */
     public static void escape(final List<String[]> list, final char escape)
     {
         if (list == null || list.isEmpty())
@@ -136,10 +112,6 @@ public final class StringUtils
         });
     }
 
-    /**
-     * @param array String[]
-     * @param escape char
-     */
     public static void escape(final String[] array, final char escape)
     {
         if (ArrayUtils.isEmpty(array))
@@ -155,10 +127,6 @@ public final class StringUtils
 
     /**
      * Liefert die Zeichenbreite der Elemente.<br>
-     *
-     * @param list {@link List}
-     *
-     * @return int[]
      */
     public static int[] getWidths(final List<String[]> list)
     {
@@ -190,10 +158,6 @@ public final class StringUtils
 
     /**
      * Liefert die Zeichenbreite der Elemente.<br>
-     *
-     * @param array String[]
-     *
-     * @return int[]
      */
     public static int[] getWidths(final String[] array)
     {
@@ -208,13 +172,6 @@ public final class StringUtils
         return getWidths(list);
     }
 
-    /**
-     * @param cs {@link CharSequence}
-     *
-     * @return String, not null
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static String hexStringToUnicode(final CharSequence cs) throws Exception
     {
         if (isBlank(cs))
@@ -246,10 +203,6 @@ public final class StringUtils
      * StringUtils.isBlank("bob")     = false
      * StringUtils.isBlank("  bob  ") = false
      * </pre>
-     *
-     * @param cs {@link CharSequence}
-     *
-     * @return boolean
      */
     public static boolean isBlank(final CharSequence cs)
     {
@@ -281,10 +234,6 @@ public final class StringUtils
      * StringUtils.isEmpty("bob")     = false
      * StringUtils.isEmpty("  bob  ") = false
      * </pre>
-     *
-     * @param cs {@link CharSequence}
-     *
-     * @return boolean
      */
     public static boolean isEmpty(final CharSequence cs)
     {
@@ -299,10 +248,6 @@ public final class StringUtils
      * StringUtils.isNotBlank("bob")     = true
      * StringUtils.isNotBlank("  bob  ") = true
      * </pre>
-     *
-     * @param cs {@link CharSequence}
-     *
-     * @return boolean
      */
     public static boolean isNotBlank(final CharSequence cs)
     {
@@ -317,10 +262,6 @@ public final class StringUtils
      * StringUtils.isNotEmpty("bob")     = true
      * StringUtils.isNotEmpty("  bob  ") = true
      * </pre>
-     *
-     * @param cs {@link CharSequence}
-     *
-     * @return boolean
      */
     public static boolean isNotEmpty(final CharSequence cs)
     {
@@ -341,10 +282,6 @@ public final class StringUtils
      * StringUtils.isNumeric("-123") = false
      * StringUtils.isNumeric("+123") = false
      * </pre>
-     *
-     * @param cs {@link CharSequence}
-     *
-     * @return String
      */
     public static boolean isNumeric(final CharSequence cs)
     {
@@ -380,12 +317,6 @@ public final class StringUtils
      * StringUtils.leftPad("bat", 5, null)  = "  bat"
      * StringUtils.leftPad("bat", 5, "")    = "  bat"
      * </pre>
-     *
-     * @param text String
-     * @param size int
-     * @param padStr String
-     *
-     * @return String
      */
     public static String leftPad(final String text, final int size, final String padStr)
     {
@@ -394,11 +325,6 @@ public final class StringUtils
         return org.apache.commons.lang3.StringUtils.leftPad(text, size, padStr);
     }
 
-    /**
-     * @param cs {@link CharSequence}
-     *
-     * @return String
-     */
     public static int length(final CharSequence cs)
     {
         return cs == null ? 0 : cs.length();
@@ -407,12 +333,6 @@ public final class StringUtils
     /**
      * Entfernt mehrfach hintereinander auftretende Whitespace Characters und führt ein abschliessendes {@link String#strip()} durch.<br>
      * ASCII 160 (non-breaking space) wird als Space interpretiert.
-     *
-     * @param cs {@link CharSequence}
-     *
-     * @return String
-     *
-     * @see Character#isWhitespace
      */
     public static String normalizeSpace(final CharSequence cs)
     {
@@ -457,10 +377,6 @@ public final class StringUtils
     /**
      * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
      *
-     * @param input input
-     *
-     * @return String
-     *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
     public static String removeNonAscii(final String input)
@@ -471,11 +387,6 @@ public final class StringUtils
     /**
      * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
      * Andere nicht entfernbare Zeichen können über das {@link Predicate} definiert werden.
-     *
-     * @param input input
-     * @param keep {@link IntPredicate}
-     *
-     * @return String
      *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
@@ -505,10 +416,6 @@ public final class StringUtils
     /**
      * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
      * Behält die Umlaute und das 'ß'.
-     *
-     * @param input input
-     *
-     * @return String
      *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
@@ -543,11 +450,6 @@ public final class StringUtils
      * StringUtils.repeat("ab", 2) = "abab"
      * StringUtils.repeat("a", -2) = ""
      * </pre>
-     *
-     * @param cs {@link CharSequence}
-     * @param repeat int
-     *
-     * @return String
      */
     public static String repeat(final CharSequence cs, final int repeat)
     {
@@ -587,12 +489,6 @@ public final class StringUtils
      * StringUtils.rightPad("bat", 5, null)  = "bat  "
      * StringUtils.rightPad("bat", 5, "")    = "bat  "
      * </pre>
-     *
-     * @param text String
-     * @param size int
-     * @param padding String
-     *
-     * @return String
      */
     public static String rightPad(final String text, final int size, final String padding)
     {
@@ -603,10 +499,6 @@ public final class StringUtils
 
     /**
      * Trennt zusammengefügte Wörter anhand unterschiedlicher Uppercase/Lowercase Schreibweise der Buchstaben<br>
-     *
-     * @param text String
-     *
-     * @return String, not null
      */
     public static String splitAddedWords(final String text)
     {
@@ -645,11 +537,6 @@ public final class StringUtils
      * StringUtils.splitByWholeSeparator("ab:cd:ef", ":")       = ["ab", "cd", "ef"]
      * StringUtils.splitByWholeSeparator("ab-!-cd-!-ef", "-!-") = ["ab", "cd", "ef"]
      * </pre>
-     *
-     * @param text String
-     * @param separator String
-     *
-     * @return String[]
      */
     public static String[] splitByWholeSeparator(final String text, final String separator)
     {
@@ -658,10 +545,6 @@ public final class StringUtils
 
     /**
      * Neue Methode mit Unicode-Standards als {@link String#trim()} Alternative.
-     *
-     * @param text String
-     *
-     * @return String, not null
      */
     public static String strip(final String text)
     {
@@ -681,10 +564,6 @@ public final class StringUtils
      * StringUtils.stripToEmpty("abc")         = "abc"
      * StringUtils.stripToEmpty("    abc    ") = "abc"
      * </pre>
-     *
-     * @param text String
-     *
-     * @return String, not null
      */
     public static String stripToEmpty(final String text)
     {
@@ -699,10 +578,6 @@ public final class StringUtils
      * StringUtils.stripToNull("abc")         = "abc"
      * StringUtils.stripToNull("    abc    ") = "abc"
      * </pre>
-     *
-     * @param text String
-     *
-     * @return String
      */
     public static String stripToNull(final String text)
     {
@@ -722,11 +597,6 @@ public final class StringUtils
      * StringUtils.substringBefore("abc", "")    = ""
      * StringUtils.substringBefore("abc", null)  = "abc"
      * </pre>
-     *
-     * @param text String
-     * @param separator String
-     *
-     * @return String
      */
     public static String substringBefore(final String text, final String separator)
     {
@@ -809,10 +679,6 @@ public final class StringUtils
 
     /**
      * Konvertiert mehrzeiligen Text in einen einzeiligen Text.<br>
-     *
-     * @param text String
-     *
-     * @return String, not null
      */
     public static String toSingleLine(final String text)
     {
@@ -833,11 +699,6 @@ public final class StringUtils
         // @formatter:on
     }
 
-    /**
-     * @param cs {@link CharSequence}
-     *
-     * @return String
-     */
     public static String unicodeToHexString(final CharSequence cs)
     {
         ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
@@ -854,9 +715,6 @@ public final class StringUtils
         return HexFormat.of().withUpperCase().formatHex(bytearrayoutputstream.toByteArray());
     }
 
-    /**
-     * Erstellt ein neues {@link StringUtils} Object.
-     */
     private StringUtils()
     {
         super();

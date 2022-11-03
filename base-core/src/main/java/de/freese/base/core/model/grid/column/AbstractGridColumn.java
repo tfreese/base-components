@@ -17,36 +17,19 @@ import java.lang.reflect.ParameterizedType;
  */
 public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3866701962046000404L;
-    /**
-     *
-     */
+
     private final Class<T> objectClazz;
-    /**
-     *
-     */
+
     private String comment;
-    /**
-     *
-     */
+
     private int length = -1;
-    /**
-     *
-     */
+
     private String name;
-    /**
-     *
-     */
+
     private int precision = -1;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link AbstractGridColumn}.
-     */
-    @SuppressWarnings("unchecked")
     protected AbstractGridColumn()
     {
         super();
@@ -58,11 +41,6 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
         this.objectClazz = (Class<T>) parameterizedType.getActualTypeArguments()[0];
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link AbstractGridColumn}.
-     *
-     * @param objectClazz Class
-     */
     protected AbstractGridColumn(final Class<T> objectClazz)
     {
         super();
@@ -206,22 +184,11 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
 
     /**
      * Liest den Wert aus dem Stream, der NULL-Marker wurde bereits in {@link #read(DataInput)} gelesen.
-     *
-     * @param dataInput {@link DataInput}
-     *
-     * @return Object
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     protected abstract T readNullSafe(final DataInput dataInput) throws IOException;
 
     /**
      * Schreibt den Wert in den Stream, der NULL-Marker wurde bereits in {@link #write(DataOutput, Object)} gesetzt.
-     *
-     * @param dataOutput {@link DataOutput}
-     * @param value Object
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     protected abstract void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException;
 }

@@ -29,47 +29,27 @@ import java.util.stream.Stream;
 public final class Switch<T>
 {
     /**
-     * @see Switch
-     * @author Thomas Freese
      * @param <T> Typ des Rückgabe-Wertes
+     *
+     * @author Thomas Freese
+     * @see Switch
      */
     public static final class Case<T>
     {
-        /**
-         * @param condition {@link BooleanSupplier}
-         * @param value {@link Supplier}
-         * @return {@link Optional}
-         */
         public static <T> Case<T> matchCase(final BooleanSupplier condition, final Supplier<T> value)
         {
             return new Case<>(condition, value);
         }
 
-        /**
-         * @param value {@link Supplier}}
-         * @return {@link de.freese.base.core.function.usecase.Switch.Case}
-         */
         public static <T> Case<T> matchDefault(final Supplier<T> value)
         {
             return new Case<>(() -> true, value);
         }
 
-        /**
-         * Supplier<Boolean>
-         */
         private final BooleanSupplier condition;
 
-        /**
-         *
-         */
         private final Supplier<T> value;
 
-        /**
-         * Erstellt ein neues {@link de.freese.base.core.function.usecase.Switch.Case} Object.
-         *
-         * @param condition {@link BooleanSupplier}
-         * @param value {@link Supplier}
-         */
         private Case(final BooleanSupplier condition, final Supplier<T> value)
         {
             super();
@@ -82,7 +62,6 @@ public final class Switch<T>
     /**
      * @param defaultCase {@link Case}; not null
      * @param matchers {@link Case}; not null
-     * @return {@link Optional}
      */
     @SafeVarargs
     public static <T> Optional<T> match(final Case<T> defaultCase, final Case<T>... matchers)
@@ -101,9 +80,6 @@ public final class Switch<T>
         return Optional.ofNullable(result);
     }
 
-    /**
-     * Erstellt ein neues {@link Switch} Object.
-     */
     private Switch()
     {
         super();

@@ -11,26 +11,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class NamedThreadFactory implements ThreadFactory
 {
-    /**
-     *
-     */
     private final boolean daemon;
-    /**
-     *
-     */
+
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-    /**
-     *
-     */
+
     private final String namePattern;
-    /**
-     *
-     */
+
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
     /**
-     * Erstellt ein neues {@link NamedThreadFactory} Object.
-     *
      * <pre>
      * Defaults:
      * - daemon = true
@@ -44,10 +33,7 @@ public class NamedThreadFactory implements ThreadFactory
     }
 
     /**
-     * Erstellt ein neues {@link NamedThreadFactory} Object.
-     *
      * @param namePattern String; Example: "thread-%d"
-     * @param daemon boolean
      */
     public NamedThreadFactory(final String namePattern, final boolean daemon)
     {

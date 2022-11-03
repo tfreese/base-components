@@ -18,30 +18,19 @@ import org.junit.jupiter.api.BeforeAll;
  */
 public abstract class AbstractIoTest
 {
-    // /**
-    // *
-    // */
     // private static final AtomicInteger COUNTER = new AtomicInteger(0);
     /**
      * Paths.get(System.getProperty("user.dir"), "target")<br>
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
      */
     protected static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java");
-    /**
-     *
-     */
+
     protected static final long SIZE_100kb = 100 * 1024;
-    /**
-     *
-     */
+
     protected static final long SIZE_10kb = 10 * 1024;
 
     /**
      * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.
-     *
-     * @param path {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static void deleteDirectoryRecursive(final Path path) throws IOException
     {
@@ -81,8 +70,6 @@ public abstract class AbstractIoTest
 
     /**
      * Verzeichnis-Struktur zum Testen löschen.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @AfterAll
     protected static void afterAll() throws Exception
@@ -91,9 +78,6 @@ public abstract class AbstractIoTest
         // deleteDirectoryRecursive(PATH_TEST);
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @BeforeAll
     protected static void beforeAll() throws IOException
     {
@@ -103,13 +87,6 @@ public abstract class AbstractIoTest
         }
     }
 
-    /**
-     * @param size long
-     *
-     * @return {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     protected Path createFile(final long size) throws IOException
     {
         // Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile." + COUNTER.incrementAndGet());
@@ -128,13 +105,6 @@ public abstract class AbstractIoTest
         return path;
     }
 
-    /**
-     * @param fileName String
-     *
-     * @return {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     protected Path createFile(final String fileName) throws IOException
     {
         Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(fileName);

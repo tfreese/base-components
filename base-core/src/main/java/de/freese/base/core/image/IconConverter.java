@@ -14,16 +14,11 @@ public final class IconConverter
 {
     /**
      * Liest die Grafik aus der Quelldatei und generiert dafür Java-Quellcode in der Zieldatei
-     *
-     * @param source Der Name der Quelldatei
-     * @param destination Der Name der Zieldatei
-     *
-     * @throws IOException Falls was schiefgeht.
      */
-    public static void convert(final String source, final String destination) throws IOException
+    public static void convert(final String sourceFile, final String destFile) throws IOException
     {
-        try (FileInputStream input = new FileInputStream(source);
-             FileWriter output = new FileWriter(destination, StandardCharsets.UTF_8))
+        try (FileInputStream input = new FileInputStream(sourceFile);
+             FileWriter output = new FileWriter(destFile, StandardCharsets.UTF_8))
         {
             int i = 0;
 
@@ -44,9 +39,6 @@ public final class IconConverter
         }
     }
 
-    /**
-     * Erstellt ein neues {@link IconConverter} Object.
-     */
     private IconConverter()
     {
         super();

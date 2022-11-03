@@ -11,16 +11,8 @@ import java.util.Objects;
  */
 public class ByteBufferInputStream extends InputStream
 {
-    /**
-     *
-     */
     private final ByteBuffer buffer;
 
-    /**
-     * Erstellt ein neues {@link ByteBufferInputStream} Object.
-     *
-     * @param buffer {@link ByteBuffer}
-     */
     public ByteBufferInputStream(final ByteBuffer buffer)
     {
         super();

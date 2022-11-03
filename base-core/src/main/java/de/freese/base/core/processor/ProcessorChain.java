@@ -8,26 +8,15 @@ import java.util.Objects;
 /**
  * Enthält eine Liste von {@link Processor} des Interceptor/Filter Patterns, die nacheinander abgearbeitet werden.
  *
- * @author Thomas Freese
- *
  * @param <C> Typ des Kontextobjekts
+ *
+ * @author Thomas Freese
  */
 public final class ProcessorChain<C> implements Processor<C>
 {
-    /**
-     *
-     */
-    private boolean enabled = true;
-    /**
-     *
-     */
     private final List<Processor<C>> processors = new LinkedList<>();
+    private boolean enabled = true;
 
-    /**
-     * Hinzufügen eines {@link Processor} in die Chain.
-     *
-     * @param processor {@link Processor}
-     */
     public void addProcessor(final Processor<C> processor)
     {
         Objects.requireNonNull(processor, "processor required");
@@ -57,13 +46,6 @@ public final class ProcessorChain<C> implements Processor<C>
         }
     }
 
-    /**
-     * Liefert den {@link Processor} am Index der {@link ProcessorChain}.
-     *
-     * @param index int
-     *
-     * @return {@link Processor}
-     */
     public Processor<C> getProcessorAt(final int index)
     {
         return this.processors.get(index);
@@ -79,13 +61,6 @@ public final class ProcessorChain<C> implements Processor<C>
         return this.processors.size();
     }
 
-    /**
-     * Liefert den Index des Processors in der {@link ProcessorChain}.
-     *
-     * @param processor {@link Processor}
-     *
-     * @return int
-     */
     public int indexOf(final Processor<C> processor)
     {
         return this.processors.indexOf(processor);
@@ -101,10 +76,6 @@ public final class ProcessorChain<C> implements Processor<C>
     }
 
     /**
-     * Entfernt ein {@link Processor}aus der Chain.
-     *
-     * @param processor {@link Processor}
-     *
      * @return boolean, true, wenn {@link Processor} in der Chain enthalten war
      */
     public boolean removeProcessor(final Processor<C> processor)

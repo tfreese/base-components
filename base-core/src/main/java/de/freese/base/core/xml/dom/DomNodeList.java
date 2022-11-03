@@ -15,25 +15,14 @@ import org.w3c.dom.NodeList;
  */
 public class DomNodeList extends ArrayList<Node> implements NodeList
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 510442491147365569L;
 
-    /**
-     * Creates a new {@link DomNodeList} object.
-     */
     public DomNodeList()
     {
         super();
     }
 
-    /**
-     * Creates a new {@link DomNodeList} object.
-     *
-     * @param nodeList {@link Collection}
-     */
     public DomNodeList(final NodeList nodeList)
     {
         super(nodeList.getLength());
@@ -50,11 +39,6 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Hinzufügen der Nodes zur Liste.
-     *
-     * @param nodeList {@link NodeList}
-     */
     public void addAll(final NodeList nodeList)
     {
         for (int i = 0; i < nodeList.getLength(); i++)

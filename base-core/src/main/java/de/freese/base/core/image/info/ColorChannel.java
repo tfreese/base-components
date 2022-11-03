@@ -10,38 +10,15 @@ import java.awt.Color;
  */
 public enum ColorChannel
 {
-    /**
-     *
-     */
     ALPHA(24, Color.GRAY),
-    /**
-     *
-     */
     BLUE(0, Color.BLUE),
-    /**
-     *
-     */
     GREEN(8, Color.GREEN),
-    /**
-     *
-     */
     RED(16, Color.RED);
 
-    /**
-     *
-     */
     private final int bitOperator;
-    /**
-     *
-     */
+
     private final Color color;
 
-    /**
-     * Erstellt ein neues {@link ColorChannel} Object.
-     *
-     * @param bitOperator int
-     * @param color {@link Color}
-     */
     ColorChannel(final int bitOperator, final Color color)
     {
         this.bitOperator = bitOperator;
@@ -56,8 +33,6 @@ public enum ColorChannel
      * int green = (pixel >> 8) & 0xFF;<br>
      * int blue = (pixel >> 0) & 0xFF;
      *
-     * @return int
-     *
      * @see #getValue(int)
      */
     public int getBitOperator()
@@ -65,21 +40,11 @@ public enum ColorChannel
         return this.bitOperator;
     }
 
-    /**
-     * @return {@link Color}
-     */
     public Color getColor()
     {
         return this.color;
     }
 
-    /**
-     * Liefert den Farbwert aus dem Pixel.
-     *
-     * @param pixel int
-     *
-     * @return int
-     */
     public int getValue(final int pixel)
     {
         return (pixel >> getBitOperator()) & 0xFF;

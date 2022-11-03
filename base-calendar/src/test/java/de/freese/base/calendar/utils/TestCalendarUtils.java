@@ -25,9 +25,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestCalendarUtils
 {
-    /**
-     *
-     */
     @Test
     void testCalendarAtStartOfDay()
     {
@@ -41,9 +38,6 @@ class TestCalendarUtils
         assertEquals(0, calendar.get(Calendar.HOUR_OF_DAY));
     }
 
-    /**
-     *
-     */
     @Test
     void testCalendarCreate()
     {
@@ -64,9 +58,6 @@ class TestCalendarUtils
         assertEquals(gregorianCalendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR));
     }
 
-    /**
-     *
-     */
     @Test
     void testToDateLocalDate()
     {
@@ -84,9 +75,6 @@ class TestCalendarUtils
         assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK_IN_MONTH), calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH));
     }
 
-    /**
-     *
-     */
     @Test
     void testToDateLocalDateTime()
     {
@@ -109,9 +97,6 @@ class TestCalendarUtils
         assertEquals(calendarRef.get(Calendar.SECOND), calendar.get(Calendar.SECOND));
     }
 
-    /**
-     *
-     */
     @Test
     void testToInstantDateSql()
     {
@@ -133,9 +118,6 @@ class TestCalendarUtils
         assertEquals(calendarRef.get(Calendar.SECOND), zonedDateTime.getSecond());
     }
 
-    /**
-     *
-     */
     @Test
     void testToInstantDateUtil()
     {
@@ -157,9 +139,6 @@ class TestCalendarUtils
         assertEquals(calendarRef.get(Calendar.SECOND), zonedDateTime.getSecond());
     }
 
-    /**
-     *
-     */
     @Test
     void testToInstantLocalDate()
     {
@@ -176,9 +155,6 @@ class TestCalendarUtils
         assertEquals(localDateRef.getDayOfWeek(), zonedDateTime.getDayOfWeek());
     }
 
-    /**
-     *
-     */
     @Test
     void testToInstantLocalDateTime()
     {
@@ -199,9 +175,6 @@ class TestCalendarUtils
         assertEquals(localDateTimeRef.getSecond(), zonedDateTime.getSecond());
     }
 
-    /**
-     *
-     */
     @Test
     void testToLocalDateDate()
     {
@@ -218,9 +191,6 @@ class TestCalendarUtils
         assertEquals(calendarRef.get(Calendar.DAY_OF_WEEK), dayOfWeekToCalendar(localDate.getDayOfWeek()));
     }
 
-    /**
-     *
-     */
     @Test
     void testToLocalDateInstant()
     {
@@ -237,9 +207,6 @@ class TestCalendarUtils
         assertEquals(localDateTimeRef.getDayOfWeek(), localDate.getDayOfWeek());
     }
 
-    /**
-     *
-     */
     @Test
     void testToLocalDateLocalDateTime()
     {
@@ -255,9 +222,6 @@ class TestCalendarUtils
         assertEquals(localDateRef.getDayOfWeek(), localDate.getDayOfWeek());
     }
 
-    /**
-     *
-     */
     @Test
     void testToLocalDateTimeDate()
     {
@@ -278,9 +242,6 @@ class TestCalendarUtils
         assertEquals(calendarRef.get(Calendar.SECOND), localDateTime.getSecond());
     }
 
-    /**
-     *
-     */
     @Test
     void testToLocalDateTimeInstant()
     {
@@ -302,9 +263,6 @@ class TestCalendarUtils
         assertEquals(0, localDateTime.getNano());
     }
 
-    /**
-     *
-     */
     @Test
     void testToLocalDateTimeLocalDate()
     {
@@ -325,9 +283,6 @@ class TestCalendarUtils
         assertEquals(0, localDateTime.getNano());
     }
 
-    /**
-     *
-     */
     @Test
     void testToSqlDateInstant()
     {
@@ -346,9 +301,6 @@ class TestCalendarUtils
         assertEquals(localDateRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
     }
 
-    /**
-     *
-     */
     @Test
     void testToSqlDateLocalDate()
     {
@@ -365,9 +317,6 @@ class TestCalendarUtils
         assertEquals(localDateRef.getDayOfWeek(), calendarToDayOfWeek(calendar));
     }
 
-    /**
-     *
-     */
     @Test
     void testToSqlDateLocalDateTime()
     {
@@ -388,9 +337,6 @@ class TestCalendarUtils
         assertEquals(0, calendar.get(Calendar.SECOND));
     }
 
-    /**
-     *
-     */
     @Test
     void testToSqlTimestampInstant()
     {
@@ -413,9 +359,6 @@ class TestCalendarUtils
         assertEquals(0, calendar.get(Calendar.SECOND));
     }
 
-    /**
-     *
-     */
     @Test
     void testToSqlTimestampLocalDate()
     {
@@ -436,9 +379,6 @@ class TestCalendarUtils
         assertEquals(0, calendar.get(Calendar.SECOND));
     }
 
-    /**
-     *
-     */
     @Test
     void testToSqlTimestampLocalDateTime()
     {

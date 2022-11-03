@@ -38,35 +38,16 @@ public final class AsyncFileReader<CH>
      */
     private static class ReadContext<CH>
     {
-        /**
-         *
-         */
         private final ByteBuffer buffer;
-        /**
-         *
-         */
+
         private final AsynchronousFileChannel channel;
-        /**
-         *
-         */
+
         private final CompletableFuture<CH> future;
-        /**
-         *
-         */
+
         private final CompletionHandler<Integer, ReadContext<CH>> handler;
-        /**
-         * Aktuelle Lese-Position
-         */
+
         private int position;
 
-        /**
-         * Erstellt ein neues {@link de.freese.base.core.io.AsyncFileReader.ReadContext} Object.
-         *
-         * @param afc {@link AsynchronousFileChannel}
-         * @param cf {@link CompletableFuture}
-         * @param handler {@link CompletionHandler}
-         * @param bufferSize int
-         */
         public ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler,
                            final int bufferSize)
         {
@@ -78,9 +59,6 @@ public final class AsyncFileReader<CH>
             this.buffer = ByteBuffer.allocate(bufferSize);
         }
 
-        /**
-         * Schliesst den AsynchronousFileChannel.
-         */
         public void close()
         {
             try
@@ -94,9 +72,8 @@ public final class AsyncFileReader<CH>
         }
 
         /**
-         * Marks this read operation as failed. The context is also closed.
-         *
-         * @param ex Falls was schiefgeht.
+         * Marks this read operation as failed.<br/>
+         * The context is also closed.
          */
         public void fail(final Throwable ex)
         {
@@ -125,10 +102,6 @@ public final class AsyncFileReader<CH>
     /**
      * Einlesen der Datei.<br>
      * Der Inhalt kann z.B. mit {@link CompletableFuture#thenAccept(java.util.function.Consumer)} weiterverarbeitet werden.
-     *
-     * @param path {@link Path}; Datei
-     *
-     * @return {@link CompletableFuture}
      */
     public CompletableFuture<CH> readFile(final Path path)
     {
@@ -161,8 +134,6 @@ public final class AsyncFileReader<CH>
 
     /**
      * Blockgröße pro Lese-Operation.
-     *
-     * @param byteBufferSize int
      */
     public void setByteBufferSize(final int byteBufferSize)
     {
@@ -176,8 +147,6 @@ public final class AsyncFileReader<CH>
 
     /**
      * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.
-     *
-     * @param contentHolderSupplier {@link Supplier}
      */
     public void setContentHolderSupplier(final Supplier<CH> contentHolderSupplier)
     {
@@ -186,8 +155,6 @@ public final class AsyncFileReader<CH>
 
     /**
      * Nimmt die gelesenen Daten entgegen.
-     *
-     * @param dataConsumer {@link BiConsumer}
      */
     public void setDataConsumer(final BiConsumer<CH, byte[]> dataConsumer)
     {
@@ -196,8 +163,6 @@ public final class AsyncFileReader<CH>
 
     /**
      * Führt die parallelen Lese-Operationen aus.
-     *
-     * @param executorService {@link ExecutorService}
      */
     public void setExecutorService(final ExecutorService executorService)
     {
@@ -209,8 +174,6 @@ public final class AsyncFileReader<CH>
      *
      * @param contentHolderSupplier Object; erzeugt das Objekt um die gelesenen Daten aufzunehmen.
      * @param dataConsumer {@link BiConsumer}; Nimmt die gelesenen Daten entgegen.
-     *
-     * @return {@link CompletionHandler}
      */
     private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer)
     {
@@ -260,8 +223,6 @@ public final class AsyncFileReader<CH>
     /**
      * Blockgröße pro Lese-Operation.<br>
      * Default: 1024
-     *
-     * @return int
      */
     private int getByteBufferSize()
     {
@@ -271,8 +232,6 @@ public final class AsyncFileReader<CH>
     /**
      * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.<br>
      * Default: new StringBuilder(4096);
-     *
-     * @return {@link Supplier}
      */
     private Supplier<CH> getContentHolderSupplier()
     {
@@ -282,8 +241,6 @@ public final class AsyncFileReader<CH>
     /**
      * Nimmt die gelesenen Daten entgegen.<br>
      * Default: StringBuilder.append(new String(data));
-     *
-     * @return {@link BiConsumer}
      */
     private BiConsumer<CH, byte[]> getDataConsumer()
     {
@@ -293,8 +250,6 @@ public final class AsyncFileReader<CH>
     /**
      * Führt die parallelen Lese-Operationen aus.<br>
      * Default: ForkJoinPool.commonPool()
-     *
-     * @return {@link ExecutorService}
      */
     private ExecutorService getExecutorService()
     {
@@ -303,8 +258,6 @@ public final class AsyncFileReader<CH>
 
     /**
      * Liest den nächsten Datenblock.
-     *
-     * @param context {@link ReadContext}
      */
     private void readBlock(final ReadContext<CH> context)
     {

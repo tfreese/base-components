@@ -16,17 +16,12 @@ import de.freese.base.utils.ReflectionUtils;
  */
 public class BuilderGenerator
 {
-    /**
-     *
-     */
     protected static final String INDENT = "    ";
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
-        BuilderGenerator generator = new BuilderGenerator(fields -> {
+        BuilderGenerator generator = new BuilderGenerator(fields ->
+        {
             fields.remove("serialVersionUID");
             fields.remove("valueB");
             return fields;
@@ -34,27 +29,17 @@ public class BuilderGenerator
         generator.createBuilder(Tupel3.class, true, System.out);
     }
 
-    /**
-     *
-     */
     private final UnaryOperator<Map<String, Field>> fieldHandler;
 
-    /**
-     * Erstellt ein neues {@link BuilderGenerator} Object.
-     */
     public BuilderGenerator()
     {
-        this(fields -> {
+        this(fields ->
+        {
             fields.remove("serialVersionUID");
             return fields;
         });
     }
 
-    /**
-     * Erstellt ein neues {@link BuilderGenerator} Object.
-     *
-     * @param fieldHandler {@link UnaryOperator}
-     */
     public BuilderGenerator(final UnaryOperator<Map<String, Field>> fieldHandler)
     {
         super();
@@ -62,11 +47,6 @@ public class BuilderGenerator
         this.fieldHandler = Objects.requireNonNull(fieldHandler, "fieldHandler required");
     }
 
-    /**
-     * @param clazz Class
-     * @param withSuperAttributes boolean
-     * @param printStream {@link PrintStream}
-     */
     public void createBuilder(final Class<?> clazz, final boolean withSuperAttributes, final PrintStream printStream)
     {
         Objects.requireNonNull(clazz, "clazz required");
@@ -96,7 +76,8 @@ public class BuilderGenerator
         printStream.println("{");
 
         // Fields
-        fields.values().forEach(field -> {
+        fields.values().forEach(field ->
+        {
             printStream.println(INDENT + "/**");
             printStream.println(INDENT + " *");
             printStream.println(INDENT + " */");
@@ -115,7 +96,8 @@ public class BuilderGenerator
         printStream.println(INDENT + "}");
 
         // Methods
-        fields.values().forEach(field -> {
+        fields.values().forEach(field ->
+        {
             String fieldName = field.getName();
             String typeName = field.getType().getSimpleName();
 
@@ -134,12 +116,6 @@ public class BuilderGenerator
         printStream.println("}");
     }
 
-    /**
-     * @param clazz Class
-     * @param withSuperAttributes boolean
-     *
-     * @return {@link Map}
-     */
     protected Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes)
     {
         Map<String, Field> fields = new TreeMap<>();

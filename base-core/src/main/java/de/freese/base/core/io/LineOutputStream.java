@@ -16,37 +16,21 @@ import de.freese.base.utils.ByteUtils;
  */
 public class LineOutputStream extends FilterOutputStream
 {
-    /**
-     *
-     */
     private static final byte[] NEW_LINE = new byte[]
             {
                     (byte) '\r', (byte) '\n'
             };
 
-    /**
-     * Creates a new {@link LineOutputStream} object.
-     *
-     * @param out {@link OutputStream}
-     */
     public LineOutputStream(final OutputStream out)
     {
         super(out);
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     public void writeln() throws IOException
     {
         this.out.write(NEW_LINE);
     }
 
-    /**
-     * @param s String
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public void writeln(final String s) throws IOException
     {
         byte[] bytes = ByteUtils.toBytes(s);

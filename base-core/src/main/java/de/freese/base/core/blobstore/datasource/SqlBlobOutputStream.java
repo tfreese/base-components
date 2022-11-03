@@ -16,38 +16,18 @@ import org.slf4j.LoggerFactory;
  */
 final class SqlBlobOutputStream extends OutputStream
 {
-    /**
-     *
-     */
     private final java.sql.Blob blob;
-    /**
-     *
-     */
+
     private final OutputStream blobOutputStream;
-    /**
-     *
-     */
+
     private final Connection connection;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final PreparedStatement prepareStatement;
-    /**
-     *
-     */
+
     private final URI uri;
 
-    /**
-     * @param uri {@link URI}
-     * @param connection {@link Connection}
-     * @param prepareStatement {@link PreparedStatement}
-     *
-     * @throws SQLException Falls was schiefgeht
-     */
     SqlBlobOutputStream(URI uri, final Connection connection, final PreparedStatement prepareStatement) throws SQLException
     {
         this.uri = Objects.requireNonNull(uri, "uri required");
@@ -134,9 +114,6 @@ final class SqlBlobOutputStream extends OutputStream
         this.blobOutputStream.write(b);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return logger;

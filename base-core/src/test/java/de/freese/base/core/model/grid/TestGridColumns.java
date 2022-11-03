@@ -42,9 +42,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestGridColumns
 {
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testBinary() throws IOException
     {
@@ -64,9 +61,6 @@ class TestGridColumns
         assertArrayEquals(object, read(column, write(column, object)));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testBoolean() throws IOException
     {
@@ -83,9 +77,6 @@ class TestGridColumns
         assertTrue(read(column, write(column, true)));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testDate() throws IOException
     {
@@ -105,9 +96,6 @@ class TestGridColumns
         assertEquals(object, read(column, write(column, object)));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testDouble() throws IOException
     {
@@ -124,9 +112,6 @@ class TestGridColumns
         assertEquals(value, read(column, write(column, value)), 0D);
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testGeneric() throws IOException
     {
@@ -170,9 +155,6 @@ class TestGridColumns
         assertEquals(value, read(column, write(column, value)));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testInteger() throws IOException
     {
@@ -189,9 +171,6 @@ class TestGridColumns
         assertEquals((Integer) value, read(column, write(column, value)));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testLong() throws IOException
     {
@@ -208,9 +187,6 @@ class TestGridColumns
         assertEquals((Long) value, read(column, write(column, value)));
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testString() throws IOException
     {
@@ -227,14 +203,6 @@ class TestGridColumns
         assertEquals(value, read(column, write(column, value)));
     }
 
-    /**
-     * @param column {@link GridColumn}
-     * @param bytes byte[]
-     *
-     * @return Object
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private <T> T read(final GridColumn<T> column, final byte[] bytes) throws IOException
     {
         T value = null;
@@ -247,14 +215,6 @@ class TestGridColumns
         return value;
     }
 
-    /**
-     * @param column {@link GridColumn}
-     * @param object Object
-     *
-     * @return byte[]
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private <T> byte[] write(final GridColumn<T> column, final Object object) throws IOException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

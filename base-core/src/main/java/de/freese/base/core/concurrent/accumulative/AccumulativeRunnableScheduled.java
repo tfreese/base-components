@@ -13,24 +13,18 @@ import javax.swing.Timer;
 /**
  * Zeitgesteuerter {@link AccumulativeRunnable}, der nach einer Zeitspanne die gesammelten Daten ausführt.
  *
- * @author Thomas Freese
- *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
 {
-    /**
-     *
-     */
     private final Duration delay;
-    /**
-     *
-     */
+
     private final ScheduledExecutorService scheduledExecutor;
-    /**
-     *
-     */
-    private Consumer<List<T>> submitConsumer = chunks -> {
+
+    private Consumer<List<T>> submitConsumer = chunks ->
+    {
     };
 
     /**
@@ -46,8 +40,6 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
     /**
      * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.<br>
      * Default delay = 250 ms
-     *
-     * @param scheduledExecutor {@link ScheduledExecutorService}
      */
     public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor)
     {
@@ -55,10 +47,7 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
     }
 
     /**
-     * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.
-     *
      * @param scheduledExecutor {@link ScheduledExecutorService}; optional
-     * @param delay {@link Duration}
      */
     public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor, final Duration delay)
     {
@@ -68,9 +57,6 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
         this.delay = Objects.requireNonNull(delay, "delay required");
     }
 
-    /**
-     * @param submitConsumer {@link Consumer}
-     */
     public void doOnSubmit(final Consumer<List<T>> submitConsumer)
     {
         this.submitConsumer = Objects.requireNonNull(submitConsumer, "submitConsumer required");

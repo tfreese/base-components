@@ -13,29 +13,17 @@ import java.util.stream.Stream;
  * Kapselt einen {@link Stream} in einem {@link Publisher}.<br>
  * Siehe: StreamPublisherTest.
  *
- * @see <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
+ * @param <T> Entity-Type
  *
  * @author Thomas Freese
- *
- * @param <T> Entity-Type
+ * @see <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  */
 public class StreamPublisher<T> implements Publisher<T>
 {
-    /**
-    *
-    */
     private final Executor executor;
-    /**
-     *
-     */
+
     private final Supplier<Stream<? extends T>> streamSupplier;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link StreamPublisher}.
-     *
-     * @param executor {@link Executor}
-     * @param streamSupplier {@link Supplier}
-     */
     public StreamPublisher(final Executor executor, final Supplier<Stream<? extends T>> streamSupplier)
     {
         super();
@@ -44,22 +32,9 @@ public class StreamPublisher<T> implements Publisher<T>
         this.streamSupplier = Objects.requireNonNull(streamSupplier, "streamSupplier required");
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link StreamPublisher}.
-     *
-     * @param streamSupplier {@link Supplier}
-     */
     public StreamPublisher(final Supplier<Stream<? extends T>> streamSupplier)
     {
         this(ForkJoinPool.commonPool(), streamSupplier);
-    }
-
-    /**
-     * @return {@link Executor}
-     */
-    private Executor getExecutor()
-    {
-        return this.executor;
     }
 
     /**
@@ -70,9 +45,15 @@ public class StreamPublisher<T> implements Publisher<T>
     {
         StreamSubscription<T> subscription = new StreamSubscription<>(getExecutor(), this.streamSupplier.get().iterator(), subscriber);
 
-        getExecutor().execute(() -> {
+        getExecutor().execute(() ->
+        {
             subscriber.onSubscribe(subscription);
             subscription.doOnSubscribed();
         });
+    }
+
+    private Executor getExecutor()
+    {
+        return this.executor;
     }
 }

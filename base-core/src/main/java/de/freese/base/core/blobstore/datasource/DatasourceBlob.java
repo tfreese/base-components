@@ -11,20 +11,10 @@ import de.freese.base.core.blobstore.BlobId;
  */
 class DatasourceBlob extends AbstractBlob
 {
-    /**
-     *
-     */
     private final DatasourceBlobStore blobStore;
 
-    /**
-     *
-     */
     private long length = -1;
 
-    /**
-     * @param id {@link BlobId}
-     * @param blobStore {@link DatasourceBlobStore}
-     */
     DatasourceBlob(final BlobId id, DatasourceBlobStore blobStore)
     {
         super(id);
