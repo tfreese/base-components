@@ -43,8 +43,6 @@ public final class UICustomization
      * Wenn der Klassenname null ist wird <code>UIManager.getSystemLookAndFeelClassName()</code> verwendet.
      *
      * @param className String LookAndFeel Klassenname, optional
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static void install(final String className) throws Exception
     {

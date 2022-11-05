@@ -18,9 +18,6 @@ import de.freese.base.swing.components.led.token.Token;
  */
 public class LedMatrix implements Painter<LedConfig>
 {
-    /**
-     *
-     */
     private static final Map<Object, byte[]> bitMaskMap = new HashMap<>();
 
     static
@@ -427,20 +424,11 @@ public class LedMatrix implements Painter<LedConfig>
                 });
     }
 
-    /**
-     * @param object Object
-     * @param bitMask byte[]
-     */
     public static void addBitMask(final Object object, final byte[] bitMask)
     {
         bitMaskMap.put(object, bitMask);
     }
 
-    /**
-     * @param object Object
-     *
-     * @return byte[]
-     */
     public static byte[] getBitMask(final Object object)
     {
         return bitMaskMap.get(object);
@@ -476,10 +464,6 @@ public class LedMatrix implements Painter<LedConfig>
      *         }
      * };
      * </pre>
-     *
-     * @param ledDots byte[][]
-     *
-     * @return byte[]
      */
     public static byte[] getTokenBitMask(final byte[][] ledDots)
     {
@@ -503,9 +487,6 @@ public class LedMatrix implements Painter<LedConfig>
         return bitMask;
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Dots für das 'A', am besten in Excel eintragen und kopieren.
@@ -538,9 +519,6 @@ public class LedMatrix implements Painter<LedConfig>
         System.out.printf("Buchstabe 'A': BitMask = %s%n", Arrays.toString(getTokenBitMask(ledDots)));
     }
 
-    /**
-     * Erstellt ein neues {@link LedMatrix} Object.
-     */
     public LedMatrix()
     {
         super();
@@ -559,12 +537,6 @@ public class LedMatrix implements Painter<LedConfig>
         paintElement(g, config, width, height);
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
-     * @param width int
-     * @param height int
-     */
     public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height)
     {
         int leftInset = config.getDotWidth() + config.getHgap();
@@ -586,22 +558,12 @@ public class LedMatrix implements Painter<LedConfig>
         }
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
-     */
     protected void configureGraphics(final Graphics2D g, final LedConfig config)
     {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
-     * @param width int
-     * @param height int
-     */
     protected void paintBackground(final Graphics2D g, final LedConfig config, final int width, final int height)
     {
         int dotWidth = config.getDotWidth();
@@ -640,16 +602,6 @@ public class LedMatrix implements Painter<LedConfig>
         // }
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
-     * @param token {@link Token}
-     * @param width int
-     * @param height int
-     * @param x int
-     *
-     * @return int
-     */
     protected int paintToken(final Graphics2D g, final LedConfig config, final int width, final int height, final Token<?> token, int x)
     {
         int dotWidth = config.getDotWidth();
@@ -674,16 +626,6 @@ public class LedMatrix implements Painter<LedConfig>
         return x;
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param config {@link LedConfig}
-     * @param width int
-     * @param height int
-     * @param bitMask byte[]
-     * @param x int
-     *
-     * @return int
-     */
     protected int paintTokenDots(final Graphics2D g, final LedConfig config, final int width, final int height, final byte[] bitMask, int x)
     {
         int dotWidth = config.getDotWidth();

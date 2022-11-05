@@ -62,15 +62,10 @@ public class MyApp extends JFrame implements ActionListener
      * Ask AWT which menu modifier we should be using.
      */
     final static int MENU_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = -8257153622565922709L;
 
-    /**
-     * @param args String[][]
-     */
     public static void main(final String[] args)
     {
         SwingUtilities.invokeLater(() ->
@@ -81,76 +76,42 @@ public class MyApp extends JFrame implements ActionListener
         });
     }
 
-    /**
-     *
-     */
     final String[] colorNames =
             {
                     "White", "Black", "Red", "Blue", "Yellow", "Orange"
             };
-    /**
-     *
-     */
+
     final Color[] colors =
             {
                     Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
             };
-    /**
-     *
-     */
+
     protected final JDialog aboutBox;
-    /**
-     *
-     */
+
     protected final JComboBox<String> colorComboBox;
-    /**
-     *
-     */
+
     protected final JLabel imageLabel;
-    /**
-     *
-     */
+
     protected final JDialog prefs;
-    /**
-     *
-     */
+
     protected JMenuItem aboutMI;
-    /**
-     *
-     */
+
     protected transient BufferedImage currentImage;
-    /**
-     *
-     */
+
     protected JMenuItem docsMI;
-    /**
-     *
-     */
+
     protected JMenu fileMenu;
-    /**
-     *
-     */
+
     protected JMenu helpMenu;
-    /**
-     *
-     */
+
     protected JMenuItem openMI;
-    /**
-     *
-     */
+
     protected JMenuItem optionsMI;
-    /**
-     *
-     */
+
     protected JMenuItem quitMI;
-    /**
-     *
-     */
+
     protected JMenuItem supportMI;
 
-    /**
-     *
-     */
     public MyApp()
     {
         super("OsxAdapter");
@@ -265,9 +226,6 @@ public class MyApp extends JFrame implements ActionListener
         }
     }
 
-    /**
-     *
-     */
     public void addMenus()
     {
         JMenu fileMenu = new JMenu("File");
@@ -306,9 +264,6 @@ public class MyApp extends JFrame implements ActionListener
         setJMenuBar(mainMenuBar);
     }
 
-    /**
-     * @param path String
-     */
     public void loadImageFile(final String path)
     {
         try
@@ -341,8 +296,6 @@ public class MyApp extends JFrame implements ActionListener
      * occurs. A quit event is triggered by Cmd-Q, selecting Quit from the application or<br>
      * Dock menu, or logging out.
      * <p/>
-     *
-     * @return boolean
      */
     public boolean quit()
     {

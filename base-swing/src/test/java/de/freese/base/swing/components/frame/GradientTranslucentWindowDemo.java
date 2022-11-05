@@ -30,9 +30,6 @@ import javax.swing.WindowConstants;
  */
 public class GradientTranslucentWindowDemo
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Determine what the GraphicsDevice can support.

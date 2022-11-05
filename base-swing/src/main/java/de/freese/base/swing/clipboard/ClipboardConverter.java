@@ -9,19 +9,11 @@ public interface ClipboardConverter
 {
     /**
      * Konvertiert aus einem String der Zwischenablage ein Java Objekt.
-     *
-     * @param value String
-     *
-     * @return Object
      */
     Object fromClipboard(String value);
 
     /**
      * Konvertiert aus einem Java Objekt einen String für die Zwischenablage.
-     *
-     * @param object Object
-     *
-     * @return String
      */
     String toClipboard(Object object);
 }

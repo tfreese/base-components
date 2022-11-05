@@ -22,15 +22,9 @@ import javax.swing.WindowConstants;
  */
 public class BusyMozillaLabel extends JLabel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         final JFrame frame = new JFrame("GlassPaneDemo");
@@ -51,9 +45,7 @@ public class BusyMozillaLabel extends JLabel
      * Anzahl animierter Kreise.
      */
     private final int maxCircles = 8;
-    /**
-     *
-     */
+
     private Timer animateTimer;
     /**
      * Farbe des letzten Kreises.
@@ -63,9 +55,7 @@ public class BusyMozillaLabel extends JLabel
      * Nummer des animierten Kreises.
      */
     private int circleIndex;
-    /**
-     *
-     */
+
     private int circleRadius = 40;
     /**
      * Farbe des führenden Kreises.
@@ -76,30 +66,16 @@ public class BusyMozillaLabel extends JLabel
      */
     private int trail = 8;
 
-    /**
-     * Creates a new {@link BusyMozillaLabel} object.
-     */
     public BusyMozillaLabel()
     {
         this("");
     }
 
-    /**
-     * Creates a new {@link BusyMozillaLabel} object.
-     *
-     * @param text String
-     */
     public BusyMozillaLabel(final String text)
     {
         this(text, Color.BLACK);
     }
 
-    /**
-     * Creates a new {@link BusyMozillaLabel} object.
-     *
-     * @param text String
-     * @param highlightColor {@link Color}
-     */
     public BusyMozillaLabel(final String text, final Color highlightColor)
     {
         super(text);
@@ -107,13 +83,6 @@ public class BusyMozillaLabel extends JLabel
         initialize(highlightColor, getBackground(), getMaxCircles());
     }
 
-    /**
-     * Creates a new {@link BusyMozillaLabel} object.
-     *
-     * @param text String
-     * @param highlightColor {@link Color}
-     * @param baseColor {@link Color}
-     */
     public BusyMozillaLabel(final String text, final Color highlightColor, final Color baseColor)
     {
         super(text);
@@ -121,14 +90,6 @@ public class BusyMozillaLabel extends JLabel
         initialize(highlightColor, baseColor, getMaxCircles());
     }
 
-    /**
-     * Creates a new {@link BusyMozillaLabel} object.
-     *
-     * @param text String
-     * @param highlightColor {@link Color}
-     * @param baseColor {@link Color}
-     * @param trail int
-     */
     public BusyMozillaLabel(final String text, final Color highlightColor, final Color baseColor, final int trail)
     {
         super(text);
@@ -140,19 +101,12 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des letzten Kreises.
-     *
-     * @return {@link Color}
      */
     public Color getBaseColor()
     {
         return this.baseColor;
     }
 
-    /**
-     * Gesamtdurchmesser des Kreises.
-     *
-     * @return int
-     */
     public int getCircleRadius()
     {
         return this.circleRadius;
@@ -169,8 +123,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des führenden Kreises.
-     *
-     * @return {@link Color}
      */
     public Color getHighlightColor()
     {
@@ -211,8 +163,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Länge des Schwanzes.
-     *
-     * @return int
      */
     public int getTrail()
     {
@@ -221,8 +171,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des letzten Kreises.
-     *
-     * @param baseColor {@link Color}
      */
     public void setBaseColor(final Color baseColor)
     {
@@ -231,8 +179,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Gesamtdurchmesser des Kreises.
-     *
-     * @param circleRadius int
      */
     public void setCircleRadius(final int circleRadius)
     {
@@ -241,8 +187,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Farbe des führenden Kreises.
-     *
-     * @param highlightColor {@link Color}
      */
     public void setHighlightColor(final Color highlightColor)
     {
@@ -251,8 +195,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Länge des Schwanzes.
-     *
-     * @param trail int
      */
     public void setTrail(final int trail)
     {
@@ -282,13 +224,6 @@ public class BusyMozillaLabel extends JLabel
         }
     }
 
-    /**
-     * Initialisierung der Farben und Schwanzlänge.
-     *
-     * @param highlightColor {@link Color}
-     * @param baseColor {@link Color}
-     * @param trail int
-     */
     protected void initialize(final Color highlightColor, final Color baseColor, final int trail)
     {
         setHighlightColor(highlightColor);
@@ -375,10 +310,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Berechnet für den Index eines Kreises die entsprechende Farbe.
-     *
-     * @param index int
-     *
-     * @return {@link Color}
      */
     private Color calcCircleColor(final int index)
     {
@@ -404,8 +335,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Max. Anzahl an Kreisen.
-     *
-     * @return int
      */
     private int getMaxCircles()
     {
@@ -414,12 +343,6 @@ public class BusyMozillaLabel extends JLabel
 
     /**
      * Mischen von 2 Farben mit Interpolationsfaktor.
-     *
-     * @param a Color
-     * @param b Color
-     * @param factor float
-     *
-     * @return Color
      */
     private Color interpolate(final Color a, final Color b, final float factor)
     {

@@ -13,26 +13,16 @@ import javax.swing.border.Border;
 /**
  * {@link ListCellRenderer} für eine Liste mit Vertical-Wrap.
  *
- * @author Thomas Freese
- *
  * @param <T> Konkreter Typ
+ *
+ * @author Thomas Freese
  */
 public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T>
 {
-    /**
-     *
-     */
     private final ListCellRenderer<T> delegate;
-    /**
-     *
-     */
+
     private final Border matteBorder;
 
-    /**
-     * Erstellt ein neues {@link VerticalWrapListCellRenderer} Objekt.
-     *
-     * @param delegate {@link ListCellRenderer}
-     */
     public VerticalWrapListCellRenderer(final ListCellRenderer<T> delegate)
     {
         super();

@@ -11,89 +11,34 @@ import java.io.OutputStream;
  */
 public interface Crypto
 {
-    /**
-     * Entschlüsselt ein byte[].
-     *
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     byte[] decrypt(byte[] bytes) throws Exception;
 
     /**
-     * Entschlüsselt den InputStream.<br>
-     *
-     * @param in {@link InputStream}
      * @param out {@link OutputStream}; Entschlüsselt
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     void decrypt(InputStream in, OutputStream out) throws Exception;
 
-    /**
-     * Erstellt eine Prüfsumme der Bytes.<br>
-     *
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     byte[] digest(byte[] bytes) throws Exception;
 
     /**
-     * Erstellt eine Prüfsumme des InputStreams.<br>
-     *
      * @param in {@link InputStream}, Verschlüsselt
-     *
-     * @return byte[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     byte[] digest(final InputStream in) throws Exception;
 
-    /**
-     * Verschlüsselt ein byte[].
-     *
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     byte[] encrypt(byte[] bytes) throws Exception;
 
     /**
-     * Verschlüsselt den InputStream.<br>
-     *
-     * @param in {@link InputStream}
      * @param out {@link OutputStream}; Verschlüsselt
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     void encrypt(InputStream in, OutputStream out) throws Exception;
 
     /**
-     * Signiert den InputStream.<br>
-     *
      * @param in {@link InputStream}, Verschlüsselt
-     * @param out {@link OutputStream};
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     void sign(InputStream in, OutputStream out) throws Exception;
 
     /**
-     * Verifiziert den InputStream.<br>
-     *
      * @param in {@link InputStream}; Verschlüsselt
-     * @param signIn {@link InputStream}
-     *
-     * @return boolean
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     boolean verify(InputStream in, InputStream signIn) throws Exception;
 }

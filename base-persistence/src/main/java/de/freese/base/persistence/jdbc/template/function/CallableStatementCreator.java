@@ -13,12 +13,5 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface CallableStatementCreator
 {
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return {@link CallableStatement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     CallableStatement createCallableStatement(Connection connection) throws SQLException;
 }

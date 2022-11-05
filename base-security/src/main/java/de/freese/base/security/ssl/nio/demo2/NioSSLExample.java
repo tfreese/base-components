@@ -22,16 +22,8 @@ import org.slf4j.LoggerFactory;
  */
 public class NioSSLExample
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(NioSSLExample.class);
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         InetSocketAddress address = new InetSocketAddress("www.amazon.com", 443);

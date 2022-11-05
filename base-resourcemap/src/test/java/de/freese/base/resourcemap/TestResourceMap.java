@@ -39,14 +39,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestResourceMap
 {
-    /**
-     *
-     */
     private static ResourceMap resourceMap;
 
-    /**
-     *
-     */
     @BeforeAll
     static void beforeAll()
     {
@@ -72,9 +66,6 @@ class TestResourceMap
         resourceMap = resourceMapRoot.getChild("bundles/test2");
     }
 
-    /**
-     *
-     */
     @Test
     void testBoolean()
     {
@@ -84,9 +75,6 @@ class TestResourceMap
         assertEquals(Boolean.FALSE, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testByte()
     {
@@ -96,9 +84,6 @@ class TestResourceMap
         assertEquals(Byte.decode("1"), value);
     }
 
-    /**
-     *
-     */
     @Test
     void testColor()
     {
@@ -110,9 +95,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testColorAlpha()
     {
@@ -127,9 +109,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testColorHex()
     {
@@ -141,9 +120,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testDimension()
     {
@@ -155,9 +131,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testDouble()
     {
@@ -169,9 +142,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testEmptyBorder()
     {
@@ -249,9 +219,6 @@ class TestResourceMap
         }
     }
 
-    /**
-     *
-     */
     @Test
     void testFloat()
     {
@@ -263,9 +230,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testFont()
     {
@@ -294,9 +258,6 @@ class TestResourceMap
         assertEquals(ref.getIconWidth(), value.getIconWidth());
     }
 
-    /**
-     * @throws IOException Falls was schiefgeht.
-     */
     @Test
     void testImage() throws IOException
     {
@@ -324,9 +285,6 @@ class TestResourceMap
         assertEquals(ref.getDescription(), value.getDescription());
     }
 
-    /**
-     *
-     */
     @Test
     void testInsets()
     {
@@ -338,9 +296,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testInteger()
     {
@@ -352,9 +307,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testKeyCode()
     {
@@ -366,9 +318,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testKeyStroke()
     {
@@ -380,9 +329,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testLong()
     {
@@ -394,9 +340,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testNotExist()
     {
@@ -405,9 +348,6 @@ class TestResourceMap
         assertEquals("#not.exist", value);
     }
 
-    /**
-     *
-     */
     @Test
     void testParentString()
     {
@@ -417,9 +357,6 @@ class TestResourceMap
         assertEquals("Parent Value", value);
     }
 
-    /**
-     *
-     */
     @Test
     void testPoint()
     {
@@ -431,9 +368,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testRectangle()
     {
@@ -445,9 +379,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testShort()
     {
@@ -459,9 +390,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testString1()
     {
@@ -473,9 +401,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testString2()
     {
@@ -487,9 +412,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testString3()
     {
@@ -501,9 +423,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testString4()
     {
@@ -515,9 +434,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     *
-     */
     @Test
     void testStringEmpty()
     {
@@ -529,9 +445,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testURI() throws Exception
     {
@@ -543,9 +456,6 @@ class TestResourceMap
         assertEquals(ref, value);
     }
 
-    /**
-     * @throws Exception Falls was schiefgeht.
-     */
     @Test
     void testURL() throws Exception
     {

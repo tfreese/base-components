@@ -19,16 +19,8 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  */
 public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>>
 {
-    /**
-     *
-     */
     private final RowMapper<T> rowMapper;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link RowMapperResultSetExtractor}
-     *
-     * @param rowMapper {@link RowMapper}
-     */
     public RowMapperResultSetExtractor(final RowMapper<T> rowMapper)
     {
         super();

@@ -10,41 +10,15 @@ import de.freese.base.resourcemap.ResourceMap;
  */
 public interface Controller
 {
-    /**
-     * Liefert den Namen des Controllers.
-     *
-     * @return String
-     */
     String getName();
 
-    /**
-     * Liefert die ResourceMap des Controllers.
-     *
-     * @return {@link ResourceMap}
-     */
     ResourceMap getResourceMap();
 
-    /**
-     * Liefert die View des Controllers.
-     *
-     * @return {@link View}
-     */
     View getView();
 
-    /**
-     * Fehlerbehandlung.
-     *
-     * @param throwable {@link Throwable}
-     */
     void handleException(Throwable throwable);
 
-    /**
-     * Initialisiert den Controller.
-     */
     void initialize();
 
-    /**
-     * Freigeben verwendeter Ressourcen.
-     */
     void release();
 }

@@ -13,9 +13,6 @@ import java.util.List;
  */
 public class ExcelSheet implements Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 574094444465628429L;
     // /**
@@ -27,25 +24,13 @@ public class ExcelSheet implements Serializable
     // * Wie viele Spalten sollen MINDESTENS angezeigt werden ?
     // */
     // private static int MIN_COLUMNNUM = 10;
-    /**
-     *
-     */
+
     private final String fileName;
-    /**
-     *
-     */
+
     private final String sheetName;
-    /**
-     *
-     */
+
     private List<String[]> rowValues;
 
-    /**
-     * Creates a new {@link ExcelSheet} object.
-     *
-     * @param fileName String
-     * @param sheetName String
-     */
     public ExcelSheet(final String fileName, final String sheetName)
     {
         super();
@@ -54,11 +39,6 @@ public class ExcelSheet implements Serializable
         this.sheetName = sheetName;
     }
 
-    /**
-     * Liefert die Anzahl der Spalten.
-     *
-     * @return int
-     */
     public int getColumnCount()
     {
         if (this.rowValues == null)
@@ -69,21 +49,11 @@ public class ExcelSheet implements Serializable
         return this.rowValues.get(0).length;
     }
 
-    /**
-     * Liefert den Dateinamen der Exceldatei.
-     *
-     * @return String
-     */
     public String getFileName()
     {
         return this.fileName;
     }
 
-    /**
-     * Liefert die Anzahl der Zeilen.
-     *
-     * @return int
-     */
     public int getRowCount()
     {
         if (this.rowValues == null)
@@ -94,24 +64,11 @@ public class ExcelSheet implements Serializable
         return this.rowValues.size();
     }
 
-    /**
-     * Liefert den Namen des Sheets.
-     *
-     * @return String
-     */
     public String getSheetName()
     {
         return this.sheetName;
     }
 
-    /**
-     * Liefert den Inhalt der Zelle.
-     *
-     * @param row int
-     * @param column int
-     *
-     * @return String
-     */
     public String getValueAt(final int row, final int column)
     {
         if (this.rowValues == null)
@@ -122,13 +79,6 @@ public class ExcelSheet implements Serializable
         return this.rowValues.get(row)[column];
     }
 
-    /**
-     * Komplettes Einlesen des selektierten Worksheets des Excel Interfaces.
-     *
-     * @param excel {@link ExcelImport}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void readCurrentSheet(final ExcelImport excel) throws Exception
     {
         int rows = excel.getNumRows();
@@ -161,9 +111,6 @@ public class ExcelSheet implements Serializable
         }
     }
 
-    /**
-     * Entfernt leere Zeilen.
-     */
     public void removeEmptyRows()
     {
         if (this.rowValues == null)

@@ -25,9 +25,6 @@ import javax.swing.WindowConstants;
  */
 public class ShapedWindowDemo
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Determine what the GraphicsDevice can support.

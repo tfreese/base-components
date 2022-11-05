@@ -345,12 +345,6 @@ public abstract class AbstractNioSslPeer
 
     }
 
-    /**
-     * @param engine {@link SSLEngine}
-     * @param buffer {@link ByteBuffer}
-     *
-     * @return {@link ByteBuffer}
-     */
     protected ByteBuffer enlargeApplicationBuffer(final SSLEngine engine, final ByteBuffer buffer)
     {
         return enlargeBuffer(buffer, engine.getSession().getApplicationBufferSize());
@@ -380,20 +374,11 @@ public abstract class AbstractNioSslPeer
         return buffer;
     }
 
-    /**
-     * @param engine {@link SSLEngine}
-     * @param buffer {@link ByteBuffer}
-     *
-     * @return {@link ByteBuffer}
-     */
     protected ByteBuffer enlargePacketBuffer(final SSLEngine engine, final ByteBuffer buffer)
     {
         return enlargeBuffer(buffer, engine.getSession().getPacketBufferSize());
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
@@ -449,20 +434,7 @@ public abstract class AbstractNioSslPeer
         closeConnection(socketChannel, engine);
     }
 
-    /**
-     * @param socketChannel {@link SocketChannel}
-     * @param engine {@link SSLEngine}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected abstract void read(SocketChannel socketChannel, SSLEngine engine) throws Exception;
 
-    /**
-     * @param socketChannel {@link SocketChannel}
-     * @param engine {@link SSLEngine}
-     * @param message String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected abstract void write(SocketChannel socketChannel, SSLEngine engine, String message) throws Exception;
 }

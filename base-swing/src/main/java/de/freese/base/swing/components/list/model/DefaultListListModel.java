@@ -23,33 +23,18 @@ import javax.swing.event.ListDataListener;
  */
 public class DefaultListListModel<T> implements ListModel<T>, Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8362504657702002619L;
-    /**
-     *
-     */
+
     private final EventListenerList eventListenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private final transient List<T> list;
 
-    /**
-     * Creates a new {@link DefaultListListModel} object.
-     */
     public DefaultListListModel()
     {
         this(new ArrayList<>());
     }
 
-    /**
-     * Creates a new {@link DefaultListListModel} object.
-     *
-     * @param list {@link List}
-     */
     public DefaultListListModel(final List<T> list)
     {
         super();
@@ -57,9 +42,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    /**
-     * @param object Object
-     */
     public void add(final T object)
     {
         getList().add(object);
@@ -67,9 +49,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         fireIntervalAdded(this, getList().size() - 1, getList().size() - 1);
     }
 
-    /**
-     * @param objects {@link Collection}
-     */
     public void addAll(final Collection<T> objects)
     {
         int sizeOld = getList().size();
@@ -88,9 +67,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         this.eventListenerList.add(ListDataListener.class, listener);
     }
 
-    /**
-     *
-     */
     public void clear()
     {
         getList().clear();
@@ -107,25 +83,11 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         return getList().get(index);
     }
 
-    /**
-     * Liefert ein Objekt für einen Index einer Zeile.
-     *
-     * @param rowIndex int
-     *
-     * @return Object
-     */
     public T getObjectAt(final int rowIndex)
     {
         return getList().get(rowIndex);
     }
 
-    /**
-     * Liefert den ZeilenIndex für ein Objekt zurück.
-     *
-     * @param object Object
-     *
-     * @return int
-     */
     public int getRowOf(final T object)
     {
         return getList().indexOf(object);
@@ -140,11 +102,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         return getList().size();
     }
 
-    /**
-     * Liefert den {@link Stream} des TableModels.
-     *
-     * @return {@link Stream}
-     */
     public Stream<T> getStream()
     {
         return getList().stream();
@@ -258,9 +215,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         }
     }
 
-    /**
-     * @return {@link List}<T>
-     */
     protected List<T> getList()
     {
         return this.list;

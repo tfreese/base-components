@@ -9,28 +9,14 @@ import java.io.Serial;
  */
 public class GenericMethodListCellRenderer extends AbstractGenericListCellRenderer
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4533421995241634353L;
 
-    /**
-     * Creates a new {@link GenericMethodListCellRenderer} object.
-     *
-     * @param methodName String
-     */
     public GenericMethodListCellRenderer(final String methodName)
     {
         super(methodName);
     }
 
-    /**
-     * Creates a new {@link GenericMethodListCellRenderer} object.
-     *
-     * @param methodName String
-     * @param nullText String
-     */
     public GenericMethodListCellRenderer(final String methodName, final String nullText)
     {
         super(methodName, nullText);

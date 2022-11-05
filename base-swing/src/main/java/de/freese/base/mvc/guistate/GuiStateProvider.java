@@ -10,20 +10,12 @@ import de.freese.base.swing.state.GuiState;
 public interface GuiStateProvider
 {
     /**
-     * Laden eines {@link GuiState}.
-     *
      * @param filePrefix String; ohne Extension
-     * @param stateClazz Class
-     *
-     * @return {@link GuiState}
      */
     GuiState load(String filePrefix, Class<GuiState> stateClazz);
 
     /**
-     * Speichern eines {@link GuiState}.
-     *
      * @param filePrefix String; ohne Extension
-     * @param state {@link GuiState}
      */
     void save(String filePrefix, GuiState state);
 }

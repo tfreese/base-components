@@ -14,12 +14,5 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface RowMapper<R>
 {
-    /**
-     * @param resultSet {@link ResultSet}
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     R mapRow(ResultSet resultSet) throws SQLException;
 }

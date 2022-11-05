@@ -25,45 +25,24 @@ import org.slf4j.LoggerFactory;
  */
 public class SingleDataSource implements DataSource, AutoCloseable
 {
-    /**
-     *
-     */
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("SimpleDataSource");
-    /**
-     *
-     */
+
     private final ReentrantLock reentrantLock = new ReentrantLock();
-    /**
-     *
-     */
+
     private Boolean autoCommit;
-    /**
-     *
-     */
+
     private Connection connection;
-    /**
-     *
-     */
+
     private Properties connectionProperties;
-    /**
-     *
-     */
+
     private String password;
-    /**
-     *
-     */
+
     private Connection proxyConnection;
-    /**
-     *
-     */
+
     private Boolean readOnly;
-    /**
-     *
-     */
+
     private String url;
-    /**
-     *
-     */
+
     private String username;
 
     /**
@@ -82,9 +61,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         }
     }
 
-    /**
-     *
-     */
     public void destroy()
     {
         this.reentrantLock.lock();
@@ -142,9 +118,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         throw new SQLException("SimpleDataSource does not support custom username and password");
     }
 
-    /**
-     * @return {@link Properties}
-     */
     public Properties getConnectionProperties()
     {
         return this.connectionProperties;
@@ -180,25 +153,16 @@ public class SingleDataSource implements DataSource, AutoCloseable
         // throw new SQLFeatureNotSupportedException();
     }
 
-    /**
-     * @return String
-     */
     public String getPassword()
     {
         return this.password;
     }
 
-    /**
-     * @return String
-     */
     public String getUrl()
     {
         return this.url;
     }
 
-    /**
-     * @return String
-     */
     public String getUsername()
     {
         return this.username;
@@ -213,17 +177,11 @@ public class SingleDataSource implements DataSource, AutoCloseable
         return iface.isInstance(this);
     }
 
-    /**
-     * @param autoCommit boolean
-     */
     public void setAutoCommit(final boolean autoCommit)
     {
         this.autoCommit = autoCommit;
     }
 
-    /**
-     * @param connectionProperties {@link Properties}
-     */
     public void setConnectionProperties(final Properties connectionProperties)
     {
         Objects.requireNonNull(connectionProperties);
@@ -231,9 +189,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         this.connectionProperties = connectionProperties;
     }
 
-    /**
-     * @param driverClassName String
-     */
     public void setDriverClassName(final String driverClassName)
     {
         Objects.requireNonNull(driverClassName);
@@ -273,9 +228,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         throw new UnsupportedOperationException("setLoginTimeout");
     }
 
-    /**
-     * @param password String
-     */
     public void setPassword(final String password)
     {
         Objects.requireNonNull(password);
@@ -283,17 +235,11 @@ public class SingleDataSource implements DataSource, AutoCloseable
         this.password = password.strip();
     }
 
-    /**
-     * @param readOnly boolean
-     */
     public void setReadOnly(final boolean readOnly)
     {
         this.readOnly = readOnly;
     }
 
-    /**
-     * @param url String
-     */
     public void setUrl(final String url)
     {
         Objects.requireNonNull(url);
@@ -301,9 +247,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         this.url = url.strip();
     }
 
-    /**
-     * @param username String
-     */
     public void setUsername(final String username)
     {
         Objects.requireNonNull(username);
@@ -326,9 +269,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         throw new SQLException("DataSource of type [" + getClass().getName() + "] cannot be unwrapped as [" + iface.getName() + "]");
     }
 
-    /**
-     *
-     */
     private void closeConnection()
     {
         if (this.connection != null)
@@ -346,19 +286,11 @@ public class SingleDataSource implements DataSource, AutoCloseable
         }
     }
 
-    /**
-     * @return Boolean
-     */
     private Boolean getAutoCommitValue()
     {
         return this.autoCommit;
     }
 
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return {@link Connection}
-     */
     private Connection getCloseSuppressingConnectionProxy(final Connection connection)
     {
         return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
@@ -367,13 +299,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
                 }, new ConnectionNotClosingInvocationHandler(connection));
     }
 
-    /**
-     * @param props {@link Properties}
-     *
-     * @return {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private Connection getConnectionFromDriver(final Properties props) throws SQLException
     {
         final String _url = getUrl();
@@ -386,14 +311,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         return getConnectionFromDriverManager(_url, props);
     }
 
-    /**
-     * @param username String
-     * @param password String
-     *
-     * @return {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private Connection getConnectionFromDriver(final String username, final String password) throws SQLException
     {
         final Properties mergedProps = new Properties();
@@ -417,30 +334,16 @@ public class SingleDataSource implements DataSource, AutoCloseable
         return getConnectionFromDriver(mergedProps);
     }
 
-    /**
-     * @param url String
-     * @param props {@link Properties}
-     *
-     * @return {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private Connection getConnectionFromDriverManager(final String url, final Properties props) throws SQLException
     {
         return DriverManager.getConnection(url, props);
     }
 
-    /**
-     * @return Boolean
-     */
     private Boolean getReadOnlyValue()
     {
         return this.readOnly;
     }
 
-    /**
-     * @throws SQLException Falls was schiefgeht.
-     */
     private void initConnection() throws SQLException
     {
         if (getUrl() == null)
@@ -461,11 +364,6 @@ public class SingleDataSource implements DataSource, AutoCloseable
         this.proxyConnection = getCloseSuppressingConnectionProxy(this.connection);
     }
 
-    /**
-     * @param con {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private void prepareConnection(final Connection con) throws SQLException
     {
         final Boolean _readOnly = getReadOnlyValue();

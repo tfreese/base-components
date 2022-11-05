@@ -13,11 +13,5 @@ import de.freese.base.resourcemap.ResourceMap;
 @FunctionalInterface
 public interface ResourceProvider
 {
-    /**
-     * @param bundleName String
-     * @param locale {@link Locale}
-     *
-     * @return {@link Map}
-     */
     Map<String, String> getResources(String bundleName, Locale locale);
 }

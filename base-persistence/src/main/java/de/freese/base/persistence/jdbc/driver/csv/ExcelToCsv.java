@@ -75,14 +75,6 @@ public class ExcelToCsv
      */
     private Character quoteCharacter = '"';
 
-    /**
-     * Konvertiert eine Excel-Datei in eine CSV-Datei.
-     *
-     * @param excelSource {@link Path}
-     * @param csvDest {@link Path}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public void convert(final Path excelSource, final Path csvDest) throws IOException
     {
         Objects.requireNonNull(csvDest, "csvDest required");
@@ -94,14 +86,6 @@ public class ExcelToCsv
         }
     }
 
-    /**
-     * Konvertiert eine Excel-Datei in eine CSV-Datei.
-     *
-     * @param excelSource {@link Path}
-     * @param csvWriter {@link Writer}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public void convert(final Path excelSource, final Writer csvWriter) throws IOException
     {
         Objects.requireNonNull(excelSource, "excelSource required");
@@ -164,9 +148,6 @@ public class ExcelToCsv
         }
     }
 
-    /**
-     * @param columnIndices int[]
-     */
     public void setColumnIndices(final int... columnIndices)
     {
         Objects.requireNonNull(columnIndices, "columnIndices required");
@@ -182,8 +163,6 @@ public class ExcelToCsv
     /**
      * Setzt das Trennzeichen der Datenfelder.<br>
      * Default: ';'
-     *
-     * @param fieldSeparator char
      */
     public void setFieldSeparator(final char fieldSeparator)
     {
@@ -193,8 +172,6 @@ public class ExcelToCsv
     /**
      * Setzt die Zeile, in der die Daten beginnen.<br>
      * Default: 1 (0. Zeile = Header)
-     *
-     * @param firstDataRow int
      */
     public void setFirstDataRow(final int firstDataRow)
     {
@@ -209,9 +186,6 @@ public class ExcelToCsv
     /**
      * Setzt die {@link Function} zum Formatieren des Spaltenwertes.<br>
      * Die Konvertierung-Funktion wird nur aufgerufen, wenn dass Value != null und nicht leer ist.<br>
-     *
-     * @param columnIndex int
-     * @param function {@link Function}
      */
     public void setFunction(final int columnIndex, final Function<String, String> function)
     {
@@ -222,8 +196,6 @@ public class ExcelToCsv
      * Setzt die Zeile des Headers.<br>
      * Default: 0<br>
      * Bei einem Wert < 0 wird der Header ignoriert.<br>
-     *
-     * @param headerRow int
      */
     public void setHeaderRow(final int headerRow)
     {
@@ -233,8 +205,6 @@ public class ExcelToCsv
     /**
      * Setzt das Umschliessungs-Zeichen der Datenfelder.<br>
      * Default: '"'
-     *
-     * @param quoteCharacter {@link Character}
      */
     public void setQuoteCharacter(final Character quoteCharacter)
     {
@@ -243,10 +213,6 @@ public class ExcelToCsv
 
     /**
      * Liefert den Header oder null, wenn headerLine < 0.
-     *
-     * @param sheet {@link Sheet}
-     *
-     * @return String[]
      */
     private String[] getHeaders(final Sheet sheet)
     {
@@ -269,11 +235,6 @@ public class ExcelToCsv
 
     /**
      * Diese Methode holt sich den Wert aus der Zelle.
-     *
-     * @param row - {@link Row}
-     * @param column - int
-     *
-     * @return value - {@link String}
      */
     private String getValue(final Row row, final int column)
     {
@@ -327,13 +288,6 @@ public class ExcelToCsv
         return value;
     }
 
-    /**
-     * @param excelSource {@link Path}
-     *
-     * @return {@link Workbook}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private Workbook getWorkbook(final Path excelSource) throws IOException
     {
         Workbook workbook = null;
@@ -358,11 +312,6 @@ public class ExcelToCsv
 
     /**
      * Schreibt die Daten in die CSV-Datei.
-     *
-     * @param writer {@link Writer}
-     * @param values String[]
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     private void writeCSV(final Writer writer, final String[] values) throws IOException
     {

@@ -14,11 +14,6 @@ import javafx.collections.ObservableList;
  */
 public class DefaultObservableListListModel<T> extends AbstractObservableListListModel<T>
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link DefaultObservableListListModel}.
-     *
-     * @param list {@link ObservableList}
-     */
     public DefaultObservableListListModel(final ObservableList<T> list)
     {
         super(list);

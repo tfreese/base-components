@@ -5,31 +5,17 @@ import java.awt.Color;
 import java.util.List;
 
 /**
- * @author Thomas Freese
- *
  * @param <V> Value Type
+ *
+ * @author Thomas Freese
  */
 public interface Token<V>
 {
-    // /**
-    // * @return String
-    // */
     // String getDisplayValue();
 
-    /**
-     * BisMask für jedes darstellbare Zeichen.
-     *
-     * @return {@link List}
-     */
     List<byte[]> getBitMasks();
 
-    /**
-     * @return {@link Color}
-     */
     Color getColor();
 
-    /**
-     * @param value Object
-     */
     void setValue(V value);
 }

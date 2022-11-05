@@ -17,18 +17,8 @@ import javax.crypto.Cipher;
  */
 public class CryptoAsymetric extends AbstractCrypto
 {
-    /**
-     *
-     */
     private KeyPair keyPair;
 
-    /**
-     * Erstellt ein neues {@link CryptoAsymetric} Object.
-     *
-     * @param cryptoConfig {@link CryptoConfig}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     CryptoAsymetric(final CryptoConfig<?> cryptoConfig) throws Exception
     {
         super(cryptoConfig);
@@ -58,9 +48,6 @@ public class CryptoAsymetric extends AbstractCrypto
         return verify(signature, in, signIn);
     }
 
-    /**
-     * @param keyPair {@link KeyPair}
-     */
     void setKeyPair(final KeyPair keyPair)
     {
         this.keyPair = keyPair;
@@ -90,11 +77,6 @@ public class CryptoAsymetric extends AbstractCrypto
         return cipherEncrypt;
     }
 
-    /**
-     * @return {@link Signature}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected Signature createSignatureSign() throws Exception
     {
         Signature signatureSign = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
@@ -103,11 +85,6 @@ public class CryptoAsymetric extends AbstractCrypto
         return signatureSign;
     }
 
-    /**
-     * @return {@link Signature}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected Signature createSignatureVerify() throws Exception
     {
         Signature signatureVerify = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
@@ -125,9 +102,6 @@ public class CryptoAsymetric extends AbstractCrypto
         return (CryptoConfigAsymetric) super.getConfig();
     }
 
-    /**
-     * @return {@link KeyPair}
-     */
     protected KeyPair getKeyPair()
     {
         return this.keyPair;

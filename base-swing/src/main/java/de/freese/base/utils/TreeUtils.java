@@ -210,7 +210,7 @@ public final class TreeUtils
         }
         catch (Exception ex)
         {
-            //Empty
+            // Empty
         }
 
         return found;
@@ -298,7 +298,7 @@ public final class TreeUtils
         {
             if (tree.getRowForLocation(me.getX(), me.getY()) == -1)
             {
-                // NOOP
+                // Empty
             }
             else
             {

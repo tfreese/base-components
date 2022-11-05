@@ -27,21 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class TransactionalInvocationHandler implements InvocationHandler
 {
-    /**
-     *
-     */
     private final Object bean;
-    /**
-     *
-     */
+
     private final DataSource dataSource;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link TransactionalInvocationHandler}
-     *
-     * @param dataSource {@link DataSource}
-     * @param bean Object
-     */
     public TransactionalInvocationHandler(final DataSource dataSource, final Object bean)
     {
         super();

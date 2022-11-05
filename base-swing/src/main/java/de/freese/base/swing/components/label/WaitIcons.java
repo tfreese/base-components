@@ -9,9 +9,6 @@ import javax.swing.ImageIcon;
  */
 public final class WaitIcons
 {
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon1()
     {
         // @formatter:off
@@ -46,9 +43,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon10()
     {
         // @formatter:off
@@ -84,9 +78,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon11()
     {
         // @formatter:off
@@ -122,9 +113,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon12()
     {
         // @formatter:off
@@ -160,9 +148,6 @@ public final class WaitIcons
         // @formatter:off
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon13()
     {
         // @formatter:off
@@ -198,9 +183,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon14()
     {
         // @formatter:off
@@ -236,9 +218,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon15()
     {
         // @formatter:off
@@ -274,9 +253,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon2()
     {
         // @formatter:off
@@ -312,9 +288,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon3()
     {
         // @formatter:off
@@ -350,9 +323,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon4()
     {
         // @formatter:off
@@ -388,9 +358,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon5()
     {
         // @formatter:off
@@ -426,9 +393,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon6()
     {
         // @formatter:off
@@ -464,9 +428,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon7()
     {
         // @formatter:off
@@ -502,9 +463,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon8()
     {
         // @formatter:off
@@ -540,9 +498,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}
-     */
     public static ImageIcon getWaitIcon9()
     {
         // @formatter:off
@@ -578,9 +533,6 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    /**
-     * @return {@link ImageIcon}[]
-     */
     public static ImageIcon[] getWaitIcons()
     {
         ImageIcon[] imageArray = new ImageIcon[15];
@@ -604,9 +556,6 @@ public final class WaitIcons
         return imageArray;
     }
 
-    /**
-     * Erstellt ein neues {@link WaitIcons} Object.
-     */
     private WaitIcons()
     {
         super();

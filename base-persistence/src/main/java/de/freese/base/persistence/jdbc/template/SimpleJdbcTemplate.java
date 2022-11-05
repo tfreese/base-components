@@ -49,32 +49,16 @@ import reactor.core.publisher.SynchronousSink;
  */
 public class SimpleJdbcTemplate
 {
-    /**
-     *
-     */
     private final DataSource dataSource;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private int fetchSize = 1000;
-    /**
-     *
-     */
+
     private int maxRows = -1;
-    /**
-     *
-     */
+
     private int queryTimeout = -1;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link SimpleJdbcTemplate}
-     *
-     * @param dataSource {@link DataSource}
-     */
     public SimpleJdbcTemplate(final DataSource dataSource)
     {
         super();
@@ -85,8 +69,6 @@ public class SimpleJdbcTemplate
     /**
      * {call my_procedure(?)};<br>
      * {? = call my_procedure(?)};
-     *
-     * @param sql String
      */
     public void call(final String sql)
     {
@@ -96,11 +78,6 @@ public class SimpleJdbcTemplate
     /**
      * {call my_procedure(?)};<br>
      * {? = call my_procedure(?)};
-     *
-     * @param sql String
-     * @param pss {@link PreparedStatementSetter}
-     *
-     * @return boolean
      */
     public boolean call(final String sql, final PreparedStatementSetter pss)
     {
@@ -129,12 +106,6 @@ public class SimpleJdbcTemplate
      * callableStatement.registerOutParameter(2, java.sql.Types.VARCHAR);<br>
      * callableStatement.execute(); ODER executeUpdate();<br>
      * callableStatement.getString(2);
-     *
-     * @param <T> Return-Type
-     * @param sc {@link CallableStatementCreator}
-     * @param action {@link CallableStatementCallback}
-     *
-     * @return Object
      */
     public <T> T execute(final CallableStatementCreator sc, final CallableStatementCallback<T> action)
     {
@@ -172,12 +143,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param action {@link ConnectionCallback}
-     *
-     * @return Object
-     */
     public <T> T execute(final ConnectionCallback<T> action)
     {
         Connection connection = null;
@@ -201,37 +166,16 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sc {@link PreparedStatementCreator}
-     * @param action {@link PreparedStatementCallback}
-     *
-     * @return Object
-     */
     public <T> T execute(final PreparedStatementCreator sc, final PreparedStatementCallback<T> action)
     {
         return execute(sc, action, true);
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sc {@link StatementCreator}
-     * @param action {@link StatementCallback}
-     *
-     * @return Object
-     */
     public <T> T execute(final StatementCreator sc, final StatementCallback<T> action)
     {
         return execute(sc, action, true);
     }
 
-    /**
-     * @param sql String
-     *
-     * @return boolean
-     *
-     * @see Statement#execute(String)
-     */
     public boolean execute(final String sql)
     {
         StatementCreator sc = this::createStatement;
@@ -248,41 +192,26 @@ public class SimpleJdbcTemplate
         return execute(sc, action);
     }
 
-    /**
-     * @return {@link DataSource}
-     */
     public DataSource getDataSource()
     {
         return this.dataSource;
     }
 
-    /**
-     * @return int
-     */
     public int getFetchSize()
     {
         return this.fetchSize;
     }
 
-    /**
-     * @return int
-     */
     public int getMaxRows()
     {
         return this.maxRows;
     }
 
-    /**
-     * @return int
-     */
     public int getQueryTimeout()
     {
         return this.queryTimeout;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isBatchSupported()
     {
         ConnectionCallback<Boolean> action = this::isBatchSupported;
@@ -291,8 +220,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param sql String
-     *
      * @return {@link List}; Map-Key = COLUMN_NAME in UpperCase
      */
     public List<Map<String, Object>> query(final String sql)
@@ -300,39 +227,16 @@ public class SimpleJdbcTemplate
         return query(sql, new ColumnMapRowMapper(), (PreparedStatementSetter) null);
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sql String
-     * @param rse {@link ResultSetExtractor}
-     *
-     * @return Object
-     */
     public <T> T query(final String sql, final ResultSetExtractor<T> rse)
     {
         return query(sql, rse, (PreparedStatementSetter) null);
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sql String
-     * @param rse {@link ResultSetExtractor}
-     * @param params Object[]; SQL-Parameter
-     *
-     * @return Object
-     */
     public <T> T query(final String sql, final ResultSetExtractor<T> rse, final Object... params)
     {
         return query(sql, rse, new ArgumentPreparedStatementSetter(params));
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sql String
-     * @param rse {@link ResultSetExtractor}
-     * @param pss {@link PreparedStatementSetter}
-     *
-     * @return Object
-     */
     public <T> T query(final String sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss)
     {
         PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
@@ -367,51 +271,22 @@ public class SimpleJdbcTemplate
         return execute(sc, action);
     }
 
-    /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     *
-     * @return {@link List}
-     */
     public <T> List<T> query(final String sql, final RowMapper<T> rowMapper)
     {
         return query(sql, rowMapper, (PreparedStatementSetter) null);
     }
 
-    /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param params Object[]; SQL-Parameter
-     *
-     * @return {@link List}
-     */
     public <T> List<T> query(final String sql, final RowMapper<T> rowMapper, final Object... params)
     {
         return query(sql, rowMapper, new ArgumentPreparedStatementSetter(params));
     }
 
-    /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param pss {@link PreparedStatementSetter}
-     *
-     * @return {@link List}
-     */
     public <T> List<T> query(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
         return query(sql, new RowMapperResultSetExtractor<>(rowMapper), pss);
     }
 
     /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     *
-     * @return {@link Flux}
-     *
      * @see #queryAsFlux(String, RowMapper, PreparedStatementSetter)
      */
     public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper)
@@ -420,13 +295,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param params Object []
-     *
-     * @return {@link Flux}
-     *
      * @see #queryAsFlux(String, RowMapper, PreparedStatementSetter)
      */
     public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper, final Object... params)
@@ -445,13 +313,6 @@ public class SimpleJdbcTemplate
      * flux.subscribe(System.out::println);
      * </pre>
      * </code>
-     *
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param pss {@link PreparedStatementSetter}
-     *
-     * @return {@link Flux}
      */
     public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
@@ -504,11 +365,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     *
-     * @return {@link Publisher}
-     *
      * @see #queryAsPublisher(String, RowMapper, PreparedStatementSetter)
      */
     public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper)
@@ -517,12 +373,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param params Object[]; SQL-Parameter
-     *
-     * @return {@link Publisher}
-     *
      * @see #queryAsPublisher(String, RowMapper, PreparedStatementSetter)
      */
     public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper, final Object... params)
@@ -542,12 +392,6 @@ public class SimpleJdbcTemplate
      * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
      * </pre>
      * </code>
-     *
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param pss {@link PreparedStatementSetter}
-     *
-     * @return {@link Publisher}
      */
     public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
@@ -576,12 +420,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     *
-     * @return {@link Stream}
-     *
      * @see #queryAsStream(String, RowMapper, PreparedStatementSetter)
      */
     public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper)
@@ -590,13 +428,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param params Object[]; SQL-Parameter
-     *
-     * @return {@link Stream}
-     *
      * @see #queryAsStream(String, RowMapper, PreparedStatementSetter)
      */
     public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper, final Object... params)
@@ -617,13 +448,6 @@ public class SimpleJdbcTemplate
      * }
      * </pre>
      * </code>
-     *
-     * @param <T> Row-Type
-     * @param sql String
-     * @param rowMapper {@link RowMapper}
-     * @param pss {@link PreparedStatementSetter}
-     *
-     * @return {@link Stream}
      */
     public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss)
     {
@@ -662,31 +486,16 @@ public class SimpleJdbcTemplate
         return execute(sc, action, false);
     }
 
-    /**
-     * @param fetchSize int
-     *
-     * @see java.sql.Statement#setFetchSize
-     */
     public void setFetchSize(final int fetchSize)
     {
         this.fetchSize = fetchSize;
     }
 
-    /**
-     * @param maxRows int
-     *
-     * @see java.sql.Statement#setMaxRows
-     */
     public void setMaxRows(final int maxRows)
     {
         this.maxRows = maxRows;
     }
 
-    /**
-     * @param queryTimeout int
-     *
-     * @see java.sql.Statement#setQueryTimeout
-     */
     public void setQueryTimeout(final int queryTimeout)
     {
         this.queryTimeout = queryTimeout;
@@ -694,8 +503,6 @@ public class SimpleJdbcTemplate
 
     /**
      * INSERT, UPDATE, DELETE
-     *
-     * @param sql String
      *
      * @return int; affectedRows
      */
@@ -707,9 +514,6 @@ public class SimpleJdbcTemplate
     /**
      * INSERT, UPDATE, DELETE
      *
-     * @param sql String
-     * @param params Object[]; SQL-Parameter
-     *
      * @return int; affectedRows
      */
     public int update(final String sql, final Object... params)
@@ -719,9 +523,6 @@ public class SimpleJdbcTemplate
 
     /**
      * INSERT, UPDATE, DELETE
-     *
-     * @param sql String
-     * @param pss {@link PreparedStatementSetter}
      *
      * @return int; affectedRows
      */
@@ -752,11 +553,6 @@ public class SimpleJdbcTemplate
      * INSERT, UPDATE, DELETE<br>
      * Default Batch-Size = 20.
      *
-     * @param <T> Row-Type
-     * @param sql String
-     * @param batchArgs {@link Collection}
-     * @param ppss {@link ParameterizedPreparedStatementSetter}
-     *
      * @return int[]; affectedRows
      */
     public <T> int[] updateBatch(final String sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss)
@@ -766,12 +562,6 @@ public class SimpleJdbcTemplate
 
     /**
      * INSERT, UPDATE, DELETE
-     *
-     * @param <T> Row-Type
-     * @param sql String
-     * @param batchArgs {@link Collection}
-     * @param ppss {@link ParameterizedPreparedStatementSetter}
-     * @param batchSize int
      *
      * @return int[]; affectedRows
      */
@@ -832,9 +622,6 @@ public class SimpleJdbcTemplate
     }
 
     /**
-     * @param statement {@link Statement}
-     *
-     * @throws SQLException Falls was schiefgeht.
      * @see #setFetchSize
      * @see #setMaxRows
      * @see #setQueryTimeout
@@ -863,9 +650,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     */
     protected void close(final Connection connection)
     {
         getLogger().debug("close connection");
@@ -883,9 +667,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param resultSet {@link ResultSet}
-     */
     protected void close(final ResultSet resultSet)
     {
         getLogger().debug("close resultSet");
@@ -900,9 +681,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param statement {@link Statement} geht.
-     */
     protected void close(final Statement statement)
     {
         getLogger().debug("close statement");
@@ -917,11 +695,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param ex {@link Exception}
-     *
-     * @return {@link RuntimeException}
-     */
     protected RuntimeException convertException(final Exception ex)
     {
         Throwable th = ex;
@@ -944,52 +717,21 @@ public class SimpleJdbcTemplate
         return new RuntimeException(th);
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param sql String
-     *
-     * @return {@link CallableStatement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected CallableStatement createCallableStatement(final Connection connection, final String sql) throws SQLException
     {
         return connection.prepareCall(sql);
     }
 
-    /**
-     * @param connection {@link Connection}
-     * @param sql String
-     *
-     * @return {@link PreparedStatement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected PreparedStatement createPreparedStatement(final Connection connection, final String sql) throws SQLException
     {
         return connection.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
     }
 
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return {@link Statement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected Statement createStatement(final Connection connection) throws SQLException
     {
         return connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sc {@link PreparedStatementCreator}
-     * @param action {@link PreparedStatementCallback}
-     * @param closeResources boolean
-     *
-     * @return Object
-     */
     protected <T> T execute(final PreparedStatementCreator sc, final PreparedStatementCallback<T> action, final boolean closeResources)
     {
         Connection connection = null;
@@ -1029,14 +771,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param <T> Return-Type
-     * @param sc {@link StatementCreator}
-     * @param action {@link StatementCallback}
-     * @param closeResources boolean
-     *
-     * @return Object
-     */
     protected <T> T execute(final StatementCreator sc, final StatementCallback<T> action, final boolean closeResources)
     {
         Connection connection = null;
@@ -1076,11 +810,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @return {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected Connection getConnection() throws SQLException
     {
         // Spring-Variante
@@ -1089,19 +818,11 @@ public class SimpleJdbcTemplate
         return getDataSource().getConnection();
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @param stmt {@link Statement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected void handleWarnings(final Statement stmt) throws SQLException
     {
         if (getLogger().isDebugEnabled())
@@ -1118,13 +839,6 @@ public class SimpleJdbcTemplate
         }
     }
 
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return boolean
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected boolean isBatchSupported(final Connection connection) throws SQLException
     {
         DatabaseMetaData metaData = connection.getMetaData();

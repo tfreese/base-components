@@ -19,40 +19,20 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractGenericListCellRenderer extends DefaultListCellRenderer
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 335775306955315738L;
-    /**
-     *
-     */
+
     private final String attribute;
-    /**
-     *
-     */
+
     private final transient Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final String nullText;
 
-    /**
-     * Creates a new {@link AbstractGenericListCellRenderer} object.
-     *
-     * @param attribute String
-     */
     protected AbstractGenericListCellRenderer(final String attribute)
     {
         this(attribute, " ");
     }
 
-    /**
-     * Creates a new {@link AbstractGenericListCellRenderer} object.
-     *
-     * @param attribute String
-     * @param nullText String, falls Object null ist, anderen Text rendern als Leerzeichen
-     */
     protected AbstractGenericListCellRenderer(final String attribute, final String nullText)
     {
         super();
@@ -100,38 +80,13 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
         return label;
     }
 
-    /**
-     * Liefert den Logger.
-     *
-     * @return {@link Logger}
-     */
     protected final Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * Liefert mithilfe eines Attributes den Wert eines bestimmten Objektes.
-     *
-     * @param object Object
-     * @param attribute String
-     *
-     * @return String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected abstract String getString(Object object, String attribute) throws Exception;
 
-    /**
-     * Aufrufen des Methoden Names des Values.
-     *
-     * @param value Object
-     * @param fieldName String
-     *
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected Object invokeField(final Object value, final String fieldName) throws Exception
     {
         Field field = value.getClass().getField(fieldName);
@@ -139,16 +94,6 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
         return field.get(value);
     }
 
-    /**
-     * Aufrufen des Methoden Names des Values.
-     *
-     * @param value Object
-     * @param methodName String
-     *
-     * @return Object
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected Object invokeMethod(final Object value, final String methodName) throws Exception
     {
         Method method = value.getClass().getMethod(methodName, (Class<?>[]) null);

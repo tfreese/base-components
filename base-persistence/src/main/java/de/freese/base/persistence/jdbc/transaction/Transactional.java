@@ -20,10 +20,5 @@ package de.freese.base.persistence.jdbc.transaction;
 // @Target(ElementType.METHOD)
 // public @interface Transactional
 // {
-// // /**
-// // * Steuert die Transaction.
-// // *
-// // * @return boolean
-// // */
 // // boolean transactional() default false;
 // }

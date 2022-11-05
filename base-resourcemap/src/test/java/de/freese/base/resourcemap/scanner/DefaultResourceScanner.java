@@ -20,9 +20,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultResourceScanner implements ResourceScanner
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultResourceScanner.class);
 
     /**
@@ -81,10 +78,6 @@ public class DefaultResourceScanner implements ResourceScanner
 
     /**
      * Durchsucht die Ressourcen eines ClassPath-Elements.
-     *
-     * @param pattern {@link Pattern}
-     *
-     * @return {@link Set}
      */
     private Set<String> getResources(final String pattern)
     {
@@ -115,11 +108,6 @@ public class DefaultResourceScanner implements ResourceScanner
 
     /**
      * Durchsucht rekursiv die Dateien eines Verzeichnisses.
-     *
-     * @param directory {@link File}
-     * @param pattern {@link Pattern}
-     *
-     * @return {@link Set}
      */
     private Set<String> getResourcesFromDirectory(final File directory, final Pattern pattern)
     {
@@ -156,11 +144,6 @@ public class DefaultResourceScanner implements ResourceScanner
 
     /**
      * Durchsucht den Inhalt einer JAR-Datei.
-     *
-     * @param file {@link File}
-     * @param pattern {@link Pattern}
-     *
-     * @return {@link Set}
      */
     private Set<String> getResourcesFromJarFile(final File file, final Pattern pattern)
     {

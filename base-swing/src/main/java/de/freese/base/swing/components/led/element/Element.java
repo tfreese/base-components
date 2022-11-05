@@ -11,8 +11,5 @@ import de.freese.base.swing.components.led.token.Token;
 @FunctionalInterface
 public interface Element
 {
-    /**
-     * @return {@link List}
-     */
     List<Token<?>> getTokens();
 }

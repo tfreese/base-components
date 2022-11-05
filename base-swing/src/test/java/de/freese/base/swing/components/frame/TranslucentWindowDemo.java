@@ -22,9 +22,6 @@ import javax.swing.WindowConstants;
  */
 public class TranslucentWindowDemo
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Determine if the GraphicsDevice supports translucency.

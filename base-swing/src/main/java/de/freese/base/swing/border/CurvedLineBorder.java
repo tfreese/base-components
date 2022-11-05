@@ -18,32 +18,16 @@ import javax.swing.text.JTextComponent;
  */
 public class CurvedLineBorder extends LineBorder
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 3562280264054463491L;
-    /**
-     *
-     */
+
     private final int arcSize;
 
-    /**
-     * Creates a new {@link CurvedLineBorder} object.
-     *
-     * @param color {@link Color}
-     */
     public CurvedLineBorder(final Color color)
     {
         this(color, 5);
     }
 
-    /**
-     * Creates a new {@link CurvedLineBorder} object.
-     *
-     * @param color {@link Color}
-     * @param arcSize int
-     */
     public CurvedLineBorder(final Color color, final int arcSize)
     {
         super(color, 1);

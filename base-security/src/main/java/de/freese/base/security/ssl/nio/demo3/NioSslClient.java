@@ -50,8 +50,6 @@ public class NioSslClient extends AbstractNioSslPeer
      * protocols.
      * @param remoteAddress The IP address of the peer.
      * @param port The peer's port that will be used.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public NioSslClient(final String protocol, final String remoteAddress, final int port) throws Exception
     {
@@ -75,8 +73,6 @@ public class NioSslClient extends AbstractNioSslPeer
      * Opens a socket channel to communicate with the configured server and tries to complete the handshake protocol.
      *
      * @return True if client established a connection with the server, false otherwise.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public boolean connect() throws Exception
     {
@@ -95,8 +91,6 @@ public class NioSslClient extends AbstractNioSslPeer
 
     /**
      * Public method to try to read from the server.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void read() throws Exception
     {
@@ -139,8 +133,6 @@ public class NioSslClient extends AbstractNioSslPeer
      *
      * @param socketChannel {@link SocketChannel}
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     @Override
     protected void read(final SocketChannel socketChannel, final SSLEngine engine) throws Exception
@@ -203,7 +195,6 @@ public class NioSslClient extends AbstractNioSslPeer
      * Implements the write method that sends a message to the server the client is connected to, but should not be called by the user, since socket channel and
      * engine are inner class' variables. {@link NioSslClient#write(String)} should be called instead.
      *
-     * @param socketChannel {@link SocketChannel}
      * @param engine - the engine used for encryption/decryption of the data exchanged between the two peers.
      *
      * @throws IOException if an I/O error occurs to the socket channel.
@@ -234,7 +225,7 @@ public class NioSslClient extends AbstractNioSslPeer
                     {
                         socketChannel.write(this.myNetData);
                     }
-                    
+
                     getLogger().debug("Message sent to the server: {}", message);
                 }
                 case BUFFER_OVERFLOW -> this.myNetData = enlargePacketBuffer(engine, this.myNetData);

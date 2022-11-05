@@ -13,43 +13,20 @@ import javax.net.ssl.SSLException;
  */
 public abstract class AbstractSSLProvider implements Runnable
 {
-    /**
-     *
-     */
     final ByteBuffer clientUnwrap;
-    /**
-     *
-     */
+
     final ByteBuffer clientWrap;
-    /**
-     *
-     */
+
     final SSLEngine engine;
-    /**
-     *
-     */
+
     final Executor ioWorker;
-    /**
-     *
-     */
+
     final ByteBuffer serverUnwrap;
-    /**
-     *
-     */
+
     final ByteBuffer serverWrap;
-    /**
-     *
-     */
+
     final Executor taskWorkers;
 
-    /**
-     * Erstellt ein neues {@link AbstractSSLProvider} Object.
-     *
-     * @param engine {@link SSLEngine}
-     * @param capacity int
-     * @param ioWorker {@link Executor}
-     * @param taskWorkers {@link Executor}
-     */
     protected AbstractSSLProvider(final SSLEngine engine, final int capacity, final Executor ioWorker, final Executor taskWorkers)
     {
         super();
@@ -65,9 +42,6 @@ public abstract class AbstractSSLProvider implements Runnable
         this.ioWorker.execute(this);
     }
 
-    /**
-     * @param data {@link ByteBuffer}
-     */
     public void notify(final ByteBuffer data)
     {
         this.ioWorker.execute(() ->
@@ -77,29 +51,14 @@ public abstract class AbstractSSLProvider implements Runnable
         });
     }
 
-    /**
-     *
-     */
     public abstract void onClosed();
 
-    /**
-     * @param ex Exception
-     */
     public abstract void onFailure(Exception ex);
 
-    /**
-     * @param decrypted {@link ByteBuffer}
-     */
     public abstract void onInput(ByteBuffer decrypted);
 
-    /**
-     * @param encrypted {@link ByteBuffer}
-     */
     public abstract void onOutput(ByteBuffer encrypted);
 
-    /**
-     *
-     */
     public abstract void onSuccess();
 
     /**
@@ -115,9 +74,6 @@ public abstract class AbstractSSLProvider implements Runnable
         }
     }
 
-    /**
-     * @param data {@link ByteBuffer}
-     */
     public void sendAsync(final ByteBuffer data)
     {
         this.ioWorker.execute(() ->
@@ -128,9 +84,6 @@ public abstract class AbstractSSLProvider implements Runnable
         });
     }
 
-    /**
-     * @return boolean
-     */
     @SuppressWarnings("incomplete-switch")
     private synchronized boolean isHandShaking()
     {
@@ -188,9 +141,6 @@ public abstract class AbstractSSLProvider implements Runnable
         return true;
     }
 
-    /**
-     * @return boolean
-     */
     private boolean unwrap()
     {
         SSLEngineResult unwrapResult;
@@ -241,9 +191,6 @@ public abstract class AbstractSSLProvider implements Runnable
         return true;
     }
 
-    /**
-     * @return boolean
-     */
     private boolean wrap()
     {
         SSLEngineResult wrapResult;

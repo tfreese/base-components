@@ -18,9 +18,6 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  */
 public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
 {
-    /**
-     *
-     */
     private String[] columnNames;
 
     /**
@@ -47,16 +44,6 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
         return map;
     }
 
-    /**
-     * Ermittelt den Namen der Spalte am Index.
-     *
-     * @param resultSetMetaData {@link ResultSetMetaData}
-     * @param index int; JDBC-Indices beginnen mit 1
-     *
-     * @return String
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected String getColumnName(final ResultSetMetaData resultSetMetaData, final int index) throws SQLException
     {
         String name = resultSetMetaData.getColumnLabel(index);
@@ -69,15 +56,6 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
         return name.toUpperCase();
     }
 
-    /**
-     * Liefert die Spaltennamen des {@link ResultSet}s.
-     *
-     * @param resultSet {@link ResultSet}
-     *
-     * @return String[]
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected String[] getColumnNames(final ResultSet resultSet) throws SQLException
     {
         ResultSetMetaData metaData = resultSet.getMetaData();
@@ -95,16 +73,6 @@ public class ColumnMapRowMapper implements RowMapper<Map<String, Object>>
         return names;
     }
 
-    /**
-     * Liefert den Wert der Spalte am Index.
-     *
-     * @param rs {@link ResultSet}
-     * @param index int; JDBC-Indices beginnen mit 1
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     protected Object getColumnValue(final ResultSet rs, final int index) throws SQLException
     {
         Object obj = rs.getObject(index);

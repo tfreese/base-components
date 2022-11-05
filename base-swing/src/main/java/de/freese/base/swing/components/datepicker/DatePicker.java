@@ -19,15 +19,9 @@ import org.jdesktop.swingx.JXDatePicker;
  */
 public class DatePicker extends JXDatePicker
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4014651391029802229L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame frame = new JFrame();
@@ -39,9 +33,6 @@ public class DatePicker extends JXDatePicker
         frame.setVisible(true);
     }
 
-    /**
-     * Erstellt ein neues {@link DatePicker} Object.
-     */
     public DatePicker()
     {
         super();
@@ -49,11 +40,6 @@ public class DatePicker extends JXDatePicker
         initialize();
     }
 
-    /**
-     * Erstellt ein neues {@link DatePicker} Object.
-     *
-     * @param selected {@link Date}
-     */
     public DatePicker(final Date selected)
     {
         super(selected);
@@ -61,12 +47,6 @@ public class DatePicker extends JXDatePicker
         initialize();
     }
 
-    /**
-     * Erstellt ein neues {@link DatePicker} Object.
-     *
-     * @param selection {@link Date}
-     * @param locale {@link Locale}
-     */
     public DatePicker(final Date selection, final Locale locale)
     {
         super(selection, locale);
@@ -74,11 +54,6 @@ public class DatePicker extends JXDatePicker
         initialize();
     }
 
-    /**
-     * Erstellt ein neues {@link DatePicker} Object.
-     *
-     * @param locale {@link Locale}
-     */
     public DatePicker(final Locale locale)
     {
         super(locale);
@@ -86,9 +61,6 @@ public class DatePicker extends JXDatePicker
         initialize();
     }
 
-    /**
-     * @return {@link Calendar}
-     */
     public Calendar getCalendar()
     {
         Calendar calendar = new GregorianCalendar();
@@ -97,17 +69,11 @@ public class DatePicker extends JXDatePicker
         return calendar;
     }
 
-    /**
-     * @param calendar {@link Calendar}
-     */
     public void setCalendar(final Calendar calendar)
     {
         setDate(calendar.getTime());
     }
 
-    /**
-     * Defaultkonfiguration.
-     */
     protected void initialize()
     {
         getMonthView().setShowingWeekNumber(true);

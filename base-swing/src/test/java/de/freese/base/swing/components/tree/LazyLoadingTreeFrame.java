@@ -33,27 +33,16 @@ import org.slf4j.LoggerFactory;
  */
 public class LazyLoadingTreeFrame extends JFrame
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrame.class);
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 3374150787460216252L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         SwingUtilities.invokeLater(LazyLoadingTreeFrame::new);
     }
 
-    /**
-     * Erstellt ein neues {@link LazyLoadingTreeFrame} Object.
-     */
     public LazyLoadingTreeFrame()
     {
         super();

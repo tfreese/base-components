@@ -14,12 +14,5 @@ import java.sql.Statement;
 @FunctionalInterface
 public interface StatementCallback<T>
 {
-    /**
-     * @param statement {@link Statement}
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     T doInStatement(Statement statement) throws SQLException;
 }

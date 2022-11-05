@@ -17,18 +17,10 @@ import java.util.HexFormat;
  */
 public final class DigestUtils
 {
-    /**
-     *
-     */
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
-    /**
-     *
-     */
+
     private static final HexFormat HEX_FORMAT = HexFormat.of().withUpperCase();
 
-    /**
-     * @return {@link MessageDigest}
-     */
     public static MessageDigest createMd5Digest()
     {
         return createMessageDigest("MD5");
@@ -41,12 +33,6 @@ public final class DigestUtils
      * MD5<br>
      * SHA-1<br>
      * SHA-256<br>
-     *
-     * @param algorithm String
-     *
-     * @return {@link MessageDigest}
-     *
-     * @throws RuntimeException Falls was schiefgeht.
      */
     public static MessageDigest createMessageDigest(final String algorithm)
     {
@@ -60,28 +46,16 @@ public final class DigestUtils
         }
     }
 
-    /**
-     * @return {@link MessageDigest}
-     */
     public static MessageDigest createSha1Digest()
     {
         return createMessageDigest("SHA-1");
     }
 
-    /**
-     * @return {@link MessageDigest}
-     */
     public static MessageDigest createSha256Digest()
     {
         return createMessageDigest("SHA-256");
     }
 
-    /**
-     * @param messageDigest {@link MessageDigest}
-     * @param bytes byte[]
-     *
-     * @return byte[]
-     */
     public static byte[] digest(final MessageDigest messageDigest, final byte[] bytes)
     {
         return messageDigest.digest(bytes);
@@ -89,12 +63,6 @@ public final class DigestUtils
 
     /**
      * Die Position des {@link ByteBuffer} wird wieder auf den Ursprungs-Wert gesetzt.<br>
-     * {@link ByteBuffer#position()}<br>
-     * {@link MessageDigest#update(ByteBuffer)}<br>
-     * {@link ByteBuffer#position(int)}<br>
-     *
-     * @param messageDigest {@link MessageDigest}
-     * @param byteBuffer {@link ByteBuffer}
      */
     public static void digest(final MessageDigest messageDigest, final ByteBuffer byteBuffer)
     {
@@ -107,13 +75,6 @@ public final class DigestUtils
 
     /**
      * Der {@link InputStream} wird NICHT geschlossen !
-     *
-     * @param messageDigest {@link MessageDigest}
-     * @param inputStream {@link InputStream}
-     *
-     * @return byte[]
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static byte[] digest(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
     {
@@ -129,14 +90,6 @@ public final class DigestUtils
         return messageDigest.digest();
     }
 
-    /**
-     * @param messageDigest {@link MessageDigest}
-     * @param file {@link Path}
-     *
-     * @return byte[]
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static byte[] digest(final MessageDigest messageDigest, final Path file) throws IOException
     {
         byte[] bytes = null;
@@ -160,11 +113,6 @@ public final class DigestUtils
         return bytes;
     }
 
-    /**
-     * @param messageDigest {@link MessageDigest}
-     *
-     * @return String
-     */
     public static String digestAsHex(final MessageDigest messageDigest)
     {
         final byte[] digest = messageDigest.digest();
@@ -174,13 +122,6 @@ public final class DigestUtils
 
     /**
      * Der {@link InputStream} wird NICHT geschlossen !
-     *
-     * @param messageDigest {@link MessageDigest}
-     * @param inputStream {@link InputStream}
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static String digestAsHex(final MessageDigest messageDigest, final InputStream inputStream) throws IOException
     {
@@ -189,14 +130,6 @@ public final class DigestUtils
         return HEX_FORMAT.formatHex(bytes);
     }
 
-    /**
-     * @param messageDigest {@link MessageDigest}
-     * @param file {@link Path}
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static String digestAsHex(final MessageDigest messageDigest, final Path file) throws IOException
     {
         final byte[] bytes = digest(messageDigest, file);
@@ -204,9 +137,6 @@ public final class DigestUtils
         return HEX_FORMAT.formatHex(bytes);
     }
 
-    /**
-     * Erstellt ein neues {@link DigestUtils} Object.
-     */
     private DigestUtils()
     {
         super();

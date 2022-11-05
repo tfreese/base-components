@@ -13,12 +13,5 @@ import java.sql.Statement;
 @FunctionalInterface
 public interface StatementCreator
 {
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return {@link Statement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     Statement createStatement(Connection connection) throws SQLException;
 }

@@ -42,28 +42,17 @@ import javax.swing.WindowConstants;
  */
 public class TestFrame extends JFrame
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3351411878765636929L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(String[] args)
     {
         TestFrame frame = new TestFrame();
         frame.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final JLabel statusLabel = new JLabel("Mouse gesture: ");
-    /**
-     *
-     */
+
     private transient MouseGestures mouseGestures = new MouseGestures();
 
     public TestFrame()

@@ -8,13 +8,8 @@ import java.util.function.Supplier;
  */
 public class SinusValueSupplier implements Supplier<Float>
 {
-    /**
-     *
-     */
     private static final double GRAD_TO_RADIAN_FACTOR = Math.PI / 180D;
-    /**
-     *
-     */
+
     private int grad;
 
     /**

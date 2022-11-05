@@ -16,17 +16,10 @@ import javax.swing.JOptionPane;
  */
 public class ExtDialogConfig
 {
-    /**
-     *
-     */
     private final Map<Integer, ActionListener> buttonActionListeners = new HashMap<>();
-    /**
-     *
-     */
+
     private Icon icon;
-    /**
-     * {@link Component} oder String
-     */
+
     private Object message = "";
     /**
      * @see JOptionPane#PLAIN_MESSAGE
@@ -36,9 +29,7 @@ public class ExtDialogConfig
      * @see JOptionPane#ERROR_MESSAGE
      */
     private int messageType = JOptionPane.PLAIN_MESSAGE;
-    /**
-     *
-     */
+
     private boolean modal = true;
     /**
      * @see JOptionPane#DEFAULT_OPTION
@@ -47,62 +38,33 @@ public class ExtDialogConfig
      * @see JOptionPane#OK_CANCEL_OPTION
      */
     private int optionType = JOptionPane.OK_OPTION;
-    /**
-     * Eigene Texte.
-     */
+
     private String[] options;
-    /**
-     *
-     */
+
     private Component owner;
-    /**
-     *
-     */
+
     private boolean resizeable = true;
-    /**
-     *
-     */
+
     private String title = "";
-    /**
-     *
-     */
+
     private WindowListener windowListener;
 
-    /**
-     * Liefert den {@link ActionListener} für eine ButtonOption oder null.
-     *
-     * @param buttonIndex int
-     *
-     * @return {@link ActionListener}
-     */
     public ActionListener getButtonActionListener(final int buttonIndex)
     {
         return this.buttonActionListeners.get(buttonIndex);
     }
 
-    /**
-     * @return {@link Icon}
-     */
     public Icon getIcon()
     {
         return this.icon;
     }
 
-    /**
-     * Liefert die Message/Component.
-     *
-     * @return {@link Component} oder String
-     */
     public Object getMessage()
     {
         return this.message;
     }
 
     /**
-     * Liefert den Message type.
-     *
-     * @return int
-     *
      * @see JOptionPane#PLAIN_MESSAGE
      * @see JOptionPane#INFORMATION_MESSAGE
      * @see JOptionPane#QUESTION_MESSAGE
@@ -115,10 +77,6 @@ public class ExtDialogConfig
     }
 
     /**
-     * Liefert die Dialogoptionen.
-     *
-     * @return int
-     *
      * @see JOptionPane#OK_OPTION
      * @see JOptionPane#OK_CANCEL_OPTION
      * @see JOptionPane#YES_OPTION
@@ -130,94 +88,52 @@ public class ExtDialogConfig
         return this.optionType;
     }
 
-    /**
-     * Eigene Texte für die Buttons.
-     *
-     * @return String[]
-     */
     public String[] getOptions()
     {
         return this.options;
     }
 
-    /**
-     * @return {@link Component}
-     */
     public Component getOwner()
     {
         return this.owner;
     }
 
-    /**
-     * Liefert den Titel.
-     *
-     * @return String
-     */
     public String getTitle()
     {
         return this.title;
     }
 
-    /**
-     * Liefert den {@link WindowListener}.
-     *
-     * @return {@link WindowListener}
-     */
     public WindowListener getWindowListener()
     {
         return this.windowListener;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isModal()
     {
         return this.modal;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isResizeable()
     {
         return this.resizeable;
     }
 
-    /**
-     * Setzt den {@link ActionListener} für einen Button.
-     *
-     * @param buttonIndex int
-     * @param actionListener {@link ActionListener}
-     */
     public void setButtonActionListener(final int buttonIndex, final ActionListener actionListener)
     {
         this.buttonActionListeners.put(buttonIndex, actionListener);
     }
 
-    /**
-     * @param icon {@link Icon}
-     */
     public void setIcon(final Icon icon)
     {
         this.icon = icon;
     }
 
-    /**
-     * Setzt die Message/Component.
-     *
-     * @param message {@link Component} oder String
-     */
     public void setMessage(final Object message)
     {
         this.message = message;
     }
 
     /**
-     * Setzt den Message type.
-     *
-     * @param messageType int
-     *
      * @see JOptionPane#PLAIN_MESSAGE
      * @see JOptionPane#INFORMATION_MESSAGE
      * @see JOptionPane#QUESTION_MESSAGE
@@ -229,19 +145,12 @@ public class ExtDialogConfig
         this.messageType = messageType;
     }
 
-    /**
-     * @param modal boolean
-     */
     public void setModal(final boolean modal)
     {
         this.modal = modal;
     }
 
     /**
-     * Setzt die Dialogoptionen.
-     *
-     * @param optionType int
-     *
      * @see JOptionPane#OK_OPTION
      * @see JOptionPane#OK_CANCEL_OPTION
      * @see JOptionPane#YES_OPTION
@@ -253,47 +162,26 @@ public class ExtDialogConfig
         this.optionType = optionType;
     }
 
-    /**
-     * Eigene Texte für die Buttons.
-     *
-     * @param options String[]
-     */
     public void setOptions(final String... options)
     {
         this.options = options;
     }
 
-    /**
-     * @param owner {@link Component}
-     */
     public void setOwner(final Component owner)
     {
         this.owner = owner;
     }
 
-    /**
-     * @param resizeable boolean
-     */
     public void setResizeable(final boolean resizeable)
     {
         this.resizeable = resizeable;
     }
 
-    /**
-     * Setzt den Titel.
-     *
-     * @param title String
-     */
     public void setTitle(final String title)
     {
         this.title = title;
     }
 
-    /**
-     * Setzt den {@link WindowListener}.
-     *
-     * @param windowListener {@link WindowListener}
-     */
     public void setWindowListener(final WindowListener windowListener)
     {
         this.windowListener = windowListener;

@@ -18,26 +18,13 @@ import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
  */
 public class CachedRowSetResultSetExtractor implements ResultSetExtractor<CachedRowSet>
 {
-    /**
-     *
-     */
     private final RowSetFactory rowSetFactory;
 
-    /**
-     * Erstellt ein neues {@link CachedRowSetResultSetExtractor} Object.
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     public CachedRowSetResultSetExtractor() throws SQLException
     {
         this(RowSetProvider.newFactory());
     }
 
-    /**
-     * Erstellt ein neues {@link CachedRowSetResultSetExtractor} Object.
-     *
-     * @param rowSetFactory {@link RowSetFactory}
-     */
     public CachedRowSetResultSetExtractor(final RowSetFactory rowSetFactory)
     {
         super();

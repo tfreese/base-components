@@ -10,9 +10,6 @@ import java.util.Map;
  */
 public final class MapResourceProvider implements ResourceProvider
 {
-    /**
-     *
-     */
     private final Map<Locale, Map<String, String>> mapLocale = new HashMap<>();
 
     /**
@@ -24,12 +21,6 @@ public final class MapResourceProvider implements ResourceProvider
         return this.mapLocale.computeIfAbsent(locale, k -> new HashMap<>());
     }
 
-    /**
-     * @param locale @param locale {@link Locale}
-     * @param resources {@link Map}
-     *
-     * @return {@link MapResourceProvider}
-     */
     public MapResourceProvider put(final Locale locale, final Map<String, String> resources)
     {
         this.mapLocale.computeIfAbsent(locale, k -> new HashMap<>()).putAll(resources);
@@ -37,13 +28,6 @@ public final class MapResourceProvider implements ResourceProvider
         return this;
     }
 
-    /**
-     * @param locale {@link Locale}
-     * @param key String
-     * @param value String
-     *
-     * @return {@link MapResourceProvider}
-     */
     public MapResourceProvider put(final Locale locale, final String key, final String value)
     {
         this.mapLocale.computeIfAbsent(locale, k -> new HashMap<>()).put(key, value);

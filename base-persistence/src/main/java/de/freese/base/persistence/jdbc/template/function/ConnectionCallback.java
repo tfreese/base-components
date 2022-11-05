@@ -16,12 +16,6 @@ public interface ConnectionCallback<T>
 {
     /**
      * Ausführung von Code in einer {@link Connection}.
-     *
-     * @param connection {@link Connection}
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     T doInConnection(Connection connection) throws SQLException;
 }

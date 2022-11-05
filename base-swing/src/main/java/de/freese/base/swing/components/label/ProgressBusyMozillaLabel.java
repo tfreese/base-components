@@ -16,15 +16,9 @@ import de.freese.base.core.progress.ProgressCallback;
  */
 public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements ProgressCallback
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2376101531012003243L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         final JFrame frame = new JFrame("GlassPaneDemo");
@@ -49,21 +43,13 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
      * ms
      */
     private final long progressStart;
-    /**
-     *
-     */
+
     private String originalText = "";
     /**
      * ms
      */
     private long progressCurrent;
 
-    /**
-     * Creates a new ProgressBusyMozillaLabel object.
-     *
-     * @param text String
-     * @param progressMax long
-     */
     public ProgressBusyMozillaLabel(final String text, final long progressMax)
     {
         super(text);

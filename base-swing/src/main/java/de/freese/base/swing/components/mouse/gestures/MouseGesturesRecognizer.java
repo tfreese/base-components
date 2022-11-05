@@ -67,19 +67,11 @@ class MouseGesturesRecognizer
      */
     private Point startPoint;
 
-    /**
-     * Creates MouseGesturesRecognizer.
-     *
-     * @param mouseGestures Reference to {@link MouseGestures}
-     */
     MouseGesturesRecognizer(MouseGestures mouseGestures)
     {
         this.mouseGestures = mouseGestures;
     }
 
-    /**
-     * Clears temporary info about previous gesture.
-     */
     void clearTemporaryInfo()
     {
         startPoint = null;
@@ -117,11 +109,6 @@ class MouseGesturesRecognizer
         return gesture.length() > 0;
     }
 
-    /**
-     * Processes mouse event.
-     *
-     * @param mouseEvent MouseEvent
-     */
     void processMouseEvent(MouseEvent mouseEvent)
     {
         if (!(mouseEvent.getSource() instanceof Component))
@@ -186,27 +173,11 @@ class MouseGesturesRecognizer
         this.gridSize = gridSize;
     }
 
-    /**
-     * Returns delta x.
-     *
-     * @param a First point
-     * @param b Second point
-     *
-     * @return Delta x
-     */
     private int getDeltaX(Point a, Point b)
     {
         return b.x - a.x;
     }
 
-    /**
-     * Returns delta y.
-     *
-     * @param a First point
-     * @param b Second point
-     *
-     * @return Delta y
-     */
     private int getDeltaY(Point a, Point b)
     {
         return b.y - a.y;

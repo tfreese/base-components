@@ -26,17 +26,10 @@ import java.util.logging.Logger;
  */
 public final class CsvDriver implements java.sql.Driver
 {
-    /**
-     *
-     */
     public static final String URL_PREFIX = "jdbc:csv";
-    /**
-     *
-     */
+
     private static final Driver INSTANCE = new CsvDriver();
-    /**
-     *
-     */
+
     private static volatile boolean registered;
 
     static
@@ -69,9 +62,6 @@ public final class CsvDriver implements java.sql.Driver
         }
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link Driver}
-     */
     private CsvDriver()
     {
         super();
@@ -218,13 +208,6 @@ public final class CsvDriver implements java.sql.Driver
         return false;
     }
 
-    /**
-     * @param value String
-     * @param open String
-     * @param close String
-     *
-     * @return String[]
-     */
     private String[] substringsBetween(final String value, final String open, final String close)
     {
         // return StringUtils.substringsBetween(value, "[", "]");

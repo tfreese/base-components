@@ -9,32 +9,15 @@ import java.io.Serial;
  */
 public class ExcelException extends Exception
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4357042787522085265L;
-    /**
-     *
-     */
+
     private final int column;
-    /**
-     *
-     */
+
     private final int row;
-    /**
-     *
-     */
+
     private final String sheet;
 
-    /**
-     * Erstellt ein neues {@link ExcelException} Objekt.
-     *
-     * @param sheet String
-     * @param row int
-     * @param column int
-     * @param cause {@link Throwable}
-     */
     public ExcelException(final String sheet, final int row, final int column, final Throwable cause)
     {
         super(cause);

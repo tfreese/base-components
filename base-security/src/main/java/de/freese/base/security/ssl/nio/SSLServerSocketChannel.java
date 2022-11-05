@@ -32,13 +32,6 @@ import javax.net.ssl.SSLEngine;
  */
 public class SSLServerSocketChannel extends ServerSocketChannel
 {
-    /**
-     * @param items String[]
-     * @param includedItems List<String>
-     * @param excludedItems List<String>
-     *
-     * @return String[]
-     */
     static String[] filterArray(final String[] items, final List<String> includedItems, final List<String> excludedItems)
     {
         List<String> filteredItems = items == null ? new ArrayList<>() : Arrays.asList(items);
@@ -75,17 +68,10 @@ public class SSLServerSocketChannel extends ServerSocketChannel
         return filteredItems.toArray(new String[filteredItems.size()]);
     }
 
-    /**
-     *
-     */
     private final Executor executor;
-    /**
-     *
-     */
+
     private final ServerSocketChannel serverSocketChannel;
-    /**
-     *
-     */
+
     private final SSLContext sslContext;
     /**
      * A list of ciphers to explicitly exclude for the SSL exchange. Default is none.
@@ -184,7 +170,6 @@ public class SSLServerSocketChannel extends ServerSocketChannel
      *
      * @return An SSLSocketChannel or {@code null} if this channel is in non-blocking mode and no connection is available to be accepted.
      *
-     * @throws IOException Falls was schiefgeht.
      * @see #accept()
      */
     public SSLSocketChannel acceptOverSSL() throws IOException
@@ -221,8 +206,6 @@ public class SSLServerSocketChannel extends ServerSocketChannel
 
     /**
      * Should the SSLSocketChannels created from the accept method be put in blocking mode. Default is {@code false}.
-     *
-     * @param blockingMode boolean
      */
     public void setBlockingMode(final boolean blockingMode)
     {
@@ -231,8 +214,6 @@ public class SSLServerSocketChannel extends ServerSocketChannel
 
     /**
      * Should the SSL server require client certificate authentication? Default is {@code false}.
-     *
-     * @param needClientAuthentication boolean
      */
     public void setNeedClientAuthentication(final boolean needClientAuthentication)
     {
@@ -250,8 +231,6 @@ public class SSLServerSocketChannel extends ServerSocketChannel
 
     /**
      * Should the SS server ask for client certificate authentication? Default is {@code false}.
-     *
-     * @param wantClientAuthentication boolean
      */
     public void setWantClientAuthentication(final boolean wantClientAuthentication)
     {

@@ -18,34 +18,18 @@ import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
  */
 public class MemoryGraphPainter extends AbstractGraphPainter
 {
-    /**
-     *
-     */
     private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
-    /**
-     *
-     */
+
     private final Line2D line2d = new Line2D.Float();
-    /**
-     *
-     */
+
     private final Color rasterColor = new Color(46, 139, 87);
-    /**
-     *
-     */
+
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
-    /**
-     *
-     */
+
     private final Runtime runtime;
-    /**
-     *
-     */
+
     private float columnOffset;
 
-    /**
-     * Erstellt ein neues {@link MemoryGraphPainter} Object.
-     */
     public MemoryGraphPainter()
     {
         super();
@@ -53,9 +37,6 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         this.runtime = Runtime.getRuntime();
     }
 
-    /**
-     *
-     */
     public void generateValue()
     {
         float freeMemory = getFreeMemory();
@@ -152,27 +133,16 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         return value * height;
     }
 
-    /**
-     * @return float
-     */
     private float getFreeMemory()
     {
         return this.runtime.freeMemory();
     }
 
-    /**
-     * @return float
-     */
     private float getTotalMemory()
     {
         return this.runtime.totalMemory();
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param width float
-     * @param height float
-     */
     private void paintPlot(final Graphics2D g, final float width, final float height)
     {
         List<Float> values = getValues().getLastValues((int) width);
@@ -204,11 +174,6 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         // g.draw(this.rectangle2d);
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param width float
-     * @param height float
-     */
     private void paintRaster(final Graphics2D g, final float width, final float height)
     {
         g.setColor(this.rasterColor);

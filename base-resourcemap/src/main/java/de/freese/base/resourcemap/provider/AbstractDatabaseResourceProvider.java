@@ -16,9 +16,6 @@ import javax.sql.DataSource;
  */
 public abstract class AbstractDatabaseResourceProvider implements ResourceProvider
 {
-    /**
-     * Erstellt ein neues {@link AbstractDatabaseResourceProvider} Object.
-     */
     protected AbstractDatabaseResourceProvider()
     {
         super();
@@ -60,28 +57,14 @@ public abstract class AbstractDatabaseResourceProvider implements ResourceProvid
     /**
      * The PreparedStatement where the Columns KEY and VALUE must be present.<br>
      * Example: select MY_KEY as KEY, MY_VALUE as VALUE from TABLE where LOCALE = '?'
-     *
-     * @param connection {@link Connection}
-     *
-     * @return {@link PreparedStatement}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected abstract PreparedStatement createPreparedStatement(Connection connection) throws SQLException;
 
-    /**
-     * @return {@link DataSource}
-     */
     protected abstract DataSource getDataSource();
 
     /**
      * Puts the Key and the Value into the Map.<br>
      * The Columns KEY and VALUE must be present in the {@link ResultSet}.
-     *
-     * @param resultSet {@link ResultSet}
-     * @param map {@link Map}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected void populateMap(final ResultSet resultSet, final Map<String, String> map) throws SQLException
     {
@@ -90,11 +73,6 @@ public abstract class AbstractDatabaseResourceProvider implements ResourceProvid
 
     /**
      * Puts the Locale Parameter into the {@link PreparedStatement}.
-     *
-     * @param preparedStatement {@link PreparedStatement}
-     * @param locale {@link Locale}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     protected abstract void setLocaleProperty(PreparedStatement preparedStatement, Locale locale) throws SQLException;
 }

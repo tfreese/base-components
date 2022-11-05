@@ -11,14 +11,8 @@ import java.security.KeyPairGenerator;
  */
 public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
 {
-    /**
-     *
-     */
     private KeyPair keyPair;
 
-    /**
-     * Erstellt ein neues {@link CryptoConfigAsymetric} Object.
-     */
     CryptoConfigAsymetric()
     {
         super();
@@ -56,11 +50,6 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
         return crypto;
     }
 
-    /**
-     * @param keyPair {@link KeyPair}
-     *
-     * @return {@link CryptoConfigAsymetric}
-     */
     public CryptoConfigAsymetric keyPair(final KeyPair keyPair)
     {
         this.keyPair = keyPair;
@@ -68,9 +57,6 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
         return this;
     }
 
-    /**
-     * @return {@link KeyPair}
-     */
     protected KeyPair getKeyPair()
     {
         return this.keyPair;

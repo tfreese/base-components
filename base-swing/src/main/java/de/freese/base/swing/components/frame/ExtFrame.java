@@ -14,54 +14,29 @@ import javax.swing.JFrame;
  */
 public class ExtFrame extends JFrame
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4014880096241781642L;
 
-    /**
-     * Erstellt ein neues {@link ExtFrame} Object.
-     */
     public ExtFrame()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link ExtFrame} Object.
-     * 
-     * @param gc {@link GraphicsConfiguration}
-     */
     public ExtFrame(final GraphicsConfiguration gc)
     {
         super(gc);
     }
 
-    /**
-     * Erstellt ein neues {@link ExtFrame} Object.
-     * 
-     * @param title String
-     */
     public ExtFrame(final String title)
     {
         super(title);
     }
 
-    /**
-     * Erstellt ein neues {@link ExtFrame} Object.
-     * 
-     * @param title String
-     * @param gc {@link GraphicsConfiguration}
-     */
     public ExtFrame(final String title, final GraphicsConfiguration gc)
     {
         super(title, gc);
     }
 
-    /**
-     * This method deiconifies a frame; the maximized bits are not affected.
-     */
     public void deiconify()
     {
         int state = getExtendedState();
@@ -73,9 +48,6 @@ public class ExtFrame extends JFrame
         setExtendedState(state);
     }
 
-    /**
-     * This method iconifies a frame; the maximized bits are not affected.
-     */
     public void iconify()
     {
         int state = getExtendedState();
@@ -87,9 +59,6 @@ public class ExtFrame extends JFrame
         setExtendedState(state);
     }
 
-    /**
-     * This method minimizes a frame; the iconified bit is not affected.
-     */
     public void maximize()
     {
         int state = getExtendedState();
@@ -101,9 +70,6 @@ public class ExtFrame extends JFrame
         setExtendedState(state);
     }
 
-    /**
-     * This method minimizes a frame; the iconified bit is not affected.
-     */
     public void minimize()
     {
         int state = getExtendedState();

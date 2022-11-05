@@ -52,8 +52,6 @@ public class NioSslServer extends AbstractNioSslPeer
      * @param protocol - the SSL/TLS protocol that this server will be configured to apply.
      * @param hostAddress - the IP address this server will listen to.
      * @param port - the port this server will listen to.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public NioSslServer(final String protocol, final String hostAddress, final int port) throws Exception
     {
@@ -82,8 +80,6 @@ public class NioSslServer extends AbstractNioSslPeer
      * Should be called in order the server to start listening to new connections. This method will run in a loop as long as the server is active. In order to
      * stop the server you should use {@link NioSslServer#stop()} which will set it to inactive state and also wake up the listener, which may be in blocking
      * select() state.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public void start() throws Exception
     {
@@ -218,7 +214,7 @@ public class NioSslServer extends AbstractNioSslPeer
                     {
                         socketChannel.write(this.myNetData);
                     }
-                    
+
                     getLogger().debug("Message sent to the client: {}", message);
                 }
                 case BUFFER_OVERFLOW -> this.myNetData = enlargePacketBuffer(engine, this.myNetData);
@@ -238,8 +234,6 @@ public class NioSslServer extends AbstractNioSslPeer
      * the {@link SSLEngine} that will encrypt and decrypt all the data that will be exchanged during the session with this specific client.
      *
      * @param key - the key dedicated to the {@link ServerSocketChannel} used by the server to listen to new connection requests.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private void accept(final SelectionKey key) throws Exception
     {

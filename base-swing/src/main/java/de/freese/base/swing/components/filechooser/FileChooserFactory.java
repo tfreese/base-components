@@ -11,10 +11,6 @@ import javax.swing.filechooser.FileFilter;
 public final class FileChooserFactory
 {
     /**
-     * @param fileFilter {@link FileFilter}
-     *
-     * @return {@link JFileChooser}
-     *
      * @see GenericFileFilter
      */
     public static JFileChooser createFileChooser(final FileFilter... fileFilter)
@@ -32,9 +28,6 @@ public final class FileChooserFactory
         return fileChooser;
     }
 
-    /**
-     * Erstellt ein neues {@link FileChooserFactory} Object.
-     */
     private FileChooserFactory()
     {
         super();

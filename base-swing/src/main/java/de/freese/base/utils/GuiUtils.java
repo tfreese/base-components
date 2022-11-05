@@ -61,8 +61,6 @@ public final class GuiUtils
      * <br>
      * Solange das Fenster vollständig dargestellt werden kann, werden keine Änderungen vorgenommen. Ansonsten wird das Fenster entsprechend der aktuellen
      * Bildschirmauflösung verkleinert.<br>
-     *
-     * @param frame {@link JFrame}
      */
     public static void adjustFrame(final JFrame frame)
     {
@@ -76,11 +74,6 @@ public final class GuiUtils
 
     /**
      * Liefert die Breite eines Strings in der übergebenen Komponente.
-     *
-     * @param component {@link JComponent}
-     * @param text {@link String}
-     *
-     * @return int
      */
     public static int calcTextWidth(final JComponent component, final String text)
     {
@@ -89,10 +82,6 @@ public final class GuiUtils
 
     /**
      * Erzeugt einen PNG-Screenshot als {@link DataSource}.
-     *
-     * @return {@link DataSource}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static DataSource createScreenShot() throws Exception
     {
@@ -114,12 +103,6 @@ public final class GuiUtils
 
     /**
      * Erzeugt einen PNG-Screenshot einer {@link Component} als {@link DataSource}.
-     *
-     * @param c {@link Component}
-     *
-     * @return String der Dateiname des ScreenShots
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static DataSource createScreenShot(final Component c) throws Exception
     {
@@ -147,15 +130,6 @@ public final class GuiUtils
 
     /**
      * Erzeugt einen PNG-Screenshot des Koordinatenbereichs als {@link DataSource}.
-     *
-     * @param x int
-     * @param y int
-     * @param width int
-     * @param height int
-     *
-     * @return {@link DataSource}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws Exception
     {
@@ -178,11 +152,6 @@ public final class GuiUtils
     /**
      * Findet in einer Component eine andere Component mit der angegebene Klasse.<br>
      * Wird nichts gefunden, kommt null zurück.
-     *
-     * @param comp {@link Component}
-     * @param clazz Class
-     *
-     * @return {@link Component}
      */
     public static Component find(final Component comp, final Class<?> clazz)
     {
@@ -211,11 +180,6 @@ public final class GuiUtils
     /**
      * Findet in einer Component eine andere Component mit dem angegebenen Namen.<br>
      * Wird nichts gefunden, kommt null zurück.<br>
-     *
-     * @param comp {@link Component}
-     * @param name String
-     *
-     * @return {@link Component}
      */
     public static Component find(final Component comp, final String name)
     {
@@ -245,8 +209,6 @@ public final class GuiUtils
 
     /**
      * Gibt das aktuell fokussierte Frame zurück, oder das erste Frame, welches gefunden wird.
-     *
-     * @return {@link Frame}
      */
     public static Frame getActiveFrame()
     {
@@ -272,10 +234,6 @@ public final class GuiUtils
 
     /**
      * Gibt die Root-Komponente einer Komponente zurück.
-     *
-     * @param component {@link Component}
-     *
-     * @return {@link Component}
      */
     public static Component getRoot(final Component component)
     {
@@ -291,10 +249,6 @@ public final class GuiUtils
 
     /**
      * Gibt die {@link Dimension} des Bildschirms in Pixel zurück.<br>
-     *
-     * @return {@link Dimension}
-     *
-     * @see Toolkit
      */
     public static Dimension getScreenSize()
     {
@@ -303,17 +257,12 @@ public final class GuiUtils
 
     /**
      * Liefert den selbstgebauten ToolBar-Separator.
-     *
-     * @return {@link JPanel}
      */
     public static JPanel getToolBarSeparator()
     {
         return new ToolBarSeparator();
     }
 
-    /**
-     * Erstellt ein neues {@link GuiUtils} Object.
-     */
     private GuiUtils()
     {
         super();

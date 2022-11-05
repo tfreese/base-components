@@ -24,18 +24,9 @@ public final class TableExampleObservableList
      */
     private static class MyTableModel extends AbstractObservableListTableModel<int[]>
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -2601221304098179771L;
 
-        /**
-         * Erzeugt eine neue Instanz von {@link MyTableModel}.
-         *
-         * @param columnCount int
-         * @param list {@link ObservableList}
-         */
         MyTableModel(final int columnCount, final ObservableList<int[]> list)
         {
             super(columnCount, list);
@@ -53,11 +44,6 @@ public final class TableExampleObservableList
         }
     }
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         ObservableList<int[]> list = FXCollections.observableArrayList();
@@ -117,9 +103,6 @@ public final class TableExampleObservableList
         swingWorker.execute();
     }
 
-    /**
-     * Erstellt ein neues {@link TableExampleObservableList} Object.
-     */
     private TableExampleObservableList()
     {
         super();

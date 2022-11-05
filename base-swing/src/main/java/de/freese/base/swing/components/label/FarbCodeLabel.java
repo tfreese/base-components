@@ -20,19 +20,11 @@ import de.freese.base.utils.GuiUtils;
  */
 public class FarbCodeLabel extends JLabel
 {
-    /**
-     *
-     */
     public static final String BACKGROUND_CHANGED = "BACKGROUND_CHANGED";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Erstellt ein neues {@link FarbCodeLabel} Object.
-     */
     public FarbCodeLabel()
     {
         super();
@@ -40,9 +32,6 @@ public class FarbCodeLabel extends JLabel
         initialize();
     }
 
-    /**
-     * Konfiguration.
-     */
     private void initialize()
     {
         setPreferredSize(new Dimension(100, 20));

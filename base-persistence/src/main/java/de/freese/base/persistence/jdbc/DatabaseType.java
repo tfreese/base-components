@@ -17,23 +17,14 @@ import de.freese.base.utils.JdbcUtils;
 public enum DatabaseType
 {
     DB2("DB2"),
-
     DB2ZOS("DB2ZOS"),
-
     DERBY("Apache Derby"),
-
     H2("H2"),
-
     HSQL("HSQL Database Engine"),
-
     MYSQL("MySQL"),
-
     ORACLE("Oracle"),
-
     POSTGRES("PostgreSQL"),
-
     SQLSERVER("Microsoft SQL Server"),
-
     SYBASE("Sybase");
 
     private static final Map<String, DatabaseType> cache;

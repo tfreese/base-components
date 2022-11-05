@@ -5,9 +5,9 @@ import java.util.function.BiFunction;
 /**
  * Converts a String to the required Object.
  *
- * @author Thomas Freese
- *
  * @param <T> Type
+ *
+ * @author Thomas Freese
  */
 @FunctionalInterface
 public interface ResourceConverter<T> extends BiFunction<String, String, T>
@@ -21,11 +21,5 @@ public interface ResourceConverter<T> extends BiFunction<String, String, T>
         return convert(t, u);
     }
 
-    /**
-     * @param key String
-     * @param value String
-     *
-     * @return @return Object
-     */
     T convert(String key, String value);
 }

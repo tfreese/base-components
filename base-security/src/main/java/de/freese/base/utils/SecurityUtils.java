@@ -22,13 +22,6 @@ import javax.net.ssl.SSLSocketFactory;
  */
 public final class SecurityUtils
 {
-    /**
-     * Default {@link KeyPair} zum Testen.
-     *
-     * @return {@link KeyPair}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static KeyPair createDefaultKeyPair() throws Exception
     {
         String privateExponent =
@@ -50,8 +43,6 @@ public final class SecurityUtils
      * This method returns the available implementations for a service type.
      *
      * @param serviceType String, @see {@link #getServiceTypes()}
-     *
-     * @return String[]
      */
     public static String[] getCryptoImpls(final String serviceType)
     {
@@ -95,11 +86,6 @@ public final class SecurityUtils
         return result.toArray(new String[result.size()]);
     }
 
-    /**
-     * This method returns all available services types
-     *
-     * @return String[]
-     */
     public static String[] getServiceTypes()
     {
         Set<String> result = new TreeSet<>();
@@ -133,12 +119,6 @@ public final class SecurityUtils
 
     /**
      * Start TLS on an existing socket. Supports the "STARTTLS" command in many protocols.
-     *
-     * @param socket {@link Socket}
-     *
-     * @return {@link Socket}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static Socket startSSL(final Socket socket) throws IOException
     {
@@ -156,9 +136,6 @@ public final class SecurityUtils
         return sslSocket;
     }
 
-    /**
-     * Erstellt ein neues {@link SecurityUtils} Object.
-     */
     private SecurityUtils()
     {
         super();

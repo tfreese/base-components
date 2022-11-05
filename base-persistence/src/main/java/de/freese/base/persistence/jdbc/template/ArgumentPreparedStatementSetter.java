@@ -35,11 +35,6 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
     public static final int TYPE_UNKNOWN = Integer.MIN_VALUE;
 
     /**
-     * @param ps {@link PreparedStatement}
-     * @param paramIndex int
-     * @param value value
-     *
-     * @throws SQLException if thrown by PreparedStatement methods
      * @see SqlTypeValue
      */
     public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
@@ -54,12 +49,6 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
         }
     }
 
-    /**
-     * @param ps {@link PreparedStatement}
-     * @param paramIndex int
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void setNull(final PreparedStatement ps, final int paramIndex) throws SQLException
     {
         boolean useSetObject = false;
@@ -91,13 +80,6 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
         }
     }
 
-    /**
-     * @param ps {@link PreparedStatement}
-     * @param paramIndex int
-     * @param value Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     private static void setValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
     {
         if (value instanceof Boolean data)
@@ -289,16 +271,8 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
         }
     }
 
-    /**
-     *
-     */
     private final Object[] args;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link ArgumentPreparedStatementSetter}.
-     *
-     * @param args Object[]
-     */
     public ArgumentPreparedStatementSetter(final Object[] args)
     {
         super();

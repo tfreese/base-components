@@ -14,32 +14,17 @@ import de.freese.base.swing.components.led.LedMatrix;
  */
 public abstract class AbstractToken<V> implements Token<V>
 {
-    /**
-     *
-     */
     private final Color color;
-    /**
-     *
-     */
+
     private List<byte[]> bitMasks;
-    /**
-     *
-     */
+
     private CharSequence displayValue;
 
-    /**
-     * Erstellt ein neues {@link AbstractToken} Object.
-     */
     protected AbstractToken()
     {
         this(Color.WHITE);
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractToken} Object.
-     *
-     * @param color {@link Color}
-     */
     protected AbstractToken(final Color color)
     {
         super();
@@ -65,9 +50,6 @@ public abstract class AbstractToken<V> implements Token<V>
         return this.color;
     }
 
-    /**
-     * @param bitMask byte[]
-     */
     protected void addBitMask(final byte[] bitMask)
     {
         if (this.bitMasks == null)
@@ -78,9 +60,6 @@ public abstract class AbstractToken<V> implements Token<V>
         this.bitMasks.add(bitMask);
     }
 
-    /**
-     * @param displayValue {@link CharSequence}
-     */
     protected void createBitMasks(final CharSequence displayValue)
     {
         this.displayValue = displayValue;
@@ -100,17 +79,11 @@ public abstract class AbstractToken<V> implements Token<V>
         }
     }
 
-    /**
-     * @return {@link CharSequence}
-     */
     protected CharSequence getDisplayValue()
     {
         return this.displayValue;
     }
 
-    /**
-     * @param displayValue {@link CharSequence}
-     */
     protected void setDisplayValue(final CharSequence displayValue)
     {
         this.displayValue = displayValue;

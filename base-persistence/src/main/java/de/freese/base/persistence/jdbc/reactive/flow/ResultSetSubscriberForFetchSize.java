@@ -20,52 +20,29 @@ import org.slf4j.LoggerFactory;
  */
 public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T>
 {
-    /**
-     *
-     */
     private static final int DEFAULT_FETCH_SIZE = 100;
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);
-    /**
-     *
-     */
+
     private final AtomicBoolean completed;
-    /**
-     *
-     */
+
     private final Consumer<T> consumer;
-    /**
-     *
-     */
+
     private final AtomicInteger counter;
-    /**
-     *
-     */
+
     private final int fetchSize;
-    /**
-     *
-     */
+
     private Subscription subscription;
 
     /**
      * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.<br>
      * Default fetchSize = 100
-     *
-     * @param consumer {@link Consumer}
      */
     public ResultSetSubscriberForFetchSize(final Consumer<T> consumer)
     {
         this(consumer, DEFAULT_FETCH_SIZE);
     }
 
-    /**
-     * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.
-     *
-     * @param consumer {@link Consumer}
-     * @param fetchSize int
-     */
     public ResultSetSubscriberForFetchSize(final Consumer<T> consumer, final int fetchSize)
     {
         super();

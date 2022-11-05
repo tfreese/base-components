@@ -13,9 +13,6 @@ import java.util.List;
  */
 public class BarGraphPainter extends AbstractGraphPainter
 {
-    /**
-     *
-     */
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
     /**

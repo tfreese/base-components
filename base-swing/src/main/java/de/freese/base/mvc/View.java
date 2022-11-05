@@ -9,32 +9,13 @@ import java.awt.Component;
  */
 public interface View
 {
-    /**
-     * Aufbau der GUI.
-     */
     void createGUI();
 
-    /**
-     * Liefert die Komponente der View.
-     *
-     * @return {@link Component}
-     */
     Component getComponent();
 
-    /**
-     * Fehlerbehandlung.
-     *
-     * @param throwable {@link Throwable}
-     */
     void handleException(Throwable throwable);
 
-    /**
-     * Setzt den Status der View.
-     */
     void restoreState();
 
-    /**
-     * Speichert den Status der View.
-     */
     void saveState();
 }

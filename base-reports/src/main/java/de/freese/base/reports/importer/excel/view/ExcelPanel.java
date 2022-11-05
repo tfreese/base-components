@@ -20,19 +20,11 @@ import de.freese.base.reports.importer.excel.ExcelToolkit;
  */
 public class ExcelPanel extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2622130940186653172L;
-    /**
-     *
-     */
+
     private JTabbedPane tabbedPane;
 
-    /**
-     * Creates a new {@link ExcelPanel} object.
-     */
     public ExcelPanel()
     {
         super();
@@ -40,21 +32,11 @@ public class ExcelPanel extends JPanel
         initialize();
     }
 
-    /**
-     * Hinzufügen eines Excelsheets als Tab.
-     *
-     * @param excelSheet {@link ExcelSheet}
-     */
     public void addExcelSheet(final ExcelSheet excelSheet)
     {
         getJTabbedPane().addTab(excelSheet.getSheetName(), null, new ExcelSheetPanel(excelSheet), null);
     }
 
-    /**
-     * Liefert den selektierten Bereich in Excelnotation.
-     *
-     * @return String
-     */
     public String getSelectedRange()
     {
         ExcelSheetPanel selectedPanel = (ExcelSheetPanel) getJTabbedPane().getSelectedComponent();
@@ -63,11 +45,6 @@ public class ExcelPanel extends JPanel
         return ExcelToolkit.getRange(table);
     }
 
-    /**
-     * Selektiert den Tab des Namens.
-     *
-     * @param sheetName String
-     */
     public void selectSheet(final String sheetName)
     {
         if ((sheetName == null) || (sheetName.length() == 0))
@@ -86,11 +63,6 @@ public class ExcelPanel extends JPanel
         }
     }
 
-    /**
-     * Liefert die TabbedPane der Excelsheets.
-     *
-     * @return {@link JTabbedPane}
-     */
     private JTabbedPane getJTabbedPane()
     {
         if (this.tabbedPane == null)
@@ -102,9 +74,6 @@ public class ExcelPanel extends JPanel
         return this.tabbedPane;
     }
 
-    /**
-     * This method initializes this
-     */
     private void initialize()
     {
         GridBagConstraints gridBagConstraints = new GridBagConstraints();

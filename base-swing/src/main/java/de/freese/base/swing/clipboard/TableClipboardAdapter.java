@@ -21,8 +21,6 @@ import javax.swing.JTable;
 public class TableClipboardAdapter extends AbstractClipboardAdapter
 {
     /**
-     * MouseAdapter der Tabelle für das Popup.
-     *
      * @author Thomas Freese
      */
     protected class PopupListener extends MouseAdapter
@@ -56,31 +54,15 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         }
     }
 
-    /**
-     *
-     */
     private boolean externalPopup;
-    /**
-     *
-     */
+
     private JPopupMenu popup;
 
-    /**
-     * Creates a new {@link TableClipboardAdapter} object.
-     *
-     * @param table {@link JTable}
-     */
     public TableClipboardAdapter(final JTable table)
     {
         this(table, null);
     }
 
-    /**
-     * Creates a new {@link TableClipboardAdapter} object.
-     *
-     * @param table {@link JTable}
-     * @param popupMenu JPopupMenu, falls bereits ein JPopupMenu existiert.
-     */
     public TableClipboardAdapter(final JTable table, final JPopupMenu popupMenu)
     {
         super(table);
@@ -240,11 +222,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         }
     }
 
-    /**
-     * PopupMenu der Tabelle.
-     *
-     * @return {@link JPopupMenu}
-     */
     public JPopupMenu getPopupMenu()
     {
         if (this.popup == null)
@@ -278,10 +255,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Dreht die Achsen der eingehenden Matrix.
-     *
-     * @param matrix String[][]
-     *
-     * @return String[][]
      */
     private String[][] flipMatrix(final String[][] matrix)
     {
@@ -305,10 +278,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     /**
      * Liefert ein 2 dim String Array für die Paste Action.
-     *
-     * @param clipboardString String
-     *
-     * @return String[][]
      */
     private String[][] getPasteMatrix(final String clipboardString)
     {
@@ -347,11 +316,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         return matrix;
     }
 
-    /**
-     * Liefert die Tabelle.
-     *
-     * @return {@link JTable}
-     */
     private JTable getTable()
     {
         return (JTable) getComponent();

@@ -9,55 +9,32 @@ import java.util.Objects;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 
+import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.utils.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
-import de.freese.base.utils.JdbcUtils;
-
 /**
- * @author Thomas Freese
- *
  * @param <T> Entity-Type
+ *
+ * @author Thomas Freese
  */
 public class ResultSetSubscription<T> implements Subscription
 {
-    /**
-    *
-    */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscription.class);
-    /**
-    *
-    */
+
     private final Connection connection;
-    /**
-    *
-    */
+
     private final ResultSet resultSet;
-    /**
-    *
-    */
+
     private final RowMapper<T> rowMapper;
-    /**
-    *
-    */
+
     private final Statement statement;
-    /**
-    *
-    */
+
     private final Subscriber<? super T> subscriber;
 
-    /**
-     * Erstellt ein neues {@link de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription} Object.
-     *
-     * @param connection {@link Connection}
-     * @param statement {@link Statement}
-     * @param resultSet {@link ResultSet}
-     * @param rowMapper {@link RowMapper}
-     * @param subscriber {@link Subscriber}
-     */
     ResultSetSubscription(final Connection connection, final Statement statement, final ResultSet resultSet, final RowMapper<T> rowMapper,
-            final Subscriber<? super T> subscriber)
+                          final Subscriber<? super T> subscriber)
     {
         super();
 
@@ -75,18 +52,6 @@ public class ResultSetSubscription<T> implements Subscription
     public void cancel()
     {
         closeJdbcResources();
-    }
-
-    /**
-     *
-     */
-    private void closeJdbcResources()
-    {
-        LOGGER.debug("close jdbc subscription");
-
-        JdbcUtils.closeSilent(this.resultSet);
-        JdbcUtils.closeSilent(this.statement);
-        JdbcUtils.closeSilent(this.connection);
     }
 
     /**
@@ -119,5 +84,14 @@ public class ResultSetSubscription<T> implements Subscription
             closeJdbcResources();
             this.subscriber.onError(sex);
         }
+    }
+
+    private void closeJdbcResources()
+    {
+        LOGGER.debug("close jdbc subscription");
+
+        JdbcUtils.closeSilent(this.resultSet);
+        JdbcUtils.closeSilent(this.statement);
+        JdbcUtils.closeSilent(this.connection);
     }
 }

@@ -23,31 +23,17 @@ import de.freese.base.swing.ui.ThinHorizontalScrollBarUI;
  */
 public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 9023884779864134283L;
-    /**
-     *
-     */
+
     private JLabel filterLabel;
-    /**
-     *
-     */
+
     private JTextField filterTextField;
-    /**
-     *
-     */
+
     private JList<T> list;
-    /**
-     *
-     */
+
     private JScrollPane scrollPane;
 
-    /**
-     * Erstellt ein neues {@link ListFilterAuswahlPanel} Object.
-     */
     public ListFilterAuswahlPanel()
     {
         super();
@@ -76,9 +62,6 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         getScrollPane().getHorizontalScrollBar().setUI(new ThinHorizontalScrollBarUI(9));
     }
 
-    /**
-     * @return {@link JLabel}
-     */
     public JLabel getFilterLabel()
     {
         if (this.filterLabel == null)
@@ -89,9 +72,6 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         return this.filterLabel;
     }
 
-    /**
-     * @return {@link JTextField}
-     */
     public JTextField getFilterTextField()
     {
         if (this.filterTextField == null)
@@ -102,9 +82,6 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         return this.filterTextField;
     }
 
-    /**
-     * @return {@link JList}
-     */
     public JList<T> getList()
     {
         if (this.list == null)
@@ -115,11 +92,6 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         return this.list;
     }
 
-    /**
-     * Liefert die ScrollPane
-     *
-     * @return {@link JScrollPane}
-     */
     public JScrollPane getScrollPane()
     {
         if (this.scrollPane == null)
@@ -130,11 +102,6 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         return this.scrollPane;
     }
 
-    /**
-     * Setzt den Filter als {@link DocumentListener}.
-     *
-     * @param filter {@link Filter}
-     */
     public void setFilter(final Filter filter)
     {
         DocumentListener documentListener = (DocumentListener) filter;
@@ -142,11 +109,6 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         getFilterTextField().getDocument().addDocumentListener(documentListener);
     }
 
-    /**
-     * Sichtbarmachung des Filters.
-     *
-     * @param value boolean
-     */
     public void setFilterVisible(final boolean value)
     {
         getFilterLabel().setVisible(value);

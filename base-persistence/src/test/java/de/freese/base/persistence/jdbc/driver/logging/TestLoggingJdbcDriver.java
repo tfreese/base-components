@@ -270,8 +270,6 @@ class TestLoggingJdbcDriver
     // * @MethodSource("getPools")
     // * </pre>
     // * </code>
-    // *
-    // * @return {@link Stream}
     // */
     // static Stream<ConnectionPool> getPools()
     // {
@@ -303,7 +301,6 @@ class TestLoggingJdbcDriver
                         i++;
                     }
                 }
-
             }
         }
 

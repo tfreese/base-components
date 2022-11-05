@@ -11,23 +11,14 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 /**
  * {@link Spliterator} für ein {@link ResultSet}.<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Type of Entity
+ *
+ * @author Thomas Freese
  */
 public class ResultSetSpliterator<T> implements Spliterator<T> // extends Spliterators.AbstractSpliterator<T>
 {
-    /**
-    *
-    */
     private final Iterator<T> iterator;
 
-    /**
-     * Erstellt ein neues {@link ResultSetSpliterator} Object.
-     *
-     * @param resultSet {@link ResultSet}
-     * @param rowMapper {@link RowMapper}
-     */
     public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper)
     {
         super();

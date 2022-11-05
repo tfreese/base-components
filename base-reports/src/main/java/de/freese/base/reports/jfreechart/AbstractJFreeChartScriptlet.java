@@ -30,9 +30,6 @@ import org.jfree.data.xy.XYSeries;
  */
 public abstract class AbstractJFreeChartScriptlet<T>
 {
-    /**
-     * Default Ticks für die Diagrammachsen.
-     */
     private static final double[] DEFAULT_TICKS =
             {
                     0.01D,
@@ -203,16 +200,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
      */
     private static class PlotAdapter
     {
-        /**
-         *
-         */
         private final Plot plot;
 
-        /**
-         * Erstellt ein neues {@link PlotAdapter} Objekt.
-         *
-         * @param plot {@link Plot}
-         */
         public PlotAdapter(final Plot plot)
         {
             super();
@@ -220,11 +209,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
             this.plot = plot;
         }
 
-        /**
-         * @param index int
-         *
-         * @return {@link LegendItemSource}
-         */
         public LegendItemSource getRenderer(final int index)
         {
             if (this.plot instanceof XYPlot xyPlot)
@@ -239,9 +223,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
         }
 
-        /**
-         * @return int
-         */
         public int getRendererCount()
         {
             if (this.plot instanceof XYPlot xyPlot)
@@ -256,9 +237,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
         }
 
-        /**
-         * @return {@link Axis}
-         */
         public Axis getXAxis()
         {
             if (this.plot instanceof XYPlot xyPlot)
@@ -273,9 +251,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
         }
 
-        /**
-         * @return {@link Axis}
-         */
         public Axis getYAxis()
         {
             if (this.plot instanceof XYPlot xyPlot)
@@ -291,23 +266,13 @@ public abstract class AbstractJFreeChartScriptlet<T>
         }
     }
 
-    /**
-     *
-     */
     private DecimalFormat decimalFormatter;
 
-    /**
-     *
-     */
     private DecimalFormat floatFormatter;
 
     /**
      * Erzeugt das Diagramm.<br>
      * Für die Dekorierung des Diagramms die {@link #decorateChart(Object, JFreeChart)} Methode aufrufen.
-     *
-     * @param model Object
-     *
-     * @return {@link JFreeChart}
      *
      * @see #decorateChart(Object, JFreeChart)
      */
@@ -316,14 +281,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * Berechnet den Schrittwert für eine Skalierung mit Angabe der Anzahl der Schritte und einen möglichen oberen Rand in %.
      *
-     * @param yMaxValue double
-     * @param maxTickUnits int
      * @param upperTickMargin double, % eines Ticks als oberer Rand.
      * @param fractionDigits boolean, Ticks mit Kommastellen ?
-     *
-     * @return double
-     *
-     * @throws IllegalArgumentException Falls was schiefgeht.
      */
     protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits)
     {
@@ -387,9 +346,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
      * <li>{@link XYPlot}
      * <li>{@link CategoryPlot}
      * </ul>
-     *
-     * @param model Object
-     * @param chart {@link JFreeChart}
      */
     protected void decorateChart(final T model, final JFreeChart chart)
     {
@@ -414,44 +370,26 @@ public abstract class AbstractJFreeChartScriptlet<T>
 
     /**
      * Initialisiert das Layout, {@link Dataset} und {@link CategoryItemRenderer} des {@link Plot}.
-     *
-     * @param model Object
-     * @param plot {@link Plot}
      */
     protected abstract void decoratePlot(final T model, final Plot plot);
 
     /**
      * Initialisiert das Layout der Renderer.
-     *
-     * @param model Object
-     * @param plot {@link Plot}
-     * @param index int
-     * @param renderer {@link LegendItemSource}
      */
     protected abstract void decorateRenderer(final T model, Plot plot, final int index, final LegendItemSource renderer);
 
     /**
      * Initialisiert das Layout der x-Achse.
-     *
-     * @param model Object
-     * @param plot {@link Plot}
-     * @param axis {@link Axis}
      */
     protected abstract void decorateXAxis(final T model, Plot plot, final Axis axis);
 
     /**
      * Initialisiert das Layout der y-Achse.
-     *
-     * @param model Object
-     * @param plot {@link Plot}
-     * @param axis {@link Axis}
      */
     protected abstract void decorateYAxis(final T model, Plot plot, final Axis axis);
 
     /**
      * 123456.123 wird zu 123.456,1
-     *
-     * @return {@link DecimalFormat}
      */
     protected DecimalFormat getDecimalFormatter()
     {
@@ -469,10 +407,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
 
     /**
      * Findet die höchste Zahl auf der y-Achse eines JFreeChart Datasets heraus.
-     *
-     * @param dataSet {@link CategoryDataset}
-     *
-     * @return double
      */
     protected double getYMaxValue(final CategoryDataset dataSet)
     {
@@ -496,10 +430,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
 
     /**
      * Findet die höchste Zahl auf der y-Achse einer JFreeChart Serie heraus.
-     *
-     * @param series {@link Series}
-     *
-     * @return double
      */
     protected double getYMaxValue(final Series series)
     {
@@ -540,8 +470,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
 
     /**
      * Normalisiert die Daten für die 1000-er Darstellung.
-     *
-     * @param dataSet {@link DefaultCategoryDataset}
      */
     protected void normalize(final DefaultCategoryDataset dataSet)
     {
@@ -570,10 +498,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * Formatiert die y-Achse eines Diagramms.
      *
-     * @param axis {@link ValueAxis}
-     * @param yMaxValue double
-     * @param maxTickUnits int
-     * @param upperTickMargin double
      * @param fractionDigits boolean, Ticks mit Kommastellen ?
      */
     protected void normalizeYTickUnits(final ValueAxis axis, final double yMaxValue, final int maxTickUnits, final double upperTickMargin,
@@ -611,8 +535,6 @@ public abstract class AbstractJFreeChartScriptlet<T>
 
     /**
      * 1.234 wird zu 1.2
-     *
-     * @return {@link DecimalFormat}
      */
     private DecimalFormat getFloatDecimalFormatter()
     {

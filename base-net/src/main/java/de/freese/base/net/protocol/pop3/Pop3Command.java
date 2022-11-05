@@ -88,9 +88,6 @@ public final class Pop3Command
     // */
     // public static final int ERR_Code = 1;
 
-    /**
-     * Erstellt ein neues {@link Pop3Command} Object.
-     */
     private Pop3Command()
     {
         super();

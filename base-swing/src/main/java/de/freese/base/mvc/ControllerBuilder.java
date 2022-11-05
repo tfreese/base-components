@@ -8,38 +8,16 @@ import java.util.Objects;
  */
 public final class ControllerBuilder
 {
-    /**
-     * @param context {@link ApplicationContext}
-     *
-     * @return {@link ControllerBuilder}
-     */
     public static ControllerBuilder create(final ApplicationContext context)
     {
         return new ControllerBuilder(context);
     }
-
-    /**
-     *
-     */
-    private String bundleName;
-    /**
-     *
-     */
     private final ApplicationContext context;
-    /**
-    *
-    */
+    private String bundleName;
     private Class<? extends AbstractController> controllerClazz;
-    /**
-    *
-    */
+
     private String name;
 
-    /**
-     * Erstellt ein neues {@link ControllerBuilder} Object.
-     *
-     * @param context {@link ApplicationContext}
-     */
     private ControllerBuilder(final ApplicationContext context)
     {
         super();
@@ -47,9 +25,6 @@ public final class ControllerBuilder
         this.context = Objects.requireNonNull(context, "context required");
     }
 
-    /**
-     * @return {@link Controller}
-     */
     public Controller build()
     {
         Objects.requireNonNull(this.name, "name required");
@@ -78,13 +53,6 @@ public final class ControllerBuilder
         return controller;
     }
 
-    /**
-     * Setzt den Namen des ResourceBundles.
-     *
-     * @param bundleName String
-     *
-     * @return {@link ControllerBuilder}
-     */
     public ControllerBuilder bundleName(final String bundleName)
     {
         this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
@@ -92,13 +60,6 @@ public final class ControllerBuilder
         return this;
     }
 
-    /**
-     * Setzt die Klasse des {@link Controller}s.
-     *
-     * @param controllerClazz Class
-     *
-     * @return {@link ControllerBuilder}
-     */
     public ControllerBuilder clazz(final Class<? extends AbstractController> controllerClazz)
     {
         this.controllerClazz = Objects.requireNonNull(controllerClazz, "controllerClazz required");
@@ -106,13 +67,6 @@ public final class ControllerBuilder
         return this;
     }
 
-    /**
-     * Setzt den Namen des {@link Controller}s.
-     *
-     * @param name String
-     *
-     * @return {@link ControllerBuilder}
-     */
     public ControllerBuilder name(final String name)
     {
         this.name = Objects.requireNonNull(name, "name required");

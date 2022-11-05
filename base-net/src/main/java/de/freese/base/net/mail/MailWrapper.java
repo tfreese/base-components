@@ -53,106 +53,56 @@ public class MailWrapper
         setDebug(false);
     }
 
-    /**
-     * Hinzufügen eines Anhangs.
-     *
-     * @param dataSource {@link DataSource}
-     */
     public void addAttachment(final DataSource dataSource)
     {
         this.attachments.add(dataSource);
     }
 
-    /**
-     * Hinzufügen eines Inlines.
-     *
-     * @param dataSource {@link DataSource}
-     */
     public void addInline(final DataSource dataSource)
     {
         this.inlines.add(dataSource);
     }
 
-    /**
-     * Hinzufügen eines weiteren Empfängers.
-     *
-     * @param to String
-     *
-     * @throws NullPointerException, wenn die Adresse null ist
-     * @throws MessagingException, wenn die Adresse ein ungültiges Format hat
-     */
     public void addTO(final String to) throws NullPointerException, MessagingException
     {
         this.to.add(parseAddress(to));
     }
 
-    /**
-     * Zusätzliche Mail Header leeren.
-     */
     public void clearAdditionalHeader()
     {
         this.additionalHeaderProperties.clear();
     }
 
-    /**
-     * Anhänge leeren.
-     */
     public void clearAttachments()
     {
         this.attachments.clear();
     }
 
-    /**
-     * Inlines leeren.
-     */
     public void clearInlines()
     {
         this.inlines.clear();
     }
 
-    /**
-     * Leert die Empfänger Liste.
-     */
-    public void clearTO()
+    public void clearTo()
     {
         this.to.clear();
     }
 
-    /**
-     * Liefert die Anzahl vorhandener Attachments.
-     *
-     * @return int
-     */
     public int getAttachmentSize()
     {
         return this.attachments.size();
     }
 
-    /**
-     * Liefert die Anzahl vorhandener Inlines.
-     *
-     * @return int
-     */
     public int getInlineSize()
     {
         return this.inlines.size();
     }
 
-    /**
-     * Liefert die Anzahl vorhandener Empfänger.
-     *
-     * @return int
-     */
-    public int getTOSize()
+    public int getToSize()
     {
         return this.to.size();
     }
 
-    /**
-     * Senden der Mail.
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void send() throws Exception
     {
         if (this.from == null)
@@ -160,9 +110,9 @@ public class MailWrapper
             throw new NullPointerException("from");
         }
 
-        if (getTOSize() == 0)
+        if (getToSize() == 0)
         {
-            throw new IllegalStateException("recipients: size = " + getTOSize());
+            throw new IllegalStateException("recipients: size = " + getToSize());
         }
 
         Session session = Session.getInstance(this.javaMailProperties);
@@ -258,82 +208,37 @@ public class MailWrapper
         this.additionalHeaderProperties.put(key.strip(), value.strip());
     }
 
-    /**
-     * Setzt die Debug Option.
-     *
-     * @param debug boolean
-     */
     public void setDebug(final boolean debug)
     {
         this.javaMailProperties.put("mail.debug", debug);
     }
 
-    /**
-     * Setzt den Absender.
-     *
-     * @param from String
-     *
-     * @throws NullPointerException, wenn die Adresse null ist
-     * @throws MessagingException, wenn der Adresse ein ungültiges Format hat
-     */
     public void setFrom(final String from) throws NullPointerException, MessagingException
     {
         this.from = parseAddress(from);
     }
 
-    /**
-     * Setzt den Host des MailServers.
-     *
-     * @param host String
-     */
     public void setHost(final String host)
     {
         this.javaMailProperties.setProperty("mail.smtp.host", host);
     }
 
-    /**
-     * Setzt ein bestimmtes Property.
-     *
-     * @param key String
-     * @param value String
-     */
     public void setJavaMailProperty(final String key, final String value)
     {
         this.javaMailProperties.setProperty(key, value);
     }
 
-    /**
-     * Setzt den Betreff.
-     *
-     * @param subject String
-     */
     public void setSubject(final String subject)
     {
         this.subject = subject;
     }
 
-    /**
-     * Setzt den Text.
-     *
-     * @param text String
-     * @param html boolean HTML Text ?
-     */
     public void setText(final String text, final boolean html)
     {
         this.text = text;
         this.html = html;
     }
 
-    /**
-     * Überprüft und wandelt eine E-Mail Adresse in ein {@link InternetAddress} Objekt um.
-     *
-     * @param address String
-     *
-     * @return {@link InternetAddress}
-     *
-     * @throws NullPointerException, wenn die Adresse null ist
-     * @throws MessagingException, wenn die Adresse ein ungültiges Format hat
-     */
     private InternetAddress parseAddress(final String address) throws NullPointerException, MessagingException
     {
         if (address == null)

@@ -2,7 +2,6 @@
 package de.freese.base.swing.components.led.token;
 
 import java.awt.Color;
-import java.util.Formatter;
 import java.util.Objects;
 
 /**
@@ -10,18 +9,8 @@ import java.util.Objects;
  */
 public class NumberToken extends AbstractToken<Number>
 {
-    /**
-     *
-     */
     private final String format;
 
-    /**
-     * Erstellt ein neues {@link NumberToken} Object.
-     *
-     * @param color {@link Color}
-     * @param value Number
-     * @param format String; siehe {@link Formatter}
-     */
     public NumberToken(final Color color, final Number value, final String format)
     {
         super(color);
@@ -31,12 +20,6 @@ public class NumberToken extends AbstractToken<Number>
         setValue(value);
     }
 
-    /**
-     * Erstellt ein neues {@link NumberToken} Object.
-     *
-     * @param value Number
-     * @param format String; siehe {@link Formatter}
-     */
     public NumberToken(final Number value, final String format)
     {
         super();

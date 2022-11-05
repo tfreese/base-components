@@ -18,9 +18,6 @@ import de.freese.base.reports.exporter.Exporter;
  */
 public abstract class AbstractCSVExporter extends AbstractExporter
 {
-    /**
-     * Erstellt ein neues {@link AbstractCSVExporter} Objekt.
-     */
     protected AbstractCSVExporter()
     {
         super();
@@ -41,11 +38,7 @@ public abstract class AbstractCSVExporter extends AbstractExporter
     /**
      * Erzeugt das Dokument und schreibt es in den {@link PrintWriter}.
      *
-     * @param pw {@link PrintWriter}
      * @param progressCallback {@link ProgressCallback}, optional
-     * @param model Object
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public abstract void export(PrintWriter pw, ProgressCallback progressCallback, Object model) throws Exception;
 
@@ -53,11 +46,6 @@ public abstract class AbstractCSVExporter extends AbstractExporter
      * Erzeugt das Dokument und schreibt es in den {@link StringBuffer}.
      *
      * @param progressCallback {@link ProgressCallback}, optional
-     * @param model Object
-     *
-     * @return {@link StringBuffer}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public StringBuffer export(final ProgressCallback progressCallback, final Object model) throws Exception
     {

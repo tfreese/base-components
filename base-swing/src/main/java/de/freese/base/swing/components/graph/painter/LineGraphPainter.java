@@ -13,9 +13,6 @@ import java.util.List;
  */
 public class LineGraphPainter extends AbstractGraphPainter
 {
-    /**
-     *
-     */
     private final Line2D line2d = new Line2D.Float();
 
     /**

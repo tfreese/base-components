@@ -109,7 +109,6 @@ public class RendererKeySelectionManager implements KeySelectionManager
     /**
      * Sucht einen Eintrag aus dem {@link ComboBoxModel} in einem bestimmten Bereich.
      *
-     * @param model {@link ComboBoxModel}
      * @param fromIndex Startindex(inklusive)
      * @param endIndex Endindex (exklusive)
      *
@@ -137,8 +136,6 @@ public class RendererKeySelectionManager implements KeySelectionManager
     /**
      * Bestimmt die Zeichenfolge, nach der im {@link ComboBoxModel} gesucht werden soll. Wenn innerhalb von 250 ms nach einem Tastendruck erneut eine Taste
      * gedrückt wird, so wird das Tastaturzeichen an die bestehende Zeichenfolge angehängt.
-     *
-     * @param aKey char
      */
     private void setPattern(final char aKey)
     {

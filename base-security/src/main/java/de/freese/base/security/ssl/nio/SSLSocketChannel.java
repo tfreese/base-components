@@ -27,17 +27,10 @@ import org.slf4j.LoggerFactory;
  */
 public class SSLSocketChannel extends SocketChannel
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SSLSocketChannel.class);
-    /**
-     *
-     */
+
     private final SocketChannel socketChannel;
-    /**
-     *
-     */
+
     private final SSLEngineBuffer sslEngineBuffer;
 
     /**
@@ -111,9 +104,6 @@ public class SSLSocketChannel extends SocketChannel
         return this.socketChannel.getRemoteAddress();
     }
 
-    /**
-     * @return {@link SocketChannel}
-     */
     public SocketChannel getWrappedSocketChannel()
     {
         return this.socketChannel;
@@ -470,9 +460,6 @@ public class SSLSocketChannel extends SocketChannel
         return totalWritten;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return SSLSocketChannel.LOGGER;

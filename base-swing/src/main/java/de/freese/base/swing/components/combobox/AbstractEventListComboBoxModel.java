@@ -17,17 +17,9 @@ import de.freese.base.swing.eventlist.EventList;
  */
 public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventListListModel<T> implements ComboBoxModel<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -711561284816478818L;
 
-    /**
-     * Erweiterung des ComboBoxEventListeners
-     *
-     * @author Thomas Freese
-     */
     private class ComboBoxEventListListener extends EventListListener
     {
         /**
@@ -44,16 +36,8 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
         }
     }
 
-    /**
-     * Das momentan selektierte Objekt, in der ComboBox.
-     */
     private Object selectedObject;
 
-    /**
-     * Erstellt ein neues {@link AbstractEventListComboBoxModel} Objekt.
-     *
-     * @param list {@link EventList}
-     */
     protected AbstractEventListComboBoxModel(final EventList<T> list)
     {
         super(list);

@@ -10,26 +10,16 @@ import javax.swing.SwingConstants;
  */
 public class LineLayoutElement extends AbstractLayoutElement
 {
-    /**
-     *
-     */
     private int orientation = -1;
-    /**
-     *
-     */
+
     private int thickness = 1;
 
-    /**
-     * Creates a new LineLayoutElement object.
-     */
     public LineLayoutElement()
     {
         this(SwingConstants.HORIZONTAL);
     }
 
     /**
-     * Creates a new LineLayoutElement object.
-     *
      * @param orientation <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
      */
     public LineLayoutElement(final int orientation)
@@ -43,7 +33,7 @@ public class LineLayoutElement extends AbstractLayoutElement
      * @see de.freese.base.reports.layout.AbstractLayoutElement#getHeight()
      */
     @Override
-    public float getHeight()
+    public double getHeight()
     {
         return switch (getOrientation())
                 {
@@ -54,8 +44,6 @@ public class LineLayoutElement extends AbstractLayoutElement
     }
 
     /**
-     * Ausrichtung der Linie.
-     *
      * @return int; <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
      */
     public int getOrientation()
@@ -63,11 +51,6 @@ public class LineLayoutElement extends AbstractLayoutElement
         return this.orientation;
     }
 
-    /**
-     * Dicke der Linie.
-     *
-     * @return int
-     */
     public int getThickness()
     {
         return this.thickness;
@@ -77,7 +60,7 @@ public class LineLayoutElement extends AbstractLayoutElement
      * @see de.freese.base.reports.layout.AbstractLayoutElement#getWidth()
      */
     @Override
-    public float getWidth()
+    public double getWidth()
     {
         return switch (getOrientation())
                 {
@@ -87,11 +70,6 @@ public class LineLayoutElement extends AbstractLayoutElement
                 };
     }
 
-    /**
-     * Dicke der Linie.
-     *
-     * @param thickness int
-     */
     public void setThickness(final int thickness)
     {
         this.thickness = thickness;

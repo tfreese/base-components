@@ -17,23 +17,14 @@ public final class NoOpResourceCache implements ResourceCache
      */
     private static class InstanceHolder
     {
-        /**
-         *
-         */
         private static final ResourceCache INSTANCE = new NoOpResourceCache();
     }
 
-    /**
-     * @return {@link ResourceCache}
-     */
     public static ResourceCache getInstance()
     {
         return InstanceHolder.INSTANCE;
     }
 
-    /**
-     * Erstellt ein neues {@link NoOpResourceCache} Object.
-     */
     private NoOpResourceCache()
     {
         super();

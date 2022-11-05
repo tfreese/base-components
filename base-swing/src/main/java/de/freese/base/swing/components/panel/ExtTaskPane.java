@@ -19,15 +19,9 @@ import org.jdesktop.swingx.plaf.windows.ExtWindowsClassicTaskPaneUI;
  */
 public class ExtTaskPane extends JXTaskPane
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2295264313854376854L;
 
-    /**
-     * Creates a new {@link ExtTaskPane} object.
-     */
     public ExtTaskPane()
     {
         super();
@@ -37,39 +31,21 @@ public class ExtTaskPane extends JXTaskPane
         setAnimated(false);
     }
 
-    /**
-     * Fügt dem TaskPane einen Separator hinzu.
-     */
     public void addSeparator()
     {
         ((ExtWindowsClassicTaskPaneUI) getUI()).addSeparator();
     }
 
-    /**
-     * Fügt dem TitlePane einen Separator hinzu.
-     *
-     * @param dimension {@link Dimension}
-     */
     public void addSeparator(final Dimension dimension)
     {
         ((ExtWindowsClassicTaskPaneUI) getUI()).addSeparator(dimension);
     }
 
-    /**
-     * Hinzufügen eines Buttons zur TitlePane.
-     *
-     * @param button JButton
-     */
     public void addTitleButton(final JButton button)
     {
         ((ExtWindowsClassicTaskPaneUI) getUI()).addTitleButton(button);
     }
 
-    /**
-     * Liefert eine Liste mit allen TaskPanes, welche in dieser TaskPane enthalten sind.
-     *
-     * @return {@link List}
-     */
     public List<JXTaskPane> getChildTaskPanes()
     {
         List<JXTaskPane> childTaskPanes = new ArrayList<>();

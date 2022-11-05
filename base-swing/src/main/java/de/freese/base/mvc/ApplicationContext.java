@@ -24,57 +24,30 @@ import de.freese.base.swing.task.TaskManager;
  */
 public class ApplicationContext
 {
-    /**
-     *
-     */
     private final SwingExceptionHandler exceptionHandler;
-    /**
-     *
-     */
+
     private final ExecutorService executorService;
-    /**
-     *
-     */
+
     private final GuiStateManager guiStateManager;
-    /**
-     *
-     */
+
     private final LocalStorage localStorage;
-    /**
-     *
-     */
+
     private final TaskManager taskManager;
-    /**
-     *
-     */
+
     private Clipboard clipboard;
-    /**
-     *
-     */
+
     private JFrame mainFrame;
-    /**
-     *
-     */
+
     private ResourceMap resourceMapRoot;
-    /**
-     *
-     */
+
     private String userID;
 
-    /**
-     * Erstellt ein neues {@link ApplicationContext} Object.
-     */
     public ApplicationContext()
     {
         // this(Executors.newCachedThreadPool());
         this(new ThreadPoolExecutor(1, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>()));
     }
 
-    /**
-     * Erstellt ein neues {@link ApplicationContext} Object.
-     *
-     * @param executorService ExecutorService
-     */
     public ApplicationContext(final ExecutorService executorService)
     {
         super();
@@ -86,9 +59,6 @@ public class ApplicationContext
         this.exceptionHandler = new DialogExceptionHandler();
     }
 
-    /**
-     * @return {@link Clipboard}
-     */
     public Clipboard getClipboard()
     {
         if (this.clipboard == null)
@@ -106,71 +76,41 @@ public class ApplicationContext
         return this.clipboard;
     }
 
-    /**
-     * @return {@link SwingExceptionHandler}
-     */
     public SwingExceptionHandler getExceptionHandler()
     {
         return this.exceptionHandler;
     }
 
-    /**
-     * @return {@link ExecutorService}
-     */
     public ExecutorService getExecutorService()
     {
         return this.executorService;
     }
 
-    /**
-     * @return {@link GuiStateManager}
-     */
     public GuiStateManager getGuiStateManager()
     {
         return this.guiStateManager;
     }
 
-    /**
-     * @return {@link LocalStorage}
-     */
     public LocalStorage getLocalStorage()
     {
         return this.localStorage;
     }
 
-    /**
-     * @return {@link JFrame}
-     */
     public JFrame getMainFrame()
     {
         return this.mainFrame;
     }
 
-    /**
-     * Liefert eine ResourceMap.
-     *
-     * @param name String
-     *
-     * @return IResourceMap
-     */
     public ResourceMap getResourceMap(final String name)
     {
         return getResourceMapRoot().getChild(name);
     }
 
-    /**
-     * Liefert die Root-{@link ResourceMap} der Application.
-     *
-     * @return {@link ResourceMap}
-     */
     public ResourceMap getResourceMapRoot()
     {
         return this.resourceMapRoot;
     }
 
-    /**
-     * @return {@link TaskManager}
-     */
     public TaskManager getTaskManager()
     {
         return this.taskManager;
@@ -179,8 +119,6 @@ public class ApplicationContext
     /**
      * ID des angemeldeten Users.<br>
      * Wurde keine ID gesetzt wird, der Wert der SystemProperty "user.name" geliefert.
-     *
-     * @return String
      */
     public String getUserID()
     {
@@ -192,29 +130,16 @@ public class ApplicationContext
         return this.userID;
     }
 
-    /**
-     * @param mainFrame {@link JFrame}
-     */
     public void setMainFrame(final JFrame mainFrame)
     {
         this.mainFrame = Objects.requireNonNull(mainFrame, "mainFrame required");
     }
 
-    /**
-     * ID des angemeldeten Users.
-     *
-     * @param userID String
-     */
     public void setUserID(final String userID)
     {
         this.userID = userID;
     }
 
-    /**
-     * Setzt die Root-{@link ResourceMap} der Application.
-     *
-     * @param resourceMapRoot {@link ResourceMap}
-     */
     void setResourceMapRoot(final ResourceMap resourceMapRoot)
     {
         this.resourceMapRoot = resourceMapRoot;

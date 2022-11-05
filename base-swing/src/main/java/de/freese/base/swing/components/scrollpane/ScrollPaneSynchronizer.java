@@ -26,29 +26,14 @@ import javax.swing.JScrollPane;
  */
 public class ScrollPaneSynchronizer implements AdjustmentListener
 {
-    /**
-     *
-     */
     private final JScrollBar h1;
-    /**
-     *
-     */
+
     private final JScrollBar h2;
-    /**
-     *
-     */
+
     private final JScrollBar v1;
-    /**
-     *
-     */
+
     private final JScrollBar v2;
 
-    /**
-     * Erstellt ein neues {@link ScrollPaneSynchronizer} Object.
-     *
-     * @param sp1 {@link JScrollPane}
-     * @param sp2 {@link JScrollPane}
-     */
     public ScrollPaneSynchronizer(final JScrollPane sp1, final JScrollPane sp2)
     {
         super();

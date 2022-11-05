@@ -19,13 +19,5 @@ public abstract class AbstractNumberResourceConverter<T extends Number> extends 
         return convertString(splits[0], radix);
     }
 
-    /**
-     * @param value String
-     * @param radix int
-     *
-     * @return {@link Number}
-     *
-     * @throws NumberFormatException Falls was schiefgeht.
-     */
     protected abstract T convertString(String value, int radix) throws NumberFormatException;
 }

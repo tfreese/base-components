@@ -28,16 +28,8 @@ import reactor.core.scheduler.Schedulers;
 @Configuration
 public class ReactorSchedulerConfiguration
 {
-    /**
-     *
-     */
     private final Scheduler scheduler;
 
-    /**
-     * Erstellt ein neues {@link ReactorSchedulerConfiguration} Object.
-     *
-     * @param connectionPoolSize int
-     */
     public ReactorSchedulerConfiguration(@Value("${spring.datasource.maximum-pool-size}") final int connectionPoolSize)
     {
         super();
@@ -50,9 +42,6 @@ public class ReactorSchedulerConfiguration
         this.scheduler = Schedulers.fromExecutor(Executors.newFixedThreadPool(connectionPoolSize));
     }
 
-    /**
-     * @return {@link Scheduler}
-     */
     @Bean
     public Scheduler jdbcScheduler()
     {

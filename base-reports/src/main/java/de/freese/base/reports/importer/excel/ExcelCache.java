@@ -17,55 +17,29 @@ import org.slf4j.LoggerFactory;
  */
 public final class ExcelCache
 {
-    /**
-     *
-     */
     private static final ExcelCache INSTANCE = new ExcelCache();
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelCache.class);
 
-    /**
-     * Liefert die Instanz des ExcelCaches.
-     *
-     * @return {@link ExcelCache}
-     */
     public static ExcelCache getInstance()
     {
         return INSTANCE;
     }
 
-    /**
-     *
-     */
     private final Map<String, ExcelSheet[]> cache = new ConcurrentHashMap<>();
 
-    /**
-     * Creates a new {@link ExcelCache} object.
-     */
     private ExcelCache()
     {
         super();
     }
 
-    /**
-     * Leeren des ExcelCaches.
-     */
     public void clear()
     {
         this.cache.clear();
     }
 
     /**
-     * Liefert alle Inhalte der ExcelSheets als DatenContainer.
-     *
-     * @param fileName String
      * @param throwExceptions boolean; true=wirft Exceptions, false= loggt Exceptions.
-     *
-     * @return {@link ExcelSheet}[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public ExcelSheet[] getExcelSheets(final String fileName, final boolean throwExceptions) throws Exception
     {
@@ -73,15 +47,7 @@ public final class ExcelCache
     }
 
     /**
-     * Liefert alle Inhalte der ExcelSheets als DatenContainer.
-     *
-     * @param fileName String
      * @param throwExceptions boolean; true=wirft Exceptions, false= loggt Exceptions.
-     * @param progressCallback {@link ProgressCallback}
-     *
-     * @return {@link ExcelSheet}[]
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public ExcelSheet[] getExcelSheets(final String fileName, final boolean throwExceptions, final ProgressCallback progressCallback) throws Exception
     {

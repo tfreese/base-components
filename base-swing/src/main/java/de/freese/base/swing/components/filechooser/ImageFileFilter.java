@@ -9,9 +9,6 @@ import javax.swing.filechooser.FileFilter;
  */
 public class ImageFileFilter extends GenericFileFilter
 {
-    /**
-     * Erstellt ein neues {@link ImageFileFilter} Object.
-     */
     public ImageFileFilter()
     {
         super(true, ".jpeg", ".jpg", ".gif", ".png", ".bmp");

@@ -18,24 +18,12 @@ import org.slf4j.LoggerFactory;
  */
 public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForEachObject.class);
-    /**
-     *
-     */
+
     private final Consumer<T> consumer;
-    /**
-     *
-     */
+
     private Subscription subscription;
 
-    /**
-     * Erstellt ein neues {@link ResultSetSubscriberForEachObject} Object.
-     *
-     * @param consumer {@link Consumer}
-     */
     public ResultSetSubscriberForEachObject(final Consumer<T> consumer)
     {
         super();

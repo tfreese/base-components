@@ -12,17 +12,8 @@ import java.util.Objects;
  */
 public class ReflectionClipboardConverter extends AbstractClipboardConverter
 {
-    /**
-     *
-     */
     private final Class<?> clazz;
 
-    /**
-     * Creates a new {@link ReflectionClipboardConverter} object.
-     * <p/>
-     *
-     * @param clazz {@link Class}
-     */
     public ReflectionClipboardConverter(final Class<?> clazz)
     {
         super();

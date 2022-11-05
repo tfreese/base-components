@@ -44,48 +44,24 @@ import org.slf4j.LoggerFactory;
  */
 class DefaultResourceMap implements ResourceMap
 {
-    /**
-     *
-     */
     private final String bundleName;
-    /**
-     *
-     */
+
     private final List<DefaultResourceMap> children = new ArrayList<>();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final Map<Locale, Map<String, String>> resources = new HashMap<>();
-    /**
-     *
-     */
+
     private Map<Class<?>, ResourceConverter<?>> converters;
-    /**
-     *
-     */
+
     private Locale locale;
-    /**
-     *
-     */
+
     private DefaultResourceMap parent;
-    /**
-     *
-     */
+
     private ResourceCache resourceCache;
-    /**
-     *
-     */
+
     private ResourceProvider resourceProvider;
 
-    /**
-     * Erstellt ein neues {@link DefaultResourceMap} Object.
-     *
-     * @param bundleName String
-     */
     DefaultResourceMap(final String bundleName)
     {
         super();
@@ -254,59 +230,36 @@ class DefaultResourceMap implements ResourceMap
         return builder.toString();
     }
 
-    /**
-     * @param child {@link DefaultResourceMap}
-     */
     void addChild(final DefaultResourceMap child)
     {
         getChildren().add(Objects.requireNonNull(child, "child required"));
     }
 
-    /**
-     * @return {@link List}
-     */
     List<DefaultResourceMap> getChildren()
     {
         return this.children;
     }
 
-    /**
-     * @param converters Map<Class<?>,ResourceConverter<?>>
-     */
     void setConverters(final Map<Class<?>, ResourceConverter<?>> converters)
     {
         this.converters = converters;
     }
 
-    /**
-     * @param parent {@link DefaultResourceMap}
-     */
     void setParent(final DefaultResourceMap parent)
     {
         this.parent = parent;
     }
 
-    /**
-     * @param resourceCache {@link ResourceCache}
-     */
     void setResourceCache(final ResourceCache resourceCache)
     {
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
     }
 
-    /**
-     * @param resourceProvider {@link ResourceProvider}
-     */
     void setResourceProvider(final ResourceProvider resourceProvider)
     {
         this.resourceProvider = resourceProvider;
     }
 
-    /**
-     * @param type Class
-     *
-     * @return {@link ResourceConverter}
-     */
     @SuppressWarnings("unchecked")
     protected <T> ResourceConverter<T> getConverter(final Class<T> type)
     {
@@ -325,37 +278,21 @@ class DefaultResourceMap implements ResourceMap
         return (ResourceConverter<T>) converter;
     }
 
-    /**
-     * Liefert das {@link Locale}.
-     *
-     * @return {@link Locale}
-     */
     protected Locale getLocale()
     {
         return this.locale;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return {@link DefaultResourceMap}
-     */
     protected DefaultResourceMap getParent()
     {
         return this.parent;
     }
 
-    /**
-     * @param key String
-     *
-     * @return String
-     */
     protected String getResource(final String key)
     {
         String resource = this.resources.get(getLocale()).get(key);
@@ -373,17 +310,11 @@ class DefaultResourceMap implements ResourceMap
         return resource;
     }
 
-    /**
-     * @return {@link ResourceCache}
-     */
     protected ResourceCache getResourceCache()
     {
         return this.resourceCache;
     }
 
-    /**
-     * @return {@link ResourceProvider}
-     */
     protected ResourceProvider getResourceProvider()
     {
         if (this.resourceProvider == null)
@@ -404,8 +335,6 @@ class DefaultResourceMap implements ResourceMap
      * </pre>
      *
      * Value of ${null} is null.
-     *
-     * @param resources {@link Map}
      */
     protected final void substitutePlaceholder(final Map<String, String> resources)
     {

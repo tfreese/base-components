@@ -16,9 +16,6 @@ import de.freese.base.swing.components.graph.model.AbstractPainterModel;
  */
 public abstract class AbstractGraphPainter extends AbstractPainterModel implements Painter<Component>
 {
-    /**
-     * Erstellt ein neues {@link AbstractGraphPainter} Object.
-     */
     protected AbstractGraphPainter()
     {
         super();
@@ -38,21 +35,10 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param parent {@link Component}
-     * @param width float
-     * @param height float
-     */
     public abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
 
     /**
      * Der Default-Background wird vom Panel/Frame entnommen.
-     *
-     * @param g {@link Graphics2D}
-     * @param parent {@link Component}
-     * @param width int
-     * @param height int
      */
     protected void configureBackground(final Graphics2D g, final Component parent, final int width, final int height)
     {
@@ -81,10 +67,6 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         }
     }
 
-    /**
-     * @param g {@link Graphics2D}
-     * @param parent {@link Component}
-     */
     protected void configureGraphics(final Graphics2D g, final Component parent)
     {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -93,9 +75,6 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
 
     /**
      * Koordinatenursprung von oben links nach unten links verlegen.
-     *
-     * @param g {@link Graphics2D}
-     * @param height int
      */
     protected void translateCoordinates(final Graphics2D g, final int height)
     {

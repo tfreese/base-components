@@ -12,21 +12,11 @@ import de.freese.base.reports.importer.excel.ExcelSheet;
  */
 public class ExcelSheetTableModel extends AbstractTableModel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -9093380478461819827L;
-    /**
-     *
-     */
+
     private final ExcelSheet excelSheet;
 
-    /**
-     * Creates a new {@link ExcelSheetTableModel} object.
-     *
-     * @param excelSheet {@link ExcelSheet}
-     */
     public ExcelSheetTableModel(final ExcelSheet excelSheet)
     {
         super();

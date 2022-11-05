@@ -23,15 +23,9 @@ import de.freese.base.utils.ImageUtils;
  */
 public class BusySanduhrLabel extends JLabel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         final JFrame frame = new JFrame("GlassPaneDemo");
@@ -45,32 +39,17 @@ public class BusySanduhrLabel extends JLabel
         frame.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final Timer animateTimer;
-    /**
-     *
-     */
+
     private final ImageIcon[] icons;
-    /**
-     *
-     */
+
     private int imageIndex;
 
-    /**
-     * Creates a new {@link BusySanduhrLabel} object.
-     */
     public BusySanduhrLabel()
     {
         this("");
     }
 
-    /**
-     * Creates a new {@link BusySanduhrLabel} object.
-     *
-     * @param text String
-     */
     public BusySanduhrLabel(final String text)
     {
         super(text);

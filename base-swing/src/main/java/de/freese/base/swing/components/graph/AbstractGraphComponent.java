@@ -21,33 +21,17 @@ import javax.swing.SwingUtilities;
  */
 public abstract class AbstractGraphComponent extends Component
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7006824316195250962L;
-    /**
-     *
-     */
+
     private final transient Painter<Component> painter;
-    /**
-     *
-     */
+
     private transient BufferedImage bufferedImage;
-    /**
-     *
-     */
+
     private transient Graphics2D bufferedImageGraphics2d;
-    /**
-     *
-     */
+
     private boolean useBufferedImage;
 
-    /**
-     * Erstellt ein neues {@link AbstractGraphComponent} Object.
-     *
-     * @param painter {@link Painter}
-     */
     protected AbstractGraphComponent(final Painter<Component> painter)
     {
         super();
@@ -57,9 +41,6 @@ public abstract class AbstractGraphComponent extends Component
         init();
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isUseBufferedImage()
     {
         return this.useBufferedImage;
@@ -67,8 +48,6 @@ public abstract class AbstractGraphComponent extends Component
 
     /**
      * Nur verwenden, wenn Klasse von Component vererbt !!!
-     *
-     * @see java.awt.Component#paint(java.awt.Graphics)
      */
     @Override
     public void paint(final Graphics g)
@@ -106,41 +85,26 @@ public abstract class AbstractGraphComponent extends Component
         }
     }
 
-    /**
-     * @param useBufferedImage boolean
-     */
     public void useBufferedImage(final boolean useBufferedImage)
     {
         this.useBufferedImage = useBufferedImage;
     }
 
-    /**
-     * @return {@link BufferedImage}
-     */
     protected BufferedImage getBufferedImage()
     {
         return this.bufferedImage;
     }
 
-    /**
-     * @return {@link Graphics2D}
-     */
     protected Graphics2D getBufferedImageGraphics2d()
     {
         return this.bufferedImageGraphics2d;
     }
 
-    /**
-     * @return {@link Painter}<Component>
-     */
     protected Painter<Component> getPainter()
     {
         return this.painter;
     }
 
-    /**
-     *
-     */
     protected void init()
     {
         addMouseListener(new MouseAdapter()
@@ -168,9 +132,6 @@ public abstract class AbstractGraphComponent extends Component
         });
     }
 
-    /**
-     * @param event {@link ComponentEvent}
-     */
     protected void onComponentResized(final ComponentEvent event)
     {
         // this.bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -204,9 +165,6 @@ public abstract class AbstractGraphComponent extends Component
     // }
     // }
 
-    /**
-     * @param event {@link MouseEvent}
-     */
     protected void onMouseClicked(final MouseEvent event)
     {
         // Empty

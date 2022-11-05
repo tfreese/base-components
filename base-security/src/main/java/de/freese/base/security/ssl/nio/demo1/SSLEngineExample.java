@@ -53,24 +53,13 @@ public class SSLEngineExample
      * The following is to set up the keystores.
      */
     private static final String KEYSTORE_FILE = "testkeys.jks";
-    /**
-     *
-     */
+
     private static final String PASSWD = "passphrase";
-    /**
-     *
-     */
+
     private static final String TRUSTSTORE_FILE = "testkeys.jks";
-    /**
-     * Logging code
-     */
+
     private static boolean resultOnce = true;
 
-    /**
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         if (DEBUG)
@@ -86,11 +75,6 @@ public class SSLEngineExample
 
     /**
      * Simple check to make sure everything came across as expected.
-     *
-     * @param a {@link ByteBuffer}
-     * @param b {@link ByteBuffer}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private static void checkTransfer(final ByteBuffer a, final ByteBuffer b) throws Exception
     {
@@ -110,28 +94,16 @@ public class SSLEngineExample
         b.limit(b.capacity());
     }
 
-    /**
-     * @param engine {@link SSLEngine}
-     *
-     * @return boolean
-     */
     private static boolean isEngineClosed(final SSLEngine engine)
     {
         return (engine.isOutboundDone() && engine.isInboundDone());
     }
 
-    /**
-     * @param str String
-     */
     private static void log(final String str)
     {
         System.out.println(str);
     }
 
-    /**
-     * @param str String
-     * @param result {@link SSLEngineResult}
-     */
     private static void log(final String str, final SSLEngineResult result)
     {
         if (resultOnce)
@@ -151,16 +123,6 @@ public class SSLEngineExample
         }
     }
 
-    /*
-     * If the result indicates that we have outstanding tasks to do, go ahead and run them in this thread.
-     */
-
-    /**
-     * @param result {@link SSLEngineResult}
-     * @param engine {@link SSLEngine}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     private static void runDelegatedTasks(final SSLEngineResult result, final SSLEngine engine) throws Exception
     {
         if (result.getHandshakeStatus() == HandshakeStatus.NEED_TASK)
@@ -184,9 +146,6 @@ public class SSLEngineExample
         }
     }
 
-    /**
-     *
-     */
     private final SSLContext sslc;
     /**
      * For data transport, this example uses local ByteBuffers.<br>
@@ -196,9 +155,7 @@ public class SSLEngineExample
      * "reliable" transport client->server
      */
     private ByteBuffer cTOs;
-    /**
-     *
-     */
+
     private SSLEngine clientEngine;
     /**
      * read side of clientEngine
@@ -212,9 +169,7 @@ public class SSLEngineExample
      * "reliable" transport server->client
      */
     private ByteBuffer sTOc;
-    /**
-     *
-     */
+
     private SSLEngine serverEngine;
     /**
      * read side of serverEngine
@@ -225,11 +180,6 @@ public class SSLEngineExample
      */
     private ByteBuffer serverOut;
 
-    /**
-     * Create an initialized SSLContext to use for this demo.
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public SSLEngineExample() throws Exception
     {
         KeyStore ks = KeyStore.getInstance("JKS");
@@ -280,9 +230,6 @@ public class SSLEngineExample
         this.sslc = sslCtx;
     }
 
-    /**
-     * Create and size the buffers appropriately.
-     */
     private void createBuffers()
     {
         /*
@@ -330,8 +277,6 @@ public class SSLEngineExample
      * Run the demo. Sit in a tight loop, both engines calling wrap/unwrap regardless of whether data is available or not. We do this until both engines report
      * back they are closed. The main loop handles all the I/O phases of the SSLEngine's lifetime: initial handshaking application data transfer engine
      * closing One could easily separate these phases into separate sections of code.
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     private void runDemo() throws Exception
     {

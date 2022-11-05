@@ -16,33 +16,13 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
      */
     public enum ArrowDirection
     {
-        /**
-         *
-         */
         DOWN,
-        /**
-         *
-         */
         LEFT,
-        /**
-         *
-         */
         RIGHT,
-        /**
-         *
-         */
         UNCHANGED,
-        /**
-         *
-         */
         UP
     }
 
-    /**
-     * Erstellt ein neues {@link ArrowToken} Object.
-     *
-     * @param value {@link ArrowDirection}
-     */
     public ArrowToken(final ArrowToken.ArrowDirection value)
     {
         super();
@@ -50,12 +30,6 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
         setValue(value);
     }
 
-    /**
-     * Erstellt ein neues {@link ArrowToken} Object.
-     *
-     * @param color {@link Color}
-     * @param value {@link ArrowDirection}
-     */
     public ArrowToken(final Color color, final ArrowToken.ArrowDirection value)
     {
         super(color);

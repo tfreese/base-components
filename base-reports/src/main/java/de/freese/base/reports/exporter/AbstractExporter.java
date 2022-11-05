@@ -14,9 +14,6 @@ import org.springframework.core.io.ResourceLoader;
  */
 public abstract class AbstractExporter implements Exporter
 {
-    /**
-     * Zum laden von Icons, Dateien etc...
-     */
     private ResourceLoader resourceLoader;
 
     /**
@@ -40,11 +37,6 @@ public abstract class AbstractExporter implements Exporter
         this.resourceLoader = resourceLoader;
     }
 
-    /**
-     * Zum laden von Icons, Dateien etc...
-     *
-     * @return {@link ResourceLoader}
-     */
     protected ResourceLoader getResourceLoader()
     {
         return this.resourceLoader;

@@ -12,27 +12,16 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 /**
  * {@link Iterator} für ein {@link ResultSet}.<br>
  *
- * @author Thomas Freese
- *
  * @param <T> Type of Entity
+ *
+ * @author Thomas Freese
  */
 public class ResultSetIterator<T> implements Iterator<T>
 {
-    /**
-     *
-     */
     private final ResultSet resultSet;
-    /**
-    *
-    */
+
     private final RowMapper<T> rowMapper;
 
-    /**
-     * Erstellt ein neues {@link ResultSetIterator} Object.
-     *
-     * @param resultSet {@link ResultSet}
-     * @param rowMapper {@link RowMapper}
-     */
     public ResultSetIterator(final ResultSet resultSet, final RowMapper<T> rowMapper)
     {
         super();

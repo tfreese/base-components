@@ -18,17 +18,8 @@ import de.freese.base.swing.state.GuiState;
  */
 public class JsonGuiStateProvider extends AbstractGuiStateProvider
 {
-    /**
-     *
-     */
     private final ObjectMapper mapper;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link JsonGuiStateProvider}.
-     *
-     * @param localStorage {@link LocalStorage}
-     * @param guiStateManager {@link GuiStateManager}
-     */
     public JsonGuiStateProvider(final LocalStorage localStorage, final GuiStateManager guiStateManager)
     {
         super(localStorage, guiStateManager);

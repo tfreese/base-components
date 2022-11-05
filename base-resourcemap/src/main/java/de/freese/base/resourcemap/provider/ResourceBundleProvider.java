@@ -16,9 +16,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class ResourceBundleProvider implements ResourceProvider
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceBundleProvider.class);
 
     /**

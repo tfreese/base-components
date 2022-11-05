@@ -29,26 +29,14 @@ import org.slf4j.LoggerFactory;
  */
 public final class GuiStateManager
 {
-    /**
-     *
-     */
     private final Set<Class<? extends GuiState>> guiStates = new HashSet<>();
-    /**
-     *
-     */
+
     private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(GuiStateManager.class);
-    /**
-     *
-     */
+
     private GuiStateProvider stateProvider;
 
-    /**
-     * Erstellt ein neues {@link GuiStateManager} Object.
-     */
     public GuiStateManager()
     {
         super();
@@ -56,13 +44,6 @@ public final class GuiStateManager
         initDefaults();
     }
 
-    /**
-     * Hinzufügen eines neuen {@link GuiState}s.
-     *
-     * @param stateClass {@link Class}
-     *
-     * @return boolean
-     */
     public boolean addGUIState(final Class<? extends GuiState> stateClass)
     {
         if (!this.guiStates.contains(stateClass))
@@ -73,42 +54,21 @@ public final class GuiStateManager
         return false;
     }
 
-    /**
-     * Liefert alle {@link GuiState}.
-     *
-     * @return {@link Set}
-     */
     public Set<Class<? extends GuiState>> getGuiStates()
     {
         return Collections.unmodifiableSet(this.guiStates);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     public Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * Entfernt den {@link GuiState}.
-     *
-     * @param stateClass {@link Class}
-     *
-     * @return boolean
-     */
     public boolean removeGuiState(final Class<? extends GuiState> stateClass)
     {
         return this.guiStates.remove(stateClass);
     }
 
-    /**
-     * Wiederherstellen einer {@link Component} aus einem {@link GuiState}.
-     *
-     * @param component {@link Component}
-     * @param name String
-     */
     @SuppressWarnings("unchecked")
     public void restore(final Component component, final String name)
     {
@@ -126,20 +86,11 @@ public final class GuiStateManager
         state.restore(component);
     }
 
-    /**
-     * @param stateProvider {@link GuiStateProvider}
-     */
     public void setStateProvider(final GuiStateProvider stateProvider)
     {
         this.stateProvider = stateProvider;
     }
 
-    /**
-     * Speichern eines {@link GuiState}s für eine {@link Component}.
-     *
-     * @param component {@link Component}
-     * @param name String
-     */
     public void store(final Component component, final String name)
     {
         GuiState state = getState(component.getClass());
@@ -155,13 +106,6 @@ public final class GuiStateManager
         getStateProvider().save(name, state);
     }
 
-    /**
-     * Liefert den GuiState für eine {@link Component}.
-     *
-     * @param componentClass Class
-     *
-     * @return {@link GuiState}
-     */
     private synchronized GuiState getState(final Class<? extends Component> componentClass)
     {
         for (Class<? extends GuiState> stateClass : this.guiStates)
@@ -195,17 +139,11 @@ public final class GuiStateManager
         return null;
     }
 
-    /**
-     * @return {@link GuiStateProvider}
-     */
     private GuiStateProvider getStateProvider()
     {
         return this.stateProvider;
     }
 
-    /**
-     * Registrieren von DefaultGuiStates etc.
-     */
     private void initDefaults()
     {
         addGUIState(ButtonGuiState.class);

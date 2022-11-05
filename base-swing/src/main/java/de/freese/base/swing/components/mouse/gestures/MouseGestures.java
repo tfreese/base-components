@@ -42,9 +42,6 @@ import java.util.List;
  */
 public class MouseGestures
 {
-    /**
-     * List of listeners.
-     */
     private final List<MouseGesturesListener> listeners = Collections.synchronizedList(new ArrayList<>());
     /**
      * Responsible for processing mouse events.
@@ -62,11 +59,6 @@ public class MouseGestures
      */
     private AWTEventListener mouseGesturesEventListener;
 
-    /**
-     * Adds mouse gestures listener.
-     *
-     * @param listener Instance of {@link MouseGesturesListener}
-     */
     public void addMouseGesturesListener(MouseGesturesListener listener)
     {
         if (listener == null)
@@ -134,9 +126,6 @@ public class MouseGestures
         this.mouseButton = mouseButton;
     }
 
-    /**
-     * Starts monitoring mouse gestures.
-     */
     public void start()
     {
         if (mouseGesturesEventListener == null)
@@ -177,9 +166,6 @@ public class MouseGestures
         Toolkit.getDefaultToolkit().addAWTEventListener(mouseGesturesEventListener, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
     }
 
-    /**
-     * Stops monitoring mouse gestures.
-     */
     public void stop()
     {
         if (mouseGesturesEventListener != null)

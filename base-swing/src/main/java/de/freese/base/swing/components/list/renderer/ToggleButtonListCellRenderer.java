@@ -17,40 +17,20 @@ import javax.swing.SwingConstants;
  */
 public final class ToggleButtonListCellRenderer implements ListCellRenderer<Object>
 {
-    /**
-     * Methode erstellt ein {@link ToggleButtonListCellRenderer}, der ein {@link JCheckBox} verwendet.
-     *
-     * @return {@link ToggleButtonListCellRenderer}
-     */
     public static ToggleButtonListCellRenderer createCheckBoxRenderer()
     {
         return new ToggleButtonListCellRenderer(new JCheckBox());
     }
 
-    /**
-     * Methode erstellt ein {@link ToggleButtonListCellRenderer}, der ein {@link JRadioButton} verwendet.
-     *
-     * @return {@link ToggleButtonListCellRenderer}
-     */
     public static ToggleButtonListCellRenderer createRadioButtonRenderer()
     {
         return new ToggleButtonListCellRenderer(new JRadioButton());
     }
 
-    /**
-     *
-     */
     private final DefaultListCellRenderer labelRenderer;
-    /**
-     *
-     */
+
     private final JToggleButton toggleButton;
 
-    /**
-     * Erstellt ein neues {@link ToggleButtonListCellRenderer} Objekt. Konstruktor ist private, um eine direkte Erstellung zu verhindern.
-     *
-     * @param toggleButton {@link JToggleButton}
-     */
     private ToggleButtonListCellRenderer(final JToggleButton toggleButton)
     {
         super();

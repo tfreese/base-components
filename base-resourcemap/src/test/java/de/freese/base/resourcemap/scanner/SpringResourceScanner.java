@@ -17,18 +17,10 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 public class SpringResourceScanner implements ResourceScanner
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringResourceScanner.class);
-    /**
-     *
-     */
+
     private final ResourcePatternResolver resourcePatternResolver;
 
-    /**
-     * Erstellt ein neues {@link SpringResourceScanner} Object.
-     */
     public SpringResourceScanner()
     {
         super();

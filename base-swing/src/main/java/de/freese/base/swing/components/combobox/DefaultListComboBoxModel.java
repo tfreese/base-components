@@ -14,14 +14,9 @@ import de.freese.base.swing.components.list.model.DefaultListListModel;
  */
 public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> implements ComboBoxModel<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8956293128753923538L;
-    /**
-     * Das momentan selektierte Objekt, in der ComboBox.
-     */
+
     private transient Object selectedObject;
 
     /**

@@ -15,21 +15,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractView implements View
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private Component component;
-    /**
-     *
-     */
+
     private ApplicationContext context;
-    /**
-     *
-     */
+
     private ResourceMap resourceMap;
 
     /**
@@ -86,57 +77,31 @@ public abstract class AbstractView implements View
         // Empty
     }
 
-    /**
-     * Setzt den {@link ApplicationContext} dieser View
-     *
-     * @param context {@link ApplicationContext}
-     */
     void setContext(final ApplicationContext context)
     {
         this.context = context;
     }
 
-    /**
-     * Setzt die {@link ResourceMap} dieser View.
-     *
-     * @param resourceMap {@link ResourceMap}
-     */
     void setResourceMap(final ResourceMap resourceMap)
     {
         this.resourceMap = resourceMap;
     }
 
-    /**
-     * Liefert den {@link ApplicationContext} dieser View.
-     *
-     * @return {@link ApplicationContext}
-     */
     protected ApplicationContext getContext()
     {
         return this.context;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * Liefert die {@link ResourceMap} dieser View.
-     *
-     * @return {@link ResourceMap}
-     */
     protected ResourceMap getResourceMap()
     {
         return this.resourceMap;
     }
 
-    /**
-     * @param component {@link Component}
-     */
     protected void setComponent(final Component component)
     {
         this.component = Objects.requireNonNull(component, "component required");

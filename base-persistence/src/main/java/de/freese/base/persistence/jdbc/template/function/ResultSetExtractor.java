@@ -14,12 +14,5 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface ResultSetExtractor<T>
 {
-    /**
-     * @param resultSet {@link ResultSet}
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     T extractData(ResultSet resultSet) throws SQLException;
 }

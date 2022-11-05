@@ -11,8 +11,6 @@ public interface ResourceScanner
 {
     /**
      * @param basePath String; Format: app/module/view
-     *
-     * @return {@link Set}
      */
     Set<String> scanResources(String basePath);
 }

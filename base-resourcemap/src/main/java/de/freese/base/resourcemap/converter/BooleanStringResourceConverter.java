@@ -5,14 +5,9 @@ package de.freese.base.resourcemap.converter;
  */
 public class BooleanStringResourceConverter extends AbstractResourceConverter<Boolean>
 {
-    /**
-     *
-     */
     private final String[] trueStrings;
 
     /**
-     * Erstellt ein neues {@link BooleanStringResourceConverter} Object.
-     *
      * @param trueStrings String, zb. true, on, yes, 1
      */
     public BooleanStringResourceConverter(final String... trueStrings)

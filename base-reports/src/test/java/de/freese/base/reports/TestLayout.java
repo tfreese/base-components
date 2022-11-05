@@ -13,36 +13,33 @@ import de.freese.base.reports.layout.LineLayoutElement;
  */
 public class TestLayout
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         // Hauptelement
         DefaultLayoutElement masterElement = new DefaultLayoutElement("Master");
-        masterElement.setHeight(300);
-        masterElement.setWidth(300);
+        masterElement.setHeight(300D);
+        masterElement.setWidth(300D);
 
         LayoutElement layoutElement1 = new DefaultLayoutElement("Element 1");
-        layoutElement1.setHeight(50);
-        layoutElement1.setWidth(80);
+        layoutElement1.setHeight(50D);
+        layoutElement1.setWidth(80D);
 
         LayoutElement layoutElement2 = new DefaultLayoutElement("Element 2");
-        layoutElement2.setX(45);
-        layoutElement2.setY(45);
-        layoutElement2.setHeight(100);
-        layoutElement2.setWidth(100);
+        layoutElement2.setX(45D);
+        layoutElement2.setY(45D);
+        layoutElement2.setHeight(100D);
+        layoutElement2.setWidth(100D);
 
         LayoutElement layoutElement3 = new DefaultLayoutElement("Element 3");
-        layoutElement3.setX(110);
-        layoutElement3.setY(40);
-        layoutElement3.setHeight(50);
-        layoutElement3.setWidth(150);
+        layoutElement3.setX(110D);
+        layoutElement3.setY(40D);
+        layoutElement3.setHeight(50D);
+        layoutElement3.setWidth(150D);
 
         LayoutElement layoutElement4 = new LineLayoutElement();
-        layoutElement4.setX(100);
-        layoutElement4.setY(200);
-        layoutElement4.setWidth(150);
+        layoutElement4.setX(100D);
+        layoutElement4.setY(200D);
+        layoutElement4.setWidth(150D);
 
         // Elemente in Hauptelement zusammenführen
         masterElement.addElement(layoutElement1);

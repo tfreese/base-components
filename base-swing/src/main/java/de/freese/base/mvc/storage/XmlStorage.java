@@ -13,16 +13,8 @@ import java.io.OutputStream;
  */
 public final class XmlStorage
 {
-    /**
-     * ExceptionListener für den {@link XMLEncoder}/{@link XMLDecoder}.
-     *
-     * @author Thomas Freese
-     */
     private static class XMLExceptionListener implements ExceptionListener
     {
-        /**
-         *
-         */
         public Exception exception;
 
         /**
@@ -38,16 +30,6 @@ public final class XmlStorage
         }
     }
 
-    /**
-     * Laden der Bean von XML über {@link XMLDecoder}.
-     *
-     * @param inputStream {@link InputStream}
-     * @param <T> Type
-     *
-     * @return Object
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     @SuppressWarnings("unchecked")
     public static <T> T loadBean(final InputStream inputStream) throws IOException
     {
@@ -70,15 +52,6 @@ public final class XmlStorage
         }
     }
 
-    /**
-     * Speichert das Bean als XML über {@link XMLEncoder}.
-     *
-     * @param bean Object
-     *
-     * @return {@link ByteArrayOutputStream}
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static ByteArrayOutputStream saveBean(final Object bean) throws IOException
     {
         XMLExceptionListener el = new XMLExceptionListener();
@@ -101,14 +74,6 @@ public final class XmlStorage
         return baos;
     }
 
-    /**
-     * Speichert das Bean als XML über {@link XMLEncoder}.
-     *
-     * @param outputStream {@link OutputStream}
-     * @param bean Object
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     public static void saveBean(final OutputStream outputStream, final Object bean) throws IOException
     {
         XMLExceptionListener el = new XMLExceptionListener();
@@ -128,9 +93,6 @@ public final class XmlStorage
         }
     }
 
-    /**
-     * Erstellt ein neues {@link XmlStorage} Object.
-     */
     private XmlStorage()
     {
         super();

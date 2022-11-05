@@ -16,26 +16,13 @@ import de.freese.base.swing.components.graph.AbstractGraphComponent;
  */
 public class MemoryGraphComponent extends AbstractGraphComponent
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 162498448539283119L;
-    /**
-     *
-     */
+
     private final transient ScheduledExecutorService scheduledExecutorService;
-    /**
-     *
-     */
+
     private transient ScheduledFuture<?> scheduledFuture;
 
-    /**
-     * Erstellt ein neues {@link MemoryGraphComponent} Object.
-     *
-     * @param painter {@link MemoryGraphPainter}
-     * @param scheduledExecutorService {@link ScheduledExecutorService}
-     */
     public MemoryGraphComponent(final MemoryGraphPainter painter, final ScheduledExecutorService scheduledExecutorService)
     {
         super(painter);
@@ -43,9 +30,6 @@ public class MemoryGraphComponent extends AbstractGraphComponent
         this.scheduledExecutorService = Objects.requireNonNull(scheduledExecutorService, "scheduledExecutorService required");
     }
 
-    /**
-     *
-     */
     public void start()
     {
         this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() ->
@@ -55,9 +39,6 @@ public class MemoryGraphComponent extends AbstractGraphComponent
         }, 500, 40, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     *
-     */
     public void stop()
     {
         if ((this.scheduledFuture != null))

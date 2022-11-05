@@ -26,11 +26,6 @@ public final class ConnectionPoolConfigurer
      * initialSize = 1
      * </pre>
      *
-     * @param basicDataSource {@link BasicDataSource}
-     * @param driverClassName String
-     * @param url String
-     * @param userName String
-     * @param password String
      * @param validationQuery String; optional
      */
     public static void configureBasic(final BasicDataSource basicDataSource, final String driverClassName, final String url, final String userName,
@@ -98,11 +93,6 @@ public final class ConnectionPoolConfigurer
      * minimumIdle = 1
      * </pre>
      *
-     * @param config {@link HikariConfig}
-     * @param driverClassName String
-     * @param url String
-     * @param userName String
-     * @param password String
      * @param validationQuery String; optional
      */
     public static void configureHikari(final HikariConfig config, final String driverClassName, final String url, final String userName, final String password,
@@ -165,11 +155,6 @@ public final class ConnectionPoolConfigurer
      * initialSize = 1
      * </pre>
      *
-     * @param poolProperties {@link PoolProperties}
-     * @param driverClassName String
-     * @param url String
-     * @param userName String
-     * @param password String
      * @param validationQuery String; optional
      */
     public static void configureTomcat(final PoolProperties poolProperties, final String driverClassName, final String url, final String userName,
@@ -242,9 +227,6 @@ public final class ConnectionPoolConfigurer
         poolProperties.setJdbcInterceptors(jdbcInterceptors);
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link ConnectionPoolConfigurer}.
-     */
     private ConnectionPoolConfigurer()
     {
         super();

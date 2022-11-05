@@ -10,38 +10,17 @@ import de.freese.base.swing.components.led.element.Element;
  */
 public interface LedConfig extends Element
 {
-    /**
-     * @return {@link Color}
-     */
     Color getColorBackground();
 
-    /**
-     * @return {@link Color}
-     */
     Color getColorBackgroundDot();
 
-    /**
-     * @return int
-     */
     int getDotHeight();
 
-    /**
-     * @return int
-     */
     int getDotWidth();
 
-    /**
-     * @return int
-     */
     int getHgap();
 
-    /**
-     * @return int
-     */
     int getTokenGap();
 
-    /**
-     * @return int
-     */
     int getVgap();
 }

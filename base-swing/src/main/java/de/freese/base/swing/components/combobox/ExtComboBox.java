@@ -25,39 +25,22 @@ import javax.swing.plaf.metal.MetalScrollBarUI;
  */
 public class ExtComboBox<T> extends JComboBox<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5210391879154918454L;
 
     /**
-     * UI für die automatische Popup Grösse.
-     *
-     * @param <T> Konkreter Typ
-     *
      * @author Thomas Freese
      */
     private static class AutoWidthComboBoxUI<T> extends MetalComboBoxUI
     {
         /**
-         * Popup mit automatischer Grösse.
-         *
          * @author Thomas Freese
          */
         protected class AutoWidthComboPopup extends BasicComboPopup
         {
-            /**
-             *
-             */
             @Serial
             private static final long serialVersionUID = 5619503805323024632L;
 
-            /**
-             * Erstellt ein neues {@link AutoWidthComboPopup} Objekt.
-             *
-             * @param comboBox {@link JComboBox}
-             */
             @SuppressWarnings("unchecked")
             public AutoWidthComboPopup(final JComboBox<T> comboBox)
             {
@@ -144,14 +127,8 @@ public class ExtComboBox<T> extends JComboBox<T>
         }
     }
 
-    /**
-     *
-     */
     private boolean fireOnNull;
 
-    /**
-     * Erstellt ein neues {@link ExtComboBox} Objekt.
-     */
     public ExtComboBox()
     {
         super();
@@ -159,11 +136,6 @@ public class ExtComboBox<T> extends JComboBox<T>
         initialize();
     }
 
-    /**
-     * Erstellt ein neues {@link ExtComboBox} Objekt.
-     *
-     * @param aModel {@link ComboBoxModel}
-     */
     public ExtComboBox(final ComboBoxModel<T> aModel)
     {
         super(aModel);
@@ -171,11 +143,6 @@ public class ExtComboBox<T> extends JComboBox<T>
         initialize();
     }
 
-    /**
-     * Erstellt ein neues {@link ExtComboBox} Objekt.
-     *
-     * @param items Object[]
-     */
     public ExtComboBox(final T[] items)
     {
         super(items);
@@ -183,11 +150,6 @@ public class ExtComboBox<T> extends JComboBox<T>
         initialize();
     }
 
-    /**
-     * Erstellt ein neues {@link ExtComboBox} Objekt.
-     *
-     * @param items {@link Vector}
-     */
     public ExtComboBox(final Vector<T> items)
     {
         super(items);
@@ -197,8 +159,6 @@ public class ExtComboBox<T> extends JComboBox<T>
 
     /**
      * true = SelectedEvent wird auch gefeuert wenn Object = NULL, false = Defaultverhalten
-     *
-     * @return boolean
      */
     public boolean isFireOnNull()
     {
@@ -207,8 +167,6 @@ public class ExtComboBox<T> extends JComboBox<T>
 
     /**
      * true = SelectedEvent soll auch gefeuert werden, wenn Object = NULL, false = Defaultverhalten
-     *
-     * @param fireOnNull boolean
      */
     public void setFireOnNull(final boolean fireOnNull)
     {
@@ -237,9 +195,6 @@ public class ExtComboBox<T> extends JComboBox<T>
         }
     }
 
-    /**
-     * Initialisiert die ComboBox.
-     */
     private void initialize()
     {
         setUI(new AutoWidthComboBoxUI<T>());

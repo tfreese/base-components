@@ -35,21 +35,11 @@ import java.util.Objects;
  */
 public final class HsqldbTextTableBuilder
 {
-    /**
-     * Erzeugt einen neuen Builder.
-     *
-     * @return {@link HsqldbTextTableBuilder}
-     */
     public static HsqldbTextTableBuilder create()
     {
         return new HsqldbTextTableBuilder();
     }
 
-    /**
-     * Überprüft die Gültigkeit des Pfades zur CSV-Datei.
-     *
-     * @param path {@link Path}
-     */
     private static void validatePath(final Path path)
     {
         Objects.requireNonNull(path, "path required");
@@ -65,46 +55,26 @@ public final class HsqldbTextTableBuilder
         }
     }
 
-    /**
-     *
-     */
     private final List<String> columns = new ArrayList<>();
-    /**
-     *
-     */
+
     private boolean allQuoted = true;
-    /**
-     *
-     */
+
     private int cacheRows = 10000;
     /**
      * [kB]; 1024 KB = 1 MB
      */
     private int cacheSize = 1024;
-    /**
-     *
-     */
+
     private Charset charset = StandardCharsets.UTF_8;
-    /**
-     *
-     */
+
     private String fieldSeparator = "\\semi";
-    /**
-     *
-     */
+
     private boolean ignoreFirst = true;
-    /**
-     *
-     */
+
     private Path path;
-    /**
-     *
-     */
+
     private String tableName;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link HsqldbTextTableBuilder}
-     */
     private HsqldbTextTableBuilder()
     {
         super();
@@ -121,10 +91,6 @@ public final class HsqldbTextTableBuilder
      * <li>addColumn("LONG bigint")
      * <li>addColumn("DOUBLE decimal(4,3)")
      * </ul>
-     *
-     * @param column String
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder addColumn(final String column)
     {
@@ -139,12 +105,6 @@ public final class HsqldbTextTableBuilder
      * Alle {@link HsqldbTextTableBuilder} werden zusammen in einer In-Memory Datenbank abgebildet.<br>
      * Die {@link #build(HsqldbTextTableBuilder...)}-Methode darf vorher auf den übergebenen Buildern NICHT aufgerufen werden!<br>
      * So können auch Queries zwischen den CSV-Dateien ausgeführt werden.
-     *
-     * @param builders {@link HsqldbTextTableBuilder}[]
-     *
-     * @return {@link Connection}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public Connection build(final HsqldbTextTableBuilder... builders) throws SQLException
     {
@@ -236,10 +196,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Flag, ob alle Daten in Anführungszeichen stehen (Double-Quotes).<br>
      * Default = true
-     *
-     * @param allQuoted boolean
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setAllQuoted(final boolean allQuoted)
     {
@@ -251,10 +207,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Maximale Anzahl von Zeilen im Cache.<br>
      * Default = 10000
-     *
-     * @param cacheRows int
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setCacheRows(final int cacheRows)
     {
@@ -266,10 +218,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Maximale Cache-Größe in kB.<br>
      * Default = 1024 KB = 1 MB
-     *
-     * @param cacheSize int
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setCacheSize(final int cacheSize)
     {
@@ -281,10 +229,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Setzt den {@link Charset} der CSV-Datei.<br>
      * Default = UTF-8
-     *
-     * @param charset {@link Charset}
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setEncoding(final Charset charset)
     {
@@ -298,10 +242,6 @@ public final class HsqldbTextTableBuilder
      * Default = \semi = ';'<br>
      * <br>
      * Andere Separatoren: \space, \t, \comma
-     *
-     * @param fieldSeparator String
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setFieldSeparator(final String fieldSeparator)
     {
@@ -318,10 +258,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Wenn true, wird die erste Zeile übersprungen, in der Regel der Header.<br>
      * Default = true
-     *
-     * @param ignoreFirst boolean
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setIgnoreFirst(final boolean ignoreFirst)
     {
@@ -333,10 +269,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Setzt den {@link Path} zur CSV-Datei.<br>
      * Der Tabellenname wird großgeschrieben und '.' durch '_' ersetzt,
-     *
-     * @param path {@link Path}
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setPath(final Path path)
     {
@@ -350,10 +282,6 @@ public final class HsqldbTextTableBuilder
     /**
      * Setzt den Tabellennamen.<br>
      * Default = Dateiname vom Pfad, upper case und '.' durch '_' ersetzt<br>
-     *
-     * @param tableName String
-     *
-     * @return {@link HsqldbTextTableBuilder}
      */
     public HsqldbTextTableBuilder setTableName(final String tableName)
     {

@@ -19,28 +19,16 @@ public final class StaticResourceCache implements ResourceCache
      */
     private static class InstanceHolder
     {
-        /**
-         *
-         */
         private static final ResourceCache INSTANCE = new StaticResourceCache();
     }
 
-    /**
-     * @return {@link ResourceCache}
-     */
     public static ResourceCache getInstance()
     {
         return InstanceHolder.INSTANCE;
     }
 
-    /**
-     *
-     */
     private final Map<String, Map<Locale, Map<Class<?>, Map<String, ?>>>> cache = new HashMap<>();
 
-    /**
-     * Erstellt ein neues {@link StaticResourceCache} Object.
-     */
     private StaticResourceCache()
     {
         super();

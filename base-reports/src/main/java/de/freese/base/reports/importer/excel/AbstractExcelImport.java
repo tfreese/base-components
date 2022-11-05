@@ -14,17 +14,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractExcelImport implements ExcelImport
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private InputStream inputStream;
-    /**
-     *
-     */
+
     private boolean throwExcelException = true;
 
     /**
@@ -57,17 +50,11 @@ public abstract class AbstractExcelImport implements ExcelImport
         this.throwExcelException = value;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return boolean
-     */
     protected boolean isThrowExcelException()
     {
         return this.throwExcelException;

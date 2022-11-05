@@ -19,9 +19,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ExcelImplDelegator implements ExcelImport
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelImplDelegator.class);
 
     /**
@@ -29,11 +26,6 @@ public class ExcelImplDelegator implements ExcelImport
      */
     private static class NotClosingInputStream extends ProxyInputStream
     {
-        /**
-         * Erstellt ein neues {@link NotClosingInputStream} Object.
-         *
-         * @param proxy {@link InputStream}
-         */
         public NotClosingInputStream(final InputStream proxy)
         {
             super(proxy);
@@ -61,17 +53,10 @@ public class ExcelImplDelegator implements ExcelImport
         }
     }
 
-    /**
-     *
-     */
     private ExcelImport excelImpl;
-    /**
-     *
-     */
+
     private InputStream inputStream;
-    /**
-     *
-     */
+
     private boolean throwExcelException = true;
 
     /**

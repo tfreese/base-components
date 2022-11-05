@@ -11,21 +11,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractController implements Controller
 {
-    /**
-     *
-     */
-    private ApplicationContext context;
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+    private ApplicationContext context;
     private String name;
-    /**
-     *
-     */
+
     private ResourceMap resourceMap;
 
     /**
@@ -74,29 +63,6 @@ public abstract class AbstractController implements Controller
         getView().saveState();
     }
 
-    /**
-     * Liefert den {@link ApplicationContext} dieses Controllers.
-     *
-     * @return {@link ApplicationContext}
-     */
-    protected ApplicationContext getContext()
-    {
-        return this.context;
-    }
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
-
-    /**
-     * Setzt den {@link ApplicationContext} dieses Controllers.
-     *
-     * @param context {@link ApplicationContext}
-     */
     void setContext(final ApplicationContext context)
     {
         this.context = context;
@@ -107,21 +73,11 @@ public abstract class AbstractController implements Controller
         }
     }
 
-    /**
-     * Setzt den Namen dieses Controllers.
-     *
-     * @param name String
-     */
     void setName(final String name)
     {
         this.name = name;
     }
 
-    /**
-     * Setzt die {@link ResourceMap} dieses Controllers.
-     *
-     * @param resourceMap {@link ResourceMap}
-     */
     void setResourceMap(final ResourceMap resourceMap)
     {
         this.resourceMap = resourceMap;
@@ -130,5 +86,15 @@ public abstract class AbstractController implements Controller
         {
             v.setResourceMap(resourceMap);
         }
+    }
+
+    protected ApplicationContext getContext()
+    {
+        return this.context;
+    }
+
+    protected Logger getLogger()
+    {
+        return this.logger;
     }
 }

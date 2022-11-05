@@ -20,64 +20,33 @@ import javax.imageio.ImageIO;
  */
 public abstract class AbstractLayoutElement implements LayoutElement
 {
-    /**
-     *
-     */
     private final List<LayoutElement> elements = new ArrayList<>(20);
-    /**
-     *
-     */
-    private Color background = Color.WHITE;
-    /**
-     *
-     */
-    private Font font = DEFAULT_FONT;
-    /**
-     *
-     */
-    private Color foreground = Color.BLACK;
-    /**
-     *
-     */
-    private float height;
-    /**
-     *
-     */
-    private Insets insets = new Insets(0, 0, 0, 0);
-    /**
-     *
-     */
-    private String name = "";
-    /**
-     *
-     */
-    private LayoutElement parent;
-    /**
-     *
-     */
-    private float width;
-    /**
-     *
-     */
-    private float x;
-    /**
-     *
-     */
-    private float y;
 
-    /**
-     * Creates a new AbstractLayoutElement object.
-     */
+    private Color background = Color.WHITE;
+
+    private Font font = DEFAULT_FONT;
+
+    private Color foreground = Color.BLACK;
+
+    private double height;
+
+    private Insets insets = new Insets(0, 0, 0, 0);
+
+    private String name = "";
+
+    private LayoutElement parent;
+
+    private double width;
+
+    private double x;
+
+    private double y;
+
     protected AbstractLayoutElement()
     {
         super();
     }
 
-    /**
-     * Creates a new AbstractLayoutElement object.
-     *
-     * @param name String
-     */
     protected AbstractLayoutElement(final String name)
     {
         super();
@@ -99,11 +68,6 @@ public abstract class AbstractLayoutElement implements LayoutElement
         }
     }
 
-    /**
-     * Erzeugt ein Image des Layouts.
-     *
-     * @return Image
-     */
     public BufferedImage createImage()
     {
         BufferedImage bufferedImage = new BufferedImage((int) getWidth() + 1, (int) getHeight() + 1, BufferedImage.TYPE_INT_RGB);
@@ -169,7 +133,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getHeight()
      */
     @Override
-    public float getHeight()
+    public double getHeight()
     {
         return this.height;
     }
@@ -196,7 +160,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getWidth()
      */
     @Override
-    public float getWidth()
+    public double getWidth()
     {
         return this.width;
     }
@@ -205,7 +169,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getX()
      */
     @Override
-    public float getX()
+    public double getX()
     {
         return (getParent() == null) ? this.x : (this.x + getParent().getX());
     }
@@ -214,7 +178,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getY()
      */
     @Override
-    public float getY()
+    public double getY()
     {
         return (getParent() == null) ? this.y : (this.y + getParent().getY());
     }
@@ -252,15 +216,6 @@ public abstract class AbstractLayoutElement implements LayoutElement
         return contains;
     }
 
-    /**
-     * Speichert das Image als JPG oder PNG.
-     *
-     * @param bufferedImage BufferedImage
-     * @param fileName String
-     * @param type jpg oder png
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception
     {
         File file = new File(fileName);
@@ -295,10 +250,10 @@ public abstract class AbstractLayoutElement implements LayoutElement
     }
 
     /**
-     * @see LayoutElement#setHeight(float)
+     * @see LayoutElement#setHeight(double)
      */
     @Override
-    public void setHeight(final float height)
+    public void setHeight(final double height)
     {
         this.height = height;
     }
@@ -322,47 +277,37 @@ public abstract class AbstractLayoutElement implements LayoutElement
     }
 
     /**
-     * @see LayoutElement#setWidth(float)
+     * @see LayoutElement#setWidth(double)
      */
     @Override
-    public void setWidth(final float width)
+    public void setWidth(final double width)
     {
         this.width = width;
     }
 
     /**
-     * @see LayoutElement#setX(float)
+     * @see LayoutElement#setX(double)
      */
     @Override
-    public void setX(final float x)
+    public void setX(final double x)
     {
         this.x = x;
     }
 
     /**
-     * @see LayoutElement#setY(float)
+     * @see LayoutElement#setY(double)
      */
     @Override
-    public void setY(final float y)
+    public void setY(final double y)
     {
         this.y = y;
     }
 
-    /**
-     * Name des Elements.
-     *
-     * @return String
-     */
     protected String getName()
     {
         return this.name;
     }
 
-    /**
-     * Malt die ChildElemente.
-     *
-     * @param g2d Graphics2D
-     */
     protected void paintChildren(final Graphics2D g2d)
     {
         for (int i = 0; i < getElementCount(); i++)
@@ -373,24 +318,14 @@ public abstract class AbstractLayoutElement implements LayoutElement
         }
     }
 
-    /**
-     * Malt den Namen des Elements.
-     *
-     * @param g2d Graphics2D
-     */
     protected void paintName(final Graphics2D g2d)
     {
         g2d.setColor(getForeground());
 
         String text = getName() + " (" + getWidth() + "x" + getHeight() + ")";
-        g2d.drawString(text, getX() + 3, (getY() + getHeight()) - 3);
+        g2d.drawString(text, (float) (getX() + 3D), (float) (getY() + getHeight() - 3D));
     }
 
-    /**
-     * Name des Elements.
-     *
-     * @param name String
-     */
     protected void setName(final String name)
     {
         this.name = name;

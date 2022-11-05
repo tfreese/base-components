@@ -1,7 +1,6 @@
 package de.freese.base.reports.importer.excel;
 
 import java.io.InputStream;
-import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -24,29 +23,16 @@ import org.apache.poi.ss.usermodel.Workbook;
  */
 public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
 {
-    /**
-     *
-     */
     private final Map<Short, Format> cacheFormat = new HashMap<>();
-    /**
-     *
-     */
+
     private final DataFormatter dataFormatter = new DataFormatter();
-    /**
-     *
-     */
+
     private FormulaEvaluator formulaEvaluator;
-    /**
-     *
-     */
+
     private Row row;
-    /**
-     *
-     */
+
     private Sheet sheet;
-    /**
-     *
-     */
+
     private Workbook workBook;
 
     /**
@@ -76,7 +62,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
     @Override
     public final void closeSheet()
     {
-        // NOOP
+        // Empty
     }
 
     /**
@@ -311,13 +297,6 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
         }
     }
 
-    /**
-     * Liefert einen {@link DateFormat}ter für das Excelformat.
-     *
-     * @param format short
-     *
-     * @return {@link Format}
-     */
     protected Format getDateFormatter(final short format)
     {
         Format formatter = this.cacheFormat.get(format);
@@ -331,24 +310,8 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
         return formatter;
     }
 
-    /**
-     * Öffnen eine konkretes {@link Workbook}.
-     *
-     * @param inputStream {@link InputStream}
-     *
-     * @return {@link Workbook}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;
 
-    /**
-     * Liefert den Formatierungsstring eines Datums für ein ExcelXP Format.
-     *
-     * @param index int, Excel XP Format index
-     *
-     * @return String
-     */
     private String getDateFormatByExcelIndex(final int index)
     {
         // case 165 -> "dd.MM.yy HH:mm";
@@ -360,11 +323,6 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
         return "dd.MM.yyyy";
     }
 
-    /**
-     * Selektiert die gewählte Zeile im Excelsheet.
-     *
-     * @param rowNum int
-     */
     private void selectRow(final int rowNum)
     {
         if ((this.row == null) || (this.row.getRowNum() != rowNum))

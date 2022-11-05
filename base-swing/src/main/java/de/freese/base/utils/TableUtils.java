@@ -38,10 +38,6 @@ public final class TableUtils
     /**
      * <a href="http://www.exampledepot.com/egs/javax.swing.table/VisCenter.html">VisCenter</a><br>
      * Selektiert die Zelle an der gewünschten Position und zentriert sie innerhalb der ScrollPane.
-     *
-     * @param table {@link JTable}
-     * @param row int
-     * @param column int
      */
     public static void centerTableInScrollPane(final JTable table, final int row, final int column)
     {
@@ -196,8 +192,6 @@ public final class TableUtils
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
      *
-     * @param table {@link JTable}
-     * @param column int
      * @param margin int; -1 = default
      */
     public static void packColumn(final JTable table, final int column, final int margin)
@@ -208,8 +202,6 @@ public final class TableUtils
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
      *
-     * @param table {@link JTable}
-     * @param column int
      * @param margin int; -1 = default
      * @param min int; -1 = default
      * @param max int; -1 = default
@@ -222,8 +214,6 @@ public final class TableUtils
     /**
      * Setzt die optimale Breite der {@link TableColumn}, falls diese Resizeable ist.
      *
-     * @param table {@link JTable}
-     * @param column {@link TableColumn}
      * @param margin int; -1 = default
      * @param min int; -1 = default
      * @param max int; -1 = default
@@ -276,7 +266,6 @@ public final class TableUtils
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
      *
-     * @param table {@link JTable}
      * @param margin int; -1 = default
      */
     public static void packTable(final JTable table, final int margin)
@@ -290,7 +279,6 @@ public final class TableUtils
     /**
      * Setzt die optimale Breite der {@link TableColumn}s.
      *
-     * @param table {@link JTable}
      * @param margin int; -1 = default
      * @param min int; -1 = default
      * @param max int; -1 = default

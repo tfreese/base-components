@@ -27,17 +27,9 @@ public final class TableExampleEventList
      */
     private static class MyTableModel extends AbstractEventListTableModel<int[]>
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = 6289962608942473870L;
 
-        /**
-         * Erstellt ein neues {@link MyTableModel} Object.
-         *
-         * @param list {@link EventList}
-         */
         MyTableModel(final EventList<int[]> list)
         {
             super(5, list);
@@ -55,9 +47,6 @@ public final class TableExampleEventList
         }
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         DefaultEventList<int[]> eventList = new DefaultEventList<>();
@@ -141,9 +130,6 @@ public final class TableExampleEventList
         swingWorker.execute();
     }
 
-    /**
-     * Erstellt ein neues {@link TableExampleEventList} Object.
-     */
     private TableExampleEventList()
     {
         super();

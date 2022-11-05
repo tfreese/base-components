@@ -26,64 +26,29 @@ public final class ButtonFactory
      */
     public enum ArrowDirection
     {
-        /**
-         *
-         */
         DOWN(187),
-        /**
-         *
-         */
         LEFT(182),
-        /**
-         *
-         */
         RIGHT(183),
-        /**
-         *
-         */
         UP(186);
 
-        /**
-         *
-         */
         private final String text;
 
-        /**
-         * Erstellt ein neues {@link ArrowDirection} Object.
-         *
-         * @param value int
-         */
         ArrowDirection(final int value)
         {
             this.text = String.valueOf((char) value);
         }
 
-        /**
-         * @return {@link String}
-         */
         public String getText()
         {
             return this.text;
         }
     }
 
-    /**
-     * Erzeugt einen JButton, der wie ein HTML-Link aussieht.
-     *
-     * @return {@link JButton}
-     */
     public static JButton createHTMLTextButton()
     {
         return createHTMLTextButton(Color.BLUE);
     }
 
-    /**
-     * Erzeugt einen JButton, der wie ein HTML-Link aussieht.
-     *
-     * @param rolloverColor {@link Color}
-     *
-     * @return {@link JButton}
-     */
     public static JButton createHTMLTextButton(final Color rolloverColor)
     {
         JButton button = new JButton();
@@ -93,13 +58,6 @@ public final class ButtonFactory
         return button;
     }
 
-    /**
-     * Liefert einen "Move"-Button mit 16 px Seitenlänge.
-     *
-     * @param direction {@link ArrowDirection}
-     *
-     * @return {@link JButton}
-     */
     public static JButton createMoveToolBarButton16x16(final ArrowDirection direction)
     {
         JButton button = createToolbarButton16x16();
@@ -108,13 +66,6 @@ public final class ButtonFactory
         return button;
     }
 
-    /**
-     * Liefert einen JButton mit bestimmter Seitenlänge.
-     *
-     * @param size int Seitenlänge des Buttons
-     *
-     * @return {@link JButton}
-     */
     public static JButton createToolbarButton(final int size)
     {
         JButton button = new JButton();
@@ -133,35 +84,17 @@ public final class ButtonFactory
         return button;
     }
 
-    /**
-     * Liefert einen JButton mit 16 px Seitenlänge.
-     *
-     * @return {@link JButton}
-     */
     public static JButton createToolbarButton16x16()
     {
         return createToolbarButton(16);
     }
 
-    /**
-     * Dekoriert einen "Move"-Button.
-     *
-     * @param button {@link JButton}
-     * @param direction {@link ArrowDirection}
-     * @param fontSize int
-     */
     public static void decorateMoveButton(final JButton button, final ArrowDirection direction, final int fontSize)
     {
         button.setFont(FontUtils.getSymbolFont().deriveFont(Font.PLAIN, fontSize));
         button.setText(direction.getText());
     }
 
-    /**
-     * Dekoriert einen JButton wie einen HTML-Link.
-     *
-     * @param button {@link JButton}
-     * @param rolloverColor {@link Color}
-     */
     public static void decorateToHTMLButton(final JButton button, final Color rolloverColor)
     {
         button.setUI(new HTMLTextButtonUI(rolloverColor));
@@ -175,9 +108,6 @@ public final class ButtonFactory
         button.setOpaque(false);
     }
 
-    /**
-     *
-     */
     private ButtonFactory()
     {
         super();

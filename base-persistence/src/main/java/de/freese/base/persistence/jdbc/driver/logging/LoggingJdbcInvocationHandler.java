@@ -16,25 +16,12 @@ import org.springframework.util.ClassUtils;
  */
 class LoggingJdbcInvocationHandler implements InvocationHandler
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
-    /**
-     *
-     */
+
     public final Set<String> logMethods;
-    /**
-     *
-     */
+
     private final Object target;
 
-    /**
-     * Erstellt ein neues {@link LoggingJdbcInvocationHandler} Object.
-     *
-     * @param target Object
-     * @param logMethods {@link Set}
-     */
     LoggingJdbcInvocationHandler(final Object target, final Set<String> logMethods)
     {
         super();

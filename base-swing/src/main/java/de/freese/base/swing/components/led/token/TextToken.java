@@ -9,11 +9,6 @@ import java.util.Objects;
  */
 public class TextToken extends AbstractToken<CharSequence>
 {
-    /**
-     * Erstellt ein neues {@link TextToken} Object.
-     *
-     * @param value {@link CharSequence}
-     */
     public TextToken(final CharSequence value)
     {
         super();
@@ -21,12 +16,6 @@ public class TextToken extends AbstractToken<CharSequence>
         setValue(value);
     }
 
-    /**
-     * Erstellt ein neues {@link TextToken} Object.
-     *
-     * @param color {@link Color}
-     * @param value {@link CharSequence}
-     */
     public TextToken(final Color color, final CharSequence value)
     {
         super(color);

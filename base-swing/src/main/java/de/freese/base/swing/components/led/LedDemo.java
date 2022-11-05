@@ -2,9 +2,11 @@
 package de.freese.base.swing.components.led;
 
 import java.awt.Color;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+
 import de.freese.base.swing.components.led.token.ArrowToken;
 import de.freese.base.swing.components.led.token.ArrowToken.ArrowDirection;
 import de.freese.base.swing.components.led.token.NumberToken;
@@ -15,9 +17,6 @@ import de.freese.base.swing.components.led.token.TextToken;
  */
 public class LedDemo
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         LedPanel ledPanel = new LedPanel();

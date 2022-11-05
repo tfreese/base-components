@@ -13,173 +13,59 @@ import java.awt.Insets;
  */
 public interface LayoutElement
 {
-    /**
-     *
-     */
     Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 11);
 
-    /**
-     * ChildElement hinzufügen.
-     *
-     * @param element {@link LayoutElement}
-     */
     void addElement(LayoutElement element);
 
-    /**
-     * Hintergrundfarbe des Elements.
-     *
-     * @return {@link Color}
-     */
     Color getBackground();
 
-    /**
-     * Liefert das ChildElement am Index.
-     *
-     * @param index int
-     *
-     * @return {@link LayoutElement}
-     */
     LayoutElement getElementAt(int index);
 
-    /**
-     * Anzahl der ChildElemente.
-     *
-     * @return int
-     */
     int getElementCount();
 
-    /**
-     * Font des Elements.
-     *
-     * @return {@link Font}
-     */
     Font getFont();
 
-    /**
-     * Vordergrundfarbe des Elements.
-     *
-     * @return {@link Color}
-     */
     Color getForeground();
 
-    /**
-     * Höhe des Elements.
-     *
-     * @return float
-     */
-    float getHeight();
+    double getHeight();
 
-    /**
-     * Insets des Elements.
-     *
-     * @return {@link Insets}
-     */
     Insets getInsets();
 
-    /**
-     * Parent des Elements.
-     *
-     * @return {@link LayoutElement}
-     */
     LayoutElement getParent();
 
-    /**
-     * Breite des Elements.
-     *
-     * @return float
-     */
-    float getWidth();
+    double getWidth();
 
     /**
-     * X-Koordinate des Elements. X-Koordinate des Parents wird berücksichtigt.
-     *
-     * @return float
+     * X-Koordinate des Elements.<br/>
+     * X-Koordinate des Parents wird berücksichtigt.
      */
-    float getX();
+    double getX();
 
     /**
-     * Y-Koordinate des Elements. Y-Koordinate des Parents wird berücksichtigt.
-     *
-     * @return float
+     * Y-Koordinate des Elements.<br/>
+     * Y-Koordinate des Parents wird berücksichtigt.
      */
-    float getY();
+    double getY();
 
-    /**
-     * Malt das Layout in des GraphicContext.
-     *
-     * @param g2d {@link Graphics2D}
-     */
     void paint(Graphics2D g2d);
 
-    /**
-     * ChildElement löschen.
-     *
-     * @param element {@link LayoutElement}
-     *
-     * @return true, wenn das Element vorhanden war
-     */
     boolean removeElement(LayoutElement element);
 
-    /**
-     * Hintergrundfarbe des Elements.
-     *
-     * @param color {@link Color}
-     */
     void setBackground(Color color);
 
-    /**
-     * Font des Elements.
-     *
-     * @param font {@link Font}
-     */
     void setFont(Font font);
 
-    /**
-     * Vordergrundfarbe des Elements.
-     *
-     * @param color {@link Color}
-     */
     void setForeground(Color color);
 
-    /**
-     * Höhe des Elements.
-     *
-     * @param height float
-     */
-    void setHeight(float height);
+    void setHeight(double height);
 
-    /**
-     * Insets des Elements.
-     *
-     * @param insets {@link Insets}
-     */
     void setInsets(Insets insets);
 
-    /**
-     * Parent des Elements.
-     *
-     * @param parent {@link LayoutElement}
-     */
     void setParent(LayoutElement parent);
 
-    /**
-     * Breite des Elements.
-     *
-     * @param width float
-     */
-    void setWidth(float width);
+    void setWidth(double width);
 
-    /**
-     * X-Koordinate des Elements.
-     *
-     * @param x float
-     */
-    void setX(float x);
+    void setX(double x);
 
-    /**
-     * Y-Koordinate des Elements.
-     *
-     * @param y float
-     */
-    void setY(float y);
+    void setY(double y);
 }

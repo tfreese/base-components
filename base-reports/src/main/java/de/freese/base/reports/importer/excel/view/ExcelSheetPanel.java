@@ -20,29 +20,15 @@ import de.freese.base.reports.importer.excel.ExcelSheet;
  */
 public class ExcelSheetPanel extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1946632829758128806L;
-    /**
-     *
-     */
+
     private final ExcelSheet excelSheet;
-    /**
-     *
-     */
+
     private JScrollPane scrollPane;
-    /**
-     *
-     */
+
     private JTable table;
 
-    /**
-     * Creates a new {@link ExcelSheetPanel} object.
-     *
-     * @param excelSheet {@link ExcelSheet}
-     */
     public ExcelSheetPanel(final ExcelSheet excelSheet)
     {
         super();
@@ -51,11 +37,6 @@ public class ExcelSheetPanel extends JPanel
         initialize();
     }
 
-    /**
-     * Liefert die Tabelle eines Excelsheets.
-     *
-     * @return {@link JTable}
-     */
     public JTable getTable()
     {
         if (this.table == null)
@@ -66,11 +47,6 @@ public class ExcelSheetPanel extends JPanel
         return this.table;
     }
 
-    /**
-     * Liefert die ScrollPane der Tabelle.
-     *
-     * @return {@link JScrollPane}
-     */
     private JScrollPane getScrollPane()
     {
         if (this.scrollPane == null)
@@ -82,9 +58,6 @@ public class ExcelSheetPanel extends JPanel
         return this.scrollPane;
     }
 
-    /**
-     * This method initializes this
-     */
     private void initialize()
     {
         GridBagConstraints gbc = new GridBagConstraints();

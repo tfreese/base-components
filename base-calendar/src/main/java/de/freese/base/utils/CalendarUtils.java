@@ -171,6 +171,11 @@ public final class CalendarUtils
         return toLocalDateTime(instant);
     }
 
+    public static LocalDateTime toLocalDateTime(final long timestamp)
+    {
+        return toLocalDateTime(Instant.ofEpochMilli(timestamp));
+    }
+
     public static LocalDateTime toLocalDateTime(final Instant instant)
     {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());

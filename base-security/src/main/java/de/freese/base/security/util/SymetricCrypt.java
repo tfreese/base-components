@@ -23,17 +23,12 @@ import javax.crypto.spec.IvParameterSpec;
  */
 public class SymetricCrypt
 {
-    /**
-     *
-     */
     private static final String AES_ALGORYTHM = "AES/CBC/PKCS5Padding";
     // /**
     // * 32bit entspricht AES256.
     // */
     // private static final int AES_KEY_SIZE = 32;
-    /**
-     *
-     */
+
     private static final int BUFFER_SIZE = 4096;
     /**
      * 16bit<br>
@@ -43,24 +38,14 @@ public class SymetricCrypt
             {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             };
-    /**
-     *
-     */
+
     private static final SymetricCrypt INSTANCE = new SymetricCrypt(StandardCharsets.UTF_8);
 
-    /**
-     * @return {@link SymetricCrypt} mit UTF-8 {@link Charset}.
-     */
     public static SymetricCrypt getUTF8Instance()
     {
         return INSTANCE;
     }
 
-    /**
-     * Liefert den {@link Key}.
-     *
-     * @return {@link Key}
-     */
     private static Key createDefaultKey()
     {
         // byte[] key = new byte[AES_KEY_SIZE];
@@ -71,32 +56,15 @@ public class SymetricCrypt
         return new DefaultSecretKey("AES");
     }
 
-    /**
-     *
-     */
     private final Charset charset;
 
-    /**
-     *
-     */
     private final Key key;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link SymetricCrypt}
-     *
-     * @param charset {@link Charset}; wird nur für die Strings benötigt, nicht für die Streams
-     */
     public SymetricCrypt(final Charset charset)
     {
         this(charset, createDefaultKey());
     }
 
-    /**
-     * Erzeugt eine neue Instanz von {@link SymetricCrypt}
-     *
-     * @param charset {@link Charset}; wird nur für die Strings benötigt, nicht für die Streams
-     * @param key {@link Key}
-     */
     public SymetricCrypt(final Charset charset, final Key key)
     {
         super();
@@ -107,10 +75,6 @@ public class SymetricCrypt
 
     /**
      * @param input Verschlüsselter {@link InputStream}, dieser wird geschlossen.
-     *
-     * @return Entschlüsselter {@link InputStream}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public InputStream decrypt(final InputStream input) throws Exception
     {
@@ -141,13 +105,6 @@ public class SymetricCrypt
         return new BufferedInputStream(Files.newInputStream(file));
     }
 
-    /**
-     * @param input Verschlüsselter String
-     *
-     * @return Klartext
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public String decrypt(final String input) throws Exception
     {
         if ((input == null) || input.isBlank())
@@ -166,10 +123,6 @@ public class SymetricCrypt
 
     /**
      * @param input Der {@link InputStream} wird geschlossen.
-     *
-     * @return Entschlüsselter {@link InputStream}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public InputStream encrypt(final InputStream input) throws Exception
     {
@@ -197,13 +150,6 @@ public class SymetricCrypt
         return new BufferedInputStream(Files.newInputStream(file));
     }
 
-    /**
-     * @param input Klartext
-     *
-     * @return Verschlüsselter String
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public String encrypt(final String input) throws Exception
     {
         if ((input == null) || input.isBlank())
@@ -220,15 +166,6 @@ public class SymetricCrypt
         return new String(Base64.getEncoder().encode(encrypted), getCharset());
     }
 
-    /**
-     * Liefert den {@link OutputStream} zum Verschlüsseln.
-     *
-     * @param output {@link OutputStream}
-     *
-     * @return {@link OutputStream}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public OutputStream getCipherOutputStream(final OutputStream output) throws Exception
     {
         Cipher encodeCipher = Cipher.getInstance(AES_ALGORYTHM);
@@ -237,17 +174,11 @@ public class SymetricCrypt
         return new CipherOutputStream(output, encodeCipher);
     }
 
-    /**
-     * @return {@link Charset}
-     */
     protected Charset getCharset()
     {
         return this.charset;
     }
 
-    /**
-     * @return {@link Key}
-     */
     protected Key getKey()
     {
         return this.key;

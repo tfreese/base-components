@@ -21,9 +21,6 @@ import org.jdesktop.swingx.JXTitledPanel;
  */
 public class ExtTitledPanel extends JXTitledPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 421436804144877867L;
 
@@ -43,6 +40,7 @@ public class ExtTitledPanel extends JXTitledPanel
             repaint();
         }
     }
+
     /**
      * {@link PropertyChangeListener}
      */
@@ -56,9 +54,6 @@ public class ExtTitledPanel extends JXTitledPanel
      */
     private JPanel rightButtonPanel;
 
-    /**
-     * Creates a new {@link ExtTitledPanel} object.
-     */
     public ExtTitledPanel()
     {
         super();
@@ -86,11 +81,6 @@ public class ExtTitledPanel extends JXTitledPanel
         getRightButtonPanel().add(new JSeparator());
     }
 
-    /**
-     * Hinzufügen einer Komponente zur linken Seite des TitlePane.
-     *
-     * @param component {@link JComponent}
-     */
     public void addTitleComponentLeft(final JComponent component)
     {
         getLeftButtonPanel().add(component);
@@ -98,11 +88,6 @@ public class ExtTitledPanel extends JXTitledPanel
         component.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
     }
 
-    /**
-     * Hinzufügen einer Komponente zur rechten Seite des TitlePane.
-     *
-     * @param component {@link JComponent}
-     */
     public void addTitleComponentRight(final JComponent component)
     {
         getRightButtonPanel().add(component);
@@ -110,9 +95,6 @@ public class ExtTitledPanel extends JXTitledPanel
         component.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
     }
 
-    /**
-     * @return {@link JPanel}
-     */
     private JPanel getLeftButtonPanel()
     {
         if (this.leftButtonPanel == null)
@@ -126,9 +108,6 @@ public class ExtTitledPanel extends JXTitledPanel
         return this.leftButtonPanel;
     }
 
-    /**
-     * @return {@link JPanel}
-     */
     private JPanel getRightButtonPanel()
     {
         if (this.rightButtonPanel == null)

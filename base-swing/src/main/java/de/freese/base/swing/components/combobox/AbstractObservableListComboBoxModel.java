@@ -15,16 +15,8 @@ import javafx.collections.ObservableList;
  */
 public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T>
 {
-    /**
-     * Das momentan selektierte Objekt, in der ComboBox.
-     */
     private Object selectedObject;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link AbstractObservableListComboBoxModel}.
-     *
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListComboBoxModel(final ObservableList<T> list)
     {
         super(list);

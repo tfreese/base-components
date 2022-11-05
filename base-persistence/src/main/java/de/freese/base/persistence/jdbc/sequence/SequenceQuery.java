@@ -23,12 +23,6 @@ public interface SequenceQuery extends Function<String, String>
 {
     /**
      * Ermittelt anhand der {@link DatabaseMetaData} das passende SQL.
-     *
-     * @param connection {@link Connection}
-     *
-     * @return {@link SequenceQuery}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     static SequenceQuery determineQuery(final Connection connection) throws SQLException
     {

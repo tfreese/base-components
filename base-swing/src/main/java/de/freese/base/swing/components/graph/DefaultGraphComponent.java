@@ -11,17 +11,9 @@ import javax.swing.Painter;
  */
 public class DefaultGraphComponent extends AbstractGraphComponent
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7419689107251752519L;
 
-    /**
-     * Erstellt ein neues {@link DefaultGraphComponent} Object.
-     *
-     * @param painter {@link Painter}
-     */
     public DefaultGraphComponent(final Painter<Component> painter)
     {
         super(painter);

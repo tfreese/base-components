@@ -18,7 +18,6 @@ public final class ConnectionHolder
      * Setzt autoCommit = false auf der aktuellen {@link Connection}.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -43,7 +42,6 @@ public final class ConnectionHolder
      * Die {@link Connection} wird anschliessend mit {@link #remove()} aus der {@link ThreadLocal} entfernt.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -62,7 +60,6 @@ public final class ConnectionHolder
      * Ruft die Methode {@link Connection#commit()} auf der aktuellen {@link Connection} auf.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -74,8 +71,6 @@ public final class ConnectionHolder
     /**
      * Liefert die {@link Connection} für den aktuellen Thread.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
-     *
-     * @return {@link Connection}
      *
      * @see #isEmpty()
      * @see #set(Connection)
@@ -89,8 +84,6 @@ public final class ConnectionHolder
 
     /**
      * Liefert true, wenn der aktuelle Thread keine {@link Connection} hat.
-     *
-     * @return boolean
      */
     public static boolean isEmpty()
     {
@@ -109,7 +102,6 @@ public final class ConnectionHolder
      * Ruft die Methode {@link Connection#rollback()} auf der aktuellen {@link Connection} auf.<br>
      * Wirft eine {@link NullPointerException}, wenn der aktuelle Thread keine {@link Connection} hat.
      *
-     * @throws SQLException Falls was schiefgeht.
      * @see #isEmpty()
      * @see #set(Connection)
      */
@@ -121,8 +113,6 @@ public final class ConnectionHolder
     /**
      * Setzt die {@link Connection} für den aktuellen Thread.<br>
      * Wirft eine {@link IllegalStateException}, wenn der aktuelle Thread bereits eine {@link Connection} hat.
-     *
-     * @param connection {@link Connection}
      *
      * @see #isEmpty()
      * @see #set(Connection)

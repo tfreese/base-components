@@ -24,18 +24,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class CryptoSymetric extends AbstractCrypto
 {
-    /**
-     *
-     */
     private Key key;
 
-    /**
-     * Erstellt ein neues {@link CryptoSymetric} Object.
-     *
-     * @param cryptoConfig {@link CryptoConfig}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     CryptoSymetric(final CryptoConfig<?> cryptoConfig) throws Exception
     {
         super(cryptoConfig);
@@ -68,9 +58,6 @@ public class CryptoSymetric extends AbstractCrypto
         return Arrays.equals(digest, sig);
     }
 
-    /**
-     * @param key {@link Key}
-     */
     void setKey(final Key key)
     {
         this.key = key;
@@ -153,9 +140,6 @@ public class CryptoSymetric extends AbstractCrypto
         return (CryptoConfigSymetric) super.getConfig();
     }
 
-    /**
-     * @return {@link Key}
-     */
     protected Key getKey()
     {
         return this.key;

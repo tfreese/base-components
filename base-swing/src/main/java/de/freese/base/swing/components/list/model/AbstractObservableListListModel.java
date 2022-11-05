@@ -21,20 +21,10 @@ import javafx.collections.ObservableList;
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T>
 {
-    /**
-     *
-     */
     private final EventListenerList eventListenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private final ObservableList<T> list;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link AbstractObservableListListModel}.
-     *
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListListModel(final ObservableList<T> list)
     {
         super();
@@ -202,11 +192,6 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
         }
     }
 
-    /**
-     * Liefert die Liste des ListModels.
-     *
-     * @return {@link ObservableList}
-     */
     protected ObservableList<T> getList()
     {
         return this.list;

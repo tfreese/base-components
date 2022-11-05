@@ -13,9 +13,6 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class ExcelSheetRenderer extends DefaultTableCellRenderer
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2719021291033059644L;
 

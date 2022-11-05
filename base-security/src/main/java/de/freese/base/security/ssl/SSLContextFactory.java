@@ -22,9 +22,6 @@ import javax.net.ssl.X509TrustManager;
  */
 public final class SSLContextFactory
 {
-    /**
-     *
-     */
     public static final TrustManager[] X509_TRUST_ALL_MANAGER =
             {
                     new X509TrustManager()
@@ -58,12 +55,6 @@ public final class SSLContextFactory
                     }
             };
 
-    // /**
-    // * @return {@link SSLContext}
-    // * @throws NoSuchAlgorithmException Falls was schief geht.
-    // * @throws KeyManagementException Falls was schief geht.
-    // * @throws NoSuchProviderException Falls was schief geht.
-    // */
     // public static SSLContext createDefault()
     // throws NoSuchAlgorithmException, KeyManagementException, NoSuchProviderException
     // {
@@ -83,8 +74,6 @@ public final class SSLContextFactory
     /**
      * HttpsURLConnection.setDefaultHostnameVerifier<br>
      * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())
-     *
-     * @return {@link HostnameVerifier}
      */
     public static HostnameVerifier createHostnameVerifier1()
     {
@@ -112,16 +101,6 @@ public final class SSLContextFactory
      * SSLContext.setDefault(sslContext);<br>
      * HttpsURLConnection.setDefaultSSLSocketFactory(SSLContext.getDefault().getSocketFactory());<br>
      * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())<br>
-     *
-     * @param keyStoreFile String
-     * @param keyStorePassword char[]
-     * @param trustStoreFile String
-     * @param trustStorePassword char[]
-     * @param certPassword char[]
-     *
-     * @return {@link SSLContext}
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile,
                                               final char[] trustStorePassword, final char[] certPassword)
@@ -205,9 +184,6 @@ public final class SSLContextFactory
         return sslContext;
     }
 
-    /**
-     * Erstellt ein neues {@link SSLContextFactory} Object.
-     */
     private SSLContextFactory()
     {
         super();

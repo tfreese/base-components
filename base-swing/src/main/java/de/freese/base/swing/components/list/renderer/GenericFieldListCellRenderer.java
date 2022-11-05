@@ -9,28 +9,14 @@ import java.io.Serial;
  */
 public class GenericFieldListCellRenderer extends AbstractGenericListCellRenderer
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4533421995241634353L;
 
-    /**
-     * Creates a new {@link GenericFieldListCellRenderer} object.
-     *
-     * @param fieldName String
-     */
     public GenericFieldListCellRenderer(final String fieldName)
     {
         super(fieldName);
     }
 
-    /**
-     * Creates a new {@link GenericFieldListCellRenderer} object.
-     *
-     * @param fieldName String
-     * @param nullText String
-     */
     public GenericFieldListCellRenderer(final String fieldName, final String nullText)
     {
         super(fieldName, nullText);

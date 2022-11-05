@@ -22,36 +22,19 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractApplication
 {
-    /**
-     *
-     */
     private final List<Controller> controllers = new ArrayList<>();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private ApplicationContext context;
-    /**
-     *
-     */
+
     private Thread shutdownHook;
 
-    /**
-     * Liefert den {@link ApplicationContext}.
-     *
-     * @return {@link ApplicationContext}
-     */
     public ApplicationContext getContext()
     {
         return this.context;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     public Logger getLogger()
     {
         return this.logger;
@@ -60,14 +43,9 @@ public abstract class AbstractApplication
     /**
      * Liefert den Namen der Application für den Titel der View.<br>
      * Dieser Name wird auch für den Daten-Ordner im User-Verzeichnis verwendet.
-     *
-     * @return String
      */
     public abstract String getName();
 
-    /**
-     * Initialisiert das PlugIns.
-     */
     public void initialize()
     {
         getLogger().info("Start Application");
@@ -80,9 +58,6 @@ public abstract class AbstractApplication
         initShutdownHook();
     }
 
-    /**
-     * Freigeben verwendeter Ressourcen.
-     */
     public void release()
     {
         getLogger().info("Release");
@@ -117,17 +92,11 @@ public abstract class AbstractApplication
         System.exit(0);
     }
 
-    /**
-     * @return {@link List}<Controller>
-     */
     protected List<Controller> getControllers()
     {
         return this.controllers;
     }
 
-    /**
-     * Initialisiert den {@link ApplicationContext} der Application.
-     */
     protected void initContext()
     {
         getLogger().info("Initialize ApplicationContext");
@@ -140,19 +109,10 @@ public abstract class AbstractApplication
         getContext().getGuiStateManager().setStateProvider(guiStateProvider);
     }
 
-    /**
-     * Definition der Controller.
-     */
     protected abstract void initController();
 
-    /**
-     * Konfiguration der Gui.
-     */
     protected abstract void initFrameAndGui();
 
-    /**
-     * Initialisiert das LookAndFeel.
-     */
     protected void initLaF()
     {
         getLogger().info("Initialize LookAndFeel");
@@ -196,14 +156,8 @@ public abstract class AbstractApplication
         }
     }
 
-    /**
-     * Liefert die {@link ResourceMap} der Application.
-     */
     protected abstract void initRessourceMap();
 
-    /**
-     * Initialisiert den ShutdownHook.
-     */
     protected void initShutdownHook()
     {
         getLogger().info("Initialize ShutdownHook");
@@ -239,19 +193,11 @@ public abstract class AbstractApplication
         Runtime.getRuntime().addShutdownHook(this.shutdownHook);
     }
 
-    /**
-     * @param context {@link ApplicationContext}
-     */
     protected void setContext(final ApplicationContext context)
     {
         this.context = context;
     }
 
-    /**
-     * Setzt die Root-{@link ResourceMap} der Application.
-     *
-     * @param resourceMapRoot {@link ResourceMap}
-     */
     protected void setResourceMapRoot(final ResourceMap resourceMapRoot)
     {
         getContext().setResourceMapRoot(resourceMapRoot);

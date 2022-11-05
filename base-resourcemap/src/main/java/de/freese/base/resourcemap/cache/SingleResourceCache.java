@@ -15,9 +15,6 @@ import de.freese.base.resourcemap.ResourceMap;
  */
 public class SingleResourceCache implements ResourceCache
 {
-    /**
-     *
-     */
     private final Map<Locale, Map<Class<?>, Map<String, ?>>> cache = new HashMap<>();
 
     /**

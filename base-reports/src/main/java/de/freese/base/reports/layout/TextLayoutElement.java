@@ -8,29 +8,16 @@ package de.freese.base.reports.layout;
  */
 public class TextLayoutElement extends AbstractLayoutElement
 {
-    /**
-     * Creates a new TextLayoutElement object.
-     */
     public TextLayoutElement()
     {
         super("");
     }
 
-    /**
-     * Text des Elementes.
-     *
-     * @return String
-     */
     public String getText()
     {
         return getName();
     }
 
-    /**
-     * Text des Elementes.
-     *
-     * @param text String
-     */
     public void setText(final String text)
     {
         setName(text);

@@ -1,9 +1,9 @@
 // Created: 06.10.2008
 package de.freese.base.swing.clipboard.converter;
 
+import de.freese.base.swing.clipboard.ClipboardConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import de.freese.base.swing.clipboard.ClipboardConverter;
 
 /**
  * Basis ClipboardConverter.
@@ -12,18 +12,7 @@ import de.freese.base.swing.clipboard.ClipboardConverter;
  */
 public abstract class AbstractClipboardConverter implements ClipboardConverter
 {
-    /**
-     * 
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    /**
-     * @return {@link Logger}
-     */
-    protected Logger getLogger()
-    {
-        return this.logger;
-    }
 
     /**
      * @see de.freese.base.swing.clipboard.ClipboardConverter#toClipboard(java.lang.Object)
@@ -37,5 +26,10 @@ public abstract class AbstractClipboardConverter implements ClipboardConverter
         }
 
         return "";
+    }
+
+    protected Logger getLogger()
+    {
+        return this.logger;
     }
 }

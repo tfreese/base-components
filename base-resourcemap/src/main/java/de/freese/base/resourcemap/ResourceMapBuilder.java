@@ -74,44 +74,23 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
  */
 public final class ResourceMapBuilder
 {
-    /**
-     * @return {@link ResourceMapBuilder}
-     */
     public static ResourceMapBuilder create()
     {
         return new ResourceMapBuilder(null);
     }
 
-    /**
-     *
-     */
     private final List<ResourceMapBuilder> childBuilders = new ArrayList<>();
-    /**
-     *
-     */
+
     private final ResourceMapBuilder parentBuilder;
-    /**
-     *
-     */
+
     private String bundleName;
-    /**
-     *
-     */
+
     private Map<Class<?>, ResourceConverter<?>> converters;
-    /**
-     *
-     */
+
     private ResourceCache resourceCache;
-    /**
-     *
-     */
+
     private ResourceProvider resourceProvider;
 
-    /**
-     * Erstellt ein neues {@link ResourceMapBuilder} Object.
-     *
-     * @param parentBuilder {@link ResourceMapBuilder}
-     */
     private ResourceMapBuilder(final ResourceMapBuilder parentBuilder)
     {
         super();
@@ -119,19 +98,11 @@ public final class ResourceMapBuilder
         this.parentBuilder = parentBuilder;
     }
 
-    /**
-     * @return {@link ResourceMapBuilder}
-     */
     public ResourceMapBuilder addChild()
     {
         return new ResourceMapBuilder(this);
     }
 
-    /**
-     * @param childBuilder {@link ResourceMapBuilder}
-     *
-     * @return {@link ResourceMapBuilder}
-     */
     public ResourceMapBuilder addChild(final ResourceMapBuilder childBuilder)
     {
         this.childBuilders.add(childBuilder);
@@ -139,9 +110,6 @@ public final class ResourceMapBuilder
         return this;
     }
 
-    /**
-     * @return {@link ResourceMap}
-     */
     public ResourceMap build()
     {
         Objects.requireNonNull(this.bundleName, "bundleName required");
@@ -167,11 +135,6 @@ public final class ResourceMapBuilder
         return resourceMap;
     }
 
-    /**
-     * @param locale {@link Locale}
-     *
-     * @return {@link ResourceMap}
-     */
     public ResourceMap buildAndLoad(final Locale locale)
     {
         ResourceMap resourceMap = build();
@@ -180,11 +143,6 @@ public final class ResourceMapBuilder
         return resourceMap;
     }
 
-    /**
-     * @param bundleName String
-     *
-     * @return {@link ResourceMapBuilder}
-     */
     public ResourceMapBuilder bundleName(final String bundleName)
     {
         this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
@@ -192,21 +150,11 @@ public final class ResourceMapBuilder
         return this;
     }
 
-    /**
-     * Disable caching.
-     *
-     * @return {@link ResourceMapBuilder}
-     */
     public ResourceMapBuilder cacheDisabled()
     {
         return cacheObjects(NoOpResourceCache.getInstance());
     }
 
-    /**
-     * @param resourceCache {@link ResourceCache}
-     *
-     * @return {@link ResourceMapBuilder}
-     */
     public ResourceMapBuilder cacheObjects(final ResourceCache resourceCache)
     {
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
@@ -214,12 +162,6 @@ public final class ResourceMapBuilder
         return this;
     }
 
-    /**
-     * @param type Class
-     * @param converter {@link ResourceConverter}
-     *
-     * @return {@link ResourceMapBuilder}
-     */
     public ResourceMapBuilder converter(final Class<?> type, final ResourceConverter<?> converter)
     {
         Objects.requireNonNull(type, "type required");
@@ -237,8 +179,6 @@ public final class ResourceMapBuilder
 
     /**
      * Optional for Children, the Parent one's will be taken.
-     *
-     * @return {@link ResourceMapBuilder}
      */
     public ResourceMapBuilder defaultConverters()
     {
@@ -287,8 +227,6 @@ public final class ResourceMapBuilder
 
     /**
      * Child-Builder ends.
-     *
-     * @return {@link ResourceMapBuilder}
      */
     public ResourceMapBuilder done()
     {
@@ -297,10 +235,6 @@ public final class ResourceMapBuilder
 
     /**
      * Optional for Children: Default = parent#getResourceProvider
-     *
-     * @param resourceProvider {@link ResourceProvider}
-     *
-     * @return {@link ResourceMapBuilder}
      */
     public ResourceMapBuilder resourceProvider(final ResourceProvider resourceProvider)
     {

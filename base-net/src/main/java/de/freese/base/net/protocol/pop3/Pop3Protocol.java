@@ -134,12 +134,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Delete (permanently) the specified message.
-     *
-     * @param messageNumber int
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean dele(final int messageNumber) throws IOException
     {
@@ -150,12 +144,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Return the size of the message using the LIST command.
-     *
-     * @param messageNumber int
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized int list(final int messageNumber) throws IOException
     {
@@ -181,11 +169,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Login to the server, using the USER and PASS commands.
-     *
-     * @param user String
-     * @param password String
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized void login(final String user, final String password) throws IOException
     {
@@ -235,10 +218,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Do a NOOP.
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean noop() throws IOException
     {
@@ -249,10 +228,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Close down the connection, sending the QUIT command if expunge is true.
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean quit() throws IOException
     {
@@ -283,13 +258,6 @@ public class Pop3Protocol extends AbstractProtocol
     /**
      * Retrieve the specified message. Given an estimate of the message's size we can be more efficient, preallocating the array and returning a
      * ISharedInputStream to allow us to share the array.
-     *
-     * @param messageNumber int
-     * @param size int
-     *
-     * @return {@link InputStream}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized InputStream retr(final int messageNumber, final int size) throws IOException
     {
@@ -299,11 +267,7 @@ public class Pop3Protocol extends AbstractProtocol
     }
 
     /**
-     * Do an RSET.
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
+     * Do an RESET.
      */
     public synchronized boolean rset() throws IOException
     {
@@ -316,8 +280,6 @@ public class Pop3Protocol extends AbstractProtocol
      * Return the total number of messages and mailbox size, using the STAT command.
      *
      * @return int[]; 0 = Messages, 1 = Size of Messages
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized int[] stat() throws IOException
     {
@@ -344,13 +306,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Return the message header and the first n lines of the message.
-     *
-     * @param messageNumber int
-     * @param n int
-     *
-     * @return {@link InputStream}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized InputStream top(final int messageNumber, final int n) throws IOException
     {
@@ -361,12 +316,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Return the UIDL string for the message.
-     *
-     * @param messageNumber int
-     *
-     * @return String
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized String uidl(final int messageNumber) throws IOException
     {
@@ -389,12 +338,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Return the UIDL strings for all messages. The UID for msg #N is returned in uids[N-1].
-     *
-     * @param uids String[]
-     *
-     * @return boolean
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public synchronized boolean uidl(final String[] uids) throws IOException
     {
@@ -441,14 +384,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Issue a POP3 command that expects a multi-line response. <code>size</code> is an estimate of the response size.
-     *
-     * @param cmd String
-     * @param size int
-     *
-     * @return Response
-     *
-     * @throws IOException Falls was schiefgeht.
-     * @throws EOFException Falls was schiefgeht.
      */
     private Pop3Response multilineCommand(final String cmd, final int size) throws IOException
     {
@@ -497,13 +432,6 @@ public class Pop3Protocol extends AbstractProtocol
 
     /**
      * Issue a simple POP3 command and return the response.
-     *
-     * @param cmd String
-     *
-     * @return Response
-     *
-     * @throws IOException Falls was schiefgeht.
-     * @throws EOFException Falls was schiefgeht.
      */
     private Pop3Response simpleCommand(final String cmd) throws IOException
     {

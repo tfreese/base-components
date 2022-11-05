@@ -14,24 +14,10 @@ import javax.net.ssl.SSLEngine;
  */
 public abstract class AbstractNioSSLProvider extends AbstractSSLProvider
 {
-    /**
-     *
-     */
     private final ByteBuffer buffer = ByteBuffer.allocate(32 * 1024);
-    /**
-    *
-    */
+
     private final SelectionKey key;
 
-    /**
-     * Erstellt ein neues {@link AbstractNioSSLProvider} Object.
-     *
-     * @param key {@link SelectionKey}
-     * @param engine {@link SSLEngine}
-     * @param bufferSize int
-     * @param ioWorker {@link Executor}
-     * @param taskWorkers {@link Executor}
-     */
     protected AbstractNioSSLProvider(final SelectionKey key, final SSLEngine engine, final int bufferSize, final Executor ioWorker, final Executor taskWorkers)
     {
         super(engine, bufferSize, ioWorker, taskWorkers);
@@ -55,9 +41,6 @@ public abstract class AbstractNioSSLProvider extends AbstractSSLProvider
         }
     }
 
-    /**
-     * @return boolean
-     */
     public boolean processInput()
     {
         this.buffer.clear();

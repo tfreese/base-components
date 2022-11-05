@@ -20,17 +20,9 @@ import de.freese.base.swing.eventlist.EventList;
  */
 public abstract class AbstractEventListListModel<T> implements ListModel<T>, Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1011316820552269417L;
 
-    /**
-     * Listener auf der {@link EventList}.
-     *
-     * @author Thomas Freese
-     */
     protected class EventListListener implements ListDataListener
     {
         /**
@@ -61,20 +53,10 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
         }
     }
 
-    /**
-     *
-     */
     private final EventListenerList eventListenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private final transient EventList<T> list;
 
-    /**
-     * Creates a new {@link AbstractEventListListModel} object.
-     *
-     * @param list {@link EventList}
-     */
     protected AbstractEventListListModel(final EventList<T> list)
     {
         super();
@@ -137,11 +119,6 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
         this.eventListenerList.add(ListDataListener.class, listener);
     }
 
-    /**
-     * Erstellt den EventListListener
-     *
-     * @return {@link EventListListener}
-     */
     protected EventListListener createEventListener()
     {
         return new EventListListener();

@@ -18,24 +18,16 @@ import javax.sql.DataSource;
  */
 public class ConnectionToDataSourceWrapper implements DataSource
 {
-    /**
-    *
-    */
     private final Connection connection;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link ConnectionToDataSourceWrapper}
-     *
-     * @param connection {@link Connection}
-     */
     public ConnectionToDataSourceWrapper(final Connection connection)
     {
         super();
 
         this.connection = (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]
-        {
-                Connection.class
-        }, new ConnectionNotClosingInvocationHandler(connection));
+                {
+                        Connection.class
+                }, new ConnectionNotClosingInvocationHandler(connection));
     }
 
     /**
@@ -57,21 +49,21 @@ public class ConnectionToDataSourceWrapper implements DataSource
     }
 
     /**
-     * @see javax.sql.CommonDataSource#getLoginTimeout()
-     */
-    @Override
-    public int getLoginTimeout() throws SQLException
-    {
-        return 0;
-    }
-
-    /**
      * @see javax.sql.CommonDataSource#getLogWriter()
      */
     @Override
     public PrintWriter getLogWriter() throws SQLException
     {
         throw new UnsupportedOperationException("getLogWriter");
+    }
+
+    /**
+     * @see javax.sql.CommonDataSource#getLoginTimeout()
+     */
+    @Override
+    public int getLoginTimeout() throws SQLException
+    {
+        return 0;
     }
 
     /**
@@ -93,19 +85,19 @@ public class ConnectionToDataSourceWrapper implements DataSource
     }
 
     /**
-     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
+     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
      */
     @Override
-    public void setLoginTimeout(final int seconds) throws SQLException
+    public void setLogWriter(final PrintWriter out) throws SQLException
     {
         throw new UnsupportedOperationException("setLoginTimeout");
     }
 
     /**
-     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
+     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
      */
     @Override
-    public void setLogWriter(final PrintWriter out) throws SQLException
+    public void setLoginTimeout(final int seconds) throws SQLException
     {
         throw new UnsupportedOperationException("setLoginTimeout");
     }

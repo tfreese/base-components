@@ -11,9 +11,6 @@ import java.util.List;
  */
 public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>
 {
-    /**
-     * Erstellt ein neues {@link AbstractResourceConverter} Object.
-     */
     protected AbstractResourceConverter()
     {
         super();
@@ -23,11 +20,6 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
         // addType((Class<?>) parameterizedType.getActualTypeArguments()[0]);
     }
 
-    /**
-     * @param value String
-     *
-     * @return {@link URL}
-     */
     protected URL getUrl(final String value)
     {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -52,15 +44,6 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * String key is assumed to contain n number substrings separated by commas.<br>
      * Return a list of those integers or null if there are too many, too few, or if a substring can't be parsed.<br>
      * The format of the numbers is specified by Double.valueOf().
-     *
-     * @param key String
-     * @param value String
-     * @param n int
-     * @param message String
-     *
-     * @return {@link List}
-     *
-     * @throws RuntimeException Falls was schiefgeht.
      */
     protected List<Double> parseDoubles(final String key, final String value, final int n, final String message) throws RuntimeException
     {
@@ -81,13 +64,6 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
         return doubles;
     }
 
-    /**
-     * @param key String
-     * @param value String
-     * @param message String
-     *
-     * @throws RuntimeException Falls was schiefgeht.
-     */
     protected void throwException(final String key, final String value, final String message) throws RuntimeException
     {
         String msg = String.format("%s = %s: %s", key, value, message);
@@ -95,13 +71,6 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
         throw new RuntimeException(msg);
     }
 
-    /**
-     * @param key String
-     * @param value String
-     * @param cause {@link Throwable}
-     *
-     * @throws RuntimeException Falls was schiefgeht.
-     */
     protected void throwException(final String key, final String value, final Throwable cause) throws RuntimeException
     {
         String msg = String.format("%s = %s", key, value);

@@ -32,21 +32,13 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractClipboardAdapter
 {
     /**
-     * Action zum Kopieren der Daten.
-     *
      * @author Thomas Freese
      */
     protected class ActionCopy extends AbstractAction
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -6829341578505146619L;
 
-        /**
-         * Creates a new {@link ActionCopy} object.
-         */
         public ActionCopy()
         {
             super();
@@ -67,21 +59,13 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Action zum Einfügen der Daten.
-     *
      * @author Thomas Freese
      */
     protected class ActionPaste extends AbstractAction
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = 4473841629940450442L;
 
-        /**
-         * Creates a new {@link ActionPaste} object.
-         */
         public ActionPaste()
         {
             super();
@@ -102,21 +86,13 @@ public abstract class AbstractClipboardAdapter
     }
 
     /**
-     * Action zum Einfügen der Daten mit gedrehten Achsen.
-     *
      * @author Thomas Freese
      */
     protected class ActionPasteFlipAxes extends AbstractAction
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = 6114190778366220106L;
 
-        /**
-         * Creates a new {@link ActionPasteFlipAxes} object.
-         */
         public ActionPasteFlipAxes()
         {
             super();
@@ -136,44 +112,22 @@ public abstract class AbstractClipboardAdapter
         }
     }
 
-    /**
-     *
-     */
     private final Clipboard clipboard;
-    /**
-     *
-     */
+
     private final JComponent component;
-    /**
-     *
-     */
+
     private final Map<Class<?>, ClipboardConverter> converterMap = new HashMap<>();
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private Action actionCopy;
-    /**
-     *
-     */
+
     private Action actionPaste;
-    /**
-     *
-     */
+
     private Action actionPasteFlipAxes;
-    /**
-     *
-     */
+
     private boolean enabled = true;
 
-    /**
-     * Creates a new {@link AbstractClipboardAdapter} object.
-     *
-     * @param component {@link JComponent}
-     */
     protected AbstractClipboardAdapter(final JComponent component)
     {
         super();
@@ -196,11 +150,6 @@ public abstract class AbstractClipboardAdapter
      */
     public abstract void doPaste(boolean flipAxes);
 
-    /**
-     * Action zum Kopieren der Daten.
-     *
-     * @return {@link Action}
-     */
     public Action getActionCopy()
     {
         if (this.actionCopy == null)
@@ -211,11 +160,6 @@ public abstract class AbstractClipboardAdapter
         return this.actionCopy;
     }
 
-    /**
-     * Action zum Einfügen der Daten.
-     *
-     * @return {@link Action}
-     */
     public Action getActionPaste()
     {
         if (this.actionPaste == null)
@@ -226,11 +170,6 @@ public abstract class AbstractClipboardAdapter
         return this.actionPaste;
     }
 
-    /**
-     * Action zum Einfügen der Daten mit gedrehten Achsen.
-     *
-     * @return {@link Action}
-     */
     public Action getActionPasteFlipAxes()
     {
         if (this.actionPasteFlipAxes == null)
@@ -244,10 +183,6 @@ public abstract class AbstractClipboardAdapter
     /**
      * Liefert den Konverter für die Klasse.<br>
      * Ist kein Konverter registriert wird der {@link ReflectionClipboardConverter} registriert und geliefert.
-     *
-     * @param clazz Class
-     *
-     * @return {@link ClipboardConverter}
      */
 
     public ClipboardConverter getConverter(final Class<?> clazz)
@@ -265,32 +200,16 @@ public abstract class AbstractClipboardAdapter
         return converter;
     }
 
-    /**
-     * Liefert true, wenn die Actions aktiviert sind.
-     *
-     * @return boolean
-     */
     public boolean isEnabled()
     {
         return this.enabled;
     }
 
-    /**
-     * Registriert für eine Klasse den entsprechenden {@link ClipboardConverter}.
-     *
-     * @param clazz Class
-     * @param converter {@link ClipboardConverter}
-     */
     public void register(final Class<?> clazz, final ClipboardConverter converter)
     {
         getConverterMap().put(clazz, converter);
     }
 
-    /**
-     * Aktiviert oder deaktiviert die Actions.
-     *
-     * @param enabled boolean
-     */
     public void setEnabled(final boolean enabled)
     {
         this.enabled = enabled;
@@ -300,37 +219,21 @@ public abstract class AbstractClipboardAdapter
         getActionPasteFlipAxes().setEnabled(enabled);
     }
 
-    /**
-     * Liefert das Objekt der Zwischenablage.
-     *
-     * @return {@link Clipboard}
-     */
     protected Clipboard getClipboard()
     {
         return this.clipboard;
     }
 
-    /**
-     * Liefert die adaptierte Komponente.
-     *
-     * @return {@link JComponent}
-     */
     protected JComponent getComponent()
     {
         return this.component;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * Konfiguration der Komponente mit dem ClipboardAdapter.
-     */
     protected void initialize()
     {
         registerDefaultConverters();
@@ -347,8 +250,6 @@ public abstract class AbstractClipboardAdapter
     /**
      * Registrieren von Standartkonverter.<br>
      * Alle anderen Typen werden über {@link ReflectionClipboardConverter} gehandelt.<br>
-     *
-     * @see #getConverter(Class)
      */
     protected void registerDefaultConverters()
     {
@@ -362,11 +263,6 @@ public abstract class AbstractClipboardAdapter
         register(Double.class, new DoubleClipBoardConverter());
     }
 
-    /**
-     * Liefert die Map der ClipboardConverter.
-     *
-     * @return {@link Map}
-     */
     private Map<Class<?>, ClipboardConverter> getConverterMap()
     {
         return this.converterMap;

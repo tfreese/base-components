@@ -4,6 +4,7 @@ package de.freese.base.swing.components.graph.demo.memory;
 import java.awt.Color;
 import java.net.URL;
 import java.util.concurrent.Executors;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -14,9 +15,6 @@ import javax.swing.WindowConstants;
  */
 public final class MemoryGraphDemo
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
@@ -51,7 +49,8 @@ public final class MemoryGraphDemo
             // Empty
         }
 
-        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() ->
+        {
             frame.setVisible(true);
             memoryGraph.start();
         });

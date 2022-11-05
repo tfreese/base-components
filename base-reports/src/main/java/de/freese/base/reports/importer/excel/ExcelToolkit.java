@@ -14,11 +14,6 @@ public final class ExcelToolkit
 {
     /**
      * Ergibt bei 6,5 = F5.
-     *
-     * @param column int
-     * @param row int
-     *
-     * @return String
      */
     public static synchronized String getCellName(final int column, final int row)
     {
@@ -27,10 +22,6 @@ public final class ExcelToolkit
 
     /**
      * Liefert die Spaltennamen, zB 2 -> B.
-     *
-     * @param column int
-     *
-     * @return Spaltenname als Excel Spaltenname
      */
     public static String getColumnName(final int column)
     {
@@ -75,10 +66,6 @@ public final class ExcelToolkit
 
     /**
      * Ergibt bei F5 = 6.
-     *
-     * @param cellName String
-     *
-     * @return int
      */
     public static int getColumnNumber(final String cellName)
     {
@@ -124,13 +111,6 @@ public final class ExcelToolkit
         return column;
     }
 
-    /**
-     * Ergibt ein String im Excel Format der selektierten Zellen.
-     *
-     * @param table {@link JTable}
-     *
-     * @return String
-     */
     public static String getRange(final JTable table)
     {
         int[] selectedColumns = table.getSelectedColumns();
@@ -149,15 +129,6 @@ public final class ExcelToolkit
         return null;
     }
 
-    /**
-     * Liefert die Anzahl der Zeilen/Spalten des Bereiches zurück.
-     *
-     * @param range String
-     *
-     * @return int
-     *
-     * @throws IllegalStateException Falls was schiefgeht.
-     */
     public static int getRowColumnCount(final String range) throws IllegalStateException
     {
         StringTokenizer tokenizer = new StringTokenizer(range, ":");
@@ -188,10 +159,6 @@ public final class ExcelToolkit
 
     /**
      * Ergibt bei F5 = 5.
-     *
-     * @param cellName String
-     *
-     * @return int
      */
     public static int getRowNumber(final String cellName)
     {
@@ -214,13 +181,6 @@ public final class ExcelToolkit
         return row - 1;
     }
 
-    /**
-     * Prüfen, ob der Excelbereich mehrere Rows/Columns enthält.
-     *
-     * @param value String
-     *
-     * @return boolean
-     */
     public static boolean isMultiRowOrColumn(final String value)
     {
         StringTokenizer tokenizer = new StringTokenizer(value, ":");
@@ -264,14 +224,6 @@ public final class ExcelToolkit
         return (!rowStart.equals(rowEnd)) && (!colStart.equals(colEnd));
     }
 
-    /**
-     * Check to see if the range is too big.
-     *
-     * @param range String
-     * @param numValues int
-     *
-     * @return boolean
-     */
     public static boolean isRangeOk(final String range, final int numValues)
     {
         if ((range == null) || (range.indexOf(':') == -1))
@@ -315,14 +267,6 @@ public final class ExcelToolkit
         return numRangeValues <= numValues;
     }
 
-    /**
-     * Liefert true, wenn in einem Bereich von mehreren mit einem zu vergleichenden übereinstimmt.
-     *
-     * @param ranges String
-     * @param range String
-     *
-     * @return boolean
-     */
     public static boolean overlapAllRanges(final String ranges, final String range)
     {
         StringTokenizer tokenizer = new StringTokenizer(ranges, ";");
@@ -338,14 +282,6 @@ public final class ExcelToolkit
         return false;
     }
 
-    /**
-     * Liefert true, wenn sich zwei Excelbereiche überschneiden.
-     *
-     * @param range1 String
-     * @param range2 String
-     *
-     * @return boolean
-     */
     public static boolean overlapRanges(final String range1, final String range2)
     {
         StringTokenizer tokenizer = new StringTokenizer(range1, ":");
@@ -371,14 +307,6 @@ public final class ExcelToolkit
         return r1.intersects(r2);
     }
 
-    /**
-     * Calculate a column name that has two Characters.
-     *
-     * @param c1 int
-     * @param c2 int
-     *
-     * @return int
-     */
     private static int getColumnNumber(final int c1, final int c2)
     {
         // Bug Fix - Incorrect Columns referenced (15.08.2005)
@@ -387,9 +315,6 @@ public final class ExcelToolkit
         // return ((c1 + 1) * 25) + (c2 + 1);
     }
 
-    /**
-     * Erstellt ein neues {@link ExcelToolkit} Object.
-     */
     private ExcelToolkit()
     {
         super();

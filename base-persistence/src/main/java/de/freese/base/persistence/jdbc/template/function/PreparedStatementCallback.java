@@ -14,12 +14,5 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface PreparedStatementCallback<T>
 {
-    /**
-     * @param statement {@link PreparedStatement}
-     *
-     * @return Object
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     T doInStatement(PreparedStatement statement) throws SQLException;
 }

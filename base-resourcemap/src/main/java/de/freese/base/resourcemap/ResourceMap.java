@@ -17,8 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import de.freese.base.resourcemap.converter.ResourceConverter;
-
 /**
  * ResourceMap for hierarchical internationalization.<br>
  * Configuration Example:
@@ -52,17 +50,8 @@ public interface ResourceMap
      */
     enum EnumResourceType
     {
-        /**
-         *
-         */
         ICON,
-        /**
-         *
-         */
         SHORT_DESCRIPTION,
-        /**
-         *
-         */
         TEXT
                 {
                     /**
@@ -75,11 +64,6 @@ public interface ResourceMap
                     }
                 };
 
-        /**
-         * @param enumValue {@link Enum}
-         *
-         * @return {@link String}
-         */
         public final String getEnumKey(final Enum<?> enumValue)
         {
             String clazz = enumValue.getClass().getSimpleName().toLowerCase();
@@ -88,35 +72,17 @@ public interface ResourceMap
             return String.format("%s.%s.%s%s", "enum", clazz, value, getPostFix());
         }
 
-        /**
-         * @return {@link String}
-         */
         protected String getPostFix()
         {
             return String.format(".%s", name().toLowerCase());
         }
     }
 
-    /**
-     * @param key String
-     *
-     * @return Boolean
-     *
-     * @see #getObject
-     */
     default Boolean getBoolean(final String key)
     {
         return getObject(key, Boolean.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue boolean
-     *
-     * @return boolean
-     *
-     * @see #getObject
-     */
     default boolean getBoolean(final String key, final boolean defaultValue)
     {
         Boolean value = getBoolean(key);
@@ -124,33 +90,13 @@ public interface ResourceMap
         return value != null ? value : defaultValue;
     }
 
-    /**
-     * The Name of the {@link ResourceMap}.
-     *
-     * @return String
-     */
     String getBundleName();
 
-    /**
-     * @param key String
-     *
-     * @return Byte
-     *
-     * @see #getObject
-     */
     default Byte getByte(final String key)
     {
         return getObject(key, Byte.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue byte
-     *
-     * @return byte
-     *
-     * @see #getObject
-     */
     default byte getByte(final String key, final byte defaultValue)
     {
         Byte value = getObject(key, Byte.class);
@@ -158,13 +104,6 @@ public interface ResourceMap
         return value != null ? value : defaultValue;
     }
 
-    /**
-     * Rekursive Search for Child.
-     *
-     * @param bundleName String
-     *
-     * @return {@link ResourceMap}
-     */
     ResourceMap getChild(String bundleName);
 
     /**
@@ -176,48 +115,22 @@ public interface ResourceMap
      * rgbColor = R, G, B
      * alphaRGBColor = R, G, B, A
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link Color}
-     *
-     * @see #getObject
      */
     default Color getColor(final String key)
     {
         return getObject(key, Color.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return {@link Dimension}
-     */
     default Dimension getDimension(final String key)
     {
         return getObject(key, Dimension.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return Double
-     *
-     * @see #getObject
-     */
     default Double getDouble(final String key)
     {
         return getObject(key, Double.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue double
-     *
-     * @return double
-     *
-     * @see #getObject
-     */
     default double getDouble(final String key, final double defaultValue)
     {
         Double value = getObject(key, Double.class);
@@ -225,36 +138,16 @@ public interface ResourceMap
         return value != null ? value : defaultValue;
     }
 
-    /**
-     * @param key String
-     *
-     * @return {@link EmptyBorder}
-     */
     default EmptyBorder getEmptyBorder(final String key)
     {
         return getObject(key, EmptyBorder.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return Float
-     *
-     * @see #getObject
-     */
     default Float getFloat(final String key)
     {
         return getObject(key, Float.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue float
-     *
-     * @return Float
-     *
-     * @see #getObject
-     */
     default Float getFloat(final String key, final float defaultValue)
     {
         Float value = getObject(key, Float.class);
@@ -268,13 +161,6 @@ public interface ResourceMap
      * <pre>
      * font = Arial - PLAIN - 12
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link Font}
-     *
-     * @see #getObject
-     * @see Font#decode
      */
     default Font getFont(final String key)
     {
@@ -287,12 +173,6 @@ public interface ResourceMap
      * <pre>
      * enum.ENUMCLASS.ENUMNAME.icon = icon
      * </pre>
-     *
-     * @param enumValue {@link Enum}
-     *
-     * @return {@link Icon}
-     *
-     * @see #getObject
      */
     default Icon getIcon(final Enum<?> enumValue)
     {
@@ -305,12 +185,6 @@ public interface ResourceMap
      * <pre>
      * icon = myIcon.png
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link Icon}
-     *
-     * @see #getObject
      */
     default Icon getIcon(final String key)
     {
@@ -323,12 +197,6 @@ public interface ResourceMap
      * <pre>
      * image = myIcon.png
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link BufferedImage}
-     *
-     * @see #getObject
      */
     default Image getImage(final String key)
     {
@@ -341,12 +209,6 @@ public interface ResourceMap
      * <pre>
      * image = myIcon.png
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link ImageIcon}
-     *
-     * @see #getObject
      */
     default ImageIcon getImageIcon(final String key)
     {
@@ -359,36 +221,17 @@ public interface ResourceMap
      * <pre>
      * inset = top,left,bottom,right
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link Insets}
      */
     default Insets getInsets(final String key)
     {
         return getObject(key, Insets.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return Integer
-     *
-     * @see #getObject
-     */
     default Integer getInteger(final String key)
     {
         return getObject(key, Integer.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue int
-     *
-     * @return int
-     *
-     * @see #getObject
-     */
     default int getInteger(final String key, final int defaultValue)
     {
         Integer value = getObject(key, Integer.class);
@@ -402,12 +245,6 @@ public interface ResourceMap
      * <pre>
      * keyCode = control T
      * </pre>
-     *
-     * @param key String
-     *
-     * @return Integer
-     *
-     * @see #getKeyStroke
      */
     default Integer getKeyCode(final String key)
     {
@@ -422,39 +259,17 @@ public interface ResourceMap
      * <pre>
      * keyStroke = control T
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link KeyStroke}
-     *
-     * @see #getObject
-     * @see KeyStroke#getKeyStroke
      */
     default KeyStroke getKeyStroke(final String key)
     {
         return getObject(key, KeyStroke.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return Long
-     *
-     * @see #getObject
-     */
     default Long getLong(final String key)
     {
         return getObject(key, Long.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue long
-     *
-     * @return long
-     *
-     * @see #getObject
-     */
     default long getLong(final String key, final long defaultValue)
     {
         Long value = getObject(key, Long.class);
@@ -462,15 +277,6 @@ public interface ResourceMap
         return value != null ? value : defaultValue;
     }
 
-    /**
-     * Uses a {@link ResourceConverter} to convert the String value.<br>
-     *
-     * @param <T> Type
-     * @param key String
-     * @param type resource type
-     *
-     * @return Object
-     */
     <T> T getObject(final String key, final Class<T> type);
 
     /**
@@ -479,10 +285,6 @@ public interface ResourceMap
      * <pre>
      * point = 100,200
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link Point}
      */
     default Point getPoint(final String key)
     {
@@ -495,36 +297,17 @@ public interface ResourceMap
      * <pre>
      * rectangle = 5,5,5,5
      * </pre>
-     *
-     * @param key String
-     *
-     * @return {@link Rectangle}
      */
     default Rectangle getRectangle(final String key)
     {
         return getObject(key, Rectangle.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return Short
-     *
-     * @see #getObject
-     */
     default Short getShort(final String key)
     {
         return getObject(key, Short.class);
     }
 
-    /**
-     * @param key String
-     * @param defaultValue short
-     *
-     * @return Short
-     *
-     * @see #getObject
-     */
     default short getShort(final String key, final short defaultValue)
     {
         Short value = getObject(key, Short.class);
@@ -538,10 +321,6 @@ public interface ResourceMap
      * <pre>
      * enum.ENUMCLASS.ENUMNAME.text = value
      * </pre>
-     *
-     * @param enumValue {@link Enum}
-     *
-     * @return {@link String}
      */
     default String getString(final Enum<?> enumValue)
     {
@@ -565,29 +344,14 @@ public interface ResourceMap
      * hello = Hello {0}
      * hello = Hello %s
      * </pre>
-     *
-     * @param key String
-     * @param args Object
-     *
-     * @return String
      */
     String getString(final String key, final Object... args);
 
-    /**
-     * @param key String
-     *
-     * @return {@link URI}
-     */
     default URI getURI(final String key)
     {
         return getObject(key, URI.class);
     }
 
-    /**
-     * @param key String
-     *
-     * @return {@link URL}
-     */
     default URL getURL(final String key)
     {
         return getObject(key, URL.class);
@@ -596,8 +360,6 @@ public interface ResourceMap
     /**
      * Load Resources if absent for {@link Locale}.<br>
      * Calls the children recursive.
-     *
-     * @param locale {@link Locale}
      */
     void load(Locale locale);
 }

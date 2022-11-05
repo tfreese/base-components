@@ -15,17 +15,9 @@ import de.freese.base.swing.eventlist.EventList;
  */
 public class DefaultEventListListModel<T> extends AbstractEventListListModel<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 6807392049340392193L;
 
-    /**
-     * Erstellt ein neues {@link DefaultEventListListModel} Object.
-     *
-     * @param list {@link EventList}
-     */
     public DefaultEventListListModel(final EventList<T> list)
     {
         super(list);

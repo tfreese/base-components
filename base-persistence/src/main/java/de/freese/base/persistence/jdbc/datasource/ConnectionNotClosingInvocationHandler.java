@@ -14,16 +14,8 @@ import java.util.Objects;
  */
 public class ConnectionNotClosingInvocationHandler implements InvocationHandler
 {
-    /**
-    *
-    */
     private final Connection target;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link ConnectionNotClosingInvocationHandler}.
-     *
-     * @param target {@link Connection}
-     */
     public ConnectionNotClosingInvocationHandler(final Connection target)
     {
         super();

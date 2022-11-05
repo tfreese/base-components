@@ -14,11 +14,6 @@ import javafx.collections.ObservableList;
  */
 public class DefaultObservableListComboBoxModel<T> extends AbstractObservableListComboBoxModel<T>
 {
-    /**
-     * Erzeugt eine neue Instanz von {@link DefaultObservableListComboBoxModel}.
-     *
-     * @param list {@link ObservableList}
-     */
     public DefaultObservableListComboBoxModel(final ObservableList<T> list)
     {
         super(list);

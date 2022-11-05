@@ -71,12 +71,8 @@ public final class HibernateUtils
     /**
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
-     * @param <T> Konkreter Typ
      * @param maybeProxy möglicher {@link HibernateProxy}
      *
-     * @return Object
-     *
-     * @throws ClassCastException Falls was schiefgeht.
      * @see HibernateProxy
      * @see LazyInitializer
      */
@@ -90,13 +86,9 @@ public final class HibernateUtils
     /**
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
-     * @param <T> Konkreter Typ
      * @param maybeProxy möglicher {@link HibernateProxy}
      * @param baseClass Klasse für den cast
      *
-     * @return Object
-     *
-     * @throws ClassCastException Falls was schiefgeht.
      * @see HibernateProxy
      * @see LazyInitializer
      */
@@ -114,11 +106,6 @@ public final class HibernateUtils
 
     /**
      * Liefert die Klasse des Objektes hinter dem {@link HibernateProxy}.
-     *
-     * @param <T> Konkreter Typ
-     * @param maybeProxy Object
-     *
-     * @return Object
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> getClassFromProxy(final Object maybeProxy)
@@ -294,8 +281,6 @@ public final class HibernateUtils
      * Note: This only ensures initialization of a proxy object or collection.<br>
      * It is not guaranteed that the elements INSIDE the collection will be initialized/materialized.
      *
-     * @param maybeProxy Object
-     *
      * @see Hibernate#isInitialized(Object)
      * @see Hibernate#initialize(Object)
      */
@@ -362,10 +347,7 @@ public final class HibernateUtils
      * Rundet ein Double Wert auf eine bestimmte Anzahl Nachkommastellen.<br>
      * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      *
-     * @param value double
      * @param scale int Anzahl Nachkommastellen
-     *
-     * @return double
      */
     private static double round(final double value, final int scale)
     {

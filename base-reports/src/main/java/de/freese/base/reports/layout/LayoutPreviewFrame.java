@@ -17,19 +17,9 @@ import javax.swing.WindowConstants;
  */
 public class LayoutPreviewFrame extends JFrame
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2245301418603208848L;
 
-    /**
-     * Creates a new {@link LayoutPreviewFrame} object.
-     *
-     * @param layoutElement {@link AbstractLayoutElement}
-     *
-     * @throws HeadlessException Falls was schiefgeht.
-     */
     public LayoutPreviewFrame(final AbstractLayoutElement layoutElement) throws HeadlessException
     {
         super();

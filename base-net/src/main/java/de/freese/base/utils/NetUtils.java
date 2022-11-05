@@ -21,10 +21,6 @@ public final class NetUtils
 {
     /**
      * Wandelt die binäre IP-Adresse in ein lesbares Format um.
-     *
-     * @param ipAddress byte[]
-     *
-     * @return String
      */
     public static String convertAddressToDotRepresentation(final byte[] ipAddress)
     {
@@ -121,10 +117,6 @@ public final class NetUtils
 
     /**
      * Liefert die Zeit der Atomuhr in der Physikalisch-Technischen Bundesanstalt.
-     *
-     * @return {@link Date}
-     *
-     * @throws IOException Falls was schiefgeht.
      */
     public static Date getPTBZeit() throws IOException
     {
@@ -187,10 +179,6 @@ public final class NetUtils
 
     /**
      * NSLookUp
-     *
-     * @param host String
-     *
-     * @return boolean
      */
     public static boolean isValidHost(final String host)
     {

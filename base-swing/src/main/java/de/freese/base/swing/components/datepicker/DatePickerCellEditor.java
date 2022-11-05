@@ -22,9 +22,6 @@ import org.jdesktop.swingx.plaf.basic.BasicDatePickerUI;
  */
 public class DatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -35,14 +32,9 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     // */
     // private class EnterAction extends AbstractAction
     // {
-    // /**
-    // *
-    // */
+
     // private static final long serialVersionUID = 1L;
-    //
-    // /**
-    // *
-    // */
+
     // public static final String ID = "EnterAction";
     //
     // /**
@@ -61,16 +53,8 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
      */
     public static class DatePickerCommitListener implements ActionListener
     {
-        /**
-         *
-         */
         private final CellEditor cellEditor;
 
-        /**
-         * Erstellt ein neues {@link DatePickerCommitListener} Object.
-         *
-         * @param cellEditor {@link CellEditor}
-         */
         public DatePickerCommitListener(final CellEditor cellEditor)
         {
             super();
@@ -91,16 +75,8 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         }
     }
 
-    /**
-     *
-     */
     private final DatePicker datePicker;
 
-    /**
-     * Creates a new {@link DatePickerCellEditor} object.
-     *
-     * @param datePicker {@link DatePicker}
-     */
     public DatePickerCellEditor(final DatePicker datePicker)
     {
         super();
@@ -123,11 +99,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         return this.datePicker.getDate();
     }
 
-    /**
-     * liefert den DatePicker.
-     *
-     * @return {@link DatePicker}
-     */
     public DatePicker getDatePicker()
     {
         return this.datePicker;

@@ -29,17 +29,9 @@ public final class TableExampleScrollPaneRowHeader
      */
     private static class MyTableModel extends AbstractListTableModel<Map<String, String>>
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = 767661536272989643L;
 
-        /**
-         * Erstellt ein neues {@link MyTableModel} Object.
-         *
-         * @param columnNames {@link List}
-         */
         private MyTableModel(final List<String> columnNames)
         {
             super(columnNames);
@@ -57,9 +49,6 @@ public final class TableExampleScrollPaneRowHeader
         }
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         List<Map<String, String>> list = new ArrayList<>();
@@ -141,9 +130,6 @@ public final class TableExampleScrollPaneRowHeader
         });
     }
 
-    /**
-     * Erstellt ein neues {@link TableExampleScrollPaneRowHeader} Object.
-     */
     private TableExampleScrollPaneRowHeader()
     {
         super();

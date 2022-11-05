@@ -19,18 +19,8 @@ import org.slf4j.LoggerFactory;
  */
 public class SplitPDF
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SplitPDF.class);
 
-    /**
-     * Zum Testen
-     *
-     * @param args String[]
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public static void main(final String[] args) throws Exception
     {
         SplitPDF splitPdf = new SplitPDF("TEST.pdf");
@@ -55,23 +45,10 @@ public class SplitPDF
         }
     }
 
-    /**
-     *
-     */
     private byte[] pdfFile;
 
-    /**
-     *
-     */
     private String pdfFileName;
 
-    /**
-     * Creates a new {@link SplitPDF} object.
-     *
-     * @param pdfFile byte[]
-     *
-     * @throws IllegalArgumentException Falls was schiefgeht.
-     */
     public SplitPDF(final byte[] pdfFile)
     {
         super();
@@ -84,13 +61,6 @@ public class SplitPDF
         this.pdfFile = pdfFile;
     }
 
-    /**
-     * Creates a new {@link SplitPDF} object.
-     *
-     * @param pdfFileName String
-     *
-     * @throws IllegalArgumentException Falls was schiefgeht.
-     */
     public SplitPDF(final String pdfFileName)
     {
         super();
@@ -107,11 +77,6 @@ public class SplitPDF
      * Extrahiert aus einer PDF-Datei frei wählbare Bereiche von Seiten als neues PDF-Dokument.
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
-     * @param outStream {@link OutputStream}
-     * @param metaData {@link DocumentMetaData} (optional)
-     *
-     * @throws Exception Falls was schiefgeht
-     * @throws IllegalArgumentException bei ungültigen Parametern
      */
     public void split(final String[] ranges, final OutputStream outStream, final DocumentMetaData metaData) throws Exception
     {
@@ -200,11 +165,7 @@ public class SplitPDF
      * Extrahiert aus einer PDF-Datei frei wählbare Bereiche von Seiten als neue PDF-Dokumente.
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
-     * @param outStreams OutputStream[] für jede erzeuge Datei eines Range-Bereiches
      * @param metaData {@link DocumentMetaData}[] (optional)
-     *
-     * @throws Exception Falls was schiefgeht
-     * @throws IllegalArgumentException bei ungültigen Parametern
      */
     public void split(final String[] ranges, final OutputStream[] outStreams, final DocumentMetaData[] metaData) throws Exception
     {
@@ -296,13 +257,6 @@ public class SplitPDF
         }
     }
 
-    /**
-     * Liefert den PdfReader in Abhängigkeit der Eingangsparameter.
-     *
-     * @return {@link PdfReader}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     private PdfReader getPDFReader() throws Exception
     {
         if (this.pdfFileName != null)

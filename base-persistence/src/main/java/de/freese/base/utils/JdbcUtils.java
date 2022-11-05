@@ -2,7 +2,6 @@
 package de.freese.base.utils;
 
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -116,10 +115,6 @@ public final class JdbcUtils
 
     /**
      * Erstellt einen String aus per Komma getrennten ids.
-     *
-     * @param ids {@link Iterable}
-     *
-     * @return {@link String}
      */
     public static String createIDsAsString(final Iterable<? extends Number> ids)
     {
@@ -130,10 +125,6 @@ public final class JdbcUtils
      * Erzeugt eine "in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
      * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere "in"-Clause angehängt.
-     *
-     * @param column String
-     * @param sql {@link StringBuilder}
-     * @param elements {@link Set}
      */
     public static void createInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements)
     {
@@ -144,10 +135,6 @@ public final class JdbcUtils
      * Erzeugt eine "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
      * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere "not in"-Clause angehängt.
-     *
-     * @param column String
-     * @param sql {@link StringBuilder}
-     * @param elements {@link Set}
      */
     public static void createNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements)
     {
@@ -205,11 +192,6 @@ public final class JdbcUtils
     /**
      * Liefert den Produktnamen der Datenbank.
      *
-     * @param dataSource {@link DataSource}
-     *
-     * @return String
-     *
-     * @throws SQLException Falls was schiefgeht.
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException
@@ -230,11 +212,6 @@ public final class JdbcUtils
     /**
      * Liefert die ProduktVersion der Datenbank.
      *
-     * @param dataSource {@link DataSource}
-     *
-     * @return String
-     *
-     * @throws SQLException Falls was schiefgeht.
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException
@@ -349,11 +326,6 @@ public final class JdbcUtils
 
     /**
      * Fügt zu der IN-Query die entsprechenden Werte hinzu.
-     *
-     * @param values {@link Iterable}
-     * @param separator char
-     *
-     * @return {@link StringBuilder}
      */
     public static StringBuilder parameterAsString(final Iterable<String> values, final char separator)
     {
@@ -375,12 +347,6 @@ public final class JdbcUtils
     /**
      * Erzeugt aus dem {@link ResultSet} eine {@link ObjectTable}.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
-     *
-     * @param resultSet {@link ResultSet}
-     *
-     * @return {@link ObjectTable}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public static ObjectTable toObjectTable(final ResultSet resultSet) throws SQLException
     {
@@ -439,12 +405,6 @@ public final class JdbcUtils
 
     /**
      * Erzeugt aus den {@link ResultSetMetaData} eine {@link ObjectTable}.<br>
-     *
-     * @param rsMeta {@link ResultSetMetaData}
-     *
-     * @return {@link ObjectTable}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public static ObjectTable toObjectTable(final ResultSetMetaData rsMeta) throws SQLException
     {
@@ -482,11 +442,6 @@ public final class JdbcUtils
      * Dabei wird die Spaltenbreite auf den breitesten Wert angepasst.<br>
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
-     *
-     * @param resultSet {@link ResultSet}
-     * @param ps {@link PrintStream}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
@@ -502,11 +457,6 @@ public final class JdbcUtils
 
     /**
      * Tabellarische Ausgabe der ResultSetMetaDaten.
-     *
-     * @param rsMeta {@link ResultSetMetaData}
-     * @param ps {@link PrintStream}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException
     {
@@ -518,11 +468,6 @@ public final class JdbcUtils
      * Schreibt das ResultSet als CSV-Datei.<br>
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
-     *
-     * @param resultSet {@link ResultSet}
-     * @param ps {@link PrintWriter}
-     *
-     * @throws SQLException Falls was schiefgeht.
      */
     public static void writeCsv(final ResultSet resultSet, final PrintStream ps) throws SQLException
     {
@@ -596,11 +541,6 @@ public final class JdbcUtils
      * Erzeugt eine "in"- oder "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
      * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere Clause angehängt.
-     *
-     * @param column String
-     * @param sql {@link StringBuilder}
-     * @param elements {@link Set}
-     * @param inOrNotIn String
      */
     private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn)
     {

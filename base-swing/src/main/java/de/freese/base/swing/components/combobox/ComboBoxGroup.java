@@ -17,16 +17,8 @@ import javax.swing.JComboBox;
  */
 public class ComboBoxGroup implements ItemListener
 {
-    /**
-     *
-     */
     private final List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<>());
 
-    /**
-     * Verbindet eine {@link JComboBox} mit der Gruppe.
-     *
-     * @param comboBox {@link JComboBox}
-     */
     public void add(final JComboBox<?> comboBox)
     {
         if ((comboBox == null) || this.boxes.contains(comboBox))
@@ -61,11 +53,6 @@ public class ComboBoxGroup implements ItemListener
         }
     }
 
-    /**
-     * Entfernt eine {@link JComboBox} aus der Gruppe.
-     *
-     * @param comboBox {@link JComboBox}
-     */
     public void remove(final JComboBox<?> comboBox)
     {
         if (comboBox == null)

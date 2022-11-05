@@ -46,9 +46,6 @@ import de.freese.base.swing.layout.GbcBuilder;
  */
 public class ExtDialog
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         ExtDialogConfig config = new ExtDialogConfig();
@@ -72,24 +69,12 @@ public class ExtDialog
         System.out.println(dialog.isYesOrOK());
     }
 
-    /**
-     *
-     */
     private JButton[] buttons;
-    /**
-     *
-     */
+
     private JDialog dialog;
-    /**
-     *
-     */
+
     private int optionClicked = JOptionPane.CLOSED_OPTION;
 
-    /**
-     * Konfiguriert den {@link ExtDialog}.
-     *
-     * @param config {@link ExtDialogConfig}
-     */
     public void configure(final ExtDialogConfig config)
     {
         Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
@@ -143,41 +128,27 @@ public class ExtDialog
         this.dialog.dispose();
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isCancel()
     {
         return this.optionClicked == JOptionPane.CANCEL_OPTION;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isClosed()
     {
         return this.optionClicked == JOptionPane.CLOSED_OPTION;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isNo()
     {
         return this.optionClicked == JOptionPane.NO_OPTION;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isYesOrOK()
     {
         return (this.optionClicked == JOptionPane.OK_OPTION) || (this.optionClicked == JOptionPane.YES_OPTION);
     }
 
     /**
-     * @param component {@link Component}
-     *
      * @see JDialog#setLocationRelativeTo(Component)
      */
     public void setLocationRelativeTo(final Component component)
@@ -186,8 +157,6 @@ public class ExtDialog
     }
 
     /**
-     * @param resizable boolean
-     *
      * @see JDialog#setResizable(boolean)
      */
     public void setResizable(final boolean resizable)
@@ -196,8 +165,6 @@ public class ExtDialog
     }
 
     /**
-     * @param visible boolean
-     *
      * @see JDialog#setVisible(boolean)
      */
     public void setVisible(final boolean visible)
@@ -207,10 +174,6 @@ public class ExtDialog
         this.dialog.setVisible(visible);
     }
 
-    /**
-     * @param dialog {@link JDialog}
-     * @param config {@link ExtDialogConfig}
-     */
     private void configureButtons(final JDialog dialog, final ExtDialogConfig config)
     {
         JPanel buttonPanel = new JPanel();
@@ -295,9 +258,6 @@ public class ExtDialog
 
     /**
      * Erster Button reagiert auf ENTER, letzter Button reagiert auf ESC (wenn vorhanden).
-     *
-     * @param dialog {@link JDialog}
-     * @param config {@link ExtDialogConfig}
      */
     private void configureDefaultButtons(final JDialog dialog, final ExtDialogConfig config)
     {
@@ -353,10 +313,6 @@ public class ExtDialog
         }
     }
 
-    /**
-     * @param dialog {@link JDialog}
-     * @param config {@link ExtDialogConfig}
-     */
     private void configureIcon(final JDialog dialog, final ExtDialogConfig config)
     {
         GridBagConstraints gbc = new GbcBuilder(0, 0).insets(null).anchorNorthWest();
@@ -376,10 +332,6 @@ public class ExtDialog
         this.dialog.add(new JLabel(icon), gbc);
     }
 
-    /**
-     * @param dialog {@link JDialog}
-     * @param config {@link ExtDialogConfig}
-     */
     private void configureListener(final JDialog dialog, final ExtDialogConfig config)
     {
         if (config.getWindowListener() != null)
@@ -423,10 +375,6 @@ public class ExtDialog
         }
     }
 
-    /**
-     * @param dialog {@link JDialog}
-     * @param config {@link ExtDialogConfig}
-     */
     private void configureMessage(final JDialog dialog, final ExtDialogConfig config)
     {
         Component messageComponent = null;
@@ -456,14 +404,6 @@ public class ExtDialog
         this.dialog.add(messageComponent, gbc);
     }
 
-    /**
-     * @param buttonIndex int
-     * @param uiKey String
-     * @param locale {@link Locale}
-     * @param options String[]
-     *
-     * @return String
-     */
     private String getButtonText(final int buttonIndex, final String uiKey, final Locale locale, final String[] options)
     {
         if (options != null)
@@ -476,10 +416,6 @@ public class ExtDialog
 
     /**
      * Returns the icon to use for the passed in type.
-     *
-     * @param messageType int, {@link JOptionPane}
-     *
-     * @return {@link Icon}
      */
     private Icon getIconForType(final int messageType)
     {
@@ -507,12 +443,6 @@ public class ExtDialog
         return null;
     }
 
-    /**
-     * @param key String
-     * @param locale {@link Locale}
-     *
-     * @return int
-     */
     private int getMnemonic(final String key, final Locale locale)
     {
         String value = (String) UIManager.get(key, locale);

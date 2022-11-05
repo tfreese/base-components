@@ -24,9 +24,6 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
  */
 public final class RandomGraphDemo
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

@@ -15,17 +15,9 @@ import de.freese.base.swing.eventlist.EventList;
  */
 public class DefaultEventListComboBoxModel<T> extends AbstractEventListComboBoxModel<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5052543281193053775L;
 
-    /**
-     * Erstellt ein neues {@link DefaultEventListComboBoxModel} Object.
-     *
-     * @param list {@link EventList}
-     */
     public DefaultEventListComboBoxModel(final EventList<T> list)
     {
         super(list);

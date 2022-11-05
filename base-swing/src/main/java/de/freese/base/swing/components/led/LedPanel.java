@@ -16,51 +16,27 @@ import de.freese.base.swing.components.led.token.Token;
  */
 public class LedPanel extends Component implements LedConfig
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2419621712513872997L;
-    /**
-     *
-     */
+
     private final transient LedMatrix ledMatrix;
-    /**
-     *
-     */
+
     private final transient List<Token<?>> tokens = new LinkedList<>();
-    /**
-     *
-     */
+
     private Color colorBackground;
-    /**
-     *
-     */
+
     private Color colorBackgroundDot;
-    /**
-     *
-     */
+
     private int dotHeight;
-    /**
-     *
-     */
+
     private int dotWidth;
-    /**
-     *
-     */
+
     private int hgap;
-    /**
-     *
-     */
+
     private int tokenGap;
-    /**
-     *
-     */
+
     private int vgap;
 
-    /**
-     * Erstellt ein neues {@link LedPanel} Object.
-     */
     public LedPanel()
     {
         super();
@@ -79,9 +55,6 @@ public class LedPanel extends Component implements LedConfig
         this.tokenGap = 2;
     }
 
-    /**
-     * @param token {@link Token}
-     */
     public void addToken(final Token<?> token)
     {
         this.tokens.add(token);
@@ -176,9 +149,6 @@ public class LedPanel extends Component implements LedConfig
         this.ledMatrix.paint(g2d, this, getWidth(), getHeight());
     }
 
-    /**
-     *
-     */
     public void removeFirstToken()
     {
         if (this.tokens.isEmpty())
@@ -189,9 +159,6 @@ public class LedPanel extends Component implements LedConfig
         this.tokens.remove(0);
     }
 
-    /**
-     * @param colorBackground {@link Color}
-     */
     public void setColorBackground(final Color colorBackground)
     {
         this.colorBackground = colorBackground;
@@ -214,9 +181,6 @@ public class LedPanel extends Component implements LedConfig
     // this.ledMatrix.paint(g2d, this, getWidth(), getHeight());
     // }
 
-    /**
-     * @param colorBackgroundDot {@link Color}
-     */
     public void setColorBackgroundDot(final Color colorBackgroundDot)
     {
         this.colorBackgroundDot = colorBackgroundDot;
@@ -224,9 +188,6 @@ public class LedPanel extends Component implements LedConfig
         repaint();
     }
 
-    /**
-     * @param dotHeight int
-     */
     public void setDotHeight(final int dotHeight)
     {
         this.dotHeight = dotHeight;
@@ -234,9 +195,6 @@ public class LedPanel extends Component implements LedConfig
         repaint();
     }
 
-    /**
-     * @param dotWidth int
-     */
     public void setDotWidth(final int dotWidth)
     {
         this.dotWidth = dotWidth;
@@ -244,9 +202,6 @@ public class LedPanel extends Component implements LedConfig
         repaint();
     }
 
-    /**
-     * @param hgap int
-     */
     public void setHgap(final int hgap)
     {
         this.hgap = hgap;
@@ -254,17 +209,11 @@ public class LedPanel extends Component implements LedConfig
         repaint();
     }
 
-    /**
-     * @param tokenGap int
-     */
     public void setTokenGap(final int tokenGap)
     {
         this.tokenGap = tokenGap;
     }
 
-    /**
-     * @param vgap int
-     */
     public void setVgap(final int vgap)
     {
         this.vgap = vgap;

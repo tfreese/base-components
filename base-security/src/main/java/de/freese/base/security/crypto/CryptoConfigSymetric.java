@@ -4,7 +4,6 @@ package de.freese.base.security.crypto;
 import java.security.Key;
 
 import javax.crypto.KeyGenerator;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -46,24 +45,12 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         };
     //@formatter:on
 
-    /**
-     *
-     */
     private byte[] initVector;
 
-    /**
-     *
-     */
     private Key key;
 
-    /**
-     *
-     */
     private byte[] keyBytes;
 
-    /**
-     * Erstellt ein neues {@link CryptoConfigSymetric} Object.
-     */
     CryptoConfigSymetric()
     {
         super();
@@ -119,13 +106,6 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         return crypto;
     }
 
-    /**
-     * Initialisierungsvektor für die {@link IvParameterSpec}.
-     *
-     * @param initVector byte[]
-     *
-     * @return {@link CryptoConfigSymetric}
-     */
     public CryptoConfigSymetric initVector(final byte[] initVector)
     {
         this.initVector = initVector;
@@ -133,11 +113,6 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         return this;
     }
 
-    /**
-     * @param key {@link Key}
-     *
-     * @return {@link CryptoConfigSymetric}
-     */
     public CryptoConfigSymetric key(final Key key)
     {
         this.key = key;
@@ -145,11 +120,6 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         return this;
     }
 
-    /**
-     * @param keyBytes byte[]
-     *
-     * @return {@link CryptoConfigSymetric}
-     */
     public CryptoConfigSymetric keyBytes(final byte[] keyBytes)
     {
         this.keyBytes = keyBytes;
@@ -157,25 +127,16 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         return this;
     }
 
-    /**
-     * @return byte[]
-     */
     protected byte[] getInitVector()
     {
         return this.initVector;
     }
 
-    /**
-     * @return {@link Key}
-     */
     protected Key getKey()
     {
         return this.key;
     }
 
-    /**
-     * @return byte[]
-     */
     protected byte[] getKeyBytes()
     {
         return this.keyBytes;

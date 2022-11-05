@@ -13,12 +13,5 @@ import java.sql.SQLException;
 @FunctionalInterface
 public interface PreparedStatementCreator
 {
-    /**
-     * @param connection {@link Connection}
-     *
-     * @return {@link PreparedStatement}
-     *
-     * @throws SQLException Falls was schiefgeht.
-     */
     PreparedStatement createPreparedStatement(Connection connection) throws SQLException;
 }

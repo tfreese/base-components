@@ -24,50 +24,24 @@ import org.slf4j.LoggerFactory;
  */
 class SSLEngineBuffer
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(SSLEngineBuffer.class);
-    /**
-     *
-     */
+
     private final Executor executor;
-    /**
-     *
-     */
+
     private final int minimumApplicationBufferSize;
-    /**
-     *
-     */
+
     private final ByteBuffer networkInboundBuffer;
-    /**
-     *
-     */
+
     private final ByteBuffer networkOutboundBuffer;
-    /**
-     *
-     */
+
     private final SocketChannel socketChannel;
-    /**
-     *
-     */
+
     private final SSLEngine sslEngine;
-    /**
-     *
-     */
+
     private final ByteBuffer unwrapBuffer;
-    /**
-     *
-     */
+
     private final ByteBuffer wrapBuffer;
 
-    /**
-     * Erstellt ein neues {@link SSLEngineBuffer} Object.
-     *
-     * @param socketChannel {@link SocketChannel}
-     * @param sslEngine {@link SSLEngine}
-     * @param executor {@link Executor}
-     */
     SSLEngineBuffer(final SocketChannel socketChannel, final SSLEngine sslEngine, final Executor executor)
     {
         super();
@@ -89,9 +63,6 @@ class SSLEngineBuffer
         this.wrapBuffer.flip();
     }
 
-    /**
-     *
-     */
     void close()
     {
         try
@@ -113,24 +84,11 @@ class SSLEngineBuffer
         }
     }
 
-    /**
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     int flushNetworkOutbound() throws IOException
     {
         return send(this.socketChannel, this.networkOutboundBuffer);
     }
 
-    /**
-     * @param channel {@link SocketChannel}
-     * @param buffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     int send(final SocketChannel channel, final ByteBuffer buffer) throws IOException
     {
         int totalWritten = 0;
@@ -156,13 +114,6 @@ class SSLEngineBuffer
         return totalWritten;
     }
 
-    /**
-     * @param applicationInputBuffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     int unwrap(final ByteBuffer applicationInputBuffer) throws IOException
     {
         if (applicationInputBuffer.capacity() < this.minimumApplicationBufferSize)
@@ -196,13 +147,6 @@ class SSLEngineBuffer
         return totalUnwrapped;
     }
 
-    /**
-     * @param applicationOutboundBuffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     int wrap(final ByteBuffer applicationOutboundBuffer) throws IOException
     {
         int wrapped = doWrap(applicationOutboundBuffer);
@@ -211,13 +155,6 @@ class SSLEngineBuffer
         return wrapped;
     }
 
-    /**
-     * @param applicationInputBuffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     private int doUnwrap(final ByteBuffer applicationInputBuffer) throws IOException
     {
         getLogger().debug("unwrap:");
@@ -319,13 +256,6 @@ class SSLEngineBuffer
         return totalReadFromChannel;
     }
 
-    /**
-     * @param applicationOutboundBuffer {@link ByteBuffer}
-     *
-     * @return int
-     *
-     * @throws IOException Falls was schiefgeht.
-     */
     @SuppressWarnings("incomplete-switch")
     private int doWrap(final ByteBuffer applicationOutboundBuffer) throws IOException
     {
@@ -423,17 +353,11 @@ class SSLEngineBuffer
         return totalWritten;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     private Logger getLogger()
     {
         return LOGGER;
     }
 
-    /**
-     *
-     */
     private void runHandshakeTasks()
     {
         while (true)

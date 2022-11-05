@@ -16,19 +16,11 @@ import javax.swing.filechooser.FileFilter;
  */
 public class GenericFileFilter extends FileFilter implements java.io.FileFilter
 {
-    /**
-     *
-     */
     private final boolean includeDirectories;
-    /**
-     *
-     */
+
     private final String[] types;
 
     /**
-     * Erstellt ein neues {@link GenericFileFilter} Object.
-     *
-     * @param includeDirectories boolean
      * @param types String[] Dateitypen, .csv, .xls usw
      */
     public GenericFileFilter(final boolean includeDirectories, final String... types)

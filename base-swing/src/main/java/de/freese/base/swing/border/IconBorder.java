@@ -21,44 +21,22 @@ import de.freese.base.utils.ImageUtils;
  */
 public class IconBorder implements Border, Serializable
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -9139492820598238887L;
-    /**
-     *
-     */
+
     private final int iconPosition;
-    /**
-     *
-     */
+
     private Insets borderInsets;
-    /**
-     *
-     */
+
     private transient Icon icon;
-    /**
-     *
-     */
+
     private JButton iconButton = new JButton();
 
-    /**
-     * Erstellt ein neues {@link IconBorder} Object.
-     *
-     * @param icon {@link Icon}
-     */
     public IconBorder(final Icon icon)
     {
         this(icon, SwingConstants.NORTH_EAST);
     }
 
-    /**
-     * Creates a new {@link IconBorder} object.
-     *
-     * @param icon {@link Icon}
-     * @param iconPosition int
-     */
     public IconBorder(final Icon icon, final int iconPosition)
     {
         super();
@@ -96,11 +74,6 @@ public class IconBorder implements Border, Serializable
         return this.borderInsets;
     }
 
-    /**
-     * JButton
-     *
-     * @return {@link JButton}
-     */
     public JButton getIconButton()
     {
         if (this.iconButton == null)
@@ -181,11 +154,6 @@ public class IconBorder implements Border, Serializable
         // icon.paintIcon(c, g, xPos, yPos);
     }
 
-    /**
-     * Icon
-     *
-     * @param icon {@link Icon}
-     */
     public void setIcon(final Icon icon)
     {
         this.icon = (icon == null) ? ImageUtils.createMissingIcon() : icon;
@@ -199,13 +167,6 @@ public class IconBorder implements Border, Serializable
         getIconButton().setSize(dimension);
     }
 
-    /**
-     * Exception, wenn falsche Position.
-     *
-     * @param position int
-     *
-     * @throws IllegalArgumentException Falls was schiefgeht.
-     */
     private void validatePosition(final int position)
     {
         switch (position)

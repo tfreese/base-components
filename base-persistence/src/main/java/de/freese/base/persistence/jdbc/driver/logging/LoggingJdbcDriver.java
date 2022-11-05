@@ -34,22 +34,12 @@ import org.springframework.util.ClassUtils;
  */
 public class LoggingJdbcDriver implements Driver
 {
-    /**
-     *
-     */
     public static final String PREFIX = "jdbc:logger:";
-    /**
-     *
-     */
+
     static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoggingJdbcDriver.class);
-    /**
-     *
-     */
+
     private static final Set<String> LOG_METHODS = new HashSet<>();
 
-    /**
-     *
-     */
     public static void addDefaultLogMethods()
     {
         addLogMethod("execute");
@@ -73,9 +63,6 @@ public class LoggingJdbcDriver implements Driver
         addLogMethod("setTime");
     }
 
-    /**
-     * @param logMethod String
-     */
     public static void addLogMethod(final String logMethod)
     {
         LOG_METHODS.add(logMethod);

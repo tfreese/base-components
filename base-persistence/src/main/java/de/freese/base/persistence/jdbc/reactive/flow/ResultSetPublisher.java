@@ -11,37 +11,20 @@ import java.util.concurrent.Flow.Subscriber;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * @author Thomas Freese
- *
  * @param <T> Entity-Type
+ *
+ * @author Thomas Freese
  */
 public class ResultSetPublisher<T> implements Publisher<T>
 {
-    /**
-    *
-    */
     private final Connection connection;
-    /**
-    *
-    */
+
     private final ResultSet resultSet;
-    /**
-    *
-    */
+
     private final RowMapper<T> rowMapper;
-    /**
-    *
-    */
+
     private final Statement statement;
 
-    /**
-     * Erstellt ein neues {@link ResultSetPublisher} Object.
-     *
-     * @param connection {@link Connection}
-     * @param statement {@link Statement}
-     * @param resultSet {@link ResultSet}
-     * @param rowMapper {@link RowMapper}
-     */
     public ResultSetPublisher(final Connection connection, final Statement statement, final ResultSet resultSet, final RowMapper<T> rowMapper)
     {
         super();
