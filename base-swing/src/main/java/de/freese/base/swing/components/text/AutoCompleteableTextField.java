@@ -32,15 +32,9 @@ import javax.swing.WindowConstants;
  */
 public class AutoCompleteableTextField extends JTextField
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8765972663291526963L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame frame = new JFrame("AutoCompleteableTextField");
@@ -68,21 +62,11 @@ public class AutoCompleteableTextField extends JTextField
      */
     private class PrevSearchAction extends AbstractAction
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -6115968950918667824L;
-        /**
-         *
-         */
+
         private final String term;
 
-        /**
-         * Creates a new {@link PrevSearchAction} object.
-         *
-         * @param term String
-         */
         public PrevSearchAction(final String term)
         {
             super();
@@ -118,28 +102,15 @@ public class AutoCompleteableTextField extends JTextField
         }
     }
 
-    /**
-     *
-     */
     private final LinkedList<String> prevSearches = new LinkedList<>();
-    /**
-     *
-     */
+
     private JPopupMenu prevSearchMenu;
 
-    /**
-     * Erstellt ein neues {@link AutoCompleteableTextField} Object.
-     */
     public AutoCompleteableTextField()
     {
         this(0);
     }
 
-    /**
-     * Creates a new {@link AutoCompleteableTextField} object.
-     *
-     * @param columns int
-     */
     public AutoCompleteableTextField(final int columns)
     {
         super(columns);
@@ -199,12 +170,6 @@ public class AutoCompleteableTextField extends JTextField
         });
     }
 
-    /**
-     * Anzeigen des Popups.
-     *
-     * @param x int
-     * @param y int
-     */
     private void popupMenu(final int x, final int y)
     {
         if (this.prevSearchMenu != null)

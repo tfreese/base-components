@@ -12,21 +12,10 @@ import javax.swing.RowFilter.Entry;
  */
 public class RowFilterEntry<M> extends Entry<M, Integer>
 {
-    /**
-     *
-     */
     private final int column;
-    /**
-     *
-     */
+
     private final M model;
 
-    /**
-     * Erstellt ein neues {@link RowFilterEntry} Object.
-     *
-     * @param model Object
-     * @param column int
-     */
     public RowFilterEntry(final M model, final int column)
     {
         super();

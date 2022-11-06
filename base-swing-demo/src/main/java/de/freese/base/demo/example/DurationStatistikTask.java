@@ -12,9 +12,6 @@ import de.freese.base.swing.task.DurationStatistikTaskListener;
  */
 public class DurationStatistikTask extends AbstractSwingTask<Void, Void>
 {
-    /**
-     * Erstellt ein neues {@link DurationStatistikTask} Object.
-     */
     public DurationStatistikTask()
     {
         super();

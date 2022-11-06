@@ -13,14 +13,8 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
  */
 public class ExampleController extends AbstractController
 {
-    /**
-     *
-     */
     private final ExampleView view;
 
-    /**
-     * Erstellt ein neues {@link ExampleController} Object.
-     */
     public ExampleController()
     {
         super();

@@ -17,21 +17,11 @@ import de.freese.base.swing.fontchange.SwingFontSizeChanger;
  */
 public class TextFieldFilterEditor extends AutoCompleteableTextField implements FilterEditor, DocumentListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1202264255047823398L;
-    /**
-     *
-     */
+
     private final int column;
 
-    /**
-     * Erstellt ein neues {@link TextFieldFilterEditor} Objekt.
-     *
-     * @param column int
-     */
     public TextFieldFilterEditor(final int column)
     {
         super();

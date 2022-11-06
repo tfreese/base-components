@@ -38,45 +38,26 @@ import de.freese.base.utils.TableUtils;
  */
 public class ExtTable extends JTable implements ExtTableColumnModelListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4454292369350861849L;
     /**
      * Gibt an, ob ein alternativer Header verwendet werden soll.
      */
     private final boolean showHeader;
-    /**
-     *
-     */
+
     private ColumnControlButton columnControlButton;
-    /**
-     *
-     */
+
     private JComponent columnHeaderReplacement;
-    /**
-     *
-     */
+
     private JComponent rowHeaderReplacement;
-    /**
-     *
-     */
+
     private boolean sortable = true;
 
-    /**
-     * Creates a new {@link ExtTable} object.
-     */
     public ExtTable()
     {
         this(false);
     }
 
-    /**
-     * Creates a new {@link ExtTable} object.
-     *
-     * @param showHeader Gibt an, ob die FilterZeile angezeigt wird
-     */
     public ExtTable(final boolean showHeader)
     {
         super();
@@ -127,9 +108,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         }
     }
 
-    /**
-     * Setzt den {@link ColumnControlButton} in die obere rechte Ecke der ScrollPane.
-     */
     public void configureColumnControl()
     {
         Container p = getParent();
@@ -184,11 +162,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         }
     }
 
-    /**
-     * Liefert die Komponente für die Spaltenkontrolle.
-     *
-     * @return {@link ColumnControlButton}
-     */
     public ColumnControlButton getColumnControl()
     {
         if (this.columnControlButton == null)
@@ -199,19 +172,11 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         return this.columnControlButton;
     }
 
-    /**
-     * Liefert das erweiterte {@link ExtTableColumnModel}.
-     *
-     * @return {@link ExtTableColumnModel}
-     */
     public ExtTableColumnModel getColumnModelExt()
     {
         return (ExtTableColumnModel) getColumnModel();
     }
 
-    /**
-     * @param tableHeaderReplacement {@link JComponent}
-     */
     public void installColumnHeader(final JComponent tableHeaderReplacement)
     {
         if (!showHeader())
@@ -238,9 +203,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         }
     }
 
-    /**
-     * @param tableHeaderReplacement {@link JComponent}
-     */
     public void installRowHeader(final JComponent tableHeaderReplacement)
     {
         if (!showHeader())
@@ -267,29 +229,17 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         }
     }
 
-    /**
-     * Sichtbarkeit der Komponente für die Spaltenkontrolle.
-     *
-     * @return boolean
-     */
     public boolean isColumnControlVisible()
     {
         return getColumnControl().isVisible();
     }
 
-    /**
-     * Sortierung aktiviert ?
-     *
-     * @return boolean
-     */
     public boolean isSortable()
     {
         return this.sortable;
     }
 
     /**
-     * Anpassen der Spaltenbreiten.
-     *
      * @param margin int, -1 als default
      */
     public void packAll(final int margin)
@@ -298,9 +248,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     }
 
     /**
-     * Anpassen der Spaltenbreite.
-     *
-     * @param columnIndex int
      * @param margin int, -1 als default
      */
     public void packColumn(final int columnIndex, final int margin)
@@ -309,9 +256,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     }
 
     /**
-     * Anpassen der Spaltenbreite.
-     *
-     * @param columnIndex int
      * @param margin int, -1 als default
      * @param max int, -1 als default
      */
@@ -341,21 +285,11 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         return component;
     }
 
-    /**
-     * Sichtbarkeit der Komponente für die Spaltenkontrolle.
-     *
-     * @param visible boolean
-     */
     public void setColumnControlVisible(final boolean visible)
     {
         getColumnControl().setVisible(visible);
     }
 
-    /**
-     * Sortierung aktiviert ?
-     *
-     * @param sortable boolean
-     */
     public void setSortable(final boolean sortable)
     {
         this.sortable = sortable;
@@ -398,11 +332,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         }
     }
 
-    /**
-     * Erzeugt eine neue Komponente zur Spaltenkontrolle.
-     *
-     * @return {@link ColumnControlButton}
-     */
     protected JComponent createDefaultColumnControl()
     {
         return new ColumnControlButton(this);

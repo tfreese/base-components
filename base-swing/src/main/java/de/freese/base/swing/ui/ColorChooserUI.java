@@ -19,21 +19,11 @@ import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
  */
 public class ColorChooserUI extends BasicColorChooserUI
 {
-    /**
-     * Erzeugt eine UI Instanz.
-     *
-     * @param c {@link JComponent}
-     *
-     * @return {@link ComponentUI}
-     */
     public static ComponentUI createUI(final JComponent c)
     {
         return new ColorChooserUI();
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame frame = new JFrame();

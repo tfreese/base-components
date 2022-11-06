@@ -21,39 +21,21 @@ import javax.swing.border.EmptyBorder;
  */
 public class NasaPanel extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2482594442090386688L;
-    /**
-     *
-     */
+
     private JButton buttonCancel;
-    /**
-     *
-     */
+
     private JButton buttonNext;
-    /**
-     *
-     */
+
     private JButton buttonPrevious;
-    /**
-     *
-     */
+
     private JLabel labelImage;
-    /**
-     *
-     */
+
     private JLabel labelURL;
-    /**
-     *
-     */
+
     private JScrollPane scrollPane;
 
-    /**
-     * @return {@link JButton}
-     */
     public JButton getButtonCancel()
     {
         if (this.buttonCancel == null)
@@ -64,9 +46,6 @@ public class NasaPanel extends JPanel
         return this.buttonCancel;
     }
 
-    /**
-     * @return {@link JButton}
-     */
     public JButton getButtonNext()
     {
         if (this.buttonNext == null)
@@ -77,9 +56,6 @@ public class NasaPanel extends JPanel
         return this.buttonNext;
     }
 
-    /**
-     * @return {@link JButton}
-     */
     public JButton getButtonPrevious()
     {
         if (this.buttonPrevious == null)
@@ -90,9 +66,6 @@ public class NasaPanel extends JPanel
         return this.buttonPrevious;
     }
 
-    /**
-     * @return {@link JLabel}
-     */
     public JLabel getLabelImage()
     {
         if (this.labelImage == null)
@@ -106,9 +79,6 @@ public class NasaPanel extends JPanel
         return this.labelImage;
     }
 
-    /**
-     * @return {@link JLabel}
-     */
     public JLabel getLabelURL()
     {
         if (this.labelURL == null)
@@ -119,9 +89,6 @@ public class NasaPanel extends JPanel
         return this.labelURL;
     }
 
-    /**
-     * @return {@link JScrollPane}
-     */
     public JScrollPane getScrollPane()
     {
         if (this.scrollPane == null)
@@ -132,9 +99,6 @@ public class NasaPanel extends JPanel
         return this.scrollPane;
     }
 
-    /**
-     * Initialisiert die GUI.
-     */
     public void initialize()
     {
         setLayout(new BorderLayout());

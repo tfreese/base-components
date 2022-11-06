@@ -36,22 +36,13 @@ import org.slf4j.LoggerFactory;
  */
 public class OsxAdapter implements InvocationHandler
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(OsxAdapter.class);
-    /**
-     *
-     */
+
     static Object macOSXApplication;
 
     /**
      * Pass this method an Object and Method equipped to display application info.<br>
      * They will be called when the About menu item is selected from the application menu.
-     * <p/>
-     *
-     * @param target Object
-     * @param aboutHandler {@link Method}
      */
     public static void setAboutHandler(final Object target, final Method aboutHandler)
     {
@@ -79,10 +70,6 @@ public class OsxAdapter implements InvocationHandler
      * Pass this method an Object and a Method equipped to handle document events from the Finder.<br>
      * Documents are registered with the Finder via the CFBundleDocumentTypes dictionary in the<br>
      * application bundle's Info.plist
-     * <p/>
-     *
-     * @param target Object
-     * @param fileHandler {@link Method}
      */
     public static void setFileHandler(final Object target, final Method fileHandler)
     {
@@ -114,10 +101,7 @@ public class OsxAdapter implements InvocationHandler
     }
 
     /**
-     * setHandler creates a Proxy object from the passed OsxAdapter and adds it as an ApplicationListener
-     * <p/>
-     *
-     * @param adapter {@link OsxAdapter}
+     * Creates a Proxy object from the passed OsxAdapter and adds it as an ApplicationListener.
      */
     public static void setHandler(final OsxAdapter adapter)
     {
@@ -155,11 +139,7 @@ public class OsxAdapter implements InvocationHandler
 
     /**
      * Pass this method an Object and a Method equipped to display application options.<br>
-     * They will be called when the Preference's menu item is selected from the application menu..
-     * <p/>
-     *
-     * @param target Object
-     * @param prefsHandler {@link Method}
+     * They will be called when the Preference's menu item is selected from the application menu.
      */
     public static void setPreferencesHandler(final Object target, final Method prefsHandler)
     {
@@ -186,37 +166,21 @@ public class OsxAdapter implements InvocationHandler
     /**
      * Pass this method an Object and Method equipped to perform application shutdown logic.<br>
      * The method passed should return a boolean stating whether or not the quit should occur.
-     * <p/>
-     *
-     * @param target Object
-     * @param quitHandler {@link Method}
      */
     public static void setQuitHandler(final Object target, final Method quitHandler)
     {
         setHandler(new OsxAdapter("handleQuit", target, quitHandler));
     }
 
-    /**
-     *
-     */
     protected final String proxySignature;
-    /**
-     *
-     */
+
     protected final Method targetMethod;
-    /**
-     *
-     */
+
     protected final Object targetObject;
 
     /**
      * Each OsxAdapter has the name of the EAWT method it intends to listen for (handleAbout, for example),<br>
      * the Object that will ultimately perform the task, and the Method to be called on that Object Erstellt ein neues {@link OsxAdapter} Object.
-     * <p/>
-     *
-     * @param proxySignature String
-     * @param target Object
-     * @param handler {@link Method}
      */
     protected OsxAdapter(final String proxySignature, final Object target, final Method handler)
     {
@@ -231,15 +195,6 @@ public class OsxAdapter implements InvocationHandler
      * Override this method to perform any operations on the event<br>
      * that comes with the various callbacks.<br>
      * See setFileHandler above for an example.
-     * <p/>
-     *
-     * @param appleEvent Object
-     * <p/>
-     *
-     * @return boolean
-     * <p/>
-     *
-     * @throws Exception Falls was schiefgeht.
      */
     public boolean callTarget(final Object appleEvent) throws Exception
     {
@@ -257,7 +212,6 @@ public class OsxAdapter implements InvocationHandler
      * InvocationHandler implementation.<br>
      * This is the entry point for our proxy object; it is called every time an ApplicationListener<br>
      * method is invoked.
-     * <p/>
      *
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
@@ -277,13 +231,6 @@ public class OsxAdapter implements InvocationHandler
     /**
      * Compare the method that was called to the intended method when the OsxAdapter instance was<br>
      * created (e.g. handleAbout, handleQuit, handleOpenFile, etc.).
-     * <p/>
-     *
-     * @param method {@link Method}
-     * @param args Object[]
-     * <p/>
-     *
-     * @return boolean
      */
     protected boolean isCorrectMethod(final Method method, final Object[] args)
     {
@@ -293,10 +240,6 @@ public class OsxAdapter implements InvocationHandler
     /**
      * It is important to mark the ApplicationEvent as handled and cancel the default behavior.<br>
      * This method checks for a boolean result from the proxy method and sets the event accordingly.
-     * <p/>
-     *
-     * @param event Object
-     * @param handled boolean
      */
     protected void setApplicationEventHandled(final Object event, final boolean handled)
     {

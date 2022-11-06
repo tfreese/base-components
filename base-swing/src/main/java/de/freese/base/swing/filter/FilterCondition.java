@@ -9,12 +9,5 @@ import de.freese.base.swing.SupportsPropertyChange;
  */
 public interface FilterCondition extends SupportsPropertyChange
 {
-    /**
-     * Liefert true, wenn die Bedingung passt.
-     *
-     * @param object Object
-     *
-     * @return boolean
-     */
     boolean test(Object object);
 }

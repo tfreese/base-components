@@ -12,19 +12,11 @@ import javax.swing.Action;
  */
 public class DefaultInputBlocker extends AbstractInputBlocker<Object>
 {
-    /**
-     * Erstellt ein neues {@link DefaultInputBlocker} Object.
-     */
     public DefaultInputBlocker()
     {
         this(true);
     }
 
-    /**
-     * Erstellt ein neues {@link DefaultInputBlocker} Object.
-     *
-     * @param changeMouseCursor boolean
-     */
     public DefaultInputBlocker(final boolean changeMouseCursor)
     {
         super();
@@ -32,12 +24,6 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
         setChangeMouseCursor(changeMouseCursor);
     }
 
-    /**
-     * @param action {@link Action}
-     * @param actions {@link Action}[]
-     *
-     * @return {@link DefaultInputBlocker}
-     */
     public DefaultInputBlocker add(final Action action, final Action... actions)
     {
         addTarget(action);
@@ -50,12 +36,6 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
         return this;
     }
 
-    /**
-     * @param component {@link Component}
-     * @param components {@link Component}[]
-     *
-     * @return {@link DefaultInputBlocker}
-     */
     public DefaultInputBlocker add(final Component component, final Component... components)
     {
         addTarget(component);
@@ -68,12 +48,6 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
         return this;
     }
 
-    /**
-     * @param consumer {@link Consumer}
-     * @param consumers {@link Consumer}[]
-     *
-     * @return {@link DefaultInputBlocker}
-     */
     @SuppressWarnings("unchecked")
     public DefaultInputBlocker add(final Consumer<Boolean> consumer, final Consumer<Boolean>... consumers)
     {

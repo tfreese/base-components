@@ -14,13 +14,8 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultExceptionHandler implements SwingExceptionHandler
 {
-    /**
-     *
-     */
     private static final Translator DEFAULT_TRANSLATOR_ADAPTER = String::format;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -63,9 +58,6 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
         logger.error(throwable.getMessage(), throwable);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
@@ -73,11 +65,6 @@ public class DefaultExceptionHandler implements SwingExceptionHandler
 
     /**
      * Liefert die übersetzte Exception (HumanReadable).
-     *
-     * @param throwable {@link Throwable}
-     * @param translator {@link Translator}
-     *
-     * @return String
      */
     protected String getTranslatedMessage(final Throwable throwable, final Translator translator)
     {

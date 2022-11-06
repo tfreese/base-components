@@ -10,26 +10,9 @@ import java.io.Serializable;
  */
 public interface GuiState extends Serializable
 {
-    /**
-     * Stellt die {@link Component} aus dem {@link GuiState} wieder her.
-     *
-     * @param component {@link Component}
-     */
     void restore(Component component);
 
-    /**
-     * Speichern den Zustand der {@link Component} in dem {@link GuiState}
-     *
-     * @param component {@link Component}
-     */
     void store(Component component);
 
-    /**
-     * Liefert true wenn der {@link GuiState} diesen Typ unterstützt.
-     *
-     * @param type Class
-     *
-     * @return boolean
-     */
     boolean supportsType(final Class<?> type);
 }

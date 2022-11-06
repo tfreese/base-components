@@ -19,17 +19,10 @@ import org.slf4j.LoggerFactory;
  */
 public final class DurationStatistikTaskListener implements PropertyChangeListener
 {
-    /**
-     *
-     */
     private static final Map<String, TaskStatistik> CACHE = new HashMap<>();
-    /**
-     *
-     */
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DurationStatistikTaskListener.class);
-    /**
-     *
-     */
+
     private Timer timer;
 
     /**
@@ -107,13 +100,6 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
         }
     }
 
-    /**
-     * Liefert die Statistiken für den Task.
-     *
-     * @param taskName String
-     *
-     * @return {@link TaskStatistik}
-     */
     private TaskStatistik getTaskStatistik(final String taskName)
     {
         TaskStatistik taskStatistik = CACHE.get(taskName);
@@ -127,9 +113,6 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
         return taskStatistik;
     }
 
-    /**
-     * Stoppen des Timers.
-     */
     private void stopTimer()
     {
         if (this.timer != null)
@@ -138,11 +121,6 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
         }
     }
 
-    /**
-     * Aktualisieren der TaskStatistik.
-     *
-     * @param taskStatistik {@link TaskStatistik}
-     */
     private void updateTaskStatistik(final TaskStatistik taskStatistik)
     {
         CACHE.put(taskStatistik.getTaskName(), taskStatistik);

@@ -17,16 +17,8 @@ import javax.swing.event.TableColumnModelListener;
  */
 public class UpdateViewportSizeColumnListener implements TableColumnModelListener
 {
-    /**
-     *
-     */
     private final JTable table;
 
-    /**
-     * Creates a new {@link UpdateViewportSizeColumnListener} object.
-     *
-     * @param table {@link JTable}
-     */
     public UpdateViewportSizeColumnListener(final JTable table)
     {
         super();
@@ -76,12 +68,9 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
     @Override
     public void columnSelectionChanged(final ListSelectionEvent e)
     {
-        // NOOP
+        // Empty
     }
 
-    /**
-     * Anpassung der Grösse des Viewports and die Grösse der Tabelle.
-     */
     protected void updateViewportSize()
     {
         JViewport view = (JViewport) this.table.getParent();

@@ -13,17 +13,10 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractFilter implements Filter
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private Object filterValue;
-    /**
-     *
-     */
+
     private PropertyChangeSupport propertyChangeSupport;
 
     /**
@@ -66,19 +59,11 @@ public abstract class AbstractFilter implements Filter
         getPropertyChangeSupport().firePropertyChange(FILTER_CHANGED, old, this.filterValue);
     }
 
-    /**
-     * Liefert die Werte, mit dem der Filter arbeitet.
-     *
-     * @return Object
-     */
     protected Object getFilterValue()
     {
         return this.filterValue;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected final Logger getLogger()
     {
         return this.logger;

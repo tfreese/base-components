@@ -42,16 +42,8 @@ import org.jdesktop.swingx.JXTitledPanel;
  */
 public final class SwingFontSizeChanger
 {
-    /**
-     *
-     */
     private static final SwingFontSizeChanger INSTANCE = new SwingFontSizeChanger();
 
-    /**
-     * Liefert die Instanz.
-     *
-     * @return {@link SwingFontSizeChanger}
-     */
     public static SwingFontSizeChanger getInstance()
     {
         return INSTANCE;
@@ -59,9 +51,6 @@ public final class SwingFontSizeChanger
 
     /**
      * Verknüpft ein oder mehrere Objekte mit einem Listener, der bei Font-Änderungen reagiert.
-     *
-     * @param object Object
-     * @param others Object[]
      */
     public static void register(final Object object, final Object... others)
     {
@@ -73,22 +62,12 @@ public final class SwingFontSizeChanger
         }
     }
 
-    /**
-     *
-     */
     private final Map<Class<?>, FontChangeHandler> handlers = new HashMap<>();
-    /**
-     *
-     */
+
     private final PropertyChangeSupport propertyChangeSupport;
-    /**
-     *
-     */
+
     private Font font;
 
-    /**
-     * Erstellt ein neues {@link SwingFontSizeChanger} Object.
-     */
     private SwingFontSizeChanger()
     {
         super();
@@ -116,49 +95,27 @@ public final class SwingFontSizeChanger
         addFontChangeHandler(JXDatePicker.class, new DatePickerFontChangeHandler());
     }
 
-    /**
-     * Hinzufügen eines neuen Listeners.
-     *
-     * @param listener {@link PropertyChangeListener}
-     */
     public void addPropertyChangeListener(final PropertyChangeListener listener)
     {
         this.propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    /**
-     * Liefert den aktuellen Font.
-     *
-     * @return {@link Font}
-     */
     public Font getFont()
     {
         return this.font;
     }
 
-    /**
-     * Liefert die Font-Familie.
-     *
-     * @return String
-     */
     public String getFontFamily()
     {
         return this.font.getFamily();
     }
 
-    /**
-     * Liefert die Font-Grösse.
-     *
-     * @return int
-     */
     public int getFontSize()
     {
         return this.font.getSize();
     }
 
     /**
-     * Liefert die Font-Art.
-     *
      * @return int; z.B. Font.PLAIN
      */
     public int getFontStyle()
@@ -168,8 +125,6 @@ public final class SwingFontSizeChanger
 
     /**
      * Verknüpft ein Objekt mit einem Listener, der bei Font-Änderungen reagiert.
-     *
-     * @param object Object
      */
     public void register(final Object object)
     {
@@ -192,21 +147,11 @@ public final class SwingFontSizeChanger
         addPropertyChangeListener(fontListener);
     }
 
-    /**
-     * Entfernen eines neuen Listeners.
-     *
-     * @param listener {@link PropertyChangeListener}
-     */
     public void removePropertyChangeListener(final PropertyChangeListener listener)
     {
         this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Setzt den neuen Font.
-     *
-     * @param font {@link Font}
-     */
     public void setFont(final Font font)
     {
         Font oldFont = this.font;
@@ -218,11 +163,6 @@ public final class SwingFontSizeChanger
         UICustomization.setDefaultFont(font);
     }
 
-    /**
-     * Setzt eine neue Font-Grösse.
-     *
-     * @param fontSize float
-     */
     public void setFontSize(final float fontSize)
     {
         if (getFontSize() == fontSize)
@@ -230,19 +170,11 @@ public final class SwingFontSizeChanger
             return;
         }
 
-        // System.out.println(fontSize);
-
         Font newFont = this.font.deriveFont(fontSize);
 
         setFont(newFont);
     }
 
-    // /**
-    // * Setzt eine neue Font-Familie.
-    // *
-    // * @param fontFamily String
-    // * @deprecated Entfällt
-    // */
     // @Deprecated
     // private void setFontFamily(final String fontFamily)
     // {
@@ -256,23 +188,11 @@ public final class SwingFontSizeChanger
     // setFont(newFont);
     // }
 
-    /**
-     * Hinzufügen eines neuen Handlers für eine {@link Component}.
-     *
-     * @param componentClass {@link Class}
-     * @param handler {@link FontChangeHandler}
-     */
     private void addFontChangeHandler(final Class<?> componentClass, final FontChangeHandler handler)
     {
         this.handlers.put(componentClass, handler);
     }
 
-    // /**
-    // * Setzt den Style des Fonts.
-    // *
-    // * @param fontStyle int; {zB Font.PLAIN}
-    // * @deprecated Entfällt
-    // */
     // @Deprecated
     // private void setFontStyle(final int fontStyle)
     // {
@@ -286,23 +206,11 @@ public final class SwingFontSizeChanger
     // setFont(newFont);
     // }
 
-    /**
-     * Aktualisiert eine {@link Component} mit einem neuen Font.
-     *
-     * @param newFont {@link Font}
-     * @param component {@link JComponent}
-     */
     private void updateFontForComponent(final Font newFont, final JComponent component)
     {
         updateFontForObject(newFont, component);
     }
 
-    /**
-     * Aktualisiert einen {@link Container} mit einem neuen Font.
-     *
-     * @param newFont {@link Font}
-     * @param container {@link Container}
-     */
     private void updateFontForContainer(final Font newFont, final Container container)
     {
         updateFontForObject(newFont, container);
@@ -326,12 +234,6 @@ public final class SwingFontSizeChanger
         }
     }
 
-    /**
-     * Setzt in ein Object einem neuen Font.
-     *
-     * @param newFont {@link Font}
-     * @param object Object
-     */
     private void updateFontForObject(final Font newFont, final Object object)
     {
         Class<?> clazz = object.getClass();

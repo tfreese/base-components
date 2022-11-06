@@ -35,9 +35,6 @@ public class NasaController extends AbstractController
     // /**
     // * Erzeugt einen MessageDigest.<br>
     // * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
-    // *
-    // * @return {@link MessageDigest}
-    // * @throws RuntimeException Falls was schief geht.
     // */
     // protected static MessageDigest createMessageDigest() throws RuntimeException
     // {
@@ -62,13 +59,8 @@ public class NasaController extends AbstractController
     // return messageDigest;
     // }
 
-    /**
-     * Max. 12196 Bilder verfügbar
-     */
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
-    /**
-     *
-     */
+
     private final String[] imageNames =
             {
                     "PIA03623.jpg",
@@ -83,30 +75,17 @@ public class NasaController extends AbstractController
                     "PIA05199.jpg",
                     "PIA05990.jpg"
             };
-    // /**
-    // *
-    // */
+
     // private final MessageDigest messageDigest;
-    /**
-     *
-     */
+
     private final Random random = new Random();
-    /**
-     *
-     */
+
     private final List<URL> urlHistory = new ArrayList<>();
-    /**
-     *
-     */
+
     private final NasaView view;
-    /**
-     *
-     */
+
     private int urlHistoryCurrentIndex = -1;
 
-    /**
-     * Erstellt ein neues {@link NasaController} Object.
-     */
     public NasaController()
     {
         super();
@@ -116,11 +95,6 @@ public class NasaController extends AbstractController
         this.view = new DefaultNasaView();
     }
 
-    /**
-     * @return {@link URL}
-     *
-     * @throws MalformedURLException Falls was schiefgeht.
-     */
     public URL getNextURL() throws MalformedURLException
     {
         // if (++this.urlHistoryCurrentIndex == this.imageNames.length)
@@ -145,11 +119,6 @@ public class NasaController extends AbstractController
         return url;
     }
 
-    /**
-     * @return {@link URL}
-     *
-     * @throws MalformedURLException Falls was schiefgeht.
-     */
     public URL getPreviousURL() throws MalformedURLException
     {
         // if (--this.urlHistoryCurrentIndex < 0)
@@ -225,14 +194,6 @@ public class NasaController extends AbstractController
         SwingUtilities.invokeLater(panel.getButtonNext()::doClick);
     }
 
-    /**
-     * @param url {@link URL}
-     * @param listener {@link IIOReadProgressListener}
-     *
-     * @return {@link BufferedImage}
-     *
-     * @throws Exception Falls was schiefgeht.
-     */
     public BufferedImage loadImage(final URL url, final IIOReadProgressListener listener) throws Exception
     {
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
@@ -314,11 +275,6 @@ public class NasaController extends AbstractController
         return image;
     }
 
-    /**
-     * @param url {@link URL}
-     *
-     * @return boolean
-     */
     protected boolean existUrl(final URL url)
     {
         try
@@ -342,13 +298,6 @@ public class NasaController extends AbstractController
         return false;
     }
 
-    /**
-     * Erzeugt die nächste {@link URL}, zufällig oder basierend auf #imageNames.
-     *
-     * @return {@link URL}
-     *
-     * @throws MalformedURLException Falls was schiefgeht.
-     */
     protected URL generateUrl() throws MalformedURLException
     {
         String urlString = null;

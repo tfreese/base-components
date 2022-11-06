@@ -13,10 +13,5 @@ public interface FibonacciView extends View
     @Override
     FibonacciPanel getComponent();
 
-    /**
-     * Setzt das Ergebnis des Prozesses in die IView.
-     *
-     * @param value long
-     */
     void setResult(long value);
 }

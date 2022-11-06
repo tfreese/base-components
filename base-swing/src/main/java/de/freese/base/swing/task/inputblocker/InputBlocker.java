@@ -12,13 +12,7 @@ import de.freese.base.swing.task.AbstractSwingTask;
  */
 public interface InputBlocker extends PropertyChangeListener
 {
-    /**
-     * Blockiert das Target.
-     */
     void block();
 
-    /**
-     * Freigeben des Targets.
-     */
     void unblock();
 }

@@ -25,14 +25,9 @@ import org.slf4j.LoggerFactory;
  */
 public class SerializableTransferHandler extends TransferHandler
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5613552763719090039L;
-    /**
-     *
-     */
+
     private final transient Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -105,9 +100,6 @@ public class SerializableTransferHandler extends TransferHandler
         return new SerializableTransferable(objects.toArray(new Serializable[0]));
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;

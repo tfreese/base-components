@@ -19,20 +19,12 @@ import de.freese.base.swing.components.table.AbstractListTableModel;
  */
 public abstract class AbstractTreeListenerTableModel extends AbstractListTableModel<Object> implements TreeExpansionListener, TreeModelListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3225572645684058554L;
-    /**
-     *
-     */
+
     private final JTree tree;
 
     /**
-     * Erstellt ein neues {@link AbstractTreeListenerTableModel} Object.
-     *
-     * @param columnCount int
      * @param tree {@link JTree}, Wird benötigt, um die Liste mit Objekten zu füllen, NICHT um die Listener zu registrieren !<br>
      * Setzten der Listener:<br>
      * JTree.addTreeExpansionListener(this)<br>
@@ -118,9 +110,6 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
         updateFromTree();
     }
 
-    /**
-     *
-     */
     public void updateFromTree()
     {
         Runnable runnable = () ->
@@ -144,9 +133,6 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
         }
     }
 
-    /**
-     * @return {@link JTree}
-     */
     protected JTree getTree()
     {
         return this.tree;

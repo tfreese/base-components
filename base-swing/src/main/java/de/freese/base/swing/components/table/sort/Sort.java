@@ -26,9 +26,6 @@ public enum Sort
     // status = status + (e.isShiftDown() ? (-1) : 1);
     // status = ((status + 4) % 3) - 1; // signed mod, returning {-1, 0, 1}
 
-    /**
-     * @return {@link Sort}
-     */
     public Sort getNext()
     {
         if (UNSORTED.name().equals(name()))
@@ -45,9 +42,6 @@ public enum Sort
         }
     }
 
-    /**
-     * @return {@link Sort}
-     */
     public Sort getPrevious()
     {
         if (UNSORTED.name().equals(name()))

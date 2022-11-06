@@ -1,9 +1,11 @@
 package de.freese.base.swing.task.inputblocker;
 
 import java.awt.Component;
+
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
+
 import de.freese.base.swing.TranslucentGlassPane;
 
 /**
@@ -13,16 +15,8 @@ import de.freese.base.swing.TranslucentGlassPane;
  */
 public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker<Component>
 {
-    /**
-     *
-     */
     private JComponent glassPane;
 
-    /**
-     * Erstellt ein neues {@link AbstractGlassPaneInputBlocker} Object.
-     *
-     * @param target {@link Component}
-     */
     protected AbstractGlassPaneInputBlocker(final Component target)
     {
         super();
@@ -41,8 +35,14 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
     }
 
     /**
-     * @return {@link JComponent}
+     * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
      */
+    @Override
+    public void unblock()
+    {
+        setGlassPaneVisible(false);
+    }
+
     protected JComponent getGlassPane()
     {
         if (this.glassPane == null)
@@ -57,11 +57,6 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
         return this.glassPane;
     }
 
-    /**
-     * Einblenden der GlassPane.
-     *
-     * @param visible boolean
-     */
     protected void setGlassPaneVisible(final boolean visible)
     {
         JRootPane rootPane = getRootPane();
@@ -86,14 +81,5 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
         }
 
         setMouseCursorBusy(visible);
-    }
-
-    /**
-     * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
-     */
-    @Override
-    public void unblock()
-    {
-        setGlassPaneVisible(false);
     }
 }

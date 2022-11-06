@@ -11,10 +11,5 @@ import javax.swing.event.TableColumnModelListener;
  */
 public interface ExtTableColumnModelListener extends TableColumnModelListener
 {
-    /**
-     * Nimmt das Event auf.
-     *
-     * @param event {@link PropertyChangeEvent}
-     */
     void columnPropertyChange(PropertyChangeEvent event);
 }

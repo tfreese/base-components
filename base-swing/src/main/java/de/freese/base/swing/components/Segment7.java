@@ -22,15 +22,9 @@ import javax.swing.WindowConstants;
  */
 public class Segment7 extends Canvas
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2856977851119006250L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         Segment7 seg = new Segment7();
@@ -44,9 +38,6 @@ public class Segment7 extends Canvas
         frame.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final int[][] digits =
             {
                     {
@@ -81,9 +72,7 @@ public class Segment7 extends Canvas
                             // Ziffer 9
                     }
             };
-    /**
-     *
-     */
+
     private final int[][] polysx =
             {
                     {
@@ -108,9 +97,7 @@ public class Segment7 extends Canvas
                             1, 2, 8, 9, 8, 2
                     }, // Segment 6
             };
-    /**
-     *
-     */
+
     private final int[][] polysy =
             {
                     {
@@ -135,28 +122,16 @@ public class Segment7 extends Canvas
                             9, 8, 8, 9, 10, 10
                     }, // Segment 6
             };
-    /**
-     *
-     */
+
     private int digit;
-    /**
-     *
-     */
+
     private boolean hasfocus;
 
-    /**
-     * Creates a new Segment7 object.
-     */
     public Segment7()
     {
         this(0);
     }
 
-    /**
-     * Creates a new Segment7 object.
-     *
-     * @param digit int
-     */
     public Segment7(final int digit)
     {
         super();
@@ -188,9 +163,6 @@ public class Segment7 extends Canvas
         return new Dimension(5 * 10, 5 * 18);
     }
 
-    /**
-     * @return int
-     */
     public int getValue()
     {
         return this.digit;
@@ -202,8 +174,8 @@ public class Segment7 extends Canvas
     @Override
     public void paint(final Graphics g)
     {
-        Color darkred = new Color(127, 0, 0);
-        Color lightred = new Color(255, 0, 0);
+        Color darkRed = new Color(127, 0, 0);
+        Color lightRed = new Color(255, 0, 0);
         Color yellow = new Color(255, 255, 0);
 
         // dx und dy berechnen
@@ -211,7 +183,7 @@ public class Segment7 extends Canvas
         int dy = getSize().height / 18;
 
         // Hintergrund
-        g.setColor(darkred);
+        g.setColor(darkRed);
         g.fillRect(0, 0, getSize().width, getSize().height);
 
         // Segmente
@@ -221,7 +193,7 @@ public class Segment7 extends Canvas
         }
         else
         {
-            g.setColor(lightred);
+            g.setColor(lightRed);
         }
 
         for (int i = 0; i < 7; ++i)
@@ -241,16 +213,13 @@ public class Segment7 extends Canvas
         }
 
         // Trennlinien
-        g.setColor(darkred);
+        g.setColor(darkRed);
         g.drawLine(0, 0, dx * 10, dy * 10);
         g.drawLine(0, 8 * dy, 10 * dx, 18 * dy);
         g.drawLine(0, 10 * dy, 10 * dx, 0);
         g.drawLine(0, 18 * dy, 10 * dx, 8 * dy);
     }
 
-    /**
-     * @param value int
-     */
     public void setValue(final int value)
     {
         this.digit = value % 10;

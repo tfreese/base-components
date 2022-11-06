@@ -17,22 +17,13 @@ import javax.swing.JTree;
  */
 public class WatermarkTree extends JPanel implements WatermarkComponent
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7736500453003929181L;
-    /**
-     *
-     */
+
     private JScrollPane scrollPane;
-    /**
-     *
-     */
+
     private JTree tree;
-    /**
-     *
-     */
+
     private WatermarkViewport viewport;
 
     /**
@@ -47,8 +38,6 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
 
     /**
      * Constructor calls <code>init()</code> for initialization
-     *
-     * @param isDoubleBuffered boolean
      */
     public WatermarkTree(final boolean isDoubleBuffered)
     {
@@ -57,9 +46,6 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
         init();
     }
 
-    /**
-     * @return {@link JScrollPane}
-     */
     public JScrollPane getScrollPane()
     {
         if (null == this.scrollPane)
@@ -75,8 +61,6 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
 
     /**
      * Returns the customized Tree.
-     *
-     * @return {@link JTree}
      */
     public JTree getTree()
     {
@@ -119,8 +103,6 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
 
     /**
      * Returns the special viewport which draws the image
-     *
-     * @return {@link WatermarkViewport}
      */
     private WatermarkViewport getViewport()
     {
@@ -132,9 +114,6 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
         return this.viewport;
     }
 
-    /**
-     * Initializes the Component.
-     */
     private void init()
     {
         setLayout(new BorderLayout());

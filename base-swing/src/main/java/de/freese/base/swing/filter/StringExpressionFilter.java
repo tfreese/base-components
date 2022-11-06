@@ -12,16 +12,8 @@ import de.freese.base.core.regex.RegEx;
  */
 public class StringExpressionFilter extends AbstractTextFieldFilter
 {
-    /**
-     *
-     */
     private final boolean ignoreCase;
 
-    /**
-     * Erstellt ein neues {@link StringExpressionFilter} Objekt.
-     *
-     * @param ignoreCase Angabe ob Gross- und Kleinschreibung ignoriert werden soll.
-     */
     public StringExpressionFilter(final boolean ignoreCase)
     {
         super();

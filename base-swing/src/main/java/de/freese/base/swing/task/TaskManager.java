@@ -77,32 +77,16 @@ public class TaskManager
         }
     }
 
-    /**
-     *
-     */
     private final ExecutorService executorService;
-    /**
-     *
-     */
+
     private final PropertyChangeListener foregroundTaskPCL;
-    /**
-     *
-     */
+
     private final PropertyChangeSupport propertyChangeSupport;
-    /**
-     *
-     */
+
     private final PropertyChangeListener taskPCL;
-    /**
-     *
-     */
+
     private AbstractSwingTask<?, ?> foregroundTask;
 
-    /**
-     * Erstellt ein neues {@link TaskManager} Object.
-     *
-     * @param executorService {@link ExecutorService}
-     */
     public TaskManager(final ExecutorService executorService)
     {
         super();
@@ -113,21 +97,11 @@ public class TaskManager
         this.foregroundTaskPCL = new ForegroundTaskPCL();
     }
 
-    /**
-     * Hinzufügen eines PropertyChangeListeners.
-     *
-     * @param listener {@link PropertyChangeListener}
-     */
     public void addPropertyChangeListener(final PropertyChangeListener listener)
     {
         this.propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    /**
-     * Ausführen eines Tasks.
-     *
-     * @param task {@link AbstractSwingTask}
-     */
     public void execute(final AbstractSwingTask<?, ?> task)
     {
         Objects.requireNonNull(task, "task required");
@@ -142,59 +116,31 @@ public class TaskManager
         getExecutorService().execute(task);
     }
 
-    /**
-     * @return {@link AbstractSwingTask}
-     */
     public AbstractSwingTask<?, ?> getForegroundTask()
     {
         return this.foregroundTask;
     }
 
-    /**
-     * Entfernen eines PropertyChangeListeners.
-     *
-     * @param listener {@link PropertyChangeListener}
-     */
     public void removePropertyChangeListener(final PropertyChangeListener listener)
     {
         this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    /**
-     * Feuert ein PropertyChangeEvent.
-     *
-     * @param event {@link PropertyChangeEvent}
-     */
     protected void firePropertyChange(final PropertyChangeEvent event)
     {
         this.propertyChangeSupport.firePropertyChange(event);
     }
 
-    /**
-     * Feuert ein PropertyChangeEvent.
-     *
-     * @param propertyName String
-     * @param oldValue Object
-     * @param newValue Object
-     */
     protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
     {
         this.propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
-    /**
-     * @return {@link ExecutorService}
-     */
     protected ExecutorService getExecutorService()
     {
         return this.executorService;
     }
 
-    /**
-     * Entfernen des aktuell aktiven Tasks.
-     *
-     * @param task {@link AbstractSwingTask}
-     */
     protected void removeForegroundTask(final AbstractSwingTask<?, ?> task)
     {
         if (this.foregroundTask != null)
@@ -205,11 +151,6 @@ public class TaskManager
         this.foregroundTask = null;
     }
 
-    /**
-     * Setzen des aktuell aktiven Tasks.
-     *
-     * @param task {@link AbstractSwingTask}
-     */
     protected void setForegroundTask(final AbstractSwingTask<?, ?> task)
     {
         if (this.foregroundTask != null)

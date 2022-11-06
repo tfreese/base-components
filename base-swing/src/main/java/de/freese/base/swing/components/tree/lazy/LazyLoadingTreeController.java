@@ -27,28 +27,16 @@ import org.slf4j.LoggerFactory;
  */
 public class LazyLoadingTreeController implements TreeWillExpandListener
 {
-    /**
-     *
-     */
     private final Executor executor;
-    /**
-     *
-     */
+
     private final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction;
-    /**
-     *
-     */
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final Semaphore semaphore = new Semaphore(1, true);
 
     /**
-     * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
      * Das Laden der Kind-Knoten wird als {@link SwingWorker} mit der Methode {@link SwingWorker#execute()} ausgeführt.
-     *
-     * @param loadFunction {@link Function}
      */
     public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction)
     {
@@ -56,11 +44,9 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     }
 
     /**
-     * Erstellt ein neues {@link LazyLoadingTreeController} Object.<br>
      * Das Laden der Kind-Knoten wird als {@link SwingWorker} in dem übergebenen {@link Executor} durchgeführt. Ist dieser {@link Executor} null, wird
      * {@link SwingWorker#execute()} ausgeführt.
      *
-     * @param loadFunction {@link Function}
      * @param executor {@link Executor}; Optional
      */
     public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction, final Executor executor)
@@ -85,7 +71,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     @Override
     public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException
     {
-        // NOOP
+        // Empty
     }
 
     /**
@@ -106,34 +92,22 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
 
     /**
      * Liefert den DummyKnoten für den Kinderzweig des Parents mit dem "Laden"-Text.
-     *
-     * @return {@link MutableTreeNode}
      */
     protected MutableTreeNode createLoadingNode()
     {
         return new DefaultMutableTreeNode("Loading ...", false);
     }
 
-    /**
-     * @return {@link Executor}
-     */
     protected Executor getExecutor()
     {
         return this.executor;
     }
 
-    /**
-     * @return Logger
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @param treeModel {@link DefaultTreeModel}
-     * @param node {@link LazyLoadingTreeNode}
-     */
     protected void loadChildren(DefaultTreeModel treeModel, final LazyLoadingTreeNode node)
     {
         // Alle Children entfernen.

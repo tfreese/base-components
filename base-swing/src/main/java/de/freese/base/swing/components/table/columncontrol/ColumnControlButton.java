@@ -17,25 +17,13 @@ import de.freese.base.swing.icon.ColumnControlIcon;
  */
 public class ColumnControlButton extends JButton
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1209957795127294654L;
-    /**
-     *
-     */
+
     private final transient List<ExtTable> tables = new ArrayList<>();
-    /**
-     *
-     */
+
     private transient ColumnControlWindow columnControlWindow;
 
-    /**
-     * Erstellt ein neues {@link ColumnControlButton} Object.
-     *
-     * @param table {@link ExtTable}
-     */
     public ColumnControlButton(final ExtTable table)
     {
         super();
@@ -55,27 +43,16 @@ public class ColumnControlButton extends JButton
         });
     }
 
-    /**
-     * @return {@link List}
-     */
     public List<ExtTable> getTables()
     {
         return this.tables;
     }
 
-    /**
-     * Popup Komponente erzeugen.
-     *
-     * @return {@link ColumnControlWindow}
-     */
     protected ColumnControlWindow createColumnControlWindow()
     {
         return new ColumnControlWindow(this);
     }
 
-    /**
-     * @return {@link ColumnControlWindow}
-     */
     private ColumnControlWindow getColumnControlWindow()
     {
         if (this.columnControlWindow == null)

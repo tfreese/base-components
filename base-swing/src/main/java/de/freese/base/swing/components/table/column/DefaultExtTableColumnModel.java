@@ -25,20 +25,12 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * flag to distinguish a shown/hidden column from really added/removed columns during notification. This is brittle!
      */
     private static final String IGNORE_EVENT = "TableColumnModelExt.ignoreEvent";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 7120329832987702244L;
 
-    /**
-     *
-     */
     private class VisibilityListener implements PropertyChangeListener, Serializable
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = -5146125743167750699L;
 
@@ -189,9 +181,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         return Collections.list(getColumns());
     }
 
-    /**
-     * @return {@link ExtTableColumnModelListener}
-     */
     public ExtTableColumnModelListener[] getTableColumnModelExtListeners()
     {
         return this.listenerList.getListeners(ExtTableColumnModelListener.class);
@@ -292,8 +281,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     /**
      * Notifies <code>TableColumnModelExtListener</code>s about property changes of contained columns. The event instance is the original as fired by the
      * <code>TableColumn</code>.
-     *
-     * @param evt the event received
      *
      * @see EventListenerList
      */

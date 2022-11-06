@@ -21,39 +21,19 @@ import javax.swing.table.TableColumn;
  */
 public class GroupableColumn
 {
-    /**
-     *
-     */
     protected final List<Object> columns = Collections.synchronizedList(new ArrayList<>());
-    /**
-     *
-     */
+
     protected int margin;
-    /**
-     *
-     */
+
     protected TableCellRenderer renderer;
-    /**
-     *
-     */
+
     protected String text;
 
-    /**
-     * Creates a new {@link GroupableColumn} object.
-     *
-     * @param text String
-     */
     public GroupableColumn(final String text)
     {
         this(null, text);
     }
 
-    /**
-     * Creates a new ColumnGroup object.
-     *
-     * @param renderer {@link TableCellRenderer}
-     * @param text String
-     */
     public GroupableColumn(final TableCellRenderer renderer, final String text)
     {
         if (renderer == null)
@@ -92,9 +72,6 @@ public class GroupableColumn
         this.text = text;
     }
 
-    /**
-     * @param tableColumn {@link GroupableColumn}
-     */
     public void add(final GroupableColumn tableColumn)
     {
         if (tableColumn == null)
@@ -105,9 +82,6 @@ public class GroupableColumn
         this.columns.add(tableColumn);
     }
 
-    /**
-     * @param tableColumn {@link TableColumn}
-     */
     public void add(final TableColumn tableColumn)
     {
         if (tableColumn == null)
@@ -118,27 +92,16 @@ public class GroupableColumn
         this.columns.add(tableColumn);
     }
 
-    /**
-     * @return {@link TableCellRenderer}
-     */
     public TableCellRenderer getHeaderRenderer()
     {
         return this.renderer;
     }
 
-    /**
-     * @return Object
-     */
     public Object getHeaderValue()
     {
         return this.text;
     }
 
-    /**
-     * @param table {@link JTable}
-     *
-     * @return {@link Dimension}
-     */
     public Dimension getSize(final JTable table)
     {
         Component comp = this.renderer.getTableCellRendererComponent(table, getHeaderValue(), false, false, -1, -1);
@@ -161,9 +124,6 @@ public class GroupableColumn
         return new Dimension(width, height);
     }
 
-    /**
-     * @param margin int
-     */
     public void setColumnMargin(final int margin)
     {
         this.margin = margin;
@@ -177,9 +137,6 @@ public class GroupableColumn
         }
     }
 
-    /**
-     * @param renderer {@link TableCellRenderer}
-     */
     public void setHeaderRenderer(final TableCellRenderer renderer)
     {
         if (renderer != null)
@@ -188,20 +145,11 @@ public class GroupableColumn
         }
     }
 
-    /**
-     * @param text String
-     */
     public void setText(final String text)
     {
         this.text = text;
     }
 
-    /**
-     * @param tableColumn {@link TableColumn}
-     * @param columns {@link List}
-     *
-     * @return {@link List}
-     */
     List<Object> getColumnGroups(final TableColumn tableColumn, final List<Object> columns)
     {
         columns.add(this);

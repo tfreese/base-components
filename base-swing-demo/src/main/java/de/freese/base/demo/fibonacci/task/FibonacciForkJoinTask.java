@@ -19,36 +19,18 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
      * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
      */
     private static final int THRESHOLD = 10;
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
-    /**
-     *
-     */
+
     public final int n;
-    /**
-     *
-     */
+
     private final boolean enableCache;
-    /**
-     *
-     */
+
     private final transient LongConsumer operationConsumer;
-    /**
-     *
-     */
+
     private final AtomicLong operationCount;
 
-    /**
-     * Erstellt ein neues {@link FibonacciForkJoinTask} Object.
-     *
-     * @param n int
-     * @param operationConsumer {@link LongConsumer}
-     * @param operationCount {@link AtomicLong}
-     * @param enableCache boolean
-     */
     public FibonacciForkJoinTask(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount, final boolean enableCache)
     {
         super();
@@ -98,13 +80,6 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
         return result;
     }
 
-    /**
-     * Algorithmus.
-     *
-     * @param n int
-     *
-     * @return long
-     */
     private long fibonacci(final int n)
     {
         if (n <= 1)

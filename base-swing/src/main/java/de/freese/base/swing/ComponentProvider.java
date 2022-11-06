@@ -11,10 +11,5 @@ import java.awt.Component;
 @FunctionalInterface
 public interface ComponentProvider
 {
-    /**
-     * Liefert die GUI Component eines Objektes.
-     *
-     * @return {@link Component}
-     */
     Component getComponent();
 }

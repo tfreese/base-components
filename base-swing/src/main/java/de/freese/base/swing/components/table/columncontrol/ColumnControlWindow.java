@@ -38,20 +38,10 @@ import de.freese.base.swing.layout.VerticalLayout;
  */
 public class ColumnControlWindow implements AWTEventListener
 {
-    /**
-     *
-     */
     private final ColumnControlButton controlButton;
-    /**
-     *
-     */
+
     private JWindow window;
 
-    /**
-     * Erstellt ein neues {@link ColumnControlWindow} Object.
-     *
-     * @param controlButton {@link ColumnControlButton}
-     */
     public ColumnControlWindow(final ColumnControlButton controlButton)
     {
         super();
@@ -59,9 +49,6 @@ public class ColumnControlWindow implements AWTEventListener
         this.controlButton = controlButton;
     }
 
-    /**
-     * Leeren der GUI.
-     */
     public void clear()
     {
         if (this.window != null)
@@ -90,9 +77,6 @@ public class ColumnControlWindow implements AWTEventListener
         }
     }
 
-    /**
-     * Aufbau der GUI.
-     */
     public void fill()
     {
         JPanel panel = new JPanel();
@@ -158,9 +142,6 @@ public class ColumnControlWindow implements AWTEventListener
         getWindow().add(panel, BorderLayout.CENTER);
     }
 
-    /**
-     * Anzeigen der GUI.
-     */
     public void show()
     {
         getWindow().setVisible(true);
@@ -180,13 +161,6 @@ public class ColumnControlWindow implements AWTEventListener
         Toolkit.getDefaultToolkit().addAWTEventListener(ColumnControlWindow.this, AWTEvent.MOUSE_EVENT_MASK);
     }
 
-    /**
-     * Ermittelt rekursiv den Frame, zu dem diese Komponente gehört.
-     *
-     * @param comp {@link Component}
-     *
-     * @return {@link Frame}
-     */
     protected Frame getFrame(final Component comp)
     {
         Component c = comp;
@@ -206,9 +180,6 @@ public class ColumnControlWindow implements AWTEventListener
         return getFrame(parent);
     }
 
-    /**
-     * @return {@link JWindow}
-     */
     protected JWindow getWindow()
     {
         if (this.window == null)
@@ -244,9 +215,6 @@ public class ColumnControlWindow implements AWTEventListener
         return this.window;
     }
 
-    /**
-     * Leeren der GUI.
-     */
     protected void hideAndClear()
     {
         if (this.window != null)
@@ -260,9 +228,6 @@ public class ColumnControlWindow implements AWTEventListener
 
     /**
      * Bestimmt, ob die übergebene Komponente in den Unterkomponenten vorkommt.
-     *
-     * @param src Component
-     * @param component Component
      *
      * @return <code>true</code> wenn vorhanden, sonst <code>false</code>
      */

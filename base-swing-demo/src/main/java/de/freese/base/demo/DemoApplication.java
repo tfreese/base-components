@@ -37,9 +37,6 @@ import de.freese.base.swing.components.frame.ExtFrame;
  */
 public class DemoApplication extends AbstractApplication
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         final AbstractApplication application = new DemoApplication();
@@ -51,11 +48,6 @@ public class DemoApplication extends AbstractApplication
         });
     }
 
-    /**
-     * WindowListener zum Beenden.
-     *
-     * @author Thomas Freese
-     */
     private class MainFrameListener extends WindowAdapter
     {
         /**

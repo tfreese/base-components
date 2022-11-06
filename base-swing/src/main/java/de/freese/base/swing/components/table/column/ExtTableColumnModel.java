@@ -12,40 +12,11 @@ import javax.swing.table.TableColumnModel;
  */
 public interface ExtTableColumnModel extends TableColumnModel
 {
-    /**
-     * Liefert die Anzahl der Spalten.
-     *
-     * @param includeHidden boolean
-     *
-     * @return int
-     */
     int getColumnCount(boolean includeHidden);
 
-    /**
-     * Liefert die Spalte an der View-Position.
-     *
-     * @param columnIndex int
-     *
-     * @return {@link ExtTableColumn}
-     */
     ExtTableColumn getColumnExt(int columnIndex);
 
-    /**
-     * Liefert die Spalte des Identifiers.
-     *
-     * @param identifier Object
-     *
-     * @return ExtTableColumn
-     */
     ExtTableColumn getColumnExt(Object identifier);
 
-    /**
-     * Liefert die Spalten.
-     *
-     * @param includeHidden boolean
-     *
-     * @return {@link List}
-     */
     List<TableColumn> getColumns(boolean includeHidden);
-
 }

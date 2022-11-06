@@ -24,24 +24,13 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  */
 public class HTMLTextButtonUI extends BasicButtonUI
 {
-    /**
-     *
-     */
     private final Color rolloverColor;
 
-    /**
-     * Creates a new {@link HTMLTextButtonUI} object.
-     */
     public HTMLTextButtonUI()
     {
         this(Color.BLUE);
     }
 
-    /**
-     * Creates a new {@link HTMLTextButtonUI} object.
-     *
-     * @param rolloverColor {@link Color}
-     */
     public HTMLTextButtonUI(final Color rolloverColor)
     {
         super();

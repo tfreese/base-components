@@ -117,11 +117,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         h.clear();
     }
 
-    /**
-     * @param width long
-     *
-     * @return {@link Dimension}
-     */
     private Dimension createHeaderSize(final long width)
     {
         long w = width;
@@ -137,9 +132,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         return new Dimension((int) w, getHeaderHeight());
     }
 
-    /**
-     * @return int
-     */
     private int getHeaderHeight()
     {
         // if (true)
@@ -184,11 +176,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         return height;
     }
 
-    /**
-     * @param columnIndex int
-     *
-     * @return {@link Component}
-     */
     private Component getHeaderRendererComponent(final int columnIndex)
     {
         TableColumn aColumn = this.header.getColumnModel().getColumn(columnIndex);
@@ -202,11 +189,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         return renderer.getTableCellRendererComponent(this.header.getTable(), aColumn.getHeaderValue(), false, false, -1, columnIndex);
     }
 
-    /**
-     * @param g {@link Graphics}
-     * @param cellRect {@link Rectangle}
-     * @param cGroup {@link GroupableColumn}
-     */
     private void paintCell(final Graphics g, final Rectangle cellRect, final GroupableColumn cGroup)
     {
         TableCellRenderer renderer = cGroup.getHeaderRenderer();
@@ -215,11 +197,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI
         this.rendererPane.paintComponent(g, component, this.header, cellRect.x, cellRect.y, cellRect.width, cellRect.height, true);
     }
 
-    /**
-     * @param g {@link Graphics}
-     * @param cellRect {@link Rectangle}
-     * @param columnIndex int
-     */
     private void paintCell(final Graphics g, final Rectangle cellRect, final int columnIndex)
     {
         // TableColumn aColumn = header.getColumnModel().getColumn(columnIndex);

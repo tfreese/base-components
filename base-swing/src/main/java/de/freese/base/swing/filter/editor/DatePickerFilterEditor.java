@@ -13,31 +13,18 @@ import de.freese.base.swing.components.datepicker.DatePicker;
  * @author Thomas Freese
  */
 public class DatePickerFilterEditor extends DatePicker implements FilterEditor
-// , PropertyChangeListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -3308667881098631844L;
-    /**
-     *
-     */
+
     private final int column;
 
-    /**
-     * Erstellt ein neues {@link DatePickerFilterEditor} Object.
-     *
-     * @param column int
-     */
     public DatePickerFilterEditor(final int column)
     {
         super();
 
         this.column = column;
         setDate(null);
-
-        // addPropertyChangeListener("date", this);
     }
 
     /**
@@ -90,9 +77,6 @@ public class DatePickerFilterEditor extends DatePicker implements FilterEditor
     // }
     // }
 
-    /**
-     *
-     */
     @Override
     public void setValue(final Object value)
     {

@@ -16,18 +16,9 @@ import javafx.collections.ObservableList;
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> implements ListChangeListener<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -5542628813153019029L;
 
-    /**
-     * Erzeugt eine neue Instanz von {@link AbstractObservableListTableModel}.
-     *
-     * @param columnCount int
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListTableModel(final int columnCount, final ObservableList<T> list)
     {
         super(columnCount, list);
@@ -35,12 +26,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         list.addListener(this);
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractObservableListTableModel} Objekt.
-     *
-     * @param columnNames {@link List}
-     * @param list {@link ObservableList}
-     */
     protected AbstractObservableListTableModel(final List<String> columnNames, final ObservableList<T> list)
     {
         super(columnNames, list);

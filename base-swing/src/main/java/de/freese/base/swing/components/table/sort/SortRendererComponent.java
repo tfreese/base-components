@@ -21,36 +21,17 @@ import javax.swing.border.Border;
  */
 public class SortRendererComponent extends JPanel
 {
-    /**
-     *
-     */
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(0, 0, 0, 2);
-    /**
-     * serialVersionUID
-     */
+
     @Serial
     private static final long serialVersionUID = -5261935215031937262L;
-    /**
-     * MainComponent
-     */
+
     private final JComponent mainComponent;
-    /**
-     * Die Farbe für den Prioritätstext.
-     */
+
     private final Color textSortColor;
-    /**
-     * Label mit dem Sortiericon und der Sortierpriorität.
-     */
+
     private JLabel jLabelIcon;
 
-    /**
-     * Erstellt ein neues {@link SortRendererComponent} Objekt.
-     *
-     * @param mainComponent {@link JComponent}
-     * @param sortIcon {@link Icon}
-     * @param priority String
-     * @param textSortColor {@link Color}
-     */
     public SortRendererComponent(final JComponent mainComponent, final Icon sortIcon, final String priority, final Color textSortColor)
     {
         super();
@@ -68,21 +49,11 @@ public class SortRendererComponent extends JPanel
         initialize();
     }
 
-    /**
-     * Liefert die Hauptkomponente
-     *
-     * @return {@link Component}
-     */
     private Component getMainComponent()
     {
         return this.mainComponent;
     }
 
-    /**
-     * Liefert das Label für die Sortierung.
-     *
-     * @return {@link JLabel}
-     */
     private JLabel getSortLabel()
     {
         if (this.jLabelIcon == null)
@@ -99,9 +70,6 @@ public class SortRendererComponent extends JPanel
         return this.jLabelIcon;
     }
 
-    /**
-     * This method initializes this
-     */
     private void initialize()
     {
         setLayout(new BorderLayout(1, 0));
@@ -111,21 +79,11 @@ public class SortRendererComponent extends JPanel
         this.add(getSortLabel(), BorderLayout.LINE_END);
     }
 
-    /**
-     * Setzt das Icon, dass die Sortierrichtung angibt.
-     *
-     * @param icon {@link Icon}
-     */
     private void setSortIcon(final Icon icon)
     {
         getSortLabel().setIcon(icon);
     }
 
-    /**
-     * Setzt die Priorität in der Sortierreihenfolge.
-     *
-     * @param priority String
-     */
     private void setSortPriority(final String priority)
     {
         getSortLabel().setText(priority);

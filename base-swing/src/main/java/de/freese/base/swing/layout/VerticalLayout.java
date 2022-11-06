@@ -13,24 +13,13 @@ import java.awt.LayoutManager;
  */
 public class VerticalLayout implements LayoutManager
 {
-    /**
-     *
-     */
     private int gap;
 
-    /**
-     * Erstellt ein neues {@link VerticalLayout} Object.
-     */
     public VerticalLayout()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link VerticalLayout} Object.
-     *
-     * @param gap int
-     */
     public VerticalLayout(final int gap)
     {
         super();
@@ -47,11 +36,6 @@ public class VerticalLayout implements LayoutManager
         // Empty
     }
 
-    /**
-     * Liefert den Abstand zwischen den Komponenten.
-     *
-     * @return int
-     */
     public int getGap()
     {
         return this.gap;
@@ -126,11 +110,6 @@ public class VerticalLayout implements LayoutManager
         // Empty
     }
 
-    /**
-     * Setzt den Abstand zwischen den Komponenten.
-     *
-     * @param gap int
-     */
     public void setGap(final int gap)
     {
         this.gap = gap;

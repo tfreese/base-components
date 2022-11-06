@@ -21,9 +21,6 @@ import javax.swing.tree.TreeNode;
  */
 public class ExtTree extends JTree implements Autoscroll
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -9201687902908324380L;
     /**
@@ -35,9 +32,6 @@ public class ExtTree extends JTree implements Autoscroll
      */
     private boolean paintAutoscrollBorder;
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     */
     public ExtTree()
     {
         super();
@@ -45,11 +39,6 @@ public class ExtTree extends JTree implements Autoscroll
         initialize();
     }
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     *
-     * @param value {@link Hashtable}
-     */
     public ExtTree(final Hashtable<?, ?> value)
     {
         super(value);
@@ -57,11 +46,6 @@ public class ExtTree extends JTree implements Autoscroll
         initialize();
     }
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     *
-     * @param value Object[]
-     */
     public ExtTree(final Object[] value)
     {
         super(value);
@@ -69,11 +53,6 @@ public class ExtTree extends JTree implements Autoscroll
         initialize();
     }
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     *
-     * @param newModel {@link TreeModel}
-     */
     public ExtTree(final TreeModel newModel)
     {
         super(newModel);
@@ -81,11 +60,6 @@ public class ExtTree extends JTree implements Autoscroll
         initialize();
     }
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     *
-     * @param root {@link TreeNode}
-     */
     public ExtTree(final TreeNode root)
     {
         super(root);
@@ -93,12 +67,6 @@ public class ExtTree extends JTree implements Autoscroll
         initialize();
     }
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     *
-     * @param root {@link TreeNode}
-     * @param asksAllowsChildren boolean
-     */
     public ExtTree(final TreeNode root, final boolean asksAllowsChildren)
     {
         super(root, asksAllowsChildren);
@@ -106,11 +74,6 @@ public class ExtTree extends JTree implements Autoscroll
         initialize();
     }
 
-    /**
-     * Creates a new {@link ExtTree} object.
-     *
-     * @param value {@link Vector}
-     */
     public ExtTree(final Vector<?> value)
     {
         super(value);
@@ -153,8 +116,6 @@ public class ExtTree extends JTree implements Autoscroll
 
     /**
      * Abstand vom Rand des Trees für DnD Scrolling.
-     *
-     * @return int
      */
     public int getMargin()
     {
@@ -163,8 +124,6 @@ public class ExtTree extends JTree implements Autoscroll
 
     /**
      * Rendert einen Border die DnD sensitive Fläche.
-     *
-     * @return boolean
      */
     public boolean isPaintAutoscrollBorder()
     {
@@ -173,8 +132,6 @@ public class ExtTree extends JTree implements Autoscroll
 
     /**
      * Abstand vom Rand des Trees für DnD Scrolling.
-     *
-     * @param margin int
      */
     public void setMargin(final int margin)
     {
@@ -183,17 +140,12 @@ public class ExtTree extends JTree implements Autoscroll
 
     /**
      * Rendert einen Border die DnD sensitive Fläche.
-     *
-     * @param paintAutoscrollBorder boolean
      */
     public void setPaintAutoscrollBorder(final boolean paintAutoscrollBorder)
     {
         this.paintAutoscrollBorder = paintAutoscrollBorder;
     }
 
-    /**
-     *
-     */
     protected void initialize()
     {
         setAutoscrolls(true);
@@ -201,8 +153,6 @@ public class ExtTree extends JTree implements Autoscroll
 
     /**
      * Zeichnet den Tree, in Abhängigkeit von isPaintAutoscrollBorder auch den Autoscroll-Rahmen.
-     *
-     * @param g {@link Graphics}
      *
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */

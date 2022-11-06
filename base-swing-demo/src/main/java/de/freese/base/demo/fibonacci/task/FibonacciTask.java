@@ -11,26 +11,12 @@ import de.freese.base.swing.task.AbstractSwingTask;
  */
 public class FibonacciTask extends AbstractSwingTask<Long, Void>
 {
-    /**
-     *
-     */
     private final FibonacciController controller;
-    /**
-     *
-     */
+
     private final ResourceMap resourceMap;
-    /**
-     *
-     */
+
     private final int value;
 
-    /**
-     * Erstellt ein neues {@link FibonacciTask} Object.
-     *
-     * @param value int
-     * @param controller {@link FibonacciController}
-     * @param resourceMap {@link ResourceMap}
-     */
     public FibonacciTask(final int value, final FibonacciController controller, final ResourceMap resourceMap)
     {
         super();

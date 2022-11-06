@@ -15,18 +15,10 @@ import org.jdesktop.swingx.JXTree;
  */
 public class TreeUndTable
 {
-    /**
-     *
-     */
     private JTable table;
-    /**
-     *
-     */
+
     private JTree tree;
 
-    /**
-     * Erstellt ein neues {@link TreeUndTable} Object.
-     */
     public TreeUndTable()
     {
         super();
@@ -40,9 +32,6 @@ public class TreeUndTable
         // oder getTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    /**
-     * @return {@link JTable}
-     */
     public JTable getTable()
     {
         if (this.table == null)
@@ -53,18 +42,12 @@ public class TreeUndTable
         return this.table;
     }
 
-    /**
-     * @return {@link JTree}
-     */
     public JTree getTree()
     {
         if (this.tree == null)
         {
             this.tree = new JXTree()
             {
-                /**
-                 *
-                 */
                 @Serial
                 private static final long serialVersionUID = 1L;
 

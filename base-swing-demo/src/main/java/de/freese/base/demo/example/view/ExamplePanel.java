@@ -11,19 +11,11 @@ import javax.swing.JPanel;
  */
 public class ExamplePanel extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -1162909250924225209L;
-    /**
-     *
-     */
+
     private JButton buttonTaskStatistik;
 
-    /**
-     * @return {@link JButton}
-     */
     public JButton getButtonTaskStatistik()
     {
         if (this.buttonTaskStatistik == null)
@@ -34,9 +26,6 @@ public class ExamplePanel extends JPanel
         return this.buttonTaskStatistik;
     }
 
-    /**
-     * Initialisiert die GUI.
-     */
     public void initialize()
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

@@ -13,24 +13,13 @@ import java.awt.LayoutManager;
  */
 public class HorizontalLayout implements LayoutManager
 {
-    /**
-     *
-     */
     private int gap;
 
-    /**
-     * Erstellt ein neues {@link HorizontalLayout} Object.
-     */
     public HorizontalLayout()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link HorizontalLayout} Object.
-     *
-     * @param gap int
-     */
     public HorizontalLayout(final int gap)
     {
         super();
@@ -47,11 +36,6 @@ public class HorizontalLayout implements LayoutManager
         // Empty
     }
 
-    /**
-     * Liefert den Abstand zwischen den Komponenten.
-     *
-     * @return int
-     */
     public int getGap()
     {
         return this.gap;
@@ -126,11 +110,6 @@ public class HorizontalLayout implements LayoutManager
         // Empty
     }
 
-    /**
-     * Setzt den Abstand zwischen den Komponenten.
-     *
-     * @param gap int
-     */
     public void setGap(final int gap)
     {
         this.gap = gap;

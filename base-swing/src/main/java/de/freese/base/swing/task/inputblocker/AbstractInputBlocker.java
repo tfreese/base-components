@@ -24,21 +24,12 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractInputBlocker<T> implements InputBlocker
 {
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final List<T> targets = new ArrayList<>();
-    /**
-     *
-     */
+
     private boolean changeMouseCursor;
-    /**
-     *
-     */
+
     private JRootPane rootPane;
 
     /**
@@ -47,30 +38,19 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     @Override
     public void propertyChange(final PropertyChangeEvent event)
     {
-        // NO-OP
+        // Empty
     }
 
-    /**
-     * @param rootPane {@link JRootPane}
-     */
     public void setRootPane(final JRootPane rootPane)
     {
         this.rootPane = rootPane;
     }
 
-    /**
-     * @param target Object
-     */
     protected void addTarget(final T target)
     {
         this.targets.add(target);
     }
 
-    /**
-     * Gibt die aktive {@link JRootPane} zurück.
-     *
-     * @return {@link JRootPane}
-     */
     protected JRootPane detectRootPane()
     {
         JRootPane rp = null;
@@ -120,17 +100,11 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
         return rp;
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected Logger getLogger()
     {
         return this.logger;
     }
 
-    /**
-     * @return {@link JRootPane}
-     */
     protected JRootPane getRootPane()
     {
         if (this.rootPane != null)
@@ -144,29 +118,17 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
 
     /**
      * Liefert die zu blockenden Objekte (JComponent, Action etc.).
-     *
-     * @return {@link List}
      */
     protected List<T> getTargets()
     {
         return this.targets;
     }
 
-    /**
-     * Wenn false, wird der MouseCursor nicht verändert.
-     *
-     * @param changeMouseCursor boolean
-     */
     protected void setChangeMouseCursor(final boolean changeMouseCursor)
     {
         this.changeMouseCursor = changeMouseCursor;
     }
 
-    /**
-     * Ändert den MouseCursor.
-     *
-     * @param busy boolean
-     */
     protected void setMouseCursorBusy(final boolean busy)
     {
         if (!this.changeMouseCursor)

@@ -14,20 +14,10 @@ import java.util.List;
  */
 public class AndFilter implements FilterCondition, PropertyChangeListener
 {
-    /**
-     *
-     */
     private List<FilterCondition> filters;
-    /**
-     *
-     */
+
     private PropertyChangeSupport propertyChangeSupport;
 
-    /**
-     * Hinzufügen eines oder mehrerer Filter.
-     *
-     * @param filters {@link FilterCondition}[]
-     */
     public void addFilter(final FilterCondition... filters)
     {
         for (FilterCondition filter : filters)
@@ -40,13 +30,6 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
         }
     }
 
-    /**
-     * Liefert den Filter am Index.
-     *
-     * @param index int
-     *
-     * @return {@link FilterCondition}
-     */
     public FilterCondition getFilter(final int index)
     {
         return getFilters().get(index);
@@ -66,11 +49,6 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
         return this.propertyChangeSupport;
     }
 
-    /**
-     * Liefert die Anzahl der Filter.
-     *
-     * @return int
-     */
     public int getSize()
     {
         return getFilters().size();
@@ -89,11 +67,6 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
         }
     }
 
-    /**
-     * Entfernen eines Filters.
-     *
-     * @param filter {@link Filter}
-     */
     public void removeFilter(final Filter filter)
     {
         getFilters().remove(filter);
@@ -117,9 +90,6 @@ public class AndFilter implements FilterCondition, PropertyChangeListener
         return true;
     }
 
-    /**
-     * @return {@link List}<IFilter>
-     */
     protected List<FilterCondition> getFilters()
     {
         if (this.filters == null)

@@ -16,15 +16,10 @@ import de.freese.base.swing.eventlist.EventList;
  */
 public abstract class AbstractEventListTableModel<T> extends AbstractListTableModel<T>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4124337499231623139L;
 
     /**
-     * Listener auf der {@link EventList}.
-     *
      * @author Thomas Freese
      */
     private class EventListListener implements ListDataListener
@@ -69,12 +64,6 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
         }
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractEventListTableModel} Objekt.
-     *
-     * @param columnCount int
-     * @param list {@link EventList}
-     */
     protected AbstractEventListTableModel(final int columnCount, final EventList<T> list)
     {
         super(columnCount, list);

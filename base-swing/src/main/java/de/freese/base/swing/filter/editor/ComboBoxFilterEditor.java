@@ -23,21 +23,11 @@ import de.freese.base.utils.ComboBoxUtils;
  */
 public class ComboBoxFilterEditor extends JComboBox<Object> implements FilterEditor, ItemListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8226362008750444885L;
-    /**
-     *
-     */
+
     private final int column;
 
-    /**
-     * Erstellt ein neues {@link ComboBoxFilterEditor} Object.
-     *
-     * @param column int
-     */
     public ComboBoxFilterEditor(final int column)
     {
         super();
@@ -119,9 +109,9 @@ public class ComboBoxFilterEditor extends JComboBox<Object> implements FilterEdi
      * @see de.freese.base.swing.filter.editor.FilterEditor#setValue(java.lang.Object)
      */
     @SuppressWarnings(
-    {
-            "unchecked", "rawtypes"
-    })
+            {
+                    "unchecked", "rawtypes"
+            })
     @Override
     public void setValue(final Object value)
     {

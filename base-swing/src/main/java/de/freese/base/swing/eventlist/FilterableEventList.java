@@ -28,8 +28,6 @@ import de.freese.base.swing.filter.FilterCondition;
 public class FilterableEventList<E> implements EventList<E>, PropertyChangeListener
 {
     /**
-     * Listener auf der {@link EventList}.
-     *
      * @author Thomas Freese
      */
     private class DelegateListener implements ListDataListener
@@ -62,28 +60,14 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
         }
     }
 
-    /**
-     *
-     */
     private final EventList<E> delegate;
-    /**
-     *
-     */
+
     private final List<E> filteredList;
-    /**
-     *
-     */
+
     private final EventListenerList listenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private FilterCondition filter;
 
-    /**
-     * Erstellt ein neues {@link FilterableEventList} Object.
-     *
-     * @param delegate {@link EventList}
-     */
     public FilterableEventList(final EventList<E> delegate)
     {
         super();
@@ -176,9 +160,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
         return this.filteredList.get(index);
     }
 
-    /**
-     * @return {@link FilterCondition}
-     */
     public FilterCondition getFilter()
     {
         return this.filter;
@@ -342,11 +323,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
         this.delegate.setComparator(comparator);
     }
 
-    /**
-     * Setzt den Filter für die FilterableEventList.
-     *
-     * @param filter {@link FilterCondition}
-     */
     public void setFilter(final FilterCondition filter)
     {
         if (this.filter != null)
@@ -429,9 +405,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
         this.delegate.update();
     }
 
-    /**
-     * Filter die gewrappte {@link EventList}.
-     */
     private void filter()
     {
         reset();
@@ -447,9 +420,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
     /**
      * Benachrichtigt die Listener, dass sich die Struktur geändert hat.<br>
      * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
      */
     private void fireContentsChanged(final int startIndex, final int endIndex)
     {

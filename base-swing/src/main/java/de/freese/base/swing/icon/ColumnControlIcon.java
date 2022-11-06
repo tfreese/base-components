@@ -19,9 +19,6 @@ import javax.swing.plaf.UIResource;
  */
 public class ColumnControlIcon implements Icon, UIResource
 {
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame frame = new JFrame();

@@ -9,14 +9,9 @@ import java.util.Date;
  */
 public class DateFilter extends AbstractFilter
 {
-    /**
-     *
-     */
     private final String dateFormat;
 
     /**
-     * Erstellt ein neues {@link DateFilter} Object.
-     *
      * @param dateFormat String; Format: %1$td.%1$tm.%1$tY %1$tH:%1$tM:%1$tS für dd.MM.YYYY hh:mm:ss
      */
     public DateFilter(final String dateFormat)

@@ -1,6 +1,7 @@
 package de.freese.base.swing.ui;
 
 import java.awt.Dimension;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -12,16 +13,8 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
  */
 public class ThinHorizontalScrollBarUI extends BasicScrollBarUI
 {
-    /**
-     * 
-     */
     private final int height;
 
-    /**
-     * Erstellt ein neues {@link ThinHorizontalScrollBarUI} Object.
-     * 
-     * @param height int
-     */
     public ThinHorizontalScrollBarUI(final int height)
     {
         super();

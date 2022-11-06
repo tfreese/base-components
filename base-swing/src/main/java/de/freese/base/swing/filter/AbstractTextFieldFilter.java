@@ -38,11 +38,6 @@ public abstract class AbstractTextFieldFilter extends AbstractFilter implements 
         handleDocumentEvent(e);
     }
 
-    /**
-     * Ermittelt den aktuellen Text aus dem {@link Document}.
-     *
-     * @param event {@link DocumentEvent}
-     */
     private void handleDocumentEvent(final DocumentEvent event)
     {
         Document document = event.getDocument();

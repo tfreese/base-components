@@ -24,63 +24,36 @@ import javax.swing.Timer;
  */
 public class TranslucentGlassPane extends JComponent implements MouseListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8037679488481229262L;
-    /**
-     *
-     */
+
     private final double alphaEnd = 0.6D;
-    /**
-     *
-     */
+
     private final Timer animateTimer;
-    /**
-     *
-     */
+
     private final transient List<Component> dispatchList;
-    /**
-     *
-     */
+
     private double alpha = 1.0D;
-    /**
-     *
-     */
+
     private double alphaIncrement = 0.02D;
-    /**
-     *
-     */
+
     private double alphaStart;
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
      * opacity to its default setting if the alpha is 1.0. Honestly, I don't know if this is necessary or not, but it sounded good on paper :)
-     * <p>
-     * TODO: Check whether this variable is necessary or not
-     * </p>
      */
     private boolean oldOpaque;
-    /**
-     *
-     */
+
     private int showDelayMillies = 100;
-    /**
-     *
-     */
+
     private int timerIncrementMillies = 10;
 
-    /**
-     * Creates a new {@link TranslucentGlassPane} object.
-     */
     public TranslucentGlassPane()
     {
         this(Collections.emptyList());
     }
 
     /**
-     * Creates a new {@link TranslucentGlassPane} object.
-     *
      * @param dispatchList {@link List}, Liste von Komponenten, an denen MouseEvents weitergeleitet werden sollen
      */
     public TranslucentGlassPane(final List<Component> dispatchList)
@@ -97,8 +70,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     }
 
     /**
-     * The alpha translucency level for this component
-     *
      * @return This will be a value between 0 and 1, inclusive.
      */
     public double getAlpha()
@@ -113,8 +84,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     /**
      * Startverzögerung für die Animation in Millisekunden.
-     *
-     * @return int
      */
     public int getShowDelayMillies()
     {
@@ -123,8 +92,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     /**
      * Zeitabstand zwischen den Animationen in Millisekunden.
-     *
-     * @return int
      */
     public int getTimerIncrementMillies()
     {
@@ -217,8 +184,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     /**
      * Startverzögerung für die Animation in Millisekunden.
-     *
-     * @param showDelayMillies int
      */
     public void setShowDelayMillies(final int showDelayMillies)
     {
@@ -227,8 +192,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     /**
      * Zeitabstand zwischen den Animationen in Millisekunden.
-     *
-     * @param timerIncrementMillies int
      */
     public void setTimerIncrementMillies(final int timerIncrementMillies)
     {
@@ -300,8 +263,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     /**
      * Liefert die JMenuBar, wenn sie in der DispatchList enthalten ist.
-     *
-     * @return {@link JMenuBar}
      */
     private JMenuBar getJMenuBar()
     {
@@ -318,9 +279,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     /**
      * Weiterleiten von MouseEvents an Komponenten der DispatchList.
-     *
-     * @param event {@link MouseEvent}
-     * @param repaint boolean
      */
     private void redispatchMouseEvent(final MouseEvent event, final boolean repaint)
     {

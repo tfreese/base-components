@@ -21,13 +21,6 @@ import javax.swing.plaf.basic.BasicOptionPaneUI;
  */
 public class OptionPaneUI extends BasicOptionPaneUI
 {
-    /**
-     * Creates a new BasicOptionPaneUI instance.
-     *
-     * @param component {@link JComponent}
-     *
-     * @return {@link ComponentUI}
-     */
     public static ComponentUI createUI(final JComponent component)
     {
         return new OptionPaneUI();

@@ -18,40 +18,20 @@ import javax.swing.table.AbstractTableModel;
  */
 public abstract class AbstractListTableModel<T> extends AbstractTableModel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8219964863357772409L;
-    /**
-     *
-     */
+
     private final int columnCount;
-    /**
-     *
-     */
+
     private final transient List<String> columnNames;
-    /**
-     *
-     */
+
     private final transient List<T> list;
 
-    /**
-     * Erstellt ein neues {@link AbstractListTableModel} Objekt.
-     *
-     * @param columnCount int
-     */
     protected AbstractListTableModel(final int columnCount)
     {
         this(columnCount, new ArrayList<>());
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractListTableModel} Objekt.
-     *
-     * @param columnCount int
-     * @param list {@link List}
-     */
     protected AbstractListTableModel(final int columnCount, final List<T> list)
     {
         super();
@@ -66,22 +46,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractListTableModel} Objekt.
-     *
-     * @param columnNames List
-     */
     protected AbstractListTableModel(final List<String> columnNames)
     {
         this(columnNames, new ArrayList<>());
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractListTableModel} Objekt.
-     *
-     * @param columnNames {@link List}
-     * @param list {@link List}
-     */
     protected AbstractListTableModel(final List<String> columnNames, final List<T> list)
     {
         super();
@@ -92,9 +61,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    /**
-     * @param object Object
-     */
     public void add(final T object)
     {
         getList().add(object);
@@ -102,9 +68,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         fireTableRowsInserted(getList().size() - 1, getList().size() - 1);
     }
 
-    /**
-     * @param objects {@link Collection}
-     */
     public void addAll(final Collection<T> objects)
     {
         int sizeOld = getList().size();
@@ -114,9 +77,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         fireTableRowsInserted(sizeOld, getList().size() - 1);
     }
 
-    /**
-     *
-     */
     public void clear()
     {
         getList().clear();
@@ -169,13 +129,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         return getColumnNames().get(column);
     }
 
-    /**
-     * Liefert ein Objekt für einen Index einer Zeile.
-     *
-     * @param rowIndex int
-     *
-     * @return Object
-     */
     public T getObjectAt(final int rowIndex)
     {
         return getList().get(rowIndex);
@@ -190,23 +143,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         return getList().size();
     }
 
-    /**
-     * Liefert den ZeilenIndex für ein Objekt zurück.
-     *
-     * @param object Object
-     *
-     * @return int
-     */
     public int getRowOf(final T object)
     {
         return getList().indexOf(object);
     }
 
-    /**
-     * Liefert den {@link Stream} des TableModels.
-     *
-     * @return {@link Stream}
-     */
     public Stream<T> getStream()
     {
         return getList().stream();
@@ -220,9 +161,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         fireTableDataChanged();
     }
 
-    /**
-     * @param object Object
-     */
     public void remove(final T object)
     {
         int row = getRowOf(object);
@@ -235,11 +173,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         }
     }
 
-    /**
-     * @param rowIndex int
-     *
-     * @return Object
-     */
     public T removeAt(final int rowIndex)
     {
         if (rowIndex < 0)
@@ -254,19 +187,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         return object;
     }
 
-    /**
-     * @return {@link List}<String>
-     */
     protected List<String> getColumnNames()
     {
         return this.columnNames;
     }
 
-    /**
-     * Liefert die Liste des TableModels.
-     *
-     * @return {@link List}
-     */
     protected List<T> getList()
     {
         return this.list;

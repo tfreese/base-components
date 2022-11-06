@@ -108,11 +108,6 @@ public class DefaultNasaView extends AbstractView implements NasaView
         }
     }
 
-    /**
-     * @param button {@link JButton}
-     * @param resourceMap {@link ResourceMap}
-     * @param key String
-     */
     private void decorate(final JButton button, final ResourceMap resourceMap, final String key)
     {
         button.setText(resourceMap.getString(key + ".text"));

@@ -21,20 +21,10 @@ import javax.swing.table.TableColumnModel;
  */
 public class DelegatingColumnModel implements TableColumnModel, ListSelectionListener
 {
-    /**
-     *
-     */
     private final JTable delegateTable;
-    /**
-     *
-     */
+
     private final ListSelectionModel listSelectionModel;
 
-    /**
-     * Creates a new {@link DelegatingColumnModel} object.
-     *
-     * @param delegateTable {@link TableColumnModel}
-     */
     public DelegatingColumnModel(final JTable delegateTable)
     {
         super();
@@ -125,21 +115,11 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
         return getDelegateColumnModel().getColumns();
     }
 
-    /**
-     * Liefert das original {@link TableColumnModel}.
-     *
-     * @return {@link TableColumnModel}
-     */
     public TableColumnModel getDelegateColumnModel()
     {
         return this.delegateTable.getColumnModel();
     }
 
-    /**
-     * Liefert die original {@link JTable}.
-     *
-     * @return {@link JTable}
-     */
     public JTable getDelegateTable()
     {
         return this.delegateTable;

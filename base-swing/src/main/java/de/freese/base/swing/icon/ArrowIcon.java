@@ -22,9 +22,6 @@ import javax.swing.WindowConstants;
  */
 public class ArrowIcon implements Icon
 {
-    /**
-     *
-     */
     private static final Map<RenderingHints.Key, Object> RENDERING_HINTS = new HashMap<>();
 
     static
@@ -32,9 +29,6 @@ public class ArrowIcon implements Icon
         RENDERING_HINTS.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame frame = new JFrame();
@@ -46,25 +40,15 @@ public class ArrowIcon implements Icon
         frame.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final int direction;
-    /**
-     *
-     */
+
     private final Color foreground;
-    /**
-     *
-     */
+
     private final int height;
-    /**
-     *
-     */
+
     private final int width;
 
     /**
-     * Creates a new {@link ArrowIcon} object.<br>
      * Defaults: Width = 16, Height = 16, ForeGround = Black
      *
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
@@ -75,12 +59,7 @@ public class ArrowIcon implements Icon
     }
 
     /**
-     * Creates a new {@link ArrowIcon} object.
-     *
-     * @param width int
-     * @param height int
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
-     * @param foreground {@link Color}
      *
      * @throws IllegalArgumentException Falls Direction ungültig
      */

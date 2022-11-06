@@ -27,15 +27,9 @@ import javax.swing.WindowConstants;
  */
 public class WatermarkExample extends JPanel implements ActionListener
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -4609321404275287633L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         JFrame frame = new JFrame();
@@ -60,38 +54,20 @@ public class WatermarkExample extends JPanel implements ActionListener
         frame.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final JLabel jLabel = new JLabel();
-    /**
-     *
-     */
+
     private JButton jButton;
-    /**
-     *
-     */
+
     private JPanel jPanel;
-    /**
-     *
-     */
+
     private JPanel jPanel1;
-    /**
-     *
-     */
+
     private JSplitPane jSplitPane;
-    /**
-     *
-     */
+
     private WatermarkTable watermarkTable;
-    /**
-     *
-     */
+
     private WatermarkTree watermarkTree;
 
-    /**
-     * This is the default constructor
-     */
     public WatermarkExample()
     {
         super();
@@ -119,9 +95,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         }
     }
 
-    /**
-     * @return {@link JButton}
-     */
     private JButton getJButton()
     {
         if (this.jButton == null)
@@ -134,9 +107,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         return this.jButton;
     }
 
-    /**
-     * @return {@link JPanel}
-     */
     private JPanel getJPanel()
     {
         if (this.jPanel == null)
@@ -150,9 +120,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         return this.jPanel;
     }
 
-    /**
-     * @return {@link JPanel}
-     */
     private JPanel getJPanel1()
     {
         if (this.jPanel1 == null)
@@ -171,9 +138,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         return this.jPanel1;
     }
 
-    /**
-     * @return {@link JSplitPane}
-     */
     private JSplitPane getJSplitPane()
     {
         if (this.jSplitPane == null)
@@ -186,9 +150,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         return this.jSplitPane;
     }
 
-    /**
-     * @return {@link WatermarkTable}
-     */
     private WatermarkTable getWatermarkTable()
     {
         if (this.watermarkTable == null)
@@ -199,9 +160,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         return this.watermarkTable;
     }
 
-    /**
-     * @return {@link WatermarkTree}
-     */
     private WatermarkTree getWatermarkTree()
     {
         if (this.watermarkTree == null)
@@ -212,9 +170,6 @@ public class WatermarkExample extends JPanel implements ActionListener
         return this.watermarkTree;
     }
 
-    /**
-     *
-     */
     private void initialize()
     {
         setLayout(new BorderLayout());

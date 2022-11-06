@@ -20,30 +20,17 @@ import javax.swing.event.ListDataListener;
  */
 public final class DefaultEventList<E> extends ArrayList<E> implements EventList<E>
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4109095121391156624L;
-    /**
-     *
-     */
+
     private final transient EventListenerList listenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private transient Comparator<? super E> comparator;
-    /**
-     * True, wenn der Comparator in Gange ist.
-     */
+
     private boolean isSorting;
-    /**
-     *
-     */
+
     private boolean listenerEnabled = true;
-    /**
-     *
-     */
+
     private transient Object owner;
 
     /**
@@ -350,9 +337,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     /**
      * Benachrichtigt die Listener, dass sich die Struktur geändert hat.<br>
      * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
      */
     private void fireContentsChanged(final int startIndex, final int endIndex)
     {
@@ -388,9 +372,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     /**
      * Benachrichtigt die Listener, dass neue Daten hinzugekommen sind.<br>
      * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
      */
     private void fireIntervalAdded(final int startIndex, final int endIndex)
     {
@@ -426,9 +407,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     /**
      * Benachrichtigt die Listener, dass Daten weggefallen sind.<br>
      * Alle Listener werden im EDT benachrichtigt.
-     *
-     * @param startIndex int
-     * @param endIndex int
      */
     private void fireIntervalRemoved(final int startIndex, final int endIndex)
     {
@@ -461,19 +439,11 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
         }
     }
 
-    /**
-     * Liefert den Comparator.
-     *
-     * @return {@link Comparator}<E>
-     */
     private Comparator<? super E> getComparator()
     {
         return this.comparator;
     }
 
-    /**
-     * Sortiert die Liste, wenn ein {@link Comparator} vorhanden ist.
-     */
     private void sort()
     {
         if (getComparator() == null)

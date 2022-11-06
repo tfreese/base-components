@@ -44,23 +44,13 @@ import org.slf4j.LoggerFactory;
  */
 public final class ErrorPane extends JPanel
 {
-    /**
-     *
-     */
     private static final Dimension SIZE_DETAIL = new Dimension(6400, 350);
-    /**
-     *
-     */
+
     private static final Dimension SIZE_MESSAGE = new Dimension(640, 130);
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 8841473190098899651L;
 
-    /**
-     * @param args String[]
-     */
     public static void main(final String[] args)
     {
         try
@@ -76,13 +66,6 @@ public final class ErrorPane extends JPanel
         }
     }
 
-    /**
-     * Creates a new showDialog object.
-     *
-     * @param owner {@link Component}
-     * @param errorInfo {@link ErrorInfo}
-     * @param enableSendMail boolean
-     */
     public static void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail)
     {
         JOptionPane pane =
@@ -94,58 +77,28 @@ public final class ErrorPane extends JPanel
         dialog.setVisible(true);
     }
 
-    /**
-     *
-     */
     private final transient ErrorInfo errorInfo;
-    /**
-     *
-     */
+
     private final Component owner;
-    /**
-     *
-     */
+
     private JButton buttonClipboard;
-    /**
-     *
-     */
+
     private JButton buttonClose;
-    /**
-     *
-     */
+
     private JButton buttonDetails;
-    /**
-     *
-     */
+
     private JButton buttonSend;
-    /**
-     *
-     */
+
     private JPanel detailPanel;
-    /**
-     *
-     */
+
     private JEditorPane editorPaneDetails;
-    /**
-     *
-     */
+
     private JEditorPane editorPaneMessage;
-    /**
-     *
-     */
+
     private JLabel labelIcon;
-    /**
-     *
-     */
+
     private JScrollPane scrollPaneMessage;
 
-    /**
-     * Creates a new {@link ErrorPane} object.
-     *
-     * @param errorInfo {@link ErrorInfo}
-     * @param owner {@link Component}
-     * @param enableSendMail boolean
-     */
     private ErrorPane(final ErrorInfo errorInfo, final Component owner, final boolean enableSendMail)
     {
         super();
@@ -156,13 +109,6 @@ public final class ErrorPane extends JPanel
         initialize(enableSendMail);
     }
 
-    /**
-     * Formatiert Sonderzeichen in HTML Zeichen.
-     *
-     * @param input String
-     *
-     * @return String
-     */
     private String escapeXml(final String input)
     {
         String s = (input == null) ? "" : input.replace("&", "&amp;");
@@ -172,11 +118,6 @@ public final class ErrorPane extends JPanel
         return s;
     }
 
-    /**
-     * Button zum Kopieren der Exception in die Zwischenablage.
-     *
-     * @return {@link JButton}
-     */
     private JButton getButtonClipboard()
     {
         if (this.buttonClipboard == null)
@@ -244,11 +185,6 @@ public final class ErrorPane extends JPanel
         return this.buttonClipboard;
     }
 
-    /**
-     * Button zum Schliessen.
-     *
-     * @return {@link JButton}
-     */
     private JButton getButtonClose()
     {
         if (this.buttonClose == null)
@@ -293,11 +229,6 @@ public final class ErrorPane extends JPanel
         return this.buttonClose;
     }
 
-    /**
-     * Button für die Details.
-     *
-     * @return {@link JButton}
-     */
     private JButton getButtonDetails()
     {
         if (this.buttonDetails == null)
@@ -351,11 +282,6 @@ public final class ErrorPane extends JPanel
         return this.buttonDetails;
     }
 
-    /**
-     * Button zum Versenden der Fehlermeldung.
-     *
-     * @return {@link JButton}
-     */
     private JButton getButtonSend()
     {
         if (this.buttonSend == null)
@@ -457,11 +383,6 @@ public final class ErrorPane extends JPanel
         return this.buttonSend;
     }
 
-    /**
-     * Panel der Detail-Übersicht.
-     *
-     * @return {@link JPanel}
-     */
     private JPanel getDetailPanel()
     {
         if (this.detailPanel == null)
@@ -483,13 +404,6 @@ public final class ErrorPane extends JPanel
         return this.detailPanel;
     }
 
-    /**
-     * Liefert einen HTML-String des StackTraces der Exception.
-     *
-     * @param errorInfo {@link ErrorInfo}
-     *
-     * @return String
-     */
     private String getDetailsAsHTML(final ErrorInfo errorInfo)
     {
         if (errorInfo.getErrorException() != null)
@@ -536,11 +450,6 @@ public final class ErrorPane extends JPanel
         return null;
     }
 
-    /**
-     * JEditorPane für die Fehlermeldung.
-     *
-     * @return {@link JEditorPane}
-     */
     private JEditorPane getEditorPaneDetails()
     {
         if (this.editorPaneDetails == null)
@@ -559,11 +468,6 @@ public final class ErrorPane extends JPanel
         return this.editorPaneDetails;
     }
 
-    /**
-     * JEditorPane für die Fehlermeldung.
-     *
-     * @return {@link JEditorPane}
-     */
     private JEditorPane getEditorPaneMessage()
     {
         if (this.editorPaneMessage == null)
@@ -586,21 +490,11 @@ public final class ErrorPane extends JPanel
         return this.editorPaneMessage;
     }
 
-    /**
-     * Liefert den Inhalt der Fehlermeldung.
-     *
-     * @return {@link ErrorInfo}
-     */
     private ErrorInfo getErrorInfo()
     {
         return this.errorInfo;
     }
 
-    /**
-     * Label für das Icon.
-     *
-     * @return {@link JLabel}
-     */
     private JLabel getLabelIcon()
     {
         if (this.labelIcon == null)
@@ -613,11 +507,6 @@ public final class ErrorPane extends JPanel
         return this.labelIcon;
     }
 
-    /**
-     * Eigentümer des Panels.
-     *
-     * @return {@link Component}
-     */
     private Component getOwner()
     {
         if (this.owner == null)
@@ -636,9 +525,6 @@ public final class ErrorPane extends JPanel
         return this.owner;
     }
 
-    /**
-     * @return {@link JScrollPane}
-     */
     private JScrollPane getScrollPaneMessage()
     {
         if (this.scrollPaneMessage == null)
@@ -654,9 +540,6 @@ public final class ErrorPane extends JPanel
         return this.scrollPaneMessage;
     }
 
-    /**
-     * @param enableSendMail boolean
-     */
     private void initialize(final boolean enableSendMail)
     {
         setLayout(new GridBagLayout());
@@ -686,12 +569,6 @@ public final class ErrorPane extends JPanel
         });
     }
 
-    /**
-     * Setzt die Message in eine {@link JEditorPane} und passt deren ContentType an.
-     *
-     * @param editorPane {@link JEditorPane}
-     * @param message String
-     */
     private void setMessage(final JEditorPane editorPane, final String message)
     {
         if (BasicHTML.isHTMLString(message))

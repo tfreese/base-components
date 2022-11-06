@@ -20,33 +20,16 @@ import de.freese.base.swing.icon.ArrowIcon;
  */
 public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyChangeListener
 {
-    /**
-     *
-     */
     public static final Color COLOR_MEDIUM_LIGHT_BROWN = new Color(150, 140, 130);
-    /**
-     * Icon
-     */
+
     public static final Icon ICON_ASCENDING = new ArrowIcon(6, 6, SwingConstants.NORTH, COLOR_MEDIUM_LIGHT_BROWN);
-    /**
-     * Icon.
-     */
+
     public static final Icon ICON_DESCENDING = new ArrowIcon(6, 6, SwingConstants.SOUTH, COLOR_MEDIUM_LIGHT_BROWN);
-    /**
-     *
-     */
+
     private final TableColumnSorter rowSorter;
-    /**
-     * {@link TableCellRenderer}
-     */
+
     private final TableCellRenderer tableCellRenderer;
 
-    /**
-     * Erstellt einen neuen {@link RowSorterHeaderRenderer}.
-     *
-     * @param rowSorter {@link TableColumnSorter}
-     * @param tableCellRenderer {@link TableCellRenderer}
-     */
     public RowSorterHeaderRenderer(final TableColumnSorter rowSorter, final TableCellRenderer tableCellRenderer)
     {
         super();
@@ -95,13 +78,6 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         return src;
     }
 
-    /**
-     * Liefert das Icon für den Renderer für die Sortierung des TableHeaders.
-     *
-     * @param tableColumnExt {@link ExtTableColumn}
-     *
-     * @return {@link Icon}
-     */
     protected Icon getIcon(final ExtTableColumn tableColumnExt)
     {
         Sort sort = tableColumnExt.getSort();
@@ -109,13 +85,6 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         return (Sort.DESCENDING.equals(sort)) ? ICON_DESCENDING : ICON_ASCENDING;
     }
 
-    /**
-     * Liefert die Reihenfolge in der Sortierung der Spalte.
-     *
-     * @param tableColumnExt {@link ExtTableColumn}
-     *
-     * @return String
-     */
     protected String getSortPriority(final ExtTableColumn tableColumnExt)
     {
         int index = this.rowSorter.getSortPriority(tableColumnExt);
@@ -123,11 +92,6 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         return (index == -1) ? null : ("" + (index + 1));
     }
 
-    /**
-     * Liefert den TableCellRenderer für die Tabellenüberschrift.
-     *
-     * @return {@link TableCellRenderer}
-     */
     protected final TableCellRenderer getTableCellRenderer()
     {
         return this.tableCellRenderer;

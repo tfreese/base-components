@@ -25,23 +25,12 @@ import javax.swing.tree.TreePath;
  */
 public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelectionModel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 3330350835354351508L;
-    /**
-     *
-     */
+
     private final Class<?>[] clazzes;
 
-    /**
-     * Erstellt ein neues {@link ClassBasedContiguousTreeSelectionModel} Object.
-     *
-     * @param clazz Class
-     * @param clazzes Class[]; Optionale Klassen
-     */
-    public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>...clazzes)
+    public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>... clazzes)
     {
         super();
 
@@ -115,13 +104,6 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
         }
     }
 
-    /**
-     * Liefert true, wenn die Klasse in dem Klassen-Array enthalten ist.
-     *
-     * @param clazz Class
-     *
-     * @return boolean
-     */
     private boolean containsClazzes(final Class<?> clazz)
     {
         if (clazz == null)

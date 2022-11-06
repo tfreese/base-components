@@ -23,53 +23,29 @@ import javax.swing.tree.TreeCellRenderer;
  */
 public class TransparentRenderer extends JLabel implements ListCellRenderer<Object>, TreeCellRenderer, TableCellRenderer
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 2387759630865685848L;
-    /**
-     *
-     */
+
     protected final transient Border noFocusBorder;
-    /**
-     *
-     */
+
     private final Color background;
-    /**
-     *
-     */
+
     @SuppressWarnings("unused")
     private final Color focusBackground;
-    /**
-     *
-     */
+
     private final transient Border focusBorder;
-    /**
-     *
-     */
+
     @SuppressWarnings("unused")
     private final Color focusForeground;
-    /**
-     *
-     */
+
     private final Color foreground;
-    /**
-     *
-     */
+
     private final Color selectedBackground;
-    /**
-     *
-     */
+
     private final Color selectedForeground;
-    /**
-     *
-     */
+
     private int index = -1;
 
-    /**
-     * Creates a new TransparentRenderer object.
-     */
     public TransparentRenderer()
     {
         super();
@@ -216,11 +192,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
 
     /**
      * Sets the Components colors relevant to ist current status.
-     *
-     * @param parent {@link JComponent}
-     * @param isSelected boolean
-     * @param hasFocus boolean
-     * @param index int
      */
     protected void generalSetup(final JComponent parent, final boolean isSelected, final boolean hasFocus, final int index)
     {

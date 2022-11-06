@@ -14,14 +14,8 @@ import org.slf4j.Logger;
  */
 public class DialogExceptionHandler extends DefaultExceptionHandler
 {
-    /**
-     *
-     */
     private final boolean enableSendMail;
 
-    /**
-     * Erstellt ein neues {@link DialogExceptionHandler} Object.
-     */
     public DialogExceptionHandler()
     {
         super();
@@ -43,11 +37,6 @@ public class DialogExceptionHandler extends DefaultExceptionHandler
         showErrorPane(parentComponent, message, throwable);
     }
 
-    /**
-     * @param parentComponent {@link Component}
-     * @param message String
-     * @param throwable {@link Throwable}
-     */
     private void showErrorPane(final Component parentComponent, final String message, final Throwable throwable)
     {
         ErrorInfo errorInfo = new ErrorInfo("ERROR", message, null, null, throwable, null, null);

@@ -13,30 +13,9 @@ import org.slf4j.Logger;
  */
 public interface SwingExceptionHandler extends ExceptionHandler
 {
-    /**
-     * Verarbeitet ein Throwable und loggt die Fehlermeldung.
-     *
-     * @param throwable {@link Throwable}
-     * @param logger {@link Logger}
-     */
     void handleException(Throwable throwable, Logger logger);
 
-    /**
-     * Verarbeitet ein Throwable, loggt die Fehlermeldung und nutzt die ParentComponent für einen FehlerDialog.
-     *
-     * @param throwable {@link Throwable}
-     * @param logger {@link Logger}
-     * @param parentComponent {@link Component}
-     */
     void handleException(Throwable throwable, Logger logger, Component parentComponent);
 
-    /**
-     * Verarbeitet ein Throwable, loggt die Fehlermeldung und nutzt die ParentComponent für einen FehlerDialog.
-     *
-     * @param throwable {@link Throwable}
-     * @param logger {@link Logger}
-     * @param parentComponent {@link Component}
-     * @param translator {@link Translator}
-     */
     void handleException(Throwable throwable, Logger logger, Component parentComponent, Translator translator);
 }

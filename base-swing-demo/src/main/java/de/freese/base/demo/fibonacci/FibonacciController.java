@@ -24,26 +24,14 @@ import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
  */
 public class FibonacciController extends AbstractController
 {
-    /**
-     *
-     */
     public static final Map<Integer, Long> FIBONACCI_CACHE = new ConcurrentHashMap<>(100);
-    /**
-     *
-     */
+
     private static final Map<Integer, Long> OPERATION_CACHE = new HashMap<>(100);
-    /**
-     *
-     */
+
     private final FibonacciView view;
-    /**
-     *
-     */
+
     private ForkJoinPool forkJoinPool;
 
-    /**
-     * Erstellt ein neues {@link FibonacciController} Object.
-     */
     public FibonacciController()
     {
         super();
@@ -51,14 +39,6 @@ public class FibonacciController extends AbstractController
         this.view = new DefaultFibonacciView();
     }
 
-    /**
-     * Liefert den Fibonacci-Wert des Parameters.
-     *
-     * @param n int
-     * @param operationConsumer {@link LongConsumer}
-     *
-     * @return long
-     */
     public long fibonacci(final int n, final LongConsumer operationConsumer)
     {
         Long value = FIBONACCI_CACHE.get(n);
@@ -74,10 +54,6 @@ public class FibonacciController extends AbstractController
     /**
      * Liefert die Anzahl der benötigten mathematischen Operationen zurück.<br>
      * ACHTUNG: Dieser Wert ist bedeutend grösser als das Ergebnis !
-     *
-     * @param n int
-     *
-     * @return long
      */
     public long getOperationCount(final int n)
     {
@@ -165,15 +141,6 @@ public class FibonacciController extends AbstractController
         this.forkJoinPool.shutdown();
     }
 
-    /**
-     * Liefert den Fibonacci-Wert des Parameters.
-     *
-     * @param n int
-     * @param operationConsumer {@link LongConsumer}
-     * @param operationCount {@link AtomicLong}
-     *
-     * @return long
-     */
     private long fibonacci(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount)
     {
         if (n <= 1)

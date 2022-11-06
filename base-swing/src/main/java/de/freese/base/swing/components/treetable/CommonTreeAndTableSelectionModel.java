@@ -17,9 +17,6 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -7214861962851009038L;
 
@@ -47,9 +44,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      */
     private class ThisListSelectionModel extends DefaultListSelectionModel
     {
-        /**
-         *
-         */
         @Serial
         private static final long serialVersionUID = 1564334781623965506L;
 
@@ -80,24 +74,14 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
         }
     }
 
-    /**
-     *
-     */
     private final JTree tree;
-    /**
-     *
-     */
+
     private boolean updateTreeSelectionMode = true;
     /**
      * Set to true when we are updating the ListSelectionModel.
      */
     private boolean updatingListSelectionModel;
 
-    /**
-     * Erstellt ein neues {@link CommonTreeAndTableSelectionModel} Object.
-     *
-     * @param tree {@link JTree}
-     */
     public CommonTreeAndTableSelectionModel(final JTree tree)
     {
         super();
@@ -107,19 +91,14 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
         getListSelectionModel().addListSelectionListener(new ListSelectionHandler());
     }
 
-    /**
-     * SelectionModel für die {@link JTable}.
-     *
-     * @return {@link ListSelectionModel}
-     */
     public ListSelectionModel getListSelectionModel()
     {
         return this.listSelectionModel;
     }
 
     /**
-     * This is overridden to set <code>updatingListSelectionModel</code> and message super. This is the only place DefaultTreeSelectionModel alters the
-     * ListSelectionModel.
+     * This is overridden to set <code>updatingListSelectionModel</code> and message super.<br/>
+     * This is the only place DefaultTreeSelectionModel alters the ListSelectionModel.
      */
     @Override
     public void resetRowSelection()
@@ -212,8 +191,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 
     /**
      * Aktualisiert den SelectionMode des {@link TreeSelectionModel}s ohne synchronisierung des {@link ListSelectionModel}s.
-     *
-     * @param mode int
      */
     private void updateTreeSelectionMode(final int mode)
     {

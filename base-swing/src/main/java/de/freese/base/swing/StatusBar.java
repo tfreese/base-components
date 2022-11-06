@@ -51,8 +51,6 @@ public class StatusBar extends JPanel implements PropertyChangeListener
 
     /**
      * Die StatusBar reagiert auf Events des aktuell im {@link TaskManager} enthaltenen ForegroundTasks.
-     *
-     * @param context {@link ApplicationContext}
      */
     public StatusBar(final ApplicationContext context)
     {

@@ -14,11 +14,6 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
  */
 public class PPTTabbedPaneUI extends BasicTabbedPaneUI
 {
-    /**
-     * @param c {@link JComponent}
-     *
-     * @return {@link ComponentUI}
-     */
     public static ComponentUI createUI(final JComponent c)
     {
         return new PPTTabbedPaneUI();

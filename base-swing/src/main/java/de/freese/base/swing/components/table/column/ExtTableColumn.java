@@ -19,69 +19,34 @@ import de.freese.base.swing.components.table.sort.Sort;
  */
 public class ExtTableColumn extends TableColumn
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4220187542201364522L;
-    /**
-     *
-     */
+
     private transient Map<Object, Object> clientProperties;
-    /**
-     *
-     */
+
     private Sort sort = Sort.UNSORTED;
-    /**
-     *
-     */
+
     private boolean sortable = true;
-    /**
-     *
-     */
+
     private boolean visible = true;
-    /**
-     *
-     */
+
     private boolean visibleChange = true;
 
-    /**
-     * Erstellt ein neues {@link ExtTableColumn} Object.
-     */
     public ExtTableColumn()
     {
         super();
     }
 
-    /**
-     * Erstellt ein neues {@link ExtTableColumn} Object.
-     *
-     * @param modelIndex int
-     */
     public ExtTableColumn(final int modelIndex)
     {
         super(modelIndex);
     }
 
-    /**
-     * Erstellt ein neues {@link ExtTableColumn} Object.
-     *
-     * @param modelIndex int
-     * @param width int
-     */
     public ExtTableColumn(final int modelIndex, final int width)
     {
         super(modelIndex, width);
     }
 
-    /**
-     * Erstellt ein neues {@link ExtTableColumn} Object.
-     *
-     * @param modelIndex int
-     * @param width int
-     * @param cellRenderer {@link TableCellRenderer}
-     * @param cellEditor {@link TableCellEditor}
-     */
     public ExtTableColumn(final int modelIndex, final int width, final TableCellRenderer cellRenderer, final TableCellEditor cellEditor)
     {
         super(modelIndex, width, cellRenderer, cellEditor);
@@ -111,21 +76,11 @@ public class ExtTableColumn extends TableColumn
         return super.getResizable() && (getMinWidth() < getMaxWidth());
     }
 
-    /**
-     * Aktuelle Sortierung.
-     *
-     * @return {@link Sort}
-     */
     public Sort getSort()
     {
         return this.sort;
     }
 
-    /**
-     * Liefert den HeaderText.
-     *
-     * @return String
-     */
     public String getTitle()
     {
         Object header = getHeaderValue();
@@ -133,9 +88,6 @@ public class ExtTableColumn extends TableColumn
         return header != null ? header.toString() : null;
     }
 
-    /**
-     * @return boolean
-     */
     public boolean isSortable()
     {
         return this.sortable;
@@ -153,11 +105,6 @@ public class ExtTableColumn extends TableColumn
         return this.visible;
     }
 
-    /**
-     * Änderung der Sichtbarkeit erlaubt ?
-     *
-     * @return boolean
-     */
     public boolean isVisibleChange()
     {
         return this.visibleChange;
@@ -204,11 +151,6 @@ public class ExtTableColumn extends TableColumn
         firePropertyChange(key.toString(), old, value);
     }
 
-    /**
-     * Aktuelle Sortierung.
-     *
-     * @param sort {@link Sort}
-     */
     public void setSort(final Sort sort)
     {
         Sort oldSort = this.sort;
@@ -217,19 +159,11 @@ public class ExtTableColumn extends TableColumn
         firePropertyChange("sort", oldSort, sort);
     }
 
-    /**
-     * @param sortable boolean
-     */
     public void setSortable(final boolean sortable)
     {
         this.sortable = sortable;
     }
 
-    /**
-     * Setzt den HeaderText.
-     *
-     * @param title String
-     */
     public void setTitle(final String title)
     {
         setHeaderValue(title);
@@ -250,11 +184,6 @@ public class ExtTableColumn extends TableColumn
         firePropertyChange("visible", oldVisible, visible);
     }
 
-    /**
-     * Änderung der Sichtbarkeit erlaubt ?
-     *
-     * @param visibleChange boolean
-     */
     public void setVisibleChange(final boolean visibleChange)
     {
         boolean oldVisibleChange = this.visibleChange;
@@ -292,9 +221,6 @@ public class ExtTableColumn extends TableColumn
         }
     }
 
-    /**
-     * @return {@link Map}
-     */
     private Map<Object, Object> getClientProperties()
     {
         if (this.clientProperties == null)

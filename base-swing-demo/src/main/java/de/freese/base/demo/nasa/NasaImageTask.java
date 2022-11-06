@@ -17,35 +17,16 @@ import de.freese.base.swing.task.AbstractSwingTask;
  */
 public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
 {
-    /**
-     *
-     */
     private final NasaController nasaController;
-    /**
-     *
-     */
+
     private final ResourceMap resourceMap;
-    /**
-     *
-     */
+
     private final Callable<URL> urlCallable;
-    /**
-     *
-     */
+
     private final NasaView view;
-    /**
-     *
-     */
+
     private URL url;
 
-    /**
-     * Erstellt ein neues {@link NasaImageTask} Object.
-     *
-     * @param nasaController {@link NasaController}
-     * @param urlCallable {@link Callable}
-     * @param view {@link NasaView}
-     * @param resourceMap {@link ResourceMap}
-     */
     public NasaImageTask(final NasaController nasaController, final Callable<URL> urlCallable, final NasaView view, final ResourceMap resourceMap)
     {
         super();

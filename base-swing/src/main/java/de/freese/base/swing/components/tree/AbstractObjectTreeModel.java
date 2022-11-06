@@ -18,13 +18,8 @@ import javax.swing.tree.TreePath;
  */
 public abstract class AbstractObjectTreeModel implements TreeModel
 {
-    /**
-     *
-     */
     private final EventListenerList eventListenerList = new EventListenerList();
-    /**
-     *
-     */
+
     private final Map<Object, List<?>> treeCache = new HashMap<>();
 
     /**
@@ -67,11 +62,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Liefert den Parent für das Child Objekt. Durchläuft dabei den Baum rekursiv durch die Pfade.
-     *
-     * @param child Object
-     *
-     * @return Object
+     * Liefert den Parent für das Child Objekt.<br/>
+     * Durchläuft dabei den Baum rekursiv durch die Pfade.
      */
     public Object getParentFor(final Object child)
     {
@@ -80,10 +72,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
     /**
      * Liefert den Pfad vom Root zum Objekt.
-     *
-     * @param object Object
-     *
-     * @return Object[]
      */
     public Object[] getPathToRoot(final Object object)
     {
@@ -113,8 +101,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
     /**
      * Invoke this method after you've changed how node is to be represented in the tree.
-     *
-     * @param node Object
      */
     public void nodeChanged(final Object node)
     {
@@ -146,8 +132,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
     /**
      * Feuert ein fireTreeNodesInserted Event, für diesen Node.
-     *
-     * @param node Object
      */
     public void nodeInserted(final Object node)
     {
@@ -181,8 +165,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
     /**
      * Feuert ein fireTreeNodesRemoved Event, für diesen Node.
-     *
-     * @param node Object
      */
     public void nodeRemoved(final Object node)
     {
@@ -220,9 +202,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Invoke this method if you've totally changed the children of node and its children children... This will post a treeStructureChanged event.
-     *
-     * @param node Object
+     * Invoke this method if you've totally changed the children of node and its children children.<br/>
+     * This will post a treeStructureChanged event.
      */
     public void nodeStructureChanged(final Object node)
     {
@@ -236,9 +217,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
     /**
      * Invoke this method after you've changed how the children identified by childIndices are to be represented in the tree.
-     *
-     * @param node Object
-     * @param childIndices int[]
      */
     public void nodesChanged(final Object node, final int[] childIndices)
     {
@@ -270,11 +248,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Invoke this method after you've inserted some TreeNodes into node. childIndices should be the index of the new elements and must be sorted in ascending
-     * order.
-     *
-     * @param node Object
-     * @param childIndices int[]
+     * Invoke this method after you've inserted some TreeNodes into node.<br/>
+     * ChildIndices should be the index of the new elements and must be sorted in ascending order.
      */
     public void nodesWereInserted(final Object node, final int[] childIndices)
     {
@@ -296,12 +271,9 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Invoke this method after you've removed some TreeNodes from node. childIndices should be the index of the removed elements and must be sorted in
-     * ascending order. And removedChildren should be the array of the children objects that were removed.
-     *
-     * @param node Object
-     * @param childIndices int[]
-     * @param removedChildren int[]
+     * Invoke this method after you've removed some TreeNodes from node.<br/>
+     * ChildIndices should be the index of the removed elements and must be sorted in  ascending order.<br/>
+     * And removedChildren should be the array of the children objects that were removed.
      */
     public void nodesWereRemoved(final Object node, final int[] childIndices, final Object[] removedChildren)
     {
@@ -312,10 +284,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Invoke this method if you've modified the TreeNodes upon which this model depends. The model will notify all of its listeners that the model has changed
-     * below the node <code>node</code> (PENDING).
-     *
-     * @param node Object
+     * Invoke this method if you've modified the TreeNodes upon which this model depends.<br/>
+     * The model will notify all of its listeners that the model has changed below the node <code>node</code> (PENDING).
      */
     public void reload(final Object node)
     {
@@ -349,15 +319,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Notifies all listeners that have registered interest for notification on this event type. The event instance is lazily created using the parameters
-     * passed into the fire method.
-     *
-     * @param source the node being changed
-     * @param pathToRoot the path to the root node
-     * @param childIndices the indices of the changed elements
-     * @param children the changed elements
-     *
-     * @see EventListenerList
+     * Notifies all listeners that have registered interest for notification on this event type.<br/>
+     * The event instance is lazily created using the parameters passed into the fire method.
      */
     protected void fireTreeNodesChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
     {
@@ -385,15 +348,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Notifies all listeners that have registered interest for notification on this event type. The event instance is lazily created using the parameters
-     * passed into the fire method.
-     *
-     * @param source the node where new elements are being inserted
-     * @param pathToRoot the path to the root node
-     * @param childIndices the indices of the new elements
-     * @param children the new elements
-     *
-     * @see EventListenerList
+     * Notifies all listeners that have registered interest for notification on this event type.<br/>
+     * The event instance is lazily created using the parameters passed into the fire method.
      */
     protected void fireTreeNodesInserted(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
     {
@@ -421,15 +377,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Notifies all listeners that have registered interest for notification on this event type. The event instance is lazily created using the parameters
-     * passed into the fire method.
-     *
-     * @param source the node where elements are being removed
-     * @param pathToRoot the path to the root node
-     * @param childIndices the indices of the removed elements
-     * @param children the removed elements
-     *
-     * @see EventListenerList
+     * Notifies all listeners that have registered interest for notification on this event type.<br/>
+     * The event instance is lazily created using the parameters  passed into the fire method.
      */
     protected void fireTreeNodesRemoved(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
     {
@@ -457,15 +406,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     }
 
     /**
-     * Notifies all listeners that have registered interest for notification on this event type. The event instance is lazily created using the parameters
-     * passed into the fire method.
-     *
-     * @param source the node where the tree model has changed
-     * @param pathToRoot the path to the root node
-     * @param childIndices the indices of the affected elements
-     * @param children the affected elements
-     *
-     * @see EventListenerList
+     * Notifies all listeners that have registered interest for notification on this event type.<br/>
+     * The event instance is lazily created using the parameters passed into the fire method.
      */
     protected void fireTreeStructureChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
     {
@@ -494,20 +436,11 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
     /**
      * Liefert für einen Parent die entsprechende {@link List} der Child-Objekte.
-     *
-     * @param parent Object
-     *
-     * @return {@link List}
      */
     protected abstract List<?> getChildren(Object parent);
 
     /**
      * Wird von getParentFor(Object child) mit Root als Parent aufgerufen und durchsucht den Baum rekursiv durch die Pfade.
-     *
-     * @param parent Object
-     * @param child Object
-     *
-     * @return Object
      */
     protected Object getParentFor(final Object parent, final Object child)
     {
@@ -543,11 +476,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel
         return found;
     }
 
-    /**
-     * Liefert den TreeCache.
-     *
-     * @return {@link Map}
-     */
     protected Map<Object, List<?>> getTreeCache()
     {
         return this.treeCache;

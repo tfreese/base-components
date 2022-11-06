@@ -15,26 +15,14 @@ import javax.swing.table.TableColumnModel;
  */
 public class GroupableTableHeader extends JTableHeader
 {
-    /**
-     *
-     */
     @SuppressWarnings("unused")
     private static final String UI_CLASS_ID = "GroupableTableHeaderUI";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = -1642321287557836367L;
-    /**
-     *
-     */
+
     protected final transient List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
 
-    /**
-     * Creates a new {@link GroupableTableHeader} object.
-     *
-     * @param model {@link TableColumnModel}
-     */
     public GroupableTableHeader(final TableColumnModel model)
     {
         super(model);
@@ -43,27 +31,16 @@ public class GroupableTableHeader extends JTableHeader
         setReorderingAllowed(false);
     }
 
-    /**
-     * @param gc {@link GroupableColumn}
-     */
     public void addColumnGroup(final GroupableColumn gc)
     {
         this.columnGroups.add(gc);
     }
 
-    /**
-     * Entfernt die bereits vorhandenen
-     */
     public void clearColumnGroups()
     {
         this.columnGroups.clear();
     }
 
-    /**
-     * @param tableColumn {@link TableColumn}
-     *
-     * @return {@link List}
-     */
     public List<Object> getColumnGroups(final TableColumn tableColumn)
     {
         if (this.columnGroups == null)
@@ -87,9 +64,6 @@ public class GroupableTableHeader extends JTableHeader
         return null;
     }
 
-    /**
-     *
-     */
     public void setColumnMargin()
     {
         if (this.columnGroups == null)

@@ -12,16 +12,8 @@ import de.freese.base.swing.task.SwingTask;
  */
 public class FibonacciTaskListener implements PropertyChangeListener
 {
-    /**
-     *
-     */
     private final FibonacciView view;
 
-    /**
-     * Erstellt ein neues {@link FibonacciTaskListener} Object.
-     *
-     * @param view {@link FibonacciView}
-     */
     public FibonacciTaskListener(final FibonacciView view)
     {
         super();

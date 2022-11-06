@@ -29,22 +29,11 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
     @FunctionalInterface
     private interface EnablerAdapter
     {
-        /**
-         * @param value boolean
-         */
         void setEnabled(boolean value);
     }
 
-    /**
-     *
-     */
     private final EnablerAdapter adapter;
 
-    /**
-     * Creates a new {@link EnableDisableSelectionListener} object.
-     *
-     * @param action {@link Action}
-     */
     public EnableDisableSelectionListener(final Action action)
     {
         super();
@@ -54,11 +43,6 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         this.adapter.setEnabled(false);
     }
 
-    /**
-     * Creates a new {@link EnableDisableSelectionListener} object.
-     *
-     * @param component {@link Component}
-     */
     public EnableDisableSelectionListener(final Component component)
     {
         super();
@@ -117,28 +101,12 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         this.adapter.setEnabled(componentEnabled(e, selectionModel));
     }
 
-    /**
-     * Bestimmt, ob die Komponente aktiviert werden soll.
-     *
-     * @param e {@link ListSelectionEvent}
-     * @param selectionModel {@link ListSelectionModel}
-     *
-     * @return <code>true</code> wenn ja, sonst <code>false</code>
-     */
-    protected boolean componentEnabled(final ListSelectionEvent e, final ListSelectionModel selectionModel)
+    protected boolean componentEnabled(final ListSelectionEvent event, final ListSelectionModel selectionModel)
     {
         // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
         return !selectionModel.isSelectionEmpty();
     }
 
-    /**
-     * Bestimmt, ob die Komponente aktiviert werden soll.
-     *
-     * @param e {@link TreeSelectionEvent}
-     * @param selectionModel {@link TreeSelectionModel}
-     *
-     * @return <code>true</code> wenn ja, sonst <code>false</code>
-     */
     protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel)
     {
         // Möglicher NullPointer wird hier bewusst NICHT abgefangen !

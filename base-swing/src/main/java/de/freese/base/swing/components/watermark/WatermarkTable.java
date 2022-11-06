@@ -19,22 +19,13 @@ import de.freese.base.swing.components.table.ExtTable;
  */
 public class WatermarkTable extends JPanel implements WatermarkComponent
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 4400500160883780741L;
-    /**
-     *
-     */
+
     private JScrollPane scrollPane;
-    /**
-     *
-     */
+
     private JTable table;
-    /**
-     *
-     */
+
     private WatermarkViewport viewport;
 
     /**
@@ -49,8 +40,6 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
 
     /**
      * Constructor calls <code>init()</code> for initialization
-     *
-     * @param isDoubleBuffered boolean
      */
     public WatermarkTable(final boolean isDoubleBuffered)
     {
@@ -59,9 +48,6 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
         init();
     }
 
-    /**
-     * @return {@link JScrollPane}
-     */
     public JScrollPane getScrollPane()
     {
         if (null == this.scrollPane)
@@ -75,11 +61,6 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
         return this.scrollPane;
     }
 
-    /**
-     * Returns the customized Table.
-     *
-     * @return {@link JTable}
-     */
     public JTable getTable()
     {
         if (null == this.table)
@@ -121,8 +102,6 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
 
     /**
      * Returns the special viewport which draws the image
-     *
-     * @return {@link WatermarkViewport}
      */
     private WatermarkViewport getViewport()
     {
@@ -134,9 +113,6 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
         return this.viewport;
     }
 
-    /**
-     * Initializes the Component.
-     */
     private void init()
     {
         setLayout(new BorderLayout());

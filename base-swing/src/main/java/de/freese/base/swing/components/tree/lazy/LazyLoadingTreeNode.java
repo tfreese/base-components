@@ -12,21 +12,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class LazyLoadingTreeNode extends DefaultMutableTreeNode
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -8434762605446347104L;
-    /**
-     *
-     */
+
     private boolean childrenLoaded = false;
 
-    /**
-     * Erstellt ein neues {@link LazyLoadingTreeNode} Object.
-     *
-     * @param userObject Object
-     */
     public LazyLoadingTreeNode(final Object userObject)
     {
         super(userObject);
@@ -47,9 +37,6 @@ public class LazyLoadingTreeNode extends DefaultMutableTreeNode
         return super.isLeaf();
     }
 
-    /**
-     * @param childrenLoaded boolean
-     */
     void setChildrenLoaded(final boolean childrenLoaded)
     {
         this.childrenLoaded = childrenLoaded;

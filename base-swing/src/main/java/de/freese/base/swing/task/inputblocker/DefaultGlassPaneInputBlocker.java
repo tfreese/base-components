@@ -21,24 +21,12 @@ import de.freese.base.swing.task.SwingTask;
  */
 public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
 {
-    /**
-     *
-     */
     private final JLabel labelSubTitle;
-    /**
-     *
-     */
+
     private final JLabel labelTitle;
-    /**
-     *
-     */
+
     private final JProgressBar progressBar;
 
-    /**
-     * Erstellt ein neues {@link DefaultGlassPaneInputBlocker} Object.
-     *
-     * @param target {@link Component}
-     */
     public DefaultGlassPaneInputBlocker(final Component target)
     {
         super(target);

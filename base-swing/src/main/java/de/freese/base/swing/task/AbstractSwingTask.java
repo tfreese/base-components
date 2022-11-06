@@ -39,7 +39,8 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implements SwingTask
 {
     /**
-     * PropertyChangeListener auf die Properties des {@link SwingWorker}s. Dieser wird durch den SwingWorker im EDT gefeuert.<br>
+     * PropertyChangeListener auf die Properties des {@link SwingWorker}s.<br/>
+     * Dieser wird durch den SwingWorker im EDT gefeuert.<br>
      *
      * @author Thomas Freese
      */
@@ -77,9 +78,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             }
         }
 
-        /**
-         * @param task {@link AbstractSwingTask}
-         */
         private void taskDone(final AbstractSwingTask<?, ?> task)
         {
             synchronized (AbstractSwingTask.this)
@@ -100,9 +98,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             }
         }
 
-        /**
-         * @param task {@link AbstractSwingTask}
-         */
         private void taskStarted(final AbstractSwingTask<?, ?> task)
         {
             synchronized (AbstractSwingTask.this)
@@ -119,52 +114,27 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         }
     }
 
-    /**
-     *
-     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    /**
-     *
-     */
+
     private final String name;
-    /**
-     *
-     */
+
     private long doneTime = -1L;
-    /**
-     *
-     */
+
     private InputBlocker inputBlocker;
-    /**
-     *
-     */
+
     private boolean progressPropertyIsValid;
-    /**
-     *
-     */
+
     private long startTime = -1L;
-    /**
-     *
-     */
+
     private String subTitle;
-    /**
-     *
-     */
+
     private String title;
 
-    /**
-     * Erstellt ein neues {@link AbstractSwingTask} Object.
-     */
     protected AbstractSwingTask()
     {
         this(null);
     }
 
-    /**
-     * Erstellt ein neues {@link AbstractSwingTask} Object.
-     *
-     * @param name {@link String}
-     */
     protected AbstractSwingTask(final String name)
     {
         super();
@@ -176,10 +146,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
 
     /**
      * Liefert die Zeiteinheit, wie lange der Task bis jetzt läuft.
-     *
-     * @param unit {@link TimeUnit}
-     *
-     * @return long
      */
     public long getCurrentDuration(final TimeUnit unit)
     {
@@ -196,8 +162,10 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Returns the length of time this Task has run. If the task hasn't started yet (i.e. if its state is still {@code StateValue.PENDING}), then this method
-     * returns 0. Otherwise, it returns the duration in the specified time units. For example, to learn how many seconds a Task has run so far:
+     * Returns the length of time this Task has run.<br/>
+     * If the task hasn't started yet (i.e. if its state is still {@code StateValue.PENDING}), then this method returns 0.<br/>
+     * Otherwise, it returns the duration in the specified time units.<br/>
+     * For example, to learn how many seconds a Task has run so far:
      *
      * <pre>
      * long nSeconds = myTask.getExecutionDuration(TimeUnit.SECONDS);
@@ -223,60 +191,30 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         return getDuration(unit, sTime, dTime);
     }
 
-    /**
-     * @return {@link InputBlocker}
-     */
     public InputBlocker getInputBlocker()
     {
         return this.inputBlocker;
     }
 
-    // /**
-    // * Called unconditionally (in a {@code finally} clause) after one of the completion methods, {@code succeeded}, {@code failed}, {@code cancelled}, or
-    // * {@code interrupted}, runs. Subclasses can override this method to clean up before the {@code done} method returns.
-    // * <p>
-    // * This method runs on the EDT. It does nothing by default.
-    // *
-    // * @see #done
-    // * @see #get
-    // * @see #failed
-    // */
-    // protected void finished()
-    // {
-    // // NO-OP
-    // }
-
-    /**
-     * @return String
-     */
     public String getName()
     {
         return this.name;
     }
 
-    /**
-     * @return String
-     */
     public String getSubTitle()
     {
         return this.subTitle;
     }
 
-    /**
-     * @return String
-     */
     public String getTitle()
     {
         return this.title;
     }
 
     /**
-     * Equivalent to {@code getState() == StateValue.PENDING}.
-     * <p>
-     * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly, when a started
-     * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
-     *
-     * @return boolean
+     * Equivalent to {@code getState() == StateValue.PENDING}.<br/>
+     * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired.<br/>
+     * Similarly, when a started Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
      */
     public final boolean isPending()
     {
@@ -284,10 +222,10 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Returns true if the {@link #setProgress progress} property has been set. Some Tasks don't update the progress property because it's difficult or
-     * impossible to determine how what percentage of the task has been completed. GUI elements that display Task progress, like an application status bar, can
-     * use this property to set the @{link JProgressBar#indeterminate indeterminate} @{code JProgressBar} property.
-     * <p>
+     * Returns true if the {@link #setProgress progress} property has been set.<br/>
+     * Some Tasks don't update the progress property because it's difficult or impossible to determine how what percentage of the task has been completed.<br/>
+     * GUI elements that display Task progress, like an application status bar, can use this property to set
+     * the @{link JProgressBar#indeterminate indeterminate} @{code JProgressBar} property.<br/>
      * A task that does keep the progress property up to date should initialize it to 0, to ensure that {@code isProgressPropertyValid} is always true.
      *
      * @return true if the {@link #setProgress progress} property has been set.
@@ -300,21 +238,15 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Equivalent to {@code getState() == StateValue.STARTED}.
-     * <p>
+     * Equivalent to {@code getState() == StateValue.STARTED}.<br/>
      * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly, when a started
      * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
-     *
-     * @return boolean
      */
     public final boolean isStarted()
     {
         return getState() == StateValue.STARTED;
     }
 
-    /**
-     * @param inputBlocker {@link InputBlocker}
-     */
     public void setInputBlocker(final InputBlocker inputBlocker)
     {
         this.inputBlocker = Objects.requireNonNull(inputBlocker, "inputBlocker required");
@@ -323,8 +255,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when this Task has been cancelled by {@link #cancel(boolean)}.
-     * <p>
+     * Called when this Task has been cancelled by {@link #cancel(boolean)}.<br/>
      * This method runs on the EDT. It does nothing by default.
      *
      * @see #done
@@ -335,8 +266,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     // /**
-    // * Called if the Task's Thread is interrupted but not explicitly cancelled.
-    // * <p>
+    // * Called if the Task's Thread is interrupted but not explicitly cancelled.<br/>
     // * This method runs on the EDT. It does nothing by default.
     // *
     // * @param ex the {@code InterruptedException} thrown by {@code get}
@@ -396,8 +326,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when an execution of this Task fails and an {@code ExecutionException} is thrown by {@code get}.
-     * <p>
+     * Called when an execution of this Task fails and an {@code ExecutionException} is thrown by {@code get}.<br/>
      * This method runs on the EDT. It Logs an error message by default.
      *
      * @param cause the {@link Throwable#getCause cause} of the {@code ExecutionException}
@@ -411,9 +340,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         getLogger().error(cause.getMessage(), cause);
     }
 
-    /**
-     * @return {@link Logger}
-     */
     protected final Logger getLogger()
     {
         return this.logger;
@@ -532,9 +458,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         setProgress(Math.round(percentage * 100.0F));
     }
 
-    /**
-     * @param subTitle String
-     */
     protected void setSubTitle(final String subTitle)
     {
         String old = this.subTitle;
@@ -544,9 +467,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         firePropertyChange(PROPERTY_SUBTITLE, old, this.subTitle);
     }
 
-    /**
-     * @param title String
-     */
     protected void setTitle(final String title)
     {
         String old = this.title;
@@ -557,10 +477,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * Called when this Task has successfully completed, i.e. when its {@code get} method returns a value. Tasks that compute a value should override this
-     * method.
-     * <p>
-     * <p>
+     * Called when this Task has successfully completed, i.e. when its {@code get} method returns a value. Tasks that compute a value should override this method.<br/>
      * This method runs on the EDT. It does nothing by default.
      *
      * @param result the value returned by the {@code get} method
@@ -574,15 +491,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         // Empty
     }
 
-    /**
-     * Liefert die Zeiteinheit der Start und Endzeit.
-     *
-     * @param unit {@link TimeUnit}
-     * @param startTime long
-     * @param endTime long
-     *
-     * @return long
-     */
     private long getDuration(final TimeUnit unit, final long startTime, final long endTime)
     {
         long dt;

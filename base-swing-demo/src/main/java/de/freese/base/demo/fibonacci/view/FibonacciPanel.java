@@ -16,35 +16,19 @@ import de.freese.base.swing.layout.GbcBuilder;
  */
 public class FibonacciPanel extends JPanel
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = -2648632168520329957L;
-    /**
-     *
-     */
+
     private JButton buttonComponentBlock;
-    /**
-     *
-     */
+
     private JButton buttonGlassPaneBlock;
-    /**
-     *
-     */
+
     private JLabel label;
-    /**
-     *
-     */
+
     private JLabel labelResult;
-    /**
-     *
-     */
+
     private JTextField textField;
 
-    /**
-     * @return {@link JButton}
-     */
     public JButton getButtonComponentBlock()
     {
         if (this.buttonComponentBlock == null)
@@ -55,9 +39,6 @@ public class FibonacciPanel extends JPanel
         return this.buttonComponentBlock;
     }
 
-    /**
-     * @return {@link JButton}
-     */
     public JButton getButtonGlassPaneBlock()
     {
         if (this.buttonGlassPaneBlock == null)
@@ -68,9 +49,6 @@ public class FibonacciPanel extends JPanel
         return this.buttonGlassPaneBlock;
     }
 
-    /**
-     * @return {@link JLabel}
-     */
     public JLabel getLabel()
     {
         if (this.label == null)
@@ -81,9 +59,6 @@ public class FibonacciPanel extends JPanel
         return this.label;
     }
 
-    /**
-     * @return {@link JLabel}
-     */
     public JLabel getLabelResult()
     {
         if (this.labelResult == null)
@@ -94,9 +69,6 @@ public class FibonacciPanel extends JPanel
         return this.labelResult;
     }
 
-    /**
-     * @return {@link JTextField}
-     */
     public JTextField getTextField()
     {
         if (this.textField == null)
@@ -107,9 +79,6 @@ public class FibonacciPanel extends JPanel
         return this.textField;
     }
 
-    /**
-     * Initialisiert die GUI.
-     */
     public void initialize()
     {
         setLayout(new GridBagLayout());

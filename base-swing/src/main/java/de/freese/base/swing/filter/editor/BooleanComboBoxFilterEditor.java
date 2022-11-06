@@ -19,36 +19,18 @@ import de.freese.base.swing.fontchange.SwingFontSizeChanger;
  */
 public class BooleanComboBoxFilterEditor extends JComboBox<Object> implements FilterEditor, ItemListener
 {
-    /**
-     * Konstante für keinen Filter.
-     */
     private static final String KEIN_FILTER = " ";
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 8226362008750444885L;
-    /**
-     *
-     */
+
     private final int column;
 
-    /**
-     * Erstellt ein neues {@link BooleanComboBoxFilterEditor} Objekt.
-     *
-     * @param column int
-     */
     public BooleanComboBoxFilterEditor(final int column)
     {
         this(column, ToggleButtonListCellRenderer.createCheckBoxRenderer());
     }
 
-    /**
-     * Erstellt ein neues {@link BooleanComboBoxFilterEditor} Objekt.
-     *
-     * @param column int
-     * @param renderer {@link ListCellRenderer}
-     */
     public BooleanComboBoxFilterEditor(final int column, final ListCellRenderer<Object> renderer)
     {
         super();

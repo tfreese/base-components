@@ -10,10 +10,5 @@ import java.beans.PropertyChangeSupport;
 @FunctionalInterface
 public interface SupportsPropertyChange
 {
-    /**
-     * Liefert {@link PropertyChangeSupport} der Implementierung.
-     *
-     * @return {@link PropertyChangeSupport}
-     */
     PropertyChangeSupport getPropertyChangeSupport();
 }

@@ -15,27 +15,14 @@ import javax.swing.undo.UndoableEdit;
  */
 public class ExtUndoManager extends UndoManager
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 8132103408414717090L;
 
-    /**
-     * Liefert eine unmodifiableList der vorhandenen {@link UndoableEdit}s.
-     *
-     * @return {@link List}
-     */
     public synchronized List<UndoableEdit> getEdits()
     {
         return Collections.unmodifiableList(this.edits);
     }
 
-    /**
-     * Liefert eine unmodifiableList der vorhandenen {@link UndoableEdit}s, welche noch ein Undo ausführen können.
-     *
-     * @return {@link List}
-     */
     public synchronized List<UndoableEdit> getUndoableEdits()
     {
         List<UndoableEdit> undoableEdits = new ArrayList<>();

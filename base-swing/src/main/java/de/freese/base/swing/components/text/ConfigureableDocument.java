@@ -20,36 +20,17 @@ import org.slf4j.LoggerFactory;
  */
 public class ConfigureableDocument extends PlainDocument
 {
-    /**
-     *
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigureableDocument.class);
-    /**
-     *
-     */
+
     @Serial
     private static final long serialVersionUID = 4200946186651706734L;
 
-    /**
-     * Processor zur Prüfung ob nur Zahlen, ',' oder '.' eingegeben wurden.
-     *
-     * @author Thomas Freese
-     */
     private static class DigitProcessor extends AbstractProcessor<DocumentContext>
     {
-        // /**
-        // *
-        // */
         // private static final DecimalFormat FORMATTER = new DecimalFormat("###,###,##0");
 
-        /**
-         * Angabe, Gleitkommazahlen erlaubt sind.
-         */
         private boolean floatsAllowed;
 
-        /**
-         * Creates a new {@link DigitProcessor} object.
-         */
         public DigitProcessor()
         {
             super();
@@ -58,9 +39,6 @@ public class ConfigureableDocument extends PlainDocument
         }
 
         /**
-         * @param context {@link DocumentContext}
-         *
-         * @throws Exception Falls was schiefgeht.
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -109,8 +87,6 @@ public class ConfigureableDocument extends PlainDocument
 
         /**
          * Setzt, ob Zahlen mit Nachkommastellen erlaubt sind.
-         *
-         * @param floatsAllowed boolean
          */
         public void setFloatsAllowed(final boolean floatsAllowed)
         {
@@ -129,41 +105,24 @@ public class ConfigureableDocument extends PlainDocument
     }
 
     /**
-     * ProcessorContext des Documents.
-     *
      * @author Thomas Freese
      */
     private static class DocumentContext
     {
-        /**
-         *
-         */
         public String currentText;
-        /**
-         *
-         */
+
         public String fullText;
-        /**
-         *
-         */
+
         public String newText;
     }
 
     /**
-     * Processor zur Prüfung der Länge.
-     *
      * @author Thomas Freese
      */
     private static class LengthProcessor extends AbstractProcessor<DocumentContext>
     {
-        /**
-         *
-         */
         private int maxLength = Integer.MAX_VALUE;
 
-        /**
-         * Creates a new {@link LengthProcessor} object.
-         */
         public LengthProcessor()
         {
             super();
@@ -172,9 +131,6 @@ public class ConfigureableDocument extends PlainDocument
         }
 
         /**
-         * @param context {@link DocumentContext}
-         *
-         * @throws Exception Falls was schiefgeht.
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -188,11 +144,6 @@ public class ConfigureableDocument extends PlainDocument
             }
         }
 
-        /**
-         * Max. Länge des Dokumentes.
-         *
-         * @param maxLength int
-         */
         public void setMaxLength(final int maxLength)
         {
             this.maxLength = maxLength;
@@ -200,15 +151,10 @@ public class ConfigureableDocument extends PlainDocument
     }
 
     /**
-     * Processor für UpperCase der Texte.
-     *
      * @author Thomas Freese
      */
     private static class UpperCaseProcessor extends AbstractProcessor<DocumentContext>
     {
-        /**
-         * Creates a new {@link UpperCaseProcessor} object.
-         */
         public UpperCaseProcessor()
         {
             super();
@@ -217,9 +163,6 @@ public class ConfigureableDocument extends PlainDocument
         }
 
         /**
-         * @param context {@link DocumentContext}
-         *
-         * @throws Exception Falls was schiefgeht.
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
@@ -229,26 +172,14 @@ public class ConfigureableDocument extends PlainDocument
         }
     }
 
-    /**
-     *
-     */
     private final transient DigitProcessor digitProcessor;
-    /**
-     *
-     */
+
     private final transient LengthProcessor lengthProcessor;
-    /**
-     *
-     */
+
     private final transient ProcessorChain<DocumentContext> processorChain = new ProcessorChain<>();
-    /**
-     *
-     */
+
     private final transient UpperCaseProcessor upperCaseProcessor;
 
-    /**
-     * Creates a new {@link ConfigureableDocument} object.
-     */
     public ConfigureableDocument()
     {
         super();
@@ -307,52 +238,27 @@ public class ConfigureableDocument extends PlainDocument
         }
     }
 
-    /**
-     * Setz, ob Zahlen mit Nachkommastellen erlaubt sind.
-     *
-     * @param floatDigits boolean
-     */
     public void setFloatAllowed(final boolean floatDigits)
     {
         this.digitProcessor.setFloatsAllowed(floatDigits);
     }
 
-    /**
-     * Max. Anzahl von Zeichen.
-     *
-     * @param maxLength int
-     */
     public void setMaxLength(final int maxLength)
     {
         this.lengthProcessor.setMaxLength(maxLength);
         this.lengthProcessor.setEnabled(true);
     }
 
-    /**
-     * Nur Zahlen zulassen.
-     *
-     * @param onlyDigits boolean
-     */
     public void setOnlyDigits(final boolean onlyDigits)
     {
         this.digitProcessor.setEnabled(onlyDigits);
     }
 
-    /**
-     * Texte in Grossbuchstaben verwandeln.
-     *
-     * @param toUpperCase boolean
-     */
     public void setToUpperCase(final boolean toUpperCase)
     {
         this.upperCaseProcessor.setEnabled(toUpperCase);
     }
 
-    /**
-     * Behandeln von Eingabefehlern.
-     *
-     * @param ex {@link Exception}
-     */
     protected void handleException(final Exception ex)
     {
         Toolkit.getDefaultToolkit().beep();

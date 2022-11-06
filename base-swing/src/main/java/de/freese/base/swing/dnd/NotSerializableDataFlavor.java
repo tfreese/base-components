@@ -10,18 +10,9 @@ import java.io.Serial;
  */
 public class NotSerializableDataFlavor extends DataFlavor
 {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 782562737576235278L;
 
-    /**
-     * Erstellt ein neues {@link NotSerializableDataFlavor} Object.
-     *
-     * @param representationClass {@link Class}
-     * @param humanPresentableName String
-     */
     public NotSerializableDataFlavor(final Class<?> representationClass, final String humanPresentableName)
     {
         super(representationClass, humanPresentableName);

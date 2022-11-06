@@ -10,9 +10,5 @@ import java.awt.Font;
 @FunctionalInterface
 public interface FontChangeHandler
 {
-    /**
-     * @param newFont {@link Font}
-     * @param object Object
-     */
     void fontChanged(Font newFont, Object object);
 }
