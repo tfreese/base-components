@@ -42,7 +42,7 @@ import javax.net.ssl.TrustManagerFactory;
  *      unwrap()        ...             Finished
  * </pre>
  */
-public class SSLEngineExample
+public final class SSLEngineExampleMain
 {
     /**
      * Enables the JSSE system debugging system property: -Djavax.net.debug=all This gives a lot of low-level information about operations underway, including
@@ -67,7 +67,7 @@ public class SSLEngineExample
             System.setProperty("javax.net.debug", "all");
         }
 
-        SSLEngineExample demo = new SSLEngineExample();
+        SSLEngineExampleMain demo = new SSLEngineExampleMain();
         demo.runDemo();
 
         System.out.println("Demo Completed.");
@@ -180,7 +180,7 @@ public class SSLEngineExample
      */
     private ByteBuffer serverOut;
 
-    public SSLEngineExample() throws Exception
+    private SSLEngineExampleMain() throws Exception
     {
         KeyStore ks = KeyStore.getInstance("JKS");
         KeyStore ts = KeyStore.getInstance("JKS");

@@ -1,6 +1,5 @@
 package de.freese.base.swing.components.label;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -9,11 +8,9 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.io.Serial;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
 /**
  * Label mit einem drehenden Kreis, ähnlich wie bei Mozilla.
@@ -24,22 +21,6 @@ public class BusyMozillaLabel extends JLabel
 {
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
-
-    public static void main(final String[] args)
-    {
-        final JFrame frame = new JFrame("GlassPaneDemo");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.setSize(new Dimension(400, 400));
-
-        BusyMozillaLabel mozillaLabel = new BusyMozillaLabel("Taeschd");
-
-        // mozillaLabel.setTrail(7);
-        frame.getContentPane().add(mozillaLabel, BorderLayout.NORTH);
-
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
 
     /**
      * Anzahl animierter Kreise.

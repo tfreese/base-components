@@ -1,7 +1,5 @@
 package de.freese.base.swing.components.label;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -9,10 +7,8 @@ import java.awt.Toolkit;
 import java.io.Serial;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
 import de.freese.base.utils.ImageUtils;
 
@@ -25,19 +21,6 @@ public class BusySanduhrLabel extends JLabel
 {
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
-
-    public static void main(final String[] args)
-    {
-        final JFrame frame = new JFrame("GlassPaneDemo");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.setSize(new Dimension(400, 400));
-
-        frame.getContentPane().add(new BusySanduhrLabel("Taeschd"), BorderLayout.NORTH);
-
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
 
     private final Timer animateTimer;
 

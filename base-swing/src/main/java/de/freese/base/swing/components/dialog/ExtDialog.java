@@ -8,7 +8,6 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,29 +45,6 @@ import de.freese.base.swing.layout.GbcBuilder;
  */
 public class ExtDialog
 {
-    public static void main(final String[] args)
-    {
-        ExtDialogConfig config = new ExtDialogConfig();
-        config.setTitle("Test");
-        config.setMessageType(JOptionPane.QUESTION_MESSAGE);
-        config.setOptionType(JOptionPane.OK_CANCEL_OPTION);
-        config.setOptions("Bla", "Blub");
-        config.setMessage("Beispieltextdddddddddddddddddddddd<br>dddddddddddddddddddddddddddddddd");
-        config.setOwner(null);
-        // config.setModal(true);
-        config.setButtonActionListener(0, event ->
-        {
-            System.out.println("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
-            Toolkit.getDefaultToolkit().beep();
-        });
-
-        ExtDialog dialog = new ExtDialog();
-        dialog.configure(config);
-        dialog.setVisible(true);
-
-        System.out.println(dialog.isYesOrOK());
-    }
-
     private JButton[] buttons;
 
     private JDialog dialog;

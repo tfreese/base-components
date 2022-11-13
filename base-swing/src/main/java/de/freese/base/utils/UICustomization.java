@@ -3,7 +3,6 @@ package de.freese.base.utils;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Formatter;
@@ -49,35 +48,6 @@ public final class UICustomization
         UIManager.setLookAndFeel(className);
 
         installDefaults();
-    }
-
-    public static void main(final String[] args) throws Exception
-    {
-        install(UIManager.getSystemLookAndFeelClassName());
-
-        try (OutputStream os = new FileOutputStream("UIDefaults_" + System.getProperty("java.version") + ".txt"))
-        {
-            writeUIDefaults(os);
-        }
-
-        // System.err.println("\nAvailable Fonts:");
-        // GraphicsEnvironment graphicsEnvironment =
-        // GraphicsEnvironment.getLocalGraphicsEnvironment();
-        // String[] fontNames = graphicsEnvironment.getAvailableFontFamilyNames();
-        //
-        // // Iterate the font family names
-        // for (String fontName : fontNames)
-        // {
-        // System.out.println(fontName);
-        // }
-
-        // System.err.println("\nAvailable Charsets:");
-        // Map<String, Charset> charsets = Charset.availableCharsets();
-        //
-        // for (Charset charset : charsets.values())
-        // {
-        // System.out.println(charset);
-        // }
     }
 
     public static void setDefaultFont(final Font font)
@@ -146,6 +116,36 @@ public final class UICustomization
         // UIManager.put("Viewport.font", font);
     }
 
+    public static void writeUIDefaults(final OutputStream outputStream)
+    {
+        // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
+        // Formatter formatter = new Formatter(os);
+
+        try (Formatter formatterConsole = new Formatter(System.out);
+             Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN))
+        {
+            UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
+
+            String format = "%1$s \t %2$s \n";
+
+            // @formatter:off
+            uiDefaults.entrySet().stream()
+                .sorted((e1, e2) -> e1.getKey().toString().compareTo(e2.getKey().toString()))
+                .forEach(entry -> {
+                    String key = entry.getKey().toString();
+                    String value = Objects.toString(entry.getValue(), "NULL");
+
+                    formatterConsole.format(format, key, value);
+                    formatterFile.format(format, key, value);
+                })
+                ;
+            // @formatter:on
+
+            formatterConsole.flush();
+            formatterFile.flush();
+        }
+    }
+
     private static void installDefaults()
     {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
@@ -182,36 +182,6 @@ public final class UICustomization
         defaults.put("nb.errorColor", Color.RED);
         // Für Wizard-Hintergrundfarben
         // System.setProperty("WizardDisplayer.default",".wizard.WizardDisplayerImpl");
-    }
-
-    private static void writeUIDefaults(final OutputStream outputStream)
-    {
-        // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
-        // Formatter formatter = new Formatter(os);
-
-        try (Formatter formatterConsole = new Formatter(System.out);
-             Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN))
-        {
-            UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
-
-            String format = "%1$s \t %2$s \n";
-
-            // @formatter:off
-            uiDefaults.entrySet().stream()
-                .sorted((e1, e2) -> e1.getKey().toString().compareTo(e2.getKey().toString()))
-                .forEach(entry -> {
-                    String key = entry.getKey().toString();
-                    String value = Objects.toString(entry.getValue(), "NULL");
-
-                    formatterConsole.format(format, key, value);
-                    formatterFile.format(format, key, value);
-                })
-                ;
-            // @formatter:on
-
-            formatterConsole.flush();
-            formatterFile.flush();
-        }
     }
 
     private UICustomization()

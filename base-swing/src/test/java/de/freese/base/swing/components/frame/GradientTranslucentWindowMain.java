@@ -28,7 +28,7 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class GradientTranslucentWindowDemo
+public final class GradientTranslucentWindowMain
 {
     public static void main(final String[] args)
     {
@@ -92,5 +92,10 @@ public class GradientTranslucentWindowDemo
             // Display the window.
             frame.setVisible(true);
         });
+    }
+
+    private GradientTranslucentWindowMain()
+    {
+        super();
     }
 }

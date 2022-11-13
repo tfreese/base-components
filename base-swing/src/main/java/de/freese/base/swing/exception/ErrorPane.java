@@ -13,7 +13,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.Serial;
 import java.util.Locale;
-import java.util.logging.Level;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -50,21 +49,6 @@ public final class ErrorPane extends JPanel
 
     @Serial
     private static final long serialVersionUID = 8841473190098899651L;
-
-    public static void main(final String[] args)
-    {
-        try
-        {
-            Exception cause = new Exception("I'm the cause");
-            throw new Exception("I'm a secondary exception", cause);
-        }
-        catch (Exception ex)
-        {
-            ErrorInfo errorInfo = new ErrorInfo("ErrorTitle", "basic error message", null, "category", ex, Level.ALL, null);
-
-            showDialog(null, errorInfo, false);
-        }
-    }
 
     public static void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail)
     {

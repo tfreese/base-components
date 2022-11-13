@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class TranslucentWindowDemo
+public final class TranslucentWindowMain
 {
     public static void main(final String[] args)
     {
@@ -58,5 +58,10 @@ public class TranslucentWindowDemo
             // Display the window.
             frame.setVisible(true);
         });
+    }
+
+    private TranslucentWindowMain()
+    {
+        super();
     }
 }

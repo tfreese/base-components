@@ -15,7 +15,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
  *
  * @author Thomas Freese
  */
-public class BenchmarkRunner
+public final class BenchmarkRunnerMain
 {
     public static void main(String[] args) throws Exception
     {
@@ -46,5 +46,10 @@ public class BenchmarkRunner
 
         new Runner(options).run();
         //Collection<RunResult> results = new Runner(options).run();
+    }
+
+    private BenchmarkRunnerMain()
+    {
+        super();
     }
 }

@@ -29,7 +29,7 @@ import javax.crypto.spec.GCMParameterSpec;
  *
  * @author Thomas Freese see base-security/keystore.txt
  */
-public class KeystoreDemo
+public final class KeystoreMain
 {
     public static void main(final String[] args) throws Exception
     {
@@ -140,5 +140,10 @@ public class KeystoreDemo
         System.out.println("Decrypted Message: " + new String(decryptedBytes, StandardCharsets.UTF_8));
 
         System.out.println();
+    }
+
+    private KeystoreMain()
+    {
+        super();
     }
 }

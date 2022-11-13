@@ -13,7 +13,7 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class MemoryGraphDemo
+public final class MemoryGraphMain
 {
     public static void main(final String[] args)
     {
@@ -54,5 +54,10 @@ public final class MemoryGraphDemo
             frame.setVisible(true);
             memoryGraph.start();
         });
+    }
+
+    private MemoryGraphMain()
+    {
+        super();
     }
 }

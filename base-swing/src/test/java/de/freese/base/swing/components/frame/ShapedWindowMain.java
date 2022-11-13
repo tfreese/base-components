@@ -23,7 +23,7 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class ShapedWindowDemo
+public final class ShapedWindowMain
 {
     public static void main(final String[] args)
     {
@@ -84,5 +84,10 @@ public class ShapedWindowDemo
             // Display the window.
             frame.setVisible(true);
         });
+    }
+
+    private ShapedWindowMain()
+    {
+        super();
     }
 }

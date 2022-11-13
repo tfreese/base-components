@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public class NioSSLExample
+public final class NioSSLExampleMain
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NioSSLExample.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NioSSLExampleMain.class);
 
     public static void main(final String[] args) throws Exception
     {
@@ -123,5 +123,10 @@ public class NioSSLExample
                 ssl.processInput();
             }
         }
+    }
+
+    private NioSSLExampleMain()
+    {
+        super();
     }
 }

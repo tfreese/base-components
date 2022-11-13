@@ -1,15 +1,11 @@
 package de.freese.base.swing.icon;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
 import javax.swing.Icon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.WindowConstants;
 import javax.swing.plaf.UIResource;
 
 /**
@@ -19,17 +15,6 @@ import javax.swing.plaf.UIResource;
  */
 public class ColumnControlIcon implements Icon, UIResource
 {
-    public static void main(final String[] args)
-    {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JLabel label = new JLabel(new ColumnControlIcon());
-        frame.getContentPane().add(BorderLayout.CENTER, label);
-        frame.setSize(300, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-
     /**
      * @see javax.swing.Icon#getIconHeight()
      */

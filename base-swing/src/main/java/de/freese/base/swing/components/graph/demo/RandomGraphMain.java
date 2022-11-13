@@ -22,7 +22,7 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
 /**
  * @author Thomas Freese
  */
-public final class RandomGraphDemo
+public final class RandomGraphMain
 {
     public static void main(final String[] args)
     {
@@ -151,5 +151,10 @@ public final class RandomGraphDemo
         frame.setLocationRelativeTo(null);
 
         SwingUtilities.invokeLater(() -> frame.setVisible(true));
+    }
+
+    private RandomGraphMain()
+    {
+        super();
     }
 }

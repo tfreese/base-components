@@ -12,7 +12,6 @@ import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
@@ -37,17 +36,6 @@ import de.freese.base.swing.components.frame.ExtFrame;
  */
 public class DemoApplication extends AbstractApplication
 {
-    public static void main(final String[] args)
-    {
-        final AbstractApplication application = new DemoApplication();
-
-        SwingUtilities.invokeLater(() ->
-        {
-            application.initialize();
-            // application.getContext().getMainFrame().setVisible(true);
-        });
-    }
-
     private class MainFrameListener extends WindowAdapter
     {
         /**

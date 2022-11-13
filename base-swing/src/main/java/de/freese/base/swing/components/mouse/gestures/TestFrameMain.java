@@ -40,14 +40,14 @@ import javax.swing.WindowConstants;
 /**
  * Simple test frame.
  */
-public class TestFrame extends JFrame
+public final class TestFrameMain extends JFrame
 {
     @Serial
     private static final long serialVersionUID = -3351411878765636929L;
 
     public static void main(String[] args)
     {
-        TestFrame frame = new TestFrame();
+        TestFrameMain frame = new TestFrameMain();
         frame.setVisible(true);
     }
 
@@ -55,7 +55,7 @@ public class TestFrame extends JFrame
 
     private transient MouseGestures mouseGestures = new MouseGestures();
 
-    public TestFrame()
+    private TestFrameMain()
     {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Mouse Gestures Test Frame");

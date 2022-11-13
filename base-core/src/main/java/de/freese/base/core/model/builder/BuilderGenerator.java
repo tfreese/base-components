@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.UnaryOperator;
 
-import de.freese.base.core.model.tupel.Tupel3;
 import de.freese.base.utils.ReflectionUtils;
 
 /**
@@ -17,17 +16,6 @@ import de.freese.base.utils.ReflectionUtils;
 public class BuilderGenerator
 {
     protected static final String INDENT = "    ";
-
-    public static void main(final String[] args)
-    {
-        BuilderGenerator generator = new BuilderGenerator(fields ->
-        {
-            fields.remove("serialVersionUID");
-            fields.remove("valueB");
-            return fields;
-        });
-        generator.createBuilder(Tupel3.class, true, System.out);
-    }
 
     private final UnaryOperator<Map<String, Field>> fieldHandler;
 

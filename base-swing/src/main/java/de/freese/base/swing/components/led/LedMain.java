@@ -15,7 +15,7 @@ import de.freese.base.swing.components.led.token.TextToken;
 /**
  * @author Thomas Freese
  */
-public class LedDemo
+public final class LedMain
 {
     public static void main(final String[] args)
     {
@@ -45,5 +45,10 @@ public class LedDemo
         ledPanel.addToken(new ArrowToken(ArrowDirection.UNCHANGED));
         ledPanel.addToken(new ArrowToken(ArrowDirection.LEFT));
         ledPanel.addToken(new ArrowToken(ArrowDirection.RIGHT));
+    }
+
+    private LedMain()
+    {
+        super();
     }
 }

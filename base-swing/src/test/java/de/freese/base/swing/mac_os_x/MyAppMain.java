@@ -1,5 +1,5 @@
 /*
- * File: MyApp.java Abstract: Simple Swing app demonstrating how to use the Apple EAWT APIs by way of reflection, allowing a single codebase to build and run on
+ * File: MyAppMain.java Abstract: Simple Swing app demonstrating how to use the Apple EAWT APIs by way of reflection, allowing a single codebase to build and run on
  * platforms without those APIs installed. Version: 2.0 Disclaimer: IMPORTANT: This Apple software is supplied to you by Apple Inc. ("Apple") in consideration
  * of your agreement to the following terms, and your use, installation, modification or redistribution of this Apple software constitutes acceptance of these
  * terms. If you do not agree with these terms, please do not use, install, modify or redistribute this Apple software. In consideration of your agreement to
@@ -52,7 +52,7 @@ import de.freese.base.swing.macOsX.OsxAdapter;
 /**
  * @author Thomas Freese
  */
-public class MyApp extends JFrame implements ActionListener
+public final class MyAppMain extends JFrame implements ActionListener
 {
     /**
      * Check that we are on Mac OS X. This is crucial to loading and using the OsxAdapter class.
@@ -72,7 +72,7 @@ public class MyApp extends JFrame implements ActionListener
         {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
 
-            new MyApp().setVisible(true);
+            new MyAppMain().setVisible(true);
         });
     }
 
@@ -86,33 +86,33 @@ public class MyApp extends JFrame implements ActionListener
                     Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
             };
 
-    protected final JDialog aboutBox;
+    private final JDialog aboutBox;
 
-    protected final JComboBox<String> colorComboBox;
+    private final JComboBox<String> colorComboBox;
 
-    protected final JLabel imageLabel;
+    private final JLabel imageLabel;
 
-    protected final JDialog prefs;
+    private final JDialog prefs;
 
-    protected JMenuItem aboutMI;
+    private JMenuItem aboutMI;
 
-    protected transient BufferedImage currentImage;
+    private transient BufferedImage currentImage;
 
-    protected JMenuItem docsMI;
+    private JMenuItem docsMI;
 
-    protected JMenu fileMenu;
+    private JMenu fileMenu;
 
-    protected JMenu helpMenu;
+    private JMenu helpMenu;
 
-    protected JMenuItem openMI;
+    private JMenuItem openMI;
 
-    protected JMenuItem optionsMI;
+    private JMenuItem optionsMI;
 
-    protected JMenuItem quitMI;
+    private JMenuItem quitMI;
 
-    protected JMenuItem supportMI;
+    private JMenuItem supportMI;
 
-    public MyApp()
+    private MyAppMain()
     {
         super("OsxAdapter");
 
@@ -138,9 +138,9 @@ public class MyApp extends JFrame implements ActionListener
         this.colorComboBox = new JComboBox<>(this.colorNames);
         this.colorComboBox.addActionListener(ev ->
         {
-            if (MyApp.this.currentImage != null)
+            if (MyAppMain.this.currentImage != null)
             {
-                MyApp.this.imageLabel.setBackground(MyApp.this.colors[MyApp.this.colorComboBox.getSelectedIndex()]);
+                MyAppMain.this.imageLabel.setBackground(MyAppMain.this.colors[MyAppMain.this.colorComboBox.getSelectedIndex()]);
             }
         });
 

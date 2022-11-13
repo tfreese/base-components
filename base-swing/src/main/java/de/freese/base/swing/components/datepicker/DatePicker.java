@@ -1,14 +1,10 @@
 package de.freese.base.swing.components.datepicker;
 
-import java.awt.BorderLayout;
 import java.io.Serial;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -21,17 +17,6 @@ public class DatePicker extends JXDatePicker
 {
     @Serial
     private static final long serialVersionUID = -4014651391029802229L;
-
-    public static void main(final String[] args)
-    {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().add(BorderLayout.CENTER, new DatePicker());
-        //        frame.setSize(300, 300);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
 
     public DatePicker()
     {

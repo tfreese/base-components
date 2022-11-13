@@ -31,19 +31,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class LazyLoadingTreeFrame extends JFrame
+public final class LazyLoadingTreeFrameMain extends JFrame
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrame.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrameMain.class);
 
     @Serial
     private static final long serialVersionUID = 3374150787460216252L;
 
     public static void main(final String[] args)
     {
-        SwingUtilities.invokeLater(LazyLoadingTreeFrame::new);
+        SwingUtilities.invokeLater(LazyLoadingTreeFrameMain::new);
     }
 
-    public LazyLoadingTreeFrame()
+    private LazyLoadingTreeFrameMain()
     {
         super();
 
