@@ -86,7 +86,8 @@ public final class PartitionIterable<T> implements Iterable<List<T>>
     /**
      * Partitioniert die Collection anhand der gewünschten Anzahl von Partitionen.<br>
      * Die Reihenfolge der Elemente bleibt erhalten.<br>
-     * Die letzte Partition kann kleiner als die anderen sein.
+     * Die letzte Partition kann kleiner als die anderen sein.<br>
+     * Je nach Länge der Collection kann die effektive Anzahl an Partitionen kleiner als gefordert sein.
      */
     private static <T> List<List<T>> getPartitionsByCount(final List<T> origin, final int partitionCount)
     {
@@ -149,7 +150,8 @@ public final class PartitionIterable<T> implements Iterable<List<T>>
     /**
      * Partitioniert die Collection anhand der gewünschten Anzahl von Partitionen.<br>
      * Die Reihenfolge der Elemente geht verloren.<br>
-     * Die letzte Partition kann kleiner als die anderen sein.
+     * Die letzte Partition kann kleiner als die anderen sein.<br>
+     * Je nach Länge der Collection kann die effektive Anzahl an Partitionen kleiner als gefordert sein.
      */
     private static <T> List<List<T>> getPartitionsByCountModulo(final List<T> origin, final int partitionCount)
     {
