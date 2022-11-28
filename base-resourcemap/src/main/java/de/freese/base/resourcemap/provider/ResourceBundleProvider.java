@@ -1,6 +1,5 @@
 package de.freese.base.resourcemap.provider;
 
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -30,15 +29,22 @@ public final class ResourceBundleProvider implements ResourceProvider
         {
             ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
 
-            Enumeration<String> keys = resourceBundle.getKeys();
-
-            while (keys.hasMoreElements())
+            for (String key : resourceBundle.keySet())
             {
-                String key = keys.nextElement();
                 String value = resourceBundle.getString(key);
 
                 bundles.put(key, value);
             }
+
+            //            Enumeration<String> keys = resourceBundle.getKeys();
+            //
+            //            while (keys.hasMoreElements())
+            //            {
+            //                String key = keys.nextElement();
+            //                String value = resourceBundle.getString(key);
+            //
+            //                bundles.put(key, value);
+            //            }
         }
         catch (Exception ex)
         {

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Flow;
 import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
@@ -25,6 +26,8 @@ import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
 import de.freese.base.persistence.jdbc.reactive.ResultSetIterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetchSize;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -359,23 +362,30 @@ class TestSimpleJdbcTemplate
     {
         jdbcTemplate.setFetchSize(1);
 
-        Publisher<Person> publisher =
-                jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
-
         List<Person> result = new ArrayList<>();
-        publisher.subscribe(new ResultSetSubscriberForAll<>(result::add));
 
-        assertEquals(2, result.size());
+        List<Flow.Subscriber> subscribers = List.of(new ResultSetSubscriberForAll<Person>(result::add), new ResultSetSubscriberForEachObject<Person>(result::add), new ResultSetSubscriberForFetchSize<Person>(result::add, 1));
 
-        Person p = result.get(0);
-        assertEquals(2, p.getId());
-        assertEquals("Nachname2", p.getNachname());
-        assertEquals("Vorname2", p.getVorname());
+        for (Flow.Subscriber subscriber : subscribers)
+        {
+            result.clear();
 
-        p = result.get(1);
-        assertEquals(1, p.getId());
-        assertEquals("Nachname1", p.getNachname());
-        assertEquals("Vorname1", p.getVorname());
+            Publisher<Person> publisher =
+                    jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(), "Nachname%");
+            publisher.subscribe(subscriber);
+
+            assertEquals(2, result.size());
+
+            Person p = result.get(0);
+            assertEquals(2, p.getId());
+            assertEquals("Nachname2", p.getNachname());
+            assertEquals("Vorname2", p.getVorname());
+
+            p = result.get(1);
+            assertEquals(1, p.getId());
+            assertEquals("Nachname1", p.getNachname());
+            assertEquals("Vorname1", p.getVorname());
+        }
     }
 
     @Test
@@ -383,23 +393,30 @@ class TestSimpleJdbcTemplate
     {
         jdbcTemplate.setFetchSize(1);
 
-        Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
-                ps -> ps.setString(1, "Nachname%"));
-
         List<Person> result = new ArrayList<>();
-        publisher.subscribe(new ResultSetSubscriberForAll<>(result::add));
 
-        assertEquals(2, result.size());
+        List<Flow.Subscriber> subscribers = List.of(new ResultSetSubscriberForAll<Person>(result::add), new ResultSetSubscriberForEachObject<Person>(result::add), new ResultSetSubscriberForFetchSize<Person>(result::add, 1));
 
-        Person p = result.get(0);
-        assertEquals(2, p.getId());
-        assertEquals("Nachname2", p.getNachname());
-        assertEquals("Vorname2", p.getVorname());
+        for (Flow.Subscriber subscriber : subscribers)
+        {
+            result.clear();
+            
+            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
+                    ps -> ps.setString(1, "Nachname%"));
+            publisher.subscribe(subscriber);
 
-        p = result.get(1);
-        assertEquals(1, p.getId());
-        assertEquals("Nachname1", p.getNachname());
-        assertEquals("Vorname1", p.getVorname());
+            assertEquals(2, result.size());
+
+            Person p = result.get(0);
+            assertEquals(2, p.getId());
+            assertEquals("Nachname2", p.getNachname());
+            assertEquals("Vorname2", p.getVorname());
+
+            p = result.get(1);
+            assertEquals(1, p.getId());
+            assertEquals("Nachname1", p.getNachname());
+            assertEquals("Vorname1", p.getVorname());
+        }
     }
 
     @Test

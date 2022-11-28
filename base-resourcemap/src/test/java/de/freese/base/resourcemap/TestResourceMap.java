@@ -47,18 +47,18 @@ class TestResourceMap
         // @formatter:off
         ResourceMap resourceMapRoot = ResourceMapBuilder.create()
                 .resourceProvider(new ResourceBundleProvider())
-            .defaultConverters()
-            .cacheDisabled()
-            .bundleName("parentTest")
-            .addChild()
-                .bundleName("bundles/test1")
+                .defaultConverters()
+                .cacheDisabled()
+                .bundleName("parentTest")
                 .addChild()
-                    .bundleName("bundles/test2")
-                    .cacheDisabled()
+                    .bundleName("bundles/test1")
+                    .addChild()
+                        .bundleName("bundles/test2")
+                        .cacheDisabled()
+                        .done()
                     .done()
-                .done()
-            .build()
-            ;
+                .build()
+                ;
         // @formatter:on
 
         resourceMapRoot.load(Locale.getDefault());

@@ -86,7 +86,7 @@ public class ResultSetSubscription<T> implements Subscription
         }
     }
 
-    private void closeJdbcResources()
+    protected void closeJdbcResources()
     {
         LOGGER.debug("close jdbc subscription");
 
