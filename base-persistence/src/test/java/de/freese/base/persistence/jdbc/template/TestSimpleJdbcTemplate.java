@@ -153,12 +153,14 @@ class TestSimpleJdbcTemplate
 
         flux = supplier.get();
         Person p = flux.take(1).blockFirst();
+        assertNotNull(p);
         assertEquals(1, p.getId());
         assertEquals("Nachname1", p.getNachname());
         assertEquals("Vorname1", p.getVorname());
 
         flux = supplier.get();
         p = flux.skip(1).take(1).blockFirst();
+        assertNotNull(p);
         assertEquals(2, p.getId());
         assertEquals("Nachname2", p.getNachname());
         assertEquals("Vorname2", p.getVorname());
@@ -193,12 +195,14 @@ class TestSimpleJdbcTemplate
 
         flux = supplier.get();
         Person p = flux.take(1).blockFirst();
+        assertNotNull(p);
         assertEquals(2, p.getId());
         assertEquals("Nachname2", p.getNachname());
         assertEquals("Vorname2", p.getVorname());
 
         flux = supplier.get();
         p = flux.skip(1).take(1).blockFirst();
+        assertNotNull(p);
         assertEquals(1, p.getId());
         assertEquals("Nachname1", p.getNachname());
         assertEquals("Vorname1", p.getVorname());
@@ -217,12 +221,14 @@ class TestSimpleJdbcTemplate
 
         flux = supplier.get();
         Person p = flux.take(1).blockFirst();
+        assertNotNull(p);
         assertEquals(2, p.getId());
         assertEquals("Nachname2", p.getNachname());
         assertEquals("Vorname2", p.getVorname());
 
         flux = supplier.get();
         p = flux.skip(1).take(1).blockFirst();
+        assertNotNull(p);
         assertEquals(1, p.getId());
         assertEquals("Nachname1", p.getNachname());
         assertEquals("Vorname1", p.getVorname());
@@ -364,9 +370,9 @@ class TestSimpleJdbcTemplate
 
         List<Person> result = new ArrayList<>();
 
-        List<Flow.Subscriber> subscribers = List.of(new ResultSetSubscriberForAll<Person>(result::add), new ResultSetSubscriberForEachObject<Person>(result::add), new ResultSetSubscriberForFetchSize<Person>(result::add, 1));
+        List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 1));
 
-        for (Flow.Subscriber subscriber : subscribers)
+        for (Flow.Subscriber<Person> subscriber : subscribers)
         {
             result.clear();
 
@@ -395,12 +401,12 @@ class TestSimpleJdbcTemplate
 
         List<Person> result = new ArrayList<>();
 
-        List<Flow.Subscriber> subscribers = List.of(new ResultSetSubscriberForAll<Person>(result::add), new ResultSetSubscriberForEachObject<Person>(result::add), new ResultSetSubscriberForFetchSize<Person>(result::add, 1));
+        List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 1));
 
-        for (Flow.Subscriber subscriber : subscribers)
+        for (Flow.Subscriber<Person> subscriber : subscribers)
         {
             result.clear();
-            
+
             Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where name like ? order by name desc", new PersonRowMapper(),
                     ps -> ps.setString(1, "Nachname%"));
             publisher.subscribe(subscriber);

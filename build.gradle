@@ -33,8 +33,6 @@ subprojects {
 
             dependency "dev.failsafe:failsafe:$version_failsafe"
 
-            dependency "io.r2dbc:r2dbc-client:$version_r2dbcClient"
-
             dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
                 entry "bcpg-jdk18on"
                 entry "bcmail-jdk18on"
@@ -81,7 +79,7 @@ project("base-net") {
         api(project(":base-core"))
 
         implementation("org.apache.sshd:sshd-core")
-        implementation("com.sun.mail:jakarta.mail")
+        implementation("org.eclipse.angus:jakarta.mail")
         implementation("commons-net:commons-net")
 //        implementation("org.slf4j:slf4j-api")
 
@@ -107,9 +105,6 @@ project("base-persistence") {
         compileOnly("jakarta.servlet:jakarta.servlet-api")
 
         testImplementation("com.h2database:h2")
-        testImplementation("io.r2dbc:r2dbc-client")
-        testImplementation("io.r2dbc:r2dbc-h2")
-        testImplementation("io.r2dbc:r2dbc-pool")
         testImplementation("org.assertj:assertj-core")
         testImplementation("org.apache.derby:derby")
         testImplementation("org.hsqldb:hsqldb")
@@ -193,7 +188,7 @@ project("base-swing") {
         }
 
         implementation("com.fasterxml.jackson.core:jackson-databind")
-        implementation("com.sun.mail:jakarta.mail")
+        implementation("org.eclipse.angus:jakarta.mail")
         implementation("jakarta.xml.bind:jakarta.xml.bind-api")
         implementation("org.apache.commons:commons-collections4")
         //implementation("org.openjfx:javafx-controls")

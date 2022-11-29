@@ -41,7 +41,7 @@ import reactor.core.publisher.SynchronousSink;
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestMockReactiveJdbc
 {
-    static final Function<ResultSet, City> MAPPING_FUNCTION_ = resultSet ->
+    static final Function<ResultSet, City> MAPPING_FUNCTION = resultSet ->
     {
         try
         {
@@ -159,7 +159,7 @@ class TestMockReactiveJdbc
     void testResultSetFlux() throws SQLException
     {
         // @formatter:off
-        Flux<City> flux = Flux.fromIterable(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply))
+        Flux<City> flux = Flux.fromIterable(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION::apply))
                 .doFinally(signal -> {
                     LOGGER.debug("close flux");
 
@@ -207,7 +207,7 @@ class TestMockReactiveJdbc
                         sink.error(sex);
                     }
                  })
-                .map(MAPPING_FUNCTION_::apply)
+                .map(MAPPING_FUNCTION)
                 //.onErrorMap(SQLException.class, ExceptionFactory::create)
 //                .doFinally(signal -> {
 //                    System.out.println("close flux sink");
@@ -232,7 +232,7 @@ class TestMockReactiveJdbc
     @Test
     void testResultSetStream() throws SQLException
     {
-        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION_::apply).spliterator(), false).onClose(() ->
+        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION::apply).spliterator(), false).onClose(() ->
         {
             LOGGER.debug("close stream");
 
