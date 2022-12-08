@@ -1,34 +1,43 @@
 package de.freese.base.reports.exporter;
 
+import java.io.BufferedOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import de.freese.base.core.progress.ProgressCallback;
-import de.freese.base.reports.exporter.csv.AbstractCSVExporter;
-import de.freese.base.reports.exporter.pdf.AbstractPDFExporter;
+import de.freese.base.reports.exporter.csv.AbstractCsvExporter;
+import de.freese.base.reports.exporter.pdf.AbstractPdfExporter;
 import org.springframework.core.io.ResourceLoader;
 
 /**
  * Interface für einen Exporter.
  *
  * @author Thomas Freese
- * @see AbstractPDFExporter
- * @see AbstractCSVExporter
+ * @see AbstractPdfExporter
+ * @see AbstractCsvExporter
  */
-public interface Exporter
+public interface Exporter<T>
 {
     /**
      * Erzeugt das Dokument und schreibt es in den Stream.
      *
      * @param progressCallback {@link ProgressCallback}, optional
      */
-    void export(OutputStream outputStream, ProgressCallback progressCallback, Object model) throws Exception;
+    void export(OutputStream outputStream, ProgressCallback progressCallback, T model) throws Exception;
 
     /**
      * Erzeugt das Dokument und schreibt es in die Datei.
      *
      * @param progressCallback {@link ProgressCallback}, optional
      */
-    void export(String fileName, ProgressCallback progressCallback, Object model) throws Exception;
+    default void export(Path filePath, ProgressCallback progressCallback, T model) throws Exception
+    {
+        try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath)))
+        {
+            export(outputStream, progressCallback, model);
+        }
+    }
 
     /**
      * Zum laden von Icons, Dateien etc...

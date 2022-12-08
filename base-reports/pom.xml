@@ -28,6 +28,11 @@
             <artifactId>itextpdf</artifactId>
             <optional>true</optional>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.librepdf</groupId>-->
+        <!--            <artifactId>openpdf</artifactId>-->
+        <!--            <optional>true</optional>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>
