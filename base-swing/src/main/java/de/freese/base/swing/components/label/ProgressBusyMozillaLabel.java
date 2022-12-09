@@ -41,12 +41,12 @@ public class ProgressBusyMozillaLabel extends BusyMozillaLabel implements Progre
     }
 
     /**
-     * @see de.freese.base.core.progress.ProgressCallback#setProgress(float)
+     * @see de.freese.base.core.progress.ProgressCallback#setProgress(double)
      */
     @Override
-    public void setProgress(final float percentage)
+    public void setProgress(final double percentage)
     {
-        int prozent = (int) (percentage * 100);
+        int prozent = (int) (percentage * 100D);
 
         if (prozent > 99)
         {

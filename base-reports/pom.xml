@@ -24,15 +24,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.librepdf</groupId>-->
-        <!--            <artifactId>openpdf</artifactId>-->
-        <!--            <optional>true</optional>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.jfree</groupId>
             <artifactId>jfreechart</artifactId>

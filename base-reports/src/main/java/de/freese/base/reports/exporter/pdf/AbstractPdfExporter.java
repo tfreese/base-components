@@ -1,6 +1,7 @@
 // Created: 11.08.2010
 package de.freese.base.reports.exporter.pdf;
 
+import java.awt.Color;
 import java.awt.Insets;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -8,15 +9,13 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Date;
+import java.util.function.BiConsumer;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
-import de.freese.base.core.progress.ProgressCallback;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfWriter;
 import de.freese.base.reports.exporter.AbstractExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,24 +29,17 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
 {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private BaseFont baseFont;
-
-    private BaseFont baseFontBold;
-
     private Document document;
 
     private PdfWriter writer;
 
     /**
      * Erzeugt das {@link Document} und den {@link PdfWriter} und ruft die {@link #configure(Document, PdfWriter, DocumentMetaData)} Methode auf.
-     *
-     * @see #setDocument(Document)
-     * @see #setWriter(PdfWriter)
      */
     public final void createDocumentAndWriter(final OutputStream outputStream, final DocumentMetaData metaData) throws DocumentException
     {
-        setDocument(new Document());
-        setWriter(PdfWriter.getInstance(getDocument(), outputStream));
+        this.document = new Document();
+        this.writer = PdfWriter.getInstance(getDocument(), outputStream);
 
         getWriter().setPdfVersion(PdfWriter.VERSION_1_5);
 
@@ -58,7 +50,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     @Override
-    public void export(final Path filePath, final ProgressCallback progressCallback, final T model) throws Exception
+    public void export(final Path filePath, final BiConsumer<Long, Long> progressCallback, final T model) throws Exception
     {
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath)))
         {
@@ -67,22 +59,6 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
             getDocument().close();
             getWriter().close();
         }
-    }
-
-    /**
-     * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
-     */
-    public void setDocument(final Document document)
-    {
-        this.document = document;
-    }
-
-    /**
-     * @see #createDocumentAndWriter(OutputStream, DocumentMetaData)
-     */
-    public void setWriter(final PdfWriter writer)
-    {
-        this.writer = writer;
     }
 
     /**
@@ -105,26 +81,9 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * @param text String, muss DatumsFormat enthalten String.format(...)
+     * @param strokeColor {@link Color}, optional, wenn null wird gesetzte Farbe verwendet.
      */
-    protected void createFussZeile(final float xOffset, final float yOffset, final String text, final Date datum) throws DocumentException, IOException
-    {
-        PdfContentByte contentByte = this.writer.getDirectContent();
-
-        float x = getMaxX() - xOffset;
-        float y = getMinY() - yOffset;
-
-        contentByte.beginText();
-        contentByte.setFontAndSize(getBaseFont(), 8);
-        contentByte.setTextMatrix(x, y);
-        contentByte.showText(String.format(text, datum));
-        contentByte.endText();
-    }
-
-    /**
-     * @param strokeColor {@link BaseColor}, optional, wenn null wird gesetzte Farbe verwendet.
-     */
-    protected void drawLine(final float x1, final float y1, final float x2, final float y2, final BaseColor strokeColor)
+    protected void drawLine(final float x1, final float y1, final float x2, final float y2, final Color strokeColor)
     {
         PdfContentByte contentByte = getWriter().getDirectContent();
         contentByte.saveState();
@@ -141,10 +100,10 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * @param fillColor {@link BaseColor}, optional, wenn null wird gesetzte Farbe verwendet.
-     * @param borderColor {@link BaseColor}, optional, wenn null wird gesetzte Farbe verwendet.
+     * @param fillColor {@link Color}, optional, wenn null wird gesetzte Farbe verwendet.
+     * @param borderColor {@link Color}, optional, wenn null wird gesetzte Farbe verwendet.
      */
-    protected void drawRectangle(final float x, final float y, final float width, final float height, final BaseColor fillColor, final BaseColor borderColor)
+    protected void drawRectangle(final float x, final float y, final float width, final float height, final Color fillColor, final Color borderColor)
     {
         PdfContentByte contentByte = getWriter().getDirectContent();
         contentByte.saveState();
@@ -174,42 +133,33 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     /**
      * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
      */
-    protected void drawText(final String text, final float x, final float y, final int fontSize, final int align) throws DocumentException, IOException
+    protected void drawText(final String text, final float x, final float y, final float fontSize, final int align) throws DocumentException, IOException
     {
-        drawText(text, x, y, fontSize, align, getBaseFont());
+        drawText(text, x, y, fontSize, align, getDefaultFont());
     }
 
     /**
      * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
      */
-    protected void drawText(final String text, final float x, final float y, final int fontSize, final int align, final BaseFont font)
+    protected void drawText(final String text, final float x, final float y, final float fontSize, final int align, final Font font)
     {
         PdfContentByte contentByte = getWriter().getDirectContent();
         contentByte.beginText();
-        contentByte.setFontAndSize(font, fontSize);
+        contentByte.setFontAndSize(font.getBaseFont(), fontSize);
         contentByte.showTextAligned(align, text, x, y, 0);
+        //        contentByte.setTextMatrix(x, y);
+        //        contentByte.showText(text);
         contentByte.endText();
     }
 
-    protected BaseFont getBaseFont() throws DocumentException, IOException
+    protected void drawTextFussZeile(final String text) throws DocumentException, IOException
     {
-        if (this.baseFont == null)
-        {
-            this.baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-        }
-
-        return this.baseFont;
+        drawText(text, getMaxX(), getMinY(), getDefaultFont().getSize(), PdfContentByte.ALIGN_RIGHT);
     }
 
-    protected BaseFont getBaseFontBold() throws DocumentException, IOException
-    {
-        if (this.baseFontBold == null)
-        {
-            this.baseFontBold = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-        }
+    protected abstract Font getDefaultFont();
 
-        return this.baseFontBold;
-    }
+    protected abstract Font getDefaultFontBold();
 
     protected final Document getDocument()
     {
@@ -273,7 +223,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
      */
     protected final float getXRelative(final float prozent)
     {
-        return ((getMaxX() - getMinX()) * (prozent / 100)) + getMinX();
+        return ((getMaxX() - getMinX()) * (prozent / 100F)) + getMinX();
     }
 
     /**
@@ -291,7 +241,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
      */
     protected final float getYRelative(final float prozent)
     {
-        return ((getMaxY() - getMinY()) * (prozent / 100)) + getMinY();
+        return ((getMaxY() - getMinY()) * (prozent / 100F)) + getMinY();
     }
 
     /**

@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.BiConsumer;
 
 import de.freese.base.core.progress.ProgressCallback;
 import de.freese.base.reports.exporter.csv.AbstractCsvExporter;
@@ -24,14 +25,14 @@ public interface Exporter<T>
      *
      * @param progressCallback {@link ProgressCallback}, optional
      */
-    void export(OutputStream outputStream, ProgressCallback progressCallback, T model) throws Exception;
+    void export(OutputStream outputStream, BiConsumer<Long, Long> progressCallback, T model) throws Exception;
 
     /**
      * Erzeugt das Dokument und schreibt es in die Datei.
      *
      * @param progressCallback {@link ProgressCallback}, optional
      */
-    default void export(Path filePath, ProgressCallback progressCallback, T model) throws Exception
+    default void export(Path filePath, BiConsumer<Long, Long> progressCallback, T model) throws Exception
     {
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath)))
         {

@@ -27,14 +27,14 @@ public class LoggerProgressCallback implements ProgressCallback
     }
 
     /**
-     * @see de.freese.base.core.progress.ProgressCallback#setProgress(float)
+     * @see de.freese.base.core.progress.ProgressCallback#setProgress(double)
      */
     @Override
-    public void setProgress(final float percentage)
+    public void setProgress(final double percentage)
     {
         if (this.logger.isInfoEnabled())
         {
-            this.logger.info(String.format("%1$3.2f %%", percentage * 100));
+            this.logger.info(String.format("%1$3.2f %%", percentage * 100D));
         }
     }
 }

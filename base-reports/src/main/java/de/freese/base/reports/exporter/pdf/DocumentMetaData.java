@@ -2,8 +2,8 @@ package de.freese.base.reports.exporter.pdf;
 
 import java.awt.Insets;
 
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Rectangle;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Rectangle;
 
 /**
  * Definiert MetaDaten eines PDF Dokumentes.

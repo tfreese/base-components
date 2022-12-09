@@ -28,7 +28,7 @@ subprojects {
         }
 
         dependencies {
-            dependency "com.itextpdf:itextpdf:$version_itext"
+            dependency "com.github.librepdf:openpdf:$version_openpdf"
             dependency "commons-net:commons-net:$version_commonsNet"
 
             dependency "dev.failsafe:failsafe:$version_failsafe"
@@ -135,7 +135,7 @@ project("base-reports") {
     dependencies {
         api(project(":base-core"))
 
-        implementation("com.itextpdf:itextpdf")
+        implementation("com.github.librepdf:openpdf")
         implementation("org.jfree:jfreechart")
         implementation("org.apache.poi:poi-ooxml")
         implementation("org.springframework:spring-core")
