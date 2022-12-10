@@ -14,6 +14,7 @@ import java.util.function.BiConsumer;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import de.freese.base.reports.exporter.AbstractExporter;
@@ -50,7 +51,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     @Override
-    public void export(final Path filePath, final BiConsumer<Long, Long> progressCallback, final T model) throws Exception
+    public void export(final Path filePath, final BiConsumer<Integer, Integer> progressCallback, final T model) throws Exception
     {
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath)))
         {
@@ -135,17 +136,17 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
      */
     protected void drawText(final String text, final float x, final float y, final float fontSize, final int align) throws DocumentException, IOException
     {
-        drawText(text, x, y, fontSize, align, getDefaultFont());
+        drawText(text, x, y, fontSize, align, getDefaultFont().getBaseFont());
     }
 
     /**
      * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
      */
-    protected void drawText(final String text, final float x, final float y, final float fontSize, final int align, final Font font)
+    protected void drawText(final String text, final float x, final float y, final float fontSize, final int align, final BaseFont baseFont)
     {
         PdfContentByte contentByte = getWriter().getDirectContent();
         contentByte.beginText();
-        contentByte.setFontAndSize(font.getBaseFont(), fontSize);
+        contentByte.setFontAndSize(baseFont, fontSize);
         contentByte.showTextAligned(align, text, x, y, 0);
         //        contentByte.setTextMatrix(x, y);
         //        contentByte.showText(text);

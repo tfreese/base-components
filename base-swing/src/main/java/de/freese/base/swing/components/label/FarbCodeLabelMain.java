@@ -5,12 +5,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 /**
  * @author Thomas Freese
  */
-public final class ProgressBusyMozillaLabelMain
+public final class FarbCodeLabelMain
 {
     public static void main(final String[] args)
     {
@@ -19,16 +20,16 @@ public final class ProgressBusyMozillaLabelMain
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setSize(new Dimension(400, 400));
 
-        ProgressBusyMozillaLabel mozillaLabel = new ProgressBusyMozillaLabel("Taeschd", 9999);
+        FarbCodeLabel farbCodeLabel = new FarbCodeLabel();
 
-        // mozillaLabel.setTrail(7);
-        frame.getContentPane().add(mozillaLabel, BorderLayout.NORTH);
+        frame.getContentPane().add(new JLabel("Click on Colour to choose new"), BorderLayout.NORTH);
+        frame.getContentPane().add(farbCodeLabel, BorderLayout.CENTER);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    private ProgressBusyMozillaLabelMain()
+
+    private FarbCodeLabelMain()
     {
         super();
     }

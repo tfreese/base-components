@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import de.freese.base.utils.ImageUtils;
+
 /**
  * @author Thomas Freese
  */
@@ -19,12 +21,15 @@ public final class BusySanduhrLabelMain
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setSize(new Dimension(400, 400));
 
-        frame.getContentPane().add(new BusySanduhrLabel("Taeschd"), BorderLayout.NORTH);
+        BusySanduhrLabel busySanduhrLabel = new BusySanduhrLabel("Taeschd");
+        busySanduhrLabel.setIcon(ImageUtils.createEmptyIcon());
+
+        frame.getContentPane().add(busySanduhrLabel, BorderLayout.NORTH);
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
+
     private BusySanduhrLabelMain()
     {
         super();

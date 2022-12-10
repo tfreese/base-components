@@ -41,7 +41,7 @@ public final class TestPdfExporterMain
         Exporter<Void> exporter = new AbstractPdfExporter<>()
         {
             @Override
-            public void export(final OutputStream outputStream, final BiConsumer<Long, Long> progressCallback, final Void model) throws Exception
+            public void export(final OutputStream outputStream, final BiConsumer<Integer, Integer> progressCallback, final Void model) throws Exception
             {
                 createDocumentAndWriter(outputStream, new DocumentMetaData());
                 getDocument().open();

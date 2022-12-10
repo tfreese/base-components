@@ -78,7 +78,7 @@ public final class ExcelCache
                     excelSheet.readCurrentSheet(excel);
 
                     sheets[i] = excelSheet;
-                    progressCallback.setProgress(i + 1L, numSheets);
+                    progressCallback.setProgress(i + 1, numSheets);
                 }
             }
 

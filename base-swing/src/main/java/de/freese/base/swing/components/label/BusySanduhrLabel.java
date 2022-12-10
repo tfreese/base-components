@@ -10,8 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
-import de.freese.base.utils.ImageUtils;
-
 /**
  * Label mit einer drehenden Sanduhr.
  *
@@ -35,12 +33,16 @@ public class BusySanduhrLabel extends JLabel
 
     public BusySanduhrLabel(final String text)
     {
+        this(text, WaitIcons.getWaitIcons());
+    }
+
+    public BusySanduhrLabel(final String text, ImageIcon[] icons)
+    {
         super(text);
 
-        this.icons = WaitIcons.getWaitIcons();
-        setIcon(ImageUtils.createEmptyIcon());
+        this.icons = icons;
 
-        this.animateTimer = new Timer(150, e ->
+        this.animateTimer = new Timer(150, event ->
         {
             BusySanduhrLabel.this.imageIndex++;
 

@@ -24,7 +24,7 @@ public abstract class AbstractCsvExporter<T> extends AbstractExporter<T>
     }
 
     @Override
-    public void export(final OutputStream outputStream, final BiConsumer<Long, Long> progressCallback, final T model) throws Exception
+    public void export(final OutputStream outputStream, final BiConsumer<Integer, Integer> progressCallback, final T model) throws Exception
     {
         try (PrintWriter pw = new WindowsPrintWriter(outputStream, true, StandardCharsets.UTF_8))
         {
@@ -37,14 +37,14 @@ public abstract class AbstractCsvExporter<T> extends AbstractExporter<T>
      *
      * @param progressCallback {@link ProgressCallback}, optional
      */
-    public abstract void export(PrintWriter pw, BiConsumer<Long, Long> progressCallback, Object model) throws Exception;
+    public abstract void export(PrintWriter pw, BiConsumer<Integer, Integer> progressCallback, Object model) throws Exception;
 
     /**
      * Erzeugt das Dokument und schreibt es in den {@link StringBuffer}.
      *
      * @param progressCallback {@link ProgressCallback}, optional
      */
-    public StringBuffer export(final BiConsumer<Long, Long> progressCallback, final Object model) throws Exception
+    public StringBuffer export(final BiConsumer<Integer, Integer> progressCallback, final Object model) throws Exception
     {
         StringWriter sw = new StringWriter();
         BufferedWriter bw = new BufferedWriter(sw);
