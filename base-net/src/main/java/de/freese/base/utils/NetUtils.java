@@ -8,7 +8,9 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Enumeration;
 
 import org.apache.commons.net.ntp.NTPUDPClient;
@@ -115,66 +117,56 @@ public final class NetUtils
         return hostName;
     }
 
+    public static LocalDateTime getNtpTime(String host, int port) throws IOException
+    {
+        InetAddress inetAddress = InetAddress.getByName(host);
+        NTPUDPClient timeClient = null;
+
+        try
+        {
+            timeClient = new NTPUDPClient();
+            TimeInfo timeInfo = timeClient.getTime(inetAddress, port);
+            long timeStamp = timeInfo.getMessage().getTransmitTimeStamp().getTime();
+
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStamp), ZoneId.systemDefault());
+        }
+        finally
+        {
+            if (timeClient != null)
+            {
+                timeClient.close();
+            }
+        }
+    }
+
     /**
      * Liefert die Zeit der Atomuhr in der Physikalisch-Technischen Bundesanstalt.
      */
-    public static Date getPTBZeit() throws IOException
+    public static LocalDateTime getPtbTime() throws IOException
     {
         final int NTP_PORT = 123; // 37
         IOException exception = null;
-        Date date = null;
 
         for (int i = 1; i <= 3; i++)
         {
             String host = String.format("ptbtime%d.ptb.de", i);
-            InetAddress inetAddress = InetAddress.getByName(host);
 
             try
             {
-                NTPUDPClient timeClient = new NTPUDPClient();
-                TimeInfo timeInfo = timeClient.getTime(inetAddress, NTP_PORT);
-                long returnTime = timeInfo.getMessage().getTransmitTimeStamp().getTime();
-                date = new Date(returnTime);
-
-                timeClient.close();
-
-                break;
+                return getNtpTime(host, NTP_PORT);
             }
             catch (IOException ex)
             {
                 exception = ex;
             }
-
-            // try (Socket so = new Socket(inetAddress, 37))
-            // {
-            // try (InputStream inputStream = so.getInputStream())
-            // {
-            // long returnTime = 0L;
-            //
-            // for (int b = 3; b >= 0; b--)
-            // {
-            // int value = inputStream.read();
-            // returnTime ^= (long) value << (b * 8);
-            // }
-            //
-            // // Der Time-Server gibt die Sekunden seit 1900 aus, Java erwartet Millisekunden seit 1970.
-            // date = new Date((returnTime - 2208988800L) * 1000);
-            //
-            // break;
-            // }
-            // }
-            // catch (IOException ex)
-            // {
-            // exception = ex;
-            // }
         }
 
-        if ((date == null) && (exception != null))
+        if (exception != null)
         {
             throw exception;
         }
 
-        return date;
+        return null;
     }
 
     /**

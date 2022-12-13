@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Enumeration;
 
 import de.freese.base.utils.NetUtils;
@@ -157,12 +157,12 @@ class TestNetUtils
     }
 
     @Test
-    void testPTBZeit() throws Exception
+    void testPtbZeit() throws Exception
     {
-        Date ptbDate = NetUtils.getPTBZeit();
-        assertNotNull(ptbDate);
+        LocalDateTime ptbTime = NetUtils.getPtbTime();
+        assertNotNull(ptbTime);
 
-        // System.out.println(String.format("%1$tY-%1$tm-%1$td %1$tT", ptbDate));
+        //        System.out.printf("%1$tY-%1$tm-%1$td %1$tT%n", ptbTime);
     }
 
     @Test
