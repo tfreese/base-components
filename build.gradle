@@ -113,7 +113,7 @@ project("base-persistence") {
         testImplementation("org.junit.platform:junit-platform-runner")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("org.openjdk.jmh:jmh-core")
-        //testImplementation("org.openjdk.jmh:jmh-generator-annprocess")
+        testImplementation("org.openjdk.jmh:jmh-generator-annprocess")
         testImplementation("org.slf4j:slf4j-simple")
         testImplementation("org.xerial:sqlite-jdbc")
     }
@@ -122,9 +122,6 @@ project("base-persistence") {
         filter {
             // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
             excludeTestsMatching "de.freese.base.persistence.jdbc.benchmark.*"
-
-            // R2DBC 0.9.1.RELEASE hat ne Macke.
-            excludeTestsMatching "de.freese.base.persistence.jdbc.reactive.TestR2DBC"
         }
     }
 }

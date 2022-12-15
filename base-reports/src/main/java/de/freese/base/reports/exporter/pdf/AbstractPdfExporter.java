@@ -35,7 +35,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     private PdfWriter writer;
 
     /**
-     * Erzeugt das {@link Document} und den {@link PdfWriter} und ruft die {@link #configure(Document, PdfWriter, DocumentMetaData)} Methode auf.
+     * @see #configure(Document, PdfWriter, DocumentMetaData)
      */
     public final void createDocumentAndWriter(final OutputStream outputStream, final DocumentMetaData metaData) throws DocumentException
     {
@@ -63,7 +63,6 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Konfiguriert das Dokument und den Writer.<br>
      * Defaults: A4 Portrait, Margins (40, 20, 20, 20)
      */
     protected void configure(final Document document, final PdfWriter writer, final DocumentMetaData metaData)

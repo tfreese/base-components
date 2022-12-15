@@ -59,7 +59,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/TestR2DBC.java</exclude>
+                        <!--                        <exclude>**/TestR2DBC.java</exclude>-->
                     </excludes>
                 </configuration>
             </plugin>
