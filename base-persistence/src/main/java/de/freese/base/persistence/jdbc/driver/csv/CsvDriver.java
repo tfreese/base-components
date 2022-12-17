@@ -17,9 +17,9 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
- * JDBC-Driver für CSV-Dateien.<br>
- * Beispiel: DriverManager.getConnection("jdbc:csv:PATH/FILENAME.csv;STRUKTUR;LAYOUT");<br>
- * Als Backend wird eine Text-Table von HSQLDB verwendet.
+ * JDBC-Driver for CSV-Files.<br>
+ * Example: DriverManager.getConnection("jdbc:csv:PATH/FILENAME.csv;STRUCTURE;LAYOUT");<br>
+ * For Backend a HSQLDB Text-Table is used.
  *
  * @author Thomas Freese
  * @see HsqldbTextTableBuilder
@@ -40,7 +40,7 @@ public final class CsvDriver implements java.sql.Driver
 
             try
             {
-                // HSQLDB registrieren, ist bei JDBC 4.0 nicht mehr notwendig.
+                // Register HSQLDB, not necessary for JDBC 4.0.
                 // Class.forName("org.hsqldb.jdbc.JDBCDriver");
 
                 // Den CsvDriver registrieren.
@@ -101,7 +101,7 @@ public final class CsvDriver implements java.sql.Driver
             HsqldbTextTableBuilder ttb = HsqldbTextTableBuilder.create();
             builderList.add(ttb);
 
-            // Die URL aufspalten in DB und Properties.
+            // Split URL in DB and Properties.
             String[] splits = file.split(";");
 
             String fileName = splits[0];
@@ -114,7 +114,7 @@ public final class CsvDriver implements java.sql.Driver
             Path path = Paths.get(fileName);
             ttb.setPath(path);
 
-            // CSV-Struktur
+            // CSV-Structure
             if (splits.length >= 2)
             {
                 String[] columns = splits[1].split(",");

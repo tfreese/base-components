@@ -37,7 +37,7 @@ import reactor.core.publisher.SynchronousSink;
 @Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(MockitoExtension.class)
 
-// Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
+// Otherwise the Mock must be created and configured for each Test-Method.
 @MockitoSettings(strictness = Strictness.LENIENT)
 class TestMockReactiveJdbc
 {

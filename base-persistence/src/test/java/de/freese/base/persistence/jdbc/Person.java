@@ -6,19 +6,22 @@ package de.freese.base.persistence.jdbc;
  */
 public class Person
 {
+    private final String firstName;
     private final long id;
+    private final String lastName;
 
-    private final String nachname;
-
-    private final String vorname;
-
-    public Person(final long id, final String nachname, final String vorname)
+    public Person(final long id, final String lastName, final String firstName)
     {
         super();
 
         this.id = id;
-        this.nachname = nachname;
-        this.vorname = vorname;
+        this.lastName = lastName;
+        this.firstName = firstName;
+    }
+
+    public String getFirstName()
+    {
+        return this.firstName;
     }
 
     public long getId()
@@ -26,14 +29,9 @@ public class Person
         return this.id;
     }
 
-    public String getNachname()
+    public String getLastName()
     {
-        return this.nachname;
-    }
-
-    public String getVorname()
-    {
-        return this.vorname;
+        return this.lastName;
     }
 
     /**
@@ -45,8 +43,8 @@ public class Person
         StringBuilder builder = new StringBuilder();
         builder.append("Person [");
         builder.append("id=").append(this.id);
-        builder.append(", nachname=").append(this.nachname);
-        builder.append(", vorname=").append(this.vorname);
+        builder.append(", lastName=").append(this.lastName);
+        builder.append(", firstName=").append(this.firstName);
         builder.append("]");
 
         return builder.toString();

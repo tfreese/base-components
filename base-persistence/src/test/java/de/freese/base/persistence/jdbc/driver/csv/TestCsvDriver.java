@@ -48,7 +48,7 @@ class TestCsvDriver
     @Test
     void testCsvBackedTextTables() throws Exception
     {
-        // Damit Text-Tables auch im Memory-Mode funktionieren.
+        // Text-Tables should work in Memory-Mode.
         System.setProperty("textdb.allow_full_path", "true");
 
         StringBuilder url = new StringBuilder();
@@ -74,11 +74,11 @@ class TestCsvDriver
         setTable.append("src/test/resources/test1.csv;");
         setTable.append(" ignore_first=true;"); // Header
         setTable.append(" fs=\\semi;"); // Field Separator; \space, \
-        setTable.append(" qs=\\quote;"); // Quote Character falls nicht '"
-        setTable.append(" all_quoted=true;"); // Daten in DoubleQuotes
+        setTable.append(" qs=\\quote;"); // Quote Character if not '"
+        setTable.append(" all_quoted=true;"); // Data in DoubleQuotes
         setTable.append(" encoding=UTF-8;");
-        setTable.append(" cache_rows=10000;"); // max. n Zeilen im Cache
-        setTable.append(" cache_size=4096"); // max. Cache-Größe in kB
+        setTable.append(" cache_rows=10000;"); // max. n Rows ic Cache
+        setTable.append(" cache_size=4096"); // max. Cache-Size in kB
         setTable.append('"');
 
         try (Connection connection = DriverManager.getConnection(url.toString()))
@@ -125,10 +125,10 @@ class TestCsvDriver
         // Layout
         file1.append(";ignore_first=true"); // Header
         file1.append(",fs=\\semi"); // Field Separator
-        file1.append(",all_quoted=true"); // Daten in DoubleQuotes
+        file1.append(",all_quoted=true"); // Data in DoubleQuotes
         file1.append(",encoding=UTF-8");
-        file1.append(",cache_rows=10000"); // max. n Zeilen im Cache
-        file1.append(",cache_size=1024"); // max. CacheGröße in kB
+        file1.append(",cache_rows=10000"); // max. n Rows in Cache
+        file1.append(",cache_size=1024"); // max. Cache-Size in kB
         file1.append("]");
 
         try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1);
@@ -160,10 +160,10 @@ class TestCsvDriver
         // Layout
         file1.append(";ignore_first=true"); // Header
         file1.append(",fs=\\semi"); // Field Separator
-        file1.append(",all_quoted=true"); // Daten in DoubleQuotes
+        file1.append(",all_quoted=true"); // Data in DoubleQuotes
         file1.append(",encoding=UTF-8");
-        file1.append(",cache_rows=10000"); // max. n Zeilen im Cache
-        file1.append(",cache_size=1024"); // max. CacheGröße in kB
+        file1.append(",cache_rows=10000"); // max. n Rows in Cache
+        file1.append(",cache_size=1024"); // max. Cache-Size in kB
         file1.append("]");
 
         StringBuilder file2 = new StringBuilder();

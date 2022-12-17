@@ -18,8 +18,8 @@ public class PersonRowMapper implements RowMapper<Person>
     public Person mapRow(final ResultSet rs) throws SQLException
     {
         long id = rs.getLong("ID");
-        String nachname = rs.getString("NAME");
-        String vorname = rs.getString("VORNAME");
+        String nachname = rs.getString("LAST_NAME");
+        String vorname = rs.getString("FIRST_NAME");
 
         return new Person(id, nachname, vorname);
     }

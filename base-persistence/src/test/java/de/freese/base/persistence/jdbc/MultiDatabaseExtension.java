@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
- * Dient zum Starten und Runterfahren der DB-Instanzen.
+ * Service to start an stop the DB-Instances.
  *
  * @author Thomas Freese
  */
@@ -21,7 +21,7 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
     private final Map<EmbeddedDatabaseType, DbServerExtension> servers = new HashMap<>();
 
     /**
-     * Die Junit-{@link Extension} braucht zwingend einen Default-Constructor !
+     * Junit-{@link Extension} needs a Default-Constructor !
      */
     public MultiDatabaseExtension()
     {

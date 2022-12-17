@@ -42,11 +42,11 @@ class TestSingleDatasource
         try (Connection con = dataSource.getConnection();
              Statement stmt = con.createStatement())
         {
-            stmt.execute("create table PERSON(ID bigint not null, NAME varchar(25) not null, VORNAME varchar(25), primary key (ID))");
+            stmt.execute("create table PERSON(ID bigint not null, LAST_NAME varchar(25) not null, FIRST_NAME varchar(25), primary key (ID))");
         }
 
         try (Connection con = dataSource.getConnection();
-             PreparedStatement stmt = con.prepareStatement("insert into PERSON (ID, NAME) values (?, ?)"))
+             PreparedStatement stmt = con.prepareStatement("insert into PERSON (ID, LAST_NAME) values (?, ?)"))
         {
             stmt.setLong(1, System.currentTimeMillis());
             stmt.setString(2, "Test");
@@ -62,7 +62,7 @@ class TestSingleDatasource
             if (rs.next())
             {
                 assertTrue(rs.getLong("ID") > 0);
-                assertEquals("Test", rs.getString("NAME"));
+                assertEquals("Test", rs.getString("LAST_NAME"));
             }
             else
             {

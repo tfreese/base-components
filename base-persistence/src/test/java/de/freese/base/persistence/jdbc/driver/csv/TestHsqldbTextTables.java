@@ -63,7 +63,7 @@ class TestHsqldbTextTables
                 ;
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
+        // ResultSet-Types = To move back the cursor.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
              ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV"))
@@ -92,7 +92,7 @@ class TestHsqldbTextTables
                 ;
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
+        // ResultSet-Types = To move back the cursor.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -116,7 +116,7 @@ class TestHsqldbTextTables
                 ;
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
+        // ResultSet-Types = To move back the cursor.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -140,7 +140,7 @@ class TestHsqldbTextTables
                 ;
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
+        // ResultSet-Types = To move back the cursor.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -165,7 +165,7 @@ class TestHsqldbTextTables
                 ;
         // @formatter:on
 
-        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
+        // ResultSet-Types = To move back the cursor.
         try (Connection connection = builder.build();
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
         {
@@ -216,7 +216,7 @@ class TestHsqldbTextTables
         sql.append(" inner join TEST2 t2 on t2.TEXT = t1.TEXT");
         sql.append(" inner join TEST3 t3 on t3.TEXT = t1.TEXT");
 
-        // ResultSet-Types = Damit der Courser wieder zurückgedreht werden kann.
+        // ResultSet-Types = To move back the cursor.
         try (Connection connection = builder1.build(builder2, builder3);
              Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
              ResultSet resultSet = statement.executeQuery(sql.toString()))
@@ -259,28 +259,28 @@ class TestHsqldbTextTables
             assertEquals(7.281, resultSet.getDouble("SUMME"), 0);
         }
 
-        try (ResultSet resultSet = statement.executeQuery("select DATE, dayofmonth(DATE) as tagdesmonats from test_csv"))
+        try (ResultSet resultSet = statement.executeQuery("select DATE, dayofmonth(DATE) as MY_DAY from test_csv"))
         {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals(LocalDate.of(2016, 9, 8), resultSet.getDate("DATE").toLocalDate());
-            assertEquals(8, resultSet.getInt("TAGDESMONATS"));
+            assertEquals(8, resultSet.getInt("MY_DAY"));
 
             resultSet.next();
             assertEquals(LocalDate.of(2016, 9, 9), resultSet.getDate("DATE").toLocalDate());
-            assertEquals(9, resultSet.getInt("TAGDESMONATS"));
+            assertEquals(9, resultSet.getInt("MY_DAY"));
         }
 
-        try (ResultSet resultSet = statement.executeQuery("select TIMESTAMP, hour(TIMESTAMP) as stunde from test_csv"))
+        try (ResultSet resultSet = statement.executeQuery("select TIMESTAMP, hour(TIMESTAMP) as MY_HOUR from test_csv"))
         {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals(LocalDateTime.of(2016, 9, 8, 18, 8, 18), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
-            assertEquals(18, resultSet.getInt("STUNDE"));
+            assertEquals(18, resultSet.getInt("MY_HOUR"));
 
             resultSet.next();
             assertEquals(LocalDateTime.of(2016, 9, 9, 19, 9, 19), resultSet.getTimestamp("TIMESTAMP").toLocalDateTime());
-            assertEquals(19, resultSet.getInt("STUNDE"));
+            assertEquals(19, resultSet.getInt("MY_HOUR"));
         }
 
         try (ResultSet resultSet = statement.executeQuery("select * from test_csv order by TIMESTAMP desc"))

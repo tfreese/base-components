@@ -67,7 +67,7 @@ public class StatementBenchmarks extends BenchmarkSettings
         }
 
         /**
-         * Es sind mehrere Methoden möglich mit unterschiedlichen {@link Level}.
+         * Multiple Methods possible with different {@link Level}.
          */
         @Setup
         public void setup()
@@ -82,7 +82,7 @@ public class StatementBenchmarks extends BenchmarkSettings
         }
 
         /**
-         * Es sind mehrere Methoden möglich mit unterschiedlichen {@link Level}.
+         * Multiple Methods possible with different {@link Level}.
          */
         @TearDown
         public void tearDown()

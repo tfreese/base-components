@@ -45,11 +45,11 @@ class TestJdbcUtils
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement())
         {
-            statement.execute("CREATE TABLE person (id BIGINT NOT NULL, nachname VARCHAR(50) NOT NULL, vorname VARCHAR(50) NOT NULL)");
+            statement.execute("CREATE TABLE person (id BIGINT NOT NULL, last_name VARCHAR(50) NOT NULL, first_name VARCHAR(50) NOT NULL)");
         }
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO person (id, nachname, vorname) values (?, ?, ?)"))
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO person (id, last_name, first_name) values (?, ?, ?)"))
         {
             for (int i = 0; i < 10; i++)
             {

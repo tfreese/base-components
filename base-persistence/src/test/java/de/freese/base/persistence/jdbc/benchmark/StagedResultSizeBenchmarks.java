@@ -87,7 +87,7 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
         }
 
         /**
-         * Es sind mehrere Methoden möglich mit unterschiedlichen {@link Level}.
+         * Multiple Methods possible with different {@link Level}.
          */
         @TearDown
         public void tearDown()

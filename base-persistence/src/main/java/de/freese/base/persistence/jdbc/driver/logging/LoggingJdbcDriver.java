@@ -17,17 +17,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
- * Transparenter JDBC-Treiber, der Log-Ausgaben für konfigurierbare Methodennamen erzeugt.<br>
- * Der Treiber wird aktiviert durch das Url-Postfix: jdbc:logger:<br>
+ * Transparent JDBC-Driver, who is creating Logs for configurable Method-Names.<br>
+ * The Driver is activated by Url-Postfix: jdbc:logger:<br>
  * <br>
- * J2SE-Konfiguration:<br>
+ * J2SE-Configuration:<br>
  * <code>
  * DriverManager.registerDriver(new LoggingJdbcDriver("execute", "executeQuery", "executeUpdate", "prepareStatement", "prepareCall"));<br>
  * Connection connection = DriverManager.getConnection("jdbc:logger:jdbc:generic:mem"))
  * </code><br>
  * <br>
  * J2EE-Konfiguration:<br>
- * Registrierung des Treibers z.b. als ServletListener, {@link LoggingJdbcDriverServletContextListener}<br>
+ * Register the Driver by ServletListener: {@link LoggingJdbcDriverServletContextListener}<br>
  * </code>
  *
  * @author Thomas Freese

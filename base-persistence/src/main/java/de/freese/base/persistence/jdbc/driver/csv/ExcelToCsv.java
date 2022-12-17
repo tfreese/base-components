@@ -28,7 +28,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * Konvertiert eine Excel-Datei in eine CSV-Datei.<br>
+ * Convert a Excel-File in CSV-File.<br>
  * <br>
  * Defaults:
  * <ul>
@@ -43,36 +43,28 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelToCsv
 {
     /**
-     * Beginnend mit 0.
+     * 0-Based
      */
     private final Map<Integer, Function<String, String>> columnFunctions = new HashMap<>();
-    /**
-     *
-     */
+
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);
     /**
-     * Beginnend mit 0.
+     * 0-Based
      */
     private int[] columnIndices;
-    /**
-     *
-     */
+
     private char fieldSeparator = ';';
     /**
-     * 0. Zeile = Header.
+     * 0. Row = Header.
      */
     private int firstDataRow = 1;
-    /**
-     *
-     */
+
     private FormulaEvaluator formulaEvaluator;
     /**
-     * 0. Zeile = Header.
+     * 0. Row = Header.
      */
     private int headerRow;
-    /**
-     *
-     */
+
     private Character quoteCharacter = '"';
 
     public void convert(final Path excelSource, final Path csvDest) throws IOException
@@ -112,14 +104,14 @@ public class ExcelToCsv
         {
             Sheet sheet = workbook.getSheetAt(0);
 
-            // Header schreiben.
+            // Write Header.
             if (this.headerRow >= 0)
             {
                 String[] headers = getHeaders(sheet);
                 writeCSV(csvWriter, headers);
             }
 
-            // Daten auslesen.
+            // Read Data.
             // for (int r = this.firstDataRow; r < (sheet.getLastRowNum() + 1); r++)
             for (int r = this.firstDataRow; r < (sheet.getPhysicalNumberOfRows() + 1); r++)
             {
@@ -137,7 +129,7 @@ public class ExcelToCsv
                     values[c] = getValue(row, this.columnIndices[c]);
                 }
 
-                // Keine leeren Zeilen schreiben.
+                // Do not write empty rows.
                 if (Arrays.stream(values).filter(Objects::nonNull).anyMatch(s -> !s.isBlank()))
                 {
                     writeCSV(csvWriter, values);
@@ -161,7 +153,15 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt das Trennzeichen der Datenfelder.<br>
+     * {@link Function} for converting the value.<br>
+     * Is called, when the Value != null and not empty.<br>
+     */
+    public void setConvertFunction(final int columnIndex, final Function<String, String> function)
+    {
+        this.columnFunctions.put(columnIndex, function);
+    }
+
+    /**
      * Default: ';'
      */
     public void setFieldSeparator(final char fieldSeparator)
@@ -170,8 +170,7 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt die Zeile, in der die Daten beginnen.<br>
-     * Default: 1 (0. Zeile = Header)
+     * Default: 1 (0. Row = Header)
      */
     public void setFirstDataRow(final int firstDataRow)
     {
@@ -184,18 +183,8 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt die {@link Function} zum Formatieren des Spaltenwertes.<br>
-     * Die Konvertierung-Funktion wird nur aufgerufen, wenn dass Value != null und nicht leer ist.<br>
-     */
-    public void setFunction(final int columnIndex, final Function<String, String> function)
-    {
-        this.columnFunctions.put(columnIndex, function);
-    }
-
-    /**
-     * Setzt die Zeile des Headers.<br>
      * Default: 0<br>
-     * Bei einem Wert < 0 wird der Header ignoriert.<br>
+     * If < 0 the Header s ignored.<br>
      */
     public void setHeaderRow(final int headerRow)
     {
@@ -203,7 +192,6 @@ public class ExcelToCsv
     }
 
     /**
-     * Setzt das Umschliessungs-Zeichen der Datenfelder.<br>
      * Default: '"'
      */
     public void setQuoteCharacter(final Character quoteCharacter)
@@ -212,7 +200,7 @@ public class ExcelToCsv
     }
 
     /**
-     * Liefert den Header oder null, wenn headerLine < 0.
+     * Returns the Header or null, if headerLine < 0.
      */
     private String[] getHeaders(final Sheet sheet)
     {
@@ -233,9 +221,6 @@ public class ExcelToCsv
         return headers;
     }
 
-    /**
-     * Diese Methode holt sich den Wert aus der Zelle.
-     */
     private String getValue(final Row row, final int column)
     {
         final Cell cell = row.getCell(column);
@@ -310,9 +295,6 @@ public class ExcelToCsv
         return workbook;
     }
 
-    /**
-     * Schreibt die Daten in die CSV-Datei.
-     */
     private void writeCSV(final Writer writer, final String[] values) throws IOException
     {
         StringBuilder row = new StringBuilder();

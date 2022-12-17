@@ -44,13 +44,10 @@ class TestSqLite
 
     private static SQLiteDataSource dataSource;
 
-    /**
-     * Verzeichnis-Struktur zum Testen löschen.
-     */
     @AfterAll
     protected static void afterAll() throws Exception
     {
-        // Würde auch die Dateien anderer Tests löschen.
+        // Would delete files from other tests.
         // deleteDirectoryRecursive(PATH_TEST);
     }
 
@@ -64,10 +61,10 @@ class TestSqLite
 
         Class.forName("org.sqlite.JDBC");
 
-        // Native Libraries deaktivieren für den Zugriff auf die Dateien.
+        // Activate native Libraries for File-Access.
         // System.setProperty("sqlite.purejava", "true");
 
-        // Pfade für native Libraries.
+        // Paths for native Libraries.
         // System.setProperty("org.sqlite.lib.path", "/home/tommy");
         // System.setProperty("org.sqlite.lib.name", "sqlite-libsqlitejdbc.so");
         //
@@ -108,7 +105,7 @@ class TestSqLite
 
             try (Statement stmt = connection.createStatement())
             {
-                String sql = "INSERT INTO COMPANY (NAME,AGE,ADDRESS,SALARY) VALUES ('Paul', 32, 'California', 20000)";
+                String sql = "INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)";
                 stmt.executeUpdate(sql);
 
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys())
@@ -167,7 +164,7 @@ class TestSqLite
         TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
         TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
 
-        jdbcTemplate.update("INSERT INTO COMPANY (NAME,AGE,ADDRESS,SALARY) VALUES ('Paul', 32, 'California', 20000)");
+        jdbcTemplate.update("INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)");
         transactionManager.commit(transactionStatus);
         // transactionManager.rollback(transactionStatus);
 

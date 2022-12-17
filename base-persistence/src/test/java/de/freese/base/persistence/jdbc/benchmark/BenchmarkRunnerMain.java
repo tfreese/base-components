@@ -19,8 +19,8 @@ public final class BenchmarkRunnerMain
 {
     public static void main(String[] args) throws Exception
     {
-        // Der Builder überschreibt die Klassen-Annotationen.
-        // Benötigt befüllte target\classes\META-INF\BenchmarkList -> Rebuild vor der Ausführung notwendig
+        // Builder overwrites the Class-Annotations.
+        // Needs filled target\classes\META-INF\BenchmarkList -> Rebuild bevor execute
         // @formatter:off
         Options options = new OptionsBuilder()
                 .include(StatementBenchmarks.class.getSimpleName())

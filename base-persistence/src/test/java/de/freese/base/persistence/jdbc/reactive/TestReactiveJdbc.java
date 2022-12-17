@@ -103,7 +103,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(10);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
 
@@ -119,7 +119,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(10);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
 
@@ -135,7 +135,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(10);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
 
@@ -153,7 +153,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
 
@@ -180,7 +180,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Spliterator<Person> spliterator = new ResultSetIterable<>(resultSet, new PersonRowMapper()).spliterator();
 
@@ -208,7 +208,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Iterator<Person> iterator = new ResultSetIterator<>(resultSet, new PersonRowMapper());
 
@@ -239,7 +239,7 @@ class TestReactiveJdbc
         Connection connection = SERVER.getDataSource().getConnection();
         Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by id asc");
+        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Spliterator<Person> spliterator = new ResultSetSpliterator<>(resultSet, new PersonRowMapper());
 
@@ -265,11 +265,11 @@ class TestReactiveJdbc
         assertEquals(2, result.size());
 
         assertEquals(1, result.get(0).getId());
-        assertEquals("Nachname1", result.get(0).getNachname());
-        assertEquals("Vorname1", result.get(0).getVorname());
+        assertEquals("LastName1", result.get(0).getLastName());
+        assertEquals("FirstName1", result.get(0).getFirstName());
 
         assertEquals(2, result.get(1).getId());
-        assertEquals("Nachname2", result.get(1).getNachname());
-        assertEquals("Vorname2", result.get(1).getVorname());
+        assertEquals("LastName2", result.get(1).getLastName());
+        assertEquals("FirstName2", result.get(1).getFirstName());
     }
 }

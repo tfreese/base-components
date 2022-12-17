@@ -64,7 +64,7 @@ class TestLoggingJdbcDriver
 
             this.dataSource = new BasicDataSource();
 
-            // commons-dbcp2: Erzeugt zuerst den Driver aus dem Class-Namen, dann erst aus dem DriverManager.
+            // commons-dbcp2: Creates at first the Driver from the Class-Name, then from the DriverManager.
             ConnectionPoolConfigurer.configureBasic(this.dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null,
                     null);
         }
@@ -245,14 +245,14 @@ class TestLoggingJdbcDriver
     @BeforeAll
     static void beforeAll() throws Exception
     {
-        // Backend-Treiber: Wird durch App-Server oder Datasource erledigt.
+        // Backend-Driver: Is configured by App-Server or Datasource.
         // Class.forName(DRIVER, true, ClassUtils.getDefaultClassLoader());
 
-        // Proxy-Treiber, bei Web-Anwendungen durch ServletContextListener erledigen oder durch Spring.
+        // Proxy-Driver, In Web-Apps configured by ServletContextListener or Spring.
         DriverManager.registerDriver(new LoggingJdbcDriver());
         LoggingJdbcDriver.addDefaultLogMethods();
 
-        // Logging einschalten.
+        // Enable Logging.
         // System.setProperty("org.slf4j.simpleLogger.log.de.freese.base.persistence.jdbc.driver.LoggingJdbcDriver", "INFO");
 
         POOLS.add(new DriverManagerConnectionPool());
@@ -263,7 +263,7 @@ class TestLoggingJdbcDriver
     }
 
     // /**
-    // * Methoden Annotations:
+    // * Method Annotations:
     // * <code>
     // * <pre>
     // * @ParameterizedTest

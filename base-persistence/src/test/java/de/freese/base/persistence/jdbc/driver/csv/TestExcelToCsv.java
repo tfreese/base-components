@@ -39,26 +39,22 @@ class TestExcelToCsv
     @Test
     void testExcelToCsv01() throws Exception
     {
-        // Path excelSource = Paths.get(System.getProperty("user.home"), "Downloads", "test1.xlsx");
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
-        // Path csvDest = Files.createTempFile(Paths.get("."), "tmp-excelToCsv" + System.currentTimeMillis(), ".csv");
-        // Path csvDest = Files.createTempFile("tmp-excelToCsv-" + System.currentTimeMillis(), ".csv");;
-        // csvDest.toFile().deleteOnExit();
 
         ExcelToCsv toCsv = new ExcelToCsv();
         toCsv.setColumnIndices(0, 1, 2, 3, 4);
 
-        // Datum formatieren: 1/1/16 -> 2016-01-01
-        toCsv.setFunction(1, value ->
+        // Format date: 1/1/16 -> 2016-01-01
+        toCsv.setConvertFunction(1, value ->
         {
             String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
 
-        // Zahlen formatieren: 0,1 -> 0.1
+        // Format numbers: 0,1 -> 0.1
         Function<String, String> toNumberFunction = value -> value.replace(',', '.');
-        toCsv.setFunction(2, toNumberFunction);
-        toCsv.setFunction(4, toNumberFunction);
+        toCsv.setConvertFunction(2, toNumberFunction);
+        toCsv.setConvertFunction(4, toNumberFunction);
 
         // toCsv.convert(excelSource, csvDest);
         toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM, true));
@@ -72,25 +68,23 @@ class TestExcelToCsv
     void testExcelToCsv02() throws Exception
     {
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
-        // Path csvDest = Files.createTempFile("tmp-excelToCsv-" + System.currentTimeMillis(), ".csv");
-        // csvDest.toFile().deleteOnExit();
 
         ExcelToCsv toCsv = new ExcelToCsv();
         toCsv.setFieldSeparator('\t');
         toCsv.setQuoteCharacter(null);
         toCsv.setColumnIndices(0, 1, 2, 3, 4);
 
-        // Datum formatieren: 1/1/16 -> 2016-01-01
-        toCsv.setFunction(1, value ->
+        // Format date: 1/1/16 -> 2016-01-01
+        toCsv.setConvertFunction(1, value ->
         {
             String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
 
-        // Zahlen formatieren: 0,1 -> 0.1
+        // Format numbers: 0,1 -> 0.1
         Function<String, String> toNumberFunction = value -> value.replace(',', '.');
-        toCsv.setFunction(2, toNumberFunction);
-        toCsv.setFunction(4, toNumberFunction);
+        toCsv.setConvertFunction(2, toNumberFunction);
+        toCsv.setConvertFunction(4, toNumberFunction);
 
         // toCsv.convert(excelSource, csvDest);
         toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM, true));
