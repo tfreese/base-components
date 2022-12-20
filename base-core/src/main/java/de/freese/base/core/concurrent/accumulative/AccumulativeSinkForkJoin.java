@@ -9,8 +9,8 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 /**
- * Nachbau eines {@link sun.swing.AccumulativeRunnable} durch einen {@link Flux}.<br>
- * Der {@link Consumer} wird in einem Thread des {@link ForkJoinPool#commonPool()} ausgeführt.
+ * Replica of a {@link sun.swing.AccumulativeRunnable} by a {@link Flux}.<br>
+ * The {@link Consumer} is executed in {@link ForkJoinPool#commonPool()}.
  *
  * @author Thomas Freese
  */

@@ -3,8 +3,6 @@ package de.freese.base.core.command;
 import java.util.Objects;
 
 /**
- * Basisklasse des Command-Patterns.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractCommand implements Command

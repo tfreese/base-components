@@ -15,8 +15,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * {@link ResourceCache}, der die Daten auf der Festplatte ablegt.
- *
  * @author Thomas Freese
  */
 public class FileResourceCache extends AbstractResourceCache
@@ -38,8 +36,6 @@ public class FileResourceCache extends AbstractResourceCache
     {
         try
         {
-            // Files.deleteIfExists(directory); // Funktioniert nur, wenn das Verzeichnis leer ist.
-
             Files.walkFileTree(getCacheDirectory(), new SimpleFileVisitor<>()
             {
                 /**
@@ -81,7 +77,7 @@ public class FileResourceCache extends AbstractResourceCache
 
         Path path = getCacheDirectory();
 
-        // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
+        // Build Structure in the Cache-Directory.
         //        for (int i = 0; i < 3; i++)
         //        {
         //            path = path.resolve(key.substring(i * 2, (i * 2) + 2));

@@ -10,7 +10,7 @@ import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Scheduler;
 
 /**
- * Nachbau eines {@link sun.swing.AccumulativeRunnable} durch einen {@link Flux}.
+ * Replica of a {@link sun.swing.AccumulativeRunnable} by a {@link Flux}.
  *
  * @author Thomas Freese
  */

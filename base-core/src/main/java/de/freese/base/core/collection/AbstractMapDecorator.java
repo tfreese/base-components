@@ -6,9 +6,6 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @param <K> Key-Type
- * @param <V> Value-Type
- *
  * @author Thomas Freese
  * @see <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java</a>
  */

@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 /**
- * Cache Implementierung, die Daten im Speicher ablegt.
- *
  * @author Thomas Freese
  */
 public class MemoryResourceCache extends AbstractResourceCache

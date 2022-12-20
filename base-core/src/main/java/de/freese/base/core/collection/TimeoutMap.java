@@ -12,9 +12,6 @@ import java.util.Set;
  * {@link Map} Implementierung mit einer Timeout-Funktion der Elemente.<br>
  * Nach Ablauf des Timeouts werden die Elemente beim nächsten Zugriff gelöscht.
  *
- * @param <K> Key-Type
- * @param <V> Value-Type
- *
  * @author Thomas Freese
  * @see <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java</a>
  */
@@ -22,18 +19,12 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
 {
     /**
      * A policy to determine the expiration time for key-value entries.
-     *
-     * @param <K> Key-Type
-     * @param <V> Value-Type
      */
     @FunctionalInterface
     public interface ExpirationPolicy<K, V>
     {
         /**
          * Determine the expiration time for the given key-value entry.
-         *
-         * @param key the key for the entry.
-         * @param value the value for the entry.
          *
          * @return the expiration time value measured in milliseconds. A
          * negative return value indicates the entry never expires.
@@ -43,9 +34,6 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V>
 
     /**
      * A {@link ExpirationPolicy} that returns an expiration time that is a constant about of time in the future from the current time.
-     *
-     * @param <K> Key-Type
-     * @param <V> Value-Type
      */
     public static class ConstantTimeToLiveExpirationPolicy<K, V>
             implements ExpirationPolicy<K, V>

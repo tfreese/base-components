@@ -5,8 +5,6 @@ import java.io.Serial;
 import de.freese.base.core.i18n.Translator;
 
 /**
- * ValidationException mit der Möglichkeit der Angabe für übersetzbare Texte mit Parametern.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractValidationException extends Exception

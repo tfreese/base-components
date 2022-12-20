@@ -64,8 +64,6 @@ import javax.swing.SwingUtilities;
  *  }
  * </pre>
  *
- * @param <T> the type this {@code Runnable} accumulates
- *
  * @author Igor Kushnirskiy
  * @author Thomas Freese
  * @see "sun.swing.AccumulativeRunnable"

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link Runnable} mit der Referenz des {@link ScheduledFuture} um sich selbst zu beenden.<br>
+ * {@link Runnable} with a Reference of {@link ScheduledFuture} to shut down itself.<br>
  * Beispiel:
  *
  * <pre>

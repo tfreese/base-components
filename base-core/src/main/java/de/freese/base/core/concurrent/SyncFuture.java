@@ -8,9 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Die {@link #get()}-Methode blockiert so lange bis {@link #setResponse(Object)} aufgerufen wird.
- *
- * @param <T> Type of Response
+ * The {@link #get()}-Method is blocking until {@link #setResult(Object)} is called.
  *
  * @author Thomas Freese
  */
@@ -20,7 +18,7 @@ public class SyncFuture<T> implements Future<T>
 
     private final long startTime = System.currentTimeMillis();
 
-    private T response;
+    private T result;
 
     /**
      * @see java.util.concurrent.Future#cancel(boolean)
@@ -39,7 +37,7 @@ public class SyncFuture<T> implements Future<T>
     {
         this.latch.await();
 
-        return this.response;
+        return this.result;
     }
 
     /**
@@ -50,7 +48,7 @@ public class SyncFuture<T> implements Future<T>
     {
         if (this.latch.await(timeout, unit))
         {
-            return this.response;
+            return this.result;
         }
 
         return null;
@@ -76,12 +74,12 @@ public class SyncFuture<T> implements Future<T>
     @Override
     public boolean isDone()
     {
-        return this.response != null;
+        return this.result != null;
     }
 
-    public void setResponse(final T response)
+    public void setResult(final T result)
     {
-        this.response = response;
+        this.result = result;
 
         this.latch.countDown();
     }

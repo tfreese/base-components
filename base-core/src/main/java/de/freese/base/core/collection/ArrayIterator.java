@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * {@link Iterator} für Arrays.
- *
  * @author Thomas Freese
  */
 public class ArrayIterator<T> implements Iterator<T>

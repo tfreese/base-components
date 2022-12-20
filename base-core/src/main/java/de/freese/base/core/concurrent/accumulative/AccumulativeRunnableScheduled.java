@@ -11,9 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
- * Zeitgesteuerter {@link AccumulativeRunnable}, der nach einer Zeitspanne die gesammelten Daten ausführt.
- *
- * @param <T> Type
+ * Time-Controlled {@link AccumulativeRunnable}.
  *
  * @author Thomas Freese
  */
@@ -28,8 +26,7 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
     };
 
     /**
-     * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.<br>
-     * Ohne {@link ScheduledExecutorService} wird ein {@link Timer} verwendet.<br>
+     * Without {@link ScheduledExecutorService} a {@link Timer} is used.<br>
      * Default delay = 250 ms
      */
     public AccumulativeRunnableScheduled()
@@ -38,7 +35,6 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
     }
 
     /**
-     * Erstellt ein neues {@link AccumulativeRunnableScheduled} Object.<br>
      * Default delay = 250 ms
      */
     public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor)

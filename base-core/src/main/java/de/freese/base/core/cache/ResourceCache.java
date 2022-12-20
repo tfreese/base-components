@@ -9,9 +9,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * Interface für einen Resource-Cache.<br>
- * Wenn diese nicht vorhanden ist, wird über die {@link URL} nachgeladen.
- *
  * @author Thomas Freese
  */
 public interface ResourceCache extends Function<URL, Optional<InputStream>>
@@ -25,23 +22,10 @@ public interface ResourceCache extends Function<URL, Optional<InputStream>>
         return getResource(url);
     }
 
-    /**
-     * Leert den Cache.
-     */
     void clear();
 
-    /**
-     * Laden der Resource, wenn nicht vorhanden.
-     *
-     * @param uri {@link URI}; file://...; http://...
-     */
     Optional<InputStream> getResource(final URI uri);
 
-    /**
-     * Laden der Resource, wenn nicht vorhanden.
-     *
-     * @param url {@link URL}; file://...; http://...
-     */
     default Optional<InputStream> getResource(final URL url)
     {
         try

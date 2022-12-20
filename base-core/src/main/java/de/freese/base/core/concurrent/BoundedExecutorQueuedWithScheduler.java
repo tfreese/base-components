@@ -9,8 +9,8 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link Executor} der nur eine begrenzte Anzahl von Threads des Delegates verwendet.<br>
- * Verwendet werden parallelism + 1 Threads, da ein Thread für die Queue-Verarbeitung benötigt wird.
+ * {@link Executor} who is using limited Threads from the Delegates.<br>
+ * Uses parallelism + 1 Threads for the Queue-Processing.
  *
  * @author Thomas Freese
  */
@@ -99,7 +99,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
     private final Semaphore rateLimiter;
 
     /**
-     * @param parallelism int; Anzahl zu nutzender Threads des Delegates
+     * @param parallelism int; Number of Threads to use from the Delegate
      */
     public BoundedExecutorQueuedWithScheduler(final Executor delegate, final int parallelism)
     {

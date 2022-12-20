@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basic-Implementation of a {@link BlobStore}s.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractBlobStore implements BlobStore

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Diese Klasse sammelt Exceptions ein, um diese geschlossen zu verarbeiten.<br>
+ * Collecting multiple {@link Exception}.<br>
  *
  * @author Thomas Freese
  */
@@ -16,9 +16,7 @@ public class ThrowableTracker implements Serializable
 {
     @Serial
     private static final long serialVersionUID = -8095454479589758508L;
-    /**
-     * Map verhindert Exceptions mit gleichen Messages.
-     */
+
     private final Map<String, Throwable> throwables = new LinkedHashMap<>();
 
     public void addThrowable(final Throwable th)

@@ -5,8 +5,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Basisklasse des Command-Patterns für ein Remote-Kommando.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractRemoteCommand extends AbstractCommand implements Serializable
@@ -59,33 +57,21 @@ public abstract class AbstractRemoteCommand extends AbstractCommand implements S
         return Objects.hash(super.hashCode(), getCommandInvoker(), getPayload());
     }
 
-    /**
-     * Setzt das Objekt für die Verarbeitung des Kommandos.
-     */
     public void setCommandInvoker(final Object commandInvoker)
     {
         this.commandInvoker = commandInvoker;
     }
 
-    /**
-     * Setzt das Objekt, welches dem CommandInvoker übergeben werden kann.
-     */
     public void setPayload(final Object payload)
     {
         this.payload = payload;
     }
 
-    /**
-     * Liefert das Objekt für die Verarbeitung des Kommandos.
-     */
     protected Object getCommandInvoker()
     {
         return this.commandInvoker;
     }
 
-    /**
-     * Liefert das Objekt, welches dem CommandInvoker übergeben werden kann.
-     */
     protected <T> T getPayload()
     {
         return (T) this.payload;

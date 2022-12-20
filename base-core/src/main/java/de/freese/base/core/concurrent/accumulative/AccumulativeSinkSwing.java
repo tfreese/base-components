@@ -10,8 +10,8 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 /**
- * Nachbau eines {@link sun.swing.AccumulativeRunnable} durch einen {@link Flux}.<br>
- * Der {@link Consumer} wird im EDT-Thread ausgeführt {@link SwingUtilities#invokeLater(Runnable)}.
+ * Replica of a {@link sun.swing.AccumulativeRunnable} by a {@link Flux}.<br>
+ * The {@link Consumer} is executed in the EDT-Thread by {@link SwingUtilities#invokeLater(Runnable)}.
  *
  * @author Thomas Freese
  */

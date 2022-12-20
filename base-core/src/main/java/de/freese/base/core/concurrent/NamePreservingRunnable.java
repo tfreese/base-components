@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Ein {@link Runnable} Wrapper, welcher den Namen des aktuellen Threads durch den eigenen ersetzt.<br>
- * Nach der run-Methode wird der Original-Name wiederhergestellt.
+ * A {@link Runnable} Wrapper for changing the name of the current Thread.<br>
+ * After execution, the name is restored.
  *
  * @author Thomas Freese
  */

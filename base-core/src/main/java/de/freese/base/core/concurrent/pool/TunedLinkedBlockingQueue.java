@@ -34,8 +34,6 @@ import java.util.function.IntSupplier;
  * queue.setPoolMaxSize(tpe::getMaximumPoolSize);
  * </pre>
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>

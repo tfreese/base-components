@@ -5,15 +5,12 @@ import java.io.PrintWriter;
 import java.util.function.Consumer;
 
 /**
- * Diese Klasse dient zur teilweisen Ausgabe eines StackTraces.
+ * Provides the first n Elements of the StackTrace.
  *
  * @author Thomas Freese
  */
 public final class StackTraceLimiter
 {
-    /**
-     * Liefert die ersten n Elemente des StackTraces.
-     */
     public static StackTraceElement[] getLimitedStackTrace(final Throwable th, final int elements)
     {
         StackTraceElement[] limitedTrace = new StackTraceElement[elements];
@@ -23,33 +20,21 @@ public final class StackTraceLimiter
         return limitedTrace;
     }
 
-    /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     */
     public static void printStackTrace(final Throwable th, final int elements, final PrintStream ps)
     {
         printStackTrace(th, elements, ps::println);
     }
 
-    /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     */
     public static void printStackTrace(final Throwable th, final int elements, final PrintWriter pw)
     {
         printStackTrace(th, elements, pw::println);
     }
 
-    /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     */
     public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb)
     {
         printStackTrace(th, elements, obj -> sb.append(obj).append(System.lineSeparator()));
     }
 
-    /**
-     * Gibt nicht den kompletten StackTrace aus, sondern nur die ersten n Elemente.
-     */
     private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer)
     {
         consumer.accept(th);

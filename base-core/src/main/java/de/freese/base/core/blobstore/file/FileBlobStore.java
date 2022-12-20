@@ -12,11 +12,8 @@ import java.util.Objects;
 import de.freese.base.core.blobstore.AbstractBlobStore;
 import de.freese.base.core.blobstore.Blob;
 import de.freese.base.core.blobstore.BlobId;
-import de.freese.base.core.blobstore.BlobStore;
 
 /**
- * {@link BlobStore} Implementierung für eine Datei.
- *
  * @author Thomas Freese
  */
 public class FileBlobStore extends AbstractBlobStore
@@ -115,7 +112,7 @@ public class FileBlobStore extends AbstractBlobStore
         //
         //        Path path = this.basePath;
         //
-        //        // Verzeichnisstruktur innerhalb des Cache-Verzeichnisses aufbauen.
+        //        // Build Structure in the Cache-Directory.
         //        for (int i = 0; i < 3; i++)
         //        {
         //            path = path.resolve(hex.substring(i * 2, (i * 2) + 2));

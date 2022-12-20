@@ -5,12 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import de.freese.base.core.blobstore.AbstractBlob;
-import de.freese.base.core.blobstore.Blob;
 import de.freese.base.core.blobstore.BlobId;
 
 /**
- * {@link Blob} Implementierung für eine Datei.
- *
  * @author Thomas Freese
  */
 final class FileBlob extends AbstractBlob

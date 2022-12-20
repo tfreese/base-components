@@ -7,7 +7,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link Executor} der nur eine begrenzte Anzahl von Threads des Delegates verwendet.<br>
+ * {@link Executor} who is using limited Threads from the Delegates.<br>
  *
  * @author Thomas Freese
  */
@@ -18,7 +18,7 @@ public class BoundedExecutor implements Executor
     private final Semaphore rateLimiter;
 
     /**
-     * @param parallelism int; Anzahl zu nutzender Threads des Delegates
+     * @param parallelism int; Number of Threads to use from the Delegate
      */
     public BoundedExecutor(final Executor delegate, final int parallelism)
     {
@@ -35,8 +35,6 @@ public class BoundedExecutor implements Executor
     }
 
     /**
-     * Blockiert bis der RateLimiter freie Slots hat.
-     *
      * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
      */
     @Override

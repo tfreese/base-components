@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basic-Implementation of a {@link Blob}s.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractBlob implements Blob
