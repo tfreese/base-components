@@ -6,7 +6,7 @@ import java.awt.Insets;
 import java.io.Serial;
 
 /**
- * Erweitert die {@link GridBagConstraints} um das Builder-Pattern.
+ * Expand the {@link GridBagConstraints} by a Builder-Pattern.
  *
  * @author Thomas Freese
  */

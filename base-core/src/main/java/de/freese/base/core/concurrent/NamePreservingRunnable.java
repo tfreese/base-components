@@ -49,8 +49,8 @@ public class NamePreservingRunnable implements Runnable
     }
 
     /**
-     * Ändert den Namen des Threads.<br>
-     * Eine auftretende {@link SecurityException} wird als Warning geloggt.
+     * Change the Name of the Thread.<br>
+     * A {@link SecurityException} is logged as a Warning.
      */
     private void setName(final Thread thread, final String name)
     {

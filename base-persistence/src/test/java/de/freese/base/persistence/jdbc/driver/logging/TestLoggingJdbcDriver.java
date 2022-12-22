@@ -12,11 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.freese.base.persistence.jdbc.DbServerExtension;
 import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.DataSource;
@@ -39,7 +39,7 @@ class TestLoggingJdbcDriver
 
     private static final List<ConnectionPool> POOLS = new ArrayList<>();
 
-    private static final String URL = "jdbc:logger:jdbc:h2:mem:" + DbServerExtension.createDbName();
+    private static final String URL = "jdbc:logger:jdbc:h2:mem:" + UUID.randomUUID();
 
     /**
      * @author Thomas Freese
