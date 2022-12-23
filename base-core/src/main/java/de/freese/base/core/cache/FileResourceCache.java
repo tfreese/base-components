@@ -12,7 +12,6 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Thomas Freese
@@ -71,40 +70,31 @@ public class FileResourceCache extends AbstractResourceCache
      * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URI)
      */
     @Override
-    public Optional<InputStream> getResource(final URI uri)
+    public InputStream getResource(final URI uri) throws Exception
     {
         String key = generateKey(uri);
 
         Path path = getCacheDirectory();
 
         // Build Structure in the Cache-Directory.
-        //        for (int i = 0; i < 3; i++)
-        //        {
-        //            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
-        //        }
+        for (int i = 0; i < 3; i++)
+        {
+            path = path.resolve(key.substring(i * 2, (i * 2) + 2));
+        }
 
         path = path.resolve(key);
 
-        try
+        if (!Files.exists(path))
         {
-            if (!Files.exists(path))
+            Files.createDirectories(path.getParent());
+
+            try (InputStream inputStream = toInputStream(uri))
             {
-                Files.createDirectories(path.getParent());
-
-                try (InputStream inputStream = toInputStream(uri))
-                {
-                    Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-                }
+                Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
             }
-
-            return Optional.of(Files.newInputStream(path, StandardOpenOption.READ));
         }
-        catch (final Exception ex)
-        {
-            getLogger().error(ex.getMessage(), ex);
 
-            return Optional.empty();
-        }
+        return Files.newInputStream(path, StandardOpenOption.READ);
     }
 
     protected Path getCacheDirectory()

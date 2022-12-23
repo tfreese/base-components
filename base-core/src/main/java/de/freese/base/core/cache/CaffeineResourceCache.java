@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
-import java.util.Optional;
 
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -39,16 +38,16 @@ public class CaffeineResourceCache extends FileResourceCache
     }
 
     @Override
-    public Optional<InputStream> getResource(final URI uri)
+    public InputStream getResource(final URI uri) throws Exception
     {
         byte[] content = this.cache.get(uri);
 
         if ((content == null) || (content.length == 0))
         {
-            return Optional.empty();
+            return null;
         }
 
-        return Optional.of(new ByteArrayInputStream(content));
+        return new ByteArrayInputStream(content);
     }
 
     /**
@@ -63,21 +62,16 @@ public class CaffeineResourceCache extends FileResourceCache
         {
             byte[] content = {};
 
-            Optional<InputStream> optional = super.getResource(key);
+            // int size = (int) getContentLength(key);
+            int size = 1024;
 
-            if (optional.isPresent())
+            try (InputStream inputStream = super.getResource(key);
+                 ByteArrayOutputStream baos = new ByteArrayOutputStream(size))
             {
-                // int size = (int) getContentLength(key);
-                int size = 1024;
+                inputStream.transferTo(baos);
 
-                try (InputStream inputStream = optional.get();
-                     ByteArrayOutputStream baos = new ByteArrayOutputStream(size))
-                {
-                    inputStream.transferTo(baos);
-
-                    baos.flush();
-                    content = baos.toByteArray();
-                }
+                baos.flush();
+                content = baos.toByteArray();
             }
 
             return content;

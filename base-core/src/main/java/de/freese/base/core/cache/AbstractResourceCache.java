@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
@@ -33,11 +34,6 @@ public abstract class AbstractResourceCache implements ResourceCache
 
         this.messageDigest = createMessageDigest();
         this.hexFormat = HexFormat.of().withUpperCase();
-    }
-
-    public HexFormat getHexFormat()
-    {
-        return this.hexFormat;
     }
 
     protected MessageDigest createMessageDigest()
@@ -70,23 +66,23 @@ public abstract class AbstractResourceCache implements ResourceCache
     protected String generateKey(final URI uri)
     {
         String uriString = uri.toString();
-        //        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
-        //        byte[] digest = getMessageDigest().digest(uriBytes);
+        byte[] uriBytes = uriString.getBytes(StandardCharsets.UTF_8);
+        byte[] digest = getMessageDigest().digest(uriBytes);
+
+        return getHexFormat().formatHex(digest);
+
+        //        uriString = uriString.replace(':', '/');
+        //        uriString = uriString.replace('?', '/');
+        //        uriString = uriString.replace('&', '/');
+        //        uriString = uriString.replace(' ', '_');
+        //        uriString = uriString.replace("%20", "_");
         //
-        //        return getHexFormat().formatHex(digest);
-
-        uriString = uriString.replace(':', '/');
-        uriString = uriString.replace('?', '/');
-        uriString = uriString.replace('&', '/');
-        uriString = uriString.replace(' ', '_');
-        uriString = uriString.replace("%20", "_");
-
-        while (uriString.contains("//"))
-        {
-            uriString = uriString.replace("//", "/");
-        }
-
-        return uriString;
+        //        while (uriString.contains("//"))
+        //        {
+        //            uriString = uriString.replace("//", "/");
+        //        }
+        //
+        //        return uriString;
     }
 
     protected long getContentLength(final URI uri) throws IOException
@@ -129,6 +125,11 @@ public abstract class AbstractResourceCache implements ResourceCache
         throw new IOException("unsupported protocol");
     }
 
+    protected HexFormat getHexFormat()
+    {
+        return this.hexFormat;
+    }
+
     protected Logger getLogger()
     {
         return logger;
@@ -147,7 +148,7 @@ public abstract class AbstractResourceCache implements ResourceCache
         {
             if (connection instanceof HttpURLConnection httpURLConnection)
             {
-                // Avoid HTTP 301 Moved Permanently. -> but does not work !
+                // To avoid 'HTTP 301 Moved Permanently' -> but does not work !
                 // httpURLConnection.setInstanceFollowRedirects(true);
 
                 int status = httpURLConnection.getResponseCode();

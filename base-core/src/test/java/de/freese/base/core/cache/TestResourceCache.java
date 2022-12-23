@@ -3,14 +3,12 @@ package de.freese.base.core.cache;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
@@ -59,7 +57,7 @@ class TestResourceCache
 
     static Stream<Arguments> createArgumentes() throws Exception
     {
-        URI urlLocalFile = Paths.get("src/test/java/de/freese/base/core/cache/TestResourceCache.java").toUri();
+        URI urlLocalFile = Paths.get("pom.xml").toUri();
         URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
 
         // @formatter:off
@@ -91,19 +89,15 @@ class TestResourceCache
     @Order(1)
     void testInitialLoad(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
     {
-        Optional<InputStream> optional = resourceCache.getResource(uri);
-        assertNotNull(optional);
-        assertTrue(optional.isPresent());
+        InputStream inputStream = resourceCache.getResource(uri);
+        assertNotNull(inputStream);
 
-        byte[] bytes = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        inputStream.transferTo(baos);
 
-        try (InputStream inputStream = optional.get();
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
-            inputStream.transferTo(baos);
+        baos.flush();
 
-            bytes = baos.toByteArray();
-        }
+        byte[] bytes = baos.toByteArray();
 
         MAP.put(name, bytes);
     }
@@ -113,19 +107,15 @@ class TestResourceCache
     @Order(2)
     void testReload(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
     {
-        Optional<InputStream> optional = resourceCache.getResource(uri);
-        assertNotNull(optional);
-        assertTrue(optional.isPresent());
+        InputStream inputStream = resourceCache.getResource(uri);
+        assertNotNull(inputStream);
 
-        byte[] bytes = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        inputStream.transferTo(baos);
 
-        try (InputStream inputStream = optional.get();
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
-            inputStream.transferTo(baos);
+        baos.flush();
 
-            bytes = baos.toByteArray();
-        }
+        byte[] bytes = baos.toByteArray();
 
         assertArrayEquals(MAP.get(name), bytes);
     }
