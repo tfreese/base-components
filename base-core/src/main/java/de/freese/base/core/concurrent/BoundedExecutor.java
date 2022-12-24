@@ -7,7 +7,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link Executor} who is using limited Threads from the Delegates.<br>
+ * {@link Executor} who is using only n Threads from the Delegate.<br>
  *
  * @author Thomas Freese
  */
@@ -76,9 +76,5 @@ public class BoundedExecutor implements Executor
             // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
-        // catch (Exception ex)
-        // {
-        // throw new RuntimeException(ex);
-        // }
     }
 }

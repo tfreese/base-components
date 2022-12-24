@@ -9,7 +9,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
 
 /**
- * {@link Executor} who is using limited Threads from the Delegates.<br>
+ * {@link Executor} who is using only n Threads from the Delegates.<br>
  * Uses parallelism + 1 Threads for the Queue-Processing.
  *
  * @author Thomas Freese
@@ -85,10 +85,6 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }
-            // catch (Exception ex)
-            // {
-            // throw new RuntimeException(ex);
-            // }
         }
     }
 
