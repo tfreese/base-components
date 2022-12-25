@@ -2,6 +2,7 @@ package de.freese.base.security.ssl.nio.demo2;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
@@ -71,6 +72,15 @@ public abstract class AbstractSSLProvider implements Runnable
         while (isHandShaking())
         {
             // Empty
+            
+            try
+            {
+                TimeUnit.MILLISECONDS.sleep(500);
+            }
+            catch (InterruptedException ex)
+            {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -92,7 +102,6 @@ public abstract class AbstractSSLProvider implements Runnable
             case NOT_HANDSHAKING:
                 boolean occupied = false;
 
-            {
                 if (this.clientWrap.position() > 0)
                 {
                     occupied |= wrap();
@@ -102,9 +111,8 @@ public abstract class AbstractSSLProvider implements Runnable
                 {
                     occupied |= unwrap();
                 }
-            }
 
-            return occupied;
+                return occupied;
 
             case NEED_WRAP:
                 if (!wrap())

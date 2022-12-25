@@ -246,6 +246,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         }
     }
 
-    protected abstract B createNewBuffer(final B buffer, final int newCapacity);
+    protected abstract B createNewBuffer(B buffer, int newCapacity);
 
 }

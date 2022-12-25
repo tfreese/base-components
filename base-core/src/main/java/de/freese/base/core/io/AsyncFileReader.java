@@ -48,8 +48,8 @@ public final class AsyncFileReader<CH>
 
         private int position;
 
-        public ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler,
-                           final int bufferSize)
+        ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler,
+                    final int bufferSize)
         {
             super();
 

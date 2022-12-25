@@ -11,23 +11,23 @@ class PersistenceException extends Exception
     @Serial
     private static final long serialVersionUID = -4679691790131023241L;
 
-    public PersistenceException()
-    {
-        super();
-    }
-
-    public PersistenceException(final String message)
+    PersistenceException(final String message)
     {
         super(message);
     }
 
-    public PersistenceException(final String message, final Throwable cause)
+    PersistenceException(final String message, final Throwable cause)
     {
         super(message, cause);
     }
 
-    public PersistenceException(final Throwable cause)
+    PersistenceException(final Throwable cause)
     {
         super(cause);
+    }
+
+    PersistenceException()
+    {
+        super();
     }
 }

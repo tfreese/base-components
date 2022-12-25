@@ -202,7 +202,7 @@ public abstract class AbstractJFreeChartScriptlet<T>
     {
         private final Plot plot;
 
-        public PlotAdapter(final Plot plot)
+        PlotAdapter(final Plot plot)
         {
             super();
 
@@ -371,22 +371,22 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * Initialisiert das Layout, {@link Dataset} und {@link CategoryItemRenderer} des {@link Plot}.
      */
-    protected abstract void decoratePlot(final T model, final Plot plot);
+    protected abstract void decoratePlot(T model, Plot plot);
 
     /**
      * Initialisiert das Layout der Renderer.
      */
-    protected abstract void decorateRenderer(final T model, Plot plot, final int index, final LegendItemSource renderer);
+    protected abstract void decorateRenderer(T model, Plot plot, int index, LegendItemSource renderer);
 
     /**
      * Initialisiert das Layout der x-Achse.
      */
-    protected abstract void decorateXAxis(final T model, Plot plot, final Axis axis);
+    protected abstract void decorateXAxis(T model, Plot plot, Axis axis);
 
     /**
      * Initialisiert das Layout der y-Achse.
      */
-    protected abstract void decorateYAxis(final T model, Plot plot, final Axis axis);
+    protected abstract void decorateYAxis(T model, Plot plot, Axis axis);
 
     /**
      * 123456.123 wird zu 123.456,1

@@ -24,10 +24,8 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler
         JTable table = (JTable) object;
         int rowHeightNew = newFont.getSize() + 5;
 
-        // if (table.getRowHeight() < rowHeightNew)
-        {
-            table.setRowHeight(rowHeightNew);
-        }
+        // if (table.getRowHeight() < rowHeightNew) {
+        table.setRowHeight(rowHeightNew);
 
         if (table.getTableHeader() != null)
         {

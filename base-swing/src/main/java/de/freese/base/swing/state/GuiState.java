@@ -14,5 +14,5 @@ public interface GuiState extends Serializable
 
     void store(Component component);
 
-    boolean supportsType(final Class<?> type);
+    boolean supportsType(Class<?> type);
 }

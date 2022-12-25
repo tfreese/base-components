@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -262,6 +263,7 @@ class TestNioSsl
             while (!client.finishConnect())
             {
                 // can do something here...
+                TimeUnit.MILLISECONDS.sleep(500);
             }
 
             client.configureBlocking(true);
@@ -273,10 +275,8 @@ class TestNioSsl
             buffer.put(bytes);
             buffer.flip();
 
-            // while (buffer.hasRemaining())
-            {
-                client.write(buffer);
-            }
+            // while (buffer.hasRemaining()) {
+            client.write(buffer);
 
             // Response
             buffer.clear();

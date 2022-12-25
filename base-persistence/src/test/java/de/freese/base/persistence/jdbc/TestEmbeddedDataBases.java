@@ -27,6 +27,10 @@ class TestEmbeddedDataBases
     @RegisterExtension
     static final MultiDatabaseExtension DATABASE_EXTENSION = new MultiDatabaseExtension();
 
+    private static final Runnable DUMMY_CODE = () ->
+    {
+    };
+
     static Stream<Arguments> getDatabases()
     {
         return DATABASE_EXTENSION.getServers().stream().map(server -> Arguments.of(server.getDatabaseType(), server));
@@ -98,6 +102,7 @@ class TestEmbeddedDataBases
                 // IF EXISTS is not supported by DERBY.
                 // Error by trying to drop existing tables.
                 // statement.execute("DROP TABLE person CASCADE");
+                DUMMY_CODE.run();
             }
             else
             {
@@ -109,6 +114,7 @@ class TestEmbeddedDataBases
                 // H2 is shutdown immediately.
                 // HSQLDB delayed.
                 // statement.execute("SHUTDOWN COMPACT");
+                DUMMY_CODE.run();
             }
         }
 

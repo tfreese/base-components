@@ -22,7 +22,7 @@ public abstract class AbstractBlobStore implements BlobStore
         return doGet(id);
     }
 
-    protected abstract Blob doGet(final BlobId id) throws Exception;
+    protected abstract Blob doGet(BlobId id) throws Exception;
 
     protected Logger getLogger()
     {

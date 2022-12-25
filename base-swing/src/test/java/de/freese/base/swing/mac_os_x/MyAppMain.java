@@ -129,7 +129,7 @@ public final class MyAppMain extends JFrame implements ActionListener
         this.aboutBox = new JDialog(this, "About OsxAdapter");
         this.aboutBox.getContentPane().setLayout(new BorderLayout());
         this.aboutBox.getContentPane().add(new JLabel("OsxAdapter", SwingConstants.CENTER));
-        this.aboutBox.getContentPane().add(new JLabel("\u00A92003-2007 Apple, Inc.", SwingConstants.CENTER), BorderLayout.SOUTH);
+        this.aboutBox.getContentPane().add(new JLabel("© 2003-2007 Apple, Inc.", SwingConstants.CENTER), BorderLayout.SOUTH);
         this.aboutBox.setSize(160, 120);
         this.aboutBox.setResizable(false);
 

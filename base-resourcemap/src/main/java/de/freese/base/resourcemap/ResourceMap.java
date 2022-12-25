@@ -277,7 +277,7 @@ public interface ResourceMap
         return value != null ? value : defaultValue;
     }
 
-    <T> T getObject(final String key, final Class<T> type);
+    <T> T getObject(String key, Class<T> type);
 
     /**
      * Format:
@@ -345,7 +345,7 @@ public interface ResourceMap
      * hello = Hello %s
      * </pre>
      */
-    String getString(final String key, final Object... args);
+    String getString(String key, Object... args);
 
     default URI getURI(final String key)
     {

@@ -35,7 +35,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         // g.dispose(); // Dispose nur wenn man es selbst erzeugt hat.
     }
 
-    public abstract void paintGraph(final Graphics2D g, final Component parent, final float width, final float height);
+    public abstract void paintGraph(Graphics2D g, Component parent, float width, float height);
 
     /**
      * Der Default-Background wird vom Panel/Frame entnommen.

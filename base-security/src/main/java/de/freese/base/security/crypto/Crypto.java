@@ -23,7 +23,7 @@ public interface Crypto
     /**
      * @param in {@link InputStream}, Verschlüsselt
      */
-    byte[] digest(final InputStream in) throws Exception;
+    byte[] digest(InputStream in) throws Exception;
 
     byte[] encrypt(byte[] bytes) throws Exception;
 

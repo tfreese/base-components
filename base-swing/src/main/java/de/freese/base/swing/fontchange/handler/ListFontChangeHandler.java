@@ -24,10 +24,8 @@ public class ListFontChangeHandler extends ComponentFontChangeHandler
         JList<?> list = (JList<?>) object;
         int rowHeightNew = newFont.getSize() + 4;
 
-        // if (list.getFixedCellHeight() < rowHeightNew)
-        {
-            list.setFixedCellHeight(rowHeightNew);
-        }
+        // if (list.getFixedCellHeight() < rowHeightNew) {
+        list.setFixedCellHeight(rowHeightNew);
 
         ListCellRenderer<?> cellRenderer = list.getCellRenderer();
 

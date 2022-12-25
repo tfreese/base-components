@@ -24,7 +24,7 @@ final class MdiDesktopManager extends DefaultDesktopManager
 
     private final MdiDesktopPane desktop;
 
-    public MdiDesktopManager(final MdiDesktopPane desktop)
+    MdiDesktopManager(final MdiDesktopPane desktop)
     {
         super();
 

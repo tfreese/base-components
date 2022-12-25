@@ -44,8 +44,8 @@ class TestStringUtils
         result = StringUtils.removeNonAsciiGerman(sb.toString());
         assertEquals("abcdäß", result);
 
-        result = StringUtils.removeNonAsciiGerman("\uD83D\uDC9A iPhone 13 jetzt im GigaDeal ");
-        assertEquals(" iPhone 13 jetzt im GigaDeal ", result);
+        result = StringUtils.removeNonAsciiGerman("💚iPhone 13 jetzt im GigaDeal ");
+        assertEquals("iPhone 13 jetzt im GigaDeal ", result);
     }
 
     @Test

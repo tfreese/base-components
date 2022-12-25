@@ -9,7 +9,7 @@ package de.freese.base.core.i18n;
 @FunctionalInterface
 public interface Translator
 {
-    String translate(final String key, final Object... args);
+    String translate(String key, Object... args);
     // public default String translate(final String key, final Object...args)
     // {
     // return String.format(key, args);

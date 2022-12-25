@@ -26,7 +26,7 @@ public class ExcelImplDelegator implements ExcelImport
      */
     private static class NotClosingInputStream extends ProxyInputStream
     {
-        public NotClosingInputStream(final InputStream proxy)
+        NotClosingInputStream(final InputStream proxy)
         {
             super(proxy);
         }

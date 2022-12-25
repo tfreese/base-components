@@ -25,10 +25,8 @@ public class TreeFontChangeHandler extends ComponentFontChangeHandler
         JTree tree = (JTree) object;
         int rowHeightNew = newFont.getSize() + 4;
 
-        // if (tree.getRowHeight() < rowHeightNew)
-        {
-            tree.setRowHeight(rowHeightNew);
-        }
+        // if (tree.getRowHeight() < rowHeightNew) {
+        tree.setRowHeight(rowHeightNew);
 
         // CellRenderer
         TreeCellRenderer cellRenderer = tree.getCellRenderer();

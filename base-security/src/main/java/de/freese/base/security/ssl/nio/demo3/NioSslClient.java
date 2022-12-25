@@ -83,6 +83,14 @@ public class NioSslClient extends AbstractNioSslPeer
         while (!this.socketChannel.finishConnect())
         {
             // can do something here...
+            try
+            {
+                TimeUnit.MILLISECONDS.sleep(500);
+            }
+            catch (InterruptedException ex)
+            {
+                throw new RuntimeException(ex);
+            }
         }
 
         this.engine.beginHandshake();

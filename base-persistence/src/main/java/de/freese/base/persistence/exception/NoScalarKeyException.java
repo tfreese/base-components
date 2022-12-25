@@ -14,7 +14,7 @@ class NoScalarKeyException extends DataAccessException
     @Serial
     private static final long serialVersionUID = -8320833456066908985L;
 
-    public NoScalarKeyException(final String msg)
+    NoScalarKeyException(final String msg)
     {
         super(msg);
     }

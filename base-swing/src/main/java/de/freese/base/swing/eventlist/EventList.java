@@ -14,21 +14,21 @@ import javax.swing.event.ListDataListener;
  */
 public interface EventList<E> extends List<E>
 {
-    void addListDataListener(final ListDataListener listener);
+    void addListDataListener(ListDataListener listener);
 
     Object getOwner();
 
     boolean isListenerEnabled();
 
-    void removeListDataListener(final ListDataListener listener);
+    void removeListDataListener(ListDataListener listener);
 
     void reset();
 
-    void setComparator(final Comparator<? super E> comparator);
+    void setComparator(Comparator<? super E> comparator);
 
-    void setListenerEnabled(final boolean listenerEnabled);
+    void setListenerEnabled(boolean listenerEnabled);
 
-    void setOwner(final Object owner);
+    void setOwner(Object owner);
 
     /**
      * Feuert ein ContentsChanged Event für die ganze Liste.<br>

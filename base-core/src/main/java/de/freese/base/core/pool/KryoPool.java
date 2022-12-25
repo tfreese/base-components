@@ -46,7 +46,7 @@ public abstract class KryoPool<T>
     {
         private final Queue<SoftReference<T>> delegate;
 
-        public SoftReferenceQueue(final Queue<SoftReference<T>> delegate)
+        SoftReferenceQueue(Queue<SoftReference<T>> delegate)
         {
             this.delegate = delegate;
         }

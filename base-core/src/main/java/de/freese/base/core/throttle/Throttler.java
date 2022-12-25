@@ -98,7 +98,7 @@ public interface Throttler
      * @see #acquirePermits(int)
      * @see #tryAcquirePermits(int)
      */
-    long reservePermits(final int permits);
+    long reservePermits(int permits);
 
     /**
      * Tries to acquire a permit to perform an execution against the rate limiter, returning immediately without waiting.

@@ -43,5 +43,5 @@ public interface Exporter<T>
     /**
      * Zum laden von Icons, Dateien etc...
      */
-    void setResourceLoader(final ResourceLoader resourceLoader);
+    void setResourceLoader(ResourceLoader resourceLoader);
 }

@@ -21,7 +21,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final org.reactivestreams.Publisher<? extends T> reactiveStreams;
 
-        public FlowPublisherFromReactive(final org.reactivestreams.Publisher<? extends T> reactivePublisher)
+        FlowPublisherFromReactive(org.reactivestreams.Publisher<? extends T> reactivePublisher)
         {
             this.reactiveStreams = reactivePublisher;
         }
@@ -52,7 +52,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final org.reactivestreams.Processor<? super T, ? extends U> reactiveStreams;
 
-        public FlowToReactiveProcessor(final org.reactivestreams.Processor<? super T, ? extends U> reactive)
+        FlowToReactiveProcessor(final org.reactivestreams.Processor<? super T, ? extends U> reactive)
         {
             this.reactiveStreams = reactive;
         }
@@ -118,7 +118,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final org.reactivestreams.Subscriber<? super T> reactiveStreams;
 
-        public FlowToReactiveSubscriber(final org.reactivestreams.Subscriber<? super T> reactive)
+        FlowToReactiveSubscriber(final org.reactivestreams.Subscriber<? super T> reactive)
         {
             this.reactiveStreams = reactive;
         }
@@ -167,7 +167,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final org.reactivestreams.Subscription reactiveStreams;
 
-        public FlowToReactiveSubscription(final org.reactivestreams.Subscription reactive)
+        FlowToReactiveSubscription(final org.reactivestreams.Subscription reactive)
         {
             this.reactiveStreams = reactive;
         }
@@ -200,7 +200,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final Flow.Publisher<? extends T> flow;
 
-        public ReactivePublisherFromFlow(final Flow.Publisher<? extends T> flowPublisher)
+        ReactivePublisherFromFlow(final Flow.Publisher<? extends T> flowPublisher)
         {
             this.flow = flowPublisher;
         }
@@ -231,7 +231,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final Flow.Processor<? super T, ? extends U> flow;
 
-        public ReactiveToFlowProcessor(final Flow.Processor<? super T, ? extends U> flow)
+        ReactiveToFlowProcessor(final Flow.Processor<? super T, ? extends U> flow)
         {
             this.flow = flow;
         }
@@ -297,7 +297,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final Flow.Subscriber<? super T> flow;
 
-        public ReactiveToFlowSubscriber(final Flow.Subscriber<? super T> flow)
+        ReactiveToFlowSubscriber(final Flow.Subscriber<? super T> flow)
         {
             this.flow = flow;
         }
@@ -346,7 +346,7 @@ public final class ReactiveStreamsFlowBridge
     {
         private final Flow.Subscription flow;
 
-        public ReactiveToFlowSubscription(final Flow.Subscription flow)
+        ReactiveToFlowSubscription(final Flow.Subscription flow)
         {
             this.flow = flow;
         }

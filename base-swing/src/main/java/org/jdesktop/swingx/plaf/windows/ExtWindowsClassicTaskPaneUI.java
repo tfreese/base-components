@@ -203,28 +203,28 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
                 ExtWindowsClassicTaskPaneUI.this.mouseOver = false;
                 ExtWindowsClassicTaskPaneUI.this.group.repaint();
 
-                if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
-                {
-                    JButton button = getButtonFor(e.getX(), e.getY());
-
-                    if (button != null)
-                    {
-                        // Für den Tooltip
-                        // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierarchie
-                        // hängt, sondern nur gerendert wird.
-                        // MouseEvent evt =
-                        // new MouseEvent(
-                        // button, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(),
-                        // e.getModifiers(),
-                        // TITLE_ICON_SIZE - 1, TITLE_ICON_SIZE - 1, e.getClickCount(),
-                        // e.isPopupTrigger()
-                        // );
-                        //
-                        // button.dispatchEvent(evt);
-                        //
-                        // paintToolTip(button);
-                    }
-                }
+                //                if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
+                //                {
+                //                    JButton button = getButtonFor(e.getX(), e.getY());
+                //
+                //                    if (button != null)
+                //                    {
+                //                        // Für den Tooltip
+                //                        // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierarchie
+                //                        // hängt, sondern nur gerendert wird.
+                //                        // MouseEvent evt =
+                //                        // new MouseEvent(
+                //                        // button, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(),
+                //                        // e.getModifiers(),
+                //                        // TITLE_ICON_SIZE - 1, TITLE_ICON_SIZE - 1, e.getClickCount(),
+                //                        // e.isPopupTrigger()
+                //                        // );
+                //                        //
+                //                        // button.dispatchEvent(evt);
+                //                        //
+                //                        // paintToolTip(button);
+                //                    }
+                //                }
             }
         }
 

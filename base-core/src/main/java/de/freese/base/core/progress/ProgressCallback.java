@@ -23,7 +23,7 @@ public interface ProgressCallback extends BiConsumer<Integer, Integer>
     /**
      * @param percentage double 0-1
      */
-    void setProgress(final double percentage);
+    void setProgress(double percentage);
 
     default void setProgress(final int value, final int max)
     {

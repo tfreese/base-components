@@ -29,5 +29,5 @@ public interface GridColumnFactory
         return getColumnForType(objectClazz);
     }
 
-    GridColumn<?> getColumnForType(final Class<?> objectClazz);
+    GridColumn<?> getColumnForType(Class<?> objectClazz);
 }

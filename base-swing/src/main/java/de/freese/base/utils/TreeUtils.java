@@ -296,11 +296,7 @@ public final class TreeUtils
 
         if ((me != null) && (me.getSource() instanceof JTree tree))
         {
-            if (tree.getRowForLocation(me.getX(), me.getY()) == -1)
-            {
-                // Empty
-            }
-            else
+            if (tree.getRowForLocation(me.getX(), me.getY()) > 0)
             {
                 TreePath path = tree.getClosestPathForLocation(me.getX(), me.getY());
 

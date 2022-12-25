@@ -8,9 +8,9 @@ import java.util.stream.StreamSupport;
  */
 public interface Converter<SOURCE, TARGET>
 {
-    TARGET convertFromSource(final SOURCE source);
+    TARGET convertFromSource(SOURCE source);
 
-    SOURCE convertFromTarget(final TARGET target);
+    SOURCE convertFromTarget(TARGET target);
 
     default List<SOURCE> convertFromTarget(final Iterable<TARGET> target)
     {

@@ -290,25 +290,25 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         Point glassPanePoint = event.getPoint();
         Point containerPoint = SwingUtilities.convertPoint(this, glassPanePoint, getParent());
 
-        if (containerPoint.y < 0)
-        {
-            // we're not in the content pane
-            JMenuBar menuBar = getJMenuBar();
-
-            if ((menuBar != null) && ((containerPoint.y + menuBar.getHeight()) >= 0))
-            {
-                // The mouse event is over the menu bar.
-                // Could handle specially.
-            }
-            else
-            {
-                // The mouse event is over non-system window
-                // decorations, such as the ones provided by
-                // the Java look and feel.
-                // Could handle specially.
-            }
-        }
-        else
+        //        if (containerPoint.y < 0)
+        //        {
+        //            // we're not in the content pane
+        //            JMenuBar menuBar = getJMenuBar();
+        //
+        //            if ((menuBar != null) && ((containerPoint.y + menuBar.getHeight()) >= 0))
+        //            {
+        //                // The mouse event is over the menu bar.
+        //                // Could handle specially.
+        //            }
+        //            else
+        //            {
+        //                // The mouse event is over non-system window
+        //                // decorations, such as the ones provided by
+        //                // the Java look and feel.
+        //                // Could handle specially.
+        //            }
+        //        }
+        if (containerPoint.y >= 0)
         {
             // The mouse event is probably over the content pane.
             // Find out exactly which component it's over.

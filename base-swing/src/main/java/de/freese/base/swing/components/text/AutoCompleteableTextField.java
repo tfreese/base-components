@@ -43,7 +43,7 @@ public class AutoCompleteableTextField extends JTextField
 
         private final String term;
 
-        public PrevSearchAction(final String term)
+        PrevSearchAction(final String term)
         {
             super();
 

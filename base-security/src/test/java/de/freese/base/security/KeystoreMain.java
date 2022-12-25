@@ -33,7 +33,7 @@ public final class KeystoreMain
 {
     public static void main(final String[] args) throws Exception
     {
-        String PROVIDER = "SunJCE";// "SUN";
+        String provider = "SunJCE";// "SUN";
 
         char[] keystorePSW = "gehaim".toCharArray();
 
@@ -62,7 +62,7 @@ public final class KeystoreMain
 
         if (!keyStore.containsAlias(alias))
         {
-            KeyGenerator kg = KeyGenerator.getInstance("AES", PROVIDER);
+            KeyGenerator kg = KeyGenerator.getInstance("AES", provider);
             kg.init(256, secureRandom);
             secretKey = kg.generateKey();
 
@@ -78,8 +78,8 @@ public final class KeystoreMain
 
         secretKey = (SecretKey) keyStore.getKey(alias, aliasPSW);
 
-        Cipher encryptCipher = Cipher.getInstance("AES/GCM/NoPadding", PROVIDER);
-        Cipher decryptCipher = Cipher.getInstance("AES/GCM/NoPadding", PROVIDER);
+        Cipher encryptCipher = Cipher.getInstance("AES/GCM/NoPadding", provider);
+        Cipher decryptCipher = Cipher.getInstance("AES/GCM/NoPadding", provider);
 
         // byte iv[] = new byte[16];
         // secureRandom.nextBytes(iv);
@@ -100,8 +100,8 @@ public final class KeystoreMain
         PrivateKey privateKey = keyPair.getPrivate();
 
         // "RSA/ECB/PKCS1Padding"
-        encryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", PROVIDER);
-        decryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", PROVIDER);
+        encryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", provider);
+        decryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", provider);
 
         encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey, secureRandom);
         decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, secureRandom);

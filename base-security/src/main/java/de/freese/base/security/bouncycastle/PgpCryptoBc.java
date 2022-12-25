@@ -162,7 +162,7 @@ class PgpCryptoBc
     // setPrivateKey(keyPair.getPrivate());
     // }
 
-    public PgpCryptoBc()
+    PgpCryptoBc()
     {
         super();
 

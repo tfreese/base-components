@@ -31,7 +31,7 @@ public class ConfigureableDocument extends PlainDocument
 
         private boolean floatsAllowed;
 
-        public DigitProcessor()
+        DigitProcessor()
         {
             super();
 
@@ -123,7 +123,7 @@ public class ConfigureableDocument extends PlainDocument
     {
         private int maxLength = Integer.MAX_VALUE;
 
-        public LengthProcessor()
+        LengthProcessor()
         {
             super();
 
@@ -155,7 +155,7 @@ public class ConfigureableDocument extends PlainDocument
      */
     private static class UpperCaseProcessor extends AbstractProcessor<DocumentContext>
     {
-        public UpperCaseProcessor()
+        UpperCaseProcessor()
         {
             super();
 

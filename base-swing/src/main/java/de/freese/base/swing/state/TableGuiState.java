@@ -178,12 +178,10 @@ public class TableGuiState extends AbstractGuiState
                 // ((ExtTableColumn) tableColumn).setVisible(false);
                 // }
                 // }
-                // else
-                {
-                    ColumnState columnState = this.columnStates[index];
+                // else {
+                ColumnState columnState = this.columnStates[index];
 
-                    columnState.update(tableColumn);
-                }
+                columnState.update(tableColumn);
             }
         }
     }

@@ -185,10 +185,10 @@ public abstract class AbstractGridColumn<T> implements Serializable, GridColumn<
     /**
      * Liest den Wert aus dem Stream, der NULL-Marker wurde bereits in {@link #read(DataInput)} gelesen.
      */
-    protected abstract T readNullSafe(final DataInput dataInput) throws IOException;
+    protected abstract T readNullSafe(DataInput dataInput) throws IOException;
 
     /**
      * Schreibt den Wert in den Stream, der NULL-Marker wurde bereits in {@link #write(DataOutput, Object)} gesetzt.
      */
-    protected abstract void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException;
+    protected abstract void writeNullSafe(DataOutput dataOutput, T value) throws IOException;
 }
