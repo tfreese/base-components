@@ -8,11 +8,10 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
 /**
- * TableModel das intern eine Liste verwendet.
- *
- * @param <T> Konkreter Typ der List-Objekte.
+ * {@link TableModel} which is using a {@link List} to store the Objects.
  *
  * @author Thomas Freese
  */
@@ -154,7 +153,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
     }
 
     /**
-     * Feuert das TableDataChanged Event.
+     * Fires the TableDataChanged Event.
      */
     public void refresh()
     {

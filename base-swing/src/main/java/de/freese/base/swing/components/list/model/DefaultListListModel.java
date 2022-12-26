@@ -15,9 +15,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 /**
- * {@link ListModel}, welches die Verwendung einer {@link List} ermöglicht.
- *
- * @param <T> Type
+ * {@link ListModel} that works with a {@link List}.
  *
  * @author Thomas Freese
  */
@@ -44,6 +42,11 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
 
     public void add(final T object)
     {
+        if (object == null)
+        {
+            return;
+        }
+
         getList().add(object);
 
         fireIntervalAdded(this, getList().size() - 1, getList().size() - 1);
@@ -51,6 +54,11 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
 
     public void addAll(final Collection<T> objects)
     {
+        if (objects.isEmpty())
+        {
+            return;
+        }
+
         int sizeOld = getList().size();
 
         getList().addAll(objects);
@@ -72,6 +80,11 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
         getList().clear();
 
         refresh();
+    }
+
+    public boolean contains(final T object)
+    {
+        return getList().contains(object);
     }
 
     /**
@@ -108,11 +121,25 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     }
 
     /**
-     * Feuert das ContentsChanged Event.
+     * Fires the ContentsChanged Event.
      */
     public void refresh()
     {
         fireContentsChanged(this, 0, getSize() - 1);
+    }
+
+    public void remove(final T object)
+    {
+        int index = getList().indexOf(object);
+
+        if (index < 0)
+        {
+            return;
+        }
+
+        getList().remove(object);
+
+        fireIntervalRemoved(this, index, index);
     }
 
     /**
