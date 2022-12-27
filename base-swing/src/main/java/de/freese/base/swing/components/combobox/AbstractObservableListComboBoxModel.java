@@ -7,10 +7,6 @@ import de.freese.base.swing.components.list.model.AbstractObservableListListMode
 import javafx.collections.ObservableList;
 
 /**
- * Basis ComboBoxModel, welches die Verwendung einer {@link ObservableList} ermöglicht.
- *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObservableListListModel<T> implements ComboBoxModel<T>

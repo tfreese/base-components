@@ -9,7 +9,7 @@ import java.util.Locale;
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
- * DatePicker Komponente.
+ * Alternative: <a href="https://github.com/LGoodDatePicker/LGoodDatePicker">LGoodDatePicker</a>
  *
  * @author Thomas Freese
  */

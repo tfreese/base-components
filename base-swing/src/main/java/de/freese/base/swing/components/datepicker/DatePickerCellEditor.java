@@ -15,9 +15,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.tree.TreeCellEditor;
 
 import org.jdesktop.swingx.JXDatePicker;
-import org.jdesktop.swingx.plaf.basic.BasicDatePickerUI;
 
 /**
+ * Alternative: <a href="https://github.com/LGoodDatePicker/LGoodDatePicker">LGoodDatePicker</a>
+ *
  * @author Thomas Freese
  */
 public class DatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor
@@ -26,8 +27,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     private static final long serialVersionUID = 1L;
 
     // /**
-    // * Beendet die Eingabe mit Enter.
-    // *
     // * @author Thomas Freese
     // */
     // private class EnterAction extends AbstractAction
@@ -47,8 +46,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     // }
 
     /**
-     * Beendet die Eingabe bei Enter (Event kommt aus {@link BasicDatePickerUI}).
-     *
      * @author Thomas Freese
      */
     public static class DatePickerCommitListener implements ActionListener

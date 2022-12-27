@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 /**
+ * Alternative: <a href="https://github.com/LGoodDatePicker/LGoodDatePicker">LGoodDatePicker</a>
+ *
  * @author Thomas Freese
  */
 public final class DatePickerMain
@@ -21,7 +23,7 @@ public final class DatePickerMain
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
+
     private DatePickerMain()
     {
         super();

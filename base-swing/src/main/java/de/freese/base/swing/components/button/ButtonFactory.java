@@ -13,14 +13,12 @@ import de.freese.base.swing.ui.HTMLTextButtonUI;
 import de.freese.base.utils.FontUtils;
 
 /**
- * Factory für verschiedene ButtonTypen.
- *
  * @author Thomas Freese
  */
 public final class ButtonFactory
 {
     /**
-     * Enum für die Pfeilrichtung von "Move"-Buttons des Marvosym-Fonts.
+     * Enum for Arrows of "Move"-Buttons from the Marvosym-Font.
      *
      * @author Thomas Freese
      */

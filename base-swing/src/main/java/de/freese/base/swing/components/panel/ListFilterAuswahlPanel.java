@@ -17,8 +17,6 @@ import de.freese.base.swing.ui.ThinHorizontalScrollBarUI;
 /**
  * Panel mit einem Filtertextfeld in der TitleBar.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public class ListFilterAuswahlPanel<T> extends ExtTitledPanel

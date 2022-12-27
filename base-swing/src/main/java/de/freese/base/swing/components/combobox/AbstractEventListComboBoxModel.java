@@ -9,10 +9,6 @@ import de.freese.base.swing.components.list.model.AbstractEventListListModel;
 import de.freese.base.swing.eventlist.EventList;
 
 /**
- * Basis ComboBoxModel, welches die Verwendung einer {@link EventList} ermöglicht.
- *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventListListModel<T> implements ComboBoxModel<T>

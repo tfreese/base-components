@@ -10,7 +10,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 
 /**
- * Gruppiert mehrere ComboBoxen, so dass nur jeweils eine ein selectedObject hat, was nicht NULL ist.
+ * Guarantees that only one ComboBox has an selectedObject that is not null.
  *
  * @author Thomas Freese
  * @see ButtonGroup
@@ -40,7 +40,7 @@ public class ComboBoxGroup implements ItemListener
         {
             JComboBox<?> srcComboBox = (JComboBox<?>) e.getSource();
 
-            // Alle anderen ComboBoxen selection entfernen
+            // Remove selection from all other ComboBoxes.
             for (JComboBox<?> comboBox : this.boxes)
             {
                 if (comboBox != srcComboBox)

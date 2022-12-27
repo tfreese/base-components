@@ -19,8 +19,6 @@ import javax.swing.plaf.metal.MetalScrollBarUI;
 /**
  * ExtComboBox, deren Popup automatisch die Grösse besitzt, um den Inhalt komplett darzustellen, auch wenn die ExtComboBox kleiner ist.
  *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public class ExtComboBox<T> extends JComboBox<T>
@@ -71,7 +69,7 @@ public class ExtComboBox<T> extends JComboBox<T>
                     scroll = 20;
                 }
 
-                // Breitestes Element ermitteln
+                // Detect max. Width.
                 for (int i = 0; i < itemCount; i++)
                 {
                     Component c = renderer.getListCellRendererComponent(getList(), this.comboBox.getItemAt(i), i, false, false);
@@ -187,8 +185,7 @@ public class ExtComboBox<T> extends JComboBox<T>
         // set the new selected item.
         this.selectedItemReminder = this.dataModel.getSelectedItem();
 
-        // Ausnahmeimplementierung, Event soll auch gefeuert werden, wenn Object
-        // = NULL
+        // Fire Event even if Object = NULL
         if ((this.selectedItemReminder != null) || ((this.selectedItemReminder == null) && isFireOnNull()))
         {
             fireItemStateChanged(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this.selectedItemReminder, ItemEvent.SELECTED));

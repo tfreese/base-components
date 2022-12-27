@@ -12,10 +12,6 @@ import javax.swing.event.ListDataListener;
 import de.freese.base.swing.eventlist.EventList;
 
 /**
- * Basis ListModel, welches die Verwendung einer {@link EventList} ermöglicht.
- *
- * @param <T> Konkreter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractEventListListModel<T> implements ListModel<T>, Serializable
@@ -101,13 +97,11 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     }
 
     /**
-     * Feuert das ContentsChanged Event.
+     * Fires the ContentsChanged Event in the EventList.
      */
     public void refresh()
     {
         getList().update();
-
-        // Die Events werden über die EventList gefeuert.
     }
 
     /**
@@ -138,18 +132,18 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     protected void fireContentsChanged(final Object source, final int index0, final int index1)
     {
         Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
             if (listeners[i] == ListDataListener.class)
             {
-                if (e == null)
+                if (event == null)
                 {
-                    e = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
+                    event = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).contentsChanged(e);
+                ((ListDataListener) listeners[i + 1]).contentsChanged(event);
             }
         }
     }
@@ -168,18 +162,18 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     protected void fireIntervalAdded(final Object source, final int index0, final int index1)
     {
         Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
             if (listeners[i] == ListDataListener.class)
             {
-                if (e == null)
+                if (event == null)
                 {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
+                    event = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).intervalAdded(e);
+                ((ListDataListener) listeners[i + 1]).intervalAdded(event);
             }
         }
     }
@@ -199,18 +193,18 @@ public abstract class AbstractEventListListModel<T> implements ListModel<T>, Ser
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
     {
         Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
             if (listeners[i] == ListDataListener.class)
             {
-                if (e == null)
+                if (event == null)
                 {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
+                    event = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).intervalRemoved(e);
+                ((ListDataListener) listeners[i + 1]).intervalRemoved(event);
             }
         }
     }

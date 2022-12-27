@@ -8,10 +8,6 @@ import javax.swing.event.ListDataListener;
 import de.freese.base.swing.eventlist.EventList;
 
 /**
- * TableModel das intern eine {@link EventList} verwendet.
- *
- * @param <T> Konkreter Typ der List-Objekte.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractEventListTableModel<T> extends AbstractListTableModel<T>
@@ -28,10 +24,10 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
          * @see javax.swing.event.ListDataListener#contentsChanged(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void contentsChanged(final ListDataEvent e)
+        public void contentsChanged(final ListDataEvent event)
         {
-            // int firstRow = e.getIndex0();
-            // int lastRow = e.getIndex1();
+            // int firstRow = event.getIndex0();
+            // int lastRow = event.getIndex1();
             //
             // fireTableRowsUpdated(firstRow, lastRow);
             // fireTableRowsUpdated(0, Integer.MAX_VALUE);
@@ -43,10 +39,10 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
          * @see javax.swing.event.ListDataListener#intervalAdded(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void intervalAdded(final ListDataEvent e)
+        public void intervalAdded(final ListDataEvent event)
         {
-            int firstRow = e.getIndex0();
-            int lastRow = e.getIndex1();
+            int firstRow = event.getIndex0();
+            int lastRow = event.getIndex1();
 
             fireTableRowsInserted(firstRow, lastRow);
         }
@@ -55,10 +51,10 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
          * @see javax.swing.event.ListDataListener#intervalRemoved(javax.swing.event.ListDataEvent)
          */
         @Override
-        public void intervalRemoved(final ListDataEvent e)
+        public void intervalRemoved(final ListDataEvent event)
         {
-            int firstRow = e.getIndex0();
-            int lastRow = e.getIndex1();
+            int firstRow = event.getIndex0();
+            int lastRow = event.getIndex1();
 
             fireTableRowsDeleted(firstRow, lastRow);
         }
@@ -79,7 +75,7 @@ public abstract class AbstractEventListTableModel<T> extends AbstractListTableMo
     {
         getList().update();
 
-        // Die Events werden über die EventList gefeuert.
+        // Events will fired by the EventList.
     }
 
     /**

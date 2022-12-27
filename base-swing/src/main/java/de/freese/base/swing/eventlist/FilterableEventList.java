@@ -18,11 +18,6 @@ import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.filter.FilterCondition;
 
 /**
- * Implementierung einer Liste, welche eine {@link EventList} aufnimmt, auf deren AÄnderungen reagiert und die Inhalte filtert.<br>
- * Sämtliche Events werden im EDT gefeuert.
- *
- * @param <E> Type
- *
  * @author Thomas Freese
  */
 public class FilterableEventList<E> implements EventList<E>, PropertyChangeListener
@@ -243,7 +238,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
     @Override
     public void propertyChange(final PropertyChangeEvent evt)
     {
-        // Falls sich die Bedingungen innerhalb des Filters geändert haben
         if (Filter.FILTER_CHANGED.equals(evt.getPropertyName()))
         {
             filter();
@@ -327,7 +321,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
     {
         if (this.filter != null)
         {
-            // Zuerst sich als Listener aus dem alten Filter austragen
             this.filter.getPropertyChangeSupport().removePropertyChangeListener(this);
         }
 
@@ -335,7 +328,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
 
         if (this.filter != null)
         {
-            // Dann sich als Listener bei dem neuen registrieren
             this.filter.getPropertyChangeSupport().addPropertyChangeListener(this);
         }
 
@@ -417,10 +409,6 @@ public class FilterableEventList<E> implements EventList<E>, PropertyChangeListe
         fireContentsChanged(0, size() - 1);
     }
 
-    /**
-     * Benachrichtigt die Listener, dass sich die Struktur geändert hat.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     */
     private void fireContentsChanged(final int startIndex, final int endIndex)
     {
         if (!isListenerEnabled())

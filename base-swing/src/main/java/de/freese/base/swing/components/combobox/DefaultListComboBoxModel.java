@@ -8,8 +8,6 @@ import javax.swing.ComboBoxModel;
 import de.freese.base.swing.components.list.model.DefaultListListModel;
 
 /**
- * @param <T> Type
- *
  * @author Thomas Freese
  */
 public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> implements ComboBoxModel<T>

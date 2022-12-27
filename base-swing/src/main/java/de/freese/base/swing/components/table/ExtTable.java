@@ -32,8 +32,6 @@ import de.freese.base.swing.components.table.sort.TableColumnSorter;
 import de.freese.base.utils.TableUtils;
 
 /**
- * Erweiterte JTable.
- *
  * @author Thomas Freese
  */
 public class ExtTable extends JTable implements ExtTableColumnModelListener
@@ -41,7 +39,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     @Serial
     private static final long serialVersionUID = -4454292369350861849L;
     /**
-     * Gibt an, ob ein alternativer Header verwendet werden soll.
+     * Show an alternative Header.
      */
     private final boolean showHeader;
 
@@ -93,7 +91,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         //        else
         if ("visible".equals(event.getPropertyName()))
         {
-            // Falls RowSorter vorhanden die Spalte auf UNSORTED setzen
+            // If RowSorter exist set the Column to UNSORTED.
             if (getClientProperty("ROWSORTER") != null)
             {
                 TableColumnSorter rowSorter = (TableColumnSorter) getClientProperty("ROWSORTER");
@@ -269,8 +267,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     @Override
     public Component prepareEditor(final TableCellEditor editor, final int row, final int column)
     {
-        // Bei einer Textkomponente den ganzen Inhalt selektieren, damit bei Eingabe der Inhalt
-        // komplett überschrieben wird.
+        // Select hole Text in a Text-Component.
         if (!isFocusOwner())
         {
             requestFocus();
@@ -297,8 +294,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     }
 
     /**
-     * Überschrieben, um den TableHeader nicht zu zeigen.
-     *
      * @see javax.swing.JTable#configureEnclosingScrollPane()
      */
     @Override
@@ -358,10 +353,10 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
     {
         super.initializeLocalVars();
 
-        // CellEditor schliessen bei FocusLost
+        // Close CellEditor on FocusLost.
         putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
-        // Automatisch CellEditor bei KeyStrokes
+        // Start editing on KeyStrokes.
         putClientProperty("JTable.autoStartsEdit", Boolean.TRUE);
 
         // Pack Actions
@@ -385,11 +380,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         TableColumnSorter.add(this);
     }
 
-    /**
-     * Gibt an, ob ein FilterHeader verwendet wird.
-     *
-     * @return <code>true</code> wenn vorhanden, sonst <code>false</code>
-     */
     protected boolean showHeader()
     {
         return this.showHeader;

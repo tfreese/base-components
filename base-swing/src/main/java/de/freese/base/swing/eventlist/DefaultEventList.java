@@ -11,11 +11,6 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
 /**
- * Implementierung einer eigenen Liste, welche bei Änderungen Events feuert.<br>
- * Sämtliche Events werden im EDT gefeuert.<br>
- *
- * @param <E> Type
- *
  * @author Thomas Freese
  */
 public final class DefaultEventList<E> extends ArrayList<E> implements EventList<E>
@@ -41,10 +36,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     {
         super.add(o);
 
-        // Sortieren VOR dem Ermitteln der Indices.
         sort();
-
-        // bind(o);
 
         int index = indexOf(o);
 
@@ -64,10 +56,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     {
         super.add(index, element);
 
-        // Sortieren VOR dem Ermitteln der Indices.
         sort();
-
-        // bind(element);
 
         int realIndex = indexOf(element);
 
@@ -90,10 +79,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
 
         super.addAll(c);
 
-        // Sortieren VOR dem Ermitteln der Indices.
         sort();
-
-        // bind(c);
 
         if (size() == 0)
         {
@@ -120,10 +106,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
 
         super.addAll(index, c);
 
-        // Sortieren VOR dem Ermitteln der Indices.
         sort();
-
-        // bind(c);
 
         if (size() == 0)
         {
@@ -155,8 +138,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
         setOwner(null);
 
         int oldSize = size();
-
-        // unbind(this);
 
         super.clear();
 
@@ -195,17 +176,9 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
             return null;
         }
 
-        // // Hier muss das Event zuerst gefeuert werden, da es zu einer
-        // // ConcurrentModificationException
-        // // kommen könnte, wenn die Listener auf das gelöschte Objekt der Liste
-        // // zugreifen würden.
-        // firePreRemove(index, index);
-
         E object = super.remove(index);
 
         fireIntervalRemoved(index, index);
-
-        // unbind(object);
 
         return object;
     }
@@ -228,14 +201,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
             return false;
         }
 
-        // unbind(o);
-
-        // // Hier muss das Event zuerst gefeuert werden, da es zu einer
-        // // ConcurrentModificationException
-        // // kommen könnte, wenn die Listener auf das gelöschte Objekt der Liste
-        // // zugreifen würden.
-        // firePreRemove(index, index);
-
         boolean value = super.remove(o);
 
         fireIntervalRemoved(index, index);
@@ -249,7 +214,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     @Override
     public boolean removeAll(final Collection<?> c)
     {
-        // Ruft intern remove(int) auf
+        // Calls remove(int)
         return super.removeAll(c);
     }
 
@@ -268,7 +233,7 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     @Override
     public void reset()
     {
-        // Nix zu tun
+        // Empty
     }
 
     /**
@@ -279,13 +244,8 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
     {
         E oldObject = super.set(index, element);
 
-        // unbind(oldObject);
-        // bind(element);
-
         if (!this.isSorting)
         {
-            // Events nur feuern, wenn nicht sortiert wird.
-            // Dies geschieht nach dem Sortieren.
             fireContentsChanged(index, index);
         }
 
@@ -334,10 +294,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
         fireContentsChanged(0, size() - 1);
     }
 
-    /**
-     * Benachrichtigt die Listener, dass sich die Struktur geändert hat.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     */
     private void fireContentsChanged(final int startIndex, final int endIndex)
     {
         if (!isListenerEnabled())
@@ -369,10 +325,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
         }
     }
 
-    /**
-     * Benachrichtigt die Listener, dass neue Daten hinzugekommen sind.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     */
     private void fireIntervalAdded(final int startIndex, final int endIndex)
     {
         if (!isListenerEnabled())
@@ -404,10 +356,6 @@ public final class DefaultEventList<E> extends ArrayList<E> implements EventList
         }
     }
 
-    /**
-     * Benachrichtigt die Listener, dass Daten weggefallen sind.<br>
-     * Alle Listener werden im EDT benachrichtigt.
-     */
     private void fireIntervalRemoved(final int startIndex, final int endIndex)
     {
         if (!isListenerEnabled())

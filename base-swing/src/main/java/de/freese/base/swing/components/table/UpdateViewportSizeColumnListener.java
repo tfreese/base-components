@@ -11,8 +11,6 @@ import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 
 /**
- * Wenn das ColumnModel eine Änderung der Columns meldet, wird die Grösse des Viewports automatisch angepasst.
- *
  * @author Thomas Freese
  */
 public class UpdateViewportSizeColumnListener implements TableColumnModelListener

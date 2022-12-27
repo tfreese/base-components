@@ -6,10 +6,6 @@ import java.util.List;
 import javax.swing.event.ListDataListener;
 
 /**
- * Interface einer eigenen Liste, welche bei Änderungen Events feuert.
- *
- * @param <E> Type
- *
  * @author Thomas Freese
  */
 public interface EventList<E> extends List<E>
@@ -31,8 +27,7 @@ public interface EventList<E> extends List<E>
     void setOwner(Object owner);
 
     /**
-     * Feuert ein ContentsChanged Event für die ganze Liste.<br>
-     * Nur relevant, wenn {@link #setListenerEnabled(boolean)} verwendet wurde.
+     * Fires a ContentsChanged Event if {@link #setListenerEnabled(boolean)} was called.
      */
     void update();
 }

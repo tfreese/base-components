@@ -165,18 +165,18 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     protected void fireContentsChanged(final Object source, final int index0, final int index1)
     {
         Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
             if (listeners[i] == ListDataListener.class)
             {
-                if (e == null)
+                if (event == null)
                 {
-                    e = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
+                    event = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).contentsChanged(e);
+                ((ListDataListener) listeners[i + 1]).contentsChanged(event);
             }
         }
     }
@@ -195,18 +195,18 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     protected void fireIntervalAdded(final Object source, final int index0, final int index1)
     {
         Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
             if (listeners[i] == ListDataListener.class)
             {
-                if (e == null)
+                if (event == null)
                 {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
+                    event = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).intervalAdded(e);
+                ((ListDataListener) listeners[i + 1]).intervalAdded(event);
             }
         }
     }
@@ -226,18 +226,18 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
     {
         Object[] listeners = this.eventListenerList.getListenerList();
-        ListDataEvent e = null;
+        ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2)
         {
             if (listeners[i] == ListDataListener.class)
             {
-                if (e == null)
+                if (event == null)
                 {
-                    e = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
+                    event = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
                 }
 
-                ((ListDataListener) listeners[i + 1]).intervalRemoved(e);
+                ((ListDataListener) listeners[i + 1]).intervalRemoved(event);
             }
         }
     }

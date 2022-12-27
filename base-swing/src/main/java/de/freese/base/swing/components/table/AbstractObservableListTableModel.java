@@ -8,10 +8,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 /**
- * TableModel das Intern eine {@link ObservableList} verwendet.
- *
- * @param <T> Typ der Entity
- *
  * @author Thomas Freese
  */
 public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> implements ListChangeListener<T>
@@ -66,7 +62,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
             {
                 fireTableDataChanged();
 
-                // 1x reicht
                 return;
             }
         }
