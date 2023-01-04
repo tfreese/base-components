@@ -43,6 +43,11 @@
         </developer>
     </developers>
 
+    <properties>
+        <checkstyle.skip>false</checkstyle.skip>
+        <checkstyle.xml>../parents/ci/config/checkstyle.xml</checkstyle.xml>
+    </properties>
+
     <modules>
         <module>base-core</module>
         <module>base-calendar</module>
@@ -54,59 +59,6 @@
         <module>base-swing</module>
         <module>base-swing-demo</module>
     </modules>
-
-    <reporting>
-        <plugins>
-            <!--
-            mvn site
-            mvn checkstyle:checkstyle
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>ci/config/checkstyle.xml</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <failsOnError>false</failsOnError>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>ci/config/checkstyle.xml</configLocation>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <logViolationsToConsole>true</logViolationsToConsole>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>false</failsOnError>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
         <!-- compile scope -->
