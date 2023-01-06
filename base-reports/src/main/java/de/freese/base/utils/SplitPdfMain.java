@@ -28,8 +28,8 @@ public final class SplitPdfMain
                             os1, os2, os3
                     };
 
-            splitPdf.split(ranges, outputStreams, null);
-            splitPdf.split(ranges, os4, null);
+            splitPdf.split(ranges, outputStreams);
+            splitPdf.split(ranges, os4);
         }
     }
 

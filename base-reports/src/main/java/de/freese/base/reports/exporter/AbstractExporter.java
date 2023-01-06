@@ -1,27 +1,17 @@
 package de.freese.base.reports.exporter;
 
-import org.springframework.core.io.ResourceLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Basisklasse eines CSV-Exporters.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractExporter<T> implements Exporter<T>
 {
-    private ResourceLoader resourceLoader;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @see Exporter#setResourceLoader(org.springframework.core.io.ResourceLoader)
-     */
-    @Override
-    public void setResourceLoader(final ResourceLoader resourceLoader)
+    public Logger getLogger()
     {
-        this.resourceLoader = resourceLoader;
-    }
-
-    protected ResourceLoader getResourceLoader()
-    {
-        return this.resourceLoader;
+        return logger;
     }
 }

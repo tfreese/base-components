@@ -9,23 +9,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.function.BiConsumer;
+import java.util.List;
 
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
-import de.freese.base.core.progress.ProgressCallback;
+import com.lowagie.text.pdf.PdfWriter;
 import de.freese.base.reports.exporter.Exporter;
 import de.freese.base.reports.exporter.pdf.AbstractPdfExporter;
-import de.freese.base.reports.exporter.pdf.DocumentMetaData;
 
 /**
- * Testklasse des Layouts.
- *
  * @author Thomas Freese
  */
 public final class TestPdfExporterMain
@@ -38,13 +36,19 @@ public final class TestPdfExporterMain
 
     public static void main(final String[] args) throws Exception
     {
-        Exporter<Void> exporter = new AbstractPdfExporter<>()
+        Exporter<List<String>> exporter = new AbstractPdfExporter<>()
         {
             @Override
-            public void export(final OutputStream outputStream, final BiConsumer<Integer, Integer> progressCallback, final Void model) throws Exception
+            public void export(final OutputStream outputStream, final List<String> model) throws Exception
             {
-                createDocumentAndWriter(outputStream, new DocumentMetaData());
-                getDocument().open();
+                createDocumentAndWriter(outputStream, (document, writer) ->
+                {
+                    document.setPageSize(PageSize.A4.rotate());
+                    document.setMargins(40, 20, 20, 20);
+
+                    writer.setFullCompression();
+                    writer.setPdfVersion(PdfWriter.VERSION_1_7);
+                });
 
                 //                getDocument().newPage();
 
@@ -54,37 +58,22 @@ public final class TestPdfExporterMain
                 table.setTotalWidth(160F);
                 table.setLockedWidth(true);
 
-                table.addCell(createCell("1"));
-                table.addCell(createCell("2"));
-                table.addCell(createCell("3"));
-                table.addCell(createCell(""));
-                table.addCell(createCell("4"));
-                table.addCell(createCell(""));
+                model.forEach(value -> table.addCell(createCell(value, PDF_FONT_12_BOLD_BLACK)));
 
                 PdfContentByte contentByte = getWriter().getDirectContent();
                 table.writeSelectedRows(0, -1, getMinX() - 0.5F, getMaxY() - 20F, contentByte);
 
                 //                getDocument().add(table);
 
+                drawLine(200, 200, 300, 300, Color.RED);
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                drawTextFussZeile("Fusszeile: " + LocalDateTime.now().format(formatter));
-            }
-
-            @Override
-            protected Font getDefaultFont()
-            {
-                return PDF_FONT_12_PLAIN_BLACK;
-            }
-
-            @Override
-            protected Font getDefaultFontBold()
-            {
-                return PDF_FONT_12_BOLD_BLACK;
+                drawTextFooter("Fusszeile: " + LocalDateTime.now().format(formatter), PDF_FONT_12_PLAIN_BLACK);
             }
         };
 
-        final Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.pdf");
-        exporter.export(filePath, ProgressCallback.EMPTY, null);
+        Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.pdf");
+        exporter.export(filePath, List.of("1", "2", "3", "", "4", ""));
 
         Runnable task = () ->
         {
@@ -111,7 +100,7 @@ public final class TestPdfExporterMain
         //        TimeUnit.SECONDS.sleep(5);
     }
 
-    private static PdfPCell createCell(String text)
+    private static PdfPCell createCell(String text, Font font)
     {
         PdfPCell cell = new PdfPCell();
         cell.setNoWrap(true);
@@ -126,7 +115,7 @@ public final class TestPdfExporterMain
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setBorderWidth(0.5F);
 
-        Paragraph paragraph = new Paragraph(text, PDF_FONT_12_PLAIN_BLACK);
+        Paragraph paragraph = new Paragraph(text, font);
         cell.setPhrase(paragraph);
 
         return cell;

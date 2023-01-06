@@ -7,8 +7,6 @@ import de.freese.base.reports.layout.LayoutPreviewFrame;
 import de.freese.base.reports.layout.LineLayoutElement;
 
 /**
- * Testklasse des Layouts.
- *
  * @author Thomas Freese
  */
 public final class TestLayoutMain

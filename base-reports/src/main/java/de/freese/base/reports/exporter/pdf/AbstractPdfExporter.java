@@ -2,7 +2,6 @@
 package de.freese.base.reports.exporter.pdf;
 
 import java.awt.Color;
-import java.awt.Insets;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,74 +13,68 @@ import java.util.function.BiConsumer;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import de.freese.base.reports.exporter.AbstractExporter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Basisklasse eines PDF-Exporters.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
 {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private Document document;
 
     private PdfWriter writer;
 
-    /**
-     * @see #configure(Document, PdfWriter, DocumentMetaData)
-     */
-    public final void createDocumentAndWriter(final OutputStream outputStream, final DocumentMetaData metaData) throws DocumentException
-    {
-        this.document = new Document();
-        this.writer = PdfWriter.getInstance(getDocument(), outputStream);
-
-        getWriter().setPdfVersion(PdfWriter.VERSION_1_5);
-
-        // setFullCompression setzt automatisch die PDF-Version auf 1.5
-        getWriter().setFullCompression();
-
-        configure(getDocument(), getWriter(), metaData);
-    }
-
     @Override
-    public void export(final Path filePath, final BiConsumer<Integer, Integer> progressCallback, final T model) throws Exception
+    public void export(final Path filePath, final T model) throws Exception
     {
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath)))
         {
-            export(outputStream, progressCallback, model);
+            export(outputStream, model);
 
             getDocument().close();
             getWriter().close();
         }
     }
 
-    /**
-     * Defaults: A4 Portrait, Margins (40, 20, 20, 20)
-     */
-    protected void configure(final Document document, final PdfWriter writer, final DocumentMetaData metaData)
+    protected void createDocumentAndWriter(final OutputStream outputStream, BiConsumer<Document, PdfWriter> configurator) throws DocumentException
     {
-        document.setPageSize(metaData.getPageSize());
+        this.document = new Document();
+        this.writer = PdfWriter.getInstance(this.document, outputStream);
 
-        document.addKeywords(metaData.getKeywords());
-        document.addCreator(metaData.getCreator());
-        document.addAuthor(metaData.getAuthor());
-        document.addSubject(metaData.getSubject());
-        document.addTitle(metaData.getTitle());
+        if (configurator != null)
+        {
+            configurator.accept(this.document, this.writer);
+        }
+        else
+        {
+            //  Defaults: A4 Portrait, Margins (40, 20, 20, 20)
 
-        // left, right, top, bottom
-        Insets margins = metaData.getMargins();
-        document.setMargins(margins.left, margins.right, margins.top, margins.bottom);
+            // Landscape: PageSize.A4.rotate()
+            this.document.setPageSize(PageSize.A4);
+
+            // left, right, top, bottom
+            this.document.setMargins(40, 20, 20, 20);
+
+            //        this.document.addKeywords(...);
+            //        this.document.addCreator(...);
+            //        this.document.addAuthor(...);
+            //        this.document.addSubject(...);
+            //        this.document.addTitle(...);
+
+            // setFullCompression set PDF-Version to 1.5
+            this.writer.setFullCompression();
+            this.writer.setPdfVersion(PdfWriter.VERSION_1_7);
+        }
+
+        getDocument().open();
     }
 
     /**
-     * @param strokeColor {@link Color}, optional, wenn null wird gesetzte Farbe verwendet.
+     * @param strokeColor {@link Color}, optional, if null, previous Color is used.
      */
     protected void drawLine(final float x1, final float y1, final float x2, final float y2, final Color strokeColor)
     {
@@ -93,15 +86,15 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
             contentByte.setColorStroke(strokeColor);
         }
 
-        contentByte.moveTo(x1, y2);
+        contentByte.moveTo(x1, y1);
         contentByte.lineTo(x2, y2);
         contentByte.stroke();
         contentByte.restoreState();
     }
 
     /**
-     * @param fillColor {@link Color}, optional, wenn null wird gesetzte Farbe verwendet.
-     * @param borderColor {@link Color}, optional, wenn null wird gesetzte Farbe verwendet.
+     * @param fillColor {@link Color}, optional, if null, previous Color is used.
+     * @param borderColor {@link Color}, optional, if null, previous Color is used.
      */
     protected void drawRectangle(final float x, final float y, final float width, final float height, final Color fillColor, final Color borderColor)
     {
@@ -133,14 +126,6 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     /**
      * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
      */
-    protected void drawText(final String text, final float x, final float y, final float fontSize, final int align) throws DocumentException, IOException
-    {
-        drawText(text, x, y, fontSize, align, getDefaultFont().getBaseFont());
-    }
-
-    /**
-     * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
-     */
     protected void drawText(final String text, final float x, final float y, final float fontSize, final int align, final BaseFont baseFont)
     {
         PdfContentByte contentByte = getWriter().getDirectContent();
@@ -152,27 +137,18 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
         contentByte.endText();
     }
 
-    protected void drawTextFussZeile(final String text) throws DocumentException, IOException
+    protected void drawTextFooter(final String text, final Font font) throws DocumentException, IOException
     {
-        drawText(text, getMaxX(), getMinY(), getDefaultFont().getSize(), PdfContentByte.ALIGN_RIGHT);
+        drawText(text, getMaxX(), getMinY(), font.getSize(), PdfContentByte.ALIGN_RIGHT, font.getBaseFont());
     }
-
-    protected abstract Font getDefaultFont();
-
-    protected abstract Font getDefaultFontBold();
 
     protected final Document getDocument()
     {
         return this.document;
     }
 
-    protected final Logger getLogger()
-    {
-        return this.logger;
-    }
-
     /**
-     * Liefert die grösste X Koordinate unter Berücksichtigung des rechten Randes.
+     * Returns the max. X Coordinate consider the right Margin.
      */
     protected final float getMaxX()
     {
@@ -180,7 +156,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die grösste Y Koordinate unter Berücksichtigung des oberen Randes.
+     * Returns the max. Y Coordinate consider the upper Margin.
      */
     protected final float getMaxY()
     {
@@ -188,7 +164,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die kleinste X Koordinate unter Berücksichtigung des linken Randes.
+     * Returns the min. X Coordinate consider the left Margin.
      */
     protected final float getMinX()
     {
@@ -196,7 +172,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die kleinste Y Koordinate unter Berücksichtigung des unteren Randes.
+     * Returns the max. Y Coordinate consider the bottom Margin.
      */
     protected final float getMinY()
     {
@@ -209,7 +185,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die X Koordinate absolut zum Ursprung (minX).
+     * Returns the X Coordinate relativ to the origin (minX).
      */
     protected final float getX(final int offset)
     {
@@ -217,7 +193,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die X Koordinate relativ zum Ursprung (minX).
+     * Returns the X Coordinate relativ to the origin (minX).
      *
      * @param prozent float, 0...100
      */
@@ -227,7 +203,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die Y Koordinate absolut zum Ursprung (minY).
+     * Returns the Y Coordinate relativ to the origin (minY).
      */
     protected final float getY(final int offset)
     {
@@ -235,7 +211,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Liefert die Y Koordinate relativ zum Ursprung (minY).
+     * Returns the Y Coordinate relativ to the origin (minY).
      *
      * @param prozent float, 0...100
      */
@@ -245,16 +221,14 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
     }
 
     /**
-     * Mit Passwort versehen und Rechte einschränken.
+     * Secure with Password and limit rights.
      *
-     * @param userPassword String, null = Keine Abfrage beim Öffnen
+     * @param userPassword String, null = No Question during opening
+     * @param ownerPassword String, null = No Question during Changes
      */
     protected void secure(final PdfWriter writer, final String userPassword, final String ownerPassword) throws DocumentException
     {
-        // UserPassword: null = Keine Abfrage beim Öffnen
         byte[] userPwd = userPassword != null ? userPassword.getBytes(StandardCharsets.UTF_8) : null;
-
-        // OwnerPassword: Abfrage beim Andern
         byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes(StandardCharsets.UTF_8) : null;
 
         writer.setEncryption(userPwd, ownerPwd, PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS, PdfWriter.ENCRYPTION_AES_128);

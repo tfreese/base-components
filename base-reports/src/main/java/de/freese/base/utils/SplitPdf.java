@@ -7,7 +7,6 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfWriter;
-import de.freese.base.reports.exporter.pdf.DocumentMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +52,7 @@ public class SplitPdf
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
      */
-    public void split(final String[] ranges, final OutputStream outStream, final DocumentMetaData metaData) throws Exception
+    public void split(final String[] ranges, final OutputStream outStream) throws Exception
     {
         if ((ranges == null) || (outStream == null))
         {
@@ -71,14 +70,11 @@ public class SplitPdf
         PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStream);
         newPdfWriter.setFullCompression();
 
-        if (metaData != null)
-        {
-            newDoc.addTitle(metaData.getTitle());
-            newDoc.addSubject(metaData.getSubject());
-            newDoc.addKeywords(metaData.getKeywords());
-            newDoc.addCreator(metaData.getCreator());
-            newDoc.addAuthor(metaData.getAuthor());
-        }
+        //            newDoc.addTitle(...);
+        //            newDoc.addSubject(...);
+        //            newDoc.addKeywords(...);
+        //            newDoc.addCreator(...);
+        //            newDoc.addAuthor(...);
 
         newDoc.open();
 
@@ -140,9 +136,8 @@ public class SplitPdf
      * Extrahiert aus einer PDF-Datei frei wählbare Bereiche von Seiten als neue PDF-Dokumente.
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
-     * @param metaData {@link DocumentMetaData}[] (optional)
      */
-    public void split(final String[] ranges, final OutputStream[] outStreams, final DocumentMetaData[] metaData) throws Exception
+    public void split(final String[] ranges, final OutputStream[] outStreams) throws Exception
     {
         if ((ranges == null) || (outStreams == null))
         {
@@ -185,14 +180,11 @@ public class SplitPdf
             PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStreams[r]);
             newPdfWriter.setFullCompression();
 
-            if (metaData[r] != null)
-            {
-                newDoc.addTitle(metaData[r].getTitle());
-                newDoc.addSubject(metaData[r].getSubject());
-                newDoc.addKeywords(metaData[r].getKeywords());
-                newDoc.addCreator(metaData[r].getCreator());
-                newDoc.addAuthor(metaData[r].getAuthor());
-            }
+            //            newDoc.addTitle(...);
+            //            newDoc.addSubject(...);
+            //            newDoc.addKeywords(...);
+            //            newDoc.addCreator(...);
+            //            newDoc.addAuthor(...);
 
             newDoc.open();
 
