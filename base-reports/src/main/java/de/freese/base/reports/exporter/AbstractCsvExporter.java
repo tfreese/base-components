@@ -1,4 +1,4 @@
-package de.freese.base.reports.exporter.csv;
+package de.freese.base.reports.exporter;
 
 import java.io.BufferedWriter;
 import java.io.OutputStream;
@@ -7,7 +7,6 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
 import de.freese.base.core.io.WindowsPrintWriter;
-import de.freese.base.reports.exporter.AbstractExporter;
 
 /**
  * @author Thomas Freese
@@ -20,6 +19,8 @@ public abstract class AbstractCsvExporter<T> extends AbstractExporter<T>
         try (PrintWriter pw = new WindowsPrintWriter(outputStream, true, StandardCharsets.UTF_8))
         {
             export(pw, model);
+
+            pw.flush();
         }
     }
 

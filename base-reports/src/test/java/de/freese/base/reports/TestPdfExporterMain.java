@@ -4,13 +4,13 @@ package de.freese.base.reports;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
@@ -20,17 +20,16 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import de.freese.base.reports.exporter.AbstractPdfExporter;
 import de.freese.base.reports.exporter.Exporter;
-import de.freese.base.reports.exporter.pdf.AbstractPdfExporter;
 
 /**
  * @author Thomas Freese
  */
 public final class TestPdfExporterMain
 {
-    private static final Font PDF_FONT_12_BOLD_BLACK = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.BOLD, Color.BLACK);
-
-    private static final Font PDF_FONT_12_PLAIN_BLACK = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.NORMAL, Color.BLACK);
+    private static final Font PDF_FONT_12_BLACK = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.NORMAL, Color.BLACK);
+    private static final Font PDF_FONT_12_BLACK_BOLD = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.BOLD, Color.BLACK);
 
     // BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
@@ -39,18 +38,30 @@ public final class TestPdfExporterMain
         Exporter<List<String>> exporter = new AbstractPdfExporter<>()
         {
             @Override
-            public void export(final OutputStream outputStream, final List<String> model) throws Exception
+            public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception
             {
-                createDocumentAndWriter(outputStream, (document, writer) ->
-                {
-                    document.setPageSize(PageSize.A4.rotate());
-                    document.setMargins(40, 20, 20, 20);
+                // Must called before opening the Document.
+                //secure(writer, "test", null);
 
-                    writer.setFullCompression();
-                    writer.setPdfVersion(PdfWriter.VERSION_1_7);
-                });
+                document.open();
 
-                //                getDocument().newPage();
+                //  A4 Landscape
+                document.setPageSize(PageSize.A4.rotate());
+
+                // left, right, top, bottom
+                document.setMargins(40, 20, 20, 20);
+
+                //        document.addKeywords(...);
+                //        document.addCreator(...);
+                //        document.addAuthor(...);
+                //        document.addSubject(...);
+                //        document.addTitle(...);
+
+                // setFullCompression set PDF-Version to 1.5
+                writer.setFullCompression();
+                writer.setPdfVersion(PdfWriter.VERSION_1_7);
+
+                document.newPage();
 
                 float[] columnWidths = {40F, 80F, 40F};
 
@@ -58,17 +69,21 @@ public final class TestPdfExporterMain
                 table.setTotalWidth(160F);
                 table.setLockedWidth(true);
 
-                model.forEach(value -> table.addCell(createCell(value, PDF_FONT_12_BOLD_BLACK)));
+                model.forEach(value -> table.addCell(createCell(value, PDF_FONT_12_BLACK_BOLD)));
 
-                PdfContentByte contentByte = getWriter().getDirectContent();
-                table.writeSelectedRows(0, -1, getMinX() - 0.5F, getMaxY() - 20F, contentByte);
+                PdfContentByte contentByte = writer.getDirectContent();
+                table.writeSelectedRows(0, -1, getMinX(document) - 0.5F, getMaxY(document) - 20F, contentByte);
 
                 //                getDocument().add(table);
 
-                drawLine(200, 200, 300, 300, Color.RED);
+                drawLine(writer, 200, 200, 300, 300, Color.RED);
+                drawLine(writer, 200, 250, 300, 350, null);
+
+                drawRectangle(writer, 400, 400, 100, 100, Color.BLUE, Color.MAGENTA);
+                drawRectangle(writer, 400, 250, 100, 100, null, null);
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                drawTextFooter("Fusszeile: " + LocalDateTime.now().format(formatter), PDF_FONT_12_PLAIN_BLACK);
+                drawTextFooter(document, writer, "Footer: " + LocalDateTime.now().format(formatter), PDF_FONT_12_BLACK);
             }
         };
 

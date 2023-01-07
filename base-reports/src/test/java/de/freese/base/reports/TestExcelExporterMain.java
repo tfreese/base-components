@@ -2,13 +2,12 @@
 package de.freese.base.reports;
 
 import java.awt.Desktop;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import de.freese.base.reports.exporter.AbstractExcelExporter;
+import de.freese.base.reports.exporter.Exporter;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -23,7 +22,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * @author Thomas Freese
@@ -35,52 +33,52 @@ public final class TestExcelExporterMain
 
     public static void main(final String[] args) throws Exception
     {
-        Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.xlsx");
-
-        try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath));
-             Workbook workbook = new XSSFWorkbook())
+        Exporter<Integer> exporter = new AbstractExcelExporter<>()
         {
-            Sheet sheet = workbook.createSheet("SHEET_NAME");
-            sheet.setZoom(100);
-
-            // Header
-            Row row = CellUtil.getRow(0, sheet);
-
-            Cell cell = CellUtil.getCell(row, 0);
-            cell.setCellValue("Key");
-            cell.setCellStyle(getCellStyleDefaultBackground(workbook));
-
-            cell = CellUtil.getCell(row, 1);
-            cell.setCellValue("Value");
-            cell.setCellStyle(getCellStyleDefaultBackground(workbook));
-
-            // Daten
-            for (int rowIndex = 1; rowIndex <= 50; rowIndex++)
+            @Override
+            public void export(final Workbook workbook, final Integer dataCount) throws Exception
             {
-                row = CellUtil.getRow(rowIndex, sheet);
+                Sheet sheet = workbook.createSheet("SHEET_NAME");
+                sheet.setZoom(100);
 
-                cell = CellUtil.getCell(row, 0);
-                cell.setCellValue("Key - " + rowIndex);
-                cell.setCellStyle(getCellStyleDefault(workbook));
+                // Header
+                Row row = CellUtil.getRow(0, sheet);
+
+                Cell cell = CellUtil.getCell(row, 0);
+                cell.setCellValue("Key");
+                cell.setCellStyle(getCellStyleDefaultBackground(workbook));
 
                 cell = CellUtil.getCell(row, 1);
-                cell.setCellValue("Value - " + rowIndex);
-                cell.setCellStyle(getCellStyleDefault(workbook));
+                cell.setCellValue("Value");
+                cell.setCellStyle(getCellStyleDefaultBackground(workbook));
+
+                // Daten
+                for (int rowIndex = 1; rowIndex <= dataCount; rowIndex++)
+                {
+                    row = CellUtil.getRow(rowIndex, sheet);
+
+                    cell = CellUtil.getCell(row, 0);
+                    cell.setCellValue("Key - " + rowIndex);
+                    cell.setCellStyle(getCellStyleDefault(workbook));
+
+                    cell = CellUtil.getCell(row, 1);
+                    cell.setCellValue("Value - " + rowIndex);
+                    cell.setCellStyle(getCellStyleDefault(workbook));
+                }
+
+                CellRangeAddress cellRangeAddress = new CellRangeAddress(0, dataCount, 0, 1);
+                sheet.setAutoFilter(cellRangeAddress);
+                sheet.createFreezePane(0, 1);
+
+                for (int c = 0; c < 2; c++)
+                {
+                    sheet.autoSizeColumn(c);
+                }
             }
+        };
 
-            CellRangeAddress cellRangeAddress = new CellRangeAddress(0, 50, 0, 1);
-            sheet.setAutoFilter(cellRangeAddress);
-            sheet.createFreezePane(0, 1);
-
-            // Adapt ColumnWidths.
-            for (int c = 0; c < 2; c++)
-            {
-                sheet.autoSizeColumn(c);
-            }
-
-            workbook.write(outputStream);
-            outputStream.flush();
-        }
+        Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.xlsx");
+        exporter.export(filePath, 50);
 
         Runnable task = () ->
         {

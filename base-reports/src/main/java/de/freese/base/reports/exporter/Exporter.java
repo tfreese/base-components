@@ -17,6 +17,8 @@ public interface Exporter<T>
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath)))
         {
             export(outputStream, model);
+
+            outputStream.flush();
         }
     }
 }
