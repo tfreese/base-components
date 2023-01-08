@@ -30,7 +30,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T>
         writer.close();
     }
 
-    public abstract void export(final Document document, PdfWriter writer, final T model) throws Exception;
+    public abstract void export(Document document, PdfWriter writer, T model) throws Exception;
 
     /**
      * @param strokeColor {@link Color}, optional, if null, default Color is used.

@@ -20,7 +20,6 @@ subprojects {
     apply plugin: "maven-publish"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "de.freese.gradle.plugin.conventions"
-    apply plugin: "checkstyle"
 
     dependencyManagement {
         imports {
@@ -62,11 +61,6 @@ subprojects {
     dependencies {
         //implementation(platform("de.freese:maven-bom:$version_mavenBom"))
         //testImplementation("org.junit.jupiter:junit-jupiter-engine")
-    }
-
-    checkstyle {
-        // gradle checkstyleMain / check
-        configFile file("../ci/config/checkstyle.xml")
     }
 }
 

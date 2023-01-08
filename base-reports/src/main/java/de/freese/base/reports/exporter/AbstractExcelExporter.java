@@ -22,5 +22,5 @@ public abstract class AbstractExcelExporter<T> extends AbstractExporter<T>
         }
     }
 
-    public abstract void export(Workbook workbook, final T model) throws Exception;
+    public abstract void export(Workbook workbook, T model) throws Exception;
 }
