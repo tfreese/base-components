@@ -1,22 +1,12 @@
 package de.freese.base.core.model.tupel;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Ein 2er-Tupel verknüpft 2 Objekte miteinander.
- *
- * @param <A> Konkreter Typ ValueA
- * @param <B> Konkreter Typ ValueB
- *
  * @author Thomas Freese
  */
-public class Tupel2<A, B> implements Serializable
+public class Tupel2<A, B>
 {
-    @Serial
-    private static final long serialVersionUID = -2114823921211413095L;
-
     private A valueA;
 
     private B valueB;

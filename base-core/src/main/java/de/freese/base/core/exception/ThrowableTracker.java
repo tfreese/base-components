@@ -1,7 +1,5 @@
 package de.freese.base.core.exception;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,11 +10,8 @@ import java.util.Map;
  *
  * @author Thomas Freese
  */
-public class ThrowableTracker implements Serializable
+public class ThrowableTracker
 {
-    @Serial
-    private static final long serialVersionUID = -8095454479589758508L;
-
     private final Map<String, Throwable> throwables = new LinkedHashMap<>();
 
     public void addThrowable(final Throwable th)

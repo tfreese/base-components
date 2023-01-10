@@ -4,8 +4,6 @@ package de.freese.base.core.model.grid;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSetMetaData;
@@ -24,12 +22,9 @@ import de.freese.base.core.model.grid.factory.GridColumnFactory;
  *
  * @author Thomas Freese
  */
-public class GridMetaData implements Serializable// , Iterable<GridColumn<?>>
+public class GridMetaData
 {
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-
-    @Serial
-    private static final long serialVersionUID = 4337541530394314432L;
 
     private final List<GridColumn<?>> columns = new ArrayList<>();
 

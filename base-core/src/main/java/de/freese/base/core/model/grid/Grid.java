@@ -4,8 +4,6 @@ package de.freese.base.core.model.grid;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,11 +17,8 @@ import de.freese.base.core.model.grid.column.GridColumn;
  *
  * @author Thomas Freese
  */
-public class Grid implements Serializable
+public class Grid
 {
-    @Serial
-    private static final long serialVersionUID = -6649946412204459833L;
-
     private final GridMetaData gridMetaData;
 
     private final List<Object[]> rows = new ArrayList<>();

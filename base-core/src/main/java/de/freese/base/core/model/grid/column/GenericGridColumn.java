@@ -12,10 +12,6 @@ import de.freese.base.core.function.ThrowingBiConsumer;
 import de.freese.base.core.function.ThrowingFunction;
 
 /**
- * Generische-Spalte des Grids.
- *
- * @param <T> Konkreter Spalten-Typ
- *
  * @author Thomas Freese
  */
 public class GenericGridColumn<T> extends AbstractGridColumn<T>

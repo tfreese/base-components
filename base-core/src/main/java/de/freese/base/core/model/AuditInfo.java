@@ -5,8 +5,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Klasse für Object-Informationen.
- *
  * @author Thomas Freese
  */
 public class AuditInfo implements Serializable

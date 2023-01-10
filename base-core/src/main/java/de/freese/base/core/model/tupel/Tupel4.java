@@ -1,23 +1,12 @@
 package de.freese.base.core.model.tupel;
 
-import java.io.Serial;
 import java.util.Objects;
 
 /**
- * Ein 4er-Tupel verknüpft 4 Objekte miteinander.
- *
- * @param <A> Konkreter Typ ValueA
- * @param <B> Konkreter Typ ValueB
- * @param <C> Konkreter Typ ValueC
- * @param <D> Konkreter Typ ValueD
- *
  * @author Thomas Freese
  */
 public class Tupel4<A, B, C, D> extends Tupel3<A, B, C>
 {
-    @Serial
-    private static final long serialVersionUID = -2117258925171560740L;
-
     private D valueD;
 
     public Tupel4()

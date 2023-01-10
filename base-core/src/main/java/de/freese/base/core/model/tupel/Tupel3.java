@@ -1,22 +1,12 @@
 package de.freese.base.core.model.tupel;
 
-import java.io.Serial;
 import java.util.Objects;
 
 /**
- * Ein 3er-Tupel verknüpft 3 Objekte miteinander.
- *
- * @param <A> Konkreter Typ ValueA
- * @param <B> Konkreter Typ ValueB
- * @param <C> Konkreter Typ ValueC
- *
  * @author Thomas Freese
  */
 public class Tupel3<A, B, C> extends Tupel2<A, B>
 {
-    @Serial
-    private static final long serialVersionUID = -3964125548346645907L;
-
     private C valueC;
 
     public Tupel3()
