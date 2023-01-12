@@ -93,14 +93,14 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         this.statusAnimationLabel = new JLabel();
         this.statusAnimationLabel.setIcon(this.idleIcon);
 
-        add(new JSeparator(), new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal()
+        add(new JSeparator(), GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal()
                 .insets(this.zeroInsets));
 
-        add(this.messageLabel, new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
+        add(this.messageLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
 
-        add(this.progressBar, new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 3));
+        add(this.progressBar, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 3));
 
-        add(this.statusAnimationLabel, new GbcBuilder(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 6));
+        add(this.statusAnimationLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 6));
     }
 
     /**

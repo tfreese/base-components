@@ -84,10 +84,10 @@ public class FibonacciPanel extends JPanel
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder());
 
-        add(getLabel(), new GbcBuilder(0, 0));
-        add(getTextField(), new GbcBuilder(1, 0).gridwidth(3).anchorWest().fillHorizontal());
-        add(getButtonGlassPaneBlock(), new GbcBuilder(0, 1).gridwidth(2).fillHorizontal());
-        add(getButtonComponentBlock(), new GbcBuilder(2, 1).gridwidth(2).fillHorizontal());
-        add(getLabelResult(), new GbcBuilder(0, 2).gridwidth(4).anchorCenter().fillVertical());
+        add(getLabel(), GbcBuilder.of(0, 0));
+        add(getTextField(), GbcBuilder.of(1, 0).gridwidth(3).anchorWest().fillHorizontal());
+        add(getButtonGlassPaneBlock(), GbcBuilder.of(0, 1).gridwidth(2).fillHorizontal());
+        add(getButtonComponentBlock(), GbcBuilder.of(2, 1).gridwidth(2).fillHorizontal());
+        add(getLabelResult(), GbcBuilder.of(0, 2).gridwidth(4).anchorCenter().fillVertical());
     }
 }

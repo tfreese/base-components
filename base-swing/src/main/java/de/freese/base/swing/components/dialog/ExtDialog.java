@@ -228,7 +228,7 @@ public class ExtDialog
             buttonPanel.add(button);
         }
 
-        GridBagConstraints gbc = new GbcBuilder(0, 2).gridwidth(2).insets(10, 10, 10, 10);
+        GridBagConstraints gbc = GbcBuilder.of(0, 2).gridwidth(2).insets(10, 10, 10, 10);
         this.dialog.add(buttonPanel, gbc);
     }
 
@@ -291,7 +291,7 @@ public class ExtDialog
 
     private void configureIcon(final JDialog dialog, final ExtDialogConfig config)
     {
-        GridBagConstraints gbc = new GbcBuilder(0, 0).insets(null).anchorNorthWest();
+        GridBagConstraints gbc = GbcBuilder.of(0, 0).insets(null).anchorNorthWest();
 
         Icon icon = config.getIcon();
 
@@ -376,7 +376,7 @@ public class ExtDialog
             messageComponent = (Component) config.getMessage();
         }
 
-        GridBagConstraints gbc = new GbcBuilder(1, 0).insets(10, 10, 10, 10).gridheight(2).anchorNorthWest();
+        GridBagConstraints gbc = GbcBuilder.of(1, 0).insets(10, 10, 10, 10).gridheight(2).anchorNorthWest();
         this.dialog.add(messageComponent, gbc);
     }
 

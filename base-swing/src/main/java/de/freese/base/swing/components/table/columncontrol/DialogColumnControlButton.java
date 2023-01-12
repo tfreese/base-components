@@ -306,7 +306,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
             columnComponentMap.put(columnExt, component);
 
-            GridBagConstraints gbc = new GbcBuilder(gbcCol, GridBagConstraints.RELATIVE);
+            GridBagConstraints gbc = GbcBuilder.of(gbcCol, GridBagConstraints.RELATIVE);
             panel.add(component, gbc);
 
             col++;
@@ -322,14 +322,14 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     {
         Action action = createExcelExportAction();
 
-        GridBagConstraints gbc = new GbcBuilder(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER);
+        GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER);
         panel.add(new JButton(action), gbc);
     }
 
     protected void populatePackAll(final JPanel panel)
     {
         Action action = getTable().getActionMap().get(JXTable.PACKALL_ACTION_COMMAND);
-        GridBagConstraints gbc = new GbcBuilder(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
+        GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
         panel.add(new JButton(action), gbc);
     }
 

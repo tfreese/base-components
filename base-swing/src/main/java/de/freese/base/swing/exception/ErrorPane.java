@@ -379,8 +379,8 @@ public final class ErrorPane extends JPanel
 
             JScrollPane scrollPane = new JScrollPane(getEditorPaneDetails());
 
-            this.detailPanel.add(scrollPane, new GbcBuilder(0, 0).fillBoth());
-            this.detailPanel.add(getButtonClipboard(), new GbcBuilder(0, 1).anchorCenter());
+            this.detailPanel.add(scrollPane, GbcBuilder.of(0, 0).fillBoth());
+            this.detailPanel.add(getButtonClipboard(), GbcBuilder.of(0, 1).anchorCenter());
 
             this.detailPanel.setVisible(false);
         }
@@ -528,21 +528,21 @@ public final class ErrorPane extends JPanel
     {
         setLayout(new GridBagLayout());
 
-        add(getLabelIcon(), new GbcBuilder(0, 0).anchorNorthWest().insets(10, 10, 10, 20));
+        add(getLabelIcon(), GbcBuilder.of(0, 0).anchorNorthWest().insets(10, 10, 10, 20));
 
-        add(getScrollPaneMessage(), new GbcBuilder(1, 0).gridwidth(3).fillHorizontal());
+        add(getScrollPaneMessage(), GbcBuilder.of(1, 0).gridwidth(3).fillHorizontal());
 
-        add(getButtonClose(), new GbcBuilder(1, 1).weightx(1));
+        add(getButtonClose(), GbcBuilder.of(1, 1).weightx(1));
         // getButtonClose().setBorder(BorderFactory.createLineBorder(Color.RED));
 
-        add(getButtonSend(), new GbcBuilder(2, 1).weightx(1));
+        add(getButtonSend(), GbcBuilder.of(2, 1).weightx(1));
         getButtonSend().setEnabled(enableSendMail);
         // getButtonSend().setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
-        add(getButtonDetails(), new GbcBuilder(3, 1).weightx(1));
+        add(getButtonDetails(), GbcBuilder.of(3, 1).weightx(1));
         // getButtonDetails().setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        add(getDetailPanel(), new GbcBuilder(1, 2).gridwidth(3).fillBoth());
+        add(getDetailPanel(), GbcBuilder.of(1, 2).gridwidth(3).fillBoth());
 
         getDetailPanel().setVisible(false);
 
