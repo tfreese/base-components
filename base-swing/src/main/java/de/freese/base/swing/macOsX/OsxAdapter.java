@@ -38,7 +38,12 @@ public class OsxAdapter implements InvocationHandler
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(OsxAdapter.class);
 
-    static Object macOSXApplication;
+    private static Object macOSXApplication;
+
+    public static Object getMacOSXApplication()
+    {
+        return macOSXApplication;
+    }
 
     /**
      * Pass this method an Object and Method equipped to display application info.<br>
@@ -87,7 +92,7 @@ public class OsxAdapter implements InvocationHandler
                     {
                         Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class<?>[]) null);
                         String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[]) null);
-                        this.targetMethod.invoke(this.targetObject, filename);
+                        this.getTargetMethod().invoke(this.getTargetObject(), filename);
                     }
                     catch (Exception ex)
                     {
@@ -172,11 +177,9 @@ public class OsxAdapter implements InvocationHandler
         setHandler(new OsxAdapter("handleQuit", target, quitHandler));
     }
 
-    protected final String proxySignature;
-
-    protected final Method targetMethod;
-
-    protected final Object targetObject;
+    private final String proxySignature;
+    private final Method targetMethod;
+    private final Object targetObject;
 
     /**
      * Each OsxAdapter has the name of the EAWT method it intends to listen for (handleAbout, for example),<br>
@@ -206,6 +209,21 @@ public class OsxAdapter implements InvocationHandler
         }
 
         return Boolean.parseBoolean(result.toString());
+    }
+
+    public String getProxySignature()
+    {
+        return proxySignature;
+    }
+
+    public Method getTargetMethod()
+    {
+        return targetMethod;
+    }
+
+    public Object getTargetObject()
+    {
+        return targetObject;
     }
 
     /**

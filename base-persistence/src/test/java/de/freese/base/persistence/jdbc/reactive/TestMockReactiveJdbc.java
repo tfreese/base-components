@@ -64,7 +64,7 @@ class TestMockReactiveJdbc
     /**
      * @author Thomas Freese
      */
-    private static class City
+    private static final class City
     {
         private final String city;
 

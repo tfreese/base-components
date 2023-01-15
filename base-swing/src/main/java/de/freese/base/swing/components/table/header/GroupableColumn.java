@@ -21,13 +21,13 @@ import javax.swing.table.TableColumn;
  */
 public class GroupableColumn
 {
-    protected final List<Object> columns = Collections.synchronizedList(new ArrayList<>());
+    private final List<Object> columns = Collections.synchronizedList(new ArrayList<>());
 
-    protected int margin;
+    private int margin;
 
-    protected TableCellRenderer renderer;
+    private TableCellRenderer renderer;
 
-    protected String text;
+    private String text;
 
     public GroupableColumn(final String text)
     {

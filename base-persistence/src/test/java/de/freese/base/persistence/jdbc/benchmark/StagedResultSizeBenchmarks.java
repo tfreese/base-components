@@ -36,24 +36,21 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
     public static class ConnectionHolder
     {
         private final Connection derby;
-
         private final Connection h2;
 
         private final Connection hsqldb;
 
-        Connection connection;
-
+        private Connection connection;
         @Param(
                 {
                         "h2", "hsqldb", "derby"
                 })
-        String db;
-
+        private String db;
         @Param(
                 {
                         "1", "10", "100", "200"
                 })
-        int resultSize;
+        private int resultSize;
 
         public ConnectionHolder()
         {

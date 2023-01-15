@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basis-Implementierung eines {@link ObjectPool}s.<br>
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
- *
- * @param <T> Type
  *
  * @author Thomas Freese
  */

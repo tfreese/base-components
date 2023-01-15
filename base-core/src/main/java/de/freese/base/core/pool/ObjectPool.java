@@ -4,47 +4,27 @@ package de.freese.base.core.pool;
 import java.util.NoSuchElementException;
 
 /**
- * Interface für einen ObjectPool.<br>
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
- *
- * @param <T> Konkreter Typ
  *
  * @author Thomas Freese
  */
 public interface ObjectPool<T>
 {
     /**
-     * Liefert ein Objekt aus dem Pool.
-     *
-     * @throws NoSuchElementException, wenn der Pool erschöpft ist
+     * @throws NoSuchElementException if Pool is depleted
      */
     T borrowObject();
 
-    /**
-     * Liefert die Anzahl der aktiven, dem Pool entnommenen, Objekte.
-     */
     int getNumActive();
 
-    /**
-     * Liefert die Anzahl der zur Verfügung stehenden, im Pool vorhandenen, Objekte.
-     */
     int getNumIdle();
 
-    /**
-     * Liefert die Anzahl aller durch den Pool verwalteten Objekte,
-     */
     default int getTotalSize()
     {
         return getNumActive() + getNumIdle();
     }
 
-    /**
-     * Übergibt ein Objekt zurück in den Pool.
-     */
     void returnObject(T object);
 
-    /**
-     * Herunterfahren des Pools, alternativ auch über ShutdownHook.
-     */
     void shutdown();
 }

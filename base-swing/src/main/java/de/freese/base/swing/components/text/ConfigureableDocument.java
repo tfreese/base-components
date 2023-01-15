@@ -109,11 +109,41 @@ public class ConfigureableDocument extends PlainDocument
      */
     private static class DocumentContext
     {
-        public String currentText;
+        private String currentText;
 
-        public String fullText;
+        private String fullText;
 
-        public String newText;
+        private String newText;
+
+        public String getCurrentText()
+        {
+            return currentText;
+        }
+
+        public String getFullText()
+        {
+            return fullText;
+        }
+
+        public String getNewText()
+        {
+            return newText;
+        }
+
+        public void setCurrentText(final String currentText)
+        {
+            this.currentText = currentText;
+        }
+
+        public void setFullText(final String fullText)
+        {
+            this.fullText = fullText;
+        }
+
+        public void setNewText(final String newText)
+        {
+            this.newText = newText;
+        }
     }
 
     /**

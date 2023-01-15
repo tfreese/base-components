@@ -25,21 +25,14 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
 {
     @Serial
     private static final long serialVersionUID = 2387759630865685848L;
-
-    protected final transient Border noFocusBorder;
-
     private final Color background;
-
     @SuppressWarnings("unused")
     private final Color focusBackground;
-
     private final transient Border focusBorder;
-
     @SuppressWarnings("unused")
     private final Color focusForeground;
-
     private final Color foreground;
-
+    private final transient Border noFocusBorder;
     private final Color selectedBackground;
 
     private final Color selectedForeground;

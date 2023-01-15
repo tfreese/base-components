@@ -10,7 +10,7 @@ import java.io.Serial;
  *
  * @author Thomas Freese
  */
-public class GbcBuilder extends GridBagConstraints
+public final class GbcBuilder extends GridBagConstraints
 {
     @Serial
     private static final long serialVersionUID = 9216852015033867169L;

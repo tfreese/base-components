@@ -22,11 +22,8 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
 
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
-
-    public final int n;
-
     private final boolean enableCache;
-
+    private final int n;
     private final transient LongConsumer operationConsumer;
 
     private final AtomicLong operationCount;

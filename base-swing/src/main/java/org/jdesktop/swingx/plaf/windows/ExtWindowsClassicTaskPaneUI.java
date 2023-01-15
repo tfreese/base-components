@@ -249,19 +249,18 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
             }
         }
     }
-
-    /**
-     * Liste aller Buttons TitelLeiste
-     */
-    protected final List<JButton> titleButtons = new ArrayList<>();
-    /**
-     * Liste aller Buttons und Separators der TitelLeiste
-     */
-    protected final List<Object> titleObjects = new ArrayList<>();
     /**
      *
      */
     private final PropertyChangeListener buttonEnabledPropertyChangeListener;
+    /**
+     * Liste aller Buttons TitelLeiste
+     */
+    private final List<JButton> titleButtons = new ArrayList<>();
+    /**
+     * Liste aller Buttons und Separators der TitelLeiste
+     */
+    private final List<Object> titleObjects = new ArrayList<>();
 
     /**
      * Creates a new {@link ExtWindowsClassicTaskPaneUI} object.

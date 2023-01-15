@@ -27,7 +27,7 @@ public final class TableExampleScrollPaneRowHeaderMain
     /**
      * @author Thomas Freese
      */
-    private static class MyTableModel extends AbstractListTableModel<Map<String, String>>
+    private static final class MyTableModel extends AbstractListTableModel<Map<String, String>>
     {
         @Serial
         private static final long serialVersionUID = 767661536272989643L;

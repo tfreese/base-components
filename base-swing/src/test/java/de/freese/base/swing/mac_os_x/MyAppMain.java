@@ -75,21 +75,16 @@ public final class MyAppMain extends JFrame implements ActionListener
             new MyAppMain().setVisible(true);
         });
     }
-
-    final String[] colorNames =
+    private final JDialog aboutBox;
+    private final JComboBox<String> colorComboBox;
+    private final String[] colorNames =
             {
                     "White", "Black", "Red", "Blue", "Yellow", "Orange"
             };
-
-    final Color[] colors =
+    private final Color[] colors =
             {
                     Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
             };
-
-    private final JDialog aboutBox;
-
-    private final JComboBox<String> colorComboBox;
-
     private final JLabel imageLabel;
 
     private final JDialog prefs;

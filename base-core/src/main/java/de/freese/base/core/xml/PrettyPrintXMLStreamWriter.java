@@ -21,7 +21,7 @@ import javax.xml.stream.XMLStreamWriter;
  * <li>LineSeparator = System.getProperty("line.separator")</li>
  * <li>indentAmount = 4</li>
  * <li>indentChar = ' '</li>
- * <ul>
+ * </ul>
  * <br>
  *
  * @author Thomas Freese

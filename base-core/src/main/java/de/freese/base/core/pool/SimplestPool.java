@@ -7,8 +7,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Simplest possible Object-Pool.
  *
- * @param <T> Type
- *
  * @author Thomas Freese
  */
 public abstract class SimplestPool<T>

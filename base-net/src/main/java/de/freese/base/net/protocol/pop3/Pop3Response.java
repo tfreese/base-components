@@ -13,15 +13,45 @@ final class Pop3Response
     /**
      * all the bytes from a multi-line response
      */
-    InputStream bytes;
+    private InputStream bytes;
 
     /**
      * rest of line after "+OK" or "-ERR"
      */
-    String data;
+    private String data;
 
     /**
      * true if "+OK"
      */
-    boolean ok;
+    private boolean ok;
+
+    InputStream getBytes()
+    {
+        return bytes;
+    }
+
+    String getData()
+    {
+        return data;
+    }
+
+    boolean isOk()
+    {
+        return ok;
+    }
+
+    void setBytes(final InputStream bytes)
+    {
+        this.bytes = bytes;
+    }
+
+    void setData(final String data)
+    {
+        this.data = data;
+    }
+
+    void setOk(final boolean ok)
+    {
+        this.ok = ok;
+    }
 }

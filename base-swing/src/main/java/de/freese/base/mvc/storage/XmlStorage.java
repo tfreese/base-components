@@ -15,7 +15,7 @@ public final class XmlStorage
 {
     private static class XMLExceptionListener implements ExceptionListener
     {
-        public Exception exception;
+        private Exception exception;
 
         /**
          * @see java.beans.ExceptionListener#exceptionThrown(java.lang.Exception)

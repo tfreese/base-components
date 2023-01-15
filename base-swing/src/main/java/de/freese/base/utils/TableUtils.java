@@ -305,4 +305,9 @@ public final class TableUtils
             LoggerFactory.getLogger(TableUtils.class).warn(null, ex);
         }
     }
+
+    private TableUtils()
+    {
+        super();
+    }
 }

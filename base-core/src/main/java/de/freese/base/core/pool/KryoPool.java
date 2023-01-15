@@ -15,8 +15,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  * The pool is optionally thread safe and can be configured to use soft references.<br>
  * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Github</a>
  *
- * @param <T> Type
- *
  * @author Nathan Sweet
  * @author Martin Grotzke
  * @author Thomas Freese

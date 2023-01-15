@@ -21,7 +21,7 @@ public class GroupableTableHeader extends JTableHeader
     @Serial
     private static final long serialVersionUID = -1642321287557836367L;
 
-    protected final transient List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
+    private final transient List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
 
     public GroupableTableHeader(final TableColumnModel model)
     {

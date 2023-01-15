@@ -86,7 +86,7 @@ public class Pop3Protocol extends AbstractProtocol
             }
         }
 
-        if (!r.ok)
+        if (!r.isOk())
         {
             try
             {
@@ -100,12 +100,12 @@ public class Pop3Protocol extends AbstractProtocol
 
         if (enableAPOP)
         {
-            int challStart = r.data.indexOf('<'); // start of challenge
-            int challEnd = r.data.indexOf('>', challStart); // end of challenge
+            int challStart = r.getData().indexOf('<'); // start of challenge
+            int challEnd = r.getData().indexOf('>', challStart); // end of challenge
 
             if ((challStart != -1) && (challEnd != -1))
             {
-                this.apopChallenge = r.data.substring(challStart, challEnd + 1);
+                this.apopChallenge = r.getData().substring(challStart, challEnd + 1);
             }
 
             getLogger().debug("APOP challenge: {}", this.apopChallenge);
@@ -139,7 +139,7 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = simpleCommand(Pop3Command.DELE + " " + messageNumber);
 
-        return r.ok;
+        return r.isOk();
     }
 
     /**
@@ -150,11 +150,11 @@ public class Pop3Protocol extends AbstractProtocol
         Pop3Response r = simpleCommand(Pop3Command.LIST + " " + messageNumber);
         int size = -1;
 
-        if (r.ok && (r.data != null))
+        if (r.isOk() && (r.getData() != null))
         {
             try
             {
-                StringTokenizer st = new StringTokenizer(r.data);
+                StringTokenizer st = new StringTokenizer(r.getData());
                 st.nextToken(); // skip message number
                 size = Integer.parseInt(st.nextToken());
             }
@@ -188,13 +188,13 @@ public class Pop3Protocol extends AbstractProtocol
         {
             r = simpleCommand(Pop3Command.USER + " " + user);
 
-            if (!r.ok)
+            if (!r.isOk())
             {
                 String message = "USER command failed";
 
-                if (r.data != null)
+                if (r.getData() != null)
                 {
-                    message = r.data;
+                    message = r.getData();
                 }
 
                 throw new IOException(message);
@@ -203,13 +203,13 @@ public class Pop3Protocol extends AbstractProtocol
             r = simpleCommand(Pop3Command.PASS + " " + password);
         }
 
-        if (!r.ok)
+        if (!r.isOk())
         {
             String message = "login failed";
 
-            if (r.data != null)
+            if (r.getData() != null)
             {
-                message = r.data;
+                message = r.getData();
             }
 
             throw new IOException(message);
@@ -223,7 +223,7 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = simpleCommand(Pop3Command.NOOP);
 
-        return r.ok;
+        return r.isOk();
     }
 
     /**
@@ -236,7 +236,7 @@ public class Pop3Protocol extends AbstractProtocol
         try
         {
             Pop3Response r = simpleCommand(Pop3Command.QUIT);
-            ok = r.ok;
+            ok = r.isOk();
         }
         finally
         {
@@ -263,7 +263,7 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = multilineCommand(Pop3Command.RETR + " " + messageNumber, size);
 
-        return r.bytes;
+        return r.getBytes();
     }
 
     /**
@@ -273,7 +273,7 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = simpleCommand(Pop3Command.RSET);
 
-        return r.ok;
+        return r.isOk();
     }
 
     /**
@@ -286,11 +286,11 @@ public class Pop3Protocol extends AbstractProtocol
         Pop3Response r = simpleCommand(Pop3Command.STAT);
         int[] result = new int[2];
 
-        if (r.ok && (r.data != null))
+        if (r.isOk() && (r.getData() != null))
         {
             try
             {
-                StringTokenizer st = new StringTokenizer(r.data);
+                StringTokenizer st = new StringTokenizer(r.getData());
 
                 result[0] = Integer.parseInt(st.nextToken());
                 result[1] = Integer.parseInt(st.nextToken());
@@ -311,7 +311,7 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = multilineCommand(Pop3Command.TOP + " " + messageNumber + " " + n, 0);
 
-        return r.bytes;
+        return r.getBytes();
     }
 
     /**
@@ -321,16 +321,16 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = simpleCommand(Pop3Command.UIDL + " " + messageNumber);
 
-        if (!r.ok)
+        if (!r.isOk())
         {
             return null;
         }
 
-        int i = r.data.indexOf(' ');
+        int i = r.getData().indexOf(' ');
 
         if (i > 0)
         {
-            return r.data.substring(i + 1);
+            return r.getData().substring(i + 1);
         }
 
         return null;
@@ -343,12 +343,12 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = multilineCommand(Pop3Command.UIDL, 15 * uids.length);
 
-        if (!r.ok)
+        if (!r.isOk())
         {
             return false;
         }
 
-        try (LineInputStream lis = new LineInputStream(r.bytes))
+        try (LineInputStream lis = new LineInputStream(r.getBytes()))
         {
             String line = null;
 
@@ -389,7 +389,7 @@ public class Pop3Protocol extends AbstractProtocol
     {
         Pop3Response r = simpleCommand(cmd);
 
-        if (!r.ok)
+        if (!r.isOk())
         {
             return (r);
         }
@@ -424,7 +424,7 @@ public class Pop3Protocol extends AbstractProtocol
                 throw new EOFException("EOF on serverSocket");
             }
 
-            r.bytes = buf.toStream();
+            r.setBytes(buf.toStream());
         }
 
         return r;
@@ -466,11 +466,11 @@ public class Pop3Protocol extends AbstractProtocol
 
         if (line.startsWith(Pop3Command.OK))
         {
-            r.ok = true;
+            r.setOk(true);
         }
         else if (line.startsWith(Pop3Command.ERR))
         {
-            r.ok = false;
+            r.setOk(false);
         }
         else
         {
@@ -482,7 +482,7 @@ public class Pop3Protocol extends AbstractProtocol
         if ((i = line.indexOf(' ')) >= 0)
         {
             // +OK/-ERR abschneiden
-            r.data = line.substring(i + 1);
+            r.setData(line.substring(i + 1));
         }
 
         return r;

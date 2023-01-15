@@ -18,7 +18,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
 {
     private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
 
-    public final Set<String> logMethods;
+    private final Set<String> logMethods;
 
     private final Object target;
 

@@ -9,10 +9,10 @@ import javafx.concurrent.Task;
  * API für asynchrone Ausführungen unter Swing, analog zur JavaFX-Implementierung {@link Task}.
  *
  * @author Thomas Freese
- *
  * @see SwingWorker
  * @see Task
  */
+@SuppressWarnings("checkstyle:InterfaceIsType")
 public interface SwingTask
 {
     /**

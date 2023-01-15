@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
  * sondern im Round-Robin Verfahren bereitgestellt und erst erzeugt, wenn diese benötigt werden.<br>
  * Die Default Grösse des Pools beträgt <code>Runtime.availableProcessors() + 1</code>.<br>
  *
- * @param <T> Konkreter Objekttyp
- *
  * @author Thomas Freese
  */
 public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
