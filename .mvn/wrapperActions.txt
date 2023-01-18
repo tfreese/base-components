@@ -1,0 +1,10 @@
+# Create Wrapper
+mvn wrapper:wrapper
+
+# Update Wrapper
+# 1. Execution updates possibly only the Jar and the CMD-Files.
+# 2. Execution updates the Properties.
+./mvnw wrapper:wrapper -Dmaven=3.8.7
+
+# Using Wrapper
+./mvnw compile
