@@ -13,6 +13,11 @@ public class NotSerializableDataFlavor extends DataFlavor
     @Serial
     private static final long serialVersionUID = 782562737576235278L;
 
+    public NotSerializableDataFlavor()
+    {
+        super();
+    }
+
     public NotSerializableDataFlavor(final Class<?> representationClass, final String humanPresentableName)
     {
         super(representationClass, humanPresentableName);

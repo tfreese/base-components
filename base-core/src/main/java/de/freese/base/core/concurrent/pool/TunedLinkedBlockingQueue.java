@@ -41,9 +41,9 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
     @Serial
     private static final long serialVersionUID = 6374300294609033461L;
 
-    private IntSupplier poolCurrentSize;
+    private transient IntSupplier poolCurrentSize;
 
-    private IntSupplier poolMaxSize;
+    private transient IntSupplier poolMaxSize;
 
     public TunedLinkedBlockingQueue(final int capacity)
     {

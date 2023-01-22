@@ -32,7 +32,7 @@ public abstract class AbstractEventListComboBoxModel<T> extends AbstractEventLis
         }
     }
 
-    private Object selectedObject;
+    private transient Object selectedObject;
 
     protected AbstractEventListComboBoxModel(final EventList<T> list)
     {

@@ -29,7 +29,7 @@ public class ExcelSheet implements Serializable
 
     private final String sheetName;
 
-    private List<String[]> rowValues;
+    private transient List<String[]> rowValues;
 
     public ExcelSheet(final String fileName, final String sheetName)
     {
