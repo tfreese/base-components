@@ -4,26 +4,20 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
 
 /**
- * Integer-Spalte des Grids.
- *
  * @author Thomas Freese
  */
 public class IntegerGridColumn extends AbstractGridColumn<Integer>
 {
-    @Serial
-    private static final long serialVersionUID = -1817847484639082368L;
-
     public IntegerGridColumn()
     {
-        super();
+        super(Integer.class);
     }
 
     public IntegerGridColumn(final String name)
     {
-        super();
+        super(Integer.class);
 
         setName(name);
     }

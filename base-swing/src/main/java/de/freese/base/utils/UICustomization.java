@@ -17,8 +17,6 @@ import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 import org.jdesktop.swingx.painter.MattePainter;
 
 /**
- * UI Konfiguration.
- *
  * @author Thomas Freese
  */
 public final class UICustomization
@@ -41,7 +39,7 @@ public final class UICustomization
      * Look&Feel Installation.<br>
      * Wenn der Klassenname null ist wird <code>UIManager.getSystemLookAndFeelClassName()</code> verwendet.
      *
-     * @param className String LookAndFeel Klassenname, optional
+     * @param className String LookAndFeel, optional
      */
     public static void install(final String className) throws Exception
     {

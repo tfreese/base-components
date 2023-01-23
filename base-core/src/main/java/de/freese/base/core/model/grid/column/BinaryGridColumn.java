@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.Serial;
 
 /**
- * Binary-Spalte des Grids.
- *
  * @author Thomas Freese
  */
 public class BinaryGridColumn extends AbstractGridColumn<byte[]>
@@ -18,12 +16,12 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
 
     public BinaryGridColumn()
     {
-        super();
+        super(byte[].class);
     }
 
     public BinaryGridColumn(final String name)
     {
-        super();
+        super(byte[].class);
 
         setName(name);
     }

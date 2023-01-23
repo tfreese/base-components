@@ -4,26 +4,20 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
 
 /**
- * Long-Spalte des Grids.
- *
  * @author Thomas Freese
  */
 public class LongGridColumn extends AbstractGridColumn<Long>
 {
-    @Serial
-    private static final long serialVersionUID = 8557737117908767551L;
-
     public LongGridColumn()
     {
-        super();
+        super(Long.class);
     }
 
     public LongGridColumn(final String name)
     {
-        super();
+        super(Long.class);
 
         setName(name);
     }

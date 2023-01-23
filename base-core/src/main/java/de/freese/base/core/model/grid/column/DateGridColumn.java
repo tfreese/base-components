@@ -4,27 +4,21 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
 import java.util.Date;
 
 /**
- * Date-Spalte des Grids.
- *
  * @author Thomas Freese
  */
 public class DateGridColumn extends AbstractGridColumn<Date>
 {
-    @Serial
-    private static final long serialVersionUID = -3731527807869940447L;
-
     public DateGridColumn()
     {
-        super();
+        super(Date.class);
     }
 
     public DateGridColumn(final String name)
     {
-        super();
+        super(Date.class);
 
         setName(name);
     }

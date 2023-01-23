@@ -4,26 +4,20 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
 
 /**
- * Boolean-Spalte des Grids.
- *
  * @author Thomas Freese
  */
 public class BooleanGridColumn extends AbstractGridColumn<Boolean>
 {
-    @Serial
-    private static final long serialVersionUID = 9093089212970979017L;
-
     public BooleanGridColumn()
     {
-        super();
+        super(Boolean.class);
     }
 
     public BooleanGridColumn(final String name)
     {
-        super();
+        super(Boolean.class);
 
         setName(name);
     }

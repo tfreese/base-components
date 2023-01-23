@@ -4,13 +4,8 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
 
 /**
- * Definiert eine Spalte des Grids.
- *
- * @param <T> Konkreter Spalten-Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractGridColumn<T> implements GridColumn<T>
@@ -25,16 +20,16 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
 
     private int precision = -1;
 
-    protected AbstractGridColumn()
-    {
-        super();
-
-        // Das hier funktioniert nur, wenn die erbende Klasse nicht auch generisch ist !
-        // z.B. : public class IntegerGridColumn extends AbstractGridColumn<Integer>
-        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
-
-        this.objectClazz = (Class<T>) parameterizedType.getActualTypeArguments()[0];
-    }
+    //    protected AbstractGridColumn()
+    //    {
+    //        super();
+    //
+    //        // Das hier funktioniert nur, wenn die erbende Klasse nicht auch generisch ist !
+    //        // z.B. : public class IntegerGridColumn extends AbstractGridColumn<Integer>
+    //        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+    //
+    //        this.objectClazz = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+    //    }
 
     protected AbstractGridColumn(final Class<T> objectClazz)
     {

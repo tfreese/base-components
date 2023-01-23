@@ -6,8 +6,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
 /**
- * Die fill-Methoden setzen voraus, dass die {@link JList} ein {@link DefaultListModel} besitzt.
- *
  * @author Thomas Freese
  */
 public final class JListUtils

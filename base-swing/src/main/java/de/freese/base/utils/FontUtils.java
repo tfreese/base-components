@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.io.InputStream;
 
 /**
- * Diese Klasse enthält nur den Marvosym-Font für Symbole.
- *
  * @author Thomas Freese
  */
 public final class FontUtils

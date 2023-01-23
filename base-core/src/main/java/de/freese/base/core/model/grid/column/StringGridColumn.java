@@ -4,28 +4,22 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
 
 import de.freese.base.core.model.grid.GridMetaData;
 
 /**
- * String-Spalte des Grids.
- *
  * @author Thomas Freese
  */
 public class StringGridColumn extends AbstractGridColumn<String>
 {
-    @Serial
-    private static final long serialVersionUID = -6201540763441206227L;
-
     public StringGridColumn()
     {
-        super();
+        super(String.class);
     }
 
     public StringGridColumn(final String name)
     {
-        super();
+        super(String.class);
 
         setName(name);
     }

@@ -53,7 +53,7 @@ public final class StringUtils
      * Fügt vor und nach dem ersten Eintrag der Liste eine Trennlinie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      */
-    public static <T extends CharSequence> void addHeaderSeparator(final List<T[]> rows, final String separator)
+    public static void addHeaderSeparator(final List<String[]> rows, final String separator)
     {
         if (rows == null || rows.isEmpty())
         {
@@ -75,8 +75,8 @@ public final class StringUtils
             row[column] = repeat(sep, rows.get(0)[column].length());
         }
 
-        rows.add(1, (T[]) row);
-        rows.add(0, (T[]) row);
+        rows.add(1, row);
+        rows.add(0, row);
     }
 
     /**

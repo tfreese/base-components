@@ -4,7 +4,6 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.io.Serial;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -16,9 +15,6 @@ import de.freese.base.core.function.ThrowingFunction;
  */
 public class GenericGridColumn<T> extends AbstractGridColumn<T>
 {
-    @Serial
-    private static final long serialVersionUID = -2794233911590975341L;
-
     private final Function<Object, T> mapper;
 
     private final ThrowingFunction<DataInput, T, IOException> reader;

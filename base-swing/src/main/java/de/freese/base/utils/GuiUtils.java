@@ -27,9 +27,6 @@ import de.freese.base.core.image.ImageFormat;
 public final class GuiUtils
 {
     /**
-     * Selbstgebauter ToolBar Separator.<br>
-     * Hat einen kleinen Strich und eine graue Fläche.
-     *
      * @author Thomas Freese
      */
     private static class ToolBarSeparator extends JPanel
@@ -52,7 +49,7 @@ public final class GuiUtils
         @Override
         public void paint(final Graphics g)
         {
-            // nichts malen
+            // Empty
         }
     }
 

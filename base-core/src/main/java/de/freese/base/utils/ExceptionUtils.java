@@ -12,11 +12,11 @@ public final class ExceptionUtils
     /**
      * Liefert den Cause des Typs, falls vorhanden.<br>
      */
-    public static <T extends Exception> T findCause(final Throwable throwable, final Class<T> type)
+    public static Exception findCause(final Throwable throwable, final Class<? extends Exception> type)
     {
         if (type.isInstance(throwable))
         {
-            return (T) throwable;
+            return (Exception) throwable;
         }
 
         final List<Throwable> list = getThrowableList(throwable);
@@ -29,7 +29,7 @@ public final class ExceptionUtils
      */
     public static SQLException findSQLException(final Throwable throwable)
     {
-        return findCause(throwable, SQLException.class);
+        return (SQLException) findCause(throwable, SQLException.class);
         // if (throwable instanceof SQLException)
         // {
         // return (SQLException) throwable;

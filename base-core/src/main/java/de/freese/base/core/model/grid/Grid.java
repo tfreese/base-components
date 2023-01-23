@@ -13,8 +13,6 @@ import java.util.Objects;
 import de.freese.base.core.model.grid.column.GridColumn;
 
 /**
- * Dynamische Tabelle-Struktur.
- *
  * @author Thomas Freese
  */
 public class Grid

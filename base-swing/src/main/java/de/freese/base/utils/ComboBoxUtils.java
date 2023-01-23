@@ -6,8 +6,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
 /**
- * Die fill-Methoden setzen voraus, dass die {@link JComboBox} ein {@link DefaultComboBoxModel} besitzt.
- *
  * @author Thomas Freese
  */
 public final class ComboBoxUtils

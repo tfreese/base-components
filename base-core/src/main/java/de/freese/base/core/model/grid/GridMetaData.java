@@ -18,8 +18,6 @@ import de.freese.base.core.model.grid.factory.DefaultGridColumnFactory;
 import de.freese.base.core.model.grid.factory.GridColumnFactory;
 
 /**
- * Definiert die Spalten des Grids.
- *
  * @author Thomas Freese
  */
 public class GridMetaData
