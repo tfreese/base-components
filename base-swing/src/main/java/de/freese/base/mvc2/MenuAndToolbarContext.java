@@ -11,8 +11,11 @@ import java.util.Map;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JToolBar;
 
 /**
  * Requires @{AbstractButton.setActionCommand} on {@link JMenuItem} and {@link JButton}.
@@ -25,8 +28,34 @@ public class MenuAndToolbarContext
 
     private Controller currentController;
 
-    public MenuAndToolbarContext addMenuItem(JMenu menu1, JMenu menu2, JMenuItem menuItem)
+    public MenuAndToolbarContext addMenuBarItem(JMenuBar menuBar, JMenu menu, JMenuItem menuItem)
     {
+        if (!contains(menuBar, menu))
+        {
+            menuBar.add(menu);
+        }
+
+        menuItem.addActionListener(this::delegateEventToCurrentController);
+
+        List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
+        list.add(menu);
+        list.add(menuItem);
+
+        return this;
+    }
+
+    public MenuAndToolbarContext addMenuBarItem(JMenuBar menuBar, JMenu menu1, JMenu menu2, JMenuItem menuItem)
+    {
+        if (!contains(menuBar, menu1))
+        {
+            menuBar.add(menu1);
+        }
+
+        if (!contains(menu1, menu2))
+        {
+            menu1.add(menu2);
+        }
+
         menuItem.addActionListener(this::delegateEventToCurrentController);
 
         List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
@@ -37,19 +66,13 @@ public class MenuAndToolbarContext
         return this;
     }
 
-    public MenuAndToolbarContext addMenuItem(JMenu menu, JMenuItem menuItem)
+    public MenuAndToolbarContext addToolBarButton(JToolBar toolBar, AbstractButton abstractButton)
     {
-        menuItem.addActionListener(this::delegateEventToCurrentController);
+        if (!contains(toolBar, abstractButton))
+        {
+            toolBar.add(abstractButton);
+        }
 
-        List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
-        list.add(menu);
-        list.add(menuItem);
-
-        return this;
-    }
-
-    public MenuAndToolbarContext addToolbarButton(AbstractButton abstractButton)
-    {
         abstractButton.addActionListener(this::delegateEventToCurrentController);
 
         index.computeIfAbsent(abstractButton.getActionCommand(), key -> new ArrayList<>()).add(abstractButton);
@@ -81,6 +104,20 @@ public class MenuAndToolbarContext
         }
 
         // TODO Enable Defaults for File/Exit and Help/About.
+    }
+
+    protected boolean contains(JComponent parent, JComponent child)
+    {
+        for (int i = 0; i < parent.getComponentCount(); i++)
+        {
+            // Must same Reference.
+            if (child == parent.getComponent(i))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected void delegateEventToCurrentController(ActionEvent event)
