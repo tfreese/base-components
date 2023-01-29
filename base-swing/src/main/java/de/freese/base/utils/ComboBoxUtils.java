@@ -10,14 +10,14 @@ import javax.swing.JComboBox;
  */
 public final class ComboBoxUtils
 {
-    public static void fillComboBox(final JComboBox<?> comboBox, final Iterable<?> iterable)
+    public static <T> void fillComboBox(final JComboBox<T> comboBox, final Iterable<T> iterable)
     {
         fillComboBox(comboBox, iterable.iterator());
     }
 
-    public static void fillComboBox(final JComboBox<?> comboBox, final Iterator<?> iterator)
+    public static <T> void fillComboBox(final JComboBox<T> comboBox, final Iterator<T> iterator)
     {
-        DefaultComboBoxModel<Object> comboBoxModel = (DefaultComboBoxModel<Object>) comboBox.getModel();
+        DefaultComboBoxModel<T> comboBoxModel = (DefaultComboBoxModel<T>) comboBox.getModel();
         comboBoxModel.removeAllElements();
 
         while (iterator.hasNext())

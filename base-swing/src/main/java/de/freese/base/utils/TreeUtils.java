@@ -257,6 +257,7 @@ public final class TreeUtils
         return nodes;
     }
 
+    @SuppressWarnings("unchecked")
     public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType)
     {
         // Überprüfen, ob selektierte Elemente vorhanden sind.
@@ -283,31 +284,33 @@ public final class TreeUtils
         return null;
     }
 
-    public static <T> T getSelectedUserObject(final JTree tree, final Class<?> userObjectType)
+    public static <T> T getSelectedUserObject(final JTree tree, final Class<T> userObjectType)
     {
         DefaultMutableTreeNode node = getSelectedTreeNode(tree, userObjectType);
 
-        return (T) (node == null ? null : node.getUserObject());
+        return node == null ? null : userObjectType.cast(node.getUserObject());
     }
 
-    public static Object getTreeObjectForEvent(final MouseEvent me)
+    public static Object getTreeObjectForEvent(final MouseEvent event)
     {
+        if (event == null || !(event.getSource() instanceof JTree tree))
+        {
+            return null;
+        }
+
         Object obj = null;
 
-        if ((me != null) && (me.getSource() instanceof JTree tree))
+        if (tree.getRowForLocation(event.getX(), event.getY()) > 0)
         {
-            if (tree.getRowForLocation(me.getX(), me.getY()) > 0)
+            TreePath path = tree.getClosestPathForLocation(event.getX(), event.getY());
+
+            if (path != null)
             {
-                TreePath path = tree.getClosestPathForLocation(me.getX(), me.getY());
+                obj = path.getLastPathComponent();
 
-                if (path != null)
+                if (!path.equals(tree.getSelectionPath()))
                 {
-                    obj = path.getLastPathComponent();
-
-                    if (!path.equals(tree.getSelectionPath()))
-                    {
-                        tree.setSelectionPath(path);
-                    }
+                    tree.setSelectionPath(path);
                 }
             }
         }
@@ -324,21 +327,21 @@ public final class TreeUtils
 
         TreePath path = new TreePath(node.getPath());
 
-        // Knoten NICHT aufklappen
+        // Node NOT expand
         // tree.expandPath(path);
 
         tree.scrollPathToVisible(path);
         tree.getSelectionModel().setSelectionPath(path);
     }
 
-    public static void selectNode(final JTree tree, final MouseEvent me)
+    public static void selectNode(final JTree tree, final MouseEvent event)
     {
-        if ((tree == null) || (me == null))
+        if ((tree == null) || (event == null))
         {
             return;
         }
 
-        TreePath closestPath = tree.getClosestPathForLocation(me.getX(), me.getY());
+        TreePath closestPath = tree.getClosestPathForLocation(event.getX(), event.getY());
 
         // Knoten selektieren
         tree.setSelectionPath(closestPath);

@@ -10,14 +10,14 @@ import javax.swing.JList;
  */
 public final class JListUtils
 {
-    public static void fillList(final JList<?> list, final Iterable<?> iterable)
+    public static <T> void fillList(final JList<T> list, final Iterable<T> iterable)
     {
         fillList(list, iterable.iterator());
     }
 
-    public static void fillList(final JList<?> list, final Iterator<?> iterator)
+    public static <T> void fillList(final JList<T> list, final Iterator<T> iterator)
     {
-        DefaultListModel<Object> listModel = (DefaultListModel<Object>) list.getModel();
+        DefaultListModel<T> listModel = (DefaultListModel<T>) list.getModel();
         listModel.removeAllElements();
 
         while (iterator.hasNext())

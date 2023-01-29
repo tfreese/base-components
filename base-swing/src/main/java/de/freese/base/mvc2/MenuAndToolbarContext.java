@@ -22,65 +22,144 @@ import javax.swing.JToolBar;
  *
  * @author Thomas Freese
  */
-public class MenuAndToolbarContext
+public final class MenuAndToolbarContext
 {
-    private final Map<String, List<Component>> index = new HashMap<>();
+    public static final class Builder
+    {
+        private final Map<String, List<Component>> index = new HashMap<>();
+
+        private Builder()
+        {
+            super();
+        }
+
+        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu, JMenuItem menuItem)
+        {
+            if (!contains(menuBar, menu))
+            {
+                menuBar.add(menu);
+            }
+
+            if (!contains(menu, menuItem))
+            {
+                menu.add(menuItem);
+
+                List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
+                list.add(menu);
+                list.add(menuItem);
+            }
+
+            return this;
+        }
+
+        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu1, JMenu menu2, JMenuItem menuItem)
+        {
+            if (!contains(menuBar, menu1))
+            {
+                menuBar.add(menu1);
+            }
+
+            if (!contains(menu1, menu2))
+            {
+                menu1.add(menu2);
+            }
+
+            if (!contains(menu2, menuItem))
+            {
+                menu2.add(menuItem);
+
+                List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
+                list.add(menu1);
+                list.add(menu2);
+                list.add(menuItem);
+            }
+
+            return this;
+        }
+
+        public Builder addToolBarButton(JToolBar toolBar, AbstractButton abstractButton)
+        {
+            if (!contains(toolBar, abstractButton))
+            {
+                toolBar.add(abstractButton);
+
+                index.computeIfAbsent(abstractButton.getActionCommand(), key -> new ArrayList<>()).add(abstractButton);
+            }
+
+            return this;
+        }
+
+        public MenuAndToolbarContext build()
+        {
+            MenuAndToolbarContext context = new MenuAndToolbarContext(index);
+
+            for (List<Component> components : index.values())
+            {
+                for (Component component : components)
+                {
+                    if (component instanceof JMenuItem mi && mi.getActionCommand() != null)
+                    {
+                        mi.addActionListener(context::delegateEventToCurrentController);
+                    }
+                    else if (component instanceof AbstractButton b && b.getActionCommand() != null)
+                    {
+                        b.addActionListener(context::delegateEventToCurrentController);
+                    }
+                }
+            }
+
+            return context;
+        }
+
+        private boolean contains(JComponent parent, JComponent child)
+        {
+            for (int i = 0; i < parent.getComponentCount(); i++)
+            {
+                // Must same Reference.
+                if (child == parent.getComponent(i))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
+    private final Map<String, List<Component>> index;
 
     private Controller currentController;
 
-    public MenuAndToolbarContext addMenuBarItem(JMenuBar menuBar, JMenu menu, JMenuItem menuItem)
+    private MenuAndToolbarContext(Map<String, List<Component>> index)
     {
-        if (!contains(menuBar, menu))
-        {
-            menuBar.add(menu);
-        }
+        super();
 
-        menuItem.addActionListener(this::delegateEventToCurrentController);
-
-        List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
-        list.add(menu);
-        list.add(menuItem);
-
-        return this;
+        this.index = index;
     }
 
-    public MenuAndToolbarContext addMenuBarItem(JMenuBar menuBar, JMenu menu1, JMenu menu2, JMenuItem menuItem)
+    public void deactivateCurrentController()
     {
-        if (!contains(menuBar, menu1))
+        if (currentController == null)
         {
-            menuBar.add(menu1);
+            return;
         }
 
-        if (!contains(menu1, menu2))
+        for (String actionCommand : currentController.getInterestedActions().keySet())
         {
-            menu1.add(menu2);
+            index.computeIfAbsent(actionCommand, key -> new ArrayList<>()).forEach(component -> component.setEnabled(false));
         }
 
-        menuItem.addActionListener(this::delegateEventToCurrentController);
+        currentController = null;
 
-        List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
-        list.add(menu1);
-        list.add(menu2);
-        list.add(menuItem);
-
-        return this;
+        // TODO Enable Defaults for File/Exit and Help/About.
     }
 
-    public MenuAndToolbarContext addToolBarButton(JToolBar toolBar, AbstractButton abstractButton)
-    {
-        if (!contains(toolBar, abstractButton))
-        {
-            toolBar.add(abstractButton);
-        }
-
-        abstractButton.addActionListener(this::delegateEventToCurrentController);
-
-        index.computeIfAbsent(abstractButton.getActionCommand(), key -> new ArrayList<>()).add(abstractButton);
-
-        return this;
-    }
-
-    void setActive(Controller controller)
+    public void setCurrentController(Controller controller)
     {
         // TODO Enable Defaults for File/Exit.
 
@@ -94,33 +173,7 @@ public class MenuAndToolbarContext
         // TODO Enable Default for Help/About.
     }
 
-    void setInactive(Controller controller)
-    {
-        currentController = null;
-
-        for (String actionCommand : controller.getInterestedActions().keySet())
-        {
-            index.computeIfAbsent(actionCommand, key -> new ArrayList<>()).forEach(component -> component.setEnabled(false));
-        }
-
-        // TODO Enable Defaults for File/Exit and Help/About.
-    }
-
-    protected boolean contains(JComponent parent, JComponent child)
-    {
-        for (int i = 0; i < parent.getComponentCount(); i++)
-        {
-            // Must same Reference.
-            if (child == parent.getComponent(i))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected void delegateEventToCurrentController(ActionEvent event)
+    private void delegateEventToCurrentController(ActionEvent event)
     {
         if (currentController == null)
         {

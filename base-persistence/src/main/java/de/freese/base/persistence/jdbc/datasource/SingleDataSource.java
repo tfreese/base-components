@@ -258,12 +258,11 @@ public class SingleDataSource implements DataSource, AutoCloseable
      * @see java.sql.Wrapper#unwrap(java.lang.Class)
      */
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T unwrap(final Class<T> iface) throws SQLException
     {
         if (iface.isInstance(this))
         {
-            return (T) this;
+            return iface.cast(this);
         }
 
         throw new SQLException("DataSource of type [" + getClass().getName() + "] cannot be unwrapped as [" + iface.getName() + "]");
