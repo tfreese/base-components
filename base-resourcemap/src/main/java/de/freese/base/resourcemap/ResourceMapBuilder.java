@@ -26,26 +26,26 @@ import javax.swing.border.EmptyBorder;
 import de.freese.base.resourcemap.cache.NoOpResourceCache;
 import de.freese.base.resourcemap.cache.ResourceCache;
 import de.freese.base.resourcemap.cache.SingleResourceCache;
-import de.freese.base.resourcemap.converter.BooleanStringResourceConverter;
-import de.freese.base.resourcemap.converter.ByteStringResourceConverter;
-import de.freese.base.resourcemap.converter.ColorStringResourceConverter;
-import de.freese.base.resourcemap.converter.DimensionStringResourceConverter;
-import de.freese.base.resourcemap.converter.DoubleStringResourceConverter;
-import de.freese.base.resourcemap.converter.EmptyBorderStringResourceConverter;
-import de.freese.base.resourcemap.converter.FloatStringResourceConverter;
-import de.freese.base.resourcemap.converter.FontStringResourceConverter;
-import de.freese.base.resourcemap.converter.IconStringResourceConverter;
-import de.freese.base.resourcemap.converter.ImageStringResourceConverter;
-import de.freese.base.resourcemap.converter.InsetsStringResourceConverter;
-import de.freese.base.resourcemap.converter.IntegerStringResourceConverter;
-import de.freese.base.resourcemap.converter.KeyStrokeStringResourceConverter;
-import de.freese.base.resourcemap.converter.LongStringResourceConverter;
-import de.freese.base.resourcemap.converter.PointStringResourceConverter;
-import de.freese.base.resourcemap.converter.RectangleStringResourceConverter;
+import de.freese.base.resourcemap.converter.BooleanResourceConverter;
+import de.freese.base.resourcemap.converter.ByteResourceConverter;
+import de.freese.base.resourcemap.converter.ColorResourceConverter;
+import de.freese.base.resourcemap.converter.DimensionResourceConverter;
+import de.freese.base.resourcemap.converter.DoubleResourceConverter;
+import de.freese.base.resourcemap.converter.EmptyBorderResourceConverter;
+import de.freese.base.resourcemap.converter.FloatResourceConverter;
+import de.freese.base.resourcemap.converter.FontResourceConverter;
+import de.freese.base.resourcemap.converter.IconResourceConverter;
+import de.freese.base.resourcemap.converter.ImageResourceConverter;
+import de.freese.base.resourcemap.converter.InsetsResourceConverter;
+import de.freese.base.resourcemap.converter.IntegerResourceConverter;
+import de.freese.base.resourcemap.converter.KeyStrokeResourceConverter;
+import de.freese.base.resourcemap.converter.LongResourceConverter;
+import de.freese.base.resourcemap.converter.PointResourceConverter;
+import de.freese.base.resourcemap.converter.RectangleResourceConverter;
 import de.freese.base.resourcemap.converter.ResourceConverter;
-import de.freese.base.resourcemap.converter.ShortStringResourceConverter;
-import de.freese.base.resourcemap.converter.URIStringResourceConverter;
-import de.freese.base.resourcemap.converter.URLStringResourceConverter;
+import de.freese.base.resourcemap.converter.ShortResourceConverter;
+import de.freese.base.resourcemap.converter.UriResourceConverter;
+import de.freese.base.resourcemap.converter.UrlResourceConverter;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 
 /**
@@ -103,13 +103,6 @@ public final class ResourceMapBuilder
         return new ResourceMapBuilder(this);
     }
 
-    public ResourceMapBuilder addChild(final ResourceMapBuilder childBuilder)
-    {
-        this.childBuilders.add(childBuilder);
-
-        return this;
-    }
-
     public ResourceMap build()
     {
         Objects.requireNonNull(this.bundleName, "bundleName required");
@@ -150,16 +143,16 @@ public final class ResourceMapBuilder
         return this;
     }
 
-    public ResourceMapBuilder cacheDisabled()
-    {
-        return cacheObjects(NoOpResourceCache.getInstance());
-    }
-
-    public ResourceMapBuilder cacheObjects(final ResourceCache resourceCache)
+    public ResourceMapBuilder cache(final ResourceCache resourceCache)
     {
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
 
         return this;
+    }
+
+    public ResourceMapBuilder cacheDisabled()
+    {
+        return cache(NoOpResourceCache.getInstance());
     }
 
     public ResourceMapBuilder converter(final Class<?> type, final ResourceConverter<?> converter)
@@ -182,45 +175,45 @@ public final class ResourceMapBuilder
      */
     public ResourceMapBuilder defaultConverters()
     {
-        converter(Boolean.class, new BooleanStringResourceConverter("true", "on", "yes", "1"));
-        converter(boolean.class, new BooleanStringResourceConverter("true", "on", "yes", "1"));
-        converter(Byte.class, new ByteStringResourceConverter());
+        converter(Boolean.class, new BooleanResourceConverter("true", "on", "yes", "1"));
+        converter(boolean.class, new BooleanResourceConverter("true", "on", "yes", "1"));
+        converter(Byte.class, new ByteResourceConverter());
         converter(byte.class, this.converters.get(Byte.class));
 
-        converter(Color.class, new ColorStringResourceConverter());
+        converter(Color.class, new ColorResourceConverter());
 
-        converter(Dimension.class, new DimensionStringResourceConverter());
-        converter(Double.class, new DoubleStringResourceConverter());
+        converter(Dimension.class, new DimensionResourceConverter());
+        converter(Double.class, new DoubleResourceConverter());
         converter(double.class, this.converters.get(Double.class));
 
-        converter(EmptyBorder.class, new EmptyBorderStringResourceConverter());
+        converter(EmptyBorder.class, new EmptyBorderResourceConverter());
 
-        converter(Float.class, new FloatStringResourceConverter());
+        converter(Float.class, new FloatResourceConverter());
         converter(float.class, this.converters.get(Float.class));
-        converter(Font.class, new FontStringResourceConverter());
+        converter(Font.class, new FontResourceConverter());
 
-        converter(Icon.class, new IconStringResourceConverter());
+        converter(Icon.class, new IconResourceConverter());
         converter(ImageIcon.class, this.converters.get(Icon.class));
-        converter(Image.class, new ImageStringResourceConverter());
+        converter(Image.class, new ImageResourceConverter());
         converter(BufferedImage.class, this.converters.get(Image.class));
-        converter(Integer.class, new IntegerStringResourceConverter());
+        converter(Integer.class, new IntegerResourceConverter());
         converter(int.class, this.converters.get(Integer.class));
-        converter(Insets.class, new InsetsStringResourceConverter());
+        converter(Insets.class, new InsetsResourceConverter());
 
-        converter(KeyStroke.class, new KeyStrokeStringResourceConverter());
+        converter(KeyStroke.class, new KeyStrokeResourceConverter());
 
-        converter(Long.class, new LongStringResourceConverter());
+        converter(Long.class, new LongResourceConverter());
         converter(long.class, this.converters.get(Long.class));
 
-        converter(Point.class, new PointStringResourceConverter());
+        converter(Point.class, new PointResourceConverter());
 
-        converter(Rectangle.class, new RectangleStringResourceConverter());
+        converter(Rectangle.class, new RectangleResourceConverter());
 
-        converter(Short.class, new ShortStringResourceConverter());
+        converter(Short.class, new ShortResourceConverter());
         converter(short.class, this.converters.get(Short.class));
 
-        converter(URL.class, new URLStringResourceConverter());
-        converter(URI.class, new URIStringResourceConverter());
+        converter(URL.class, new UrlResourceConverter());
+        converter(URI.class, new UriResourceConverter());
 
         return this;
     }
@@ -239,6 +232,13 @@ public final class ResourceMapBuilder
     public ResourceMapBuilder resourceProvider(final ResourceProvider resourceProvider)
     {
         this.resourceProvider = Objects.requireNonNull(resourceProvider, "resourceProvider required");
+
+        return this;
+    }
+
+    private ResourceMapBuilder addChild(final ResourceMapBuilder childBuilder)
+    {
+        this.childBuilders.add(childBuilder);
 
         return this;
     }

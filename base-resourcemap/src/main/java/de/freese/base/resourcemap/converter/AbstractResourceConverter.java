@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @param <T> Type
- *
  * @author Thomas Freese
  */
 public abstract class AbstractResourceConverter<T> implements ResourceConverter<T>

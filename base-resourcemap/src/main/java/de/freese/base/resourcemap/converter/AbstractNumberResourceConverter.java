@@ -1,8 +1,6 @@
 package de.freese.base.resourcemap.converter;
 
 /**
- * @param <T> Konkreter konvertierter Typ
- *
  * @author Thomas Freese
  */
 public abstract class AbstractNumberResourceConverter<T extends Number> extends AbstractResourceConverter<T>

@@ -16,11 +16,6 @@ import javax.sql.DataSource;
  */
 public abstract class AbstractDatabaseResourceProvider implements ResourceProvider
 {
-    protected AbstractDatabaseResourceProvider()
-    {
-        super();
-    }
-
     /**
      * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale)
      */
