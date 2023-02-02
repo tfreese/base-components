@@ -25,6 +25,8 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
+import de.freese.base.resourcemap.converter.ResourceConverter;
+import de.freese.base.resourcemap.converter.ResourceConverters;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -47,7 +49,7 @@ class TestResourceMap
         // @formatter:off
         ResourceMap resourceMapRoot = ResourceMapBuilder.create()
                 .resourceProvider(new ResourceBundleProvider())
-                .defaultConverters()
+                //.converter(..., ...)
                 .cacheDisabled()
                 .bundleName("parentTest")
                 .addChild()
@@ -380,6 +382,17 @@ class TestResourceMap
     }
 
     @Test
+    void testResourceConverters()
+    {
+        ResourceConverters resourceConverters = ResourceConverters.ofDefaults();
+        //        resourceConverters.customize(converters -> converters.put(int.class, new IntegerResourceConverter()));
+
+        ResourceConverter<Integer> resourceConverter = resourceConverters.getConverter(int.class);
+
+        assertNotNull(resourceConverter);
+    }
+
+    @Test
     void testShort()
     {
         Short value = resourceMap.getShort("test.short");
@@ -446,7 +459,7 @@ class TestResourceMap
     }
 
     @Test
-    void testURI() throws Exception
+    void testUri() throws Exception
     {
         URI value = resourceMap.getURI("test.uri");
 
@@ -457,7 +470,7 @@ class TestResourceMap
     }
 
     @Test
-    void testURL() throws Exception
+    void testUrl() throws Exception
     {
         URL value = resourceMap.getURL("test.url");
 

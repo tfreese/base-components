@@ -173,7 +173,7 @@ public class DemoApplication extends AbstractApplication
         // @formatter:off
         ResourceMap rootMap = ResourceMapBuilder.create()
             .resourceProvider(resourceProvider)
-            .defaultConverters()
+                //.converter(..., ...)
             .bundleName("bundles/demo")
             .addChild()
                 .bundleName("bundles/statusbar")

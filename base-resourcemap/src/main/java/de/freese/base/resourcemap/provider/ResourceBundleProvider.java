@@ -5,9 +5,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * {@link ResourceProvider} for a {@link ResourceBundle}.
  *
@@ -15,8 +12,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class ResourceBundleProvider implements ResourceProvider
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceBundleProvider.class);
-
     /**
      * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale)
      */
@@ -46,9 +41,13 @@ public final class ResourceBundleProvider implements ResourceProvider
             //                bundles.put(key, value);
             //            }
         }
+        catch (RuntimeException ex)
+        {
+            throw ex;
+        }
         catch (Exception ex)
         {
-            LOGGER.error(ex.getMessage(), ex);
+            throw new RuntimeException(ex);
         }
 
         return bundles;

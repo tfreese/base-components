@@ -5,8 +5,6 @@ import java.util.function.BiFunction;
 /**
  * Converts a String to the required Object.
  *
- * @param <T> Type
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

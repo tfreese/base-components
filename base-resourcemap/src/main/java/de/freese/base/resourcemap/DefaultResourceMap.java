@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import de.freese.base.resourcemap.cache.ResourceCache;
 import de.freese.base.resourcemap.converter.ResourceConverter;
+import de.freese.base.resourcemap.converter.ResourceConverters;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * <code>
  * ResourceMap rootMap = ResourceMapBuilder.create()
  *      .resourceProvider(new ResourceBundleProvider())
- *      .defaultConverters()
+ *      .converter(MyClass.class, new MyClassResourceConverter())
  *      .cacheDisabled()
  *      .bundleName("parentTest")
  *      .addChild()
@@ -51,15 +52,10 @@ class DefaultResourceMap implements ResourceMap
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final Map<Locale, Map<String, String>> resources = new HashMap<>();
-
-    private Map<Class<?>, ResourceConverter<?>> converters;
-
     private Locale locale;
-
     private DefaultResourceMap parent;
-
     private ResourceCache resourceCache;
-
+    private ResourceConverters resourceConverters;
     private ResourceProvider resourceProvider;
 
     DefaultResourceMap(final String bundleName)
@@ -240,11 +236,6 @@ class DefaultResourceMap implements ResourceMap
         return this.children;
     }
 
-    void setConverters(final Map<Class<?>, ResourceConverter<?>> converters)
-    {
-        this.converters = converters;
-    }
-
     void setParent(final DefaultResourceMap parent)
     {
         this.parent = parent;
@@ -255,27 +246,31 @@ class DefaultResourceMap implements ResourceMap
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
     }
 
+    void setResourceConverters(ResourceConverters resourceConverters)
+    {
+        this.resourceConverters = resourceConverters;
+    }
+
     void setResourceProvider(final ResourceProvider resourceProvider)
     {
         this.resourceProvider = resourceProvider;
     }
 
-    @SuppressWarnings("unchecked")
     protected <T> ResourceConverter<T> getConverter(final Class<T> type)
     {
-        if ((this.converters == null) || this.converters.isEmpty())
+        if (this.resourceConverters == null)
         {
             return getParent().getConverter(type);
         }
 
-        ResourceConverter<?> converter = this.converters.get(type);
+        ResourceConverter<T> converter = this.resourceConverters.getConverter(type);
 
         if (converter == null)
         {
             converter = getParent().getConverter(type);
         }
 
-        return (ResourceConverter<T>) converter;
+        return converter;
     }
 
     protected Locale getLocale()
