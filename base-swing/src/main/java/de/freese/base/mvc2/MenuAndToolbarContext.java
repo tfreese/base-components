@@ -99,11 +99,11 @@ public final class MenuAndToolbarContext
                 {
                     if (component instanceof JMenuItem mi && mi.getActionCommand() != null)
                     {
-                        mi.addActionListener(context::delegateEventToCurrentController);
+                        mi.addActionListener(context::delegateEventToCurrentView);
                     }
                     else if (component instanceof AbstractButton b && b.getActionCommand() != null)
                     {
-                        b.addActionListener(context::delegateEventToCurrentController);
+                        b.addActionListener(context::delegateEventToCurrentView);
                     }
                 }
             }
@@ -133,7 +133,7 @@ public final class MenuAndToolbarContext
 
     private final Map<String, List<Component>> index;
 
-    private Controller currentController;
+    private View currentView;
 
     private MenuAndToolbarContext(Map<String, List<Component>> index)
     {
@@ -142,30 +142,30 @@ public final class MenuAndToolbarContext
         this.index = index;
     }
 
-    public void deactivateCurrentController()
+    public void deactivateCurrentView()
     {
-        if (currentController == null)
+        if (currentView == null)
         {
             return;
         }
 
-        for (String actionCommand : currentController.getInterestedActions().keySet())
+        for (String actionCommand : currentView.getInterestedMenuAndToolbarActions().keySet())
         {
             index.computeIfAbsent(actionCommand, key -> new ArrayList<>()).forEach(component -> component.setEnabled(false));
         }
 
-        currentController = null;
+        currentView = null;
 
         // TODO Enable Defaults for File/Exit and Help/About.
     }
 
-    public void setCurrentController(Controller controller)
+    public void setCurrentView(View currentView)
     {
         // TODO Enable Defaults for File/Exit.
 
-        currentController = controller;
+        this.currentView = currentView;
 
-        for (String actionCommand : controller.getInterestedActions().keySet())
+        for (String actionCommand : currentView.getInterestedMenuAndToolbarActions().keySet())
         {
             index.computeIfAbsent(actionCommand, key -> new ArrayList<>()).forEach(component -> component.setEnabled(true));
         }
@@ -173,14 +173,14 @@ public final class MenuAndToolbarContext
         // TODO Enable Default for Help/About.
     }
 
-    private void delegateEventToCurrentController(ActionEvent event)
+    private void delegateEventToCurrentView(ActionEvent event)
     {
-        if (currentController == null)
+        if (currentView == null)
         {
             return;
         }
 
-        ActionListener actionListener = currentController.getInterestedActions().get(event.getActionCommand());
+        ActionListener actionListener = currentView.getInterestedMenuAndToolbarActions().get(event.getActionCommand());
 
         if (actionListener == null)
         {

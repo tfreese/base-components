@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serial;
-import java.util.Objects;
 
 import javax.swing.Icon;
 import javax.swing.JLabel;
@@ -16,15 +15,13 @@ import javax.swing.JSeparator;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
-import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.layout.GbcBuilder;
 import de.freese.base.swing.task.SwingTask;
 import de.freese.base.swing.task.TaskManager;
 
 /**
- * Diese StatusBar registriert sich als Listener am {@link TaskManager} und reagiert auf Events des aktuellen ForegroundTasks.<br>
- * Eine {@link ResourceMap} mit dem Namen "statusbar" muss im {@link ApplicationContext} vorhanden sein.
+ * The StatusBar is a Listener for {@link TaskManager} und react for events of the current ForegroundTask.<br>
  */
 public class StatusBar extends JPanel implements PropertyChangeListener
 {
@@ -52,13 +49,9 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      * Die StatusBar reagiert auf Events des aktuell im {@link TaskManager} enthaltenen ForegroundTasks.
      */
-    public StatusBar(final ApplicationContext context)
+    public StatusBar(final ResourceMap resourceMap, TaskManager taskManager)
     {
         super();
-
-        ResourceMap resourceMap = context.getResourceMap("bundles/statusbar");
-
-        Objects.requireNonNull(resourceMap, "resourceMap required");
 
         Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
         this.messageTimer = new Timer(messageTimeout, event -> this.messageLabel.setText(""));
@@ -77,7 +70,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
             this.statusAnimationLabel.setIcon(this.busyIcons[this.busyIconIndex]);
         });
 
-        context.getTaskManager().addPropertyChangeListener(this);
+        taskManager.addPropertyChangeListener(this);
     }
 
     public void initialize()

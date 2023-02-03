@@ -23,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Der {@link GuiStateManager} verwaltet die {@link GuiState}s.
+ * {@link GuiStateManager} manage the {@link GuiState}s.
  *
  * @author Thomas Freese
  */

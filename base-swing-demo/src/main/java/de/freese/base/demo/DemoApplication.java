@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.nio.file.Paths;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -21,7 +20,6 @@ import de.freese.base.demo.nasa.NasaController;
 import de.freese.base.mvc.AbstractApplication;
 import de.freese.base.mvc.Controller;
 import de.freese.base.mvc.ControllerBuilder;
-import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.ResourceMapBuilder;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
@@ -72,9 +70,6 @@ public class DemoApplication extends AbstractApplication
     protected void initContext()
     {
         super.initContext();
-
-        LocalStorage localStorage = getContext().getLocalStorage();
-        localStorage.setDirectory(Paths.get(System.getProperty("user.home"), ".java-apps", getName().replace(' ', '_')));
     }
 
     /**
@@ -108,7 +103,7 @@ public class DemoApplication extends AbstractApplication
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        StatusBar statusBar = new StatusBar(getContext());
+        StatusBar statusBar = new StatusBar(getContext().getResourceMap("bundles/statusbar"), getContext().getTaskManager());
         statusBar.initialize();
         panel.add(statusBar, BorderLayout.SOUTH);
 

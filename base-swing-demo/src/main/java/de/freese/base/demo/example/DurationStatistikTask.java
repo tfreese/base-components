@@ -6,7 +6,7 @@ import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatistikTaskListener;
 
 /**
- * Task, der über den {@link DurationStatistikTaskListener} seine Ausführungsdauer protokolliert und durch diesen seinen Progress-Wert zyklisch setzt.
+ * Task for demonstrating {@link DurationStatistikTaskListener}.
  *
  * @author Thomas Freese
  */

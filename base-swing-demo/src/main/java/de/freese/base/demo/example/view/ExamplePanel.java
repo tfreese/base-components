@@ -26,7 +26,7 @@ public class ExamplePanel extends JPanel
         return this.buttonTaskStatistik;
     }
 
-    public void initialize()
+    void initialize()
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

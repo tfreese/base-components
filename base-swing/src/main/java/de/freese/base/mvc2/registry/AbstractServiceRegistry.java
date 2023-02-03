@@ -7,23 +7,8 @@ import java.util.Map;
 /**
  * @author Thomas Freese
  */
-public class DefaultServiceRegistry implements ServiceRegistry
+public abstract class AbstractServiceRegistry implements ServiceRegistry
 {
-    private static final class DefaultServiceRegistryHolder
-    {
-        private static final DefaultServiceRegistry INSTANCE = new DefaultServiceRegistry();
-
-        private DefaultServiceRegistryHolder()
-        {
-            super();
-        }
-    }
-
-    public static DefaultServiceRegistry getInstance()
-    {
-        return DefaultServiceRegistryHolder.INSTANCE;
-    }
-
     private final Map<Class<?>, Object> registry = new HashMap<>();
 
     @Override

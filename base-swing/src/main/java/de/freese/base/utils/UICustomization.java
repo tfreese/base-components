@@ -37,7 +37,7 @@ public final class UICustomization
 
     /**
      * Look&Feel Installation.<br>
-     * Wenn der Klassenname null ist wird <code>UIManager.getSystemLookAndFeelClassName()</code> verwendet.
+     * Default <code>UIManager.getSystemLookAndFeelClassName()</code>
      *
      * @param className String LookAndFeel, optional
      */

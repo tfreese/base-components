@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.io.Serializable;
 
 /**
- * Interface um Zustände von {@link Component}s zu speichern und wieder herzustellen.
+ * Interface for saving and restoring states of {@link Component}s.
  *
  * @author Thomas Freese
  */

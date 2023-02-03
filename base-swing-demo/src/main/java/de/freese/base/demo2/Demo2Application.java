@@ -1,107 +1,310 @@
-// Created: 24.01.23
+// Created: 24.07.2011
 package de.freese.base.demo2;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.nio.file.Paths;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import javax.swing.Box;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JToolBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import de.freese.base.mvc2.MenuAndToolbarContext;
+import de.freese.base.demo2.example.ExampleView;
+import de.freese.base.mvc.guistate.GuiStateManager;
+import de.freese.base.mvc.guistate.GuiStateProvider;
+import de.freese.base.mvc.guistate.JsonGuiStateProvider;
+import de.freese.base.mvc.storage.LocalStorage;
+import de.freese.base.mvc2.ApplicationContext;
+import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.resourcemap.ResourceMapBuilder;
+import de.freese.base.resourcemap.provider.ResourceBundleProvider;
+import de.freese.base.resourcemap.provider.ResourceProvider;
+import de.freese.base.swing.StatusBar;
+import de.freese.base.swing.components.frame.ExtFrame;
+import de.freese.base.swing.exception.DialogExceptionHandler;
+import de.freese.base.swing.exception.SwingExceptionHandler;
+import de.freese.base.swing.task.TaskManager;
+import de.freese.base.utils.ExecutorUtils;
+import de.freese.base.utils.UICustomization;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * Demo Anwendung.
+ *
  * @author Thomas Freese
  */
-public final class Demo2Application
+public class Demo2Application
 {
-    public static void main(String[] args)
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private Thread shutdownHook;
+
+    public void start()
     {
-        JFrame frame = new JFrame("Demo2");
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+        String applicationName = "Demo Application";
 
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
+        getLogger().info("Starting {}", applicationName);
 
-        JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-        frame.add(toolBar, BorderLayout.NORTH);
+        ApplicationContext applicationContext = new ApplicationContext();
+        initApplicationContext(applicationContext, applicationName);
+        initResourceMap(applicationContext);
+        initLookAndFeel(applicationName);
+        initShutdownHook(applicationContext);
 
-        // MenuBar - File
-        JMenuItem menuItemExit = new JMenuItem("Exit");
-        menuItemExit.setActionCommand("app.file.exit");
-        MenuAndToolbarContext.Builder builder = MenuAndToolbarContext.builder()
-                .addMenuBarItem(menuBar, new JMenu("File"), menuItemExit);
+        createFrame(applicationContext);
+    }
 
-        // MenuBar - Actions
-        JMenu menuActions = new JMenu("Actions");
-        JMenu menuVisiblility = new JMenu("Group 1");
-        JMenuItem menuItemFileInvisible = new JMenuItem("Item 1");
-        menuItemFileInvisible.setActionCommand("app.actions.group.1");
-        JMenuItem menuItemFileVisible = new JMenuItem("Item 2");
-        menuItemFileVisible.setActionCommand("app.actions.group.2");
-        builder = builder
-                .addMenuBarItem(menuBar, menuActions, menuVisiblility, menuItemFileInvisible)
-                .addMenuBarItem(menuBar, menuActions, menuVisiblility, menuItemFileVisible)
-        ;
+    protected void createFrame(ApplicationContext applicationContext)
+    {
+        getLogger().info("Initialize GUI");
 
-        // MenuBar - Help
-        JMenuItem menuItemHelpAbout = new JMenuItem("About");
-        menuItemHelpAbout.setActionCommand("app.help.about");
-        menuBar.add(Box.createHorizontalGlue());
-        builder = builder.addMenuBarItem(menuBar, new JMenu("Help"), menuItemHelpAbout);
+        // Main-Panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
 
-        // ToolBar
-        JButton buttonTest = new JButton("Test");
-        buttonTest.setBorder(null);
-        buttonTest.setActionCommand("app.test");
-        builder = builder.addToolBarButton(toolBar, buttonTest);
+        StatusBar statusBar = new StatusBar(applicationContext.getResourceMap("bundles/statusbar"), applicationContext.getService(TaskManager.class));
+        statusBar.initialize();
+        panel.add(statusBar, BorderLayout.SOUTH);
 
-        JButton buttonChangeController = new JButton("Change Controller");
-        buttonChangeController.setBorder(null);
-        buttonChangeController.setActionCommand("app.change.controller");
-        builder = builder.addToolBarButton(toolBar, buttonChangeController);
+        JTabbedPane tabbedPane = new JTabbedPane();
+        panel.add(tabbedPane, BorderLayout.CENTER);
 
-        // Gui
-        JLabel label = new JLabel();
-        frame.add(label, BorderLayout.CENTER);
+        ExampleView exampleView = new ExampleView();
+        tabbedPane.addTab(applicationContext.getResourceMap("bundles/example").getString("example.title"), exampleView.initComponent(applicationContext));
 
-        MenuAndToolbarContext context = builder.build();
-        context.setCurrentController(() ->
+        //        for (Controller controller : getControllers())
+        //        {
+        //            Component component = controller.getView().getComponent();
+        //
+        //            ResourceMap resourceMap = controller.getResourceMap();
+        //
+        //            tabbedPane.addTab(resourceMap.getString(controller.getName() + ".title"), component);
+        //        }
+
+        // Main-Frame
+        ResourceMap resourceMap = applicationContext.getResourceMapRoot();
+
+        JFrame frame = new ExtFrame();
+        applicationContext.setMainFrame(frame);
+
+        frame.addWindowListener(new WindowAdapter()
         {
-            Map<String, ActionListener> map = new HashMap<>();
-            map.put("app.file.exit", event -> label.setText("ActionCommand: " + event.getActionCommand()));
-            map.put("app.actions.group.1", event -> label.setText("ActionCommand: " + event.getActionCommand()));
-            map.put("app.actions.group.2", event -> label.setText("ActionCommand: " + event.getActionCommand()));
-            map.put("app.help.about", event -> label.setText("ActionCommand: " + event.getActionCommand()));
-            map.put("app.test", event -> label.setText("ActionCommand: " + event.getActionCommand()));
-
-            map.put("app.change.controller", event ->
-                    {
-                        context.deactivateCurrentController();
-                        context.setCurrentController(() -> Map.of("app.file.exit", e -> System.exit(0)));
-                    }
-            );
-
-            return map;
+            /**
+             * @see WindowAdapter#windowClosing(WindowEvent)
+             */
+            @Override
+            public void windowClosing(final WindowEvent event)
+            {
+                try
+                {
+                    release(applicationContext);
+                }
+                catch (Exception ex)
+                {
+                    getLogger().error(ex.getMessage(), ex);
+                }
+            }
         });
-
-        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.setTitle(resourceMap.getString("application.title"));
+        frame.add(panel);
+        // frame.pack();
+        frame.setSize(1920, 1080);
         frame.setLocationRelativeTo(null);
+
+        try
+        {
+            applicationContext.getService(GuiStateManager.class).restore(frame, "ApplicationFrame");
+        }
+        catch (Exception ex)
+        {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
         frame.setVisible(true);
     }
 
-    private Demo2Application()
+    protected Logger getLogger()
     {
-        super();
+        return logger;
+    }
+
+    protected void initApplicationContext(ApplicationContext applicationContext, String applicationName)
+    {
+        getLogger().info("Initialize ApplicationContext");
+
+        // Min. 1 Thread, unused Thread will be terminated after 60 seconds.
+        ExecutorService executorService = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
+        applicationContext.registerService(ExecutorService.class, executorService);
+
+        LocalStorage localStorage = new LocalStorage(Paths.get(System.getProperty("user.home"), ".java-apps", applicationName.toLowerCase().replace(" ", "_")));
+        applicationContext.registerService(LocalStorage.class, localStorage);
+
+        GuiStateManager guiStateManager = new GuiStateManager();
+        applicationContext.registerService(GuiStateManager.class, guiStateManager);
+
+        // GuiStateProvider guiStateProvider = new XMLGuiStateProvider(this.context.getLocalStorage(), this.context.getGuiStateManager());
+        GuiStateProvider guiStateProvider = new JsonGuiStateProvider(localStorage, guiStateManager);
+        guiStateManager.setStateProvider(guiStateProvider);
+        applicationContext.registerService(GuiStateProvider.class, guiStateProvider);
+
+        SwingExceptionHandler exceptionHandler = new DialogExceptionHandler();
+        applicationContext.registerService(SwingExceptionHandler.class, exceptionHandler);
+
+        Clipboard clipboard = null;
+
+        try
+        {
+            clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        }
+        catch (Throwable th)
+        {
+            clipboard = new Clipboard("sandbox");
+        }
+
+        applicationContext.registerService(Clipboard.class, clipboard);
+
+        TaskManager taskManager = new TaskManager(executorService);
+        applicationContext.registerService(TaskManager.class, taskManager);
+    }
+
+    protected void initLookAndFeel(String applicationName)
+    {
+        getLogger().info("Initialize LookAndFeel");
+
+        try
+        {
+            // PlasticLookAndFeel.setPlasticTheme(new ExperienceBlue());
+            // com.jgoodies.looks.plastic.PlasticXPLookAndFeel
+            // com.jgoodies.looks.plastic.Plastic3DLookAndFeel
+            // com.jgoodies.looks.plastic.PlasticLookAndFeel
+            // com.jgoodies.looks.windows.WindowsLookAndFeel
+            // com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+            UICustomization.install(UIManager.getSystemLookAndFeelClassName());
+
+            // UICustomization.install("javax.swing.plaf.metal.MetalLookAndFeel");
+        }
+        catch (Exception ex)
+        {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        UIManager.getLookAndFeelDefaults().put("ToolTip.background", Color.WHITE);
+
+        if (System.getProperty("os.name").contains("Mac OS X"))
+        {
+            // When using the Aqua look and feel, this property puts Swing menus in the Mac OS X
+            // menu bar. Note that JMenuBars in JDialogs are not moved to the Mac OS X menu bar.
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+
+            // Set the name of the application menu item
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", applicationName);
+
+            System.setProperty("com.apple.mrj.application.growbox.intrudes", "true");
+            System.setProperty("com.apple.mrj.application.live-resize", "true");
+            System.setProperty("com.apple.macos.smallTabs", "true");
+
+            // By default, the AWT File Dialog lets you choose a file. Under certain circumstances,
+            // however, it may be proper for you to choose a directory instead. If that is the case,
+            // set this property to allow for directory selection in a file dialog.
+            System.setProperty("apple.awt.fileDialogForDirectories", "true");
+        }
+    }
+
+    protected void initResourceMap(ApplicationContext applicationContext)
+    {
+        getLogger().info("Initialize ResourceMap");
+
+        ResourceProvider resourceProvider = new ResourceBundleProvider();
+        // ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};
+
+        // @formatter:off
+        ResourceMap rootMap = ResourceMapBuilder.create()
+            .resourceProvider(resourceProvider)
+                //.converter(..., ...)
+            .bundleName("bundles/demo")
+            .addChild()
+                .bundleName("bundles/statusbar")
+                .done()
+            .addChild()
+                .bundleName("bundles/nasa")
+                .done()
+            .addChild()
+                .bundleName("bundles/fibonacci")
+                .done()
+            .addChild()
+                .bundleName("bundles/example")
+                .cacheDisabled()
+                .done()
+            .build()
+            ;
+        // @formatter:on
+
+        rootMap.load(Locale.getDefault());
+
+        applicationContext.setResourceMapRoot(rootMap);
+    }
+
+    protected void initShutdownHook(ApplicationContext applicationContext)
+    {
+        getLogger().info("Initialize ShutdownHook");
+
+        Runnable shutdownTask = () ->
+        {
+            try
+            {
+                release(applicationContext);
+            }
+            catch (Exception ex)
+            {
+                getLogger().error(ex.getMessage(), ex);
+            }
+        };
+
+        this.shutdownHook = new Thread(shutdownTask, "ShutdownHook");
+
+        Runtime.getRuntime().addShutdownHook(this.shutdownHook);
+    }
+
+    private void release(ApplicationContext applicationContext)
+    {
+        getLogger().info("Release");
+
+        int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?");
+
+        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
+        {
+            getLogger().info("Release aborted");
+
+            return;
+        }
+
+        try
+        {
+            applicationContext.getService(GuiStateManager.class).store(applicationContext.getMainFrame(), "ApplicationFrame");
+        }
+        catch (Exception ex)
+        {
+            getLogger().error(ex.getMessage(), ex);
+        }
+
+        ExecutorUtils.shutdown(applicationContext.getService(ExecutorService.class), getLogger());
+
+        Runtime.getRuntime().removeShutdownHook(this.shutdownHook);
+
+        System.exit(0);
     }
 }
