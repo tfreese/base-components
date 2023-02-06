@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 /**
  * @author Thomas Freese
  */
-public class ExamplePanel extends JPanel
+class ExamplePanel extends JPanel
 {
     @Serial
     private static final long serialVersionUID = -1162909250924225209L;
@@ -26,7 +26,7 @@ public class ExamplePanel extends JPanel
         return this.buttonTaskStatistik;
     }
 
-    void initialize()
+    void init()
     {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

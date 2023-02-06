@@ -21,9 +21,9 @@ public final class ApplicationContext extends AbstractServiceRegistry
         return this.mainFrame;
     }
 
-    public ResourceMap getResourceMap(final String name)
+    public ResourceMap getResourceMap(final String bundleName)
     {
-        return getResourceMapRoot().getChild(name);
+        return getResourceMapRoot().getChild(bundleName);
     }
 
     public ResourceMap getResourceMapRoot()

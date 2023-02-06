@@ -1,14 +1,9 @@
 // Created: 03.02.23
 package de.freese.base.demo2.example;
 
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.Map;
-
 import de.freese.base.demo.example.DurationStatistikTask;
 import de.freese.base.mvc2.ApplicationContext;
-import de.freese.base.mvc2.View;
+import de.freese.base.mvc2.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatistikTaskListener;
@@ -18,21 +13,19 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 /**
  * @author Thomas Freese
  */
-public class ExampleView implements View
+public class ExampleView extends AbstractView
 {
     @Override
-    public Map<String, ActionListener> getInterestedMenuAndToolbarActions()
+    public ExampleView initComponent(final ApplicationContext applicationContext)
     {
-        return Collections.emptyMap();
-    }
+        super.initComponent(applicationContext);
 
-    @Override
-    public Component initComponent(final ApplicationContext applicationContext)
-    {
-        ResourceMap resourceMap = applicationContext.getResourceMap("bundles/example");
+        ResourceMap resourceMap = getResourceMap();
 
         ExamplePanel examplePanel = new ExamplePanel();
-        examplePanel.initialize();
+        setComponent(examplePanel);
+
+        examplePanel.init();
         examplePanel.getButtonTaskStatistik().setText(resourceMap.getString("example.button.task.statistik.text"));
 
         examplePanel.getButtonTaskStatistik().addActionListener(event ->
@@ -46,6 +39,12 @@ public class ExampleView implements View
             applicationContext.getService(TaskManager.class).execute(task);
         });
 
-        return examplePanel;
+        return this;
+    }
+
+    @Override
+    protected ResourceMap getResourceMap()
+    {
+        return getApplicationContext().getResourceMap("bundles/example");
     }
 }

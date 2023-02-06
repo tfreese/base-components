@@ -17,6 +17,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 
+import de.freese.base.mvc2.view.View;
+
 /**
  * Requires @{AbstractButton.setActionCommand} on {@link JMenuItem} and {@link JButton}.
  *

@@ -8,6 +8,8 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.SynchronousQueue;
@@ -22,11 +24,14 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import de.freese.base.demo2.example.ExampleView;
+import de.freese.base.demo2.fibonacci.view.DefaultFibonacciView;
+import de.freese.base.demo2.fibonacci.view.FibonacciView;
 import de.freese.base.mvc.guistate.GuiStateManager;
 import de.freese.base.mvc.guistate.GuiStateProvider;
 import de.freese.base.mvc.guistate.JsonGuiStateProvider;
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.mvc2.ApplicationContext;
+import de.freese.base.mvc2.Releasable;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.ResourceMapBuilder;
 import de.freese.base.resourcemap.provider.ResourceBundleProvider;
@@ -49,6 +54,8 @@ import org.slf4j.LoggerFactory;
 public class Demo2Application
 {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final List<Releasable> releasables = new ArrayList<>();
 
     private Thread shutdownHook;
 
@@ -83,7 +90,13 @@ public class Demo2Application
         panel.add(tabbedPane, BorderLayout.CENTER);
 
         ExampleView exampleView = new ExampleView();
-        tabbedPane.addTab(applicationContext.getResourceMap("bundles/example").getString("example.title"), exampleView.initComponent(applicationContext));
+        String tabTitle = applicationContext.getResourceMap("bundles/example").getString("example.title");
+        tabbedPane.addTab(tabTitle, exampleView.initComponent(applicationContext).getComponent());
+
+        FibonacciView fibonacciView = new DefaultFibonacciView();
+        releasables.add(fibonacciView);
+        tabTitle = applicationContext.getResourceMap("bundles/fibonacci").getString("fibonacci.title");
+        tabbedPane.addTab(tabTitle, fibonacciView.initComponent(applicationContext).getComponent());
 
         //        for (Controller controller : getControllers())
         //        {
@@ -295,6 +308,8 @@ public class Demo2Application
         try
         {
             applicationContext.getService(GuiStateManager.class).store(applicationContext.getMainFrame(), "ApplicationFrame");
+
+            releasables.forEach(Releasable::release);
         }
         catch (Exception ex)
         {

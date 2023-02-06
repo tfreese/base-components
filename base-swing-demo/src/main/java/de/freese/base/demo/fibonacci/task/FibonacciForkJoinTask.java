@@ -15,9 +15,6 @@ import de.freese.base.demo.fibonacci.FibonacciController;
  */
 public class FibonacciForkJoinTask extends RecursiveTask<Long>
 {
-    /**
-     * Schwellenwert, bei dem die Berechnung sequenziell durchgeführt wird.
-     */
     private static final int THRESHOLD = 10;
 
     @Serial
