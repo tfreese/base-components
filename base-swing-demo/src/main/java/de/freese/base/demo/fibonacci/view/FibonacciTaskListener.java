@@ -22,7 +22,7 @@ public class FibonacciTaskListener implements PropertyChangeListener
     }
 
     /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     * @see PropertyChangeListener#propertyChange(PropertyChangeEvent)
      */
     @Override
     public void propertyChange(final PropertyChangeEvent event)

@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Thomas Freese
  */
-public class NasaPanel extends JPanel
+class NasaPanel extends JPanel
 {
     @Serial
     private static final long serialVersionUID = 2482594442090386688L;
@@ -36,7 +36,7 @@ public class NasaPanel extends JPanel
 
     private JScrollPane scrollPane;
 
-    public JButton getButtonCancel()
+    JButton getButtonCancel()
     {
         if (this.buttonCancel == null)
         {
@@ -46,7 +46,7 @@ public class NasaPanel extends JPanel
         return this.buttonCancel;
     }
 
-    public JButton getButtonNext()
+    JButton getButtonNext()
     {
         if (this.buttonNext == null)
         {
@@ -56,7 +56,7 @@ public class NasaPanel extends JPanel
         return this.buttonNext;
     }
 
-    public JButton getButtonPrevious()
+    JButton getButtonPrevious()
     {
         if (this.buttonPrevious == null)
         {
@@ -66,7 +66,7 @@ public class NasaPanel extends JPanel
         return this.buttonPrevious;
     }
 
-    public JLabel getLabelImage()
+    JLabel getLabelImage()
     {
         if (this.labelImage == null)
         {
@@ -79,7 +79,7 @@ public class NasaPanel extends JPanel
         return this.labelImage;
     }
 
-    public JLabel getLabelURL()
+    JLabel getLabelURL()
     {
         if (this.labelURL == null)
         {
@@ -89,7 +89,7 @@ public class NasaPanel extends JPanel
         return this.labelURL;
     }
 
-    public JScrollPane getScrollPane()
+    JScrollPane getScrollPane()
     {
         if (this.scrollPane == null)
         {
@@ -99,7 +99,7 @@ public class NasaPanel extends JPanel
         return this.scrollPane;
     }
 
-    public void initialize()
+    void init()
     {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder());

@@ -1,4 +1,4 @@
-package de.freese.base.demo2.example;
+package de.freese.base.demo.example;
 
 import java.io.Serial;
 

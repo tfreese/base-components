@@ -1,7 +1,7 @@
 // Created: 05.02.23
-package de.freese.base.mvc2.controller;
+package de.freese.base.mvc.controller;
 
-import de.freese.base.mvc2.view.View;
+import de.freese.base.mvc.view.View;
 
 /**
  * @author Thomas Freese

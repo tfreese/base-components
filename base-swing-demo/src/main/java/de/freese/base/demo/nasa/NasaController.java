@@ -1,3 +1,4 @@
+// Created: 07.02.23
 package de.freese.base.demo.nasa;
 
 import java.awt.image.BufferedImage;
@@ -18,47 +19,16 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 import javax.imageio.stream.ImageInputStream;
-import javax.swing.SwingUtilities;
 
-import de.freese.base.demo.nasa.view.DefaultNasaView;
-import de.freese.base.demo.nasa.view.NasaPanel;
 import de.freese.base.demo.nasa.view.NasaView;
-import de.freese.base.mvc.AbstractController;
-import de.freese.base.swing.task.AbstractSwingTask;
-import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
+import de.freese.base.mvc.controller.AbstractController;
+import de.freese.base.mvc.storage.LocalStorage;
 
 /**
  * @author Thomas Freese
  */
 public class NasaController extends AbstractController
 {
-    // /**
-    // * Erzeugt einen MessageDigest.<br>
-    // * Beim Auftreten einer {@link NoSuchAlgorithmException} wird diese in eine {@link RuntimeException} konvertiert.
-    // */
-    // protected static MessageDigest createMessageDigest() throws RuntimeException
-    // {
-    // MessageDigest messageDigest = null;
-    //
-    // try
-    // {
-    // messageDigest = MessageDigest.getInstance("SHA-256");
-    // }
-    // catch (final NoSuchAlgorithmException ex)
-    // {
-    // try
-    // {
-    // messageDigest = MessageDigest.getInstance("MD5");
-    // }
-    // catch (final NoSuchAlgorithmException ex2)
-    // {
-    // throw new RuntimeException(ex2);
-    // }
-    // }
-    //
-    // return messageDigest;
-    // }
-
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
 
     private final String[] imageNames =
@@ -76,23 +46,15 @@ public class NasaController extends AbstractController
                     "PIA05990.jpg"
             };
 
-    // private final MessageDigest messageDigest;
-
     private final Random random = new Random();
 
     private final List<URL> urlHistory = new ArrayList<>();
 
-    private final NasaView view;
-
     private int urlHistoryCurrentIndex = -1;
 
-    public NasaController()
+    public NasaController(final NasaView view)
     {
-        super();
-
-        // this.messageDigest = createMessageDigest();
-
-        this.view = new DefaultNasaView();
+        super(view);
     }
 
     public URL getNextURL() throws MalformedURLException
@@ -144,57 +106,13 @@ public class NasaController extends AbstractController
         return url;
     }
 
-    /**
-     * @see de.freese.base.mvc.Controller#getView()
-     */
     @Override
     public NasaView getView()
     {
-        return this.view;
+        return (NasaView) super.getView();
     }
 
-    /**
-     * @see de.freese.base.mvc.AbstractController#initialize()
-     */
-    @Override
-    public void initialize()
-    {
-        super.initialize();
-
-        NasaPanel panel = getView().getComponent();
-
-        panel.getButtonPrevious().addActionListener(event ->
-        {
-            NasaImageTask task = new NasaImageTask(this, this::getPreviousURL, getView(), getResourceMap());
-            // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
-            task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
-
-            getContext().getTaskManager().execute(task);
-        });
-
-        panel.getButtonNext().addActionListener(event ->
-        {
-            NasaImageTask task = new NasaImageTask(this, this::getNextURL, getView(), getResourceMap());
-            // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
-            task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
-
-            getContext().getTaskManager().execute(task);
-        });
-
-        panel.getButtonCancel().addActionListener(event ->
-        {
-            AbstractSwingTask<?, ?> task = getContext().getTaskManager().getForegroundTask();
-
-            if (task != null)
-            {
-                task.cancel(true);
-            }
-        });
-
-        SwingUtilities.invokeLater(panel.getButtonNext()::doClick);
-    }
-
-    public BufferedImage loadImage(final URL url, final IIOReadProgressListener listener) throws Exception
+    public BufferedImage loadImage(LocalStorage localStorage, final URL url, final IIOReadProgressListener listener) throws Exception
     {
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
         // ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
@@ -203,8 +121,8 @@ public class NasaController extends AbstractController
         String fileName = urlPath.getFileName().toString();
         String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         // Optional.ofNullable(fileName).filter(f -> f.contains(".")).map(f -> f.substring(fileName.lastIndexOf(".") + 1));
-        String cachedFileName = "images/" + fileName;
-        Path cachePath = getContext().getLocalStorage().getPath(cachedFileName);
+        Path cachedFileName = Paths.get("images", fileName);
+        Path cachePath = localStorage.getAbsolutPath(cachedFileName);
 
         boolean cacheFileExist = Files.exists(cachePath);
 
@@ -213,7 +131,7 @@ public class NasaController extends AbstractController
         if (cacheFileExist)
         {
             getLogger().info("URL load from: {}", cachePath);
-            inputStream = getContext().getLocalStorage().getInputStream(cachedFileName);
+            inputStream = localStorage.getInputStream(cachedFileName);
         }
         else
         {
@@ -260,7 +178,7 @@ public class NasaController extends AbstractController
 
         if ((image != null) && !cacheFileExist)
         {
-            try (OutputStream outputStream = getContext().getLocalStorage().getOutputStream(cachedFileName))
+            try (OutputStream outputStream = localStorage.getOutputStream(cachedFileName))
             {
                 ImageIO.write(image, extension, outputStream);
 

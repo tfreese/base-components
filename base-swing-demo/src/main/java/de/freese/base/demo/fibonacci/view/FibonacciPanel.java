@@ -14,7 +14,7 @@ import de.freese.base.swing.layout.GbcBuilder;
 /**
  * @author Thomas Freese
  */
-public class FibonacciPanel extends JPanel
+class FibonacciPanel extends JPanel
 {
     @Serial
     private static final long serialVersionUID = -2648632168520329957L;
@@ -29,7 +29,7 @@ public class FibonacciPanel extends JPanel
 
     private JTextField textField;
 
-    public JButton getButtonComponentBlock()
+    JButton getButtonComponentBlock()
     {
         if (this.buttonComponentBlock == null)
         {
@@ -39,7 +39,7 @@ public class FibonacciPanel extends JPanel
         return this.buttonComponentBlock;
     }
 
-    public JButton getButtonGlassPaneBlock()
+    JButton getButtonGlassPaneBlock()
     {
         if (this.buttonGlassPaneBlock == null)
         {
@@ -49,7 +49,7 @@ public class FibonacciPanel extends JPanel
         return this.buttonGlassPaneBlock;
     }
 
-    public JLabel getLabel()
+    JLabel getLabel()
     {
         if (this.label == null)
         {
@@ -59,7 +59,7 @@ public class FibonacciPanel extends JPanel
         return this.label;
     }
 
-    public JLabel getLabelResult()
+    JLabel getLabelResult()
     {
         if (this.labelResult == null)
         {
@@ -69,7 +69,7 @@ public class FibonacciPanel extends JPanel
         return this.labelResult;
     }
 
-    public JTextField getTextField()
+    JTextField getTextField()
     {
         if (this.textField == null)
         {
@@ -79,7 +79,7 @@ public class FibonacciPanel extends JPanel
         return this.textField;
     }
 
-    public void initialize()
+    void init()
     {
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createEmptyBorder());

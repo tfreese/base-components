@@ -1,6 +1,5 @@
 package de.freese.base.demo.fibonacci;
 
-import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -10,14 +9,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.LongConsumer;
 
 import de.freese.base.demo.fibonacci.task.FibonacciForkJoinTask;
-import de.freese.base.demo.fibonacci.task.FibonacciTask;
-import de.freese.base.demo.fibonacci.view.DefaultFibonacciView;
-import de.freese.base.demo.fibonacci.view.FibonacciPanel;
-import de.freese.base.demo.fibonacci.view.FibonacciTaskListener;
 import de.freese.base.demo.fibonacci.view.FibonacciView;
-import de.freese.base.mvc.AbstractController;
-import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
-import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
+import de.freese.base.mvc.controller.AbstractController;
 
 /**
  * @author Thomas Freese
@@ -28,15 +21,14 @@ public class FibonacciController extends AbstractController
 
     private static final Map<Integer, Long> OPERATION_CACHE = new HashMap<>(100);
 
-    private final FibonacciView view;
+    private final ForkJoinPool forkJoinPool;
 
-    private ForkJoinPool forkJoinPool;
-
-    public FibonacciController()
+    public FibonacciController(FibonacciView view)
     {
-        super();
+        super(view);
 
-        this.view = new DefaultFibonacciView();
+        // this.forkJoinPool = new ForkJoinPool();
+        this.forkJoinPool = ForkJoinPool.commonPool();
     }
 
     public long fibonacci(final int n, final LongConsumer operationConsumer)
@@ -75,69 +67,14 @@ public class FibonacciController extends AbstractController
         return result;
     }
 
-    /**
-     * @see de.freese.base.mvc.Controller#getView()
-     */
     @Override
     public FibonacciView getView()
     {
-        return this.view;
+        return (FibonacciView) super.getView();
     }
 
-    /**
-     * @see de.freese.base.mvc.AbstractController#initialize()
-     */
-    @Override
-    public void initialize()
+    public void shutdown()
     {
-        super.initialize();
-
-        // this.forkJoinPool = new ForkJoinPool();
-        this.forkJoinPool = ForkJoinPool.commonPool();
-
-        FibonacciPanel panel = getView().getComponent();
-
-        panel.getButtonGlassPaneBlock().addActionListener(event ->
-        {
-            getView().setResult(0);
-
-            // Task mit GlassPaneInputBlocker
-            int value = Integer.parseInt(panel.getTextField().getText());
-
-            FibonacciTask task = new FibonacciTask(value, this, getResourceMap());
-            task.setInputBlocker(new DefaultGlassPaneInputBlocker(panel));
-
-            // Könnte auch im Task implementiert werden.
-            task.addPropertyChangeListener(new FibonacciTaskListener(getView()));
-
-            getContext().getTaskManager().execute(task);
-        });
-
-        panel.getButtonComponentBlock().addActionListener(event ->
-        {
-            getView().setResult(0);
-
-            // Task mit ComponentInputBlocker
-            int value = Integer.parseInt(panel.getTextField().getText());
-
-            FibonacciTask task = new FibonacciTask(value, this, getResourceMap());
-            task.setInputBlocker(new DefaultInputBlocker().add((Component) event.getSource()));
-
-            // Könnte auch im Task implementiert werden.
-            task.addPropertyChangeListener(new FibonacciTaskListener(getView()));
-
-            getContext().getTaskManager().execute(task);
-        });
-    }
-
-    /**
-     * @see de.freese.base.mvc.AbstractController#release()
-     */
-    @Override
-    public void release()
-    {
-        super.release();
-
         this.forkJoinPool.shutdown();
     }
 

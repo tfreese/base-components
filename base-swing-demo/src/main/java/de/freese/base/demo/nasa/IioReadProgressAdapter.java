@@ -9,7 +9,7 @@ import javax.imageio.event.IIOReadProgressListener;
 public class IioReadProgressAdapter implements IIOReadProgressListener
 {
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#imageComplete(javax.imageio.ImageReader)
+     * @see IIOReadProgressListener#imageComplete(ImageReader)
      */
     @Override
     public void imageComplete(final ImageReader source)
@@ -18,7 +18,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#imageProgress(javax.imageio.ImageReader, float)
+     * @see IIOReadProgressListener#imageProgress(ImageReader, float)
      */
     @Override
     public void imageProgress(final ImageReader source, final float percentageDone)
@@ -27,7 +27,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#imageStarted(javax.imageio.ImageReader, int)
+     * @see IIOReadProgressListener#imageStarted(ImageReader, int)
      */
     @Override
     public void imageStarted(final ImageReader source, final int imageIndex)
@@ -36,7 +36,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#readAborted(javax.imageio.ImageReader)
+     * @see IIOReadProgressListener#readAborted(ImageReader)
      */
     @Override
     public void readAborted(final ImageReader source)
@@ -45,7 +45,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#sequenceComplete(javax.imageio.ImageReader)
+     * @see IIOReadProgressListener#sequenceComplete(ImageReader)
      */
     @Override
     public void sequenceComplete(final ImageReader source)
@@ -54,7 +54,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#sequenceStarted(javax.imageio.ImageReader, int)
+     * @see IIOReadProgressListener#sequenceStarted(ImageReader, int)
      */
     @Override
     public void sequenceStarted(final ImageReader source, final int minIndex)
@@ -63,7 +63,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#thumbnailComplete(javax.imageio.ImageReader)
+     * @see IIOReadProgressListener#thumbnailComplete(ImageReader)
      */
     @Override
     public void thumbnailComplete(final ImageReader source)
@@ -72,7 +72,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#thumbnailProgress(javax.imageio.ImageReader, float)
+     * @see IIOReadProgressListener#thumbnailProgress(ImageReader, float)
      */
     @Override
     public void thumbnailProgress(final ImageReader source, final float percentageDone)
@@ -81,7 +81,7 @@ public class IioReadProgressAdapter implements IIOReadProgressListener
     }
 
     /**
-     * @see javax.imageio.event.IIOReadProgressListener#thumbnailStarted(javax.imageio.ImageReader, int, int)
+     * @see IIOReadProgressListener#thumbnailStarted(ImageReader, int, int)
      */
     @Override
     public void thumbnailStarted(final ImageReader source, final int imageIndex, final int thumbnailIndex)

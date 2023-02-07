@@ -1,9 +1,9 @@
 // Created: 05.02.23
-package de.freese.base.mvc2.controller;
+package de.freese.base.mvc.controller;
 
 import java.util.Objects;
 
-import de.freese.base.mvc2.view.View;
+import de.freese.base.mvc.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractController
 {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final View view;
 
     protected AbstractController(final View view)

@@ -1,5 +1,5 @@
 // Created: 29.01.23
-package de.freese.base.mvc2.registry;
+package de.freese.base.mvc.registry;
 
 import java.util.HashMap;
 import java.util.Map;

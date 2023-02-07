@@ -9,6 +9,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.event.IIOReadProgressListener;
 
 import de.freese.base.demo.nasa.view.NasaView;
+import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 
@@ -38,7 +39,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
     }
 
     /**
-     * @see de.freese.base.swing.task.AbstractSwingTask#cancelled()
+     * @see AbstractSwingTask#cancelled()
      */
     @Override
     protected void cancelled()
@@ -64,7 +65,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
         IIOReadProgressListener rpl = new IioReadProgressAdapter()
         {
             /**
-             * @see IioReadProgressAdapter#imageProgress(javax.imageio.ImageReader, float)
+             * @see IioReadProgressAdapter#imageProgress(ImageReader, float)
              */
             @Override
             public void imageProgress(final ImageReader source, final float percentageDone)
@@ -73,11 +74,11 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
             }
         };
 
-        return this.nasaController.loadImage(this.url, rpl);
+        return this.nasaController.loadImage(this.view.getApplicationContext().getService(LocalStorage.class), this.url, rpl);
     }
 
     /**
-     * @see de.freese.base.swing.task.AbstractSwingTask#failed(java.lang.Throwable)
+     * @see AbstractSwingTask#failed(Throwable)
      */
     @Override
     protected void failed(final Throwable cause)
@@ -88,7 +89,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
     }
 
     /**
-     * @see de.freese.base.swing.task.AbstractSwingTask#succeeded(java.lang.Object)
+     * @see AbstractSwingTask#succeeded(Object)
      */
     @Override
     protected void succeeded(final BufferedImage result)

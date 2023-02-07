@@ -1,5 +1,5 @@
 // Created: 24.01.23
-package de.freese.base.mvc2;
+package de.freese.base.mvc;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 
-import de.freese.base.mvc2.view.View;
+import de.freese.base.mvc.view.View;
 
 /**
  * Requires @{AbstractButton.setActionCommand} on {@link JMenuItem} and {@link JButton}.

@@ -1,9 +1,8 @@
 // Created: 03.02.23
-package de.freese.base.demo2.example;
+package de.freese.base.demo.example;
 
-import de.freese.base.demo.example.DurationStatistikTask;
-import de.freese.base.mvc2.ApplicationContext;
-import de.freese.base.mvc2.view.AbstractView;
+import de.freese.base.mvc.ApplicationContext;
+import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.task.AbstractSwingTask;
 import de.freese.base.swing.task.DurationStatistikTaskListener;

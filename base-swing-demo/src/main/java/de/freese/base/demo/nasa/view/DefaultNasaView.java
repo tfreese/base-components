@@ -1,3 +1,4 @@
+// Created: 07.02.23
 package de.freese.base.demo.nasa.view;
 
 import java.awt.Point;
@@ -11,42 +12,79 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
-import de.freese.base.mvc.AbstractView;
+import de.freese.base.demo.nasa.NasaController;
+import de.freese.base.demo.nasa.NasaImageTask;
+import de.freese.base.mvc.ApplicationContext;
+import de.freese.base.mvc.view.AbstractView;
 import de.freese.base.resourcemap.ResourceMap;
+import de.freese.base.swing.task.AbstractSwingTask;
+import de.freese.base.swing.task.TaskManager;
+import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 
 /**
  * @author Thomas Freese
  */
 public class DefaultNasaView extends AbstractView implements NasaView
 {
-    /**
-     * @see de.freese.base.mvc.View#createGUI()
-     */
-    @Override
-    public void createGUI()
-    {
-        setComponent(new NasaPanel());
-        getComponent().initialize();
+    private NasaController controller;
 
-        ResourceMap resourceMap = getResourceMap();
-
-        decorate(getComponent().getButtonPrevious(), resourceMap, "nasa.button.previous");
-        decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
-        decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
-    }
-
-    /**
-     * @see de.freese.base.mvc.AbstractView#getComponent()
-     */
     @Override
     public NasaPanel getComponent()
     {
         return (NasaPanel) super.getComponent();
     }
 
-    /**
-     * @see de.freese.base.demo.nasa.view.NasaView#setImage(java.net.URL, java.awt.image.BufferedImage)
-     */
+    @Override
+    public NasaView initComponent(final ApplicationContext applicationContext)
+    {
+        super.initComponent(applicationContext);
+
+        NasaPanel nasaPanel = new NasaPanel();
+        setComponent(nasaPanel);
+
+        nasaPanel.init();
+
+        ResourceMap resourceMap = getResourceMap();
+
+        decorate(getComponent().getButtonPrevious(), resourceMap, "nasa.button.previous");
+        decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
+        decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
+
+        controller = new NasaController(this);
+
+        nasaPanel.getButtonPrevious().addActionListener(event ->
+        {
+            NasaImageTask task = new NasaImageTask(controller, controller::getPreviousURL, this, getResourceMap());
+            // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
+
+            getApplicationContext().getService(TaskManager.class).execute(task);
+        });
+
+        nasaPanel.getButtonNext().addActionListener(event ->
+        {
+            NasaImageTask task = new NasaImageTask(controller, controller::getNextURL, this, getResourceMap());
+            // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
+            task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
+
+            getApplicationContext().getService(TaskManager.class).execute(task);
+        });
+
+        nasaPanel.getButtonCancel().addActionListener(event ->
+        {
+            AbstractSwingTask<?, ?> task = getApplicationContext().getService(TaskManager.class).getForegroundTask();
+
+            if (task != null)
+            {
+                task.cancel(true);
+            }
+        });
+
+        //        SwingUtilities.invokeLater(nasaPanel.getButtonNext()::doClick);
+
+        return this;
+    }
+
     @Override
     public void setImage(final URL url, final BufferedImage image)
     {
@@ -82,30 +120,19 @@ public class DefaultNasaView extends AbstractView implements NasaView
         // viewport.validate();
     }
 
-    /**
-     * @see de.freese.base.demo.nasa.view.NasaView#setMessage(java.lang.String, java.net.URL, java.lang.Throwable)
-     */
     @Override
     public void setMessage(final String key, final URL url, final Throwable throwable)
     {
-        // JViewport viewport = getViewComponent().getScrollPane().getViewport();
-        // getLogger().info(viewport.getViewPosition().toString());
-
-        // Wird schon von der GlasPane übernommen.
-        // String msg = getResourceMap().getString(key, url);
-
-        // JLabel label = getComponent().getLabelImage();
-        // label.setToolTipText("");
-        // label.setText(msg);
-        // label.setIcon(null);
-        //
-        // label = getComponent().getLabelURL();
-        // label.setText(null);
-
         if (throwable != null)
         {
             handleException(throwable);
         }
+    }
+
+    @Override
+    protected ResourceMap getResourceMap()
+    {
+        return getApplicationContext().getResourceMap("bundles/nasa");
     }
 
     private void decorate(final JButton button, final ResourceMap resourceMap, final String key)

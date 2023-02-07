@@ -1,10 +1,10 @@
 // Created: 05.02.23
-package de.freese.base.mvc2.view;
+package de.freese.base.mvc.view;
 
 import java.awt.Component;
 import java.util.Objects;
 
-import de.freese.base.mvc2.ApplicationContext;
+import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 import org.slf4j.Logger;
@@ -20,6 +20,12 @@ public abstract class AbstractView implements View
     private ApplicationContext applicationContext;
 
     private Component component;
+
+    @Override
+    public ApplicationContext getApplicationContext()
+    {
+        return applicationContext;
+    }
 
     @Override
     public Component getComponent()
@@ -57,11 +63,6 @@ public abstract class AbstractView implements View
         this.applicationContext = Objects.requireNonNull(applicationContext, "applicationContext required");
 
         return this;
-    }
-
-    protected ApplicationContext getApplicationContext()
-    {
-        return applicationContext;
     }
 
     protected Logger getLogger()
