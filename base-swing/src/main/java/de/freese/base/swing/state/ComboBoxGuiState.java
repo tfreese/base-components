@@ -13,8 +13,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * State einer ComboBox.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "ComboBoxGuiState")
@@ -44,7 +42,7 @@ public class ComboBoxGuiState extends AbstractGuiState
 
         JComboBox<Object> comboBox = (JComboBox<Object>) component;
 
-        // Zuerst versuchen über den Namen das Object zu selektieren
+        // Try to find the object by name.
         try
         {
             if ((this.selectedName != null) && (this.selectedName.length() > 0))

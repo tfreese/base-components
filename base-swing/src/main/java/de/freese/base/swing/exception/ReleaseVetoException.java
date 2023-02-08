@@ -5,8 +5,6 @@ import java.io.Serial;
 import java.util.Objects;
 
 /**
- * Exception für ein nicht durchführbaren Release-Vorgang.
- *
  * @author Thomas Freese
  */
 public class ReleaseVetoException extends Exception

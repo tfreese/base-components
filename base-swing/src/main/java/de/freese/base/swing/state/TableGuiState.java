@@ -18,8 +18,6 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 /**
- * State einer Tabelle.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "TableGuiState")
@@ -106,8 +104,6 @@ public class TableGuiState extends AbstractGuiState
                 tableColumnExt.setVisible(this.visible);
                 tableColumnExt.setEditable(this.editable);
                 tableColumnExt.setSortable(this.sortable);
-
-                // System.out.println(this.modelIndex + " - " + this.visible);
             }
         }
     }
@@ -133,8 +129,7 @@ public class TableGuiState extends AbstractGuiState
 
         if ((this.selectedRows != null) && (this.selectedRows.length > 0))
         {
-            // Bei SINGLE_SELECTION muss setColumnSelectionAllowed(false) gesetzt werden
-            // damit das hier funktioniert.
+            // With SINGLE_SELECTION must setColumnSelectionAllowed(false) be called to do this working.
             try
             {
                 for (int row : this.selectedRows)
@@ -171,14 +166,6 @@ public class TableGuiState extends AbstractGuiState
                     tableColumn = columns.get(index);
                 }
 
-                // if (index == -1)
-                // {
-                // if (tableColumn instanceof ExtTableColumn)
-                // {
-                // ((ExtTableColumn) tableColumn).setVisible(false);
-                // }
-                // }
-                // else {
                 ColumnState columnState = this.columnStates[index];
 
                 columnState.update(tableColumn);

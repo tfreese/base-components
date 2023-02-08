@@ -7,8 +7,6 @@ import java.util.Objects;
 import jakarta.xml.bind.annotation.XmlTransient;
 
 /**
- * Basisimplementierung eines {@link GuiState}.
- *
  * @author Thomas Freese
  */
 @XmlTransient

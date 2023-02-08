@@ -1,8 +1,8 @@
 // Created: 26.01.2018
 package de.freese.base.mvc.guistate;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -22,7 +22,7 @@ public class JsonGuiStateManager extends AbstractGuiStateManager
 
     public JsonGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates)
     {
-        super(localStorage, guiStates);
+        super(localStorage, guiStates, "json");
 
         this.mapper = new ObjectMapper();
 
@@ -47,49 +47,14 @@ public class JsonGuiStateManager extends AbstractGuiStateManager
     }
 
     @Override
-    protected GuiState load(final Class<GuiState> stateClazz, final String name)
+    protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception
     {
-        Path fileName = Paths.get(name + ".json");
-        GuiState state = null;
-
-        try
-        {
-            Path path = getLocalStorage().getAbsolutPath(fileName);
-
-            // state = this.mapper.reader().readValue(path.toFile());
-            state = this.mapper.readValue(path.toFile(), stateClazz);
-
-            // mapper.reader().forType(User.class)
-            // .forType(new TypeReference<List<User>>() {})
-        }
-        catch (Exception ex)
-        {
-            // StringBuilder sb = new StringBuilder();
-            // StackTraceLimiter.printStackTrace(ex, sb, 3);
-            // getLogger().warn("Can not load GuiState for {}: ", fileName);
-        }
-
-        return state;
+        return this.mapper.readValue(inputStream, guiState.getClass());
     }
 
     @Override
-    protected void save(final GuiState state, final String name)
+    protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception
     {
-        Path fileName = Paths.get(name + ".json");
-
-        try
-        {
-            Path path = getLocalStorage().getAbsolutPath(fileName);
-
-            this.mapper.writer().writeValue(path.toFile(), state);
-        }
-        catch (Exception ex)
-        {
-            // StringBuilder sb = new StringBuilder();
-            // StackTraceLimiter.printStackTrace(ex, sb, 3);
-            // LOGGER.warn(sb.toString());
-
-            getLogger().warn("Can not save GuiState for {}", fileName, ex);
-        }
+        this.mapper.writer().writeValue(outputStream, guiState);
     }
 }

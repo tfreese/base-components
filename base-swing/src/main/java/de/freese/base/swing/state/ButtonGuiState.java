@@ -9,8 +9,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * State eines Buttons.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "ButtonGuiState")

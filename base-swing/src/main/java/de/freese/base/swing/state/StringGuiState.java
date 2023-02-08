@@ -8,8 +8,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * State eines Strings.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "StringGuiState")

@@ -15,8 +15,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import de.freese.base.swing.components.frame.ExtFrame;
 
 /**
- * State eines Frames.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "FrameGuiState")
@@ -45,7 +43,7 @@ public class FrameGuiState extends ContainerGuiState
 
         frame.setExtendedState(this.extendedState);
 
-        // Frames sind immer sichtbar
+        // Frames are always visible.
         if (!frame.isVisible())
         {
             frame.setVisible(true);
@@ -64,7 +62,7 @@ public class FrameGuiState extends ContainerGuiState
 
         this.extendedState = frame.getExtendedState();
 
-        // Frames sind immer sichtbar
+        // Frames are always visible.
         setVisible(true);
     }
 }

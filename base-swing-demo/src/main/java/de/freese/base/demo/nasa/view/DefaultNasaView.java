@@ -58,7 +58,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
 
-            getApplicationContext().getService(TaskManager.class).execute(task);
+            getService(TaskManager.class).execute(task);
         });
 
         nasaPanel.getButtonNext().addActionListener(event ->
@@ -67,12 +67,12 @@ public class DefaultNasaView extends AbstractView implements NasaView
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
 
-            getApplicationContext().getService(TaskManager.class).execute(task);
+            getService(TaskManager.class).execute(task);
         });
 
         nasaPanel.getButtonCancel().addActionListener(event ->
         {
-            AbstractSwingTask<?, ?> task = getApplicationContext().getService(TaskManager.class).getForegroundTask();
+            AbstractSwingTask<?, ?> task = getService(TaskManager.class).getForegroundTask();
 
             if (task != null)
             {

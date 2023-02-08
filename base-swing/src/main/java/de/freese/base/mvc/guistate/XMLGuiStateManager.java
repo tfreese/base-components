@@ -1,7 +1,7 @@
 package de.freese.base.mvc.guistate;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
@@ -22,65 +22,20 @@ public final class XMLGuiStateManager extends AbstractGuiStateManager
 
     public XMLGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates)
     {
-        super(localStorage, guiStates);
+        super(localStorage, guiStates, "xml");
 
     }
 
     @Override
-    protected GuiState load(final Class<GuiState> stateClazz, final String name)
+    protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception
     {
-        Path fileName = Paths.get(name + ".xml");
-        GuiState state = null;
-
-        try
-        {
-            Path path = getLocalStorage().getAbsolutPath(fileName);
-
-            state = (GuiState) getUnMarshaller().unmarshal(path.toFile());
-        }
-        catch (Exception ex)
-        {
-            // StringBuilder sb = new StringBuilder();
-            // StackTraceLimiter.printStackTrace(ex, sb, 3);
-            getLogger().warn("Can not load GuiState for {}: ", fileName, ex);
-        }
-
-        return state;
+        return (GuiState) getUnMarshaller().unmarshal(inputStream);
     }
 
     @Override
-    protected void save(final GuiState state, final String name)
+    protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception
     {
-        Path fileName = Paths.get(name + ".xml");
-
-        try
-        {
-            Path path = getLocalStorage().getAbsolutPath(fileName);
-
-            // @XmlRootElement(name = "FrameGuiState")
-            // @XmlAccessorType(XmlAccessType.FIELD)
-            getMarshaller().marshal(state, path.toFile());
-
-            // Ohne @XMLRootElement in der Bean muss dieses manuell erzeugt werden.
-            // QName qName = new QName(state.getClass().getName(), state.getClass().getSimpleName());
-            // JAXBElement root = new JAXBElement(qName, state.getClass(), state);
-            // JAXBElement root = new JAXBElement(new QName(state.getClass().getName()), state.getClass(), state);
-            //
-            // getMarshaller().marshal(root, path.toFile());
-
-            // try (OutputStream outputStream = Files.newOutputStream(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE))
-            // {
-            // XmlStorage.saveBean(outputStream, state);
-            // }
-        }
-        catch (Exception ex)
-        {
-            // StringBuilder sb = new StringBuilder();
-            // StackTraceLimiter.printStackTrace(ex, sb, 3);
-            // LOGGER.warn(sb.toString());
-
-            getLogger().warn("Can not save GuiState for {}", fileName);
-        }
+        getMarshaller().marshal(guiState, outputStream);
     }
 
     private Marshaller getMarshaller()

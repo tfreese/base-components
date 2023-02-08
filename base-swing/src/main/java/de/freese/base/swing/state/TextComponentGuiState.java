@@ -3,7 +3,6 @@ package de.freese.base.swing.state;
 import java.awt.Component;
 import java.io.Serial;
 
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -11,8 +10,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * GuiState für ein {@link JTextField}.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "TextComponentGuiState")

@@ -14,8 +14,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * Verwaltet den Status eines Trees.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "TreeGuiState")
@@ -56,7 +54,7 @@ public class TreeGuiState extends AbstractGuiState
             return;
         }
 
-        // Wiederherstellen der aufgeklappten TreePaths.
+        // Restore expanded TreePaths.
         for (int[] indices : this.expansionIndices)
         {
             Object parent = model.getRoot();
@@ -111,7 +109,7 @@ public class TreeGuiState extends AbstractGuiState
 
         int rows = tree.getRowCount();
 
-        // Merken der aufgeklappten TreePaths.
+        // Save expanded TreePaths.
         for (int row = 0; row < rows; row++)
         {
             if (!tree.isExpanded(row))
@@ -148,17 +146,5 @@ public class TreeGuiState extends AbstractGuiState
         }
 
         this.selectedRows = tree.getSelectionRows();
-
-        // for (Iterator iter = expansionIndices.iterator(); iter.hasNext();)
-        // {
-        // int[] element = (int[]) iter.next();
-        //
-        // for (int i = 0; i < element.length; i++)
-        // {
-        // System.out.print(element[i] + "; ");
-        // }
-        //
-        // System.out.println();
-        // }
     }
 }

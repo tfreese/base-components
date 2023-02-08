@@ -34,9 +34,15 @@ public abstract class AbstractView implements View
     }
 
     @Override
+    public <T> T getService(final Class<T> clazz)
+    {
+        return getApplicationContext().getService(clazz);
+    }
+
+    @Override
     public void handleException(final Throwable throwable)
     {
-        SwingExceptionHandler exceptionHandler = getApplicationContext().getService(SwingExceptionHandler.class);
+        SwingExceptionHandler exceptionHandler = getService(SwingExceptionHandler.class);
 
         exceptionHandler.handleException(throwable, getLogger(), getComponent(), (key, args) -> getResourceMap().getString(key, args));
 
@@ -63,6 +69,12 @@ public abstract class AbstractView implements View
         this.applicationContext = Objects.requireNonNull(applicationContext, "applicationContext required");
 
         return this;
+    }
+
+    @Override
+    public <T> void registerService(final Class<T> clazz, final T service)
+    {
+        getApplicationContext().registerService(clazz, service);
     }
 
     protected Logger getLogger()

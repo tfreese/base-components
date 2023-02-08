@@ -7,8 +7,6 @@ import de.freese.base.core.i18n.Translator;
 import org.slf4j.Logger;
 
 /**
- * Interface eines ExceptionHandlers.
- *
  * @author Thomas Freese
  */
 public interface SwingExceptionHandler extends ExceptionHandler

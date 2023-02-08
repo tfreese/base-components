@@ -10,8 +10,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * GuiState für eine {@link JTabbedPane}.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "TabbedPaneGuiState")

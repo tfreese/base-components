@@ -7,11 +7,12 @@ import java.util.Collections;
 import java.util.Map;
 
 import de.freese.base.mvc.ApplicationContext;
+import de.freese.base.mvc.registry.ServiceRegistry;
 
 /**
  * @author Thomas Freese
  */
-public interface View
+public interface View extends ServiceRegistry
 {
     ApplicationContext getApplicationContext();
 

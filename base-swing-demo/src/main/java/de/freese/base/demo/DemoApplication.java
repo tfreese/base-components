@@ -31,7 +31,7 @@ import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.mvc.Releasable;
 import de.freese.base.mvc.guistate.GuiStateManager;
-import de.freese.base.mvc.guistate.JsonGuiStateManager;
+import de.freese.base.mvc.guistate.XMLGuiStateManager;
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.ResourceMapBuilder;
@@ -39,7 +39,7 @@ import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import de.freese.base.resourcemap.provider.ResourceProvider;
 import de.freese.base.swing.StatusBar;
 import de.freese.base.swing.components.frame.ExtFrame;
-import de.freese.base.swing.exception.DialogExceptionHandler;
+import de.freese.base.swing.exception.DialogSwingExceptionHandler;
 import de.freese.base.swing.exception.SwingExceptionHandler;
 import de.freese.base.swing.state.GuiStates;
 import de.freese.base.swing.task.TaskManager;
@@ -163,11 +163,9 @@ public class DemoApplication
         LocalStorage localStorage = new LocalStorage(Paths.get(System.getProperty("user.home"), ".java-apps", applicationName.toLowerCase().replace(" ", "_")));
         applicationContext.registerService(LocalStorage.class, localStorage);
 
-        GuiStateManager guiStateManager = new JsonGuiStateManager(localStorage, GuiStates.ofDefaults());
-        applicationContext.registerService(GuiStateManager.class, guiStateManager);
+        applicationContext.registerService(GuiStateManager.class, new XMLGuiStateManager(localStorage, GuiStates.ofDefaults()));
 
-        SwingExceptionHandler exceptionHandler = new DialogExceptionHandler();
-        applicationContext.registerService(SwingExceptionHandler.class, exceptionHandler);
+        applicationContext.registerService(SwingExceptionHandler.class, new DialogSwingExceptionHandler());
 
         Clipboard clipboard = null;
 
@@ -182,8 +180,7 @@ public class DemoApplication
 
         applicationContext.registerService(Clipboard.class, clipboard);
 
-        TaskManager taskManager = new TaskManager(executorService);
-        applicationContext.registerService(TaskManager.class, taskManager);
+        applicationContext.registerService(TaskManager.class, new TaskManager(executorService));
     }
 
     protected void initLookAndFeel(String applicationName)
@@ -288,7 +285,7 @@ public class DemoApplication
     {
         getLogger().info("Release");
 
-        int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?");
+        int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?", "Exit", JOptionPane.YES_NO_OPTION);
 
         if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
         {

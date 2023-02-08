@@ -86,7 +86,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
     @Override
     public void release()
     {
-        getApplicationContext().getService(GuiStateManager.class).store(getComponent().getTextField(), "fibonacci.textfield");
+        getService(GuiStateManager.class).store(getComponent().getTextField(), "fibonacci.textfield");
 
         this.controller.shutdown();
     }

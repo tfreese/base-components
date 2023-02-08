@@ -1,6 +1,11 @@
 package de.freese.base.mvc.guistate;
 
 import java.awt.Component;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 import de.freese.base.mvc.storage.LocalStorage;
@@ -14,52 +19,78 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractGuiStateManager implements GuiStateManager
 {
+    private final String fileExtension;
     private final GuiStates guiStates;
-
     private final LocalStorage localStorage;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected AbstractGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates)
+    /**
+     * @param fileExtension String; Like 'xml' or 'json'.
+     */
+    protected AbstractGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates, final String fileExtension)
     {
         super();
 
         this.localStorage = Objects.requireNonNull(localStorage, "localStorage required");
         this.guiStates = Objects.requireNonNull(guiStates, "guiStates required");
+        this.fileExtension = Objects.requireNonNull(fileExtension, "fileExtension required");
     }
 
     @Override
     public void restore(final Component component, final String name)
     {
-        GuiState stateTemplate = getGuiStates().getState(component.getClass());
+        Path relativePath = Paths.get(name + "." + this.fileExtension);
 
-        GuiState state = load((Class<GuiState>) stateTemplate.getClass(), name);
+        GuiState guiState = getGuiStates().getState(component.getClass());
 
-        if (state == null)
+        if (guiState == null)
         {
-            // LOGGER.warn("GuiState not found for: {}", component.getClass());
+            getLogger().warn("GuiState not found for: {}", component.getClass());
 
             return;
         }
 
-        state.restore(component);
+        if (Files.notExists(getLocalStorage().getAbsolutPath(relativePath)))
+        {
+            return;
+        }
+
+        try (InputStream inputStream = getLocalStorage().getInputStream(relativePath))
+        {
+            guiState = load(guiState, inputStream);
+        }
+        catch (Exception ex)
+        {
+            getLogger().warn("Can not load GuiState for {}: ", relativePath, ex);
+        }
+
+        guiState.restore(component);
     }
 
     @Override
     public void store(final Component component, final String name)
     {
-        GuiState state = getGuiStates().getState(component.getClass());
+        Path relativePath = Paths.get(name + "." + this.fileExtension);
 
-        if (state == null)
+        GuiState guiState = getGuiStates().getState(component.getClass());
+
+        if (guiState == null)
         {
-            // LOGGER.warn("GuiState not found for: {}", component.getClass());
+            getLogger().warn("GuiState not found for: {}", component.getClass());
 
             return;
         }
 
-        state.store(component);
+        guiState.store(component);
 
-        save(state, name);
+        try (OutputStream outputStream = getLocalStorage().getOutputStream(relativePath))
+        {
+            save(guiState, outputStream);
+        }
+        catch (Exception ex)
+        {
+            getLogger().warn("Can not save GuiState for {}: ", relativePath, ex);
+        }
     }
 
     protected GuiStates getGuiStates()
@@ -77,7 +108,7 @@ public abstract class AbstractGuiStateManager implements GuiStateManager
         return this.logger;
     }
 
-    protected abstract GuiState load(Class<GuiState> stateClazz, String name);
+    protected abstract GuiState load(GuiState guiState, InputStream inputStream) throws Exception;
 
-    protected abstract void save(GuiState state, String name);
+    protected abstract void save(GuiState guiState, OutputStream outputStream) throws Exception;
 }

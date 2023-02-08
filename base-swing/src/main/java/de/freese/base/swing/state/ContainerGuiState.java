@@ -10,8 +10,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * State eines Containers (JFrame, JPanel etc.).
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "ContainerGuiState")
@@ -51,7 +49,7 @@ public class ContainerGuiState extends AbstractGuiState
 
         if ((this.width == 0) && (this.height == 0))
         {
-            // Konfiguration wurde vorher noch nicht gespeichert.
+            // Configuration not saved before.
             return;
         }
 

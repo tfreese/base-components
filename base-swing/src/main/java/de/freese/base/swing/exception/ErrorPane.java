@@ -37,8 +37,6 @@ import org.jdesktop.swingx.error.ErrorInfo;
 import org.slf4j.LoggerFactory;
 
 /**
- * Panel zur Darstellung von Exceptions.
- *
  * @author Thomas Freese
  */
 public final class ErrorPane extends JPanel
@@ -283,7 +281,7 @@ public final class ErrorPane extends JPanel
 
             this.buttonSend.addActionListener(event ->
             {
-                // TODO Noch nicht ganz fertig
+                // TODO Still in progress
                 // String userID = Context.getUser().getUserId();
 
                 try
@@ -317,8 +315,7 @@ public final class ErrorPane extends JPanel
                     // mailWrapper.addInline(dataSource);
                     mailWrapper.send();
 
-                    // NOTE Spring's JavaMailSender funktioniert nur mit gültiger
-                    // Absender Email und Username + Passwort.
+                    // NOTE Spring's JavaMailSender works onl with valid Sender Email and Username + Password.
                     //
                     // JavaMailSenderImpl mailSender = SpringContext.getBean("mailSender");
                     // MimeMessage mail = mailSender.createMimeMessage();

@@ -10,8 +10,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * State eines Labels.
- *
  * @author Thomas Freese
  */
 @XmlRootElement(name = "LabelGuiState")

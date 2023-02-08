@@ -35,6 +35,7 @@ public final class GuiStates
         guiStates.add(TextComponentGuiState.class);
         guiStates.add(TreeGuiState.class);
     }
+
     private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
     private final Set<Class<? extends GuiState>> states = new HashSet<>();
 
@@ -48,7 +49,7 @@ public final class GuiStates
         guiStatesCustomizer.accept(states);
     }
 
-    public Class<? extends GuiState>[] getGuiStates()
+    public Class<GuiState>[] getGuiStates()
     {
         return states.stream().toArray(Class[]::new);
     }

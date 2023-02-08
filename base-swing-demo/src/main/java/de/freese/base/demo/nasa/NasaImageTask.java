@@ -74,7 +74,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
             }
         };
 
-        return this.nasaController.loadImage(this.view.getApplicationContext().getService(LocalStorage.class), this.url, rpl);
+        return this.nasaController.loadImage(this.view.getService(LocalStorage.class), this.url, rpl);
     }
 
     /**
