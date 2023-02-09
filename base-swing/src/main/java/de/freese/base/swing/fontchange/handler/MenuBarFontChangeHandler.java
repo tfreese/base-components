@@ -9,9 +9,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 
 /**
- * Defaultimplementierung für die Font-Änderung einer {@link JMenuBar}.<br>
- * Zusätzlich werden die {@link JMenu} und {@link JMenuItem} Elemente angepasst.
- *
  * @author Thomas Freese
  */
 public class MenuBarFontChangeHandler extends ComponentFontChangeHandler
@@ -26,13 +23,13 @@ public class MenuBarFontChangeHandler extends ComponentFontChangeHandler
 
         JMenuBar menuBar = (JMenuBar) object;
 
-        // JMenu der JMenuBar
+        // JMenu
         for (int i = 0; i < menuBar.getMenuCount(); i++)
         {
             JMenu menu = menuBar.getMenu(i);
             super.fontChanged(newFont, menu);
 
-            // JMenuItem des JMenu's
+            // JMenuItem
             for (int j = 0; j < menu.getItemCount(); j++)
             {
                 JMenuItem menuItem = menu.getItem(j);
@@ -44,7 +41,7 @@ public class MenuBarFontChangeHandler extends ComponentFontChangeHandler
 
                 super.fontChanged(newFont, menuItem);
 
-                // SubMenus des JMenuItem's
+                // SubMenus
                 for (MenuElement menuElement : menuItem.getSubElements())
                 {
                     if (menuElement instanceof JPopupMenu popupMenu)

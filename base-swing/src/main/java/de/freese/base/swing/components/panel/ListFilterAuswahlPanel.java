@@ -1,6 +1,7 @@
 package de.freese.base.swing.components.panel;
 
 import java.io.Serial;
+import java.util.function.Predicate;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -10,12 +11,11 @@ import javax.swing.ListCellRenderer;
 import javax.swing.event.DocumentListener;
 
 import de.freese.base.swing.components.list.renderer.VerticalWrapListCellRenderer;
-import de.freese.base.swing.filter.Filter;
 import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 import de.freese.base.swing.ui.ThinHorizontalScrollBarUI;
 
 /**
- * Panel mit einem Filtertextfeld in der TitleBar.
+ * Panel with Filterable Text field in  the TitleBar.
  *
  * @author Thomas Freese
  */
@@ -45,10 +45,8 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
     }
 
     /**
-     * Aktiviert den vertikalen Umbruch.
-     *
-     * @param cellRenderer {@link ListCellRenderer}, optional Default ist {@link VerticalWrapListCellRenderer}
-     * @param fixedCellWidth int, 0 = Defaultbreite von 166
+     * @param cellRenderer {@link ListCellRenderer}, optional Default is {@link VerticalWrapListCellRenderer}
+     * @param fixedCellWidth int, 0 = Default-width 166
      */
     public void enableListVerticalWrap(final ListCellRenderer<T> cellRenderer, final int fixedCellWidth)
     {
@@ -100,7 +98,7 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         return this.scrollPane;
     }
 
-    public void setFilter(final Filter filter)
+    public void setFilter(final Predicate filter)
     {
         DocumentListener documentListener = (DocumentListener) filter;
 

@@ -36,8 +36,6 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXTitledPanel;
 
 /**
- * Ändert bei allen registrierten Komponenten den Font.
- *
  * @author Thomas Freese
  */
 public final class SwingFontSizeChanger

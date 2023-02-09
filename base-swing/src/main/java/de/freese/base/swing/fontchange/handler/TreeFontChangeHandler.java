@@ -8,8 +8,6 @@ import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreeCellRenderer;
 
 /**
- * Defaultimplementierung für die Font-Änderung eines {@link JTree}.
- *
  * @author Thomas Freese
  */
 public class TreeFontChangeHandler extends ComponentFontChangeHandler

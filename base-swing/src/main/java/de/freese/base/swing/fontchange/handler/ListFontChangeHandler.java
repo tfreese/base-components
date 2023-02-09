@@ -7,8 +7,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 /**
- * Defaultimplementierung für die Font-Änderung einer {@link JList}.
- *
  * @author Thomas Freese
  */
 public class ListFontChangeHandler extends ComponentFontChangeHandler

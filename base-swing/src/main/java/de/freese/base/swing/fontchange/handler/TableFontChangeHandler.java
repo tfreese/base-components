@@ -7,8 +7,6 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 /**
- * Defaultimplementierung für die Font-Änderung einer {@link JTable}.
- *
  * @author Thomas Freese
  */
 public class TableFontChangeHandler extends ComponentFontChangeHandler
@@ -37,7 +35,7 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler
         // super.fontChanged(newFont, table.getDefaultRenderer(Object.class));
         // }
 
-        // CellRenderer berücksichtigen
+        // CellRenderer
         for (int c = 0; c < table.getColumnCount(); c++)
         {
             Class<?> columnClass = table.getColumnClass(c);

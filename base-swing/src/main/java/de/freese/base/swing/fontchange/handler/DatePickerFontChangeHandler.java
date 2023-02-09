@@ -6,8 +6,6 @@ import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXMonthView;
 
 /**
- * Defaultimplementierung für die Font-Änderung eines {@link JXDatePicker}.
- *
  * @author Thomas Freese
  */
 public class DatePickerFontChangeHandler extends ComponentFontChangeHandler
@@ -24,9 +22,5 @@ public class DatePickerFontChangeHandler extends ComponentFontChangeHandler
 
         JXMonthView monthView = datePicker.getMonthView();
         super.fontChanged(newFont, monthView);
-
-        // Nicht möglich an den Link zu kommen.
-        // JPanel linkPanel = datePicker.getLinkPanel();
-        // super.fontChanged(newFont, linkPanel);
     }
 }

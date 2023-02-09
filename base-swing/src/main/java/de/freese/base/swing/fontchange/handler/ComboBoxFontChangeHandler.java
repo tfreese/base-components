@@ -7,8 +7,6 @@ import javax.swing.JComboBox;
 import javax.swing.ListCellRenderer;
 
 /**
- * Defaultimplementierung für die Font-Änderung einer {@link JComboBox}.
- *
  * @author Thomas Freese
  */
 public class ComboBoxFontChangeHandler extends ComponentFontChangeHandler
