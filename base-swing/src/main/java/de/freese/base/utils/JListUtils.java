@@ -8,26 +8,21 @@ import javax.swing.JList;
 /**
  * @author Thomas Freese
  */
-public final class JListUtils
-{
-    public static <T> void fillList(final JList<T> list, final Iterable<T> iterable)
-    {
+public final class JListUtils {
+    public static <T> void fillList(final JList<T> list, final Iterable<T> iterable) {
         fillList(list, iterable.iterator());
     }
 
-    public static <T> void fillList(final JList<T> list, final Iterator<T> iterator)
-    {
+    public static <T> void fillList(final JList<T> list, final Iterator<T> iterator) {
         DefaultListModel<T> listModel = (DefaultListModel<T>) list.getModel();
         listModel.removeAllElements();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             listModel.addElement(iterator.next());
         }
     }
 
-    private JListUtils()
-    {
+    private JListUtils() {
         super();
     }
 }

@@ -32,8 +32,7 @@ import javax.swing.SwingUtilities;
  * @author Thomas freese
  * @version 1.2
  */
-class MouseGesturesRecognizer
-{
+class MouseGesturesRecognizer {
     /**
      * String representation of down movement.
      */
@@ -67,13 +66,11 @@ class MouseGesturesRecognizer
      */
     private Point startPoint;
 
-    MouseGesturesRecognizer(MouseGestures mouseGestures)
-    {
+    MouseGesturesRecognizer(MouseGestures mouseGestures) {
         this.mouseGestures = mouseGestures;
     }
 
-    void clearTemporaryInfo()
-    {
+    void clearTemporaryInfo() {
         startPoint = null;
         gesture.delete(0, gesture.length());
     }
@@ -84,8 +81,7 @@ class MouseGesturesRecognizer
      * @return String representation of mouse gesture. "L" for left, "R" for right,
      * "U" for up, "D" for down movements. For example: "ULD".
      */
-    String getGesture()
-    {
+    String getGesture() {
         return gesture.toString();
     }
 
@@ -94,8 +90,7 @@ class MouseGesturesRecognizer
      *
      * @return Grid size in pixels. Default is 30.
      */
-    int getGridSize()
-    {
+    int getGridSize() {
         return gridSize;
     }
 
@@ -104,23 +99,19 @@ class MouseGesturesRecognizer
      *
      * @return <code>true</code> if there are recognized movements; <code>false</code> otherwise
      */
-    boolean isGestureRecognized()
-    {
+    boolean isGestureRecognized() {
         return gesture.length() > 0;
     }
 
-    void processMouseEvent(MouseEvent mouseEvent)
-    {
-        if (!(mouseEvent.getSource() instanceof Component))
-        {
+    void processMouseEvent(MouseEvent mouseEvent) {
+        if (!(mouseEvent.getSource() instanceof Component)) {
             return;
         }
 
         Point mouseEventPoint = mouseEvent.getPoint();
         SwingUtilities.convertPointToScreen(mouseEventPoint, (Component) mouseEvent.getSource());
 
-        if (startPoint == null)
-        {
+        if (startPoint == null) {
             startPoint = mouseEventPoint;
             return;
         }
@@ -130,32 +121,25 @@ class MouseGesturesRecognizer
         int absDeltaX = Math.abs(deltaX);
         int absDeltaY = Math.abs(deltaY);
 
-        if ((absDeltaX < gridSize) && (absDeltaY < gridSize))
-        {
+        if ((absDeltaX < gridSize) && (absDeltaY < gridSize)) {
             return;
         }
 
         double absTangent = ((double) absDeltaX) / absDeltaY;
 
-        if (absTangent < 1D)
-        {
-            if (deltaY < 0)
-            {
+        if (absTangent < 1D) {
+            if (deltaY < 0) {
                 saveMove(UP_MOVE);
             }
-            else
-            {
+            else {
                 saveMove(DOWN_MOVE);
             }
         }
-        else
-        {
-            if (deltaX < 0)
-            {
+        else {
+            if (deltaX < 0) {
                 saveMove(LEFT_MOVE);
             }
-            else
-            {
+            else {
                 saveMove(RIGHT_MOVE);
             }
         }
@@ -168,18 +152,15 @@ class MouseGesturesRecognizer
      *
      * @param gridSize New grid size in pixels
      */
-    void setGridSize(int gridSize)
-    {
+    void setGridSize(int gridSize) {
         this.gridSize = gridSize;
     }
 
-    private int getDeltaX(Point a, Point b)
-    {
+    private int getDeltaX(Point a, Point b) {
         return b.x - a.x;
     }
 
-    private int getDeltaY(Point a, Point b)
-    {
+    private int getDeltaY(Point a, Point b) {
         return b.y - a.y;
     }
 
@@ -188,11 +169,9 @@ class MouseGesturesRecognizer
      *
      * @param move String representation of recognized movement
      */
-    private void saveMove(String move)
-    {
+    private void saveMove(String move) {
         // should not store two equal moves in succession
-        if ((gesture.length() > 0) && (gesture.charAt(gesture.length() - 1) == move.charAt(0)))
-        {
+        if ((gesture.length() > 0) && (gesture.charAt(gesture.length() - 1) == move.charAt(0))) {
             return;
         }
 

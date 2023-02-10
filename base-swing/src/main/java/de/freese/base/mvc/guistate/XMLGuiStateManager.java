@@ -14,54 +14,44 @@ import de.freese.base.swing.state.GuiStates;
 /**
  * @author Thomas Freese
  */
-public final class XMLGuiStateManager extends AbstractGuiStateManager
-{
+public final class XMLGuiStateManager extends AbstractGuiStateManager {
     private Marshaller marshaller;
 
     private Unmarshaller unMarshaller;
 
-    public XMLGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates)
-    {
+    public XMLGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates) {
         super(localStorage, guiStates, "xml");
 
     }
 
     @Override
-    protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception
-    {
+    protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception {
         return (GuiState) getUnMarshaller().unmarshal(inputStream);
     }
 
     @Override
-    protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception
-    {
+    protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception {
         getMarshaller().marshal(guiState, outputStream);
     }
 
-    private Marshaller getMarshaller()
-    {
-        if (marshaller == null)
-        {
+    private Marshaller getMarshaller() {
+        if (marshaller == null) {
             initJaxB();
         }
 
         return marshaller;
     }
 
-    private Unmarshaller getUnMarshaller()
-    {
-        if (unMarshaller == null)
-        {
+    private Unmarshaller getUnMarshaller() {
+        if (unMarshaller == null) {
             initJaxB();
         }
 
         return unMarshaller;
     }
 
-    private void initJaxB()
-    {
-        try
-        {
+    private void initJaxB() {
+        try {
             JAXBContext jaxbContext = JAXBContext.newInstance(getGuiStates().getGuiStates());
 
             this.marshaller = jaxbContext.createMarshaller();
@@ -69,12 +59,10 @@ public final class XMLGuiStateManager extends AbstractGuiStateManager
 
             this.unMarshaller = jaxbContext.createUnmarshaller();
         }
-        catch (RuntimeException ex)
-        {
+        catch (RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             RuntimeException re = new RuntimeException(ex);
             re.setStackTrace(ex.getStackTrace());
 

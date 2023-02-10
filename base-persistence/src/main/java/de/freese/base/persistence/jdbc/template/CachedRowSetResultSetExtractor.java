@@ -16,17 +16,14 @@ import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
  *
  * @author Thomas Freese
  */
-public class CachedRowSetResultSetExtractor implements ResultSetExtractor<CachedRowSet>
-{
+public class CachedRowSetResultSetExtractor implements ResultSetExtractor<CachedRowSet> {
     private final RowSetFactory rowSetFactory;
 
-    public CachedRowSetResultSetExtractor() throws SQLException
-    {
+    public CachedRowSetResultSetExtractor() throws SQLException {
         this(RowSetProvider.newFactory());
     }
 
-    public CachedRowSetResultSetExtractor(final RowSetFactory rowSetFactory)
-    {
+    public CachedRowSetResultSetExtractor(final RowSetFactory rowSetFactory) {
         super();
 
         this.rowSetFactory = Objects.requireNonNull(rowSetFactory, "rowSetFactory required");
@@ -36,8 +33,7 @@ public class CachedRowSetResultSetExtractor implements ResultSetExtractor<Cached
      * @see de.freese.base.persistence.jdbc.template.function.ResultSetExtractor#extractData(java.sql.ResultSet)
      */
     @Override
-    public CachedRowSet extractData(final ResultSet resultSet) throws SQLException
-    {
+    public CachedRowSet extractData(final ResultSet resultSet) throws SQLException {
         CachedRowSet rowSet = this.rowSetFactory.createCachedRowSet();
 
         rowSet.populate(resultSet);

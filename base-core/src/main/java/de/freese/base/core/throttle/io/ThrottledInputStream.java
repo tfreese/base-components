@@ -11,8 +11,7 @@ import de.freese.base.core.throttle.Throttler;
 /**
  * @author Thomas Freese
  */
-public class ThrottledInputStream extends InputStream
-{
+public class ThrottledInputStream extends InputStream {
     private final InputStream inputStream;
 
     private final Throttler throttler;
@@ -21,8 +20,7 @@ public class ThrottledInputStream extends InputStream
 
     private long sleepTimeNanos;
 
-    public ThrottledInputStream(final InputStream inputStream, final Throttler throttler)
-    {
+    public ThrottledInputStream(final InputStream inputStream, final Throttler throttler) {
         super();
 
         this.inputStream = Objects.requireNonNull(inputStream, "inputStream required");
@@ -33,8 +31,7 @@ public class ThrottledInputStream extends InputStream
      * @see java.io.InputStream#available()
      */
     @Override
-    public int available() throws IOException
-    {
+    public int available() throws IOException {
         return this.inputStream.available();
     }
 
@@ -42,18 +39,15 @@ public class ThrottledInputStream extends InputStream
      * @see java.io.InputStream#close()
      */
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         this.inputStream.close();
     }
 
-    public long getBytesRead()
-    {
+    public long getBytesRead() {
         return this.bytesRead;
     }
 
-    public long getSleepTimeNanos()
-    {
+    public long getSleepTimeNanos() {
         return this.sleepTimeNanos;
     }
 
@@ -61,14 +55,12 @@ public class ThrottledInputStream extends InputStream
      * @see java.io.InputStream#read()
      */
     @Override
-    public int read() throws IOException
-    {
+    public int read() throws IOException {
         throttle(1);
 
         int data = this.inputStream.read();
 
-        if (data != -1)
-        {
+        if (data != -1) {
             this.bytesRead++;
         }
 
@@ -79,8 +71,7 @@ public class ThrottledInputStream extends InputStream
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttler);
@@ -91,18 +82,14 @@ public class ThrottledInputStream extends InputStream
         return sb.toString();
     }
 
-    private void throttle(final int permits)
-    {
+    private void throttle(final int permits) {
         long waitNanos = this.throttler.reservePermits(permits);
 
-        if (waitNanos > 0L)
-        {
-            try
-            {
+        if (waitNanos > 0L) {
+            try {
                 TimeUnit.NANOSECONDS.sleep(waitNanos);
             }
-            catch (InterruptedException ex)
-            {
+            catch (InterruptedException ex) {
                 // Preserve interrupt status
                 Thread.currentThread().interrupt();
             }

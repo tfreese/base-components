@@ -19,13 +19,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author Martin Grotzke
  * @author Thomas Freese
  */
-public abstract class KryoPool<T>
-{
+public abstract class KryoPool<T> {
     /**
      * Objects implementing this interface will have {@link #reset()} called when passed to {@link KryoPool#free(Object)}.
      */
-    public interface Poolable
-    {
+    public interface Poolable {
         /**
          * Resets the object for reuse. Object references should be nulled and fields may be set to default values.
          */
@@ -40,12 +38,10 @@ public abstract class KryoPool<T>
      * @author Martin Grotzke
      * @author Thomas Freese
      */
-    static class SoftReferenceQueue<T> implements Queue<T>
-    {
+    static class SoftReferenceQueue<T> implements Queue<T> {
         private final Queue<SoftReference<T>> delegate;
 
-        SoftReferenceQueue(Queue<SoftReference<T>> delegate)
-        {
+        SoftReferenceQueue(Queue<SoftReference<T>> delegate) {
             this.delegate = delegate;
         }
 
@@ -53,8 +49,7 @@ public abstract class KryoPool<T>
          * @see java.util.Queue#add(java.lang.Object)
          */
         @Override
-        public boolean add(final T e)
-        {
+        public boolean add(final T e) {
             return false;
         }
 
@@ -62,8 +57,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#addAll(java.util.Collection)
          */
         @Override
-        public boolean addAll(final Collection<? extends T> c)
-        {
+        public boolean addAll(final Collection<? extends T> c) {
             return false;
         }
 
@@ -71,8 +65,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#clear()
          */
         @Override
-        public void clear()
-        {
+        public void clear() {
             this.delegate.clear();
         }
 
@@ -80,8 +73,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#contains(java.lang.Object)
          */
         @Override
-        public boolean contains(final Object o)
-        {
+        public boolean contains(final Object o) {
             return false;
         }
 
@@ -89,8 +81,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#containsAll(java.util.Collection)
          */
         @Override
-        public boolean containsAll(final Collection<?> c)
-        {
+        public boolean containsAll(final Collection<?> c) {
             return false;
         }
 
@@ -98,8 +89,7 @@ public abstract class KryoPool<T>
          * @see java.util.Queue#element()
          */
         @Override
-        public T element()
-        {
+        public T element() {
             return null;
         }
 
@@ -107,8 +97,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#isEmpty()
          */
         @Override
-        public boolean isEmpty()
-        {
+        public boolean isEmpty() {
             return false;
         }
 
@@ -116,8 +105,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#iterator()
          */
         @Override
-        public Iterator<T> iterator()
-        {
+        public Iterator<T> iterator() {
             return null;
         }
 
@@ -125,8 +113,7 @@ public abstract class KryoPool<T>
          * @see java.util.Queue#offer(java.lang.Object)
          */
         @Override
-        public boolean offer(final T e)
-        {
+        public boolean offer(final T e) {
             return this.delegate.add(new SoftReference<>(e));
         }
 
@@ -134,8 +121,7 @@ public abstract class KryoPool<T>
          * @see java.util.Queue#peek()
          */
         @Override
-        public T peek()
-        {
+        public T peek() {
             return null;
         }
 
@@ -143,21 +129,17 @@ public abstract class KryoPool<T>
          * @see java.util.Queue#poll()
          */
         @Override
-        public T poll()
-        {
-            while (true)
-            {
+        public T poll() {
+            while (true) {
                 SoftReference<T> reference = this.delegate.poll();
 
-                if (reference == null)
-                {
+                if (reference == null) {
                     return null;
                 }
 
                 T object = reference.get();
 
-                if (object != null)
-                {
+                if (object != null) {
                     return object;
                 }
             }
@@ -167,8 +149,7 @@ public abstract class KryoPool<T>
          * @see java.util.Queue#remove()
          */
         @Override
-        public T remove()
-        {
+        public T remove() {
             return null;
         }
 
@@ -176,8 +157,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#remove(java.lang.Object)
          */
         @Override
-        public boolean remove(final Object o)
-        {
+        public boolean remove(final Object o) {
             return false;
         }
 
@@ -185,8 +165,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#removeAll(java.util.Collection)
          */
         @Override
-        public boolean removeAll(final Collection<?> c)
-        {
+        public boolean removeAll(final Collection<?> c) {
             return false;
         }
 
@@ -194,8 +173,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#retainAll(java.util.Collection)
          */
         @Override
-        public boolean retainAll(final Collection<?> c)
-        {
+        public boolean retainAll(final Collection<?> c) {
             return false;
         }
 
@@ -203,8 +181,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#size()
          */
         @Override
-        public int size()
-        {
+        public int size() {
             return this.delegate.size();
         }
 
@@ -212,8 +189,7 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#toArray()
          */
         @Override
-        public Object[] toArray()
-        {
+        public Object[] toArray() {
             return null;
         }
 
@@ -221,22 +197,17 @@ public abstract class KryoPool<T>
          * @see java.util.Collection#toArray(java.lang.Object[])
          */
         @Override
-        public <E> E[] toArray(final E[] a)
-        {
+        public <E> E[] toArray(final E[] a) {
             return null;
         }
 
-        void clean()
-        {
+        void clean() {
             this.delegate.removeIf(o -> o.get() == null);
         }
 
-        void cleanOne()
-        {
-            for (Iterator<SoftReference<T>> iter = this.delegate.iterator(); iter.hasNext(); )
-            {
-                if (iter.next().get() == null)
-                {
+        void cleanOne() {
+            for (Iterator<SoftReference<T>> iter = this.delegate.iterator(); iter.hasNext(); ) {
+                if (iter.next().get() == null) {
                     iter.remove();
                     break;
                 }
@@ -251,8 +222,7 @@ public abstract class KryoPool<T>
     /**
      * Creates a pool with no maximum.
      */
-    protected KryoPool(final boolean threadSafe, final boolean softReferences)
-    {
+    protected KryoPool(final boolean threadSafe, final boolean softReferences) {
         this(threadSafe, softReferences, Integer.MAX_VALUE);
     }
 
@@ -260,29 +230,23 @@ public abstract class KryoPool<T>
      * @param maximumCapacity int; The maximum number of free objects to store in this pool.<br>
      * Objects are not created until {@link #obtain()} is called and no free objects are available.
      */
-    protected KryoPool(final boolean threadSafe, final boolean softReferences, final int maximumCapacity)
-    {
+    protected KryoPool(final boolean threadSafe, final boolean softReferences, final int maximumCapacity) {
         Queue<T> queue;
 
-        if (threadSafe)
-        {
-            queue = new LinkedBlockingQueue<>(maximumCapacity)
-            {
+        if (threadSafe) {
+            queue = new LinkedBlockingQueue<>(maximumCapacity) {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public boolean add(final T o)
-                {
+                public boolean add(final T o) {
                     return super.offer(o);
                 }
             };
         }
-        else if (softReferences)
-        {
+        else if (softReferences) {
             // More efficient clean() than ArrayDeque.
-            queue = new LinkedList<>()
-            {
+            queue = new LinkedList<>() {
                 /**
                  *
                  */
@@ -290,10 +254,8 @@ public abstract class KryoPool<T>
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public boolean add(final T object)
-                {
-                    if (size() >= maximumCapacity)
-                    {
+                public boolean add(final T object) {
+                    if (size() >= maximumCapacity) {
                         return false;
                     }
 
@@ -303,10 +265,8 @@ public abstract class KryoPool<T>
                 }
             };
         }
-        else
-        {
-            queue = new ArrayDeque<>()
-            {
+        else {
+            queue = new ArrayDeque<>() {
                 /**
                  *
                  */
@@ -314,10 +274,8 @@ public abstract class KryoPool<T>
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public boolean offer(final T object)
-                {
-                    if (size() >= maximumCapacity)
-                    {
+                public boolean offer(final T object) {
+                    if (size() >= maximumCapacity) {
                         return false;
                     }
                     super.offer(object);
@@ -334,10 +292,8 @@ public abstract class KryoPool<T>
      * number of objects in the pool before calling {@link #getFree()} or when the pool has no maximum capacity. It is not necessary to call {@link #clean()}
      * before calling {@link #free(Object)}, which will try to remove an empty reference if the maximum capacity has been reached.
      */
-    public void clean()
-    {
-        if (this.freeObjects instanceof SoftReferenceQueue)
-        {
+    public void clean() {
+        if (this.freeObjects instanceof SoftReferenceQueue) {
             ((SoftReferenceQueue<T>) this.freeObjects).clean();
         }
     }
@@ -345,8 +301,7 @@ public abstract class KryoPool<T>
     /**
      * Removes all free objects from this pool.
      */
-    public void clear()
-    {
+    public void clear() {
         this.freeObjects.clear();
     }
 
@@ -357,17 +312,14 @@ public abstract class KryoPool<T>
      * If using soft references and the pool contains the maximum number of free objects, the first soft reference whose object has been garbage collected is
      * discarded to make room.
      */
-    public void free(final T object)
-    {
-        if (object == null)
-        {
+    public void free(final T object) {
+        if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
 
         reset(object);
 
-        if (!this.freeObjects.offer(object) && (this.freeObjects instanceof SoftReferenceQueue))
-        {
+        if (!this.freeObjects.offer(object) && (this.freeObjects instanceof SoftReferenceQueue)) {
             ((SoftReferenceQueue<T>) this.freeObjects).cleanOne();
 
             this.freeObjects.offer(object);
@@ -382,8 +334,7 @@ public abstract class KryoPool<T>
      * If using soft references, this number may include objects that have been garbage collected. {@link #clean()} may be used first to remove empty soft
      * references.
      */
-    public int getFree()
-    {
+    public int getFree() {
         return this.freeObjects.size();
     }
 
@@ -393,23 +344,20 @@ public abstract class KryoPool<T>
      * <p>
      * If using soft references, this number may include objects that have been garbage collected.
      */
-    public int getPeak()
-    {
+    public int getPeak() {
         return this.peak;
     }
 
     /**
      * Returns an object from this pool. The object may be new (from {@link #create()}) or reused (previously {@link #free(Object) freed}).
      */
-    public T obtain()
-    {
+    public T obtain() {
         T object = this.freeObjects.poll();
 
         return object != null ? object : create();
     }
 
-    public void resetPeak()
-    {
+    public void resetPeak() {
         this.peak = 0;
     }
 
@@ -419,10 +367,8 @@ public abstract class KryoPool<T>
      * Called when an object is freed to clear the state of the object for possible later reuse. The default implementation calls {@link Poolable#reset()} if
      * the object is {@link Poolable}.
      */
-    protected void reset(final T object)
-    {
-        if (object instanceof Poolable poolable)
-        {
+    protected void reset(final T object) {
+        if (object instanceof Poolable poolable) {
             poolable.reset();
         }
     }

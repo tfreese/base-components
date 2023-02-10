@@ -16,8 +16,7 @@ import javax.swing.tree.TreePath;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractObjectTreeModel implements TreeModel
-{
+public abstract class AbstractObjectTreeModel implements TreeModel {
     private final EventListenerList eventListenerList = new EventListenerList();
 
     private final Map<Object, List<?>> treeCache = new HashMap<>();
@@ -26,10 +25,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
      */
     @Override
-    public void addTreeModelListener(final TreeModelListener listener)
-    {
-        synchronized (this.eventListenerList)
-        {
+    public void addTreeModelListener(final TreeModelListener listener) {
+        synchronized (this.eventListenerList) {
             this.eventListenerList.add(TreeModelListener.class, listener);
         }
     }
@@ -38,8 +35,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
      */
     @Override
-    public Object getChild(final Object parent, final int index)
-    {
+    public Object getChild(final Object parent, final int index) {
         return getChildren(parent).get(index);
     }
 
@@ -47,8 +43,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
      */
     @Override
-    public int getChildCount(final Object parent)
-    {
+    public int getChildCount(final Object parent) {
         return getChildren(parent).size();
     }
 
@@ -56,8 +51,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object, java.lang.Object)
      */
     @Override
-    public int getIndexOfChild(final Object parent, final Object child)
-    {
+    public int getIndexOfChild(final Object parent, final Object child) {
         return getChildren(parent).indexOf(child);
     }
 
@@ -65,24 +59,21 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Liefert den Parent für das Child Objekt.<br/>
      * Durchläuft dabei den Baum rekursiv durch die Pfade.
      */
-    public Object getParentFor(final Object child)
-    {
+    public Object getParentFor(final Object child) {
         return getParentFor(getRoot(), child);
     }
 
     /**
      * Liefert den Pfad vom Root zum Objekt.
      */
-    public Object[] getPathToRoot(final Object object)
-    {
+    public Object[] getPathToRoot(final Object object) {
         List<Object> list = new ArrayList<>();
 
         list.add(object);
 
         Object parent = getParentFor(object);
 
-        while (parent != null)
-        {
+        while (parent != null) {
             list.add(0, parent);
             parent = getParentFor(parent);
         }
@@ -94,36 +85,29 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
      */
     @Override
-    public boolean isLeaf(final Object node)
-    {
+    public boolean isLeaf(final Object node) {
         return ((getChildren(node) == null) || (getChildren(node).isEmpty()));
     }
 
     /**
      * Invoke this method after you've changed how node is to be represented in the tree.
      */
-    public void nodeChanged(final Object node)
-    {
-        synchronized (this.eventListenerList)
-        {
-            if ((this.eventListenerList != null) && (node != null))
-            {
+    public void nodeChanged(final Object node) {
+        synchronized (this.eventListenerList) {
+            if ((this.eventListenerList != null) && (node != null)) {
                 Object parent = getParentFor(node);
 
-                if (parent != null)
-                {
+                if (parent != null) {
                     int anIndex = getIndexOfChild(parent, node);
 
-                    if (anIndex != -1)
-                    {
+                    if (anIndex != -1) {
                         int[] cIndexes = new int[1];
 
                         cIndexes[0] = anIndex;
                         nodesChanged(parent, cIndexes);
                     }
                 }
-                else if (node == getRoot())
-                {
+                else if (node == getRoot()) {
                     nodesChanged(node, null);
                 }
             }
@@ -133,31 +117,24 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     /**
      * Feuert ein fireTreeNodesInserted Event, für diesen Node.
      */
-    public void nodeInserted(final Object node)
-    {
-        if (node == null)
-        {
+    public void nodeInserted(final Object node) {
+        if (node == null) {
             return;
         }
 
         Object parent = getParentFor(node);
 
-        if (parent == null)
-        {
+        if (parent == null) {
             return;
         }
 
         int index = getIndexOfChild(parent, node);
 
-        if (index == -1)
-        {
+        if (index == -1) {
             return;
         }
 
-        nodesWereInserted(parent, new int[]
-                {
-                        index
-                });
+        nodesWereInserted(parent, new int[]{index});
 
         // Liste des Parents entfernen
         // getTreeCache().put(parent, null);
@@ -166,34 +143,24 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     /**
      * Feuert ein fireTreeNodesRemoved Event, für diesen Node.
      */
-    public void nodeRemoved(final Object node)
-    {
-        if (node == null)
-        {
+    public void nodeRemoved(final Object node) {
+        if (node == null) {
             return;
         }
 
         Object parent = getParentFor(node);
 
-        if (parent == null)
-        {
+        if (parent == null) {
             return;
         }
 
         int index = getIndexOfChild(parent, node);
 
-        if (index == -1)
-        {
+        if (index == -1) {
             return;
         }
 
-        nodesWereRemoved(parent, new int[]
-                {
-                        index
-                }, new Object[]
-                {
-                        node
-                });
+        nodesWereRemoved(parent, new int[]{index}, new Object[]{node});
 
         getChildren(parent).remove(node);
 
@@ -205,10 +172,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Invoke this method if you've totally changed the children of node and its children children.<br/>
      * This will post a treeStructureChanged event.
      */
-    public void nodeStructureChanged(final Object node)
-    {
-        if (node != null)
-        {
+    public void nodeStructureChanged(final Object node) {
+        if (node != null) {
             getTreeCache().clear();
 
             fireTreeStructureChanged(this, getPathToRoot(node), null, null);
@@ -218,31 +183,25 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     /**
      * Invoke this method after you've changed how the children identified by childIndices are to be represented in the tree.
      */
-    public void nodesChanged(final Object node, final int[] childIndices)
-    {
-        if (node == null)
-        {
+    public void nodesChanged(final Object node, final int[] childIndices) {
+        if (node == null) {
             return;
         }
 
-        if (childIndices != null)
-        {
+        if (childIndices != null) {
             int cCount = childIndices.length;
 
-            if (cCount > 0)
-            {
+            if (cCount > 0) {
                 Object[] cChildren = new Object[cCount];
 
-                for (int counter = 0; counter < cCount; counter++)
-                {
+                for (int counter = 0; counter < cCount; counter++) {
                     cChildren[counter] = getChild(node, childIndices[counter]);
                 }
 
                 fireTreeNodesChanged(this, getPathToRoot(node), childIndices, cChildren);
             }
         }
-        else if (node == getRoot())
-        {
+        else if (node == getRoot()) {
             fireTreeNodesChanged(this, getPathToRoot(node), null, null);
         }
     }
@@ -251,17 +210,13 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Invoke this method after you've inserted some TreeNodes into node.<br/>
      * ChildIndices should be the index of the new elements and must be sorted in ascending order.
      */
-    public void nodesWereInserted(final Object node, final int[] childIndices)
-    {
-        synchronized (this.eventListenerList)
-        {
-            if ((this.eventListenerList != null) && (node != null) && (childIndices != null) && (childIndices.length > 0))
-            {
+    public void nodesWereInserted(final Object node, final int[] childIndices) {
+        synchronized (this.eventListenerList) {
+            if ((this.eventListenerList != null) && (node != null) && (childIndices != null) && (childIndices.length > 0)) {
                 int cCount = childIndices.length;
                 Object[] newChildren = new Object[cCount];
 
-                for (int counter = 0; counter < cCount; counter++)
-                {
+                for (int counter = 0; counter < cCount; counter++) {
                     newChildren[counter] = getChild(node, childIndices[counter]);
                 }
 
@@ -275,10 +230,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * ChildIndices should be the index of the removed elements and must be sorted in  ascending order.<br/>
      * And removedChildren should be the array of the children objects that were removed.
      */
-    public void nodesWereRemoved(final Object node, final int[] childIndices, final Object[] removedChildren)
-    {
-        if ((node != null) && (childIndices != null))
-        {
+    public void nodesWereRemoved(final Object node, final int[] childIndices, final Object[] removedChildren) {
+        if ((node != null) && (childIndices != null)) {
             fireTreeNodesRemoved(this, getPathToRoot(node), childIndices, removedChildren);
         }
     }
@@ -287,10 +240,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Invoke this method if you've modified the TreeNodes upon which this model depends.<br/>
      * The model will notify all of its listeners that the model has changed below the node <code>node</code> (PENDING).
      */
-    public void reload(final Object node)
-    {
-        if (node != null)
-        {
+    public void reload(final Object node) {
+        if (node != null) {
             getTreeCache().clear();
 
             fireTreeStructureChanged(this, getPathToRoot(node), null, null);
@@ -301,10 +252,8 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.TreeModelListener)
      */
     @Override
-    public void removeTreeModelListener(final TreeModelListener listener)
-    {
-        synchronized (this.eventListenerList)
-        {
+    public void removeTreeModelListener(final TreeModelListener listener) {
+        synchronized (this.eventListenerList) {
             this.eventListenerList.remove(TreeModelListener.class, listener);
         }
     }
@@ -313,8 +262,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * @see javax.swing.tree.TreeModel#valueForPathChanged(javax.swing.tree.TreePath, java.lang.Object)
      */
     @Override
-    public void valueForPathChanged(final TreePath path, final Object newValue)
-    {
+    public void valueForPathChanged(final TreePath path, final Object newValue) {
         // Empty
     }
 
@@ -322,22 +270,17 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Notifies all listeners that have registered interest for notification on this event type.<br/>
      * The event instance is lazily created using the parameters passed into the fire method.
      */
-    protected void fireTreeNodesChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
-    {
-        synchronized (this.eventListenerList)
-        {
+    protected void fireTreeNodesChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children) {
+        synchronized (this.eventListenerList) {
             // Guaranteed to return a non-null array
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
             // Process the listeners last to first, notifying those that are interested in this event.
-            for (int i = listeners.length - 2; i >= 0; i -= 2)
-            {
-                if (listeners[i] == TreeModelListener.class)
-                {
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                if (listeners[i] == TreeModelListener.class) {
                     // Lazily create the event:
-                    if (e == null)
-                    {
+                    if (e == null) {
                         e = new TreeModelEvent(source, pathToRoot, childIndices, children);
                     }
 
@@ -351,22 +294,17 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Notifies all listeners that have registered interest for notification on this event type.<br/>
      * The event instance is lazily created using the parameters passed into the fire method.
      */
-    protected void fireTreeNodesInserted(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
-    {
-        synchronized (this.eventListenerList)
-        {
+    protected void fireTreeNodesInserted(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children) {
+        synchronized (this.eventListenerList) {
             // Guaranteed to return a non-null array
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
             // Process the listeners last to first, notifying those that are interested in this event.
-            for (int i = listeners.length - 2; i >= 0; i -= 2)
-            {
-                if (listeners[i] == TreeModelListener.class)
-                {
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                if (listeners[i] == TreeModelListener.class) {
                     // Lazily create the event:
-                    if (e == null)
-                    {
+                    if (e == null) {
                         e = new TreeModelEvent(source, pathToRoot, childIndices, children);
                     }
 
@@ -380,22 +318,17 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Notifies all listeners that have registered interest for notification on this event type.<br/>
      * The event instance is lazily created using the parameters  passed into the fire method.
      */
-    protected void fireTreeNodesRemoved(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
-    {
-        synchronized (this.eventListenerList)
-        {
+    protected void fireTreeNodesRemoved(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children) {
+        synchronized (this.eventListenerList) {
             // Guaranteed to return a non-null array
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
             // Process the listeners last to first, notifying those that are interested in this event.
-            for (int i = listeners.length - 2; i >= 0; i -= 2)
-            {
-                if (listeners[i] == TreeModelListener.class)
-                {
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                if (listeners[i] == TreeModelListener.class) {
                     // Lazily create the event:
-                    if (e == null)
-                    {
+                    if (e == null) {
                         e = new TreeModelEvent(source, pathToRoot, childIndices, children);
                     }
 
@@ -409,22 +342,17 @@ public abstract class AbstractObjectTreeModel implements TreeModel
      * Notifies all listeners that have registered interest for notification on this event type.<br/>
      * The event instance is lazily created using the parameters passed into the fire method.
      */
-    protected void fireTreeStructureChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children)
-    {
-        synchronized (this.eventListenerList)
-        {
+    protected void fireTreeStructureChanged(final Object source, final Object[] pathToRoot, final int[] childIndices, final Object[] children) {
+        synchronized (this.eventListenerList) {
             // Guaranteed to return a non-null array
             Object[] listeners = this.eventListenerList.getListenerList();
             TreeModelEvent e = null;
 
             // Process the listeners last to first, notifying those that are interested in this event.
-            for (int i = listeners.length - 2; i >= 0; i -= 2)
-            {
-                if (listeners[i] == TreeModelListener.class)
-                {
+            for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                if (listeners[i] == TreeModelListener.class) {
                     // Lazily create the event:
-                    if (e == null)
-                    {
+                    if (e == null) {
                         e = new TreeModelEvent(source, pathToRoot, childIndices, children);
                     }
 
@@ -442,19 +370,15 @@ public abstract class AbstractObjectTreeModel implements TreeModel
     /**
      * Wird von getParentFor(Object child) mit Root als Parent aufgerufen und durchsucht den Baum rekursiv durch die Pfade.
      */
-    protected Object getParentFor(final Object parent, final Object child)
-    {
+    protected Object getParentFor(final Object parent, final Object child) {
         Object found = null;
         int childCount = getChildCount(parent);
 
-        try
-        {
-            for (int index = 0; index < childCount; index++)
-            {
+        try {
+            for (int index = 0; index < childCount; index++) {
                 Object object = getChild(parent, index);
 
-                if (object == child)
-                {
+                if (object == child) {
                     found = parent;
 
                     break;
@@ -462,22 +386,19 @@ public abstract class AbstractObjectTreeModel implements TreeModel
 
                 found = getParentFor(object, child);
 
-                if (found != null)
-                {
+                if (found != null) {
                     break;
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Do nothing
         }
 
         return found;
     }
 
-    protected Map<Object, List<?>> getTreeCache()
-    {
+    protected Map<Object, List<?>> getTreeCache() {
         return this.treeCache;
     }
 }

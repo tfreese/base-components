@@ -14,8 +14,7 @@ import de.freese.base.swing.components.led.token.Token;
 /**
  * @author Thomas Freese
  */
-public class LedPanel extends Component implements LedConfig
-{
+public class LedPanel extends Component implements LedConfig {
     @Serial
     private static final long serialVersionUID = -2419621712513872997L;
 
@@ -37,8 +36,7 @@ public class LedPanel extends Component implements LedConfig
 
     private int vgap;
 
-    public LedPanel()
-    {
+    public LedPanel() {
         super();
 
         this.ledMatrix = new LedMatrix();
@@ -55,8 +53,7 @@ public class LedPanel extends Component implements LedConfig
         this.tokenGap = 2;
     }
 
-    public void addToken(final Token<?> token)
-    {
+    public void addToken(final Token<?> token) {
         this.tokens.add(token);
 
         repaint();
@@ -66,8 +63,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getColorBackground()
      */
     @Override
-    public Color getColorBackground()
-    {
+    public Color getColorBackground() {
         return this.colorBackground;
     }
 
@@ -75,8 +71,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getColorBackgroundDot()
      */
     @Override
-    public Color getColorBackgroundDot()
-    {
+    public Color getColorBackgroundDot() {
         return this.colorBackgroundDot;
     }
 
@@ -84,8 +79,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getDotHeight()
      */
     @Override
-    public int getDotHeight()
-    {
+    public int getDotHeight() {
         return this.dotHeight;
     }
 
@@ -93,8 +87,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getDotWidth()
      */
     @Override
-    public int getDotWidth()
-    {
+    public int getDotWidth() {
         return this.dotWidth;
     }
 
@@ -102,8 +95,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getHgap()
      */
     @Override
-    public int getHgap()
-    {
+    public int getHgap() {
         return this.hgap;
     }
 
@@ -111,8 +103,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getTokenGap()
      */
     @Override
-    public int getTokenGap()
-    {
+    public int getTokenGap() {
         return this.tokenGap;
     }
 
@@ -120,8 +111,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.element.Element#getTokens()
      */
     @Override
-    public List<Token<?>> getTokens()
-    {
+    public List<Token<?>> getTokens() {
         return this.tokens;
     }
 
@@ -129,8 +119,7 @@ public class LedPanel extends Component implements LedConfig
      * @see de.freese.base.swing.components.led.LedConfig#getVgap()
      */
     @Override
-    public int getVgap()
-    {
+    public int getVgap() {
         return this.vgap;
     }
 
@@ -140,8 +129,7 @@ public class LedPanel extends Component implements LedConfig
      * @see java.awt.Component#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
+    public void paint(final Graphics g) {
         // super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
@@ -149,18 +137,15 @@ public class LedPanel extends Component implements LedConfig
         this.ledMatrix.paint(g2d, this, getWidth(), getHeight());
     }
 
-    public void removeFirstToken()
-    {
-        if (this.tokens.isEmpty())
-        {
+    public void removeFirstToken() {
+        if (this.tokens.isEmpty()) {
             return;
         }
 
         this.tokens.remove(0);
     }
 
-    public void setColorBackground(final Color colorBackground)
-    {
+    public void setColorBackground(final Color colorBackground) {
         this.colorBackground = colorBackground;
 
         repaint();
@@ -181,41 +166,35 @@ public class LedPanel extends Component implements LedConfig
     // this.ledMatrix.paint(g2d, this, getWidth(), getHeight());
     // }
 
-    public void setColorBackgroundDot(final Color colorBackgroundDot)
-    {
+    public void setColorBackgroundDot(final Color colorBackgroundDot) {
         this.colorBackgroundDot = colorBackgroundDot;
 
         repaint();
     }
 
-    public void setDotHeight(final int dotHeight)
-    {
+    public void setDotHeight(final int dotHeight) {
         this.dotHeight = dotHeight;
 
         repaint();
     }
 
-    public void setDotWidth(final int dotWidth)
-    {
+    public void setDotWidth(final int dotWidth) {
         this.dotWidth = dotWidth;
 
         repaint();
     }
 
-    public void setHgap(final int hgap)
-    {
+    public void setHgap(final int hgap) {
         this.hgap = hgap;
 
         repaint();
     }
 
-    public void setTokenGap(final int tokenGap)
-    {
+    public void setTokenGap(final int tokenGap) {
         this.tokenGap = tokenGap;
     }
 
-    public void setVgap(final int vgap)
-    {
+    public void setVgap(final int vgap) {
         this.vgap = vgap;
 
         repaint();

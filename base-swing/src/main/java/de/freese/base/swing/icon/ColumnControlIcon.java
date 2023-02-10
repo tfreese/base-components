@@ -13,14 +13,12 @@ import javax.swing.plaf.UIResource;
  *
  * @author Thomas Freese
  */
-public class ColumnControlIcon implements Icon, UIResource
-{
+public class ColumnControlIcon implements Icon, UIResource {
     /**
      * @see javax.swing.Icon#getIconHeight()
      */
     @Override
-    public int getIconHeight()
-    {
+    public int getIconHeight() {
         return 10;
     }
 
@@ -28,8 +26,7 @@ public class ColumnControlIcon implements Icon, UIResource
      * @see javax.swing.Icon#getIconWidth()
      */
     @Override
-    public int getIconWidth()
-    {
+    public int getIconWidth() {
         return 10;
     }
 
@@ -37,8 +34,7 @@ public class ColumnControlIcon implements Icon, UIResource
      * @see javax.swing.Icon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
      */
     @Override
-    public void paintIcon(final Component c, final Graphics g, final int x, final int y)
-    {
+    public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
         Color color = c.getForeground();
         g.setColor(color);
 

@@ -12,33 +12,27 @@ import javax.swing.JFrame;
  *
  * @author Thomas Freese
  */
-public class ExtFrame extends JFrame
-{
+public class ExtFrame extends JFrame {
     @Serial
     private static final long serialVersionUID = 4014880096241781642L;
 
-    public ExtFrame()
-    {
+    public ExtFrame() {
         super();
     }
 
-    public ExtFrame(final GraphicsConfiguration gc)
-    {
+    public ExtFrame(final GraphicsConfiguration gc) {
         super(gc);
     }
 
-    public ExtFrame(final String title)
-    {
+    public ExtFrame(final String title) {
         super(title);
     }
 
-    public ExtFrame(final String title, final GraphicsConfiguration gc)
-    {
+    public ExtFrame(final String title, final GraphicsConfiguration gc) {
         super(title, gc);
     }
 
-    public void deiconify()
-    {
+    public void deiconify() {
         int state = getExtendedState();
 
         // Clear the iconified bit
@@ -48,8 +42,7 @@ public class ExtFrame extends JFrame
         setExtendedState(state);
     }
 
-    public void iconify()
-    {
+    public void iconify() {
         int state = getExtendedState();
 
         // Set the iconified bit
@@ -59,8 +52,7 @@ public class ExtFrame extends JFrame
         setExtendedState(state);
     }
 
-    public void maximize()
-    {
+    public void maximize() {
         int state = getExtendedState();
 
         // Set the maximized bits
@@ -70,8 +62,7 @@ public class ExtFrame extends JFrame
         setExtendedState(state);
     }
 
-    public void minimize()
-    {
+    public void minimize() {
         int state = getExtendedState();
 
         // Clear the maximized bits

@@ -32,16 +32,14 @@ import org.springframework.util.ClassUtils;
  *
  * @author Thomas Freese
  */
-public class LoggingJdbcDriver implements Driver
-{
+public class LoggingJdbcDriver implements Driver {
     public static final String PREFIX = "jdbc:logger:";
 
     static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoggingJdbcDriver.class);
 
     private static final Set<String> LOG_METHODS = new HashSet<>();
 
-    public static void addDefaultLogMethods()
-    {
+    public static void addDefaultLogMethods() {
         addLogMethod("execute");
         addLogMethod("executeQuery");
         addLogMethod("executeUpdate");
@@ -63,8 +61,7 @@ public class LoggingJdbcDriver implements Driver
         addLogMethod("setTime");
     }
 
-    public static void addLogMethod(final String logMethod)
-    {
+    public static void addLogMethod(final String logMethod) {
         LOG_METHODS.add(logMethod);
     }
 
@@ -72,8 +69,7 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#acceptsURL(java.lang.String)
      */
     @Override
-    public boolean acceptsURL(final String url) throws SQLException
-    {
+    public boolean acceptsURL(final String url) throws SQLException {
         return url.startsWith(PREFIX);
     }
 
@@ -81,17 +77,12 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#connect(java.lang.String, java.util.Properties)
      */
     @Override
-    public Connection connect(final String url, final Properties info) throws SQLException
-    {
-        if (acceptsURL(url))
-        {
+    public Connection connect(final String url, final Properties info) throws SQLException {
+        if (acceptsURL(url)) {
             final Driver targetDriver = DriverManager.getDriver(url.substring(PREFIX.length()));
             final Connection targetConnection = targetDriver.connect(url.substring(PREFIX.length()), info);
 
-            return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]
-                    {
-                            Connection.class
-                    }, new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
+            return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{Connection.class}, new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
         }
 
         return null;
@@ -101,8 +92,7 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#getMajorVersion()
      */
     @Override
-    public int getMajorVersion()
-    {
+    public int getMajorVersion() {
         return 1;
     }
 
@@ -110,8 +100,7 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#getMinorVersion()
      */
     @Override
-    public int getMinorVersion()
-    {
+    public int getMinorVersion() {
         return 1;
     }
 
@@ -119,8 +108,7 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#getParentLogger()
      */
     @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException
-    {
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         throw new SQLFeatureNotSupportedException();
         // return null;
     }
@@ -129,8 +117,7 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#getPropertyInfo(java.lang.String, java.util.Properties)
      */
     @Override
-    public DriverPropertyInfo[] getPropertyInfo(final String url, final Properties info) throws SQLException
-    {
+    public DriverPropertyInfo[] getPropertyInfo(final String url, final Properties info) throws SQLException {
         final Driver targetDriver = DriverManager.getDriver(url.substring(PREFIX.length()));
 
         return targetDriver.getPropertyInfo(url, info);
@@ -140,8 +127,7 @@ public class LoggingJdbcDriver implements Driver
      * @see java.sql.Driver#jdbcCompliant()
      */
     @Override
-    public boolean jdbcCompliant()
-    {
+    public boolean jdbcCompliant() {
         return true;
     }
 }

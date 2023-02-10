@@ -10,22 +10,18 @@ import java.util.ResourceBundle;
  *
  * @author Thomas Freese
  */
-public final class ResourceBundleProvider implements ResourceProvider
-{
+public final class ResourceBundleProvider implements ResourceProvider {
     /**
      * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale)
      */
     @Override
-    public Map<String, String> getResources(final String bundleName, final Locale locale)
-    {
+    public Map<String, String> getResources(final String bundleName, final Locale locale) {
         Map<String, String> bundles = new HashMap<>();
 
-        try
-        {
+        try {
             ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
 
-            for (String key : resourceBundle.keySet())
-            {
+            for (String key : resourceBundle.keySet()) {
                 String value = resourceBundle.getString(key);
 
                 bundles.put(key, value);
@@ -41,12 +37,10 @@ public final class ResourceBundleProvider implements ResourceProvider
             //                bundles.put(key, value);
             //            }
         }
-        catch (RuntimeException ex)
-        {
+        catch (RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 

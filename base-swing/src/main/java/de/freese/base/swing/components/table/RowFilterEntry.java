@@ -5,14 +5,12 @@ import javax.swing.RowFilter.Entry;
 /**
  * @author Thomas Freese
  */
-public class RowFilterEntry<M> extends Entry<M, Integer>
-{
+public class RowFilterEntry<M> extends Entry<M, Integer> {
     private final int column;
 
     private final M model;
 
-    public RowFilterEntry(final M model, final int column)
-    {
+    public RowFilterEntry(final M model, final int column) {
         super();
 
         this.model = model;
@@ -23,8 +21,7 @@ public class RowFilterEntry<M> extends Entry<M, Integer>
      * @see javax.swing.RowFilter.Entry#getIdentifier()
      */
     @Override
-    public Integer getIdentifier()
-    {
+    public Integer getIdentifier() {
         return this.column;
     }
 
@@ -32,8 +29,7 @@ public class RowFilterEntry<M> extends Entry<M, Integer>
      * @see javax.swing.RowFilter.Entry#getModel()
      */
     @Override
-    public M getModel()
-    {
+    public M getModel() {
         return this.model;
     }
 
@@ -41,8 +37,7 @@ public class RowFilterEntry<M> extends Entry<M, Integer>
      * @see javax.swing.RowFilter.Entry#getValue(int)
      */
     @Override
-    public Object getValue(final int index)
-    {
+    public Object getValue(final int index) {
         throw new UnsupportedOperationException("getValue(int)");
     }
 
@@ -50,8 +45,7 @@ public class RowFilterEntry<M> extends Entry<M, Integer>
      * @see javax.swing.RowFilter.Entry#getValueCount()
      */
     @Override
-    public int getValueCount()
-    {
+    public int getValueCount() {
         return 1;
     }
 }

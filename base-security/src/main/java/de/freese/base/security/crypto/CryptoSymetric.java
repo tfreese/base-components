@@ -22,12 +22,10 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  *
  * @author Thomas Freese
  */
-public class CryptoSymetric extends AbstractCrypto
-{
+public class CryptoSymetric extends AbstractCrypto {
     private Key key;
 
-    CryptoSymetric(final CryptoConfig<?> cryptoConfig) throws Exception
-    {
+    CryptoSymetric(final CryptoConfig<?> cryptoConfig) throws Exception {
         super(cryptoConfig);
     }
 
@@ -37,8 +35,7 @@ public class CryptoSymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
      */
     @Override
-    public void sign(final InputStream in, final OutputStream out) throws Exception
-    {
+    public void sign(final InputStream in, final OutputStream out) throws Exception {
         byte[] digest = digest(in);
 
         out.write(digest);
@@ -50,16 +47,14 @@ public class CryptoSymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
      */
     @Override
-    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
-    {
+    public boolean verify(final InputStream in, final InputStream signIn) throws Exception {
         byte[] digest = digest(in);
         byte[] sig = signIn.readAllBytes();
 
         return Arrays.equals(digest, sig);
     }
 
-    void setKey(final Key key)
-    {
+    void setKey(final Key key) {
         this.key = key;
     }
 
@@ -67,10 +62,8 @@ public class CryptoSymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.AbstractCrypto#createCipherDecrypt()
      */
     @Override
-    protected Cipher createCipherDecrypt() throws Exception
-    {
-        if (getConfig().getAlgorithmCipher().contains("/GCM/"))
-        {
+    protected Cipher createCipherDecrypt() throws Exception {
+        if (getConfig().getAlgorithmCipher().contains("/GCM/")) {
             // GCM braucht speziellen ParameterSpec.
             final AlgorithmParameterSpec parameterSpec = new GCMParameterSpec(128, getConfig().getInitVector());
 
@@ -82,12 +75,10 @@ public class CryptoSymetric extends AbstractCrypto
 
         AlgorithmParameterSpec parameterSpec = null;
 
-        if (BouncyCastleProvider.PROVIDER_NAME.equals(getConfig().getProviderCipher()))
-        {
+        if (BouncyCastleProvider.PROVIDER_NAME.equals(getConfig().getProviderCipher())) {
             parameterSpec = new PBEParameterSpec(getConfig().getInitVector(), 4096);
         }
-        else
-        {
+        else {
             parameterSpec = new IvParameterSpec(getConfig().getInitVector());
         }
 
@@ -101,10 +92,8 @@ public class CryptoSymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.AbstractCrypto#createCipherEncrypt()
      */
     @Override
-    protected Cipher createCipherEncrypt() throws Exception
-    {
-        if (getConfig().getAlgorithmCipher().contains("/GCM/"))
-        {
+    protected Cipher createCipherEncrypt() throws Exception {
+        if (getConfig().getAlgorithmCipher().contains("/GCM/")) {
             // GCM braucht speziellen ParameterSpec.
             final AlgorithmParameterSpec parameterSpec = new GCMParameterSpec(128, getConfig().getInitVector());
 
@@ -116,12 +105,10 @@ public class CryptoSymetric extends AbstractCrypto
 
         AlgorithmParameterSpec parameterSpec = null;
 
-        if (BouncyCastleProvider.PROVIDER_NAME.equals(getConfig().getProviderCipher()))
-        {
+        if (BouncyCastleProvider.PROVIDER_NAME.equals(getConfig().getProviderCipher())) {
             parameterSpec = new PBEParameterSpec(getConfig().getInitVector(), 4096);
         }
-        else
-        {
+        else {
             parameterSpec = new IvParameterSpec(getConfig().getInitVector());
         }
 
@@ -135,13 +122,11 @@ public class CryptoSymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.AbstractCrypto#getConfig()
      */
     @Override
-    protected CryptoConfigSymetric getConfig()
-    {
+    protected CryptoConfigSymetric getConfig() {
         return (CryptoConfigSymetric) super.getConfig();
     }
 
-    protected Key getKey()
-    {
+    protected Key getKey() {
         return this.key;
     }
 }

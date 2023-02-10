@@ -21,6 +21,9 @@ import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.border.TitledBorder;
 
+import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXTitledPanel;
+
 import de.freese.base.swing.fontchange.handler.ComboBoxFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.DatePickerFontChangeHandler;
@@ -32,30 +35,24 @@ import de.freese.base.swing.fontchange.handler.TitledBorderFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.TitledPanelFontChangeHandler;
 import de.freese.base.swing.fontchange.handler.TreeFontChangeHandler;
 import de.freese.base.utils.UICustomization;
-import org.jdesktop.swingx.JXDatePicker;
-import org.jdesktop.swingx.JXTitledPanel;
 
 /**
  * @author Thomas Freese
  */
-public final class SwingFontSizeChanger
-{
+public final class SwingFontSizeChanger {
     private static final SwingFontSizeChanger INSTANCE = new SwingFontSizeChanger();
 
-    public static SwingFontSizeChanger getInstance()
-    {
+    public static SwingFontSizeChanger getInstance() {
         return INSTANCE;
     }
 
     /**
      * Verknüpft ein oder mehrere Objekte mit einem Listener, der bei Font-Änderungen reagiert.
      */
-    public static void register(final Object object, final Object... others)
-    {
+    public static void register(final Object object, final Object... others) {
         getInstance().register(object);
 
-        for (Object other : others)
-        {
+        for (Object other : others) {
             getInstance().register(other);
         }
     }
@@ -66,8 +63,7 @@ public final class SwingFontSizeChanger
 
     private Font font;
 
-    private SwingFontSizeChanger()
-    {
+    private SwingFontSizeChanger() {
         super();
 
         this.propertyChangeSupport = new PropertyChangeSupport(this);
@@ -93,51 +89,41 @@ public final class SwingFontSizeChanger
         addFontChangeHandler(JXDatePicker.class, new DatePickerFontChangeHandler());
     }
 
-    public void addPropertyChangeListener(final PropertyChangeListener listener)
-    {
+    public void addPropertyChangeListener(final PropertyChangeListener listener) {
         this.propertyChangeSupport.addPropertyChangeListener(listener);
     }
 
-    public Font getFont()
-    {
+    public Font getFont() {
         return this.font;
     }
 
-    public String getFontFamily()
-    {
+    public String getFontFamily() {
         return this.font.getFamily();
     }
 
-    public int getFontSize()
-    {
+    public int getFontSize() {
         return this.font.getSize();
     }
 
     /**
      * @return int; z.B. Font.PLAIN
      */
-    public int getFontStyle()
-    {
+    public int getFontStyle() {
         return this.font.getStyle();
     }
 
     /**
      * Verknüpft ein Objekt mit einem Listener, der bei Font-Änderungen reagiert.
      */
-    public void register(final Object object)
-    {
-        PropertyChangeListener fontListener = event ->
-        {
-            if (object instanceof JComponent c)
-            {
+    public void register(final Object object) {
+        PropertyChangeListener fontListener = event -> {
+            if (object instanceof JComponent c) {
                 updateFontForComponent(getFont(), c);
             }
-            else if (object instanceof Container c)
-            {
+            else if (object instanceof Container c) {
                 updateFontForContainer(getFont(), c);
             }
-            else
-            {
+            else {
                 updateFontForObject(getFont(), object);
             }
         };
@@ -145,13 +131,11 @@ public final class SwingFontSizeChanger
         addPropertyChangeListener(fontListener);
     }
 
-    public void removePropertyChangeListener(final PropertyChangeListener listener)
-    {
+    public void removePropertyChangeListener(final PropertyChangeListener listener) {
         this.propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    public void setFont(final Font font)
-    {
+    public void setFont(final Font font) {
         Font oldFont = this.font;
         this.font = font;
 
@@ -161,10 +145,8 @@ public final class SwingFontSizeChanger
         UICustomization.setDefaultFont(font);
     }
 
-    public void setFontSize(final float fontSize)
-    {
-        if (getFontSize() == fontSize)
-        {
+    public void setFontSize(final float fontSize) {
+        if (getFontSize() == fontSize) {
             return;
         }
 
@@ -186,8 +168,7 @@ public final class SwingFontSizeChanger
     // setFont(newFont);
     // }
 
-    private void addFontChangeHandler(final Class<?> componentClass, final FontChangeHandler handler)
-    {
+    private void addFontChangeHandler(final Class<?> componentClass, final FontChangeHandler handler) {
         this.handlers.put(componentClass, handler);
     }
 
@@ -204,53 +185,43 @@ public final class SwingFontSizeChanger
     // setFont(newFont);
     // }
 
-    private void updateFontForComponent(final Font newFont, final JComponent component)
-    {
+    private void updateFontForComponent(final Font newFont, final JComponent component) {
         updateFontForObject(newFont, component);
     }
 
-    private void updateFontForContainer(final Font newFont, final Container container)
-    {
+    private void updateFontForContainer(final Font newFont, final Container container) {
         updateFontForObject(newFont, container);
 
         Component[] components = container.getComponents();
 
-        for (Component comp : components)
-        {
-            if (comp instanceof JComponent c)
-            {
+        for (Component comp : components) {
+            if (comp instanceof JComponent c) {
                 updateFontForComponent(newFont, c);
             }
-            else if (comp instanceof Container c)
-            {
+            else if (comp instanceof Container c) {
                 updateFontForContainer(newFont, c);
             }
-            else
-            {
+            else {
                 updateFontForObject(newFont, comp);
             }
         }
     }
 
-    private void updateFontForObject(final Font newFont, final Object object)
-    {
+    private void updateFontForObject(final Font newFont, final Object object) {
         Class<?> clazz = object.getClass();
         FontChangeHandler handler = null;
 
-        while (clazz != Object.class)
-        {
+        while (clazz != Object.class) {
             handler = this.handlers.get(clazz);
 
-            if (handler != null)
-            {
+            if (handler != null) {
                 break;
             }
 
             clazz = clazz.getSuperclass();
         }
 
-        if (handler == null)
-        {
+        if (handler == null) {
             throw new NullPointerException("Handler not found for " + object.getClass().getName());
         }
 

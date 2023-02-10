@@ -10,12 +10,10 @@ import de.freese.base.swing.task.SwingTask;
 /**
  * @author Thomas Freese
  */
-public class FibonacciTaskListener implements PropertyChangeListener
-{
+public class FibonacciTaskListener implements PropertyChangeListener {
     private final FibonacciView view;
 
-    public FibonacciTaskListener(final FibonacciView view)
-    {
+    public FibonacciTaskListener(final FibonacciView view) {
         super();
 
         this.view = Objects.requireNonNull(view, "view required");
@@ -25,16 +23,13 @@ public class FibonacciTaskListener implements PropertyChangeListener
      * @see PropertyChangeListener#propertyChange(PropertyChangeEvent)
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent event)
-    {
+    public void propertyChange(final PropertyChangeEvent event) {
         String propertyName = event.getPropertyName();
 
-        if (SwingTask.PROPERTY_FAILED.equals(propertyName))
-        {
+        if (SwingTask.PROPERTY_FAILED.equals(propertyName)) {
             this.view.handleException((Throwable) event.getNewValue());
         }
-        else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
-        {
+        else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
             this.view.setResult((long) event.getNewValue());
         }
     }

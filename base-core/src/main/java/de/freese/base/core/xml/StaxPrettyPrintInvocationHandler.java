@@ -11,8 +11,7 @@ import javax.xml.stream.XMLStreamWriter;
 /**
  * @author Thomas Freese
  */
-public class StaxPrettyPrintInvocationHandler implements InvocationHandler
-{
+public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
     private static final String INDENT_CHAR = " ";
 
     private final Map<Integer, Boolean> hasChildElement = new HashMap<>();
@@ -23,8 +22,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
 
     private int depth;
 
-    public StaxPrettyPrintInvocationHandler(final XMLStreamWriter target)
-    {
+    public StaxPrettyPrintInvocationHandler(final XMLStreamWriter target) {
         super();
 
         this.target = target;
@@ -36,8 +34,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
-    {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         String m = method.getName();
 
         // if (true)
@@ -45,12 +42,9 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
         // System.out.println("StaxPrettyPrintHandler.invoke(): " + m);
         // }
 
-        switch (m)
-        {
-            case "writeStartElement" ->
-            {
-                if (this.depth > 0)
-                {
+        switch (m) {
+            case "writeStartElement" -> {
+                if (this.depth > 0) {
                     this.hasChildElement.put(this.depth - 1, true);
                 }
 
@@ -59,20 +53,16 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
                 this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
                 this.depth++;
             }
-            case "writeEndElement" ->
-            {
+            case "writeEndElement" -> {
                 this.depth--;
 
-                if (this.hasChildElement.get(this.depth))
-                {
+                if (this.hasChildElement.get(this.depth)) {
                     this.target.writeCharacters(this.lineSeparator);
                     this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
                 }
             }
-            case "writeEmptyElement" ->
-            {
-                if (this.depth > 0)
-                {
+            case "writeEmptyElement" -> {
+                if (this.depth > 0) {
                     this.hasChildElement.put(this.depth - 1, true);
                 }
 
@@ -86,10 +76,8 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler
         return null;
     }
 
-    private String indent(final int amount, final String indent)
-    {
-        if (amount == 0)
-        {
+    private String indent(final int amount, final String indent) {
+        if (amount == 0) {
             return null;
         }
 

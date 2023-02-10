@@ -9,22 +9,19 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractBlob implements Blob
-{
+public abstract class AbstractBlob implements Blob {
     private final BlobId id;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected AbstractBlob(final BlobId id)
-    {
+    protected AbstractBlob(final BlobId id) {
         super();
 
         this.id = Objects.requireNonNull(id, "id required");
     }
 
     @Override
-    public final BlobId getId()
-    {
+    public final BlobId getId() {
         return this.id;
     }
 
@@ -32,13 +29,11 @@ public abstract class AbstractBlob implements Blob
      * @see Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getId().toString();
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 }

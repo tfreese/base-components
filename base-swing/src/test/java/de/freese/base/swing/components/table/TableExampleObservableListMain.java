@@ -17,18 +17,15 @@ import javafx.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public final class TableExampleObservableListMain
-{
+public final class TableExampleObservableListMain {
     /**
      * @author Thomas Freese
      */
-    private static class MyTableModel extends AbstractObservableListTableModel<int[]>
-    {
+    private static class MyTableModel extends AbstractObservableListTableModel<int[]> {
         @Serial
         private static final long serialVersionUID = -2601221304098179771L;
 
-        MyTableModel(final int columnCount, final ObservableList<int[]> list)
-        {
+        MyTableModel(final int columnCount, final ObservableList<int[]> list) {
             super(columnCount, list);
         }
 
@@ -36,16 +33,14 @@ public final class TableExampleObservableListMain
          * @see javax.swing.table.TableModel#getValueAt(int, int)
          */
         @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex)
-        {
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
             int[] row = getObjectAt(rowIndex);
 
             return row[columnIndex];
         }
     }
 
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         ObservableList<int[]> list = FXCollections.observableArrayList();
 
         JTable table = new JTable();
@@ -54,14 +49,12 @@ public final class TableExampleObservableListMain
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         JFrame frame = new JFrame("TableExample1");
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent we)
-            {
+            public void windowClosing(final WindowEvent we) {
                 System.exit(0);
             }
         });
@@ -69,20 +62,14 @@ public final class TableExampleObservableListMain
         frame.pack();
         frame.setVisible(true);
 
-        SwingWorker<Void, int[]> swingWorker = new SwingWorker<>()
-        {
+        SwingWorker<Void, int[]> swingWorker = new SwingWorker<>() {
             /**
              * @see javax.swing.SwingWorker#doInBackground()
              */
             @Override
-            protected Void doInBackground() throws Exception
-            {
-                for (int i = 1; i < 6; i++)
-                {
-                    publish(new int[]
-                            {
-                                    i, 2, 3, 4, 5
-                            });
+            protected Void doInBackground() throws Exception {
+                for (int i = 1; i < 6; i++) {
+                    publish(new int[]{i, 2, 3, 4, 5});
 
                     TimeUnit.MILLISECONDS.sleep(2000);
                 }
@@ -94,8 +81,7 @@ public final class TableExampleObservableListMain
              * @see javax.swing.SwingWorker#process(java.util.List)
              */
             @Override
-            protected void process(final List<int[]> chunks)
-            {
+            protected void process(final List<int[]> chunks) {
                 chunks.forEach(list::add);
             }
         };
@@ -103,8 +89,7 @@ public final class TableExampleObservableListMain
         swingWorker.execute();
     }
 
-    private TableExampleObservableListMain()
-    {
+    private TableExampleObservableListMain() {
         super();
     }
 }

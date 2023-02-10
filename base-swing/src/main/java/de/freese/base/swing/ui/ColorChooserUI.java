@@ -12,10 +12,8 @@ import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
  *
  * @author Thomas Freese
  */
-public class ColorChooserUI extends BasicColorChooserUI
-{
-    public static ComponentUI createUI(final JComponent c)
-    {
+public class ColorChooserUI extends BasicColorChooserUI {
+    public static ComponentUI createUI(final JComponent c) {
         return new ColorChooserUI();
     }
 
@@ -23,8 +21,7 @@ public class ColorChooserUI extends BasicColorChooserUI
      * @see javax.swing.plaf.basic.BasicColorChooserUI#createDefaultChoosers()
      */
     @Override
-    protected AbstractColorChooserPanel[] createDefaultChoosers()
-    {
+    protected AbstractColorChooserPanel[] createDefaultChoosers() {
         AbstractColorChooserPanel[] chooserPanels = super.createDefaultChoosers();
 
         // SwingX Panel dranhängen

@@ -6,20 +6,16 @@ package de.freese.base.reports.layout;
  *
  * @author Thomas Freese
  */
-public class TextLayoutElement extends AbstractLayoutElement
-{
-    public TextLayoutElement()
-    {
+public class TextLayoutElement extends AbstractLayoutElement {
+    public TextLayoutElement() {
         super("");
     }
 
-    public String getText()
-    {
+    public String getText() {
         return getName();
     }
 
-    public void setText(final String text)
-    {
+    public void setText(final String text) {
         setName(text);
     }
 }

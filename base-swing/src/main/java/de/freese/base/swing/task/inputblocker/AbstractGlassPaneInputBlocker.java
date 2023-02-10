@@ -13,12 +13,10 @@ import de.freese.base.swing.TranslucentGlassPane;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker<Component>
-{
+public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker<Component> {
     private JComponent glassPane;
 
-    protected AbstractGlassPaneInputBlocker(final Component target)
-    {
+    protected AbstractGlassPaneInputBlocker(final Component target) {
         super();
 
         addTarget(target);
@@ -29,8 +27,7 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#block()
      */
     @Override
-    public void block()
-    {
+    public void block() {
         setGlassPaneVisible(true);
     }
 
@@ -38,15 +35,12 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
      */
     @Override
-    public void unblock()
-    {
+    public void unblock() {
         setGlassPaneVisible(false);
     }
 
-    protected JComponent getGlassPane()
-    {
-        if (this.glassPane == null)
-        {
+    protected JComponent getGlassPane() {
+        if (this.glassPane == null) {
             TranslucentGlassPane gp = new TranslucentGlassPane();
             gp.setShowDelayMillies(100);
             gp.setTimerIncrementMillies(10);
@@ -57,25 +51,21 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
         return this.glassPane;
     }
 
-    protected void setGlassPaneVisible(final boolean visible)
-    {
+    protected void setGlassPaneVisible(final boolean visible) {
         JRootPane rootPane = getRootPane();
 
-        if (rootPane == null)
-        {
+        if (rootPane == null) {
             getGlassPane().setVisible(true);
             setMouseCursorBusy(visible);
 
             return;
         }
 
-        if (visible)
-        {
+        if (visible) {
             rootPane.setGlassPane(getGlassPane());
             getGlassPane().setVisible(true);
         }
-        else
-        {
+        else {
             rootPane.getGlassPane().setVisible(false);
             rootPane.setGlassPane(Box.createGlue());
         }

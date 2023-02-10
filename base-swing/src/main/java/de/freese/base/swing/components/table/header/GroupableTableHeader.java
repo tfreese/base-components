@@ -13,8 +13,7 @@ import javax.swing.table.TableColumnModel;
  * @author Nobuo Tamemasa
  * @version 1.0 10/20/98
  */
-public class GroupableTableHeader extends JTableHeader
-{
+public class GroupableTableHeader extends JTableHeader {
     @SuppressWarnings("unused")
     private static final String UI_CLASS_ID = "GroupableTableHeaderUI";
 
@@ -23,39 +22,31 @@ public class GroupableTableHeader extends JTableHeader
 
     private final transient List<GroupableColumn> columnGroups = Collections.synchronizedList(new ArrayList<>());
 
-    public GroupableTableHeader(final TableColumnModel model)
-    {
+    public GroupableTableHeader(final TableColumnModel model) {
         super(model);
 
         setUI(new GroupableTableHeaderUI());
         setReorderingAllowed(false);
     }
 
-    public void addColumnGroup(final GroupableColumn gc)
-    {
+    public void addColumnGroup(final GroupableColumn gc) {
         this.columnGroups.add(gc);
     }
 
-    public void clearColumnGroups()
-    {
+    public void clearColumnGroups() {
         this.columnGroups.clear();
     }
 
-    public List<Object> getColumnGroups(final TableColumn tableColumn)
-    {
-        if (this.columnGroups == null)
-        {
+    public List<Object> getColumnGroups(final TableColumn tableColumn) {
+        if (this.columnGroups == null) {
             return null;
         }
 
-        for (GroupableColumn groupableColumn : this.columnGroups)
-        {
-            if (groupableColumn != null)
-            {
+        for (GroupableColumn groupableColumn : this.columnGroups) {
+            if (groupableColumn != null) {
                 List<Object> groups = groupableColumn.getColumnGroups(tableColumn, new ArrayList<>());
 
-                if (groups != null)
-                {
+                if (groups != null) {
                     return groups;
                 }
             }
@@ -64,17 +55,14 @@ public class GroupableTableHeader extends JTableHeader
         return null;
     }
 
-    public void setColumnMargin()
-    {
-        if (this.columnGroups == null)
-        {
+    public void setColumnMargin() {
+        if (this.columnGroups == null) {
             return;
         }
 
         int columnMargin = getColumnModel().getColumnMargin();
 
-        for (GroupableColumn groupableColumn : this.columnGroups)
-        {
+        for (GroupableColumn groupableColumn : this.columnGroups) {
             groupableColumn.setColumnMargin(columnMargin);
         }
     }
@@ -83,8 +71,7 @@ public class GroupableTableHeader extends JTableHeader
      * @see javax.swing.table.JTableHeader#setReorderingAllowed(boolean)
      */
     @Override
-    public void setReorderingAllowed(final boolean b)
-    {
+    public void setReorderingAllowed(final boolean b) {
         this.reorderingAllowed = false;
     }
 }

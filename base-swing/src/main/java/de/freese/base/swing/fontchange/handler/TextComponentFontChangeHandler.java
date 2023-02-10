@@ -9,14 +9,12 @@ import javax.swing.text.JTextComponent;
 /**
  * @author Thomas Freese
  */
-public class TextComponentFontChangeHandler extends ComponentFontChangeHandler
-{
+public class TextComponentFontChangeHandler extends ComponentFontChangeHandler {
     /**
      * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
      */
     @Override
-    public void fontChanged(final Font newFont, final Object object)
-    {
+    public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
         JTextComponent textComponent = (JTextComponent) object;
@@ -24,8 +22,7 @@ public class TextComponentFontChangeHandler extends ComponentFontChangeHandler
         FontMetrics fontMetrics = textComponent.getFontMetrics(textComponent.getFont());
         int newHeight = fontMetrics.getMaxAscent() + fontMetrics.getMaxAscent() + 1;
 
-        if (newFont.getSize() > 10)
-        {
+        if (newFont.getSize() > 10) {
             newHeight -= fontMetrics.getDescent();
             newHeight -= 3;
         }

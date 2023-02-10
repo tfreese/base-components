@@ -24,26 +24,20 @@ import de.freese.base.mvc.view.View;
  *
  * @author Thomas Freese
  */
-public final class MenuAndToolbarContext
-{
-    public static final class Builder
-    {
+public final class MenuAndToolbarContext {
+    public static final class Builder {
         private final Map<String, List<Component>> index = new HashMap<>();
 
-        private Builder()
-        {
+        private Builder() {
             super();
         }
 
-        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu, JMenuItem menuItem)
-        {
-            if (!contains(menuBar, menu))
-            {
+        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu, JMenuItem menuItem) {
+            if (!contains(menuBar, menu)) {
                 menuBar.add(menu);
             }
 
-            if (!contains(menu, menuItem))
-            {
+            if (!contains(menu, menuItem)) {
                 menu.add(menuItem);
 
                 List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
@@ -54,20 +48,16 @@ public final class MenuAndToolbarContext
             return this;
         }
 
-        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu1, JMenu menu2, JMenuItem menuItem)
-        {
-            if (!contains(menuBar, menu1))
-            {
+        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu1, JMenu menu2, JMenuItem menuItem) {
+            if (!contains(menuBar, menu1)) {
                 menuBar.add(menu1);
             }
 
-            if (!contains(menu1, menu2))
-            {
+            if (!contains(menu1, menu2)) {
                 menu1.add(menu2);
             }
 
-            if (!contains(menu2, menuItem))
-            {
+            if (!contains(menu2, menuItem)) {
                 menu2.add(menuItem);
 
                 List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
@@ -79,10 +69,8 @@ public final class MenuAndToolbarContext
             return this;
         }
 
-        public Builder addToolBarButton(JToolBar toolBar, AbstractButton abstractButton)
-        {
-            if (!contains(toolBar, abstractButton))
-            {
+        public Builder addToolBarButton(JToolBar toolBar, AbstractButton abstractButton) {
+            if (!contains(toolBar, abstractButton)) {
                 toolBar.add(abstractButton);
 
                 index.computeIfAbsent(abstractButton.getActionCommand(), key -> new ArrayList<>()).add(abstractButton);
@@ -91,20 +79,15 @@ public final class MenuAndToolbarContext
             return this;
         }
 
-        public MenuAndToolbarContext build()
-        {
+        public MenuAndToolbarContext build() {
             MenuAndToolbarContext context = new MenuAndToolbarContext(index);
 
-            for (List<Component> components : index.values())
-            {
-                for (Component component : components)
-                {
-                    if (component instanceof JMenuItem mi && mi.getActionCommand() != null)
-                    {
+            for (List<Component> components : index.values()) {
+                for (Component component : components) {
+                    if (component instanceof JMenuItem mi && mi.getActionCommand() != null) {
                         mi.addActionListener(context::delegateEventToCurrentView);
                     }
-                    else if (component instanceof AbstractButton b && b.getActionCommand() != null)
-                    {
+                    else if (component instanceof AbstractButton b && b.getActionCommand() != null) {
                         b.addActionListener(context::delegateEventToCurrentView);
                     }
                 }
@@ -113,13 +96,10 @@ public final class MenuAndToolbarContext
             return context;
         }
 
-        private boolean contains(JComponent parent, JComponent child)
-        {
-            for (int i = 0; i < parent.getComponentCount(); i++)
-            {
+        private boolean contains(JComponent parent, JComponent child) {
+            for (int i = 0; i < parent.getComponentCount(); i++) {
                 // Must same Reference.
-                if (child == parent.getComponent(i))
-                {
+                if (child == parent.getComponent(i)) {
                     return true;
                 }
             }
@@ -128,8 +108,7 @@ public final class MenuAndToolbarContext
         }
     }
 
-    public static Builder builder()
-    {
+    public static Builder builder() {
         return new Builder();
     }
 
@@ -137,22 +116,18 @@ public final class MenuAndToolbarContext
 
     private View currentView;
 
-    private MenuAndToolbarContext(Map<String, List<Component>> index)
-    {
+    private MenuAndToolbarContext(Map<String, List<Component>> index) {
         super();
 
         this.index = index;
     }
 
-    public void deactivateCurrentView()
-    {
-        if (currentView == null)
-        {
+    public void deactivateCurrentView() {
+        if (currentView == null) {
             return;
         }
 
-        for (String actionCommand : currentView.getInterestedMenuAndToolbarActions().keySet())
-        {
+        for (String actionCommand : currentView.getInterestedMenuAndToolbarActions().keySet()) {
             index.computeIfAbsent(actionCommand, key -> new ArrayList<>()).forEach(component -> component.setEnabled(false));
         }
 
@@ -161,31 +136,26 @@ public final class MenuAndToolbarContext
         // TODO Enable Defaults for File/Exit and Help/About.
     }
 
-    public void setCurrentView(View currentView)
-    {
+    public void setCurrentView(View currentView) {
         // TODO Enable Defaults for File/Exit.
 
         this.currentView = currentView;
 
-        for (String actionCommand : currentView.getInterestedMenuAndToolbarActions().keySet())
-        {
+        for (String actionCommand : currentView.getInterestedMenuAndToolbarActions().keySet()) {
             index.computeIfAbsent(actionCommand, key -> new ArrayList<>()).forEach(component -> component.setEnabled(true));
         }
 
         // TODO Enable Default for Help/About.
     }
 
-    private void delegateEventToCurrentView(ActionEvent event)
-    {
-        if (currentView == null)
-        {
+    private void delegateEventToCurrentView(ActionEvent event) {
+        if (currentView == null) {
             return;
         }
 
         ActionListener actionListener = currentView.getInterestedMenuAndToolbarActions().get(event.getActionCommand());
 
-        if (actionListener == null)
-        {
+        if (actionListener == null) {
             return;
         }
 

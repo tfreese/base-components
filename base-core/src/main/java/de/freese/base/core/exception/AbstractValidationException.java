@@ -7,8 +7,7 @@ import de.freese.base.core.i18n.Translator;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractValidationException extends Exception
-{
+public abstract class AbstractValidationException extends Exception {
     @Serial
     private static final long serialVersionUID = 9102013053396263064L;
 
@@ -16,49 +15,40 @@ public abstract class AbstractValidationException extends Exception
 
     private final String[] parameters;
 
-    protected AbstractValidationException(final String message)
-    {
+    protected AbstractValidationException(final String message) {
         this(message, null, null);
     }
 
-    protected AbstractValidationException(final String message, final String appendMessage)
-    {
+    protected AbstractValidationException(final String message, final String appendMessage) {
         this(message, null, appendMessage);
     }
 
-    protected AbstractValidationException(final String message, final String[] parameters)
-    {
+    protected AbstractValidationException(final String message, final String[] parameters) {
         this(message, parameters, null);
     }
 
-    protected AbstractValidationException(final String message, final String[] parameters, final String appendMessage)
-    {
+    protected AbstractValidationException(final String message, final String[] parameters, final String appendMessage) {
         super(message);
 
         this.parameters = parameters;
         this.appendMessage = appendMessage;
     }
 
-    public String getAppendMessage()
-    {
+    public String getAppendMessage() {
         return this.appendMessage;
     }
 
-    public String[] getParameters()
-    {
+    public String[] getParameters() {
         return this.parameters;
     }
 
-    public String translate(final Translator translatorAdapter)
-    {
+    public String translate(final Translator translatorAdapter) {
         StringBuilder sb = new StringBuilder();
 
-        if ((getParameters() != null) && (getParameters().length > 0))
-        {
+        if ((getParameters() != null) && (getParameters().length > 0)) {
             sb.append(translatorAdapter.translate(getMessage(), (Object[]) getParameters()));
         }
-        else
-        {
+        else {
             sb.append(translatorAdapter.translate(getMessage()));
         }
 

@@ -8,8 +8,7 @@ import java.io.Serializable;
  *
  * @author Thomas Freese
  */
-public interface GuiState extends Serializable
-{
+public interface GuiState extends Serializable {
     void restore(Component component);
 
     void store(Component component);

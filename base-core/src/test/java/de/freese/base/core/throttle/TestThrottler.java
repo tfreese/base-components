@@ -18,8 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @Execution(ExecutionMode.CONCURRENT)
 class TestThrottler //extends AbstractIoTest
 {
-    static Stream<Arguments> createThrottler()
-    {
+    static Stream<Arguments> createThrottler() {
         // @formatter:off
         return Stream.of(
                 Arguments.of("SimpleThrottler", (Function<Integer, Throttler>) SimpleThrottler::create)
@@ -31,27 +30,23 @@ class TestThrottler //extends AbstractIoTest
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits2000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception
-    {
+    void testPermits2000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception {
         doTest(name, 2000, throttleFunction);
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits4000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception
-    {
+    void testPermits4000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception {
         doTest(name, 4000, throttleFunction);
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits6000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception
-    {
+    void testPermits6000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception {
         doTest(name, 6000, throttleFunction);
     }
 
-    private void doTest(String name, final int permits, final Function<Integer, Throttler> throttleFunction) throws Exception
-    {
+    private void doTest(String name, final int permits, final Function<Integer, Throttler> throttleFunction) throws Exception {
         Throttler throttler = throttleFunction.apply(permits);
 
         // Warmup...sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.
@@ -61,8 +56,7 @@ class TestThrottler //extends AbstractIoTest
 
         long start = System.nanoTime();
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             throttler.acquirePermit();
         }
 

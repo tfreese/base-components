@@ -11,10 +11,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class FarbCodeLabelMain
-{
-    public static void main(final String[] args)
-    {
+public final class FarbCodeLabelMain {
+    public static void main(final String[] args) {
         final JFrame frame = new JFrame("GlassPaneDemo");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
@@ -29,8 +27,7 @@ public final class FarbCodeLabelMain
         frame.setVisible(true);
     }
 
-    private FarbCodeLabelMain()
-    {
+    private FarbCodeLabelMain() {
         super();
     }
 }

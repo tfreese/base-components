@@ -6,20 +6,16 @@ import javax.swing.SwingUtilities;
 /**
  * @author Thomas Freese
  */
-public final class DemoApplicationLauncher
-{
-    public static void main(final String[] args)
-    {
+public final class DemoApplicationLauncher {
+    public static void main(final String[] args) {
         final DemoApplication application = new DemoApplication();
 
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             application.start();
         });
     }
 
-    private DemoApplicationLauncher()
-    {
+    private DemoApplicationLauncher() {
         super();
     }
 }

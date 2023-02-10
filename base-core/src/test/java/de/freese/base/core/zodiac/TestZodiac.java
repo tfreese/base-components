@@ -19,14 +19,12 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestZodiac
-{
+class TestZodiac {
     /**
      * Wassermann, 21.01. - 19.02.
      */
     @Test
-    void testAquarius()
-    {
+    void testAquarius() {
         Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.MONTH, Calendar.JANUARY);
         calendar.set(Calendar.DAY_OF_MONTH, 21);
@@ -43,8 +41,7 @@ class TestZodiac
      * Widder, 21.03. - 20.04.
      */
     @Test
-    void testAries()
-    {
+    void testAries() {
         LocalDate localDate = LocalDate.now().withMonth(Month.MARCH.getValue()).withDayOfMonth(21);
         Zodiac zodiac = Zodiac.getZodiac(localDate);
         assertEquals(Zodiac.ARIES, zodiac);
@@ -58,8 +55,7 @@ class TestZodiac
      * Krebs, 22.06. - 22.07.
      */
     @Test
-    void testCancer()
-    {
+    void testCancer() {
         LocalDateTime localDateTime = LocalDateTime.now().withMonth(Month.JUNE.getValue()).withDayOfMonth(22);
         Zodiac zodiac = Zodiac.getZodiac(localDateTime);
         assertEquals(Zodiac.CANCER, zodiac);
@@ -73,8 +69,7 @@ class TestZodiac
      * Steinbock, 22.12. - 20.01.
      */
     @Test
-    void testCapricorn()
-    {
+    void testCapricorn() {
         Zodiac zodiac = Zodiac.getZodiac(Month.DECEMBER.getValue(), 22);
         assertEquals(Zodiac.CAPRICORN, zodiac);
 
@@ -86,8 +81,7 @@ class TestZodiac
      * Zwillinge, 21.05. - 21.06.
      */
     @Test
-    void testGemini()
-    {
+    void testGemini() {
         Zodiac zodiac = Zodiac.getZodiac(5, 21);
         assertEquals(Zodiac.GEMINI, zodiac);
 
@@ -99,8 +93,7 @@ class TestZodiac
      * Loewe, 23.07. - 23.08.
      */
     @Test
-    void testLeo()
-    {
+    void testLeo() {
         Zodiac zodiac = Zodiac.getZodiac(7, 23);
         assertEquals(Zodiac.LEO, zodiac);
 
@@ -112,8 +105,7 @@ class TestZodiac
      * Waage, 24.09. - 23.10.
      */
     @Test
-    void testLibra()
-    {
+    void testLibra() {
         Zodiac zodiac = Zodiac.getZodiac(9, 24);
         assertEquals(Zodiac.LIBRA, zodiac);
 
@@ -125,8 +117,7 @@ class TestZodiac
      * Fische, 20.02. - 20.03.
      */
     @Test
-    void testPisces()
-    {
+    void testPisces() {
         Zodiac zodiac = Zodiac.getZodiac(2, 20);
         assertEquals(Zodiac.PISCES, zodiac);
 
@@ -138,8 +129,7 @@ class TestZodiac
      * Schütze, 23.11. - 21.12.
      */
     @Test
-    void testSagittarius()
-    {
+    void testSagittarius() {
         Zodiac zodiac = Zodiac.getZodiac(11, 23);
         assertEquals(Zodiac.SAGITTARIUS, zodiac);
 
@@ -151,8 +141,7 @@ class TestZodiac
      * Skorpion, 24.10. - 22.11.
      */
     @Test
-    void testScorpio()
-    {
+    void testScorpio() {
         Zodiac zodiac = Zodiac.getZodiac(10, 24);
         assertEquals(Zodiac.SCORPIO, zodiac);
 
@@ -164,8 +153,7 @@ class TestZodiac
      * Stier, 21.04. - 20.05.
      */
     @Test
-    void testTaurus()
-    {
+    void testTaurus() {
         Zodiac zodiac = Zodiac.getZodiac(4, 21);
         assertEquals(Zodiac.TAURUS, zodiac);
 
@@ -177,8 +165,7 @@ class TestZodiac
      * Jungfrau, 24.08. - 23.09.
      */
     @Test
-    void testVirgo()
-    {
+    void testVirgo() {
         Zodiac zodiac = Zodiac.getZodiac(8, 24);
         assertEquals(Zodiac.VIRGO, zodiac);
 

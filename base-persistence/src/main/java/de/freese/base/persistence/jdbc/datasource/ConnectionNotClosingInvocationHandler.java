@@ -12,12 +12,10 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class ConnectionNotClosingInvocationHandler implements InvocationHandler
-{
+public class ConnectionNotClosingInvocationHandler implements InvocationHandler {
     private final Connection target;
 
-    public ConnectionNotClosingInvocationHandler(final Connection target)
-    {
+    public ConnectionNotClosingInvocationHandler(final Connection target) {
         super();
 
         this.target = Objects.requireNonNull(target, "target required");
@@ -27,23 +25,19 @@ public class ConnectionNotClosingInvocationHandler implements InvocationHandler
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
-    {
-        switch (method.getName())
-        {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+        switch (method.getName()) {
             case "equals":
                 return (proxy == args[0]);
             case "hashCode":
                 return System.identityHashCode(proxy);
             case "unwrap":
-                if (((Class<?>) args[0]).isInstance(proxy))
-                {
+                if (((Class<?>) args[0]).isInstance(proxy)) {
                     return proxy;
                 }
                 break;
             case "isWrapperFor":
-                if (((Class<?>) args[0]).isInstance(proxy))
-                {
+                if (((Class<?>) args[0]).isInstance(proxy)) {
                     return true;
                 }
                 break;
@@ -57,12 +51,10 @@ public class ConnectionNotClosingInvocationHandler implements InvocationHandler
                 break;
         }
 
-        try
-        {
+        try {
             return method.invoke(this.target, args);
         }
-        catch (final InvocationTargetException ex)
-        {
+        catch (final InvocationTargetException ex) {
             throw ex.getTargetException();
         }
     }

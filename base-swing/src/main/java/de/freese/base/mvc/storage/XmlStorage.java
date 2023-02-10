@@ -11,37 +11,30 @@ import java.io.OutputStream;
 /**
  * @author Thomas Freese
  */
-public final class XmlStorage
-{
-    private static class XMLExceptionListener implements ExceptionListener
-    {
+public final class XmlStorage {
+    private static class XMLExceptionListener implements ExceptionListener {
         private Exception exception;
 
         /**
          * @see java.beans.ExceptionListener#exceptionThrown(java.lang.Exception)
          */
         @Override
-        public void exceptionThrown(final Exception ex)
-        {
-            if (this.exception == null)
-            {
+        public void exceptionThrown(final Exception ex) {
+            if (this.exception == null) {
                 this.exception = ex;
             }
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T loadBean(final InputStream inputStream) throws IOException
-    {
+    public static <T> T loadBean(final InputStream inputStream) throws IOException {
         XMLExceptionListener el = new XMLExceptionListener();
 
-        try (XMLDecoder decoder = new XMLDecoder(inputStream))
-        {
+        try (XMLDecoder decoder = new XMLDecoder(inputStream)) {
             decoder.setExceptionListener(el);
             Object bean = decoder.readObject();
 
-            if (el.exception != null)
-            {
+            if (el.exception != null) {
                 IOException ex = new IOException(el.exception.getMessage());
                 ex.setStackTrace(el.exception.getStackTrace());
 
@@ -52,19 +45,16 @@ public final class XmlStorage
         }
     }
 
-    public static ByteArrayOutputStream saveBean(final Object bean) throws IOException
-    {
+    public static ByteArrayOutputStream saveBean(final Object bean) throws IOException {
         XMLExceptionListener el = new XMLExceptionListener();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try (XMLEncoder encoder = new XMLEncoder(baos))
-        {
+        try (XMLEncoder encoder = new XMLEncoder(baos)) {
             encoder.setExceptionListener(el);
             encoder.writeObject(bean);
         }
 
-        if (el.exception != null)
-        {
+        if (el.exception != null) {
             IOException ex = new IOException(el.exception.getMessage());
             ex.setStackTrace(el.exception.getStackTrace());
 
@@ -74,18 +64,15 @@ public final class XmlStorage
         return baos;
     }
 
-    public static void saveBean(final OutputStream outputStream, final Object bean) throws IOException
-    {
+    public static void saveBean(final OutputStream outputStream, final Object bean) throws IOException {
         XMLExceptionListener el = new XMLExceptionListener();
 
-        try (XMLEncoder encoder = new XMLEncoder(outputStream))
-        {
+        try (XMLEncoder encoder = new XMLEncoder(outputStream)) {
             encoder.setExceptionListener(el);
             encoder.writeObject(bean);
         }
 
-        if (el.exception != null)
-        {
+        if (el.exception != null) {
             IOException ex = new IOException(el.exception.getMessage());
             ex.setStackTrace(el.exception.getStackTrace());
 
@@ -93,8 +80,7 @@ public final class XmlStorage
         }
     }
 
-    private XmlStorage()
-    {
+    private XmlStorage() {
         super();
     }
 }

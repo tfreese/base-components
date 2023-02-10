@@ -19,8 +19,7 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
 {
     private final Iterator<T> iterator;
 
-    public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper)
-    {
+    public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper) {
         super();
 
         this.iterator = new ResultSetIterator<>(resultSet, rowMapper);
@@ -30,8 +29,7 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
      * @see java.util.Spliterator#characteristics()
      */
     @Override
-    public int characteristics()
-    {
+    public int characteristics() {
         return Spliterator.ORDERED;
     }
 
@@ -39,8 +37,7 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
      * @see java.util.Spliterator#estimateSize()
      */
     @Override
-    public long estimateSize()
-    {
+    public long estimateSize() {
         return Long.MAX_VALUE;
     }
 
@@ -48,10 +45,8 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
      * @see java.util.Spliterator#tryAdvance(java.util.function.Consumer)
      */
     @Override
-    public boolean tryAdvance(final Consumer<? super T> action)
-    {
-        if (this.iterator.hasNext())
-        {
+    public boolean tryAdvance(final Consumer<? super T> action) {
+        if (this.iterator.hasNext()) {
             action.accept(this.iterator.next());
 
             return true;
@@ -66,8 +61,7 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
      * @see java.util.Spliterator#trySplit()
      */
     @Override
-    public Spliterator<T> trySplit()
-    {
+    public Spliterator<T> trySplit() {
         return null;
     }
 }

@@ -15,16 +15,14 @@ import org.slf4j.event.Level;
  *
  * @author Thomas Freese
  */
-public class LoggingOutputStream extends OutputStream
-{
+public class LoggingOutputStream extends OutputStream {
     private final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
 
     private final Level level;
 
     private final Logger logger;
 
-    public LoggingOutputStream(final Logger logger, final Level level)
-    {
+    public LoggingOutputStream(final Logger logger, final Level level) {
         super();
 
         this.logger = Objects.requireNonNull(logger, "logger required");
@@ -35,15 +33,12 @@ public class LoggingOutputStream extends OutputStream
      * @see java.io.OutputStream#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
-        if (b == '\n')
-        {
+    public void write(final int b) throws IOException {
+        if (b == '\n') {
             String line = this.baos.toString(StandardCharsets.UTF_8);
             this.baos.reset();
 
-            switch (this.level)
-            {
+            switch (this.level) {
                 case TRACE -> this.logger.trace(line);
                 case DEBUG -> this.logger.debug(line);
                 case ERROR -> this.logger.error(line);
@@ -52,8 +47,7 @@ public class LoggingOutputStream extends OutputStream
                 default -> throw new UnsupportedOperationException("Level not supported:" + this.level);
             }
         }
-        else
-        {
+        else {
             this.baos.write(b);
         }
     }

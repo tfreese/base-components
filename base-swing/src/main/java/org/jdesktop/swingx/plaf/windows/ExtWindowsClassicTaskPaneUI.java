@@ -30,34 +30,31 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 
-import de.freese.base.utils.ImageUtils;
 import org.jdesktop.swingx.JXTaskPane;
+
+import de.freese.base.utils.ImageUtils;
 
 /**
  * Überschreibt den ContentPaneBorder der SwingX UI der TaskPane, damit der Content nur 2 Pixel Abstand hat und nicht 10.
  *
  * @author Thomas Freese
  */
-public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
-{
+public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     protected static final int TITLE_ICON_SIZE = 16;
 
-    public static ComponentUI createUI(final JComponent c)
-    {
+    public static ComponentUI createUI(final JComponent c) {
         return new ExtWindowsClassicTaskPaneUI();
     }
 
     /**
      * @author Thomas Freese
      */
-    private class ExtPaneBorder extends ClassicPaneBorder
-    {
+    private class ExtPaneBorder extends ClassicPaneBorder {
         /**
          * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
          */
         @Override
-        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height)
-        {
+        public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
             super.paintBorder(c, g, x, y, width, height);
 
             paintTitleActions(g, x, y, width, height);
@@ -67,27 +64,22 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
          * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#isMouseOverBorder()
          */
         @Override
-        protected boolean isMouseOverBorder()
-        {
+        protected boolean isMouseOverBorder() {
             return true;
         }
 
-        protected void paintTitleActions(final Graphics g, final int x, final int y, final int width, final int height)
-        {
+        protected void paintTitleActions(final Graphics g, final int x, final int y, final int width, final int height) {
             // Weitere Buttons malen
-            for (JButton button : ExtWindowsClassicTaskPaneUI.this.titleButtons)
-            {
+            for (JButton button : ExtWindowsClassicTaskPaneUI.this.titleButtons) {
                 Rectangle rectangle = getRectangleFor(button);
 
-                if (button.getIcon() == null)
-                {
+                if (button.getIcon() == null) {
                     button.setIcon(ImageUtils.createMissingIcon());
                 }
 
                 Icon icon = button.getIcon();
 
-                if (ExtWindowsClassicTaskPaneUI.this.group.isCollapsed() || !button.isEnabled())
-                {
+                if (ExtWindowsClassicTaskPaneUI.this.group.isCollapsed() || !button.isEnabled()) {
                     // Icon ausgrauen, wenn zugeklappt oder Button disabled
                     icon = ImageUtils.toGrayIcon(icon);
                 }
@@ -95,8 +87,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
                 icon.paintIcon(null, g, rectangle.x, rectangle.y);
             }
 
-            if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
-            {
+            if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
                 // Rausfinden, ob unter Courser ein Button liegt, dann Tooltip malen
                 // Alternativ im ToggleListener.mouseMoved malen lassen
                 PointerInfo pointerInfo = MouseInfo.getPointerInfo();
@@ -105,8 +96,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
 
                 JButton button = getButtonFor(point.x, point.y);
 
-                if (button != null)
-                {
+                if (button != null) {
                     // TODO ToolTipManager verwenden
                     paintToolTip(button);
                 }
@@ -117,17 +107,14 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
          * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI.PaneBorder#paintTitleBackground(org.jdesktop.swingx.JXTaskPane, java.awt.Graphics)
          */
         @Override
-        protected void paintTitleBackground(final JXTaskPane group, final Graphics g)
-        {
+        protected void paintTitleBackground(final JXTaskPane group, final Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
             Paint storedPaint = g2.getPaint();
 
-            if (group.isSpecial())
-            {
+            if (group.isSpecial()) {
                 g.setColor(this.specialTitleBackground);
             }
-            else
-            {
+            else {
                 g.setColor(this.titleBackgroundGradientStart);
 
                 g2.setPaint(new GradientPaint(0, 0, this.titleBackgroundGradientStart, 0, getTitleHeight(null), this.titleBackgroundGradientEnd));
@@ -143,31 +130,24 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @author Thomas Freese
      */
-    private class ToggleListener extends MouseInputAdapter
-    {
+    private class ToggleListener extends MouseInputAdapter {
         /**
          * @see javax.swing.event.MouseInputAdapter#mouseEntered(java.awt.event.MouseEvent)
          */
         @Override
-        public void mouseEntered(final MouseEvent e)
-        {
-            if (isInBorder(e))
-            {
+        public void mouseEntered(final MouseEvent e) {
+            if (isInBorder(e)) {
                 e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
-            else
-            {
+            else {
                 ExtWindowsClassicTaskPaneUI.this.mouseOver = false;
                 ExtWindowsClassicTaskPaneUI.this.group.repaint();
 
-                if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
-                {
+                if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
                     JButton button = getButtonFor(e.getX(), e.getY());
 
-                    if (button != null)
-                    {
-                        MouseEvent evt = new MouseEvent(button, MouseEvent.MOUSE_ENTERED, e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(),
-                                e.getClickCount(), e.isPopupTrigger());
+                    if (button != null) {
+                        MouseEvent evt = new MouseEvent(button, MouseEvent.MOUSE_ENTERED, e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
                         button.dispatchEvent(evt);
                     }
                 }
@@ -178,8 +158,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
          * @see javax.swing.event.MouseInputAdapter#mouseExited(java.awt.event.MouseEvent)
          */
         @Override
-        public void mouseExited(final MouseEvent e)
-        {
+        public void mouseExited(final MouseEvent e) {
             e.getComponent().setCursor(null);
             ExtWindowsClassicTaskPaneUI.this.mouseOver = false;
             ExtWindowsClassicTaskPaneUI.this.group.repaint();
@@ -189,16 +168,13 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
          * @see javax.swing.event.MouseInputAdapter#mouseMoved(java.awt.event.MouseEvent)
          */
         @Override
-        public void mouseMoved(final MouseEvent e)
-        {
-            if (isInBorder(e))
-            {
+        public void mouseMoved(final MouseEvent e) {
+            if (isInBorder(e)) {
                 e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 ExtWindowsClassicTaskPaneUI.this.mouseOver = true;
                 ExtWindowsClassicTaskPaneUI.this.group.repaint();
             }
-            else
-            {
+            else {
                 e.getComponent().setCursor(null);
                 ExtWindowsClassicTaskPaneUI.this.mouseOver = false;
                 ExtWindowsClassicTaskPaneUI.this.group.repaint();
@@ -232,23 +208,20 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
          * @see javax.swing.event.MouseInputAdapter#mouseReleased(java.awt.event.MouseEvent)
          */
         @Override
-        public void mouseReleased(final MouseEvent e)
-        {
-            if (isInBorder(e))
-            {
+        public void mouseReleased(final MouseEvent e) {
+            if (isInBorder(e)) {
                 ExtWindowsClassicTaskPaneUI.this.group.setCollapsed(!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed());
             }
-            else if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
-            {
+            else if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
                 JButton button = getButtonFor(e.getX(), e.getY());
 
-                if ((button != null) && !e.isPopupTrigger())
-                {
+                if ((button != null) && !e.isPopupTrigger()) {
                     button.doClick();
                 }
             }
         }
     }
+
     /**
      *
      */
@@ -265,8 +238,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     /**
      * Creates a new {@link ExtWindowsClassicTaskPaneUI} object.
      */
-    public ExtWindowsClassicTaskPaneUI()
-    {
+    public ExtWindowsClassicTaskPaneUI() {
         super();
 
         this.buttonEnabledPropertyChangeListener = event -> this.group.repaint();
@@ -275,8 +247,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
     /**
      * Hinzufügen eines Separators in den Title.
      */
-    public void addSeparator()
-    {
+    public void addSeparator() {
         this.titleObjects.add(new Dimension(TITLE_ICON_SIZE, TITLE_ICON_SIZE));
     }
 
@@ -285,8 +256,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @param dimension {@link Dimension}
      */
-    public void addSeparator(final Dimension dimension)
-    {
+    public void addSeparator(final Dimension dimension) {
         this.titleObjects.add(dimension);
     }
 
@@ -295,8 +265,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @param button {@link JButton}
      */
-    public void addTitleButton(final JButton button)
-    {
+    public void addTitleButton(final JButton button) {
         button.setBounds(0, 0, TITLE_ICON_SIZE, TITLE_ICON_SIZE);
 
         this.titleButtons.add(button);
@@ -309,8 +278,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#createContentPaneBorder()
      */
     @Override
-    protected Border createContentPaneBorder()
-    {
+    protected Border createContentPaneBorder() {
         Color borderColor = UIManager.getColor("TaskPane.borderColor");
 
         return new CompoundBorder(new ContentPaneBorder(borderColor), BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -320,8 +288,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#createMouseInputListener()
      */
     @Override
-    protected MouseInputListener createMouseInputListener()
-    {
+    protected MouseInputListener createMouseInputListener() {
         return new ToggleListener();
     }
 
@@ -329,8 +296,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * @see org.jdesktop.swingx.plaf.windows.WindowsClassicTaskPaneUI#createPaneBorder()
      */
     @Override
-    protected Border createPaneBorder()
-    {
+    protected Border createPaneBorder() {
         return new ExtPaneBorder();
     }
 
@@ -338,8 +304,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#getTitleHeight(java.awt.Component)
      */
     @Override
-    protected int getTitleHeight(final Component c)
-    {
+    protected int getTitleHeight(final Component c) {
         // return super.getTitleHeight(c);
         return this.titleHeight;
     }
@@ -348,18 +313,15 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      * @see org.jdesktop.swingx.plaf.basic.BasicTaskPaneUI#isInBorder(java.awt.event.MouseEvent)
      */
     @Override
-    protected boolean isInBorder(final MouseEvent me)
-    {
+    protected boolean isInBorder(final MouseEvent me) {
         boolean result = super.isInBorder(me);
 
         // Über eigene TitleButtons nicht den Courser ändern
-        if (result)
-        {
+        if (result) {
             // Prüfen, ob auf einem TitleButton geklickt wurde
             JButton button = getButtonFor(me.getX(), me.getY());
 
-            if (button != null)
-            {
+            if (button != null) {
                 result = false;
             }
         }
@@ -372,20 +334,16 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @param button {@link JButton}
      */
-    protected void paintToolTip(final JButton button)
-    {
-        if (this.group.isCollapsed())
-        {
+    protected void paintToolTip(final JButton button) {
+        if (this.group.isCollapsed()) {
             return;
         }
 
         // TODO ToolTipManager verwenden
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             String text = button.getToolTipText();
 
-            if ((text != null) && (text.length() > 0))
-            {
+            if ((text != null) && (text.length() > 0)) {
                 Rectangle rectangle = getRectangleFor(button);
                 Graphics2D g2 = (Graphics2D) ExtWindowsClassicTaskPaneUI.this.group.getGraphics();
 
@@ -428,14 +386,11 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @return {@link JButton}
      */
-    private JButton getButtonFor(final int x, final int y)
-    {
-        for (JButton button : this.titleButtons)
-        {
+    private JButton getButtonFor(final int x, final int y) {
+        for (JButton button : this.titleButtons) {
             Rectangle rect = getRectangleFor(button);
 
-            if (rect.contains(x, y))
-            {
+            if (rect.contains(x, y)) {
                 return button;
             }
         }
@@ -450,28 +405,23 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI
      *
      * @return {@link Rectangle}
      */
-    private Rectangle getRectangleFor(final JButton button)
-    {
+    private Rectangle getRectangleFor(final JButton button) {
         int index = this.titleObjects.indexOf(button);
 
-        if (index < 0)
-        {
+        if (index < 0) {
             return null;
         }
 
         int x = this.group.getWidth() - 40;
 
         // Breiten der anderen Icons abziehen
-        for (int i = 0; i < index; i++)
-        {
+        for (int i = 0; i < index; i++) {
             Object titelObject = this.titleObjects.get(i);
 
-            if (titelObject instanceof Dimension d)
-            {
+            if (titelObject instanceof Dimension d) {
                 x -= d.width;
             }
-            else
-            {
+            else {
                 x -= ((JButton) titelObject).getBounds().width; // TITLE_ICON_SIZE;
             }
 

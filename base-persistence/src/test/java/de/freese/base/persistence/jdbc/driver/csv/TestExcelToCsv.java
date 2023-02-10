@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Function;
 
-import de.freese.base.core.logging.LoggingOutputStream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -18,12 +17,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
+import de.freese.base.core.logging.LoggingOutputStream;
+
 /**
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestExcelToCsv
-{
+class TestExcelToCsv {
     static final Logger LOGGER = LoggerFactory.getLogger(TestExcelToCsv.class);
     /**
      * System.out
@@ -31,22 +31,19 @@ class TestExcelToCsv
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     @AfterAll
-    static void afterAll() throws Exception
-    {
+    static void afterAll() throws Exception {
         PRINT_STREAM.flush();
     }
 
     @Test
-    void testExcelToCsv01() throws Exception
-    {
+    void testExcelToCsv01() throws Exception {
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
 
         ExcelToCsv toCsv = new ExcelToCsv();
         toCsv.setColumnIndices(0, 1, 2, 3, 4);
 
         // Format date: 1/1/16 -> 2016-01-01
-        toCsv.setConvertFunction(1, value ->
-        {
+        toCsv.setConvertFunction(1, value -> {
             String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
@@ -65,8 +62,7 @@ class TestExcelToCsv
     }
 
     @Test
-    void testExcelToCsv02() throws Exception
-    {
+    void testExcelToCsv02() throws Exception {
         Path excelSource = Paths.get("src/test/resources/test1.xlsx");
 
         ExcelToCsv toCsv = new ExcelToCsv();
@@ -75,8 +71,7 @@ class TestExcelToCsv
         toCsv.setColumnIndices(0, 1, 2, 3, 4);
 
         // Format date: 1/1/16 -> 2016-01-01
-        toCsv.setConvertFunction(1, value ->
-        {
+        toCsv.setConvertFunction(1, value -> {
             String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });

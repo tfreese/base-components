@@ -9,30 +9,25 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-class DatasourceBlob extends AbstractBlob
-{
+class DatasourceBlob extends AbstractBlob {
     private final DatasourceBlobStore blobStore;
 
     private long length = -1;
 
-    DatasourceBlob(final BlobId id, DatasourceBlobStore blobStore)
-    {
+    DatasourceBlob(final BlobId id, DatasourceBlobStore blobStore) {
         super(id);
 
         this.blobStore = Objects.requireNonNull(blobStore, "blobStore required");
     }
 
     @Override
-    public InputStream getInputStream() throws Exception
-    {
+    public InputStream getInputStream() throws Exception {
         return blobStore.inputStream(getId());
     }
 
     @Override
-    public long getLength() throws Exception
-    {
-        if (length < 0)
-        {
+    public long getLength() throws Exception {
+        if (length < 0) {
             length = blobStore.length(getId());
         }
 

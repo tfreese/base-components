@@ -13,8 +13,7 @@ import de.freese.base.demo.fibonacci.FibonacciController;
  *
  * @author Thomas Freese
  */
-public class FibonacciForkJoinTask extends RecursiveTask<Long>
-{
+public class FibonacciForkJoinTask extends RecursiveTask<Long> {
     private static final int THRESHOLD = 10;
 
     @Serial
@@ -28,8 +27,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
 
     private final AtomicLong operationCount;
 
-    public FibonacciForkJoinTask(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount, final boolean enableCache)
-    {
+    public FibonacciForkJoinTask(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount, final boolean enableCache) {
         super();
 
         this.n = n;
@@ -42,26 +40,22 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
      * @see RecursiveTask#compute()
      */
     @Override
-    protected Long compute()
-    {
+    protected Long compute() {
         Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);
 
-        if ((value != null) && (value > 0))
-        {
+        if ((value != null) && (value > 0)) {
             return value;
         }
 
         long result = 0L;
 
-        if (this.n < THRESHOLD)
-        {
+        if (this.n < THRESHOLD) {
             result = fibonacci(this.n);
 
             this.operationCount.addAndGet(THRESHOLD / 2);
             this.operationConsumer.accept(this.operationCount.get());
         }
-        else
-        {
+        else {
             FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(this.n - 1, this.operationConsumer, this.operationCount, this.enableCache);
             FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.operationConsumer, this.operationCount, this.enableCache);
             task2.fork();
@@ -69,18 +63,15 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long>
             result = task1.compute() + task2.join();
         }
 
-        if (this.enableCache)
-        {
+        if (this.enableCache) {
             FibonacciController.FIBONACCI_CACHE.put(this.n, result);
         }
 
         return result;
     }
 
-    private long fibonacci(final int n)
-    {
-        if (n <= 1)
-        {
+    private long fibonacci(final int n) {
+        if (n <= 1) {
             return n;
         }
 

@@ -9,7 +9,6 @@ import javax.swing.event.TableColumnModelListener;
  *
  * @author Thomas Freese
  */
-public interface ExtTableColumnModelListener extends TableColumnModelListener
-{
+public interface ExtTableColumnModelListener extends TableColumnModelListener {
     void columnPropertyChange(PropertyChangeEvent event);
 }

@@ -17,8 +17,7 @@ import de.freese.base.swing.components.table.ExtTable;
  *
  * @author Thomas Freese
  */
-public class WatermarkTable extends JPanel implements WatermarkComponent
-{
+public class WatermarkTable extends JPanel implements WatermarkComponent {
     @Serial
     private static final long serialVersionUID = 4400500160883780741L;
 
@@ -31,8 +30,7 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
     /**
      * Constructor calls <code>init()</code> for initialization
      */
-    public WatermarkTable()
-    {
+    public WatermarkTable() {
         super();
 
         init();
@@ -41,17 +39,14 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
     /**
      * Constructor calls <code>init()</code> for initialization
      */
-    public WatermarkTable(final boolean isDoubleBuffered)
-    {
+    public WatermarkTable(final boolean isDoubleBuffered) {
         super(isDoubleBuffered);
 
         init();
     }
 
-    public JScrollPane getScrollPane()
-    {
-        if (null == this.scrollPane)
-        {
+    public JScrollPane getScrollPane() {
+        if (null == this.scrollPane) {
             this.scrollPane = new JScrollPane();
             setBackground(Color.WHITE);
             this.scrollPane.setOpaque(false);
@@ -61,10 +56,8 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
         return this.scrollPane;
     }
 
-    public JTable getTable()
-    {
-        if (null == this.table)
-        {
+    public JTable getTable() {
+        if (null == this.table) {
             this.table = new ExtTable();
             this.table.setOpaque(false);
             this.table.setDefaultRenderer(Object.class, new TransparentRenderer());
@@ -77,8 +70,7 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
      * @see WatermarkComponent#getWatermark()
      */
     @Override
-    public ImageIcon getWatermark()
-    {
+    public ImageIcon getWatermark() {
         return getViewport().getWatermark();
     }
 
@@ -86,8 +78,7 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
      * @see WatermarkComponent#setPosition(java.awt.Point)
      */
     @Override
-    public void setPosition(final Point position)
-    {
+    public void setPosition(final Point position) {
         getViewport().setPosition(position);
     }
 
@@ -95,26 +86,22 @@ public class WatermarkTable extends JPanel implements WatermarkComponent
      * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
      */
     @Override
-    public void setWatermark(final ImageIcon watermark)
-    {
+    public void setWatermark(final ImageIcon watermark) {
         getViewport().setWatermark(watermark);
     }
 
     /**
      * Returns the special viewport which draws the image
      */
-    private WatermarkViewport getViewport()
-    {
-        if (null == this.viewport)
-        {
+    private WatermarkViewport getViewport() {
+        if (null == this.viewport) {
             this.viewport = new WatermarkViewport(getTable());
         }
 
         return this.viewport;
     }
 
-    private void init()
-    {
+    private void init() {
         setLayout(new BorderLayout());
         add(getScrollPane(), BorderLayout.CENTER);
     }

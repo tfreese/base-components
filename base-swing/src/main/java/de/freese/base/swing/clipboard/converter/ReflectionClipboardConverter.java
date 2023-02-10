@@ -10,12 +10,10 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class ReflectionClipboardConverter extends AbstractClipboardConverter
-{
+public class ReflectionClipboardConverter extends AbstractClipboardConverter {
     private final Class<?> clazz;
 
-    public ReflectionClipboardConverter(final Class<?> clazz)
-    {
+    public ReflectionClipboardConverter(final Class<?> clazz) {
         super();
 
         this.clazz = Objects.requireNonNull(clazz, "clazz required");
@@ -25,17 +23,13 @@ public class ReflectionClipboardConverter extends AbstractClipboardConverter
      * @see de.freese.base.swing.clipboard.ClipboardConverter#fromClipboard(java.lang.String)
      */
     @Override
-    public Object fromClipboard(final String value)
-    {
-        try
-        {
+    public Object fromClipboard(final String value) {
+        try {
             Constructor<?> con = this.clazz.getConstructor(String.class);
 
             return con.newInstance(value);
         }
-        catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
-               | InvocationTargetException ex)
-        {
+        catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             getLogger().error(ex.getMessage(), ex);
 
             return null;

@@ -6,19 +6,16 @@ import java.util.stream.StreamSupport;
 /**
  * @author Thomas Freese
  */
-public interface Converter<SOURCE, TARGET>
-{
+public interface Converter<SOURCE, TARGET> {
     TARGET convertFromSource(SOURCE source);
 
     SOURCE convertFromTarget(TARGET target);
 
-    default List<SOURCE> convertFromTarget(final Iterable<TARGET> target)
-    {
+    default List<SOURCE> convertFromTarget(final Iterable<TARGET> target) {
         return StreamSupport.stream(target.spliterator(), false).map(this::convertFromTarget).toList();
     }
 
-    default List<TARGET> createFromSource(final Iterable<SOURCE> source)
-    {
+    default List<TARGET> createFromSource(final Iterable<SOURCE> source) {
         return StreamSupport.stream(source.spliterator(), false).map(this::convertFromSource).toList();
     }
 }

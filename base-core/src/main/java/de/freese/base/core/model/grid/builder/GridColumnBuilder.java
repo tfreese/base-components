@@ -10,8 +10,7 @@ import de.freese.base.core.model.grid.column.GridColumn;
 /**
  * @author Thomas Freese
  */
-public class GridColumnBuilder
-{
+public class GridColumnBuilder {
     private final GridMetaData gridMetaData;
     private String comment;
     private int length = -1;
@@ -22,15 +21,13 @@ public class GridColumnBuilder
 
     private int precision = -1;
 
-    GridColumnBuilder(final GridMetaData gridMetaData)
-    {
+    GridColumnBuilder(final GridMetaData gridMetaData) {
         super();
 
         this.gridMetaData = Objects.requireNonNull(gridMetaData, "gridMetaData required");
     }
 
-    public GridBuilder and()
-    {
+    public GridBuilder and() {
         GridColumn<?> gc = this.gridMetaData.getGridColumnFactory().getColumnForType(this.objectClazz);
         gc.setComment(this.comment);
         gc.setLength(this.length);
@@ -42,41 +39,35 @@ public class GridColumnBuilder
         return new GridBuilder(this.gridMetaData);
     }
 
-    public Grid build()
-    {
+    public Grid build() {
         return and().build();
     }
 
-    public GridColumnBuilder comment(final String comment)
-    {
+    public GridColumnBuilder comment(final String comment) {
         this.comment = comment;
 
         return this;
     }
 
-    public GridColumnBuilder length(final int length)
-    {
+    public GridColumnBuilder length(final int length) {
         this.length = length;
 
         return this;
     }
 
-    public GridColumnBuilder name(final String name)
-    {
+    public GridColumnBuilder name(final String name) {
         this.name = name;
 
         return this;
     }
 
-    public GridColumnBuilder objectClazz(final Class<?> objectClazz)
-    {
+    public GridColumnBuilder objectClazz(final Class<?> objectClazz) {
         this.objectClazz = objectClazz;
 
         return this;
     }
 
-    public GridColumnBuilder precision(final int precision)
-    {
+    public GridColumnBuilder precision(final int precision) {
         this.precision = precision;
 
         return this;

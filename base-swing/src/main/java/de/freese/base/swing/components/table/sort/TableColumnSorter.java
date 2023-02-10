@@ -18,10 +18,8 @@ import de.freese.base.swing.components.table.column.ExtTableColumnModel;
  *
  * @author Thomas Freese
  */
-public class TableColumnSorter
-{
-    public static void add(final ExtTable table)
-    {
+public class TableColumnSorter {
+    public static void add(final ExtTable table) {
         new TableColumnSorter(table);
     }
 
@@ -30,47 +28,40 @@ public class TableColumnSorter
     /**
      * @author Thomas Freese
      */
-    private class HeaderMouseListener extends MouseAdapter
-    {
+    private class HeaderMouseListener extends MouseAdapter {
         /**
          * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
          */
         @Override
-        public void mouseClicked(final MouseEvent e)
-        {
-            if (!getTable().isSortable())
-            {
+        public void mouseClicked(final MouseEvent e) {
+            if (!getTable().isSortable()) {
                 return;
             }
 
             JTableHeader header = (JTableHeader) e.getSource();
             TableColumnModel columnModel = header.getColumnModel();
 
-            if (!(columnModel instanceof ExtTableColumnModel))
-            {
+            if (!(columnModel instanceof ExtTableColumnModel)) {
                 return;
             }
 
             int viewColumnIndex = columnModel.getColumnIndexAtX(e.getX());
 
             // Keine Tabellenspalte unter dem Cursor vorhanden
-            if (viewColumnIndex == -1)
-            {
+            if (viewColumnIndex == -1) {
                 return;
             }
 
             ExtTableColumn extTableColumn = (ExtTableColumn) columnModel.getColumn(viewColumnIndex);
 
             // Nicht sortierbare Spalte
-            if (!extTableColumn.isSortable())
-            {
+            if (!extTableColumn.isSortable()) {
                 return;
             }
 
             int columnModelIndex = extTableColumn.getModelIndex();
 
-            if (columnModelIndex != -1)
-            {
+            if (columnModelIndex != -1) {
                 Sort sort = extTableColumn.getSort();
                 // System.out.println(sort.getPrevious() + "<-" + sort);
                 // System.out.println(sort + "->" + sort.getNext());
@@ -89,20 +80,17 @@ public class TableColumnSorter
     /**
      * Der {@link TableColumnSorter} wird unter den Key {@code ROWSORTER} als ClientProperty der {@link JTable} registriert.
      */
-    public TableColumnSorter(final ExtTable table)
-    {
+    public TableColumnSorter(final ExtTable table) {
         super();
 
-        if (table == null)
-        {
+        if (table == null) {
             throw new NullPointerException();
         }
 
         // this.propertyChangeSupport = new PropertyChangeSupport(this);
         this.table = table;
 
-        if (table.getClientProperty("ROWSORTER") != null)
-        {
+        if (table.getClientProperty("ROWSORTER") != null) {
             throw new IllegalStateException("Tabelle hat bereits einen RowSorter !");
         }
 
@@ -126,19 +114,15 @@ public class TableColumnSorter
     /**
      * @return int, -1 = Keine Sortierung auf Spalte möglich, 0 = erste Spalte, 1 = zweite Spalte
      */
-    public int getSortPriority(final ExtTableColumn tableColumnExt)
-    {
+    public int getSortPriority(final ExtTableColumn tableColumnExt) {
         return this.sortIndexList.indexOf(tableColumnExt);
     }
 
-    public void setSortStatus(final ExtTableColumn tableColumnExt, final Sort sort)
-    {
-        if (Sort.UNSORTED.equals(sort))
-        {
+    public void setSortStatus(final ExtTableColumn tableColumnExt, final Sort sort) {
+        if (Sort.UNSORTED.equals(sort)) {
             this.sortIndexList.remove(tableColumnExt);
         }
-        else if (Sort.ASCENDING.equals(sort))
-        {
+        else if (Sort.ASCENDING.equals(sort)) {
             this.sortIndexList.add(tableColumnExt);
         }
 
@@ -164,8 +148,7 @@ public class TableColumnSorter
     // getPropertyChangeSupport().removePropertyChangeListener(listener);
     // }
 
-    private ExtTable getTable()
-    {
+    private ExtTable getTable() {
         return this.table;
     }
 }

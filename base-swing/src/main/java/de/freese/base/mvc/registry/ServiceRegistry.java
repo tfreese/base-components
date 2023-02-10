@@ -4,8 +4,7 @@ package de.freese.base.mvc.registry;
 /**
  * @author Thomas Freese
  */
-public interface ServiceRegistry
-{
+public interface ServiceRegistry {
     <T> T getService(Class<T> clazz);
 
     <T> void registerService(Class<T> clazz, T service);

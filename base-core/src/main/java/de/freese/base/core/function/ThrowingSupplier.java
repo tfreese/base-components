@@ -13,7 +13,6 @@ import java.util.function.Supplier;
  * @see java.util.function.Supplier
  */
 @FunctionalInterface
-public interface ThrowingSupplier<R, E extends Exception>
-{
+public interface ThrowingSupplier<R, E extends Exception> {
     R get() throws E;
 }

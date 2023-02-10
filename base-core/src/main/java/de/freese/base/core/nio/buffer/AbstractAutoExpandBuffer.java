@@ -12,8 +12,7 @@ import java.util.Objects;
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
-public abstract class AbstractAutoExpandBuffer<B extends Buffer>
-{
+public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     /**
      * Default: 4 MB
      */
@@ -34,29 +33,23 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
      * @see "io.netty.buffer.AbstractByteBufAllocator.calculateNewCapacity(int, int)"
      * @see "org.springframework.core.io.buffer.DefaultDataBuffer.calculateCapacity(int)"
      */
-    public static int calculateNewCapacity(final int neededCapacity)
-    {
-        if (neededCapacity <= 0)
-        {
+    public static int calculateNewCapacity(final int neededCapacity) {
+        if (neededCapacity <= 0) {
             throw new IllegalArgumentException("neededCapacity must be > 0");
         }
 
-        if (neededCapacity == CALCULATE_THRESHOLD)
-        {
+        if (neededCapacity == CALCULATE_THRESHOLD) {
             return CALCULATE_THRESHOLD;
         }
 
         // Über dem Schwellenwert: die neue Größe nicht einfach verdoppeln, sondern um Schwellenwert vergrößern.
-        if (neededCapacity > CALCULATE_THRESHOLD)
-        {
+        if (neededCapacity > CALCULATE_THRESHOLD) {
             int newCapacity = (neededCapacity / CALCULATE_THRESHOLD) * CALCULATE_THRESHOLD;
 
-            if (newCapacity > (MAX_CAPACITY - CALCULATE_THRESHOLD))
-            {
+            if (newCapacity > (MAX_CAPACITY - CALCULATE_THRESHOLD)) {
                 newCapacity = MAX_CAPACITY;
             }
-            else
-            {
+            else {
                 newCapacity += CALCULATE_THRESHOLD;
             }
 
@@ -72,8 +65,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
 
         int newCapacity = 64;
 
-        while (newCapacity < neededCapacity)
-        {
+        while (newCapacity < neededCapacity) {
             newCapacity <<= 1;
         }
 
@@ -87,20 +79,17 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
      */
     private int mark = -1;
 
-    protected AbstractAutoExpandBuffer(final B buffer)
-    {
+    protected AbstractAutoExpandBuffer(final B buffer) {
         super();
 
         this.buffer = Objects.requireNonNull(buffer, "buffer required");
     }
 
-    public final int capacity()
-    {
+    public final int capacity() {
         return getBuffer().capacity();
     }
 
-    public final AbstractAutoExpandBuffer<B> clear()
-    {
+    public final AbstractAutoExpandBuffer<B> clear() {
         getBuffer().clear();
 
         this.mark = -1;
@@ -108,8 +97,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    public final AbstractAutoExpandBuffer<B> flip()
-    {
+    public final AbstractAutoExpandBuffer<B> flip() {
         getBuffer().flip();
 
         this.mark = -1;
@@ -117,77 +105,64 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
         return this;
     }
 
-    public final B getBuffer()
-    {
+    public final B getBuffer() {
         return this.buffer;
     }
 
-    public final boolean hasRemaining()
-    {
+    public final boolean hasRemaining() {
         return getBuffer().hasRemaining();
     }
 
-    public final boolean isDirect()
-    {
+    public final boolean isDirect() {
         return getBuffer().isDirect();
     }
 
-    public final boolean isReadOnly()
-    {
+    public final boolean isReadOnly() {
         return getBuffer().isReadOnly();
     }
 
-    public final int limit()
-    {
+    public final int limit() {
         return getBuffer().limit();
     }
 
-    public final AbstractAutoExpandBuffer<B> limit(final int newLimit)
-    {
+    public final AbstractAutoExpandBuffer<B> limit(final int newLimit) {
         autoExpand(newLimit, 0);
         getBuffer().limit(newLimit);
 
-        if (this.mark > newLimit)
-        {
+        if (this.mark > newLimit) {
             this.mark = -1;
         }
 
         return this;
     }
 
-    public final AbstractAutoExpandBuffer<B> mark()
-    {
+    public final AbstractAutoExpandBuffer<B> mark() {
         getBuffer().mark();
         this.mark = position();
 
         return this;
     }
 
-    public final int position()
-    {
+    public final int position() {
         return getBuffer().position();
     }
 
-    public final AbstractAutoExpandBuffer<B> position(final int newPosition)
-    {
+    public final AbstractAutoExpandBuffer<B> position(final int newPosition) {
         autoExpand(newPosition, 0);
         getBuffer().position(newPosition);
 
-        if (this.mark > newPosition)
-        {
+        if (this.mark > newPosition) {
             this.mark = -1;
         }
 
         return this;
     }
 
-    public final int remaining()
-    {
+    public final int remaining() {
         return limit() - position();
     }
 
-    public final AbstractAutoExpandBuffer<B> reset()
-    {
+    public final AbstractAutoExpandBuffer<B> reset() {
         getBuffer().reset();
 
         return this;
@@ -196,8 +171,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     /**
      * Forwards the position of this buffer as the specified <code>size</code> bytes.
      */
-    public final AbstractAutoExpandBuffer<B> skip(final int size)
-    {
+    public final AbstractAutoExpandBuffer<B> skip(final int size) {
         autoExpand(size);
 
         return position(position() + size);
@@ -206,20 +180,17 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
     /**
      * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
      */
-    protected void autoExpand(final int expectedRemaining)
-    {
+    protected void autoExpand(final int expectedRemaining) {
         autoExpand(position(), expectedRemaining);
     }
 
     /**
      * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
      */
-    protected void autoExpand(final int position, final int expectedRemaining)
-    {
+    protected void autoExpand(final int position, final int expectedRemaining) {
         int newLimit = position + expectedRemaining;
 
-        if (newLimit > capacity())
-        {
+        if (newLimit > capacity()) {
             // Buffer muss erweitert werden.
             int newCapacity = calculateNewCapacity(newLimit);
 
@@ -228,8 +199,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
             // Alten Zustand wiederherstellen.
             newBuffer.limit(newCapacity);
 
-            if (this.mark >= 0)
-            {
+            if (this.mark >= 0) {
                 newBuffer.position(this.mark);
                 newBuffer.mark();
             }
@@ -239,8 +209,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer>
             this.buffer = newBuffer;
         }
 
-        if (newLimit > limit())
-        {
+        if (newLimit > limit()) {
             // Limit setzen, um StackOverflowError zu vermeiden.
             this.buffer.limit(newLimit);
         }

@@ -14,23 +14,20 @@ import com.github.benmanes.caffeine.cache.Weigher;
 /**
  * @author Thomas Freese
  */
-public class CaffeineResourceCache extends FileResourceCache
-{
+public class CaffeineResourceCache extends FileResourceCache {
     private final LoadingCache<URI, byte[]> cache;
 
     /**
      * @param keepBytesInMemory int; Disable Caching = 0
      */
-    public CaffeineResourceCache(final Path cacheDirectory, final int keepBytesInMemory)
-    {
+    public CaffeineResourceCache(final Path cacheDirectory, final int keepBytesInMemory) {
         super(cacheDirectory);
 
         this.cache = createCache(keepBytesInMemory);
     }
 
     @Override
-    public void clear()
-    {
+    public void clear() {
         this.cache.invalidateAll();
         this.cache.cleanUp();
 
@@ -38,12 +35,10 @@ public class CaffeineResourceCache extends FileResourceCache
     }
 
     @Override
-    public InputStream getResource(final URI uri) throws Exception
-    {
+    public InputStream getResource(final URI uri) throws Exception {
         byte[] content = this.cache.get(uri);
 
-        if ((content == null) || (content.length == 0))
-        {
+        if ((content == null) || (content.length == 0)) {
             return null;
         }
 
@@ -53,21 +48,17 @@ public class CaffeineResourceCache extends FileResourceCache
     /**
      * @param keepBytesInMemory int; Disable Caching = 0
      */
-    private LoadingCache<URI, byte[]> createCache(final int keepBytesInMemory)
-    {
+    private LoadingCache<URI, byte[]> createCache(final int keepBytesInMemory) {
         // Größe der Datei = Gewicht
         Weigher<URI, byte[]> weigher = (key, value) -> value.length;
 
-        CacheLoader<URI, byte[]> cacheLoader = key ->
-        {
+        CacheLoader<URI, byte[]> cacheLoader = key -> {
             byte[] content = {};
 
             // int size = (int) getContentLength(key);
             int size = 1024;
 
-            try (InputStream inputStream = super.getResource(key);
-                 ByteArrayOutputStream baos = new ByteArrayOutputStream(size))
-            {
+            try (InputStream inputStream = super.getResource(key); ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {
                 inputStream.transferTo(baos);
 
                 baos.flush();

@@ -23,8 +23,7 @@ import de.freese.base.swing.task.TaskManager;
 /**
  * The StatusBar is a Listener for {@link TaskManager} und react for events of the current ForegroundTask.<br>
  */
-public class StatusBar extends JPanel implements PropertyChangeListener
-{
+public class StatusBar extends JPanel implements PropertyChangeListener {
     @Serial
     private static final long serialVersionUID = -5987325109823650807L;
 
@@ -49,8 +48,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
     /**
      * Die StatusBar reagiert auf Events des aktuell im {@link TaskManager} enthaltenen ForegroundTasks.
      */
-    public StatusBar(final ResourceMap resourceMap, TaskManager taskManager)
-    {
+    public StatusBar(final ResourceMap resourceMap, TaskManager taskManager) {
         super();
 
         Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
@@ -59,13 +57,11 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         this.idleIcon = resourceMap.getIcon("statusbar.icon.idle");
         int busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
 
-        for (int i = 0; i < this.busyIcons.length; i++)
-        {
+        for (int i = 0; i < this.busyIcons.length; i++) {
             this.busyIcons[i] = resourceMap.getIcon("statusbar.icon." + i);
         }
 
-        this.busyIconTimer = new Timer(busyAnimationRate, event ->
-        {
+        this.busyIconTimer = new Timer(busyAnimationRate, event -> {
             this.busyIconIndex = (this.busyIconIndex + 1) % this.busyIcons.length;
             this.statusAnimationLabel.setIcon(this.busyIcons[this.busyIconIndex]);
         });
@@ -73,8 +69,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         taskManager.addPropertyChangeListener(this);
     }
 
-    public void initialize()
-    {
+    public void initialize() {
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(this.zeroInsets));
 
@@ -86,8 +81,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         this.statusAnimationLabel = new JLabel();
         this.statusAnimationLabel.setIcon(this.idleIcon);
 
-        add(new JSeparator(), GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal()
-                .insets(this.zeroInsets));
+        add(new JSeparator(), GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(this.zeroInsets));
 
         add(this.messageLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
 
@@ -100,31 +94,25 @@ public class StatusBar extends JPanel implements PropertyChangeListener
      * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent evt)
-    {
+    public void propertyChange(final PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();
 
-        if (SwingTask.PROPERTY_STARTED.equals(propertyName))
-        {
+        if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
             showBusyAnimation();
             this.progressBar.setEnabled(true);
             this.progressBar.setIndeterminate(true);
         }
-        else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName))
-        {
+        else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName)) {
             String text = (String) (evt.getNewValue());
             setMessage(text);
         }
-        else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName))
-        {
+        else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName)) {
             int value = ((Integer) (evt.getNewValue()));
             this.progressBar.setEnabled(true);
             this.progressBar.setIndeterminate(false);
             this.progressBar.setValue(value);
         }
-        else if (SwingTask.PROPERTY_CANCELLED.equals(propertyName) || SwingTask.PROPERTY_FAILED.equals(propertyName)
-                || SwingTask.PROPERTY_SUCCEEDED.equals(propertyName))
-        {
+        else if (SwingTask.PROPERTY_CANCELLED.equals(propertyName) || SwingTask.PROPERTY_FAILED.equals(propertyName) || SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
             // Kein Task in Ausführung
             stopBusyAnimation();
             this.progressBar.setIndeterminate(false);
@@ -133,24 +121,20 @@ public class StatusBar extends JPanel implements PropertyChangeListener
         }
     }
 
-    public void setMessage(final String s)
-    {
+    public void setMessage(final String s) {
         this.messageLabel.setText((s == null) ? "" : s);
         this.messageTimer.restart();
     }
 
-    public void showBusyAnimation()
-    {
-        if (!this.busyIconTimer.isRunning())
-        {
+    public void showBusyAnimation() {
+        if (!this.busyIconTimer.isRunning()) {
             this.statusAnimationLabel.setIcon(this.busyIcons[0]);
             this.busyIconIndex = 0;
             this.busyIconTimer.start();
         }
     }
 
-    public void stopBusyAnimation()
-    {
+    public void stopBusyAnimation() {
         this.busyIconTimer.stop();
         this.statusAnimationLabel.setIcon(this.idleIcon);
     }

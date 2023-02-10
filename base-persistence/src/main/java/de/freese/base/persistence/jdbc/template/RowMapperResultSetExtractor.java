@@ -17,12 +17,10 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  *
  * @author Thomas Freese
  */
-public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>>
-{
+public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>> {
     private final RowMapper<T> rowMapper;
 
-    public RowMapperResultSetExtractor(final RowMapper<T> rowMapper)
-    {
+    public RowMapperResultSetExtractor(final RowMapper<T> rowMapper) {
         super();
 
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
@@ -32,12 +30,10 @@ public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T
      * @see de.freese.base.persistence.jdbc.template.function.ResultSetExtractor#extractData(java.sql.ResultSet)
      */
     @Override
-    public List<T> extractData(final ResultSet resultSet) throws SQLException
-    {
+    public List<T> extractData(final ResultSet resultSet) throws SQLException {
         List<T> results = new ArrayList<>();
 
-        while (resultSet.next())
-        {
+        while (resultSet.next()) {
             results.add(this.rowMapper.mapRow(resultSet));
         }
 

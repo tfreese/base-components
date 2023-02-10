@@ -7,26 +7,22 @@ import org.jdesktop.swingx.JXTitledPanel;
 /**
  * @author Thomas Freese
  */
-public class TitledPanelFontChangeHandler extends ComponentFontChangeHandler
-{
+public class TitledPanelFontChangeHandler extends ComponentFontChangeHandler {
     /**
      * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
      */
     @Override
-    public void fontChanged(final Font newFont, final Object object)
-    {
+    public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
         JXTitledPanel titledPanel = (JXTitledPanel) object;
 
         Font oldFont = titledPanel.getFont();
 
-        if (oldFont == null)
-        {
+        if (oldFont == null) {
             titledPanel.setTitleFont(newFont.deriveFont(Font.BOLD));
         }
-        else
-        {
+        else {
             titledPanel.setTitleFont(oldFont.deriveFont(Font.BOLD, newFont.getSize2D()));
         }
     }

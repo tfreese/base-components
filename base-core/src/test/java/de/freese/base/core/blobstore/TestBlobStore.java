@@ -21,10 +21,6 @@ import javax.sql.DataSource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.freese.base.core.blobstore.datasource.DatasourceBlobStore;
-import de.freese.base.core.blobstore.file.FileBlobStore;
-import de.freese.base.core.blobstore.memory.MemoryBlobStore;
-import de.freese.base.core.io.AbstractIoTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,11 +32,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.DisposableBean;
 
+import de.freese.base.core.blobstore.datasource.DatasourceBlobStore;
+import de.freese.base.core.blobstore.file.FileBlobStore;
+import de.freese.base.core.blobstore.memory.MemoryBlobStore;
+import de.freese.base.core.io.AbstractIoTest;
+
 /**
  * @author Thomas Freese
  */
-class TestBlobStore
-{
+class TestBlobStore {
     private static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "blobStore");
 
     private static DataSource dataSourceDerby;
@@ -50,30 +50,24 @@ class TestBlobStore
     private static DataSource dataSourceHsqldb;
 
     @AfterAll
-    static void afterAll() throws Exception
-    {
+    static void afterAll() throws Exception {
         AbstractIoTest.deleteDirectoryRecursive(PATH_TEST);
 
-        for (DataSource dataSource : List.of(dataSourceH2, dataSourceHsqldb, dataSourceDerby))
-        {
-            if (dataSource instanceof AutoCloseable ac)
-            {
+        for (DataSource dataSource : List.of(dataSourceH2, dataSourceHsqldb, dataSourceDerby)) {
+            if (dataSource instanceof AutoCloseable ac) {
                 ac.close();
             }
-            else if (dataSource instanceof Closeable c)
-            {
+            else if (dataSource instanceof Closeable c) {
                 c.close();
             }
-            else if (dataSource instanceof DisposableBean db)
-            {
+            else if (dataSource instanceof DisposableBean db) {
                 db.destroy();
             }
         }
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
+    static void beforeAll() throws Exception {
         // JUL-Logger ausschalten.
         // LogManager.getLogManager().reset();
 
@@ -81,8 +75,7 @@ class TestBlobStore
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
 
-        BiConsumer<String, HikariConfig> hikariConfigurer = (poolName, config) ->
-        {
+        BiConsumer<String, HikariConfig> hikariConfigurer = (poolName, config) -> {
             config.setUsername("sa");
             config.setPassword("");
             config.setMinimumIdle(1);
@@ -115,8 +108,7 @@ class TestBlobStore
         dataSourceDerby = new HikariDataSource(config);
     }
 
-    static Stream<Arguments> createArgumentes() throws Exception
-    {
+    static Stream<Arguments> createArgumentes() throws Exception {
         // @formatter:off
         return Stream.of(
                 Arguments.of("Memory", new MemoryBlobStore()),
@@ -129,24 +121,20 @@ class TestBlobStore
     }
 
     @AfterEach
-    void afterEach()
-    {
+    void afterEach() {
         // Empty
     }
 
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
         // Empty
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(1)
-    void testBlobStore(final String name, final BlobStore blobStore) throws Exception
-    {
-        if (blobStore instanceof DatasourceBlobStore dsBs)
-        {
+    void testBlobStore(final String name, final BlobStore blobStore) throws Exception {
+        if (blobStore instanceof DatasourceBlobStore dsBs) {
             dsBs.createDatabaseIfNotExist();
         }
 
@@ -159,9 +147,7 @@ class TestBlobStore
 
         assertFalse(blobStore.exists(blobId));
 
-        try (InputStream inputStream = Files.newInputStream(path);
-             OutputStream outputStream = blobStore.create(blobId))
-        {
+        try (InputStream inputStream = Files.newInputStream(path); OutputStream outputStream = blobStore.create(blobId)) {
             inputStream.transferTo(outputStream);
         }
 
@@ -176,8 +162,7 @@ class TestBlobStore
         blobStore.delete(blobId);
         assertFalse(blobStore.exists(blobId));
 
-        try (InputStream inputStream = Files.newInputStream(path))
-        {
+        try (InputStream inputStream = Files.newInputStream(path)) {
             blobStore.create(blobId, inputStream);
         }
 

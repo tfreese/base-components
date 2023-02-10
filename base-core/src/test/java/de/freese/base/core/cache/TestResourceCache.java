@@ -25,8 +25,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * @author Thomas Freese
  */
-class TestResourceCache
-{
+class TestResourceCache {
     private static final ResourceCache CACHE_CAFFEINE = new CaffeineResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache2"), 6000);
 
     private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache1"));
@@ -36,8 +35,7 @@ class TestResourceCache
     private static final Map<String, byte[]> MAP = new ConcurrentHashMap<>();
 
     @AfterAll
-    static void afterAll()
-    {
+    static void afterAll() {
         MAP.clear();
         CACHE_FILE.clear();
         CACHE_MEMORY.clear();
@@ -45,8 +43,7 @@ class TestResourceCache
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
+    static void beforeAll() throws Exception {
         // JUL-Logger ausschalten.
         // LogManager.getLogManager().reset();
 
@@ -55,8 +52,7 @@ class TestResourceCache
         SLF4JBridgeHandler.install();
     }
 
-    static Stream<Arguments> createArgumentes() throws Exception
-    {
+    static Stream<Arguments> createArgumentes() throws Exception {
         URI urlLocalFile = Paths.get("pom.xml").toUri();
         URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
 
@@ -73,22 +69,19 @@ class TestResourceCache
     }
 
     @AfterEach
-    void afterEach()
-    {
+    void afterEach() {
         // Empty
     }
 
     @BeforeEach
-    void beforeEach()
-    {
+    void beforeEach() {
         // Empty
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(1)
-    void testInitialLoad(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
-    {
+    void testInitialLoad(final String name, final ResourceCache resourceCache, final URI uri) throws Exception {
         InputStream inputStream = resourceCache.getResource(uri);
         assertNotNull(inputStream);
 
@@ -105,8 +98,7 @@ class TestResourceCache
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(2)
-    void testReload(final String name, final ResourceCache resourceCache, final URI uri) throws Exception
-    {
+    void testReload(final String name, final ResourceCache resourceCache, final URI uri) throws Exception {
         InputStream inputStream = resourceCache.getResource(uri);
         assertNotNull(inputStream);
 

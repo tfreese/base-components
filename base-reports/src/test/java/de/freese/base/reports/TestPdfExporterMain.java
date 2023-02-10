@@ -20,26 +20,23 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+
 import de.freese.base.reports.exporter.AbstractPdfExporter;
 import de.freese.base.reports.exporter.Exporter;
 
 /**
  * @author Thomas Freese
  */
-public final class TestPdfExporterMain
-{
+public final class TestPdfExporterMain {
     private static final Font PDF_FONT_12_BLACK = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.NORMAL, Color.BLACK);
     private static final Font PDF_FONT_12_BLACK_BOLD = FontFactory.getFont(FontFactory.HELVETICA, 12F, Font.BOLD, Color.BLACK);
 
     // BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
-    public static void main(final String[] args) throws Exception
-    {
-        Exporter<List<String>> exporter = new AbstractPdfExporter<>()
-        {
+    public static void main(final String[] args) throws Exception {
+        Exporter<List<String>> exporter = new AbstractPdfExporter<>() {
             @Override
-            public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception
-            {
+            public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception {
                 // Must called before opening the Document.
                 //secure(writer, "test", null);
 
@@ -90,14 +87,11 @@ public final class TestPdfExporterMain
         Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.pdf");
         exporter.export(filePath, List.of("1", "2", "3", "", "4", ""));
 
-        Runnable task = () ->
-        {
-            try
-            {
+        Runnable task = () -> {
+            try {
                 Desktop.getDesktop().open(filePath.toFile());
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 ex.printStackTrace();
             }
         };
@@ -115,8 +109,7 @@ public final class TestPdfExporterMain
         //        TimeUnit.SECONDS.sleep(5);
     }
 
-    private static PdfPCell createCell(String text, Font font)
-    {
+    private static PdfPCell createCell(String text, Font font) {
         PdfPCell cell = new PdfPCell();
         cell.setNoWrap(true);
         cell.setFixedHeight(20F);
@@ -136,8 +129,7 @@ public final class TestPdfExporterMain
         return cell;
     }
 
-    private TestPdfExporterMain()
-    {
+    private TestPdfExporterMain() {
         super();
     }
 }

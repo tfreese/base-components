@@ -14,20 +14,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "TabbedPaneGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TabbedPaneGuiState extends AbstractGuiState
-{
+public class TabbedPaneGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = -5629441991603272347L;
 
     private int selectedIndex;
 
-    public TabbedPaneGuiState()
-    {
+    public TabbedPaneGuiState() {
         super(JTabbedPane.class);
     }
 
-    public int getSelectedIndex()
-    {
+    public int getSelectedIndex() {
         return this.selectedIndex;
     }
 
@@ -35,24 +32,20 @@ public class TabbedPaneGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
+    public void restore(final Component component) {
         super.restore(component);
 
         JTabbedPane tabbedPane = (JTabbedPane) component;
 
-        try
-        {
+        try {
             tabbedPane.setSelectedIndex(this.selectedIndex != -1 ? this.selectedIndex : 0);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
     }
 
-    public void setSelectedIndex(final int selectedIndex)
-    {
+    public void setSelectedIndex(final int selectedIndex) {
         this.selectedIndex = selectedIndex;
     }
 
@@ -60,8 +53,7 @@ public class TabbedPaneGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         super.store(component);
 
         JTabbedPane tabbedPane = (JTabbedPane) component;

@@ -15,46 +15,36 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 /**
  * @author Thomas Freese
  */
-public class DefaultGridColumnFactory implements GridColumnFactory
-{
+public class DefaultGridColumnFactory implements GridColumnFactory {
     /**
      * @see de.freese.base.core.model.grid.factory.GridColumnFactory#getColumnForType(java.lang.Class)
      */
     @Override
-    public GridColumn<?> getColumnForType(final Class<?> objectClazz)
-    {
+    public GridColumn<?> getColumnForType(final Class<?> objectClazz) {
         GridColumn<?> column = null;
 
-        if (byte[].class.equals(objectClazz))
-        {
+        if (byte[].class.equals(objectClazz)) {
             column = new BinaryGridColumn();
         }
-        else if (Boolean.class.equals(objectClazz))
-        {
+        else if (Boolean.class.equals(objectClazz)) {
             column = new BooleanGridColumn();
         }
-        else if (Date.class.equals(objectClazz))
-        {
+        else if (Date.class.equals(objectClazz)) {
             column = new DateGridColumn();
         }
-        else if (Double.class.equals(objectClazz))
-        {
+        else if (Double.class.equals(objectClazz)) {
             column = new DoubleGridColumn();
         }
-        else if (Integer.class.equals(objectClazz))
-        {
+        else if (Integer.class.equals(objectClazz)) {
             column = new IntegerGridColumn();
         }
-        else if (Long.class.equals(objectClazz))
-        {
+        else if (Long.class.equals(objectClazz)) {
             column = new LongGridColumn();
         }
-        else if (String.class.equals(objectClazz))
-        {
+        else if (String.class.equals(objectClazz)) {
             column = new StringGridColumn();
         }
-        else
-        {
+        else {
             throw new UnsupportedOperationException("objectClass is not supported: " + objectClazz.getName());
         }
 

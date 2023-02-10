@@ -10,20 +10,17 @@ import javafx.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> implements ListChangeListener<T>
-{
+public abstract class AbstractObservableListTableModel<T> extends AbstractListTableModel<T> implements ListChangeListener<T> {
     @Serial
     private static final long serialVersionUID = -5542628813153019029L;
 
-    protected AbstractObservableListTableModel(final int columnCount, final ObservableList<T> list)
-    {
+    protected AbstractObservableListTableModel(final int columnCount, final ObservableList<T> list) {
         super(columnCount, list);
 
         list.addListener(this);
     }
 
-    protected AbstractObservableListTableModel(final List<String> columnNames, final ObservableList<T> list)
-    {
+    protected AbstractObservableListTableModel(final List<String> columnNames, final ObservableList<T> list) {
         super(columnNames, list);
 
         list.addListener(this);
@@ -33,33 +30,27 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
      * @see javafx.collections.ListChangeListener#onChanged(javafx.collections.ListChangeListener.Change)
      */
     @Override
-    public void onChanged(final Change<? extends T> change)
-    {
-        while (change.next())
-        {
-            if (change.wasAdded())
-            {
+    public void onChanged(final Change<? extends T> change) {
+        while (change.next()) {
+            if (change.wasAdded()) {
                 int firstRow = change.getFrom();
                 int lastRow = change.getTo();
 
                 fireTableRowsInserted(firstRow, lastRow);
             }
-            else if (change.wasRemoved())
-            {
+            else if (change.wasRemoved()) {
                 int firstRow = change.getFrom();
                 int lastRow = change.getTo();
 
                 fireTableRowsDeleted(firstRow, lastRow);
             }
-            else if (change.wasUpdated())
-            {
+            else if (change.wasUpdated()) {
                 int firstRow = change.getFrom();
                 int lastRow = change.getTo();
 
                 fireTableRowsUpdated(firstRow, lastRow);
             }
-            else
-            {
+            else {
                 fireTableDataChanged();
 
                 return;
@@ -71,8 +62,7 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
      * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
      */
     @Override
-    protected ObservableList<T> getList()
-    {
+    protected ObservableList<T> getList() {
         return (ObservableList<T>) super.getList();
     }
 }

@@ -11,14 +11,12 @@ import java.io.Serializable;
  *
  * @author Thomas Freese
  */
-public class SerializableTransferable implements Transferable
-{
+public class SerializableTransferable implements Transferable {
     public static final DataFlavor FLAVOR = new NotSerializableDataFlavor(Serializable[].class, "Serializable");
 
     private final Serializable[] objects;
 
-    public SerializableTransferable(final Serializable[] objects)
-    {
+    public SerializableTransferable(final Serializable[] objects) {
         super();
 
         this.objects = objects;
@@ -28,10 +26,8 @@ public class SerializableTransferable implements Transferable
      * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
      */
     @Override
-    public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException
-    {
-        if (isDataFlavorSupported(flavor))
-        {
+    public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+        if (isDataFlavorSupported(flavor)) {
             return this.objects;
         }
 
@@ -42,20 +38,15 @@ public class SerializableTransferable implements Transferable
      * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
      */
     @Override
-    public DataFlavor[] getTransferDataFlavors()
-    {
-        return new DataFlavor[]
-                {
-                        FLAVOR
-                };
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[]{FLAVOR};
     }
 
     /**
      * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
      */
     @Override
-    public boolean isDataFlavorSupported(final DataFlavor flavor)
-    {
+    public boolean isDataFlavorSupported(final DataFlavor flavor) {
         return (flavor.getRepresentationClass().isAssignableFrom(Serializable[].class));
     }
 }

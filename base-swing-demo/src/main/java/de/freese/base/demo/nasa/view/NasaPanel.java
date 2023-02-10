@@ -19,8 +19,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Thomas Freese
  */
-class NasaPanel extends JPanel
-{
+class NasaPanel extends JPanel {
     @Serial
     private static final long serialVersionUID = 2482594442090386688L;
 
@@ -36,40 +35,32 @@ class NasaPanel extends JPanel
 
     private JScrollPane scrollPane;
 
-    JButton getButtonCancel()
-    {
-        if (this.buttonCancel == null)
-        {
+    JButton getButtonCancel() {
+        if (this.buttonCancel == null) {
             this.buttonCancel = new JButton();
         }
 
         return this.buttonCancel;
     }
 
-    JButton getButtonNext()
-    {
-        if (this.buttonNext == null)
-        {
+    JButton getButtonNext() {
+        if (this.buttonNext == null) {
             this.buttonNext = new JButton();
         }
 
         return this.buttonNext;
     }
 
-    JButton getButtonPrevious()
-    {
-        if (this.buttonPrevious == null)
-        {
+    JButton getButtonPrevious() {
+        if (this.buttonPrevious == null) {
             this.buttonPrevious = new JButton();
         }
 
         return this.buttonPrevious;
     }
 
-    JLabel getLabelImage()
-    {
-        if (this.labelImage == null)
-        {
+    JLabel getLabelImage() {
+        if (this.labelImage == null) {
             this.labelImage = new JLabel();
             this.labelImage.setOpaque(true);
             this.labelImage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -79,28 +70,23 @@ class NasaPanel extends JPanel
         return this.labelImage;
     }
 
-    JLabel getLabelURL()
-    {
-        if (this.labelURL == null)
-        {
+    JLabel getLabelURL() {
+        if (this.labelURL == null) {
             this.labelURL = new JLabel();
         }
 
         return this.labelURL;
     }
 
-    JScrollPane getScrollPane()
-    {
-        if (this.scrollPane == null)
-        {
+    JScrollPane getScrollPane() {
+        if (this.scrollPane == null) {
             this.scrollPane = new JScrollPane(getLabelImage());
         }
 
         return this.scrollPane;
     }
 
-    void init()
-    {
+    void init() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder());
 
@@ -114,8 +100,7 @@ class NasaPanel extends JPanel
         buttons.add(getButtonNext());
         buttons.add(getButtonCancel());
 
-        for (JButton button : buttons)
-        {
+        for (JButton button : buttons) {
             button.setBorder(border);
             button.setVerticalTextPosition(SwingConstants.BOTTOM);
             button.setHorizontalTextPosition(SwingConstants.CENTER);

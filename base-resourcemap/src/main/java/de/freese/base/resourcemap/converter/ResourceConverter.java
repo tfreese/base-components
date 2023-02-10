@@ -8,14 +8,12 @@ import java.util.function.BiFunction;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ResourceConverter<T> extends BiFunction<String, String, T>
-{
+public interface ResourceConverter<T> extends BiFunction<String, String, T> {
     /**
      * @see java.util.function.BiFunction#apply(java.lang.Object, java.lang.Object)
      */
     @Override
-    default T apply(final String t, final String u)
-    {
+    default T apply(final String t, final String u) {
         return convert(t, u);
     }
 

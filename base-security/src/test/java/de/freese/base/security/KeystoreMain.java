@@ -29,10 +29,8 @@ import javax.crypto.spec.GCMParameterSpec;
  *
  * @author Thomas Freese see base-security/keystore.txt
  */
-public final class KeystoreMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class KeystoreMain {
+    public static void main(final String[] args) throws Exception {
         String provider = "SunJCE";// "SUN";
 
         char[] keystorePSW = "gehaim".toCharArray();
@@ -41,15 +39,12 @@ public final class KeystoreMain
         Path keystorePath = Paths.get(System.getProperty("java.io.tmpdir"), "keystore.p12");
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
 
-        if (Files.exists(keystorePath))
-        {
-            try (InputStream in = Files.newInputStream(keystorePath))
-            {
+        if (Files.exists(keystorePath)) {
+            try (InputStream in = Files.newInputStream(keystorePath)) {
                 keyStore.load(in, keystorePSW);
             }
         }
-        else
-        {
+        else {
             keyStore.load(null, keystorePSW);
         }
 
@@ -60,16 +55,14 @@ public final class KeystoreMain
         String alias = "test-AES-256";
         char[] aliasPSW = alias.toCharArray();
 
-        if (!keyStore.containsAlias(alias))
-        {
+        if (!keyStore.containsAlias(alias)) {
             KeyGenerator kg = KeyGenerator.getInstance("AES", provider);
             kg.init(256, secureRandom);
             secretKey = kg.generateKey();
 
             keyStore.setKeyEntry(alias, secretKey, aliasPSW, null);
 
-            try (OutputStream outputStream = Files.newOutputStream(keystorePath))
-            {
+            try (OutputStream outputStream = Files.newOutputStream(keystorePath)) {
                 keyStore.store(outputStream, keystorePSW);
             }
         }
@@ -108,15 +101,12 @@ public final class KeystoreMain
         testCrypt(encryptCipher, decryptCipher);
 
         // Stream
-        try (InputStream in = new FileInputStream("pom.xml");
-             CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher))
-        {
+        try (InputStream in = new FileInputStream("pom.xml"); CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher)) {
             // OutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int numRead = 0;
 
-            while ((numRead = in.read(buffer)) >= 0)
-            {
+            while ((numRead = in.read(buffer)) >= 0) {
                 // byte[] updates = encodeCipher.update(buffer, 0, numRead);
                 // System.out.println(Arrays.toString(updates));
 
@@ -127,8 +117,7 @@ public final class KeystoreMain
         }
     }
 
-    private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception
-    {
+    private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception {
         String message = "abcABC123";
         System.out.println("Message: " + message);
 
@@ -142,8 +131,7 @@ public final class KeystoreMain
         System.out.println();
     }
 
-    private KeystoreMain()
-    {
+    private KeystoreMain() {
         super();
     }
 }

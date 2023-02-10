@@ -21,8 +21,7 @@ import org.jdesktop.swingx.JXDatePicker;
  *
  * @author Thomas Freese
  */
-public class DatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor
-{
+public class DatePickerCellEditor extends AbstractCellEditor implements TableCellEditor, TreeCellEditor {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -48,12 +47,10 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
     /**
      * @author Thomas Freese
      */
-    public static class DatePickerCommitListener implements ActionListener
-    {
+    public static class DatePickerCommitListener implements ActionListener {
         private final CellEditor cellEditor;
 
-        public DatePickerCommitListener(final CellEditor cellEditor)
-        {
+        public DatePickerCommitListener(final CellEditor cellEditor) {
             super();
 
             this.cellEditor = cellEditor;
@@ -63,10 +60,8 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e)
-        {
-            if (JXDatePicker.COMMIT_KEY.equals(e.getActionCommand()))
-            {
+        public void actionPerformed(final ActionEvent e) {
+            if (JXDatePicker.COMMIT_KEY.equals(e.getActionCommand())) {
                 this.cellEditor.stopCellEditing();
             }
         }
@@ -74,8 +69,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
 
     private final DatePicker datePicker;
 
-    public DatePickerCellEditor(final DatePicker datePicker)
-    {
+    public DatePickerCellEditor(final DatePicker datePicker) {
         super();
 
         this.datePicker = datePicker;
@@ -91,13 +85,11 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
      * @see javax.swing.CellEditor#getCellEditorValue()
      */
     @Override
-    public Object getCellEditorValue()
-    {
+    public Object getCellEditorValue() {
         return this.datePicker.getDate();
     }
 
-    public DatePicker getDatePicker()
-    {
+    public DatePicker getDatePicker() {
         return this.datePicker;
     }
 
@@ -105,8 +97,7 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
      * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
      */
     @Override
-    public Component getTableCellEditorComponent(final JTable table, final Object value, final boolean isSelected, final int row, final int column)
-    {
+    public Component getTableCellEditorComponent(final JTable table, final Object value, final boolean isSelected, final int row, final int column) {
         this.datePicker.setDate((Date) value);
 
         return this.datePicker;
@@ -116,17 +107,13 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
      * @see javax.swing.tree.TreeCellEditor#getTreeCellEditorComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int)
      */
     @Override
-    public Component getTreeCellEditorComponent(final JTree tree, final Object value, final boolean isSelected, final boolean expanded, final boolean leaf,
-                                                final int row)
-    {
+    public Component getTreeCellEditorComponent(final JTree tree, final Object value, final boolean isSelected, final boolean expanded, final boolean leaf, final int row) {
         Date date = null;
 
-        if (value instanceof Calendar c)
-        {
+        if (value instanceof Calendar c) {
             date = c.getTime();
         }
-        else if (value instanceof Date d)
-        {
+        else if (value instanceof Date d) {
             date = d;
         }
 

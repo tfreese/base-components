@@ -24,19 +24,16 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 /**
  * @author Thomas Freese
  */
-public class DefaultNasaView extends AbstractView implements NasaView
-{
+public class DefaultNasaView extends AbstractView implements NasaView {
     private NasaController controller;
 
     @Override
-    public NasaPanel getComponent()
-    {
+    public NasaPanel getComponent() {
         return (NasaPanel) super.getComponent();
     }
 
     @Override
-    public NasaView initComponent(final ApplicationContext applicationContext)
-    {
+    public NasaView initComponent(final ApplicationContext applicationContext) {
         super.initComponent(applicationContext);
 
         NasaPanel nasaPanel = new NasaPanel();
@@ -52,8 +49,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
 
         controller = new NasaController(this);
 
-        nasaPanel.getButtonPrevious().addActionListener(event ->
-        {
+        nasaPanel.getButtonPrevious().addActionListener(event -> {
             NasaImageTask task = new NasaImageTask(controller, controller::getPreviousURL, this, getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
@@ -61,8 +57,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
             getService(TaskManager.class).execute(task);
         });
 
-        nasaPanel.getButtonNext().addActionListener(event ->
-        {
+        nasaPanel.getButtonNext().addActionListener(event -> {
             NasaImageTask task = new NasaImageTask(controller, controller::getNextURL, this, getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
@@ -70,12 +65,10 @@ public class DefaultNasaView extends AbstractView implements NasaView
             getService(TaskManager.class).execute(task);
         });
 
-        nasaPanel.getButtonCancel().addActionListener(event ->
-        {
+        nasaPanel.getButtonCancel().addActionListener(event -> {
             AbstractSwingTask<?, ?> task = getService(TaskManager.class).getForegroundTask();
 
-            if (task != null)
-            {
+            if (task != null) {
                 task.cancel(true);
             }
         });
@@ -86,8 +79,7 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     @Override
-    public void setImage(final URL url, final BufferedImage image)
-    {
+    public void setImage(final URL url, final BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -121,22 +113,18 @@ public class DefaultNasaView extends AbstractView implements NasaView
     }
 
     @Override
-    public void setMessage(final String key, final URL url, final Throwable throwable)
-    {
-        if (throwable != null)
-        {
+    public void setMessage(final String key, final URL url, final Throwable throwable) {
+        if (throwable != null) {
             handleException(throwable);
         }
     }
 
     @Override
-    protected ResourceMap getResourceMap()
-    {
+    protected ResourceMap getResourceMap() {
         return getApplicationContext().getResourceMap("bundles/nasa");
     }
 
-    private void decorate(final JButton button, final ResourceMap resourceMap, final String key)
-    {
+    private void decorate(final JButton button, final ResourceMap resourceMap, final String key) {
         button.setText(resourceMap.getString(key + ".text"));
         button.setIcon(resourceMap.getIcon(key + ".icon"));
     }

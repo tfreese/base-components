@@ -14,19 +14,16 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class TestStaxWriter
-{
+class TestStaxWriter {
     @Test
-    void testStaxWriter() throws Exception
-    {
+    void testStaxWriter() throws Exception {
         String encoding = "ISO-8859-1";
 
         // System.setProperty("javax.xml.stream.XMLOutputFactory", value) ;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try (OutputStream os = baos)
-        {
+        try (OutputStream os = baos) {
             // OutputStream os1 = new ByteArrayOutputStream();
 
             // XMLOutputFactory factory = XMLOutputFactory.newInstance();

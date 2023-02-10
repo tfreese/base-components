@@ -23,16 +23,13 @@ import org.slf4j.Logger;
 /**
  * @author Thomas Freese
  */
-public final class HibernateUtils
-{
-    public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger)
-    {
+public final class HibernateUtils {
+    public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger) {
         logInfo(logger, String.format("Clear Cache: %s", name));
 
         Cache cache = sessionFactory.getCache();
 
-        try
-        {
+        try {
             logInfo(logger, "evictDefaultQueryRegion");
             cache.evictDefaultQueryRegion();
 
@@ -45,25 +42,21 @@ public final class HibernateUtils
             logInfo(logger, "evictNaturalIdData");
             cache.evictNaturalIdData();
 
-            try
-            {
+            try {
                 logInfo(logger, "evict QueryRegions");
                 cache.evictQueryRegions();
             }
-            catch (NullPointerException ex)
-            {
+            catch (NullPointerException ex) {
                 logWarn(logger, "evict QueryRegions: NullPointerException");
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 logWarn(logger, ex.getMessage());
             }
 
             logInfo(logger, "evict Statistics");
             sessionFactory.getStatistics().clear();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             logWarn(logger, ex);
         }
     }
@@ -76,8 +69,7 @@ public final class HibernateUtils
      * @see HibernateProxy
      * @see LazyInitializer
      */
-    public static <T> T deProxy(final Object maybeProxy) throws ClassCastException
-    {
+    public static <T> T deProxy(final Object maybeProxy) throws ClassCastException {
         Class<T> baseClass = getClassFromProxy(maybeProxy);
 
         return deProxy(maybeProxy, baseClass);
@@ -92,10 +84,8 @@ public final class HibernateUtils
      * @see HibernateProxy
      * @see LazyInitializer
      */
-    public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException
-    {
-        if (maybeProxy instanceof HibernateProxy hibernateProxy)
-        {
+    public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException {
+        if (maybeProxy instanceof HibernateProxy hibernateProxy) {
             LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return baseClass.cast(initializer.getImplementation());
@@ -108,14 +98,12 @@ public final class HibernateUtils
      * Liefert die Klasse des Objektes hinter dem {@link HibernateProxy}.
      */
     @SuppressWarnings("unchecked")
-    public static <T> Class<T> getClassFromProxy(final Object maybeProxy)
-    {
+    public static <T> Class<T> getClassFromProxy(final Object maybeProxy) {
         // HibernateProxyHelper
         return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
-    public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw, final Logger logger)
-    {
+    public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw, final Logger logger) {
         logInfo(logger, String.format("Read PersistenceStatistics: %s", sessionFactory.getSessionFactoryOptions().getSessionFactoryName()));
 
         pw.println("----------------------------------------------");
@@ -123,8 +111,7 @@ public final class HibernateUtils
         pw.println("----------------------------------------------");
         pw.println();
 
-        try
-        {
+        try {
             Statistics stats = sessionFactory.getStatistics();
 
             pw.println("Statistics enabled......: " + stats.isStatisticsEnabled());
@@ -145,8 +132,7 @@ public final class HibernateUtils
 
             // Hibernate Bug: Wenn der TxManager kein JTA TransactionManager ist,
             // werden die Tx doppelt gezählt (txCount = 2 * successfulTxCount).
-            if (txCount >= (2 * successfulTxCount))
-            {
+            if (txCount >= (2 * successfulTxCount)) {
                 txCount -= successfulTxCount;
             }
 
@@ -158,8 +144,7 @@ public final class HibernateUtils
             double missCount = 0D;
             double hitRatio = 0D;
 
-            try
-            {
+            try {
                 // Globaler 2nd lvl Cache
                 hitCount = stats.getSecondLevelCacheHitCount();
                 missCount = stats.getSecondLevelCacheMissCount();
@@ -170,15 +155,13 @@ public final class HibernateUtils
                 pw.println("Second Cache Hit ratio[%]: " + round(hitRatio * 100D, 3));
                 pw.println();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 logErr(logger, ex);
                 pw.println();
                 ex.printStackTrace(pw);
             }
 
-            try
-            {
+            try {
                 // Globaler Query Cache
                 hitCount = stats.getQueryCacheHitCount();
                 missCount = stats.getQueryCacheMissCount();
@@ -189,22 +172,19 @@ public final class HibernateUtils
                 pw.println("SQL Query Hit ratio[%]: " + round(hitRatio * 100D, 3));
                 pw.println();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 logErr(logger, ex);
                 pw.println();
                 ex.printStackTrace(pw);
             }
 
-            try
-            {
+            try {
                 // Cache-Regionen
                 String[] cacheRegions = stats.getSecondLevelCacheRegionNames();
 
                 Arrays.sort(cacheRegions);
 
-                for (String cacheRegion : cacheRegions)
-                {
+                for (String cacheRegion : cacheRegions) {
                     CacheRegionStatistics cacheStatistics = stats.getDomainDataRegionStatistics(cacheRegion);
 
                     hitCount = cacheStatistics.getHitCount();
@@ -220,15 +200,13 @@ public final class HibernateUtils
                     pw.println();
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 logErr(logger, ex);
                 pw.println();
                 ex.printStackTrace(pw);
             }
 
-            if (stats.isStatisticsEnabled())
-            {
+            if (stats.isStatisticsEnabled()) {
                 // Objektspezifische Statistiken
                 // Map<String, ?> metaData = sessionFactory.getAllClassMetadata();
                 // .collect(Collectors.toCollection(TreeSet::new))
@@ -268,8 +246,7 @@ public final class HibernateUtils
                 // @formatter:on
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             logErr(logger, ex);
             pw.println();
             ex.printStackTrace(pw);
@@ -284,10 +261,8 @@ public final class HibernateUtils
      * @see Hibernate#isInitialized(Object)
      * @see Hibernate#initialize(Object)
      */
-    public static void initialize(final Object maybeProxy)
-    {
-        if (!Hibernate.isInitialized(maybeProxy))
-        {
+    public static void initialize(final Object maybeProxy) {
+        if (!Hibernate.isInitialized(maybeProxy)) {
             Hibernate.initialize(maybeProxy);
         }
     }
@@ -297,48 +272,37 @@ public final class HibernateUtils
      * of a proxy (without initializing the proxy!). It is
      * almost always better to use the entity name!
      */
-    private static Class<?> getClassWithoutInitializingProxy(Object object)
-    {
-        if (object instanceof HibernateProxy hibernateProxy)
-        {
+    private static Class<?> getClassWithoutInitializingProxy(Object object) {
+        if (object instanceof HibernateProxy hibernateProxy) {
             LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return initializer.getPersistentClass();
         }
-        else
-        {
+        else {
             return object.getClass();
         }
     }
 
-    private static void logErr(final Logger logger, final Throwable th)
-    {
-        if (logger != null)
-        {
+    private static void logErr(final Logger logger, final Throwable th) {
+        if (logger != null) {
             logger.error(th.getMessage(), th);
         }
     }
 
-    private static void logInfo(final Logger logger, final String message)
-    {
-        if (logger != null)
-        {
+    private static void logInfo(final Logger logger, final String message) {
+        if (logger != null) {
             logger.info(message);
         }
     }
 
-    private static void logWarn(final Logger logger, final String message)
-    {
-        if (logger != null)
-        {
+    private static void logWarn(final Logger logger, final String message) {
+        if (logger != null) {
             logger.warn(message);
         }
     }
 
-    private static void logWarn(final Logger logger, final Throwable th)
-    {
-        if (logger != null)
-        {
+    private static void logWarn(final Logger logger, final Throwable th) {
+        if (logger != null) {
             logger.warn(null, th);
         }
     }
@@ -349,10 +313,8 @@ public final class HibernateUtils
      *
      * @param scale int Anzahl Nachkommastellen
      */
-    private static double round(final double value, final int scale)
-    {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0))
-        {
+    private static double round(final double value, final int scale) {
+        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {
             return 0.0D;
         }
 
@@ -361,8 +323,7 @@ public final class HibernateUtils
         return bigDecimal.doubleValue();
     }
 
-    private HibernateUtils()
-    {
+    private HibernateUtils() {
         super();
     }
 }

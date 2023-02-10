@@ -24,18 +24,15 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Thomas Freese
  */
-public final class ResourceConverters
-{
-    public static ResourceConverters ofDefaults()
-    {
+public final class ResourceConverters {
+    public static ResourceConverters ofDefaults() {
         ResourceConverters resourceConverters = new ResourceConverters();
         resourceConverters.customize(ResourceConverters::defaultConverters);
 
         return resourceConverters;
     }
 
-    private static void defaultConverters(Map<Class<?>, ResourceConverter<?>> converters)
-    {
+    private static void defaultConverters(Map<Class<?>, ResourceConverter<?>> converters) {
         converters.put(Boolean.class, new BooleanResourceConverter("true", "on", "yes", "1"));
         converters.put(BufferedImage.class, new ImageResourceConverter());
         converters.put(Byte.class, new ByteResourceConverter());
@@ -72,23 +69,19 @@ public final class ResourceConverters
 
     private final Map<Class<?>, ResourceConverter<?>> converters = new HashMap<>();
 
-    private ResourceConverters()
-    {
+    private ResourceConverters() {
         super();
     }
 
-    public void customize(Consumer<Map<Class<?>, ResourceConverter<?>>> converterCustomizer)
-    {
+    public void customize(Consumer<Map<Class<?>, ResourceConverter<?>>> converterCustomizer) {
         converterCustomizer.accept(converters);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> ResourceConverter<T> getConverter(Class<T> type)
-    {
+    public <T> ResourceConverter<T> getConverter(Class<T> type) {
         ResourceConverter<?> resourceConverter = this.converters.get(type);
 
-        if (resourceConverter == null && type.isPrimitive())
-        {
+        if (resourceConverter == null && type.isPrimitive()) {
             // MethodType..unwrap()
             Class<T> wrapperType = (Class<T>) MethodType.methodType(type).wrap().returnType();
 

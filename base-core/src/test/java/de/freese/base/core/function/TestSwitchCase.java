@@ -6,20 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
 
+import org.junit.jupiter.api.Test;
+
 import de.freese.base.core.function.usecase.Switch;
 import de.freese.base.core.function.usecase.Switch.Case;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Thomas Freese
  */
-class TestSwitchCase
-{
+class TestSwitchCase {
     @Test
-    void testUseCase()
-    {
-        for (int j = 0; j < 5; j++)
-        {
+    void testUseCase() {
+        for (int j = 0; j < 5; j++) {
             final int i = j;
 
             //@formatter:off
@@ -33,12 +31,10 @@ class TestSwitchCase
 
             assertTrue(result.isPresent());
 
-            if (j < 3)
-            {
+            if (j < 3) {
                 assertEquals("Value = " + j, result.get());
             }
-            else
-            {
+            else {
                 assertEquals("unknown value", result.get());
             }
         }

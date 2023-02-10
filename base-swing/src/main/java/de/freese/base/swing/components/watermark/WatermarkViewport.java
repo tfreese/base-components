@@ -11,8 +11,7 @@ import javax.swing.JViewport;
 /**
  * @author Thomas Freese
  */
-public class WatermarkViewport extends JViewport implements WatermarkComponent
-{
+public class WatermarkViewport extends JViewport implements WatermarkComponent {
     @Serial
     private static final long serialVersionUID = 4443174665479649215L;
 
@@ -20,8 +19,7 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent
 
     private ImageIcon watermark;
 
-    public WatermarkViewport(final Component view)
-    {
+    public WatermarkViewport(final Component view) {
         super();
 
         setView(view);
@@ -32,8 +30,7 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent
      * @see WatermarkComponent#getWatermark()
      */
     @Override
-    public ImageIcon getWatermark()
-    {
+    public ImageIcon getWatermark() {
         return this.watermark;
     }
 
@@ -41,15 +38,12 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent
      * @see javax.swing.JViewport#paint(java.awt.Graphics)
      */
     @Override
-    public void paint(final Graphics g)
-    {
-        if (this.watermark != null)
-        {
+    public void paint(final Graphics g) {
+        if (this.watermark != null) {
             int x = 0;
             int y = 0;
 
-            if (null != this.position)
-            {
+            if (null != this.position) {
                 x = (int) this.position.getX();
                 y = (int) this.position.getY();
             }
@@ -71,8 +65,7 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent
      * @see WatermarkComponent#setPosition(java.awt.Point)
      */
     @Override
-    public void setPosition(final Point position)
-    {
+    public void setPosition(final Point position) {
         this.position = position;
     }
 
@@ -80,8 +73,7 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent
      * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
      */
     @Override
-    public void setWatermark(final ImageIcon watermark)
-    {
+    public void setWatermark(final ImageIcon watermark) {
         this.watermark = watermark;
     }
 }

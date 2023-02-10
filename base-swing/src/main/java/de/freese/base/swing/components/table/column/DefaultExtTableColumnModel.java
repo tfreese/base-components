@@ -19,8 +19,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author Thomas Freese
  */
-public class DefaultExtTableColumnModel extends DefaultTableColumnModel implements ExtTableColumnModel
-{
+public class DefaultExtTableColumnModel extends DefaultTableColumnModel implements ExtTableColumnModel {
     /**
      * flag to distinguish a shown/hidden column from really added/removed columns during notification. This is brittle!
      */
@@ -29,8 +28,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     @Serial
     private static final long serialVersionUID = 7120329832987702244L;
 
-    private class VisibilityListener implements PropertyChangeListener, Serializable
-    {
+    private class VisibilityListener implements PropertyChangeListener, Serializable {
         @Serial
         private static final long serialVersionUID = -5146125743167750699L;
 
@@ -38,24 +36,19 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
          * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */
         @Override
-        public void propertyChange(final PropertyChangeEvent evt)
-        {
-            if ("visible".equals(evt.getPropertyName()))
-            {
+        public void propertyChange(final PropertyChangeEvent evt) {
+            if ("visible".equals(evt.getPropertyName())) {
                 ExtTableColumn columnExt = (ExtTableColumn) evt.getSource();
 
-                if (columnExt.isVisible())
-                {
+                if (columnExt.isVisible()) {
                     moveToVisible(columnExt);
                     fireColumnPropertyChange(evt);
                 }
-                else
-                {
+                else {
                     moveToInvisible(columnExt);
                 }
             }
-            else if (!((ExtTableColumn) evt.getSource()).isVisible())
-            {
+            else if (!((ExtTableColumn) evt.getSource()).isVisible()) {
                 fireColumnPropertyChange(evt);
             }
         }
@@ -78,15 +71,13 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see javax.swing.table.DefaultTableColumnModel#addColumn(javax.swing.table.TableColumn)
      */
     @Override
-    public void addColumn(final TableColumn aColumn)
-    {
+    public void addColumn(final TableColumn aColumn) {
         // hacking to guarantee correct events
         // two step: add as visible, setVisible
         boolean oldVisible = true;
 
         // add the visibility listener if appropriate
-        if (aColumn instanceof ExtTableColumn xColumn)
-        {
+        if (aColumn instanceof ExtTableColumn xColumn) {
             oldVisible = xColumn.isVisible();
             xColumn.setVisible(true);
             xColumn.addPropertyChangeListener(this.visibilityListener);
@@ -99,8 +90,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         // let super handle the event notification, super.book-keeping
         super.addColumn(aColumn);
 
-        if (aColumn instanceof ExtTableColumn c)
-        {
+        if (aColumn instanceof ExtTableColumn c) {
             // reset original visibility
             c.setVisible(oldVisible);
         }
@@ -110,12 +100,10 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see javax.swing.table.DefaultTableColumnModel#addColumnModelListener(javax.swing.event.TableColumnModelListener)
      */
     @Override
-    public void addColumnModelListener(final TableColumnModelListener listener)
-    {
+    public void addColumnModelListener(final TableColumnModelListener listener) {
         super.addColumnModelListener(listener);
 
-        if (listener instanceof ExtTableColumnModelListener l)
-        {
+        if (listener instanceof ExtTableColumnModelListener l) {
             this.listenerList.add(ExtTableColumnModelListener.class, l);
         }
     }
@@ -124,10 +112,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see ExtTableColumnModel#getColumnCount(boolean)
      */
     @Override
-    public int getColumnCount(final boolean includeHidden)
-    {
-        if (includeHidden)
-        {
+    public int getColumnCount(final boolean includeHidden) {
+        if (includeHidden) {
             return this.initialColumns.size();
         }
 
@@ -138,12 +124,10 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see ExtTableColumnModel#getColumnExt(int)
      */
     @Override
-    public ExtTableColumn getColumnExt(final int columnIndex)
-    {
+    public ExtTableColumn getColumnExt(final int columnIndex) {
         TableColumn column = getColumn(columnIndex);
 
-        if (column instanceof ExtTableColumn c)
-        {
+        if (column instanceof ExtTableColumn c) {
             return c;
         }
 
@@ -154,12 +138,9 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see ExtTableColumnModel#getColumnExt(java.lang.Object)
      */
     @Override
-    public ExtTableColumn getColumnExt(final Object identifier)
-    {
-        for (TableColumn column : this.initialColumns)
-        {
-            if ((column instanceof ExtTableColumn c) && (identifier.equals(column.getIdentifier())))
-            {
+    public ExtTableColumn getColumnExt(final Object identifier) {
+        for (TableColumn column : this.initialColumns) {
+            if ((column instanceof ExtTableColumn c) && (identifier.equals(column.getIdentifier()))) {
                 return c;
             }
         }
@@ -171,18 +152,15 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see ExtTableColumnModel#getColumns(boolean)
      */
     @Override
-    public List<TableColumn> getColumns(final boolean includeHidden)
-    {
-        if (includeHidden)
-        {
+    public List<TableColumn> getColumns(final boolean includeHidden) {
+        if (includeHidden) {
             return new ArrayList<>(this.initialColumns);
         }
 
         return Collections.list(getColumns());
     }
 
-    public ExtTableColumnModelListener[] getTableColumnModelExtListeners()
-    {
+    public ExtTableColumnModelListener[] getTableColumnModelExtListeners() {
         return this.listenerList.getListeners(ExtTableColumnModelListener.class);
     }
 
@@ -194,10 +172,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      *
      * @return true if the column was moved to visible
      */
-    public boolean isAddedFromInvisibleEvent(final int newIndex)
-    {
-        if (!(getColumn(newIndex) instanceof ExtTableColumn))
-        {
+    public boolean isAddedFromInvisibleEvent(final int newIndex) {
+        if (!(getColumn(newIndex) instanceof ExtTableColumn)) {
             return false;
         }
 
@@ -212,10 +188,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      *
      * @return true if the column was moved to invisible
      */
-    public boolean isRemovedToInvisibleEvent(final int oldIndex)
-    {
-        if ((oldIndex >= this.currentColumns.size()) || !(this.currentColumns.get(oldIndex) instanceof ExtTableColumn))
-        {
+    public boolean isRemovedToInvisibleEvent(final int oldIndex) {
+        if ((oldIndex >= this.currentColumns.size()) || !(this.currentColumns.get(oldIndex) instanceof ExtTableColumn)) {
             return false;
         }
 
@@ -226,10 +200,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see javax.swing.table.DefaultTableColumnModel#moveColumn(int, int)
      */
     @Override
-    public void moveColumn(final int columnIndex, final int newIndex)
-    {
-        if (columnIndex != newIndex)
-        {
+    public void moveColumn(final int columnIndex, final int newIndex) {
+        if (columnIndex != newIndex) {
             updateCurrentColumns(columnIndex, newIndex);
         }
 
@@ -240,8 +212,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see javax.swing.table.DefaultTableColumnModel#propertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent evt)
-    {
+    public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
 
         fireColumnPropertyChange(evt);
@@ -251,10 +222,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see javax.swing.table.DefaultTableColumnModel#removeColumn(javax.swing.table.TableColumn)
      */
     @Override
-    public void removeColumn(final TableColumn column)
-    {
-        if (column instanceof ExtTableColumn c)
-        {
+    public void removeColumn(final TableColumn column) {
+        if (column instanceof ExtTableColumn c) {
             c.removePropertyChangeListener(this.visibilityListener);
         }
 
@@ -268,12 +237,10 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @see javax.swing.table.DefaultTableColumnModel#removeColumnModelListener(javax.swing.event.TableColumnModelListener)
      */
     @Override
-    public void removeColumnModelListener(final TableColumnModelListener listener)
-    {
+    public void removeColumnModelListener(final TableColumnModelListener listener) {
         super.removeColumnModelListener(listener);
 
-        if (listener instanceof ExtTableColumnModelListener l)
-        {
+        if (listener instanceof ExtTableColumnModelListener l) {
             this.listenerList.remove(ExtTableColumnModelListener.class, l);
         }
     }
@@ -284,10 +251,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      *
      * @see EventListenerList
      */
-    protected void fireColumnPropertyChange(final PropertyChangeEvent evt)
-    {
-        if (IGNORE_EVENT.equals(evt.getPropertyName()))
-        {
+    protected void fireColumnPropertyChange(final PropertyChangeEvent evt) {
+        if (IGNORE_EVENT.equals(evt.getPropertyName())) {
             return;
         }
 
@@ -296,10 +261,8 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2)
-        {
-            if (listeners[i] == ExtTableColumnModelListener.class)
-            {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ExtTableColumnModelListener.class) {
                 ((ExtTableColumnModelListener) listeners[i + 1]).columnPropertyChange(evt);
             }
         }
@@ -310,8 +273,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      *
      * @param col the column which was hidden.
      */
-    protected void moveToInvisible(final ExtTableColumn col)
-    {
+    protected void moveToInvisible(final ExtTableColumn col) {
         col.putClientProperty(IGNORE_EVENT, Boolean.TRUE);
         super.removeColumn(col);
         col.putClientProperty(IGNORE_EVENT, null);
@@ -322,8 +284,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      *
      * @param col the column which was made visible.
      */
-    protected void moveToVisible(final ExtTableColumn col)
-    {
+    protected void moveToVisible(final ExtTableColumn col) {
         col.putClientProperty(IGNORE_EVENT, Boolean.TRUE);
 
         // two step process: first add at end of columns
@@ -335,13 +296,11 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         // but uses the currentColumns as reference.
         int addIndex = this.currentColumns.indexOf(col);
 
-        for (int i = 0; i < (getColumnCount() - 1); i++)
-        {
+        for (int i = 0; i < (getColumnCount() - 1); i++) {
             TableColumn tableCol = getColumn(i);
             int actualPosition = this.currentColumns.indexOf(tableCol);
 
-            if (actualPosition > addIndex)
-            {
+            if (actualPosition > addIndex) {
                 super.moveColumn(getColumnCount() - 1, i);
                 break;
             }
@@ -356,8 +315,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @param oldIndex the old visible position.
      * @param newIndex the new visible position.
      */
-    private void updateCurrentColumns(final int oldIndex, final int newIndex)
-    {
+    private void updateCurrentColumns(final int oldIndex, final int newIndex) {
         TableColumn movedColumn = this.tableColumns.elementAt(oldIndex);
         int oldPosition = this.currentColumns.indexOf(movedColumn);
 

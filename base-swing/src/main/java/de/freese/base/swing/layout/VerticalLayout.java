@@ -11,17 +11,14 @@ import java.awt.LayoutManager;
  *
  * @author Thomas Freese
  */
-public class VerticalLayout implements LayoutManager
-{
+public class VerticalLayout implements LayoutManager {
     private int gap;
 
-    public VerticalLayout()
-    {
+    public VerticalLayout() {
         super();
     }
 
-    public VerticalLayout(final int gap)
-    {
+    public VerticalLayout(final int gap) {
         super();
 
         this.gap = gap;
@@ -31,13 +28,11 @@ public class VerticalLayout implements LayoutManager
      * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String, java.awt.Component)
      */
     @Override
-    public void addLayoutComponent(final String name, final Component c)
-    {
+    public void addLayoutComponent(final String name, final Component c) {
         // Empty
     }
 
-    public int getGap()
-    {
+    public int getGap() {
         return this.gap;
     }
 
@@ -45,20 +40,17 @@ public class VerticalLayout implements LayoutManager
      * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
      */
     @Override
-    public void layoutContainer(final Container parent)
-    {
+    public void layoutContainer(final Container parent) {
         Insets insets = parent.getInsets();
         Dimension size = parent.getSize();
 
         int width = size.width - insets.left - insets.right;
         int height = insets.top;
 
-        for (int i = 0, c = parent.getComponentCount(); i < c; i++)
-        {
+        for (int i = 0, c = parent.getComponentCount(); i < c; i++) {
             Component m = parent.getComponent(i);
 
-            if (m.isVisible())
-            {
+            if (m.isVisible()) {
                 m.setBounds(insets.left, height, width, m.getPreferredSize().height);
                 height += m.getSize().height + this.gap;
             }
@@ -69,8 +61,7 @@ public class VerticalLayout implements LayoutManager
      * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
      */
     @Override
-    public Dimension minimumLayoutSize(final Container parent)
-    {
+    public Dimension minimumLayoutSize(final Container parent) {
         return preferredLayoutSize(parent);
     }
 
@@ -78,17 +69,14 @@ public class VerticalLayout implements LayoutManager
      * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
      */
     @Override
-    public Dimension preferredLayoutSize(final Container parent)
-    {
+    public Dimension preferredLayoutSize(final Container parent) {
         Insets insets = parent.getInsets();
         Dimension pref = new Dimension(0, 0);
 
-        for (int i = 0, c = parent.getComponentCount(); i < c; i++)
-        {
+        for (int i = 0, c = parent.getComponentCount(); i < c; i++) {
             Component m = parent.getComponent(i);
 
-            if (m.isVisible())
-            {
+            if (m.isVisible()) {
                 Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
                 pref.height += componentPreferredSize.height + this.gap;
                 pref.width = Math.max(pref.width, componentPreferredSize.width);
@@ -105,13 +93,11 @@ public class VerticalLayout implements LayoutManager
      * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
      */
     @Override
-    public void removeLayoutComponent(final Component c)
-    {
+    public void removeLayoutComponent(final Component c) {
         // Empty
     }
 
-    public void setGap(final int gap)
-    {
+    public void setGap(final int gap) {
         this.gap = gap;
     }
 }

@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractProcessor<C> implements Processor<C>
-{
+public abstract class AbstractProcessor<C> implements Processor<C> {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private boolean enabled = true;
@@ -21,8 +20,7 @@ public abstract class AbstractProcessor<C> implements Processor<C>
      * @see de.freese.base.core.processor.Processor#isEnabled()
      */
     @Override
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return this.enabled;
     }
 
@@ -30,13 +28,11 @@ public abstract class AbstractProcessor<C> implements Processor<C>
      * @see de.freese.base.core.processor.Processor#setEnabled(boolean)
      */
     @Override
-    public void setEnabled(final boolean enabled)
-    {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 
-    protected final Logger getLogger()
-    {
+    protected final Logger getLogger() {
         return this.logger;
     }
 }

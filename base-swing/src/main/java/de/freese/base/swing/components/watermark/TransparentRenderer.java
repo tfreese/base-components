@@ -21,8 +21,7 @@ import javax.swing.tree.TreeCellRenderer;
 /**
  * @author Thomas Freese
  */
-public class TransparentRenderer extends JLabel implements ListCellRenderer<Object>, TreeCellRenderer, TableCellRenderer
-{
+public class TransparentRenderer extends JLabel implements ListCellRenderer<Object>, TreeCellRenderer, TableCellRenderer {
     @Serial
     private static final long serialVersionUID = 2387759630865685848L;
     private final Color background;
@@ -39,8 +38,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
 
     private int index = -1;
 
-    public TransparentRenderer()
-    {
+    public TransparentRenderer() {
         super();
 
         this.foreground = UIManager.getColor("Table.foreground");
@@ -61,8 +59,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.JComponent#firePropertyChange(java.lang.String, boolean, boolean)
      */
     @Override
-    public void firePropertyChange(final String propertyName, final boolean oldValue, final boolean newValue)
-    {
+    public void firePropertyChange(final String propertyName, final boolean oldValue, final boolean newValue) {
         // Empty
     }
 
@@ -70,17 +67,14 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
      */
     @Override
-    public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean hasFocus)
-    {
+    public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean hasFocus) {
         generalSetup(list, isSelected, hasFocus, index);
 
-        if (value instanceof Icon i)
-        {
+        if (value instanceof Icon i) {
             setIcon(i);
             setText("");
         }
-        else
-        {
+        else {
             setIcon(null);
             setText((value == null) ? "" : value.toString());
         }
@@ -92,15 +86,11 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
      */
     @Override
-    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row,
-                                                   final int column)
-    {
+    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         generalSetup(table, isSelected, hasFocus, row);
 
-        if (hasFocus)
-        {
-            if (table.isCellEditable(row, column))
-            {
+        if (hasFocus) {
+            if (table.isCellEditable(row, column)) {
                 super.setForeground(UIManager.getColor("Table.focusCellForeground"));
                 super.setBackground(UIManager.getColor("Table.focusCellBackground"));
             }
@@ -115,20 +105,15 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
      */
     @Override
-    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected, final boolean isExpanded,
-                                                  final boolean isLeaf, final int row, final boolean hasFocus)
-    {
+    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected, final boolean isExpanded, final boolean isLeaf, final int row, final boolean hasFocus) {
         generalSetup(tree, isSelected, hasFocus, row);
         setText(tree.convertValueToText(value, isSelected, isExpanded, isLeaf, row, hasFocus));
 
-        if (tree.isEnabled())
-        {
+        if (tree.isEnabled()) {
             setIcon(isLeaf ? UIManager.getIcon("Tree.leafIcon") : (isExpanded ? UIManager.getIcon("Tree.openIcon") : UIManager.getIcon("Tree.closedIcon")));
         }
-        else
-        {
-            setDisabledIcon(
-                    isLeaf ? UIManager.getIcon("Tree.leafIcon") : (isExpanded ? UIManager.getIcon("Tree.openIcon") : UIManager.getIcon("Tree.closedIcon")));
+        else {
+            setDisabledIcon(isLeaf ? UIManager.getIcon("Tree.leafIcon") : (isExpanded ? UIManager.getIcon("Tree.openIcon") : UIManager.getIcon("Tree.closedIcon")));
         }
 
         return this;
@@ -138,8 +123,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.JComponent#repaint(long, int, int, int, int)
      */
     @Override
-    public void repaint(final long tm, final int x, final int y, final int width, final int height)
-    {
+    public void repaint(final long tm, final int x, final int y, final int width, final int height) {
         // Empty
     }
 
@@ -147,8 +131,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.JComponent#repaint(java.awt.Rectangle)
      */
     @Override
-    public void repaint(final Rectangle r)
-    {
+    public void repaint(final Rectangle r) {
         // Empty
     }
 
@@ -156,8 +139,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see javax.swing.JComponent#revalidate()
      */
     @Override
-    public void revalidate()
-    {
+    public void revalidate() {
         // Empty
     }
 
@@ -165,8 +147,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see java.awt.Container#validate()
      */
     @Override
-    public void validate()
-    {
+    public void validate() {
         // Empty
     }
 
@@ -174,11 +155,9 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * @see java.awt.Component#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
      */
     @Override
-    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
-    {
+    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
         // Strings get interned...
-        if ("text".equals(propertyName))
-        {
+        if ("text".equals(propertyName)) {
             super.firePropertyChange(propertyName, oldValue, newValue);
         }
     }
@@ -186,28 +165,23 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     /**
      * Sets the Components colors relevant to ist current status.
      */
-    protected void generalSetup(final JComponent parent, final boolean isSelected, final boolean hasFocus, final int index)
-    {
-        if (isSelected)
-        {
+    protected void generalSetup(final JComponent parent, final boolean isSelected, final boolean hasFocus, final int index) {
+        if (isSelected) {
             this.index = index;
             super.setForeground(this.selectedForeground);
             super.setBackground(this.selectedBackground);
         }
-        else
-        {
+        else {
             super.setForeground(this.foreground);
             super.setBackground(this.background);
         }
 
         setFont(parent.getFont());
 
-        if (hasFocus)
-        {
+        if (hasFocus) {
             setBorder(this.focusBorder);
         }
-        else
-        {
+        else {
             setBorder(this.noFocusBorder);
         }
 
@@ -221,8 +195,7 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      *
      * @see JLabel#setText
      */
-    protected void setValue(final Object value)
-    {
+    protected void setValue(final Object value) {
         setText((value == null) ? "" : value.toString());
     }
 }

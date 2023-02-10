@@ -34,8 +34,7 @@ import de.freese.base.utils.TableUtils;
 /**
  * @author Thomas Freese
  */
-public class ExtTable extends JTable implements ExtTableColumnModelListener
-{
+public class ExtTable extends JTable implements ExtTableColumnModelListener {
     @Serial
     private static final long serialVersionUID = -4454292369350861849L;
     /**
@@ -51,13 +50,11 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
 
     private boolean sortable = true;
 
-    public ExtTable()
-    {
+    public ExtTable() {
         this(false);
     }
 
-    public ExtTable(final boolean showHeader)
-    {
+    public ExtTable(final boolean showHeader) {
         super();
 
         this.showHeader = showHeader;
@@ -67,38 +64,31 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
      * @see javax.swing.JTable#addNotify()
      */
     @Override
-    public void addNotify()
-    {
+    public void addNotify() {
         super.addNotify();
 
-        if (this.rowHeaderReplacement != null)
-        {
+        if (this.rowHeaderReplacement != null) {
             installRowHeader(this.rowHeaderReplacement);
         }
-        else if (this.columnHeaderReplacement != null)
-        {
+        else if (this.columnHeaderReplacement != null) {
             installColumnHeader(this.columnHeaderReplacement);
         }
     }
 
     @Override
-    public void columnPropertyChange(final PropertyChangeEvent event)
-    {
+    public void columnPropertyChange(final PropertyChangeEvent event) {
         //        if ("sort".equals(event.getPropertyName()))
         //        {
         //            // System.out.println(event.getSource());
         //        }
         //        else
-        if ("visible".equals(event.getPropertyName()))
-        {
+        if ("visible".equals(event.getPropertyName())) {
             // If RowSorter exist set the Column to UNSORTED.
-            if (getClientProperty("ROWSORTER") != null)
-            {
+            if (getClientProperty("ROWSORTER") != null) {
                 TableColumnSorter rowSorter = (TableColumnSorter) getClientProperty("ROWSORTER");
                 ExtTableColumn tableColumnExt = (ExtTableColumn) event.getSource();
 
-                if (!Sort.UNSORTED.equals(tableColumnExt.getSort()))
-                {
+                if (!Sort.UNSORTED.equals(tableColumnExt.getSort())) {
                     rowSorter.setSortStatus(tableColumnExt, Sort.UNSORTED);
                 }
             }
@@ -107,25 +97,20 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         }
     }
 
-    public void configureColumnControl()
-    {
+    public void configureColumnControl() {
         Container p = getParent();
 
-        if (p instanceof JViewport)
-        {
+        if (p instanceof JViewport) {
             Container gp = p.getParent();
 
-            if (gp instanceof JScrollPane scrollPane)
-            {
+            if (gp instanceof JScrollPane scrollPane) {
                 JViewport viewport = scrollPane.getViewport();
 
-                if ((viewport == null) || (viewport.getView() != this))
-                {
+                if ((viewport == null) || (viewport.getView() != this)) {
                     return;
                 }
 
-                if (isColumnControlVisible())
-                {
+                if (isColumnControlVisible()) {
                     scrollPane.setCorner(ScrollPaneConstants.UPPER_TRAILING_CORNER, getColumnControl());
 
                     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -138,48 +123,39 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
      * @see javax.swing.JTable#createDefaultColumnsFromModel()
      */
     @Override
-    public void createDefaultColumnsFromModel()
-    {
+    public void createDefaultColumnsFromModel() {
         TableModel model = getModel();
 
-        if (model != null)
-        {
+        if (model != null) {
             // Remove any current columns
             TableColumnModel cm = getColumnModel();
 
-            while (cm.getColumnCount() > 0)
-            {
+            while (cm.getColumnCount() > 0) {
                 cm.removeColumn(cm.getColumn(0));
             }
 
             // Create new columns from the data model info
-            for (int i = 0; i < model.getColumnCount(); i++)
-            {
+            for (int i = 0; i < model.getColumnCount(); i++) {
                 TableColumn newColumn = new ExtTableColumn(i);
                 addColumn(newColumn);
             }
         }
     }
 
-    public ColumnControlButton getColumnControl()
-    {
-        if (this.columnControlButton == null)
-        {
+    public ColumnControlButton getColumnControl() {
+        if (this.columnControlButton == null) {
             this.columnControlButton = (ColumnControlButton) createDefaultColumnControl();
         }
 
         return this.columnControlButton;
     }
 
-    public ExtTableColumnModel getColumnModelExt()
-    {
+    public ExtTableColumnModel getColumnModelExt() {
         return (ExtTableColumnModel) getColumnModel();
     }
 
-    public void installColumnHeader(final JComponent tableHeaderReplacement)
-    {
-        if (!showHeader())
-        {
+    public void installColumnHeader(final JComponent tableHeaderReplacement) {
+        if (!showHeader()) {
             return;
         }
 
@@ -187,25 +163,20 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
 
         Container parent = getParent();
 
-        if (parent instanceof JViewport)
-        {
+        if (parent instanceof JViewport) {
             JScrollPane enclosingScrollPane = (JScrollPane) parent.getParent();
 
-            if (tableHeaderReplacement == null)
-            {
+            if (tableHeaderReplacement == null) {
                 enclosingScrollPane.setColumnHeaderView(getTableHeader());
             }
-            else
-            {
+            else {
                 enclosingScrollPane.setColumnHeaderView(tableHeaderReplacement);
             }
         }
     }
 
-    public void installRowHeader(final JComponent tableHeaderReplacement)
-    {
-        if (!showHeader())
-        {
+    public void installRowHeader(final JComponent tableHeaderReplacement) {
+        if (!showHeader()) {
             return;
         }
 
@@ -213,44 +184,37 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
 
         Container parent = getParent();
 
-        if (parent instanceof JViewport)
-        {
+        if (parent instanceof JViewport) {
             JScrollPane enclosingScrollPane = (JScrollPane) parent.getParent();
 
-            if (tableHeaderReplacement == null)
-            {
+            if (tableHeaderReplacement == null) {
                 enclosingScrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, getTableHeader());
             }
-            else
-            {
+            else {
                 enclosingScrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, tableHeaderReplacement);
             }
         }
     }
 
-    public boolean isColumnControlVisible()
-    {
+    public boolean isColumnControlVisible() {
         return getColumnControl().isVisible();
     }
 
-    public boolean isSortable()
-    {
+    public boolean isSortable() {
         return this.sortable;
     }
 
     /**
      * @param margin int, -1 als default
      */
-    public void packAll(final int margin)
-    {
+    public void packAll(final int margin) {
         TableUtils.packTable(this, margin);
     }
 
     /**
      * @param margin int, -1 als default
      */
-    public void packColumn(final int columnIndex, final int margin)
-    {
+    public void packColumn(final int columnIndex, final int margin) {
         TableUtils.packColumn(this, columnIndex, margin);
     }
 
@@ -258,38 +222,31 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
      * @param margin int, -1 als default
      * @param max int, -1 als default
      */
-    public void packColumn(final int columnIndex, final int margin, final int max)
-
-    {
+    public void packColumn(final int columnIndex, final int margin, final int max) {
         TableUtils.packColumn(this, columnIndex, margin, 20, max);
     }
 
     @Override
-    public Component prepareEditor(final TableCellEditor editor, final int row, final int column)
-    {
+    public Component prepareEditor(final TableCellEditor editor, final int row, final int column) {
         // Select hole Text in a Text-Component.
-        if (!isFocusOwner())
-        {
+        if (!isFocusOwner()) {
             requestFocus();
         }
 
         Component component = super.prepareEditor(editor, row, column);
 
-        if (component instanceof JTextComponent c)
-        {
+        if (component instanceof JTextComponent c) {
             c.selectAll();
         }
 
         return component;
     }
 
-    public void setColumnControlVisible(final boolean visible)
-    {
+    public void setColumnControlVisible(final boolean visible) {
         getColumnControl().setVisible(visible);
     }
 
-    public void setSortable(final boolean sortable)
-    {
+    public void setSortable(final boolean sortable) {
         this.sortable = sortable;
     }
 
@@ -297,12 +254,10 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
      * @see javax.swing.JTable#configureEnclosingScrollPane()
      */
     @Override
-    protected void configureEnclosingScrollPane()
-    {
+    protected void configureEnclosingScrollPane() {
         configureColumnControl();
 
-        if (!showHeader())
-        {
+        if (!showHeader()) {
             super.configureEnclosingScrollPane();
 
             return;
@@ -312,24 +267,20 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         // has been removed as it created problems with installHeader method.
         Container p = getParent();
 
-        if (p instanceof JViewport)
-        {
+        if (p instanceof JViewport) {
             Container gp = p.getParent();
 
-            if (gp instanceof JScrollPane scrollPane)
-            {
+            if (gp instanceof JScrollPane scrollPane) {
                 Border border = scrollPane.getBorder();
 
-                if ((border == null) || (border instanceof UIResource))
-                {
+                if ((border == null) || (border instanceof UIResource)) {
                     scrollPane.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
                 }
             }
         }
     }
 
-    protected JComponent createDefaultColumnControl()
-    {
+    protected JComponent createDefaultColumnControl() {
         return new ColumnControlButton(this);
     }
 
@@ -337,8 +288,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
      * @see javax.swing.JTable#createDefaultColumnModel()
      */
     @Override
-    protected TableColumnModel createDefaultColumnModel()
-    {
+    protected TableColumnModel createDefaultColumnModel() {
         DefaultExtTableColumnModel columnModel = new DefaultExtTableColumnModel();
         // columnModel.addColumnModelListener(this);
 
@@ -349,8 +299,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
      * @see javax.swing.JTable#initializeLocalVars()
      */
     @Override
-    protected void initializeLocalVars()
-    {
+    protected void initializeLocalVars() {
         super.initializeLocalVars();
 
         // Close CellEditor on FocusLost.
@@ -361,8 +310,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
 
         // Pack Actions
         ActionMap map = getActionMap();
-        map.put("pack_all", new AbstractAction("pack_all")
-        {
+        map.put("pack_all", new AbstractAction("pack_all") {
             @Serial
             private static final long serialVersionUID = -5537831177642642702L;
 
@@ -370,8 +318,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
              * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 packAll(-1);
             }
         });
@@ -380,8 +327,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener
         TableColumnSorter.add(this);
     }
 
-    protected boolean showHeader()
-    {
+    protected boolean showHeader() {
         return this.showHeader;
     }
 }

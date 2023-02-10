@@ -33,24 +33,19 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public final class HsqldbTextTableBuilder
-{
-    public static HsqldbTextTableBuilder create()
-    {
+public final class HsqldbTextTableBuilder {
+    public static HsqldbTextTableBuilder create() {
         return new HsqldbTextTableBuilder();
     }
 
-    private static void validatePath(final Path path)
-    {
+    private static void validatePath(final Path path) {
         Objects.requireNonNull(path, "path required");
 
-        if (!Files.exists(path))
-        {
+        if (!Files.exists(path)) {
             throw new IllegalArgumentException("file not exist");
         }
 
-        if (!Files.isReadable(path))
-        {
+        if (!Files.isReadable(path)) {
             throw new IllegalArgumentException("file not readable");
         }
     }
@@ -75,8 +70,7 @@ public final class HsqldbTextTableBuilder
 
     private String tableName;
 
-    private HsqldbTextTableBuilder()
-    {
+    private HsqldbTextTableBuilder() {
         super();
     }
 
@@ -92,8 +86,7 @@ public final class HsqldbTextTableBuilder
      * <li>addColumn("DOUBLE decimal(4,3)")
      * </ul>
      */
-    public HsqldbTextTableBuilder addColumn(final String column)
-    {
+    public HsqldbTextTableBuilder addColumn(final String column) {
         this.columns.add(Objects.requireNonNull(column, "column required"));
 
         return this;
@@ -106,8 +99,7 @@ public final class HsqldbTextTableBuilder
      * Die {@link #build(HsqldbTextTableBuilder...)}-Methode darf vorher auf den übergebenen Buildern NICHT aufgerufen werden!<br>
      * So können auch Queries zwischen den CSV-Dateien ausgeführt werden.
      */
-    public Connection build(final HsqldbTextTableBuilder... builders) throws SQLException
-    {
+    public Connection build(final HsqldbTextTableBuilder... builders) throws SQLException {
         // Damit Text-Tables auch im Memory-Mode funktionieren.
         System.setProperty("textdb.allow_full_path", "true");
 
@@ -116,12 +108,10 @@ public final class HsqldbTextTableBuilder
         list.addAll(Arrays.asList(builders));
 
         // Validierung.
-        for (HsqldbTextTableBuilder ttb : list)
-        {
+        for (HsqldbTextTableBuilder ttb : list) {
             validatePath(ttb.path);
 
-            if (ttb.columns.isEmpty())
-            {
+            if (ttb.columns.isEmpty()) {
                 throw new IllegalStateException("no columns defined");
             }
         }
@@ -136,24 +126,19 @@ public final class HsqldbTextTableBuilder
         Connection connection = DriverManager.getConnection(url.toString());
         // connection.setReadOnly(true);
 
-        try
-        {
-            for (HsqldbTextTableBuilder ttb : list)
-            {
-                try (Statement statement = connection.createStatement())
-                {
+        try {
+            for (HsqldbTextTableBuilder ttb : list) {
+                try (Statement statement = connection.createStatement()) {
                     // Tabelle mit Struktur anlegen.
                     StringBuilder sql = new StringBuilder();
                     sql.append("CREATE TEXT TABLE ").append(ttb.tableName);
                     sql.append(" (");
 
-                    for (Iterator<String> iterator = ttb.columns.iterator(); iterator.hasNext(); )
-                    {
+                    for (Iterator<String> iterator = ttb.columns.iterator(); iterator.hasNext(); ) {
                         String column = iterator.next();
                         sql.append(column);
 
-                        if (iterator.hasNext())
-                        {
+                        if (iterator.hasNext()) {
                             sql.append(", ");
                         }
                     }
@@ -184,8 +169,7 @@ public final class HsqldbTextTableBuilder
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             connection.close();
             throw ex;
         }
@@ -197,8 +181,7 @@ public final class HsqldbTextTableBuilder
      * Flag, ob alle Daten in Anführungszeichen stehen (Double-Quotes).<br>
      * Default = true
      */
-    public HsqldbTextTableBuilder setAllQuoted(final boolean allQuoted)
-    {
+    public HsqldbTextTableBuilder setAllQuoted(final boolean allQuoted) {
         this.allQuoted = allQuoted;
 
         return this;
@@ -208,8 +191,7 @@ public final class HsqldbTextTableBuilder
      * Maximale Anzahl von Zeilen im Cache.<br>
      * Default = 10000
      */
-    public HsqldbTextTableBuilder setCacheRows(final int cacheRows)
-    {
+    public HsqldbTextTableBuilder setCacheRows(final int cacheRows) {
         this.cacheRows = cacheRows;
 
         return this;
@@ -219,8 +201,7 @@ public final class HsqldbTextTableBuilder
      * Maximale Cache-Größe in kB.<br>
      * Default = 1024 KB = 1 MB
      */
-    public HsqldbTextTableBuilder setCacheSize(final int cacheSize)
-    {
+    public HsqldbTextTableBuilder setCacheSize(final int cacheSize) {
         this.cacheSize = cacheSize;
 
         return this;
@@ -230,8 +211,7 @@ public final class HsqldbTextTableBuilder
      * Setzt den {@link Charset} der CSV-Datei.<br>
      * Default = UTF-8
      */
-    public HsqldbTextTableBuilder setEncoding(final Charset charset)
-    {
+    public HsqldbTextTableBuilder setEncoding(final Charset charset) {
         this.charset = Objects.requireNonNull(charset, "charset required");
 
         return this;
@@ -243,12 +223,10 @@ public final class HsqldbTextTableBuilder
      * <br>
      * Andere Separatoren: \space, \t, \comma
      */
-    public HsqldbTextTableBuilder setFieldSeparator(final String fieldSeparator)
-    {
+    public HsqldbTextTableBuilder setFieldSeparator(final String fieldSeparator) {
         this.fieldSeparator = Objects.requireNonNull(fieldSeparator, "fieldSeparator required");
 
-        if ("\\comma".equals(this.fieldSeparator))
-        {
+        if ("\\comma".equals(this.fieldSeparator)) {
             this.fieldSeparator = ",";
         }
 
@@ -259,8 +237,7 @@ public final class HsqldbTextTableBuilder
      * Wenn true, wird die erste Zeile übersprungen, in der Regel der Header.<br>
      * Default = true
      */
-    public HsqldbTextTableBuilder setIgnoreFirst(final boolean ignoreFirst)
-    {
+    public HsqldbTextTableBuilder setIgnoreFirst(final boolean ignoreFirst) {
         this.ignoreFirst = ignoreFirst;
 
         return this;
@@ -270,8 +247,7 @@ public final class HsqldbTextTableBuilder
      * Setzt den {@link Path} zur CSV-Datei.<br>
      * Der Tabellenname wird großgeschrieben und '.' durch '_' ersetzt,
      */
-    public HsqldbTextTableBuilder setPath(final Path path)
-    {
+    public HsqldbTextTableBuilder setPath(final Path path) {
         validatePath(path);
         this.path = path;
         setTableName(this.path.getFileName().toString().replace('.', '_').toUpperCase());
@@ -283,8 +259,7 @@ public final class HsqldbTextTableBuilder
      * Setzt den Tabellennamen.<br>
      * Default = Dateiname vom Pfad, upper case und '.' durch '_' ersetzt<br>
      */
-    public HsqldbTextTableBuilder setTableName(final String tableName)
-    {
+    public HsqldbTextTableBuilder setTableName(final String tableName) {
         this.tableName = Objects.requireNonNull(tableName, "tableName required");
 
         return this;

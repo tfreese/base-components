@@ -7,10 +7,8 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Thomas Freese
  */
-public class ImageFileFilter extends GenericFileFilter
-{
-    public ImageFileFilter()
-    {
+public class ImageFileFilter extends GenericFileFilter {
+    public ImageFileFilter() {
         super(true, ".jpeg", ".jpg", ".gif", ".png", ".bmp");
     }
 }

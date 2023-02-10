@@ -14,20 +14,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.freese.base.utils.CalendarUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+
+import de.freese.base.utils.CalendarUtils;
 
 /**
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestCalendarUtils
-{
+class TestCalendarUtils {
     @Test
-    void testCalendarAtStartOfDay()
-    {
+    void testCalendarAtStartOfDay() {
         Calendar calendar = new GregorianCalendar();
         CalendarUtils.calendarAtStartOfDay(calendar);
 
@@ -39,8 +38,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testCalendarCreate()
-    {
+    void testCalendarCreate() {
         Calendar gregorianCalendar = new GregorianCalendar();
         Calendar calendar = CalendarUtils.calendarCreate();
 
@@ -59,8 +57,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToDateLocalDate()
-    {
+    void testToDateLocalDate() {
         Calendar calendarRef = CalendarUtils.calendarCreate();
 
         Date date = CalendarUtils.toDate(LocalDate.now());
@@ -76,8 +73,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToDateLocalDateTime()
-    {
+    void testToDateLocalDateTime() {
         Calendar calendarRef = CalendarUtils.calendarCreate();
 
         Date date = CalendarUtils.toDate(LocalDateTime.now());
@@ -98,8 +94,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToInstantDateSql()
-    {
+    void testToInstantDateSql() {
         java.sql.Date dateRef = new java.sql.Date(System.currentTimeMillis());
         Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
@@ -119,8 +114,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToInstantDateUtil()
-    {
+    void testToInstantDateUtil() {
         Date dateRef = new Date();
         Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
@@ -140,8 +134,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToInstantLocalDate()
-    {
+    void testToInstantLocalDate() {
         LocalDate localDateRef = LocalDate.now();
 
         Instant instant = CalendarUtils.toInstant(localDateRef);
@@ -156,8 +149,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToInstantLocalDateTime()
-    {
+    void testToInstantLocalDateTime() {
         LocalDateTime localDateTimeRef = LocalDateTime.now();
 
         Instant instant = CalendarUtils.toInstant(localDateTimeRef);
@@ -176,8 +168,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToLocalDateDate()
-    {
+    void testToLocalDateDate() {
         Date dateRef = new Date();
         Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
@@ -192,8 +183,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToLocalDateInstant()
-    {
+    void testToLocalDateInstant() {
         LocalDateTime localDateTimeRef = LocalDateTime.now();
 
         Instant instant = CalendarUtils.toInstant(localDateTimeRef);
@@ -208,8 +198,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToLocalDateLocalDateTime()
-    {
+    void testToLocalDateLocalDateTime() {
         LocalDate localDateRef = LocalDate.now();
 
         LocalDate localDate = CalendarUtils.toLocalDate(LocalDateTime.now());
@@ -223,8 +212,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToLocalDateTimeDate()
-    {
+    void testToLocalDateTimeDate() {
         Date dateRef = new Date();
         Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
@@ -243,8 +231,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToLocalDateTimeInstant()
-    {
+    void testToLocalDateTimeInstant() {
         LocalDate localDateRef = LocalDate.now();
 
         Instant instant = CalendarUtils.toInstant(localDateRef);
@@ -264,8 +251,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToLocalDateTimeLocalDate()
-    {
+    void testToLocalDateTimeLocalDate() {
         LocalDate localDateRef = LocalDate.now();
 
         LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(localDateRef);
@@ -284,8 +270,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToSqlDateInstant()
-    {
+    void testToSqlDateInstant() {
         LocalDate localDateRef = LocalDate.now();
 
         Instant instant = CalendarUtils.toInstant(localDateRef);
@@ -302,8 +287,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToSqlDateLocalDate()
-    {
+    void testToSqlDateLocalDate() {
         LocalDate localDateRef = LocalDate.now();
 
         java.sql.Date date = CalendarUtils.toSqlDate(localDateRef);
@@ -318,8 +302,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToSqlDateLocalDateTime()
-    {
+    void testToSqlDateLocalDateTime() {
         LocalDateTime localDateTimeRef = LocalDateTime.now();
 
         java.sql.Date date = CalendarUtils.toSqlDate(localDateTimeRef);
@@ -338,8 +321,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToSqlTimestampInstant()
-    {
+    void testToSqlTimestampInstant() {
         LocalDate localDateRef = LocalDate.now();
 
         Instant instant = CalendarUtils.toInstant(localDateRef);
@@ -360,8 +342,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToSqlTimestampLocalDate()
-    {
+    void testToSqlTimestampLocalDate() {
         LocalDate localDateRef = LocalDate.now();
 
         Timestamp timestamp = CalendarUtils.toSqlTimestamp(localDateRef);
@@ -380,8 +361,7 @@ class TestCalendarUtils
     }
 
     @Test
-    void testToSqlTimestampLocalDateTime()
-    {
+    void testToSqlTimestampLocalDateTime() {
         LocalDateTime localDateTimeRef = LocalDateTime.now();
 
         Timestamp timestamp = CalendarUtils.toSqlTimestamp(localDateTimeRef);

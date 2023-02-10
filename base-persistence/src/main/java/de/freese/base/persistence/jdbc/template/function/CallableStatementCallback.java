@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface CallableStatementCallback<T>
-{
+public interface CallableStatementCallback<T> {
     T doInStatement(CallableStatement statement) throws SQLException;
 }

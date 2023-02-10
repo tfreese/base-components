@@ -18,8 +18,7 @@ import jakarta.activation.DataSource;
  *
  * @author Thomas Freese
  */
-public class ByteArrayDataSource implements DataSource, Serializable
-{
+public class ByteArrayDataSource implements DataSource, Serializable {
     public static final String MIMETYPE_APPLICATION_EXCEL = "application/vnd.ms-excel";
 
     public static final String MIMETYPE_APPLICATION_HTTP = "application/http";
@@ -51,57 +50,44 @@ public class ByteArrayDataSource implements DataSource, Serializable
     @Serial
     private static final long serialVersionUID = -3420529375053580438L;
 
-    public static String getMimeType(final String resourceName)
-    {
-        if (resourceName == null)
-        {
+    public static String getMimeType(final String resourceName) {
+        if (resourceName == null) {
             return null;
         }
 
         String name = resourceName.toLowerCase();
         String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
 
-        if (name.startsWith("http"))
-        {
+        if (name.startsWith("http")) {
             mimeType = MIMETYPE_APPLICATION_HTTP;
         }
-        else if (name.endsWith(".pdf"))
-        {
+        else if (name.endsWith(".pdf")) {
             mimeType = MIMETYPE_APPLICATION_PDF;
         }
-        else if (name.endsWith(".xls"))
-        {
+        else if (name.endsWith(".xls")) {
             mimeType = MIMETYPE_APPLICATION_EXCEL;
         }
-        else if (name.endsWith(".ppt"))
-        {
+        else if (name.endsWith(".ppt")) {
             mimeType = MIMETYPE_APPLICATION_POWERPOINT;
         }
-        else if (name.endsWith(".png"))
-        {
+        else if (name.endsWith(".png")) {
             mimeType = MIMETYPE_IMAGE_PNG;
         }
-        else if (name.endsWith(".gif"))
-        {
+        else if (name.endsWith(".gif")) {
             mimeType = MIMETYPE_IMAGE_GIF;
         }
-        else if (name.endsWith(".bmp"))
-        {
+        else if (name.endsWith(".bmp")) {
             mimeType = MIMETYPE_IMAGE_BMP;
         }
-        else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe")
-                || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp"))
-        {
+        else if (name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".jpe") || name.endsWith(".jfif") || name.endsWith(".pjpeg") || name.endsWith(".pjp")) {
             mimeType = MIMETYPE_IMAGE_JPEG;
         }
 
         return mimeType;
     }
 
-    public static boolean isImageMimeType(final String mimeType)
-    {
-        return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType)
-                || MIMETYPE_IMAGE_BMP.equals(mimeType);
+    public static boolean isImageMimeType(final String mimeType) {
+        return MIMETYPE_IMAGE_JPEG.equals(mimeType) || MIMETYPE_IMAGE_GIF.equals(mimeType) || MIMETYPE_IMAGE_PNG.equals(mimeType) || MIMETYPE_IMAGE_BMP.equals(mimeType);
     }
 
     private final byte[] data;
@@ -110,16 +96,14 @@ public class ByteArrayDataSource implements DataSource, Serializable
 
     private String name = "";
 
-    public ByteArrayDataSource(final byte[] data, final String mimeType)
-    {
+    public ByteArrayDataSource(final byte[] data, final String mimeType) {
         super();
 
         this.data = Objects.requireNonNull(data, "data required");
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
     }
 
-    public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException
-    {
+    public ByteArrayDataSource(final InputStream is, final String mimeType) throws IOException {
         super();
 
         Objects.requireNonNull(is, "inputStream required");
@@ -129,16 +113,13 @@ public class ByteArrayDataSource implements DataSource, Serializable
         final byte[] bytes = new byte[4096];
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        while (true)
-        {
+        while (true) {
             final int bytesRead = is.read(bytes);
 
-            if (bytesRead > -1)
-            {
+            if (bytesRead > -1) {
                 baos.write(bytes, 0, bytesRead);
             }
-            else
-            {
+            else {
                 // no more data...
                 break;
             }
@@ -147,24 +128,20 @@ public class ByteArrayDataSource implements DataSource, Serializable
         this.data = baos.toByteArray();
     }
 
-    public ByteArrayDataSource(final Serializable object) throws IOException
-    {
+    public ByteArrayDataSource(final Serializable object) throws IOException {
         this(ByteUtils.serializeObject(object), MIMETYPE_APPLICATION_OCTET_STREAM);
     }
 
-    public ByteArrayDataSource(final String value, final String mimeType) throws UnsupportedEncodingException
-    {
+    public ByteArrayDataSource(final String value, final String mimeType) throws UnsupportedEncodingException {
         super();
 
-        if (value != null)
-        {
+        if (value != null) {
             // Assumption that the string contains only ASCII characters!
             // Otherwise, just pass a charset into this
             // constructor and use it in getBytes()
             this.data = value.getBytes(StandardCharsets.ISO_8859_1);
         }
-        else
-        {
+        else {
             this.data = null;
         }
 
@@ -175,8 +152,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @see jakarta.activation.DataSource#getContentType()
      */
     @Override
-    public String getContentType()
-    {
+    public String getContentType() {
         return this.mimeType;
     }
 
@@ -184,10 +160,8 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @see jakarta.activation.DataSource#getInputStream()
      */
     @Override
-    public InputStream getInputStream() throws IOException
-    {
-        if (this.data == null)
-        {
+    public InputStream getInputStream() throws IOException {
+        if (this.data == null) {
             throw new IOException("no data");
         }
 
@@ -198,8 +172,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @see jakarta.activation.DataSource#getName()
      */
     @Override
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
@@ -207,10 +180,8 @@ public class ByteArrayDataSource implements DataSource, Serializable
      * @see jakarta.activation.DataSource#getOutputStream()
      */
     @Override
-    public OutputStream getOutputStream() throws IOException
-    {
-        if (this.data == null)
-        {
+    public OutputStream getOutputStream() throws IOException {
+        if (this.data == null) {
             throw new IOException("no data");
         }
 
@@ -220,10 +191,8 @@ public class ByteArrayDataSource implements DataSource, Serializable
         return baos;
     }
 
-    public void setName(final String value)
-    {
-        if (value != null)
-        {
+    public void setName(final String value) {
+        if (value != null) {
             this.name = value;
         }
     }

@@ -19,21 +19,21 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.GCMParameterSpec;
 
-import de.freese.base.security.crypto.Crypto;
-import de.freese.base.security.crypto.CryptoAsymetric;
-import de.freese.base.security.crypto.CryptoConfig;
-import de.freese.base.security.crypto.CryptoConfigSymetric;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+import de.freese.base.security.crypto.Crypto;
+import de.freese.base.security.crypto.CryptoAsymetric;
+import de.freese.base.security.crypto.CryptoConfig;
+import de.freese.base.security.crypto.CryptoConfigSymetric;
+
 /**
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestCrypto
-{
+class TestCrypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
@@ -41,8 +41,7 @@ class TestCrypto
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     @Test
-    void testAsymetricRsa() throws Exception
-    {
+    void testAsymetricRsa() throws Exception {
         // @formatter:off
          Crypto crypto = CryptoConfig.asymetric()
              .providerCipher("SunJCE")
@@ -62,10 +61,8 @@ class TestCrypto
     }
 
     @Test
-    void testAsymetricRsaBc() throws Exception
-    {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
-        {
+    void testAsymetricRsaBc() throws Exception {
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
 
@@ -85,8 +82,7 @@ class TestCrypto
     }
 
     @Test
-    void testSymetricAesCbc() throws Exception
-    {
+    void testSymetricAesCbc() throws Exception {
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
             //.providerDefault("SunJCE")
@@ -103,10 +99,8 @@ class TestCrypto
     }
 
     @Test
-    void testSymetricAesCbcBC() throws Exception
-    {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
-        {
+    void testSymetricAesCbcBC() throws Exception {
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
 
@@ -127,8 +121,7 @@ class TestCrypto
     }
 
     @Test
-    void testSymetricAesGcm() throws Exception
-    {
+    void testSymetricAesGcm() throws Exception {
         // @formatter:off
          Crypto crypto = CryptoConfig.symetric()
              .algorithmDefault("AES")
@@ -144,8 +137,7 @@ class TestCrypto
     }
 
     @Test
-    void testSymetricAesGcmPlain() throws Exception
-    {
+    void testSymetricAesGcmPlain() throws Exception {
         // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
         String cipherTransformation = "AES/GCM/NoPadding";
 
@@ -181,8 +173,7 @@ class TestCrypto
     }
 
     @Test
-    void testSymetricBlowfish() throws Exception
-    {
+    void testSymetricBlowfish() throws Exception {
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
             .algorithmDefault("Blowfish")
@@ -198,8 +189,7 @@ class TestCrypto
     }
 
     @Test
-    void testSymetricDes() throws Exception
-    {
+    void testSymetricDes() throws Exception {
         // @formatter:off
         Crypto crypto = CryptoConfig.symetric()
             .algorithmDefault("DES")
@@ -214,13 +204,11 @@ class TestCrypto
         testSignAndVerify(crypto);
     }
 
-    private void testCodec(final Crypto crypto) throws Exception
-    {
+    private void testCodec(final Crypto crypto) throws Exception {
         byte[] encrypted = crypto.encrypt(SOURCE_BYTES);
         byte[] decrypted = crypto.decrypt(encrypted);
 
-        if (crypto instanceof CryptoAsymetric)
-        {
+        if (crypto instanceof CryptoAsymetric) {
             // Blockgrösse berücksichtigen.
             decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
         }
@@ -228,22 +216,17 @@ class TestCrypto
         assertArrayEquals(SOURCE_BYTES, decrypted);
 
         // Streams
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES);
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             crypto.encrypt(bais, baos);
             encrypted = baos.toByteArray();
         }
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(encrypted);
-             ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(encrypted); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             crypto.decrypt(bais, baos);
             decrypted = baos.toByteArray();
         }
 
-        if (crypto instanceof CryptoAsymetric)
-        {
+        if (crypto instanceof CryptoAsymetric) {
             // Blockgrösse berücksichtigen.
             decrypted = Arrays.copyOfRange(decrypted, decrypted.length - SOURCE_BYTES.length, decrypted.length);
         }
@@ -251,22 +234,18 @@ class TestCrypto
         assertArrayEquals(SOURCE_BYTES, decrypted);
     }
 
-    private void testSignAndVerify(final Crypto crypto) throws Exception
-    {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES))
-        {
+    private void testSignAndVerify(final Crypto crypto) throws Exception {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES)) {
             byte[] sig = null;
 
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
-            {
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
                 crypto.sign(bais, baos);
                 sig = baos.toByteArray();
             }
 
             bais.reset();
 
-            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig))
-            {
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig)) {
                 boolean verified = crypto.verify(bais, inputStream);
                 assertTrue(verified, "Wrong Signature");
             }

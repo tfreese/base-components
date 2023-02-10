@@ -5,8 +5,7 @@ package de.freese.base.core.math;
  *
  * @author Thomas Freese
  */
-public enum MathOperator
-{
+public enum MathOperator {
     /**
      * Was in einem Wert enthalten ist, was im anderen nicht vorkommt.
      */

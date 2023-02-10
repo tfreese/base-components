@@ -11,10 +11,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public final class DatePickerMain
-{
-    public static void main(final String[] args)
-    {
+public final class DatePickerMain {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(BorderLayout.CENTER, new DatePicker());
@@ -24,8 +22,7 @@ public final class DatePickerMain
         frame.setVisible(true);
     }
 
-    private DatePickerMain()
-    {
+    private DatePickerMain() {
         super();
     }
 }

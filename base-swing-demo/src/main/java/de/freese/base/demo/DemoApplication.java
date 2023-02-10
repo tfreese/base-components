@@ -23,6 +23,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.base.demo.example.ExampleView;
 import de.freese.base.demo.fibonacci.view.DefaultFibonacciView;
 import de.freese.base.demo.fibonacci.view.FibonacciView;
@@ -45,24 +48,20 @@ import de.freese.base.swing.state.GuiStates;
 import de.freese.base.swing.task.TaskManager;
 import de.freese.base.utils.ExecutorUtils;
 import de.freese.base.utils.UICustomization;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Demo Anwendung.
  *
  * @author Thomas Freese
  */
-public class DemoApplication
-{
+public class DemoApplication {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final List<Releasable> releasables = new ArrayList<>();
 
     private Thread shutdownHook;
 
-    public void start()
-    {
+    public void start() {
         String applicationName = "Demo Application";
 
         getLogger().info("Starting {}", applicationName);
@@ -76,8 +75,7 @@ public class DemoApplication
         createFrame(applicationContext);
     }
 
-    protected void createFrame(ApplicationContext applicationContext)
-    {
+    protected void createFrame(ApplicationContext applicationContext) {
         getLogger().info("Initialize GUI");
 
         // Main-Panel
@@ -110,20 +108,16 @@ public class DemoApplication
         JFrame frame = new ExtFrame();
         applicationContext.setMainFrame(frame);
 
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see WindowAdapter#windowClosing(WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent event)
-            {
-                try
-                {
+            public void windowClosing(final WindowEvent event) {
+                try {
                     release(applicationContext);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     getLogger().error(ex.getMessage(), ex);
                 }
             }
@@ -135,25 +129,21 @@ public class DemoApplication
         frame.setSize(1920, 1080);
         frame.setLocationRelativeTo(null);
 
-        try
-        {
+        try {
             applicationContext.getService(GuiStateManager.class).restore(frame, "ApplicationFrame");
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
         frame.setVisible(true);
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return logger;
     }
 
-    protected void initApplicationContext(ApplicationContext applicationContext, String applicationName)
-    {
+    protected void initApplicationContext(ApplicationContext applicationContext, String applicationName) {
         getLogger().info("Initialize ApplicationContext");
 
         // Min. 1 Thread, unused Thread will be terminated after 60 seconds.
@@ -169,12 +159,10 @@ public class DemoApplication
 
         Clipboard clipboard = null;
 
-        try
-        {
+        try {
             clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         }
-        catch (Throwable th)
-        {
+        catch (Throwable th) {
             clipboard = new Clipboard("sandbox");
         }
 
@@ -183,12 +171,10 @@ public class DemoApplication
         applicationContext.registerService(TaskManager.class, new TaskManager(executorService));
     }
 
-    protected void initLookAndFeel(String applicationName)
-    {
+    protected void initLookAndFeel(String applicationName) {
         getLogger().info("Initialize LookAndFeel");
 
-        try
-        {
+        try {
             // PlasticLookAndFeel.setPlasticTheme(new ExperienceBlue());
             // com.jgoodies.looks.plastic.PlasticXPLookAndFeel
             // com.jgoodies.looks.plastic.Plastic3DLookAndFeel
@@ -199,15 +185,13 @@ public class DemoApplication
 
             // UICustomization.install("javax.swing.plaf.metal.MetalLookAndFeel");
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
         UIManager.getLookAndFeelDefaults().put("ToolTip.background", Color.WHITE);
 
-        if (System.getProperty("os.name").contains("Mac OS X"))
-        {
+        if (System.getProperty("os.name").contains("Mac OS X")) {
             // When using the Aqua look and feel, this property puts Swing menus in the Mac OS X
             // menu bar. Note that JMenuBars in JDialogs are not moved to the Mac OS X menu bar.
             System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -226,8 +210,7 @@ public class DemoApplication
         }
     }
 
-    protected void initResourceMap(ApplicationContext applicationContext)
-    {
+    protected void initResourceMap(ApplicationContext applicationContext) {
         getLogger().info("Initialize ResourceMap");
 
         ResourceProvider resourceProvider = new ResourceBundleProvider();
@@ -260,18 +243,14 @@ public class DemoApplication
         applicationContext.setResourceMapRoot(rootMap);
     }
 
-    protected void initShutdownHook(ApplicationContext applicationContext)
-    {
+    protected void initShutdownHook(ApplicationContext applicationContext) {
         getLogger().info("Initialize ShutdownHook");
 
-        Runnable shutdownTask = () ->
-        {
-            try
-            {
+        Runnable shutdownTask = () -> {
+            try {
                 release(applicationContext);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         };
@@ -281,27 +260,23 @@ public class DemoApplication
         Runtime.getRuntime().addShutdownHook(this.shutdownHook);
     }
 
-    private void release(ApplicationContext applicationContext)
-    {
+    private void release(ApplicationContext applicationContext) {
         getLogger().info("Release");
 
         int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?", "Exit", JOptionPane.YES_NO_OPTION);
 
-        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION))
-        {
+        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION)) {
             getLogger().info("Release aborted");
 
             return;
         }
 
-        try
-        {
+        try {
             applicationContext.getService(GuiStateManager.class).store(applicationContext.getMainFrame(), "ApplicationFrame");
 
             releasables.forEach(Releasable::release);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 

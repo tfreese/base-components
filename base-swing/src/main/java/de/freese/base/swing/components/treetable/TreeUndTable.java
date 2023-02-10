@@ -7,20 +7,19 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.tree.TreeSelectionModel;
 
-import de.freese.base.swing.components.table.ExtTable;
 import org.jdesktop.swingx.JXTree;
+
+import de.freese.base.swing.components.table.ExtTable;
 
 /**
  * @author Thomas Freese
  */
-public class TreeUndTable
-{
+public class TreeUndTable {
     private JTable table;
 
     private JTree tree;
 
-    public TreeUndTable()
-    {
+    public TreeUndTable() {
         super();
 
         // SelectionModel zuweisen
@@ -32,22 +31,17 @@ public class TreeUndTable
         // oder getTable().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    public JTable getTable()
-    {
-        if (this.table == null)
-        {
+    public JTable getTable() {
+        if (this.table == null) {
             this.table = new ExtTable();
         }
 
         return this.table;
     }
 
-    public JTree getTree()
-    {
-        if (this.tree == null)
-        {
-            this.tree = new JXTree()
-            {
+    public JTree getTree() {
+        if (this.tree == null) {
+            this.tree = new JXTree() {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
@@ -55,8 +49,7 @@ public class TreeUndTable
                  * @see java.awt.Component#setBounds(int, int, int, int)
                  */
                 @Override
-                public void setBounds(final int x, final int y, final int width, final int height)
-                {
+                public void setBounds(final int x, final int y, final int width, final int height) {
                     Rectangle tableBounds = getTable().getBounds();
 
                     // if (y != tableBounds.y)
@@ -71,14 +64,11 @@ public class TreeUndTable
                  * @see javax.swing.JTree#setRowHeight(int)
                  */
                 @Override
-                public void setRowHeight(final int rowHeight)
-                {
-                    if (this.rowHeight > 0)
-                    {
+                public void setRowHeight(final int rowHeight) {
+                    if (this.rowHeight > 0) {
                         super.setRowHeight(this.rowHeight);
 
-                        if (getTable().getRowHeight() != this.rowHeight)
-                        {
+                        if (getTable().getRowHeight() != this.rowHeight) {
                             getTable().setRowHeight(getRowHeight());
                         }
                     }

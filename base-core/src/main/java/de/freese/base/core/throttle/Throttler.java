@@ -9,8 +9,7 @@ import java.util.concurrent.TimeUnit;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Throttler
-{
+public interface Throttler {
     /**
      * Attempts to acquire a permit to perform an execution against the rate limiter, waiting until one is available or
      * the thread is interrupted.
@@ -18,8 +17,7 @@ public interface Throttler
      * @see #tryAcquirePermit()
      * @see #reservePermit()
      */
-    default void acquirePermit()
-    {
+    default void acquirePermit() {
         acquirePermits(1);
     }
 
@@ -31,44 +29,36 @@ public interface Throttler
      * @see #tryAcquirePermits(int)
      * @see #reservePermits(int)
      */
-    default void acquirePermits(final int permits)
-    {
+    default void acquirePermits(final int permits) {
         long waitNanos = reservePermits(permits);
 
-        if (waitNanos > 0L)
-        {
+        if (waitNanos > 0L) {
             //TimeUnit.NANOSECONDS.sleep(waitNanos);
             //LockSupport.parkNanos(waitNanos);
 
             // Inspired by com.google.common.util.concurrent.Uninterruptibles.
             boolean interrupted = false;
 
-            try
-            {
+            try {
                 long remainingNanos = waitNanos;
                 long end = System.nanoTime() + remainingNanos;
 
-                while (true)
-                {
-                    try
-                    {
+                while (true) {
+                    try {
                         // TimeUnit.sleep() treats negative timeouts just like zero.
                         TimeUnit.NANOSECONDS.sleep(remainingNanos);
 
                         return;
                     }
-                    catch (InterruptedException ex)
-                    {
+                    catch (InterruptedException ex) {
                         // InterruptedException if the current thread is interrupted while waiting to acquire the {@code permits}
                         interrupted = true;
                         remainingNanos = end - System.nanoTime();
                     }
                 }
             }
-            finally
-            {
-                if (interrupted)
-                {
+            finally {
+                if (interrupted) {
                     // Preserve interrupt status
                     Thread.currentThread().interrupt();
                 }
@@ -84,8 +74,7 @@ public interface Throttler
      * @see #acquirePermit()
      * @see #tryAcquirePermit()
      */
-    default long reservePermit()
-    {
+    default long reservePermit() {
         return reservePermits(1);
     }
 
@@ -108,8 +97,7 @@ public interface Throttler
      * @see #acquirePermit()
      * @see #reservePermits(int)
      */
-    default boolean tryAcquirePermit()
-    {
+    default boolean tryAcquirePermit() {
         return tryAcquirePermits(1);
     }
 
@@ -122,8 +110,7 @@ public interface Throttler
      * @throws IllegalArgumentException if {@code permits} is < 1
      * @see #acquirePermits(int)
      */
-    default boolean tryAcquirePermits(int permits)
-    {
+    default boolean tryAcquirePermits(int permits) {
         return reservePermits(permits) == 0;
     }
 }

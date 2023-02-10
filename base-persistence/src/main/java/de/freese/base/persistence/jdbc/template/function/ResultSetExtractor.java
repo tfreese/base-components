@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ResultSetExtractor<T>
-{
+public interface ResultSetExtractor<T> {
     T extractData(ResultSet resultSet) throws SQLException;
 }

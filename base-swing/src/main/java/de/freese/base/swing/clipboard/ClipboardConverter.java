@@ -5,8 +5,7 @@ package de.freese.base.swing.clipboard;
  *
  * @author Thomas Freese
  */
-public interface ClipboardConverter
-{
+public interface ClipboardConverter {
     /**
      * Konvertiert aus einem String der Zwischenablage ein Java Objekt.
      */

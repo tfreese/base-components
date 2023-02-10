@@ -9,14 +9,12 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 /**
  * @author Thomas Freese
  */
-public class PersonRowMapper implements RowMapper<Person>
-{
+public class PersonRowMapper implements RowMapper<Person> {
     /**
      * @see de.freese.base.persistence.jdbc.template.function.RowMapper#mapRow(java.sql.ResultSet)
      */
     @Override
-    public Person mapRow(final ResultSet rs) throws SQLException
-    {
+    public Person mapRow(final ResultSet rs) throws SQLException {
         long id = rs.getLong("ID");
         String nachname = rs.getString("LAST_NAME");
         String vorname = rs.getString("FIRST_NAME");

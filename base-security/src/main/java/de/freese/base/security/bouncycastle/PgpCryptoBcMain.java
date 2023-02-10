@@ -12,10 +12,8 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 /**
  * @author Thomas Freese
  */
-public final class PgpCryptoBcMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class PgpCryptoBcMain {
+    public static void main(final String[] args) throws Exception {
         // KeyID = -3266217749052483355
         System.out.println(Long.decode("0x09DFF54A96322AD9"));
         System.out.println(new BigInteger("09DFF54A96322AD9", 16).longValue());
@@ -36,16 +34,12 @@ public final class PgpCryptoBcMain
 
         System.out.println("Decrypt");
 
-        try (InputStream in = new FileInputStream("/tmp/conkyrc.gpg");
-             OutputStream out = new FileOutputStream("/tmp/test.txt");
-             InputStream keyIn = new FileInputStream("/home/tommy/.gnupg/secring.gpg"))
-        {
+        try (InputStream in = new FileInputStream("/tmp/conkyrc.gpg"); OutputStream out = new FileOutputStream("/tmp/test.txt"); InputStream keyIn = new FileInputStream("/home/tommy/.gnupg/secring.gpg")) {
             codec.decryptFile(in, out, keyIn, args[0].toCharArray());
         }
     }
 
-    private PgpCryptoBcMain()
-    {
+    private PgpCryptoBcMain() {
         super();
     }
 }

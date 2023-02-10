@@ -7,8 +7,7 @@ import java.util.Date;
 /**
  * @author Thomas Freese
  */
-public class AuditInfo implements Serializable
-{
+public class AuditInfo implements Serializable {
     @Serial
     private static final long serialVersionUID = 146275334726328864L;
 
@@ -24,63 +23,51 @@ public class AuditInfo implements Serializable
 
     private Date gueltigVon;
 
-    public Date getErstelltAm()
-    {
+    public Date getErstelltAm() {
         return this.erstelltAm;
     }
 
-    public String getErstelltVon()
-    {
+    public String getErstelltVon() {
         return this.erstelltVon;
     }
 
-    public Date getGeaendertAm()
-    {
+    public Date getGeaendertAm() {
         return this.geaendertAm;
     }
 
-    public String getGeaendertVon()
-    {
+    public String getGeaendertVon() {
         return this.geaendertVon;
     }
 
-    public Date getGueltigBis()
-    {
+    public Date getGueltigBis() {
         return this.gueltigBis;
     }
 
-    public Date getGueltigVon()
-    {
+    public Date getGueltigVon() {
         return this.gueltigVon;
     }
 
-    public void setErstelltAm(final Date erstelltAm)
-    {
+    public void setErstelltAm(final Date erstelltAm) {
         this.erstelltAm = erstelltAm;
     }
 
-    public void setErstelltVon(final String erstelltVon)
-    {
+    public void setErstelltVon(final String erstelltVon) {
         this.erstelltVon = erstelltVon;
     }
 
-    public void setGeaendertAm(final Date geaendertAm)
-    {
+    public void setGeaendertAm(final Date geaendertAm) {
         this.geaendertAm = geaendertAm;
     }
 
-    public void setGeaendertVon(final String geaendertVon)
-    {
+    public void setGeaendertVon(final String geaendertVon) {
         this.geaendertVon = geaendertVon;
     }
 
-    public void setGueltigBis(final Date gueltigBis)
-    {
+    public void setGueltigBis(final Date gueltigBis) {
         this.gueltigBis = gueltigBis;
     }
 
-    public void setGueltigVon(final Date gueltigVon)
-    {
+    public void setGueltigVon(final Date gueltigVon) {
         this.gueltigVon = gueltigVon;
     }
 }

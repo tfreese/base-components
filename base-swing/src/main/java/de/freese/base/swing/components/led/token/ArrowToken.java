@@ -9,13 +9,11 @@ import de.freese.base.swing.components.led.LedMatrix;
 /**
  * @author Thomas Freese
  */
-public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
-{
+public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection> {
     /**
      * @author Thomas Freese
      */
-    public enum ArrowDirection
-    {
+    public enum ArrowDirection {
         DOWN,
         LEFT,
         RIGHT,
@@ -23,15 +21,13 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
         UP
     }
 
-    public ArrowToken(final ArrowToken.ArrowDirection value)
-    {
+    public ArrowToken(final ArrowToken.ArrowDirection value) {
         super();
 
         setValue(value);
     }
 
-    public ArrowToken(final Color color, final ArrowToken.ArrowDirection value)
-    {
+    public ArrowToken(final Color color, final ArrowToken.ArrowDirection value) {
         super(color);
 
         setValue(value);
@@ -41,8 +37,7 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection>
      * @see de.freese.base.swing.components.led.token.Token#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(final ArrowDirection value)
-    {
+    public void setValue(final ArrowDirection value) {
         String displayValue = Objects.requireNonNull(value, "value required").name();
         setDisplayValue(displayValue);
 

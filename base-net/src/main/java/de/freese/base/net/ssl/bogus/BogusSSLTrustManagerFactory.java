@@ -23,16 +23,13 @@ import javax.net.ssl.X509TrustManager;
  * @author Norman Maurer <norman@apache.org>
  * @author Thomas Freese
  */
-public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
-{
-    private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager()
-    {
+public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
+    private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager() {
         /**
          * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
          */
         @Override
-        public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException
-        {
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             // Always trust - it is an example.
             // You should do something in the real world.
             // You will reach here only if you enabled client certificate auth,
@@ -44,8 +41,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
          * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
          */
         @Override
-        public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException
-        {
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             // Always trust - it is an example.
             // You should do something in the real world.
             System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectX500Principal());
@@ -55,26 +51,20 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
          * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
          */
         @Override
-        public X509Certificate[] getAcceptedIssuers()
-        {
+        public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
         }
     };
 
-    public static TrustManager[] getTrustManagers()
-    {
-        return new TrustManager[]
-                {
-                        DUMMY_TRUST_MANAGER
-                };
+    public static TrustManager[] getTrustManagers() {
+        return new TrustManager[]{DUMMY_TRUST_MANAGER};
     }
 
     /**
      * @see javax.net.ssl.TrustManagerFactorySpi#engineGetTrustManagers()
      */
     @Override
-    protected TrustManager[] engineGetTrustManagers()
-    {
+    protected TrustManager[] engineGetTrustManagers() {
         return getTrustManagers();
     }
 
@@ -82,8 +72,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
      * @see javax.net.ssl.TrustManagerFactorySpi#engineInit(java.security.KeyStore)
      */
     @Override
-    protected void engineInit(final KeyStore keystore) throws KeyStoreException
-    {
+    protected void engineInit(final KeyStore keystore) throws KeyStoreException {
         // Unused
     }
 
@@ -91,8 +80,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi
      * @see javax.net.ssl.TrustManagerFactorySpi#engineInit(javax.net.ssl.ManagerFactoryParameters)
      */
     @Override
-    protected void engineInit(final ManagerFactoryParameters managerFactoryParameters) throws InvalidAlgorithmParameterException
-    {
+    protected void engineInit(final ManagerFactoryParameters managerFactoryParameters) throws InvalidAlgorithmParameterException {
         // Unused
     }
 }

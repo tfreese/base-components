@@ -16,20 +16,17 @@ import javax.swing.text.JTextComponent;
  *
  * @author Thomas Freese
  */
-public class CurvedLineBorder extends LineBorder
-{
+public class CurvedLineBorder extends LineBorder {
     @Serial
     private static final long serialVersionUID = 3562280264054463491L;
 
     private final int arcSize;
 
-    public CurvedLineBorder(final Color color)
-    {
+    public CurvedLineBorder(final Color color) {
         this(color, 5);
     }
 
-    public CurvedLineBorder(final Color color, final int arcSize)
-    {
+    public CurvedLineBorder(final Color color, final int arcSize) {
         super(color, 1);
 
         this.arcSize = arcSize;
@@ -39,8 +36,7 @@ public class CurvedLineBorder extends LineBorder
      * @see javax.swing.border.LineBorder#getBorderInsets(java.awt.Component)
      */
     @Override
-    public Insets getBorderInsets(final Component c)
-    {
+    public Insets getBorderInsets(final Component c) {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
 
@@ -48,20 +44,16 @@ public class CurvedLineBorder extends LineBorder
      * @see javax.swing.border.LineBorder#getBorderInsets(java.awt.Component, java.awt.Insets)
      */
     @Override
-    public Insets getBorderInsets(final Component c, final Insets insets)
-    {
+    public Insets getBorderInsets(final Component c, final Insets insets) {
         Insets margin = null;
 
-        if (c instanceof AbstractButton b)
-        {
+        if (c instanceof AbstractButton b) {
             margin = b.getMargin();
         }
-        else if (c instanceof JToolBar t)
-        {
+        else if (c instanceof JToolBar t) {
             margin = t.getMargin();
         }
-        else if (c instanceof JTextComponent t)
-        {
+        else if (c instanceof JTextComponent t) {
             margin = t.getMargin();
         }
 
@@ -77,8 +69,7 @@ public class CurvedLineBorder extends LineBorder
      * @see javax.swing.border.LineBorder#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
      */
     @Override
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height)
-    {
+    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
         Color oldColor = g.getColor();
 
         g.setColor(getLineColor());

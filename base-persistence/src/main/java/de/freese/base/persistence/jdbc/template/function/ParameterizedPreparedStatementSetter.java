@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ParameterizedPreparedStatementSetter<T>
-{
+public interface ParameterizedPreparedStatementSetter<T> {
     void setValues(PreparedStatement preparedStatement, T argument) throws SQLException;
 }

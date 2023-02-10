@@ -14,74 +14,58 @@ import java.util.concurrent.Semaphore;
  *
  * @author Thomas Freese
  */
-public class BoundedExecutorQueuedWithScheduler implements Executor
-{
-    private static final Runnable SHUTDOWN_RUNNABLE = () ->
-    {
+public class BoundedExecutorQueuedWithScheduler implements Executor {
+    private static final Runnable SHUTDOWN_RUNNABLE = () -> {
     };
 
     /**
      * @author Thomas Freese
      */
-    private class QueueScheduler implements Runnable
-    {
+    private class QueueScheduler implements Runnable {
         /**
          * @see java.lang.Thread#run()
          */
         @Override
-        public void run()
-        {
-            while (!Thread.interrupted())
-            {
-                try
-                {
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
                     Runnable runnable = BoundedExecutorQueuedWithScheduler.this.queue.take();
 
-                    if (runnable == SHUTDOWN_RUNNABLE)
-                    {
+                    if (runnable == SHUTDOWN_RUNNABLE) {
                         break;
                     }
 
                     schedule(runnable);
                 }
-                catch (InterruptedException ex)
-                {
+                catch (InterruptedException ex) {
                     // Restore interrupted state.
                     Thread.currentThread().interrupt();
                 }
             }
         }
 
-        private void schedule(final Runnable runnable)
-        {
-            try
-            {
+        private void schedule(final Runnable runnable) {
+            try {
                 BoundedExecutorQueuedWithScheduler.this.rateLimiter.acquire();
 
-                BoundedExecutorQueuedWithScheduler.this.delegate.execute(() ->
-                {
-                    try
-                    {
+                BoundedExecutorQueuedWithScheduler.this.delegate.execute(() -> {
+                    try {
                         runnable.run();
                     }
-                    finally
-                    {
+                    finally {
                         BoundedExecutorQueuedWithScheduler.this.rateLimiter.release();
                     }
                 });
             }
-            catch (RejectedExecutionException ex)
-            {
+            catch (RejectedExecutionException ex) {
                 BoundedExecutorQueuedWithScheduler.this.rateLimiter.release();
 
                 throw ex;
             }
-            catch (RuntimeException ex)
-            {
+            catch (RuntimeException ex) {
                 throw ex;
             }
-            catch (InterruptedException ex)
-            {
+            catch (InterruptedException ex) {
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }
@@ -97,14 +81,12 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
     /**
      * @param parallelism int; Number of Threads to use from the Delegate
      */
-    public BoundedExecutorQueuedWithScheduler(final Executor delegate, final int parallelism)
-    {
+    public BoundedExecutorQueuedWithScheduler(final Executor delegate, final int parallelism) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
 
-        if (parallelism < 1)
-        {
+        if (parallelism < 1) {
             throw new IllegalArgumentException("parallelism < 1: " + parallelism);
         }
 
@@ -117,23 +99,19 @@ public class BoundedExecutorQueuedWithScheduler implements Executor
      * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
      */
     @Override
-    public void execute(final Runnable runnable)
-    {
-        if (runnable == null)
-        {
+    public void execute(final Runnable runnable) {
+        if (runnable == null) {
             throw new NullPointerException();
         }
 
         this.queue.add(runnable);
     }
 
-    public int getQueueSize()
-    {
+    public int getQueueSize() {
         return this.queue.size();
     }
 
-    public void shutdown()
-    {
+    public void shutdown() {
         execute(SHUTDOWN_RUNNABLE);
     }
 }

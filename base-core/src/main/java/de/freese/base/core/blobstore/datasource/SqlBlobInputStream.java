@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-final class SqlBlobInputStream extends InputStream
-{
+final class SqlBlobInputStream extends InputStream {
     private final java.sql.Blob blob;
 
     private final InputStream blobInputStream;
@@ -29,8 +28,7 @@ final class SqlBlobInputStream extends InputStream
 
     private final ResultSet resultSet;
 
-    SqlBlobInputStream(Connection connection, PreparedStatement prepareStatement) throws SQLException
-    {
+    SqlBlobInputStream(Connection connection, PreparedStatement prepareStatement) throws SQLException {
         this.connection = Objects.requireNonNull(connection, "connection required");
         this.prepareStatement = Objects.requireNonNull(prepareStatement, "prepareStatement required");
 
@@ -42,139 +40,115 @@ final class SqlBlobInputStream extends InputStream
     }
 
     @Override
-    public int available() throws IOException
-    {
+    public int available() throws IOException {
         return this.blobInputStream.available();
     }
 
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         super.close();
 
         SQLException sex = null;
 
-        try
-        {
+        try {
             this.blobInputStream.close();
             this.blob.free();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
             sex = ex;
         }
 
-        try
-        {
+        try {
             this.resultSet.close();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
             sex = ex;
         }
 
-        try
-        {
+        try {
             this.prepareStatement.close();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
             sex = ex;
         }
 
-        try
-        {
+        try {
             this.connection.close();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
             sex = ex;
         }
 
-        if (sex != null)
-        {
+        if (sex != null) {
             throw new RuntimeException(sex);
         }
     }
 
     @Override
-    public synchronized void mark(final int readLimit)
-    {
+    public synchronized void mark(final int readLimit) {
         this.blobInputStream.mark(readLimit);
     }
 
     @Override
-    public boolean markSupported()
-    {
+    public boolean markSupported() {
         return this.blobInputStream.markSupported();
     }
 
     @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException
-    {
+    public int read(final byte[] b, final int off, final int len) throws IOException {
         return this.blobInputStream.read(b, off, len);
     }
 
     @Override
-    public int read(final byte[] b) throws IOException
-    {
+    public int read(final byte[] b) throws IOException {
         return this.blobInputStream.read(b);
     }
 
     @Override
-    public int read() throws IOException
-    {
+    public int read() throws IOException {
         return this.blobInputStream.read();
     }
 
     @Override
-    public byte[] readAllBytes() throws IOException
-    {
+    public byte[] readAllBytes() throws IOException {
         return this.blobInputStream.readAllBytes();
     }
 
     @Override
-    public int readNBytes(final byte[] b, final int off, final int len) throws IOException
-    {
+    public int readNBytes(final byte[] b, final int off, final int len) throws IOException {
         return this.blobInputStream.readNBytes(b, off, len);
     }
 
     @Override
-    public byte[] readNBytes(final int len) throws IOException
-    {
+    public byte[] readNBytes(final int len) throws IOException {
         return this.blobInputStream.readNBytes(len);
     }
 
     @Override
-    public synchronized void reset() throws IOException
-    {
+    public synchronized void reset() throws IOException {
         this.blobInputStream.reset();
     }
 
     @Override
-    public long skip(final long n) throws IOException
-    {
+    public long skip(final long n) throws IOException {
         return this.blobInputStream.skip(n);
     }
 
     @Override
-    public void skipNBytes(final long n) throws IOException
-    {
+    public void skipNBytes(final long n) throws IOException {
         this.blobInputStream.skipNBytes(n);
     }
 
     @Override
-    public long transferTo(final OutputStream out) throws IOException
-    {
+    public long transferTo(final OutputStream out) throws IOException {
         return this.blobInputStream.transferTo(out);
     }
 
-    private Logger getLogger()
-    {
+    private Logger getLogger() {
         return logger;
     }
 }

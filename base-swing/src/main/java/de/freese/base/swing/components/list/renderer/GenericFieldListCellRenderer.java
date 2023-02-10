@@ -7,18 +7,15 @@ import java.io.Serial;
  *
  * @author Thomas Freese
  */
-public class GenericFieldListCellRenderer extends AbstractGenericListCellRenderer
-{
+public class GenericFieldListCellRenderer extends AbstractGenericListCellRenderer {
     @Serial
     private static final long serialVersionUID = -4533421995241634353L;
 
-    public GenericFieldListCellRenderer(final String fieldName)
-    {
+    public GenericFieldListCellRenderer(final String fieldName) {
         super(fieldName);
     }
 
-    public GenericFieldListCellRenderer(final String fieldName, final String nullText)
-    {
+    public GenericFieldListCellRenderer(final String fieldName, final String nullText) {
         super(fieldName, nullText);
     }
 
@@ -26,8 +23,7 @@ public class GenericFieldListCellRenderer extends AbstractGenericListCellRendere
      * @see de.freese.base.swing.components.list.renderer.AbstractGenericListCellRenderer#getString(java.lang.Object, java.lang.String)
      */
     @Override
-    protected String getString(final Object object, final String attribute) throws Exception
-    {
+    protected String getString(final Object object, final String attribute) throws Exception {
         return "" + invokeField(object, attribute);
     }
 }

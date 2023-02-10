@@ -9,8 +9,7 @@ import de.freese.base.mvc.view.View;
 /**
  * @author Thomas Freese
  */
-public interface NasaView extends View
-{
+public interface NasaView extends View {
     void setImage(URL url, BufferedImage image);
 
     void setMessage(String key, URL url, Throwable throwable);

@@ -19,16 +19,14 @@ import de.freese.base.swing.task.SwingTask;
  *
  * @author Thomas Freese
  */
-public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
-{
+public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker {
     private final JLabel labelSubTitle;
 
     private final JLabel labelTitle;
 
     private final JProgressBar progressBar;
 
-    public DefaultGlassPaneInputBlocker(final Component target)
-    {
+    public DefaultGlassPaneInputBlocker(final Component target) {
         super(target);
 
         Font defaultFont = SwingFontSizeChanger.getInstance().getFont();
@@ -71,21 +69,17 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
      * @see de.freese.base.swing.task.inputblocker.AbstractInputBlocker#propertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent event)
-    {
+    public void propertyChange(final PropertyChangeEvent event) {
         String propertyName = event.getPropertyName();
 
-        if (SwingTask.PROPERTY_PROGRESS.equals(propertyName))
-        {
+        if (SwingTask.PROPERTY_PROGRESS.equals(propertyName)) {
             AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
-            if (task.isDone())
-            {
+            if (task.isDone()) {
                 return;
             }
 
-            if (this.progressBar.isIndeterminate())
-            {
+            if (this.progressBar.isIndeterminate()) {
                 this.progressBar.setIndeterminate(false);
                 this.progressBar.setStringPainted(true);
             }
@@ -100,23 +94,19 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker
             // this.progressBar.setString(sb.toString());
 
         }
-        else if (SwingTask.PROPERTY_TITLE.equals(propertyName))
-        {
+        else if (SwingTask.PROPERTY_TITLE.equals(propertyName)) {
             AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
-            if (task.isDone())
-            {
+            if (task.isDone()) {
                 return;
             }
 
             this.labelTitle.setText(task.getTitle() == null ? "" : task.getTitle());
         }
-        else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName))
-        {
+        else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName)) {
             AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
-            if (task.isDone())
-            {
+            if (task.isDone()) {
                 return;
             }
 

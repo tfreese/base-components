@@ -32,10 +32,8 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestTimeoutMap
-{
-    static Stream<Arguments> createArguments() throws Exception
-    {
+class TestTimeoutMap {
+    static Stream<Arguments> createArguments() throws Exception {
         // @formatter:off
         return Stream.of(
                 Arguments.of("HashMap", new HashMap<>()),
@@ -51,8 +49,7 @@ class TestTimeoutMap
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
-    void testCompute(final String name, final Map<String, Integer> decorated) throws Exception
-    {
+    void testCompute(final String name, final Map<String, Integer> decorated) throws Exception {
         Map<String, Integer> map = new TimeoutMap<>(Duration.ofMillis(500), decorated);
 
         map.compute("a", (key, value) -> value == null ? 1 : ++value);
@@ -80,8 +77,7 @@ class TestTimeoutMap
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
-    void testComputeIfAbsent(final String name, final Map<String, List<Integer>> decorated) throws Exception
-    {
+    void testComputeIfAbsent(final String name, final Map<String, List<Integer>> decorated) throws Exception {
         Map<String, List<Integer>> map = new TimeoutMap<>(Duration.ofMillis(500), decorated);
 
         map.computeIfAbsent("a", key -> new ArrayList<>()).add(1);
@@ -109,8 +105,7 @@ class TestTimeoutMap
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
-    void testGet(final String name, final Map<String, Integer> decorated) throws Exception
-    {
+    void testGet(final String name, final Map<String, Integer> decorated) throws Exception {
         Map<String, Integer> map = new TimeoutMap<>(Duration.ofMillis(500), decorated);
 
         map.put("a", 1);

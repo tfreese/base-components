@@ -5,7 +5,6 @@ package de.freese.base.core.model.builder.request;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ResultMatcher
-{
+public interface ResultMatcher {
     void match(RequestResult result) throws Exception;
 }

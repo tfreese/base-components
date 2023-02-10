@@ -10,8 +10,7 @@ import java.io.OutputStream;
  *
  * @author Thomas Freese
  */
-public interface BlobStore
-{
+public interface BlobStore {
     /**
      * <b>This Stream MUST be closed to avoid resource exhausting !</b>
      */

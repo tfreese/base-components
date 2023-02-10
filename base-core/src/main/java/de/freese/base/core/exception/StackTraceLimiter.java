@@ -9,10 +9,8 @@ import java.util.function.Consumer;
  *
  * @author Thomas Freese
  */
-public final class StackTraceLimiter
-{
-    public static StackTraceElement[] getLimitedStackTrace(final Throwable th, final int elements)
-    {
+public final class StackTraceLimiter {
+    public static StackTraceElement[] getLimitedStackTrace(final Throwable th, final int elements) {
         StackTraceElement[] limitedTrace = new StackTraceElement[elements];
 
         System.arraycopy(th.getStackTrace(), 0, limitedTrace, 0, elements);
@@ -20,36 +18,30 @@ public final class StackTraceLimiter
         return limitedTrace;
     }
 
-    public static void printStackTrace(final Throwable th, final int elements, final PrintStream ps)
-    {
+    public static void printStackTrace(final Throwable th, final int elements, final PrintStream ps) {
         printStackTrace(th, elements, ps::println);
     }
 
-    public static void printStackTrace(final Throwable th, final int elements, final PrintWriter pw)
-    {
+    public static void printStackTrace(final Throwable th, final int elements, final PrintWriter pw) {
         printStackTrace(th, elements, pw::println);
     }
 
-    public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb)
-    {
+    public static void printStackTrace(final Throwable th, final int elements, final StringBuilder sb) {
         printStackTrace(th, elements, obj -> sb.append(obj).append(System.lineSeparator()));
     }
 
-    private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer)
-    {
+    private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer) {
         consumer.accept(th);
         StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
 
-        for (StackTraceElement stackTraceElement : limitedTrace)
-        {
+        for (StackTraceElement stackTraceElement : limitedTrace) {
             consumer.accept("\tat " + stackTraceElement);
         }
 
         consumer.accept("\t...");
     }
 
-    private StackTraceLimiter()
-    {
+    private StackTraceLimiter() {
         super();
     }
 }

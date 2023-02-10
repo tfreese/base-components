@@ -6,28 +6,23 @@ import java.io.Serial;
 /**
  * @author Thomas Freese
  */
-class PersistenceException extends Exception
-{
+class PersistenceException extends Exception {
     @Serial
     private static final long serialVersionUID = -4679691790131023241L;
 
-    PersistenceException(final String message)
-    {
+    PersistenceException(final String message) {
         super(message);
     }
 
-    PersistenceException(final String message, final Throwable cause)
-    {
+    PersistenceException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    PersistenceException(final Throwable cause)
-    {
+    PersistenceException(final Throwable cause) {
         super(cause);
     }
 
-    PersistenceException()
-    {
+    PersistenceException() {
         super();
     }
 }

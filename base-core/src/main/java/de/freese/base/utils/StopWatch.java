@@ -15,8 +15,7 @@ import java.util.function.Consumer;
  *
  * @author Thomas Freese
  */
-public class StopWatch
-{
+public class StopWatch {
     private static final AtomicInteger ID_NUMBER = new AtomicInteger(1);
 
     private static final AtomicInteger TASK_NUMBER = new AtomicInteger(1);
@@ -24,12 +23,10 @@ public class StopWatch
     /**
      * @author Thomas Freese
      */
-    public static class DefaultPrettyPrinter implements Consumer<StopWatch>
-    {
+    public static class DefaultPrettyPrinter implements Consumer<StopWatch> {
         private final PrintStream printStream;
 
-        public DefaultPrettyPrinter(final PrintStream printStream)
-        {
+        public DefaultPrettyPrinter(final PrintStream printStream) {
             super();
 
             this.printStream = Objects.requireNonNull(printStream, "printStream required");
@@ -39,8 +36,7 @@ public class StopWatch
          * @see java.util.function.Consumer#accept(java.lang.Object)
          */
         @Override
-        public void accept(final StopWatch sw)
-        {
+        public void accept(final StopWatch sw) {
             printSummary(sw, this.printStream, TimeUnit.MILLISECONDS);
             this.printStream.println();
             printTasks(sw, this.printStream, TimeUnit.MILLISECONDS);
@@ -48,8 +44,7 @@ public class StopWatch
             this.printStream.flush();
         }
 
-        protected void printSummary(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit)
-        {
+        protected void printSummary(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit) {
             // @formatter:off
             printStream.printf("StopWatch '%s': running time = %,d %s = %,d %s"
                     , sw.getId()
@@ -62,18 +57,14 @@ public class StopWatch
             // @formatter:on
         }
 
-        protected void printTasks(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit)
-        {
-            if (!sw.isKeepTaskList())
-            {
+        protected void printTasks(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit) {
+            if (!sw.isKeepTaskList()) {
                 printStream.println("No task info kept");
             }
-            else
-            {
+            else {
                 printStream.printf("%15s | %9s | %3s | Task Name%n", TimeUnit.NANOSECONDS.toChronoUnit(), timeUnit.toChronoUnit(), "%");
 
-                for (TaskInfo task : sw.getTaskList())
-                {
+                for (TaskInfo task : sw.getTaskList()) {
                     long nanos = task.getTime(TimeUnit.NANOSECONDS);
 
                     // @formatter:off

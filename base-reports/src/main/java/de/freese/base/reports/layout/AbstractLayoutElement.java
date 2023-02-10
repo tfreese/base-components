@@ -18,8 +18,7 @@ import javax.imageio.ImageIO;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractLayoutElement implements LayoutElement
-{
+public abstract class AbstractLayoutElement implements LayoutElement {
     private final List<LayoutElement> elements = new ArrayList<>(20);
 
     private Color background = Color.WHITE;
@@ -42,13 +41,11 @@ public abstract class AbstractLayoutElement implements LayoutElement
 
     private double y;
 
-    protected AbstractLayoutElement()
-    {
+    protected AbstractLayoutElement() {
         super();
     }
 
-    protected AbstractLayoutElement(final String name)
-    {
+    protected AbstractLayoutElement(final String name) {
         super();
 
         this.name = name;
@@ -58,18 +55,15 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#addElement(LayoutElement)
      */
     @Override
-    public void addElement(final LayoutElement element)
-    {
-        if (!this.elements.contains(element))
-        {
+    public void addElement(final LayoutElement element) {
+        if (!this.elements.contains(element)) {
             this.elements.add(element);
 
             element.setParent(this);
         }
     }
 
-    public BufferedImage createImage()
-    {
+    public BufferedImage createImage() {
         BufferedImage bufferedImage = new BufferedImage((int) getWidth() + 1, (int) getHeight() + 1, BufferedImage.TYPE_INT_RGB);
 
         Graphics2D g2d = bufferedImage.createGraphics();
@@ -88,8 +82,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getBackground()
      */
     @Override
-    public Color getBackground()
-    {
+    public Color getBackground() {
         return this.background;
     }
 
@@ -97,8 +90,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getElementAt(int)
      */
     @Override
-    public LayoutElement getElementAt(final int index)
-    {
+    public LayoutElement getElementAt(final int index) {
         return this.elements.get(index);
     }
 
@@ -106,8 +98,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getElementCount()
      */
     @Override
-    public int getElementCount()
-    {
+    public int getElementCount() {
         return this.elements.size();
     }
 
@@ -115,8 +106,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getFont()
      */
     @Override
-    public Font getFont()
-    {
+    public Font getFont() {
         return this.font;
     }
 
@@ -124,8 +114,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getForeground()
      */
     @Override
-    public Color getForeground()
-    {
+    public Color getForeground() {
         return this.foreground;
     }
 
@@ -133,8 +122,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getHeight()
      */
     @Override
-    public double getHeight()
-    {
+    public double getHeight() {
         return this.height;
     }
 
@@ -142,8 +130,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getInsets()
      */
     @Override
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         return this.insets;
     }
 
@@ -151,8 +138,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getParent()
      */
     @Override
-    public LayoutElement getParent()
-    {
+    public LayoutElement getParent() {
         return this.parent;
     }
 
@@ -160,8 +146,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getWidth()
      */
     @Override
-    public double getWidth()
-    {
+    public double getWidth() {
         return this.width;
     }
 
@@ -169,8 +154,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getX()
      */
     @Override
-    public double getX()
-    {
+    public double getX() {
         return (getParent() == null) ? this.x : (this.x + getParent().getX());
     }
 
@@ -178,8 +162,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#getY()
      */
     @Override
-    public double getY()
-    {
+    public double getY() {
         return (getParent() == null) ? this.y : (this.y + getParent().getY());
     }
 
@@ -187,8 +170,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#paint(java.awt.Graphics2D)
      */
     @Override
-    public void paint(final Graphics2D g2d)
-    {
+    public void paint(final Graphics2D g2d) {
         g2d.setColor(getBackground());
         g2d.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
 
@@ -204,20 +186,17 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#removeElement(LayoutElement)
      */
     @Override
-    public boolean removeElement(final LayoutElement element)
-    {
+    public boolean removeElement(final LayoutElement element) {
         boolean contains = this.elements.remove(element);
 
-        if (contains)
-        {
+        if (contains) {
             element.setParent(null);
         }
 
         return contains;
     }
 
-    public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception
-    {
+    public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception {
         File file = new File(fileName);
         ImageIO.write(bufferedImage, type, file);
     }
@@ -226,8 +205,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setBackground(java.awt.Color)
      */
     @Override
-    public void setBackground(final Color color)
-    {
+    public void setBackground(final Color color) {
         this.background = color;
     }
 
@@ -235,8 +213,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setFont(java.awt.Font)
      */
     @Override
-    public void setFont(final Font font)
-    {
+    public void setFont(final Font font) {
         this.font = font;
     }
 
@@ -244,8 +221,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setForeground(java.awt.Color)
      */
     @Override
-    public void setForeground(final Color color)
-    {
+    public void setForeground(final Color color) {
         this.foreground = color;
     }
 
@@ -253,8 +229,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setHeight(double)
      */
     @Override
-    public void setHeight(final double height)
-    {
+    public void setHeight(final double height) {
         this.height = height;
     }
 
@@ -262,8 +237,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setInsets(java.awt.Insets)
      */
     @Override
-    public void setInsets(final Insets insets)
-    {
+    public void setInsets(final Insets insets) {
         this.insets = insets;
     }
 
@@ -271,8 +245,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setParent(LayoutElement)
      */
     @Override
-    public void setParent(final LayoutElement parent)
-    {
+    public void setParent(final LayoutElement parent) {
         this.parent = parent;
     }
 
@@ -280,8 +253,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setWidth(double)
      */
     @Override
-    public void setWidth(final double width)
-    {
+    public void setWidth(final double width) {
         this.width = width;
     }
 
@@ -289,8 +261,7 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setX(double)
      */
     @Override
-    public void setX(final double x)
-    {
+    public void setX(final double x) {
         this.x = x;
     }
 
@@ -298,36 +269,30 @@ public abstract class AbstractLayoutElement implements LayoutElement
      * @see LayoutElement#setY(double)
      */
     @Override
-    public void setY(final double y)
-    {
+    public void setY(final double y) {
         this.y = y;
     }
 
-    protected String getName()
-    {
+    protected String getName() {
         return this.name;
     }
 
-    protected void paintChildren(final Graphics2D g2d)
-    {
-        for (int i = 0; i < getElementCount(); i++)
-        {
+    protected void paintChildren(final Graphics2D g2d) {
+        for (int i = 0; i < getElementCount(); i++) {
             LayoutElement element = getElementAt(i);
 
             element.paint(g2d);
         }
     }
 
-    protected void paintName(final Graphics2D g2d)
-    {
+    protected void paintName(final Graphics2D g2d) {
         g2d.setColor(getForeground());
 
         String text = getName() + " (" + getWidth() + "x" + getHeight() + ")";
         g2d.drawString(text, (float) (getX() + 3D), (float) (getY() + getHeight() - 3D));
     }
 
-    protected void setName(final String name)
-    {
+    protected void setName(final String name) {
         this.name = name;
     }
 }

@@ -5,7 +5,6 @@ package de.freese.base.mvc;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Releasable
-{
+public interface Releasable {
     void release();
 }

@@ -11,8 +11,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import de.freese.base.core.logging.LoggingOutputStream;
-import de.freese.base.utils.JdbcUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,11 +18,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
+import de.freese.base.core.logging.LoggingOutputStream;
+import de.freese.base.utils.JdbcUtils;
+
 /**
  * @author Thomas Freese
  */
-class TestCsvDriver
-{
+class TestCsvDriver {
     static final Logger LOGGER = LoggerFactory.getLogger(TestCsvDriver.class);
     /**
      * System.out
@@ -32,22 +32,19 @@ class TestCsvDriver
     private static final PrintStream PRINT_STREAM = new PrintStream(new LoggingOutputStream(LOGGER, Level.DEBUG));
 
     @AfterAll
-    static void afterAll() throws Exception
-    {
+    static void afterAll() throws Exception {
         PRINT_STREAM.flush();
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
+    static void beforeAll() throws Exception {
         Class.forName(CsvDriver.class.getName());
 
         DriverManager.setLogWriter(new PrintWriter(PRINT_STREAM, true));
     }
 
     @Test
-    void testCsvBackedTextTables() throws Exception
-    {
+    void testCsvBackedTextTables() throws Exception {
         // Text-Tables should work in Memory-Mode.
         System.setProperty("textdb.allow_full_path", "true");
 
@@ -81,15 +78,12 @@ class TestCsvDriver
         setTable.append(" cache_size=4096"); // max. Cache-Size in kB
         setTable.append('"');
 
-        try (Connection connection = DriverManager.getConnection(url.toString()))
-        {
-            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY))
-            {
+        try (Connection connection = DriverManager.getConnection(url.toString())) {
+            try (Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
                 statement.execute(createTable.toString());
                 statement.execute(setTable.toString());
 
-                try (ResultSet resultSet = statement.executeQuery("select * from MY_CSV"))
-                {
+                try (ResultSet resultSet = statement.executeQuery("select * from MY_CSV")) {
                     JdbcUtils.write(resultSet, PRINT_STREAM);
 
                     assertEquals("abc", resultSet.getString("TEXT"));
@@ -110,8 +104,7 @@ class TestCsvDriver
     }
 
     @Test
-    void testCsvDriver01() throws Exception
-    {
+    void testCsvDriver01() throws Exception {
         // Struktur
         StringBuilder file1 = new StringBuilder();
         file1.append("[");
@@ -131,10 +124,7 @@ class TestCsvDriver
         file1.append(",cache_size=1024"); // max. Cache-Size in kB
         file1.append("]");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1);
-             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-             ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV"))
-        {
+        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV")) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals("abc", resultSet.getString("TEXT"));
@@ -145,8 +135,7 @@ class TestCsvDriver
     }
 
     @Test
-    void testCsvDriver02() throws Exception
-    {
+    void testCsvDriver02() throws Exception {
         // Struktur
         StringBuilder file1 = new StringBuilder();
         file1.append("[");
@@ -198,10 +187,7 @@ class TestCsvDriver
         sql.append(" inner join TEST2 t2 on t2.TEXT = t1.TEXT");
         sql.append(" inner join TEST3 t3 on t3.TEXT = t1.TEXT");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1 + file2 + file3);
-             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-             ResultSet resultSet = statement.executeQuery(sql.toString()))
-        {
+        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1 + file2 + file3); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet resultSet = statement.executeQuery(sql.toString())) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals(1234, resultSet.getInt("MIN_T1_LONG"), 0);

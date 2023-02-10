@@ -9,18 +9,18 @@ import java.util.Objects;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
-import de.freese.base.utils.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.utils.JdbcUtils;
 
 /**
  * @param <T> Entity-Type
  *
  * @author Thomas Freese
  */
-public class ResultSetSubscription<T> implements Subscription
-{
+public class ResultSetSubscription<T> implements Subscription {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscription.class);
 
     private final Connection connection;
@@ -33,9 +33,7 @@ public class ResultSetSubscription<T> implements Subscription
 
     private final Subscriber<? super T> subscriber;
 
-    ResultSetSubscription(final Connection connection, final Statement statement, final ResultSet resultSet, final RowMapper<T> rowMapper,
-                          final Subscriber<? super T> subscriber)
-    {
+    ResultSetSubscription(final Connection connection, final Statement statement, final ResultSet resultSet, final RowMapper<T> rowMapper, final Subscriber<? super T> subscriber) {
         super();
 
         this.connection = Objects.requireNonNull(connection, "connection required");
@@ -49,8 +47,7 @@ public class ResultSetSubscription<T> implements Subscription
      * @see java.util.concurrent.Flow.Subscription#cancel()
      */
     @Override
-    public void cancel()
-    {
+    public void cancel() {
         closeJdbcResources();
     }
 
@@ -58,36 +55,29 @@ public class ResultSetSubscription<T> implements Subscription
      * @see java.util.concurrent.Flow.Subscription#request(long)
      */
     @Override
-    public void request(final long n)
-    {
+    public void request(final long n) {
         LOGGER.debug("request next {} objects", n);
 
-        try
-        {
-            for (int i = 0; i < n; i++)
-            {
-                if (this.resultSet.next())
-                {
+        try {
+            for (int i = 0; i < n; i++) {
+                if (this.resultSet.next()) {
                     T row = this.rowMapper.mapRow(this.resultSet);
                     this.subscriber.onNext(row);
                 }
-                else
-                {
+                else {
                     closeJdbcResources();
                     this.subscriber.onComplete();
                     break;
                 }
             }
         }
-        catch (SQLException sex)
-        {
+        catch (SQLException sex) {
             closeJdbcResources();
             this.subscriber.onError(sex);
         }
     }
 
-    protected void closeJdbcResources()
-    {
+    protected void closeJdbcResources() {
         LOGGER.debug("close jdbc subscription");
 
         JdbcUtils.closeSilent(this.resultSet);

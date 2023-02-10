@@ -19,23 +19,20 @@ import javax.swing.tree.TreeSelectionModel;
  *
  * @author Thomas Freese
  */
-public class EnableDisableSelectionListener implements ListSelectionListener, TreeSelectionListener
-{
+public class EnableDisableSelectionListener implements ListSelectionListener, TreeSelectionListener {
     /**
      * Interface als Adapter um Komponenten oder Actions zu kapseln.
      *
      * @author Thomas Freese
      */
     @FunctionalInterface
-    private interface EnablerAdapter
-    {
+    private interface EnablerAdapter {
         void setEnabled(boolean value);
     }
 
     private final EnablerAdapter adapter;
 
-    public EnableDisableSelectionListener(final Action action)
-    {
+    public EnableDisableSelectionListener(final Action action) {
         super();
 
         this.adapter = action::setEnabled;
@@ -43,8 +40,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         this.adapter.setEnabled(false);
     }
 
-    public EnableDisableSelectionListener(final Component component)
-    {
+    public EnableDisableSelectionListener(final Component component) {
         super();
 
         this.adapter = component::setEnabled;
@@ -56,10 +52,8 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
      * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
      */
     @Override
-    public void valueChanged(final ListSelectionEvent e)
-    {
-        if (e.getValueIsAdjusting())
-        {
+    public void valueChanged(final ListSelectionEvent e) {
+        if (e.getValueIsAdjusting()) {
             return;
         }
 
@@ -67,12 +61,10 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
 
         ListSelectionModel selectionModel = null;
 
-        if (source instanceof JList<?> l)
-        {
+        if (source instanceof JList<?> l) {
             selectionModel = l.getSelectionModel();
         }
-        else if (source instanceof ListSelectionModel m)
-        {
+        else if (source instanceof ListSelectionModel m) {
             selectionModel = m;
         }
 
@@ -83,32 +75,27 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
      * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
      */
     @Override
-    public void valueChanged(final TreeSelectionEvent e)
-    {
+    public void valueChanged(final TreeSelectionEvent e) {
         Object source = e.getSource();
 
         TreeSelectionModel selectionModel = null;
 
-        if (source instanceof JTree t)
-        {
+        if (source instanceof JTree t) {
             selectionModel = t.getSelectionModel();
         }
-        else if (source instanceof TreeSelectionModel m)
-        {
+        else if (source instanceof TreeSelectionModel m) {
             selectionModel = m;
         }
 
         this.adapter.setEnabled(componentEnabled(e, selectionModel));
     }
 
-    protected boolean componentEnabled(final ListSelectionEvent event, final ListSelectionModel selectionModel)
-    {
+    protected boolean componentEnabled(final ListSelectionEvent event, final ListSelectionModel selectionModel) {
         // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
         return !selectionModel.isSelectionEmpty();
     }
 
-    protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel)
-    {
+    protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel) {
         // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
         return !selectionModel.isSelectionEmpty();
     }

@@ -4,17 +4,14 @@ package de.freese.base.core.logging.generic;
 /**
  * @author Thomas Freese
  */
-public interface Logger
-{
+public interface Logger {
     void debug(String message);
 
     /**
      * @see String#format
      */
-    default void debug(String format, Object... args)
-    {
-        if (isDebugEnabled())
-        {
+    default void debug(String format, Object... args) {
+        if (isDebugEnabled()) {
             debug(String.format(format, args));
         }
     }
@@ -26,10 +23,8 @@ public interface Logger
     /**
      * @see String#format
      */
-    default void error(String format, Throwable error, Object... args)
-    {
-        if (isErrorEnabled())
-        {
+    default void error(String format, Throwable error, Object... args) {
+        if (isErrorEnabled()) {
             error(String.format(format, args), error);
         }
     }
@@ -37,10 +32,8 @@ public interface Logger
     /**
      * @see String#format
      */
-    default void error(String format, Object... args)
-    {
-        if (isErrorEnabled())
-        {
+    default void error(String format, Object... args) {
+        if (isErrorEnabled()) {
             error(String.format(format, args));
         }
     }
@@ -50,10 +43,8 @@ public interface Logger
     /**
      * @see String#format
      */
-    default void info(String format, Object... args)
-    {
-        if (isInfoEnabled())
-        {
+    default void info(String format, Object... args) {
+        if (isInfoEnabled()) {
             info(String.format(format, args));
         }
     }

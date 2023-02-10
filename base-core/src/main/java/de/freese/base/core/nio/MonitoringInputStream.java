@@ -15,8 +15,7 @@ import javax.swing.ProgressMonitorInputStream;
  * @author Thomas Freese
  * @see ProgressMonitorInputStream
  */
-public class MonitoringInputStream extends InputStream
-{
+public class MonitoringInputStream extends InputStream {
     private final LongConsumer bytesReadConsumer;
 
     private final boolean closeDelegate;
@@ -29,13 +28,11 @@ public class MonitoringInputStream extends InputStream
      * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    public MonitoringInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size, final boolean closeDelegate)
-    {
+    public MonitoringInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size, final boolean closeDelegate) {
         this(delegate, br -> bytesReadConsumer.accept(br, size), closeDelegate);
     }
 
-    public MonitoringInputStream(final InputStream delegate, final LongConsumer bytesReadConsumer, final boolean closeDelegate)
-    {
+    public MonitoringInputStream(final InputStream delegate, final LongConsumer bytesReadConsumer, final boolean closeDelegate) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
@@ -47,8 +44,7 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#available()
      */
     @Override
-    public int available() throws IOException
-    {
+    public int available() throws IOException {
         return this.delegate.available();
     }
 
@@ -56,10 +52,8 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#close()
      */
     @Override
-    public void close() throws IOException
-    {
-        if (this.closeDelegate)
-        {
+    public void close() throws IOException {
+        if (this.closeDelegate) {
             this.delegate.close();
         }
     }
@@ -68,8 +62,7 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#mark(int)
      */
     @Override
-    public synchronized void mark(final int readLimit)
-    {
+    public synchronized void mark(final int readLimit) {
         this.delegate.mark(readLimit);
     }
 
@@ -77,8 +70,7 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#markSupported()
      */
     @Override
-    public boolean markSupported()
-    {
+    public boolean markSupported() {
         return this.delegate.markSupported();
     }
 
@@ -86,8 +78,7 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#read()
      */
     @Override
-    public int read() throws IOException
-    {
+    public int read() throws IOException {
         int read = this.delegate.read();
 
         this.bytesRead++;
@@ -101,12 +92,10 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#read(byte[])
      */
     @Override
-    public int read(final byte[] b) throws IOException
-    {
+    public int read(final byte[] b) throws IOException {
         int readCount = this.delegate.read(b);
 
-        if (readCount > 0)
-        {
+        if (readCount > 0) {
             this.bytesRead += readCount;
 
             this.bytesReadConsumer.accept(this.bytesRead);
@@ -119,12 +108,10 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#read(byte[], int, int)
      */
     @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException
-    {
+    public int read(final byte[] b, final int off, final int len) throws IOException {
         int readCount = this.delegate.read(b, off, len);
 
-        if (readCount > 0)
-        {
+        if (readCount > 0) {
             this.bytesRead += readCount;
 
             this.bytesReadConsumer.accept(this.bytesRead);
@@ -137,8 +124,7 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#reset()
      */
     @Override
-    public synchronized void reset() throws IOException
-    {
+    public synchronized void reset() throws IOException {
         this.delegate.reset();
 
         this.bytesRead -= this.delegate.available();
@@ -150,12 +136,10 @@ public class MonitoringInputStream extends InputStream
      * @see java.io.InputStream#skip(long)
      */
     @Override
-    public long skip(final long n) throws IOException
-    {
+    public long skip(final long n) throws IOException {
         long readCount = this.delegate.skip(n);
 
-        if (readCount > 0)
-        {
+        if (readCount > 0) {
             this.bytesRead += readCount;
 
             this.bytesReadConsumer.accept(this.bytesRead);

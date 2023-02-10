@@ -13,21 +13,18 @@ import org.xml.sax.InputSource;
 /**
  * @author Thomas Freese
  */
-public final class XmlUtils
-{
+public final class XmlUtils {
     /**
      * Liefert das {@link Document} aus dem Byte-Array.
      */
-    public static Document getDocument(final byte[] bytes) throws Exception
-    {
+    public static Document getDocument(final byte[] bytes) throws Exception {
         return getDocument(new ByteArrayInputStream(bytes));
     }
 
     /**
      * Liefert das {@link Document} aus der {@link InputSource}.
      */
-    public static Document getDocument(final InputSource inputSource) throws Exception
-    {
+    public static Document getDocument(final InputSource inputSource) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         // Protect against to XXE attacks.
@@ -42,21 +39,18 @@ public final class XmlUtils
     /**
      * Liefert das {@link Document} aus dem Stream.<br>
      */
-    public static Document getDocument(final InputStream inputStream) throws Exception
-    {
+    public static Document getDocument(final InputStream inputStream) throws Exception {
         return getDocument(new InputSource(inputStream));
     }
 
     /**
      * Liefert das {@link Document} aus dem String.
      */
-    public static Document getDocument(final String string) throws Exception
-    {
+    public static Document getDocument(final String string) throws Exception {
         return getDocument(new InputSource(new StringReader(string)));
     }
 
-    private XmlUtils()
-    {
+    private XmlUtils() {
         super();
     }
 }

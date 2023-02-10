@@ -14,10 +14,8 @@ import de.freese.base.swing.components.graph.model.AbstractPainterModel;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractGraphPainter extends AbstractPainterModel implements Painter<Component>
-{
-    protected AbstractGraphPainter()
-    {
+public abstract class AbstractGraphPainter extends AbstractPainterModel implements Painter<Component> {
+    protected AbstractGraphPainter() {
         super();
     }
 
@@ -25,8 +23,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
      * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
      */
     @Override
-    public void paint(final Graphics2D g, final Component parent, final int width, final int height)
-    {
+    public void paint(final Graphics2D g, final Component parent, final int width, final int height) {
         configureGraphics(g, parent);
         configureBackground(g, parent, width, height);
 
@@ -40,8 +37,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     /**
      * Der Default-Background wird vom Panel/Frame entnommen.
      */
-    protected void configureBackground(final Graphics2D g, final Component parent, final int width, final int height)
-    {
+    protected void configureBackground(final Graphics2D g, final Component parent, final int width, final int height) {
         // Paint = Color, GradientPaint, ...
 
         // final int R = 240;
@@ -50,8 +46,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         // GradientPaint translucentPaint = new GradientPaint(0, 0, new Color(R, G, B, 0), 0, height, new Color(R, G, B, 150));
         // g.setPaint(translucentPaint);
 
-        if ((parent instanceof AbstractGraphComponent) && ((AbstractGraphComponent) parent).isUseBufferedImage())
-        {
+        if ((parent instanceof AbstractGraphComponent) && ((AbstractGraphComponent) parent).isUseBufferedImage()) {
             // Für transparenten Background bei BufferedImage.
             g.setComposite(AlphaComposite.Clear);
             g.fillRect(0, 0, width, height);
@@ -59,16 +54,14 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
             // Für Foreground bei BufferedImage.
             g.setComposite(AlphaComposite.Src);
         }
-        else
-        {
+        else {
             // Ohne transparenten Background reicht ein clear.
             // g.setBackground(parent.getBackground());
             g.clearRect(0, 0, width, height);
         }
     }
 
-    protected void configureGraphics(final Graphics2D g, final Component parent)
-    {
+    protected void configureGraphics(final Graphics2D g, final Component parent) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
     }
@@ -76,8 +69,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     /**
      * Koordinatenursprung von oben links nach unten links verlegen.
      */
-    protected void translateCoordinates(final Graphics2D g, final int height)
-    {
+    protected void translateCoordinates(final Graphics2D g, final int height) {
         // Kippt die y-Achse nach oben.
         g.scale(1.0D, -1.0D);
 

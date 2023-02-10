@@ -7,8 +7,7 @@ import java.io.InputStream;
  *
  * @author Thomas Freese
  */
-public interface ExcelImport
-{
+public interface ExcelImport {
     void closeExcelFile() throws Exception;
 
     void closeSheet();

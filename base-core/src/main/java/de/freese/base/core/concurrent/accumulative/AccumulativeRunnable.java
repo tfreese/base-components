@@ -69,25 +69,21 @@ import javax.swing.SwingUtilities;
  * @see "sun.swing.AccumulativeRunnable"
  * @since 1.6
  */
-public abstract class AccumulativeRunnable<T> implements Runnable
-{
+public abstract class AccumulativeRunnable<T> implements Runnable {
     private List<T> arguments;
 
     @SafeVarargs
-    public final synchronized void add(final T... args)
-    {
+    public final synchronized void add(final T... args) {
         boolean isSubmitted = true;
 
-        if (this.arguments == null)
-        {
+        if (this.arguments == null) {
             isSubmitted = false;
             this.arguments = new ArrayList<>();
         }
 
         Collections.addAll(this.arguments, args);
 
-        if (!isSubmitted)
-        {
+        if (!isSubmitted) {
             submit();
         }
     }
@@ -96,8 +92,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
      * This implementation calls {@code run(List<T> args)} method with the list of accumulated arguments.
      */
     @Override
-    public final void run()
-    {
+    public final void run() {
         run(flush());
     }
 
@@ -115,8 +110,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
      * <p>
      * This implementation uses {@code SwingWorker.invokeLater}.
      */
-    protected void submit()
-    {
+    protected void submit() {
         SwingUtilities.invokeLater(this);
     }
 
@@ -125,8 +119,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable
      *
      * @return accumulated arguments
      */
-    private synchronized List<T> flush()
-    {
+    private synchronized List<T> flush() {
         List<T> list = this.arguments;
         this.arguments = null;
 

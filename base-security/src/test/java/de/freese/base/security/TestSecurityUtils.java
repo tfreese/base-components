@@ -12,58 +12,50 @@ import java.security.interfaces.RSAPublicKey;
 
 import javax.crypto.Cipher;
 
-import de.freese.base.utils.SecurityUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+import de.freese.base.utils.SecurityUtils;
+
 /**
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestSecurityUtils
-{
+class TestSecurityUtils {
     private static final boolean DEBUG = true;
 
     @BeforeAll
-    static void beforeAll()
-    {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
-        {
+    static void beforeAll() {
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
     }
 
     @Test
-    void testCipher()
-    {
+    void testCipher() {
         String[] values = SecurityUtils.getCryptoImpls("Cipher");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
-            try
-            {
+        for (String value : values) {
+            try {
                 System.out.println(value + ": MaxAllowedKeyLength=" + Cipher.getMaxAllowedKeyLength(value));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 System.err.println(value + ": " + ex.getMessage());
             }
         }
     }
 
     @Test
-    void testCreateRsaKeyPair() throws Exception
-    {
+    void testCreateRsaKeyPair() throws Exception {
         // SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
         //
         // KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
@@ -89,145 +81,121 @@ class TestSecurityUtils
     }
 
     @Test
-    void testKeyManagerFactory()
-    {
+    void testKeyManagerFactory() {
         String[] values = SecurityUtils.getCryptoImpls("KeyManagerFactory");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testKeyPairGenerator()
-    {
+    void testKeyPairGenerator() {
         String[] values = SecurityUtils.getCryptoImpls("KeyPairGenerator");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testMessageDigest()
-    {
+    void testMessageDigest() {
         String[] values = SecurityUtils.getCryptoImpls("MessageDigest");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testProvider()
-    {
+    void testProvider() {
         String[] values = SecurityUtils.getCryptoImpls("Provider");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testSecureRandom()
-    {
+    void testSecureRandom() {
         String[] values = SecurityUtils.getCryptoImpls("SecureRandom");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testServiceTypes()
-    {
+    void testServiceTypes() {
         String[] values = SecurityUtils.getServiceTypes();
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testSignature()
-    {
+    void testSignature() {
         String[] values = SecurityUtils.getCryptoImpls("Signature");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }
 
     @Test
-    void testTrustManagerFactory()
-    {
+    void testTrustManagerFactory() {
         String[] values = SecurityUtils.getCryptoImpls("TrustManagerFactory");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             return;
         }
 
-        for (String value : values)
-        {
+        for (String value : values) {
             System.out.println(value);
         }
     }

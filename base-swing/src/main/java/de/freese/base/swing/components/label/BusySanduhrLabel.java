@@ -15,8 +15,7 @@ import javax.swing.Timer;
  *
  * @author Thomas Freese
  */
-public class BusySanduhrLabel extends JLabel
-{
+public class BusySanduhrLabel extends JLabel {
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
@@ -26,40 +25,33 @@ public class BusySanduhrLabel extends JLabel
 
     private int imageIndex;
 
-    public BusySanduhrLabel()
-    {
+    public BusySanduhrLabel() {
         this("");
     }
 
-    public BusySanduhrLabel(final String text)
-    {
+    public BusySanduhrLabel(final String text) {
         this(text, WaitIcons.getWaitIcons());
     }
 
-    public BusySanduhrLabel(final String text, ImageIcon[] icons)
-    {
+    public BusySanduhrLabel(final String text, ImageIcon[] icons) {
         super(text);
 
         this.icons = icons;
 
-        this.animateTimer = new Timer(150, event ->
-        {
+        this.animateTimer = new Timer(150, event -> {
             BusySanduhrLabel.this.imageIndex++;
 
-            if (BusySanduhrLabel.this.imageIndex == BusySanduhrLabel.this.icons.length)
-            {
+            if (BusySanduhrLabel.this.imageIndex == BusySanduhrLabel.this.icons.length) {
                 BusySanduhrLabel.this.imageIndex = 0;
             }
 
             setIcon(BusySanduhrLabel.this.icons[BusySanduhrLabel.this.imageIndex]);
 
             // System.out.println(imageIndex);
-            if (!isVisible())
-            {
+            if (!isVisible()) {
                 BusySanduhrLabel.this.animateTimer.stop();
             }
-            else
-            {
+            else {
                 repaint();
 
                 // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
@@ -73,16 +65,13 @@ public class BusySanduhrLabel extends JLabel
      * @see javax.swing.JComponent#setVisible(boolean)
      */
     @Override
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         super.setVisible(visible);
 
-        if (visible && !this.animateTimer.isRunning())
-        {
+        if (visible && !this.animateTimer.isRunning()) {
             this.animateTimer.start();
         }
-        else if (!visible)
-        {
+        else if (!visible) {
             this.animateTimer.stop();
         }
     }
@@ -91,15 +80,13 @@ public class BusySanduhrLabel extends JLabel
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    protected void paintComponent(final Graphics g)
-    {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (!this.animateTimer.isRunning() && isVisible())
-        {
+        if (!this.animateTimer.isRunning() && isVisible()) {
             this.animateTimer.start();
         }
     }

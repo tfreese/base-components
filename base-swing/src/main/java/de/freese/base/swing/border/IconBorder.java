@@ -19,8 +19,7 @@ import de.freese.base.utils.ImageUtils;
  *
  * @author Thomas Freese
  */
-public class IconBorder implements Border, Serializable
-{
+public class IconBorder implements Border, Serializable {
     @Serial
     private static final long serialVersionUID = -9139492820598238887L;
 
@@ -32,13 +31,11 @@ public class IconBorder implements Border, Serializable
 
     private JButton iconButton = new JButton();
 
-    public IconBorder(final Icon icon)
-    {
+    public IconBorder(final Icon icon) {
         this(icon, SwingConstants.NORTH_EAST);
     }
 
-    public IconBorder(final Icon icon, final int iconPosition)
-    {
+    public IconBorder(final Icon icon, final int iconPosition) {
         super();
 
         this.iconPosition = iconPosition;
@@ -52,20 +49,16 @@ public class IconBorder implements Border, Serializable
      * @see javax.swing.border.Border#getBorderInsets(java.awt.Component)
      */
     @Override
-    public Insets getBorderInsets(final Component c)
-    {
-        if (this.borderInsets == null)
-        {
+    public Insets getBorderInsets(final Component c) {
+        if (this.borderInsets == null) {
             this.borderInsets = new Insets(0, 0, 0, 0);
 
-            switch (this.iconPosition)
-            {
+            switch (this.iconPosition) {
                 case SwingConstants.NORTH_WEST -> this.borderInsets = new Insets(this.icon.getIconHeight(), this.icon.getIconWidth(), 0, 0);
                 case SwingConstants.NORTH_EAST -> this.borderInsets = new Insets(this.icon.getIconHeight(), 0, 0, this.icon.getIconWidth());
                 case SwingConstants.SOUTH_WEST -> this.borderInsets = new Insets(0, this.icon.getIconWidth(), this.icon.getIconHeight(), 0);
                 case SwingConstants.SOUTH_EAST -> this.borderInsets = new Insets(0, 0, this.icon.getIconHeight(), this.icon.getIconWidth());
-                default ->
-                {
+                default -> {
                     // Empty
                 }
             }
@@ -74,10 +67,8 @@ public class IconBorder implements Border, Serializable
         return this.borderInsets;
     }
 
-    public JButton getIconButton()
-    {
-        if (this.iconButton == null)
-        {
+    public JButton getIconButton() {
+        if (this.iconButton == null) {
             this.iconButton = new JButton();
 
             // iconButton.setBorder(BorderFactory.createEmptyBorder());
@@ -103,8 +94,7 @@ public class IconBorder implements Border, Serializable
      * @see javax.swing.border.Border#isBorderOpaque()
      */
     @Override
-    public boolean isBorderOpaque()
-    {
+    public boolean isBorderOpaque() {
         return false;
     }
 
@@ -112,13 +102,11 @@ public class IconBorder implements Border, Serializable
      * @see javax.swing.border.Border#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
      */
     @Override
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height)
-    {
+    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
         int xPos = 0;
         int yPos = 0;
 
-        switch (this.iconPosition)
-        {
+        switch (this.iconPosition) {
             case SwingConstants.NORTH_WEST:
                 break;
 
@@ -154,8 +142,7 @@ public class IconBorder implements Border, Serializable
         // icon.paintIcon(c, g, xPos, yPos);
     }
 
-    public void setIcon(final Icon icon)
-    {
+    public void setIcon(final Icon icon) {
         this.icon = (icon == null) ? ImageUtils.createMissingIcon() : icon;
         this.borderInsets = null;
         getIconButton().setIcon(this.icon);
@@ -167,10 +154,8 @@ public class IconBorder implements Border, Serializable
         getIconButton().setSize(dimension);
     }
 
-    private void validatePosition(final int position)
-    {
-        switch (position)
-        {
+    private void validatePosition(final int position) {
+        switch (position) {
             case SwingConstants.NORTH_WEST:
             case SwingConstants.NORTH_EAST:
             case SwingConstants.SOUTH_WEST:

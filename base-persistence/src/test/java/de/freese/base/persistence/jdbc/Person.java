@@ -4,14 +4,12 @@ package de.freese.base.persistence.jdbc;
 /**
  * @author Thomas Freese
  */
-public class Person
-{
+public class Person {
     private final String firstName;
     private final long id;
     private final String lastName;
 
-    public Person(final long id, final String lastName, final String firstName)
-    {
+    public Person(final long id, final String lastName, final String firstName) {
         super();
 
         this.id = id;
@@ -19,18 +17,15 @@ public class Person
         this.firstName = firstName;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public long getId()
-    {
+    public long getId() {
         return this.id;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return this.lastName;
     }
 
@@ -38,8 +33,7 @@ public class Person
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("Person [");
         builder.append("id=").append(this.id);

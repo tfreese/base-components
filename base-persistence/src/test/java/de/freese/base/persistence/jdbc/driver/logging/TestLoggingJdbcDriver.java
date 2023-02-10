@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -29,12 +28,13 @@ import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
+import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
+
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestLoggingJdbcDriver
-{
+class TestLoggingJdbcDriver {
     private static final String DRIVER = "org.h2.Driver";
 
     private static final List<ConnectionPool> POOLS = new ArrayList<>();
@@ -44,8 +44,7 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private interface ConnectionPool
-    {
+    private interface ConnectionPool {
         void close() throws SQLException;
 
         Connection getConnection() throws SQLException;
@@ -54,27 +53,23 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private static class BasicDataSourceConnectionPool implements ConnectionPool
-    {
+    private static class BasicDataSourceConnectionPool implements ConnectionPool {
         private final BasicDataSource dataSource;
 
-        BasicDataSourceConnectionPool()
-        {
+        BasicDataSourceConnectionPool() {
             super();
 
             this.dataSource = new BasicDataSource();
 
             // commons-dbcp2: Creates at first the Driver from the Class-Name, then from the DriverManager.
-            ConnectionPoolConfigurer.configureBasic(this.dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null,
-                    null);
+            ConnectionPoolConfigurer.configureBasic(this.dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
         }
 
         /**
          * @see TestLoggingJdbcDriver.ConnectionPool#close()
          */
         @Override
-        public void close() throws SQLException
-        {
+        public void close() throws SQLException {
             this.dataSource.close();
         }
 
@@ -82,8 +77,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
          */
         @Override
-        public Connection getConnection() throws SQLException
-        {
+        public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
         }
     }
@@ -91,14 +85,12 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private static class DriverManagerConnectionPool implements ConnectionPool
-    {
+    private static class DriverManagerConnectionPool implements ConnectionPool {
         /**
          * @see TestLoggingJdbcDriver.ConnectionPool#close()
          */
         @Override
-        public void close() throws SQLException
-        {
+        public void close() throws SQLException {
             // Empty
         }
 
@@ -106,8 +98,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
          */
         @Override
-        public Connection getConnection() throws SQLException
-        {
+        public Connection getConnection() throws SQLException {
             return DriverManager.getConnection(URL, "sa", null);
         }
     }
@@ -115,18 +106,15 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private static class HikariConnectionPool implements ConnectionPool
-    {
+    private static class HikariConnectionPool implements ConnectionPool {
         private final HikariDataSource dataSource;
 
-        HikariConnectionPool()
-        {
+        HikariConnectionPool() {
             super();
 
             HikariConfig config = new HikariConfig();
 
-            ConnectionPoolConfigurer.configureHikari(config, LoggingJdbcDriver.class.getName(), URL, "sa", null,
-                    null);
+            ConnectionPoolConfigurer.configureHikari(config, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
 
             this.dataSource = new HikariDataSource(config);
         }
@@ -135,8 +123,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#close()
          */
         @Override
-        public void close() throws SQLException
-        {
+        public void close() throws SQLException {
             this.dataSource.close();
         }
 
@@ -144,8 +131,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
          */
         @Override
-        public Connection getConnection() throws SQLException
-        {
+        public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
         }
     }
@@ -153,12 +139,10 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private static class SpringSingleConnectionDataSource implements ConnectionPool
-    {
+    private static class SpringSingleConnectionDataSource implements ConnectionPool {
         private final SingleConnectionDataSource dataSource;
 
-        SpringSingleConnectionDataSource()
-        {
+        SpringSingleConnectionDataSource() {
             super();
 
             this.dataSource = new SingleConnectionDataSource();
@@ -173,8 +157,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#close()
          */
         @Override
-        public void close() throws SQLException
-        {
+        public void close() throws SQLException {
             this.dataSource.destroy();
         }
 
@@ -182,8 +165,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
          */
         @Override
-        public Connection getConnection() throws SQLException
-        {
+        public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
         }
     }
@@ -191,18 +173,15 @@ class TestLoggingJdbcDriver
     /**
      * @author Thomas Freese
      */
-    private static class TomcatConnectionPool implements ConnectionPool
-    {
+    private static class TomcatConnectionPool implements ConnectionPool {
         private final DataSource dataSource;
 
-        TomcatConnectionPool()
-        {
+        TomcatConnectionPool() {
             super();
 
             PoolProperties poolProperties = new PoolProperties();
 
-            ConnectionPoolConfigurer.configureTomcat(poolProperties, LoggingJdbcDriver.class.getName(), URL, "sa", null,
-                    null);
+            ConnectionPoolConfigurer.configureTomcat(poolProperties, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
 
             this.dataSource = new DataSource(poolProperties);
         }
@@ -211,8 +190,7 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#close()
          */
         @Override
-        public void close() throws SQLException
-        {
+        public void close() throws SQLException {
             this.dataSource.close();
         }
 
@@ -220,31 +198,25 @@ class TestLoggingJdbcDriver
          * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
          */
         @Override
-        public Connection getConnection() throws SQLException
-        {
+        public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
         }
     }
 
     @AfterAll
-    static void afterAll()
-    {
-        for (ConnectionPool pool : POOLS)
-        {
-            try
-            {
+    static void afterAll() {
+        for (ConnectionPool pool : POOLS) {
+            try {
                 pool.close();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
         }
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
+    static void beforeAll() throws Exception {
         // Backend-Driver: Is configured by App-Server or Datasource.
         // Class.forName(DRIVER, true, ClassUtils.getDefaultClassLoader());
 
@@ -276,28 +248,22 @@ class TestLoggingJdbcDriver
     // return POOLS.stream();
     // }
 
-    void close(final ConnectionPool connectionPool) throws Exception
-    {
+    void close(final ConnectionPool connectionPool) throws Exception {
         connectionPool.close();
 
         assertTrue(true);
     }
 
-    void driver(final ConnectionPool connectionPool) throws Exception
-    {
+    void driver(final ConnectionPool connectionPool) throws Exception {
         int i = 0;
 
         // "jdbc:logger:jdbc:generic:file:/home/tommy/db/generic/generic;create=false;shutdown=true"
-        try (Connection connection = connectionPool.getConnection())
-        {
-            try (PreparedStatement statement = connection.prepareStatement("select * from information_schema.tables where table_name like ?"))
-            {
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement("select * from information_schema.tables where table_name like ?")) {
                 statement.setString(1, "T%");
 
-                try (ResultSet resultSet = statement.executeQuery())
-                {
-                    while (resultSet.next())
-                    {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
                         i++;
                     }
                 }
@@ -308,8 +274,7 @@ class TestLoggingJdbcDriver
     }
 
     @TestFactory
-    Stream<DynamicNode> testConnectionPools()
-    {
+    Stream<DynamicNode> testConnectionPools() {
         // @formatter:off
         return POOLS.stream()
                 .map(cp -> dynamicContainer(cp.getClass().getSimpleName(),

@@ -9,27 +9,22 @@ import java.util.concurrent.LinkedBlockingQueue;
  *
  * @author Thomas Freese
  */
-public abstract class SimplestPool<T>
-{
+public abstract class SimplestPool<T> {
     private final Queue<T> freeObjects = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
 
-    public void clear()
-    {
+    public void clear() {
         this.freeObjects.clear();
     }
 
-    public void free(final T object)
-    {
-        if (object == null)
-        {
+    public void free(final T object) {
+        if (object == null) {
             return;
         }
 
         this.freeObjects.offer(object);
     }
 
-    public T get()
-    {
+    public T get() {
         T object = this.freeObjects.poll();
 
         return object != null ? object : create();

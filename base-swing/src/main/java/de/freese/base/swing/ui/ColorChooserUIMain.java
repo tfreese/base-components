@@ -12,10 +12,8 @@ import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
 /**
  * @author Thomas Freese
  */
-public final class ColorChooserUIMain
-{
-    public static void main(final String[] args)
-    {
+public final class ColorChooserUIMain {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -27,9 +25,8 @@ public final class ColorChooserUIMain
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    private ColorChooserUIMain()
-    {
+
+    private ColorChooserUIMain() {
         super();
     }
 }

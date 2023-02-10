@@ -40,8 +40,7 @@ import java.util.List;
  * @author Thomas freese
  * @version 1.2
  */
-public class MouseGestures
-{
+public class MouseGestures {
     private final List<MouseGesturesListener> listeners = Collections.synchronizedList(new ArrayList<>());
     /**
      * Responsible for processing mouse events.
@@ -59,10 +58,8 @@ public class MouseGestures
      */
     private AWTEventListener mouseGesturesEventListener;
 
-    public void addMouseGesturesListener(MouseGesturesListener listener)
-    {
-        if (listener == null)
-        {
+    public void addMouseGesturesListener(MouseGesturesListener listener) {
+        if (listener == null) {
             return;
         }
 
@@ -74,8 +71,7 @@ public class MouseGestures
      *
      * @return Grid size in pixels. Default is 30.
      */
-    public int getGridSize()
-    {
+    public int getGridSize() {
         return mouseGesturesRecognizer.getGridSize();
     }
 
@@ -85,8 +81,7 @@ public class MouseGestures
      * @return <code>MouseEvent.BUTTON1_DOWN_MASK</code>, <code>MouseEvent.BUTTON2_DOWN_MASK</code>
      * or <code>MouseEvent.BUTTON3_DOWN_MASK</code>
      */
-    public int getMouseButton()
-    {
+    public int getMouseButton() {
         return mouseButton;
     }
 
@@ -95,10 +90,8 @@ public class MouseGestures
      *
      * @param listener Instance of {@link MouseGesturesListener}
      */
-    public void removeMouseGesturesListener(MouseGesturesListener listener)
-    {
-        if (listener == null)
-        {
+    public void removeMouseGesturesListener(MouseGesturesListener listener) {
+        if (listener == null) {
             return;
         }
 
@@ -110,8 +103,7 @@ public class MouseGestures
      *
      * @param gridSize New grid size in pixels
      */
-    public void setGridSize(int gridSize)
-    {
+    public void setGridSize(int gridSize) {
         mouseGesturesRecognizer.setGridSize(gridSize);
     }
 
@@ -121,30 +113,20 @@ public class MouseGestures
      * @param mouseButton <code>MouseEvent.BUTTON1_DOWN_MASK</code>, <code>MouseEvent.BUTTON2_DOWN_MASK</code>
      * or <code>MouseEvent.BUTTON3_DOWN_MASK</code>
      */
-    public void setMouseButton(int mouseButton)
-    {
+    public void setMouseButton(int mouseButton) {
         this.mouseButton = mouseButton;
     }
 
-    public void start()
-    {
-        if (mouseGesturesEventListener == null)
-        {
-            mouseGesturesEventListener = event ->
-            {
-                if (event instanceof MouseEvent mouseEvent)
-                {
-                    if ((mouseEvent.getModifiersEx() & mouseButton) == mouseButton)
-                    {
+    public void start() {
+        if (mouseGesturesEventListener == null) {
+            mouseGesturesEventListener = event -> {
+                if (event instanceof MouseEvent mouseEvent) {
+                    if ((mouseEvent.getModifiersEx() & mouseButton) == mouseButton) {
                         mouseGesturesRecognizer.processMouseEvent(mouseEvent);
                     }
 
-                    if (((mouseEvent.getID() == MouseEvent.MOUSE_RELEASED)
-                            || (mouseEvent.getID() == MouseEvent.MOUSE_CLICKED))
-                            && (mouseEvent.getModifiersEx() & mouseButton) == mouseButton)
-                    {
-                        if (mouseGesturesRecognizer.isGestureRecognized())
-                        {
+                    if (((mouseEvent.getID() == MouseEvent.MOUSE_RELEASED) || (mouseEvent.getID() == MouseEvent.MOUSE_CLICKED)) && (mouseEvent.getModifiersEx() & mouseButton) == mouseButton) {
+                        if (mouseGesturesRecognizer.isGestureRecognized()) {
                             // prevents displaying popup menu and so on
                             mouseEvent.consume();
                             String gesture = mouseGesturesRecognizer.getGesture();
@@ -153,8 +135,7 @@ public class MouseGestures
                             // execute action
                             fireProcessMouseGesture(gesture);
                         }
-                        else
-                        {
+                        else {
                             // clear temporary information
                             mouseGesturesRecognizer.clearTemporaryInfo();
                         }
@@ -166,10 +147,8 @@ public class MouseGestures
         Toolkit.getDefaultToolkit().addAWTEventListener(mouseGesturesEventListener, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
     }
 
-    public void stop()
-    {
-        if (mouseGesturesEventListener != null)
-        {
+    public void stop() {
+        if (mouseGesturesEventListener != null) {
             Toolkit.getDefaultToolkit().removeAWTEventListener(mouseGesturesEventListener);
         }
     }
@@ -180,8 +159,7 @@ public class MouseGestures
      * @param gesture String representation of recognized movements. "L" for left, "R" for right,
      * "U" for up, "D" for down movements. For example: "ULD".
      */
-    void fireGestureMovementRecognized(String gesture)
-    {
+    void fireGestureMovementRecognized(String gesture) {
         listeners.forEach(listener -> listener.gestureMovementRecognized(gesture));
     }
 
@@ -191,8 +169,7 @@ public class MouseGestures
      * @param gesture String representation of mouse gesture. "L" for left, "R" for right,
      * "U" for up, "D" for down movements. For example: "ULD".
      */
-    private void fireProcessMouseGesture(String gesture)
-    {
+    private void fireProcessMouseGesture(String gesture) {
         listeners.forEach(listener -> listener.processGesture(gesture));
     }
 }

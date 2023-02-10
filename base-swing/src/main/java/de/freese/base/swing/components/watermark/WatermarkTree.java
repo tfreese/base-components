@@ -15,8 +15,7 @@ import javax.swing.JTree;
  *
  * @author Thomas Freese
  */
-public class WatermarkTree extends JPanel implements WatermarkComponent
-{
+public class WatermarkTree extends JPanel implements WatermarkComponent {
     @Serial
     private static final long serialVersionUID = -7736500453003929181L;
 
@@ -29,8 +28,7 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
     /**
      * Constructor calls <code>init()</code> for initialization
      */
-    public WatermarkTree()
-    {
+    public WatermarkTree() {
         super();
 
         init();
@@ -39,17 +37,14 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
     /**
      * Constructor calls <code>init()</code> for initialization
      */
-    public WatermarkTree(final boolean isDoubleBuffered)
-    {
+    public WatermarkTree(final boolean isDoubleBuffered) {
         super(isDoubleBuffered);
 
         init();
     }
 
-    public JScrollPane getScrollPane()
-    {
-        if (null == this.scrollPane)
-        {
+    public JScrollPane getScrollPane() {
+        if (null == this.scrollPane) {
             this.scrollPane = new JScrollPane();
             setBackground(Color.WHITE);
             this.scrollPane.setOpaque(false);
@@ -62,10 +57,8 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
     /**
      * Returns the customized Tree.
      */
-    public JTree getTree()
-    {
-        if (null == this.tree)
-        {
+    public JTree getTree() {
+        if (null == this.tree) {
             this.tree = new JTree();
             this.tree.setOpaque(false);
             this.tree.setCellRenderer(new TransparentRenderer());
@@ -78,8 +71,7 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
      * @see WatermarkComponent#getWatermark()
      */
     @Override
-    public ImageIcon getWatermark()
-    {
+    public ImageIcon getWatermark() {
         return getViewport().getWatermark();
     }
 
@@ -87,8 +79,7 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
      * @see WatermarkComponent#setPosition(java.awt.Point)
      */
     @Override
-    public void setPosition(final Point position)
-    {
+    public void setPosition(final Point position) {
         getViewport().setPosition(position);
     }
 
@@ -96,26 +87,22 @@ public class WatermarkTree extends JPanel implements WatermarkComponent
      * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
      */
     @Override
-    public void setWatermark(final ImageIcon watermark)
-    {
+    public void setWatermark(final ImageIcon watermark) {
         getViewport().setWatermark(watermark);
     }
 
     /**
      * Returns the special viewport which draws the image
      */
-    private WatermarkViewport getViewport()
-    {
-        if (null == this.viewport)
-        {
+    private WatermarkViewport getViewport() {
+        if (null == this.viewport) {
             this.viewport = new WatermarkViewport(getTree());
         }
 
         return this.viewport;
     }
 
-    private void init()
-    {
+    private void init() {
         setLayout(new BorderLayout());
         add(getScrollPane(), BorderLayout.CENTER);
     }

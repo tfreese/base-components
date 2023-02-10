@@ -43,28 +43,23 @@ import de.freese.base.swing.layout.GbcBuilder;
  *
  * @author Thomas Freese
  */
-public class ExtDialog
-{
+public class ExtDialog {
     private JButton[] buttons;
 
     private JDialog dialog;
 
     private int optionClicked = JOptionPane.CLOSED_OPTION;
 
-    public void configure(final ExtDialogConfig config)
-    {
+    public void configure(final ExtDialogConfig config) {
         Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
 
-        if (window instanceof Frame f)
-        {
+        if (window instanceof Frame f) {
             this.dialog = new JDialog(f, config.isModal());
         }
-        else if (window instanceof Dialog d)
-        {
+        else if (window instanceof Dialog d) {
             this.dialog = new JDialog(d, config.isModal());
         }
-        else
-        {
+        else {
             this.dialog = new JDialog((Frame) null, config.isModal());
         }
 
@@ -97,61 +92,52 @@ public class ExtDialog
     /**
      * @see JDialog#dispose()
      */
-    public void dispose()
-    {
+    public void dispose() {
         this.optionClicked = JOptionPane.CLOSED_OPTION;
 
         this.dialog.dispose();
     }
 
-    public boolean isCancel()
-    {
+    public boolean isCancel() {
         return this.optionClicked == JOptionPane.CANCEL_OPTION;
     }
 
-    public boolean isClosed()
-    {
+    public boolean isClosed() {
         return this.optionClicked == JOptionPane.CLOSED_OPTION;
     }
 
-    public boolean isNo()
-    {
+    public boolean isNo() {
         return this.optionClicked == JOptionPane.NO_OPTION;
     }
 
-    public boolean isYesOrOK()
-    {
+    public boolean isYesOrOK() {
         return (this.optionClicked == JOptionPane.OK_OPTION) || (this.optionClicked == JOptionPane.YES_OPTION);
     }
 
     /**
      * @see JDialog#setLocationRelativeTo(Component)
      */
-    public void setLocationRelativeTo(final Component component)
-    {
+    public void setLocationRelativeTo(final Component component) {
         this.dialog.setLocationRelativeTo(component);
     }
 
     /**
      * @see JDialog#setResizable(boolean)
      */
-    public void setResizable(final boolean resizable)
-    {
+    public void setResizable(final boolean resizable) {
         this.dialog.setResizable(resizable);
     }
 
     /**
      * @see JDialog#setVisible(boolean)
      */
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         this.optionClicked = JOptionPane.CLOSED_OPTION;
 
         this.dialog.setVisible(visible);
     }
 
-    private void configureButtons(final JDialog dialog, final ExtDialogConfig config)
-    {
+    private void configureButtons(final JDialog dialog, final ExtDialogConfig config) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BasicOptionPaneUI.ButtonAreaLayout(true, 10));
         buttonPanel.setMinimumSize(new Dimension(10, 30));
@@ -160,12 +146,8 @@ public class ExtDialog
         int optionType = config.getOptionType();
         String[] options = config.getOptions();
 
-        if (optionType == JOptionPane.DEFAULT_OPTION)
-        {
-            this.buttons = new JButton[]
-                    {
-                            new JButton()
-                    };
+        if (optionType == JOptionPane.DEFAULT_OPTION) {
+            this.buttons = new JButton[]{new JButton()};
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.okButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.okButtonMnemonic", locale));
@@ -173,12 +155,8 @@ public class ExtDialog
             // this.buttons[0].setIcon((Icon) DefaultLookup
             // .get(optionPane, this, "OptionPane.yesIcon"));
         }
-        else if (optionType == JOptionPane.YES_NO_OPTION)
-        {
-            this.buttons = new JButton[]
-                    {
-                            new JButton(), new JButton()
-                    };
+        else if (optionType == JOptionPane.YES_NO_OPTION) {
+            this.buttons = new JButton[]{new JButton(), new JButton()};
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.yesButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.yesButtonMnemonic", locale));
@@ -188,12 +166,8 @@ public class ExtDialog
             this.buttons[1].setMnemonic(getMnemonic("OptionPane.noButtonMnemonic", locale));
             this.buttons[1].putClientProperty("option", JOptionPane.NO_OPTION);
         }
-        else if (optionType == JOptionPane.YES_NO_CANCEL_OPTION)
-        {
-            this.buttons = new JButton[]
-                    {
-                            new JButton(), new JButton(), new JButton()
-                    };
+        else if (optionType == JOptionPane.YES_NO_CANCEL_OPTION) {
+            this.buttons = new JButton[]{new JButton(), new JButton(), new JButton()};
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.yesButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.yesButtonMnemonic", locale));
@@ -207,12 +181,8 @@ public class ExtDialog
             this.buttons[2].setMnemonic(getMnemonic("OptionPane.cancelButtonMnemonic", locale));
             this.buttons[2].putClientProperty("option", JOptionPane.CANCEL_OPTION);
         }
-        else if (optionType == JOptionPane.OK_CANCEL_OPTION)
-        {
-            this.buttons = new JButton[]
-                    {
-                            new JButton(), new JButton()
-                    };
+        else if (optionType == JOptionPane.OK_CANCEL_OPTION) {
+            this.buttons = new JButton[]{new JButton(), new JButton()};
 
             this.buttons[0].setText(getButtonText(0, "OptionPane.okButtonText", locale, options));
             this.buttons[0].setMnemonic(getMnemonic("OptionPane.okButtonMnemonic", locale));
@@ -223,8 +193,7 @@ public class ExtDialog
             this.buttons[1].putClientProperty("option", JOptionPane.CANCEL_OPTION);
         }
 
-        for (JButton button : this.buttons)
-        {
+        for (JButton button : this.buttons) {
             buttonPanel.add(button);
         }
 
@@ -235,16 +204,14 @@ public class ExtDialog
     /**
      * Erster Button reagiert auf ENTER, letzter Button reagiert auf ESC (wenn vorhanden).
      */
-    private void configureDefaultButtons(final JDialog dialog, final ExtDialogConfig config)
-    {
+    private void configureDefaultButtons(final JDialog dialog, final ExtDialogConfig config) {
         final JButton firstButton = this.buttons[0];
 
         InputMap inputMap = firstButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 
         ActionMap actionMap = firstButton.getActionMap();
-        actionMap.put("enter", new AbstractAction()
-        {
+        actionMap.put("enter", new AbstractAction() {
             /**
              *
              */
@@ -255,22 +222,19 @@ public class ExtDialog
              * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
              */
             @Override
-            public void actionPerformed(final ActionEvent e)
-            {
+            public void actionPerformed(final ActionEvent e) {
                 firstButton.doClick();
             }
         });
 
-        if (this.buttons.length > 1)
-        {
+        if (this.buttons.length > 1) {
             final JButton lastButton = this.buttons[this.buttons.length - 1];
 
             inputMap = lastButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
             inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "esc");
 
             actionMap = lastButton.getActionMap();
-            actionMap.put("esc", new AbstractAction()
-            {
+            actionMap.put("esc", new AbstractAction() {
                 /**
                  *
                  */
@@ -281,46 +245,38 @@ public class ExtDialog
                  * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
                  */
                 @Override
-                public void actionPerformed(final ActionEvent e)
-                {
+                public void actionPerformed(final ActionEvent e) {
                     lastButton.doClick();
                 }
             });
         }
     }
 
-    private void configureIcon(final JDialog dialog, final ExtDialogConfig config)
-    {
+    private void configureIcon(final JDialog dialog, final ExtDialogConfig config) {
         GridBagConstraints gbc = GbcBuilder.of(0, 0).insets(null).anchorNorthWest();
 
         Icon icon = config.getIcon();
 
-        if (icon == null)
-        {
+        if (icon == null) {
             icon = getIconForType(config.getMessageType());
         }
 
-        if (icon != null)
-        {
+        if (icon != null) {
             gbc.insets = new Insets(10, 10, 10, 5);
         }
 
         this.dialog.add(new JLabel(icon), gbc);
     }
 
-    private void configureListener(final JDialog dialog, final ExtDialogConfig config)
-    {
-        if (config.getWindowListener() != null)
-        {
+    private void configureListener(final JDialog dialog, final ExtDialogConfig config) {
+        if (config.getWindowListener() != null) {
             dialog.addWindowListener(config.getWindowListener());
         }
-        else
-        {
+        else {
             dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
 
-        ActionListener defaultActionListener = event ->
-        {
+        ActionListener defaultActionListener = event -> {
             JComponent component = (JComponent) event.getSource();
             Object option = component.getClientProperty("option");
 
@@ -328,35 +284,28 @@ public class ExtDialog
             dialog.dispose();
         };
 
-        for (int i = 0; i < this.buttons.length; i++)
-        {
+        for (int i = 0; i < this.buttons.length; i++) {
             ActionListener actionListener = config.getButtonActionListener(i);
 
-            if (actionListener != null)
-            {
-                if (actionListener instanceof Action a)
-                {
+            if (actionListener != null) {
+                if (actionListener instanceof Action a) {
                     this.buttons[i].setAction(a);
                 }
-                else
-                {
+                else {
                     this.buttons[i].addActionListener(actionListener);
                 }
             }
-            else
-            {
+            else {
                 // Default
                 this.buttons[i].addActionListener(defaultActionListener);
             }
         }
     }
 
-    private void configureMessage(final JDialog dialog, final ExtDialogConfig config)
-    {
+    private void configureMessage(final JDialog dialog, final ExtDialogConfig config) {
         Component messageComponent = null;
 
-        if (config.getMessage() instanceof String)
-        {
+        if (config.getMessage() instanceof String) {
             JEditorPane editorPane = new JEditorPane();
             editorPane.setEditable(false);
             editorPane.setOpaque(false);
@@ -371,8 +320,7 @@ public class ExtDialog
 
             messageComponent = editorPane;
         }
-        else
-        {
+        else {
             messageComponent = (Component) config.getMessage();
         }
 
@@ -380,10 +328,8 @@ public class ExtDialog
         this.dialog.add(messageComponent, gbc);
     }
 
-    private String getButtonText(final int buttonIndex, final String uiKey, final Locale locale, final String[] options)
-    {
-        if (options != null)
-        {
+    private String getButtonText(final int buttonIndex, final String uiKey, final Locale locale, final String[] options) {
+        if (options != null) {
             return options[buttonIndex];
         }
 
@@ -393,47 +339,39 @@ public class ExtDialog
     /**
      * Returns the icon to use for the passed in type.
      */
-    private Icon getIconForType(final int messageType)
-    {
-        if ((messageType < 0) || (messageType > 3))
-        {
+    private Icon getIconForType(final int messageType) {
+        if ((messageType < 0) || (messageType > 3)) {
             // -1 = PLAIN_MESSAGE
             // 3 = QUESTION_MESSAGE
             return null;
         }
 
-        String propertyName = switch (messageType)
-                {
-                    case JOptionPane.ERROR_MESSAGE -> propertyName = "OptionPane.errorIcon";
-                    case JOptionPane.INFORMATION_MESSAGE -> propertyName = "OptionPane.informationIcon";
-                    case JOptionPane.WARNING_MESSAGE -> propertyName = "OptionPane.warningIcon";
-                    case JOptionPane.QUESTION_MESSAGE -> propertyName = "OptionPane.questionIcon";
-                    default -> null;
-                };
+        String propertyName = switch (messageType) {
+            case JOptionPane.ERROR_MESSAGE -> propertyName = "OptionPane.errorIcon";
+            case JOptionPane.INFORMATION_MESSAGE -> propertyName = "OptionPane.informationIcon";
+            case JOptionPane.WARNING_MESSAGE -> propertyName = "OptionPane.warningIcon";
+            case JOptionPane.QUESTION_MESSAGE -> propertyName = "OptionPane.questionIcon";
+            default -> null;
+        };
 
-        if (propertyName != null)
-        {
+        if (propertyName != null) {
             return UIManager.getIcon(propertyName);
         }
 
         return null;
     }
 
-    private int getMnemonic(final String key, final Locale locale)
-    {
+    private int getMnemonic(final String key, final Locale locale) {
         String value = (String) UIManager.get(key, locale);
 
-        if (value == null)
-        {
+        if (value == null) {
             return 0;
         }
 
-        try
-        {
+        try {
             return Integer.parseInt(value);
         }
-        catch (NumberFormatException ex)
-        {
+        catch (NumberFormatException ex) {
             // Ignore
         }
 

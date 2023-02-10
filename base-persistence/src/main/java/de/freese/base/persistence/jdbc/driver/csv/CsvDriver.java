@@ -24,46 +24,38 @@ import java.util.logging.Logger;
  * @author Thomas Freese
  * @see HsqldbTextTableBuilder
  */
-public final class CsvDriver implements java.sql.Driver
-{
+public final class CsvDriver implements java.sql.Driver {
     public static final String URL_PREFIX = "jdbc:csv";
 
     private static final Driver INSTANCE = new CsvDriver();
 
     private static volatile boolean registered;
 
-    static
-    {
-        if (!registered)
-        {
+    static {
+        if (!registered) {
             registered = true;
 
-            try
-            {
+            try {
                 // Register HSQLDB, not necessary for JDBC 4.0.
                 // Class.forName("org.hsqldb.jdbc.JDBCDriver");
 
                 // Den CsvDriver registrieren.
                 DriverManager.registerDriver(INSTANCE);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 PrintWriter writer = DriverManager.getLogWriter();
 
-                if (writer != null)
-                {
+                if (writer != null) {
                     ex.printStackTrace(writer);
                 }
-                else
-                {
+                else {
                     ex.printStackTrace(System.err);
                 }
             }
         }
     }
 
-    private CsvDriver()
-    {
+    private CsvDriver() {
         super();
     }
 
@@ -71,10 +63,8 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#acceptsURL(java.lang.String)
      */
     @Override
-    public boolean acceptsURL(final String url) throws SQLException
-    {
-        if ((url == null) || url.isBlank())
-        {
+    public boolean acceptsURL(final String url) throws SQLException {
+        if ((url == null) || url.isBlank()) {
             return false;
         }
 
@@ -85,10 +75,8 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#connect(java.lang.String, java.util.Properties)
      */
     @Override
-    public Connection connect(final String url, final Properties info) throws SQLException
-    {
-        if (!acceptsURL(url))
-        {
+    public Connection connect(final String url, final Properties info) throws SQLException {
+        if (!acceptsURL(url)) {
             return null;
         }
 
@@ -96,8 +84,7 @@ public final class CsvDriver implements java.sql.Driver
 
         List<HsqldbTextTableBuilder> builderList = new ArrayList<>();
 
-        for (String file : files)
-        {
+        for (String file : files) {
             HsqldbTextTableBuilder ttb = HsqldbTextTableBuilder.create();
             builderList.add(ttb);
 
@@ -106,8 +93,7 @@ public final class CsvDriver implements java.sql.Driver
 
             String fileName = splits[0];
 
-            if (fileName.startsWith(URL_PREFIX))
-            {
+            if (fileName.startsWith(URL_PREFIX)) {
                 fileName = fileName.substring(URL_PREFIX.length());
             }
 
@@ -115,27 +101,22 @@ public final class CsvDriver implements java.sql.Driver
             ttb.setPath(path);
 
             // CSV-Structure
-            if (splits.length >= 2)
-            {
+            if (splits.length >= 2) {
                 String[] columns = splits[1].split(",");
 
-                for (String column : columns)
-                {
+                for (String column : columns) {
                     ttb.addColumn(column);
                 }
             }
 
             // CSV-Layout
-            if (splits.length >= 3)
-            {
+            if (splits.length >= 3) {
                 String[] layout = splits[2].split(",");
 
-                for (String pair : layout)
-                {
+                for (String pair : layout) {
                     String[] keyValue = pair.split("=");
 
-                    switch (keyValue[0])
-                    {
+                    switch (keyValue[0]) {
                         case "ignore_first" -> ttb.setIgnoreFirst(Boolean.parseBoolean(keyValue[1]));
                         case "fs" -> ttb.setFieldSeparator(keyValue[1]);
                         case "all_quoted" -> ttb.setAllQuoted(Boolean.parseBoolean(keyValue[1]));
@@ -143,8 +124,7 @@ public final class CsvDriver implements java.sql.Driver
                         case "cache_rows" -> ttb.setCacheRows(Integer.parseInt(keyValue[1]));
                         case "cache_size" -> ttb.setCacheSize(Integer.parseInt(keyValue[1]));
                         case "tableName" -> ttb.setTableName(keyValue[1]);
-                        default ->
-                        {
+                        default -> {
                             // Empty
                         }
                     }
@@ -155,8 +135,7 @@ public final class CsvDriver implements java.sql.Driver
         HsqldbTextTableBuilder firstBuilder = builderList.remove(0);
         HsqldbTextTableBuilder[] builders = {};
 
-        if (!builderList.isEmpty())
-        {
+        if (!builderList.isEmpty()) {
             builders = builderList.toArray(builders);
         }
 
@@ -167,8 +146,7 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#getMajorVersion()
      */
     @Override
-    public int getMajorVersion()
-    {
+    public int getMajorVersion() {
         return 1;
     }
 
@@ -176,8 +154,7 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#getMinorVersion()
      */
     @Override
-    public int getMinorVersion()
-    {
+    public int getMinorVersion() {
         return 0;
     }
 
@@ -185,8 +162,7 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#getParentLogger()
      */
     @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException
-    {
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return null;
     }
 
@@ -194,8 +170,7 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#getPropertyInfo(java.lang.String, java.util.Properties)
      */
     @Override
-    public DriverPropertyInfo[] getPropertyInfo(final String url, final Properties info) throws SQLException
-    {
+    public DriverPropertyInfo[] getPropertyInfo(final String url, final Properties info) throws SQLException {
         return new DriverPropertyInfo[0];
     }
 
@@ -203,19 +178,16 @@ public final class CsvDriver implements java.sql.Driver
      * @see java.sql.Driver#jdbcCompliant()
      */
     @Override
-    public boolean jdbcCompliant()
-    {
+    public boolean jdbcCompliant() {
         return false;
     }
 
-    private String[] substringsBetween(final String value, final String open, final String close)
-    {
+    private String[] substringsBetween(final String value, final String open, final String close) {
         // return StringUtils.substringsBetween(value, "[", "]");
 
         final int strLen = value.length();
 
-        if (strLen == 0)
-        {
+        if (strLen == 0) {
             return new String[0];
         }
 
@@ -224,12 +196,10 @@ public final class CsvDriver implements java.sql.Driver
         final List<String> list = new ArrayList<>();
         int pos = 0;
 
-        while (pos < (strLen - closeLen))
-        {
+        while (pos < (strLen - closeLen)) {
             int start = value.indexOf(open, pos);
 
-            if (start < 0)
-            {
+            if (start < 0) {
                 break;
             }
 
@@ -237,8 +207,7 @@ public final class CsvDriver implements java.sql.Driver
 
             final int end = value.indexOf(close, start);
 
-            if (end < 0)
-            {
+            if (end < 0) {
                 break;
             }
 
@@ -246,8 +215,7 @@ public final class CsvDriver implements java.sql.Driver
             pos = end + closeLen;
         }
 
-        if (list.isEmpty())
-        {
+        if (list.isEmpty()) {
             return null;
         }
 

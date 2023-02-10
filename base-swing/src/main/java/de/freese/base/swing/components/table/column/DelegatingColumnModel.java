@@ -19,14 +19,12 @@ import javax.swing.table.TableColumnModel;
  *
  * @author Thomas Freese
  */
-public class DelegatingColumnModel implements TableColumnModel, ListSelectionListener
-{
+public class DelegatingColumnModel implements TableColumnModel, ListSelectionListener {
     private final JTable delegateTable;
 
     private final ListSelectionModel listSelectionModel;
 
-    public DelegatingColumnModel(final JTable delegateTable)
-    {
+    public DelegatingColumnModel(final JTable delegateTable) {
         super();
 
         this.delegateTable = delegateTable;
@@ -38,8 +36,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#addColumn(javax.swing.table.TableColumn)
      */
     @Override
-    public void addColumn(final TableColumn aColumn)
-    {
+    public void addColumn(final TableColumn aColumn) {
         getDelegateColumnModel().addColumn(aColumn);
     }
 
@@ -47,8 +44,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#addColumnModelListener(javax.swing.event.TableColumnModelListener)
      */
     @Override
-    public void addColumnModelListener(final TableColumnModelListener x)
-    {
+    public void addColumnModelListener(final TableColumnModelListener x) {
         getDelegateColumnModel().addColumnModelListener(x);
     }
 
@@ -56,8 +52,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumn(int)
      */
     @Override
-    public TableColumn getColumn(final int columnIndex)
-    {
+    public TableColumn getColumn(final int columnIndex) {
         return getDelegateColumnModel().getColumn(columnIndex);
     }
 
@@ -65,8 +60,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumnCount()
      */
     @Override
-    public int getColumnCount()
-    {
+    public int getColumnCount() {
         return getDelegateColumnModel().getColumnCount();
     }
 
@@ -74,8 +68,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumnIndex(java.lang.Object)
      */
     @Override
-    public int getColumnIndex(final Object columnIdentifier)
-    {
+    public int getColumnIndex(final Object columnIdentifier) {
         return getDelegateColumnModel().getColumnIndex(columnIdentifier);
     }
 
@@ -83,8 +76,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumnIndexAtX(int)
      */
     @Override
-    public int getColumnIndexAtX(final int xPosition)
-    {
+    public int getColumnIndexAtX(final int xPosition) {
         return getDelegateColumnModel().getColumnIndexAtX(xPosition);
     }
 
@@ -92,8 +84,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumnMargin()
      */
     @Override
-    public int getColumnMargin()
-    {
+    public int getColumnMargin() {
         return getDelegateColumnModel().getColumnMargin();
     }
 
@@ -101,8 +92,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumnSelectionAllowed()
      */
     @Override
-    public boolean getColumnSelectionAllowed()
-    {
+    public boolean getColumnSelectionAllowed() {
         return getDelegateColumnModel().getColumnSelectionAllowed();
     }
 
@@ -110,18 +100,15 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getColumns()
      */
     @Override
-    public Enumeration<TableColumn> getColumns()
-    {
+    public Enumeration<TableColumn> getColumns() {
         return getDelegateColumnModel().getColumns();
     }
 
-    public TableColumnModel getDelegateColumnModel()
-    {
+    public TableColumnModel getDelegateColumnModel() {
         return this.delegateTable.getColumnModel();
     }
 
-    public JTable getDelegateTable()
-    {
+    public JTable getDelegateTable() {
         return this.delegateTable;
     }
 
@@ -129,8 +116,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getSelectedColumnCount()
      */
     @Override
-    public int getSelectedColumnCount()
-    {
+    public int getSelectedColumnCount() {
         return getDelegateColumnModel().getSelectedColumnCount();
     }
 
@@ -138,8 +124,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getSelectedColumns()
      */
     @Override
-    public int[] getSelectedColumns()
-    {
+    public int[] getSelectedColumns() {
         return getDelegateColumnModel().getSelectedColumns();
     }
 
@@ -147,8 +132,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getSelectionModel()
      */
     @Override
-    public ListSelectionModel getSelectionModel()
-    {
+    public ListSelectionModel getSelectionModel() {
         return this.listSelectionModel;
     }
 
@@ -156,8 +140,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#getTotalColumnWidth()
      */
     @Override
-    public int getTotalColumnWidth()
-    {
+    public int getTotalColumnWidth() {
         return getDelegateColumnModel().getTotalColumnWidth();
     }
 
@@ -165,8 +148,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#moveColumn(int, int)
      */
     @Override
-    public void moveColumn(final int columnIndex, final int newIndex)
-    {
+    public void moveColumn(final int columnIndex, final int newIndex) {
         getDelegateColumnModel().moveColumn(columnIndex, newIndex);
     }
 
@@ -174,8 +156,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#removeColumn(javax.swing.table.TableColumn)
      */
     @Override
-    public void removeColumn(final TableColumn column)
-    {
+    public void removeColumn(final TableColumn column) {
         getDelegateColumnModel().removeColumn(column);
     }
 
@@ -183,8 +164,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#removeColumnModelListener(javax.swing.event.TableColumnModelListener)
      */
     @Override
-    public void removeColumnModelListener(final TableColumnModelListener x)
-    {
+    public void removeColumnModelListener(final TableColumnModelListener x) {
         getDelegateColumnModel().removeColumnModelListener(x);
     }
 
@@ -192,8 +172,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#setColumnMargin(int)
      */
     @Override
-    public void setColumnMargin(final int newMargin)
-    {
+    public void setColumnMargin(final int newMargin) {
         getDelegateColumnModel().setColumnMargin(newMargin);
     }
 
@@ -201,8 +180,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#setColumnSelectionAllowed(boolean)
      */
     @Override
-    public void setColumnSelectionAllowed(final boolean flag)
-    {
+    public void setColumnSelectionAllowed(final boolean flag) {
         getDelegateColumnModel().setColumnSelectionAllowed(flag);
     }
 
@@ -210,8 +188,7 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.table.TableColumnModel#setSelectionModel(javax.swing.ListSelectionModel)
      */
     @Override
-    public void setSelectionModel(final ListSelectionModel newModel)
-    {
+    public void setSelectionModel(final ListSelectionModel newModel) {
         // delegate.setSelectionModel(newModel);
         throw new UnsupportedOperationException("Nicht erlaubt !");
     }
@@ -220,10 +197,8 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
      * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
      */
     @Override
-    public void valueChanged(final ListSelectionEvent e)
-    {
-        if (getDelegateColumnModel() instanceof ListSelectionListener l)
-        {
+    public void valueChanged(final ListSelectionEvent e) {
+        if (getDelegateColumnModel() instanceof ListSelectionListener l) {
             l.valueChanged(e);
         }
     }

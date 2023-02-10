@@ -10,10 +10,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class ColumnControlIconMain
-{
-    public static void main(final String[] args)
-    {
+public final class ColumnControlIconMain {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JLabel label = new JLabel(new ColumnControlIcon());
@@ -22,9 +20,8 @@ public final class ColumnControlIconMain
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    private ColumnControlIconMain()
-    {
+
+    private ColumnControlIconMain() {
         super();
     }
 }

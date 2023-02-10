@@ -8,14 +8,12 @@ import java.io.Writer;
  *
  * @author Thomas Freese
  */
-public class TWriter extends Writer
-{
+public class TWriter extends Writer {
     private final Writer out1;
 
     private final Writer out2;
 
-    public TWriter(final Writer out1, final Writer out2)
-    {
+    public TWriter(final Writer out1, final Writer out2) {
         super();
 
         this.out1 = out1;
@@ -26,27 +24,21 @@ public class TWriter extends Writer
      * @see java.io.Writer#close()
      */
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         IOException exception = null;
 
-        try
-        {
+        try {
             this.out1.close();
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             exception = ex;
         }
 
-        try
-        {
+        try {
             this.out2.close();
         }
-        catch (IOException ex)
-        {
-            if (exception != null)
-            {
+        catch (IOException ex) {
+            if (exception != null) {
                 throw exception;
             }
 
@@ -58,8 +50,7 @@ public class TWriter extends Writer
      * @see java.io.Writer#flush()
      */
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
         this.out1.flush();
         this.out2.flush();
     }
@@ -68,8 +59,7 @@ public class TWriter extends Writer
      * @see java.io.Writer#write(char[], int, int)
      */
     @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException
-    {
+    public void write(final char[] cbuf, final int off, final int len) throws IOException {
         this.out1.write(cbuf, off, len);
         this.out2.write(cbuf, off, len);
     }

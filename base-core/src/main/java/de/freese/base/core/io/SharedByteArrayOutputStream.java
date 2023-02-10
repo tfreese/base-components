@@ -10,35 +10,28 @@ import java.nio.ByteBuffer;
  *
  * @author Thomas Freese
  */
-public class SharedByteArrayOutputStream extends ByteArrayOutputStream
-{
-    public SharedByteArrayOutputStream()
-    {
+public class SharedByteArrayOutputStream extends ByteArrayOutputStream {
+    public SharedByteArrayOutputStream() {
         super();
     }
 
-    public SharedByteArrayOutputStream(final int size)
-    {
+    public SharedByteArrayOutputStream(final int size) {
         super(size);
     }
 
-    public ByteBuffer toByteBuffer()
-    {
+    public ByteBuffer toByteBuffer() {
         return ByteBuffer.wrap(this.buf, 0, this.count);
     }
 
-    public InputStream toStream()
-    {
+    public InputStream toStream() {
         return new SharedByteArrayInputStream(this.buf, 0, this.count);
     }
 
-    public void write(final ByteBuffer buffer)
-    {
+    public void write(final ByteBuffer buffer) {
         write(buffer, buffer.remaining());
     }
 
-    public void write(final ByteBuffer buffer, final int length)
-    {
+    public void write(final ByteBuffer buffer, final int length) {
         byte[] data = new byte[length];
         buffer.get(data);
 

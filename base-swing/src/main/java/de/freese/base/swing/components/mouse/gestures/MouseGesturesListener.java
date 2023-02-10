@@ -26,8 +26,7 @@ package de.freese.base.swing.components.mouse.gestures;
  * @author Thomas freese
  * @version 1.2
  */
-public interface MouseGesturesListener
-{
+public interface MouseGesturesListener {
     /**
      * Called when new mouse movement is recognized but mouse gesture is not yet completed.
      *

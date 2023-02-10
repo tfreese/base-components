@@ -17,20 +17,17 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-public class DatasourceBlobStore extends AbstractBlobStore
-{
+public class DatasourceBlobStore extends AbstractBlobStore {
     private final DataSource dataSource;
 
-    public DatasourceBlobStore(DataSource dataSource)
-    {
+    public DatasourceBlobStore(DataSource dataSource) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
     }
 
     @Override
-    public OutputStream create(final BlobId id) throws Exception
-    {
+    public OutputStream create(final BlobId id) throws Exception {
         String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
 
         Connection connection = this.dataSource.getConnection();
@@ -40,24 +37,20 @@ public class DatasourceBlobStore extends AbstractBlobStore
     }
 
     @Override
-    public void create(final BlobId id, final InputStream inputStream) throws Exception
-    {
+    public void create(final BlobId id, final InputStream inputStream) throws Exception {
         String sql = "insert into BLOB_STORE (URI, BLOB) values (?, ?)";
 
-        try (Connection connection = this.dataSource.getConnection())
-        {
+        try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
-            {
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
                 prepareStatement.setString(1, id.getUri().toString());
                 prepareStatement.setBlob(2, inputStream);
                 prepareStatement.executeUpdate();
 
                 connection.commit();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 connection.rollback();
 
                 throw ex;
@@ -65,53 +58,43 @@ public class DatasourceBlobStore extends AbstractBlobStore
         }
     }
 
-    public void createDatabaseIfNotExist() throws Exception
-    {
+    public void createDatabaseIfNotExist() throws Exception {
         boolean databaseExists = false;
 
-        try (Connection connection = this.dataSource.getConnection())
-        {
+        try (Connection connection = this.dataSource.getConnection()) {
             ResultSet resultSet = connection.getMetaData().getTables(null, null, "BLOB_STORE", null);
 
-            if (resultSet.next())
-            {
+            if (resultSet.next()) {
                 databaseExists = true;
             }
         }
 
-        if (databaseExists)
-        {
+        if (databaseExists) {
             return;
         }
 
         // LENGTH bigint not null,
         String createSql = "create table BLOB_STORE (URI varchar(1000) not null primary key, BLOB blob not null)";
 
-        try (Connection connection = this.dataSource.getConnection();
-             Statement statement = connection.createStatement())
-        {
+        try (Connection connection = this.dataSource.getConnection(); Statement statement = connection.createStatement()) {
             statement.execute(createSql);
         }
     }
 
     @Override
-    public void delete(final BlobId id) throws Exception
-    {
+    public void delete(final BlobId id) throws Exception {
         String sql = "delete from BLOB_STORE where URI = ?";
 
-        try (Connection connection = this.dataSource.getConnection())
-        {
+        try (Connection connection = this.dataSource.getConnection()) {
             connection.setAutoCommit(false);
 
-            try (PreparedStatement prepareStatement = connection.prepareStatement(sql))
-            {
+            try (PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
                 prepareStatement.setString(1, id.getUri().toString());
                 prepareStatement.executeUpdate();
 
                 connection.commit();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 connection.rollback();
 
                 throw ex;
@@ -120,17 +103,13 @@ public class DatasourceBlobStore extends AbstractBlobStore
     }
 
     @Override
-    public boolean exists(final BlobId id) throws Exception
-    {
+    public boolean exists(final BlobId id) throws Exception {
         String sql = "select count(*) from BLOB_STORE where URI = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
+        try (Connection connection = this.dataSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, id.getUri().toString());
 
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
+            try (ResultSet resultSet = prepareStatement.executeQuery()) {
                 resultSet.next();
 
                 int result = resultSet.getInt(1);
@@ -140,8 +119,7 @@ public class DatasourceBlobStore extends AbstractBlobStore
         }
     }
 
-    InputStream inputStream(BlobId id) throws Exception
-    {
+    InputStream inputStream(BlobId id) throws Exception {
         String sql = "select BLOB from BLOB_STORE where URI = ?";
 
         Connection connection = this.dataSource.getConnection();
@@ -152,19 +130,14 @@ public class DatasourceBlobStore extends AbstractBlobStore
         return new SqlBlobInputStream(connection, prepareStatement);
     }
 
-    long length(BlobId id) throws Exception
-    {
+    long length(BlobId id) throws Exception {
         String sql = "select BLOB from BLOB_STORE where URI = ?";
 
-        try (Connection connection = this.dataSource.getConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sql))
-        {
+        try (Connection connection = this.dataSource.getConnection(); PreparedStatement prepareStatement = connection.prepareStatement(sql)) {
             prepareStatement.setString(1, id.getUri().toString());
 
-            try (ResultSet resultSet = prepareStatement.executeQuery())
-            {
-                if (resultSet.next())
-                {
+            try (ResultSet resultSet = prepareStatement.executeQuery()) {
+                if (resultSet.next()) {
                     java.sql.Blob blob = resultSet.getBlob("BLOB");
 
                     return blob.length();
@@ -176,8 +149,7 @@ public class DatasourceBlobStore extends AbstractBlobStore
     }
 
     @Override
-    protected Blob doGet(final BlobId id) throws Exception
-    {
+    protected Blob doGet(final BlobId id) throws Exception {
         return new DatasourceBlob(id, this);
     }
 }

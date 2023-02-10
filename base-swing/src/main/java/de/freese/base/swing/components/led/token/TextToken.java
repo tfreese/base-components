@@ -7,17 +7,14 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class TextToken extends AbstractToken<CharSequence>
-{
-    public TextToken(final CharSequence value)
-    {
+public class TextToken extends AbstractToken<CharSequence> {
+    public TextToken(final CharSequence value) {
         super();
 
         setValue(value);
     }
 
-    public TextToken(final Color color, final CharSequence value)
-    {
+    public TextToken(final Color color, final CharSequence value) {
         super(color);
 
         setValue(value);
@@ -27,8 +24,7 @@ public class TextToken extends AbstractToken<CharSequence>
      * @see de.freese.base.swing.components.led.token.Token#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(final CharSequence value)
-    {
+    public void setValue(final CharSequence value) {
         CharSequence displayValue = Objects.requireNonNull(value, "value required");
 
         createBitMasks(displayValue);

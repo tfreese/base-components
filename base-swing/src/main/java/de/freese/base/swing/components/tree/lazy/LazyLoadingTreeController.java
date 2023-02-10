@@ -25,8 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  * @see LazyLoadingTreeNode
  */
-public class LazyLoadingTreeController implements TreeWillExpandListener
-{
+public class LazyLoadingTreeController implements TreeWillExpandListener {
     private final Executor executor;
 
     private final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction;
@@ -38,8 +37,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     /**
      * Das Laden der Kind-Knoten wird als {@link SwingWorker} mit der Methode {@link SwingWorker#execute()} ausgeführt.
      */
-    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction)
-    {
+    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction) {
         this(loadFunction, null);
     }
 
@@ -49,8 +47,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
      *
      * @param executor {@link Executor}; Optional
      */
-    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction, final Executor executor)
-    {
+    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction, final Executor executor) {
         super();
 
         this.loadFunction = Objects.requireNonNull(loadFunction, "loadFunction required");
@@ -60,8 +57,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     /**
      * Blockiert den rufenden Thread solange, bis die Children des aktuellen Knotens geladen worden sind.
      */
-    public void awaitChildNodes()
-    {
+    public void awaitChildNodes() {
         this.semaphore.acquireUninterruptibly();
     }
 
@@ -69,8 +65,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
      * @see TreeWillExpandListener#treeWillCollapse(TreeExpansionEvent)
      */
     @Override
-    public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException
-    {
+    public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException {
         // Empty
     }
 
@@ -78,14 +73,12 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
      * @see TreeWillExpandListener#treeWillExpand(TreeExpansionEvent)
      */
     @Override
-    public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException
-    {
+    public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException {
         DefaultTreeModel treeModel = (DefaultTreeModel) ((JTree) event.getSource()).getModel();
         TreePath path = event.getPath();
         Object lastPathComponent = path.getLastPathComponent();
 
-        if (lastPathComponent instanceof LazyLoadingTreeNode lazyNode)
-        {
+        if (lastPathComponent instanceof LazyLoadingTreeNode lazyNode) {
             loadChildren(treeModel, lazyNode);
         }
     }
@@ -93,23 +86,19 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
     /**
      * Liefert den DummyKnoten für den Kinderzweig des Parents mit dem "Laden"-Text.
      */
-    protected MutableTreeNode createLoadingNode()
-    {
+    protected MutableTreeNode createLoadingNode() {
         return new DefaultMutableTreeNode("Loading ...", false);
     }
 
-    protected Executor getExecutor()
-    {
+    protected Executor getExecutor() {
         return this.executor;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected void loadChildren(DefaultTreeModel treeModel, final LazyLoadingTreeNode node)
-    {
+    protected void loadChildren(DefaultTreeModel treeModel, final LazyLoadingTreeNode node) {
         // Alle Children entfernen.
         node.removeAllChildren();
 
@@ -119,35 +108,29 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
         //treeModel.insertNodeInto(loadingNode, node, 0);
         treeModel.nodeStructureChanged(node);
 
-        SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>()
-        {
+        SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>() {
             @Override
-            protected List<MutableTreeNode> doInBackground() throws Exception
-            {
+            protected List<MutableTreeNode> doInBackground() throws Exception {
                 getLogger().debug("Loading children for {}", node);
 
                 return loadFunction.apply(node);
             }
 
             @Override
-            protected void done()
-            {
+            protected void done() {
                 loadingNode.removeFromParent();
 
-                try
-                {
+                try {
                     List<MutableTreeNode> children = get();
 
                     children.forEach(node::add);
 
                     node.setChildrenLoaded(true);
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     getLogger().error(ex.getMessage(), ex);
                 }
-                finally
-                {
+                finally {
                     treeModel.nodeStructureChanged(node);
 
                     semaphore.release();
@@ -155,12 +138,10 @@ public class LazyLoadingTreeController implements TreeWillExpandListener
             }
         };
 
-        if (getExecutor() == null)
-        {
+        if (getExecutor() == null) {
             worker.execute();
         }
-        else
-        {
+        else {
             getExecutor().execute(worker);
         }
     }

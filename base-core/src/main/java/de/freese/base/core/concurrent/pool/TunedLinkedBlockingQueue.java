@@ -36,8 +36,7 @@ import java.util.function.IntSupplier;
  *
  * @author Thomas Freese
  */
-public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
-{
+public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
     @Serial
     private static final long serialVersionUID = 6374300294609033461L;
 
@@ -45,8 +44,7 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
 
     private transient IntSupplier poolMaxSize;
 
-    public TunedLinkedBlockingQueue(final int capacity)
-    {
+    public TunedLinkedBlockingQueue(final int capacity) {
         super(capacity);
     }
 
@@ -54,10 +52,8 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
      * @see java.util.concurrent.LinkedBlockingQueue#offer(java.lang.Object)
      */
     @Override
-    public boolean offer(final T e)
-    {
-        if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt())
-        {
+    public boolean offer(final T e) {
+        if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt()) {
             // FALSE triggert den ThreadPoolExecutor neue Threads zu erzeugen.
             return false;
         }
@@ -69,10 +65,8 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
      * @see java.util.concurrent.LinkedBlockingQueue#offer(java.lang.Object, long, java.util.concurrent.TimeUnit)
      */
     @Override
-    public boolean offer(final T e, final long timeout, final TimeUnit unit) throws InterruptedException
-    {
-        if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt())
-        {
+    public boolean offer(final T e, final long timeout, final TimeUnit unit) throws InterruptedException {
+        if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt()) {
             // FALSE triggert den ThreadPoolExecutor neue Threads zu erzeugen.
             return false;
         }
@@ -80,13 +74,11 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T>
         return super.offer(e, timeout, unit);
     }
 
-    public void setPoolCurrentSize(final IntSupplier poolCurrentSize)
-    {
+    public void setPoolCurrentSize(final IntSupplier poolCurrentSize) {
         this.poolCurrentSize = poolCurrentSize;
     }
 
-    public void setPoolMaxSize(final IntSupplier poolMaxSize)
-    {
+    public void setPoolMaxSize(final IntSupplier poolMaxSize) {
         this.poolMaxSize = poolMaxSize;
     }
 }

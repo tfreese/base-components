@@ -7,10 +7,8 @@ import javax.swing.ImageIcon;
  *
  * @author Thomas Freese
  */
-public final class WaitIcons
-{
-    public static ImageIcon getWaitIcon1()
-    {
+public final class WaitIcons {
+    public static ImageIcon getWaitIcon1() {
         // @formatter:off
         return new ImageIcon(new byte[]
         {
@@ -43,8 +41,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon10()
-    {
+    public static ImageIcon getWaitIcon10() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -78,8 +75,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon11()
-    {
+    public static ImageIcon getWaitIcon11() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -113,8 +109,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon12()
-    {
+    public static ImageIcon getWaitIcon12() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -183,8 +178,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon14()
-    {
+    public static ImageIcon getWaitIcon14() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -218,8 +212,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon15()
-    {
+    public static ImageIcon getWaitIcon15() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -253,8 +246,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon2()
-    {
+    public static ImageIcon getWaitIcon2() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -288,8 +280,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon3()
-    {
+    public static ImageIcon getWaitIcon3() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -323,8 +314,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon4()
-    {
+    public static ImageIcon getWaitIcon4() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -358,8 +348,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon5()
-    {
+    public static ImageIcon getWaitIcon5() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -393,8 +382,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon6()
-    {
+    public static ImageIcon getWaitIcon6() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -428,8 +416,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon7()
-    {
+    public static ImageIcon getWaitIcon7() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -463,8 +450,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon8()
-    {
+    public static ImageIcon getWaitIcon8() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -498,8 +484,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon getWaitIcon9()
-    {
+    public static ImageIcon getWaitIcon9() {
         // @formatter:off
         return new ImageIcon(new byte[]
                 {
@@ -533,8 +518,7 @@ public final class WaitIcons
         // @formatter:on
     }
 
-    public static ImageIcon[] getWaitIcons()
-    {
+    public static ImageIcon[] getWaitIcons() {
         ImageIcon[] imageArray = new ImageIcon[15];
 
         imageArray[0] = getWaitIcon1();
@@ -556,8 +540,7 @@ public final class WaitIcons
         return imageArray;
     }
 
-    private WaitIcons()
-    {
+    private WaitIcons() {
         super();
     }
 }

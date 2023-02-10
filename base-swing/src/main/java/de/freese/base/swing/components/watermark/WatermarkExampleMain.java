@@ -25,24 +25,20 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class WatermarkExampleMain extends JPanel implements ActionListener
-{
+public final class WatermarkExampleMain extends JPanel implements ActionListener {
     @Serial
     private static final long serialVersionUID = -4609321404275287633L;
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new WatermarkExampleMain());
-        frame.addWindowListener(new WindowAdapter()
-        {
+        frame.addWindowListener(new WindowAdapter() {
             /**
              * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
              */
             @Override
-            public void windowClosing(final WindowEvent e)
-            {
+            public void windowClosing(final WindowEvent e) {
                 Window win = e.getWindow();
                 win.setVisible(false);
                 win.dispose();
@@ -68,8 +64,7 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
 
     private WatermarkTree watermarkTree;
 
-    private WatermarkExampleMain()
-    {
+    private WatermarkExampleMain() {
         super();
 
         initialize();
@@ -79,13 +74,11 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent ae)
-    {
+    public void actionPerformed(final ActionEvent ae) {
         JFileChooser chooser = new JFileChooser();
         int option = chooser.showOpenDialog(this);
 
-        if (option != JFileChooser.CANCEL_OPTION)
-        {
+        if (option != JFileChooser.CANCEL_OPTION) {
             File curFile = chooser.getSelectedFile();
             this.jLabel.setText(curFile.getAbsolutePath());
 
@@ -95,10 +88,8 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         }
     }
 
-    private JButton getJButton()
-    {
-        if (this.jButton == null)
-        {
+    private JButton getJButton() {
+        if (this.jButton == null) {
             this.jButton = new JButton();
             this.jButton.setText("Change ...");
             this.jButton.addActionListener(this);
@@ -107,10 +98,8 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         return this.jButton;
     }
 
-    private JPanel getJPanel()
-    {
-        if (this.jPanel == null)
-        {
+    private JPanel getJPanel() {
+        if (this.jPanel == null) {
             this.jPanel = new JPanel();
             this.jPanel.setLayout(new BorderLayout());
             this.jPanel.add(getJSplitPane(), BorderLayout.CENTER);
@@ -120,10 +109,8 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         return this.jPanel;
     }
 
-    private JPanel getJPanel1()
-    {
-        if (this.jPanel1 == null)
-        {
+    private JPanel getJPanel1() {
+        if (this.jPanel1 == null) {
             JLabel jLabel1 = new JLabel();
             this.jPanel1 = new JPanel();
             this.jLabel.setText("None");
@@ -138,10 +125,8 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         return this.jPanel1;
     }
 
-    private JSplitPane getJSplitPane()
-    {
-        if (this.jSplitPane == null)
-        {
+    private JSplitPane getJSplitPane() {
+        if (this.jSplitPane == null) {
             this.jSplitPane = new JSplitPane();
             this.jSplitPane.setLeftComponent(getWatermarkTree());
             this.jSplitPane.setRightComponent(getWatermarkTable());
@@ -150,28 +135,23 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         return this.jSplitPane;
     }
 
-    private WatermarkTable getWatermarkTable()
-    {
-        if (this.watermarkTable == null)
-        {
+    private WatermarkTable getWatermarkTable() {
+        if (this.watermarkTable == null) {
             this.watermarkTable = new WatermarkTable();
         }
 
         return this.watermarkTable;
     }
 
-    private WatermarkTree getWatermarkTree()
-    {
-        if (this.watermarkTree == null)
-        {
+    private WatermarkTree getWatermarkTree() {
+        if (this.watermarkTree == null) {
             this.watermarkTree = new WatermarkTree();
         }
 
         return this.watermarkTree;
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         setLayout(new BorderLayout());
         this.setSize(400, 300);
         this.add(getJPanel(), BorderLayout.CENTER);

@@ -2,7 +2,6 @@ package de.freese.base.reports.jfreechart;
 
 import java.text.DecimalFormat;
 
-import de.freese.base.core.math.ExtMath;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.LegendItemSource;
 import org.jfree.chart.axis.Axis;
@@ -21,6 +20,8 @@ import org.jfree.data.general.Series;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.xy.XYSeries;
 
+import de.freese.base.core.math.ExtMath;
+
 /**
  * Basisklasse zum Erzeugen eines {@link JFreeChart} Diagramms.
  *
@@ -28,237 +29,61 @@ import org.jfree.data.xy.XYSeries;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractJFreeChartScriptlet<T>
-{
-    private static final double[] DEFAULT_TICKS =
-            {
-                    0.01D,
-                    0.02D,
-                    0.03D,
-                    0.05D,
-                    0.06D,
-                    0.07D,
-                    0.08D,
-                    0.09D,
-                    0.1D,
-                    0.15D,
-                    0.2D,
-                    0.25D,
-                    0.3D,
-                    0.35D,
-                    0.4D,
-                    0.45D,
-                    0.5D,
-                    0.55D,
-                    0.6D,
-                    0.65D,
-                    0.7D,
-                    0.75D,
-                    0.8D,
-                    0.85D,
-                    0.9D,
-                    0.95D,
-                    1D,
-                    1.1D,
-                    1.2D,
-                    1.3D,
-                    1.4D,
-                    1.5D,
-                    1.6D,
-                    1.7D,
-                    1.8D,
-                    1.9D,
-                    2D,
-                    2.5D,
-                    3D,
-                    3.5D,
-                    4D,
-                    4.5D,
-                    5D,
-                    5.5D,
-                    6D,
-                    6.5D,
-                    7D,
-                    7.5D,
-                    8D,
-                    8.5D,
-                    9D,
-                    9.5D,
-                    10D,
-                    11D,
-                    12D,
-                    13D,
-                    14D,
-                    15D,
-                    16D,
-                    17D,
-                    18D,
-                    19D,
-                    20D,
-                    25D,
-                    30D,
-                    35D,
-                    40D,
-                    45D,
-                    50D,
-                    55D,
-                    60D,
-                    65D,
-                    70D,
-                    75D,
-                    80D,
-                    85D,
-                    90D,
-                    95D,
-                    100D,
-                    110D,
-                    120D,
-                    130D,
-                    140D,
-                    150D,
-                    200D,
-                    250D,
-                    300D,
-                    350D,
-                    400D,
-                    450D,
-                    500D,
-                    550D,
-                    600D,
-                    650D,
-                    700D,
-                    750D,
-                    800D,
-                    850D,
-                    900D,
-                    950D,
-                    1000D,
-                    1100D,
-                    1200D,
-                    1300D,
-                    1400D,
-                    1500D,
-                    2000D,
-                    2500D,
-                    3000D,
-                    3500D,
-                    4000D,
-                    4500D,
-                    5000D,
-                    5500D,
-                    6000D,
-                    6500D,
-                    7000D,
-                    7500D,
-                    8000D,
-                    8500D,
-                    9000D,
-                    9500D,
-                    10000D,
-                    15000D,
-                    20000D,
-                    25000D,
-                    30000D,
-                    35000D,
-                    40000D,
-                    45000D,
-                    50000D,
-                    55000D,
-                    60000D,
-                    65000D,
-                    70000D,
-                    75000D,
-                    80000D,
-                    85000D,
-                    90000D,
-                    95000D,
-                    100000D,
-                    200000D,
-                    300000D,
-                    400000D,
-                    500000D,
-                    600000D,
-                    700000D,
-                    800000D,
-                    900000D,
-                    1000000D,
-                    2000000D,
-                    3000000D,
-                    4000000D,
-                    5000000D,
-                    6000000D,
-                    7000000D,
-                    8000000D,
-                    9000000D,
-                    10000000D,
-            };
+public abstract class AbstractJFreeChartScriptlet<T> {
+    private static final double[] DEFAULT_TICKS = {0.01D, 0.02D, 0.03D, 0.05D, 0.06D, 0.07D, 0.08D, 0.09D, 0.1D, 0.15D, 0.2D, 0.25D, 0.3D, 0.35D, 0.4D, 0.45D, 0.5D, 0.55D, 0.6D, 0.65D, 0.7D, 0.75D, 0.8D, 0.85D, 0.9D, 0.95D, 1D, 1.1D, 1.2D, 1.3D, 1.4D, 1.5D, 1.6D, 1.7D, 1.8D, 1.9D, 2D, 2.5D, 3D, 3.5D, 4D, 4.5D, 5D, 5.5D, 6D, 6.5D, 7D, 7.5D, 8D, 8.5D, 9D, 9.5D, 10D, 11D, 12D, 13D, 14D, 15D, 16D, 17D, 18D, 19D, 20D, 25D, 30D, 35D, 40D, 45D, 50D, 55D, 60D, 65D, 70D, 75D, 80D, 85D, 90D, 95D, 100D, 110D, 120D, 130D, 140D, 150D, 200D, 250D, 300D, 350D, 400D, 450D, 500D, 550D, 600D, 650D, 700D, 750D, 800D, 850D, 900D, 950D, 1000D, 1100D, 1200D, 1300D, 1400D, 1500D, 2000D, 2500D, 3000D, 3500D, 4000D, 4500D, 5000D, 5500D, 6000D, 6500D, 7000D, 7500D, 8000D, 8500D, 9000D, 9500D, 10000D, 15000D, 20000D, 25000D, 30000D, 35000D, 40000D, 45000D, 50000D, 55000D, 60000D, 65000D, 70000D, 75000D, 80000D, 85000D, 90000D, 95000D, 100000D, 200000D, 300000D, 400000D, 500000D, 600000D, 700000D, 800000D, 900000D, 1000000D, 2000000D, 3000000D, 4000000D, 5000000D, 6000000D, 7000000D, 8000000D, 9000000D, 10000000D,};
 
     /**
      * Adapter für die verschiedenen {@link Plot} Typen.
      *
      * @author Thomas Freese
      */
-    private static class PlotAdapter
-    {
+    private static class PlotAdapter {
         private final Plot plot;
 
-        PlotAdapter(final Plot plot)
-        {
+        PlotAdapter(final Plot plot) {
             super();
 
             this.plot = plot;
         }
 
-        public LegendItemSource getRenderer(final int index)
-        {
-            if (this.plot instanceof XYPlot xyPlot)
-            {
+        public LegendItemSource getRenderer(final int index) {
+            if (this.plot instanceof XYPlot xyPlot) {
                 return xyPlot.getRenderer(index);
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot)
-            {
+            else if (this.plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getRenderer(index);
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
         }
 
-        public int getRendererCount()
-        {
-            if (this.plot instanceof XYPlot xyPlot)
-            {
+        public int getRendererCount() {
+            if (this.plot instanceof XYPlot xyPlot) {
                 return xyPlot.getRendererCount();
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot)
-            {
+            else if (this.plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getRendererCount();
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
         }
 
-        public Axis getXAxis()
-        {
-            if (this.plot instanceof XYPlot xyPlot)
-            {
+        public Axis getXAxis() {
+            if (this.plot instanceof XYPlot xyPlot) {
                 return xyPlot.getRangeAxis();
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot)
-            {
+            else if (this.plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getDomainAxis();
             }
 
             throw new UnsupportedOperationException(this.plot.getClass().getSimpleName());
         }
 
-        public Axis getYAxis()
-        {
-            if (this.plot instanceof XYPlot xyPlot)
-            {
+        public Axis getYAxis() {
+            if (this.plot instanceof XYPlot xyPlot) {
                 return xyPlot.getDomainAxis();
             }
-            else if (this.plot instanceof CategoryPlot categoryPlot)
-            {
+            else if (this.plot instanceof CategoryPlot categoryPlot) {
                 return categoryPlot.getRangeAxis();
             }
 
@@ -284,10 +109,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
      * @param upperTickMargin double, % eines Ticks als oberer Rand.
      * @param fractionDigits boolean, Ticks mit Kommastellen ?
      */
-    protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits)
-    {
-        if ((upperTickMargin < 0) || (upperTickMargin > 1))
-        {
+    protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits) {
+        if ((upperTickMargin < 0) || (upperTickMargin > 1)) {
             throw new IllegalArgumentException("upperTickMargin must be between 0 and 1 !");
         }
 
@@ -300,10 +123,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
         int tickIndex = 0;
 
         // DefaultTick finden, der grösser als tick ist
-        for (; tickIndex < DEFAULT_TICKS.length; tickIndex++)
-        {
-            if (DEFAULT_TICKS[tickIndex] >= tick)
-            {
+        for (; tickIndex < DEFAULT_TICKS.length; tickIndex++) {
+            if (DEFAULT_TICKS[tickIndex] >= tick) {
                 defaultTick = DEFAULT_TICKS[tickIndex];
 
                 break;
@@ -314,23 +135,18 @@ public abstract class AbstractJFreeChartScriptlet<T>
 
         // Wenn yMaxValue zu nah am oberen Tick liegt (< tick * upperTickMargin),
         // den nächst grösseren Tick nehmen
-        if (((tick * maxTickUnits) - yMaxValue) < (tick * upperTickMargin))
-        {
-            try
-            {
+        if (((tick * maxTickUnits) - yMaxValue) < (tick * upperTickMargin)) {
+            try {
                 tickIndex++;
                 tick = DEFAULT_TICKS[tickIndex];
             }
-            catch (Throwable ex)
-            {
+            catch (Throwable ex) {
                 tick = DEFAULT_TICKS[DEFAULT_TICKS.length - 1];
             }
         }
 
-        if (!fractionDigits)
-        {
-            while (ExtMath.hasFractionDigits(tick))
-            {
+        if (!fractionDigits) {
+            while (ExtMath.hasFractionDigits(tick)) {
                 tickIndex++;
                 tick = DEFAULT_TICKS[tickIndex];
             }
@@ -347,8 +163,7 @@ public abstract class AbstractJFreeChartScriptlet<T>
      * <li>{@link CategoryPlot}
      * </ul>
      */
-    protected void decorateChart(final T model, final JFreeChart chart)
-    {
+    protected void decorateChart(final T model, final JFreeChart chart) {
         // Plot
         Plot plot = chart.getPlot();
         decoratePlot(model, plot);
@@ -362,8 +177,7 @@ public abstract class AbstractJFreeChartScriptlet<T>
         decorateYAxis(model, plot, plotAdapter.getYAxis());
 
         // Renderer
-        for (int i = 0; i < plotAdapter.getRendererCount(); i++)
-        {
+        for (int i = 0; i < plotAdapter.getRendererCount(); i++) {
             decorateRenderer(model, plot, i, plotAdapter.getRenderer(i));
         }
     }
@@ -391,10 +205,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * 123456.123 wird zu 123.456,1
      */
-    protected DecimalFormat getDecimalFormatter()
-    {
-        if (this.decimalFormatter == null)
-        {
+    protected DecimalFormat getDecimalFormatter() {
+        if (this.decimalFormatter == null) {
             this.decimalFormatter = new DecimalFormat();
 
             this.decimalFormatter.setGroupingSize(3);
@@ -408,18 +220,14 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * Findet die höchste Zahl auf der y-Achse eines JFreeChart Datasets heraus.
      */
-    protected double getYMaxValue(final CategoryDataset dataSet)
-    {
+    protected double getYMaxValue(final CategoryDataset dataSet) {
         double yMax = 0.0D;
 
-        for (int row = 0; row < dataSet.getRowCount(); row++)
-        {
-            for (int col = 0; col < dataSet.getColumnCount(); col++)
-            {
+        for (int row = 0; row < dataSet.getRowCount(); row++) {
+            for (int col = 0; col < dataSet.getColumnCount(); col++) {
                 Number value = dataSet.getValue(row, col);
 
-                if (value != null)
-                {
+                if (value != null) {
                     yMax = Math.max(yMax, value.doubleValue());
                 }
             }
@@ -431,36 +239,29 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * Findet die höchste Zahl auf der y-Achse einer JFreeChart Serie heraus.
      */
-    protected double getYMaxValue(final Series series)
-    {
+    protected double getYMaxValue(final Series series) {
         double yMax = 0.0D;
 
         int count = 0;
 
-        if (series instanceof XYSeries xySeries)
-        {
+        if (series instanceof XYSeries xySeries) {
             count = xySeries.getItemCount();
         }
-        else if (series instanceof TimeSeries timeSeries)
-        {
+        else if (series instanceof TimeSeries timeSeries) {
             count = timeSeries.getItemCount();
         }
 
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             Number value = null;
 
-            if (series instanceof XYSeries xySeries)
-            {
+            if (series instanceof XYSeries xySeries) {
                 value = xySeries.getY(i);
             }
-            else if (series instanceof TimeSeries timeSeries)
-            {
+            else if (series instanceof TimeSeries timeSeries) {
                 value = timeSeries.getValue(i);
             }
 
-            if (value != null)
-            {
+            if (value != null) {
                 yMax = Math.max(yMax, value.doubleValue());
             }
         }
@@ -471,22 +272,18 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * Normalisiert die Daten für die 1000-er Darstellung.
      */
-    protected void normalize(final DefaultCategoryDataset dataSet)
-    {
+    protected void normalize(final DefaultCategoryDataset dataSet) {
         int factor = 1000;
 
-        for (int row = 0; row < dataSet.getRowCount(); row++)
-        {
+        for (int row = 0; row < dataSet.getRowCount(); row++) {
             Comparable<?> rowKey = dataSet.getRowKey(row);
 
-            for (int column = 0; column < dataSet.getColumnCount(); column++)
-            {
+            for (int column = 0; column < dataSet.getColumnCount(); column++) {
                 Comparable<?> columnKey = dataSet.getColumnKey(column);
 
                 Number value = dataSet.getValue(rowKey, columnKey);
 
-                if (value == null)
-                {
+                if (value == null) {
                     continue;
                 }
 
@@ -500,11 +297,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
      *
      * @param fractionDigits boolean, Ticks mit Kommastellen ?
      */
-    protected void normalizeYTickUnits(final ValueAxis axis, final double yMaxValue, final int maxTickUnits, final double upperTickMargin,
-                                       final boolean fractionDigits)
-    {
-        if (axis == null)
-        {
+    protected void normalizeYTickUnits(final ValueAxis axis, final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits) {
+        if (axis == null) {
             return;
         }
 
@@ -520,13 +314,11 @@ public abstract class AbstractJFreeChartScriptlet<T>
         // double tickFloor = Math.floor(tick);
 
         // if ((tick - tickFloor) != 0.0D)
-        if (ExtMath.hasFractionDigits(tick))
-        {
+        if (ExtMath.hasFractionDigits(tick)) {
             formatter = getFloatDecimalFormatter();
         }
 
-        for (int i = 0; i <= maxTickUnits; i++)
-        {
+        for (int i = 0; i <= maxTickUnits; i++) {
             tickUnits.add(new NumberTickUnit(tick * i, formatter));
         }
 
@@ -536,10 +328,8 @@ public abstract class AbstractJFreeChartScriptlet<T>
     /**
      * 1.234 wird zu 1.2
      */
-    private DecimalFormat getFloatDecimalFormatter()
-    {
-        if (this.floatFormatter == null)
-        {
+    private DecimalFormat getFloatDecimalFormatter() {
+        if (this.floatFormatter == null) {
             this.floatFormatter = new DecimalFormat();
             this.floatFormatter.setMinimumFractionDigits(1);
             this.floatFormatter.setDecimalSeparatorAlwaysShown(true);

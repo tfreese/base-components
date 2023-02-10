@@ -8,12 +8,10 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Thomas Freese
  */
-public class TPrintStream extends PrintStream
-{
+public class TPrintStream extends PrintStream {
     private final PrintStream out2;
 
-    public TPrintStream(final PrintStream out1, final PrintStream out2, final boolean autoFlush1)
-    {
+    public TPrintStream(final PrintStream out1, final PrintStream out2, final boolean autoFlush1) {
         super(out1, autoFlush1, StandardCharsets.UTF_8);
 
         this.out2 = out2;
@@ -23,8 +21,7 @@ public class TPrintStream extends PrintStream
      * @see java.io.PrintStream#close()
      */
     @Override
-    public void close()
-    {
+    public void close() {
         super.close();
 
         this.out2.close();
@@ -34,8 +31,7 @@ public class TPrintStream extends PrintStream
      * @see java.io.PrintStream#flush()
      */
     @Override
-    public void flush()
-    {
+    public void flush() {
         super.flush();
 
         this.out2.flush();
@@ -45,8 +41,7 @@ public class TPrintStream extends PrintStream
      * @see java.io.PrintStream#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] buf, final int off, final int len)
-    {
+    public void write(final byte[] buf, final int off, final int len) {
         super.write(buf, off, len);
 
         this.out2.write(buf, off, len);

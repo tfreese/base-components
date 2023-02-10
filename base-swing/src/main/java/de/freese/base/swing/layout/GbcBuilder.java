@@ -10,8 +10,7 @@ import java.io.Serial;
  *
  * @author Thomas Freese
  */
-public final class GbcBuilder extends GridBagConstraints
-{
+public final class GbcBuilder extends GridBagConstraints {
     @Serial
     private static final long serialVersionUID = 9216852015033867169L;
 
@@ -24,8 +23,7 @@ public final class GbcBuilder extends GridBagConstraints
      * <li>insets = new Insets(5, 5, 5, 5)</li>
      * </ul>
      */
-    public static GbcBuilder of(final int gridx, final int gridy)
-    {
+    public static GbcBuilder of(final int gridx, final int gridy) {
         GbcBuilder gbcBuilder = new GbcBuilder(gridx, gridy);
         gbcBuilder.fillNone();
         gbcBuilder.insets(5, 5, 5, 5);
@@ -33,58 +31,50 @@ public final class GbcBuilder extends GridBagConstraints
         return gbcBuilder;
     }
 
-    private GbcBuilder(final int gridx, final int gridy)
-    {
+    private GbcBuilder(final int gridx, final int gridy) {
         super();
 
         this.gridx = gridx;
         this.gridy = gridy;
     }
 
-    public GbcBuilder anchorCenter()
-    {
+    public GbcBuilder anchorCenter() {
         this.anchor = CENTER;
 
         return this;
     }
 
-    public GbcBuilder anchorEast()
-    {
+    public GbcBuilder anchorEast() {
         this.anchor = EAST;
 
         return this;
     }
 
-    public GbcBuilder anchorNorth()
-    {
+    public GbcBuilder anchorNorth() {
         this.anchor = NORTH;
 
         return this;
     }
 
-    public GbcBuilder anchorNorthEast()
-    {
+    public GbcBuilder anchorNorthEast() {
         this.anchor = NORTHEAST;
 
         return this;
     }
 
-    public GbcBuilder anchorNorthWest()
-    {
+    public GbcBuilder anchorNorthWest() {
         this.anchor = NORTHWEST;
 
         return this;
     }
 
-    public GbcBuilder anchorSouth()
-    {
+    public GbcBuilder anchorSouth() {
         this.anchor = SOUTH;
 
         return this;
     }
 
-    public GbcBuilder anchorWest()
-    {
+    public GbcBuilder anchorWest() {
         this.anchor = WEST;
 
         return this;
@@ -97,8 +87,7 @@ public final class GbcBuilder extends GridBagConstraints
      * <li>weighty = 1.0D</li>
      * </ul>
      */
-    public GbcBuilder fillBoth()
-    {
+    public GbcBuilder fillBoth() {
         this.fill = BOTH;
 
         weightx(1.0D);
@@ -114,8 +103,7 @@ public final class GbcBuilder extends GridBagConstraints
      * <li>weighty = 0.0D</li>
      * </ul>
      */
-    public GbcBuilder fillHorizontal()
-    {
+    public GbcBuilder fillHorizontal() {
         this.fill = HORIZONTAL;
 
         weightx(1.0D);
@@ -131,8 +119,7 @@ public final class GbcBuilder extends GridBagConstraints
      * <li>weighty = 0.0D</li>
      * </ul>
      */
-    public GbcBuilder fillNone()
-    {
+    public GbcBuilder fillNone() {
         this.fill = NONE;
 
         weightx(0.0D);
@@ -148,8 +135,7 @@ public final class GbcBuilder extends GridBagConstraints
      * <li>weighty = 1.0D</li>
      * </ul>
      */
-    public GbcBuilder fillVertical()
-    {
+    public GbcBuilder fillVertical() {
         this.fill = VERTICAL;
 
         weightx(0.0D);
@@ -158,43 +144,37 @@ public final class GbcBuilder extends GridBagConstraints
         return this;
     }
 
-    public GbcBuilder gridheight(final int gridheight)
-    {
+    public GbcBuilder gridheight(final int gridheight) {
         this.gridheight = gridheight;
 
         return this;
     }
 
-    public GbcBuilder gridwidth(final int gridwidth)
-    {
+    public GbcBuilder gridwidth(final int gridwidth) {
         this.gridwidth = gridwidth;
 
         return this;
     }
 
-    public GbcBuilder insets(final Insets insets)
-    {
+    public GbcBuilder insets(final Insets insets) {
         this.insets = insets;
 
         return this;
     }
 
-    public GbcBuilder insets(final int top, final int left, final int bottom, final int right)
-    {
+    public GbcBuilder insets(final int top, final int left, final int bottom, final int right) {
         this.insets = new Insets(top, left, bottom, right);
 
         return this;
     }
 
-    public GbcBuilder weightx(final double weightx)
-    {
+    public GbcBuilder weightx(final double weightx) {
         this.weightx = weightx;
 
         return this;
     }
 
-    public GbcBuilder weighty(final double weighty)
-    {
+    public GbcBuilder weighty(final double weighty) {
         this.weighty = weighty;
 
         return this;

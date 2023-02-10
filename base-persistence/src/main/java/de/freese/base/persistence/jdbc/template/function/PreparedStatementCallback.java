@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface PreparedStatementCallback<T>
-{
+public interface PreparedStatementCallback<T> {
     T doInStatement(PreparedStatement statement) throws SQLException;
 }

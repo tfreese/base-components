@@ -20,8 +20,7 @@ import java.util.stream.Stream;
 /**
  * @author Thomas Freese
  */
-public final class StringUtils
-{
+public final class StringUtils {
     /**
      * non-breaking space
      */
@@ -44,8 +43,7 @@ public final class StringUtils
      * StringUtils.abbreviate("abcdefg", 3) = IllegalArgumentException
      * </pre>
      */
-    public static String abbreviate(final String str, final int maxWidth)
-    {
+    public static String abbreviate(final String str, final int maxWidth) {
         return org.apache.commons.lang3.StringUtils.abbreviate(str, "...", 0, maxWidth);
     }
 
@@ -53,10 +51,8 @@ public final class StringUtils
      * Fügt vor und nach dem ersten Eintrag der Liste eine Trennlinie ein.<br>
      * Die Breite pro Spalte orientiert sich am ersten Wert (Header) der Spalte.<br>
      */
-    public static void addHeaderSeparator(final List<String[]> rows, final String separator)
-    {
-        if (rows == null || rows.isEmpty())
-        {
+    public static void addHeaderSeparator(final List<String[]> rows, final String separator) {
+        if (rows == null || rows.isEmpty()) {
             return;
         }
 
@@ -70,8 +66,7 @@ public final class StringUtils
         // T[] row = rows.get(0).clone();
         String[] row = new String[columnCount];
 
-        for (int column = 0; column < columnCount; column++)
-        {
+        for (int column = 0; column < columnCount; column++) {
             row[column] = repeat(sep, rows.get(0)[column].length());
         }
 
@@ -88,39 +83,31 @@ public final class StringUtils
      * StringUtils.capitalize("'cat'") = "'cat'"
      * </pre>
      */
-    public static String capitalize(final String text)
-    {
+    public static String capitalize(final String text) {
         // value.substring(0, 1).toUpperCase() + value.substring(1);
         return org.apache.commons.lang3.StringUtils.capitalize(text);
     }
 
-    public static void escape(final List<String[]> list, final char escape)
-    {
-        if (list == null || list.isEmpty())
-        {
+    public static void escape(final List<String[]> list, final char escape) {
+        if (list == null || list.isEmpty()) {
             return;
         }
 
         int columnCount = list.get(0).length;
 
-        list.stream().parallel().forEach(r ->
-        {
-            for (int column = 0; column < columnCount; column++)
-            {
+        list.stream().parallel().forEach(r -> {
+            for (int column = 0; column < columnCount; column++) {
                 r[column] = escape + r[column] + escape;
             }
         });
     }
 
-    public static void escape(final String[] array, final char escape)
-    {
-        if (ArrayUtils.isEmpty(array))
-        {
+    public static void escape(final String[] array, final char escape) {
+        if (ArrayUtils.isEmpty(array)) {
             return;
         }
 
-        for (int column = 0; column < array.length; column++)
-        {
+        for (int column = 0; column < array.length; column++) {
             array[column] = escape + array[column] + escape;
         }
     }
@@ -128,10 +115,8 @@ public final class StringUtils
     /**
      * Liefert die Zeichenbreite der Elemente.<br>
      */
-    public static int[] getWidths(final List<String[]> list)
-    {
-        if (list == null || list.isEmpty())
-        {
+    public static int[] getWidths(final List<String[]> list) {
+        if (list == null || list.isEmpty()) {
             return new int[0];
         }
 
@@ -159,10 +144,8 @@ public final class StringUtils
     /**
      * Liefert die Zeichenbreite der Elemente.<br>
      */
-    public static int[] getWidths(final String[] array)
-    {
-        if (ArrayUtils.isEmpty(array))
-        {
+    public static int[] getWidths(final String[] array) {
+        if (ArrayUtils.isEmpty(array)) {
             return new int[0];
         }
 
@@ -172,23 +155,18 @@ public final class StringUtils
         return getWidths(list);
     }
 
-    public static String hexStringToUnicode(final CharSequence cs) throws Exception
-    {
-        if (isBlank(cs))
-        {
+    public static String hexStringToUnicode(final CharSequence cs) throws Exception {
+        if (isBlank(cs)) {
             return EMPTY;
         }
 
         byte[] bytes = HexFormat.of().parseHex(cs);
         String sign = null;
 
-        try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes);
-             DataInputStream datainputstream = new DataInputStream(bytearrayinputstream))
-        {
+        try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes); DataInputStream datainputstream = new DataInputStream(bytearrayinputstream)) {
             sign = datainputstream.readUTF();
         }
-        catch (IOException ioexception)
-        {
+        catch (IOException ioexception) {
             sign = EMPTY;
         }
 
@@ -204,21 +182,17 @@ public final class StringUtils
      * StringUtils.isBlank("  bob  ") = false
      * </pre>
      */
-    public static boolean isBlank(final CharSequence cs)
-    {
+    public static boolean isBlank(final CharSequence cs) {
         // return org.apache.commons.lang3.StringUtils.isBlank(cs);
 
         int strLen;
 
-        if ((cs == null) || ((strLen = cs.length()) == 0))
-        {
+        if ((cs == null) || ((strLen = cs.length()) == 0)) {
             return true;
         }
 
-        for (int i = 0; i < strLen; i++)
-        {
-            if (!Character.isWhitespace(cs.charAt(i)))
-            {
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
                 return false;
             }
         }
@@ -235,8 +209,7 @@ public final class StringUtils
      * StringUtils.isEmpty("  bob  ") = false
      * </pre>
      */
-    public static boolean isEmpty(final CharSequence cs)
-    {
+    public static boolean isEmpty(final CharSequence cs) {
         return length(cs) == 0;
     }
 
@@ -249,8 +222,7 @@ public final class StringUtils
      * StringUtils.isNotBlank("  bob  ") = true
      * </pre>
      */
-    public static boolean isNotBlank(final CharSequence cs)
-    {
+    public static boolean isNotBlank(final CharSequence cs) {
         return !isBlank(cs);
     }
 
@@ -263,8 +235,7 @@ public final class StringUtils
      * StringUtils.isNotEmpty("  bob  ") = true
      * </pre>
      */
-    public static boolean isNotEmpty(final CharSequence cs)
-    {
+    public static boolean isNotEmpty(final CharSequence cs) {
         return !isEmpty(cs);
     }
 
@@ -283,21 +254,17 @@ public final class StringUtils
      * StringUtils.isNumeric("+123") = false
      * </pre>
      */
-    public static boolean isNumeric(final CharSequence cs)
-    {
+    public static boolean isNumeric(final CharSequence cs) {
         // return org.apache.commons.lang3.StringUtils.isNumeric(cs);
 
-        if (isEmpty(cs))
-        {
+        if (isEmpty(cs)) {
             return false;
         }
 
         final int length = cs.length();
 
-        for (int i = 0; i < length; i++)
-        {
-            if (!Character.isDigit(cs.charAt(i)))
-            {
+        for (int i = 0; i < length; i++) {
+            if (!Character.isDigit(cs.charAt(i))) {
                 return false;
             }
         }
@@ -318,15 +285,13 @@ public final class StringUtils
      * StringUtils.leftPad("bat", 5, "")    = "  bat"
      * </pre>
      */
-    public static String leftPad(final String text, final int size, final String padStr)
-    {
+    public static String leftPad(final String text, final int size, final String padStr) {
         // return String.format("%" + size + "s", text).replace(" ", padding);
 
         return org.apache.commons.lang3.StringUtils.leftPad(text, size, padStr);
     }
 
-    public static int length(final CharSequence cs)
-    {
+    public static int length(final CharSequence cs) {
         return cs == null ? 0 : cs.length();
     }
 
@@ -334,12 +299,10 @@ public final class StringUtils
      * Entfernt mehrfach hintereinander auftretende Whitespace Characters und führt ein abschliessendes {@link String#strip()} durch.<br>
      * ASCII 160 (non-breaking space) wird als Space interpretiert.
      */
-    public static String normalizeSpace(final CharSequence cs)
-    {
+    public static String normalizeSpace(final CharSequence cs) {
         // return org.apache.commons.lang3.StringUtils.normalizeSpace(text);
 
-        if (isEmpty(cs))
-        {
+        if (isEmpty(cs)) {
             return EMPTY;
         }
 
@@ -347,25 +310,21 @@ public final class StringUtils
         final StringBuilder sb = new StringBuilder();
         boolean lastWasWhitespace = false;
 
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             char actualChar = cs.charAt(i);
             boolean isActualWhitespace = Character.isWhitespace(actualChar);
 
             // ASCII 160 = non-breaking space
-            if (actualChar == ASCII_NON_BREAKING_SPACE)
-            {
+            if (actualChar == ASCII_NON_BREAKING_SPACE) {
                 actualChar = ASCII_SPACE;
                 isActualWhitespace = true;
             }
 
-            if (!isActualWhitespace)
-            {
+            if (!isActualWhitespace) {
                 sb.append(actualChar);
                 lastWasWhitespace = false;
             }
-            else if (!lastWasWhitespace)
-            {
+            else if (!lastWasWhitespace) {
                 sb.append(ASCII_SPACE);
                 lastWasWhitespace = true;
             }
@@ -379,8 +338,7 @@ public final class StringUtils
      *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
-    public static String removeNonAscii(final String input)
-    {
+    public static String removeNonAscii(final String input) {
         return removeNonAscii(input, c -> false);
     }
 
@@ -390,20 +348,16 @@ public final class StringUtils
      *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
-    public static String removeNonAscii(final String input, Predicate<Character> keep)
-    {
-        if (input == null || input.isBlank())
-        {
+    public static String removeNonAscii(final String input, Predicate<Character> keep) {
+        if (input == null || input.isBlank()) {
             return input;
         }
 
         char[] chars = input.toCharArray();
         int pos = 0;
 
-        for (char c : chars)
-        {
-            if (!keep.test(c) && (c < 32 || c > 126))
-            {
+        for (char c : chars) {
+            if (!keep.test(c) && (c < 32 || c > 126)) {
                 continue;
             }
 
@@ -419,8 +373,7 @@ public final class StringUtils
      *
      * @see org.apache.commons.lang3.StringUtils#remove(String, char)
      */
-    public static String removeNonAsciiGerman(final String input)
-    {
+    public static String removeNonAsciiGerman(final String input) {
         Set<Character> keepChars = Set.of(
                 // 228
                 'ä',
@@ -435,8 +388,7 @@ public final class StringUtils
                 // 214
                 'Ö',
                 // 223
-                'ß'
-        );
+                'ß');
 
         return removeNonAscii(input, keepChars::contains);
     }
@@ -451,17 +403,14 @@ public final class StringUtils
      * StringUtils.repeat("a", -2) = ""
      * </pre>
      */
-    public static String repeat(final CharSequence cs, final int repeat)
-    {
+    public static String repeat(final CharSequence cs, final int repeat) {
         // return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
 
-        if (cs == null)
-        {
+        if (cs == null) {
             return null;
         }
 
-        if ((repeat <= 0) || (cs.length() == 0))
-        {
+        if ((repeat <= 0) || (cs.length() == 0)) {
             return EMPTY;
         }
 
@@ -490,8 +439,7 @@ public final class StringUtils
      * StringUtils.rightPad("bat", 5, "")    = "bat  "
      * </pre>
      */
-    public static String rightPad(final String text, final int size, final String padding)
-    {
+    public static String rightPad(final String text, final int size, final String padding) {
         // return String.format("%-" + size + "s", text).replace(" ", padding);
 
         return org.apache.commons.lang3.StringUtils.rightPad(text, size, padding);
@@ -500,10 +448,8 @@ public final class StringUtils
     /**
      * Trennt zusammengefügte Wörter anhand unterschiedlicher Uppercase/Lowercase Schreibweise der Buchstaben<br>
      */
-    public static String splitAddedWords(final String text)
-    {
-        if (isBlank(text))
-        {
+    public static String splitAddedWords(final String text) {
+        if (isBlank(text)) {
             return EMPTY;
         }
 
@@ -511,13 +457,11 @@ public final class StringUtils
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < (mText.length() - 1); i++)
-        {
+        for (int i = 0; i < (mText.length() - 1); i++) {
             char c = mText.charAt(i);
             sb.append(c);
 
-            if ((Character.isLowerCase(c) && Character.isUpperCase(mText.charAt(i + 1))))
-            {
+            if ((Character.isLowerCase(c) && Character.isUpperCase(mText.charAt(i + 1)))) {
                 sb.append(" ");
             }
         }
@@ -538,18 +482,15 @@ public final class StringUtils
      * StringUtils.splitByWholeSeparator("ab-!-cd-!-ef", "-!-") = ["ab", "cd", "ef"]
      * </pre>
      */
-    public static String[] splitByWholeSeparator(final String text, final String separator)
-    {
+    public static String[] splitByWholeSeparator(final String text, final String separator) {
         return org.apache.commons.lang3.StringUtils.splitByWholeSeparator(text, separator);
     }
 
     /**
      * Neue Methode mit Unicode-Standards als {@link String#trim()} Alternative.
      */
-    public static String strip(final String text)
-    {
-        if (isEmpty(text))
-        {
+    public static String strip(final String text) {
+        if (isEmpty(text)) {
             return EMPTY;
         }
 
@@ -565,8 +506,7 @@ public final class StringUtils
      * StringUtils.stripToEmpty("    abc    ") = "abc"
      * </pre>
      */
-    public static String stripToEmpty(final String text)
-    {
+    public static String stripToEmpty(final String text) {
         return text == null ? EMPTY : text.strip();
     }
 
@@ -579,8 +519,7 @@ public final class StringUtils
      * StringUtils.stripToNull("    abc    ") = "abc"
      * </pre>
      */
-    public static String stripToNull(final String text)
-    {
+    public static String stripToNull(final String text) {
         final String s = strip(text);
 
         return isBlank(s) ? null : s;
@@ -598,8 +537,7 @@ public final class StringUtils
      * StringUtils.substringBefore("abc", null)  = "abc"
      * </pre>
      */
-    public static String substringBefore(final String text, final String separator)
-    {
+    public static String substringBefore(final String text, final String separator) {
         return org.apache.commons.lang3.StringUtils.substringBefore(text, separator);
     }
 
@@ -628,17 +566,14 @@ public final class StringUtils
      *
      * @since 2.3
      */
-    public static String[] substringsBetween(final String str, final String open, final String close)
-    {
-        if ((str == null) || isEmpty(open) || isEmpty(close))
-        {
+    public static String[] substringsBetween(final String str, final String open, final String close) {
+        if ((str == null) || isEmpty(open) || isEmpty(close)) {
             return null;
         }
 
         final int strLen = str.length();
 
-        if (strLen == 0)
-        {
+        if (strLen == 0) {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         }
 
@@ -647,12 +582,10 @@ public final class StringUtils
         final List<String> list = new ArrayList<>();
         int pos = 0;
 
-        while (pos < (strLen - closeLen))
-        {
+        while (pos < (strLen - closeLen)) {
             int start = str.indexOf(open, pos);
 
-            if (start < 0)
-            {
+            if (start < 0) {
                 break;
             }
 
@@ -660,8 +593,7 @@ public final class StringUtils
 
             final int end = str.indexOf(close, start);
 
-            if (end < 0)
-            {
+            if (end < 0) {
                 break;
             }
 
@@ -669,8 +601,7 @@ public final class StringUtils
             pos = end + closeLen;
         }
 
-        if (list.isEmpty())
-        {
+        if (list.isEmpty()) {
             return null;
         }
 
@@ -680,10 +611,8 @@ public final class StringUtils
     /**
      * Konvertiert mehrzeiligen Text in einen einzeiligen Text.<br>
      */
-    public static String toSingleLine(final String text)
-    {
-        if (isBlank(text))
-        {
+    public static String toSingleLine(final String text) {
+        if (isBlank(text)) {
             return EMPTY;
         }
 
@@ -699,24 +628,20 @@ public final class StringUtils
         // @formatter:on
     }
 
-    public static String unicodeToHexString(final CharSequence cs)
-    {
+    public static String unicodeToHexString(final CharSequence cs) {
         ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 
-        try (DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream))
-        {
+        try (DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream)) {
             dataoutputstream.writeUTF(cs.toString());
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             return null;
         }
 
         return HexFormat.of().withUpperCase().formatHex(bytearrayoutputstream.toByteArray());
     }
 
-    private StringUtils()
-    {
+    private StringUtils() {
         super();
     }
 }

@@ -8,41 +8,33 @@ import java.nio.ByteBuffer;
 /**
  * @author Thomas Freese
  */
-public class SharedByteArrayInputStream extends ByteArrayInputStream
-{
+public class SharedByteArrayInputStream extends ByteArrayInputStream {
     private int startIndex;
 
-    public SharedByteArrayInputStream(final byte[] buf)
-    {
+    public SharedByteArrayInputStream(final byte[] buf) {
         super(buf);
     }
 
-    public SharedByteArrayInputStream(final byte[] buf, final int offset, final int length)
-    {
+    public SharedByteArrayInputStream(final byte[] buf, final int offset, final int length) {
         super(buf, offset, length);
 
         this.startIndex = offset;
     }
 
-    public int getStartIndex()
-    {
+    public int getStartIndex() {
         return this.startIndex;
     }
 
-    public ByteBuffer toByteBuffer()
-    {
+    public ByteBuffer toByteBuffer() {
         return ByteBuffer.wrap(this.buf, 0, this.count);
     }
 
-    public InputStream toStream(final long start, long end)
-    {
-        if (start < 0)
-        {
+    public InputStream toStream(final long start, long end) {
+        if (start < 0) {
             throw new IllegalArgumentException("start < 0");
         }
 
-        if (end == -1)
-        {
+        if (end == -1) {
             end = this.count - (long) this.startIndex;
         }
 

@@ -19,15 +19,13 @@ import de.freese.base.swing.components.frame.ExtFrame;
  */
 @XmlRootElement(name = "FrameGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FrameGuiState extends ContainerGuiState
-{
+public class FrameGuiState extends ContainerGuiState {
     @Serial
     private static final long serialVersionUID = -3974478602033414091L;
 
     private int extendedState = Frame.NORMAL;
 
-    public FrameGuiState()
-    {
+    public FrameGuiState() {
         super(JFrame.class, JWindow.class, JDialog.class, ExtFrame.class);
     }
 
@@ -35,8 +33,7 @@ public class FrameGuiState extends ContainerGuiState
      * @see de.freese.base.swing.state.ContainerGuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
+    public void restore(final Component component) {
         super.restore(component);
 
         Frame frame = (Frame) component;
@@ -44,8 +41,7 @@ public class FrameGuiState extends ContainerGuiState
         frame.setExtendedState(this.extendedState);
 
         // Frames are always visible.
-        if (!frame.isVisible())
-        {
+        if (!frame.isVisible()) {
             frame.setVisible(true);
         }
     }
@@ -54,8 +50,7 @@ public class FrameGuiState extends ContainerGuiState
      * @see de.freese.base.swing.state.ContainerGuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         super.store(component);
 
         Frame frame = (Frame) component;

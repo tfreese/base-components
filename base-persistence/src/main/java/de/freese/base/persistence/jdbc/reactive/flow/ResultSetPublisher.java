@@ -15,8 +15,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  *
  * @author Thomas Freese
  */
-public class ResultSetPublisher<T> implements Publisher<T>
-{
+public class ResultSetPublisher<T> implements Publisher<T> {
     private final Connection connection;
 
     private final ResultSet resultSet;
@@ -25,8 +24,7 @@ public class ResultSetPublisher<T> implements Publisher<T>
 
     private final Statement statement;
 
-    public ResultSetPublisher(final Connection connection, final Statement statement, final ResultSet resultSet, final RowMapper<T> rowMapper)
-    {
+    public ResultSetPublisher(final Connection connection, final Statement statement, final ResultSet resultSet, final RowMapper<T> rowMapper) {
         super();
 
         this.connection = Objects.requireNonNull(connection, "connection required");
@@ -39,8 +37,7 @@ public class ResultSetPublisher<T> implements Publisher<T>
      * @see java.util.concurrent.Flow.Publisher#subscribe(java.util.concurrent.Flow.Subscriber)
      */
     @Override
-    public void subscribe(final Subscriber<? super T> subscriber)
-    {
+    public void subscribe(final Subscriber<? super T> subscriber) {
         ResultSetSubscription<T> subscription = new ResultSetSubscription<>(this.connection, this.statement, this.resultSet, this.rowMapper, subscriber);
 
         subscriber.onSubscribe(subscription);

@@ -4,17 +4,17 @@ package de.freese.base.mvc.view;
 import java.awt.Component;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.swing.exception.SwingExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractView implements View
-{
+public abstract class AbstractView implements View {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private ApplicationContext applicationContext;
@@ -22,26 +22,22 @@ public abstract class AbstractView implements View
     private Component component;
 
     @Override
-    public ApplicationContext getApplicationContext()
-    {
+    public ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
     @Override
-    public Component getComponent()
-    {
+    public Component getComponent() {
         return component;
     }
 
     @Override
-    public <T> T getService(final Class<T> clazz)
-    {
+    public <T> T getService(final Class<T> clazz) {
         return getApplicationContext().getService(clazz);
     }
 
     @Override
-    public void handleException(final Throwable throwable)
-    {
+    public void handleException(final Throwable throwable) {
         SwingExceptionHandler exceptionHandler = getService(SwingExceptionHandler.class);
 
         exceptionHandler.handleException(throwable, getLogger(), getComponent(), (key, args) -> getResourceMap().getString(key, args));
@@ -64,28 +60,24 @@ public abstract class AbstractView implements View
     }
 
     @Override
-    public View initComponent(final ApplicationContext applicationContext)
-    {
+    public View initComponent(final ApplicationContext applicationContext) {
         this.applicationContext = Objects.requireNonNull(applicationContext, "applicationContext required");
 
         return this;
     }
 
     @Override
-    public <T> void registerService(final Class<T> clazz, final T service)
-    {
+    public <T> void registerService(final Class<T> clazz, final T service) {
         getApplicationContext().registerService(clazz, service);
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return logger;
     }
 
     protected abstract ResourceMap getResourceMap();
 
-    protected void setComponent(final Component component)
-    {
+    protected void setComponent(final Component component) {
         this.component = component;
     }
 }

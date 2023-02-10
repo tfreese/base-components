@@ -16,14 +16,12 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  *
  * @author Thomas Freese
  */
-public class ResultSetIterator<T> implements Iterator<T>
-{
+public class ResultSetIterator<T> implements Iterator<T> {
     private final ResultSet resultSet;
 
     private final RowMapper<T> rowMapper;
 
-    public ResultSetIterator(final ResultSet resultSet, final RowMapper<T> rowMapper)
-    {
+    public ResultSetIterator(final ResultSet resultSet, final RowMapper<T> rowMapper) {
         super();
 
         this.resultSet = Objects.requireNonNull(resultSet, "resultSet required");
@@ -34,15 +32,12 @@ public class ResultSetIterator<T> implements Iterator<T>
      * @see java.util.Iterator#hasNext()
      */
     @Override
-    public boolean hasNext()
-    {
-        try
-        {
+    public boolean hasNext() {
+        try {
             return this.resultSet.next();
             // return !this.resultSet.isClosed() && !this.resultSet.isAfterLast() && this.resultSet.next();
         }
-        catch (SQLException sex)
-        {
+        catch (SQLException sex) {
             throw new NoSuchElementException(sex.getMessage());
         }
     }
@@ -51,14 +46,11 @@ public class ResultSetIterator<T> implements Iterator<T>
      * @see java.util.Iterator#next()
      */
     @Override
-    public T next()
-    {
-        try
-        {
+    public T next() {
+        try {
             return this.rowMapper.mapRow(this.resultSet);
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             throw new NoSuchElementException(ex);
         }
     }

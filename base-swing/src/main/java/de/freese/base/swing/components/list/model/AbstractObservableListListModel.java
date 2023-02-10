@@ -15,14 +15,12 @@ import javafx.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T>
-{
+public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T> {
     private final EventListenerList eventListenerList = new EventListenerList();
 
     private final ObservableList<T> list;
 
-    protected AbstractObservableListListModel(final ObservableList<T> list)
-    {
+    protected AbstractObservableListListModel(final ObservableList<T> list) {
         super();
 
         this.list = Objects.requireNonNull(list, "list required");
@@ -33,8 +31,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see javax.swing.ListModel#addListDataListener(javax.swing.event.ListDataListener)
      */
     @Override
-    public synchronized void addListDataListener(final ListDataListener listener)
-    {
+    public synchronized void addListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
     }
 
@@ -42,8 +39,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see javax.swing.ListModel#getElementAt(int)
      */
     @Override
-    public T getElementAt(final int index)
-    {
+    public T getElementAt(final int index) {
         return getList().get(index);
     }
 
@@ -51,8 +47,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see javax.swing.ListModel#getSize()
      */
     @Override
-    public int getSize()
-    {
+    public int getSize() {
         return getList().size();
     }
 
@@ -60,26 +55,21 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see javafx.collections.ListChangeListener#onChanged(javafx.collections.ListChangeListener.Change)
      */
     @Override
-    public void onChanged(final Change<? extends T> change)
-    {
-        while (change.next())
-        {
-            if (change.wasAdded())
-            {
+    public void onChanged(final Change<? extends T> change) {
+        while (change.next()) {
+            if (change.wasAdded()) {
                 int firstRow = change.getFrom();
                 int lastRow = change.getTo();
 
                 fireIntervalAdded(change.getList(), firstRow, lastRow);
             }
-            else if (change.wasRemoved())
-            {
+            else if (change.wasRemoved()) {
                 int firstRow = change.getFrom();
                 int lastRow = change.getTo();
 
                 fireIntervalRemoved(change.getList(), firstRow, lastRow);
             }
-            else
-            {
+            else {
                 fireContentsChanged(change.getList(), 0, getSize());
 
                 return;
@@ -91,8 +81,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
      */
     @Override
-    public synchronized void removeListDataListener(final ListDataListener listener)
-    {
+    public synchronized void removeListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
     }
 
@@ -107,17 +96,13 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see EventListenerList
      * @see DefaultListModel
      */
-    protected void fireContentsChanged(final Object source, final int index0, final int index1)
-    {
+    protected void fireContentsChanged(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
-        for (int i = listeners.length - 2; i >= 0; i -= 2)
-        {
-            if (listeners[i] == ListDataListener.class)
-            {
-                if (event == null)
-                {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ListDataListener.class) {
+                if (event == null) {
                     event = new ListDataEvent(source, ListDataEvent.CONTENTS_CHANGED, index0, index1);
                 }
 
@@ -137,17 +122,13 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see EventListenerList
      * @see DefaultListModel
      */
-    protected void fireIntervalAdded(final Object source, final int index0, final int index1)
-    {
+    protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
-        for (int i = listeners.length - 2; i >= 0; i -= 2)
-        {
-            if (listeners[i] == ListDataListener.class)
-            {
-                if (event == null)
-                {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ListDataListener.class) {
+                if (event == null) {
                     event = new ListDataEvent(source, ListDataEvent.INTERVAL_ADDED, index0, index1);
                 }
 
@@ -168,17 +149,13 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @see EventListenerList
      * @see DefaultListModel
      */
-    protected void fireIntervalRemoved(final Object source, final int index0, final int index1)
-    {
+    protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
-        for (int i = listeners.length - 2; i >= 0; i -= 2)
-        {
-            if (listeners[i] == ListDataListener.class)
-            {
-                if (event == null)
-                {
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ListDataListener.class) {
+                if (event == null) {
                     event = new ListDataEvent(source, ListDataEvent.INTERVAL_REMOVED, index0, index1);
                 }
 
@@ -187,8 +164,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
         }
     }
 
-    protected ObservableList<T> getList()
-    {
+    protected ObservableList<T> getList() {
         return this.list;
     }
 }

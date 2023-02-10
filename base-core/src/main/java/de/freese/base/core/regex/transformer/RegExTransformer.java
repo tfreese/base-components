@@ -5,8 +5,7 @@ package de.freese.base.core.regex.transformer;
  *
  * @author Thomas Freese
  */
-public interface RegExTransformer
-{
+public interface RegExTransformer {
     /**
      * Transformiert einen RegEx-Ausdruck in einen Wildcard-Ausdruck.
      */

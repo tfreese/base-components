@@ -13,25 +13,20 @@ import javax.swing.undo.UndoableEdit;
  *
  * @author Thomas Freese
  */
-public class ExtUndoManager extends UndoManager
-{
+public class ExtUndoManager extends UndoManager {
     @Serial
     private static final long serialVersionUID = 8132103408414717090L;
 
-    public synchronized List<UndoableEdit> getEdits()
-    {
+    public synchronized List<UndoableEdit> getEdits() {
         return Collections.unmodifiableList(this.edits);
     }
 
-    public synchronized List<UndoableEdit> getUndoableEdits()
-    {
+    public synchronized List<UndoableEdit> getUndoableEdits() {
         List<UndoableEdit> undoableEdits = new ArrayList<>();
         UndoableEdit nextRedoableEdit = editToBeRedone();
 
-        for (UndoableEdit undoableEdit : this.edits)
-        {
-            if (undoableEdit == nextRedoableEdit)
-            {
+        for (UndoableEdit undoableEdit : this.edits) {
+            if (undoableEdit == nextRedoableEdit) {
                 break;
             }
 

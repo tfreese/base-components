@@ -17,8 +17,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author Thomas Freese
  */
-public class RendererKeySelectionManager implements KeySelectionManager
-{
+public class RendererKeySelectionManager implements KeySelectionManager {
     @SuppressWarnings("rawtypes")
     private final JComboBox comboBox;
 
@@ -28,8 +27,7 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
     private String pattern = "";
 
-    public RendererKeySelectionManager(final JComboBox<?> comboBox)
-    {
+    public RendererKeySelectionManager(final JComboBox<?> comboBox) {
         super();
 
         this.comboBox = comboBox;
@@ -39,16 +37,14 @@ public class RendererKeySelectionManager implements KeySelectionManager
      * @see javax.swing.JComboBox.KeySelectionManager#selectionForKey(char, javax.swing.ComboBoxModel)
      */
     @Override
-    public int selectionForKey(final char key, final ComboBoxModel<?> model)
-    {
+    public int selectionForKey(final char key, final ComboBoxModel<?> model) {
         int selectedIndex = getSelectedIndex(model);
 
         setPattern(key);
 
         int resultIndex = search(model, selectedIndex + 1, model.getSize());
 
-        if (resultIndex != -1)
-        {
+        if (resultIndex != -1) {
             return resultIndex;
         }
 
@@ -57,16 +53,12 @@ public class RendererKeySelectionManager implements KeySelectionManager
         return resultIndex;
     }
 
-    private int getSelectedIndex(final ComboBoxModel<?> model)
-    {
+    private int getSelectedIndex(final ComboBoxModel<?> model) {
         Object selectedObject = model.getSelectedItem();
 
-        if (selectedObject != null)
-        {
-            for (int i = 0; i < model.getSize(); i++)
-            {
-                if (selectedObject.equals(model.getElementAt(i)))
-                {
+        if (selectedObject != null) {
+            for (int i = 0; i < model.getSize(); i++) {
+                if (selectedObject.equals(model.getElementAt(i))) {
                     return i;
                 }
             }
@@ -76,10 +68,8 @@ public class RendererKeySelectionManager implements KeySelectionManager
     }
 
     @SuppressWarnings("unchecked")
-    private String getString(final int row)
-    {
-        if (this.list.getModel() != this.comboBox.getModel())
-        {
+    private String getString(final int row) {
+        if (this.list.getModel() != this.comboBox.getModel()) {
             // JList wird nur für den ComboBoxRenderer gebraucht
             this.list.setModel(this.comboBox.getModel());
         }
@@ -90,16 +80,13 @@ public class RendererKeySelectionManager implements KeySelectionManager
 
         String text = null;
 
-        if (rendererComponent instanceof JLabel l)
-        {
+        if (rendererComponent instanceof JLabel l) {
             text = l.getText();
         }
-        else if (rendererComponent instanceof JTextComponent tc)
-        {
+        else if (rendererComponent instanceof JTextComponent tc) {
             text = tc.getText();
         }
-        else
-        {
+        else {
             text = value.toString();
         }
 
@@ -114,17 +101,13 @@ public class RendererKeySelectionManager implements KeySelectionManager
      *
      * @return wenn ein Eintrag gefunden der Zeilenindex, sonst -1
      */
-    private int search(final ComboBoxModel<?> model, final int fromIndex, final int endIndex)
-    {
+    private int search(final ComboBoxModel<?> model, final int fromIndex, final int endIndex) {
         // Search from top to current selection
-        for (int i = fromIndex; i < endIndex; i++)
-        {
-            if (model.getElementAt(i) != null)
-            {
+        for (int i = fromIndex; i < endIndex; i++) {
+            if (model.getElementAt(i) != null) {
                 String s = getString(i);
 
-                if (s.startsWith(this.pattern))
-                {
+                if (s.startsWith(this.pattern)) {
                     return i;
                 }
             }
@@ -137,17 +120,14 @@ public class RendererKeySelectionManager implements KeySelectionManager
      * Bestimmt die Zeichenfolge, nach der im {@link ComboBoxModel} gesucht werden soll. Wenn innerhalb von 250 ms nach einem Tastendruck erneut eine Taste
      * gedrückt wird, so wird das Tastaturzeichen an die bestehende Zeichenfolge angehängt.
      */
-    private void setPattern(final char aKey)
-    {
+    private void setPattern(final char aKey) {
         long curTime = System.currentTimeMillis();
 
         // If last key was typed less than 250 ms ago, append to current pattern
-        if ((curTime - this.lastKeyTime) < 250)
-        {
+        if ((curTime - this.lastKeyTime) < 250) {
             this.pattern += ("" + aKey).toLowerCase();
         }
-        else
-        {
+        else {
             this.pattern = ("" + aKey).toLowerCase();
         }
 

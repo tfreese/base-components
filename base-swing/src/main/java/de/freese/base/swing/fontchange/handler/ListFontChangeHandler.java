@@ -9,14 +9,12 @@ import javax.swing.ListCellRenderer;
 /**
  * @author Thomas Freese
  */
-public class ListFontChangeHandler extends ComponentFontChangeHandler
-{
+public class ListFontChangeHandler extends ComponentFontChangeHandler {
     /**
      * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
      */
     @Override
-    public void fontChanged(final Font newFont, final Object object)
-    {
+    public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
         JList<?> list = (JList<?>) object;
@@ -27,8 +25,7 @@ public class ListFontChangeHandler extends ComponentFontChangeHandler
 
         ListCellRenderer<?> cellRenderer = list.getCellRenderer();
 
-        if (cellRenderer instanceof Component)
-        {
+        if (cellRenderer instanceof Component) {
             super.fontChanged(newFont, cellRenderer);
         }
     }

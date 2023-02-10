@@ -12,11 +12,9 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
 /**
  * @author Thomas Freese
  */
-public class ExampleView extends AbstractView
-{
+public class ExampleView extends AbstractView {
     @Override
-    public ExampleView initComponent(final ApplicationContext applicationContext)
-    {
+    public ExampleView initComponent(final ApplicationContext applicationContext) {
         super.initComponent(applicationContext);
 
         ResourceMap resourceMap = getResourceMap();
@@ -27,8 +25,7 @@ public class ExampleView extends AbstractView
         examplePanel.init();
         examplePanel.getButtonTaskStatistik().setText(resourceMap.getString("example.button.task.statistik.text"));
 
-        examplePanel.getButtonTaskStatistik().addActionListener(event ->
-        {
+        examplePanel.getButtonTaskStatistik().addActionListener(event -> {
             AbstractSwingTask<?, ?> task = new DurationStatistikTask();
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(examplePanel));
 
@@ -42,8 +39,7 @@ public class ExampleView extends AbstractView
     }
 
     @Override
-    protected ResourceMap getResourceMap()
-    {
+    protected ResourceMap getResourceMap() {
         return getApplicationContext().getResourceMap("bundles/example");
     }
 }

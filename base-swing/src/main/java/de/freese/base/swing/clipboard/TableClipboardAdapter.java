@@ -18,34 +18,27 @@ import javax.swing.JTable;
  *
  * @author Thomas Freese
  */
-public class TableClipboardAdapter extends AbstractClipboardAdapter
-{
+public class TableClipboardAdapter extends AbstractClipboardAdapter {
     /**
      * @author Thomas Freese
      */
-    protected class PopupListener extends MouseAdapter
-    {
+    protected class PopupListener extends MouseAdapter {
         /**
          * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
          */
         @Override
-        public void mouseReleased(final MouseEvent e)
-        {
-            if (isEnabled() && e.isPopupTrigger())
-            {
+        public void mouseReleased(final MouseEvent e) {
+            if (isEnabled() && e.isPopupTrigger()) {
                 JPopupMenu popupMenu = getPopupMenu();
 
-                if (popupMenu != null)
-                {
+                if (popupMenu != null) {
                     // JTable table = (JTable) e.getSource();
                     // int row = table.rowAtPoint(new Point(e.getX(),e.getY()));
                     int[] rowsSelected = getTable().getSelectedRows();
                     int[] colsSelected = getTable().getSelectedColumns();
 
-                    if ((rowsSelected.length > 0) && (colsSelected.length > 0))
-                    {
-                        if (getTable().isEnabled())
-                        {
+                    if ((rowsSelected.length > 0) && (colsSelected.length > 0)) {
+                        if (getTable().isEnabled()) {
                             popupMenu.show(e.getComponent(), e.getX(), e.getY());
                         }
                     }
@@ -58,19 +51,16 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
     private JPopupMenu popup;
 
-    public TableClipboardAdapter(final JTable table)
-    {
+    public TableClipboardAdapter(final JTable table) {
         this(table, null);
     }
 
-    public TableClipboardAdapter(final JTable table, final JPopupMenu popupMenu)
-    {
+    public TableClipboardAdapter(final JTable table, final JPopupMenu popupMenu) {
         super(table);
 
         this.popup = popupMenu;
 
-        if (popupMenu != null)
-        {
+        if (popupMenu != null) {
             this.externalPopup = true;
         }
 
@@ -81,13 +71,11 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#doCopy()
      */
     @Override
-    public void doCopy()
-    {
+    public void doCopy() {
         int[] rowsSelected = getTable().getSelectedRows();
         int[] colsSelected = getTable().getSelectedColumns();
 
-        if ((rowsSelected.length == 0) && (colsSelected.length == 0))
-        {
+        if ((rowsSelected.length == 0) && (colsSelected.length == 0)) {
             Toolkit.getDefaultToolkit().beep();
 
             JOptionPane.showMessageDialog(null, "Invalid Copy Selection", "Invalid Copy Selection", JOptionPane.ERROR_MESSAGE);
@@ -97,30 +85,25 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
         StringBuilder sb = new StringBuilder();
 
-        for (int element : rowsSelected)
-        {
-            for (int col = 0; col < colsSelected.length; col++)
-            {
+        for (int element : rowsSelected) {
+            for (int col = 0; col < colsSelected.length; col++) {
                 Class<?> clazz = getTable().getColumnClass(colsSelected[col]);
                 ClipboardConverter converter = getConverter(clazz);
 
                 Object value = getTable().getValueAt(element, colsSelected[col]);
                 String stringValue = "";
 
-                if (value != null)
-                {
+                if (value != null) {
                     stringValue = value.toString();
                 }
 
-                if (converter != null)
-                {
+                if (converter != null) {
                     stringValue = converter.toClipboard(value);
                 }
 
                 sb.append(stringValue);
 
-                if (col < (colsSelected.length - 1))
-                {
+                if (col < (colsSelected.length - 1)) {
                     sb.append("\t");
                 }
             }
@@ -137,13 +120,11 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#doPaste(boolean)
      */
     @Override
-    public void doPaste(final boolean flipAxes)
-    {
+    public void doPaste(final boolean flipAxes) {
         int[] rowsSelected = getTable().getSelectedRows();
         int[] colsSelected = getTable().getSelectedColumns();
 
-        if ((rowsSelected.length == 0) && (colsSelected.length == 0))
-        {
+        if ((rowsSelected.length == 0) && (colsSelected.length == 0)) {
             Toolkit.getDefaultToolkit().beep();
 
             JOptionPane.showMessageDialog(null, "Invalid Paste Selection", "Invalid Paste Selection", JOptionPane.ERROR_MESSAGE);
@@ -156,50 +137,41 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
 
         String clipboardString = "";
 
-        try
-        {
+        try {
             clipboardString = (String) (getClipboard().getContents(this).getTransferData(DataFlavor.stringFlavor));
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
         // 2 dim String Array der Werte aufbauen
         String[][] matrix = getPasteMatrix(clipboardString);
 
-        if (flipAxes)
-        {
+        if (flipAxes) {
             matrix = flipMatrix(matrix);
         }
 
         List<Point> points = new ArrayList<>();
 
-        for (int row = 0; row < matrix.length; row++)
-        {
-            for (int col = 0; col < matrix[row].length; col++)
-            {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
                 String stringValue = matrix[row][col];
                 int currentColumn = startCol + col;
                 int currentRow = startRow + row;
 
-                if ((currentRow < getTable().getRowCount()) && (currentColumn < getTable().getColumnCount()))
-                {
+                if ((currentRow < getTable().getRowCount()) && (currentColumn < getTable().getColumnCount())) {
                     Class<?> clazz = getTable().getColumnClass(currentColumn);
                     ClipboardConverter converter = getConverter(clazz);
                     Object value = null;
 
-                    if (converter == null)
-                    {
+                    if (converter == null) {
                         continue;
                     }
 
-                    if (!"".equals(stringValue))
-                    {
+                    if (!"".equals(stringValue)) {
                         value = converter.fromClipboard(stringValue);
                     }
 
-                    if ((value != null) && getTable().isCellEditable(currentRow, currentColumn))
-                    {
+                    if ((value != null) && getTable().isCellEditable(currentRow, currentColumn)) {
                         getTable().setValueAt(value, currentRow, currentColumn);
 
                         points.add(new Point(row, col));
@@ -209,23 +181,19 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         }
 
         // Selektiere alle eingefügten Werte.
-        for (Point point : points)
-        {
+        for (Point point : points) {
             int rowIndex = startRow + (int) point.getX();
             int columnIndex = startCol + (int) point.getY();
 
-            if ((getTable().getRowCount() > rowIndex) && (getTable().getColumnCount() > columnIndex))
-            {
+            if ((getTable().getRowCount() > rowIndex) && (getTable().getColumnCount() > columnIndex)) {
                 getTable().addRowSelectionInterval(rowIndex, rowIndex);
                 getTable().addColumnSelectionInterval(columnIndex, columnIndex);
             }
         }
     }
 
-    public JPopupMenu getPopupMenu()
-    {
-        if (this.popup == null)
-        {
+    public JPopupMenu getPopupMenu() {
+        if (this.popup == null) {
             this.popup = new JPopupMenu();
         }
 
@@ -236,8 +204,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
      * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#initialize()
      */
     @Override
-    protected void initialize()
-    {
+    protected void initialize() {
         super.initialize();
 
         getPopupMenu().add(getActionCopy());
@@ -247,8 +214,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         getTable().setColumnSelectionAllowed(true);
         getTable().setRowSelectionAllowed(true);
 
-        if (!this.externalPopup)
-        {
+        if (!this.externalPopup) {
             getTable().addMouseListener(new PopupListener());
         }
     }
@@ -256,19 +222,15 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
     /**
      * Dreht die Achsen der eingehenden Matrix.
      */
-    private String[][] flipMatrix(final String[][] matrix)
-    {
-        if (matrix == null)
-        {
+    private String[][] flipMatrix(final String[][] matrix) {
+        if (matrix == null) {
             return null;
         }
 
         String[][] newMatrix = new String[matrix[0].length][matrix.length];
 
-        for (int row = 0; row < matrix.length; row++)
-        {
-            for (int col = 0; col < matrix[row].length; col++)
-            {
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
                 newMatrix[col][row] = matrix[row][col];
             }
         }
@@ -279,34 +241,29 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
     /**
      * Liefert ein 2 dim String Array für die Paste Action.
      */
-    private String[][] getPasteMatrix(final String clipboardString)
-    {
+    private String[][] getPasteMatrix(final String clipboardString) {
         String[] rows = clipboardString.split("\n");
 
         // 1. max. Anzahl an Spalten ermitteln
         int maxCols = Integer.MIN_VALUE;
 
-        for (String row2 : rows)
-        {
+        for (String row2 : rows) {
             String[] cols = row2.split("\t");
 
             maxCols = Math.max(maxCols, cols.length);
         }
 
-        if (maxCols <= 0)
-        {
+        if (maxCols <= 0) {
             return new String[rows.length][0];
         }
 
         // 2. StringMatrix füllen
         String[][] matrix = new String[rows.length][maxCols];
 
-        for (int row = 0; row < rows.length; row++)
-        {
+        for (int row = 0; row < rows.length; row++) {
             String[] cols = rows[row].split("\t");
 
-            for (int col = 0; col < cols.length; col++)
-            {
+            for (int col = 0; col < cols.length; col++) {
                 String stringValue = cols[col];
 
                 matrix[row][col] = stringValue;
@@ -316,8 +273,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter
         return matrix;
     }
 
-    private JTable getTable()
-    {
+    private JTable getTable() {
         return (JTable) getComponent();
     }
 }

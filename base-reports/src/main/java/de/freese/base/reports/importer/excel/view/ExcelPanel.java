@@ -18,44 +18,36 @@ import de.freese.base.reports.importer.excel.ExcelToolkit;
  *
  * @author Thomas Freese
  */
-public class ExcelPanel extends JPanel
-{
+public class ExcelPanel extends JPanel {
     @Serial
     private static final long serialVersionUID = 2622130940186653172L;
 
     private JTabbedPane tabbedPane;
 
-    public ExcelPanel()
-    {
+    public ExcelPanel() {
         super();
 
         initialize();
     }
 
-    public void addExcelSheet(final ExcelSheet excelSheet)
-    {
+    public void addExcelSheet(final ExcelSheet excelSheet) {
         getJTabbedPane().addTab(excelSheet.getSheetName(), null, new ExcelSheetPanel(excelSheet), null);
     }
 
-    public String getSelectedRange()
-    {
+    public String getSelectedRange() {
         ExcelSheetPanel selectedPanel = (ExcelSheetPanel) getJTabbedPane().getSelectedComponent();
         JTable table = selectedPanel.getTable();
 
         return ExcelToolkit.getRange(table);
     }
 
-    public void selectSheet(final String sheetName)
-    {
-        if ((sheetName == null) || (sheetName.length() == 0))
-        {
+    public void selectSheet(final String sheetName) {
+        if ((sheetName == null) || (sheetName.length() == 0)) {
             return;
         }
 
-        for (int i = 0; i < getJTabbedPane().getTabCount(); i++)
-        {
-            if (sheetName.equals(getJTabbedPane().getTitleAt(i)))
-            {
+        for (int i = 0; i < getJTabbedPane().getTabCount(); i++) {
+            if (sheetName.equals(getJTabbedPane().getTitleAt(i))) {
                 getJTabbedPane().setSelectedIndex(i);
 
                 break;
@@ -63,10 +55,8 @@ public class ExcelPanel extends JPanel
         }
     }
 
-    private JTabbedPane getJTabbedPane()
-    {
-        if (this.tabbedPane == null)
-        {
+    private JTabbedPane getJTabbedPane() {
+        if (this.tabbedPane == null) {
             this.tabbedPane = new JTabbedPane();
             this.tabbedPane.setTabPlacement(SwingConstants.BOTTOM);
         }
@@ -74,8 +64,7 @@ public class ExcelPanel extends JPanel
         return this.tabbedPane;
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
         gridBagConstraints.gridx = 0;

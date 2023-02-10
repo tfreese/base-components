@@ -6,54 +6,45 @@ import java.util.logging.Level;
 /**
  * @author Thomas Freese
  */
-class JulLogger implements Logger
-{
+class JulLogger implements Logger {
     private final java.util.logging.Logger julLogger;
 
-    JulLogger(String name)
-    {
+    JulLogger(String name) {
         this.julLogger = java.util.logging.Logger.getLogger(name);
     }
 
     @Override
-    public void debug(String message)
-    {
+    public void debug(String message) {
         this.julLogger.log(Level.FINE, message);
     }
 
     @Override
-    public void error(String message)
-    {
+    public void error(String message) {
         this.julLogger.log(Level.SEVERE, message);
     }
 
     @Override
-    public void error(String message, Throwable error)
-    {
+    public void error(String message, Throwable error) {
         this.julLogger.log(Level.SEVERE, message, error);
     }
 
     @Override
-    public void info(String message)
-    {
+    public void info(String message) {
         this.julLogger.log(Level.INFO, message);
     }
 
     @Override
-    public boolean isDebugEnabled()
-    {
+    public boolean isDebugEnabled() {
         return this.julLogger.isLoggable(Level.FINE);
     }
 
     @Override
-    public boolean isErrorEnabled()
-    {
+    public boolean isErrorEnabled() {
         return this.julLogger.isLoggable(Level.SEVERE);
     }
 
     @Override
-    public boolean isInfoEnabled()
-    {
+    public boolean isInfoEnabled() {
         return this.julLogger.isLoggable(Level.INFO);
     }
 }

@@ -8,31 +8,29 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import de.freese.base.core.processor.AbstractProcessor;
-import de.freese.base.core.processor.ProcessorChain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.core.processor.AbstractProcessor;
+import de.freese.base.core.processor.ProcessorChain;
 
 /**
  * Konfigurierbares Text-Dokument, für eine bestimmte Anzahl von Zeichen, nur Zahlen, uppercase für Text etc.
  *
  * @author Thomas Freese
  */
-public class ConfigureableDocument extends PlainDocument
-{
+public class ConfigureableDocument extends PlainDocument {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigureableDocument.class);
 
     @Serial
     private static final long serialVersionUID = 4200946186651706734L;
 
-    private static class DigitProcessor extends AbstractProcessor<DocumentContext>
-    {
+    private static class DigitProcessor extends AbstractProcessor<DocumentContext> {
         // private static final DecimalFormat FORMATTER = new DecimalFormat("###,###,##0");
 
         private boolean floatsAllowed;
 
-        DigitProcessor()
-        {
+        DigitProcessor() {
             super();
 
             setEnabled(false);
@@ -42,26 +40,22 @@ public class ConfigureableDocument extends PlainDocument
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
-        public void execute(final DocumentContext context) throws Exception
-        {
+        public void execute(final DocumentContext context) throws Exception {
             String fullText = context.fullText;
 
             String regex = "[-]?[0-9]+";
 
-            if (areFloatsAllowed() && (".".equals(context.newText) || ",".equals(context.newText)))
-            {
+            if (areFloatsAllowed() && (".".equals(context.newText) || ",".equals(context.newText))) {
                 return;
             }
 
-            if (areFloatsAllowed())
-            {
+            if (areFloatsAllowed()) {
                 regex += "([,.][0-9]+)?";
             }
 
             Pattern pattern = Pattern.compile(regex);
 
-            if (!pattern.matcher(fullText).matches())
-            {
+            if (!pattern.matcher(fullText).matches()) {
                 throw new IllegalStateException("Text is not number");
             }
 
@@ -88,8 +82,7 @@ public class ConfigureableDocument extends PlainDocument
         /**
          * Setzt, ob Zahlen mit Nachkommastellen erlaubt sind.
          */
-        public void setFloatsAllowed(final boolean floatsAllowed)
-        {
+        public void setFloatsAllowed(final boolean floatsAllowed) {
             this.floatsAllowed = floatsAllowed;
         }
 
@@ -98,8 +91,7 @@ public class ConfigureableDocument extends PlainDocument
          *
          * @return <code>true</code> wenn ja, sonst <code>false</code>
          */
-        private boolean areFloatsAllowed()
-        {
+        private boolean areFloatsAllowed() {
             return this.floatsAllowed;
         }
     }
@@ -107,41 +99,34 @@ public class ConfigureableDocument extends PlainDocument
     /**
      * @author Thomas Freese
      */
-    private static class DocumentContext
-    {
+    private static class DocumentContext {
         private String currentText;
 
         private String fullText;
 
         private String newText;
 
-        public String getCurrentText()
-        {
+        public String getCurrentText() {
             return currentText;
         }
 
-        public String getFullText()
-        {
+        public String getFullText() {
             return fullText;
         }
 
-        public String getNewText()
-        {
+        public String getNewText() {
             return newText;
         }
 
-        public void setCurrentText(final String currentText)
-        {
+        public void setCurrentText(final String currentText) {
             this.currentText = currentText;
         }
 
-        public void setFullText(final String fullText)
-        {
+        public void setFullText(final String fullText) {
             this.fullText = fullText;
         }
 
-        public void setNewText(final String newText)
-        {
+        public void setNewText(final String newText) {
             this.newText = newText;
         }
     }
@@ -149,12 +134,10 @@ public class ConfigureableDocument extends PlainDocument
     /**
      * @author Thomas Freese
      */
-    private static class LengthProcessor extends AbstractProcessor<DocumentContext>
-    {
+    private static class LengthProcessor extends AbstractProcessor<DocumentContext> {
         private int maxLength = Integer.MAX_VALUE;
 
-        LengthProcessor()
-        {
+        LengthProcessor() {
             super();
 
             setEnabled(false);
@@ -164,18 +147,15 @@ public class ConfigureableDocument extends PlainDocument
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
-        public void execute(final DocumentContext context) throws Exception
-        {
+        public void execute(final DocumentContext context) throws Exception {
             String fullText = context.fullText;
 
-            if (fullText.length() > this.maxLength)
-            {
+            if (fullText.length() > this.maxLength) {
                 throw new IllegalStateException("Max. length of Document reached !");
             }
         }
 
-        public void setMaxLength(final int maxLength)
-        {
+        public void setMaxLength(final int maxLength) {
             this.maxLength = maxLength;
         }
     }
@@ -183,10 +163,8 @@ public class ConfigureableDocument extends PlainDocument
     /**
      * @author Thomas Freese
      */
-    private static class UpperCaseProcessor extends AbstractProcessor<DocumentContext>
-    {
-        UpperCaseProcessor()
-        {
+    private static class UpperCaseProcessor extends AbstractProcessor<DocumentContext> {
+        UpperCaseProcessor() {
             super();
 
             setEnabled(false);
@@ -196,8 +174,7 @@ public class ConfigureableDocument extends PlainDocument
          * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
          */
         @Override
-        public void execute(final DocumentContext context) throws Exception
-        {
+        public void execute(final DocumentContext context) throws Exception {
             context.newText = context.newText.toUpperCase();
         }
     }
@@ -210,8 +187,7 @@ public class ConfigureableDocument extends PlainDocument
 
     private final transient UpperCaseProcessor upperCaseProcessor;
 
-    public ConfigureableDocument()
-    {
+    public ConfigureableDocument() {
         super();
 
         // Sorgt dafür das \n als Zeilenumbruch verarbeitet wird und nicht als
@@ -235,10 +211,8 @@ public class ConfigureableDocument extends PlainDocument
      * @see javax.swing.text.Document#insertString(int, java.lang.String, javax.swing.text.AttributeSet)
      */
     @Override
-    public void insertString(final int offs, final String str, final AttributeSet a) throws BadLocationException
-    {
-        if (str == null)
-        {
+    public void insertString(final int offs, final String str, final AttributeSet a) throws BadLocationException {
+        if (str == null) {
             return;
         }
 
@@ -247,8 +221,7 @@ public class ConfigureableDocument extends PlainDocument
         context.newText = str;
         context.fullText = context.currentText + context.newText;
 
-        if (offs < getLength())
-        {
+        if (offs < getLength()) {
             // Wenn neuer Text nicht am Ende eingegeben wurde
             StringBuilder sb = new StringBuilder(context.currentText);
             sb.insert(offs, context.newText);
@@ -256,41 +229,34 @@ public class ConfigureableDocument extends PlainDocument
             context.fullText = sb.toString();
         }
 
-        try
-        {
+        try {
             this.processorChain.execute(context);
 
             super.insertString(offs, context.newText, a);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             handleException(ex);
         }
     }
 
-    public void setFloatAllowed(final boolean floatDigits)
-    {
+    public void setFloatAllowed(final boolean floatDigits) {
         this.digitProcessor.setFloatsAllowed(floatDigits);
     }
 
-    public void setMaxLength(final int maxLength)
-    {
+    public void setMaxLength(final int maxLength) {
         this.lengthProcessor.setMaxLength(maxLength);
         this.lengthProcessor.setEnabled(true);
     }
 
-    public void setOnlyDigits(final boolean onlyDigits)
-    {
+    public void setOnlyDigits(final boolean onlyDigits) {
         this.digitProcessor.setEnabled(onlyDigits);
     }
 
-    public void setToUpperCase(final boolean toUpperCase)
-    {
+    public void setToUpperCase(final boolean toUpperCase) {
         this.upperCaseProcessor.setEnabled(toUpperCase);
     }
 
-    protected void handleException(final Exception ex)
-    {
+    protected void handleException(final Exception ex) {
         Toolkit.getDefaultToolkit().beep();
         LOGGER.warn(null, ex);
     }

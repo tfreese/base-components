@@ -7,7 +7,6 @@ package de.freese.base.core.model.builder.request;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface RequestPerformer
-{
+public interface RequestPerformer {
     void perform(RequestBuilder builder) throws Exception;
 }

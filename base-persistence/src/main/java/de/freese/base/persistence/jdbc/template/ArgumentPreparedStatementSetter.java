@@ -17,16 +17,16 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Calendar;
 
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 import org.springframework.jdbc.core.SqlTypeValue;
+
+import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */
-public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
-{
+public class ArgumentPreparedStatementSetter implements PreparedStatementSetter {
     /**
      * Constant that indicates an unknown (or unspecified) SQL type.
      *
@@ -37,20 +37,16 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
     /**
      * @see SqlTypeValue
      */
-    public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
-    {
-        if (value == null)
-        {
+    public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException {
+        if (value == null) {
             setNull(ps, paramIndex);
         }
-        else
-        {
+        else {
             setValue(ps, paramIndex, value);
         }
     }
 
-    private static void setNull(final PreparedStatement ps, final int paramIndex) throws SQLException
-    {
+    private static void setNull(final PreparedStatement ps, final int paramIndex) throws SQLException {
         boolean useSetObject = false;
         int sqlTypeToUse = Types.NULL;
 
@@ -59,154 +55,117 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
         String jdbcDriverName = metaData.getDriverName();
         String databaseProductName = metaData.getDatabaseProductName();
 
-        if (databaseProductName.startsWith("Informix") || (jdbcDriverName.startsWith("Microsoft") && jdbcDriverName.contains("SQL Server")))
-        {
+        if (databaseProductName.startsWith("Informix") || (jdbcDriverName.startsWith("Microsoft") && jdbcDriverName.contains("SQL Server"))) {
             // "Microsoft SQL Server JDBC Driver 3.0" versus "Microsoft JDBC Driver 4.0 for SQL Server"
             useSetObject = true;
         }
-        else if (databaseProductName.startsWith("DB2") || jdbcDriverName.startsWith("jConnect") || jdbcDriverName.startsWith("SQLServer")
-                || jdbcDriverName.startsWith("Apache Derby"))
-        {
+        else if (databaseProductName.startsWith("DB2") || jdbcDriverName.startsWith("jConnect") || jdbcDriverName.startsWith("SQLServer") || jdbcDriverName.startsWith("Apache Derby")) {
             sqlTypeToUse = Types.VARCHAR;
         }
 
-        if (useSetObject)
-        {
+        if (useSetObject) {
             ps.setObject(paramIndex, null);
         }
-        else
-        {
+        else {
             ps.setNull(paramIndex, sqlTypeToUse);
         }
     }
 
-    private static void setValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException
-    {
-        if (value instanceof Boolean data)
-        {
+    private static void setValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException {
+        if (value instanceof Boolean data) {
             boolean booleanAsLong = false;
 
-            if (booleanAsLong)
-            {
+            if (booleanAsLong) {
                 ps.setLong(paramIndex, data ? 1L : 0L);
             }
-            else
-            {
+            else {
                 ps.setBoolean(paramIndex, data);
             }
         }
-        else if (value instanceof BigDecimal data)
-        {
+        else if (value instanceof BigDecimal data) {
             ps.setBigDecimal(paramIndex, data);
         }
-        else if (value instanceof Byte data)
-        {
+        else if (value instanceof Byte data) {
             ps.setByte(paramIndex, data);
         }
-        else if (value instanceof Calendar data)
-        {
+        else if (value instanceof Calendar data) {
             ps.setDate(paramIndex, new java.sql.Date(data.getTime().getTime()), data);
         }
-        else if (value instanceof java.sql.Date data)
-        {
+        else if (value instanceof java.sql.Date data) {
             ps.setDate(paramIndex, data);
         }
-        else if (value instanceof java.util.Date data)
-        {
+        else if (value instanceof java.util.Date data) {
             ps.setDate(paramIndex, new java.sql.Date(data.getTime()));
         }
-        else if (value instanceof Double data)
-        {
+        else if (value instanceof Double data) {
             ps.setDouble(paramIndex, data);
         }
-        else if (value instanceof Float data)
-        {
+        else if (value instanceof Float data) {
             ps.setFloat(paramIndex, data);
         }
-        else if (value instanceof InputStream data)
-        {
+        else if (value instanceof InputStream data) {
             ps.setBinaryStream(paramIndex, data);
         }
-        else if (value instanceof Integer data)
-        {
+        else if (value instanceof Integer data) {
             ps.setInt(paramIndex, data);
         }
-        else if (value instanceof Long data)
-        {
+        else if (value instanceof Long data) {
             ps.setLong(paramIndex, data);
         }
-        else if (value instanceof Short data)
-        {
+        else if (value instanceof Short data) {
             ps.setShort(paramIndex, data);
         }
-        else if ((value instanceof CharSequence) || (value instanceof StringWriter))
-        {
+        else if ((value instanceof CharSequence) || (value instanceof StringWriter)) {
             String strVal = value.toString();
 
-            if (strVal.length() > 4000)
-            {
+            if (strVal.length() > 4000) {
                 ps.setClob(paramIndex, new StringReader(strVal), strVal.length());
             }
-            else
-            {
+            else {
                 ps.setString(paramIndex, strVal);
             }
         }
-        else if (value instanceof java.sql.Timestamp data)
-        {
+        else if (value instanceof java.sql.Timestamp data) {
             ps.setTimestamp(paramIndex, data);
         }
         // Arrays
-        else if (value instanceof byte[] data)
-        {
-            if (data.length == 0)
-            {
+        else if (value instanceof byte[] data) {
+            if (data.length == 0) {
                 ps.setNull(paramIndex, Types.ARRAY);
             }
-            else
-            {
-                try (InputStream inputStream = new ByteArrayInputStream(data))
-                {
+            else {
+                try (InputStream inputStream = new ByteArrayInputStream(data)) {
                     ps.setBinaryStream(paramIndex, inputStream);
                 }
-                catch (IOException ex)
-                {
+                catch (IOException ex) {
                     throw new SQLException(ex);
                 }
             }
         }
-        else if (value instanceof double[] data)
-        {
-            if (data.length == 0)
-            {
+        else if (value instanceof double[] data) {
+            if (data.length == 0) {
                 ps.setNull(paramIndex, Types.ARRAY);
             }
-            else
-            {
+            else {
                 ByteBuffer byteBuffer = ByteBuffer.allocate(data.length * 8);
                 DoubleBuffer doubleBuffer = byteBuffer.asDoubleBuffer();
                 doubleBuffer.put(data);
 
                 byte[] bytes = byteBuffer.array();
 
-                try (InputStream inputStream = new ByteArrayInputStream(bytes))
-                {
+                try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
                     ps.setBinaryStream(paramIndex, inputStream);
                 }
-                catch (IOException ex)
-                {
+                catch (IOException ex) {
                     throw new SQLException(ex);
                 }
             }
         }
-        else if (value instanceof int[] data)
-        {
-            if (data.length == 0)
-            {
+        else if (value instanceof int[] data) {
+            if (data.length == 0) {
                 ps.setNull(paramIndex, Types.ARRAY);
             }
-            else
-            {
+            else {
                 // try (DataOutputStream dos = new DataOutputStream(new ByteArrayOutputStream()))
                 // {
                 // dos.writeInt(v);
@@ -229,12 +188,10 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
                 // int[] array = new int[intBuf.remaining()];
                 // intBuf.get(array);
 
-                try (InputStream inputStream = new ByteArrayInputStream(bytes))
-                {
+                try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
                     ps.setBinaryStream(paramIndex, inputStream);
                 }
-                catch (IOException ex)
-                {
+                catch (IOException ex) {
                     throw new SQLException(ex);
                 }
             }
@@ -248,33 +205,28 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
             // ps.setArray(paramIndex, ps.getConnection().unwrap(OracleConnection.class).createOracleArray(ARRAY_TYPE_NAME, param));
             // }
         }
-        else if (value instanceof long[] data)
-        {
+        else if (value instanceof long[] data) {
             ByteBuffer byteBuffer = ByteBuffer.allocate(data.length * 8);
             LongBuffer longBuffer = byteBuffer.asLongBuffer();
             longBuffer.put(data);
 
             byte[] bytes = byteBuffer.array();
 
-            try (InputStream inputStream = new ByteArrayInputStream(bytes))
-            {
+            try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
                 ps.setBinaryStream(paramIndex, inputStream);
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 throw new SQLException(ex);
             }
         }
-        else
-        {
+        else {
             ps.setObject(paramIndex, value);
         }
     }
 
     private final Object[] args;
 
-    public ArgumentPreparedStatementSetter(final Object[] args)
-    {
+    public ArgumentPreparedStatementSetter(final Object[] args) {
         super();
 
         this.args = args;
@@ -284,15 +236,12 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter
      * @see de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter#setValues(java.sql.PreparedStatement)
      */
     @Override
-    public void setValues(final PreparedStatement preparedStatement) throws SQLException
-    {
-        if (this.args == null)
-        {
+    public void setValues(final PreparedStatement preparedStatement) throws SQLException {
+        if (this.args == null) {
             return;
         }
 
-        for (int i = 0; i < this.args.length; i++)
-        {
+        for (int i = 0; i < this.args.length; i++) {
             Object arg = this.args[i];
 
             setParameterValue(preparedStatement, i + 1, arg);

@@ -8,22 +8,19 @@ import javax.swing.SwingConstants;
  *
  * @author Thomas Freese
  */
-public class LineLayoutElement extends AbstractLayoutElement
-{
+public class LineLayoutElement extends AbstractLayoutElement {
     private int orientation = -1;
 
     private int thickness = 1;
 
-    public LineLayoutElement()
-    {
+    public LineLayoutElement() {
         this(SwingConstants.HORIZONTAL);
     }
 
     /**
      * @param orientation <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
      */
-    public LineLayoutElement(final int orientation)
-    {
+    public LineLayoutElement(final int orientation) {
         super();
 
         this.orientation = orientation;
@@ -33,26 +30,22 @@ public class LineLayoutElement extends AbstractLayoutElement
      * @see de.freese.base.reports.layout.AbstractLayoutElement#getHeight()
      */
     @Override
-    public double getHeight()
-    {
-        return switch (getOrientation())
-                {
-                    case SwingConstants.HORIZONTAL -> getThickness();
-                    case SwingConstants.VERTICAL -> super.getHeight();
-                    default -> -1;
-                };
+    public double getHeight() {
+        return switch (getOrientation()) {
+            case SwingConstants.HORIZONTAL -> getThickness();
+            case SwingConstants.VERTICAL -> super.getHeight();
+            default -> -1;
+        };
     }
 
     /**
      * @return int; <code>SwingConstants</code>: <code>VERTICAL</code>, oder <code>HORIZONTAL</code>
      */
-    public int getOrientation()
-    {
+    public int getOrientation() {
         return this.orientation;
     }
 
-    public int getThickness()
-    {
+    public int getThickness() {
         return this.thickness;
     }
 
@@ -60,18 +53,15 @@ public class LineLayoutElement extends AbstractLayoutElement
      * @see de.freese.base.reports.layout.AbstractLayoutElement#getWidth()
      */
     @Override
-    public double getWidth()
-    {
-        return switch (getOrientation())
-                {
-                    case SwingConstants.HORIZONTAL -> super.getWidth();
-                    case SwingConstants.VERTICAL -> getThickness();
-                    default -> -1;
-                };
+    public double getWidth() {
+        return switch (getOrientation()) {
+            case SwingConstants.HORIZONTAL -> super.getWidth();
+            case SwingConstants.VERTICAL -> getThickness();
+            default -> -1;
+        };
     }
 
-    public void setThickness(final int thickness)
-    {
+    public void setThickness(final int thickness) {
         this.thickness = thickness;
     }
 }

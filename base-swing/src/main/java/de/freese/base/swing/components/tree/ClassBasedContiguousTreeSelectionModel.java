@@ -23,29 +23,24 @@ import javax.swing.tree.TreePath;
  *
  * @author Thomas Freese
  */
-public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelectionModel
-{
+public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelectionModel {
     @Serial
     private static final long serialVersionUID = 3330350835354351508L;
 
     private final Class<?>[] clazzes;
 
-    public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>... clazzes)
-    {
+    public ClassBasedContiguousTreeSelectionModel(final Class<?> clazz, final Class<?>... clazzes) {
         super();
 
-        if (clazz == null)
-        {
+        if (clazz == null) {
             throw new NullPointerException("clazz");
         }
 
         this.clazzes = new Class<?>[1 + clazzes.length];
         this.clazzes[0] = clazz;
 
-        for (int i = 0; i < clazzes.length; i++)
-        {
-            if (clazzes[i] == null)
-            {
+        for (int i = 0; i < clazzes.length; i++) {
+            if (clazzes[i] == null) {
                 throw new NullPointerException("clazzes[" + i + "]");
             }
 
@@ -59,10 +54,8 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
      * @see javax.swing.tree.DefaultTreeSelectionModel#addSelectionPath(javax.swing.tree.TreePath)
      */
     @Override
-    public void addSelectionPath(final TreePath path)
-    {
-        if ((path == null) || (path.getLastPathComponent() == null))
-        {
+    public void addSelectionPath(final TreePath path) {
+        if ((path == null) || (path.getLastPathComponent() == null)) {
             super.addSelectionPath(path);
 
             return;
@@ -70,30 +63,24 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
 
         TreePath[] selectedPaths = getSelectionPaths();
 
-        if (selectedPaths == null)
-        {
+        if (selectedPaths == null) {
             selectedPaths = new TreePath[0];
         }
 
-        if (!containsClazzes(path.getLastPathComponent().getClass()))
-        {
+        if (!containsClazzes(path.getLastPathComponent().getClass())) {
             clearSelection();
 
             super.addSelectionPath(path);
         }
-        else
-        {
+        else {
             // Alles andere ausser den definierten Typen raus.
             List<TreePath> paths = new ArrayList<>();
 
-            for (TreePath treePath : selectedPaths)
-            {
-                if (containsClazzes(treePath.getLastPathComponent().getClass()))
-                {
+            for (TreePath treePath : selectedPaths) {
+                if (containsClazzes(treePath.getLastPathComponent().getClass())) {
                     paths.add(treePath);
                 }
-                else
-                {
+                else {
                     removeSelectionPath(treePath);
                 }
             }
@@ -104,17 +91,13 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
         }
     }
 
-    private boolean containsClazzes(final Class<?> clazz)
-    {
-        if (clazz == null)
-        {
+    private boolean containsClazzes(final Class<?> clazz) {
+        if (clazz == null) {
             throw new NullPointerException("clazz");
         }
 
-        for (Class<?> class1 : this.clazzes)
-        {
-            if (class1.equals(clazz))
-            {
+        for (Class<?> class1 : this.clazzes) {
+            if (class1.equals(clazz)) {
                 return true;
             }
         }

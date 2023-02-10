@@ -18,8 +18,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "TreeGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TreeGuiState extends AbstractGuiState
-{
+public class TreeGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = -3862916832341697120L;
 
@@ -27,13 +26,11 @@ public class TreeGuiState extends AbstractGuiState
 
     private int[] selectedRows;
 
-    public TreeGuiState()
-    {
+    public TreeGuiState() {
         super(JTree.class);
     }
 
-    public boolean hasSelectedRows()
-    {
+    public boolean hasSelectedRows() {
         return (this.selectedRows != null) && (this.selectedRows.length > 0);
     }
 
@@ -41,49 +38,41 @@ public class TreeGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
+    public void restore(final Component component) {
         super.restore(component);
 
         JTree tree = (JTree) component;
 
         TreeModel model = tree.getModel();
 
-        if (model == null)
-        {
+        if (model == null) {
             return;
         }
 
         // Restore expanded TreePaths.
-        for (int[] indices : this.expansionIndices)
-        {
+        for (int[] indices : this.expansionIndices) {
             Object parent = model.getRoot();
             TreePath treePath = new TreePath(parent);
 
-            try
-            {
-                for (int index : indices)
-                {
+            try {
+                for (int index : indices) {
                     parent = model.getChild(parent, index);
 
-                    if (parent == null)
-                    {
+                    if (parent == null) {
                         continue;
                     }
 
                     treePath = treePath.pathByAddingChild(parent);
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
 
             tree.expandPath(treePath);
         }
 
-        if (hasSelectedRows())
-        {
+        if (hasSelectedRows()) {
             tree.setSelectionRows(this.selectedRows);
         }
     }
@@ -92,8 +81,7 @@ public class TreeGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         super.store(component);
 
         JTree tree = (JTree) component;
@@ -102,44 +90,37 @@ public class TreeGuiState extends AbstractGuiState
 
         TreeModel model = tree.getModel();
 
-        if (model == null)
-        {
+        if (model == null) {
             return;
         }
 
         int rows = tree.getRowCount();
 
         // Save expanded TreePaths.
-        for (int row = 0; row < rows; row++)
-        {
-            if (!tree.isExpanded(row))
-            {
+        for (int row = 0; row < rows; row++) {
+            if (!tree.isExpanded(row)) {
                 continue;
             }
 
             TreePath treePath = tree.getPathForRow(row);
 
-            if (treePath != null)
-            {
+            if (treePath != null) {
                 int count = treePath.getPathCount();
                 int[] indices = new int[count - 1];
                 Object parent = model.getRoot();
 
-                for (int counter = 1; counter < count; counter++)
-                {
+                for (int counter = 1; counter < count; counter++) {
                     Object pathComponent = treePath.getPathComponent(counter);
 
                     indices[counter - 1] = model.getIndexOfChild(parent, pathComponent);
                     parent = treePath.getPathComponent(counter);
 
-                    if (indices[counter - 1] < 0)
-                    {
+                    if (indices[counter - 1] < 0) {
                         break;
                     }
                 }
 
-                if (indices.length > 0)
-                {
+                if (indices.length > 0) {
                     this.expansionIndices.add(indices);
                 }
             }

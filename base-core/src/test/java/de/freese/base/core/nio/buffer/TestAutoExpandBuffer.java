@@ -10,11 +10,9 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestAutoExpandBuffer
-{
+class TestAutoExpandBuffer {
     @Test
-    void testByteBufferWithByte()
-    {
+    void testByteBufferWithByte() {
         AutoExpandByteBuffer bb = AutoExpandByteBuffer.of(1, false);
         assertEquals(0, bb.position());
         assertEquals(1, bb.limit());
@@ -52,8 +50,7 @@ class TestAutoExpandBuffer
     }
 
     @Test
-    void testByteBufferWithLong()
-    {
+    void testByteBufferWithLong() {
         AutoExpandByteBuffer bb = AutoExpandByteBuffer.of(8, false);
         assertEquals(0, bb.position());
         assertEquals(8, bb.limit());
@@ -91,8 +88,7 @@ class TestAutoExpandBuffer
     }
 
     @Test
-    void testCharBufferCrLfWithChar()
-    {
+    void testCharBufferCrLfWithChar() {
         AutoExpandCharBufferCrLf bb = AutoExpandCharBufferCrLf.of(1, "\r\n");
         assertEquals(0, bb.position());
         assertEquals(1, bb.limit());
@@ -138,8 +134,7 @@ class TestAutoExpandBuffer
     }
 
     @Test
-    void testCharBufferCrLfWithString()
-    {
+    void testCharBufferCrLfWithString() {
         AutoExpandCharBufferCrLf bb = AutoExpandCharBufferCrLf.of(4, "\r\n");
         assertEquals(0, bb.position());
         assertEquals(4, bb.limit());
@@ -181,8 +176,7 @@ class TestAutoExpandBuffer
     }
 
     @Test
-    void testCharBufferWithChar()
-    {
+    void testCharBufferWithChar() {
         AutoExpandCharBuffer bb = AutoExpandCharBuffer.of(1);
         assertEquals(0, bb.position());
         assertEquals(1, bb.limit());
@@ -220,8 +214,7 @@ class TestAutoExpandBuffer
     }
 
     @Test
-    void testCharBufferWithString()
-    {
+    void testCharBufferWithString() {
         AutoExpandCharBuffer bb = AutoExpandCharBuffer.of(4);
         assertEquals(0, bb.position());
         assertEquals(4, bb.limit());

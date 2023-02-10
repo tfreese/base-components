@@ -10,15 +10,12 @@ import de.freese.base.core.model.grid.GridMetaData;
 /**
  * @author Thomas Freese
  */
-public class StringGridColumn extends AbstractGridColumn<String>
-{
-    public StringGridColumn()
-    {
+public class StringGridColumn extends AbstractGridColumn<String> {
+    public StringGridColumn() {
         super(String.class);
     }
 
-    public StringGridColumn(final String name)
-    {
+    public StringGridColumn(final String name) {
         super(String.class);
 
         setName(name);
@@ -28,10 +25,8 @@ public class StringGridColumn extends AbstractGridColumn<String>
      * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public String getValue(final Object object)
-    {
-        if (object == null)
-        {
+    public String getValue(final Object object) {
+        if (object == null) {
             return null;
         }
 
@@ -42,8 +37,7 @@ public class StringGridColumn extends AbstractGridColumn<String>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override
-    protected String readNullSafe(final DataInput dataInput) throws IOException
-    {
+    protected String readNullSafe(final DataInput dataInput) throws IOException {
         int length = dataInput.readInt();
         byte[] bytes = new byte[length];
 
@@ -56,8 +50,7 @@ public class StringGridColumn extends AbstractGridColumn<String>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final String value) throws IOException
-    {
+    protected void writeNullSafe(final DataOutput dataOutput, final String value) throws IOException {
         byte[] bytes = value.getBytes(GridMetaData.DEFAULT_CHARSET);
 
         dataOutput.writeInt(bytes.length);

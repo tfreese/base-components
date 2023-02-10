@@ -9,13 +9,11 @@ import javax.swing.Painter;
 /**
  * @author Thomas Freese
  */
-public class DefaultGraphComponent extends AbstractGraphComponent
-{
+public class DefaultGraphComponent extends AbstractGraphComponent {
     @Serial
     private static final long serialVersionUID = -7419689107251752519L;
 
-    public DefaultGraphComponent(final Painter<Component> painter)
-    {
+    public DefaultGraphComponent(final Painter<Component> painter) {
         super(painter);
     }
 }

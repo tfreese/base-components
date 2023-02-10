@@ -6,20 +6,16 @@ import java.util.Date;
 /**
  * @author Thomas Freese
  */
-public class DateToLongConverter extends AbstractConverter<Date, Long>
-{
-    private static Date convertToSource(final long time)
-    {
+public class DateToLongConverter extends AbstractConverter<Date, Long> {
+    private static Date convertToSource(final long time) {
         return new Date(time);
     }
 
-    private static long convertToTarget(final Date date)
-    {
+    private static long convertToTarget(final Date date) {
         return date.getTime();
     }
 
-    public DateToLongConverter()
-    {
+    public DateToLongConverter() {
         super(DateToLongConverter::convertToTarget, DateToLongConverter::convertToSource);
     }
 }

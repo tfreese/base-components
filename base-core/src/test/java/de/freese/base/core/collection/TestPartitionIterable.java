@@ -11,11 +11,9 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Thomas Freese
  */
-class TestPartitionIterable
-{
+class TestPartitionIterable {
     @Test
-    void testPartitionCount()
-    {
+    void testPartitionCount() {
         // null
         PartitionIterable<Integer> partitionIterable = PartitionIterable.ofPartitionCount(null, 2);
         List<List<Integer>> partitions = partitionIterable.getPartitions();
@@ -88,8 +86,7 @@ class TestPartitionIterable
     }
 
     @Test
-    void testPartitionCountModulo()
-    {
+    void testPartitionCountModulo() {
         // null
         PartitionIterable<Integer> partitionIterable = PartitionIterable.ofPartitionCountModulo(null, 2);
         List<List<Integer>> partitions = partitionIterable.getPartitions();
@@ -162,8 +159,7 @@ class TestPartitionIterable
     }
 
     @Test
-    void testPartitionLength()
-    {
+    void testPartitionLength() {
         // null
         PartitionIterable<Integer> partitionIterable = PartitionIterable.ofPartitionLength(null, 2);
         List<List<Integer>> partitions = partitionIterable.getPartitions();

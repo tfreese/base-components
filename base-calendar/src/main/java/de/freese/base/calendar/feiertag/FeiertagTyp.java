@@ -3,8 +3,7 @@ package de.freese.base.calendar.feiertag;
 /**
  * @author Thomas Freese
  */
-public enum FeiertagTyp
-{
+public enum FeiertagTyp {
     ALLERHEILIGEN,
     BUSS_UND_BETTAG,
     CHRISTI_HIMMELFAHRT,

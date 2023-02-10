@@ -8,15 +8,12 @@ import java.util.function.BiConsumer;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ProgressCallback extends BiConsumer<Integer, Integer>
-{
-    ProgressCallback EMPTY = percentage ->
-    {
+public interface ProgressCallback extends BiConsumer<Integer, Integer> {
+    ProgressCallback EMPTY = percentage -> {
     };
 
     @Override
-    default void accept(Integer value, Integer max)
-    {
+    default void accept(Integer value, Integer max) {
         setProgress(value, max);
     }
 
@@ -25,15 +22,12 @@ public interface ProgressCallback extends BiConsumer<Integer, Integer>
      */
     void setProgress(double percentage);
 
-    default void setProgress(final int value, final int max)
-    {
+    default void setProgress(final int value, final int max) {
         setProgress(value, (long) max);
     }
 
-    default void setProgress(final long value, final long max)
-    {
-        if ((value <= 0) || (value > max))
-        {
+    default void setProgress(final long value, final long max) {
+        if ((value <= 0) || (value > max)) {
             throw new IllegalArgumentException("invalid value: " + value);
         }
 

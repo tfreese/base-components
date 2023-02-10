@@ -8,8 +8,7 @@ import java.util.NoSuchElementException;
  *
  * @author Thomas Freese
  */
-public interface ObjectPool<T>
-{
+public interface ObjectPool<T> {
     /**
      * @throws NoSuchElementException if Pool is depleted
      */
@@ -19,8 +18,7 @@ public interface ObjectPool<T>
 
     int getNumIdle();
 
-    default int getTotalSize()
-    {
+    default int getTotalSize() {
         return getNumActive() + getNumIdle();
     }
 

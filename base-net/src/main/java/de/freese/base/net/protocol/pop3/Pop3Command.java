@@ -7,8 +7,7 @@ import de.freese.base.net.protocol.GeneralCommand;
  *
  * @author Thomas Freese
  */
-public final class Pop3Command
-{
+public final class Pop3Command {
     /**
      * Authorization.
      */
@@ -88,8 +87,7 @@ public final class Pop3Command
     // */
     // public static final int ERR_Code = 1;
 
-    private Pop3Command()
-    {
+    private Pop3Command() {
         super();
     }
 }

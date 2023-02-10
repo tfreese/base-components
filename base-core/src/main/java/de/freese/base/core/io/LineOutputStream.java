@@ -14,25 +14,18 @@ import de.freese.base.utils.ByteUtils;
  *
  * @author John Mani
  */
-public class LineOutputStream extends FilterOutputStream
-{
-    private static final byte[] NEW_LINE = new byte[]
-            {
-                    (byte) '\r', (byte) '\n'
-            };
+public class LineOutputStream extends FilterOutputStream {
+    private static final byte[] NEW_LINE = new byte[]{(byte) '\r', (byte) '\n'};
 
-    public LineOutputStream(final OutputStream out)
-    {
+    public LineOutputStream(final OutputStream out) {
         super(out);
     }
 
-    public void writeln() throws IOException
-    {
+    public void writeln() throws IOException {
         this.out.write(NEW_LINE);
     }
 
-    public void writeln(final String s) throws IOException
-    {
+    public void writeln(final String s) throws IOException {
         byte[] bytes = ByteUtils.toBytes(s);
         this.out.write(bytes);
         this.out.write(NEW_LINE);

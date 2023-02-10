@@ -9,7 +9,6 @@ import de.freese.base.swing.components.led.token.Token;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface Element
-{
+public interface Element {
     List<Token<?>> getTokens();
 }

@@ -10,15 +10,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * @author Thomas Freese
  * @see LazyLoadingTreeController
  */
-public class LazyLoadingTreeNode extends DefaultMutableTreeNode
-{
+public class LazyLoadingTreeNode extends DefaultMutableTreeNode {
     @Serial
     private static final long serialVersionUID = -8434762605446347104L;
 
     private boolean childrenLoaded = false;
 
-    public LazyLoadingTreeNode(final Object userObject)
-    {
+    public LazyLoadingTreeNode(final Object userObject) {
         super(userObject);
     }
 
@@ -26,10 +24,8 @@ public class LazyLoadingTreeNode extends DefaultMutableTreeNode
      * @see DefaultMutableTreeNode#isLeaf()
      */
     @Override
-    public boolean isLeaf()
-    {
-        if (!childrenLoaded)
-        {
+    public boolean isLeaf() {
+        if (!childrenLoaded) {
             // To display the Expand-Knob.
             return false;
         }
@@ -37,8 +33,7 @@ public class LazyLoadingTreeNode extends DefaultMutableTreeNode
         return super.isLeaf();
     }
 
-    void setChildrenLoaded(final boolean childrenLoaded)
-    {
+    void setChildrenLoaded(final boolean childrenLoaded) {
         this.childrenLoaded = childrenLoaded;
     }
 }

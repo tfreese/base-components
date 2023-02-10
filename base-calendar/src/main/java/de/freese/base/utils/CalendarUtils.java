@@ -16,13 +16,11 @@ import java.util.Locale;
 /**
  * @author Thomas Freese
  */
-public final class CalendarUtils
-{
+public final class CalendarUtils {
     /**
      * Setzt die Stunden, Minuten, Sekunden und Millisekunden auf 0.
      */
-    public static void calendarAtStartOfDay(final Calendar calendar)
-    {
+    public static void calendarAtStartOfDay(final Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
@@ -32,8 +30,7 @@ public final class CalendarUtils
     /**
      * Liefert einen Gregorianischen Kalender.
      */
-    public static Calendar calendarCreate()
-    {
+    public static Calendar calendarCreate() {
         return calendarCreate(new Date());
     }
 
@@ -41,68 +38,58 @@ public final class CalendarUtils
      * Liefert einen Gregorianischen Kalender.<br>
      * Calendar calendar = new GregorianCalendar(Locale.GERMAN);<br>
      */
-    public static Calendar calendarCreate(final Date date)
-    {
+    public static Calendar calendarCreate(final Date date) {
         Calendar calendar = Calendar.getInstance(Locale.GERMAN);
         calendar.setTime(date);
 
         return calendar;
     }
 
-    public static DayOfWeek calendarToDayOfWeek(Calendar calendar)
-    {
+    public static DayOfWeek calendarToDayOfWeek(Calendar calendar) {
         int dow = calendar.get(Calendar.DAY_OF_WEEK);
 
-        return switch (dow)
-                {
-                    case Calendar.MONDAY -> DayOfWeek.MONDAY;
-                    case Calendar.TUESDAY -> DayOfWeek.TUESDAY;
-                    case Calendar.WEDNESDAY -> DayOfWeek.WEDNESDAY;
-                    case Calendar.THURSDAY -> DayOfWeek.THURSDAY;
-                    case Calendar.FRIDAY -> DayOfWeek.FRIDAY;
-                    case Calendar.SATURDAY -> DayOfWeek.SATURDAY;
-                    case Calendar.SUNDAY -> DayOfWeek.SUNDAY;
-                    default -> throw new IllegalStateException("Unexpected day of week: " + dow);
-                };
+        return switch (dow) {
+            case Calendar.MONDAY -> DayOfWeek.MONDAY;
+            case Calendar.TUESDAY -> DayOfWeek.TUESDAY;
+            case Calendar.WEDNESDAY -> DayOfWeek.WEDNESDAY;
+            case Calendar.THURSDAY -> DayOfWeek.THURSDAY;
+            case Calendar.FRIDAY -> DayOfWeek.FRIDAY;
+            case Calendar.SATURDAY -> DayOfWeek.SATURDAY;
+            case Calendar.SUNDAY -> DayOfWeek.SUNDAY;
+            default -> throw new IllegalStateException("Unexpected day of week: " + dow);
+        };
     }
 
-    public static int dayOfWeekToCalendar(DayOfWeek dayOfWeek)
-    {
-        return switch (dayOfWeek)
-                {
-                    case MONDAY -> Calendar.MONDAY;
-                    case TUESDAY -> Calendar.TUESDAY;
-                    case WEDNESDAY -> Calendar.WEDNESDAY;
-                    case THURSDAY -> Calendar.THURSDAY;
-                    case FRIDAY -> Calendar.FRIDAY;
-                    case SATURDAY -> Calendar.SATURDAY;
-                    case SUNDAY -> Calendar.SUNDAY;
-                };
+    public static int dayOfWeekToCalendar(DayOfWeek dayOfWeek) {
+        return switch (dayOfWeek) {
+            case MONDAY -> Calendar.MONDAY;
+            case TUESDAY -> Calendar.TUESDAY;
+            case WEDNESDAY -> Calendar.WEDNESDAY;
+            case THURSDAY -> Calendar.THURSDAY;
+            case FRIDAY -> Calendar.FRIDAY;
+            case SATURDAY -> Calendar.SATURDAY;
+            case SUNDAY -> Calendar.SUNDAY;
+        };
     }
 
-    public static Date toDate(final Instant instant)
-    {
+    public static Date toDate(final Instant instant) {
         return Date.from(instant);
     }
 
-    public static Date toDate(final LocalDate localDate)
-    {
+    public static Date toDate(final LocalDate localDate) {
         Instant instant = toInstant(localDate);
 
         return toDate(instant);
     }
 
-    public static Date toDate(final LocalDateTime localDateTime)
-    {
+    public static Date toDate(final LocalDateTime localDateTime) {
         Instant instant = toInstant(localDateTime);
 
         return toDate(instant);
     }
 
-    public static Instant toInstant(final Date date)
-    {
-        if (date instanceof java.sql.Date d)
-        {
+    public static Instant toInstant(final Date date) {
+        if (date instanceof java.sql.Date d) {
             // LocalDate localDate = d.toLocalDate();
             // instant = toInstant(localDate);
 
@@ -116,8 +103,7 @@ public final class CalendarUtils
      * Da LocalDate keine Zeiten enthält, kommt es hier zu einer Exception:<br>
      * Instant.from(localDate);<br>
      */
-    public static Instant toInstant(final LocalDate localDate)
-    {
+    public static Instant toInstant(final LocalDate localDate) {
         ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
 
         return zonedDateTime.toInstant();
@@ -127,17 +113,14 @@ public final class CalendarUtils
      * LocalDateTime.toInstant(ZoneOffset.UTC);<br>
      * LocalDateTime.atZone(ZoneId.systemDefault()).toInstant();<br>
      */
-    public static Instant toInstant(final LocalDateTime localDateTime)
-    {
+    public static Instant toInstant(final LocalDateTime localDateTime) {
         ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
 
         return zonedDateTime.toInstant();
     }
 
-    public static LocalDate toLocalDate(final Date date)
-    {
-        if (date instanceof java.sql.Date d)
-        {
+    public static LocalDate toLocalDate(final Date date) {
+        if (date instanceof java.sql.Date d) {
             return d.toLocalDate();
         }
 
@@ -146,23 +129,19 @@ public final class CalendarUtils
         return toLocalDate(instant);
     }
 
-    public static LocalDate toLocalDate(final Instant instant)
-    {
+    public static LocalDate toLocalDate(final Instant instant) {
         return LocalDate.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    public static LocalDate toLocalDate(final LocalDateTime localDateTime)
-    {
+    public static LocalDate toLocalDate(final LocalDateTime localDateTime) {
         return localDateTime.toLocalDate();
     }
 
     /**
      * toLocalDate(date).atStartOfDay();<br>
      */
-    public static LocalDateTime toLocalDateTime(final Date date)
-    {
-        if (date instanceof Timestamp ts)
-        {
+    public static LocalDateTime toLocalDateTime(final Date date) {
+        if (date instanceof Timestamp ts) {
             return ts.toLocalDateTime();
         }
 
@@ -171,73 +150,60 @@ public final class CalendarUtils
         return toLocalDateTime(instant);
     }
 
-    public static LocalDateTime toLocalDateTime(final long timestamp)
-    {
+    public static LocalDateTime toLocalDateTime(final long timestamp) {
         return toLocalDateTime(Instant.ofEpochMilli(timestamp));
     }
 
-    public static LocalDateTime toLocalDateTime(final Instant instant)
-    {
+    public static LocalDateTime toLocalDateTime(final Instant instant) {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
     /**
      * LocalDate.atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();<br>
      */
-    public static LocalDateTime toLocalDateTime(final LocalDate localDate)
-    {
+    public static LocalDateTime toLocalDateTime(final LocalDate localDate) {
         return localDate.atStartOfDay();
     }
 
-    public static java.sql.Date toSqlDate(final Instant instant)
-    {
+    public static java.sql.Date toSqlDate(final Instant instant) {
         LocalDate localDate = toLocalDate(instant);
 
         return toSqlDate(localDate);
     }
 
-    public static java.sql.Date toSqlDate(final LocalDate localDate)
-    {
+    public static java.sql.Date toSqlDate(final LocalDate localDate) {
         return java.sql.Date.valueOf(localDate);
     }
 
-    public static java.sql.Date toSqlDate(final LocalDateTime localDateTime)
-    {
+    public static java.sql.Date toSqlDate(final LocalDateTime localDateTime) {
         LocalDate localDate = toLocalDate(localDateTime);
 
         return toSqlDate(localDate);
     }
 
-    public static Timestamp toSqlTimestamp(final Instant instant)
-    {
+    public static Timestamp toSqlTimestamp(final Instant instant) {
         return Timestamp.from(instant);
     }
 
-    public static Timestamp toSqlTimestamp(final LocalDate localDate)
-    {
+    public static Timestamp toSqlTimestamp(final LocalDate localDate) {
         LocalDateTime localDateTime = toLocalDateTime(localDate);
 
         return toSqlTimestamp(localDateTime);
     }
 
-    public static Timestamp toSqlTimestamp(final LocalDateTime localDateTime)
-    {
+    public static Timestamp toSqlTimestamp(final LocalDateTime localDateTime) {
         return Timestamp.valueOf(localDateTime);
     }
 
-    static Instant toInstant(final TemporalAccessor accessor)
-    {
+    static Instant toInstant(final TemporalAccessor accessor) {
         return Instant.from(accessor);
     }
 
-    static LocalDate toLocalDate(final TemporalAccessor accessor)
-    {
-        if (accessor instanceof LocalDate ld)
-        {
+    static LocalDate toLocalDate(final TemporalAccessor accessor) {
+        if (accessor instanceof LocalDate ld) {
             return ld;
         }
-        else if (accessor instanceof LocalDateTime ldt)
-        {
+        else if (accessor instanceof LocalDateTime ldt) {
             return ldt.toLocalDate();
         }
 
@@ -246,10 +212,8 @@ public final class CalendarUtils
         return toLocalDate(instant);
     }
 
-    static LocalDateTime toLocalDateTime(final TemporalAccessor accessor)
-    {
-        if (accessor instanceof LocalDateTime ldt)
-        {
+    static LocalDateTime toLocalDateTime(final TemporalAccessor accessor) {
+        if (accessor instanceof LocalDateTime ldt) {
             return ldt;
         }
 
@@ -258,8 +222,7 @@ public final class CalendarUtils
         return toLocalDateTime(instant);
     }
 
-    private CalendarUtils()
-    {
+    private CalendarUtils() {
         super();
     }
 }

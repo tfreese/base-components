@@ -5,37 +5,30 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
-{
+public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D> {
     private E valueE;
 
-    public Tupel5()
-    {
+    public Tupel5() {
         super();
     }
 
-    public Tupel5(final A valueA, final B valueB, final C valueC, final D valueD, final E valueE)
-    {
+    public Tupel5(final A valueA, final B valueB, final C valueC, final D valueD, final E valueE) {
         super(valueA, valueB, valueC, valueD);
 
         this.valueE = valueE;
     }
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
 
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        if (!super.equals(o))
-        {
+        if (!super.equals(o)) {
             return false;
         }
 
@@ -44,19 +37,16 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
         return Objects.equals(valueE, tupel5.valueE);
     }
 
-    public final E getValueE()
-    {
+    public final E getValueE() {
         return this.valueE;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(super.hashCode(), valueE);
     }
 
-    public final void setValueE(final E valueE)
-    {
+    public final void setValueE(final E valueE) {
         this.valueE = valueE;
     }
 
@@ -64,8 +54,7 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D>
      * @see de.freese.base.core.model.tupel.Tupel4#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
         sb.append("; ");

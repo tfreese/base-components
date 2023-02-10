@@ -9,13 +9,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractExcelExporter<T> extends AbstractExporter<T>
-{
+public abstract class AbstractExcelExporter<T> extends AbstractExporter<T> {
     @Override
-    public void export(final OutputStream outputStream, final T model) throws Exception
-    {
-        try (Workbook workbook = new XSSFWorkbook())
-        {
+    public void export(final OutputStream outputStream, final T model) throws Exception {
+        try (Workbook workbook = new XSSFWorkbook()) {
             export(workbook, model);
 
             workbook.write(outputStream);

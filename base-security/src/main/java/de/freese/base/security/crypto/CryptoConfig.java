@@ -16,21 +16,18 @@ import javax.crypto.KeyGenerator;
  *
  * @author Thomas Freese
  */
-public abstract class CryptoConfig<T extends CryptoConfig<T>>
-{
+public abstract class CryptoConfig<T extends CryptoConfig<T>> {
     /**
      * Builder einer asymmetrischen Public- / Private-Key Verschlüsselung der "java.security"-API.
      */
-    public static CryptoConfigAsymetric asymetric()
-    {
+    public static CryptoConfigAsymetric asymetric() {
         return new CryptoConfigAsymetric();
     }
 
     /**
      * Builder einer symmetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
      */
-    public static CryptoConfigSymetric symetric()
-    {
+    public static CryptoConfigSymetric symetric() {
         return new CryptoConfigSymetric();
     }
 
@@ -60,8 +57,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
 
     private String providerSignature;
 
-    CryptoConfig()
-    {
+    CryptoConfig() {
         super();
 
         providerDefault("SunJCE");
@@ -75,8 +71,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Default: {@link #algorithmDefault(String)}
      */
-    public T algorithmCipher(final String algorithmCipher)
-    {
+    public T algorithmCipher(final String algorithmCipher) {
         this.algorithmCipher = algorithmCipher;
 
         return getThis();
@@ -86,8 +81,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Algorithmus als Default.<br>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      */
-    public T algorithmDefault(final String algorithmDefault)
-    {
+    public T algorithmDefault(final String algorithmDefault) {
         this.algorithmDefault = algorithmDefault;
 
         return getThis();
@@ -96,8 +90,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Default: {@link #algorithmDefault(String)}
      */
-    public T algorithmDigest(final String algorithmDigest)
-    {
+    public T algorithmDigest(final String algorithmDigest) {
         this.algorithmDigest = algorithmDigest;
 
         return getThis();
@@ -107,8 +100,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Algorithmus für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
      * Default: {@link #algorithmDefault(String)}
      */
-    public T algorithmKeyGenerator(final String algorithmKeyGenerator)
-    {
+    public T algorithmKeyGenerator(final String algorithmKeyGenerator) {
         this.algorithmKeyGenerator = algorithmKeyGenerator;
 
         return getThis();
@@ -118,8 +110,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #algorithmDefault(String)}<br>
      * Beispiel: "NativePRNG", "SHA1PRNG", {@link SecureRandom#getInstanceStrong()}
      */
-    public T algorithmSecureRandom(final String algorithmSecureRandom)
-    {
+    public T algorithmSecureRandom(final String algorithmSecureRandom) {
         this.algorithmSecureRandom = algorithmSecureRandom;
 
         return getThis();
@@ -128,8 +119,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Default: {@link #algorithmDefault(String)}
      */
-    public T algorithmSignature(final String algorithmSignature)
-    {
+    public T algorithmSignature(final String algorithmSignature) {
         this.algorithmSignature = algorithmSignature;
 
         return getThis();
@@ -137,31 +127,26 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
 
     public abstract Crypto build() throws Exception;
 
-    public String getAlgorithmDigest()
-    {
+    public String getAlgorithmDigest() {
         return this.algorithmDigest != null ? this.algorithmDigest : getAlgorithmDefault();
     }
 
-    public String getAlgorithmSecureRandom()
-    {
+    public String getAlgorithmSecureRandom() {
         return this.algorithmSecureRandom != null ? this.algorithmSecureRandom : getAlgorithmDefault();
     }
 
-    public String getProviderDigest()
-    {
+    public String getProviderDigest() {
         return this.providerDigest != null ? this.providerDigest : getProviderDefault();
     }
 
-    public String getProviderSecureRandom()
-    {
+    public String getProviderSecureRandom() {
         return this.providerSecureRandom != null ? this.providerSecureRandom : getProviderDefault();
     }
 
     /**
      * Default: 0
      */
-    public T keySize(final int keySize)
-    {
+    public T keySize(final int keySize) {
         this.keySize = keySize;
 
         return getThis();
@@ -170,8 +155,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Default: {@link #providerDefault(String)}
      */
-    public T providerCipher(final String providerCipher)
-    {
+    public T providerCipher(final String providerCipher) {
         this.providerCipher = providerCipher;
 
         return getThis();
@@ -181,8 +165,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Provider als Default.<br>
      * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
      */
-    public T providerDefault(final String providerDefault)
-    {
+    public T providerDefault(final String providerDefault) {
         this.providerDefault = providerDefault;
 
         return getThis();
@@ -191,8 +174,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Default: {@link #providerDefault(String)}
      */
-    public T providerDigest(final String providerDigest)
-    {
+    public T providerDigest(final String providerDigest) {
         this.providerDigest = providerDigest;
 
         return getThis();
@@ -202,8 +184,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Provider für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
      * Default: {@link #providerDefault(String)}
      */
-    public T providerKeyGenerator(final String providerKeyGenerator)
-    {
+    public T providerKeyGenerator(final String providerKeyGenerator) {
         this.providerKeyGenerator = providerKeyGenerator;
 
         return getThis();
@@ -213,8 +194,7 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
      * Default: {@link #providerDefault(String)}<br>
      * Beispiel: "SUN"
      */
-    public T providerSecureRandom(final String providerSecureRandom)
-    {
+    public T providerSecureRandom(final String providerSecureRandom) {
         this.providerSecureRandom = providerSecureRandom;
 
         return getThis();
@@ -223,61 +203,50 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>>
     /**
      * Default: {@link #providerDefault(String)}
      */
-    public T providerSignature(final String providerSignature)
-    {
+    public T providerSignature(final String providerSignature) {
         this.providerSignature = providerSignature;
 
         return getThis();
     }
 
-    protected String getAlgorithmCipher()
-    {
+    protected String getAlgorithmCipher() {
         return this.algorithmCipher != null ? this.algorithmCipher : getAlgorithmDefault();
     }
 
-    protected String getAlgorithmDefault()
-    {
+    protected String getAlgorithmDefault() {
         return this.algorithmDefault;
     }
 
-    protected String getAlgorithmKeyGenerator()
-    {
+    protected String getAlgorithmKeyGenerator() {
         return this.algorithmKeyGenerator != null ? this.algorithmKeyGenerator : getAlgorithmDefault();
     }
 
-    protected String getAlgorithmSignature()
-    {
+    protected String getAlgorithmSignature() {
         return this.algorithmSignature != null ? this.algorithmSignature : getAlgorithmDefault();
     }
 
-    protected int getKeySize()
-    {
+    protected int getKeySize() {
         return this.keySize;
     }
 
-    protected String getProviderCipher()
-    {
+    protected String getProviderCipher() {
         return this.providerCipher != null ? this.providerCipher : getProviderDefault();
     }
 
-    protected String getProviderDefault()
-    {
+    protected String getProviderDefault() {
         return this.providerDefault;
     }
 
-    protected String getProviderKeyGenerator()
-    {
+    protected String getProviderKeyGenerator() {
         return this.providerKeyGenerator != null ? this.providerKeyGenerator : getProviderDefault();
     }
 
-    protected String getProviderSignature()
-    {
+    protected String getProviderSignature() {
         return this.providerSignature != null ? this.providerSignature : getProviderDefault();
     }
 
     @SuppressWarnings("unchecked")
-    protected T getThis()
-    {
+    protected T getThis() {
         return (T) this;
     }
 }

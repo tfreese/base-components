@@ -10,34 +10,28 @@ import java.util.TreeSet;
  *
  * @author Thomas Freese
  */
-public final class Values<T extends Comparable<?>>
-{
+public final class Values<T extends Comparable<?>> {
     private final TreeSet<T> treeSet = new TreeSet<>();
 
     private final LinkedList<T> valueList = new LinkedList<>();
 
     private LinkedList<T> newValues;
 
-    public synchronized void addValue(final T value)
-    {
-        if (this.newValues == null)
-        {
+    public synchronized void addValue(final T value) {
+        if (this.newValues == null) {
             this.newValues = new LinkedList<>();
         }
 
         this.newValues.add(value);
     }
 
-    public synchronized List<T> getLastValues(final int count)
-    {
+    public synchronized List<T> getLastValues(final int count) {
         final List<T> lastValues = this.newValues;
         this.newValues = null;
 
-        if (lastValues != null)
-        {
+        if (lastValues != null) {
             // Neue Werte hinzufügen.
-            for (T value : lastValues)
-            {
+            for (T value : lastValues) {
                 getValues().add(value);
             }
         }
@@ -45,18 +39,15 @@ public final class Values<T extends Comparable<?>>
         // Alte Werte entfernen.
         int n = Math.min(count, getValues().size());
 
-        while (getValues().size() > n)
-        {
+        while (getValues().size() > n) {
             T oldValue = getValues().removeFirst();
 
             getTreeSet().remove(oldValue);
         }
 
-        if (lastValues != null)
-        {
+        if (lastValues != null) {
             // Neue Werte für min.-/max. hinzufügen.
-            for (T value : lastValues)
-            {
+            for (T value : lastValues) {
                 getTreeSet().add(value);
             }
         }
@@ -64,23 +55,19 @@ public final class Values<T extends Comparable<?>>
         return getValues();
     }
 
-    public T getMaxValue()
-    {
+    public T getMaxValue() {
         return getTreeSet().last();
     }
 
-    public T getMinValue()
-    {
+    public T getMinValue() {
         return getTreeSet().first();
     }
 
-    private TreeSet<T> getTreeSet()
-    {
+    private TreeSet<T> getTreeSet() {
         return this.treeSet;
     }
 
-    private LinkedList<T> getValues()
-    {
+    private LinkedList<T> getValues() {
         return this.valueList;
     }
 }

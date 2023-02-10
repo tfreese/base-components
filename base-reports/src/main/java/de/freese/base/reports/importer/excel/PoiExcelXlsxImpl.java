@@ -10,14 +10,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Thomas Freese
  */
-public final class PoiExcelXlsxImpl extends AbstractPoiExcelImpl
-{
+public final class PoiExcelXlsxImpl extends AbstractPoiExcelImpl {
     /**
      * @see AbstractPoiExcelImpl#openWorkbook(java.io.InputStream)
      */
     @Override
-    protected Workbook openWorkbook(final InputStream inputStream) throws Exception
-    {
+    protected Workbook openWorkbook(final InputStream inputStream) throws Exception {
         return new XSSFWorkbook(inputStream);
     }
 }

@@ -11,14 +11,12 @@ import javax.swing.event.TableColumnModelEvent;
  *
  * @author Thomas Freese
  */
-public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelListener
-{
+public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelListener {
     /**
      * @see javax.swing.event.TableColumnModelListener#columnAdded(javax.swing.event.TableColumnModelEvent)
      */
     @Override
-    public void columnAdded(final TableColumnModelEvent e)
-    {
+    public void columnAdded(final TableColumnModelEvent e) {
         // Empty
     }
 
@@ -26,8 +24,7 @@ public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelLi
      * @see javax.swing.event.TableColumnModelListener#columnMarginChanged(javax.swing.event.ChangeEvent)
      */
     @Override
-    public void columnMarginChanged(final ChangeEvent e)
-    {
+    public void columnMarginChanged(final ChangeEvent e) {
         // Empty
     }
 
@@ -35,8 +32,7 @@ public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelLi
      * @see javax.swing.event.TableColumnModelListener#columnMoved(javax.swing.event.TableColumnModelEvent)
      */
     @Override
-    public void columnMoved(final TableColumnModelEvent e)
-    {
+    public void columnMoved(final TableColumnModelEvent e) {
         // Empty
     }
 
@@ -44,8 +40,7 @@ public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelLi
      * @see ExtTableColumnModelListener#columnPropertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void columnPropertyChange(final PropertyChangeEvent event)
-    {
+    public void columnPropertyChange(final PropertyChangeEvent event) {
         // Empty
     }
 
@@ -53,8 +48,7 @@ public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelLi
      * @see javax.swing.event.TableColumnModelListener#columnRemoved(javax.swing.event.TableColumnModelEvent)
      */
     @Override
-    public void columnRemoved(final TableColumnModelEvent e)
-    {
+    public void columnRemoved(final TableColumnModelEvent e) {
         // Empty
     }
 
@@ -62,8 +56,7 @@ public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelLi
      * @see javax.swing.event.TableColumnModelListener#columnSelectionChanged(javax.swing.event.ListSelectionEvent)
      */
     @Override
-    public void columnSelectionChanged(final ListSelectionEvent e)
-    {
+    public void columnSelectionChanged(final ListSelectionEvent e) {
         // Empty
     }
 }

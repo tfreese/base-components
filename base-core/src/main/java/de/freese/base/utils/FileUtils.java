@@ -13,20 +13,14 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public final class FileUtils
-{
-    private static final String[] SIZE_UNITS =
-            {
-                    "B", "KB", "MB", "GB", "TB"
-            };
+public final class FileUtils {
+    private static final String[] SIZE_UNITS = {"B", "KB", "MB", "GB", "TB"};
 
     /**
      * Kopiert die bestehende Datei nach *.last.
      */
-    public static void copy(final Path path) throws IOException
-    {
-        if (path == null)
-        {
+    public static void copy(final Path path) throws IOException {
+        if (path == null) {
             throw new NullPointerException("path required");
         }
 
@@ -34,54 +28,44 @@ public final class FileUtils
         String fileName = path.getFileName().toString();
         Path last = parent.resolve(fileName + ".last");
 
-        if (!Files.exists(parent))
-        {
+        if (!Files.exists(parent)) {
             Files.createDirectories(parent);
         }
 
-        if (Files.exists(last))
-        {
+        if (Files.exists(last)) {
             Files.delete(last);
         }
 
         Files.copy(path, last); // StandardCopyOption
     }
 
-    public static void deleteDirectoryRecursive(final File file) throws IOException
-    {
-        if (file == null)
-        {
+    public static void deleteDirectoryRecursive(final File file) throws IOException {
+        if (file == null) {
             throw new NullPointerException("file required");
         }
 
         deleteDirectoryRecursive(file.toPath());
     }
 
-    public static void deleteDirectoryRecursive(final Path path) throws IOException
-    {
-        if (path == null)
-        {
+    public static void deleteDirectoryRecursive(final Path path) throws IOException {
+        if (path == null) {
             throw new NullPointerException("path required");
         }
 
-        if (!Files.exists(path))
-        {
+        if (!Files.exists(path)) {
             return;
         }
 
-        if (!Files.isDirectory(path))
-        {
+        if (!Files.isDirectory(path)) {
             throw new IllegalArgumentException("path is not a directory: " + path);
         }
 
-        Files.walkFileTree(path, new SimpleFileVisitor<>()
-        {
+        Files.walkFileTree(path, new SimpleFileVisitor<>() {
             /**
              * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
              */
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
-            {
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
                 Files.delete(dir);
 
                 return FileVisitResult.CONTINUE;
@@ -91,8 +75,7 @@ public final class FileUtils
              * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
              */
             @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
-            {
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);
 
                 return FileVisitResult.CONTINUE;
@@ -103,26 +86,22 @@ public final class FileUtils
     /**
      * Benennt die bestehende Datei in *.last um.
      */
-    public static void rename(final Path path) throws IOException
-    {
+    public static void rename(final Path path) throws IOException {
         Objects.requireNonNull(path, "path required");
 
         Path parent = path.getParent();
         String fileName = path.getFileName().toString();
         Path last = parent.resolve(fileName + ".last");
 
-        if (!Files.exists(parent))
-        {
+        if (!Files.exists(parent)) {
             Files.createDirectories(parent);
         }
 
-        if (Files.exists(last))
-        {
+        if (Files.exists(last)) {
             Files.delete(last);
         }
 
-        if (Files.exists(path))
-        {
+        if (Files.exists(path)) {
             Files.move(path, last); // StandardCopyOption
         }
     }
@@ -138,10 +117,8 @@ public final class FileUtils
      * <li>' ' -> _
      * </ul>
      */
-    public static String rewriteFileName(final String fileName)
-    {
-        if ((fileName == null) || (fileName.strip().length() == 0))
-        {
+    public static String rewriteFileName(final String fileName) {
+        if ((fileName == null) || (fileName.strip().length() == 0)) {
             return fileName;
         }
 
@@ -162,8 +139,7 @@ public final class FileUtils
     /**
      * @return String, z.B. '___,___ MB'
      */
-    public static String toHumanReadableSize(final long size)
-    {
+    public static String toHumanReadableSize(final long size) {
         int unitIndex = (int) (Math.log10(size) / 3);
         double unitValue = 1 << (unitIndex * 10);
 
@@ -171,8 +147,7 @@ public final class FileUtils
         return String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);
     }
 
-    private FileUtils()
-    {
+    private FileUtils() {
         super();
     }
 }

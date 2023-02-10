@@ -11,12 +11,10 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
  *
  * @author Thomas Freese
  */
-public class ThinHorizontalScrollBarUI extends BasicScrollBarUI
-{
+public class ThinHorizontalScrollBarUI extends BasicScrollBarUI {
     private final int height;
 
-    public ThinHorizontalScrollBarUI(final int height)
-    {
+    public ThinHorizontalScrollBarUI(final int height) {
         super();
 
         this.height = height;
@@ -26,8 +24,7 @@ public class ThinHorizontalScrollBarUI extends BasicScrollBarUI
      * @see javax.swing.plaf.basic.BasicScrollBarUI#getMaximumSize(javax.swing.JComponent)
      */
     @Override
-    public Dimension getMaximumSize(final JComponent c)
-    {
+    public Dimension getMaximumSize(final JComponent c) {
         Dimension d = super.getMaximumSize(c);
 
         return new Dimension(d.width, this.height);
@@ -37,8 +34,7 @@ public class ThinHorizontalScrollBarUI extends BasicScrollBarUI
      * @see javax.swing.plaf.basic.BasicScrollBarUI#getPreferredSize(javax.swing.JComponent)
      */
     @Override
-    public Dimension getPreferredSize(final JComponent c)
-    {
+    public Dimension getPreferredSize(final JComponent c) {
         Dimension d = super.getPreferredSize(c);
 
         return new Dimension(d.width, this.height);

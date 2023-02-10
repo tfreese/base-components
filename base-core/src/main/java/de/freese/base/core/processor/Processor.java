@@ -8,8 +8,7 @@ package de.freese.base.core.processor;
  *
  * @author Thomas Freese
  */
-public interface Processor<C>
-{
+public interface Processor<C> {
     /**
      * Ausführung von Anwendungslogik.
      */

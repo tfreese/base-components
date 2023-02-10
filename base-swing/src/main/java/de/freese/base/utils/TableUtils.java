@@ -12,25 +12,21 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import de.freese.base.swing.components.table.AbstractListTableModel;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.swing.components.table.AbstractListTableModel;
 
 /**
  * @author Thomas Freese
  */
-public final class TableUtils
-{
-    public static void cancelCellEditing(final JTable table)
-    {
-        try
-        {
-            if (table.getCellEditor() != null)
-            {
+public final class TableUtils {
+    public static void cancelCellEditing(final JTable table) {
+        try {
+            if (table.getCellEditor() != null) {
                 table.getCellEditor().cancelCellEditing();
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LoggerFactory.getLogger(TableUtils.class).warn(null, ex);
         }
     }
@@ -39,8 +35,7 @@ public final class TableUtils
      * <a href="http://www.exampledepot.com/egs/javax.swing.table/VisCenter.html">VisCenter</a><br>
      * Selektiert die Zelle an der gewünschten Position und zentriert sie innerhalb der ScrollPane.
      */
-    public static void centerTableInScrollPane(final JTable table, final int row, final int column)
-    {
+    public static void centerTableInScrollPane(final JTable table, final int row, final int column) {
         JViewport viewport = (JViewport) table.getParent();
         table.changeSelection(row, column, false, false);
 
@@ -61,13 +56,11 @@ public final class TableUtils
 
         // Fake the location of the cell so that scrollRectToVisible will move the cell to the
         // center
-        if (rect.x < centerX)
-        {
+        if (rect.x < centerX) {
             centerX = -centerX;
         }
 
-        if (rect.y < centerY)
-        {
+        if (rect.y < centerY) {
             centerY = -centerY;
         }
 
@@ -77,52 +70,43 @@ public final class TableUtils
         viewport.scrollRectToVisible(rect);
     }
 
-    public static TableCellRenderer getCellRenderer(final JTable table, final int column)
-    {
+    public static TableCellRenderer getCellRenderer(final JTable table, final int column) {
         int viewIndex = table.convertColumnIndexToView(column);
 
         TableCellRenderer renderer = null;
 
-        if (viewIndex >= 0)
-        {
+        if (viewIndex >= 0) {
             renderer = table.getCellRenderer(0, viewIndex);
         }
 
-        if (renderer == null)
-        {
+        if (renderer == null) {
             renderer = table.getDefaultRenderer(table.getModel().getColumnClass(column));
         }
 
         return renderer;
     }
 
-    public static TableCellRenderer getCellRenderer(final JTable table, final TableColumn column)
-    {
+    public static TableCellRenderer getCellRenderer(final JTable table, final TableColumn column) {
         return getCellRenderer(table, column.getModelIndex());
     }
 
-    public static Object getFirstSelectedObject(final JTable table)
-    {
+    public static Object getFirstSelectedObject(final JTable table) {
         Object[] obj = getSelectedObjects(table);
 
-        if ((obj != null) && (obj.length > 0))
-        {
+        if ((obj != null) && (obj.length > 0)) {
             return obj[0];
         }
 
         return null;
     }
 
-    public static TableCellRenderer getHeaderRenderer(final JTable table, final TableColumn column)
-    {
+    public static TableCellRenderer getHeaderRenderer(final JTable table, final TableColumn column) {
         TableCellRenderer renderer = column.getHeaderRenderer();
 
-        if (renderer == null)
-        {
+        if (renderer == null) {
             JTableHeader header = table.getTableHeader();
 
-            if (header != null)
-            {
+            if (header != null) {
                 renderer = header.getDefaultRenderer();
             }
         }
@@ -130,39 +114,31 @@ public final class TableUtils
         return renderer;
     }
 
-    public static String getRenderedValueAt(final JTable table, final int row, final int column)
-    {
+    public static String getRenderedValueAt(final JTable table, final int row, final int column) {
         String value = null;
 
         TableCellRenderer tcr = getCellRenderer(table, column);
 
-        if (tcr != null)
-        {
+        if (tcr != null) {
             Component c = table.prepareRenderer(tcr, row, column);
 
-            if (c instanceof JLabel label)
-            {
+            if (c instanceof JLabel label) {
                 value = label.getText().strip();
             }
-            else if (c instanceof JCheckBox checkBox)
-            {
-                if (checkBox.isSelected())
-                {
+            else if (c instanceof JCheckBox checkBox) {
+                if (checkBox.isSelected()) {
                     value = Boolean.TRUE.toString();
                 }
-                else
-                {
+                else {
                     value = Boolean.FALSE.toString();
                 }
             }
         }
 
-        if (value == null)
-        {
+        if (value == null) {
             TableModel tm = table.getModel();
 
-            if (tm != null)
-            {
+            if (tm != null) {
                 int colIdxModel = table.convertColumnIndexToModel(column);
                 value = tm.getValueAt(row, colIdxModel).toString().strip();
             }
@@ -171,15 +147,12 @@ public final class TableUtils
         return value;
     }
 
-    public static Object[] getSelectedObjects(final JTable table)
-    {
+    public static Object[] getSelectedObjects(final JTable table) {
         int[] rows = table.getSelectedRows();
         Object[] result = new Object[rows.length];
 
-        if (table.getModel() instanceof AbstractListTableModel<?> model)
-        {
-            for (int i = 0; i < rows.length; i++)
-            {
+        if (table.getModel() instanceof AbstractListTableModel<?> model) {
+            for (int i = 0; i < rows.length; i++) {
                 int modelRowIndex = table.convertRowIndexToModel(rows[i]);
 
                 result[i] = model.getObjectAt(modelRowIndex);
@@ -194,8 +167,7 @@ public final class TableUtils
      *
      * @param margin int; -1 = default
      */
-    public static void packColumn(final JTable table, final int column, final int margin)
-    {
+    public static void packColumn(final JTable table, final int column, final int margin) {
         packColumn(table, table.getColumnModel().getColumn(column), margin, -1, -1);
     }
 
@@ -206,8 +178,7 @@ public final class TableUtils
      * @param min int; -1 = default
      * @param max int; -1 = default
      */
-    public static void packColumn(final JTable table, final int column, final int margin, final int min, final int max)
-    {
+    public static void packColumn(final JTable table, final int column, final int margin, final int min, final int max) {
         packColumn(table, table.getColumnModel().getColumn(column), margin, min, max);
     }
 
@@ -218,10 +189,8 @@ public final class TableUtils
      * @param min int; -1 = default
      * @param max int; -1 = default
      */
-    public static void packColumn(final JTable table, final TableColumn column, int margin, final int min, final int max)
-    {
-        if (!column.getResizable())
-        {
+    public static void packColumn(final JTable table, final TableColumn column, int margin, final int min, final int max) {
+        if (!column.getResizable()) {
             return;
         }
 
@@ -229,34 +198,29 @@ public final class TableUtils
         int width = 0;
         TableCellRenderer headerRenderer = getHeaderRenderer(table, column);
 
-        if (headerRenderer != null)
-        {
+        if (headerRenderer != null) {
             Component comp = headerRenderer.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, 0, columnIndex);
             width = comp.getPreferredSize().width;
         }
 
         TableCellRenderer renderer = getCellRenderer(table, column);
 
-        for (int r = 0; r < table.getRowCount(); r++)
-        {
+        for (int r = 0; r < table.getRowCount(); r++) {
             Component comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, columnIndex), false, false, r, columnIndex);
             width = Math.max(width, comp.getPreferredSize().width);
         }
 
-        if (margin < 0)
-        {
+        if (margin < 0) {
             margin = 3;
         }
 
         width += 2 * margin;
 
-        if ((min > 0) && (width < min))
-        {
+        if ((min > 0) && (width < min)) {
             width = min;
         }
 
-        if ((max > 0) && (width > max))
-        {
+        if ((max > 0) && (width > max)) {
             width = max;
         }
 
@@ -268,10 +232,8 @@ public final class TableUtils
      *
      * @param margin int; -1 = default
      */
-    public static void packTable(final JTable table, final int margin)
-    {
-        for (int c = 0; c < table.getColumnCount(); c++)
-        {
+    public static void packTable(final JTable table, final int margin) {
+        for (int c = 0; c < table.getColumnCount(); c++) {
             packColumn(table, table.getColumnModel().getColumn(c), margin, -1, -1);
         }
     }
@@ -283,31 +245,24 @@ public final class TableUtils
      * @param min int; -1 = default
      * @param max int; -1 = default
      */
-    public static void packTable(final JTable table, final int margin, final int min, final int max)
-    {
-        for (int c = 0; c < table.getColumnCount(); c++)
-        {
+    public static void packTable(final JTable table, final int margin, final int min, final int max) {
+        for (int c = 0; c < table.getColumnCount(); c++) {
             packColumn(table, table.getColumnModel().getColumn(c), margin, min, max);
         }
     }
 
-    public static void stopCellEditing(final JTable table)
-    {
-        try
-        {
-            if (table.getCellEditor() != null)
-            {
+    public static void stopCellEditing(final JTable table) {
+        try {
+            if (table.getCellEditor() != null) {
                 table.getCellEditor().stopCellEditing();
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LoggerFactory.getLogger(TableUtils.class).warn(null, ex);
         }
     }
 
-    private TableUtils()
-    {
+    private TableUtils() {
         super();
     }
 }

@@ -15,13 +15,11 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public class LayoutPreviewFrame extends JFrame
-{
+public class LayoutPreviewFrame extends JFrame {
     @Serial
     private static final long serialVersionUID = -2245301418603208848L;
 
-    public LayoutPreviewFrame(final AbstractLayoutElement layoutElement) throws HeadlessException
-    {
+    public LayoutPreviewFrame(final AbstractLayoutElement layoutElement) throws HeadlessException {
         super();
 
         Image designImage = layoutElement.createImage();

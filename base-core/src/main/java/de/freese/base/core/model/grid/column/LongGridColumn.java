@@ -8,15 +8,12 @@ import java.io.IOException;
 /**
  * @author Thomas Freese
  */
-public class LongGridColumn extends AbstractGridColumn<Long>
-{
-    public LongGridColumn()
-    {
+public class LongGridColumn extends AbstractGridColumn<Long> {
+    public LongGridColumn() {
         super(Long.class);
     }
 
-    public LongGridColumn(final String name)
-    {
+    public LongGridColumn(final String name) {
         super(Long.class);
 
         setName(name);
@@ -26,10 +23,8 @@ public class LongGridColumn extends AbstractGridColumn<Long>
      * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public Long getValue(final Object object)
-    {
-        if (object == null)
-        {
+    public Long getValue(final Object object) {
+        if (object == null) {
             return null;
         }
 
@@ -40,8 +35,7 @@ public class LongGridColumn extends AbstractGridColumn<Long>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override
-    protected Long readNullSafe(final DataInput dataInput) throws IOException
-    {
+    protected Long readNullSafe(final DataInput dataInput) throws IOException {
         return dataInput.readLong();
     }
 
@@ -49,8 +43,7 @@ public class LongGridColumn extends AbstractGridColumn<Long>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Long value) throws IOException
-    {
+    protected void writeNullSafe(final DataOutput dataOutput, final Long value) throws IOException {
         dataOutput.writeLong(value);
     }
 }

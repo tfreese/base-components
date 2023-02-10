@@ -12,63 +12,51 @@ import javax.swing.border.MatteBorder;
  *
  * @author Thomas Freese
  */
-public class ExtMatteBorder extends MatteBorder
-{
+public class ExtMatteBorder extends MatteBorder {
     @Serial
     private static final long serialVersionUID = 823952493901941086L;
 
-    public ExtMatteBorder(final Icon tileIcon)
-    {
+    public ExtMatteBorder(final Icon tileIcon) {
         super(tileIcon);
     }
 
-    public ExtMatteBorder(final Insets borderInsets, final Color matteColor)
-    {
+    public ExtMatteBorder(final Insets borderInsets, final Color matteColor) {
         super(borderInsets, matteColor);
     }
 
-    public ExtMatteBorder(final Insets borderInsets, final Icon tileIcon)
-    {
+    public ExtMatteBorder(final Insets borderInsets, final Icon tileIcon) {
         super(borderInsets, tileIcon);
     }
 
-    public ExtMatteBorder(final int top, final int left, final int bottom, final int right, final Color matteColor)
-    {
+    public ExtMatteBorder(final int top, final int left, final int bottom, final int right, final Color matteColor) {
         super(top, left, bottom, right, matteColor);
     }
 
-    public ExtMatteBorder(final int top, final int left, final int bottom, final int right, final Icon tileIcon)
-    {
+    public ExtMatteBorder(final int top, final int left, final int bottom, final int right, final Icon tileIcon) {
         super(top, left, bottom, right, tileIcon);
     }
 
-    public void setBottom(final int bottom)
-    {
+    public void setBottom(final int bottom) {
         this.bottom = bottom;
     }
 
-    public void setLeft(final int left)
-    {
+    public void setLeft(final int left) {
         this.left = left;
     }
 
-    public void setMatteColor(final Color matteColor)
-    {
+    public void setMatteColor(final Color matteColor) {
         this.color = matteColor;
     }
 
-    public void setRight(final int right)
-    {
+    public void setRight(final int right) {
         this.right = right;
     }
 
-    public void setTileIcon(final Icon tileIcon)
-    {
+    public void setTileIcon(final Icon tileIcon) {
         this.tileIcon = tileIcon;
     }
 
-    public void setTop(final int top)
-    {
+    public void setTop(final int top) {
         this.top = top;
     }
 }

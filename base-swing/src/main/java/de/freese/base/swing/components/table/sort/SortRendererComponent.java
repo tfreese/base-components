@@ -19,8 +19,7 @@ import javax.swing.border.Border;
  *
  * @author Thomas Freese
  */
-public class SortRendererComponent extends JPanel
-{
+public class SortRendererComponent extends JPanel {
     private static final Border EMPTY_BORDER = BorderFactory.createEmptyBorder(0, 0, 0, 2);
 
     @Serial
@@ -32,8 +31,7 @@ public class SortRendererComponent extends JPanel
 
     private JLabel jLabelIcon;
 
-    public SortRendererComponent(final JComponent mainComponent, final Icon sortIcon, final String priority, final Color textSortColor)
-    {
+    public SortRendererComponent(final JComponent mainComponent, final Icon sortIcon, final String priority, final Color textSortColor) {
         super();
 
         this.mainComponent = mainComponent;
@@ -49,15 +47,12 @@ public class SortRendererComponent extends JPanel
         initialize();
     }
 
-    private Component getMainComponent()
-    {
+    private Component getMainComponent() {
         return this.mainComponent;
     }
 
-    private JLabel getSortLabel()
-    {
-        if (this.jLabelIcon == null)
-        {
+    private JLabel getSortLabel() {
+        if (this.jLabelIcon == null) {
             this.jLabelIcon = new JLabel();
             this.jLabelIcon.setForeground(this.textSortColor);
             this.jLabelIcon.setBackground(UIManager.getColor("TableHeader.background"));
@@ -70,8 +65,7 @@ public class SortRendererComponent extends JPanel
         return this.jLabelIcon;
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         setLayout(new BorderLayout(1, 0));
         setForeground(UIManager.getColor("TableHeader.foreground"));
         setBackground(UIManager.getColor("TableHeader.background"));
@@ -79,13 +73,11 @@ public class SortRendererComponent extends JPanel
         this.add(getSortLabel(), BorderLayout.LINE_END);
     }
 
-    private void setSortIcon(final Icon icon)
-    {
+    private void setSortIcon(final Icon icon) {
         getSortLabel().setIcon(icon);
     }
 
-    private void setSortPriority(final String priority)
-    {
+    private void setSortPriority(final String priority) {
         getSortLabel().setText(priority);
     }
 }

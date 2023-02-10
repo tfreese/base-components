@@ -11,20 +11,17 @@ import java.util.List;
 /**
  * @author Thomas Freese
  */
-public class LineGraphPainter extends AbstractGraphPainter
-{
+public class LineGraphPainter extends AbstractGraphPainter {
     private final Line2D line2d = new Line2D.Float();
 
     /**
      * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
      */
     @Override
-    public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
-    {
+    public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
         List<Float> values = getValues().getLastValues((int) width);
 
-        if (values.isEmpty())
-        {
+        if (values.isEmpty()) {
             return;
         }
 
@@ -37,8 +34,7 @@ public class LineGraphPainter extends AbstractGraphPainter
         float middle = height / 2F;
         float yLast = middle - (values.get(0) * middle);
 
-        for (int i = 1; i < values.size(); i++)
-        {
+        for (int i = 1; i < values.size(); i++) {
             float value = values.get(i);
             // float y = xOffset + (height * value);
 

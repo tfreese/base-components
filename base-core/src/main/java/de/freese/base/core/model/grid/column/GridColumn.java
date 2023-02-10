@@ -8,8 +8,7 @@ import java.io.IOException;
 /**
  * @author Thomas Freese
  */
-public interface GridColumn<T>
-{
+public interface GridColumn<T> {
     String getComment();
 
     int getLength();

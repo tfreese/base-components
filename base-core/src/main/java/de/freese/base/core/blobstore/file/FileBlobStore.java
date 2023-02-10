@@ -16,12 +16,10 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-public class FileBlobStore extends AbstractBlobStore
-{
+public class FileBlobStore extends AbstractBlobStore {
     private final Path basePath;
 
-    public FileBlobStore(final Path basePath) throws IOException
-    {
+    public FileBlobStore(final Path basePath) throws IOException {
         super();
 
         this.basePath = Objects.requireNonNull(basePath, "basePath required");
@@ -34,15 +32,13 @@ public class FileBlobStore extends AbstractBlobStore
         // throw new IllegalArgumentException(msg);
         // }
 
-        if (Files.notExists(this.basePath))
-        {
+        if (Files.notExists(this.basePath)) {
             Files.createDirectories(this.basePath);
         }
     }
 
     @Override
-    public OutputStream create(final BlobId id) throws Exception
-    {
+    public OutputStream create(final BlobId id) throws Exception {
         Path path = toContentPath(id);
 
         Files.createDirectories(path.getParent());
@@ -51,8 +47,7 @@ public class FileBlobStore extends AbstractBlobStore
     }
 
     @Override
-    public void create(final BlobId id, final InputStream inputStream) throws Exception
-    {
+    public void create(final BlobId id, final InputStream inputStream) throws Exception {
         Path path = toContentPath(id);
 
         Files.createDirectories(path.getParent());
@@ -61,19 +56,16 @@ public class FileBlobStore extends AbstractBlobStore
     }
 
     @Override
-    public void delete(final BlobId id) throws Exception
-    {
+    public void delete(final BlobId id) throws Exception {
         Path path = toContentPath(id);
 
-        if (Files.exists(path))
-        {
+        if (Files.exists(path)) {
             Files.delete(path);
         }
     }
 
     @Override
-    public boolean exists(final BlobId id) throws Exception
-    {
+    public boolean exists(final BlobId id) throws Exception {
         Path path = toContentPath(id);
 
         return Files.exists(path);
@@ -83,13 +75,11 @@ public class FileBlobStore extends AbstractBlobStore
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.basePath.toString();
     }
 
-    Path toContentPath(final BlobId id)
-    {
+    Path toContentPath(final BlobId id) {
         URI uri = id.getUri();
         String uriString = uri.toString();
 
@@ -99,8 +89,7 @@ public class FileBlobStore extends AbstractBlobStore
         uriString = uriString.replace(' ', '_');
         uriString = uriString.replace("%20", "_");
 
-        while (uriString.contains("//"))
-        {
+        while (uriString.contains("//")) {
             uriString = uriString.replace("//", "/");
         }
 
@@ -122,8 +111,7 @@ public class FileBlobStore extends AbstractBlobStore
     }
 
     @Override
-    protected Blob doGet(final BlobId id) throws Exception
-    {
+    protected Blob doGet(final BlobId id) throws Exception {
         return new FileBlob(id, this);
     }
 }

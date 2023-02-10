@@ -14,8 +14,7 @@ import de.freese.base.swing.components.graph.AbstractGraphComponent;
 /**
  * @author Thomas Freese
  */
-public class MemoryGraphComponent extends AbstractGraphComponent
-{
+public class MemoryGraphComponent extends AbstractGraphComponent {
     @Serial
     private static final long serialVersionUID = 162498448539283119L;
 
@@ -23,26 +22,21 @@ public class MemoryGraphComponent extends AbstractGraphComponent
 
     private transient ScheduledFuture<?> scheduledFuture;
 
-    public MemoryGraphComponent(final MemoryGraphPainter painter, final ScheduledExecutorService scheduledExecutorService)
-    {
+    public MemoryGraphComponent(final MemoryGraphPainter painter, final ScheduledExecutorService scheduledExecutorService) {
         super(painter);
 
         this.scheduledExecutorService = Objects.requireNonNull(scheduledExecutorService, "scheduledExecutorService required");
     }
 
-    public void start()
-    {
-        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
+    public void start() {
+        this.scheduledFuture = this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
             ((MemoryGraphPainter) getPainter()).generateValue();
             paintGraph();
         }, 500, 40, TimeUnit.MILLISECONDS);
     }
 
-    public void stop()
-    {
-        if ((this.scheduledFuture != null))
-        {
+    public void stop() {
+        if ((this.scheduledFuture != null)) {
             this.scheduledFuture.cancel(false);
             this.scheduledFuture = null;
         }
@@ -52,18 +46,14 @@ public class MemoryGraphComponent extends AbstractGraphComponent
      * @see de.freese.base.swing.components.graph.AbstractGraphComponent#onMouseClicked(java.awt.event.MouseEvent)
      */
     @Override
-    protected void onMouseClicked(final MouseEvent event)
-    {
-        if (((event.getModifiersEx()) & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK)
-        {
+    protected void onMouseClicked(final MouseEvent event) {
+        if (((event.getModifiersEx()) & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {
             System.gc();
         }
-        else if (this.scheduledFuture == null)
-        {
+        else if (this.scheduledFuture == null) {
             start();
         }
-        else
-        {
+        else {
             stop();
         }
     }

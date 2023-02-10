@@ -9,18 +9,15 @@ import java.io.Serial;
 /**
  * @author Thomas Freese
  */
-public class BinaryGridColumn extends AbstractGridColumn<byte[]>
-{
+public class BinaryGridColumn extends AbstractGridColumn<byte[]> {
     @Serial
     private static final long serialVersionUID = -728952526278052497L;
 
-    public BinaryGridColumn()
-    {
+    public BinaryGridColumn() {
         super(byte[].class);
     }
 
-    public BinaryGridColumn(final String name)
-    {
+    public BinaryGridColumn(final String name) {
         super(byte[].class);
 
         setName(name);
@@ -30,17 +27,14 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
      * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public byte[] getValue(final Object object)
-    {
-        if (object == null)
-        {
+    public byte[] getValue(final Object object) {
+        if (object == null) {
             return null;
         }
 
         byte[] value = (byte[]) object;
 
-        if (value.length == 0)
-        {
+        if (value.length == 0) {
             return null;
         }
 
@@ -51,8 +45,7 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override
-    protected byte[] readNullSafe(final DataInput dataInput) throws IOException
-    {
+    protected byte[] readNullSafe(final DataInput dataInput) throws IOException {
         int size = dataInput.readInt();
 
         byte[] value = new byte[size];
@@ -66,8 +59,7 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final byte[] value) throws IOException
-    {
+    protected void writeNullSafe(final DataOutput dataOutput, final byte[] value) throws IOException {
         dataOutput.writeInt(value.length);
         dataOutput.write(value);
     }

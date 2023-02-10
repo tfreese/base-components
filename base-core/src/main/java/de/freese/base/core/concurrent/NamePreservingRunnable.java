@@ -11,16 +11,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class NamePreservingRunnable implements Runnable
-{
+public class NamePreservingRunnable implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(NamePreservingRunnable.class);
 
     private final Runnable runnable;
 
     private final String runnableName;
 
-    public NamePreservingRunnable(final Runnable runnable, final String runnableName)
-    {
+    public NamePreservingRunnable(final Runnable runnable, final String runnableName) {
         super();
 
         this.runnable = Objects.requireNonNull(runnable, "runnable required");
@@ -31,19 +29,16 @@ public class NamePreservingRunnable implements Runnable
      * @see java.lang.Runnable#run()
      */
     @Override
-    public void run()
-    {
+    public void run() {
         final Thread currentThread = Thread.currentThread();
         String oldName = currentThread.getName();
 
         setName(currentThread, this.runnableName);
 
-        try
-        {
+        try {
             this.runnable.run();
         }
-        finally
-        {
+        finally {
             setName(currentThread, oldName);
         }
     }
@@ -52,14 +47,11 @@ public class NamePreservingRunnable implements Runnable
      * Change the Name of the Thread.<br>
      * A {@link SecurityException} is logged as a Warning.
      */
-    private void setName(final Thread thread, final String name)
-    {
-        try
-        {
+    private void setName(final Thread thread, final String name) {
+        try {
             thread.setName(name);
         }
-        catch (SecurityException sex)
-        {
+        catch (SecurityException sex) {
             LOGGER.warn("Failed to set the thread name.", sex);
         }
     }

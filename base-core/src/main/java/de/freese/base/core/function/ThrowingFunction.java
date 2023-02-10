@@ -15,15 +15,12 @@ import java.util.function.Function;
  * @see java.util.function.Function
  */
 @FunctionalInterface
-public interface ThrowingFunction<T, R, E extends Exception>
-{
-    static <T> Function<T, T> identity()
-    {
+public interface ThrowingFunction<T, R, E extends Exception> {
+    static <T> Function<T, T> identity() {
         return t -> t;
     }
 
-    default <V> ThrowingFunction<T, V, E> andThen(final ThrowingFunction<? super R, V, E> after)
-    {
+    default <V> ThrowingFunction<T, V, E> andThen(final ThrowingFunction<? super R, V, E> after) {
         Objects.requireNonNull(after);
 
         return t -> after.apply(apply(t));
@@ -31,8 +28,7 @@ public interface ThrowingFunction<T, R, E extends Exception>
 
     R apply(T t) throws E;
 
-    default <V> ThrowingFunction<V, R, E> compose(final ThrowingFunction<? super V, T, E> before)
-    {
+    default <V> ThrowingFunction<V, R, E> compose(final ThrowingFunction<? super V, T, E> before) {
         Objects.requireNonNull(before);
 
         return v -> apply(before.apply(v));

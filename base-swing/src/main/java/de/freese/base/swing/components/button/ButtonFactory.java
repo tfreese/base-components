@@ -15,15 +15,13 @@ import de.freese.base.utils.FontUtils;
 /**
  * @author Thomas Freese
  */
-public final class ButtonFactory
-{
+public final class ButtonFactory {
     /**
      * Enum for Arrows of "Move"-Buttons from the Marvosym-Font.
      *
      * @author Thomas Freese
      */
-    public enum ArrowDirection
-    {
+    public enum ArrowDirection {
         DOWN(187),
         LEFT(182),
         RIGHT(183),
@@ -31,24 +29,20 @@ public final class ButtonFactory
 
         private final String text;
 
-        ArrowDirection(final int value)
-        {
+        ArrowDirection(final int value) {
             this.text = String.valueOf((char) value);
         }
 
-        public String getText()
-        {
+        public String getText() {
             return this.text;
         }
     }
 
-    public static JButton createHTMLTextButton()
-    {
+    public static JButton createHTMLTextButton() {
         return createHTMLTextButton(Color.BLUE);
     }
 
-    public static JButton createHTMLTextButton(final Color rolloverColor)
-    {
+    public static JButton createHTMLTextButton(final Color rolloverColor) {
         JButton button = new JButton();
 
         decorateToHTMLButton(button, rolloverColor);
@@ -56,16 +50,14 @@ public final class ButtonFactory
         return button;
     }
 
-    public static JButton createMoveToolBarButton16x16(final ArrowDirection direction)
-    {
+    public static JButton createMoveToolBarButton16x16(final ArrowDirection direction) {
         JButton button = createToolbarButton16x16();
         decorateMoveButton(button, direction, 15);
 
         return button;
     }
 
-    public static JButton createToolbarButton(final int size)
-    {
+    public static JButton createToolbarButton(final int size) {
         JButton button = new JButton();
 
         button.setBorder(BorderFactory.createEmptyBorder());
@@ -82,19 +74,16 @@ public final class ButtonFactory
         return button;
     }
 
-    public static JButton createToolbarButton16x16()
-    {
+    public static JButton createToolbarButton16x16() {
         return createToolbarButton(16);
     }
 
-    public static void decorateMoveButton(final JButton button, final ArrowDirection direction, final int fontSize)
-    {
+    public static void decorateMoveButton(final JButton button, final ArrowDirection direction, final int fontSize) {
         button.setFont(FontUtils.getSymbolFont().deriveFont(Font.PLAIN, fontSize));
         button.setText(direction.getText());
     }
 
-    public static void decorateToHTMLButton(final JButton button, final Color rolloverColor)
-    {
+    public static void decorateToHTMLButton(final JButton button, final Color rolloverColor) {
         button.setUI(new HTMLTextButtonUI(rolloverColor));
         button.setBorderPainted(false);
         button.setBorder(null);
@@ -106,8 +95,7 @@ public final class ButtonFactory
         button.setOpaque(false);
     }
 
-    private ButtonFactory()
-    {
+    private ButtonFactory() {
         super();
     }
 }

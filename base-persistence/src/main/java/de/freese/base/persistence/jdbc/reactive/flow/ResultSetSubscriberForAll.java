@@ -16,14 +16,12 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class ResultSetSubscriberForAll<T> implements Subscriber<T>
-{
+public class ResultSetSubscriberForAll<T> implements Subscriber<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForAll.class);
 
     private final Consumer<T> consumer;
 
-    public ResultSetSubscriberForAll(final Consumer<T> consumer)
-    {
+    public ResultSetSubscriberForAll(final Consumer<T> consumer) {
         super();
 
         this.consumer = Objects.requireNonNull(consumer, "consumer required");
@@ -33,8 +31,7 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T>
      * @see java.util.concurrent.Flow.Subscriber#onComplete()
      */
     @Override
-    public void onComplete()
-    {
+    public void onComplete() {
         LOGGER.debug("onComplete");
     }
 
@@ -42,8 +39,7 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T>
      * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
      */
     @Override
-    public void onError(final Throwable throwable)
-    {
+    public void onError(final Throwable throwable) {
         LOGGER.error(throwable.getMessage(), throwable);
 
         // Wird bereits in der ResultSetSubscription verarbeitet.
@@ -54,8 +50,7 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T>
      * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onNext(java.lang.Object)
      */
     @Override
-    public void onNext(final T item)
-    {
+    public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
 
         this.consumer.accept(item);
@@ -65,8 +60,7 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T>
      * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onSubscribe(java.util.concurrent.Flow.Subscription)
      */
     @Override
-    public void onSubscribe(final Subscription subscription)
-    {
+    public void onSubscribe(final Subscription subscription) {
         // Alle Elemente anfordern, Gefahr durch OutOfMemory.
         subscription.request(Long.MAX_VALUE);
     }

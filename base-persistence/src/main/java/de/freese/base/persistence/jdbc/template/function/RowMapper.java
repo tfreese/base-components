@@ -12,7 +12,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface RowMapper<R>
-{
+public interface RowMapper<R> {
     R mapRow(ResultSet resultSet) throws SQLException;
 }

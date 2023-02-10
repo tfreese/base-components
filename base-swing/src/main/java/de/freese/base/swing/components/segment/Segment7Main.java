@@ -7,10 +7,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class Segment7Main
-{
-    public static void main(final String[] args)
-    {
+public final class Segment7Main {
+    public static void main(final String[] args) {
         Segment7 seg = new Segment7();
 
         JFrame frame = new JFrame();
@@ -22,8 +20,7 @@ public final class Segment7Main
         frame.setVisible(true);
     }
 
-    private Segment7Main()
-    {
+    private Segment7Main() {
         super();
     }
 }

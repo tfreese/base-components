@@ -17,8 +17,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  *
  * @author Thomas Freese
  */
-public final class MdiDesktopPane extends JDesktopPane
-{
+public final class MdiDesktopPane extends JDesktopPane {
     private static final int FRAME_OFFSET = 20;
 
     @Serial
@@ -26,8 +25,7 @@ public final class MdiDesktopPane extends JDesktopPane
 
     private final MdiDesktopManager manager;
 
-    public MdiDesktopPane()
-    {
+    public MdiDesktopPane() {
         super();
 
         this.manager = new MdiDesktopManager(this);
@@ -35,8 +33,7 @@ public final class MdiDesktopPane extends JDesktopPane
         setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
     }
 
-    public void cascadeFrames()
-    {
+    public void cascadeFrames() {
         cascadeFrames(100, getTitleHeight());
     }
 
@@ -100,19 +97,15 @@ public final class MdiDesktopPane extends JDesktopPane
     // return retVal;
     // }
 
-    public int getTitleHeight()
-    {
-        try
-        {
-            for (JInternalFrame frame : getAllFrames())
-            {
+    public int getTitleHeight() {
+        try {
+            for (JInternalFrame frame : getAllFrames()) {
                 Dimension dimension = ((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
 
                 return dimension.height;
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
 
@@ -123,8 +116,7 @@ public final class MdiDesktopPane extends JDesktopPane
      * @see java.awt.Container#remove(java.awt.Component)
      */
     @Override
-    public void remove(final Component comp)
-    {
+    public void remove(final Component comp) {
         super.remove(comp);
 
         checkDesktopSize();
@@ -133,8 +125,7 @@ public final class MdiDesktopPane extends JDesktopPane
     /**
      * Sets all component size properties ( maximum, minimum, preferred) to the given dimension.
      */
-    public void setAllSize(final Dimension d)
-    {
+    public void setAllSize(final Dimension d) {
         setMinimumSize(d);
         setMaximumSize(d);
         setPreferredSize(d);
@@ -143,8 +134,7 @@ public final class MdiDesktopPane extends JDesktopPane
     /**
      * Sets all component size properties ( maximum, minimum, preferred) to the given width and height.
      */
-    public void setAllSize(final int width, final int height)
-    {
+    public void setAllSize(final int width, final int height) {
         setAllSize(new Dimension(width, height));
     }
 
@@ -152,8 +142,7 @@ public final class MdiDesktopPane extends JDesktopPane
      * @see java.awt.Component#setBounds(int, int, int, int)
      */
     @Override
-    public void setBounds(final int x, final int y, final int width, final int height)
-    {
+    public void setBounds(final int x, final int y, final int width, final int height) {
         super.setBounds(x, y, width, height);
 
         checkDesktopSize();
@@ -162,24 +151,21 @@ public final class MdiDesktopPane extends JDesktopPane
     /**
      * Tile all internal frames in flat style.
      */
-    public void tileFrames()
-    {
+    public void tileFrames() {
         tileFrames(100, getTitleHeight());
     }
 
     /**
      * Tile all internal frames in flat style.
      */
-    public void tileFramesFlat()
-    {
+    public void tileFramesFlat() {
         tileFramesFlat(getTitleHeight());
     }
 
     /**
      * Cascade all internal frames.
      */
-    private void cascadeFrames(final int minWidth, final int minHeight)
-    {
+    private void cascadeFrames(final int minWidth, final int minHeight) {
         JInternalFrame[] allFrames = getAllFrames();
         int x = 0;
         int y = 0;
@@ -191,8 +177,7 @@ public final class MdiDesktopPane extends JDesktopPane
         frameHeight = Math.max(frameHeight, minHeight);
         frameWidth = Math.max(frameWidth, minWidth);
 
-        for (int i = allFrames.length - 1; i >= 0; i--)
-        {
+        for (int i = allFrames.length - 1; i >= 0; i--) {
             allFrames[i].setSize(frameWidth, frameHeight);
             allFrames[i].setLocation(x, y);
             x = x + FRAME_OFFSET;
@@ -202,10 +187,8 @@ public final class MdiDesktopPane extends JDesktopPane
         checkDesktopSize();
     }
 
-    private void checkDesktopSize()
-    {
-        if ((getParent() != null) && isVisible())
-        {
+    private void checkDesktopSize() {
+        if ((getParent() != null) && isVisible()) {
             this.manager.resizeDesktop();
         }
     }
@@ -213,18 +196,15 @@ public final class MdiDesktopPane extends JDesktopPane
     /**
      * Tile all internal frames.
      */
-    private void tileFrames(final int minWidth, final int minHeight)
-    {
+    private void tileFrames(final int minWidth, final int minHeight) {
         JInternalFrame[] allFrames = getAllFrames();
         this.manager.setNormalSize();
 
         // count frames that aren't iconized
         int frameCount = 0;
 
-        for (JInternalFrame frame : allFrames)
-        {
-            if (!frame.isIcon())
-            {
+        for (JInternalFrame frame : allFrames) {
+            if (!frame.isIcon()) {
                 frameCount++;
             }
         }
@@ -241,30 +221,24 @@ public final class MdiDesktopPane extends JDesktopPane
         int r = 0;
         int c = 0;
 
-        for (JInternalFrame frame : allFrames)
-        {
-            if (!frame.isIcon())
-            {
-                try
-                {
+        for (JInternalFrame frame : allFrames) {
+            if (!frame.isIcon()) {
+                try {
                     frame.setMaximum(false);
                     frame.reshape(c * width, r * height, width, height);
                     r++;
 
-                    if (r == rows)
-                    {
+                    if (r == rows) {
                         r = 0;
                         c++;
 
-                        if (c == (cols - extra))
-                        { // start adding an extra row
+                        if (c == (cols - extra)) { // start adding an extra row
                             rows++;
                             height = getHeight() / rows;
                         }
                     }
                 }
-                catch (PropertyVetoException ex)
-                {
+                catch (PropertyVetoException ex) {
                     // Ignore
                 }
             }
@@ -276,8 +250,7 @@ public final class MdiDesktopPane extends JDesktopPane
     /**
      * Tile all internal frames in flat style.
      */
-    private void tileFramesFlat(final int minHeight)
-    {
+    private void tileFramesFlat(final int minHeight) {
         JInternalFrame[] allFrames = getAllFrames();
         this.manager.setNormalSize();
         int y = 0;
@@ -285,8 +258,7 @@ public final class MdiDesktopPane extends JDesktopPane
         int frameHeight = getHeight() / allFrames.length;
         frameHeight = Math.max(frameHeight, minHeight);
 
-        for (JInternalFrame allFrame : allFrames)
-        {
+        for (JInternalFrame allFrame : allFrames) {
             allFrame.setSize(getWidth(), frameHeight);
             allFrame.setLocation(0, y);
             y = y + frameHeight;

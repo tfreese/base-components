@@ -36,32 +36,27 @@ import javax.net.ssl.TrustManager;
  * @author Norman Maurer <norman@apache.org>
  * @author Thomas Freese
  */
-public final class BogusSSLContextFactory
-{
+public final class BogusSSLContextFactory {
     private static final SSLContext CLIENT_CONTEXT;
 
     private static final String PROTOCOL = "TLSv3";
 
     private static final SSLContext SERVER_CONTEXT;
 
-    static
-    {
+    static {
         String algorithm = Security.getProperty("ssl.KeyManagerFactory.algorithm");
 
-        if (algorithm == null)
-        {
+        if (algorithm == null) {
             algorithm = "SunX509";
         }
 
         SSLContext serverContext = null;
         SSLContext clientContext = null;
 
-        try
-        {
+        try {
             KeyStore ks = KeyStore.getInstance("JKS");
 
-            try (InputStream inputStream = BogusSSLKeyStore.asInputStream())
-            {
+            try (InputStream inputStream = BogusSSLKeyStore.asInputStream()) {
                 ks.load(inputStream, BogusSSLKeyStore.getKeyStorePassword());
             }
 
@@ -73,38 +68,32 @@ public final class BogusSSLContextFactory
             serverContext = SSLContext.getInstance(PROTOCOL);
             serverContext.init(kmf.getKeyManagers(), null, null);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new Error("Failed to initialize the server-side SSLContext", ex);
         }
 
         SERVER_CONTEXT = serverContext;
 
-        try
-        {
+        try {
             clientContext = SSLContext.getInstance(PROTOCOL);
             clientContext.init(null, BogusSSLTrustManagerFactory.getTrustManagers(), null);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new Error("Failed to initialize the client-side SSLContext", ex);
         }
 
         CLIENT_CONTEXT = clientContext;
     }
 
-    public static SSLContext getClientContext()
-    {
+    public static SSLContext getClientContext() {
         return CLIENT_CONTEXT;
     }
 
-    public static SSLContext getServerContext()
-    {
+    public static SSLContext getServerContext() {
         return SERVER_CONTEXT;
     }
 
-    private BogusSSLContextFactory()
-    {
+    private BogusSSLContextFactory() {
         super();
     }
 }

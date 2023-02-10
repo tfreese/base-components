@@ -16,8 +16,7 @@ import de.freese.base.swing.components.graph.painter.AbstractGraphPainter;
 /**
  * @author Thomas Freese
  */
-public class MemoryGraphPainter extends AbstractGraphPainter
-{
+public class MemoryGraphPainter extends AbstractGraphPainter {
     private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
 
     private final Line2D line2d = new Line2D.Float();
@@ -30,15 +29,13 @@ public class MemoryGraphPainter extends AbstractGraphPainter
 
     private float columnOffset;
 
-    public MemoryGraphPainter()
-    {
+    public MemoryGraphPainter() {
         super();
 
         this.runtime = Runtime.getRuntime();
     }
 
-    public void generateValue()
-    {
+    public void generateValue() {
         float freeMemory = getFreeMemory();
         float totalMemory = getTotalMemory();
 
@@ -52,8 +49,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter
      * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
      */
     @Override
-    public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
-    {
+    public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
         FontMetrics fm = g.getFontMetrics(FONT);
         int ascent = fm.getAscent();
         int descent = fm.getDescent();
@@ -82,16 +78,14 @@ public class MemoryGraphPainter extends AbstractGraphPainter
 
         g.setColor(new Color(0, 100, 0));
 
-        for (int i = 0; i < memUsage; i++)
-        {
+        for (int i = 0; i < memUsage; i++) {
             this.rectangle2d.setRect(xOffset, fontHeight + (i * blockHeight), blockWidth, blockHeight - 1.0F);
             g.fill(this.rectangle2d);
         }
 
         g.setColor(Color.GREEN);
 
-        for (int i = memUsage; i < 10; i++)
-        {
+        for (int i = memUsage; i < 10; i++) {
             this.rectangle2d.setRect(xOffset, fontHeight + (i * blockHeight), blockWidth, blockHeight - 1.0F);
             g.fill(this.rectangle2d);
         }
@@ -127,28 +121,23 @@ public class MemoryGraphPainter extends AbstractGraphPainter
      * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
      */
     @Override
-    protected float getYKoordinate(final float value, final float height)
-    {
+    protected float getYKoordinate(final float value, final float height) {
         // Prozent-Wert umrechnen.
         return value * height;
     }
 
-    private float getFreeMemory()
-    {
+    private float getFreeMemory() {
         return this.runtime.freeMemory();
     }
 
-    private float getTotalMemory()
-    {
+    private float getTotalMemory() {
         return this.runtime.totalMemory();
     }
 
-    private void paintPlot(final Graphics2D g, final float width, final float height)
-    {
+    private void paintPlot(final Graphics2D g, final float width, final float height) {
         List<Float> values = getValues().getLastValues((int) width);
 
-        if (values.isEmpty())
-        {
+        if (values.isEmpty()) {
             return;
         }
 
@@ -157,8 +146,7 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
         // float xOffset = 0; // Diagramm von links aufbauen.
 
-        for (int i = 0; i < values.size(); i++)
-        {
+        for (int i = 0; i < values.size(); i++) {
             float value = values.get(i);
 
             float x = getXKoordinate(value, i, width);
@@ -174,26 +162,22 @@ public class MemoryGraphPainter extends AbstractGraphPainter
         // g.draw(this.rectangle2d);
     }
 
-    private void paintRaster(final Graphics2D g, final float width, final float height)
-    {
+    private void paintRaster(final Graphics2D g, final float width, final float height) {
         g.setColor(this.rasterColor);
 
         float rowHeight = height / 10F;
         float columnWidth = width / 15F;
 
-        for (int row = 1; row < 10; row++)
-        {
+        for (int row = 1; row < 10; row++) {
             this.line2d.setLine(0, row * rowHeight, width, row * rowHeight);
             g.draw(this.line2d);
         }
 
-        if (this.columnOffset <= 0.0F)
-        {
+        if (this.columnOffset <= 0.0F) {
             this.columnOffset = columnWidth;
         }
 
-        for (float x = this.columnOffset; x <= width; x += columnWidth)
-        {
+        for (float x = this.columnOffset; x <= width; x += columnWidth) {
             this.line2d.setLine(x, 0, x, height);
             g.draw(this.line2d);
         }

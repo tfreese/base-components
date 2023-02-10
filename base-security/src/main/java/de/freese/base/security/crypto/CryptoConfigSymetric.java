@@ -11,8 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author Thomas Freese
  */
-public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
-{
+public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric> {
     /**
      * 64bit
      */
@@ -51,8 +50,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
 
     private byte[] keyBytes;
 
-    CryptoConfigSymetric()
-    {
+    CryptoConfigSymetric() {
         super();
     }
 
@@ -60,19 +58,16 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
      * @see de.freese.base.security.crypto.CryptoConfig#build()
      */
     @Override
-    public Crypto build() throws Exception
-    {
+    public Crypto build() throws Exception {
         CryptoSymetric crypto = new CryptoSymetric(this);
 
         // Key
         Key theKey = null;
 
-        if (getKey() != null)
-        {
+        if (getKey() != null) {
             theKey = getKey();
         }
-        else if ((getKeyBytes() != null) && (getKeyBytes().length > 0))
-        {
+        else if ((getKeyBytes() != null) && (getKeyBytes().length > 0)) {
             theKey = new SecretKeySpec(getKeyBytes(), getAlgorithmKeyGenerator());
         }
         // else if ((getKeyPassword() != null) && (getKeyPassword().length() > 0))
@@ -89,15 +84,13 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         // theKey = new SecretKeySpec(getKeyPassword().getBytes(StandardCharsets.UTF_8), getAlgorithmKeyGenerator());
         // }
         // }
-        else if (getKeySize() > 0)
-        {
+        else if (getKeySize() > 0) {
             KeyGenerator keyGenerator = KeyGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
             keyGenerator.init(getKeySize(), crypto.getSecureRandom());
 
             theKey = keyGenerator.generateKey();
         }
-        else
-        {
+        else {
             throw new IllegalStateException("at least one the key parameter must be set: key, keyBytes, keyPassword, keySize");
         }
 
@@ -106,39 +99,33 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric>
         return crypto;
     }
 
-    public CryptoConfigSymetric initVector(final byte[] initVector)
-    {
+    public CryptoConfigSymetric initVector(final byte[] initVector) {
         this.initVector = initVector;
 
         return this;
     }
 
-    public CryptoConfigSymetric key(final Key key)
-    {
+    public CryptoConfigSymetric key(final Key key) {
         this.key = key;
 
         return this;
     }
 
-    public CryptoConfigSymetric keyBytes(final byte[] keyBytes)
-    {
+    public CryptoConfigSymetric keyBytes(final byte[] keyBytes) {
         this.keyBytes = keyBytes;
 
         return this;
     }
 
-    protected byte[] getInitVector()
-    {
+    protected byte[] getInitVector() {
         return this.initVector;
     }
 
-    protected Key getKey()
-    {
+    protected Key getKey() {
         return this.key;
     }
 
-    protected byte[] getKeyBytes()
-    {
+    protected byte[] getKeyBytes() {
         return this.keyBytes;
     }
 }

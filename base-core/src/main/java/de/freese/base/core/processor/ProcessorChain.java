@@ -12,13 +12,11 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public final class ProcessorChain<C> implements Processor<C>
-{
+public final class ProcessorChain<C> implements Processor<C> {
     private final List<Processor<C>> processors = new LinkedList<>();
     private boolean enabled = true;
 
-    public void addProcessor(final Processor<C> processor)
-    {
+    public void addProcessor(final Processor<C> processor) {
         Objects.requireNonNull(processor, "processor required");
 
         this.processors.add(processor);
@@ -28,17 +26,13 @@ public final class ProcessorChain<C> implements Processor<C>
      * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
      */
     @Override
-    public void execute(final C context) throws Exception
-    {
-        if (!isEnabled())
-        {
+    public void execute(final C context) throws Exception {
+        if (!isEnabled()) {
             return;
         }
 
-        for (Processor<C> processor : this.processors)
-        {
-            if (!processor.isEnabled())
-            {
+        for (Processor<C> processor : this.processors) {
+            if (!processor.isEnabled()) {
                 continue;
             }
 
@@ -46,8 +40,7 @@ public final class ProcessorChain<C> implements Processor<C>
         }
     }
 
-    public Processor<C> getProcessorAt(final int index)
-    {
+    public Processor<C> getProcessorAt(final int index) {
         return this.processors.get(index);
     }
 
@@ -56,13 +49,11 @@ public final class ProcessorChain<C> implements Processor<C>
      *
      * @return int
      */
-    public int getSize()
-    {
+    public int getSize() {
         return this.processors.size();
     }
 
-    public int indexOf(final Processor<C> processor)
-    {
+    public int indexOf(final Processor<C> processor) {
         return this.processors.indexOf(processor);
     }
 
@@ -70,16 +61,14 @@ public final class ProcessorChain<C> implements Processor<C>
      * @see de.freese.base.core.processor.Processor#isEnabled()
      */
     @Override
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return this.enabled;
     }
 
     /**
      * @return boolean, true, wenn {@link Processor} in der Chain enthalten war
      */
-    public boolean removeProcessor(final Processor<C> processor)
-    {
+    public boolean removeProcessor(final Processor<C> processor) {
         return this.processors.remove(processor);
     }
 
@@ -87,8 +76,7 @@ public final class ProcessorChain<C> implements Processor<C>
      * @see de.freese.base.core.processor.Processor#setEnabled(boolean)
      */
     @Override
-    public void setEnabled(final boolean enabled)
-    {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 }

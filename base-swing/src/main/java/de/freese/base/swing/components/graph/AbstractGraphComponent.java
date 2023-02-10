@@ -19,8 +19,7 @@ import javax.swing.SwingUtilities;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractGraphComponent extends Component
-{
+public abstract class AbstractGraphComponent extends Component {
     @Serial
     private static final long serialVersionUID = -7006824316195250962L;
 
@@ -32,8 +31,7 @@ public abstract class AbstractGraphComponent extends Component
 
     private boolean useBufferedImage;
 
-    protected AbstractGraphComponent(final Painter<Component> painter)
-    {
+    protected AbstractGraphComponent(final Painter<Component> painter) {
         super();
 
         this.painter = Objects.requireNonNull(painter, "painter required");
@@ -41,8 +39,7 @@ public abstract class AbstractGraphComponent extends Component
         init();
     }
 
-    public boolean isUseBufferedImage()
-    {
+    public boolean isUseBufferedImage() {
         return this.useBufferedImage;
     }
 
@@ -50,18 +47,15 @@ public abstract class AbstractGraphComponent extends Component
      * Nur verwenden, wenn Klasse von Component vererbt !!!
      */
     @Override
-    public void paint(final Graphics g)
-    {
+    public void paint(final Graphics g) {
         // super.paint(g);
 
-        if (isUseBufferedImage() && (getBufferedImage() != null))
-        {
+        if (isUseBufferedImage() && (getBufferedImage() != null)) {
             getPainter().paint(getBufferedImageGraphics2d(), this, getWidth(), getHeight());
 
             g.drawImage(getBufferedImage(), 0, 0, this);
         }
-        else
-        {
+        else {
             Graphics2D g2d = (Graphics2D) g;
 
             getPainter().paint(g2d, this, getWidth(), getHeight());
@@ -71,69 +65,56 @@ public abstract class AbstractGraphComponent extends Component
     /**
      * Führt den Repaint immer im EDT aus.
      */
-    public void paintGraph()
-    {
+    public void paintGraph() {
         // ((AbstractGraphPainter) getPainter()).generateValue(getWidth());
 
-        if (SwingUtilities.isEventDispatchThread())
-        {
+        if (SwingUtilities.isEventDispatchThread()) {
             repaint();
         }
-        else
-        {
+        else {
             SwingUtilities.invokeLater(this::repaint);
         }
     }
 
-    public void useBufferedImage(final boolean useBufferedImage)
-    {
+    public void useBufferedImage(final boolean useBufferedImage) {
         this.useBufferedImage = useBufferedImage;
     }
 
-    protected BufferedImage getBufferedImage()
-    {
+    protected BufferedImage getBufferedImage() {
         return this.bufferedImage;
     }
 
-    protected Graphics2D getBufferedImageGraphics2d()
-    {
+    protected Graphics2D getBufferedImageGraphics2d() {
         return this.bufferedImageGraphics2d;
     }
 
-    protected Painter<Component> getPainter()
-    {
+    protected Painter<Component> getPainter() {
         return this.painter;
     }
 
-    protected void init()
-    {
-        addMouseListener(new MouseAdapter()
-        {
+    protected void init() {
+        addMouseListener(new MouseAdapter() {
             /**
              * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
              */
             @Override
-            public void mouseClicked(final MouseEvent event)
-            {
+            public void mouseClicked(final MouseEvent event) {
                 onMouseClicked(event);
             }
         });
 
-        addComponentListener(new ComponentAdapter()
-        {
+        addComponentListener(new ComponentAdapter() {
             /**
              * @see java.awt.event.ComponentAdapter#componentResized(java.awt.event.ComponentEvent)
              */
             @Override
-            public void componentResized(final ComponentEvent event)
-            {
+            public void componentResized(final ComponentEvent event) {
                 onComponentResized(event);
             }
         });
     }
 
-    protected void onComponentResized(final ComponentEvent event)
-    {
+    protected void onComponentResized(final ComponentEvent event) {
         // this.bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
         this.bufferedImage = getGraphicsConfiguration().createCompatibleImage(getWidth(), getHeight(), Transparency.TRANSLUCENT);
         // this.bufferedImage = (BufferedImage) createImage(getWidth(), getHeight());
@@ -165,8 +146,7 @@ public abstract class AbstractGraphComponent extends Component
     // }
     // }
 
-    protected void onMouseClicked(final MouseEvent event)
-    {
+    protected void onMouseClicked(final MouseEvent event) {
         // Empty
     }
 }

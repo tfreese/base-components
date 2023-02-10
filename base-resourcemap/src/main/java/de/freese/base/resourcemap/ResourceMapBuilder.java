@@ -39,10 +39,8 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
  *
  * @author Thomas Freese
  */
-public final class ResourceMapBuilder
-{
-    public static ResourceMapBuilder create()
-    {
+public final class ResourceMapBuilder {
+    public static ResourceMapBuilder create() {
         return new ResourceMapBuilder(null);
     }
 
@@ -58,31 +56,26 @@ public final class ResourceMapBuilder
 
     private ResourceProvider resourceProvider;
 
-    private ResourceMapBuilder(final ResourceMapBuilder parentBuilder)
-    {
+    private ResourceMapBuilder(final ResourceMapBuilder parentBuilder) {
         super();
 
         this.parentBuilder = parentBuilder;
     }
 
-    public ResourceMapBuilder addChild()
-    {
+    public ResourceMapBuilder addChild() {
         return new ResourceMapBuilder(this);
     }
 
-    public ResourceMap build()
-    {
+    public ResourceMap build() {
         Objects.requireNonNull(this.bundleName, "bundleName required");
 
-        if (this.bundleName.length() == 0)
-        {
+        if (this.bundleName.length() == 0) {
             throw new IllegalArgumentException("bundleName is empty");
         }
 
         ResourceConverters resourceConverters = ResourceConverters.ofDefaults();
 
-        if (converters != null && !converters.isEmpty())
-        {
+        if (converters != null && !converters.isEmpty()) {
             resourceConverters.customize(map -> map.putAll(converters));
         }
 
@@ -91,8 +84,7 @@ public final class ResourceMapBuilder
         resourceMap.setResourceCache(this.resourceCache != null ? this.resourceCache : new SingleResourceCache());
         resourceMap.setResourceConverters(resourceConverters);
 
-        for (ResourceMapBuilder childBuilder : this.childBuilders)
-        {
+        for (ResourceMapBuilder childBuilder : this.childBuilders) {
             ResourceMap child = childBuilder.build();
 
             resourceMap.addChild((DefaultResourceMap) child);
@@ -102,40 +94,34 @@ public final class ResourceMapBuilder
         return resourceMap;
     }
 
-    public ResourceMap buildAndLoad(final Locale locale)
-    {
+    public ResourceMap buildAndLoad(final Locale locale) {
         ResourceMap resourceMap = build();
         resourceMap.load(locale);
 
         return resourceMap;
     }
 
-    public ResourceMapBuilder bundleName(final String bundleName)
-    {
+    public ResourceMapBuilder bundleName(final String bundleName) {
         this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
 
         return this;
     }
 
-    public ResourceMapBuilder cache(final ResourceCache resourceCache)
-    {
+    public ResourceMapBuilder cache(final ResourceCache resourceCache) {
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
 
         return this;
     }
 
-    public ResourceMapBuilder cacheDisabled()
-    {
+    public ResourceMapBuilder cacheDisabled() {
         return cache(NoOpResourceCache.getInstance());
     }
 
-    public ResourceMapBuilder converter(final Class<?> type, final ResourceConverter<?> converter)
-    {
+    public ResourceMapBuilder converter(final Class<?> type, final ResourceConverter<?> converter) {
         Objects.requireNonNull(type, "type required");
         Objects.requireNonNull(converter, "converter required");
 
-        if (this.converters == null)
-        {
+        if (this.converters == null) {
             this.converters = new HashMap<>();
         }
 
@@ -147,23 +133,20 @@ public final class ResourceMapBuilder
     /**
      * Child-Builder ends.
      */
-    public ResourceMapBuilder done()
-    {
+    public ResourceMapBuilder done() {
         return this.parentBuilder.addChild(this);
     }
 
     /**
      * Optional for Children: Default = parent#getResourceProvider
      */
-    public ResourceMapBuilder resourceProvider(final ResourceProvider resourceProvider)
-    {
+    public ResourceMapBuilder resourceProvider(final ResourceProvider resourceProvider) {
         this.resourceProvider = Objects.requireNonNull(resourceProvider, "resourceProvider required");
 
         return this;
     }
 
-    private ResourceMapBuilder addChild(final ResourceMapBuilder childBuilder)
-    {
+    private ResourceMapBuilder addChild(final ResourceMapBuilder childBuilder) {
         this.childBuilders.add(childBuilder);
 
         return this;

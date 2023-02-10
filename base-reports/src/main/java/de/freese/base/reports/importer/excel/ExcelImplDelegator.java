@@ -6,28 +6,26 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.freese.base.core.exception.StackTraceLimiter;
 import org.apache.commons.io.input.ProxyInputStream;
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.core.exception.StackTraceLimiter;
 
 /**
  * Wenn beim Öffnen der Datei mit POI was schiefläuft, wirds mit JExcel versucht.
  *
  * @author Thomas Freese
  */
-public class ExcelImplDelegator implements ExcelImport
-{
+public class ExcelImplDelegator implements ExcelImport {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExcelImplDelegator.class);
 
     /**
      * @author Thomas Freese
      */
-    private static class NotClosingInputStream extends ProxyInputStream
-    {
-        NotClosingInputStream(final InputStream proxy)
-        {
+    private static class NotClosingInputStream extends ProxyInputStream {
+        NotClosingInputStream(final InputStream proxy) {
             super(proxy);
         }
 
@@ -35,18 +33,15 @@ public class ExcelImplDelegator implements ExcelImport
          * @see org.apache.commons.io.input.ProxyInputStream#close()
          */
         @Override
-        public void close() throws IOException
-        {
+        public void close() throws IOException {
             // POI schliesst den InputStream auch beim fehlerhaften lesen.
             // super.close();
-            this.in = new InputStream()
-            {
+            this.in = new InputStream() {
                 /**
                  * @see java.io.InputStream#read()
                  */
                 @Override
-                public int read() throws IOException
-                {
+                public int read() throws IOException {
                     return -1;
                 }
             };
@@ -63,8 +58,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#closeExcelFile()
      */
     @Override
-    public void closeExcelFile() throws Exception
-    {
+    public void closeExcelFile() throws Exception {
         this.excelImpl.closeExcelFile();
         this.excelImpl = null;
 
@@ -76,8 +70,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#closeSheet()
      */
     @Override
-    public void closeSheet()
-    {
+    public void closeSheet() {
         this.excelImpl.closeSheet();
     }
 
@@ -85,8 +78,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#getNumColumns()
      */
     @Override
-    public int getNumColumns()
-    {
+    public int getNumColumns() {
         return this.excelImpl.getNumColumns();
     }
 
@@ -94,8 +86,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#getNumRows()
      */
     @Override
-    public int getNumRows()
-    {
+    public int getNumRows() {
         return this.excelImpl.getNumRows();
     }
 
@@ -103,8 +94,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#getNumberOfSheets()
      */
     @Override
-    public int getNumberOfSheets()
-    {
+    public int getNumberOfSheets() {
         return this.excelImpl.getNumberOfSheets();
     }
 
@@ -112,8 +102,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#getSheetName()
      */
     @Override
-    public String getSheetName()
-    {
+    public String getSheetName() {
         return this.excelImpl.getSheetName();
     }
 
@@ -121,18 +110,14 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#getValueAt(int, int)
      */
     @Override
-    public String getValueAt(final int row, final int column) throws ExcelException
-    {
-        try
-        {
+    public String getValueAt(final int row, final int column) throws ExcelException {
+        try {
             return this.excelImpl.getValueAt(row, column);
         }
-        catch (ExcelException ex)
-        {
+        catch (ExcelException ex) {
             throw ex;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new ExcelException(this.excelImpl.getSheetName(), row, column, ex);
         }
     }
@@ -141,8 +126,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#isSheetReadable()
      */
     @Override
-    public boolean isSheetReadable()
-    {
+    public boolean isSheetReadable() {
         return this.excelImpl.isSheetReadable();
     }
 
@@ -150,10 +134,8 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#openExcelFile(java.io.InputStream)
      */
     @Override
-    public void openExcelFile(InputStream inputStream) throws Exception
-    {
-        if (!(inputStream instanceof BufferedInputStream))
-        {
+    public void openExcelFile(InputStream inputStream) throws Exception {
+        if (!(inputStream instanceof BufferedInputStream)) {
             inputStream = new BufferedInputStream(inputStream);
         }
 
@@ -165,10 +147,8 @@ public class ExcelImplDelegator implements ExcelImport
         boolean open = false;
         inputStream.mark(Integer.MAX_VALUE);
 
-        if (!open)
-        {
-            try
-            {
+        if (!open) {
+            try {
                 // Versuchen mit POI (XLSX) zu öffnen.
                 lastException = null;
                 inputStream.reset();
@@ -177,20 +157,16 @@ public class ExcelImplDelegator implements ExcelImport
                 this.excelImpl.openExcelFile(is);
                 open = true;
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 lastException = ex;
             }
-            finally
-            {
+            finally {
                 IOUtils.closeQuietly(is);
             }
         }
 
-        if (!open)
-        {
-            try
-            {
+        if (!open) {
+            try {
                 // Versuchen mit POI (XLS) zu öffnen.
                 lastException = null;
                 inputStream.reset();
@@ -199,25 +175,21 @@ public class ExcelImplDelegator implements ExcelImport
                 this.excelImpl.openExcelFile(is);
                 open = true;
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 lastException = ex;
             }
-            finally
-            {
+            finally {
                 IOUtils.closeQuietly(is);
             }
         }
 
         is = null;
 
-        if (lastException != null)
-        {
+        if (lastException != null) {
             StringBuilder sb = new StringBuilder();
             StackTraceLimiter.printStackTrace(lastException, 4, sb);
 
-            if (LOGGER.isWarnEnabled())
-            {
+            if (LOGGER.isWarnEnabled()) {
                 LOGGER.warn(sb.toString());
             }
 
@@ -231,8 +203,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#openExcelFile(java.lang.String)
      */
     @Override
-    public void openExcelFile(final String fileName) throws Exception
-    {
+    public void openExcelFile(final String fileName) throws Exception {
         this.inputStream = new BufferedInputStream(new FileInputStream(fileName));
         // this.inputStream = new FileInputStream(fileName);
 
@@ -243,8 +214,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#selectSheet(int)
      */
     @Override
-    public void selectSheet(final int sheetIndex) throws Exception
-    {
+    public void selectSheet(final int sheetIndex) throws Exception {
         this.excelImpl.selectSheet(sheetIndex);
     }
 
@@ -252,8 +222,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#selectSheet(java.lang.String)
      */
     @Override
-    public void selectSheet(final String sheetName) throws Exception
-    {
+    public void selectSheet(final String sheetName) throws Exception {
         this.excelImpl.selectSheet(sheetName);
     }
 
@@ -261,8 +230,7 @@ public class ExcelImplDelegator implements ExcelImport
      * @see ExcelImport#setThrowExcelException(boolean)
      */
     @Override
-    public void setThrowExcelException(final boolean value)
-    {
+    public void setThrowExcelException(final boolean value) {
         this.throwExcelException = value;
     }
 }

@@ -11,10 +11,8 @@ import java.nio.charset.CharsetEncoder;
  *
  * @author Thomas Freese
  */
-public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
-{
-    public static AutoExpandCharBuffer of(final int capacity)
-    {
+public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer> {
+    public static AutoExpandCharBuffer of(final int capacity) {
         CharBuffer charBuffer = CharBuffer.allocate(capacity);
 
         return new AutoExpandCharBuffer(charBuffer);
@@ -26,49 +24,41 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
      * return new AutoExpandCharBuffer(charBuffer);
      * </pre>
      */
-    AutoExpandCharBuffer(final CharBuffer buffer)
-    {
+    AutoExpandCharBuffer(final CharBuffer buffer) {
         super(buffer);
     }
 
-    public ByteBuffer encode(final CharsetEncoder encoder) throws CharacterCodingException
-    {
+    public ByteBuffer encode(final CharsetEncoder encoder) throws CharacterCodingException {
         return encoder.reset().encode(getBuffer());
     }
 
-    public char get()
-    {
+    public char get() {
         return getBuffer().get();
     }
 
-    public AutoExpandCharBuffer get(final char[] dst)
-    {
+    public AutoExpandCharBuffer get(final char[] dst) {
         getBuffer().get(dst);
 
         return this;
     }
 
-    public AutoExpandCharBuffer get(final char[] dst, final int offset, final int length)
-    {
+    public AutoExpandCharBuffer get(final char[] dst, final int offset, final int length) {
         getBuffer().get(dst, offset, length);
 
         return this;
     }
 
-    public char get(final int index)
-    {
+    public char get(final int index) {
         return getBuffer().get(index);
     }
 
-    public AutoExpandCharBuffer get(final int index, final char[] dst)
-    {
+    public AutoExpandCharBuffer get(final int index, final char[] dst) {
         getBuffer().get(index, dst);
 
         return this;
     }
 
-    public String getString(final int index, final int length)
-    {
+    public String getString(final int index, final int length) {
         char[] dst = new char[length];
 
         get(index, dst);
@@ -76,8 +66,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
         return String.valueOf(dst);
     }
 
-    public AutoExpandCharBuffer put(final char c)
-    {
+    public AutoExpandCharBuffer put(final char c) {
         autoExpand(1);
 
         getBuffer().put(c);
@@ -85,13 +74,11 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
         return this;
     }
 
-    public AutoExpandCharBuffer put(final CharSequence src)
-    {
+    public AutoExpandCharBuffer put(final CharSequence src) {
         return put(src, 0, src.length());
     }
 
-    public AutoExpandCharBuffer put(final CharSequence src, final int start, final int end)
-    {
+    public AutoExpandCharBuffer put(final CharSequence src, final int start, final int end) {
         autoExpand(end - start);
 
         getBuffer().put(src.toString(), start, end);
@@ -103,8 +90,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer>
      * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
      */
     @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
-    {
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity) {
         CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
 
         buffer.flip();

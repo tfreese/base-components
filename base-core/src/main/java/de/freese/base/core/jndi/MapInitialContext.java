@@ -19,10 +19,8 @@ import javax.naming.spi.NamingManager;
  *
  * @author Thomas Freese
  */
-public final class MapInitialContext extends InitialContext
-{
-    public static void init() throws NamingException
-    {
+public final class MapInitialContext extends InitialContext {
+    public static void init() throws NamingException {
         final InitialContext initialContext = new MapInitialContext();
 
         InitialContextFactory factory = environment -> initialContext;
@@ -34,40 +32,34 @@ public final class MapInitialContext extends InitialContext
 
     private final Map<String, Object> cache = new ConcurrentHashMap<>();
 
-    private MapInitialContext() throws NamingException
-    {
+    private MapInitialContext() throws NamingException {
         super();
     }
 
     @Override
-    public void bind(String key, Object value)
-    {
+    public void bind(String key, Object value) {
         cache.put(key, value);
     }
 
     @Override
-    public Object lookup(String key) throws NamingException
-    {
+    public Object lookup(String key) throws NamingException {
         return cache.get(key);
     }
 
     @Override
-    public void rebind(final String name, final Object obj) throws NamingException
-    {
+    public void rebind(final String name, final Object obj) throws NamingException {
         bind(name, obj);
     }
 
     @Override
-    public void rename(final String oldName, final String newName) throws NamingException
-    {
+    public void rename(final String oldName, final String newName) throws NamingException {
         Object value = lookup(oldName);
         unbind(oldName);
         bind(newName, value);
     }
 
     @Override
-    public void unbind(final String name) throws NamingException
-    {
+    public void unbind(final String name) throws NamingException {
         cache.remove(name);
     }
 }

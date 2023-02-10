@@ -14,20 +14,17 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "TextComponentGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TextComponentGuiState extends AbstractGuiState
-{
+public class TextComponentGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = 2574739641182232056L;
 
     private String text;
 
-    public TextComponentGuiState()
-    {
+    public TextComponentGuiState() {
         super((Class<?>) null);
     }
 
-    public String getText()
-    {
+    public String getText() {
         return this.text;
     }
 
@@ -35,18 +32,15 @@ public class TextComponentGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
+    public void restore(final Component component) {
         super.restore(component);
 
         JTextComponent textComponent = (JTextComponent) component;
 
-        try
-        {
+        try {
             textComponent.setText(getText());
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
     }
@@ -55,8 +49,7 @@ public class TextComponentGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         super.store(component);
 
         JTextComponent textComponent = (JTextComponent) component;
@@ -68,8 +61,7 @@ public class TextComponentGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#supportsType(java.lang.Class)
      */
     @Override
-    public boolean supportsType(final Class<?> type)
-    {
+    public boolean supportsType(final Class<?> type) {
         return JTextComponent.class.isAssignableFrom(type);
     }
 }

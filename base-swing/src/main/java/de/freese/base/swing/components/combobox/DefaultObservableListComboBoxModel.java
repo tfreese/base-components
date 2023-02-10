@@ -6,10 +6,8 @@ import javafx.collections.ObservableList;
 /**
  * @author Thomas Freese
  */
-public class DefaultObservableListComboBoxModel<T> extends AbstractObservableListComboBoxModel<T>
-{
-    public DefaultObservableListComboBoxModel(final ObservableList<T> list)
-    {
+public class DefaultObservableListComboBoxModel<T> extends AbstractObservableListComboBoxModel<T> {
+    public DefaultObservableListComboBoxModel(final ObservableList<T> list) {
         super(list);
     }
 }

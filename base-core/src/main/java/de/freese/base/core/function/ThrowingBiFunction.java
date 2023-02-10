@@ -16,10 +16,8 @@ import java.util.function.BiFunction;
  * @see java.util.function.BiFunction
  */
 @FunctionalInterface
-public interface ThrowingBiFunction<T, U, R, E extends Exception>
-{
-    default <V> ThrowingBiFunction<T, U, V, E> andThen(final ThrowingFunction<? super R, V, E> after)
-    {
+public interface ThrowingBiFunction<T, U, R, E extends Exception> {
+    default <V> ThrowingBiFunction<T, U, V, E> andThen(final ThrowingFunction<? super R, V, E> after) {
         Objects.requireNonNull(after);
 
         return (t, u) -> after.apply(apply(t, u));

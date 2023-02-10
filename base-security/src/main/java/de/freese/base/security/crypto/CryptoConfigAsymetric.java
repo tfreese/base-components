@@ -9,12 +9,10 @@ import java.security.KeyPairGenerator;
  *
  * @author Thomas Freese
  */
-public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
-{
+public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric> {
     private KeyPair keyPair;
 
-    CryptoConfigAsymetric()
-    {
+    CryptoConfigAsymetric() {
         super();
     }
 
@@ -22,26 +20,22 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
      * @see de.freese.base.security.crypto.CryptoConfig#build()
      */
     @Override
-    public Crypto build() throws Exception
-    {
+    public Crypto build() throws Exception {
         CryptoAsymetric crypto = new CryptoAsymetric(this);
 
         // Key
         KeyPair theKeyPair = null;
 
-        if (getKeyPair() != null)
-        {
+        if (getKeyPair() != null) {
             theKeyPair = getKeyPair();
         }
-        else if (getKeySize() > 0)
-        {
+        else if (getKeySize() > 0) {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
             keyPairGenerator.initialize(getKeySize(), crypto.getSecureRandom());
 
             theKeyPair = keyPairGenerator.generateKeyPair();
         }
-        else
-        {
+        else {
             throw new IllegalStateException("at least one the key parameter must be set: key, keyBytes, keyPassword, keySize");
         }
 
@@ -50,15 +44,13 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric>
         return crypto;
     }
 
-    public CryptoConfigAsymetric keyPair(final KeyPair keyPair)
-    {
+    public CryptoConfigAsymetric keyPair(final KeyPair keyPair) {
         this.keyPair = keyPair;
 
         return this;
     }
 
-    protected KeyPair getKeyPair()
-    {
+    protected KeyPair getKeyPair() {
         return this.keyPair;
     }
 }

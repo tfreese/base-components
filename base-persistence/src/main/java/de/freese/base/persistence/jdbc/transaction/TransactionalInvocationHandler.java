@@ -25,14 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Thomas Freese
  */
-public class TransactionalInvocationHandler implements InvocationHandler
-{
+public class TransactionalInvocationHandler implements InvocationHandler {
     private final Object bean;
 
     private final DataSource dataSource;
 
-    public TransactionalInvocationHandler(final DataSource dataSource, final Object bean)
-    {
+    public TransactionalInvocationHandler(final DataSource dataSource, final Object bean) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
@@ -43,10 +41,8 @@ public class TransactionalInvocationHandler implements InvocationHandler
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
-    {
-        switch (method.getName())
-        {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+        switch (method.getName()) {
             case "equals":
                 return (proxy == args[0]);
             case "hashCode":
@@ -57,18 +53,15 @@ public class TransactionalInvocationHandler implements InvocationHandler
 
         Method beanMethod = this.bean.getClass().getMethod(method.getName(), method.getParameterTypes());
 
-        if (beanMethod == null)
-        {
+        if (beanMethod == null) {
             throw new RuntimeException("no bean method found: " + method.getName() + " with " + Arrays.toString(method.getParameterTypes()));
         }
 
         // Transactional transactional = beanMethod.getAnnotation(Transactional.class);
         boolean isTransactional = beanMethod.isAnnotationPresent(Transactional.class);
 
-        if (isTransactional)
-        {
-            if (ConnectionHolder.isEmpty())
-            {
+        if (isTransactional) {
+            if (ConnectionHolder.isEmpty()) {
                 ConnectionHolder.set(this.dataSource.getConnection());
             }
 
@@ -77,29 +70,23 @@ public class TransactionalInvocationHandler implements InvocationHandler
 
         Object result = null;
 
-        try
-        {
+        try {
             result = method.invoke(this.bean, args);
 
-            if (isTransactional)
-            {
+            if (isTransactional) {
                 ConnectionHolder.commitTX();
             }
         }
-        catch (InvocationTargetException ex)
-        {
-            if (isTransactional)
-            {
+        catch (InvocationTargetException ex) {
+            if (isTransactional) {
                 ConnectionHolder.rollbackTX();
             }
 
             throw ex.getTargetException();
         }
-        finally
-        {
+        finally {
             // Nested-Aufrufe werden nicht unterstützt (Hierarchische Transaktionen) !
-            if (isTransactional)
-            {
+            if (isTransactional) {
                 ConnectionHolder.close();
             }
 

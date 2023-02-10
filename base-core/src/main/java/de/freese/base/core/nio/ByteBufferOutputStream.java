@@ -9,12 +9,10 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class ByteBufferOutputStream extends OutputStream
-{
+public class ByteBufferOutputStream extends OutputStream {
     private final ByteBuffer buffer;
 
-    public ByteBufferOutputStream(final ByteBuffer buffer)
-    {
+    public ByteBufferOutputStream(final ByteBuffer buffer) {
         super();
 
         this.buffer = Objects.requireNonNull(buffer, "buffer required");
@@ -24,8 +22,7 @@ public class ByteBufferOutputStream extends OutputStream
      * @see java.io.OutputStream#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         this.buffer.put(b, off, len);
     }
 
@@ -33,8 +30,7 @@ public class ByteBufferOutputStream extends OutputStream
      * @see java.io.OutputStream#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         this.buffer.put((byte) b);
     }
 }

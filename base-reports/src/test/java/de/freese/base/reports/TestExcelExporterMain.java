@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import de.freese.base.reports.exporter.AbstractExcelExporter;
-import de.freese.base.reports.exporter.Exporter;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -23,21 +21,20 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
+import de.freese.base.reports.exporter.AbstractExcelExporter;
+import de.freese.base.reports.exporter.Exporter;
+
 /**
  * @author Thomas Freese
  */
-public final class TestExcelExporterMain
-{
+public final class TestExcelExporterMain {
     private static CellStyle cellStyleDefault;
     private static CellStyle cellStyleDefaultBackground;
 
-    public static void main(final String[] args) throws Exception
-    {
-        Exporter<Integer> exporter = new AbstractExcelExporter<>()
-        {
+    public static void main(final String[] args) throws Exception {
+        Exporter<Integer> exporter = new AbstractExcelExporter<>() {
             @Override
-            public void export(final Workbook workbook, final Integer dataCount) throws Exception
-            {
+            public void export(final Workbook workbook, final Integer dataCount) throws Exception {
                 Sheet sheet = workbook.createSheet("SHEET_NAME");
                 sheet.setZoom(100);
 
@@ -53,8 +50,7 @@ public final class TestExcelExporterMain
                 cell.setCellStyle(getCellStyleDefaultBackground(workbook));
 
                 // Daten
-                for (int rowIndex = 1; rowIndex <= dataCount; rowIndex++)
-                {
+                for (int rowIndex = 1; rowIndex <= dataCount; rowIndex++) {
                     row = CellUtil.getRow(rowIndex, sheet);
 
                     cell = CellUtil.getCell(row, 0);
@@ -70,8 +66,7 @@ public final class TestExcelExporterMain
                 sheet.setAutoFilter(cellRangeAddress);
                 sheet.createFreezePane(0, 1);
 
-                for (int c = 0; c < 2; c++)
-                {
+                for (int c = 0; c < 2; c++) {
                     sheet.autoSizeColumn(c);
                 }
             }
@@ -80,14 +75,11 @@ public final class TestExcelExporterMain
         Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.xlsx");
         exporter.export(filePath, 50);
 
-        Runnable task = () ->
-        {
-            try
-            {
+        Runnable task = () -> {
+            try {
                 Desktop.getDesktop().open(filePath.toFile());
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 ex.printStackTrace();
             }
         };
@@ -95,10 +87,8 @@ public final class TestExcelExporterMain
         task.run();
     }
 
-    private static CellStyle getCellStyleDefault(Workbook workbook)
-    {
-        if (cellStyleDefault == null)
-        {
+    private static CellStyle getCellStyleDefault(Workbook workbook) {
+        if (cellStyleDefault == null) {
             Font fontHeader = workbook.createFont();
             fontHeader.setBold(false);
             fontHeader.setFontHeightInPoints((short) 12);
@@ -118,10 +108,8 @@ public final class TestExcelExporterMain
         return cellStyleDefault;
     }
 
-    private static CellStyle getCellStyleDefaultBackground(Workbook workbook)
-    {
-        if (cellStyleDefaultBackground == null)
-        {
+    private static CellStyle getCellStyleDefaultBackground(Workbook workbook) {
+        if (cellStyleDefaultBackground == null) {
             CellStyle cs = ((XSSFCellStyle) getCellStyleDefault(workbook)).copy();
             cs.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             cs.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
@@ -132,8 +120,7 @@ public final class TestExcelExporterMain
         return cellStyleDefaultBackground;
     }
 
-    private TestExcelExporterMain()
-    {
+    private TestExcelExporterMain() {
         super();
     }
 }

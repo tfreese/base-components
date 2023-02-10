@@ -12,15 +12,13 @@ import java.io.PushbackInputStream;
  *
  * @author John Mani
  */
-public class LineInputStream extends FilterInputStream
-{
+public class LineInputStream extends FilterInputStream {
     /**
      * reusable byte buffer
      */
     private char[] lineBuffer;
 
-    public LineInputStream(final InputStream in)
-    {
+    public LineInputStream(final InputStream in) {
         super(in);
     }
 
@@ -31,13 +29,11 @@ public class LineInputStream extends FilterInputStream
      * This class is similar to the deprecated <code>DataInputStream.readLine()</code>
      * </p>
      */
-    public String readLine() throws IOException
-    {
+    public String readLine() throws IOException {
         InputStream in = this.in;
         char[] buf = this.lineBuffer;
 
-        if (buf == null)
-        {
+        if (buf == null) {
             buf = this.lineBuffer = new char[128];
         }
 
@@ -45,14 +41,12 @@ public class LineInputStream extends FilterInputStream
         int room = buf.length;
         int offset = 0;
 
-        while ((c1 = in.read()) != -1)
-        {
+        while ((c1 = in.read()) != -1) {
             if (c1 == '\n') // Got NL
             {
                 break;
             }
-            else if (c1 == '\r')
-            {
+            else if (c1 == '\r') {
                 // Got CR, is the next char NL ?
                 int c2 = in.read();
 
@@ -61,11 +55,9 @@ public class LineInputStream extends FilterInputStream
                     c2 = in.read();
                 }
 
-                if (c2 != '\n')
-                {
+                if (c2 != '\n') {
                     // If not NL, push it back
-                    if (!(in instanceof PushbackInputStream))
-                    {
+                    if (!(in instanceof PushbackInputStream)) {
                         in = this.in = new PushbackInputStream(in);
                     }
 
@@ -77,8 +69,7 @@ public class LineInputStream extends FilterInputStream
 
             // Not CR, NL or CR-NL ...
             // .. Insert the byte into our byte buffer
-            if (--room < 0)
-            {
+            if (--room < 0) {
                 // No room, need to grow.
                 buf = new char[offset + 128];
                 room = buf.length - offset - 1;
@@ -89,8 +80,7 @@ public class LineInputStream extends FilterInputStream
             buf[offset++] = (char) c1;
         }
 
-        if ((c1 == -1) && (offset == 0))
-        {
+        if ((c1 == -1) && (offset == 0)) {
             return null;
         }
 

@@ -11,16 +11,16 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-import de.freese.base.utils.UICustomization;
 import org.jdesktop.swingx.JXTitledPanel;
+
+import de.freese.base.utils.UICustomization;
 
 /**
  * TitledPanel für Buttons auf der rechten Seite.
  *
  * @author Thomas Freese
  */
-public class ExtTitledPanel extends JXTitledPanel
-{
+public class ExtTitledPanel extends JXTitledPanel {
     @Serial
     private static final long serialVersionUID = 421436804144877867L;
 
@@ -29,14 +29,12 @@ public class ExtTitledPanel extends JXTitledPanel
      *
      * @author Thomas Freese
      */
-    private class ButtonEnabledPropertyChangeListener implements PropertyChangeListener
-    {
+    private class ButtonEnabledPropertyChangeListener implements PropertyChangeListener {
         /**
          * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */
         @Override
-        public void propertyChange(final PropertyChangeEvent evt)
-        {
+        public void propertyChange(final PropertyChangeEvent evt) {
             repaint();
         }
     }
@@ -54,8 +52,7 @@ public class ExtTitledPanel extends JXTitledPanel
      */
     private JPanel rightButtonPanel;
 
-    public ExtTitledPanel()
-    {
+    public ExtTitledPanel() {
         super();
 
         getContentContainer().setLayout(new GridBagLayout());
@@ -68,37 +65,31 @@ public class ExtTitledPanel extends JXTitledPanel
     /**
      * Fügt der linken Seite des TitlePanes einen Separator hinzu. (Breite abhängig vom LaF)
      */
-    public void addSeparatorLeft()
-    {
+    public void addSeparatorLeft() {
         getLeftButtonPanel().add(new JSeparator());
     }
 
     /**
      * Fügt der rechten Seite des TitlePanes einen Separator hinzu. (Breite abhängig vom LaF)
      */
-    public void addSeparatorRight()
-    {
+    public void addSeparatorRight() {
         getRightButtonPanel().add(new JSeparator());
     }
 
-    public void addTitleComponentLeft(final JComponent component)
-    {
+    public void addTitleComponentLeft(final JComponent component) {
         getLeftButtonPanel().add(component);
 
         component.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
     }
 
-    public void addTitleComponentRight(final JComponent component)
-    {
+    public void addTitleComponentRight(final JComponent component) {
         getRightButtonPanel().add(component);
 
         component.addPropertyChangeListener("enabled", this.buttonEnabledPropertyChangeListener);
     }
 
-    private JPanel getLeftButtonPanel()
-    {
-        if (this.leftButtonPanel == null)
-        {
+    private JPanel getLeftButtonPanel() {
+        if (this.leftButtonPanel == null) {
             this.leftButtonPanel = new JPanel();
             this.leftButtonPanel.setOpaque(false);
             this.leftButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
@@ -108,10 +99,8 @@ public class ExtTitledPanel extends JXTitledPanel
         return this.leftButtonPanel;
     }
 
-    private JPanel getRightButtonPanel()
-    {
-        if (this.rightButtonPanel == null)
-        {
+    private JPanel getRightButtonPanel() {
+        if (this.rightButtonPanel == null) {
             this.rightButtonPanel = new JPanel();
             this.rightButtonPanel.setOpaque(false);
             this.rightButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));

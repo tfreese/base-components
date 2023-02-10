@@ -18,42 +18,36 @@ import de.freese.base.utils.GuiUtils;
  *
  * @author Thomas Freese
  */
-public class FarbCodeLabel extends JLabel
-{
+public class FarbCodeLabel extends JLabel {
     public static final String BACKGROUND_CHANGED = "BACKGROUND_CHANGED";
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public FarbCodeLabel()
-    {
+    public FarbCodeLabel() {
         super();
 
         initialize();
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         setPreferredSize(new Dimension(100, 20));
         setBackground(Color.BLACK);
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        addMouseListener(new MouseAdapter()
-        {
+        addMouseListener(new MouseAdapter() {
             /**
              * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
              */
             @Override
-            public void mouseReleased(final MouseEvent event)
-            {
+            public void mouseReleased(final MouseEvent event) {
                 int oldRGB = getBackground().getRGB();
 
                 Frame activeFrame = GuiUtils.getActiveFrame();
 
                 Color newColor = JColorChooser.showDialog(activeFrame, "Choose Color", getBackground());
 
-                if (newColor != null)
-                {
+                if (newColor != null) {
                     setBackground(newColor);
 
                     // Eigenes Event, da background zu oft gefeuert wird.

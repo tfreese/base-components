@@ -25,13 +25,11 @@ import java.util.function.Supplier;
  *
  * @author Thomas Freese
  */
-public class GenericBuilder<T> implements Builder<T>
-{
+public class GenericBuilder<T> implements Builder<T> {
     /**
      * Beispiel: of(ArrayList::new)
      */
-    public static <T> GenericBuilder<T> of(final Supplier<T> instantiator)
-    {
+    public static <T> GenericBuilder<T> of(final Supplier<T> instantiator) {
         return new GenericBuilder<>(instantiator);
     }
 
@@ -43,16 +41,14 @@ public class GenericBuilder<T> implements Builder<T>
      * Erzeugt eine neue Instanz von {@link GenericBuilder}.<br>
      * Beispiel: ArrayList::new
      */
-    public GenericBuilder(final Supplier<T> instantiator)
-    {
+    public GenericBuilder(final Supplier<T> instantiator) {
         super();
 
         this.instantiator = Objects.requireNonNull(instantiator, "instantiator required");
     }
 
     @Override
-    public T build()
-    {
+    public T build() {
         T value = getInstantiator().get();
 
         getInstanceModifiers().forEach(modifier -> modifier.accept(value));
@@ -64,12 +60,10 @@ public class GenericBuilder<T> implements Builder<T>
     /**
      * Erzeugt das Objekt n-mal.
      */
-    public List<T> build(final int n)
-    {
+    public List<T> build(final int n) {
         List<T> list = new ArrayList<>(n);
 
-        for (int i = 0; i < n; i++)
-        {
+        for (int i = 0; i < n; i++) {
             T value = getInstantiator().get();
             getInstanceModifiers().forEach(modifier -> modifier.accept(value));
 
@@ -84,8 +78,7 @@ public class GenericBuilder<T> implements Builder<T>
     /**
      * Beispiel: with(ArrayList::add, "Sample object")
      */
-    public <U> GenericBuilder<T> with(final BiConsumer<T, U> setter, final U value)
-    {
+    public <U> GenericBuilder<T> with(final BiConsumer<T, U> setter, final U value) {
         Consumer<T> c = instance -> setter.accept(instance, value);
 
         return with(c);
@@ -94,20 +87,17 @@ public class GenericBuilder<T> implements Builder<T>
     /**
      * Beispiel: with(list -> list.add("Sample object"))
      */
-    public GenericBuilder<T> with(final Consumer<T> setter)
-    {
+    public GenericBuilder<T> with(final Consumer<T> setter) {
         getInstanceModifiers().add(setter);
 
         return this;
     }
 
-    protected List<Consumer<T>> getInstanceModifiers()
-    {
+    protected List<Consumer<T>> getInstanceModifiers() {
         return this.instanceModifiers;
     }
 
-    protected Supplier<T> getInstantiator()
-    {
+    protected Supplier<T> getInstantiator() {
         return this.instantiator;
     }
 }

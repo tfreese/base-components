@@ -6,8 +6,7 @@ import java.util.function.Supplier;
 /**
  * @author Thomas Freese
  */
-public class SinusValueSupplier implements Supplier<Float>
-{
+public class SinusValueSupplier implements Supplier<Float> {
     private static final double GRAD_TO_RADIAN_FACTOR = Math.PI / 180D;
 
     private int grad;
@@ -16,15 +15,13 @@ public class SinusValueSupplier implements Supplier<Float>
      * @see java.util.function.Supplier#get()
      */
     @Override
-    public Float get()
-    {
+    public Float get() {
         double radian = this.grad * GRAD_TO_RADIAN_FACTOR;
         double sinus = Math.sin(radian);
 
         this.grad += 1;
 
-        if (this.grad > 360)
-        {
+        if (this.grad > 360) {
             this.grad = 0;
         }
 

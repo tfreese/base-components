@@ -17,8 +17,7 @@ import javax.swing.Timer;
  *
  * @author Thomas Freese
  */
-public class BusyMozillaLabel extends JLabel
-{
+public class BusyMozillaLabel extends JLabel {
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
@@ -47,32 +46,27 @@ public class BusyMozillaLabel extends JLabel
      */
     private int trail = 8;
 
-    public BusyMozillaLabel()
-    {
+    public BusyMozillaLabel() {
         this("");
     }
 
-    public BusyMozillaLabel(final String text)
-    {
+    public BusyMozillaLabel(final String text) {
         this(text, Color.BLACK);
     }
 
-    public BusyMozillaLabel(final String text, final Color highlightColor)
-    {
+    public BusyMozillaLabel(final String text, final Color highlightColor) {
         super(text);
 
         initialize(highlightColor, getBackground(), getMaxCircles());
     }
 
-    public BusyMozillaLabel(final String text, final Color highlightColor, final Color baseColor)
-    {
+    public BusyMozillaLabel(final String text, final Color highlightColor, final Color baseColor) {
         super(text);
 
         initialize(highlightColor, baseColor, getMaxCircles());
     }
 
-    public BusyMozillaLabel(final String text, final Color highlightColor, final Color baseColor, final int trail)
-    {
+    public BusyMozillaLabel(final String text, final Color highlightColor, final Color baseColor, final int trail) {
         super(text);
 
         setTrail(trail);
@@ -83,13 +77,11 @@ public class BusyMozillaLabel extends JLabel
     /**
      * Farbe des letzten Kreises.
      */
-    public Color getBaseColor()
-    {
+    public Color getBaseColor() {
         return this.baseColor;
     }
 
-    public int getCircleRadius()
-    {
+    public int getCircleRadius() {
         return this.circleRadius;
     }
 
@@ -97,16 +89,14 @@ public class BusyMozillaLabel extends JLabel
      * @see javax.swing.JComponent#getHeight()
      */
     @Override
-    public int getHeight()
-    {
+    public int getHeight() {
         return getCircleRadius();
     }
 
     /**
      * Farbe des führenden Kreises.
      */
-    public Color getHighlightColor()
-    {
+    public Color getHighlightColor() {
         return this.highlightColor;
     }
 
@@ -114,8 +104,7 @@ public class BusyMozillaLabel extends JLabel
      * @see javax.swing.JComponent#getMaximumSize()
      */
     @Override
-    public Dimension getMaximumSize()
-    {
+    public Dimension getMaximumSize() {
         return getPreferredSize();
     }
 
@@ -123,8 +112,7 @@ public class BusyMozillaLabel extends JLabel
      * @see javax.swing.JComponent#getMinimumSize()
      */
     @Override
-    public Dimension getMinimumSize()
-    {
+    public Dimension getMinimumSize() {
         return getPreferredSize();
     }
 
@@ -132,8 +120,7 @@ public class BusyMozillaLabel extends JLabel
      * @see javax.swing.JComponent#getPreferredSize()
      */
     @Override
-    public Dimension getPreferredSize()
-    {
+    public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
 
         d.height = getHeight();
@@ -145,44 +132,38 @@ public class BusyMozillaLabel extends JLabel
     /**
      * Länge des Schwanzes.
      */
-    public int getTrail()
-    {
+    public int getTrail() {
         return this.trail;
     }
 
     /**
      * Farbe des letzten Kreises.
      */
-    public void setBaseColor(final Color baseColor)
-    {
+    public void setBaseColor(final Color baseColor) {
         this.baseColor = baseColor;
     }
 
     /**
      * Gesamtdurchmesser des Kreises.
      */
-    public void setCircleRadius(final int circleRadius)
-    {
+    public void setCircleRadius(final int circleRadius) {
         this.circleRadius = circleRadius;
     }
 
     /**
      * Farbe des führenden Kreises.
      */
-    public void setHighlightColor(final Color highlightColor)
-    {
+    public void setHighlightColor(final Color highlightColor) {
         this.highlightColor = highlightColor;
     }
 
     /**
      * Länge des Schwanzes.
      */
-    public void setTrail(final int trail)
-    {
+    public void setTrail(final int trail) {
         this.trail = trail;
 
-        if (this.trail > 8)
-        {
+        if (this.trail > 8) {
             this.trail = 8;
         }
     }
@@ -191,22 +172,18 @@ public class BusyMozillaLabel extends JLabel
      * @see javax.swing.JComponent#setVisible(boolean)
      */
     @Override
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         super.setVisible(visible);
 
-        if (visible && !this.animateTimer.isRunning())
-        {
+        if (visible && !this.animateTimer.isRunning()) {
             this.animateTimer.start();
         }
-        else if (!visible)
-        {
+        else if (!visible) {
             this.animateTimer.stop();
         }
     }
 
-    protected void initialize(final Color highlightColor, final Color baseColor, final int trail)
-    {
+    protected void initialize(final Color highlightColor, final Color baseColor, final int trail) {
         setHighlightColor(highlightColor);
         setBaseColor(baseColor);
         setTrail(trail);
@@ -222,8 +199,7 @@ public class BusyMozillaLabel extends JLabel
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    protected void paintComponent(final Graphics g)
-    {
+    protected void paintComponent(final Graphics g) {
         // Point point = getLocation();
         // Rectangle rectangle = getBounds();
 
@@ -247,8 +223,7 @@ public class BusyMozillaLabel extends JLabel
         int r = getCircleRadius() / 8;
         int d = 2 * r;
 
-        for (int index = 0; index < getMaxCircles(); index++)
-        {
+        for (int index = 0; index < getMaxCircles(); index++) {
             g.setColor(calcCircleColor(index));
 
             g2d.fillOval(r, r, d, d);
@@ -256,8 +231,7 @@ public class BusyMozillaLabel extends JLabel
             g2d.rotate(theta);
         }
 
-        if (!this.animateTimer.isRunning() && isVisible())
-        {
+        if (!this.animateTimer.isRunning() && isVisible()) {
             this.animateTimer.start();
         }
 
@@ -269,22 +243,18 @@ public class BusyMozillaLabel extends JLabel
     /**
      * Berechnet die Animation.
      */
-    protected void performAnimation()
-    {
+    protected void performAnimation() {
         this.circleIndex++;
 
-        if (this.circleIndex == getMaxCircles())
-        {
+        if (this.circleIndex == getMaxCircles()) {
             this.circleIndex = 0;
         }
 
         // System.out.println(_circleIndex);
-        if (!isVisible())
-        {
+        if (!isVisible()) {
             this.animateTimer.stop();
         }
-        else
-        {
+        else {
             repaint();
         }
     }
@@ -292,17 +262,13 @@ public class BusyMozillaLabel extends JLabel
     /**
      * Berechnet für den Index eines Kreises die entsprechende Farbe.
      */
-    private Color calcCircleColor(final int index)
-    {
-        if (index == this.circleIndex)
-        {
+    private Color calcCircleColor(final int index) {
+        if (index == this.circleIndex) {
             return getHighlightColor();
         }
 
-        for (int t = 0; t < getTrail(); t++)
-        {
-            if (index == (((this.circleIndex - t) + getMaxCircles()) % getMaxCircles()))
-            {
+        for (int t = 0; t < getTrail(); t++) {
+            if (index == (((this.circleIndex - t) + getMaxCircles()) % getMaxCircles())) {
                 // Faktor für interpolation
                 float terp = 1 - (((float) (getTrail() - t)) / (float) getTrail());
 
@@ -317,16 +283,14 @@ public class BusyMozillaLabel extends JLabel
     /**
      * Max. Anzahl an Kreisen.
      */
-    private int getMaxCircles()
-    {
+    private int getMaxCircles() {
         return this.maxCircles;
     }
 
     /**
      * Mischen von 2 Farben mit Interpolationsfaktor.
      */
-    private Color interpolate(final Color a, final Color b, final float factor)
-    {
+    private Color interpolate(final Color a, final Color b, final float factor) {
         float[] acomp = a.getRGBComponents(null);
         float[] bcomp = b.getRGBComponents(null);
         float[] ccomp = new float[4];
@@ -338,8 +302,7 @@ public class BusyMozillaLabel extends JLabel
         // for(float f : bcomp) {
         // System.out.println(f);
         // }
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
             ccomp[i] = acomp[i] + ((bcomp[i] - acomp[i]) * factor);
         }
 

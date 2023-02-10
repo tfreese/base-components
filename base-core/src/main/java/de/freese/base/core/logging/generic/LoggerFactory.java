@@ -9,53 +9,42 @@ import java.util.ServiceLoader;
  * @author Thomas Freese
  * @see org.jboss.logging.LoggerProviders
  */
-public final class LoggerFactory
-{
+public final class LoggerFactory {
     private static final LoggerProvider LOGGER_PROVIDER = find();
 
-    public static Logger createLogger(Class<?> clazz)
-    {
+    public static Logger createLogger(Class<?> clazz) {
         return LOGGER_PROVIDER.createLogger(clazz);
     }
 
-    public static Logger createLogger(String name)
-    {
+    public static Logger createLogger(String name) {
         return LOGGER_PROVIDER.createLogger(name);
     }
 
-    private static LoggerProvider find()
-    {
+    private static LoggerProvider find() {
         final ClassLoader classLoader = LoggerFactory.class.getClassLoader();
 
-        try
-        {
+        try {
             // Check the system property.
             final String loggerProvider = System.getProperty("logger.provider");
 
-            if (loggerProvider != null)
-            {
-                if ("jul".equalsIgnoreCase(loggerProvider))
-                {
+            if (loggerProvider != null) {
+                if ("jul".equalsIgnoreCase(loggerProvider)) {
                     return tryJuL("system property");
                 }
-                else if ("slf4j".equalsIgnoreCase(loggerProvider))
-                {
+                else if ("slf4j".equalsIgnoreCase(loggerProvider)) {
                     return trySlf4j("system property");
                 }
             }
         }
-        catch (Throwable th)
-        {
+        catch (Throwable th) {
             // Ignore
         }
 
         // Next try for a service provider.
-        try
-        {
+        try {
             final ServiceLoader<LoggerProvider> loader = ServiceLoader.load(LoggerProvider.class, classLoader);
 
-            for (Iterator<LoggerProvider> iterator = loader.iterator(); iterator.hasNext(); )
-            {
+            for (Iterator<LoggerProvider> iterator = loader.iterator(); iterator.hasNext(); ) {
                 LoggerProvider loggerProvider = iterator.next();
 
                 logProvider(loggerProvider, "service loader");
@@ -63,39 +52,32 @@ public final class LoggerFactory
                 return loggerProvider;
             }
         }
-        catch (ServiceConfigurationError ignore)
-        {
+        catch (ServiceConfigurationError ignore) {
             // Ignore
         }
 
-        try
-        {
+        try {
             return trySlf4j(null);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
 
         return tryJuL(null);
     }
 
-    private static void logProvider(final LoggerProvider provider, final String via)
-    {
+    private static void logProvider(final LoggerProvider provider, final String via) {
         final Logger logger = provider.createLogger(LoggerFactory.class);
 
-        if (via == null)
-        {
+        if (via == null) {
             logger.info("Using Logging Provider: %s", provider);
         }
-        else
-        {
+        else {
             logger.info("Using Logging Provider: %s found via %s", provider, via);
         }
     }
 
-    private static JulLoggerProvider tryJuL(final String via)
-    {
+    private static JulLoggerProvider tryJuL(final String via) {
         final JulLoggerProvider provider = new JulLoggerProvider();
 
         logProvider(provider, via);
@@ -103,8 +85,7 @@ public final class LoggerFactory
         return provider;
     }
 
-    private static LoggerProvider trySlf4j(final String via)
-    {
+    private static LoggerProvider trySlf4j(final String via) {
         final LoggerProvider provider = new Slf4JLoggerProvider();
 
         logProvider(provider, via);
@@ -112,8 +93,7 @@ public final class LoggerFactory
         return provider;
     }
 
-    private LoggerFactory()
-    {
+    private LoggerFactory() {
         super();
     }
 }

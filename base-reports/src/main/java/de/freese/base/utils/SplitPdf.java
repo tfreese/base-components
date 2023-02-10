@@ -15,32 +15,27 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class SplitPdf
-{
+public class SplitPdf {
     private static final Logger LOGGER = LoggerFactory.getLogger(SplitPdf.class);
 
     private byte[] pdfFile;
 
     private String pdfFileName;
 
-    public SplitPdf(final byte[] pdfFile)
-    {
+    public SplitPdf(final byte[] pdfFile) {
         super();
 
-        if (pdfFile == null)
-        {
+        if (pdfFile == null) {
             throw new IllegalArgumentException("PDF Filename is NULL !!!");
         }
 
         this.pdfFile = pdfFile;
     }
 
-    public SplitPdf(final String pdfFileName)
-    {
+    public SplitPdf(final String pdfFileName) {
         super();
 
-        if (pdfFileName == null)
-        {
+        if (pdfFileName == null) {
             throw new IllegalArgumentException("PDF Filename is NULL !!!");
         }
 
@@ -52,10 +47,8 @@ public class SplitPdf
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
      */
-    public void split(final String[] ranges, final OutputStream outStream) throws Exception
-    {
-        if ((ranges == null) || (outStream == null))
-        {
+    public void split(final String[] ranges, final OutputStream outStream) throws Exception {
+        if ((ranges == null) || (outStream == null)) {
             throw new IllegalArgumentException("Parameter is NULL !!!");
         }
 
@@ -79,16 +72,14 @@ public class SplitPdf
         newDoc.open();
 
         // Durch das RangeArray gehen.
-        for (String range : ranges)
-        {
+        for (String range : ranges) {
             // Range in konkrete Zahlen wandeln.
             String[] splits = range.split("-");
 
             int startPage = Integer.parseInt(splits[0]);
             int endPage = Integer.parseInt(splits[1]);
 
-            if ((startPage > pages) || (endPage > pages))
-            {
+            if ((startPage > pages) || (endPage > pages)) {
                 LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", range, pages);
 
                 continue;
@@ -99,8 +90,7 @@ public class SplitPdf
             // Inhalt des Originals holen.
             PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
 
-            for (int i = startPage; i <= endPage; i++)
-            {
+            for (int i = startPage; i <= endPage; i++) {
                 // Seitengrösse des Originals setzen.
                 newDoc.setPageSize(pdfReader.getPageSizeWithRotation(i));
 
@@ -114,12 +104,10 @@ public class SplitPdf
                 int rotation = pdfReader.getPageRotation(i);
 
                 // Seiteninhalt des Originals importieren.
-                if ((rotation == 90) || (rotation == 270))
-                {
+                if ((rotation == 90) || (rotation == 270)) {
                     pdfContentByte.addTemplate(pdfimportedpage, 0.0F, -1F, 1.0F, 0.0F, 0.0F, pdfReader.getPageSizeWithRotation(i).getHeight());
                 }
-                else
-                {
+                else {
                     pdfContentByte.addTemplate(pdfimportedpage, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
                 }
             }
@@ -137,15 +125,12 @@ public class SplitPdf
      *
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
      */
-    public void split(final String[] ranges, final OutputStream[] outStreams) throws Exception
-    {
-        if ((ranges == null) || (outStreams == null))
-        {
+    public void split(final String[] ranges, final OutputStream[] outStreams) throws Exception {
+        if ((ranges == null) || (outStreams == null)) {
             throw new IllegalArgumentException("Parameter is NULL !!!");
         }
 
-        if (ranges.length != outStreams.length)
-        {
+        if (ranges.length != outStreams.length) {
             throw new IllegalArgumentException("Different Array Length !!!");
         }
 
@@ -155,8 +140,7 @@ public class SplitPdf
         LOGGER.info("There are {} pages in the original file.", pages);
 
         // Durch das RangeArray gehen.
-        for (int r = 0; r < ranges.length; r++)
-        {
+        for (int r = 0; r < ranges.length; r++) {
             String range = ranges[r];
 
             // Range in konkrete Zahlen wandeln.
@@ -165,8 +149,7 @@ public class SplitPdf
             int startPage = Integer.parseInt(splits[0]);
             int endPage = Integer.parseInt(splits[1]);
 
-            if ((startPage > pages) || (endPage > pages))
-            {
+            if ((startPage > pages) || (endPage > pages)) {
                 LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", ranges[r], pages);
 
                 continue;
@@ -191,8 +174,7 @@ public class SplitPdf
             // Inhalt des Originals holen.
             PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
 
-            for (int i = startPage; i <= endPage; i++)
-            {
+            for (int i = startPage; i <= endPage; i++) {
                 // Seitengrösse des Originals setzen.
                 newDoc.setPageSize(pdfReader.getPageSizeWithRotation(i));
 
@@ -206,12 +188,10 @@ public class SplitPdf
                 int rotation = pdfReader.getPageRotation(i);
 
                 // Seiteninhalt des Originals importieren
-                if ((rotation == 90) || (rotation == 270))
-                {
+                if ((rotation == 90) || (rotation == 270)) {
                     pdfContentByte.addTemplate(pdfimportedpage, 0.0F, -1F, 1.0F, 0.0F, 0.0F, pdfReader.getPageSizeWithRotation(i).getHeight());
                 }
-                else
-                {
+                else {
                     pdfContentByte.addTemplate(pdfimportedpage, 1.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
                 }
             }
@@ -224,14 +204,11 @@ public class SplitPdf
         }
     }
 
-    private PdfReader getPDFReader() throws Exception
-    {
-        if (this.pdfFileName != null)
-        {
+    private PdfReader getPDFReader() throws Exception {
+        if (this.pdfFileName != null) {
             return new PdfReader(this.pdfFileName);
         }
-        else if (this.pdfFile != null)
-        {
+        else if (this.pdfFile != null) {
             return new PdfReader(this.pdfFile);
         }
 

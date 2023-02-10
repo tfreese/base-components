@@ -12,25 +12,21 @@ import de.freese.base.resourcemap.ResourceMap;
  *
  * @author Thomas Freese
  */
-public final class StaticResourceCache implements ResourceCache
-{
+public final class StaticResourceCache implements ResourceCache {
     /**
      * @author Thomas Freese
      */
-    private static class InstanceHolder
-    {
+    private static class InstanceHolder {
         private static final ResourceCache INSTANCE = new StaticResourceCache();
     }
 
-    public static ResourceCache getInstance()
-    {
+    public static ResourceCache getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
     private final Map<String, Map<Locale, Map<Class<?>, Map<String, ?>>>> cache = new HashMap<>();
 
-    private StaticResourceCache()
-    {
+    private StaticResourceCache() {
         super();
     }
 
@@ -38,8 +34,7 @@ public final class StaticResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#clear(java.lang.String, java.util.Locale)
      */
     @Override
-    public void clear(final String bundleName, final Locale locale)
-    {
+    public void clear(final String bundleName, final Locale locale) {
         Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
 
         byLocale.remove(locale);
@@ -49,8 +44,7 @@ public final class StaticResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#clearAll()
      */
     @Override
-    public void clearAll()
-    {
+    public void clearAll() {
         this.cache.clear();
     }
 
@@ -58,8 +52,7 @@ public final class StaticResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#getValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String)
      */
     @Override
-    public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key)
-    {
+    public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key) {
         Map<String, T> byKey = getValues(bundleName, locale, type);
 
         return byKey.get(key);
@@ -70,8 +63,7 @@ public final class StaticResourceCache implements ResourceCache
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type)
-    {
+    public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
         Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
         Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
         Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
@@ -83,8 +75,7 @@ public final class StaticResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#putValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String, java.lang.Object)
      */
     @Override
-    public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value)
-    {
+    public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value) {
         Map<String, T> byKey = getValues(bundleName, locale, type);
 
         byKey.put(key, value);
@@ -94,8 +85,7 @@ public final class StaticResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#putValues(java.lang.String, java.util.Locale, java.lang.Class, java.util.Map)
      */
     @Override
-    public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values)
-    {
+    public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values) {
         Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
         Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
 

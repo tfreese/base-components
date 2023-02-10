@@ -8,8 +8,7 @@ import java.awt.Color;
  *
  * @author Thomas Freese
  */
-public enum ColorChannel
-{
+public enum ColorChannel {
     ALPHA(24, Color.GRAY),
     BLUE(0, Color.BLUE),
     GREEN(8, Color.GREEN),
@@ -19,8 +18,7 @@ public enum ColorChannel
 
     private final Color color;
 
-    ColorChannel(final int bitOperator, final Color color)
-    {
+    ColorChannel(final int bitOperator, final Color color) {
         this.bitOperator = bitOperator;
         this.color = color;
     }
@@ -35,18 +33,15 @@ public enum ColorChannel
      *
      * @see #getValue(int)
      */
-    public int getBitOperator()
-    {
+    public int getBitOperator() {
         return this.bitOperator;
     }
 
-    public Color getColor()
-    {
+    public Color getColor() {
         return this.color;
     }
 
-    public int getValue(final int pixel)
-    {
+    public int getValue(final int pixel) {
         return (pixel >> getBitOperator()) & 0xFF;
     }
 }

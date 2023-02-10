@@ -39,17 +39,13 @@ import reactor.core.publisher.SynchronousSink;
 
 // Otherwise the Mock must be created and configured for each Test-Method.
 @MockitoSettings(strictness = Strictness.LENIENT)
-class TestMockReactiveJdbc
-{
-    static final Function<ResultSet, City> MAPPING_FUNCTION = resultSet ->
-    {
-        try
-        {
+class TestMockReactiveJdbc {
+    static final Function<ResultSet, City> MAPPING_FUNCTION = resultSet -> {
+        try {
             // return rowMapper.mapRow(resultSet, 0);
             return new City(resultSet.getString("country"), resultSet.getString("city"));
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
     };
@@ -64,14 +60,12 @@ class TestMockReactiveJdbc
     /**
      * @author Thomas Freese
      */
-    private static final class City
-    {
+    private static final class City {
         private final String city;
 
         private final String country;
 
-        private City(final String country, final String city)
-        {
+        private City(final String country, final String city) {
             super();
 
             this.country = country;
@@ -82,8 +76,7 @@ class TestMockReactiveJdbc
          * @see java.lang.Object#toString()
          */
         @Override
-        public String toString()
-        {
+        public String toString() {
             StringBuilder builder = new StringBuilder();
             builder.append("City [country=");
             builder.append(this.country);
@@ -95,30 +88,7 @@ class TestMockReactiveJdbc
         }
     }
 
-    private final String[][] data =
-            {
-                    {
-                            "Pakistan", "Karachi"
-                    },
-                    {
-                            "Turkey", "Istanbul"
-                    },
-                    {
-                            "China", "Hong Kong"
-                    },
-                    {
-                            "Russia", "Saint Petersburg"
-                    },
-                    {
-                            "Australia", "Sydney"
-                    },
-                    {
-                            "Germany", "Berlin"
-                    },
-                    {
-                            "Spain", "Madrid"
-                    }
-            };
+    private final String[][] data = {{"Pakistan", "Karachi"}, {"Turkey", "Istanbul"}, {"China", "Hong Kong"}, {"Russia", "Saint Petersburg"}, {"Australia", "Sydney"}, {"Germany", "Berlin"}, {"Spain", "Madrid"}};
 
     private Connection connection;
 
@@ -131,8 +101,7 @@ class TestMockReactiveJdbc
     private PreparedStatement statement;
 
     @BeforeEach
-    void setup() throws SQLException
-    {
+    void setup() throws SQLException {
         this.resultSetIndex = -1;
 
         this.datasource = mock(DataSource.class);
@@ -144,8 +113,7 @@ class TestMockReactiveJdbc
         when(this.connection.createStatement()).thenReturn(this.statement);
         when(this.statement.executeQuery()).thenReturn(this.resultSet);
 
-        when(this.resultSet.next()).then(invocation ->
-        {
+        when(this.resultSet.next()).then(invocation -> {
             this.resultSetIndex++;
             return this.resultSetIndex < this.data.length;
         });
@@ -156,8 +124,7 @@ class TestMockReactiveJdbc
     }
 
     @Test
-    void testResultSetFlux() throws SQLException
-    {
+    void testResultSetFlux() throws SQLException {
         // @formatter:off
         Flux<City> flux = Flux.fromIterable(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION::apply))
                 .doFinally(signal -> {
@@ -180,8 +147,7 @@ class TestMockReactiveJdbc
     }
 
     @Test
-    void testResultSetFluxSynchronousSink() throws SQLException
-    {
+    void testResultSetFluxSynchronousSink() throws SQLException {
         // @formatter:off
         Flux<City> flux = Flux.generate((final SynchronousSink<ResultSet> sink) ->
                 {
@@ -230,17 +196,14 @@ class TestMockReactiveJdbc
     }
 
     @Test
-    void testResultSetStream() throws SQLException
-    {
-        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION::apply).spliterator(), false).onClose(() ->
-        {
+    void testResultSetStream() throws SQLException {
+        try (Stream<City> stream = StreamSupport.stream(new ResultSetIterable<>(this.resultSet, MAPPING_FUNCTION::apply).spliterator(), false).onClose(() -> {
             LOGGER.debug("close stream");
 
             JdbcUtils.closeResultSet(this.resultSet);
             JdbcUtils.closeStatement(this.statement);
             DataSourceUtils.releaseConnection(this.connection, this.datasource);
-        }))
-        {
+        })) {
             // @formatter:off
             Iterator<City> cities = stream.filter(city -> !"China".equalsIgnoreCase(city.country))
                     .limit(3)
@@ -252,8 +215,7 @@ class TestMockReactiveJdbc
         }
     }
 
-    private void validateIterator(final Iterator<City> cities)
-    {
+    private void validateIterator(final Iterator<City> cities) {
         assertThat(cities.hasNext()).isTrue();
         assertThat(cities.next().country).isEqualTo("Pakistan");
 

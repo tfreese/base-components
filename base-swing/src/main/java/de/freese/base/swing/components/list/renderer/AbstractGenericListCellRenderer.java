@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractGenericListCellRenderer extends DefaultListCellRenderer
-{
+public abstract class AbstractGenericListCellRenderer extends DefaultListCellRenderer {
     @Serial
     private static final long serialVersionUID = 335775306955315738L;
 
@@ -28,13 +27,11 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
 
     private final String nullText;
 
-    protected AbstractGenericListCellRenderer(final String attribute)
-    {
+    protected AbstractGenericListCellRenderer(final String attribute) {
         this(attribute, " ");
     }
 
-    protected AbstractGenericListCellRenderer(final String attribute, final String nullText)
-    {
+    protected AbstractGenericListCellRenderer(final String attribute, final String nullText) {
         super();
 
         this.attribute = attribute;
@@ -45,57 +42,46 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
      * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
      */
     @Override
-    public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected,
-                                                  final boolean cellHasFocus)
-    {
+    public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
         JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-        if (value != null)
-        {
-            try
-            {
+        if (value != null) {
+            try {
                 label.setText(getString(value, this.attribute));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().warn(null, ex);
 
-                try
-                {
+                try {
                     label.setText("" + invokeMethod(value, "toString"));
                 }
-                catch (Exception ex2)
-                {
+                catch (Exception ex2) {
                     getLogger().error(ex2.getMessage(), ex2);
 
                     label.setText("Unknown Attribute: " + this.attribute);
                 }
             }
         }
-        else
-        {
+        else {
             label.setText(this.nullText);
         }
 
         return label;
     }
 
-    protected final Logger getLogger()
-    {
+    protected final Logger getLogger() {
         return this.logger;
     }
 
     protected abstract String getString(Object object, String attribute) throws Exception;
 
-    protected Object invokeField(final Object value, final String fieldName) throws Exception
-    {
+    protected Object invokeField(final Object value, final String fieldName) throws Exception {
         Field field = value.getClass().getField(fieldName);
 
         return field.get(value);
     }
 
-    protected Object invokeMethod(final Object value, final String methodName) throws Exception
-    {
+    protected Object invokeMethod(final Object value, final String methodName) throws Exception {
         Method method = value.getClass().getMethod(methodName, (Class<?>[]) null);
 
         return method.invoke(value, (Object[]) null);

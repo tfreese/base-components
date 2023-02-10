@@ -10,34 +10,28 @@ import java.util.Map;
  *
  * @author Thomas Freese
  */
-public class ThrowableTracker
-{
+public class ThrowableTracker {
     private final Map<String, Throwable> throwables = new LinkedHashMap<>();
 
-    public void addThrowable(final Throwable th)
-    {
+    public void addThrowable(final Throwable th) {
         this.throwables.put(th.getMessage(), th);
     }
 
-    public Throwable getFirstThrowable()
-    {
+    public Throwable getFirstThrowable() {
         return getThrowables().get(0);
     }
 
-    public Throwable getLastThrowable()
-    {
+    public Throwable getLastThrowable() {
         List<Throwable> ths = getThrowables();
 
         return ths.get(ths.size() - 1);
     }
 
-    public List<Throwable> getThrowables()
-    {
+    public List<Throwable> getThrowables() {
         return new ArrayList<>(this.throwables.values());
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return this.throwables.isEmpty();
     }
 }

@@ -22,8 +22,7 @@ import javax.swing.Timer;
  *
  * @author Thomas Freese
  */
-public class TranslucentGlassPane extends JComponent implements MouseListener
-{
+public class TranslucentGlassPane extends JComponent implements MouseListener {
     @Serial
     private static final long serialVersionUID = -8037679488481229262L;
 
@@ -48,16 +47,14 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
 
     private int timerIncrementMillies = 10;
 
-    public TranslucentGlassPane()
-    {
+    public TranslucentGlassPane() {
         this(Collections.emptyList());
     }
 
     /**
      * @param dispatchList {@link List}, Liste von Komponenten, an denen MouseEvents weitergeleitet werden sollen
      */
-    public TranslucentGlassPane(final List<Component> dispatchList)
-    {
+    public TranslucentGlassPane(final List<Component> dispatchList) {
         super();
 
         this.dispatchList = dispatchList;
@@ -72,10 +69,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * @return This will be a value between 0 and 1, inclusive.
      */
-    public double getAlpha()
-    {
-        if (this.alpha > 1D)
-        {
+    public double getAlpha() {
+        if (this.alpha > 1D) {
             this.alpha = 1D;
         }
 
@@ -85,16 +80,14 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * Startverzögerung für die Animation in Millisekunden.
      */
-    public int getShowDelayMillies()
-    {
+    public int getShowDelayMillies() {
         return this.showDelayMillies;
     }
 
     /**
      * Zeitabstand zwischen den Animationen in Millisekunden.
      */
-    public int getTimerIncrementMillies()
-    {
+    public int getTimerIncrementMillies() {
         return this.timerIncrementMillies;
     }
 
@@ -102,8 +95,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseClicked(final MouseEvent event)
-    {
+    public void mouseClicked(final MouseEvent event) {
         redispatchMouseEvent(event, false);
 
         Toolkit.getDefaultToolkit().beep();
@@ -113,8 +105,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseEntered(final MouseEvent event)
-    {
+    public void mouseEntered(final MouseEvent event) {
         redispatchMouseEvent(event, false);
     }
 
@@ -122,8 +113,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseExited(final MouseEvent event)
-    {
+    public void mouseExited(final MouseEvent event) {
         redispatchMouseEvent(event, false);
     }
 
@@ -131,8 +121,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
      */
     @Override
-    public void mousePressed(final MouseEvent event)
-    {
+    public void mousePressed(final MouseEvent event) {
         redispatchMouseEvent(event, false);
     }
 
@@ -140,8 +129,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
      */
     @Override
-    public void mouseReleased(final MouseEvent event)
-    {
+    public void mouseReleased(final MouseEvent event) {
         redispatchMouseEvent(event, true);
     }
 
@@ -150,27 +138,21 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      *
      * @param alpha must be a value between 0 and 1 inclusive.
      */
-    public void setAlpha(final double alpha)
-    {
-        if (this.alpha != alpha)
-        {
+    public void setAlpha(final double alpha) {
+        if (this.alpha != alpha) {
             double oldAlpha = this.alpha;
             this.alpha = alpha;
 
-            if ((alpha > 0D) && (alpha < 1D))
-            {
-                if (oldAlpha == 1D)
-                {
+            if ((alpha > 0D) && (alpha < 1D)) {
+                if (oldAlpha == 1D) {
                     // it used to be 1, but now is not. Save the oldOpaque
                     this.oldOpaque = isOpaque();
                     setOpaque(false);
                 }
             }
-            else if (alpha == 1D)
-            {
+            else if (alpha == 1D) {
                 // restore the oldOpaque if it was true (since opaque is false now)
-                if (this.oldOpaque)
-                {
+                if (this.oldOpaque) {
                     setOpaque(true);
                 }
             }
@@ -185,16 +167,14 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * Startverzögerung für die Animation in Millisekunden.
      */
-    public void setShowDelayMillies(final int showDelayMillies)
-    {
+    public void setShowDelayMillies(final int showDelayMillies) {
         this.showDelayMillies = showDelayMillies;
     }
 
     /**
      * Zeitabstand zwischen den Animationen in Millisekunden.
      */
-    public void setTimerIncrementMillies(final int timerIncrementMillies)
-    {
+    public void setTimerIncrementMillies(final int timerIncrementMillies) {
         this.timerIncrementMillies = timerIncrementMillies;
     }
 
@@ -202,15 +182,13 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see javax.swing.JComponent#setVisible(boolean)
      */
     @Override
-    public void setVisible(final boolean flag)
-    {
+    public void setVisible(final boolean flag) {
         setAlpha(this.alphaStart);
 
         super.setVisible(flag);
 
         // Über setVisible den Timer der Children beenden, falls implementiert
-        for (Component child : getComponents())
-        {
+        for (Component child : getComponents()) {
             child.setVisible(flag);
         }
     }
@@ -231,8 +209,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override
-    protected void paintComponent(final Graphics g)
-    {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
         // Hintergrund
@@ -245,13 +222,11 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         // Graphics2D g2d = (Graphics2D) g;
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // getAlpha()));
-        if (!this.animateTimer.isRunning() && (getAlpha() < this.alphaEnd))
-        {
+        if (!this.animateTimer.isRunning() && (getAlpha() < this.alphaEnd)) {
             this.animateTimer.start();
         }
 
-        if (this.animateTimer.isRunning() && (getAlpha() >= this.alphaEnd))
-        {
+        if (this.animateTimer.isRunning() && (getAlpha() >= this.alphaEnd)) {
             this.animateTimer.stop();
         }
 
@@ -264,12 +239,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * Liefert die JMenuBar, wenn sie in der DispatchList enthalten ist.
      */
-    private JMenuBar getJMenuBar()
-    {
-        for (Component element : this.dispatchList)
-        {
-            if (element instanceof JMenuBar b)
-            {
+    private JMenuBar getJMenuBar() {
+        for (Component element : this.dispatchList) {
+            if (element instanceof JMenuBar b) {
                 return b;
             }
         }
@@ -280,10 +252,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
     /**
      * Weiterleiten von MouseEvents an Komponenten der DispatchList.
      */
-    private void redispatchMouseEvent(final MouseEvent event, final boolean repaint)
-    {
-        if (this.dispatchList.isEmpty())
-        {
+    private void redispatchMouseEvent(final MouseEvent event, final boolean repaint) {
+        if (this.dispatchList.isEmpty()) {
             return;
         }
 
@@ -308,24 +278,20 @@ public class TranslucentGlassPane extends JComponent implements MouseListener
         //                // Could handle specially.
         //            }
         //        }
-        if (containerPoint.y >= 0)
-        {
+        if (containerPoint.y >= 0) {
             // The mouse event is probably over the content pane.
             // Find out exactly which component it's over.
             Component component = SwingUtilities.getDeepestComponentAt(getParent(), containerPoint.x, containerPoint.y);
 
-            if ((component != null) && this.dispatchList.contains(component))
-            {
+            if ((component != null) && this.dispatchList.contains(component)) {
                 // Forward events over the component.
                 Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
-                component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y,
-                        event.getClickCount(), event.isPopupTrigger()));
+                component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(), event.isPopupTrigger()));
             }
         }
 
         // Update the glass pane if requested.
-        if (repaint)
-        {
+        if (repaint) {
             repaint();
         }
     }

@@ -17,19 +17,16 @@ import de.freese.base.core.regex.transformer.StartsWithTransformer;
  *
  * @author Thomas Freese
  */
-public final class RegEx implements RegExTransformer
-{
+public final class RegEx implements RegExTransformer {
     private static final RegExTransformer INSTANCE = new RegEx();
 
-    public static RegExTransformer getInstance()
-    {
+    public static RegExTransformer getInstance() {
         return INSTANCE;
     }
 
     private final List<RegExTransformer> transformers;
 
-    private RegEx()
-    {
+    private RegEx() {
         super();
 
         this.transformers = new ArrayList<>();
@@ -47,22 +44,18 @@ public final class RegEx implements RegExTransformer
      * @see de.freese.base.core.regex.transformer.RegExTransformer#regExToWildcard(java.lang.String)
      */
     @Override
-    public String regExToWildcard(final String regex)
-    {
+    public String regExToWildcard(final String regex) {
         String expression = regex;
 
-        if (expression == null)
-        {
+        if (expression == null) {
             return null;
         }
 
-        if ("".equals(expression.strip()))
-        {
+        if ("".equals(expression.strip())) {
             return "";
         }
 
-        for (RegExTransformer transformer : this.transformers)
-        {
+        for (RegExTransformer transformer : this.transformers) {
             expression = transformer.regExToWildcard(expression);
         }
 
@@ -75,29 +68,24 @@ public final class RegEx implements RegExTransformer
      * @see de.freese.base.core.regex.transformer.RegExTransformer#wildcardToRegEx(java.lang.String)
      */
     @Override
-    public String wildcardToRegEx(final String wildcard)
-    {
+    public String wildcardToRegEx(final String wildcard) {
         String expression = wildcard;
 
         // .* als default IST NICHT ZULÄSSIG !!!
-        if (expression == null)
-        {
+        if (expression == null) {
             return null;
         }
 
         // .* als default IST NICHT ZULÄSSIG !!!
-        if ("".equals(expression.strip()))
-        {
+        if ("".equals(expression.strip())) {
             return "";
         }
 
-        if (expression.startsWith("@"))
-        {
+        if (expression.startsWith("@")) {
             return expression.substring(1);
         }
 
-        for (RegExTransformer transformer : this.transformers)
-        {
+        for (RegExTransformer transformer : this.transformers) {
             expression = transformer.wildcardToRegEx(expression);
         }
 

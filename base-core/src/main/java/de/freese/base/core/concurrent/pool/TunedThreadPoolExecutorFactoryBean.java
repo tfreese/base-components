@@ -33,8 +33,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
  *
  * @author Thomas Freese
  */
-public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactoryBean
-{
+public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactoryBean {
     @Serial
     private static final long serialVersionUID = 4992566896817015389L;
 
@@ -43,14 +42,10 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
      * java.util.concurrent.ThreadFactory, java.util.concurrent.RejectedExecutionHandler)
      */
     @Override
-    protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue,
-                                                final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler)
-    {
-        ThreadPoolExecutor tpe =
-                new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
+    protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue, final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler) {
+        ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
-        if (queue instanceof TunedLinkedBlockingQueue<?> q)
-        {
+        if (queue instanceof TunedLinkedBlockingQueue<?> q) {
             q.setPoolCurrentSize(tpe::getPoolSize);
             q.setPoolMaxSize(tpe::getMaximumPoolSize);
         }
@@ -62,10 +57,8 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
      * @see org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean#createQueue(int)
      */
     @Override
-    protected BlockingQueue<Runnable> createQueue(final int queueCapacity)
-    {
-        if (queueCapacity > 0)
-        {
+    protected BlockingQueue<Runnable> createQueue(final int queueCapacity) {
+        if (queueCapacity > 0) {
             return new TunedLinkedBlockingQueue<>(queueCapacity);
         }
 

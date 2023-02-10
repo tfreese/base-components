@@ -8,27 +8,22 @@ import java.awt.Image;
  *
  * @author Thomas Freese
  */
-public class ImageLayoutElement extends AbstractLayoutElement
-{
+public class ImageLayoutElement extends AbstractLayoutElement {
     private Image image;
 
-    public ImageLayoutElement()
-    {
+    public ImageLayoutElement() {
         super();
     }
 
-    public ImageLayoutElement(final String name)
-    {
+    public ImageLayoutElement(final String name) {
         super(name);
     }
 
-    public Image getImage()
-    {
+    public Image getImage() {
         return this.image;
     }
 
-    public void setImage(final Image image)
-    {
+    public void setImage(final Image image) {
         this.image = image;
     }
 }

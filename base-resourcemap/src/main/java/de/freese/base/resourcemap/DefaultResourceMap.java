@@ -12,12 +12,13 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.base.resourcemap.cache.ResourceCache;
 import de.freese.base.resourcemap.converter.ResourceConverter;
 import de.freese.base.resourcemap.converter.ResourceConverters;
 import de.freese.base.resourcemap.provider.ResourceProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Basis-Implementation of {@link ResourceMap}.<br>
@@ -43,8 +44,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-class DefaultResourceMap implements ResourceMap
-{
+class DefaultResourceMap implements ResourceMap {
     private final String bundleName;
 
     private final List<DefaultResourceMap> children = new ArrayList<>();
@@ -58,8 +58,7 @@ class DefaultResourceMap implements ResourceMap
     private ResourceConverters resourceConverters;
     private ResourceProvider resourceProvider;
 
-    DefaultResourceMap(final String bundleName)
-    {
+    DefaultResourceMap(final String bundleName) {
         super();
 
         this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
@@ -69,8 +68,7 @@ class DefaultResourceMap implements ResourceMap
      * @see de.freese.base.resourcemap.ResourceMap#getBundleName()
      */
     @Override
-    public String getBundleName()
-    {
+    public String getBundleName() {
         return this.bundleName;
     }
 
@@ -78,19 +76,15 @@ class DefaultResourceMap implements ResourceMap
      * @see de.freese.base.resourcemap.ResourceMap#getChild(java.lang.String)
      */
     @Override
-    public ResourceMap getChild(final String bundleName)
-    {
-        if (getBundleName().equals(bundleName))
-        {
+    public ResourceMap getChild(final String bundleName) {
+        if (getBundleName().equals(bundleName)) {
             return this;
         }
 
-        for (ResourceMap child : getChildren())
-        {
+        for (ResourceMap child : getChildren()) {
             ResourceMap rm = child.getChild(bundleName);
 
-            if (rm != null)
-            {
+            if (rm != null) {
                 return rm;
             }
         }
@@ -102,8 +96,7 @@ class DefaultResourceMap implements ResourceMap
      * @see de.freese.base.resourcemap.ResourceMap#getObject(java.lang.String, java.lang.Class)
      */
     @Override
-    public final <T> T getObject(final String key, final Class<T> type)
-    {
+    public final <T> T getObject(final String key, final Class<T> type) {
         Objects.requireNonNull(key, "key required");
         Objects.requireNonNull(type, "type required");
 
@@ -111,38 +104,31 @@ class DefaultResourceMap implements ResourceMap
 
         value = getResourceCache().getValue(getBundleName(), getLocale(), type, key);
 
-        if (value != null)
-        {
+        if (value != null) {
             return value;
         }
 
         String stringValue = getResource(key);
 
-        if (stringValue == null)
-        {
+        if (stringValue == null) {
             return null;
         }
 
         ResourceConverter<T> converter = getConverter(type);
 
-        if (converter != null)
-        {
-            try
-            {
+        if (converter != null) {
+            try {
                 value = converter.convert(key, stringValue);
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 getLogger().error(ex.getMessage(), ex);
             }
         }
-        else
-        {
+        else {
             getLogger().warn("{}: No ResourceConverter found for type '{}' and key '{}'", getBundleName(), type.getSimpleName(), key);
         }
 
-        if (value != null)
-        {
+        if (value != null) {
             getResourceCache().putValue(getBundleName(), getLocale(), type, key, value);
         }
 
@@ -153,26 +139,20 @@ class DefaultResourceMap implements ResourceMap
      * @see de.freese.base.resourcemap.ResourceMap#getString(java.lang.String, java.lang.Object[])
      */
     @Override
-    public final String getString(final String key, final Object... args)
-    {
+    public final String getString(final String key, final Object... args) {
         String value = getResource(key);
 
-        if (value == null)
-        {
+        if (value == null) {
             return "#" + key;
         }
 
-        try
-        {
-            if (args.length > 0)
-            {
-                if (value.contains("{0}"))
-                {
+        try {
+            if (args.length > 0) {
+                if (value.contains("{0}")) {
                     // The "old" Format.
                     value = MessageFormat.format(value, args);
                 }
-                else
-                {
+                else {
                     // The "new" Format.
                     value = String.format(value, args);
                 }
@@ -180,8 +160,7 @@ class DefaultResourceMap implements ResourceMap
 
             return value;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().warn(null, ex);
 
             return "#" + key;
@@ -192,12 +171,10 @@ class DefaultResourceMap implements ResourceMap
      * @see de.freese.base.resourcemap.ResourceMap#load(java.util.Locale)
      */
     @Override
-    public void load(final Locale locale)
-    {
+    public void load(final Locale locale) {
         this.locale = Objects.requireNonNull(locale, "locale required");
 
-        if (this.resources.get(locale) != null)
-        {
+        if (this.resources.get(locale) != null) {
             return;
         }
 
@@ -214,8 +191,7 @@ class DefaultResourceMap implements ResourceMap
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("ResourceMap [bundleName=");
         builder.append(getBundleName());
@@ -226,94 +202,76 @@ class DefaultResourceMap implements ResourceMap
         return builder.toString();
     }
 
-    void addChild(final DefaultResourceMap child)
-    {
+    void addChild(final DefaultResourceMap child) {
         getChildren().add(Objects.requireNonNull(child, "child required"));
     }
 
-    List<DefaultResourceMap> getChildren()
-    {
+    List<DefaultResourceMap> getChildren() {
         return this.children;
     }
 
-    void setParent(final DefaultResourceMap parent)
-    {
+    void setParent(final DefaultResourceMap parent) {
         this.parent = parent;
     }
 
-    void setResourceCache(final ResourceCache resourceCache)
-    {
+    void setResourceCache(final ResourceCache resourceCache) {
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
     }
 
-    void setResourceConverters(ResourceConverters resourceConverters)
-    {
+    void setResourceConverters(ResourceConverters resourceConverters) {
         this.resourceConverters = resourceConverters;
     }
 
-    void setResourceProvider(final ResourceProvider resourceProvider)
-    {
+    void setResourceProvider(final ResourceProvider resourceProvider) {
         this.resourceProvider = resourceProvider;
     }
 
-    protected <T> ResourceConverter<T> getConverter(final Class<T> type)
-    {
-        if (this.resourceConverters == null)
-        {
+    protected <T> ResourceConverter<T> getConverter(final Class<T> type) {
+        if (this.resourceConverters == null) {
             return getParent().getConverter(type);
         }
 
         ResourceConverter<T> converter = this.resourceConverters.getConverter(type);
 
-        if (converter == null)
-        {
+        if (converter == null) {
             converter = getParent().getConverter(type);
         }
 
         return converter;
     }
 
-    protected Locale getLocale()
-    {
+    protected Locale getLocale() {
         return this.locale;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected DefaultResourceMap getParent()
-    {
+    protected DefaultResourceMap getParent() {
         return this.parent;
     }
 
-    protected String getResource(final String key)
-    {
+    protected String getResource(final String key) {
         String resource = this.resources.get(getLocale()).get(key);
 
-        if ((resource == null) && (getParent() != null))
-        {
+        if ((resource == null) && (getParent() != null)) {
             resource = getParent().getResource(key);
         }
 
-        if (resource == null)
-        {
+        if (resource == null) {
             getLogger().warn("{}: no resource found for Locale '{}' and key '{}'", getBundleName(), getLocale(), key);
         }
 
         return resource;
     }
 
-    protected ResourceCache getResourceCache()
-    {
+    protected ResourceCache getResourceCache() {
         return this.resourceCache;
     }
 
-    protected ResourceProvider getResourceProvider()
-    {
-        if (this.resourceProvider == null)
-        {
+    protected ResourceProvider getResourceProvider() {
+        if (this.resourceProvider == null) {
             return getParent().getResourceProvider();
         }
 
@@ -331,12 +289,10 @@ class DefaultResourceMap implements ResourceMap
      *
      * Value of ${null} is null.
      */
-    protected final void substitutePlaceholder(final Map<String, String> resources)
-    {
+    protected final void substitutePlaceholder(final Map<String, String> resources) {
         List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
 
-        for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); )
-        {
+        for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); ) {
             Entry<String, String> entry = iterator.next();
             String expression = entry.getValue();
 
@@ -344,12 +300,10 @@ class DefaultResourceMap implements ResourceMap
             int startIndex = 0;
             int lastEndIndex = 0;
 
-            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1)
-            {
+            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1) {
                 int endIndex = expression.indexOf('}', startIndex);
 
-                if (endIndex != -1)
-                {
+                if (endIndex != -1) {
                     String key = expression.substring(startIndex + 2, endIndex);
                     keys.add(key);
 
@@ -357,12 +311,10 @@ class DefaultResourceMap implements ResourceMap
                 }
             }
 
-            for (String key : keys)
-            {
+            for (String key : keys) {
                 String value = getResource(key);
 
-                if (value == null)
-                {
+                if (value == null) {
                     continue;
                 }
 

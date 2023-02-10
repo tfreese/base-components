@@ -7,12 +7,10 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class NumberToken extends AbstractToken<Number>
-{
+public class NumberToken extends AbstractToken<Number> {
     private final String format;
 
-    public NumberToken(final Color color, final Number value, final String format)
-    {
+    public NumberToken(final Color color, final Number value, final String format) {
         super(color);
 
         this.format = Objects.requireNonNull(format, "format required");
@@ -20,8 +18,7 @@ public class NumberToken extends AbstractToken<Number>
         setValue(value);
     }
 
-    public NumberToken(final Number value, final String format)
-    {
+    public NumberToken(final Number value, final String format) {
         super();
 
         this.format = Objects.requireNonNull(format, "format required");
@@ -33,8 +30,7 @@ public class NumberToken extends AbstractToken<Number>
      * @see de.freese.base.swing.components.led.token.Token#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(final Number value)
-    {
+    public void setValue(final Number value) {
         String displayValue = String.format(this.format, value);
 
         createBitMasks(displayValue);

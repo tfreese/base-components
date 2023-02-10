@@ -22,18 +22,15 @@ import javax.swing.table.TableColumnModel;
 /**
  * @author Thomas Freese
  */
-public final class TableExampleScrollPaneRowHeaderMain
-{
+public final class TableExampleScrollPaneRowHeaderMain {
     /**
      * @author Thomas Freese
      */
-    private static final class MyTableModel extends AbstractListTableModel<Map<String, String>>
-    {
+    private static final class MyTableModel extends AbstractListTableModel<Map<String, String>> {
         @Serial
         private static final long serialVersionUID = 767661536272989643L;
 
-        private MyTableModel(final List<String> columnNames)
-        {
+        private MyTableModel(final List<String> columnNames) {
             super(columnNames);
         }
 
@@ -41,25 +38,21 @@ public final class TableExampleScrollPaneRowHeaderMain
          * @see javax.swing.table.TableModel#getValueAt(int, int)
          */
         @Override
-        public Object getValueAt(final int rowIndex, final int columnIndex)
-        {
+        public Object getValueAt(final int rowIndex, final int columnIndex) {
             Map<String, String> map = getObjectAt(rowIndex);
 
             return map.get(getColumnName(columnIndex));
         }
     }
 
-    public static void main(final String[] args)
-    {
+    public static void main(final String[] args) {
         List<Map<String, String>> list = new ArrayList<>();
 
-        for (int row = 0; row < 100; row++)
-        {
+        for (int row = 0; row < 100; row++) {
             Map<String, String> map = new LinkedHashMap<>();
             list.add(map);
 
-            for (int col = 0; col < 10; col++)
-            {
+            for (int col = 0; col < 10; col++) {
                 map.put("Spalte-" + col, "Value-" + row + "-" + col);
             }
         }
@@ -78,8 +71,7 @@ public final class TableExampleScrollPaneRowHeaderMain
 
         TableColumnModel columnModel = tableData.getColumnModel();
 
-        for (int c = 0; c < columnModel.getColumnCount(); c++)
-        {
+        for (int c = 0; c < columnModel.getColumnCount(); c++) {
             columnModel.getColumn(c).setPreferredWidth(100);
         }
 
@@ -102,8 +94,7 @@ public final class TableExampleScrollPaneRowHeaderMain
         tableRowHeader.setRowSorter(tableData.getRowSorter());
 
         // Die ersten beiden Spalten der Daten-Tabelle in den RowHeader stecken.
-        for (int i = 0; i < 2; i++)
-        {
+        for (int i = 0; i < 2; i++) {
             TableColumn tableColumn = columnModel.getColumn(i);
             columnModel.removeColumn(tableColumn);
             tableRowHeader.getColumnModel().addColumn(tableColumn);
@@ -123,15 +114,13 @@ public final class TableExampleScrollPaneRowHeaderMain
         frame.getContentPane().add(scrollPane);
         frame.setSize(new Dimension(800, 600));
 
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }
 
-    private TableExampleScrollPaneRowHeaderMain()
-    {
+    private TableExampleScrollPaneRowHeaderMain() {
         super();
     }
 }

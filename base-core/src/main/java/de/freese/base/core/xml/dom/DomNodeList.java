@@ -13,18 +13,15 @@ import org.w3c.dom.NodeList;
  *
  * @author Thomas Freese
  */
-public class DomNodeList extends ArrayList<Node> implements NodeList
-{
+public class DomNodeList extends ArrayList<Node> implements NodeList {
     @Serial
     private static final long serialVersionUID = 510442491147365569L;
 
-    public DomNodeList()
-    {
+    public DomNodeList() {
         super();
     }
 
-    public DomNodeList(final NodeList nodeList)
-    {
+    public DomNodeList(final NodeList nodeList) {
         super(nodeList.getLength());
 
         addAll(nodeList);
@@ -34,15 +31,12 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
      * @see java.util.ArrayList#addAll(int, java.util.Collection)
      */
     @Override
-    public boolean addAll(final int index, final Collection<? extends Node> c)
-    {
+    public boolean addAll(final int index, final Collection<? extends Node> c) {
         throw new UnsupportedOperationException();
     }
 
-    public void addAll(final NodeList nodeList)
-    {
-        for (int i = 0; i < nodeList.getLength(); i++)
-        {
+    public void addAll(final NodeList nodeList) {
+        for (int i = 0; i < nodeList.getLength(); i++) {
             add(nodeList.item(i));
         }
     }
@@ -51,8 +45,7 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
      * @see org.w3c.dom.NodeList#getLength()
      */
     @Override
-    public int getLength()
-    {
+    public int getLength() {
         return size();
     }
 
@@ -60,8 +53,7 @@ public class DomNodeList extends ArrayList<Node> implements NodeList
      * @see org.w3c.dom.NodeList#item(int)
      */
     @Override
-    public Node item(final int index)
-    {
+    public Node item(final int index) {
         return get(index);
     }
 }

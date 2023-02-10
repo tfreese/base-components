@@ -8,18 +8,15 @@ import java.io.Serial;
  *
  * @author Thomas Freese
  */
-public class NotSerializableDataFlavor extends DataFlavor
-{
+public class NotSerializableDataFlavor extends DataFlavor {
     @Serial
     private static final long serialVersionUID = 782562737576235278L;
 
-    public NotSerializableDataFlavor()
-    {
+    public NotSerializableDataFlavor() {
         super();
     }
 
-    public NotSerializableDataFlavor(final Class<?> representationClass, final String humanPresentableName)
-    {
+    public NotSerializableDataFlavor(final Class<?> representationClass, final String humanPresentableName) {
         super(representationClass, humanPresentableName);
     }
 
@@ -27,8 +24,7 @@ public class NotSerializableDataFlavor extends DataFlavor
      * @see java.awt.datatransfer.DataFlavor#isFlavorSerializedObjectType()
      */
     @Override
-    public boolean isFlavorSerializedObjectType()
-    {
+    public boolean isFlavorSerializedObjectType() {
         // Sonst würde er beim Transfer das Object klonen !
         return false;
     }

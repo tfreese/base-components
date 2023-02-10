@@ -10,23 +10,19 @@ import java.util.Map;
  *
  * @author Thomas Freese
  */
-public final class NoOpResourceCache implements ResourceCache
-{
+public final class NoOpResourceCache implements ResourceCache {
     /**
      * @author Thomas Freese
      */
-    private static class InstanceHolder
-    {
+    private static class InstanceHolder {
         private static final ResourceCache INSTANCE = new NoOpResourceCache();
     }
 
-    public static ResourceCache getInstance()
-    {
+    public static ResourceCache getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
-    private NoOpResourceCache()
-    {
+    private NoOpResourceCache() {
         super();
     }
 
@@ -34,8 +30,7 @@ public final class NoOpResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#clear(java.lang.String, java.util.Locale)
      */
     @Override
-    public void clear(final String bundleName, final Locale locale)
-    {
+    public void clear(final String bundleName, final Locale locale) {
         // Empty
     }
 
@@ -43,8 +38,7 @@ public final class NoOpResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#clearAll()
      */
     @Override
-    public void clearAll()
-    {
+    public void clearAll() {
         // Empty
     }
 
@@ -52,8 +46,7 @@ public final class NoOpResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#getValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String)
      */
     @Override
-    public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key)
-    {
+    public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key) {
         return null;
     }
 
@@ -61,8 +54,7 @@ public final class NoOpResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#getValues(java.lang.String, java.util.Locale, java.lang.Class)
      */
     @Override
-    public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type)
-    {
+    public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
         return Collections.emptyMap();
     }
 
@@ -70,8 +62,7 @@ public final class NoOpResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#putValue(java.lang.String, java.util.Locale, java.lang.Class, java.lang.String, java.lang.Object)
      */
     @Override
-    public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value)
-    {
+    public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value) {
         // Empty
     }
 
@@ -79,8 +70,7 @@ public final class NoOpResourceCache implements ResourceCache
      * @see de.freese.base.resourcemap.cache.ResourceCache#putValues(java.lang.String, java.util.Locale, java.lang.Class, java.util.Map)
      */
     @Override
-    public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values)
-    {
+    public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values) {
         // Empty
     }
 }

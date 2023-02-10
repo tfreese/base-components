@@ -8,25 +8,20 @@ import org.jdesktop.swingx.error.ErrorInfo;
 /**
  * @author Thomas Freese
  */
-public final class ErrorPaneMain
-{
-    public static void main(final String[] args)
-    {
-        try
-        {
+public final class ErrorPaneMain {
+    public static void main(final String[] args) {
+        try {
             Exception cause = new Exception("I'm the cause");
             throw new Exception("I'm a secondary exception", cause);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ErrorInfo errorInfo = new ErrorInfo("ErrorTitle", "basic error message", null, "category", ex, Level.ALL, null);
 
             ErrorPane.showDialog(null, errorInfo, false);
         }
     }
 
-    private ErrorPaneMain()
-    {
+    private ErrorPaneMain() {
         super();
     }
 }

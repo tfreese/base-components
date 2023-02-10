@@ -10,10 +10,11 @@ import java.util.List;
 import javax.swing.JRootPane;
 import javax.swing.RootPaneContainer;
 
-import de.freese.base.swing.task.AbstractSwingTask;
-import de.freese.base.utils.GuiUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.swing.task.AbstractSwingTask;
+import de.freese.base.utils.GuiUtils;
 
 /**
  * InputBlocker können für einen {@link AbstractSwingTask} die GUI-Elemente für die Eingabe blockieren.
@@ -22,8 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractInputBlocker<T> implements InputBlocker
-{
+public abstract class AbstractInputBlocker<T> implements InputBlocker {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final List<T> targets = new ArrayList<>();
@@ -36,40 +36,31 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
      * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
      */
     @Override
-    public void propertyChange(final PropertyChangeEvent event)
-    {
+    public void propertyChange(final PropertyChangeEvent event) {
         // Empty
     }
 
-    public void setRootPane(final JRootPane rootPane)
-    {
+    public void setRootPane(final JRootPane rootPane) {
         this.rootPane = rootPane;
     }
 
-    protected void addTarget(final T target)
-    {
+    protected void addTarget(final T target) {
         this.targets.add(target);
     }
 
-    protected JRootPane detectRootPane()
-    {
+    protected JRootPane detectRootPane() {
         JRootPane rp = null;
 
-        for (T target : getTargets())
-        {
-            if (rp != null)
-            {
+        for (T target : getTargets()) {
+            if (rp != null) {
                 break;
             }
 
-            if (target instanceof Component root)
-            {
+            if (target instanceof Component root) {
                 RootPaneContainer rpc = null;
 
-                while (root != null)
-                {
-                    if (root instanceof RootPaneContainer c)
-                    {
+                while (root != null) {
+                    if (root instanceof RootPaneContainer c) {
                         rpc = c;
                         break;
                     }
@@ -82,33 +73,27 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
         }
 
         // Fallback: Das aktuelle Fenster holen.
-        if (rp == null)
-        {
+        if (rp == null) {
             Frame activeFrame = GuiUtils.getActiveFrame();
 
-            if (activeFrame instanceof RootPaneContainer c)
-            {
+            if (activeFrame instanceof RootPaneContainer c) {
                 rp = c.getRootPane();
             }
         }
 
-        if (rp == null)
-        {
+        if (rp == null) {
             getLogger().warn("Keine JRootPane gefunden");
         }
 
         return rp;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected JRootPane getRootPane()
-    {
-        if (this.rootPane != null)
-        {
+    protected JRootPane getRootPane() {
+        if (this.rootPane != null) {
             return this.rootPane;
         }
 
@@ -119,36 +104,29 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker
     /**
      * Liefert die zu blockenden Objekte (JComponent, Action etc.).
      */
-    protected List<T> getTargets()
-    {
+    protected List<T> getTargets() {
         return this.targets;
     }
 
-    protected void setChangeMouseCursor(final boolean changeMouseCursor)
-    {
+    protected void setChangeMouseCursor(final boolean changeMouseCursor) {
         this.changeMouseCursor = changeMouseCursor;
     }
 
-    protected void setMouseCursorBusy(final boolean busy)
-    {
-        if (!this.changeMouseCursor)
-        {
+    protected void setMouseCursorBusy(final boolean busy) {
+        if (!this.changeMouseCursor) {
             return;
         }
 
         JRootPane rp = getRootPane();
 
-        if (rp == null)
-        {
+        if (rp == null) {
             return;
         }
 
-        if (busy)
-        {
+        if (busy) {
             rp.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         }
-        else
-        {
+        else {
             rp.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
     }

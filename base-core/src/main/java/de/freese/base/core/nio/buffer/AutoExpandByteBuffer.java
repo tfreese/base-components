@@ -16,20 +16,17 @@ import java.nio.charset.CharsetDecoder;
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
-public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuffer>
-{
+public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuffer> {
     /**
      * Default:<br>
      * - direct = true<br>
      * - crlf = [0x0D, 0x0A]
      */
-    public static AutoExpandByteBuffer of(final int capacity)
-    {
+    public static AutoExpandByteBuffer of(final int capacity) {
         return of(capacity, true);
     }
 
-    public static AutoExpandByteBuffer of(final int capacity, final boolean direct)
-    {
+    public static AutoExpandByteBuffer of(final int capacity, final boolean direct) {
         ByteBuffer byteBuffer = direct ? ByteBuffer.allocateDirect(capacity) : ByteBuffer.allocate(capacity);
 
         return new AutoExpandByteBuffer(byteBuffer);
@@ -41,8 +38,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * return new AutoExpandByteBuffer(byteBuffer);
      * </pre>
      */
-    private AutoExpandByteBuffer(final ByteBuffer buffer)
-    {
+    private AutoExpandByteBuffer(final ByteBuffer buffer) {
         super(buffer);
     }
 
@@ -50,16 +46,13 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * Liefert einen {@link InputStream}, der aus dem Buffer liest.<br>
      * {@link InputStream#read()} liefert <tt>-1</tt>, wenn der Buffer sein Limit erreicht.
      */
-    public InputStream asInputStream()
-    {
-        return new InputStream()
-        {
+    public InputStream asInputStream() {
+        return new InputStream() {
             /**
              * @see java.io.InputStream#available()
              */
             @Override
-            public int available() throws IOException
-            {
+            public int available() throws IOException {
                 return AutoExpandByteBuffer.this.remaining();
             }
 
@@ -67,8 +60,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.InputStream#mark(int)
              */
             @Override
-            public synchronized void mark(final int readLimit)
-            {
+            public synchronized void mark(final int readLimit) {
                 AutoExpandByteBuffer.this.mark();
             }
 
@@ -76,8 +68,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.InputStream#markSupported()
              */
             @Override
-            public boolean markSupported()
-            {
+            public boolean markSupported() {
                 return true;
             }
 
@@ -85,10 +76,8 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.InputStream#read()
              */
             @Override
-            public int read() throws IOException
-            {
-                if (AutoExpandByteBuffer.this.hasRemaining())
-                {
+            public int read() throws IOException {
+                if (AutoExpandByteBuffer.this.hasRemaining()) {
                     return AutoExpandByteBuffer.this.get() & 0xff;
                 }
 
@@ -99,12 +88,10 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.InputStream#read(byte[], int, int)
              */
             @Override
-            public int read(final byte[] b, final int off, final int len) throws IOException
-            {
+            public int read(final byte[] b, final int off, final int len) throws IOException {
                 int remaining = AutoExpandByteBuffer.this.remaining();
 
-                if (remaining > 0)
-                {
+                if (remaining > 0) {
                     int readBytes = Math.min(remaining, len);
                     AutoExpandByteBuffer.this.get(b, off, readBytes);
 
@@ -118,8 +105,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.InputStream#reset()
              */
             @Override
-            public synchronized void reset() throws IOException
-            {
+            public synchronized void reset() throws IOException {
                 AutoExpandByteBuffer.this.reset();
             }
 
@@ -127,16 +113,13 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.InputStream#skip(long)
              */
             @Override
-            public long skip(final long n) throws IOException
-            {
+            public long skip(final long n) throws IOException {
                 int bytes;
 
-                if (n > Integer.MAX_VALUE)
-                {
+                if (n > Integer.MAX_VALUE) {
                     bytes = AutoExpandByteBuffer.this.remaining();
                 }
-                else
-                {
+                else {
                     bytes = Math.min(AutoExpandByteBuffer.this.remaining(), (int) n);
                 }
 
@@ -150,16 +133,13 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     /**
      * Liefert einen {@link OutputStream}, der in den Buffer schreibt.<br>
      */
-    public OutputStream asOutputStream()
-    {
-        return new OutputStream()
-        {
+    public OutputStream asOutputStream() {
+        return new OutputStream() {
             /**
              * @see java.io.OutputStream#write(byte[], int, int)
              */
             @Override
-            public void write(final byte[] b, final int off, final int len) throws IOException
-            {
+            public void write(final byte[] b, final int off, final int len) throws IOException {
                 AutoExpandByteBuffer.this.put(b, off, len);
             }
 
@@ -167,83 +147,68 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
              * @see java.io.OutputStream#write(int)
              */
             @Override
-            public void write(final int b) throws IOException
-            {
+            public void write(final int b) throws IOException {
                 AutoExpandByteBuffer.this.put((byte) b);
             }
         };
     }
 
-    public CharBuffer decode(final CharsetDecoder decoder) throws CharacterCodingException
-    {
+    public CharBuffer decode(final CharsetDecoder decoder) throws CharacterCodingException {
         return decoder.reset().decode(getBuffer());
     }
 
-    public byte get()
-    {
+    public byte get() {
         return getBuffer().get();
     }
 
-    public void get(final byte[] dst)
-    {
+    public void get(final byte[] dst) {
         getBuffer().get(dst);
     }
 
-    public void get(final byte[] dst, final int offset, final int length)
-    {
+    public void get(final byte[] dst, final int offset, final int length) {
         getBuffer().get(dst, offset, length);
     }
 
-    public byte get(final int index)
-    {
+    public byte get(final int index) {
         return getBuffer().get(index);
     }
 
-    public char getChar()
-    {
+    public char getChar() {
         return getBuffer().getChar();
     }
 
-    public char getChar(final int index)
-    {
+    public char getChar(final int index) {
         return getBuffer().getChar(index);
     }
 
-    public double getDouble()
-    {
+    public double getDouble() {
         return getBuffer().getDouble();
     }
 
-    public double getDouble(final int index)
-    {
+    public double getDouble(final int index) {
         return getBuffer().getDouble(index);
     }
 
-    public float getFloat()
-    {
+    public float getFloat() {
         return getBuffer().getFloat();
     }
 
-    public float getFloat(final int index)
-    {
+    public float getFloat(final int index) {
         return getBuffer().getFloat(index);
     }
 
     /**
      * Liefert die Hexadezimal Darstellung des {@link ByteBuffer}.
      */
-    public String getHexDump()
-    {
+    public String getHexDump() {
         return getHexDump(Integer.MAX_VALUE);
     }
 
     /**
      * Liefert die Hexadezimal Darstellung des {@link ByteBuffer}.
      */
-    public String getHexDump(final int lengthLimit)
-    {
-        if (lengthLimit == 0)
-        {
+    public String getHexDump(final int lengthLimit) {
+        if (lengthLimit == 0) {
             throw new IllegalArgumentException("lengthLimit: " + lengthLimit + " (expected: 1+)");
         }
 
@@ -252,17 +217,14 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         boolean truncate = buffer.remaining() > lengthLimit;
         int size = 0;
 
-        if (truncate)
-        {
+        if (truncate) {
             size = lengthLimit;
         }
-        else
-        {
+        else {
             size = buffer.remaining();
         }
 
-        if (size == 0)
-        {
+        if (size == 0) {
             return "empty";
         }
 
@@ -272,8 +234,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
         StringBuilder sb = new StringBuilder(size * 2);
 
-        for (; size > 0; size--)
-        {
+        for (; size > 0; size--) {
             int byteValue = buffer.get() & 0xFF;
 
             sb.append(hexCode[byteValue >> 4]);
@@ -292,46 +253,38 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
         buffer.position(position);
 
-        if (truncate)
-        {
+        if (truncate) {
             sb.append("...");
         }
 
         return sb.toString();
     }
 
-    public int getInt()
-    {
+    public int getInt() {
         return getBuffer().getInt();
     }
 
-    public int getInt(final int index)
-    {
+    public int getInt(final int index) {
         return getBuffer().getInt(index);
     }
 
-    public long getLong()
-    {
+    public long getLong() {
         return getBuffer().getLong();
     }
 
-    public long getLong(final int index)
-    {
+    public long getLong(final int index) {
         return getBuffer().getLong(index);
     }
 
-    public short getShort()
-    {
+    public short getShort() {
         return getBuffer().getShort();
     }
 
-    public short getShort(final int index)
-    {
+    public short getShort(final int index) {
         return getBuffer().getShort(index);
     }
 
-    public AutoExpandByteBuffer put(final byte b)
-    {
+    public AutoExpandByteBuffer put(final byte b) {
         autoExpand(1);
 
         getBuffer().put(b);
@@ -339,13 +292,11 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer put(final byte[] src)
-    {
+    public AutoExpandByteBuffer put(final byte[] src) {
         return put(src, 0, src.length);
     }
 
-    public AutoExpandByteBuffer put(final byte[] src, final int offset, final int length)
-    {
+    public AutoExpandByteBuffer put(final byte[] src, final int offset, final int length) {
         autoExpand(length - offset);
 
         getBuffer().put(src, offset, length);
@@ -353,8 +304,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer put(final ByteBuffer src)
-    {
+    public AutoExpandByteBuffer put(final ByteBuffer src) {
         autoExpand(src.remaining());
 
         getBuffer().put(src);
@@ -362,8 +312,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer putChar(final char value)
-    {
+    public AutoExpandByteBuffer putChar(final char value) {
         autoExpand(2);
 
         getBuffer().putChar(value);
@@ -371,8 +320,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer putDouble(final double value)
-    {
+    public AutoExpandByteBuffer putDouble(final double value) {
         autoExpand(8);
 
         getBuffer().putDouble(value);
@@ -380,8 +328,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer putFloat(final float value)
-    {
+    public AutoExpandByteBuffer putFloat(final float value) {
         autoExpand(4);
 
         getBuffer().putFloat(value);
@@ -389,8 +336,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer putInt(final int value)
-    {
+    public AutoExpandByteBuffer putInt(final int value) {
         autoExpand(4);
 
         getBuffer().putInt(value);
@@ -398,8 +344,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer putLong(final long value)
-    {
+    public AutoExpandByteBuffer putLong(final long value) {
         autoExpand(8);
 
         getBuffer().putLong(value);
@@ -407,8 +352,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    public AutoExpandByteBuffer putShort(final short value)
-    {
+    public AutoExpandByteBuffer putShort(final short value) {
         autoExpand(2);
 
         getBuffer().putShort(value);
@@ -420,8 +364,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
      * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
      */
     @Override
-    protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity)
-    {
+    protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity) {
         ByteOrder bo = buffer.order();
 
         ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);

@@ -15,14 +15,12 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  *
  * @author Thomas Freese
  */
-public class SpringResourceScanner implements ResourceScanner
-{
+public class SpringResourceScanner implements ResourceScanner {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringResourceScanner.class);
 
     private final ResourcePatternResolver resourcePatternResolver;
 
-    public SpringResourceScanner()
-    {
+    public SpringResourceScanner() {
         super();
 
         this.resourcePatternResolver = new PathMatchingResourcePatternResolver();
@@ -32,31 +30,26 @@ public class SpringResourceScanner implements ResourceScanner
      * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
      */
     @Override
-    public Set<String> scanResources(final String basePath)
-    {
+    public Set<String> scanResources(final String basePath) {
         String path = basePath;
 
-        if (path.endsWith("/"))
-        {
+        if (path.endsWith("/")) {
             path = path.substring(0, path.lastIndexOf('/'));
         }
 
-        try
-        {
+        try {
             Resource[] resources = this.resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
 
             // Für ResourceBundle normalisieren
             Set<String> bundleNames = new HashSet<>();
 
-            for (Resource resource : resources)
-            {
+            for (Resource resource : resources) {
                 bundleNames.add(path + "/" + resource.getFilename());
             }
 
             return bundleNames;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
         }
 

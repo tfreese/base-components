@@ -15,23 +15,20 @@ import javax.swing.text.JTextComponent;
  *
  * @author Thomas Freese
  */
-public class TextComponentOutputStream extends OutputStream
-{
+public class TextComponentOutputStream extends OutputStream {
     private final byte[] littleBuffer = new byte[1];
 
     private OutputStream out;
 
     private JTextComponent textComponent;
 
-    public TextComponentOutputStream(final JTextComponent textComponent)
-    {
+    public TextComponentOutputStream(final JTextComponent textComponent) {
         super();
 
         this.textComponent = textComponent;
     }
 
-    public TextComponentOutputStream(final JTextComponent textArea, final OutputStream out)
-    {
+    public TextComponentOutputStream(final JTextComponent textArea, final OutputStream out) {
         this(textArea);
 
         this.out = out;
@@ -41,8 +38,7 @@ public class TextComponentOutputStream extends OutputStream
      * @see java.io.OutputStream#close()
      */
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         this.textComponent = null;
         this.out = null;
     }
@@ -51,8 +47,7 @@ public class TextComponentOutputStream extends OutputStream
      * @see java.io.OutputStream#flush()
      */
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
         // Empty
     }
 
@@ -60,8 +55,7 @@ public class TextComponentOutputStream extends OutputStream
      * @see java.io.OutputStream#write(byte[])
      */
     @Override
-    public void write(final byte[] b) throws IOException
-    {
+    public void write(final byte[] b) throws IOException {
         write(b, 0, b.length);
     }
 
@@ -69,12 +63,10 @@ public class TextComponentOutputStream extends OutputStream
      * @see java.io.OutputStream#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         String s = new String(b, off, len, StandardCharsets.UTF_8);
 
-        if (this.out != null)
-        {
+        if (this.out != null) {
             this.out.write(b, off, len);
         }
 
@@ -85,22 +77,18 @@ public class TextComponentOutputStream extends OutputStream
      * @see java.io.OutputStream#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         this.littleBuffer[0] = (byte) b;
 
         write(this.littleBuffer);
     }
 
-    private void updateComponent(final String text)
-    {
-        Runnable runnable = () ->
-        {
+    private void updateComponent(final String text) {
+        Runnable runnable = () -> {
             JTextComponent tc = this.textComponent;
             Document document = tc.getDocument();
 
-            try
-            {
+            try {
                 document.insertString(document.getLength(), text, null);
 
                 // Zum letzten Zeichen springen
@@ -111,28 +99,22 @@ public class TextComponentOutputStream extends OutputStream
                 int maxExcess = 500;
                 int excess = document.getLength() - idealSize;
 
-                if (excess >= maxExcess)
-                {
-                    try
-                    {
-                        if (document instanceof AbstractDocument ad)
-                        {
+                if (excess >= maxExcess) {
+                    try {
+                        if (document instanceof AbstractDocument ad) {
                             ad.replace(0, excess, text, null);
                         }
-                        else
-                        {
+                        else {
                             document.remove(0, excess);
                             document.insertString(0, text, null);
                         }
                     }
-                    catch (BadLocationException ex)
-                    {
+                    catch (BadLocationException ex) {
                         throw new IllegalArgumentException(ex.getMessage());
                     }
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
         };

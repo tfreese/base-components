@@ -11,8 +11,7 @@ import de.freese.base.core.throttle.Throttler;
 /**
  * @author Thomas Freese
  */
-public class ThrottledOutputStream extends OutputStream
-{
+public class ThrottledOutputStream extends OutputStream {
     private final OutputStream outputStream;
 
     private final Throttler throttler;
@@ -21,8 +20,7 @@ public class ThrottledOutputStream extends OutputStream
 
     private long sleepTimeNanos;
 
-    public ThrottledOutputStream(final OutputStream outputStream, final Throttler throttler)
-    {
+    public ThrottledOutputStream(final OutputStream outputStream, final Throttler throttler) {
         super();
 
         this.outputStream = Objects.requireNonNull(outputStream, "outputStream required");
@@ -33,8 +31,7 @@ public class ThrottledOutputStream extends OutputStream
      * @see java.io.OutputStream#close()
      */
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         this.outputStream.close();
     }
 
@@ -42,18 +39,15 @@ public class ThrottledOutputStream extends OutputStream
      * @see java.io.OutputStream#flush()
      */
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
         this.outputStream.flush();
     }
 
-    public long getBytesWritten()
-    {
+    public long getBytesWritten() {
         return this.bytesWritten;
     }
 
-    public long getSleepTimeNanos()
-    {
+    public long getSleepTimeNanos() {
         return this.sleepTimeNanos;
     }
 
@@ -61,8 +55,7 @@ public class ThrottledOutputStream extends OutputStream
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttler);
@@ -77,26 +70,21 @@ public class ThrottledOutputStream extends OutputStream
      * @see java.io.OutputStream#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         throttle(1);
 
         this.outputStream.write(b);
         this.bytesWritten++;
     }
 
-    private void throttle(final int permits)
-    {
+    private void throttle(final int permits) {
         long waitNanos = this.throttler.reservePermits(permits);
 
-        if (waitNanos > 0L)
-        {
-            try
-            {
+        if (waitNanos > 0L) {
+            try {
                 TimeUnit.NANOSECONDS.sleep(waitNanos);
             }
-            catch (InterruptedException ex)
-            {
+            catch (InterruptedException ex) {
                 // Preserve interrupt status
                 Thread.currentThread().interrupt();
             }

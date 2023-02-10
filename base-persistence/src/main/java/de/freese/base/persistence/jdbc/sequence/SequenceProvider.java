@@ -9,7 +9,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface SequenceProvider
-{
+public interface SequenceProvider {
     long getNextID(String sequence) throws SQLException;
 }

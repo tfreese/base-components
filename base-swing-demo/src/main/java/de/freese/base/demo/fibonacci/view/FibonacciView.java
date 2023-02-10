@@ -6,7 +6,6 @@ import de.freese.base.mvc.view.View;
 /**
  * @author Thomas Freese
  */
-public interface FibonacciView extends View, Releasable
-{
+public interface FibonacciView extends View, Releasable {
     void setResult(long value);
 }

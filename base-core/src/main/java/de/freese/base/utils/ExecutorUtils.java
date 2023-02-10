@@ -14,15 +14,15 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import de.freese.base.core.concurrent.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.core.concurrent.NamedThreadFactory;
 
 /**
  * @author Thomas Freese
  */
-public final class ExecutorUtils
-{
+public final class ExecutorUtils {
     /**
      * <pre>
      * Defaults:
@@ -37,8 +37,7 @@ public final class ExecutorUtils
      *
      * @param threadNamePattern String; Beispiel: thread-%02d<br>
      */
-    public static ExecutorService createThreadPool(final String threadNamePattern)
-    {
+    public static ExecutorService createThreadPool(final String threadNamePattern) {
         int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
         int maxSize = coreSize * 2;
         int queueSize = maxSize * 10;
@@ -59,9 +58,7 @@ public final class ExecutorUtils
      * @param queueSize int Set the capacity for the ThreadPoolExecutor's BlockingQueue. Any positive value will lead to a LinkedBlockingQueue instance; any
      * other value will lead to a SynchronousQueue instance.
      */
-    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
-                                                   final int keepAliveSeconds)
-    {
+    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds) {
         return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds, new ThreadPoolExecutor.AbortPolicy(), false, true);
     }
 
@@ -73,75 +70,59 @@ public final class ExecutorUtils
      * waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      */
-    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize,
-                                                   final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler,
-                                                   final boolean allowCoreThreadTimeOut, final boolean exposeUnconfigurableExecutor)
-    {
+    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut, final boolean exposeUnconfigurableExecutor) {
         BlockingQueue<Runnable> queue;
 
-        if (queueSize > 0)
-        {
+        if (queueSize > 0) {
             queue = new LinkedBlockingQueue<>(queueSize);
         }
-        else
-        {
+        else {
             queue = new SynchronousQueue<>();
         }
 
         ThreadFactory threadFactory = new NamedThreadFactory(threadNamePattern, true);
 
-        ThreadPoolExecutor threadPoolExecutor =
-                new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
         threadPoolExecutor.allowCoreThreadTimeOut(allowCoreThreadTimeOut);
 
         return exposeUnconfigurableExecutor ? Executors.unconfigurableExecutorService(threadPoolExecutor) : threadPoolExecutor;
     }
 
-    public static void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger)
-    {
+    public static void shutdown(final AsynchronousChannelGroup channelGroup, final Logger logger) {
         logger.info("shutdown AsynchronousChannelGroup");
 
-        if (channelGroup == null)
-        {
+        if (channelGroup == null) {
             return;
         }
 
         channelGroup.shutdown();
 
-        try
-        {
+        try {
             // Wait a while for existing tasks to terminate.
-            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS))
-            {
-                if (logger.isWarnEnabled())
-                {
+            if (!channelGroup.awaitTermination(10, TimeUnit.SECONDS)) {
+                if (logger.isWarnEnabled()) {
                     logger.warn("Timed out while waiting for channelGroup");
                 }
 
                 channelGroup.shutdownNow(); // Cancel currently executing tasks
 
                 // Wait a while for tasks to respond to being cancelled
-                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS))
-                {
+                if (!channelGroup.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("ChannelGroup did not terminate");
                 }
             }
         }
-        catch (InterruptedException | IOException ex)
-        {
-            if (logger.isWarnEnabled())
-            {
+        catch (InterruptedException | IOException ex) {
+            if (logger.isWarnEnabled()) {
                 logger.warn("Interrupted while waiting for ChannelGroup");
             }
 
             // (Re-)Cancel if current thread also interrupted
-            try
-            {
+            try {
                 channelGroup.shutdownNow();
             }
-            catch (IOException ex2)
-            {
+            catch (IOException ex2) {
                 logger.error("ChannelGroup did not terminate");
             }
 
@@ -150,17 +131,14 @@ public final class ExecutorUtils
         }
     }
 
-    public static void shutdown(final ExecutorService executorService)
-    {
+    public static void shutdown(final ExecutorService executorService) {
         shutdown(executorService, LoggerFactory.getLogger(ExecutorUtils.class));
     }
 
-    public static void shutdown(final ExecutorService executorService, final Logger logger)
-    {
+    public static void shutdown(final ExecutorService executorService, final Logger logger) {
         logger.info("shutdown ExecutorService");
 
-        if (executorService == null)
-        {
+        if (executorService == null) {
             logger.warn("ExecutorService is null");
 
             return;
@@ -168,11 +146,9 @@ public final class ExecutorUtils
 
         executorService.shutdown();
 
-        try
-        {
+        try {
             // Wait a while for existing tasks to terminate.
-            if (!executorService.awaitTermination(10, TimeUnit.SECONDS))
-            {
+            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
                 logger.warn("Timed out while waiting for ExecutorService");
 
                 // Cancel currently executing tasks.
@@ -185,22 +161,18 @@ public final class ExecutorUtils
                 // @formatter:on
 
                 // Wait a while for tasks to respond to being cancelled.
-                if (!executorService.awaitTermination(5, TimeUnit.SECONDS))
-                {
+                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
                     logger.error("ExecutorService did not terminate");
                 }
-                else
-                {
+                else {
                     logger.info("ExecutorService terminated");
                 }
             }
-            else
-            {
+            else {
                 logger.info("ExecutorService terminated");
             }
         }
-        catch (InterruptedException iex)
-        {
+        catch (InterruptedException iex) {
             logger.warn("Interrupted while waiting for ExecutorService");
 
             // (Re-)Cancel if current thread also interrupted.
@@ -211,8 +183,7 @@ public final class ExecutorUtils
         }
     }
 
-    private ExecutorUtils()
-    {
+    private ExecutorUtils() {
         super();
     }
 }

@@ -16,17 +16,14 @@ import de.freese.base.utils.CalendarUtils;
  *
  * @author Thomas Freese
  */
-public final class FeiertagsManager
-{
+public final class FeiertagsManager {
     private final Map<Integer, Map<String, InternerFeiertag>> feiertagsMap = new TreeMap<>();
 
-    public Feiertag getFeiertag(final Calendar calendar)
-    {
+    public Feiertag getFeiertag(final Calendar calendar) {
         return getFeiertag(calendar.getTime());
     }
 
-    public Feiertag getFeiertag(final Date date)
-    {
+    public Feiertag getFeiertag(final Date date) {
         LocalDate localDate = CalendarUtils.toLocalDate(date);
 
         return getFeiertag(localDate);
@@ -40,8 +37,7 @@ public final class FeiertagsManager
      *
      * @return {@link Feiertag}
      */
-    public Feiertag getFeiertag(final int jahr, final int tagDesJahres)
-    {
+    public Feiertag getFeiertag(final int jahr, final int tagDesJahres) {
         LocalDate localDate = LocalDate.ofYearDay(jahr, tagDesJahres);
 
         return getFeiertag(localDate);
@@ -56,33 +52,28 @@ public final class FeiertagsManager
      *
      * @return {@link Feiertag}
      */
-    public Feiertag getFeiertag(final int jahr, final int monat, final int tag)
-    {
+    public Feiertag getFeiertag(final int jahr, final int monat, final int tag) {
         erzeugeFeiertage(jahr);
 
         InternerFeiertag internerFeiertag = this.feiertagsMap.getOrDefault(jahr, Collections.emptyMap()).get(monat + "-" + tag);
         Feiertag feiertag = null;
 
-        if (internerFeiertag != null)
-        {
+        if (internerFeiertag != null) {
             feiertag = new Feiertag(internerFeiertag.getTyp(), internerFeiertag.isVariablerFeiertag());
         }
 
         return feiertag;
     }
 
-    public Feiertag getFeiertag(final LocalDate localDate)
-    {
+    public Feiertag getFeiertag(final LocalDate localDate) {
         return getFeiertag(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth());
     }
 
-    public Feiertag getFeiertag(final LocalDateTime localDateTime)
-    {
+    public Feiertag getFeiertag(final LocalDateTime localDateTime) {
         return getFeiertag(localDateTime.getYear(), localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
     }
 
-    private void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag)
-    {
+    private void addFeiertag(final int jahr, final int monat, final int tag, final FeiertagTyp typ, final boolean berechneterFeiertag) {
         Map<String, InternerFeiertag> jahrMap = this.feiertagsMap.computeIfAbsent(jahr, key -> new HashMap<>());
 
         jahrMap.put(monat + "-" + tag, new InternerFeiertag(jahr, monat, tag, typ, berechneterFeiertag));
@@ -92,8 +83,7 @@ public final class FeiertagsManager
      * Einfügen von Ostern abhängigen Feiertagen.<br/>
      * Geklaut aus CT' (Gauss-Algorithmus).
      */
-    private void erzeugeDynamischeFeiertage(final int jahr)
-    {
+    private void erzeugeDynamischeFeiertage(final int jahr) {
         int gz;
 
         int jhd;
@@ -113,15 +103,13 @@ public final class FeiertagsManager
         so = ((5 * jahr) / 4) - ksj - 10;
         epakte = (((11 * gz) + 20 + korr) - ksj) % 30;
 
-        if (((epakte == 25) && (gz > 11)) || (epakte == 24))
-        {
+        if (((epakte == 25) && (gz > 11)) || (epakte == 24)) {
             epakte++;
         }
 
         n = 44 - epakte;
 
-        if (n < 21)
-        {
+        if (n < 21) {
             n = n + 30;
         }
 
@@ -147,11 +135,9 @@ public final class FeiertagsManager
     /**
      * Erzeuge alle Feiertage des Jahres, wenn noch nicht vorhanden.
      */
-    private void erzeugeFeiertage(final int jahr)
-    {
+    private void erzeugeFeiertage(final int jahr) {
         // Ist das Jahr schon enthalten?
-        if (this.feiertagsMap.containsKey(jahr))
-        {
+        if (this.feiertagsMap.containsKey(jahr)) {
             return;
         }
 
@@ -162,8 +148,7 @@ public final class FeiertagsManager
     /**
      * Einfügen von festen Feiertagen.
      */
-    private void erzeugeFesteFeiertage(final int jahr)
-    {
+    private void erzeugeFesteFeiertage(final int jahr) {
         addFeiertag(jahr, 1, 1, FeiertagTyp.NEUJAHR, false);
         addFeiertag(jahr, 5, 1, FeiertagTyp.MAIFEIERTAG, false);
         addFeiertag(jahr, 10, 3, FeiertagTyp.TAG_DER_DEUTSCHEN_EINHEIT, false);
@@ -182,19 +167,16 @@ public final class FeiertagsManager
      * Ausgabe: Wochentag (0=So, 1=Mo,..., 6=Sa)<br>
      * Algorithmus von Zeller, aus CT 15/98
      */
-    private int getMonatImJahr(final int jahr, final int tagDesJahres)
-    {
+    private int getMonatImJahr(final int jahr, final int tagDesJahres) {
         int tdj = tagDesJahres;
 
         int a = 0;
 
-        if (isSchaltJahr(jahr))
-        {
+        if (isSchaltJahr(jahr)) {
             a += 1;
         }
 
-        if (tdj > (59 + a))
-        {
+        if (tdj > (59 + a)) {
             tdj += (2 - a);
         }
 
@@ -208,20 +190,17 @@ public final class FeiertagsManager
      * Ausgabe: Tag (1..31)<br>
      * Algorithmus von R. A. Stone, aus CT 15/98
      */
-    private int getTagDesMonats(final int jahr, final int tagDesJahres)
-    {
+    private int getTagDesMonats(final int jahr, final int tagDesJahres) {
         int dtj = tagDesJahres;
 
         int a = 0;
         int m;
 
-        if (isSchaltJahr(jahr))
-        {
+        if (isSchaltJahr(jahr)) {
             a += 1;
         }
 
-        if (dtj > (59 + a))
-        {
+        if (dtj > (59 + a)) {
             dtj += (2 - a);
         }
 
@@ -231,8 +210,7 @@ public final class FeiertagsManager
         return dtj - ((611 * m) / 20);
     }
 
-    private boolean isSchaltJahr(final int jahr)
-    {
+    private boolean isSchaltJahr(final int jahr) {
         return ((jahr % 4) == 0) && (((jahr % 100) != 0) || ((jahr % 400) == 0));
     }
 }

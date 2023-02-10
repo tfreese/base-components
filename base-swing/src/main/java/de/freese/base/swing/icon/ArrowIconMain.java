@@ -12,10 +12,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class ArrowIconMain
-{
-    public static void main(final String[] args)
-    {
+public final class ArrowIconMain {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JLabel label = new JLabel(new ArrowIcon(30, 30, SwingConstants.NORTH, Color.MAGENTA));
@@ -24,9 +22,8 @@ public final class ArrowIconMain
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    private ArrowIconMain()
-    {
+
+    private ArrowIconMain() {
         super();
     }
 }

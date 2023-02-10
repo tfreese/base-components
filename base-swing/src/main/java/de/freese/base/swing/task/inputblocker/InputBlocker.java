@@ -10,8 +10,7 @@ import de.freese.base.swing.task.AbstractSwingTask;
  *
  * @author Thomas Freese
  */
-public interface InputBlocker extends PropertyChangeListener
-{
+public interface InputBlocker extends PropertyChangeListener {
     void block();
 
     void unblock();

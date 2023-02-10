@@ -7,15 +7,12 @@ import java.util.List;
 /**
  * @author Thomas Freese
  */
-public final class ExceptionUtils
-{
+public final class ExceptionUtils {
     /**
      * Liefert den Cause des Typs, falls vorhanden.<br>
      */
-    public static Exception findCause(final Throwable throwable, final Class<? extends Exception> type)
-    {
-        if (type.isInstance(throwable))
-        {
+    public static Exception findCause(final Throwable throwable, final Class<? extends Exception> type) {
+        if (type.isInstance(throwable)) {
             return (Exception) throwable;
         }
 
@@ -27,8 +24,7 @@ public final class ExceptionUtils
     /**
      * Liefert die enthaltene SQL-Exception, falls vorhanden.<br>
      */
-    public static SQLException findSQLException(final Throwable throwable)
-    {
+    public static SQLException findSQLException(final Throwable throwable) {
         return (SQLException) findCause(throwable, SQLException.class);
         // if (throwable instanceof SQLException)
         // {
@@ -56,8 +52,7 @@ public final class ExceptionUtils
      *
      * @return the root cause of the {@code Throwable}, {@code null} if null throwable input
      */
-    public static Throwable getRootCause(final Throwable throwable)
-    {
+    public static Throwable getRootCause(final Throwable throwable) {
         final List<Throwable> list = getThrowableList(throwable);
 
         return list.isEmpty() ? null : list.get(list.size() - 1);
@@ -80,12 +75,10 @@ public final class ExceptionUtils
      *
      * @return List, never null
      */
-    public static List<Throwable> getThrowableList(Throwable throwable)
-    {
+    public static List<Throwable> getThrowableList(Throwable throwable) {
         final List<Throwable> list = new ArrayList<>();
 
-        while ((throwable != null) && !list.contains(throwable))
-        {
+        while ((throwable != null) && !list.contains(throwable)) {
             list.add(throwable);
             throwable = throwable.getCause();
         }
@@ -93,8 +86,7 @@ public final class ExceptionUtils
         return list;
     }
 
-    private ExceptionUtils()
-    {
+    private ExceptionUtils() {
         super();
     }
 }

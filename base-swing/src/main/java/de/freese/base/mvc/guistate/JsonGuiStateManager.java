@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GuiState;
 import de.freese.base.swing.state.GuiStates;
@@ -16,12 +17,10 @@ import de.freese.base.swing.state.GuiStates;
 /**
  * @author Thomas Freese
  */
-public class JsonGuiStateManager extends AbstractGuiStateManager
-{
+public class JsonGuiStateManager extends AbstractGuiStateManager {
     private final ObjectMapper mapper;
 
-    public JsonGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates)
-    {
+    public JsonGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates) {
         super(localStorage, guiStates, "json");
 
         this.mapper = new ObjectMapper();
@@ -47,14 +46,12 @@ public class JsonGuiStateManager extends AbstractGuiStateManager
     }
 
     @Override
-    protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception
-    {
+    protected GuiState load(final GuiState guiState, final InputStream inputStream) throws Exception {
         return this.mapper.readValue(inputStream, guiState.getClass());
     }
 
     @Override
-    protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception
-    {
+    protected void save(final GuiState guiState, final OutputStream outputStream) throws Exception {
         this.mapper.writer().writeValue(outputStream, guiState);
     }
 }

@@ -10,20 +10,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import de.freese.base.core.model.builder.GenericBuilder;
 import org.junit.jupiter.api.Test;
+
+import de.freese.base.core.model.builder.GenericBuilder;
 
 /**
  * @author Thomas Freese
  */
-class TestAsyncFileReader
-{
+class TestAsyncFileReader {
     @Test
-    void testAsyncFileReader() throws Exception
-    {
+    void testAsyncFileReader() throws Exception {
         Supplier<StringBuilder> contentHolderSupplier = () -> new StringBuilder(4096);
-        BiConsumer<StringBuilder, byte[]> dataConsumer = (sb, data) ->
-        {
+        BiConsumer<StringBuilder, byte[]> dataConsumer = (sb, data) -> {
             System.out.printf("[%s] Read completed%n", Thread.currentThread().getName());
             sb.append(new String(data, StandardCharsets.UTF_8));
         };
@@ -56,8 +54,7 @@ class TestAsyncFileReader
 
         System.out.println("Read in progress...");
 
-        BiConsumer<Long, CharSequence> printer = (startTime, cs) ->
-        {
+        BiConsumer<Long, CharSequence> printer = (startTime, cs) -> {
             long duration = System.currentTimeMillis() - startTime;
 
             System.out.printf("[%s] Read %d bytes in %d ms.%n", Thread.currentThread().getName(), cs.length(), duration);

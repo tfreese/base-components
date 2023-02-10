@@ -7,8 +7,7 @@ import javax.swing.ImageIcon;
 /**
  * @author Thomas Freese
  */
-public interface WatermarkComponent
-{
+public interface WatermarkComponent {
     /**
      * Liefert das Image für den Watermark.
      */

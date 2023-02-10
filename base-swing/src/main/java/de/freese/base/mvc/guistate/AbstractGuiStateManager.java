@@ -8,17 +8,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.swing.state.GuiState;
 import de.freese.base.swing.state.GuiStates;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractGuiStateManager implements GuiStateManager
-{
+public abstract class AbstractGuiStateManager implements GuiStateManager {
     private final String fileExtension;
     private final GuiStates guiStates;
     private final LocalStorage localStorage;
@@ -27,8 +27,7 @@ public abstract class AbstractGuiStateManager implements GuiStateManager
     /**
      * @param fileExtension String; Like 'xml' or 'json'.
      */
-    protected AbstractGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates, final String fileExtension)
-    {
+    protected AbstractGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates, final String fileExtension) {
         super();
 
         this.localStorage = Objects.requireNonNull(localStorage, "localStorage required");
@@ -37,30 +36,25 @@ public abstract class AbstractGuiStateManager implements GuiStateManager
     }
 
     @Override
-    public void restore(final Component component, final String name)
-    {
+    public void restore(final Component component, final String name) {
         Path relativePath = Paths.get(name + "." + this.fileExtension);
 
         GuiState guiState = getGuiStates().getState(component.getClass());
 
-        if (guiState == null)
-        {
+        if (guiState == null) {
             getLogger().warn("GuiState not found for: {}", component.getClass());
 
             return;
         }
 
-        if (Files.notExists(getLocalStorage().getAbsolutPath(relativePath)))
-        {
+        if (Files.notExists(getLocalStorage().getAbsolutPath(relativePath))) {
             return;
         }
 
-        try (InputStream inputStream = getLocalStorage().getInputStream(relativePath))
-        {
+        try (InputStream inputStream = getLocalStorage().getInputStream(relativePath)) {
             guiState = load(guiState, inputStream);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().warn("Can not load GuiState for {}: ", relativePath, ex);
         }
 
@@ -68,14 +62,12 @@ public abstract class AbstractGuiStateManager implements GuiStateManager
     }
 
     @Override
-    public void store(final Component component, final String name)
-    {
+    public void store(final Component component, final String name) {
         Path relativePath = Paths.get(name + "." + this.fileExtension);
 
         GuiState guiState = getGuiStates().getState(component.getClass());
 
-        if (guiState == null)
-        {
+        if (guiState == null) {
             getLogger().warn("GuiState not found for: {}", component.getClass());
 
             return;
@@ -83,28 +75,23 @@ public abstract class AbstractGuiStateManager implements GuiStateManager
 
         guiState.store(component);
 
-        try (OutputStream outputStream = getLocalStorage().getOutputStream(relativePath))
-        {
+        try (OutputStream outputStream = getLocalStorage().getOutputStream(relativePath)) {
             save(guiState, outputStream);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             getLogger().warn("Can not save GuiState for {}: ", relativePath, ex);
         }
     }
 
-    protected GuiStates getGuiStates()
-    {
+    protected GuiStates getGuiStates() {
         return this.guiStates;
     }
 
-    protected LocalStorage getLocalStorage()
-    {
+    protected LocalStorage getLocalStorage() {
         return this.localStorage;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 

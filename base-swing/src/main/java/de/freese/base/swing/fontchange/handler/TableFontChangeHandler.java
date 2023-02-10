@@ -9,14 +9,12 @@ import javax.swing.table.TableCellRenderer;
 /**
  * @author Thomas Freese
  */
-public class TableFontChangeHandler extends ComponentFontChangeHandler
-{
+public class TableFontChangeHandler extends ComponentFontChangeHandler {
     /**
      * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
      */
     @Override
-    public void fontChanged(final Font newFont, final Object object)
-    {
+    public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
         JTable table = (JTable) object;
@@ -25,8 +23,7 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler
         // if (table.getRowHeight() < rowHeightNew) {
         table.setRowHeight(rowHeightNew);
 
-        if (table.getTableHeader() != null)
-        {
+        if (table.getTableHeader() != null) {
             super.fontChanged(newFont, table.getTableHeader());
         }
 
@@ -36,14 +33,12 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler
         // }
 
         // CellRenderer
-        for (int c = 0; c < table.getColumnCount(); c++)
-        {
+        for (int c = 0; c < table.getColumnCount(); c++) {
             Class<?> columnClass = table.getColumnClass(c);
 
             TableCellRenderer cellRenderer = table.getDefaultRenderer(columnClass);
 
-            if (cellRenderer instanceof Component)
-            {
+            if (cellRenderer instanceof Component) {
                 super.fontChanged(newFont, cellRenderer);
             }
         }

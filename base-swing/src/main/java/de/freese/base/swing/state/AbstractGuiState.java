@@ -10,8 +10,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * @author Thomas Freese
  */
 @XmlTransient
-public abstract class AbstractGuiState implements GuiState
-{
+public abstract class AbstractGuiState implements GuiState {
     @Serial
     private static final long serialVersionUID = 5367608044965230104L;
 
@@ -23,15 +22,13 @@ public abstract class AbstractGuiState implements GuiState
 
     private boolean visible = true;
 
-    protected AbstractGuiState(final Class<?>... supportedTypes)
-    {
+    protected AbstractGuiState(final Class<?>... supportedTypes) {
         super();
 
         this.supportedTypes = supportedTypes;
     }
 
-    public long getCreated()
-    {
+    public long getCreated() {
         return this.created;
     }
 
@@ -39,10 +36,8 @@ public abstract class AbstractGuiState implements GuiState
      * @see GuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
-        if (component == null)
-        {
+    public void restore(final Component component) {
+        if (component == null) {
             throw new NullPointerException("component");
         }
 
@@ -54,8 +49,7 @@ public abstract class AbstractGuiState implements GuiState
      * @see GuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         Objects.requireNonNull(component, "component required");
 
         this.enabled = component.isEnabled();
@@ -66,12 +60,9 @@ public abstract class AbstractGuiState implements GuiState
      * @see GuiState#supportsType(java.lang.Class)
      */
     @Override
-    public boolean supportsType(final Class<?> type)
-    {
-        for (Class<?> supportedType : this.supportedTypes)
-        {
-            if (supportedType.equals(type))
-            {
+    public boolean supportsType(final Class<?> type) {
+        for (Class<?> supportedType : this.supportedTypes) {
+            if (supportedType.equals(type)) {
                 return true;
             }
         }
@@ -79,8 +70,7 @@ public abstract class AbstractGuiState implements GuiState
         return false;
     }
 
-    protected void setVisible(final boolean visible)
-    {
+    protected void setVisible(final boolean visible) {
         this.visible = visible;
     }
 }

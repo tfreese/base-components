@@ -9,16 +9,14 @@ import de.freese.base.swing.task.AbstractSwingTask;
 /**
  * @author Thomas Freese
  */
-public class FibonacciTask extends AbstractSwingTask<Long, Void>
-{
+public class FibonacciTask extends AbstractSwingTask<Long, Void> {
     private final FibonacciController controller;
 
     private final ResourceMap resourceMap;
 
     private final int value;
 
-    public FibonacciTask(final int value, final FibonacciController controller, final ResourceMap resourceMap)
-    {
+    public FibonacciTask(final int value, final FibonacciController controller, final ResourceMap resourceMap) {
         super();
 
         this.value = value;
@@ -32,10 +30,8 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void>
      * @see javax.swing.SwingWorker#doInBackground()
      */
     @Override
-    protected Long doInBackground() throws Exception
-    {
-        if (this.value > 50)
-        {
+    protected Long doInBackground() throws Exception {
+        if (this.value > 50) {
             throw new IllegalArgumentException("Wert > 50");
         }
 

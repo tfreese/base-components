@@ -21,6 +21,10 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.function.Function;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import de.freese.base.core.function.ThrowingBiConsumer;
 import de.freese.base.core.function.ThrowingFunction;
 import de.freese.base.core.model.grid.column.BinaryGridColumn;
@@ -32,27 +36,19 @@ import de.freese.base.core.model.grid.column.GridColumn;
 import de.freese.base.core.model.grid.column.IntegerGridColumn;
 import de.freese.base.core.model.grid.column.LongGridColumn;
 import de.freese.base.core.model.grid.column.StringGridColumn;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestGridColumns
-{
+class TestGridColumns {
     @Test
-    void testBinary() throws IOException
-    {
+    void testBinary() throws IOException {
         BinaryGridColumn column = new BinaryGridColumn();
 
         assertEquals(byte[].class, column.getObjectClazz());
 
-        byte[] object = new byte[]
-                {
-                        0, 1, 2, 3, 4, 5
-                };
+        byte[] object = new byte[]{0, 1, 2, 3, 4, 5};
 
         assertNull(column.getValue(null));
         assertArrayEquals(object, column.getValue(object));
@@ -62,8 +58,7 @@ class TestGridColumns
     }
 
     @Test
-    void testBoolean() throws IOException
-    {
+    void testBoolean() throws IOException {
         BooleanGridColumn column = new BooleanGridColumn();
 
         assertEquals(Boolean.class, column.getObjectClazz());
@@ -78,8 +73,7 @@ class TestGridColumns
     }
 
     @Test
-    void testDate() throws IOException
-    {
+    void testDate() throws IOException {
         DateGridColumn column = new DateGridColumn();
 
         assertEquals(Date.class, column.getObjectClazz());
@@ -97,8 +91,7 @@ class TestGridColumns
     }
 
     @Test
-    void testDouble() throws IOException
-    {
+    void testDouble() throws IOException {
         DoubleGridColumn column = new DoubleGridColumn();
 
         assertEquals(Double.class, column.getObjectClazz());
@@ -113,8 +106,7 @@ class TestGridColumns
     }
 
     @Test
-    void testGeneric() throws IOException
-    {
+    void testGeneric() throws IOException {
         ZoneId zoneId = ZoneId.systemDefault();
         // ZoneId zoneId = ZoneId.of("Europe/Berlin");
         // ZoneOffset zoneOffset = zoneId.getRules().getOffset(instant);
@@ -126,15 +118,13 @@ class TestGridColumns
 
         Function<Object, LocalDateTime> mapper = LocalDateTime.class::cast;
 
-        ThrowingBiConsumer<DataOutput, LocalDateTime, IOException> writer = (dataOutput, value) ->
-        {
+        ThrowingBiConsumer<DataOutput, LocalDateTime, IOException> writer = (dataOutput, value) -> {
             long time = value.atZone(zoneId).toInstant().toEpochMilli();
 
             dataOutput.writeLong(time);
         };
 
-        ThrowingFunction<DataInput, LocalDateTime, IOException> reader = dataInput ->
-        {
+        ThrowingFunction<DataInput, LocalDateTime, IOException> reader = dataInput -> {
             long time = dataInput.readLong();
 
             Instant instant = Instant.ofEpochMilli(time);
@@ -156,8 +146,7 @@ class TestGridColumns
     }
 
     @Test
-    void testInteger() throws IOException
-    {
+    void testInteger() throws IOException {
         IntegerGridColumn column = new IntegerGridColumn();
 
         assertEquals(Integer.class, column.getObjectClazz());
@@ -172,8 +161,7 @@ class TestGridColumns
     }
 
     @Test
-    void testLong() throws IOException
-    {
+    void testLong() throws IOException {
         LongGridColumn column = new LongGridColumn();
 
         assertEquals(Long.class, column.getObjectClazz());
@@ -188,8 +176,7 @@ class TestGridColumns
     }
 
     @Test
-    void testString() throws IOException
-    {
+    void testString() throws IOException {
         StringGridColumn column = new StringGridColumn();
 
         assertEquals(String.class, column.getObjectClazz());
@@ -203,24 +190,20 @@ class TestGridColumns
         assertEquals(value, read(column, write(column, value)));
     }
 
-    private <T> T read(final GridColumn<T> column, final byte[] bytes) throws IOException
-    {
+    private <T> T read(final GridColumn<T> column, final byte[] bytes) throws IOException {
         T value = null;
 
-        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes)))
-        {
+        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes))) {
             value = column.read(dis);
         }
 
         return value;
     }
 
-    private <T> byte[] write(final GridColumn<T> column, final Object object) throws IOException
-    {
+    private <T> byte[] write(final GridColumn<T> column, final Object object) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try (DataOutputStream dos = new DataOutputStream(baos))
-        {
+        try (DataOutputStream dos = new DataOutputStream(baos)) {
             column.write(dos, object);
         }
 

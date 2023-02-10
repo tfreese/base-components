@@ -11,7 +11,6 @@ import java.sql.Statement;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface StatementCreator
-{
+public interface StatementCreator {
     Statement createStatement(Connection connection) throws SQLException;
 }

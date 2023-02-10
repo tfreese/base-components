@@ -35,16 +35,13 @@ import org.slf4j.LoggerFactory;
  * @author Svetlana Margolina (eck*cellent)
  * @author Thomas Freese
  */
-public class DecryptFileBc
-{
+public class DecryptFileBc {
     private static final Logger LOGGER = LoggerFactory.getLogger(DecryptFileBc.class);
 
-    public DecryptFileBc()
-    {
+    public DecryptFileBc() {
         super();
 
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null)
-        {
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
     }
@@ -52,18 +49,15 @@ public class DecryptFileBc
     /**
      * Entschlüsselt die Datei mit dem {@link PrivateKey} eines {@link X509Certificate}.
      */
-    public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws Exception
-    {
+    public void decryptX509File(final String encryptedFile, final String decryptedFile, final PrivateKey privateKey) throws Exception {
         File file = new File(encryptedFile);
 
-        if (file.isDirectory())
-        {
+        if (file.isDirectory()) {
             LOGGER.warn("Skipping Folder: {}", encryptedFile);
             return;
         }
 
-        if (!file.canRead())
-        {
+        if (!file.canRead()) {
             String msg = String.format("unable to read file %s", encryptedFile);
             throw new IOException(msg);
         }
@@ -71,8 +65,7 @@ public class DecryptFileBc
         LOGGER.info("Decrypt File \"{}\" to \"{}\" with \"{}\"", encryptedFile, encryptedFile, privateKey.getAlgorithm() + "/" + privateKey.getFormat());
 
         // get encrypted input stream
-        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file)))
-        {
+        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file))) {
             // create BC base instance
             CMSEnvelopedData envelopedData = new CMSEnvelopedData(inputStream);
 
@@ -84,8 +77,7 @@ public class DecryptFileBc
 
             Iterator<?> itRecipients = colRecipients.iterator();
 
-            if (itRecipients.hasNext())
-            {
+            if (itRecipients.hasNext()) {
                 RecipientInformation recipient = (RecipientInformation) itRecipients.next();
 
                 // decrypt data with BouncyCastle
@@ -94,8 +86,7 @@ public class DecryptFileBc
                 byte[] decryptedData = recipient.getContent(jkter);
 
                 // write decrypted data to file.
-                try (OutputStream os = Files.newOutputStream(new File(decryptedFile).toPath()))
-                {
+                try (OutputStream os = Files.newOutputStream(new File(decryptedFile).toPath())) {
                     os.write(decryptedData);
                 }
             }
@@ -105,8 +96,7 @@ public class DecryptFileBc
     /**
      * Entschlüsselt die Datei mit dem {@link PrivateKey} eines {@link X509Certificate}.
      */
-    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password) throws Exception
-    {
+    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String zertifikatFile, final char[] password) throws Exception {
         PrivateKey privateKey = getPrivateKey(zertifikatFile, password);
 
         decryptX509File(encryptedFile, decryptedFile, privateKey);
@@ -115,10 +105,7 @@ public class DecryptFileBc
     /**
      * Entschlüsselt die Datei mit einem {@link X509Certificate}.
      */
-    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword,
-                                final String alias, final char[] aliasPassword)
-            throws Exception
-    {
+    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception {
         PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
         decryptX509File(encryptedFile, decryptedFile, privateKey);
@@ -127,13 +114,11 @@ public class DecryptFileBc
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      */
-    public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception
-    {
+    public void decryptX509Folder(final String inputFolder, final String outputFolder, final PrivateKey privateKey) throws Exception {
         File folder = new File(inputFolder);
         String[] files = folder.list();
 
-        for (String fileName : files)
-        {
+        for (String fileName : files) {
             String encryptedFile = inputFolder + File.separator + fileName;
             String decryptedFile = outputFolder + File.separator + "Decrypted_" + fileName;
 
@@ -144,8 +129,7 @@ public class DecryptFileBc
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      */
-    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password) throws Exception
-    {
+    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String zertifikatFile, final char[] password) throws Exception {
         PrivateKey privateKey = getPrivateKey(zertifikatFile, password);
 
         decryptX509Folder(inputFolder, outputFolder, privateKey);
@@ -154,21 +138,16 @@ public class DecryptFileBc
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      */
-    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword,
-                                  final String alias, final char[] aliasPassword)
-            throws Exception
-    {
+    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception {
         PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
         decryptX509Folder(inputFolder, outputFolder, privateKey);
     }
 
-    protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception
-    {
+    protected void printKeyStoreInfo(final KeyStore ks, final char[] password) throws Exception {
         LOGGER.info("Start printKeyStoreInfo.");
 
-        if (ks == null)
-        {
+        if (ks == null) {
             LOGGER.warn("Keystore is null.");
             return;
         }
@@ -183,8 +162,7 @@ public class DecryptFileBc
 
         LOGGER.info("Before while loop.");
 
-        while (aliases.hasMoreElements())
-        {
+        while (aliases.hasMoreElements()) {
             ksAlias = aliases.nextElement();
             LOGGER.info("Key-Store-Alias is: {}", ksAlias);
         }
@@ -193,13 +171,11 @@ public class DecryptFileBc
         // and display the contents.
         LOGGER.info("Before for loop.");
 
-        for (Enumeration<String> e = ks.aliases(); e.hasMoreElements(); )
-        {
+        for (Enumeration<String> e = ks.aliases(); e.hasMoreElements(); ) {
             String alias = e.nextElement();
             LOGGER.info("--- Entry Alias: \"{}\" ---", alias);
 
-            if (ks.isKeyEntry(alias))
-            {
+            if (ks.isKeyEntry(alias)) {
                 LOGGER.info("Key Entry:");
 
                 // To retrieve a key, the correct encryption password is
@@ -208,8 +184,7 @@ public class DecryptFileBc
                 // to the password required to load the KeyStore.
                 PrivateKey key = (PrivateKey) ks.getKey(alias, password);
 
-                if (LOGGER.isInfoEnabled())
-                {
+                if (LOGGER.isInfoEnabled()) {
                     LOGGER.info("Key Algorithm: {}", key.getAlgorithm());
                     LOGGER.info("Key Encoded: {}", new String(key.getEncoded(), StandardCharsets.UTF_8));
                 }
@@ -219,15 +194,13 @@ public class DecryptFileBc
                 Certificate[] certs = ks.getCertificateChain(alias);
                 LOGGER.info("Cert Chain: length = {}", certs.length);
 
-                for (Certificate cert2 : certs)
-                {
+                for (Certificate cert2 : certs) {
                     X509Certificate cert = (X509Certificate) cert2;
                     X500Principal subject = cert.getSubjectX500Principal();
                     LOGGER.info("Subject: {}", subject);
                 }
             }
-            else if (ks.isCertificateEntry(alias))
-            {
+            else if (ks.isCertificateEntry(alias)) {
                 Certificate cert = ks.getCertificate(alias);
                 LOGGER.info("Trusted Certificate Entry: {}", cert);
             }
@@ -239,12 +212,10 @@ public class DecryptFileBc
     /**
      * Laden des {@link PrivateKey}s.
      */
-    private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception
-    {
+    private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception {
         KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
 
-        try (InputStream inputStream = new FileInputStream(zertifikatFile))
-        {
+        try (InputStream inputStream = new FileInputStream(zertifikatFile)) {
             ks.load(inputStream, password);
         }
         // printKeyStoreInfo(ks, password);
@@ -252,18 +223,15 @@ public class DecryptFileBc
         Key privateKey = null;
         Enumeration<String> aliases = ks.aliases();
 
-        while (aliases.hasMoreElements())
-        {
+        while (aliases.hasMoreElements()) {
             String name = aliases.nextElement();
             privateKey = ks.getKey(name, password);
             X509Certificate c = (X509Certificate) ks.getCertificate(name);
             List<String> keyExtensions = c.getExtendedKeyUsage();
             LOGGER.debug("Key Extension= {}", keyExtensions);
 
-            if ((keyExtensions != null) && keyExtensions.contains("1.3.6.1.4.1.311.10.3.4"))
-            {
-                if (LOGGER.isDebugEnabled())
-                {
+            if ((keyExtensions != null) && keyExtensions.contains("1.3.6.1.4.1.311.10.3.4")) {
+                if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug(keyExtensions.toString());
                 }
 
@@ -277,12 +245,10 @@ public class DecryptFileBc
     /**
      * Laden des {@link PrivateKey}s.
      */
-    private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception
-    {
+    private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception {
         KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
 
-        try (InputStream inputStream = new FileInputStream(keystoreFile))
-        {
+        try (InputStream inputStream = new FileInputStream(keystoreFile)) {
             ks.load(inputStream, keyStorePassword);
         }
 

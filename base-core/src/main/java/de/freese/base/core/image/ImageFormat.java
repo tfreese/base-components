@@ -5,8 +5,7 @@ package de.freese.base.core.image;
  *
  * @author Thomas Freese
  */
-public enum ImageFormat
-{
+public enum ImageFormat {
     /**
      *
      */

@@ -9,14 +9,11 @@ import javax.swing.UIManager;
 /**
  * @author Thomas Freese
  */
-public final class UICustomizationMain
-{
-    public static void main(final String[] args) throws Exception
-    {
+public final class UICustomizationMain {
+    public static void main(final String[] args) throws Exception {
         UICustomization.install(UIManager.getSystemLookAndFeelClassName());
 
-        try (OutputStream os = new FileOutputStream("UIDefaults_" + System.getProperty("java.version") + ".txt"))
-        {
+        try (OutputStream os = new FileOutputStream("UIDefaults_" + System.getProperty("java.version") + ".txt")) {
             UICustomization.writeUIDefaults(os);
         }
 
@@ -40,8 +37,7 @@ public final class UICustomizationMain
         // }
     }
 
-    private UICustomizationMain()
-    {
+    private UICustomizationMain() {
         super();
     }
 }

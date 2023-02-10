@@ -6,40 +6,34 @@ import java.io.InputStream;
 /**
  * @author Thomas Freese
  */
-public class FakeInputStream extends InputStream
-{
+public class FakeInputStream extends InputStream {
     private final int size;
 
     private volatile boolean closed;
 
     private int position;
 
-    public FakeInputStream(final int size)
-    {
+    public FakeInputStream(final int size) {
         super();
 
         this.size = size;
     }
 
     @Override
-    public int available() throws IOException
-    {
+    public int available() throws IOException {
         return this.size - this.position;
     }
 
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         closed = true;
     }
 
     @Override
-    public int read() throws IOException
-    {
+    public int read() throws IOException {
         ensureOpen();
 
-        if (available() > 0)
-        {
+        if (available() > 0) {
             this.position++;
 
             return 1;
@@ -48,10 +42,8 @@ public class FakeInputStream extends InputStream
         return -1;
     }
 
-    private void ensureOpen() throws IOException
-    {
-        if (closed)
-        {
+    private void ensureOpen() throws IOException {
+        if (closed) {
             throw new IOException("Stream closed");
         }
     }

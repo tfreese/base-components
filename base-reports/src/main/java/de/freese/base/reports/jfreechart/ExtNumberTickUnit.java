@@ -10,30 +10,25 @@ import org.jfree.chart.axis.NumberTickUnit;
  *
  * @author Thomas Freese
  */
-public class ExtNumberTickUnit extends NumberTickUnit
-{
+public class ExtNumberTickUnit extends NumberTickUnit {
     @Serial
     private static final long serialVersionUID = 8151941607328082952L;
 
     private String[] excludes;
 
-    public ExtNumberTickUnit(final double size)
-    {
+    public ExtNumberTickUnit(final double size) {
         super(size);
     }
 
-    public ExtNumberTickUnit(final double size, final NumberFormat formatter)
-    {
+    public ExtNumberTickUnit(final double size, final NumberFormat formatter) {
         super(size, formatter);
     }
 
-    public ExtNumberTickUnit(final double size, final NumberFormat formatter, final int minorTickCount)
-    {
+    public ExtNumberTickUnit(final double size, final NumberFormat formatter, final int minorTickCount) {
         super(size, formatter, minorTickCount);
     }
 
-    public void setExcludes(final String... excludes)
-    {
+    public void setExcludes(final String... excludes) {
         this.excludes = excludes;
     }
 
@@ -41,14 +36,11 @@ public class ExtNumberTickUnit extends NumberTickUnit
      * @see org.jfree.chart.axis.NumberTickUnit#valueToString(double)
      */
     @Override
-    public String valueToString(final double value)
-    {
+    public String valueToString(final double value) {
         String strValue = super.valueToString(value);
 
-        for (String exclude : this.excludes)
-        {
-            if (exclude.equals(strValue))
-            {
+        for (String exclude : this.excludes) {
+            if (exclude.equals(strValue)) {
                 strValue = "";
                 break;
             }

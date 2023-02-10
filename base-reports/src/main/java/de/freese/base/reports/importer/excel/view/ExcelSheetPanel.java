@@ -18,8 +18,7 @@ import de.freese.base.reports.importer.excel.ExcelSheet;
  *
  * @author Thomas Freese
  */
-public class ExcelSheetPanel extends JPanel
-{
+public class ExcelSheetPanel extends JPanel {
     @Serial
     private static final long serialVersionUID = -1946632829758128806L;
 
@@ -29,28 +28,23 @@ public class ExcelSheetPanel extends JPanel
 
     private JTable table;
 
-    public ExcelSheetPanel(final ExcelSheet excelSheet)
-    {
+    public ExcelSheetPanel(final ExcelSheet excelSheet) {
         super();
 
         this.excelSheet = Objects.requireNonNull(excelSheet, "excelSheet required");
         initialize();
     }
 
-    public JTable getTable()
-    {
-        if (this.table == null)
-        {
+    public JTable getTable() {
+        if (this.table == null) {
             this.table = new JTable();
         }
 
         return this.table;
     }
 
-    private JScrollPane getScrollPane()
-    {
-        if (this.scrollPane == null)
-        {
+    private JScrollPane getScrollPane() {
+        if (this.scrollPane == null) {
             this.scrollPane = new JScrollPane();
             this.scrollPane.setViewportView(getTable());
         }
@@ -58,8 +52,7 @@ public class ExcelSheetPanel extends JPanel
         return this.scrollPane;
     }
 
-    private void initialize()
-    {
+    private void initialize() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weighty = 1.0;

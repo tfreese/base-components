@@ -12,8 +12,7 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ConnectionCallback<T>
-{
+public interface ConnectionCallback<T> {
     /**
      * Ausführung von Code in einer {@link Connection}.
      */

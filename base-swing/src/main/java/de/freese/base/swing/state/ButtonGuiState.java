@@ -13,13 +13,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "ButtonGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ButtonGuiState extends AbstractGuiState
-{
+public class ButtonGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = 8640371387385687109L;
 
-    public ButtonGuiState()
-    {
+    public ButtonGuiState() {
         super(JButton.class);
     }
 }

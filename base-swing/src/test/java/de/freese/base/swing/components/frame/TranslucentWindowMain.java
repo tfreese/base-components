@@ -20,10 +20,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public final class TranslucentWindowMain
-{
-    public static void main(final String[] args)
-    {
+public final class TranslucentWindowMain {
+    public static void main(final String[] args) {
         // Determine if the GraphicsDevice supports translucency.
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -31,8 +29,7 @@ public final class TranslucentWindowMain
         boolean translucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If translucent windows aren't supported, exit.
-        if (!translucencySupported)
-        {
+        if (!translucencySupported) {
             System.err.println("Translucency is not supported");
             System.exit(0);
         }
@@ -40,8 +37,7 @@ public final class TranslucentWindowMain
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create the GUI on the event-dispatching thread
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("TranslucentWindow");
             frame.setLayout(new GridBagLayout());
 
@@ -60,8 +56,7 @@ public final class TranslucentWindowMain
         });
     }
 
-    private TranslucentWindowMain()
-    {
+    private TranslucentWindowMain() {
         super();
     }
 }

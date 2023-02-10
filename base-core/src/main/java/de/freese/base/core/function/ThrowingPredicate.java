@@ -14,38 +14,31 @@ import java.util.function.Predicate;
  * @see java.util.function.Predicate
  */
 @FunctionalInterface
-public interface ThrowingPredicate<T, E extends Exception>
-{
-    static <T, E> ThrowingPredicate<T, Exception> isEqual(final Object targetRef)
-    {
+public interface ThrowingPredicate<T, E extends Exception> {
+    static <T, E> ThrowingPredicate<T, Exception> isEqual(final Object targetRef) {
         ThrowingPredicate<T, Exception> predicate = null;
 
-        if (targetRef == null)
-        {
+        if (targetRef == null) {
             predicate = Objects::isNull;
         }
-        else
-        {
+        else {
             predicate = targetRef::equals;
         }
 
         return predicate;
     }
 
-    default ThrowingPredicate<T, E> and(final ThrowingPredicate<? super T, E> other)
-    {
+    default ThrowingPredicate<T, E> and(final ThrowingPredicate<? super T, E> other) {
         Objects.requireNonNull(other);
 
         return t -> test(t) && other.test(t);
     }
 
-    default ThrowingPredicate<T, E> negate()
-    {
+    default ThrowingPredicate<T, E> negate() {
         return t -> !test(t);
     }
 
-    default ThrowingPredicate<T, E> or(final ThrowingPredicate<? super T, E> other)
-    {
+    default ThrowingPredicate<T, E> or(final ThrowingPredicate<? super T, E> other) {
         Objects.requireNonNull(other);
 
         return t -> test(t) || other.test(t);

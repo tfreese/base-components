@@ -19,8 +19,7 @@ import de.freese.base.swing.ui.ThinHorizontalScrollBarUI;
  *
  * @author Thomas Freese
  */
-public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
-{
+public class ListFilterAuswahlPanel<T> extends ExtTitledPanel {
     @Serial
     private static final long serialVersionUID = 9023884779864134283L;
 
@@ -32,8 +31,7 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
 
     private JScrollPane scrollPane;
 
-    public ListFilterAuswahlPanel()
-    {
+    public ListFilterAuswahlPanel() {
         super();
 
         add(getScrollPane());
@@ -48,8 +46,7 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
      * @param cellRenderer {@link ListCellRenderer}, optional Default is {@link VerticalWrapListCellRenderer}
      * @param fixedCellWidth int, 0 = Default-width 166
      */
-    public void enableListVerticalWrap(final ListCellRenderer<T> cellRenderer, final int fixedCellWidth)
-    {
+    public void enableListVerticalWrap(final ListCellRenderer<T> cellRenderer, final int fixedCellWidth) {
         getList().setCellRenderer(new VerticalWrapListCellRenderer<>(cellRenderer));
         getList().setLayoutOrientation(JList.VERTICAL_WRAP);
         getList().setVisibleRowCount(0);
@@ -58,55 +55,45 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel
         getScrollPane().getHorizontalScrollBar().setUI(new ThinHorizontalScrollBarUI(9));
     }
 
-    public JLabel getFilterLabel()
-    {
-        if (this.filterLabel == null)
-        {
+    public JLabel getFilterLabel() {
+        if (this.filterLabel == null) {
             this.filterLabel = new JLabel("#Filter");
         }
 
         return this.filterLabel;
     }
 
-    public JTextField getFilterTextField()
-    {
-        if (this.filterTextField == null)
-        {
+    public JTextField getFilterTextField() {
+        if (this.filterTextField == null) {
             this.filterTextField = new JTextField(16);
         }
 
         return this.filterTextField;
     }
 
-    public JList<T> getList()
-    {
-        if (this.list == null)
-        {
+    public JList<T> getList() {
+        if (this.list == null) {
             this.list = new JList<>();
         }
 
         return this.list;
     }
 
-    public JScrollPane getScrollPane()
-    {
-        if (this.scrollPane == null)
-        {
+    public JScrollPane getScrollPane() {
+        if (this.scrollPane == null) {
             this.scrollPane = new JScrollPane(getList());
         }
 
         return this.scrollPane;
     }
 
-    public void setFilter(final Predicate filter)
-    {
+    public void setFilter(final Predicate filter) {
         DocumentListener documentListener = (DocumentListener) filter;
 
         getFilterTextField().getDocument().addDocumentListener(documentListener);
     }
 
-    public void setFilterVisible(final boolean value)
-    {
+    public void setFilterVisible(final boolean value) {
         getFilterLabel().setVisible(value);
         getFilterTextField().setVisible(value);
     }

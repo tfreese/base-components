@@ -17,8 +17,7 @@ import java.io.InputStream;
  * @author Norman Maurer <norman@apache.org>
  * @author Thomas Freese
  */
-public final class BogusSSLKeyStore
-{
+public final class BogusSSLKeyStore {
     // @formatter:off
     private static final short[] DATA = {
         0xfe, 0xed, 0xfe, 0xed, 0x00, 0x00, 0x00, 0x02,
@@ -281,30 +280,25 @@ public final class BogusSSLKeyStore
         0xd6, 0x9a, 0x6d, 0xb9, 0x8e, 0x15, 0x51 };
     // @formatter:on
 
-    public static InputStream asInputStream()
-    {
+    public static InputStream asInputStream() {
         byte[] data = new byte[DATA.length];
 
-        for (int i = 0; i < data.length; i++)
-        {
+        for (int i = 0; i < data.length; i++) {
             data[i] = (byte) DATA[i];
         }
 
         return new ByteArrayInputStream(data);
     }
 
-    public static char[] getCertificatePassword()
-    {
+    public static char[] getCertificatePassword() {
         return "secret".toCharArray();
     }
 
-    public static char[] getKeyStorePassword()
-    {
+    public static char[] getKeyStorePassword() {
         return "secret".toCharArray();
     }
 
-    private BogusSSLKeyStore()
-    {
+    private BogusSSLKeyStore() {
         super();
     }
 }

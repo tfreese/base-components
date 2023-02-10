@@ -14,18 +14,14 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-public class MemoryBlobStore extends AbstractBlobStore
-{
+public class MemoryBlobStore extends AbstractBlobStore {
     private final Map<BlobId, byte[]> cache = new HashMap<>();
 
     @Override
-    public OutputStream create(final BlobId id) throws Exception
-    {
-        return new ByteArrayOutputStream()
-        {
+    public OutputStream create(final BlobId id) throws Exception {
+        return new ByteArrayOutputStream() {
             @Override
-            public void close() throws IOException
-            {
+            public void close() throws IOException {
                 super.close();
 
                 cache.put(id, toByteArray());
@@ -34,10 +30,8 @@ public class MemoryBlobStore extends AbstractBlobStore
     }
 
     @Override
-    public void create(final BlobId id, final InputStream inputStream) throws Exception
-    {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
+    public void create(final BlobId id, final InputStream inputStream) throws Exception {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             inputStream.transferTo(baos);
 
             baos.flush();
@@ -47,20 +41,17 @@ public class MemoryBlobStore extends AbstractBlobStore
     }
 
     @Override
-    public void delete(final BlobId id) throws Exception
-    {
+    public void delete(final BlobId id) throws Exception {
         cache.remove(id);
     }
 
     @Override
-    public boolean exists(final BlobId id) throws Exception
-    {
+    public boolean exists(final BlobId id) throws Exception {
         return cache.containsKey(id);
     }
 
     @Override
-    protected Blob doGet(final BlobId id) throws Exception
-    {
+    protected Blob doGet(final BlobId id) throws Exception {
         return new MemoryBlob(id, cache.get(id));
     }
 }

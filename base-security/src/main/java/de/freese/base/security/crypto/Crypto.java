@@ -9,8 +9,7 @@ import java.io.OutputStream;
  *
  * @author Thomas Freese
  */
-public interface Crypto
-{
+public interface Crypto {
     byte[] decrypt(byte[] bytes) throws Exception;
 
     /**

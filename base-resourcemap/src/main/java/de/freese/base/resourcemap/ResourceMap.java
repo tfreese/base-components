@@ -41,50 +41,42 @@ import javax.swing.border.EmptyBorder;
  *
  * @author Thomas Freese
  */
-public interface ResourceMap
-{
+public interface ResourceMap {
     /**
      * Translate a Key from an Enum.
      *
      * @author Thomas Freese
      */
-    enum EnumResourceType
-    {
+    enum EnumResourceType {
         ICON,
         SHORT_DESCRIPTION,
-        TEXT
-                {
-                    /**
-                     * @see de.freese.base.resourcemap.DefaultResourceMap.EnumResourceType#getPostFix()
-                     */
-                    @Override
-                    protected String getPostFix()
-                    {
-                        return "";
-                    }
-                };
+        TEXT {
+            /**
+             * @see de.freese.base.resourcemap.DefaultResourceMap.EnumResourceType#getPostFix()
+             */
+            @Override
+            protected String getPostFix() {
+                return "";
+            }
+        };
 
-        public final String getEnumKey(final Enum<?> enumValue)
-        {
+        public final String getEnumKey(final Enum<?> enumValue) {
             String clazz = enumValue.getClass().getSimpleName().toLowerCase();
             String value = enumValue.name().toLowerCase();
 
             return String.format("%s.%s.%s%s", "enum", clazz, value, getPostFix());
         }
 
-        protected String getPostFix()
-        {
+        protected String getPostFix() {
             return String.format(".%s", name().toLowerCase());
         }
     }
 
-    default Boolean getBoolean(final String key)
-    {
+    default Boolean getBoolean(final String key) {
         return getObject(key, Boolean.class);
     }
 
-    default boolean getBoolean(final String key, final boolean defaultValue)
-    {
+    default boolean getBoolean(final String key, final boolean defaultValue) {
         Boolean value = getBoolean(key);
 
         return value != null ? value : defaultValue;
@@ -92,13 +84,11 @@ public interface ResourceMap
 
     String getBundleName();
 
-    default Byte getByte(final String key)
-    {
+    default Byte getByte(final String key) {
         return getObject(key, Byte.class);
     }
 
-    default byte getByte(final String key, final byte defaultValue)
-    {
+    default byte getByte(final String key, final byte defaultValue) {
         Byte value = getObject(key, Byte.class);
 
         return value != null ? value : defaultValue;
@@ -116,40 +106,33 @@ public interface ResourceMap
      * alphaRGBColor = R, G, B, A
      * </pre>
      */
-    default Color getColor(final String key)
-    {
+    default Color getColor(final String key) {
         return getObject(key, Color.class);
     }
 
-    default Dimension getDimension(final String key)
-    {
+    default Dimension getDimension(final String key) {
         return getObject(key, Dimension.class);
     }
 
-    default Double getDouble(final String key)
-    {
+    default Double getDouble(final String key) {
         return getObject(key, Double.class);
     }
 
-    default double getDouble(final String key, final double defaultValue)
-    {
+    default double getDouble(final String key, final double defaultValue) {
         Double value = getObject(key, Double.class);
 
         return value != null ? value : defaultValue;
     }
 
-    default EmptyBorder getEmptyBorder(final String key)
-    {
+    default EmptyBorder getEmptyBorder(final String key) {
         return getObject(key, EmptyBorder.class);
     }
 
-    default Float getFloat(final String key)
-    {
+    default Float getFloat(final String key) {
         return getObject(key, Float.class);
     }
 
-    default Float getFloat(final String key, final float defaultValue)
-    {
+    default Float getFloat(final String key, final float defaultValue) {
         Float value = getObject(key, Float.class);
 
         return value != null ? value : defaultValue;
@@ -162,8 +145,7 @@ public interface ResourceMap
      * font = Arial - PLAIN - 12
      * </pre>
      */
-    default Font getFont(final String key)
-    {
+    default Font getFont(final String key) {
         return getObject(key, Font.class);
     }
 
@@ -174,8 +156,7 @@ public interface ResourceMap
      * enum.ENUMCLASS.ENUMNAME.icon = icon
      * </pre>
      */
-    default Icon getIcon(final Enum<?> enumValue)
-    {
+    default Icon getIcon(final Enum<?> enumValue) {
         return getObject(EnumResourceType.ICON.getEnumKey(enumValue), Icon.class);
     }
 
@@ -186,8 +167,7 @@ public interface ResourceMap
      * icon = myIcon.png
      * </pre>
      */
-    default Icon getIcon(final String key)
-    {
+    default Icon getIcon(final String key) {
         return getObject(key, Icon.class);
     }
 
@@ -198,8 +178,7 @@ public interface ResourceMap
      * image = myIcon.png
      * </pre>
      */
-    default Image getImage(final String key)
-    {
+    default Image getImage(final String key) {
         return getObject(key, BufferedImage.class);
     }
 
@@ -210,8 +189,7 @@ public interface ResourceMap
      * image = myIcon.png
      * </pre>
      */
-    default ImageIcon getImageIcon(final String key)
-    {
+    default ImageIcon getImageIcon(final String key) {
         return getObject(key, ImageIcon.class);
     }
 
@@ -222,18 +200,15 @@ public interface ResourceMap
      * inset = top,left,bottom,right
      * </pre>
      */
-    default Insets getInsets(final String key)
-    {
+    default Insets getInsets(final String key) {
         return getObject(key, Insets.class);
     }
 
-    default Integer getInteger(final String key)
-    {
+    default Integer getInteger(final String key) {
         return getObject(key, Integer.class);
     }
 
-    default int getInteger(final String key, final int defaultValue)
-    {
+    default int getInteger(final String key, final int defaultValue) {
         Integer value = getObject(key, Integer.class);
 
         return value != null ? value : defaultValue;
@@ -246,8 +221,7 @@ public interface ResourceMap
      * keyCode = control T
      * </pre>
      */
-    default Integer getKeyCode(final String key)
-    {
+    default Integer getKeyCode(final String key) {
         KeyStroke ks = getKeyStroke(key);
 
         return (ks != null) ? ks.getKeyCode() : null;
@@ -260,18 +234,15 @@ public interface ResourceMap
      * keyStroke = control T
      * </pre>
      */
-    default KeyStroke getKeyStroke(final String key)
-    {
+    default KeyStroke getKeyStroke(final String key) {
         return getObject(key, KeyStroke.class);
     }
 
-    default Long getLong(final String key)
-    {
+    default Long getLong(final String key) {
         return getObject(key, Long.class);
     }
 
-    default long getLong(final String key, final long defaultValue)
-    {
+    default long getLong(final String key, final long defaultValue) {
         Long value = getObject(key, Long.class);
 
         return value != null ? value : defaultValue;
@@ -286,8 +257,7 @@ public interface ResourceMap
      * point = 100,200
      * </pre>
      */
-    default Point getPoint(final String key)
-    {
+    default Point getPoint(final String key) {
         return getObject(key, Point.class);
     }
 
@@ -298,18 +268,15 @@ public interface ResourceMap
      * rectangle = 5,5,5,5
      * </pre>
      */
-    default Rectangle getRectangle(final String key)
-    {
+    default Rectangle getRectangle(final String key) {
         return getObject(key, Rectangle.class);
     }
 
-    default Short getShort(final String key)
-    {
+    default Short getShort(final String key) {
         return getObject(key, Short.class);
     }
 
-    default short getShort(final String key, final short defaultValue)
-    {
+    default short getShort(final String key, final short defaultValue) {
         Short value = getObject(key, Short.class);
 
         return value != null ? value : defaultValue;
@@ -322,8 +289,7 @@ public interface ResourceMap
      * enum.ENUMCLASS.ENUMNAME.text = value
      * </pre>
      */
-    default String getString(final Enum<?> enumValue)
-    {
+    default String getString(final Enum<?> enumValue) {
         return getString(EnumResourceType.TEXT.getEnumKey(enumValue));
     }
 
@@ -347,13 +313,11 @@ public interface ResourceMap
      */
     String getString(String key, Object... args);
 
-    default URI getURI(final String key)
-    {
+    default URI getURI(final String key) {
         return getObject(key, URI.class);
     }
 
-    default URL getURL(final String key)
-    {
+    default URL getURL(final String key) {
         return getObject(key, URL.class);
     }
 

@@ -16,8 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractIoTest
-{
+public abstract class AbstractIoTest {
     // private static final AtomicInteger COUNTER = new AtomicInteger(0);
     /**
      * Paths.get(System.getProperty("user.dir"), "target")<br>
@@ -32,26 +31,21 @@ public abstract class AbstractIoTest
     /**
      * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.
      */
-    public static void deleteDirectoryRecursive(final Path path) throws IOException
-    {
-        if (!Files.exists(path))
-        {
+    public static void deleteDirectoryRecursive(final Path path) throws IOException {
+        if (!Files.exists(path)) {
             return;
         }
 
-        if (!Files.isDirectory(path))
-        {
+        if (!Files.isDirectory(path)) {
             throw new IllegalArgumentException("path is not a directory: " + path);
         }
 
-        Files.walkFileTree(path, new SimpleFileVisitor<>()
-        {
+        Files.walkFileTree(path, new SimpleFileVisitor<>() {
             /**
              * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
              */
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
-            {
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
                 Files.delete(dir);
                 return FileVisitResult.CONTINUE;
             }
@@ -60,8 +54,7 @@ public abstract class AbstractIoTest
              * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
              */
             @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
-            {
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);
                 return FileVisitResult.CONTINUE;
             }
@@ -72,32 +65,26 @@ public abstract class AbstractIoTest
      * Verzeichnis-Struktur zum Testen löschen.
      */
     @AfterAll
-    protected static void afterAll() throws Exception
-    {
+    protected static void afterAll() throws Exception {
         // Würde auch die Dateien andere IO-Tests löschen.
         // deleteDirectoryRecursive(PATH_TEST);
     }
 
     @BeforeAll
-    protected static void beforeAll() throws IOException
-    {
-        if (Files.notExists(PATH_TEST))
-        {
+    protected static void beforeAll() throws IOException {
+        if (Files.notExists(PATH_TEST)) {
             Files.createDirectories(PATH_TEST);
         }
     }
 
-    protected Path createFile(final long size) throws IOException
-    {
+    protected Path createFile(final long size) throws IOException {
         // Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile." + COUNTER.incrementAndGet());
         Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(size + "_testfile.bin");
 
-        if (Files.notExists(path))
-        {
+        if (Files.notExists(path)) {
             Files.createDirectories(path.getParent());
 
-            try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw"))
-            {
+            try (RandomAccessFile raf = new RandomAccessFile(path.toFile(), "rw")) {
                 raf.setLength(size);
             }
         }
@@ -105,12 +92,10 @@ public abstract class AbstractIoTest
         return path;
     }
 
-    protected Path createFile(final String fileName) throws IOException
-    {
+    protected Path createFile(final String fileName) throws IOException {
         Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(fileName);
 
-        if (Files.notExists(path))
-        {
+        if (Files.notExists(path)) {
             Files.createDirectories(path.getParent());
         }
 

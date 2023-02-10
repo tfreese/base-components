@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractProtocol
-{
+public abstract class AbstractProtocol {
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -30,25 +29,21 @@ public abstract class AbstractProtocol
      *
      * @return The APOP digest or an empty string if an error occurs.
      */
-    protected String getDigest(final String password)
-    {
-        try
-        {
+    protected String getDigest(final String password) {
+        try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
             return hexFormat.formatHex(digest);
         }
-        catch (NoSuchAlgorithmException ex)
-        {
+        catch (NoSuchAlgorithmException ex) {
             getLogger().error(ex.getMessage(), ex);
         }
 
         return null;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 }

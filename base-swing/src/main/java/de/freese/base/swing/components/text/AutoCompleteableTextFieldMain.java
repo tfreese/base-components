@@ -10,10 +10,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class AutoCompleteableTextFieldMain
-{
-    public static void main(final String[] args)
-    {
+public final class AutoCompleteableTextFieldMain {
+    public static void main(final String[] args) {
         JFrame frame = new JFrame("AutoCompleteableTextField");
 
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -31,9 +29,8 @@ public final class AutoCompleteableTextFieldMain
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    private AutoCompleteableTextFieldMain()
-    {
+
+    private AutoCompleteableTextFieldMain() {
         super();
     }
 }

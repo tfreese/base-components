@@ -8,14 +8,12 @@ import java.net.URL;
 /**
  * @author Thomas Freese
  */
-public interface ResourceCache
-{
+public interface ResourceCache {
     void clear();
 
     InputStream getResource(URI uri) throws Exception;
 
-    default InputStream getResource(final URL url) throws Exception
-    {
+    default InputStream getResource(final URL url) throws Exception {
         return getResource(url.toURI());
     }
 }

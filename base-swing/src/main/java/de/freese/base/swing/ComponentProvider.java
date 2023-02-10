@@ -9,7 +9,6 @@ import java.awt.Component;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ComponentProvider
-{
+public interface ComponentProvider {
     Component getComponent();
 }

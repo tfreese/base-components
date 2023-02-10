@@ -8,15 +8,12 @@ import java.io.IOException;
 /**
  * @author Thomas Freese
  */
-public class DoubleGridColumn extends AbstractGridColumn<Double>
-{
-    public DoubleGridColumn()
-    {
+public class DoubleGridColumn extends AbstractGridColumn<Double> {
+    public DoubleGridColumn() {
         super(Double.class);
     }
 
-    public DoubleGridColumn(final String name)
-    {
+    public DoubleGridColumn(final String name) {
         super(Double.class);
 
         setName(name);
@@ -26,10 +23,8 @@ public class DoubleGridColumn extends AbstractGridColumn<Double>
      * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public Double getValue(final Object object)
-    {
-        if (object == null)
-        {
+    public Double getValue(final Object object) {
+        if (object == null) {
             return null;
         }
 
@@ -40,8 +35,7 @@ public class DoubleGridColumn extends AbstractGridColumn<Double>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override
-    protected Double readNullSafe(final DataInput dataInput) throws IOException
-    {
+    protected Double readNullSafe(final DataInput dataInput) throws IOException {
         return dataInput.readDouble();
     }
 
@@ -49,8 +43,7 @@ public class DoubleGridColumn extends AbstractGridColumn<Double>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Double value) throws IOException
-    {
+    protected void writeNullSafe(final DataOutput dataOutput, final Double value) throws IOException {
         dataOutput.writeDouble(value);
     }
 }

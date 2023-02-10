@@ -11,7 +11,6 @@ import de.freese.base.resourcemap.ResourceMap;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ResourceProvider
-{
+public interface ResourceProvider {
     Map<String, String> getResources(String bundleName, Locale locale);
 }

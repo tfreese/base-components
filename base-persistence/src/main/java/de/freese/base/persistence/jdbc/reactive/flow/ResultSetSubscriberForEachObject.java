@@ -16,16 +16,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
-{
+public class ResultSetSubscriberForEachObject<T> implements Subscriber<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForEachObject.class);
 
     private final Consumer<T> consumer;
 
     private Subscription subscription;
 
-    public ResultSetSubscriberForEachObject(final Consumer<T> consumer)
-    {
+    public ResultSetSubscriberForEachObject(final Consumer<T> consumer) {
         super();
 
         this.consumer = Objects.requireNonNull(consumer, "consumer required");
@@ -35,8 +33,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
      * @see java.util.concurrent.Flow.Subscriber#onComplete()
      */
     @Override
-    public void onComplete()
-    {
+    public void onComplete() {
         LOGGER.debug("onComplete");
     }
 
@@ -44,8 +41,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
      * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
      */
     @Override
-    public void onError(final Throwable throwable)
-    {
+    public void onError(final Throwable throwable) {
         LOGGER.error(throwable.getMessage(), throwable);
 
         // Wird bereits in der ResultSetSubscription verarbeitet..
@@ -56,8 +52,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
      * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
      */
     @Override
-    public void onNext(final T item)
-    {
+    public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
 
         this.consumer.accept(item);
@@ -70,8 +65,7 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T>
      * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
      */
     @Override
-    public void onSubscribe(final Subscription subscription)
-    {
+    public void onSubscribe(final Subscription subscription) {
         this.subscription = subscription;
 
         // Erstes Element anfordern.

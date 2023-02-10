@@ -28,48 +28,40 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class JdbcUtils
-{
+public final class JdbcUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcUtils.class);
 
-    public static void close(final Connection connection) throws SQLException
-    {
+    public static void close(final Connection connection) throws SQLException {
         // Spring-Variante
         // DataSourceUtils.releaseConnection(connection, getDataSource());
 
-        if ((connection == null) || connection.isClosed())
-        {
+        if ((connection == null) || connection.isClosed()) {
             return;
         }
 
         connection.close();
     }
 
-    public static void close(final ResultSet resultSet) throws SQLException
-    {
+    public static void close(final ResultSet resultSet) throws SQLException {
         // Spring-Variante
         // DataSourceUtils.closeResultSet(resultSet);
 
-        if ((resultSet == null) || resultSet.isClosed())
-        {
+        if ((resultSet == null) || resultSet.isClosed()) {
             return;
         }
 
         resultSet.close();
     }
 
-    public static void close(final Statement statement) throws SQLException
-    {
+    public static void close(final Statement statement) throws SQLException {
         // Spring-Variante
         // JdbcUtils.closeStatement(statement);
 
-        if ((statement == null) || statement.isClosed())
-        {
+        if ((statement == null) || statement.isClosed()) {
             return;
         }
 
-        if (statement instanceof PreparedStatement s)
-        {
+        if (statement instanceof PreparedStatement s) {
             s.clearBatch();
             s.clearParameters();
         }
@@ -77,38 +69,29 @@ public final class JdbcUtils
         statement.close();
     }
 
-    public static void closeSilent(final Connection connection)
-    {
-        try
-        {
+    public static void closeSilent(final Connection connection) {
+        try {
             close(connection);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error("Could not close JDBC Connection", ex);
         }
     }
 
-    public static void closeSilent(final ResultSet resultSet)
-    {
-        try
-        {
+    public static void closeSilent(final ResultSet resultSet) {
+        try {
             close(resultSet);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error("Could not close JDBC ResultSet", ex);
         }
     }
 
-    public static void closeSilent(final Statement statement)
-    {
-        try
-        {
+    public static void closeSilent(final Statement statement) {
+        try {
             close(statement);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             LOGGER.error("Could not close JDBC Statement", ex);
         }
     }
@@ -116,8 +99,7 @@ public final class JdbcUtils
     /**
      * Erstellt einen String aus per Komma getrennten ids.
      */
-    public static String createIDsAsString(final Iterable<? extends Number> ids)
-    {
+    public static String createIDsAsString(final Iterable<? extends Number> ids) {
         return StreamSupport.stream(ids.spliterator(), false).map(String::valueOf).collect(Collectors.joining(","));
     }
 
@@ -126,8 +108,7 @@ public final class JdbcUtils
      * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere "in"-Clause angehängt.
      */
-    public static void createInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements)
-    {
+    public static void createInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements) {
         createInOrNotInClause(column, sql, elements, "in");
     }
 
@@ -136,56 +117,47 @@ public final class JdbcUtils
      * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere "not in"-Clause angehängt.
      */
-    public static void createNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements)
-    {
+    public static void createNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements) {
         createInOrNotInClause(column, sql, elements, "not in");
     }
 
-    public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException
-    {
-        try (Connection connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection())
-        {
+    public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException {
+        try (Connection connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection()) {
             DatabaseMetaData metaData = Objects.requireNonNull(connection.getMetaData(), "metaData required");
 
             return callback.apply(metaData);
         }
     }
 
-    public static Boolean getBoolean(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Boolean getBoolean(final CallableStatement cs, final int index) throws SQLException {
         boolean value = cs.getBoolean(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Boolean getBoolean(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Boolean getBoolean(final ResultSet rs, final int index) throws SQLException {
         boolean value = rs.getBoolean(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Boolean getBoolean(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Boolean getBoolean(final ResultSet rs, final String columnName) throws SQLException {
         return getBoolean(rs, rs.findColumn(columnName));
     }
 
-    public static Byte getByte(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Byte getByte(final CallableStatement cs, final int index) throws SQLException {
         byte value = cs.getByte(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Byte getByte(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Byte getByte(final ResultSet rs, final int index) throws SQLException {
         byte value = rs.getByte(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Byte getByte(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Byte getByte(final ResultSet rs, final String columnName) throws SQLException {
         return getByte(rs, rs.findColumn(columnName));
     }
 
@@ -194,16 +166,12 @@ public final class JdbcUtils
      *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
-    public static String getDatabaseProductName(final DataSource dataSource) throws SQLException
-    {
-        return extractDatabaseMetaData(dataSource, dbMd ->
-        {
-            try
-            {
+    public static String getDatabaseProductName(final DataSource dataSource) throws SQLException {
+        return extractDatabaseMetaData(dataSource, dbMd -> {
+            try {
                 return dbMd.getDatabaseProductName();
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         });
@@ -214,129 +182,107 @@ public final class JdbcUtils
      *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
-    public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException
-    {
-        return extractDatabaseMetaData(dataSource, dbMd ->
-        {
-            try
-            {
+    public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException {
+        return extractDatabaseMetaData(dataSource, dbMd -> {
+            try {
                 return dbMd.getDatabaseProductVersion();
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         });
     }
 
-    public static Double getDouble(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Double getDouble(final CallableStatement cs, final int index) throws SQLException {
         double value = cs.getDouble(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Double getDouble(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Double getDouble(final ResultSet rs, final int index) throws SQLException {
         double value = rs.getDouble(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Double getDouble(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Double getDouble(final ResultSet rs, final String columnName) throws SQLException {
         return getDouble(rs, rs.findColumn(columnName));
     }
 
-    public static Float getFloat(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Float getFloat(final CallableStatement cs, final int index) throws SQLException {
         float value = cs.getFloat(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Float getFloat(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Float getFloat(final ResultSet rs, final int index) throws SQLException {
         float value = rs.getFloat(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Float getFloat(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Float getFloat(final ResultSet rs, final String columnName) throws SQLException {
         return getFloat(rs, rs.findColumn(columnName));
     }
 
-    public static Integer getInteger(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Integer getInteger(final CallableStatement cs, final int index) throws SQLException {
         int value = cs.getInt(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Integer getInteger(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Integer getInteger(final ResultSet rs, final int index) throws SQLException {
         int value = rs.getInt(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Integer getInteger(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Integer getInteger(final ResultSet rs, final String columnName) throws SQLException {
         return getInteger(rs, rs.findColumn(columnName));
     }
 
-    public static Long getLong(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Long getLong(final CallableStatement cs, final int index) throws SQLException {
         long value = cs.getLong(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Long getLong(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Long getLong(final ResultSet rs, final int index) throws SQLException {
         long value = rs.getLong(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Long getLong(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Long getLong(final ResultSet rs, final String columnName) throws SQLException {
         return getLong(rs, rs.findColumn(columnName));
     }
 
-    public static Short getShort(final CallableStatement cs, final int index) throws SQLException
-    {
+    public static Short getShort(final CallableStatement cs, final int index) throws SQLException {
         short value = cs.getShort(index);
 
         return cs.wasNull() ? null : value;
     }
 
-    public static Short getShort(final ResultSet rs, final int index) throws SQLException
-    {
+    public static Short getShort(final ResultSet rs, final int index) throws SQLException {
         short value = rs.getShort(index);
 
         return rs.wasNull() ? null : value;
     }
 
-    public static Short getShort(final ResultSet rs, final String columnName) throws SQLException
-    {
+    public static Short getShort(final ResultSet rs, final String columnName) throws SQLException {
         return getShort(rs, rs.findColumn(columnName));
     }
 
     /**
      * Fügt zu der IN-Query die entsprechenden Werte hinzu.
      */
-    public static StringBuilder parameterAsString(final Iterable<String> values, final char separator)
-    {
+    public static StringBuilder parameterAsString(final Iterable<String> values, final char separator) {
         StringBuilder builder = new StringBuilder();
 
-        for (Iterator<String> iter = values.iterator(); iter.hasNext(); )
-        {
+        for (Iterator<String> iter = values.iterator(); iter.hasNext(); ) {
             builder.append(iter.next());
 
-            if (iter.hasNext())
-            {
+            if (iter.hasNext()) {
                 builder.append(separator);
             }
         }
@@ -348,8 +294,7 @@ public final class JdbcUtils
      * Erzeugt aus dem {@link ResultSet} eine {@link ObjectTable}.<br>
      * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      */
-    public static ObjectTable toObjectTable(final ResultSet resultSet) throws SQLException
-    {
+    public static ObjectTable toObjectTable(final ResultSet resultSet) throws SQLException {
         Objects.requireNonNull(resultSet, "resultSet required");
 
         ResultSetMetaData metaData = resultSet.getMetaData();
@@ -358,33 +303,27 @@ public final class JdbcUtils
         // Spaltennamen / Header
         String[] header = new String[columnCount];
 
-        for (int column = 1; column <= columnCount; column++)
-        {
+        for (int column = 1; column <= columnCount; column++) {
             header[column - 1] = metaData.getColumnLabel(column).toUpperCase();
         }
 
         ObjectTable objectTable = new ObjectTable(header);
 
         // Daten
-        while (resultSet.next())
-        {
+        while (resultSet.next()) {
             Object[] row = new Object[columnCount];
 
-            for (int column = 1; column <= columnCount; column++)
-            {
+            for (int column = 1; column <= columnCount; column++) {
                 Object obj = resultSet.getObject(column);
                 Object value;
 
-                if (obj == null)
-                {
+                if (obj == null) {
                     value = "";
                 }
-                else if (obj instanceof byte[] bytes)
-                {
+                else if (obj instanceof byte[] bytes) {
                     value = new String(bytes, StandardCharsets.UTF_8);
                 }
-                else
-                {
+                else {
                     value = obj;
                 }
 
@@ -395,8 +334,7 @@ public final class JdbcUtils
         }
 
         // ResultSet wieder zurück auf Anfang.
-        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
-        {
+        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
 
@@ -406,8 +344,7 @@ public final class JdbcUtils
     /**
      * Erzeugt aus den {@link ResultSetMetaData} eine {@link ObjectTable}.<br>
      */
-    public static ObjectTable toObjectTable(final ResultSetMetaData rsMeta) throws SQLException
-    {
+    public static ObjectTable toObjectTable(final ResultSetMetaData rsMeta) throws SQLException {
         Objects.requireNonNull(rsMeta, "resultSetMetaData required");
 
         // Spaltennamen / Header
@@ -421,8 +358,7 @@ public final class JdbcUtils
         ObjectTable objectTable = new ObjectTable(header);
 
         // Daten
-        for (int col = 1; col <= rsMeta.getColumnCount(); col++)
-        {
+        for (int col = 1; col <= rsMeta.getColumnCount(); col++) {
             Object[] row = new String[5];
 
             row[0] = rsMeta.getColumnName(col);
@@ -443,14 +379,12 @@ public final class JdbcUtils
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      */
-    public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException
-    {
+    public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException {
         ObjectTable objectTable = toObjectTable(resultSet);
         objectTable.writeStringTable(ps, '-', '|');
 
         // ResultSet wieder zurück auf Anfang.
-        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
-        {
+        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
     }
@@ -458,8 +392,7 @@ public final class JdbcUtils
     /**
      * Tabellarische Ausgabe der ResultSetMetaDaten.
      */
-    public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException
-    {
+    public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException {
         ObjectTable objectTable = toObjectTable(rsMeta);
         objectTable.writeStringTable(ps, '-', '|');
     }
@@ -469,20 +402,16 @@ public final class JdbcUtils
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      */
-    public static void writeCsv(final ResultSet resultSet, final PrintStream ps) throws SQLException
-    {
-        UnaryOperator<String> valueFunction = value ->
-        {
-            if (value == null || value.strip().isBlank())
-            {
+    public static void writeCsv(final ResultSet resultSet, final PrintStream ps) throws SQLException {
+        UnaryOperator<String> valueFunction = value -> {
+            if (value == null || value.strip().isBlank()) {
                 return "";
             }
 
             String v = value;
 
             // Enthaltene Anführungszeichen escapen.
-            if (v.contains("\""))
-            {
+            if (v.contains("\"")) {
                 v = v.replace("\"", "\"\"");
             }
 
@@ -496,29 +425,24 @@ public final class JdbcUtils
         StringJoiner stringJoiner = new StringJoiner(",");
 
         // Header
-        for (int column = 1; column <= columnCount; column++)
-        {
+        for (int column = 1; column <= columnCount; column++) {
             stringJoiner.add(valueFunction.apply(metaData.getColumnLabel(column).toUpperCase()));
         }
 
         ps.println(stringJoiner);
 
         // Daten
-        while (resultSet.next())
-        {
+        while (resultSet.next()) {
             stringJoiner = new StringJoiner(",");
 
-            for (int column = 1; column <= columnCount; column++)
-            {
+            for (int column = 1; column <= columnCount; column++) {
                 Object obj = resultSet.getObject(column);
                 String value;
 
-                if (obj instanceof byte[] bytes)
-                {
+                if (obj instanceof byte[] bytes) {
                     value = new String(bytes, StandardCharsets.UTF_8);
                 }
-                else
-                {
+                else {
                     value = Objects.toString(obj, null);
                 }
 
@@ -531,8 +455,7 @@ public final class JdbcUtils
         ps.flush();
 
         // ResultSet wieder zurück auf Anfang.
-        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY)
-        {
+        if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
     }
@@ -542,12 +465,10 @@ public final class JdbcUtils
      * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere Clause angehängt.
      */
-    private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn)
-    {
+    private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn) {
         sql.append(column).append(" ").append(inOrNotIn).append(" (");
 
-        if ((elements == null) || elements.isEmpty())
-        {
+        if ((elements == null) || elements.isEmpty()) {
             sql.append("-1)");
 
             return;
@@ -557,20 +478,17 @@ public final class JdbcUtils
 
         int i = 0;
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Number number = iterator.next();
 
             sql.append(number);
             i++;
 
-            if (((i % 1000) == 0) && iterator.hasNext())
-            {
+            if (((i % 1000) == 0) && iterator.hasNext()) {
                 // Neuen Block anfangen,
                 sql.append(") or ").append(column).append(" ").append(inOrNotIn).append(" (");
             }
-            else if (iterator.hasNext())
-            {
+            else if (iterator.hasNext()) {
                 sql.append(",");
             }
         }
@@ -578,8 +496,7 @@ public final class JdbcUtils
         sql.append(")");
     }
 
-    private JdbcUtils()
-    {
+    private JdbcUtils() {
         super();
     }
 }

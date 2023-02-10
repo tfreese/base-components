@@ -9,14 +9,12 @@ import jakarta.servlet.ServletContextListener;
 /**
  * @author Thomas Freese
  */
-public class LoggingJdbcDriverServletContextListener implements ServletContextListener
-{
+public class LoggingJdbcDriverServletContextListener implements ServletContextListener {
     /**
      * @see jakarta.servlet.ServletContextListener#contextDestroyed(jakarta.servlet.ServletContextEvent)
      */
     @Override
-    public void contextDestroyed(final ServletContextEvent sce)
-    {
+    public void contextDestroyed(final ServletContextEvent sce) {
         // Empty
     }
 
@@ -24,20 +22,16 @@ public class LoggingJdbcDriverServletContextListener implements ServletContextLi
      * @see jakarta.servlet.ServletContextListener#contextInitialized(jakarta.servlet.ServletContextEvent)
      */
     @Override
-    public void contextInitialized(final ServletContextEvent sce)
-    {
-        try
-        {
+    public void contextInitialized(final ServletContextEvent sce) {
+        try {
             DriverManager.registerDriver(new LoggingJdbcDriver());
 
             LoggingJdbcDriver.addDefaultLogMethods();
         }
-        catch (RuntimeException ex)
-        {
+        catch (RuntimeException ex) {
             throw ex;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }

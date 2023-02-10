@@ -17,14 +17,12 @@ import javax.swing.border.Border;
  *
  * @author Thomas Freese
  */
-public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T>
-{
+public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
     private final ListCellRenderer<T> delegate;
 
     private final Border matteBorder;
 
-    public VerticalWrapListCellRenderer(final ListCellRenderer<T> delegate)
-    {
+    public VerticalWrapListCellRenderer(final ListCellRenderer<T> delegate) {
         super();
 
         this.delegate = delegate;
@@ -35,22 +33,18 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T>
      * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
      */
     @Override
-    public Component getListCellRendererComponent(final JList<? extends T> list, final T value, final int index, final boolean isSelected,
-                                                  final boolean cellHasFocus)
-    {
+    public Component getListCellRendererComponent(final JList<? extends T> list, final T value, final int index, final boolean isSelected, final boolean cellHasFocus) {
         Component component = this.delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
         // 16 <=> @see JList#getPreferredScrollableViewportSize()
         int fixedCellHeight = list.getFixedCellHeight() <= 0 ? 16 : list.getFixedCellHeight();
         int visibleRowCount = Math.max(1, (list.getHeight() / fixedCellHeight));
 
-        if (!isSelected && ((index % (2 * visibleRowCount)) >= visibleRowCount))
-        {
+        if (!isSelected && ((index % (2 * visibleRowCount)) >= visibleRowCount)) {
             component.setBackground(UIManager.getColor("Table.alternateRowColor"));
         }
 
-        if ((index >= visibleRowCount) && (component instanceof JComponent jComponent))
-        {
+        if ((index >= visibleRowCount) && (component instanceof JComponent jComponent)) {
             Border compoundBorder = BorderFactory.createCompoundBorder(this.matteBorder, jComponent.getBorder());
             jComponent.setBorder(compoundBorder);
         }

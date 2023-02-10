@@ -28,10 +28,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public final class GradientTranslucentWindowMain
-{
-    public static void main(final String[] args)
-    {
+public final class GradientTranslucentWindowMain {
+    public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -39,8 +37,7 @@ public final class GradientTranslucentWindowMain
         boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
         // If translucent windows aren't supported, exit.
-        if (!isPerPixelTranslucencySupported)
-        {
+        if (!isPerPixelTranslucencySupported) {
             System.out.println("Per-pixel translucency is not supported");
             System.exit(0);
         }
@@ -49,16 +46,14 @@ public final class GradientTranslucentWindowMain
         JFrame.setDefaultLookAndFeelDecorated(true);
 
         // Create the GUI on the event-dispatching thread
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("GradientTranslucentWindow");
             frame.setBackground(new Color(0, 0, 0, 0));
             frame.setSize(new Dimension(600, 400));
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-            JPanel panel = new JPanel()
-            {
+            JPanel panel = new JPanel() {
                 /**
                  *
                  */
@@ -69,10 +64,8 @@ public final class GradientTranslucentWindowMain
                  * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
                  */
                 @Override
-                protected void paintComponent(final Graphics g)
-                {
-                    if (g instanceof Graphics2D g2d)
-                    {
+                protected void paintComponent(final Graphics g) {
+                    if (g instanceof Graphics2D g2d) {
                         final int R = 240;
                         final int G = 240;
                         final int B = 240;
@@ -94,8 +87,7 @@ public final class GradientTranslucentWindowMain
         });
     }
 
-    private GradientTranslucentWindowMain()
-    {
+    private GradientTranslucentWindowMain() {
         super();
     }
 }

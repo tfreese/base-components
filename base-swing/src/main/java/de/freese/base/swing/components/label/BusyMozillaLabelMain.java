@@ -10,10 +10,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class BusyMozillaLabelMain
-{
-    public static void main(final String[] args)
-    {
+public final class BusyMozillaLabelMain {
+    public static void main(final String[] args) {
         final JFrame frame = new JFrame("GlassPaneDemo");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
@@ -27,9 +25,8 @@ public final class BusyMozillaLabelMain
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    
-    private BusyMozillaLabelMain()
-    {
+
+    private BusyMozillaLabelMain() {
         super();
     }
 }

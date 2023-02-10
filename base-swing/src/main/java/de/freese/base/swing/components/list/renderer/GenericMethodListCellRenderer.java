@@ -7,18 +7,15 @@ import java.io.Serial;
  *
  * @author Thomas Freese
  */
-public class GenericMethodListCellRenderer extends AbstractGenericListCellRenderer
-{
+public class GenericMethodListCellRenderer extends AbstractGenericListCellRenderer {
     @Serial
     private static final long serialVersionUID = -4533421995241634353L;
 
-    public GenericMethodListCellRenderer(final String methodName)
-    {
+    public GenericMethodListCellRenderer(final String methodName) {
         super(methodName);
     }
 
-    public GenericMethodListCellRenderer(final String methodName, final String nullText)
-    {
+    public GenericMethodListCellRenderer(final String methodName, final String nullText) {
         super(methodName, nullText);
     }
 
@@ -26,8 +23,7 @@ public class GenericMethodListCellRenderer extends AbstractGenericListCellRender
      * @see de.freese.base.swing.components.list.renderer.AbstractGenericListCellRenderer#getString(java.lang.Object, java.lang.String)
      */
     @Override
-    protected String getString(final Object object, final String attribute) throws Exception
-    {
+    protected String getString(final Object object, final String attribute) throws Exception {
         return "" + invokeMethod(object, attribute);
     }
 }

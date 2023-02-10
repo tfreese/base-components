@@ -13,17 +13,14 @@ import de.freese.base.core.function.ThrowingFunction;
 /**
  * @author Thomas Freese
  */
-public class GenericGridColumn<T> extends AbstractGridColumn<T>
-{
+public class GenericGridColumn<T> extends AbstractGridColumn<T> {
     private final Function<Object, T> mapper;
 
     private final ThrowingFunction<DataInput, T, IOException> reader;
 
     private final ThrowingBiConsumer<DataOutput, T, IOException> writer;
 
-    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer,
-                             final ThrowingFunction<DataInput, T, IOException> reader)
-    {
+    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer, final ThrowingFunction<DataInput, T, IOException> reader) {
         super(Objects.requireNonNull(objectClazz, "objectClazz required"));
 
         this.mapper = Objects.requireNonNull(mapper, "mapper required");
@@ -35,10 +32,8 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public T getValue(final Object object)
-    {
-        if (object == null)
-        {
+    public T getValue(final Object object) {
+        if (object == null) {
             return null;
         }
 
@@ -49,8 +44,7 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override
-    protected T readNullSafe(final DataInput dataInput) throws IOException
-    {
+    protected T readNullSafe(final DataInput dataInput) throws IOException {
         return this.reader.apply(dataInput);
     }
 
@@ -58,8 +52,7 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException
-    {
+    protected void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException {
         this.writer.accept(dataOutput, value);
     }
 }

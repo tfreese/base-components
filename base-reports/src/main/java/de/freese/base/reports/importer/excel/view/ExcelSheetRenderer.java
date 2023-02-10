@@ -11,8 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author Thomas Freese
  */
-public class ExcelSheetRenderer extends DefaultTableCellRenderer
-{
+public class ExcelSheetRenderer extends DefaultTableCellRenderer {
     @Serial
     private static final long serialVersionUID = 2719021291033059644L;
 
@@ -20,43 +19,34 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer
      * @see javax.swing.table.DefaultTableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
      */
     @Override
-    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row,
-                                                   final int column)
-    {
+    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        if (value instanceof Number)
-        {
+        if (value instanceof Number) {
             setHorizontalAlignment(RIGHT);
         }
-        else
-        {
+        else {
             setHorizontalAlignment(LEFT);
         }
 
-        if (column == 0)
-        {
+        if (column == 0) {
             setHorizontalAlignment(CENTER);
         }
 
         Double num = null;
 
         // Wenn möglich Ganzzahlen anzeigen
-        try
-        {
+        try {
             num = value != null ? Double.valueOf(value.toString()) : null;
         }
-        catch (Throwable th)
-        {
+        catch (Throwable th) {
             // th.printStackTrace();
         }
 
-        if ((num != null) && (((num.intValue()) - num) == 0.0D))
-        {
+        if ((num != null) && (((num.intValue()) - num) == 0.0D)) {
             setText("" + num.intValue());
         }
-        else
-        {
+        else {
             setText((value == null) ? "" : value.toString());
         }
 

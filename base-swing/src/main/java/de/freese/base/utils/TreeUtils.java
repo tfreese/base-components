@@ -12,14 +12,11 @@ import javax.swing.tree.TreePath;
 /**
  * @author Thomas Freese
  */
-public final class TreeUtils
-{
-    public static void collapse(final JTree tree)
-    {
+public final class TreeUtils {
+    public static void collapse(final JTree tree) {
         Object root = tree.getModel().getRoot();
 
-        if (root == null)
-        {
+        if (root == null) {
             return;
         }
 
@@ -27,10 +24,8 @@ public final class TreeUtils
         collapse(tree, new TreePath(root));
     }
 
-    public static void collapse(final JTree tree, final TreePath parent)
-    {
-        if (parent == null)
-        {
+    public static void collapse(final JTree tree, final TreePath parent) {
+        if (parent == null) {
             collapse(tree);
 
             return;
@@ -38,8 +33,7 @@ public final class TreeUtils
 
         Object node = parent.getLastPathComponent();
 
-        for (int i = 0; i < tree.getModel().getChildCount(node); i++)
-        {
+        for (int i = 0; i < tree.getModel().getChildCount(node); i++) {
             Object n = tree.getModel().getChild(node, i);
 
             TreePath path = parent.pathByAddingChild(n);
@@ -50,37 +44,31 @@ public final class TreeUtils
         tree.collapsePath(parent);
     }
 
-    public static void expand(final JTree tree)
-    {
+    public static void expand(final JTree tree) {
         Object root = tree.getModel().getRoot();
 
-        if (root == null)
-        {
+        if (root == null) {
             return;
         }
 
         expand(tree, new TreePath(root));
     }
 
-    public static void expand(final JTree tree, final int level)
-    {
+    public static void expand(final JTree tree, final int level) {
         Object root = tree.getModel().getRoot();
 
-        if (root == null)
-        {
+        if (root == null) {
             return;
         }
 
         expand(tree, new TreePath(root), level);
     }
 
-    public static void expand(final JTree tree, final TreePath parent)
-    {
+    public static void expand(final JTree tree, final TreePath parent) {
         // Traverse children
         Object node = parent.getLastPathComponent();
 
-        for (int i = 0; i < tree.getModel().getChildCount(node); i++)
-        {
+        for (int i = 0; i < tree.getModel().getChildCount(node); i++) {
             Object n = tree.getModel().getChild(node, i);
 
             TreePath path = parent.pathByAddingChild(n);
@@ -91,8 +79,7 @@ public final class TreeUtils
         tree.expandPath(parent);
     }
 
-    public static void expand(final JTree tree, final TreePath path, final int level)
-    {
+    public static void expand(final JTree tree, final TreePath path, final int level) {
         // tree.expandPath(path);
         // DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
         // for (int i = 0; i < node.getChildCount(); i++)
@@ -110,17 +97,14 @@ public final class TreeUtils
         int count = tree.getModel().getChildCount(node);
         int currLevel = path.getPathCount();
 
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             Object child = tree.getModel().getChild(node, i);
 
-            if (currLevel <= level)
-            {
+            if (currLevel <= level) {
                 Object[] arr = new Object[path.getPath().length + 1];
 
                 // copy the old path
-                for (int j = 0; j < path.getPath().length; j++)
-                {
+                for (int j = 0; j < path.getPath().length; j++) {
                     arr[j] = path.getPath()[j];
                 }
 
@@ -131,8 +115,7 @@ public final class TreeUtils
         }
     }
 
-    public static List<TreePath> getExpandedTreePaths(final JTree tree)
-    {
+    public static List<TreePath> getExpandedTreePaths(final JTree tree) {
         List<TreePath> expanded = new ArrayList<>();
 
         // TreeModel treeModel = tree.getModel();
@@ -144,10 +127,8 @@ public final class TreeUtils
         // expanded = Collections.list(expandedEnum);
         // }
 
-        for (int row = 0; row < tree.getRowCount(); row++)
-        {
-            if (tree.isExpanded(row))
-            {
+        for (int row = 0; row < tree.getRowCount(); row++) {
+            if (tree.isExpanded(row)) {
                 expanded.add(tree.getPathForRow(row));
             }
         }
@@ -155,46 +136,37 @@ public final class TreeUtils
         return expanded;
     }
 
-    public static Object getFirstSelectedObject(final JTree tree)
-    {
+    public static Object getFirstSelectedObject(final JTree tree) {
         Object[] obj = getSelectedObjects(tree);
 
-        if ((obj != null) && (obj.length > 0))
-        {
+        if ((obj != null) && (obj.length > 0)) {
             return obj[0];
         }
 
         return null;
     }
 
-    public static Object getParentFor(final JTree tree, final Object object)
-    {
+    public static Object getParentFor(final JTree tree, final Object object) {
         return getParentFor(tree.getModel(), tree.getModel().getRoot(), object);
     }
 
-    public static Object getParentFor(final JTree tree, final Object parent, final Object object)
-    {
+    public static Object getParentFor(final JTree tree, final Object parent, final Object object) {
         return getParentFor(tree.getModel(), parent, object);
     }
 
-    public static Object getParentFor(final TreeModel treeModel, final Object object)
-    {
+    public static Object getParentFor(final TreeModel treeModel, final Object object) {
         return getParentFor(treeModel, treeModel.getRoot(), object);
     }
 
-    public static Object getParentFor(final TreeModel treeModel, final Object parent, final Object object)
-    {
+    public static Object getParentFor(final TreeModel treeModel, final Object parent, final Object object) {
         Object found = null;
         int childCount = treeModel.getChildCount(parent);
 
-        try
-        {
-            for (int index = 0; index < childCount; index++)
-            {
+        try {
+            for (int index = 0; index < childCount; index++) {
                 Object child = treeModel.getChild(parent, index);
 
-                if (child == object)
-                {
+                if (child == object) {
                     found = parent;
 
                     break;
@@ -202,35 +174,30 @@ public final class TreeUtils
 
                 found = getParentFor(treeModel, child, object);
 
-                if (found != null)
-                {
+                if (found != null) {
                     break;
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Empty
         }
 
         return found;
     }
 
-    public static TreePath getPathToRoot(final JTree tree, final Object object)
-    {
+    public static TreePath getPathToRoot(final JTree tree, final Object object) {
         return getPathToRoot(tree.getModel(), object);
     }
 
-    public static TreePath getPathToRoot(final TreeModel treeModel, final Object object)
-    {
+    public static TreePath getPathToRoot(final TreeModel treeModel, final Object object) {
         List<Object> list = new ArrayList<>();
 
         list.add(object);
 
         Object parent = getParentFor(treeModel, object);
 
-        while (parent != null)
-        {
+        while (parent != null) {
             list.add(0, parent);
             parent = getParentFor(treeModel, parent);
         }
@@ -238,19 +205,16 @@ public final class TreeUtils
         return new TreePath(list.toArray());
     }
 
-    public static Object[] getSelectedObjects(final JTree tree)
-    {
+    public static Object[] getSelectedObjects(final JTree tree) {
         TreePath[] paths = tree.getSelectionPaths();
 
-        if (paths == null)
-        {
+        if (paths == null) {
             return new Object[0];
         }
 
         Object[] nodes = new Object[paths.length];
 
-        for (int i = 0; i < paths.length; i++)
-        {
+        for (int i = 0; i < paths.length; i++) {
             nodes[i] = paths[i].getLastPathComponent();
         }
 
@@ -258,24 +222,19 @@ public final class TreeUtils
     }
 
     @SuppressWarnings("unchecked")
-    public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType)
-    {
+    public static <K extends DefaultMutableTreeNode> K getSelectedTreeNode(final JTree tree, final Class<?>... userObjectType) {
         // Überprüfen, ob selektierte Elemente vorhanden sind.
         Object[] selectedObjects = getSelectedObjects(tree);
 
-        if (selectedObjects == null)
-        {
+        if (selectedObjects == null) {
             return null;
         }
 
-        for (Object selected : selectedObjects)
-        {
+        for (Object selected : selectedObjects) {
             DefaultMutableTreeNode selectedTreeNode = (DefaultMutableTreeNode) selected;
 
-            for (Class<?> element : userObjectType)
-            {
-                if (element.isInstance(selectedTreeNode.getUserObject()))
-                {
+            for (Class<?> element : userObjectType) {
+                if (element.isInstance(selectedTreeNode.getUserObject())) {
                     return (K) selectedTreeNode;
                 }
             }
@@ -284,32 +243,26 @@ public final class TreeUtils
         return null;
     }
 
-    public static <T> T getSelectedUserObject(final JTree tree, final Class<T> userObjectType)
-    {
+    public static <T> T getSelectedUserObject(final JTree tree, final Class<T> userObjectType) {
         DefaultMutableTreeNode node = getSelectedTreeNode(tree, userObjectType);
 
         return node == null ? null : userObjectType.cast(node.getUserObject());
     }
 
-    public static Object getTreeObjectForEvent(final MouseEvent event)
-    {
-        if (event == null || !(event.getSource() instanceof JTree tree))
-        {
+    public static Object getTreeObjectForEvent(final MouseEvent event) {
+        if (event == null || !(event.getSource() instanceof JTree tree)) {
             return null;
         }
 
         Object obj = null;
 
-        if (tree.getRowForLocation(event.getX(), event.getY()) > 0)
-        {
+        if (tree.getRowForLocation(event.getX(), event.getY()) > 0) {
             TreePath path = tree.getClosestPathForLocation(event.getX(), event.getY());
 
-            if (path != null)
-            {
+            if (path != null) {
                 obj = path.getLastPathComponent();
 
-                if (!path.equals(tree.getSelectionPath()))
-                {
+                if (!path.equals(tree.getSelectionPath())) {
                     tree.setSelectionPath(path);
                 }
             }
@@ -318,10 +271,8 @@ public final class TreeUtils
         return obj;
     }
 
-    public static void selectNode(final JTree tree, final DefaultMutableTreeNode node)
-    {
-        if ((tree == null) || (node == null))
-        {
+    public static void selectNode(final JTree tree, final DefaultMutableTreeNode node) {
+        if ((tree == null) || (node == null)) {
             return;
         }
 
@@ -334,10 +285,8 @@ public final class TreeUtils
         tree.getSelectionModel().setSelectionPath(path);
     }
 
-    public static void selectNode(final JTree tree, final MouseEvent event)
-    {
-        if ((tree == null) || (event == null))
-        {
+    public static void selectNode(final JTree tree, final MouseEvent event) {
+        if ((tree == null) || (event == null)) {
             return;
         }
 
@@ -347,8 +296,7 @@ public final class TreeUtils
         tree.setSelectionPath(closestPath);
     }
 
-    private TreeUtils()
-    {
+    private TreeUtils() {
         super();
     }
 }

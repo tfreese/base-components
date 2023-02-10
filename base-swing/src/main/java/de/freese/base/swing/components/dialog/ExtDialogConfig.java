@@ -14,8 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Thomas Freese
  */
-public class ExtDialogConfig
-{
+public class ExtDialogConfig {
     private final Map<Integer, ActionListener> buttonActionListeners = new HashMap<>();
 
     private Icon icon;
@@ -49,18 +48,15 @@ public class ExtDialogConfig
 
     private WindowListener windowListener;
 
-    public ActionListener getButtonActionListener(final int buttonIndex)
-    {
+    public ActionListener getButtonActionListener(final int buttonIndex) {
         return this.buttonActionListeners.get(buttonIndex);
     }
 
-    public Icon getIcon()
-    {
+    public Icon getIcon() {
         return this.icon;
     }
 
-    public Object getMessage()
-    {
+    public Object getMessage() {
         return this.message;
     }
 
@@ -71,8 +67,7 @@ public class ExtDialogConfig
      * @see JOptionPane#WARNING_MESSAGE
      * @see JOptionPane#ERROR_MESSAGE
      */
-    public int getMessageType()
-    {
+    public int getMessageType() {
         return this.messageType;
     }
 
@@ -83,53 +78,43 @@ public class ExtDialogConfig
      * @see JOptionPane#YES_NO_OPTION
      * @see JOptionPane#YES_NO_CANCEL_OPTION
      */
-    public int getOptionType()
-    {
+    public int getOptionType() {
         return this.optionType;
     }
 
-    public String[] getOptions()
-    {
+    public String[] getOptions() {
         return this.options;
     }
 
-    public Component getOwner()
-    {
+    public Component getOwner() {
         return this.owner;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
-    public WindowListener getWindowListener()
-    {
+    public WindowListener getWindowListener() {
         return this.windowListener;
     }
 
-    public boolean isModal()
-    {
+    public boolean isModal() {
         return this.modal;
     }
 
-    public boolean isResizeable()
-    {
+    public boolean isResizeable() {
         return this.resizeable;
     }
 
-    public void setButtonActionListener(final int buttonIndex, final ActionListener actionListener)
-    {
+    public void setButtonActionListener(final int buttonIndex, final ActionListener actionListener) {
         this.buttonActionListeners.put(buttonIndex, actionListener);
     }
 
-    public void setIcon(final Icon icon)
-    {
+    public void setIcon(final Icon icon) {
         this.icon = icon;
     }
 
-    public void setMessage(final Object message)
-    {
+    public void setMessage(final Object message) {
         this.message = message;
     }
 
@@ -140,13 +125,11 @@ public class ExtDialogConfig
      * @see JOptionPane#WARNING_MESSAGE
      * @see JOptionPane#ERROR_MESSAGE
      */
-    public void setMessageType(final int messageType)
-    {
+    public void setMessageType(final int messageType) {
         this.messageType = messageType;
     }
 
-    public void setModal(final boolean modal)
-    {
+    public void setModal(final boolean modal) {
         this.modal = modal;
     }
 
@@ -157,33 +140,27 @@ public class ExtDialogConfig
      * @see JOptionPane#YES_NO_OPTION
      * @see JOptionPane#YES_NO_CANCEL_OPTION
      */
-    public void setOptionType(final int optionType)
-    {
+    public void setOptionType(final int optionType) {
         this.optionType = optionType;
     }
 
-    public void setOptions(final String... options)
-    {
+    public void setOptions(final String... options) {
         this.options = options;
     }
 
-    public void setOwner(final Component owner)
-    {
+    public void setOwner(final Component owner) {
         this.owner = owner;
     }
 
-    public void setResizeable(final boolean resizeable)
-    {
+    public void setResizeable(final boolean resizeable) {
         this.resizeable = resizeable;
     }
 
-    public void setTitle(final String title)
-    {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
-    public void setWindowListener(final WindowListener windowListener)
-    {
+    public void setWindowListener(final WindowListener windowListener) {
         this.windowListener = windowListener;
     }
 }

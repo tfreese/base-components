@@ -13,10 +13,8 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class MemoryGraphMain
-{
-    public static void main(final String[] args)
-    {
+public final class MemoryGraphMain {
+    public static void main(final String[] args) {
         MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
 
         JFrame frame = new JFrame("Memory Monitor");
@@ -30,34 +28,28 @@ public final class MemoryGraphMain
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
 
-        try
-        {
+        try {
             URL iconURL = ClassLoader.getSystemResource("icons/memory.gif");
 
-            if (iconURL == null)
-            {
+            if (iconURL == null) {
                 iconURL = frame.getClass().getResource("icons/memory.gif");
             }
 
-            if (iconURL != null)
-            {
+            if (iconURL != null) {
                 frame.setIconImage(new ImageIcon(iconURL).getImage());
             }
         }
-        catch (Throwable ex)
-        {
+        catch (Throwable ex) {
             // Empty
         }
 
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             frame.setVisible(true);
             memoryGraph.start();
         });
     }
 
-    private MemoryGraphMain()
-    {
+    private MemoryGraphMain() {
         super();
     }
 }

@@ -16,8 +16,7 @@ import java.util.function.Predicate;
  *
  * @author Thomas Freese
  */
-public final class ReflectionUtils
-{
+public final class ReflectionUtils {
     /**
      * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
      */
@@ -29,8 +28,7 @@ public final class ReflectionUtils
      * Callback interface invoked on each field in the hierarchy.
      */
     @FunctionalInterface
-    public interface FieldCallback
-    {
+    public interface FieldCallback {
         /**
          * Perform an operation using the given field.
          */
@@ -41,8 +39,7 @@ public final class ReflectionUtils
      * Action to take on each method.
      */
     @FunctionalInterface
-    public interface MethodCallback
-    {
+    public interface MethodCallback {
         /**
          * Perform an operation using the given method.
          */
@@ -58,16 +55,13 @@ public final class ReflectionUtils
      *
      * @return {@code true} if the exception can be thrown as-is; {@code false} if it needs to be wrapped
      */
-    public static boolean declaresException(final Method method, final Class<?> exceptionType)
-    {
+    public static boolean declaresException(final Method method, final Class<?> exceptionType) {
         Objects.requireNonNull(method, "method required");
 
         Class<?>[] declaredExceptions = method.getExceptionTypes();
 
-        for (Class<?> declaredException : declaredExceptions)
-        {
-            if (declaredException.isAssignableFrom(exceptionType))
-            {
+        for (Class<?> declaredException : declaredExceptions) {
+            if (declaredException.isAssignableFrom(exceptionType)) {
                 return true;
             }
         }
@@ -83,8 +77,7 @@ public final class ReflectionUtils
      *
      * @throws IllegalStateException if introspection fails
      */
-    public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback)
-    {
+    public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback) {
         doWithFields(clazz, fieldCallback, null);
     }
 
@@ -97,28 +90,22 @@ public final class ReflectionUtils
      *
      * @throws IllegalStateException if introspection fails
      */
-    public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback, final Predicate<Field> fieldFilter)
-    {
+    public static void doWithFields(final Class<?> clazz, final FieldCallback fieldCallback, final Predicate<Field> fieldFilter) {
         // Keep backing up the inheritance hierarchy.
         Class<?> targetClass = clazz;
 
-        do
-        {
+        do {
             Field[] fields = getDeclaredFields(targetClass);
 
-            for (Field field : fields)
-            {
-                if ((fieldFilter != null) && !fieldFilter.test(field))
-                {
+            for (Field field : fields) {
+                if ((fieldFilter != null) && !fieldFilter.test(field)) {
                     continue;
                 }
 
-                try
-                {
+                try {
                     fieldCallback.doWith(field);
                 }
-                catch (IllegalAccessException ex)
-                {
+                catch (IllegalAccessException ex) {
                     throw new IllegalStateException("Not allowed to access field '" + field.getName() + "': " + ex);
                 }
             }
@@ -137,16 +124,12 @@ public final class ReflectionUtils
      * @throws IllegalStateException if introspection fails
      * @see #doWithFields
      */
-    public static void doWithLocalFields(final Class<?> clazz, final FieldCallback fieldCallback)
-    {
-        for (Field field : getDeclaredFields(clazz))
-        {
-            try
-            {
+    public static void doWithLocalFields(final Class<?> clazz, final FieldCallback fieldCallback) {
+        for (Field field : getDeclaredFields(clazz)) {
+            try {
                 fieldCallback.doWith(field);
             }
-            catch (IllegalAccessException ex)
-            {
+            catch (IllegalAccessException ex) {
                 throw new IllegalStateException("Not allowed to access field '" + field.getName() + "': " + ex);
             }
         }
@@ -163,8 +146,7 @@ public final class ReflectionUtils
      * @throws IllegalStateException if introspection fails
      * @see #doWithMethods(Class, MethodCallback, Predicate)
      */
-    public static void doWithMethods(final Class<?> clazz, final MethodCallback mc)
-    {
+    public static void doWithMethods(final Class<?> clazz, final MethodCallback mc) {
         doWithMethods(clazz, mc, null);
     }
 
@@ -179,36 +161,28 @@ public final class ReflectionUtils
      *
      * @throws IllegalStateException if introspection fails
      */
-    public static void doWithMethods(final Class<?> clazz, final MethodCallback mc, final Predicate<Method> methodFilter)
-    {
+    public static void doWithMethods(final Class<?> clazz, final MethodCallback mc, final Predicate<Method> methodFilter) {
         // Keep backing up the inheritance hierarchy.
         Method[] methods = getDeclaredMethods(clazz);
 
-        for (Method method : methods)
-        {
-            if ((methodFilter != null) && !methodFilter.test(method))
-            {
+        for (Method method : methods) {
+            if ((methodFilter != null) && !methodFilter.test(method)) {
                 continue;
             }
 
-            try
-            {
+            try {
                 mc.doWith(method);
             }
-            catch (IllegalAccessException ex)
-            {
+            catch (IllegalAccessException ex) {
                 throw new IllegalStateException("Not allowed to access method '" + method.getName() + "': " + ex);
             }
         }
 
-        if ((clazz.getSuperclass() != null) && ((methodFilter != USER_DECLARED_METHODS) || (clazz.getSuperclass() != Object.class)))
-        {
+        if ((clazz.getSuperclass() != null) && ((methodFilter != USER_DECLARED_METHODS) || (clazz.getSuperclass() != Object.class))) {
             doWithMethods(clazz.getSuperclass(), mc, methodFilter);
         }
-        else if (clazz.isInterface())
-        {
-            for (Class<?> superIfc : clazz.getInterfaces())
-            {
+        else if (clazz.isInterface()) {
+            for (Class<?> superIfc : clazz.getInterfaces()) {
                 doWithMethods(superIfc, mc, methodFilter);
             }
         }
@@ -221,8 +195,7 @@ public final class ReflectionUtils
      *
      * @param ex the invocation target exception to handle
      */
-    public static void handleInvocationTargetException(final InvocationTargetException ex)
-    {
+    public static void handleInvocationTargetException(final InvocationTargetException ex) {
         rethrowRuntimeException(ex.getTargetException());
     }
 
@@ -236,25 +209,20 @@ public final class ReflectionUtils
      *
      * @param ex the reflection exception to handle
      */
-    public static void handleReflectionException(final Exception ex)
-    {
-        if (ex instanceof NoSuchMethodException)
-        {
+    public static void handleReflectionException(final Exception ex) {
+        if (ex instanceof NoSuchMethodException) {
             throw new IllegalStateException("Method not found: " + ex.getMessage());
         }
 
-        if (ex instanceof IllegalAccessException)
-        {
+        if (ex instanceof IllegalAccessException) {
             throw new IllegalStateException("Could not access method or field: " + ex.getMessage());
         }
 
-        if (ex instanceof InvocationTargetException ite)
-        {
+        if (ex instanceof InvocationTargetException ite) {
             handleInvocationTargetException(ite);
         }
 
-        if (ex instanceof RuntimeException re)
-        {
+        if (ex instanceof RuntimeException re) {
             throw re;
         }
 
@@ -272,8 +240,7 @@ public final class ReflectionUtils
      *
      * @see #invokeMethod(java.lang.reflect.Method, Object, Object[])
      */
-    public static Object invokeMethod(final Method method, final Object target)
-    {
+    public static Object invokeMethod(final Method method, final Object target) {
         return invokeMethod(method, target, EMPTY_OBJECT_ARRAY);
     }
 
@@ -287,14 +254,11 @@ public final class ReflectionUtils
      * @param target the target object to invoke the method on
      * @param args the invocation arguments (maybe {@code null})
      */
-    public static Object invokeMethod(final Method method, final Object target, final Object... args)
-    {
-        try
-        {
+    public static Object invokeMethod(final Method method, final Object target, final Object... args) {
+        try {
             return method.invoke(target, args);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             handleReflectionException(ex);
         }
 
@@ -308,11 +272,8 @@ public final class ReflectionUtils
      * @see java.lang.reflect.Field#setAccessible
      */
     @SuppressWarnings("deprecation")  // on JDK 9
-    public static void makeAccessible(final Field field)
-    {
-        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers()))
-                && !field.isAccessible())
-        {
+    public static void makeAccessible(final Field field) {
+        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers())) && !field.isAccessible()) {
             field.setAccessible(true);
         }
     }
@@ -324,10 +285,8 @@ public final class ReflectionUtils
      * @see java.lang.reflect.Method#setAccessible
      */
     @SuppressWarnings("deprecation")  // on JDK 9
-    public static void makeAccessible(final Method method)
-    {
-        if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible())
-        {
+    public static void makeAccessible(final Method method) {
+        if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible()) {
             method.setAccessible(true);
         }
     }
@@ -341,31 +300,24 @@ public final class ReflectionUtils
      *
      * @throws RuntimeException the rethrown exception
      */
-    public static void rethrowRuntimeException(final Throwable ex)
-    {
-        if (ex instanceof RuntimeException re)
-        {
+    public static void rethrowRuntimeException(final Throwable ex) {
+        if (ex instanceof RuntimeException re) {
             throw re;
         }
 
-        if (ex instanceof Error e)
-        {
+        if (ex instanceof Error e) {
             throw e;
         }
 
         throw new UndeclaredThrowableException(ex);
     }
 
-    private static List<Method> findConcreteMethodsOnInterfaces(final Class<?> clazz)
-    {
+    private static List<Method> findConcreteMethodsOnInterfaces(final Class<?> clazz) {
         List<Method> result = new ArrayList<>();
 
-        for (Class<?> ifc : clazz.getInterfaces())
-        {
-            for (Method ifcMethod : ifc.getMethods())
-            {
-                if (!Modifier.isAbstract(ifcMethod.getModifiers()))
-                {
+        for (Class<?> ifc : clazz.getInterfaces()) {
+            for (Method ifcMethod : ifc.getMethods()) {
+                if (!Modifier.isAbstract(ifcMethod.getModifiers())) {
                     result.add(ifcMethod);
                 }
             }
@@ -381,21 +333,17 @@ public final class ReflectionUtils
      * @throws IllegalStateException if introspection fails
      * @see Class#getDeclaredFields()
      */
-    private static Field[] getDeclaredFields(final Class<?> clazz)
-    {
+    private static Field[] getDeclaredFields(final Class<?> clazz) {
         Objects.requireNonNull(clazz, "clazz required");
 
         Field[] fields = null; // declaredFieldsCache.get(clazz);
 
-        if (fields == null)
-        {
-            try
-            {
+        if (fields == null) {
+            try {
                 fields = clazz.getDeclaredFields();
                 // declaredFieldsCache.put(clazz, (fields.length == 0 ? EMPTY_FIELD_ARRAY : fields));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
             }
         }
@@ -403,40 +351,33 @@ public final class ReflectionUtils
         return fields;
     }
 
-    private static Method[] getDeclaredMethods(final Class<?> clazz)
-    {
+    private static Method[] getDeclaredMethods(final Class<?> clazz) {
         Objects.requireNonNull(clazz, "clazz required");
 
         Method[] methods = null; // declaredMethodsCache.get(clazz);
 
-        if (methods == null)
-        {
-            try
-            {
+        if (methods == null) {
+            try {
                 Method[] declaredMethods = clazz.getDeclaredMethods();
                 List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
 
-                if (defaultMethods != null)
-                {
+                if (defaultMethods != null) {
                     methods = new Method[declaredMethods.length + defaultMethods.size()];
                     System.arraycopy(declaredMethods, 0, methods, 0, declaredMethods.length);
                     int index = declaredMethods.length;
 
-                    for (Method defaultMethod : defaultMethods)
-                    {
+                    for (Method defaultMethod : defaultMethods) {
                         methods[index] = defaultMethod;
                         index++;
                     }
                 }
-                else
-                {
+                else {
                     methods = declaredMethods;
                 }
 
                 // declaredMethodsCache.put(clazz, (methods.length == 0 ? EMPTY_METHOD_ARRAY : methods));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() + "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
             }
         }
@@ -444,8 +385,7 @@ public final class ReflectionUtils
         return methods;
     }
 
-    private ReflectionUtils()
-    {
+    private ReflectionUtils() {
         super();
     }
 }

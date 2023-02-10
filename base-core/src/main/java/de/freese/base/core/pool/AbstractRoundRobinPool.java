@@ -15,8 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
-{
+public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger("RoundRobinPool");
 
     //    private static final AtomicIntegerFieldUpdater<AbstractRoundRobinPool> NEXT_INDEX =
@@ -24,12 +23,10 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
     private final List<T> queue;
     private volatile int nextIndex;
 
-    protected AbstractRoundRobinPool(final int size)
-    {
+    protected AbstractRoundRobinPool(final int size) {
         super();
 
-        if (size <= 0)
-        {
+        if (size <= 0) {
             throw new IllegalArgumentException("size must be a positive number");
         }
 
@@ -40,10 +37,8 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#borrowObject()
      */
     @Override
-    public T borrowObject()
-    {
-        if (getNumActive() < getTotalSize())
-        {
+    public T borrowObject() {
+        if (getNumActive() < getTotalSize()) {
             this.queue.add(create());
         }
 
@@ -51,8 +46,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
 
         this.nextIndex++;
 
-        if (this.nextIndex == getNumActive())
-        {
+        if (this.nextIndex == getNumActive()) {
             this.nextIndex = 0;
         }
 
@@ -69,8 +63,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#getNumActive()
      */
     @Override
-    public int getNumActive()
-    {
+    public int getNumActive() {
         return this.queue.size();
     }
 
@@ -78,8 +71,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#getNumIdle()
      */
     @Override
-    public int getNumIdle()
-    {
+    public int getNumIdle() {
         return 0;
     }
 
@@ -87,8 +79,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#returnObject(java.lang.Object)
      */
     @Override
-    public void returnObject(final T object)
-    {
+    public void returnObject(final T object) {
         // Empty
     }
 
@@ -96,8 +87,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#shutdown()
      */
     @Override
-    public void shutdown()
-    {
+    public void shutdown() {
         LOGGER.info("Close {}", this);
 
         this.nextIndex = 0;
@@ -108,8 +98,7 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         String clazzName = borrowObject().getClass().getSimpleName();
 
         StringBuilder builder = new StringBuilder();

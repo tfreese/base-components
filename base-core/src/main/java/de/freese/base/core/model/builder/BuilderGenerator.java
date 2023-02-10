@@ -13,30 +13,25 @@ import de.freese.base.utils.ReflectionUtils;
 /**
  * @author Thomas Freese
  */
-public class BuilderGenerator
-{
+public class BuilderGenerator {
     protected static final String INDENT = "    ";
 
     private final UnaryOperator<Map<String, Field>> fieldHandler;
 
-    public BuilderGenerator()
-    {
-        this(fields ->
-        {
+    public BuilderGenerator() {
+        this(fields -> {
             fields.remove("serialVersionUID");
             return fields;
         });
     }
 
-    public BuilderGenerator(final UnaryOperator<Map<String, Field>> fieldHandler)
-    {
+    public BuilderGenerator(final UnaryOperator<Map<String, Field>> fieldHandler) {
         super();
 
         this.fieldHandler = Objects.requireNonNull(fieldHandler, "fieldHandler required");
     }
 
-    public void createBuilder(final Class<?> clazz, final boolean withSuperAttributes, final PrintStream printStream)
-    {
+    public void createBuilder(final Class<?> clazz, final boolean withSuperAttributes, final PrintStream printStream) {
         Objects.requireNonNull(clazz, "clazz required");
         Objects.requireNonNull(printStream, "printStream required");
 
@@ -64,8 +59,7 @@ public class BuilderGenerator
         printStream.println("{");
 
         // Fields
-        fields.values().forEach(field ->
-        {
+        fields.values().forEach(field -> {
             printStream.println(INDENT + "/**");
             printStream.println(INDENT + " *");
             printStream.println(INDENT + " */");
@@ -84,8 +78,7 @@ public class BuilderGenerator
         printStream.println(INDENT + "}");
 
         // Methods
-        fields.values().forEach(field ->
-        {
+        fields.values().forEach(field -> {
             String fieldName = field.getName();
             String typeName = field.getType().getSimpleName();
 
@@ -104,16 +97,13 @@ public class BuilderGenerator
         printStream.println("}");
     }
 
-    protected Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes)
-    {
+    protected Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes) {
         Map<String, Field> fields = new TreeMap<>();
 
-        if (withSuperAttributes)
-        {
+        if (withSuperAttributes) {
             ReflectionUtils.doWithFields(clazz, field -> fields.put(field.getName(), field));
         }
-        else
-        {
+        else {
             ReflectionUtils.doWithLocalFields(clazz, field -> fields.put(field.getName(), field));
         }
 

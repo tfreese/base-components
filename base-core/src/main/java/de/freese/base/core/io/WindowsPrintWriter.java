@@ -13,31 +13,26 @@ import java.nio.charset.Charset;
  *
  * @author Thomas Freese
  */
-public class WindowsPrintWriter extends PrintWriter
-{
+public class WindowsPrintWriter extends PrintWriter {
     private static final String LINE_SEPARATOR = "\r\n";
 
     private boolean autoFlush;
 
-    public WindowsPrintWriter(final File file, final Charset charset) throws IOException
-    {
+    public WindowsPrintWriter(final File file, final Charset charset) throws IOException {
         super(file, charset);
     }
 
-    public WindowsPrintWriter(final OutputStream out, final boolean autoFlush, final Charset charset)
-    {
+    public WindowsPrintWriter(final OutputStream out, final boolean autoFlush, final Charset charset) {
         super(out, autoFlush, charset);
 
         this.autoFlush = autoFlush;
     }
 
-    public WindowsPrintWriter(final String fileName, final Charset charset) throws IOException
-    {
+    public WindowsPrintWriter(final String fileName, final Charset charset) throws IOException {
         super(fileName, charset);
     }
 
-    public WindowsPrintWriter(final Writer out, final boolean autoFlush)
-    {
+    public WindowsPrintWriter(final Writer out, final boolean autoFlush) {
         super(out, autoFlush);
 
         this.autoFlush = autoFlush;
@@ -49,30 +44,23 @@ public class WindowsPrintWriter extends PrintWriter
      * @see java.io.PrintWriter#println()
      */
     @Override
-    public void println()
-    {
-        synchronized (this.lock)
-        {
-            try
-            {
-                if (this.out == null)
-                {
+    public void println() {
+        synchronized (this.lock) {
+            try {
+                if (this.out == null) {
                     throw new IOException("Stream closed");
                 }
 
                 this.out.write(LINE_SEPARATOR);
 
-                if (this.autoFlush)
-                {
+                if (this.autoFlush) {
                     this.out.flush();
                 }
             }
-            catch (InterruptedIOException ex)
-            {
+            catch (InterruptedIOException ex) {
                 Thread.currentThread().interrupt();
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 setError();
             }
         }

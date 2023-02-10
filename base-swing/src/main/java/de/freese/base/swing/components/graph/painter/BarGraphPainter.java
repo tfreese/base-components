@@ -11,20 +11,17 @@ import java.util.List;
 /**
  * @author Thomas Freese
  */
-public class BarGraphPainter extends AbstractGraphPainter
-{
+public class BarGraphPainter extends AbstractGraphPainter {
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
     /**
      * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
      */
     @Override
-    public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height)
-    {
+    public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
         List<Float> values = getValues().getLastValues((int) width);
 
-        if (values.isEmpty())
-        {
+        if (values.isEmpty()) {
             return;
         }
 
@@ -36,19 +33,16 @@ public class BarGraphPainter extends AbstractGraphPainter
         // Sinus: x-Achse auf halber Höhe
         float middle = height / 2F;
 
-        for (int i = 0; i < values.size(); i++)
-        {
+        for (int i = 0; i < values.size(); i++) {
             float value = values.get(i);
 
             float x = i + xOffset;
             float y = Math.abs(value * middle);
 
-            if (value > 0F)
-            {
+            if (value > 0F) {
                 this.rectangle2d.setRect(x, middle - y, 1, y);
             }
-            else
-            {
+            else {
                 this.rectangle2d.setRect(x, middle, 1, y);
             }
 

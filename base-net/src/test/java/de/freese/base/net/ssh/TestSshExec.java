@@ -15,15 +15,10 @@ import org.junit.jupiter.api.condition.OS;
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
 @Disabled("sshd not always available")
-class TestSshExec
-{
+class TestSshExec {
     @Test
-    @EnabledOnOs(
-            {
-                    OS.LINUX, OS.MAC
-            })
-    void testSshUserCertificate() throws Exception
-    {
+    @EnabledOnOs({OS.LINUX, OS.MAC})
+    void testSshUserCertificate() throws Exception {
         SshExec sshExec = SshExec.connectByUserCertificate("user", "pass", "remote", 22);
 
         String result = sshExec.execute("df -h");
@@ -37,12 +32,8 @@ class TestSshExec
     }
 
     @Test
-    @EnabledOnOs(
-            {
-                    OS.LINUX, OS.MAC
-            })
-    void testSshUserPassword() throws Exception
-    {
+    @EnabledOnOs({OS.LINUX, OS.MAC})
+    void testSshUserPassword() throws Exception {
         SshExec sshExec = SshExec.connectByUserPassword("user", "pass", "remote", 22);
 
         String result = sshExec.execute("df -h");

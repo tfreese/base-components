@@ -9,16 +9,14 @@ import java.util.concurrent.Executor;
 /**
  * @author Thomas Freese
  */
-public class SerialExecutor implements Executor
-{
+public class SerialExecutor implements Executor {
     private final Executor delegate;
 
     private final Queue<Runnable> queue = new ArrayDeque<>();
 
     private Runnable active;
 
-    public SerialExecutor(final Executor delegate)
-    {
+    public SerialExecutor(final Executor delegate) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
@@ -28,30 +26,23 @@ public class SerialExecutor implements Executor
      * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
      */
     @Override
-    public synchronized void execute(final Runnable runnable)
-    {
-        this.queue.add(() ->
-        {
-            try
-            {
+    public synchronized void execute(final Runnable runnable) {
+        this.queue.add(() -> {
+            try {
                 runnable.run();
             }
-            finally
-            {
+            finally {
                 scheduleNext();
             }
         });
 
-        if (this.active == null)
-        {
+        if (this.active == null) {
             scheduleNext();
         }
     }
 
-    private synchronized void scheduleNext()
-    {
-        if ((this.active = this.queue.poll()) != null)
-        {
+    private synchronized void scheduleNext() {
+        if ((this.active = this.queue.poll()) != null) {
             this.delegate.execute(this.active);
         }
     }

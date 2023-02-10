@@ -8,28 +8,22 @@ import org.hibernate.engine.jdbc.internal.FormatStyle;
  *
  * @author Thomas Freese
  */
-public class SQLFormatter
-{
+public class SQLFormatter {
     private FormatStyle formatStyle = FormatStyle.NONE;
 
-    public String format(final String sql)
-    {
+    public String format(final String sql) {
         return this.formatStyle.getFormatter().format(sql);
     }
 
-    public boolean isFormatSQL()
-    {
+    public boolean isFormatSQL() {
         return (this.formatStyle != FormatStyle.NONE);
     }
 
-    public void setFormatSQL(final boolean formatSQL)
-    {
-        if (formatSQL)
-        {
+    public void setFormatSQL(final boolean formatSQL) {
+        if (formatSQL) {
             this.formatStyle = FormatStyle.BASIC;
         }
-        else
-        {
+        else {
             this.formatStyle = FormatStyle.NONE;
         }
     }

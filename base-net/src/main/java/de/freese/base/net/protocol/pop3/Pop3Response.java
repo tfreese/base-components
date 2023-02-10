@@ -8,8 +8,7 @@ import java.io.InputStream;
  *
  * @author Thomas Freese
  */
-final class Pop3Response
-{
+final class Pop3Response {
     /**
      * all the bytes from a multi-line response
      */
@@ -25,33 +24,27 @@ final class Pop3Response
      */
     private boolean ok;
 
-    InputStream getBytes()
-    {
+    InputStream getBytes() {
         return bytes;
     }
 
-    String getData()
-    {
+    String getData() {
         return data;
     }
 
-    boolean isOk()
-    {
+    boolean isOk() {
         return ok;
     }
 
-    void setBytes(final InputStream bytes)
-    {
+    void setBytes(final InputStream bytes) {
         this.bytes = bytes;
     }
 
-    void setData(final String data)
-    {
+    void setData(final String data) {
         this.data = data;
     }
 
-    void setOk(final boolean ok)
-    {
+    void setOk(final boolean ok) {
         this.ok = ok;
     }
 }

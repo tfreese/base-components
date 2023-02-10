@@ -7,15 +7,12 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public final class SimpleThrottler implements Throttler
-{
-    static Throttler create(final int permits, Duration duration)
-    {
+public final class SimpleThrottler implements Throttler {
+    static Throttler create(final int permits, Duration duration) {
         return new SimpleThrottler(permits, duration);
     }
 
-    static Throttler create(final int permitsPerSecond)
-    {
+    static Throttler create(final int permitsPerSecond) {
         return create(permitsPerSecond, Duration.ofSeconds(1));
     }
 
@@ -23,12 +20,10 @@ public final class SimpleThrottler implements Throttler
      * Returns the sum of {@code val1} and {@code val2} unless it would overflow or underflow in which case {@code Long.MAX_VALUE} or {@code Long.MIN_VALUE} is
      * returned, respectively.
      */
-    private static long saturatedAdd(final long val1, final long val2)
-    {
+    private static long saturatedAdd(final long val1, final long val2) {
         final long naiveSum = val1 + val2;
 
-        if (((val1 ^ val2) < 0) || ((val1 ^ naiveSum) >= 0))
-        {
+        if (((val1 ^ val2) < 0) || ((val1 ^ naiveSum) >= 0)) {
             return naiveSum;
         }
 
@@ -39,12 +34,10 @@ public final class SimpleThrottler implements Throttler
 
     private long nextFreeSlotNanos;
 
-    private SimpleThrottler(final int permits, Duration duration)
-    {
+    private SimpleThrottler(final int permits, Duration duration) {
         super();
 
-        if (permits <= 0)
-        {
+        if (permits <= 0) {
             throw new IllegalArgumentException(String.format("Permits (%s) must be positive", permits));
         }
 
@@ -57,10 +50,8 @@ public final class SimpleThrottler implements Throttler
     }
 
     @Override
-    public synchronized long reservePermits(final int permits)
-    {
-        if (permits <= 0)
-        {
+    public synchronized long reservePermits(final int permits) {
+        if (permits <= 0) {
             throw new IllegalArgumentException(String.format("Requested permits (%s) must be positive", permits));
         }
 
@@ -69,8 +60,7 @@ public final class SimpleThrottler implements Throttler
         long nowNanos = System.nanoTime();
 
         // Aktueller Timestamp liegt noch vor dem nächsten verfügbaren Zeitfenster -> warten.
-        if (nowNanos <= this.nextFreeSlotNanos)
-        {
+        if (nowNanos <= this.nextFreeSlotNanos) {
             delayNanos = this.nextFreeSlotNanos - nowNanos;
         }
 
@@ -84,8 +74,7 @@ public final class SimpleThrottler implements Throttler
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("permitIntervalNanos=").append(this.permitIntervalNanos);

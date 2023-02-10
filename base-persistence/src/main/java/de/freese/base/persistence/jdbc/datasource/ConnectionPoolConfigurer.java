@@ -13,8 +13,7 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
  *
  * @author Thomas Freese
  */
-public final class ConnectionPoolConfigurer
-{
+public final class ConnectionPoolConfigurer {
     /**
      * Konfiguriert die {@link BasicDataSource} mit vernünftigen Default-Werten.<br>
      * Defaults:
@@ -28,9 +27,7 @@ public final class ConnectionPoolConfigurer
      *
      * @param validationQuery String; optional
      */
-    public static void configureBasic(final BasicDataSource basicDataSource, final String driverClassName, final String url, final String userName,
-                                      final String password, final String validationQuery)
-    {
+    public static void configureBasic(final BasicDataSource basicDataSource, final String driverClassName, final String url, final String userName, final String password, final String validationQuery) {
         basicDataSource.setDriverClassName(driverClassName);
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(userName);
@@ -47,8 +44,7 @@ public final class ConnectionPoolConfigurer
         basicDataSource.setDefaultAutoCommit(Boolean.FALSE);
         basicDataSource.setDefaultReadOnly(Boolean.FALSE);
 
-        if ((validationQuery != null) && !validationQuery.isBlank())
-        {
+        if ((validationQuery != null) && !validationQuery.isBlank()) {
             basicDataSource.setValidationQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
@@ -95,9 +91,7 @@ public final class ConnectionPoolConfigurer
      *
      * @param validationQuery String; optional
      */
-    public static void configureHikari(final HikariConfig config, final String driverClassName, final String url, final String userName, final String password,
-                                       final String validationQuery)
-    {
+    public static void configureHikari(final HikariConfig config, final String driverClassName, final String url, final String userName, final String password, final String validationQuery) {
         config.setDriverClassName(driverClassName);
         config.setJdbcUrl(url);
         config.setUsername(userName);
@@ -116,8 +110,7 @@ public final class ConnectionPoolConfigurer
         config.setAutoCommit(false);
         config.setReadOnly(false);
 
-        if ((validationQuery != null) && !validationQuery.isBlank())
-        {
+        if ((validationQuery != null) && !validationQuery.isBlank()) {
             config.setConnectionTestQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
@@ -157,9 +150,7 @@ public final class ConnectionPoolConfigurer
      *
      * @param validationQuery String; optional
      */
-    public static void configureTomcat(final PoolProperties poolProperties, final String driverClassName, final String url, final String userName,
-                                       final String password, final String validationQuery)
-    {
+    public static void configureTomcat(final PoolProperties poolProperties, final String driverClassName, final String url, final String userName, final String password, final String validationQuery) {
         poolProperties.setDriverClassName(driverClassName);
         poolProperties.setUrl(url);
         poolProperties.setUsername(userName);
@@ -176,8 +167,7 @@ public final class ConnectionPoolConfigurer
         poolProperties.setDefaultAutoCommit(Boolean.FALSE);
         poolProperties.setDefaultReadOnly(Boolean.FALSE);
 
-        if ((validationQuery != null) && !validationQuery.isBlank())
-        {
+        if ((validationQuery != null) && !validationQuery.isBlank()) {
             poolProperties.setValidationQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
@@ -227,8 +217,7 @@ public final class ConnectionPoolConfigurer
         poolProperties.setJdbcInterceptors(jdbcInterceptors);
     }
 
-    private ConnectionPoolConfigurer()
-    {
+    private ConnectionPoolConfigurer() {
         super();
     }
 }

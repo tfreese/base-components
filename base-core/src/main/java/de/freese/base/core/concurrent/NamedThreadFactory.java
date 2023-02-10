@@ -9,8 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Thomas Freese
  */
-public class NamedThreadFactory implements ThreadFactory
-{
+public class NamedThreadFactory implements ThreadFactory {
     private final boolean daemon;
 
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
@@ -27,16 +26,14 @@ public class NamedThreadFactory implements ThreadFactory
      *
      * @param namePattern String; Example: "thread-%d"
      */
-    public NamedThreadFactory(final String namePattern)
-    {
+    public NamedThreadFactory(final String namePattern) {
         this(namePattern, true);
     }
 
     /**
      * @param namePattern String; Example: "thread-%d"
      */
-    public NamedThreadFactory(final String namePattern, final boolean daemon)
-    {
+    public NamedThreadFactory(final String namePattern, final boolean daemon) {
         super();
 
         this.namePattern = Objects.requireNonNull(namePattern, "namePattern required");
@@ -47,8 +44,7 @@ public class NamedThreadFactory implements ThreadFactory
      * @see java.util.concurrent.ThreadFactory#newThread(java.lang.Runnable)
      */
     @Override
-    public Thread newThread(final Runnable r)
-    {
+    public Thread newThread(final Runnable r) {
         Thread thread = this.defaultThreadFactory.newThread(r);
 
         String threadName = String.format(this.namePattern, this.threadNumber.getAndIncrement());

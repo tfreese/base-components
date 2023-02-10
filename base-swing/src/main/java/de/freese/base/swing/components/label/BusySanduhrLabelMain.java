@@ -12,10 +12,8 @@ import de.freese.base.utils.ImageUtils;
 /**
  * @author Thomas Freese
  */
-public final class BusySanduhrLabelMain
-{
-    public static void main(final String[] args)
-    {
+public final class BusySanduhrLabelMain {
+    public static void main(final String[] args) {
         final JFrame frame = new JFrame("GlassPaneDemo");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
@@ -30,8 +28,7 @@ public final class BusySanduhrLabelMain
         frame.setVisible(true);
     }
 
-    private BusySanduhrLabelMain()
-    {
+    private BusySanduhrLabelMain() {
         super();
     }
 }

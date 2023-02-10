@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import de.freese.base.utils.JdbcUtils;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,19 +14,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+import de.freese.base.utils.JdbcUtils;
+
 /**
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestJdbcUtils
-{
+class TestJdbcUtils {
     private static DataSource dataSource;
 
     @AfterAll
-    static void afterAll()
-    {
-        if (dataSource instanceof JdbcConnectionPool pool)
-        {
+    static void afterAll() {
+        if (dataSource instanceof JdbcConnectionPool pool) {
             pool.dispose();
         }
 
@@ -35,24 +33,18 @@ class TestJdbcUtils
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception
-    {
+    static void beforeAll() throws Exception {
         JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:TestJdbcUtils;DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", "");
         pool.setMaxConnections(2);
 
         dataSource = pool;
 
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement())
-        {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement()) {
             statement.execute("CREATE TABLE person (id BIGINT NOT NULL, last_name VARCHAR(50) NOT NULL, first_name VARCHAR(50) NOT NULL)");
         }
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO person (id, last_name, first_name) values (?, ?, ?)"))
-        {
-            for (int i = 0; i < 10; i++)
-            {
+        try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO person (id, last_name, first_name) values (?, ?, ?)")) {
+            for (int i = 0; i < 10; i++) {
                 preparedStatement.setLong(1, i + 1);
                 preparedStatement.setString(2, "a".repeat(i + 1));
                 preparedStatement.setString(3, "b".repeat(i + 1));
@@ -65,23 +57,15 @@ class TestJdbcUtils
     }
 
     @Test
-    void testObjectTableResultSet() throws Exception
-    {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("select * from PERSON"))
-        {
+    void testObjectTableResultSet() throws Exception {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("select * from PERSON")) {
             JdbcUtils.write(resultSet, System.out);
         }
     }
 
     @Test
-    void testObjectTableResultSetMetaData() throws Exception
-    {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("select * from PERSON"))
-        {
+    void testObjectTableResultSetMetaData() throws Exception {
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery("select * from PERSON")) {
             JdbcUtils.write(resultSet.getMetaData(), System.out);
         }
     }

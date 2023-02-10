@@ -14,14 +14,12 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  *
  * @author Thomas Freese
  */
-public class ResultSetIterable<T> implements Iterable<T>
-{
+public class ResultSetIterable<T> implements Iterable<T> {
     private final ResultSet resultSet;
 
     private final RowMapper<T> rowMapper;
 
-    public ResultSetIterable(final ResultSet resultSet, final RowMapper<T> rowMapper)
-    {
+    public ResultSetIterable(final ResultSet resultSet, final RowMapper<T> rowMapper) {
         super();
 
         this.resultSet = Objects.requireNonNull(resultSet, "resultSet required");
@@ -32,8 +30,7 @@ public class ResultSetIterable<T> implements Iterable<T>
      * @see java.lang.Iterable#iterator()
      */
     @Override
-    public Iterator<T> iterator()
-    {
+    public Iterator<T> iterator() {
         return new ResultSetIterator<>(this.resultSet, this.rowMapper);
     }
 }

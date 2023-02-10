@@ -40,8 +40,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Thomas Freese
  */
-public class ExcelToCsv
-{
+public class ExcelToCsv {
     /**
      * 0-Based
      */
@@ -67,71 +66,59 @@ public class ExcelToCsv
 
     private Character quoteCharacter = '"';
 
-    public void convert(final Path excelSource, final Path csvDest) throws IOException
-    {
+    public void convert(final Path excelSource, final Path csvDest) throws IOException {
         Objects.requireNonNull(csvDest, "csvDest required");
 
         // StandardOpenOption.DELETE_ON_CLOSE
-        try (BufferedWriter csvWriter = Files.newBufferedWriter(csvDest, StandardCharsets.UTF_8, StandardOpenOption.WRITE))
-        {
+        try (BufferedWriter csvWriter = Files.newBufferedWriter(csvDest, StandardCharsets.UTF_8, StandardOpenOption.WRITE)) {
             convert(excelSource, csvWriter);
         }
     }
 
-    public void convert(final Path excelSource, final Writer csvWriter) throws IOException
-    {
+    public void convert(final Path excelSource, final Writer csvWriter) throws IOException {
         Objects.requireNonNull(excelSource, "excelSource required");
         Objects.requireNonNull(csvWriter, "csvWriter required");
 
-        if (!Files.exists(excelSource))
-        {
+        if (!Files.exists(excelSource)) {
             throw new IllegalArgumentException("excelSource not exist");
         }
 
-        if (!Files.isReadable(excelSource))
-        {
+        if (!Files.isReadable(excelSource)) {
             throw new IllegalArgumentException("excelSource not readable");
         }
 
         Objects.requireNonNull(this.columnIndices, "columnIndices required");
 
-        if (this.columnIndices.length == 0)
-        {
+        if (this.columnIndices.length == 0) {
             throw new IllegalArgumentException("columnIndices length is " + this.columnIndices.length + "; expected >= 1");
         }
 
-        try (Workbook workbook = getWorkbook(excelSource))
-        {
+        try (Workbook workbook = getWorkbook(excelSource)) {
             Sheet sheet = workbook.getSheetAt(0);
 
             // Write Header.
-            if (this.headerRow >= 0)
-            {
+            if (this.headerRow >= 0) {
                 String[] headers = getHeaders(sheet);
                 writeCSV(csvWriter, headers);
             }
 
             // Read Data.
             // for (int r = this.firstDataRow; r < (sheet.getLastRowNum() + 1); r++)
-            for (int r = this.firstDataRow; r < (sheet.getPhysicalNumberOfRows() + 1); r++)
-            {
+            for (int r = this.firstDataRow; r < (sheet.getPhysicalNumberOfRows() + 1); r++) {
                 Row row = sheet.getRow(r);
 
-                if (row == null)
-                {
+                if (row == null) {
                     continue;
                 }
 
                 String[] values = new String[this.columnIndices.length];
 
-                for (int c = 0; c < this.columnIndices.length; c++)
-                {
+                for (int c = 0; c < this.columnIndices.length; c++) {
                     values[c] = getValue(row, this.columnIndices[c]);
                 }
 
                 // Do not write empty rows.
-                if (Arrays.stream(values).filter(Objects::nonNull).anyMatch(s -> !s.isBlank()))
-                {
+                if (Arrays.stream(values).filter(Objects::nonNull).anyMatch(s -> !s.isBlank())) {
                     writeCSV(csvWriter, values);
                 }
             }
@@ -140,12 +127,10 @@ public class ExcelToCsv
         }
     }
 
-    public void setColumnIndices(final int... columnIndices)
-    {
+    public void setColumnIndices(final int... columnIndices) {
         Objects.requireNonNull(columnIndices, "columnIndices required");
 
-        if (columnIndices.length == 0)
-        {
+        if (columnIndices.length == 0) {
             throw new IllegalArgumentException("columnIndices length is " + columnIndices.length + "; expected >= 1");
         }
 
@@ -156,26 +141,22 @@ public class ExcelToCsv
      * {@link Function} for converting the value.<br>
      * Is called, when the Value != null and not empty.<br>
      */
-    public void setConvertFunction(final int columnIndex, final Function<String, String> function)
-    {
+    public void setConvertFunction(final int columnIndex, final Function<String, String> function) {
         this.columnFunctions.put(columnIndex, function);
     }
 
     /**
      * Default: ';'
      */
-    public void setFieldSeparator(final char fieldSeparator)
-    {
+    public void setFieldSeparator(final char fieldSeparator) {
         this.fieldSeparator = Objects.requireNonNull(fieldSeparator, "fieldSeparator required");
     }
 
     /**
      * Default: 1 (0. Row = Header)
      */
-    public void setFirstDataRow(final int firstDataRow)
-    {
-        if (firstDataRow < 0)
-        {
+    public void setFirstDataRow(final int firstDataRow) {
+        if (firstDataRow < 0) {
             throw new IllegalArgumentException("firstDataRow is " + firstDataRow + "; expected >= 0");
         }
 
@@ -186,26 +167,22 @@ public class ExcelToCsv
      * Default: 0<br>
      * If < 0 the Header s ignored.<br>
      */
-    public void setHeaderRow(final int headerRow)
-    {
+    public void setHeaderRow(final int headerRow) {
         this.headerRow = headerRow;
     }
 
     /**
      * Default: '"'
      */
-    public void setQuoteCharacter(final Character quoteCharacter)
-    {
+    public void setQuoteCharacter(final Character quoteCharacter) {
         this.quoteCharacter = quoteCharacter;
     }
 
     /**
      * Returns the Header or null, if headerLine < 0.
      */
-    private String[] getHeaders(final Sheet sheet)
-    {
-        if (this.headerRow < 0)
-        {
+    private String[] getHeaders(final Sheet sheet) {
+        if (this.headerRow < 0) {
             return null;
         }
 
@@ -213,31 +190,26 @@ public class ExcelToCsv
 
         String[] headers = new String[this.columnIndices.length];
 
-        for (int c = 0; c < this.columnIndices.length; c++)
-        {
+        for (int c = 0; c < this.columnIndices.length; c++) {
             headers[c] = getValue(row, this.columnIndices[c]);
         }
 
         return headers;
     }
 
-    private String getValue(final Row row, final int column)
-    {
+    private String getValue(final Row row, final int column) {
         final Cell cell = row.getCell(column);
 
-        if (cell == null)
-        {
+        if (cell == null) {
             return null;
         }
 
         String value = null;
 
-        if (!CellType.FORMULA.equals(cell.getCellType()))
-        {
+        if (!CellType.FORMULA.equals(cell.getCellType())) {
             value = this.dataFormatter.formatCellValue(cell);
         }
-        else
-        {
+        else {
             // this.formulaEvaluator.evaluate(cell).getStringValue();
             value = this.dataFormatter.formatCellValue(cell, this.formulaEvaluator);
         }
@@ -254,18 +226,15 @@ public class ExcelToCsv
 
         value = Optional.ofNullable(value).map(String::strip).orElse("");
 
-        if (value.isBlank())
-        {
+        if (value.isBlank()) {
             value = null;
         }
 
-        if ((value != null) && (row.getRowNum() != this.headerRow))
-        {
+        if ((value != null) && (row.getRowNum() != this.headerRow)) {
             // this.columnFunctions.getOrDefault(column, Function.identity()).apply(value);
             Function<String, String> function = this.columnFunctions.get(column);
 
-            if (function != null)
-            {
+            if (function != null) {
                 value = function.apply(value);
             }
         }
@@ -273,18 +242,15 @@ public class ExcelToCsv
         return value;
     }
 
-    private Workbook getWorkbook(final Path excelSource) throws IOException
-    {
+    private Workbook getWorkbook(final Path excelSource) throws IOException {
         Workbook workbook = null;
 
         // workbook = WorkbookFactory.create(Files.newInputStream(excelSource, StandardOpenOption.READ));
-        if (excelSource.toString().toLowerCase().endsWith(".xls"))
-        {
+        if (excelSource.toString().toLowerCase().endsWith(".xls")) {
             workbook = new HSSFWorkbook(Files.newInputStream(excelSource, StandardOpenOption.READ));
             // this.formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
         }
-        else
-        {
+        else {
             workbook = new XSSFWorkbook(Files.newInputStream(excelSource, StandardOpenOption.READ));
             // this.formulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
         }
@@ -295,23 +261,18 @@ public class ExcelToCsv
         return workbook;
     }
 
-    private void writeCSV(final Writer writer, final String[] values) throws IOException
-    {
+    private void writeCSV(final Writer writer, final String[] values) throws IOException {
         StringBuilder row = new StringBuilder();
 
-        for (int i = 0; i < values.length; i++)
-        {
-            if (this.quoteCharacter != null)
-            {
+        for (int i = 0; i < values.length; i++) {
+            if (this.quoteCharacter != null) {
                 row.append(this.quoteCharacter).append(values[i]).append(this.quoteCharacter);
             }
-            else
-            {
+            else {
                 row.append(values[i]);
             }
 
-            if (i < (values.length - 1))
-            {
+            if (i < (values.length - 1)) {
                 row.append(this.fieldSeparator);
             }
         }

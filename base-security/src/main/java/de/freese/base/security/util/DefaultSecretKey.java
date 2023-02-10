@@ -11,23 +11,17 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author Thomas Freese
  */
-public class DefaultSecretKey extends SecretKeySpec
-{
-    public static final byte[] DEFAULT_KEY =
-            {
-                    0, 1, 0, 1, 0, 1, 0, 1
-            };
+public class DefaultSecretKey extends SecretKeySpec {
+    public static final byte[] DEFAULT_KEY = {0, 1, 0, 1, 0, 1, 0, 1};
 
     @Serial
     private static final long serialVersionUID = -218843118467501326L;
 
-    public DefaultSecretKey(final byte[] key, final String algorithm)
-    {
+    public DefaultSecretKey(final byte[] key, final String algorithm) {
         super(key, algorithm);
     }
 
-    public DefaultSecretKey(final String algorithm)
-    {
+    public DefaultSecretKey(final String algorithm) {
         super(DEFAULT_KEY, algorithm);
     }
 }

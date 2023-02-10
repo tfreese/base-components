@@ -27,8 +27,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  * @see <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestStreamPublisher
-{
+class TestStreamPublisher {
     static final Executor EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
@@ -38,16 +37,14 @@ class TestStreamPublisher
      *
      * @author Thomas Freese
      */
-    static class MyTestSubscriber<T> implements Subscriber<T>
-    {
+    static class MyTestSubscriber<T> implements Subscriber<T> {
         private Subscription subscription;
 
         /**
          * @see java.util.concurrent.Flow.Subscriber#onComplete()
          */
         @Override
-        public void onComplete()
-        {
+        public void onComplete() {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onComplete");
         }
 
@@ -55,8 +52,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
          */
         @Override
-        public void onError(final Throwable t)
-        {
+        public void onError(final Throwable t) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onError: " + t.getMessage());
         }
 
@@ -64,8 +60,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
          */
         @Override
-        public void onNext(final T item)
-        {
+        public void onNext(final T item) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onNext: " + item);
 
             this.subscription.request(1); // Nächstes Element anfordern.
@@ -75,8 +70,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
          */
         @Override
-        public void onSubscribe(final Subscription subscription)
-        {
+        public void onSubscribe(final Subscription subscription) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe");
 
             this.subscription = subscription;
@@ -93,21 +87,18 @@ class TestStreamPublisher
      *
      * @author Thomas Freese
      */
-    static class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R>
-    {
+    static class MyTransformProcessor<T, R> extends SubmissionPublisher<R> implements Processor<T, R> {
         private final Function<T, R> function;
 
         private Subscription subscription;
 
-        MyTransformProcessor(final Executor executor, final Function<T, R> function)
-        {
+        MyTransformProcessor(final Executor executor, final Function<T, R> function) {
             super(executor, Flow.defaultBufferSize());
 
             this.function = function;
         }
 
-        MyTransformProcessor(final Function<T, R> function)
-        {
+        MyTransformProcessor(final Function<T, R> function) {
             super();
 
             this.function = function;
@@ -117,8 +108,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onComplete()
          */
         @Override
-        public void onComplete()
-        {
+        public void onComplete() {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onComplete");
 
             close();
@@ -128,8 +118,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
          */
         @Override
-        public void onError(final Throwable throwable)
-        {
+        public void onError(final Throwable throwable) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onError: " + throwable.getMessage());
 
             closeExceptionally(throwable);
@@ -139,8 +128,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
          */
         @Override
-        public void onNext(final T item)
-        {
+        public void onNext(final T item) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe: " + item);
 
             submit(this.function.apply(item)); // Dieses Element verarbeiten.
@@ -151,8 +139,7 @@ class TestStreamPublisher
          * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
          */
         @Override
-        public void onSubscribe(final Subscription subscription)
-        {
+        public void onSubscribe(final Subscription subscription) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe");
 
             this.subscription = subscription;
@@ -162,19 +149,16 @@ class TestStreamPublisher
     }
 
     @AfterAll
-    static void afterAll() throws Exception
-    {
+    static void afterAll() throws Exception {
         TimeUnit.MILLISECONDS.sleep(500);
 
-        if (EXECUTOR instanceof ExecutorService)
-        {
+        if (EXECUTOR instanceof ExecutorService) {
             ((ExecutorService) EXECUTOR).shutdown();
         }
     }
 
     @Test
-    void testStreamPublisherToSubscriber()
-    {
+    void testStreamPublisherToSubscriber() {
         Publisher<Integer> publisher = new StreamPublisher<>(EXECUTOR, STREAM_SUPPLIER);
         // Publisher<Integer> publisher = new StreamPublisher<>(streamSupplier);
         publisher.subscribe(new MyTestSubscriber<>());
@@ -185,11 +169,9 @@ class TestStreamPublisher
     }
 
     @Test
-    void testSubmissionPublisherToProcessorToSubscriber()
-    {
+    void testSubmissionPublisherToProcessorToSubscriber() {
         // try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>(EXECUTOR, Flow.defaultBufferSize()))
-        try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>())
-        {
+        try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>()) {
             // close-Methode in MyTransformProcessor#onComplete.
             var transformProcessor = new MyTransformProcessor<Integer, String>(EXECUTOR, i -> "-" + i + "-");
             // var transformProcessor = new MyTransformProcessor<Integer, String>(i -> "-" + Integer.toString(i) + "-");
@@ -208,8 +190,7 @@ class TestStreamPublisher
     }
 
     @Test
-    void testSubmissionPublisherToSubscriber()
-    {
+    void testSubmissionPublisherToSubscriber() {
         try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>(EXECUTOR, Flow.defaultBufferSize()))
         // try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>())
         {

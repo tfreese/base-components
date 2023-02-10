@@ -7,7 +7,6 @@ import org.slf4j.Logger;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface LoggingProvider
-{
+public interface LoggingProvider {
     Logger getLogger();
 }

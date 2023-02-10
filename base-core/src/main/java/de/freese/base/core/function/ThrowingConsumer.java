@@ -14,16 +14,13 @@ import java.util.function.Consumer;
  * @see java.util.function.Consumer
  */
 @FunctionalInterface
-public interface ThrowingConsumer<T, E extends Exception>
-{
+public interface ThrowingConsumer<T, E extends Exception> {
     void accept(T t) throws E;
 
-    default ThrowingConsumer<T, E> andThen(final ThrowingConsumer<? super T, E> after)
-    {
+    default ThrowingConsumer<T, E> andThen(final ThrowingConsumer<? super T, E> after) {
         Objects.requireNonNull(after);
 
-        return t ->
-        {
+        return t -> {
             accept(t);
             after.accept(t);
         };

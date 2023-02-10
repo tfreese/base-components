@@ -37,15 +37,13 @@ import de.freese.base.core.image.ImageFormat;
 /**
  * @author Thomas Freese
  */
-public final class ImageUtils
-{
+public final class ImageUtils {
     /**
      * Leeres Icon Rechteck ohne Pixel, - Größe 16 x 16 Pixel ist Standard.
      *
      * @author Thomas Freese
      */
-    private static final class EmptyIcon extends ImageIcon
-    {
+    private static final class EmptyIcon extends ImageIcon {
         @Serial
         private static final long serialVersionUID = 102999713634663152L;
 
@@ -53,30 +51,24 @@ public final class ImageUtils
 
         private final int width;
 
-        private EmptyIcon()
-        {
+        private EmptyIcon() {
             this(16, 16);
         }
 
-        private EmptyIcon(final int width, final int height)
-        {
+        private EmptyIcon(final int width, final int height) {
             super();
 
             this.width = width;
             this.height = height;
 
-            setImage(new ImageIcon(new byte[]
-                    {
-                            0, 0
-                    }).getImage());
+            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
         }
 
         /**
          * @see javax.swing.ImageIcon#getIconHeight()
          */
         @Override
-        public int getIconHeight()
-        {
+        public int getIconHeight() {
             return this.height;
         }
 
@@ -84,8 +76,7 @@ public final class ImageUtils
          * @see javax.swing.ImageIcon#getIconWidth()
          */
         @Override
-        public int getIconWidth()
-        {
+        public int getIconWidth() {
             return this.width;
         }
 
@@ -93,8 +84,7 @@ public final class ImageUtils
          * @see javax.swing.ImageIcon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
          */
         @Override
-        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y)
-        {
+        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
             // NOOP
         }
     }
@@ -104,27 +94,21 @@ public final class ImageUtils
      *
      * @author Thomas Freese
      */
-    private static final class MissingIcon extends ImageIcon
-    {
+    private static final class MissingIcon extends ImageIcon {
         @Serial
         private static final long serialVersionUID = -3986977626709987448L;
 
-        private MissingIcon()
-        {
+        private MissingIcon() {
             super();
 
-            setImage(new ImageIcon(new byte[]
-                    {
-                            0, 0
-                    }).getImage());
+            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
         }
 
         /**
          * @see javax.swing.ImageIcon#getIconHeight()
          */
         @Override
-        public int getIconHeight()
-        {
+        public int getIconHeight() {
             return 16;
         }
 
@@ -132,8 +116,7 @@ public final class ImageUtils
          * @see javax.swing.ImageIcon#getIconWidth()
          */
         @Override
-        public int getIconWidth()
-        {
+        public int getIconWidth() {
             return 16;
         }
 
@@ -141,8 +124,7 @@ public final class ImageUtils
          * @see javax.swing.ImageIcon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
          */
         @Override
-        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y)
-        {
+        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
             Graphics2D g2d = (Graphics2D) g.create();
 
             g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
@@ -161,8 +143,7 @@ public final class ImageUtils
      *
      * @author Thomas Freese
      */
-    private static final class Triangle extends ImageIcon
-    {
+    private static final class Triangle extends ImageIcon {
         @Serial
         private static final long serialVersionUID = 6491045895051309036L;
 
@@ -179,16 +160,14 @@ public final class ImageUtils
          *
          * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
          */
-        private Triangle(final int direction)
-        {
+        private Triangle(final int direction) {
             this(16, 16, direction, Color.BLACK);
         }
 
         /**
          * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
          */
-        private Triangle(final int width, final int height, final int direction, final Color foreground)
-        {
+        private Triangle(final int width, final int height, final int direction, final Color foreground) {
             super();
 
             this.width = width;
@@ -196,24 +175,18 @@ public final class ImageUtils
             this.direction = direction;
             this.foreground = foreground;
 
-            if ((this.direction != SwingConstants.NORTH) && (this.direction != SwingConstants.SOUTH) && (this.direction != SwingConstants.EAST)
-                    && (this.direction != SwingConstants.WEST))
-            {
+            if ((this.direction != SwingConstants.NORTH) && (this.direction != SwingConstants.SOUTH) && (this.direction != SwingConstants.EAST) && (this.direction != SwingConstants.WEST)) {
                 throw new IllegalArgumentException("Only SwingConstants.NORTH, SOUTH, EAST, WEST supported !");
             }
 
-            setImage(new ImageIcon(new byte[]
-                    {
-                            0, 0
-                    }).getImage());
+            setImage(new ImageIcon(new byte[]{0, 0}).getImage());
         }
 
         /**
          * @see javax.swing.ImageIcon#getIconHeight()
          */
         @Override
-        public int getIconHeight()
-        {
+        public int getIconHeight() {
             return this.height;
         }
 
@@ -221,8 +194,7 @@ public final class ImageUtils
          * @see javax.swing.ImageIcon#getIconWidth()
          */
         @Override
-        public int getIconWidth()
-        {
+        public int getIconWidth() {
             return this.width;
         }
 
@@ -230,8 +202,7 @@ public final class ImageUtils
          * @see javax.swing.ImageIcon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
          */
         @Override
-        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y)
-        {
+        public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
             Graphics2D g2d = (Graphics2D) g.create();
 
             g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
@@ -241,52 +212,23 @@ public final class ImageUtils
             int[] xPoints;
             int[] yPoints;
 
-            if (this.direction == SwingConstants.NORTH)
-            {
-                xPoints = new int[]
-                        {
-                                x, x + centerX, x + (centerX * 2)
-                        };
-                yPoints = new int[]
-                        {
-                                y + (centerY * 2), y, y + (centerY * 2)
-                        };
+            if (this.direction == SwingConstants.NORTH) {
+                xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                yPoints = new int[]{y + (centerY * 2), y, y + (centerY * 2)};
             }
-            else if (this.direction == SwingConstants.SOUTH)
-            {
-                xPoints = new int[]
-                        {
-                                x, x + centerX, x + (centerX * 2)
-                        };
-                yPoints = new int[]
-                        {
-                                y, y + (centerY * 2), y
-                        };
+            else if (this.direction == SwingConstants.SOUTH) {
+                xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
+                yPoints = new int[]{y, y + (centerY * 2), y};
             }
-            else if (this.direction == SwingConstants.WEST)
-            {
-                xPoints = new int[]
-                        {
-                                x + (centerX * 2), x, x + (centerX * 2)
-                        };
-                yPoints = new int[]
-                        {
-                                y, y + centerY, y + (centerY * 2)
-                        };
+            else if (this.direction == SwingConstants.WEST) {
+                xPoints = new int[]{x + (centerX * 2), x, x + (centerX * 2)};
+                yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
             }
-            else if (this.direction == SwingConstants.EAST)
-            {
-                xPoints = new int[]
-                        {
-                                x, x + (centerX * 2), x, x
-                        };
-                yPoints = new int[]
-                        {
-                                y, y + centerY, y + (centerY * 2)
-                        };
+            else if (this.direction == SwingConstants.EAST) {
+                xPoints = new int[]{x, x + (centerX * 2), x, x};
+                yPoints = new int[]{y, y + centerY, y + (centerY * 2)};
             }
-            else
-            {
+            else {
                 throw new IllegalStateException();
             }
 
@@ -299,13 +241,11 @@ public final class ImageUtils
      *
      * @return {@link ImageIcon}, Ein 16x16 Pixel Icon ohne Inhalt
      */
-    public static ImageIcon createEmptyIcon()
-    {
+    public static ImageIcon createEmptyIcon() {
         return new EmptyIcon();
     }
 
-    public static ImageIcon createEmptyIcon(final int width, final int height)
-    {
+    public static ImageIcon createEmptyIcon(final int width, final int height) {
         return new EmptyIcon(width, height);
     }
 
@@ -314,8 +254,7 @@ public final class ImageUtils
      *
      * @return {@link ImageIcon}, Ein 16x16 Pixel Icon (Roter Kasten mit rotem X)
      */
-    public static ImageIcon createMissingIcon()
-    {
+    public static ImageIcon createMissingIcon() {
         return new MissingIcon();
     }
 
@@ -324,8 +263,7 @@ public final class ImageUtils
      *
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      */
-    public static ImageIcon createTriangleIcon(final int direction)
-    {
+    public static ImageIcon createTriangleIcon(final int direction) {
         return new Triangle(direction);
     }
 
@@ -334,18 +272,15 @@ public final class ImageUtils
      *
      * @param direction int, [SwingConstants.NORTH, SwingConstants.SOUTH, SwingConstants.EAST, SwingConstants.WEST]
      */
-    public static ImageIcon createTriangleIcon(final int width, final int height, final int direction, final Color foreground)
-    {
+    public static ImageIcon createTriangleIcon(final int width, final int height, final int direction, final Color foreground) {
         return new Triangle(width, height, direction, foreground);
     }
 
     /**
      * Encode the image in a specific format.
      */
-    public static byte[] encode(final Image image, final ImageFormat format) throws IOException
-    {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
-        {
+    public static byte[] encode(final Image image, final ImageFormat format) throws IOException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             writeImage(image, format, baos);
 
             baos.flush();
@@ -354,8 +289,7 @@ public final class ImageUtils
         }
     }
 
-    public static RenderingHints getRenderingHintsQuality()
-    {
+    public static RenderingHints getRenderingHintsQuality() {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         // hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -367,21 +301,17 @@ public final class ImageUtils
     /**
      * Liefert true, wenn das {@link Image} transparente Pixel enthält.
      */
-    public static boolean hasAlpha(final Image image)
-    {
-        if (image instanceof BufferedImage bImage)
-        {
+    public static boolean hasAlpha(final Image image) {
+        if (image instanceof BufferedImage bImage) {
             return bImage.getColorModel().hasAlpha();
         }
 
         PixelGrabber pg = new PixelGrabber(image, 0, 0, 1, 1, false);
 
-        try
-        {
+        try {
             pg.grabPixels();
         }
-        catch (InterruptedException ex)
-        {
+        catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
 
@@ -393,8 +323,7 @@ public final class ImageUtils
     /**
      * Vereint zwei Bilder in einem. dabei wird das zweite über das erste Bild gelegt.
      */
-    public static BufferedImage merge(final Image image, final Image overlay)
-    {
+    public static BufferedImage merge(final Image image, final Image overlay) {
         int width = Math.max(image.getWidth(null), overlay.getWidth(null));
         int height = Math.max(image.getHeight(null), overlay.getHeight(null));
 
@@ -410,16 +339,14 @@ public final class ImageUtils
     /**
      * Vereint zwei Bilder in einem, dabei wird das zweite über das erste Bild gelegt.
      */
-    public static BufferedImage merge(final ImageIcon image, final ImageIcon overlay)
-    {
+    public static BufferedImage merge(final ImageIcon image, final ImageIcon overlay) {
         return merge(image.getImage(), overlay.getImage());
     }
 
     /**
      * Skaliert das Bild auf eine feste Größe.
      */
-    public static BufferedImage scaleImage(final Image src, final int width, final int height)
-    {
+    public static BufferedImage scaleImage(final Image src, final int width, final int height) {
         Image scaled = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
         return toBufferedImage(scaled);
@@ -428,8 +355,7 @@ public final class ImageUtils
     /**
      * Skaliert das Bild auf die neuen Seitenverhältnisse.
      */
-    public static BufferedImage scaleImageByRatio(final Image src, final double ratioWidth, final double ratioHeight)
-    {
+    public static BufferedImage scaleImageByRatio(final Image src, final double ratioWidth, final double ratioHeight) {
         BufferedImage bufferedImage = toBufferedImage(src);
 
         AffineTransform tx = new AffineTransform();
@@ -449,8 +375,7 @@ public final class ImageUtils
     /**
      * Skaliert das Bild unter Beibehaltung des Seitenverhältnisses bis auf die maximale angegebene Höhe oder Breite.
      */
-    public static BufferedImage scaleImageKeepRatio(final Image src, final int maxWidth, final int maxHeight)
-    {
+    public static BufferedImage scaleImageKeepRatio(final Image src, final int maxWidth, final int maxHeight) {
         BufferedImage bufferedImage = toBufferedImage(src);
 
         double widthRatio = (double) maxWidth / bufferedImage.getWidth();
@@ -469,8 +394,7 @@ public final class ImageUtils
     /**
      * Liefert das Schwarzweiss Bild.
      */
-    public static BufferedImage toBlackWhiteImage(final BufferedImage image)
-    {
+    public static BufferedImage toBlackWhiteImage(final BufferedImage image) {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         BufferedImageOp op;
@@ -538,8 +462,7 @@ public final class ImageUtils
     /**
      * Liefert das Schwarzweiss Bild.
      */
-    public static BufferedImage toBlackWhiteImage(final Image image)
-    {
+    public static BufferedImage toBlackWhiteImage(final Image image) {
         BufferedImage bufferedImage = toBufferedImage(image);
 
         return toBlackWhiteImage(bufferedImage);
@@ -548,12 +471,9 @@ public final class ImageUtils
     /**
      * Kopiert ein Icon in eine Image-Kopie.
      */
-    public static BufferedImage toBufferedImage(final Icon icon)
-    {
-        if (icon instanceof ImageIcon imageIcon)
-        {
-            if (imageIcon.getImage() instanceof BufferedImage bi)
-            {
+    public static BufferedImage toBufferedImage(final Icon icon) {
+        if (icon instanceof ImageIcon imageIcon) {
+            if (imageIcon.getImage() instanceof BufferedImage bi) {
                 return bi;
             }
         }
@@ -570,10 +490,8 @@ public final class ImageUtils
     /**
      * Konvertiert ein {@link Image} in ein {@link BufferedImage}.
      */
-    public static BufferedImage toBufferedImage(final Image image)
-    {
-        if (image instanceof BufferedImage bi)
-        {
+    public static BufferedImage toBufferedImage(final Image image) {
+        if (image instanceof BufferedImage bi) {
             return bi;
         }
 
@@ -630,15 +548,11 @@ public final class ImageUtils
     /**
      * Liefert das Kanten Bild.
      */
-    public static BufferedImage toEdgeImage(final Image image)
-    {
+    public static BufferedImage toEdgeImage(final Image image) {
         BufferedImage bufferedImage = toBufferedImage(image);
 
         // Sobel Operator, horizontal & vertikal
-        float[] matrix =
-                {
-                        0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F
-                };
+        float[] matrix = {0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F};
 
         // // Sobel Operator, horizontal
         // float[] matrix = new float[]
@@ -666,8 +580,7 @@ public final class ImageUtils
     /**
      * Graut das Icon aus.
      */
-    public static Icon toGrayIcon(final Icon icon)
-    {
+    public static Icon toGrayIcon(final Icon icon) {
         BufferedImage bufferedImage = toBufferedImage(icon);
         Image result = toGrayImage(bufferedImage);
 
@@ -677,8 +590,7 @@ public final class ImageUtils
     /**
      * Graut das Icon aus.
      */
-    public static ImageIcon toGrayIcon(final ImageIcon imageIcon, final int percent)
-    {
+    public static ImageIcon toGrayIcon(final ImageIcon imageIcon, final int percent) {
         Image image = toGrayImage(imageIcon.getImage(), percent);
 
         return new ImageIcon(image);
@@ -687,8 +599,7 @@ public final class ImageUtils
     /**
      * Erzeugt ein Graustufenbild.
      */
-    public static BufferedImage toGrayImage(final BufferedImage bufferedImage)
-    {
+    public static BufferedImage toGrayImage(final BufferedImage bufferedImage) {
         ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_GRAY);
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         ColorConvertOp op = new ColorConvertOp(colorSpace, hints);
@@ -701,8 +612,7 @@ public final class ImageUtils
      *
      * @param percent int, 0-100%
      */
-    public static Image toGrayImage(final Image image, final int percent)
-    {
+    public static Image toGrayImage(final Image image, final int percent) {
         ImageFilter filter = new GrayFilter(true, percent);
         ImageProducer prod = new FilteredImageSource(image.getSource(), filter);
 
@@ -712,12 +622,8 @@ public final class ImageUtils
     /**
      * Liefert das geschärfte Bild.
      */
-    public static BufferedImage toSharpenImage(final BufferedImage image)
-    {
-        float[] matrix =
-                {
-                        0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F
-                };
+    public static BufferedImage toSharpenImage(final BufferedImage image) {
+        float[] matrix = {0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F};
 
         // Kantenglättung
         // float[] matrix =
@@ -744,8 +650,7 @@ public final class ImageUtils
     /**
      * Liefert das geschärfte Bild.
      */
-    public static BufferedImage toSharpenImage(final Image image)
-    {
+    public static BufferedImage toSharpenImage(final Image image) {
         BufferedImage bufferedImage = toBufferedImage(image);
 
         return toSharpenImage(bufferedImage);
@@ -754,23 +659,20 @@ public final class ImageUtils
     /**
      * Encode the image in a specific format and write it to an OutputStream.
      */
-    public static void writeImage(final BufferedImage image, final ImageFormat format, final OutputStream outputStream) throws IOException
-    {
+    public static void writeImage(final BufferedImage image, final ImageFormat format, final OutputStream outputStream) throws IOException {
         ImageIO.write(image, format.name(), outputStream);
     }
 
     /**
      * Encode the image in a specific format and write it to an OutputStream.
      */
-    public static void writeImage(final Image image, final ImageFormat format, final OutputStream outputStream) throws IOException
-    {
+    public static void writeImage(final Image image, final ImageFormat format, final OutputStream outputStream) throws IOException {
         BufferedImage bufferedImage = toBufferedImage(image);
 
         writeImage(bufferedImage, format, outputStream);
     }
 
-    private ImageUtils()
-    {
+    private ImageUtils() {
         super();
     }
 }

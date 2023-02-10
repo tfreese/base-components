@@ -11,7 +11,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface CallableStatementCreator
-{
+public interface CallableStatementCreator {
     CallableStatement createCallableStatement(Connection connection) throws SQLException;
 }

@@ -4,17 +4,14 @@ package de.freese.base.core.logging.generic;
 /**
  * @author Thomas Freese
  */
-class JulLoggerProvider implements LoggerProvider
-{
+class JulLoggerProvider implements LoggerProvider {
     @Override
-    public Logger createLogger(String name)
-    {
+    public Logger createLogger(String name) {
         return new JulLogger(name);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Java Util Logging";
     }
 }

@@ -14,8 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-final class SqlBlobOutputStream extends OutputStream
-{
+final class SqlBlobOutputStream extends OutputStream {
     private final java.sql.Blob blob;
 
     private final OutputStream blobOutputStream;
@@ -28,8 +27,7 @@ final class SqlBlobOutputStream extends OutputStream
 
     private final URI uri;
 
-    SqlBlobOutputStream(URI uri, final Connection connection, final PreparedStatement prepareStatement) throws SQLException
-    {
+    SqlBlobOutputStream(URI uri, final Connection connection, final PreparedStatement prepareStatement) throws SQLException {
         this.uri = Objects.requireNonNull(uri, "uri required");
 
         this.connection = Objects.requireNonNull(connection, "connection required");
@@ -40,14 +38,12 @@ final class SqlBlobOutputStream extends OutputStream
     }
 
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         super.close();
 
         SQLException sex = null;
 
-        try
-        {
+        try {
             this.blobOutputStream.close();
 
             this.prepareStatement.setString(1, this.uri.toString());
@@ -58,64 +54,53 @@ final class SqlBlobOutputStream extends OutputStream
 
             this.blob.free();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
             sex = ex;
 
-            try
-            {
+            try {
                 this.connection.rollback();
             }
-            catch (SQLException ex2)
-            {
+            catch (SQLException ex2) {
                 getLogger().error(ex.getMessage(), ex);
                 sex = ex;
             }
         }
 
-        try
-        {
+        try {
             this.connection.close();
         }
-        catch (SQLException ex)
-        {
+        catch (SQLException ex) {
             getLogger().error(ex.getMessage(), ex);
             sex = ex;
         }
 
-        if (sex != null)
-        {
+        if (sex != null) {
             throw new RuntimeException(sex);
         }
     }
 
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
         this.blobOutputStream.flush();
     }
 
     @Override
-    public void write(final byte[] b) throws IOException
-    {
+    public void write(final byte[] b) throws IOException {
         this.blobOutputStream.write(b);
     }
 
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         this.blobOutputStream.write(b, off, len);
     }
 
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         this.blobOutputStream.write(b);
     }
 
-    private Logger getLogger()
-    {
+    private Logger getLogger() {
         return logger;
     }
 }

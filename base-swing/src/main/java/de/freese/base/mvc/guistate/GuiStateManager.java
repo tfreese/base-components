@@ -9,8 +9,7 @@ import de.freese.base.swing.state.GuiState;
  *
  * @author Thomas Freese
  */
-public interface GuiStateManager
-{
+public interface GuiStateManager {
     void restore(Component component, String name);
 
     void store(Component component, String name);

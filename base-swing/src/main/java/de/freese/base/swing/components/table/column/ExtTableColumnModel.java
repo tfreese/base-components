@@ -10,8 +10,7 @@ import javax.swing.table.TableColumnModel;
  *
  * @author Thomas Freese
  */
-public interface ExtTableColumnModel extends TableColumnModel
-{
+public interface ExtTableColumnModel extends TableColumnModel {
     int getColumnCount(boolean includeHidden);
 
     ExtTableColumn getColumnExt(int columnIndex);

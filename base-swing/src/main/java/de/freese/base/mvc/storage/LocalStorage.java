@@ -23,33 +23,28 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public final class LocalStorage
-{
+public final class LocalStorage {
     private final Path storageDirectory;
 
     /**
      * Default: Paths.get(System.getProperty("java.io.tmpdir"), ".java-apps"))
      */
-    public LocalStorage()
-    {
+    public LocalStorage() {
         this(Paths.get(System.getProperty("java.io.tmpdir"), ".java-apps"));
     }
 
-    public LocalStorage(final Path storageDirectory)
-    {
+    public LocalStorage(final Path storageDirectory) {
         super();
 
         this.storageDirectory = Objects.requireNonNull(storageDirectory, "storageDirectory required");
         createDirectories(storageDirectory);
     }
 
-    public void copy(final InputStream src, final OutputStream target) throws IOException
-    {
+    public void copy(final InputStream src, final OutputStream target) throws IOException {
         src.transferTo(target);
     }
 
-    public Path createTemporaryFile(final String prefix, final String suffix) throws IOException
-    {
+    public Path createTemporaryFile(final String prefix, final String suffix) throws IOException {
         Path path = Files.createTempFile(getStorageDirectory(), prefix, suffix);
 
         File file = path.toFile();
@@ -58,18 +53,15 @@ public final class LocalStorage
         return path;
     }
 
-    public void deleteDirectory(final Path relativePath) throws IOException
-    {
+    public void deleteDirectory(final Path relativePath) throws IOException {
         Path path = getAbsolutPath(relativePath);
 
-        Files.walkFileTree(path, new SimpleFileVisitor<>()
-        {
+        Files.walkFileTree(path, new SimpleFileVisitor<>() {
             /**
              * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
              */
             @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
-            {
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
                 Files.delete(dir);
                 return FileVisitResult.CONTINUE;
             }
@@ -78,28 +70,24 @@ public final class LocalStorage
              * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
              */
             @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
-            {
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);
                 return FileVisitResult.CONTINUE;
             }
         });
     }
 
-    public boolean deleteFile(final Path relativePath) throws IOException
-    {
+    public boolean deleteFile(final Path relativePath) throws IOException {
         Path path = getAbsolutPath(relativePath);
 
         return Files.deleteIfExists(path);
     }
 
-    public Path getAbsolutPath(final Path relativePath)
-    {
+    public Path getAbsolutPath(final Path relativePath) {
         return getStorageDirectory().resolve(relativePath);
     }
 
-    public InputStream getInputStream(final Path relativePath, final OpenOption... options) throws IOException
-    {
+    public InputStream getInputStream(final Path relativePath, final OpenOption... options) throws IOException {
         Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());
@@ -107,8 +95,7 @@ public final class LocalStorage
         return new BufferedInputStream(Files.newInputStream(path, options));
     }
 
-    public OutputStream getOutputStream(final Path relativePath, final OpenOption... options) throws IOException
-    {
+    public OutputStream getOutputStream(final Path relativePath, final OpenOption... options) throws IOException {
         Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());
@@ -116,35 +103,29 @@ public final class LocalStorage
         return new BufferedOutputStream(Files.newOutputStream(path, options));
     }
 
-    public Path getStorageDirectory()
-    {
+    public Path getStorageDirectory() {
         return this.storageDirectory;
     }
 
-    public void openPath(final Path relativePath) throws IOException
-    {
+    public void openPath(final Path relativePath) throws IOException {
         Desktop.getDesktop().open(getStorageDirectory().resolve(relativePath).toFile());
     }
 
-    public String removeIllegalFileCharacters(final String fileName)
-    {
+    public String removeIllegalFileCharacters(final String fileName) {
         String internalName = fileName;
 
-        if (internalName.indexOf('/') != -1)
-        {
+        if (internalName.indexOf('/') != -1) {
             internalName = internalName.replace("//", "/").replace("/", "-");
         }
 
-        if (internalName.indexOf('\\') != -1)
-        {
+        if (internalName.indexOf('\\') != -1) {
             internalName = internalName.replace("\\\\", "\\").replace("\\", "-");
         }
 
         return internalName;
     }
 
-    public void save(final Path relativePath, final byte[] data, final OpenOption... options) throws Exception
-    {
+    public void save(final Path relativePath, final byte[] data, final OpenOption... options) throws Exception {
         Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());
@@ -152,16 +133,12 @@ public final class LocalStorage
         Files.write(path, data, options);
     }
 
-    private void createDirectories(final Path path)
-    {
-        if (!Files.exists(path))
-        {
-            try
-            {
+    private void createDirectories(final Path path) {
+        if (!Files.exists(path)) {
+            try {
                 Files.createDirectories(path);
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }

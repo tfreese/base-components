@@ -10,24 +10,20 @@ import javax.swing.JTable;
  *
  * @author Thomas Freese
  */
-public final class ExcelToolkit
-{
+public final class ExcelToolkit {
     /**
      * Ergibt bei 6,5 = F5.
      */
-    public static synchronized String getCellName(final int column, final int row)
-    {
+    public static synchronized String getCellName(final int column, final int row) {
         return getColumnName(column) + row;
     }
 
     /**
      * Liefert die Spaltennamen, zB 2 -> B.
      */
-    public static String getColumnName(final int column)
-    {
+    public static String getColumnName(final int column) {
         // Die erste Spalte hat keinen Namen in Excel.
-        if (column == 0)
-        {
+        if (column == 0) {
             // Leerzeichen im String verhindert, das die Header eine zu flache Höhe haben.
             return " ";
         }
@@ -37,8 +33,7 @@ public final class ExcelToolkit
 
         StringBuilder sb = new StringBuilder();
 
-        for (; c >= 0; c = (c / 26) - 1)
-        {
+        for (; c >= 0; c = (c / 26) - 1) {
             sb.append((char) (c % 26) + 'A');
         }
 
@@ -67,43 +62,33 @@ public final class ExcelToolkit
     /**
      * Ergibt bei F5 = 6.
      */
-    public static int getColumnNumber(final String cellName)
-    {
+    public static int getColumnNumber(final String cellName) {
         char c1 = cellName.charAt(0);
         char c2 = cellName.charAt(1);
 
         int column = 0;
 
-        if (((c2 >= (short) 'a') && (c2 <= (short) 'z')))
-        {
-            if (((c1 >= (short) 'a') && (c1 <= (short) 'z')))
-            {
+        if (((c2 >= (short) 'a') && (c2 <= (short) 'z'))) {
+            if (((c1 >= (short) 'a') && (c1 <= (short) 'z'))) {
                 column = getColumnNumber(c1 - 'a', c2 - 'a');
             }
-            else
-            {
+            else {
                 column = getColumnNumber(c1 - 'A', c2 - 'a');
             }
         }
-        else if ((c2 >= 'A') && (c2 <= 'Z'))
-        {
-            if (((c1 >= 'a') && (c1 <= 'z')))
-            {
+        else if ((c2 >= 'A') && (c2 <= 'Z')) {
+            if (((c1 >= 'a') && (c1 <= 'z'))) {
                 column = getColumnNumber(c1 - 'a', c2 - 'A');
             }
-            else
-            {
+            else {
                 column = getColumnNumber(c1 - 'A', c2 - 'A');
             }
         }
-        else
-        {
-            if (((c1 >= 'a') && (c1 <= 'z')))
-            {
+        else {
+            if (((c1 >= 'a') && (c1 <= 'z'))) {
                 column = c1 - 'a';
             }
-            else
-            {
+            else {
                 column = c1 - 'A';
             }
         }
@@ -111,13 +96,11 @@ public final class ExcelToolkit
         return column;
     }
 
-    public static String getRange(final JTable table)
-    {
+    public static String getRange(final JTable table) {
         int[] selectedColumns = table.getSelectedColumns();
         int[] selectedRows = table.getSelectedRows();
 
-        if ((selectedColumns.length > 0) && (selectedRows.length > 0))
-        {
+        if ((selectedColumns.length > 0) && (selectedRows.length > 0)) {
             String col1 = getColumnName(selectedColumns[0]);
             String col2 = getColumnName(selectedColumns[selectedColumns.length - 1]);
             String row1 = Integer.toString(selectedRows[0] + 1);
@@ -129,8 +112,7 @@ public final class ExcelToolkit
         return null;
     }
 
-    public static int getRowColumnCount(final String range) throws IllegalStateException
-    {
+    public static int getRowColumnCount(final String range) throws IllegalStateException {
         StringTokenizer tokenizer = new StringTokenizer(range, ":");
         String start = tokenizer.nextToken();
         String end = tokenizer.nextToken();
@@ -141,18 +123,15 @@ public final class ExcelToolkit
         int columnStartNumber = getColumnNumber(start);
         int columnEndNumber = getColumnNumber(end);
 
-        if (columnStartNumber == columnEndNumber)
-        {
+        if (columnStartNumber == columnEndNumber) {
             // Eine Spalte selektiert, d.h. mehrere Zeilen
             return (rowEndNumber - rowStartNumber) + 1;
         }
-        else if (rowEndNumber == rowStartNumber)
-        {
+        else if (rowEndNumber == rowStartNumber) {
             // Eine Zeile selektiert, d.h. mehrere Spalten
             return (columnEndNumber - columnStartNumber) + 1;
         }
-        else
-        {
+        else {
             throw new IllegalStateException("Row-/Column regions are not supported");
         }
     }
@@ -160,20 +139,17 @@ public final class ExcelToolkit
     /**
      * Ergibt bei F5 = 5.
      */
-    public static int getRowNumber(final String cellName)
-    {
+    public static int getRowNumber(final String cellName) {
         // char c1 = cellName.charAt(0);
         char c2 = cellName.charAt(1);
 
         int row = 0;
 
-        if (((c2 >= 'a') && (c2 <= 'z')) || ((c2 >= 'A') && (c2 <= 'Z')))
-        {
+        if (((c2 >= 'a') && (c2 <= 'z')) || ((c2 >= 'A') && (c2 <= 'Z'))) {
             String strRow = cellName.substring(2);
             row = Integer.parseInt(strRow);
         }
-        else
-        {
+        else {
             String strRow = cellName.substring(1);
             row = Integer.parseInt(strRow);
         }
@@ -181,22 +157,18 @@ public final class ExcelToolkit
         return row - 1;
     }
 
-    public static boolean isMultiRowOrColumn(final String value)
-    {
+    public static boolean isMultiRowOrColumn(final String value) {
         StringTokenizer tokenizer = new StringTokenizer(value, ":");
         String start = tokenizer.nextToken();
         String end = tokenizer.nextToken();
         StringBuilder rowBuf = new StringBuilder();
         StringBuilder colBuf = new StringBuilder();
 
-        for (int i = 0; i < start.length(); i++)
-        {
-            if (!Character.isDigit(start.charAt(i)))
-            {
+        for (int i = 0; i < start.length(); i++) {
+            if (!Character.isDigit(start.charAt(i))) {
                 colBuf.append(start.charAt(i));
             }
-            else
-            {
+            else {
                 rowBuf.append(start.charAt(i));
             }
         }
@@ -206,14 +178,11 @@ public final class ExcelToolkit
         rowBuf = new StringBuilder();
         colBuf = new StringBuilder();
 
-        for (int i = 0; i < end.length(); i++)
-        {
-            if (!Character.isDigit(end.charAt(i)))
-            {
+        for (int i = 0; i < end.length(); i++) {
+            if (!Character.isDigit(end.charAt(i))) {
                 colBuf.append(end.charAt(i));
             }
-            else
-            {
+            else {
                 rowBuf.append(end.charAt(i));
             }
         }
@@ -224,10 +193,8 @@ public final class ExcelToolkit
         return (!rowStart.equals(rowEnd)) && (!colStart.equals(colEnd));
     }
 
-    public static boolean isRangeOk(final String range, final int numValues)
-    {
-        if ((range == null) || (range.indexOf(':') == -1))
-        {
+    public static boolean isRangeOk(final String range, final int numValues) {
+        if ((range == null) || (range.indexOf(':') == -1)) {
             return true;
         }
 
@@ -235,8 +202,7 @@ public final class ExcelToolkit
 
         int numRangeValues = 0;
 
-        while (regionTokenizer.hasMoreTokens())
-        {
+        while (regionTokenizer.hasMoreTokens()) {
             StringTokenizer tokenizer = new StringTokenizer(regionTokenizer.nextToken(), ":");
             String start = (String) tokenizer.nextElement();
             String end = (String) tokenizer.nextElement();
@@ -250,14 +216,12 @@ public final class ExcelToolkit
             int endRow = getRowNumber(end);
 
             // Linear
-            if (startCol == endCol)
-            {
+            if (startCol == endCol) {
                 numRangeValues += (endRow - startRow);
             }
 
             // Otherwise it's a block
-            else
-            {
+            else {
                 int numCols = endCol - startCol;
                 int numRows = endRow - startRow;
                 numRangeValues += (numCols * numRows);
@@ -267,14 +231,11 @@ public final class ExcelToolkit
         return numRangeValues <= numValues;
     }
 
-    public static boolean overlapAllRanges(final String ranges, final String range)
-    {
+    public static boolean overlapAllRanges(final String ranges, final String range) {
         StringTokenizer tokenizer = new StringTokenizer(ranges, ";");
 
-        while (tokenizer.hasMoreTokens())
-        {
-            if (overlapRanges(tokenizer.nextToken(), range))
-            {
+        while (tokenizer.hasMoreTokens()) {
+            if (overlapRanges(tokenizer.nextToken(), range)) {
                 return true;
             }
         }
@@ -282,8 +243,7 @@ public final class ExcelToolkit
         return false;
     }
 
-    public static boolean overlapRanges(final String range1, final String range2)
-    {
+    public static boolean overlapRanges(final String range1, final String range2) {
         StringTokenizer tokenizer = new StringTokenizer(range1, ":");
         String start = tokenizer.nextToken();
         String end = tokenizer.nextToken();
@@ -307,16 +267,14 @@ public final class ExcelToolkit
         return r1.intersects(r2);
     }
 
-    private static int getColumnNumber(final int c1, final int c2)
-    {
+    private static int getColumnNumber(final int c1, final int c2) {
         // Bug Fix - Incorrect Columns referenced (15.08.2005)
         return ((c1 + 1) * 26) + c2;
 
         // return ((c1 + 1) * 25) + (c2 + 1);
     }
 
-    private ExcelToolkit()
-    {
+    private ExcelToolkit() {
         super();
     }
 }

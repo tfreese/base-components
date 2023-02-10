@@ -15,46 +15,40 @@ import javax.swing.Timer;
  *
  * @author Thomas Freese
  */
-public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
-{
+public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T> {
     private final Duration delay;
 
     private final ScheduledExecutorService scheduledExecutor;
 
-    private Consumer<List<T>> submitConsumer = chunks ->
-    {
+    private Consumer<List<T>> submitConsumer = chunks -> {
     };
 
     /**
      * Without {@link ScheduledExecutorService} a {@link Timer} is used.<br>
      * Default delay = 250 ms
      */
-    public AccumulativeRunnableScheduled()
-    {
+    public AccumulativeRunnableScheduled() {
         this(null, Duration.ofMillis(250));
     }
 
     /**
      * Default delay = 250 ms
      */
-    public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor)
-    {
+    public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor) {
         this(Objects.requireNonNull(scheduledExecutor, "scheduledExecutor required"), Duration.ofMillis(250));
     }
 
     /**
      * @param scheduledExecutor {@link ScheduledExecutorService}; optional
      */
-    public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor, final Duration delay)
-    {
+    public AccumulativeRunnableScheduled(final ScheduledExecutorService scheduledExecutor, final Duration delay) {
         super();
 
         this.scheduledExecutor = scheduledExecutor;
         this.delay = Objects.requireNonNull(delay, "delay required");
     }
 
-    public void doOnSubmit(final Consumer<List<T>> submitConsumer)
-    {
+    public void doOnSubmit(final Consumer<List<T>> submitConsumer) {
         this.submitConsumer = Objects.requireNonNull(submitConsumer, "submitConsumer required");
     }
 
@@ -62,8 +56,7 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
      * @see de.freese.base.core.concurrent.accumulative.AccumulativeRunnable#run(java.util.List)
      */
     @Override
-    protected void run(final List<T> args)
-    {
+    protected void run(final List<T> args) {
         this.submitConsumer.accept(args);
     }
 
@@ -71,14 +64,11 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T>
      * @see de.freese.base.core.concurrent.accumulative.AccumulativeRunnable#submit()
      */
     @Override
-    protected final void submit()
-    {
-        if (this.scheduledExecutor != null)
-        {
+    protected final void submit() {
+        if (this.scheduledExecutor != null) {
             this.scheduledExecutor.schedule(() -> SwingUtilities.invokeLater(this), this.delay.toMillis(), TimeUnit.MILLISECONDS);
         }
-        else
-        {
+        else {
             Timer timer = new Timer((int) this.delay.toMillis(), event -> SwingUtilities.invokeLater(this));
             timer.setRepeats(false);
             timer.start();

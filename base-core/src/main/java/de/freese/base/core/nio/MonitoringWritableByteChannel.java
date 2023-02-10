@@ -13,8 +13,7 @@ import java.util.function.LongConsumer;
  *
  * @author Thomas Freese
  */
-public class MonitoringWritableByteChannel implements WritableByteChannel
-{
+public class MonitoringWritableByteChannel implements WritableByteChannel {
     private final LongConsumer bytesWrittenConsumer;
     private final boolean closeDelegate;
     private final WritableByteChannel delegate;
@@ -24,14 +23,11 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
      * @param bytesWrittenConsumer {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size,
-                                         final boolean closeDelegate)
-    {
+    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size, final boolean closeDelegate) {
         this(delegate, bw -> bytesWrittenConsumer.accept(bw, size), closeDelegate);
     }
 
-    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final LongConsumer bytesWrittenConsumer, final boolean closeDelegate)
-    {
+    public MonitoringWritableByteChannel(final WritableByteChannel delegate, final LongConsumer bytesWrittenConsumer, final boolean closeDelegate) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
@@ -43,10 +39,8 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
      * @see java.nio.channels.Channel#close()
      */
     @Override
-    public void close() throws IOException
-    {
-        if (this.closeDelegate)
-        {
+    public void close() throws IOException {
+        if (this.closeDelegate) {
             this.delegate.close();
         }
     }
@@ -55,8 +49,7 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
      * @see java.nio.channels.Channel#isOpen()
      */
     @Override
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return this.delegate.isOpen();
     }
 
@@ -64,12 +57,10 @@ public class MonitoringWritableByteChannel implements WritableByteChannel
      * @see java.nio.channels.WritableByteChannel#write(java.nio.ByteBuffer)
      */
     @Override
-    public int write(final ByteBuffer src) throws IOException
-    {
+    public int write(final ByteBuffer src) throws IOException {
         int writeCount = this.delegate.write(src);
 
-        if (writeCount > 0)
-        {
+        if (writeCount > 0) {
             this.bytesWritten += writeCount;
 
             this.bytesWrittenConsumer.accept(this.bytesWritten);

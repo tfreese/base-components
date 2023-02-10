@@ -8,8 +8,7 @@ import java.io.IOException;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractGridColumn<T> implements GridColumn<T>
-{
+public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     private final Class<T> objectClazz;
 
     private String comment;
@@ -31,8 +30,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
     //        this.objectClazz = (Class<T>) parameterizedType.getActualTypeArguments()[0];
     //    }
 
-    protected AbstractGridColumn(final Class<T> objectClazz)
-    {
+    protected AbstractGridColumn(final Class<T> objectClazz) {
         super();
 
         this.objectClazz = objectClazz;
@@ -42,8 +40,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#getComment()
      */
     @Override
-    public String getComment()
-    {
+    public String getComment() {
         return this.comment;
     }
 
@@ -51,8 +48,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#getLength()
      */
     @Override
-    public int getLength()
-    {
+    public int getLength() {
         return this.length;
     }
 
@@ -60,8 +56,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#getName()
      */
     @Override
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
@@ -69,8 +64,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#getObjectClazz()
      */
     @Override
-    public Class<T> getObjectClazz()
-    {
+    public Class<T> getObjectClazz() {
         return this.objectClazz;
     }
 
@@ -78,8 +72,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#getPrecision()
      */
     @Override
-    public int getPrecision()
-    {
+    public int getPrecision() {
         return this.precision;
     }
 
@@ -87,12 +80,10 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#read(java.io.DataInput)
      */
     @Override
-    public final T read(final DataInput dataInput) throws IOException
-    {
+    public final T read(final DataInput dataInput) throws IOException {
         boolean isNull = dataInput.readBoolean(); // NULL-Marker
 
-        if (isNull)
-        {
+        if (isNull) {
             return null;
         }
 
@@ -103,8 +94,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#setComment(java.lang.String)
      */
     @Override
-    public void setComment(final String comment)
-    {
+    public void setComment(final String comment) {
         this.comment = comment;
     }
 
@@ -112,8 +102,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#setLength(int)
      */
     @Override
-    public void setLength(final int length)
-    {
+    public void setLength(final int length) {
 
         this.length = length;
     }
@@ -122,8 +111,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#setName(java.lang.String)
      */
     @Override
-    public void setName(final String name)
-    {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -131,8 +119,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#setPrecision(int)
      */
     @Override
-    public void setPrecision(final int precision)
-    {
+    public void setPrecision(final int precision) {
         this.precision = precision;
     }
 
@@ -140,8 +127,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("GridColumn [");
         builder.append("name=").append(this.name);
@@ -158,14 +144,12 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T>
      * @see de.freese.base.core.model.grid.column.GridColumn#write(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    public final void write(final DataOutput dataOutput, final Object object) throws IOException
-    {
+    public final void write(final DataOutput dataOutput, final Object object) throws IOException {
         T value = getValue(object);
 
         dataOutput.writeBoolean(value == null); // NULL-Marker
 
-        if (value == null)
-        {
+        if (value == null) {
             return;
         }
 

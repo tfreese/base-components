@@ -17,13 +17,11 @@ import org.jdesktop.swingx.plaf.windows.ExtWindowsClassicTaskPaneUI;
  *
  * @author Thomas Freese
  */
-public class ExtTaskPane extends JXTaskPane
-{
+public class ExtTaskPane extends JXTaskPane {
     @Serial
     private static final long serialVersionUID = -2295264313854376854L;
 
-    public ExtTaskPane()
-    {
+    public ExtTaskPane() {
         super();
 
         setUI(new ExtWindowsClassicTaskPaneUI());
@@ -31,33 +29,27 @@ public class ExtTaskPane extends JXTaskPane
         setAnimated(false);
     }
 
-    public void addSeparator()
-    {
+    public void addSeparator() {
         ((ExtWindowsClassicTaskPaneUI) getUI()).addSeparator();
     }
 
-    public void addSeparator(final Dimension dimension)
-    {
+    public void addSeparator(final Dimension dimension) {
         ((ExtWindowsClassicTaskPaneUI) getUI()).addSeparator(dimension);
     }
 
-    public void addTitleButton(final JButton button)
-    {
+    public void addTitleButton(final JButton button) {
         ((ExtWindowsClassicTaskPaneUI) getUI()).addTitleButton(button);
     }
 
-    public List<JXTaskPane> getChildTaskPanes()
-    {
+    public List<JXTaskPane> getChildTaskPanes() {
         List<JXTaskPane> childTaskPanes = new ArrayList<>();
 
         Container container = getContentPane();
 
-        for (int i = 0; i < container.getComponentCount(); i++)
-        {
+        for (int i = 0; i < container.getComponentCount(); i++) {
             Component component = container.getComponent(i);
 
-            if (component instanceof JXTaskPane p)
-            {
+            if (component instanceof JXTaskPane p) {
                 childTaskPanes.add(p);
             }
         }

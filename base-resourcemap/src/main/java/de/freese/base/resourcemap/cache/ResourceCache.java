@@ -12,8 +12,7 @@ import de.freese.base.resourcemap.ResourceMap;
  * @author Thomas Freese
  * @see ResourceMap#getObject(String, Class)
  */
-public interface ResourceCache
-{
+public interface ResourceCache {
     void clear(String bundleName, Locale locale);
 
     void clearAll();

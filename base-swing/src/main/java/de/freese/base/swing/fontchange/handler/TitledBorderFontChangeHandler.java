@@ -9,24 +9,20 @@ import de.freese.base.swing.fontchange.FontChangeHandler;
 /**
  * @author Thomas Freese
  */
-public class TitledBorderFontChangeHandler implements FontChangeHandler
-{
+public class TitledBorderFontChangeHandler implements FontChangeHandler {
     /**
      * @see de.freese.base.swing.fontchange.FontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
      */
     @Override
-    public void fontChanged(final Font newFont, final Object object)
-    {
+    public void fontChanged(final Font newFont, final Object object) {
         TitledBorder titledBorder = (TitledBorder) object;
 
         Font oldFont = titledBorder.getTitleFont();
 
-        if (oldFont == null)
-        {
+        if (oldFont == null) {
             titledBorder.setTitleFont(newFont);
         }
-        else
-        {
+        else {
             titledBorder.setTitleFont(oldFont.deriveFont(newFont.getSize2D()));
         }
     }

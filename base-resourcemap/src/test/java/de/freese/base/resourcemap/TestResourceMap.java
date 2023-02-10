@@ -25,13 +25,14 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import de.freese.base.resourcemap.converter.ResourceConverter;
-import de.freese.base.resourcemap.converter.ResourceConverters;
-import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+
+import de.freese.base.resourcemap.converter.ResourceConverter;
+import de.freese.base.resourcemap.converter.ResourceConverters;
+import de.freese.base.resourcemap.provider.ResourceBundleProvider;
 
 /**
  * Testklasse der ResourceMap.
@@ -39,13 +40,11 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestResourceMap
-{
+class TestResourceMap {
     private static ResourceMap resourceMap;
 
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         // @formatter:off
         ResourceMap resourceMapRoot = ResourceMapBuilder.create()
                 .resourceProvider(new ResourceBundleProvider())
@@ -69,8 +68,7 @@ class TestResourceMap
     }
 
     @Test
-    void testBoolean()
-    {
+    void testBoolean() {
         Boolean value = resourceMap.getBoolean("test.boolean");
 
         assertNotNull(value);
@@ -78,8 +76,7 @@ class TestResourceMap
     }
 
     @Test
-    void testByte()
-    {
+    void testByte() {
         Byte value = resourceMap.getByte("test.byte");
 
         assertNotNull(value);
@@ -87,8 +84,7 @@ class TestResourceMap
     }
 
     @Test
-    void testColor()
-    {
+    void testColor() {
         Color value = resourceMap.getColor("test.color");
 
         Color ref = new Color(200, 200, 200);
@@ -98,8 +94,7 @@ class TestResourceMap
     }
 
     @Test
-    void testColorAlpha()
-    {
+    void testColorAlpha() {
         Color value = resourceMap.getColor("test.colorAlpha");
 
         String key = "#20101010";
@@ -112,8 +107,7 @@ class TestResourceMap
     }
 
     @Test
-    void testColorHex()
-    {
+    void testColorHex() {
         Color value = resourceMap.getColor("test.colorHex");
 
         Color ref = Color.decode("#101010");
@@ -123,8 +117,7 @@ class TestResourceMap
     }
 
     @Test
-    void testDimension()
-    {
+    void testDimension() {
         Dimension value = resourceMap.getDimension("test.dimension");
 
         Dimension ref = new Dimension(100, 200);
@@ -134,8 +127,7 @@ class TestResourceMap
     }
 
     @Test
-    void testDouble()
-    {
+    void testDouble() {
         Double value = resourceMap.getDouble("test.double");
 
         Double ref = 99.99D;
@@ -145,8 +137,7 @@ class TestResourceMap
     }
 
     @Test
-    void testEmptyBorder()
-    {
+    void testEmptyBorder() {
         EmptyBorder value = resourceMap.getEmptyBorder("test.emptyborder");
 
         EmptyBorder ref = new EmptyBorder(5, 5, 5, 5);
@@ -167,24 +158,20 @@ class TestResourceMap
      * Der Wert von evaluateStringExpression("place") wäre "Hello World". Der Wert von einem ${null} ist null.
      */
     @Test
-    void testEvaluateStringExpression()
-    {
+    void testEvaluateStringExpression() {
         String expression = "${hello} in my ${world} guest";
 
         // Split
-        if (expression.contains("${"))
-        {
+        if (expression.contains("${")) {
             List<String> keys = new ArrayList<>();
 
             String[] splits = expression.split("\\$\\{");
             // System.out.println(Arrays.toString(splits));
 
-            for (String split : splits)
-            {
+            for (String split : splits) {
                 int lastIndex = split.lastIndexOf("}");
 
-                if (lastIndex <= 0)
-                {
+                if (lastIndex <= 0) {
                     continue;
                 }
 
@@ -197,18 +184,15 @@ class TestResourceMap
         }
 
         // Iteration
-        if (expression.contains("${"))
-        {
+        if (expression.contains("${")) {
             List<String> keys = new ArrayList<>();
             int startIndex = 0;
             int lastEndIndex = 0;
 
-            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1)
-            {
+            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1) {
                 int endIndex = expression.indexOf("}", startIndex);
 
-                if (endIndex != -1)
-                {
+                if (endIndex != -1) {
                     String key = expression.substring(startIndex + 2, endIndex);
                     keys.add(key);
 
@@ -222,8 +206,7 @@ class TestResourceMap
     }
 
     @Test
-    void testFloat()
-    {
+    void testFloat() {
         Float value = resourceMap.getFloat("test.float");
 
         Float ref = 99.99F;
@@ -233,8 +216,7 @@ class TestResourceMap
     }
 
     @Test
-    void testFont()
-    {
+    void testFont() {
         Font value = resourceMap.getFont("test.font");
 
         Font ref = Font.decode("Arial-PLAIN-12");
@@ -247,8 +229,7 @@ class TestResourceMap
      * @see TestResourceMap#testImageIcon()
      */
     @Test
-    void testIcon()
-    {
+    void testIcon() {
         Icon value = resourceMap.getIcon("test.icon");
 
         URL url = ClassLoader.getSystemResource("icons/next.png");
@@ -261,8 +242,7 @@ class TestResourceMap
     }
 
     @Test
-    void testImage() throws IOException
-    {
+    void testImage() throws IOException {
         Image value = resourceMap.getImage("test.icon");
 
         URL url = ClassLoader.getSystemResource("icons/next.png");
@@ -276,8 +256,7 @@ class TestResourceMap
      * @see TestResourceMap#testIcon()
      */
     @Test
-    void testImageIcon()
-    {
+    void testImageIcon() {
         ImageIcon value = resourceMap.getImageIcon("test.icon");
 
         URL url = ClassLoader.getSystemResource("icons/next.png");
@@ -288,8 +267,7 @@ class TestResourceMap
     }
 
     @Test
-    void testInsets()
-    {
+    void testInsets() {
         Insets value = resourceMap.getInsets("test.insets");
 
         Insets ref = new Insets(5, 5, 5, 5);
@@ -299,8 +277,7 @@ class TestResourceMap
     }
 
     @Test
-    void testInteger()
-    {
+    void testInteger() {
         Integer value = resourceMap.getInteger("test.integer");
 
         Integer ref = 1;
@@ -310,8 +287,7 @@ class TestResourceMap
     }
 
     @Test
-    void testKeyCode()
-    {
+    void testKeyCode() {
         Integer value = resourceMap.getKeyCode("test.keycode");
 
         Integer ref = KeyStroke.getKeyStroke("control T").getKeyCode();
@@ -321,8 +297,7 @@ class TestResourceMap
     }
 
     @Test
-    void testKeyStroke()
-    {
+    void testKeyStroke() {
         KeyStroke value = resourceMap.getKeyStroke("test.keystroke");
 
         KeyStroke ref = KeyStroke.getKeyStroke("control T");
@@ -332,8 +307,7 @@ class TestResourceMap
     }
 
     @Test
-    void testLong()
-    {
+    void testLong() {
         Long value = resourceMap.getLong("test.long");
 
         Long ref = 1L;
@@ -343,16 +317,14 @@ class TestResourceMap
     }
 
     @Test
-    void testNotExist()
-    {
+    void testNotExist() {
         String value = resourceMap.getString("not.exist");
 
         assertEquals("#not.exist", value);
     }
 
     @Test
-    void testParentString()
-    {
+    void testParentString() {
         String value = resourceMap.getString("test.parent.version");
 
         assertNotNull(value);
@@ -360,8 +332,7 @@ class TestResourceMap
     }
 
     @Test
-    void testPoint()
-    {
+    void testPoint() {
         Point value = resourceMap.getPoint("test.point");
 
         Point ref = new Point(100, 200);
@@ -371,8 +342,7 @@ class TestResourceMap
     }
 
     @Test
-    void testRectangle()
-    {
+    void testRectangle() {
         Rectangle value = resourceMap.getRectangle("test.rectangle");
 
         Rectangle ref = new Rectangle(5, 5, 5, 5);
@@ -382,8 +352,7 @@ class TestResourceMap
     }
 
     @Test
-    void testResourceConverters()
-    {
+    void testResourceConverters() {
         ResourceConverters resourceConverters = ResourceConverters.ofDefaults();
         //        resourceConverters.customize(converters -> converters.put(int.class, new IntegerResourceConverter()));
 
@@ -393,8 +362,7 @@ class TestResourceMap
     }
 
     @Test
-    void testShort()
-    {
+    void testShort() {
         Short value = resourceMap.getShort("test.short");
 
         Short ref = 1;
@@ -404,8 +372,7 @@ class TestResourceMap
     }
 
     @Test
-    void testString1()
-    {
+    void testString1() {
         String value = resourceMap.getString("test.string.1");
 
         String ref = "Taeschtd";
@@ -415,8 +382,7 @@ class TestResourceMap
     }
 
     @Test
-    void testString2()
-    {
+    void testString2() {
         String value = resourceMap.getString("test.string.2", "ist", "Test");
 
         String ref = "Dies ist ein Test.";
@@ -426,8 +392,7 @@ class TestResourceMap
     }
 
     @Test
-    void testString3()
-    {
+    void testString3() {
         String value = resourceMap.getString("test.string.3", "ist", "Test");
 
         String ref = "Dies ist ein Test.";
@@ -437,8 +402,7 @@ class TestResourceMap
     }
 
     @Test
-    void testString4()
-    {
+    void testString4() {
         String value = resourceMap.getString("test.string.4");
 
         String ref = "Dies ist ein Taeschtd.";
@@ -448,8 +412,7 @@ class TestResourceMap
     }
 
     @Test
-    void testStringEmpty()
-    {
+    void testStringEmpty() {
         String value = resourceMap.getString("test.string.empty");
 
         String ref = "";
@@ -459,8 +422,7 @@ class TestResourceMap
     }
 
     @Test
-    void testUri() throws Exception
-    {
+    void testUri() throws Exception {
         URI value = resourceMap.getURI("test.uri");
 
         URI ref = new URI("http://www.google.de");
@@ -470,8 +432,7 @@ class TestResourceMap
     }
 
     @Test
-    void testUrl() throws Exception
-    {
+    void testUrl() throws Exception {
         URL value = resourceMap.getURL("test.url");
 
         URL ref = new URL("http://www.google.de");

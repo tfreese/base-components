@@ -22,17 +22,14 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  *
  * @author Thomas Freese
  */
-public class HTMLTextButtonUI extends BasicButtonUI
-{
+public class HTMLTextButtonUI extends BasicButtonUI {
     private final Color rolloverColor;
 
-    public HTMLTextButtonUI()
-    {
+    public HTMLTextButtonUI() {
         this(Color.BLUE);
     }
 
-    public HTMLTextButtonUI(final Color rolloverColor)
-    {
+    public HTMLTextButtonUI(final Color rolloverColor) {
         super();
 
         this.rolloverColor = rolloverColor;
@@ -45,20 +42,16 @@ public class HTMLTextButtonUI extends BasicButtonUI
      * @see javax.swing.plaf.basic.BasicButtonUI#createButtonListener(javax.swing.AbstractButton)
      */
     @Override
-    protected BasicButtonListener createButtonListener(final AbstractButton b)
-    {
-        return new BasicButtonListener(b)
-        {
+    protected BasicButtonListener createButtonListener(final AbstractButton b) {
+        return new BasicButtonListener(b) {
             /**
              * @see javax.swing.plaf.basic.BasicButtonListener#mouseReleased(java.awt.event.MouseEvent)
              */
             @Override
-            public void mouseReleased(final MouseEvent e)
-            {
+            public void mouseReleased(final MouseEvent e) {
                 super.mouseReleased(e);
 
-                if (SwingUtilities.isLeftMouseButton(e))
-                {
+                if (SwingUtilities.isLeftMouseButton(e)) {
                     ButtonModel model = ((AbstractButton) e.getSource()).getModel();
                     model.setRollover(false);
                 }
@@ -70,12 +63,10 @@ public class HTMLTextButtonUI extends BasicButtonUI
      * @see javax.swing.plaf.basic.BasicButtonUI#paintText(java.awt.Graphics, javax.swing.AbstractButton, java.awt.Rectangle, java.lang.String)
      */
     @Override
-    protected void paintText(final Graphics g, final AbstractButton b, final Rectangle textRect, final String text)
-    {
+    protected void paintText(final Graphics g, final AbstractButton b, final Rectangle textRect, final String text) {
         super.paintText(g, b, textRect, text);
 
-        if (b.getModel().isRollover() && b.getModel().isEnabled())
-        {
+        if (b.getModel().isRollover() && b.getModel().isEnabled()) {
             FontMetrics fm = g.getFontMetrics();
             AttributedString s = new AttributedString(text);
             s.addAttribute(TextAttribute.FONT, b.getFont());
@@ -89,8 +80,7 @@ public class HTMLTextButtonUI extends BasicButtonUI
      * @see javax.swing.plaf.basic.BasicButtonUI#paintText(java.awt.Graphics, javax.swing.JComponent, java.awt.Rectangle, java.lang.String)
      */
     @Override
-    protected void paintText(final Graphics g, final JComponent c, final Rectangle textRect, final String text)
-    {
+    protected void paintText(final Graphics g, final JComponent c, final Rectangle textRect, final String text) {
         // Diese Methode wurde überschrieben, da der DisabledText um 1 Pixel nach Links
         // gerückt wurde und somit der erste Buchstabe abgeschnitten wurde.
         AbstractButton b = (AbstractButton) c;
@@ -99,15 +89,12 @@ public class HTMLTextButtonUI extends BasicButtonUI
         int mnemonicIndex = b.getDisplayedMnemonicIndex();
 
         // Draw the Text
-        if (model.isEnabled())
-        {
+        if (model.isEnabled()) {
             // Paint the text normally
             g.setColor(b.getForeground());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex, textRect.x + getTextShiftOffset(),
-                    textRect.y + fm.getAscent() + getTextShiftOffset());
+            BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex, textRect.x + getTextShiftOffset(), textRect.y + fm.getAscent() + getTextShiftOffset());
         }
-        else
-        {
+        else {
             // Paint the text disabled
             g.setColor(b.getBackground().brighter());
             BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex, textRect.x, textRect.y + fm.getAscent());

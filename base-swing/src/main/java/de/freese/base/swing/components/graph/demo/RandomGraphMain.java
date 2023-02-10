@@ -22,33 +22,27 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
 /**
  * @author Thomas Freese
  */
-public final class RandomGraphMain
-{
-    public static void main(final String[] args)
-    {
+public final class RandomGraphMain {
+    public static void main(final String[] args) {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
         GraphicsDevice[] gds = ge.getScreenDevices();
 
-        for (GraphicsDevice gd : gds)
-        {
+        for (GraphicsDevice gd : gds) {
             boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
-            if (!isPerPixelTranslucencySupported)
-            {
+            if (!isPerPixelTranslucencySupported) {
                 System.out.println("Per-pixel translucency is not supported on device " + gd.getIDstring());
                 System.exit(0);
             }
         }
 
-        LineGraphPainter linePainter = new LineGraphPainter()
-        {
+        LineGraphPainter linePainter = new LineGraphPainter() {
             /**
              * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
              */
             @Override
-            protected float getYKoordinate(final float value, final float height)
-            {
+            protected float getYKoordinate(final float value, final float height) {
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
                 // return value * height;
 
@@ -61,14 +55,12 @@ public final class RandomGraphMain
         DefaultGraphComponent lineGraph = new DefaultGraphComponent(linePainter);
         lineGraph.useBufferedImage(false);
 
-        BarGraphPainter barPainter = new BarGraphPainter()
-        {
+        BarGraphPainter barPainter = new BarGraphPainter() {
             /**
              * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
              */
             @Override
-            protected float getYKoordinate(final float value, final float height)
-            {
+            protected float getYKoordinate(final float value, final float height) {
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
                 // return value * height;
 
@@ -84,8 +76,7 @@ public final class RandomGraphMain
         Supplier<Float> valueSupplier = new SinusValueSupplier();
 
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
-        scheduledExecutorService.scheduleWithFixedDelay(() ->
-        {
+        scheduledExecutorService.scheduleWithFixedDelay(() -> {
             float value = valueSupplier.get();
             linePainter.getValues().addValue(value);
             barPainter.getValues().addValue(value);
@@ -96,8 +87,7 @@ public final class RandomGraphMain
 
         boolean translucency = false;
 
-        if (translucency)
-        {
+        if (translucency) {
             // Sonst kommt Exception: The frame is getDecoratedMap
             JFrame.setDefaultLookAndFeelDecorated(true);
         }
@@ -108,13 +98,11 @@ public final class RandomGraphMain
         // frame.setOpacity(0.55F);
         frame.setResizable(true);
 
-        if (translucency)
-        {
+        if (translucency) {
             frame.setBackground(new Color(0, 0, 0, 0));
             frame.setIgnoreRepaint(true);
         }
-        else
-        {
+        else {
             frame.setBackground(Color.BLACK);
         }
 
@@ -153,8 +141,7 @@ public final class RandomGraphMain
         SwingUtilities.invokeLater(() -> frame.setVisible(true));
     }
 
-    private RandomGraphMain()
-    {
+    private RandomGraphMain() {
         super();
     }
 }

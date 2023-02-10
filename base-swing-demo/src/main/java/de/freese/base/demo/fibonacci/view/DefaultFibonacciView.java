@@ -15,19 +15,16 @@ import de.freese.base.swing.task.inputblocker.DefaultInputBlocker;
 /**
  * @author Thomas Freese
  */
-public class DefaultFibonacciView extends AbstractView implements FibonacciView
-{
+public class DefaultFibonacciView extends AbstractView implements FibonacciView {
     private FibonacciController controller;
 
     @Override
-    public FibonacciPanel getComponent()
-    {
+    public FibonacciPanel getComponent() {
         return (FibonacciPanel) super.getComponent();
     }
 
     @Override
-    public FibonacciView initComponent(final ApplicationContext applicationContext)
-    {
+    public FibonacciView initComponent(final ApplicationContext applicationContext) {
         super.initComponent(applicationContext);
 
         FibonacciPanel fibonacciPanel = new FibonacciPanel();
@@ -48,8 +45,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
 
         controller = new FibonacciController(this);
 
-        fibonacciPanel.getButtonGlassPaneBlock().addActionListener(event ->
-        {
+        fibonacciPanel.getButtonGlassPaneBlock().addActionListener(event -> {
             setResult(0);
 
             // Task mit GlassPaneInputBlocker
@@ -64,8 +60,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
             applicationContext.getService(TaskManager.class).execute(task);
         });
 
-        fibonacciPanel.getButtonComponentBlock().addActionListener(event ->
-        {
+        fibonacciPanel.getButtonComponentBlock().addActionListener(event -> {
             setResult(0);
 
             // Task mit ComponentInputBlocker
@@ -84,8 +79,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
     }
 
     @Override
-    public void release()
-    {
+    public void release() {
         getService(GuiStateManager.class).store(getComponent().getTextField(), "fibonacci.textfield");
 
         this.controller.shutdown();
@@ -95,15 +89,13 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView
      * @see FibonacciView#setResult(long)
      */
     @Override
-    public void setResult(final long value)
-    {
+    public void setResult(final long value) {
         String text = getResourceMap().getString("fibonacci.result", value);
         getComponent().getLabelResult().setText(text);
     }
 
     @Override
-    protected ResourceMap getResourceMap()
-    {
+    protected ResourceMap getResourceMap() {
         return getApplicationContext().getResourceMap("bundles/fibonacci");
     }
 }

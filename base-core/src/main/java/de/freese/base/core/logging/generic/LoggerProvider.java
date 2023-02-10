@@ -5,10 +5,8 @@ package de.freese.base.core.logging.generic;
  * @author Thomas Freese
  */
 @FunctionalInterface
-interface LoggerProvider
-{
-    default Logger createLogger(Class<?> clazz)
-    {
+interface LoggerProvider {
+    default Logger createLogger(Class<?> clazz) {
         return createLogger(clazz.getName());
     }
 

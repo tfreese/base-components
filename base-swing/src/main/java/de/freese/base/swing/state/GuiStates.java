@@ -11,18 +11,15 @@ import java.util.function.Consumer;
 /**
  * @author Thomas Freese
  */
-public final class GuiStates
-{
-    public static GuiStates ofDefaults()
-    {
+public final class GuiStates {
+    public static GuiStates ofDefaults() {
         GuiStates guiStates = new GuiStates();
         guiStates.customize(GuiStates::defaultConverters);
 
         return guiStates;
     }
 
-    private static void defaultConverters(Set<Class<? extends GuiState>> guiStates)
-    {
+    private static void defaultConverters(Set<Class<? extends GuiState>> guiStates) {
         guiStates.add(ButtonGuiState.class);
         guiStates.add(ComboBoxGuiState.class);
         guiStates.add(ContainerGuiState.class);
@@ -39,47 +36,37 @@ public final class GuiStates
     private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
     private final Set<Class<? extends GuiState>> states = new HashSet<>();
 
-    private GuiStates()
-    {
+    private GuiStates() {
         super();
     }
 
-    public void customize(Consumer<Set<Class<? extends GuiState>>> guiStatesCustomizer)
-    {
+    public void customize(Consumer<Set<Class<? extends GuiState>>> guiStatesCustomizer) {
         guiStatesCustomizer.accept(states);
     }
 
-    public Class<GuiState>[] getGuiStates()
-    {
+    public Class<GuiState>[] getGuiStates() {
         return states.stream().toArray(Class[]::new);
     }
 
-    public GuiState getState(final Class<? extends Component> componentClass)
-    {
-        for (Class<? extends GuiState> stateClass : states)
-        {
+    public GuiState getState(final Class<? extends Component> componentClass) {
+        for (Class<? extends GuiState> stateClass : states) {
             GuiState state = this.instanceMap.get(stateClass);
 
-            if (state == null)
-            {
-                try
-                {
+            if (state == null) {
+                try {
                     state = stateClass.getDeclaredConstructor().newInstance();
                 }
-                catch (RuntimeException ex)
-                {
+                catch (RuntimeException ex) {
                     throw ex;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
 
                 this.instanceMap.put(stateClass, state);
             }
 
-            if (state.supportsType(componentClass))
-            {
+            if (state.supportsType(componentClass)) {
                 return state;
             }
         }

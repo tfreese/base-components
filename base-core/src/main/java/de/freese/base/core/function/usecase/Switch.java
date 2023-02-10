@@ -24,21 +24,17 @@ import java.util.stream.Stream;
  *
  * @author Thomas Freese
  */
-public final class Switch<T>
-{
+public final class Switch<T> {
     /**
      * @author Thomas Freese
      * @see Switch
      */
-    public static final class Case<T>
-    {
-        public static <T> Case<T> matchCase(final BooleanSupplier condition, final Supplier<T> value)
-        {
+    public static final class Case<T> {
+        public static <T> Case<T> matchCase(final BooleanSupplier condition, final Supplier<T> value) {
             return new Case<>(condition, value);
         }
 
-        public static <T> Case<T> matchDefault(final Supplier<T> value)
-        {
+        public static <T> Case<T> matchDefault(final Supplier<T> value) {
             return new Case<>(() -> true, value);
         }
 
@@ -46,8 +42,7 @@ public final class Switch<T>
 
         private final Supplier<T> value;
 
-        private Case(final BooleanSupplier condition, final Supplier<T> value)
-        {
+        private Case(final BooleanSupplier condition, final Supplier<T> value) {
             super();
 
             this.condition = Objects.requireNonNull(condition, "condition required");
@@ -56,8 +51,7 @@ public final class Switch<T>
     }
 
     @SafeVarargs
-    public static <T> Optional<T> match(final Case<T> defaultCase, final Case<T>... matchers)
-    {
+    public static <T> Optional<T> match(final Case<T> defaultCase, final Case<T>... matchers) {
         Objects.requireNonNull(defaultCase, "defaultCase required");
         Objects.requireNonNull(matchers, "matchers required");
 
@@ -72,8 +66,7 @@ public final class Switch<T>
         return Optional.ofNullable(result);
     }
 
-    private Switch()
-    {
+    private Switch() {
         super();
     }
 }

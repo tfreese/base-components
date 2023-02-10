@@ -10,10 +10,8 @@ import de.freese.base.swing.task.DurationStatistikTaskListener;
  *
  * @author Thomas Freese
  */
-public class DurationStatistikTask extends AbstractSwingTask<Void, Void>
-{
-    public DurationStatistikTask()
-    {
+public class DurationStatistikTask extends AbstractSwingTask<Void, Void> {
+    public DurationStatistikTask() {
         super();
 
         setTitle("TaskStatistik");
@@ -23,12 +21,10 @@ public class DurationStatistikTask extends AbstractSwingTask<Void, Void>
      * @see javax.swing.SwingWorker#doInBackground()
      */
     @Override
-    protected Void doInBackground() throws Exception
-    {
+    protected Void doInBackground() throws Exception {
         getLogger().info("Started");
 
-        for (int i = 0; i < 50; i++)
-        {
+        for (int i = 0; i < 50; i++) {
             TimeUnit.MILLISECONDS.sleep(100);
         }
 

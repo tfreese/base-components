@@ -8,7 +8,6 @@ import java.beans.PropertyChangeSupport;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface SupportsPropertyChange
-{
+public interface SupportsPropertyChange {
     PropertyChangeSupport getPropertyChangeSupport();
 }

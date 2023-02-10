@@ -9,10 +9,8 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Thomas Freese
  */
-public class StringOutputStream extends ByteArrayOutputStream
-{
-    public void write(final CharSequence value) throws IOException
-    {
+public class StringOutputStream extends ByteArrayOutputStream {
+    public void write(final CharSequence value) throws IOException {
         super.write(value.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

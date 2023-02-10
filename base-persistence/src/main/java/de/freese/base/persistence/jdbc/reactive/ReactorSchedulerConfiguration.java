@@ -26,16 +26,13 @@ import reactor.core.scheduler.Schedulers;
  * @author Thomas Freese
  */
 @Configuration
-public class ReactorSchedulerConfiguration
-{
+public class ReactorSchedulerConfiguration {
     private final Scheduler scheduler;
 
-    public ReactorSchedulerConfiguration(@Value("${spring.datasource.maximum-pool-size}") final int connectionPoolSize)
-    {
+    public ReactorSchedulerConfiguration(@Value("${spring.datasource.maximum-pool-size}") final int connectionPoolSize) {
         super();
 
-        if (connectionPoolSize <= 0)
-        {
+        if (connectionPoolSize <= 0) {
             throw new IllegalArgumentException("connectionPoolSize <= 0: " + connectionPoolSize);
         }
 
@@ -43,8 +40,7 @@ public class ReactorSchedulerConfiguration
     }
 
     @Bean
-    public Scheduler jdbcScheduler()
-    {
+    public Scheduler jdbcScheduler() {
         return this.scheduler;
     }
 }

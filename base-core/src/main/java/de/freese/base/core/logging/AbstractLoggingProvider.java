@@ -7,12 +7,10 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public abstract class AbstractLoggingProvider implements LoggingProvider
-{
+public abstract class AbstractLoggingProvider implements LoggingProvider {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected AbstractLoggingProvider()
-    {
+    protected AbstractLoggingProvider() {
         super();
     }
 
@@ -20,8 +18,7 @@ public abstract class AbstractLoggingProvider implements LoggingProvider
      * @see de.freese.base.core.logging.LoggingProvider#getLogger()
      */
     @Override
-    public Logger getLogger()
-    {
+    public Logger getLogger() {
         return this.logger;
     }
 }

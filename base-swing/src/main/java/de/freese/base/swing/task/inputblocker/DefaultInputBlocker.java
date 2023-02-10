@@ -10,38 +10,31 @@ import javax.swing.Action;
  *
  * @author Thomas Freese
  */
-public class DefaultInputBlocker extends AbstractInputBlocker<Object>
-{
-    public DefaultInputBlocker()
-    {
+public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
+    public DefaultInputBlocker() {
         this(true);
     }
 
-    public DefaultInputBlocker(final boolean changeMouseCursor)
-    {
+    public DefaultInputBlocker(final boolean changeMouseCursor) {
         super();
 
         setChangeMouseCursor(changeMouseCursor);
     }
 
-    public DefaultInputBlocker add(final Action action, final Action... actions)
-    {
+    public DefaultInputBlocker add(final Action action, final Action... actions) {
         addTarget(action);
 
-        for (Action a : actions)
-        {
+        for (Action a : actions) {
             addTarget(a);
         }
 
         return this;
     }
 
-    public DefaultInputBlocker add(final Component component, final Component... components)
-    {
+    public DefaultInputBlocker add(final Component component, final Component... components) {
         addTarget(component);
 
-        for (Component c : components)
-        {
+        for (Component c : components) {
             addTarget(c);
         }
 
@@ -49,12 +42,10 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     }
 
     @SuppressWarnings("unchecked")
-    public DefaultInputBlocker add(final Consumer<Boolean> consumer, final Consumer<Boolean>... consumers)
-    {
+    public DefaultInputBlocker add(final Consumer<Boolean> consumer, final Consumer<Boolean>... consumers) {
         addTarget(consumer);
 
-        for (Consumer<Boolean> c : consumers)
-        {
+        for (Consumer<Boolean> c : consumers) {
             addTarget(c);
         }
 
@@ -64,29 +55,21 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#block()
      */
-    @SuppressWarnings(
-            {
-                    "unchecked", "rawtypes"
-            })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void block()
-    {
+    public void block() {
         setMouseCursorBusy(true);
 
         boolean enabled = false;
 
-        for (Object target : getTargets())
-        {
-            if (target instanceof Component c)
-            {
+        for (Object target : getTargets()) {
+            if (target instanceof Component c) {
                 c.setEnabled(enabled);
             }
-            else if (target instanceof Action a)
-            {
+            else if (target instanceof Action a) {
                 a.setEnabled(enabled);
             }
-            else if (target instanceof Consumer c)
-            {
+            else if (target instanceof Consumer c) {
                 c.accept(enabled);
             }
         }
@@ -95,27 +78,19 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object>
     /**
      * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
      */
-    @SuppressWarnings(
-            {
-                    "unchecked", "rawtypes"
-            })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void unblock()
-    {
+    public void unblock() {
         boolean enabled = true;
 
-        for (Object target : getTargets())
-        {
-            if (target instanceof Component c)
-            {
+        for (Object target : getTargets()) {
+            if (target instanceof Component c) {
                 c.setEnabled(enabled);
             }
-            else if (target instanceof Action a)
-            {
+            else if (target instanceof Action a) {
                 a.setEnabled(enabled);
             }
-            else if (target instanceof Consumer c)
-            {
+            else if (target instanceof Consumer c) {
                 c.accept(enabled);
             }
         }

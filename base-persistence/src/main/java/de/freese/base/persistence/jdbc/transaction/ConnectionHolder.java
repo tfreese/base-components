@@ -10,8 +10,7 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public final class ConnectionHolder
-{
+public final class ConnectionHolder {
     private static final ThreadLocal<Connection> THREAD_LOCAL = new ThreadLocal<>();
 
     /**
@@ -21,18 +20,15 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    public static void beginTX() throws SQLException
-    {
+    public static void beginTX() throws SQLException {
         Connection connection = get();
 
         // ReadOnly Flag ändern geht nur ausserhalb einer TX.
-        if (connection.isReadOnly())
-        {
+        if (connection.isReadOnly()) {
             connection.setReadOnly(false);
         }
 
-        if (connection.getAutoCommit())
-        {
+        if (connection.getAutoCommit()) {
             connection.setAutoCommit(false);
         }
     }
@@ -45,10 +41,8 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    public static void close() throws SQLException
-    {
-        try (Connection connection = get())
-        {
+    public static void close() throws SQLException {
+        try (Connection connection = get()) {
             connection.setAutoCommit(true);
             connection.setReadOnly(true); // ReadOnly Flag ändern geht nur ausserhalb einer TX.
         }
@@ -63,8 +57,7 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    public static void commitTX() throws SQLException
-    {
+    public static void commitTX() throws SQLException {
         get().commit();
     }
 
@@ -75,8 +68,7 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    public static Connection get()
-    {
+    public static Connection get() {
         Connection connection = THREAD_LOCAL.get();
 
         return Objects.requireNonNull(connection, "connection required, call #set(Connection) first");
@@ -85,16 +77,14 @@ public final class ConnectionHolder
     /**
      * Liefert true, wenn der aktuelle Thread keine {@link Connection} hat.
      */
-    public static boolean isEmpty()
-    {
+    public static boolean isEmpty() {
         return THREAD_LOCAL.get() == null;
     }
 
     /**
      * Entfernt die {@link Connection} für den aktuellen Thread.
      */
-    public static void remove()
-    {
+    public static void remove() {
         THREAD_LOCAL.remove();
     }
 
@@ -105,8 +95,7 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    public static void rollbackTX() throws SQLException
-    {
+    public static void rollbackTX() throws SQLException {
         get().rollback();
     }
 
@@ -117,10 +106,8 @@ public final class ConnectionHolder
      * @see #isEmpty()
      * @see #set(Connection)
      */
-    public static void set(final Connection connection)
-    {
-        if (THREAD_LOCAL.get() != null)
-        {
+    public static void set(final Connection connection) {
+        if (THREAD_LOCAL.get() != null) {
             throw new IllegalStateException("connection already set, call #remove() first");
         }
 
@@ -129,8 +116,7 @@ public final class ConnectionHolder
         THREAD_LOCAL.set(connection);
     }
 
-    private ConnectionHolder()
-    {
+    private ConnectionHolder() {
         super();
     }
 }

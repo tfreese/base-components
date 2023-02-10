@@ -10,14 +10,12 @@ import javax.swing.tree.TreeCellRenderer;
 /**
  * @author Thomas Freese
  */
-public class TreeFontChangeHandler extends ComponentFontChangeHandler
-{
+public class TreeFontChangeHandler extends ComponentFontChangeHandler {
     /**
      * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
      */
     @Override
-    public void fontChanged(final Font newFont, final Object object)
-    {
+    public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
         JTree tree = (JTree) object;
@@ -29,8 +27,7 @@ public class TreeFontChangeHandler extends ComponentFontChangeHandler
         // CellRenderer
         TreeCellRenderer cellRenderer = tree.getCellRenderer();
 
-        if (cellRenderer instanceof Component)
-        {
+        if (cellRenderer instanceof Component) {
             super.fontChanged(newFont, cellRenderer);
         }
 
@@ -38,8 +35,7 @@ public class TreeFontChangeHandler extends ComponentFontChangeHandler
         TreeCellEditor cellEditor = tree.getCellEditor();
         Component cellEditorComponent = cellEditor.getTreeCellEditorComponent(tree, tree.getModel().getRoot(), false, false, false, 0);
 
-        if (cellEditorComponent != null)
-        {
+        if (cellEditorComponent != null) {
             super.fontChanged(newFont, cellEditorComponent);
         }
     }

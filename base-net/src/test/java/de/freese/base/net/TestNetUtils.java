@@ -12,29 +12,27 @@ import java.net.NetworkInterface;
 import java.time.LocalDateTime;
 import java.util.Enumeration;
 
-import de.freese.base.utils.NetUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+import de.freese.base.utils.NetUtils;
+
 /**
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestNetUtils
-{
+class TestNetUtils {
     @BeforeAll
-    static void beforeAll()
-    {
+    static void beforeAll() {
         // enableProxy();
     }
 
     /**
      * Aktiviert die Proxy-Kommunikation.
      */
-    static void enableProxy()
-    {
+    static void enableProxy() {
         String proxy = "...";
         // DNS-Auflösung konfigurieren.
         // System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
@@ -82,42 +80,35 @@ class TestNetUtils
     }
 
     @Test
-    void testLocalHost() throws Exception
-    {
+    void testLocalHost() throws Exception {
         String hostName = null;
 
-        try
-        {
+        try {
             hostName = InetAddress.getLocalHost().getHostName();
             assertNotNull(hostName);
             System.out.printf("InetAddress.getLocalHost: %s%n", hostName);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
             System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
         }
 
         // Cross Platform (Windows, Linux, Unix, Mac)
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream())))
-        {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream()))) {
             hostName = br.readLine();
             assertNotNull(hostName);
             System.out.printf("CMD 'hostname': %s%n", hostName);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
             System.out.printf("CMD 'hostname': %s%n", ex.getMessage());
         }
 
-        try
-        {
+        try {
             // List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
-            while (interfaces.hasMoreElements())
-            {
+            while (interfaces.hasMoreElements()) {
                 NetworkInterface nic = interfaces.nextElement();
 
                 // nic.getInterfaceAddresses().forEach(System.out::println);
@@ -125,24 +116,20 @@ class TestNetUtils
                 // Stream<InetAddress> addresses = nic.inetAddresses();
                 Enumeration<InetAddress> addresses = nic.getInetAddresses();
 
-                while (addresses.hasMoreElements())
-                {
+                while (addresses.hasMoreElements()) {
                     InetAddress address = addresses.nextElement();
 
-                    if (!address.isLoopbackAddress() && (address instanceof Inet4Address))
-                    {
+                    if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
                         System.out.printf("NetworkInterface IPv4: %s%n", hostName);
                     }
-                    else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress())
-                    {
+                    else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
                         System.out.printf("NetworkInterface IPv6: %s%n", hostName);
                     }
-                    else if (!address.isLoopbackAddress())
-                    {
+                    else if (!address.isLoopbackAddress()) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
                         System.out.printf("NetworkInterface IPv6 Link: %s%n", hostName);
@@ -150,15 +137,13 @@ class TestNetUtils
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
     }
 
     @Test
-    void testPtbZeit() throws Exception
-    {
+    void testPtbZeit() throws Exception {
         LocalDateTime ptbTime = NetUtils.getPtbTime();
         assertNotNull(ptbTime);
 
@@ -166,8 +151,7 @@ class TestNetUtils
     }
 
     @Test
-    void testValidHost() throws Exception
-    {
+    void testValidHost() throws Exception {
         boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
         assertTrue(validHost);
     }

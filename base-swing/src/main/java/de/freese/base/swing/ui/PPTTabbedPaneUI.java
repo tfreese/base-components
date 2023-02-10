@@ -12,10 +12,8 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 /**
  *
  */
-public class PPTTabbedPaneUI extends BasicTabbedPaneUI
-{
-    public static ComponentUI createUI(final JComponent c)
-    {
+public class PPTTabbedPaneUI extends BasicTabbedPaneUI {
+    public static ComponentUI createUI(final JComponent c) {
         return new PPTTabbedPaneUI();
     }
 
@@ -24,11 +22,8 @@ public class PPTTabbedPaneUI extends BasicTabbedPaneUI
      * java.awt.Rectangle, boolean)
      */
     @Override
-    protected void paintText(final Graphics g, final int tabPlacement, final Font font, final FontMetrics metrics, final int tabIndex, final String title,
-                             final Rectangle textRect, final boolean isSelected)
-    {
-        if (isSelected)
-        {
+    protected void paintText(final Graphics g, final int tabPlacement, final Font font, final FontMetrics metrics, final int tabIndex, final String title, final Rectangle textRect, final boolean isSelected) {
+        if (isSelected) {
             Font boldFont = this.tabPane.getFont().deriveFont(Font.BOLD);
             FontMetrics boldFontMetrics = this.tabPane.getFontMetrics(boldFont);
 
@@ -37,8 +32,7 @@ public class PPTTabbedPaneUI extends BasicTabbedPaneUI
 
             super.paintText(g, tabPlacement, boldFont, boldFontMetrics, tabIndex, title, textRect, isSelected);
         }
-        else
-        {
+        else {
             super.paintText(g, tabPlacement, font, metrics, tabIndex, title, textRect, isSelected);
         }
     }

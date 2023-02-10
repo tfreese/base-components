@@ -16,12 +16,10 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class FileResourceCache extends AbstractResourceCache
-{
+public class FileResourceCache extends AbstractResourceCache {
     private final Path cacheDirectory;
 
-    public FileResourceCache(final Path cacheDirectory)
-    {
+    public FileResourceCache(final Path cacheDirectory) {
         super();
 
         this.cacheDirectory = Objects.requireNonNull(cacheDirectory, "cacheDirectory required");
@@ -31,23 +29,18 @@ public class FileResourceCache extends AbstractResourceCache
      * @see ResourceCache#clear()
      */
     @Override
-    public void clear()
-    {
-        try
-        {
-            if (!Files.exists(this.cacheDirectory))
-            {
+    public void clear() {
+        try {
+            if (!Files.exists(this.cacheDirectory)) {
                 return;
             }
-            
-            Files.walkFileTree(getCacheDirectory(), new SimpleFileVisitor<>()
-            {
+
+            Files.walkFileTree(getCacheDirectory(), new SimpleFileVisitor<>() {
                 /**
                  * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
                  */
                 @Override
-                public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException
-                {
+                public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
                     Files.delete(dir);
 
                     return FileVisitResult.CONTINUE;
@@ -57,16 +50,14 @@ public class FileResourceCache extends AbstractResourceCache
                  * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
                  */
                 @Override
-                public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException
-                {
+                public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                     Files.delete(file);
 
                     return FileVisitResult.CONTINUE;
                 }
             });
         }
-        catch (final Exception ex)
-        {
+        catch (final Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
     }
@@ -75,26 +66,22 @@ public class FileResourceCache extends AbstractResourceCache
      * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URI)
      */
     @Override
-    public InputStream getResource(final URI uri) throws Exception
-    {
+    public InputStream getResource(final URI uri) throws Exception {
         String key = generateKey(uri);
 
         Path path = getCacheDirectory();
 
         // Build Structure in the Cache-Directory.
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             path = path.resolve(key.substring(i * 2, (i * 2) + 2));
         }
 
         path = path.resolve(key);
 
-        if (!Files.exists(path))
-        {
+        if (!Files.exists(path)) {
             Files.createDirectories(path.getParent());
 
-            try (InputStream inputStream = toInputStream(uri))
-            {
+            try (InputStream inputStream = toInputStream(uri)) {
                 Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
             }
         }
@@ -102,8 +89,7 @@ public class FileResourceCache extends AbstractResourceCache
         return Files.newInputStream(path, StandardOpenOption.READ);
     }
 
-    protected Path getCacheDirectory()
-    {
+    protected Path getCacheDirectory() {
         return this.cacheDirectory;
     }
 }

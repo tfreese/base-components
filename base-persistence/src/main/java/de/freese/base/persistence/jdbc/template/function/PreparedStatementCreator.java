@@ -11,7 +11,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface PreparedStatementCreator
-{
+public interface PreparedStatementCreator {
     PreparedStatement createPreparedStatement(Connection connection) throws SQLException;
 }

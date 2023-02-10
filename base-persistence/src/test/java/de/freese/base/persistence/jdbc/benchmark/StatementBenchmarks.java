@@ -26,36 +26,28 @@ import org.openjdk.jmh.infra.Blackhole;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
 // @org.junit.platform.commons.annotation.Testable
-public class StatementBenchmarks extends BenchmarkSettings
-{
+public class StatementBenchmarks extends BenchmarkSettings {
     /**
      * @author Thomas Freese
      */
     @State(Scope.Benchmark)
-    public static class ConnectionHolder
-    {
+    public static class ConnectionHolder {
         private final Connection derby;
         private final Connection h2;
         private final Connection hsqldb;
 
         private Connection connection;
 
-        @Param(
-                {
-                        "h2", "hsqldb", "derby"
-                })
+        @Param({"h2", "hsqldb", "derby"})
         private String db;
 
-        public ConnectionHolder()
-        {
-            try
-            {
+        public ConnectionHolder() {
+            try {
                 this.derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
                 this.h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");
                 this.hsqldb = DriverManager.getConnection("jdbc:hsqldb:mem:jmh;shutdown=false", "sa", "");
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -68,45 +60,36 @@ public class StatementBenchmarks extends BenchmarkSettings
          * Multiple Methods possible with different {@link Level}.
          */
         @Setup
-        public void setup()
-        {
-            this.connection = switch (this.db)
-                    {
-                        case "h2" -> this.h2;
-                        case "hsqldb" -> this.hsqldb;
-                        case "derby" -> this.derby;
-                        default -> throw new IllegalStateException("Unknown Database: " + this.db);
-                    };
+        public void setup() {
+            this.connection = switch (this.db) {
+                case "h2" -> this.h2;
+                case "hsqldb" -> this.hsqldb;
+                case "derby" -> this.derby;
+                default -> throw new IllegalStateException("Unknown Database: " + this.db);
+            };
         }
 
         /**
          * Multiple Methods possible with different {@link Level}.
          */
         @TearDown
-        public void tearDown()
-        {
+        public void tearDown() {
             this.connection = null;
         }
 
-        private void populateDb(final Connection connection)
-        {
-            try (Statement statement = connection.createStatement())
-            {
+        private void populateDb(final Connection connection) {
+            try (Statement statement = connection.createStatement()) {
                 String dbName = connection.getMetaData().getDatabaseProductName();
 
-                if (dbName.toLowerCase().contains("derby"))
-                {
-                    try
-                    {
+                if (dbName.toLowerCase().contains("derby")) {
+                    try {
                         statement.execute("DROP TABLE simple_test");
                     }
-                    catch (SQLException ex)
-                    {
+                    catch (SQLException ex) {
                         // Empty
                     }
                 }
-                else
-                {
+                else {
                     statement.execute("DROP TABLE IF EXISTS simple_test");
                 }
 
@@ -115,24 +98,19 @@ public class StatementBenchmarks extends BenchmarkSettings
                 statement.execute("INSERT INTO simple_test VALUES('bar')");
                 statement.execute("INSERT INTO simple_test VALUES('baz')");
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
 
     @Benchmark
-    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
-    {
-        try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM simple_test WHERE name = ?"))
-        {
+    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
+        try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM simple_test WHERE name = ?")) {
             statement.setString(1, "foo");
 
-            try (ResultSet resultSet = statement.executeQuery())
-            {
-                while (resultSet.next())
-                {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
                     blackhole.consume(resultSet.getString("name"));
                 }
             }
@@ -140,13 +118,9 @@ public class StatementBenchmarks extends BenchmarkSettings
     }
 
     @Benchmark
-    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
-    {
-        try (Statement statement = connectionHolder.connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM simple_test"))
-        {
-            while (resultSet.next())
-            {
+    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
+        try (Statement statement = connectionHolder.connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM simple_test")) {
+            while (resultSet.next()) {
                 blackhole.consume(resultSet.getString("name"));
             }
         }

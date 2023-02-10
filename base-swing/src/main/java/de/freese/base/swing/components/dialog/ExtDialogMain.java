@@ -8,10 +8,8 @@ import javax.swing.JOptionPane;
 /**
  * @author Thomas Freese
  */
-public final class ExtDialogMain
-{
-    public static void main(final String[] args)
-    {
+public final class ExtDialogMain {
+    public static void main(final String[] args) {
         ExtDialogConfig config = new ExtDialogConfig();
         config.setTitle("Test");
         config.setMessageType(JOptionPane.QUESTION_MESSAGE);
@@ -20,8 +18,7 @@ public final class ExtDialogMain
         config.setMessage("Beispieltextdddddddddddddddddddddd<br>dddddddddddddddddddddddddddddddd");
         config.setOwner(null);
         // config.setModal(true);
-        config.setButtonActionListener(0, event ->
-        {
+        config.setButtonActionListener(0, event -> {
             System.out.println("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
             Toolkit.getDefaultToolkit().beep();
         });
@@ -32,9 +29,8 @@ public final class ExtDialogMain
 
         System.out.println(dialog.isYesOrOK());
     }
-    
-    private ExtDialogMain()
-    {
+
+    private ExtDialogMain() {
         super();
     }
 }

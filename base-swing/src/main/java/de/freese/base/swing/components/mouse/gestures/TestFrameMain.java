@@ -40,13 +40,11 @@ import javax.swing.WindowConstants;
 /**
  * Simple test frame.
  */
-public final class TestFrameMain extends JFrame
-{
+public final class TestFrameMain extends JFrame {
     @Serial
     private static final long serialVersionUID = -3351411878765636929L;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         TestFrameMain frame = new TestFrameMain();
         frame.setVisible(true);
     }
@@ -55,8 +53,7 @@ public final class TestFrameMain extends JFrame
 
     private transient MouseGestures mouseGestures = new MouseGestures();
 
-    private TestFrameMain()
-    {
+    private TestFrameMain() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Mouse Gestures Test Frame");
         getContentPane().setLayout(new BorderLayout());
@@ -68,22 +65,15 @@ public final class TestFrameMain extends JFrame
         initMouseGestures();
     }
 
-    private void initControls()
-    {
+    private void initControls() {
         JCheckBox jCheckBoxButton1 = new JCheckBox("Right button");
-        jCheckBoxButton1.addActionListener(event ->
-                mouseGestures.setMouseButton(MouseEvent.BUTTON3_DOWN_MASK)
-        );
+        jCheckBoxButton1.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON3_DOWN_MASK));
 
         JCheckBox jCheckBoxButton2 = new JCheckBox("Middle button");
-        jCheckBoxButton2.addActionListener(event ->
-                mouseGestures.setMouseButton(MouseEvent.BUTTON2_DOWN_MASK)
-        );
+        jCheckBoxButton2.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON2_DOWN_MASK));
 
         JCheckBox jCheckBoxButton3 = new JCheckBox("Left button");
-        jCheckBoxButton3.addActionListener(event ->
-                mouseGestures.setMouseButton(MouseEvent.BUTTON1_DOWN_MASK)
-        );
+        jCheckBoxButton3.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON1_DOWN_MASK));
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(jCheckBoxButton1);
@@ -101,28 +91,22 @@ public final class TestFrameMain extends JFrame
         getContentPane().add(jPanel, BorderLayout.NORTH);
     }
 
-    private void initMouseGestures()
-    {
+    private void initMouseGestures() {
         mouseGestures = new MouseGestures();
-        mouseGestures.addMouseGesturesListener(new MouseGesturesListener()
-        {
+        mouseGestures.addMouseGesturesListener(new MouseGesturesListener() {
             @Override
-            public void gestureMovementRecognized(String currentGesture)
-            {
+            public void gestureMovementRecognized(String currentGesture) {
                 String displayValue = currentGesture.chars().mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining(","));
 
                 setGestureString(displayValue);
             }
 
             @Override
-            public void processGesture(String gesture)
-            {
-                try
-                {
+            public void processGesture(String gesture) {
+                try {
                     TimeUnit.MILLISECONDS.sleep(200);
                 }
-                catch (InterruptedException ex)
-                {
+                catch (InterruptedException ex) {
                     // Empty
                 }
 
@@ -133,18 +117,15 @@ public final class TestFrameMain extends JFrame
         mouseGestures.start();
     }
 
-    private void initSize()
-    {
+    private void initSize() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension size = new Dimension(640, 480);
 
-        if (size.height > screenSize.height)
-        {
+        if (size.height > screenSize.height) {
             size.height = screenSize.height;
         }
 
-        if (size.width > screenSize.width)
-        {
+        if (size.width > screenSize.width) {
             size.width = screenSize.width;
         }
 
@@ -152,16 +133,14 @@ public final class TestFrameMain extends JFrame
         setLocation((screenSize.width - size.width) / 2, (screenSize.height - size.height) / 2);
     }
 
-    private void initStatusBar()
-    {
+    private void initStatusBar() {
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         jPanel.setBorder(BorderFactory.createLoweredBevelBorder());
         jPanel.add(statusLabel);
         getContentPane().add(jPanel, BorderLayout.SOUTH);
     }
 
-    private void setGestureString(String gesture)
-    {
+    private void setGestureString(String gesture) {
         statusLabel.setText("Mouse gesture: " + gesture);
     }
 }

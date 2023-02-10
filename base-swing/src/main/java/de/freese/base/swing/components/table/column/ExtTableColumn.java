@@ -17,8 +17,7 @@ import de.freese.base.swing.components.table.sort.Sort;
  *
  * @author Thomas Freese
  */
-public class ExtTableColumn extends TableColumn
-{
+public class ExtTableColumn extends TableColumn {
     @Serial
     private static final long serialVersionUID = 4220187542201364522L;
 
@@ -32,23 +31,19 @@ public class ExtTableColumn extends TableColumn
 
     private boolean visibleChange = true;
 
-    public ExtTableColumn()
-    {
+    public ExtTableColumn() {
         super();
     }
 
-    public ExtTableColumn(final int modelIndex)
-    {
+    public ExtTableColumn(final int modelIndex) {
         super(modelIndex);
     }
 
-    public ExtTableColumn(final int modelIndex, final int width)
-    {
+    public ExtTableColumn(final int modelIndex, final int width) {
         super(modelIndex, width);
     }
 
-    public ExtTableColumn(final int modelIndex, final int width, final TableCellRenderer cellRenderer, final TableCellEditor cellEditor)
-    {
+    public ExtTableColumn(final int modelIndex, final int width, final TableCellRenderer cellRenderer, final TableCellEditor cellEditor) {
         super(modelIndex, width, cellRenderer, cellEditor);
     }
 
@@ -62,8 +57,7 @@ public class ExtTableColumn extends TableColumn
      *
      * @see #putClientProperty
      */
-    public Object getClientProperty(final Object key)
-    {
+    public Object getClientProperty(final Object key) {
         return ((key == null) || (this.clientProperties == null)) ? null : this.clientProperties.get(key);
     }
 
@@ -71,25 +65,21 @@ public class ExtTableColumn extends TableColumn
      * @see javax.swing.table.TableColumn#getResizable()
      */
     @Override
-    public boolean getResizable()
-    {
+    public boolean getResizable() {
         return super.getResizable() && (getMinWidth() < getMaxWidth());
     }
 
-    public Sort getSort()
-    {
+    public Sort getSort() {
         return this.sort;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         Object header = getHeaderValue();
 
         return header != null ? header.toString() : null;
     }
 
-    public boolean isSortable()
-    {
+    public boolean isSortable() {
         return this.sortable;
     }
 
@@ -100,13 +90,11 @@ public class ExtTableColumn extends TableColumn
      *
      * @see #setVisible
      */
-    public boolean isVisible()
-    {
+    public boolean isVisible() {
         return this.visible;
     }
 
-    public boolean isVisibleChange()
-    {
+    public boolean isVisibleChange() {
         return this.visibleChange;
     }
 
@@ -125,47 +113,39 @@ public class ExtTableColumn extends TableColumn
      * @see #getClientProperty
      * @see javax.swing.JComponent#putClientProperty
      */
-    public void putClientProperty(final Object key, final Object value)
-    {
-        if (key == null)
-        {
+    public void putClientProperty(final Object key, final Object value) {
+        if (key == null) {
             throw new IllegalArgumentException("null key");
         }
 
-        if ((value == null) && (getClientProperty(key) == null))
-        {
+        if ((value == null) && (getClientProperty(key) == null)) {
             return;
         }
 
         Object old = getClientProperty(key);
 
-        if (value == null)
-        {
+        if (value == null) {
             getClientProperties().remove(key);
         }
-        else
-        {
+        else {
             getClientProperties().put(key, value);
         }
 
         firePropertyChange(key.toString(), old, value);
     }
 
-    public void setSort(final Sort sort)
-    {
+    public void setSort(final Sort sort) {
         Sort oldSort = this.sort;
         this.sort = sort;
 
         firePropertyChange("sort", oldSort, sort);
     }
 
-    public void setSortable(final boolean sortable)
-    {
+    public void setSortable(final boolean sortable) {
         this.sortable = sortable;
     }
 
-    public void setTitle(final String title)
-    {
+    public void setTitle(final String title) {
         setHeaderValue(title);
     }
 
@@ -176,16 +156,14 @@ public class ExtTableColumn extends TableColumn
      *
      * @see #setVisible
      */
-    public void setVisible(final boolean visible)
-    {
+    public void setVisible(final boolean visible) {
         boolean oldVisible = this.visible;
         this.visible = visible;
 
         firePropertyChange("visible", oldVisible, visible);
     }
 
-    public void setVisibleChange(final boolean visibleChange)
-    {
+    public void setVisibleChange(final boolean visibleChange) {
         boolean oldVisibleChange = this.visibleChange;
         this.visibleChange = visibleChange;
 
@@ -203,28 +181,22 @@ public class ExtTableColumn extends TableColumn
      * @param oldValue old value of changed property
      * @param newValue new value of changed property
      */
-    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue)
-    {
-        if (((oldValue != null) && !oldValue.equals(newValue)) || ((oldValue == null) && (newValue != null)))
-        {
+    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
+        if (((oldValue != null) && !oldValue.equals(newValue)) || ((oldValue == null) && (newValue != null))) {
             PropertyChangeListener[] pcl = getPropertyChangeListeners();
 
-            if ((pcl != null) && (pcl.length != 0))
-            {
+            if ((pcl != null) && (pcl.length != 0)) {
                 PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
 
-                for (PropertyChangeListener element : pcl)
-                {
+                for (PropertyChangeListener element : pcl) {
                     element.propertyChange(pce);
                 }
             }
         }
     }
 
-    private Map<Object, Object> getClientProperties()
-    {
-        if (this.clientProperties == null)
-        {
+    private Map<Object, Object> getClientProperties() {
+        if (this.clientProperties == null) {
             this.clientProperties = new HashMap<>();
         }
 

@@ -26,30 +26,23 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class DatabasePopulator
-{
+public class DatabasePopulator {
     public static final Logger LOGGER = LoggerFactory.getLogger(DatabasePopulator.class);
 
     private final List<URL> scripts = new ArrayList<>();
 
-    public void addScript(final URL script)
-    {
+    public void addScript(final URL script) {
         this.scripts.add(script);
     }
 
-    public void populate(final Connection connection) throws Exception
-    {
-        for (URL script : this.scripts)
-        {
+    public void populate(final Connection connection) throws Exception {
+        for (URL script : this.scripts) {
             List<String> sqls = getScriptSQLs(script);
 
             // sqls.forEach(System.out::println);
-            try (Statement statement = connection.createStatement())
-            {
-                for (String sql : sqls)
-                {
-                    if (LOGGER.isDebugEnabled())
-                    {
+            try (Statement statement = connection.createStatement()) {
+                for (String sql : sqls) {
+                    if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug(sql);
                     }
 
@@ -63,46 +56,35 @@ public class DatabasePopulator
         }
     }
 
-    public void populate(final DataSource dataSource) throws Exception
-    {
-        try (Connection connection = dataSource.getConnection())
-        {
+    public void populate(final DataSource dataSource) throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
             populate(connection);
         }
     }
 
-    protected List<String> getScriptLines(final URL script) throws Exception
-    {
+    protected List<String> getScriptLines(final URL script) throws Exception {
         List<String> fileLines = null;
 
-        if (script != null)
-        {
+        if (script != null) {
             // Funktioniert nicht, wenn die Skripte in einem anderen Archiv liegen.
             Path path = Paths.get(script.toURI());
 
-            try (Stream<String> lines = Files.lines(path))
-            {
+            try (Stream<String> lines = Files.lines(path)) {
                 fileLines = lines.toList();
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 // Ignore
             }
         }
 
-        if ((fileLines == null) && (script != null))
-        {
+        if ((fileLines == null) && (script != null)) {
             // InputStream inputStream = getClass().getClassLoader().getResourceAsStream(script);
-            try (InputStream inputStream = script.openStream();
-                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader))
-            {
+            try (InputStream inputStream = script.openStream(); InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8); BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
                 fileLines = bufferedReader.lines().toList();
             }
         }
 
-        if (fileLines == null)
-        {
+        if (fileLines == null) {
             return new ArrayList<>();
         }
 
@@ -119,25 +101,21 @@ public class DatabasePopulator
         // @formatter:on
     }
 
-    protected List<String> getScriptSQLs(final URL script) throws Exception
-    {
+    protected List<String> getScriptSQLs(final URL script) throws Exception {
         List<String> scriptLines = getScriptLines(script);
 
         List<String> sqls = new ArrayList<>();
         sqls.add(scriptLines.get(0));
 
         // SQLs sind immer mit einem ';' abgeschlossen.
-        for (int i = 1; i < scriptLines.size(); i++)
-        {
+        for (int i = 1; i < scriptLines.size(); i++) {
             String prevSql = sqls.get(sqls.size() - 1);
             String line = scriptLines.get(i);
 
-            if (!prevSql.endsWith(";"))
-            {
+            if (!prevSql.endsWith(";")) {
                 sqls.set(sqls.size() - 1, prevSql + " " + line);
             }
-            else
-            {
+            else {
                 sqls.add(line);
             }
         }

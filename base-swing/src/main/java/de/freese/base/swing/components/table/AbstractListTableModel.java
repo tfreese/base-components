@@ -15,8 +15,7 @@ import javax.swing.table.TableModel;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractListTableModel<T> extends AbstractTableModel
-{
+public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     @Serial
     private static final long serialVersionUID = 8219964863357772409L;
 
@@ -26,17 +25,14 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
 
     private final transient List<T> list;
 
-    protected AbstractListTableModel(final int columnCount)
-    {
+    protected AbstractListTableModel(final int columnCount) {
         this(columnCount, new ArrayList<>());
     }
 
-    protected AbstractListTableModel(final int columnCount, final List<T> list)
-    {
+    protected AbstractListTableModel(final int columnCount, final List<T> list) {
         super();
 
-        if (columnCount < 0)
-        {
+        if (columnCount < 0) {
             throw new IllegalArgumentException("column count < 0: " + columnCount);
         }
 
@@ -45,13 +41,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    protected AbstractListTableModel(final List<String> columnNames)
-    {
+    protected AbstractListTableModel(final List<String> columnNames) {
         this(columnNames, new ArrayList<>());
     }
 
-    protected AbstractListTableModel(final List<String> columnNames, final List<T> list)
-    {
+    protected AbstractListTableModel(final List<String> columnNames, final List<T> list) {
         super();
 
         this.columnNames = Objects.requireNonNull(columnNames, "columnNames required");
@@ -60,15 +54,13 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         this.list = Objects.requireNonNull(list, "list required");
     }
 
-    public void add(final T object)
-    {
+    public void add(final T object) {
         getList().add(object);
 
         fireTableRowsInserted(getList().size() - 1, getList().size() - 1);
     }
 
-    public void addAll(final Collection<T> objects)
-    {
+    public void addAll(final Collection<T> objects) {
         int sizeOld = getList().size();
 
         getList().addAll(objects);
@@ -76,8 +68,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         fireTableRowsInserted(sizeOld, getList().size() - 1);
     }
 
-    public void clear()
-    {
+    public void clear() {
         getList().clear();
 
         refresh();
@@ -87,16 +78,12 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      */
     @Override
-    public Class<?> getColumnClass(final int columnIndex)
-    {
-        if (getRowCount() != 0)
-        {
-            for (int row = 0; row < getRowCount(); row++)
-            {
+    public Class<?> getColumnClass(final int columnIndex) {
+        if (getRowCount() != 0) {
+            for (int row = 0; row < getRowCount(); row++) {
                 Object object = getValueAt(row, columnIndex);
 
-                if (object != null)
-                {
+                if (object != null) {
                     return object.getClass();
                 }
             }
@@ -109,8 +96,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * @see javax.swing.table.TableModel#getColumnCount()
      */
     @Override
-    public int getColumnCount()
-    {
+    public int getColumnCount() {
         return this.columnCount;
     }
 
@@ -118,18 +104,15 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * @see javax.swing.table.AbstractTableModel#getColumnName(int)
      */
     @Override
-    public String getColumnName(final int column)
-    {
-        if ((getColumnNames() == null) || getColumnNames().isEmpty())
-        {
+    public String getColumnName(final int column) {
+        if ((getColumnNames() == null) || getColumnNames().isEmpty()) {
             return super.getColumnName(column);
         }
 
         return getColumnNames().get(column);
     }
 
-    public T getObjectAt(final int rowIndex)
-    {
+    public T getObjectAt(final int rowIndex) {
         return getList().get(rowIndex);
     }
 
@@ -137,45 +120,37 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
      * @see javax.swing.table.TableModel#getRowCount()
      */
     @Override
-    public int getRowCount()
-    {
+    public int getRowCount() {
         return getList().size();
     }
 
-    public int getRowOf(final T object)
-    {
+    public int getRowOf(final T object) {
         return getList().indexOf(object);
     }
 
-    public Stream<T> getStream()
-    {
+    public Stream<T> getStream() {
         return getList().stream();
     }
 
     /**
      * Fires the TableDataChanged Event.
      */
-    public void refresh()
-    {
+    public void refresh() {
         fireTableDataChanged();
     }
 
-    public void remove(final T object)
-    {
+    public void remove(final T object) {
         int row = getRowOf(object);
 
         getList().remove(object);
 
-        if (row >= 0)
-        {
+        if (row >= 0) {
             fireTableRowsDeleted(row, row);
         }
     }
 
-    public T removeAt(final int rowIndex)
-    {
-        if (rowIndex < 0)
-        {
+    public T removeAt(final int rowIndex) {
+        if (rowIndex < 0) {
             return null;
         }
 
@@ -186,13 +161,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel
         return object;
     }
 
-    protected List<String> getColumnNames()
-    {
+    protected List<String> getColumnNames() {
         return this.columnNames;
     }
 
-    protected List<T> getList()
-    {
+    protected List<T> getList() {
         return this.list;
     }
 }

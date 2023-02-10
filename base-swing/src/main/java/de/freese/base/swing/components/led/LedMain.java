@@ -15,10 +15,8 @@ import de.freese.base.swing.components.led.token.TextToken;
 /**
  * @author Thomas Freese
  */
-public final class LedMain
-{
-    public static void main(final String[] args)
-    {
+public final class LedMain {
+    public static void main(final String[] args) {
         LedPanel ledPanel = new LedPanel();
 
         JFrame frame = new JFrame("LED Panel");
@@ -47,8 +45,7 @@ public final class LedMain
         ledPanel.addToken(new ArrowToken(ArrowDirection.RIGHT));
     }
 
-    private LedMain()
-    {
+    private LedMain() {
         super();
     }
 }

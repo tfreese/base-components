@@ -15,15 +15,12 @@ import javax.swing.SwingConstants;
  *
  * @author Thomas Freese
  */
-public final class ToggleButtonListCellRenderer implements ListCellRenderer<Object>
-{
-    public static ToggleButtonListCellRenderer createCheckBoxRenderer()
-    {
+public final class ToggleButtonListCellRenderer implements ListCellRenderer<Object> {
+    public static ToggleButtonListCellRenderer createCheckBoxRenderer() {
         return new ToggleButtonListCellRenderer(new JCheckBox());
     }
 
-    public static ToggleButtonListCellRenderer createRadioButtonRenderer()
-    {
+    public static ToggleButtonListCellRenderer createRadioButtonRenderer() {
         return new ToggleButtonListCellRenderer(new JRadioButton());
     }
 
@@ -31,8 +28,7 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
 
     private final JToggleButton toggleButton;
 
-    private ToggleButtonListCellRenderer(final JToggleButton toggleButton)
-    {
+    private ToggleButtonListCellRenderer(final JToggleButton toggleButton) {
         super();
 
         this.toggleButton = toggleButton;
@@ -45,18 +41,13 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
      * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
      */
     @Override
-    public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected,
-                                                  final boolean cellHasFocus)
-    {
-        if (value instanceof Boolean b)
-        {
-            if (isSelected)
-            {
+    public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
+        if (value instanceof Boolean b) {
+            if (isSelected) {
                 this.toggleButton.setBackground(list.getSelectionBackground());
                 this.toggleButton.setForeground(list.getSelectionForeground());
             }
-            else
-            {
+            else {
                 this.toggleButton.setBackground(list.getBackground());
                 this.toggleButton.setForeground(list.getForeground());
             }

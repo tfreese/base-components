@@ -14,16 +14,14 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Thomas Freese
  */
-class LoggingJdbcInvocationHandler implements InvocationHandler
-{
+class LoggingJdbcInvocationHandler implements InvocationHandler {
     private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
 
     private final Set<String> logMethods;
 
     private final Object target;
 
-    LoggingJdbcInvocationHandler(final Object target, final Set<String> logMethods)
-    {
+    LoggingJdbcInvocationHandler(final Object target, final Set<String> logMethods) {
         super();
 
         this.target = target;
@@ -34,15 +32,12 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
      * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
-    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable
-    {
-        try
-        {
+    public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+        try {
             boolean logMethod = this.logMethods.contains(method.getName());
 
             // if (LOGGER.isDebugEnabled())
-            if (logMethod)
-            {
+            if (logMethod) {
                 LOGGER.debug("Invoke {}#{}: {}", this.target.getClass().getSimpleName(), method.getName(), args != null ? Arrays.asList(args) : "[]");
             }
 
@@ -55,23 +50,17 @@ class LoggingJdbcInvocationHandler implements InvocationHandler
             // LOGGER.debug(String.format("Result [%dms] %s#%s: %s", end - start, this.target.getClass().getSimpleName(), method.getName(), result));
             // }
 
-            if (result == null)
-            {
+            if (result == null) {
                 return null;
             }
 
-            if (method.getReturnType().isInterface())
-            {
-                return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]
-                        {
-                                method.getReturnType()
-                        }, new LoggingJdbcInvocationHandler(result, this.logMethods));
+            if (method.getReturnType().isInterface()) {
+                return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{method.getReturnType()}, new LoggingJdbcInvocationHandler(result, this.logMethods));
             }
 
             return result;
         }
-        catch (InvocationTargetException ex)
-        {
+        catch (InvocationTargetException ex) {
             throw ex.getCause();
         }
     }

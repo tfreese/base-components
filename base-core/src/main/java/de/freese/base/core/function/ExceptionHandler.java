@@ -5,7 +5,6 @@ package de.freese.base.core.function;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface ExceptionHandler
-{
+public interface ExceptionHandler {
     void handle(Exception ex);
 }

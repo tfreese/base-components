@@ -10,17 +10,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public class LoggerProgressCallback implements ProgressCallback
-{
+public class LoggerProgressCallback implements ProgressCallback {
     private final Logger logger;
 
-    public LoggerProgressCallback()
-    {
+    public LoggerProgressCallback() {
         this(LoggerFactory.getLogger(LoggerProgressCallback.class));
     }
 
-    public LoggerProgressCallback(final Logger logger)
-    {
+    public LoggerProgressCallback(final Logger logger) {
         super();
 
         this.logger = Objects.requireNonNull(logger, "logger required");
@@ -30,10 +27,8 @@ public class LoggerProgressCallback implements ProgressCallback
      * @see de.freese.base.core.progress.ProgressCallback#setProgress(double)
      */
     @Override
-    public void setProgress(final double percentage)
-    {
-        if (this.logger.isInfoEnabled())
-        {
+    public void setProgress(final double percentage) {
+        if (this.logger.isInfoEnabled()) {
             this.logger.info(String.format("%1$3.2f %%", percentage * 100D));
         }
     }

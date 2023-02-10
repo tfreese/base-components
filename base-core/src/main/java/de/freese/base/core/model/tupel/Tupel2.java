@@ -5,19 +5,16 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class Tupel2<A, B>
-{
+public class Tupel2<A, B> {
     private A valueA;
 
     private B valueB;
 
-    public Tupel2()
-    {
+    public Tupel2() {
         super();
     }
 
-    public Tupel2(final A valueA, final B valueB)
-    {
+    public Tupel2(final A valueA, final B valueB) {
         super();
 
         this.valueA = valueA;
@@ -29,14 +26,11 @@ public class Tupel2<A, B>
     }
 
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
@@ -45,29 +39,24 @@ public class Tupel2<A, B>
         return Objects.equals(valueA, tupel2.valueA) && Objects.equals(valueB, tupel2.valueB);
     }
 
-    public final A getValueA()
-    {
+    public final A getValueA() {
         return this.valueA;
     }
 
-    public final B getValueB()
-    {
+    public final B getValueB() {
         return this.valueB;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(valueA, valueB);
     }
 
-    public final void setValueA(final A valueA)
-    {
+    public final void setValueA(final A valueA) {
         this.valueA = valueA;
     }
 
-    public final void setValueB(final B valueB)
-    {
+    public final void setValueB(final B valueB) {
         this.valueB = valueB;
     }
 
@@ -75,8 +64,7 @@ public class Tupel2<A, B>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("A=").append(toString(getValueA()));
         sb.append("; ");
@@ -85,8 +73,7 @@ public class Tupel2<A, B>
         return sb.toString();
     }
 
-    protected String toString(final Object object)
-    {
+    protected String toString(final Object object) {
         return object == null ? "null" : object.toString();
     }
 }

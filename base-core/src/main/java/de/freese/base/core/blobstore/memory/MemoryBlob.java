@@ -10,26 +10,22 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-class MemoryBlob extends AbstractBlob
-{
+class MemoryBlob extends AbstractBlob {
     private final byte[] bytes;
 
-    MemoryBlob(final BlobId id, final byte[] bytes)
-    {
+    MemoryBlob(final BlobId id, final byte[] bytes) {
         super(id);
 
         this.bytes = Objects.requireNonNull(bytes, "bytes required");
     }
 
     @Override
-    public InputStream getInputStream() throws Exception
-    {
+    public InputStream getInputStream() throws Exception {
         return new ByteArrayInputStream(bytes);
     }
 
     @Override
-    public long getLength() throws Exception
-    {
+    public long getLength() throws Exception {
         return bytes.length;
     }
 }

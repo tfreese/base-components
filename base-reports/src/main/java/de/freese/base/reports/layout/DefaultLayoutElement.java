@@ -6,15 +6,12 @@ package de.freese.base.reports.layout;
  *
  * @author Thomas Freese
  */
-public class DefaultLayoutElement extends AbstractLayoutElement
-{
-    public DefaultLayoutElement()
-    {
+public class DefaultLayoutElement extends AbstractLayoutElement {
+    public DefaultLayoutElement() {
         super();
     }
 
-    public DefaultLayoutElement(final String name)
-    {
+    public DefaultLayoutElement(final String name) {
         super(name);
     }
 }

@@ -15,8 +15,7 @@ import javax.swing.tree.TreeSelectionModel;
 /**
  * @author Thomas Freese
  */
-public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
-{
+public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel {
     @Serial
     private static final long serialVersionUID = -7214861962851009038L;
 
@@ -25,14 +24,12 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      *
      * @author Thomas Freese
      */
-    private class ListSelectionHandler implements ListSelectionListener
-    {
+    private class ListSelectionHandler implements ListSelectionListener {
         /**
          * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
          */
         @Override
-        public void valueChanged(final ListSelectionEvent e)
-        {
+        public void valueChanged(final ListSelectionEvent e) {
             updateSelectedPathsFromSelectedRows();
         }
     }
@@ -42,8 +39,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      *
      * @author Thomas Freese
      */
-    private class ThisListSelectionModel extends DefaultListSelectionModel
-    {
+    private class ThisListSelectionModel extends DefaultListSelectionModel {
         @Serial
         private static final long serialVersionUID = 1564334781623965506L;
 
@@ -51,23 +47,19 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
          * @see javax.swing.DefaultListSelectionModel#setSelectionMode(int)
          */
         @Override
-        public void setSelectionMode(final int selectionMode)
-        {
+        public void setSelectionMode(final int selectionMode) {
             super.setSelectionMode(selectionMode);
 
-            if (!CommonTreeAndTableSelectionModel.this.updateTreeSelectionMode)
-            {
+            if (!CommonTreeAndTableSelectionModel.this.updateTreeSelectionMode) {
                 return;
             }
 
             // TreeSelectionModel anpassen
-            switch (selectionMode)
-            {
+            switch (selectionMode) {
                 case ListSelectionModel.SINGLE_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
                 case ListSelectionModel.SINGLE_INTERVAL_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
                 case ListSelectionModel.MULTIPLE_INTERVAL_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-                default ->
-                {
+                default -> {
                     // Empty
                 }
             }
@@ -82,8 +74,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      */
     private boolean updatingListSelectionModel;
 
-    public CommonTreeAndTableSelectionModel(final JTree tree)
-    {
+    public CommonTreeAndTableSelectionModel(final JTree tree) {
         super();
 
         this.listSelectionModel = new ThisListSelectionModel();
@@ -91,8 +82,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
         getListSelectionModel().addListSelectionListener(new ListSelectionHandler());
     }
 
-    public ListSelectionModel getListSelectionModel()
-    {
+    public ListSelectionModel getListSelectionModel() {
         return this.listSelectionModel;
     }
 
@@ -101,18 +91,14 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      * This is the only place DefaultTreeSelectionModel alters the ListSelectionModel.
      */
     @Override
-    public void resetRowSelection()
-    {
-        if (!this.updatingListSelectionModel)
-        {
+    public void resetRowSelection() {
+        if (!this.updatingListSelectionModel) {
             this.updatingListSelectionModel = true;
 
-            try
-            {
+            try {
                 super.resetRowSelection();
             }
-            finally
-            {
+            finally {
                 this.updatingListSelectionModel = false;
             }
         }
@@ -127,20 +113,17 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
      * @see javax.swing.tree.DefaultTreeSelectionModel#setSelectionMode(int)
      */
     @Override
-    public void setSelectionMode(final int mode)
-    {
+    public void setSelectionMode(final int mode) {
         updateTreeSelectionMode(mode);
 
         this.updateTreeSelectionMode = false;
 
         // TableSelectionModel anpassen
-        switch (mode)
-        {
+        switch (mode) {
             case TreeSelectionModel.SINGLE_TREE_SELECTION -> getListSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             case TreeSelectionModel.CONTIGUOUS_TREE_SELECTION -> getListSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
             case TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION -> getListSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-            default ->
-            {
+            default -> {
                 // Empty
             }
         }
@@ -151,14 +134,11 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
     /**
      * If <code>updatingListSelectionModel</code> is false, this will reset the selected paths from the selected rows in the list selection model.
      */
-    private void updateSelectedPathsFromSelectedRows()
-    {
-        if (!this.updatingListSelectionModel)
-        {
+    private void updateSelectedPathsFromSelectedRows() {
+        if (!this.updatingListSelectionModel) {
             this.updatingListSelectionModel = true;
 
-            try
-            {
+            try {
                 // This is way expensive, ListSelectionModel needs an
                 // enumerator for iterating.
                 int min = this.listSelectionModel.getMinSelectionIndex();
@@ -166,24 +146,19 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
 
                 clearSelection();
 
-                if ((min != -1) && (max != -1))
-                {
-                    for (int counter = min; counter <= max; counter++)
-                    {
-                        if (this.listSelectionModel.isSelectedIndex(counter))
-                        {
+                if ((min != -1) && (max != -1)) {
+                    for (int counter = min; counter <= max; counter++) {
+                        if (this.listSelectionModel.isSelectedIndex(counter)) {
                             TreePath selPath = this.tree.getPathForRow(counter);
 
-                            if (selPath != null)
-                            {
+                            if (selPath != null) {
                                 addSelectionPath(selPath);
                             }
                         }
                     }
                 }
             }
-            finally
-            {
+            finally {
                 this.updatingListSelectionModel = false;
             }
         }
@@ -192,8 +167,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel
     /**
      * Aktualisiert den SelectionMode des {@link TreeSelectionModel}s ohne synchronisierung des {@link ListSelectionModel}s.
      */
-    private void updateTreeSelectionMode(final int mode)
-    {
+    private void updateTreeSelectionMode(final int mode) {
         super.setSelectionMode(mode);
     }
 }

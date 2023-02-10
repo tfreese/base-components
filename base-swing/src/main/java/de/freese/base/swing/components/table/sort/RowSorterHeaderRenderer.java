@@ -30,8 +30,7 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
 
     private final TableCellRenderer tableCellRenderer;
 
-    public RowSorterHeaderRenderer(final TableColumnSorter rowSorter, final TableCellRenderer tableCellRenderer)
-    {
+    public RowSorterHeaderRenderer(final TableColumnSorter rowSorter, final TableCellRenderer tableCellRenderer) {
         super();
 
         this.rowSorter = rowSorter;
@@ -44,25 +43,20 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
      * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
      */
     @Override
-    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row,
-                                                   final int column)
-    {
+    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         JComponent component = (JComponent) getTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        if (column == -1)
-        {
+        if (column == -1) {
             return component;
         }
 
         TableColumn tc = table.getColumnModel().getColumn(column);
 
-        if (!(tc instanceof ExtTableColumn tableColumnExt))
-        {
+        if (!(tc instanceof ExtTableColumn tableColumnExt)) {
             return component;
         }
 
-        if (!tableColumnExt.isSortable() || Sort.UNSORTED.equals(tableColumnExt.getSort()))
-        {
+        if (!tableColumnExt.isSortable() || Sort.UNSORTED.equals(tableColumnExt.getSort())) {
             return component;
         }
 
@@ -78,22 +72,19 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         return src;
     }
 
-    protected Icon getIcon(final ExtTableColumn tableColumnExt)
-    {
+    protected Icon getIcon(final ExtTableColumn tableColumnExt) {
         Sort sort = tableColumnExt.getSort();
 
         return (Sort.DESCENDING.equals(sort)) ? ICON_DESCENDING : ICON_ASCENDING;
     }
 
-    protected String getSortPriority(final ExtTableColumn tableColumnExt)
-    {
+    protected String getSortPriority(final ExtTableColumn tableColumnExt) {
         int index = this.rowSorter.getSortPriority(tableColumnExt);
 
         return (index == -1) ? null : ("" + (index + 1));
     }
 
-    protected final TableCellRenderer getTableCellRenderer()
-    {
+    protected final TableCellRenderer getTableCellRenderer() {
         return this.tableCellRenderer;
     }
 

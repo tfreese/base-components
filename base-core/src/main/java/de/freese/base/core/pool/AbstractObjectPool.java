@@ -16,16 +16,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractObjectPool<T> implements ObjectPool<T>
-{
+public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger("ObjectPool");
 
     private final Set<T> busy = new HashSet<>();
 
     private final Queue<T> freeObjects;
 
-    protected AbstractObjectPool()
-    {
+    protected AbstractObjectPool() {
         super();
 
         this.freeObjects = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
@@ -37,12 +35,10 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#borrowObject()
      */
     @Override
-    public T borrowObject()
-    {
+    public T borrowObject() {
         T object = this.freeObjects.poll();
 
-        if (object == null)
-        {
+        if (object == null) {
             object = create();
         }
 
@@ -57,8 +53,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#getNumActive()
      */
     @Override
-    public int getNumActive()
-    {
+    public int getNumActive() {
         return this.busy.size();
     }
 
@@ -66,8 +61,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#getNumIdle()
      */
     @Override
-    public int getNumIdle()
-    {
+    public int getNumIdle() {
         return this.freeObjects.size();
     }
 
@@ -75,10 +69,8 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#returnObject(java.lang.Object)
      */
     @Override
-    public void returnObject(final T object)
-    {
-        if (object == null)
-        {
+    public void returnObject(final T object) {
+        if (object == null) {
             return;
         }
 
@@ -93,19 +85,16 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * @see de.freese.base.core.pool.ObjectPool#shutdown()
      */
     @Override
-    public void shutdown()
-    {
+    public void shutdown() {
         LOGGER.info("Close {}", this);
 
-        while (!this.freeObjects.isEmpty())
-        {
+        while (!this.freeObjects.isEmpty()) {
             T object = this.freeObjects.poll();
 
             doDestroy(object);
         }
 
-        for (Iterator<T> iterator = this.busy.iterator(); iterator.hasNext(); )
-        {
+        for (Iterator<T> iterator = this.busy.iterator(); iterator.hasNext(); ) {
             T object = iterator.next();
 
             doDestroy(object);
@@ -118,20 +107,16 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         String clazzName = null;
 
-        try
-        {
+        try {
             clazzName = tryDetermineObjectClazz().getSimpleName();
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             T object = borrowObject();
 
-            if (object != null)
-            {
+            if (object != null) {
                 clazzName = object.getClass().getSimpleName();
 
                 returnObject(object);
@@ -153,24 +138,21 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
     /**
      * Wird in {@link #borrowObject()} ausgeführt.
      */
-    protected void doActivate(final T object)
-    {
+    protected void doActivate(final T object) {
         // Empty
     }
 
     /**
      * Wird in {@link #shutdown()} ausgeführt.
      */
-    protected void doDestroy(final T object)
-    {
+    protected void doDestroy(final T object) {
         // Empty
     }
 
     /**
      * Wird in {@link #returnObject(Object)} ausgeführt.
      */
-    protected void doPassivate(final T object)
-    {
+    protected void doPassivate(final T object) {
         // Empty
     }
 
@@ -185,8 +167,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T>
      * </pre>
      */
     @SuppressWarnings("unchecked")
-    protected Class<T> tryDetermineObjectClazz() throws ClassCastException
-    {
+    protected Class<T> tryDetermineObjectClazz() throws ClassCastException {
         ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
 
         return (Class<T>) parameterizedType.getActualTypeArguments()[0];

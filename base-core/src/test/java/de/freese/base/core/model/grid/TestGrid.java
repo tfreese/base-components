@@ -19,15 +19,6 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import de.freese.base.core.model.grid.builder.GridBuilder;
-import de.freese.base.core.model.grid.column.BinaryGridColumn;
-import de.freese.base.core.model.grid.column.BooleanGridColumn;
-import de.freese.base.core.model.grid.column.DateGridColumn;
-import de.freese.base.core.model.grid.column.DoubleGridColumn;
-import de.freese.base.core.model.grid.column.GridColumn;
-import de.freese.base.core.model.grid.column.IntegerGridColumn;
-import de.freese.base.core.model.grid.column.LongGridColumn;
-import de.freese.base.core.model.grid.column.StringGridColumn;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -37,6 +28,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import de.freese.base.core.model.grid.builder.GridBuilder;
+import de.freese.base.core.model.grid.column.BinaryGridColumn;
+import de.freese.base.core.model.grid.column.BooleanGridColumn;
+import de.freese.base.core.model.grid.column.DateGridColumn;
+import de.freese.base.core.model.grid.column.DoubleGridColumn;
+import de.freese.base.core.model.grid.column.GridColumn;
+import de.freese.base.core.model.grid.column.IntegerGridColumn;
+import de.freese.base.core.model.grid.column.LongGridColumn;
+import de.freese.base.core.model.grid.column.StringGridColumn;
+
 /**
  * @author Thomas Freese
  */
@@ -45,11 +46,9 @@ import org.mockito.quality.Strictness;
 
 // Sonst müsste pro Test-Methode der Mock als Parameter definiert und konfiguriert werden.
 @MockitoSettings(strictness = Strictness.LENIENT)
-class TestGrid
-{
+class TestGrid {
     @Test
-    void testGridBuilder()
-    {
+    void testGridBuilder() {
         //@formatter:off
        Grid grid = GridBuilder.create()
                .column(new IntegerGridColumn("int"))
@@ -88,8 +87,7 @@ class TestGrid
     }
 
     @Test
-    void testGridMetaSave() throws IOException, ClassNotFoundException
-    {
+    void testGridMetaSave() throws IOException, ClassNotFoundException {
         //@formatter:off
         Grid grid = GridBuilder.create()
                 .column(byte[].class)
@@ -118,8 +116,7 @@ class TestGrid
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try (DataOutputStream dos = new DataOutputStream(baos))
-        {
+        try (DataOutputStream dos = new DataOutputStream(baos)) {
             grid.write(dos);
         }
 
@@ -127,16 +124,14 @@ class TestGrid
 
         GridMetaData gmd2 = new GridMetaData();
 
-        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes)))
-        {
+        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes))) {
             gmd2.readMetaData(dis);
         }
 
         assertEquals(7, grid.columnCount());
         assertEquals(grid.columnCount(), gmd2.columnCount());
 
-        for (int i = 0; i < grid.columnCount(); i++)
-        {
+        for (int i = 0; i < grid.columnCount(); i++) {
             assertEquals(grid.getObjectClazz(i), gmd2.getColumn(i).getObjectClazz());
             assertEquals(grid.getName(i), gmd2.getColumn(i).getName());
             assertEquals(grid.getComment(i), gmd2.getColumn(i).getComment());
@@ -146,17 +141,8 @@ class TestGrid
     }
 
     @Test
-    void testGridResultSet() throws SQLException
-    {
-        Object[][] data = new Object[][]
-                {
-                        {
-                                true, 1.23456D, "nur ein test"
-                        },
-                        {
-                                false, 654321D, "-"
-                        }
-                };
+    void testGridResultSet() throws SQLException {
+        Object[][] data = new Object[][]{{true, 1.23456D, "nur ein test"}, {false, 654321D, "-"}};
 
         ResultSetMetaData metaDataMock = Mockito.mock(ResultSetMetaData.class);
         Mockito.when(metaDataMock.getColumnCount()).then(invocation -> 3);
@@ -180,21 +166,14 @@ class TestGrid
         Mockito.when(resultSetMock.getMetaData()).thenReturn(metaDataMock);
 
         AtomicInteger resultSetIndex = new AtomicInteger(-1);
-        Mockito.when(resultSetMock.next()).then(invocation ->
-        {
+        Mockito.when(resultSetMock.next()).then(invocation -> {
             resultSetIndex.getAndIncrement();
             return resultSetIndex.get() < data.length;
         });
 
-        when(resultSetMock.getObject(1)).then(invocation ->
-                data[resultSetIndex.get()][0]
-        );
-        when(resultSetMock.getObject(2)).then(invocation ->
-                data[resultSetIndex.get()][1]
-        );
-        when(resultSetMock.getObject(3)).then(invocation ->
-                data[resultSetIndex.get()][2]
-        );
+        when(resultSetMock.getObject(1)).then(invocation -> data[resultSetIndex.get()][0]);
+        when(resultSetMock.getObject(2)).then(invocation -> data[resultSetIndex.get()][1]);
+        when(resultSetMock.getObject(3)).then(invocation -> data[resultSetIndex.get()][2]);
 
         Grid grid = new Grid();
         grid.read(resultSetMock);
@@ -220,18 +199,15 @@ class TestGrid
         assertEquals(10, grid.getLength(2));
         assertEquals(10, grid.getPrecision(2));
 
-        for (int r = 0; r < grid.rowCount(); r++)
-        {
-            for (int c = 1; c < grid.columnCount(); c++)
-            {
+        for (int r = 0; r < grid.rowCount(); r++) {
+            for (int c = 1; c < grid.columnCount(); c++) {
                 assertEquals(data[r][c], grid.getValue(c, r));
             }
         }
     }
 
     @Test
-    void testGridSave() throws IOException, ClassNotFoundException
-    {
+    void testGridSave() throws IOException, ClassNotFoundException {
         Grid grid1 = new Grid();
         grid1.addColumn(new BinaryGridColumn());
         grid1.addColumn(new BooleanGridColumn());
@@ -241,28 +217,15 @@ class TestGrid
         grid1.addColumn(new LongGridColumn());
         grid1.addColumn(new StringGridColumn());
 
-        Object[] row1 = new Object[]
-                {
-                        new byte[]
-                                {
-                                        1, 2, 3
-                                }, false, new Date(), 1.23456D, 42, 123456L, "dies ist ein test"
-                };
+        Object[] row1 = new Object[]{new byte[]{1, 2, 3}, false, new Date(), 1.23456D, 42, 123456L, "dies ist ein test"};
         grid1.addRow(row1);
 
-        Object[] row2 = new Object[]
-                {
-                        new byte[]
-                                {
-                                        4, 5, 6
-                                }, true, new Date(System.currentTimeMillis() - 200000), 6.54321D, 24, 654321L, ",.-#äöü+"
-                };
+        Object[] row2 = new Object[]{new byte[]{4, 5, 6}, true, new Date(System.currentTimeMillis() - 200000), 6.54321D, 24, 654321L, ",.-#äöü+"};
         grid1.addRow(row2);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try (DataOutputStream dos = new DataOutputStream(baos))
-        {
+        try (DataOutputStream dos = new DataOutputStream(baos)) {
             grid1.write(dos);
         }
 
@@ -270,8 +233,7 @@ class TestGrid
 
         Grid grid2 = new Grid(new GridMetaData());
 
-        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes)))
-        {
+        try (DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes))) {
             grid2.read(dis);
         }
 
@@ -280,8 +242,7 @@ class TestGrid
         assertEquals(grid1.columnCount(), grid2.columnCount());
         assertEquals(grid1.rowCount(), grid2.rowCount());
 
-        for (int i = 0; i < grid1.columnCount(); i++)
-        {
+        for (int i = 0; i < grid1.columnCount(); i++) {
             assertEquals(grid1.getObjectClazz(i), grid2.getObjectClazz(i));
             assertEquals(grid1.getName(i), grid2.getName(i));
             assertEquals(grid1.getComment(i), grid2.getComment(i));
@@ -289,15 +250,13 @@ class TestGrid
             assertEquals(grid1.getPrecision(i), grid2.getPrecision(i));
         }
 
-        for (int r = 0; r < grid1.rowCount(); r++)
-        {
+        for (int r = 0; r < grid1.rowCount(); r++) {
             byte[] a1 = grid1.getValue(0, r);
             byte[] a2 = grid2.getValue(0, r);
 
             assertArrayEquals(a1, a2);
 
-            for (int c = 1; c < grid1.columnCount(); c++)
-            {
+            for (int c = 1; c < grid1.columnCount(); c++) {
                 Object value1 = grid1.getValue(c, r);
                 Object value2 = grid2.getValue(c, r);
 

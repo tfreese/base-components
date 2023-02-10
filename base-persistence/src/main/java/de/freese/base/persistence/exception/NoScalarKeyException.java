@@ -9,13 +9,11 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Thomas Freese
  */
-class NoScalarKeyException extends DataAccessException
-{
+class NoScalarKeyException extends DataAccessException {
     @Serial
     private static final long serialVersionUID = -8320833456066908985L;
 
-    NoScalarKeyException(final String msg)
-    {
+    NoScalarKeyException(final String msg) {
         super(msg);
     }
 }

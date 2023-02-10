@@ -8,8 +8,7 @@ import de.freese.base.swing.components.led.element.Element;
 /**
  * @author Thomas Freese
  */
-public interface LedConfig extends Element
-{
+public interface LedConfig extends Element {
     Color getColorBackground();
 
     Color getColorBackgroundDot();

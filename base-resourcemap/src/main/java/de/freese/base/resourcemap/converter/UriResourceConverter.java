@@ -6,20 +6,16 @@ import java.net.URISyntaxException;
 /**
  * @author Thomas Freese
  */
-public class UriResourceConverter extends AbstractResourceConverter<URI>
-{
+public class UriResourceConverter extends AbstractResourceConverter<URI> {
     /**
      * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
      */
     @Override
-    public URI convert(final String key, final String value)
-    {
-        try
-        {
+    public URI convert(final String key, final String value) {
+        try {
             return new URI(value);
         }
-        catch (URISyntaxException ex)
-        {
+        catch (URISyntaxException ex) {
             throwException(key, value, "Invalid URI");
         }
 

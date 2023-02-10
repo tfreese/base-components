@@ -14,8 +14,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "ContainerGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ContainerGuiState extends AbstractGuiState
-{
+public class ContainerGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = 3075009969118716461L;
 
@@ -27,13 +26,11 @@ public class ContainerGuiState extends AbstractGuiState
 
     private int y;
 
-    public ContainerGuiState()
-    {
+    public ContainerGuiState() {
         super(Container.class);
     }
 
-    protected ContainerGuiState(final Class<?>... supportedTypes)
-    {
+    protected ContainerGuiState(final Class<?>... supportedTypes) {
         super(supportedTypes);
     }
 
@@ -41,14 +38,12 @@ public class ContainerGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
+    public void restore(final Component component) {
         super.restore(component);
 
         Container container = (Container) component;
 
-        if ((this.width == 0) && (this.height == 0))
-        {
+        if ((this.width == 0) && (this.height == 0)) {
             // Configuration not saved before.
             return;
         }
@@ -60,8 +55,7 @@ public class ContainerGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         super.store(component);
 
         Container container = (Container) component;

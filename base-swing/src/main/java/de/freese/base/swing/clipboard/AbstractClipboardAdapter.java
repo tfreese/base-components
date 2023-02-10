@@ -14,6 +14,9 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.clipboard.converter.BooleanClipboardConverter;
 import de.freese.base.swing.clipboard.converter.DoubleClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.FloatClipBoardConverter;
@@ -21,26 +24,21 @@ import de.freese.base.swing.clipboard.converter.IntegerClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.LongClipBoardConverter;
 import de.freese.base.swing.clipboard.converter.ReflectionClipboardConverter;
 import de.freese.base.swing.clipboard.converter.StringClipboardConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * BasisAdapter einer Komponente für die Zwischenablage.
  *
  * @author Thomas Freese
  */
-public abstract class AbstractClipboardAdapter
-{
+public abstract class AbstractClipboardAdapter {
     /**
      * @author Thomas Freese
      */
-    protected class ActionCopy extends AbstractAction
-    {
+    protected class ActionCopy extends AbstractAction {
         @Serial
         private static final long serialVersionUID = -6829341578505146619L;
 
-        public ActionCopy()
-        {
+        public ActionCopy() {
             super();
 
             putValue(NAME, "Copy");
@@ -52,8 +50,7 @@ public abstract class AbstractClipboardAdapter
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e)
-        {
+        public void actionPerformed(final ActionEvent e) {
             doCopy();
         }
     }
@@ -61,13 +58,11 @@ public abstract class AbstractClipboardAdapter
     /**
      * @author Thomas Freese
      */
-    protected class ActionPaste extends AbstractAction
-    {
+    protected class ActionPaste extends AbstractAction {
         @Serial
         private static final long serialVersionUID = 4473841629940450442L;
 
-        public ActionPaste()
-        {
+        public ActionPaste() {
             super();
 
             putValue(NAME, "Paste");
@@ -79,8 +74,7 @@ public abstract class AbstractClipboardAdapter
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e)
-        {
+        public void actionPerformed(final ActionEvent e) {
             doPaste(false);
         }
     }
@@ -88,13 +82,11 @@ public abstract class AbstractClipboardAdapter
     /**
      * @author Thomas Freese
      */
-    protected class ActionPasteFlipAxes extends AbstractAction
-    {
+    protected class ActionPasteFlipAxes extends AbstractAction {
         @Serial
         private static final long serialVersionUID = 6114190778366220106L;
 
-        public ActionPasteFlipAxes()
-        {
+        public ActionPasteFlipAxes() {
             super();
 
             putValue(NAME, "Paste (flip Axes)");
@@ -106,8 +98,7 @@ public abstract class AbstractClipboardAdapter
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e)
-        {
+        public void actionPerformed(final ActionEvent e) {
             doPaste(true);
         }
     }
@@ -128,8 +119,7 @@ public abstract class AbstractClipboardAdapter
 
     private boolean enabled = true;
 
-    protected AbstractClipboardAdapter(final JComponent component)
-    {
+    protected AbstractClipboardAdapter(final JComponent component) {
         super();
 
         this.component = component;
@@ -150,30 +140,24 @@ public abstract class AbstractClipboardAdapter
      */
     public abstract void doPaste(boolean flipAxes);
 
-    public Action getActionCopy()
-    {
-        if (this.actionCopy == null)
-        {
+    public Action getActionCopy() {
+        if (this.actionCopy == null) {
             this.actionCopy = new ActionCopy();
         }
 
         return this.actionCopy;
     }
 
-    public Action getActionPaste()
-    {
-        if (this.actionPaste == null)
-        {
+    public Action getActionPaste() {
+        if (this.actionPaste == null) {
             this.actionPaste = new ActionPaste();
         }
 
         return this.actionPaste;
     }
 
-    public Action getActionPasteFlipAxes()
-    {
-        if (this.actionPasteFlipAxes == null)
-        {
+    public Action getActionPasteFlipAxes() {
+        if (this.actionPasteFlipAxes == null) {
             this.actionPasteFlipAxes = new ActionPasteFlipAxes();
         }
 
@@ -185,12 +169,10 @@ public abstract class AbstractClipboardAdapter
      * Ist kein Konverter registriert wird der {@link ReflectionClipboardConverter} registriert und geliefert.
      */
 
-    public ClipboardConverter getConverter(final Class<?> clazz)
-    {
+    public ClipboardConverter getConverter(final Class<?> clazz) {
         ClipboardConverter converter = getConverterMap().get(clazz);
 
-        if (converter == null)
-        {
+        if (converter == null) {
             converter = new ReflectionClipboardConverter(clazz);
             register(clazz, converter);
 
@@ -200,18 +182,15 @@ public abstract class AbstractClipboardAdapter
         return converter;
     }
 
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return this.enabled;
     }
 
-    public void register(final Class<?> clazz, final ClipboardConverter converter)
-    {
+    public void register(final Class<?> clazz, final ClipboardConverter converter) {
         getConverterMap().put(clazz, converter);
     }
 
-    public void setEnabled(final boolean enabled)
-    {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
 
         getActionCopy().setEnabled(enabled);
@@ -219,23 +198,19 @@ public abstract class AbstractClipboardAdapter
         getActionPasteFlipAxes().setEnabled(enabled);
     }
 
-    protected Clipboard getClipboard()
-    {
+    protected Clipboard getClipboard() {
         return this.clipboard;
     }
 
-    protected JComponent getComponent()
-    {
+    protected JComponent getComponent() {
         return this.component;
     }
 
-    protected Logger getLogger()
-    {
+    protected Logger getLogger() {
         return this.logger;
     }
 
-    protected void initialize()
-    {
+    protected void initialize() {
         registerDefaultConverters();
 
         KeyStroke copyKS = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false);
@@ -251,8 +226,7 @@ public abstract class AbstractClipboardAdapter
      * Registrieren von Standartkonverter.<br>
      * Alle anderen Typen werden über {@link ReflectionClipboardConverter} gehandelt.<br>
      */
-    protected void registerDefaultConverters()
-    {
+    protected void registerDefaultConverters() {
         register(Boolean.class, new BooleanClipboardConverter());
         register(String.class, new StringClipboardConverter());
 
@@ -263,8 +237,7 @@ public abstract class AbstractClipboardAdapter
         register(Double.class, new DoubleClipBoardConverter());
     }
 
-    private Map<Class<?>, ClipboardConverter> getConverterMap()
-    {
+    private Map<Class<?>, ClipboardConverter> getConverterMap() {
         return this.converterMap;
     }
 }

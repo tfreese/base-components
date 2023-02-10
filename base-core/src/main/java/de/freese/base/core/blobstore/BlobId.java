@@ -12,15 +12,13 @@ import java.util.Objects;
  *
  * @author Thomas Freese
  */
-public class BlobId implements Serializable, Comparable<BlobId>
-{
+public class BlobId implements Serializable, Comparable<BlobId> {
     @Serial
     private static final long serialVersionUID = -5581749917166864024L;
 
     private final URI uri;
 
-    public BlobId(final URI uri)
-    {
+    public BlobId(final URI uri) {
         super();
 
         this.uri = Objects.requireNonNull(uri, "uri required");
@@ -30,8 +28,7 @@ public class BlobId implements Serializable, Comparable<BlobId>
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
-    public int compareTo(final BlobId o)
-    {
+    public int compareTo(final BlobId o) {
         return this.uri.compareTo(o.uri);
     }
 
@@ -39,15 +36,12 @@ public class BlobId implements Serializable, Comparable<BlobId>
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
 
-        if ((o == null) || (getClass() != o.getClass()))
-        {
+        if ((o == null) || (getClass() != o.getClass())) {
             return false;
         }
 
@@ -56,8 +50,7 @@ public class BlobId implements Serializable, Comparable<BlobId>
         return this.uri.equals(blobId.uri);
     }
 
-    public URI getUri()
-    {
+    public URI getUri() {
         return this.uri;
     }
 
@@ -65,8 +58,7 @@ public class BlobId implements Serializable, Comparable<BlobId>
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return this.uri.hashCode();
     }
 
@@ -74,8 +66,7 @@ public class BlobId implements Serializable, Comparable<BlobId>
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.uri.toString();
     }
 }

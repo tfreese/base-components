@@ -19,10 +19,8 @@ import javax.swing.plaf.basic.BasicOptionPaneUI;
  *
  * @author Thomas Freese
  */
-public class OptionPaneUI extends BasicOptionPaneUI
-{
-    public static ComponentUI createUI(final JComponent component)
-    {
+public class OptionPaneUI extends BasicOptionPaneUI {
+    public static ComponentUI createUI(final JComponent component) {
         return new OptionPaneUI();
     }
 
@@ -30,12 +28,10 @@ public class OptionPaneUI extends BasicOptionPaneUI
      * @see javax.swing.plaf.basic.BasicOptionPaneUI#createButtonArea()
      */
     @Override
-    protected Container createButtonArea()
-    {
+    protected Container createButtonArea() {
         Container c = super.createButtonArea();
 
-        if (c instanceof JComponent jc)
-        {
+        if (c instanceof JComponent jc) {
             jc.setOpaque(false);
         }
 
@@ -46,8 +42,7 @@ public class OptionPaneUI extends BasicOptionPaneUI
      * @see javax.swing.plaf.basic.BasicOptionPaneUI#createMessageArea()
      */
     @Override
-    protected Container createMessageArea()
-    {
+    protected Container createMessageArea() {
         JPanel top = new JPanel();
         top.setOpaque(false);
         top.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
@@ -62,10 +57,8 @@ public class OptionPaneUI extends BasicOptionPaneUI
 
         realBody.setLayout(new BorderLayout());
 
-        if (getIcon() != null)
-        {
-            JPanel sep = new JPanel()
-            {
+        if (getIcon() != null) {
+            JPanel sep = new JPanel() {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
@@ -73,8 +66,7 @@ public class OptionPaneUI extends BasicOptionPaneUI
                  * @see javax.swing.JComponent#getPreferredSize()
                  */
                 @Override
-                public Dimension getPreferredSize()
-                {
+                public Dimension getPreferredSize() {
                     return new Dimension(15, 1);
                 }
             };

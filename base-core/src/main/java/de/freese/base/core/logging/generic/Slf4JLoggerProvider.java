@@ -4,17 +4,14 @@ package de.freese.base.core.logging.generic;
 /**
  * @author Thomas Freese
  */
-class Slf4JLoggerProvider implements LoggerProvider
-{
+class Slf4JLoggerProvider implements LoggerProvider {
     @Override
-    public Logger createLogger(String name)
-    {
+    public Logger createLogger(String name) {
         return new Slf4jLogger(name);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Slf4J";
     }
 }

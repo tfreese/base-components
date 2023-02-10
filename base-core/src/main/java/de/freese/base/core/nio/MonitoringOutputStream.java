@@ -12,8 +12,7 @@ import java.util.function.LongConsumer;
  *
  * @author Thomas Freese
  */
-public class MonitoringOutputStream extends OutputStream
-{
+public class MonitoringOutputStream extends OutputStream {
     private final LongConsumer bytesWrittenConsumer;
     private final boolean closeDelegate;
     private final OutputStream delegate;
@@ -23,13 +22,11 @@ public class MonitoringOutputStream extends OutputStream
      * @param bytesWrittenConsumer {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
      * @param size long; Anzahl Bytes (Größe) des gesamten Channels
      */
-    public MonitoringOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size, final boolean closeDelegate)
-    {
+    public MonitoringOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size, final boolean closeDelegate) {
         this(delegate, bw -> bytesWrittenConsumer.accept(bw, size), closeDelegate);
     }
 
-    public MonitoringOutputStream(final OutputStream delegate, final LongConsumer bytesWrittenConsumer, final boolean closeDelegate)
-    {
+    public MonitoringOutputStream(final OutputStream delegate, final LongConsumer bytesWrittenConsumer, final boolean closeDelegate) {
         super();
 
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
@@ -41,10 +38,8 @@ public class MonitoringOutputStream extends OutputStream
      * @see java.io.OutputStream#close()
      */
     @Override
-    public void close() throws IOException
-    {
-        if (this.closeDelegate)
-        {
+    public void close() throws IOException {
+        if (this.closeDelegate) {
             this.delegate.close();
         }
     }
@@ -53,8 +48,7 @@ public class MonitoringOutputStream extends OutputStream
      * @see java.io.OutputStream#flush()
      */
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
         this.delegate.flush();
     }
 
@@ -62,8 +56,7 @@ public class MonitoringOutputStream extends OutputStream
      * @see java.io.OutputStream#write(byte[])
      */
     @Override
-    public void write(final byte[] b) throws IOException
-    {
+    public void write(final byte[] b) throws IOException {
         this.delegate.write(b);
 
         this.bytesWritten += b.length;
@@ -75,8 +68,7 @@ public class MonitoringOutputStream extends OutputStream
      * @see java.io.OutputStream#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         this.delegate.write(b, off, len);
 
         this.bytesWritten += len;
@@ -88,8 +80,7 @@ public class MonitoringOutputStream extends OutputStream
      * @see java.io.OutputStream#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         this.delegate.write(b);
 
         this.bytesWritten++;

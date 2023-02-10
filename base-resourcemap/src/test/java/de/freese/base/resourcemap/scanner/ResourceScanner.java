@@ -7,8 +7,7 @@ import java.util.Set;
  *
  * @author Thomas Freese
  */
-public interface ResourceScanner
-{
+public interface ResourceScanner {
     /**
      * @param basePath String; Format: app/module/view
      */

@@ -10,14 +10,12 @@ import org.apache.poi.ss.usermodel.Workbook;
  *
  * @author Thomas Freese
  */
-public final class PoiExcelXlsImpl extends AbstractPoiExcelImpl
-{
+public final class PoiExcelXlsImpl extends AbstractPoiExcelImpl {
     /**
      * @see AbstractPoiExcelImpl#openWorkbook(java.io.InputStream)
      */
     @Override
-    protected Workbook openWorkbook(final InputStream inputStream) throws Exception
-    {
+    protected Workbook openWorkbook(final InputStream inputStream) throws Exception {
         // return new HSSFWorkbook(new POIFSFileSystem(inputStream));
         return new HSSFWorkbook(inputStream);
     }

@@ -11,18 +11,15 @@ import java.util.Objects;
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
  */
-public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
-{
+public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
     /**
      * Default: CRLF = "\r\n"
      */
-    public static AutoExpandCharBufferCrLf of(final int capacity)
-    {
+    public static AutoExpandCharBufferCrLf of(final int capacity) {
         return of(capacity, "\r\n");
     }
 
-    public static AutoExpandCharBufferCrLf of(final int capacity, final String crlf)
-    {
+    public static AutoExpandCharBufferCrLf of(final int capacity, final String crlf) {
         CharBuffer charBuffer = CharBuffer.allocate(capacity);
 
         return new AutoExpandCharBufferCrLf(charBuffer, crlf);
@@ -36,8 +33,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
      * return new AutoExpandCharBuffer(charBuffer);
      * </pre>
      */
-    private AutoExpandCharBufferCrLf(final CharBuffer buffer, final String crlf)
-    {
+    private AutoExpandCharBufferCrLf(final CharBuffer buffer, final String crlf) {
         super(buffer);
 
         this.crlf = Objects.requireNonNull(crlf, "crlf required");
@@ -47,15 +43,13 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
      * Fügt eine Leerzeile hinzu.<br>
      * Default: "\r\n"
      */
-    public AutoExpandCharBufferCrLf putLn()
-    {
+    public AutoExpandCharBufferCrLf putLn() {
         appendCrlf();
 
         return this;
     }
 
-    public AutoExpandCharBufferCrLf putLn(final char c)
-    {
+    public AutoExpandCharBufferCrLf putLn(final char c) {
         super.put(c);
 
         appendCrlf();
@@ -63,8 +57,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
         return this;
     }
 
-    public AutoExpandCharBufferCrLf putLn(final CharSequence src)
-    {
+    public AutoExpandCharBufferCrLf putLn(final CharSequence src) {
         super.put(src);
 
         appendCrlf();
@@ -72,8 +65,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
         return this;
     }
 
-    public AutoExpandCharBufferCrLf putLn(final CharSequence src, final int start, final int end)
-    {
+    public AutoExpandCharBufferCrLf putLn(final CharSequence src, final int start, final int end) {
         super.put(src, start, end);
 
         appendCrlf();
@@ -85,8 +77,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
      * @see AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
      */
     @Override
-    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity)
-    {
+    protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity) {
         CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
 
         buffer.flip();
@@ -98,8 +89,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     /**
      * Fügt CRLF an, wenn dieser != null.
      */
-    private void appendCrlf()
-    {
+    private void appendCrlf() {
         autoExpand(getCrlf().length());
         getBuffer().put(getCrlf());
     }
@@ -107,8 +97,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer
     /**
      * carriage return line feed (NETASCII_EOL)
      */
-    private String getCrlf()
-    {
+    private String getCrlf() {
         return this.crlf;
     }
 }

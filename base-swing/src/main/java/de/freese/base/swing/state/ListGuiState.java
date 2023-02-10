@@ -14,15 +14,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "ListGuiState")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ListGuiState extends AbstractGuiState
-{
+public class ListGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = -6237079790822368033L;
 
     private int[] selectedIndices;
 
-    public ListGuiState()
-    {
+    public ListGuiState() {
         super(JList.class);
     }
 
@@ -30,18 +28,15 @@ public class ListGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
      */
     @Override
-    public void restore(final Component component)
-    {
+    public void restore(final Component component) {
         super.restore(component);
 
         JList<?> list = (JList<?>) component;
 
-        try
-        {
+        try {
             list.setSelectedIndices(this.selectedIndices);
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             // Ignore
         }
     }
@@ -50,8 +45,7 @@ public class ListGuiState extends AbstractGuiState
      * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
      */
     @Override
-    public void store(final Component component)
-    {
+    public void store(final Component component) {
         super.store(component);
 
         JList<?> list = (JList<?>) component;

@@ -7,17 +7,14 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-public final class SystemUtils
-{
+public final class SystemUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemUtils.class);
 
-    public static String getJavaHome()
-    {
+    public static String getJavaHome() {
         return System.getProperty("java.home");
     }
 
-    public static String getJavaIoTmpDir()
-    {
+    public static String getJavaIoTmpDir() {
         return System.getProperty("java.io.tmpdir");
     }
 
@@ -26,8 +23,7 @@ public final class SystemUtils
      *
      * @return int, Beispiel 1800072
      */
-    public static int getJavaVersion()
-    {
+    public static int getJavaVersion() {
         // String javaVersion = SystemUtils.JAVA_VERSION;
         String javaVersion = System.getProperty("java.version");
         String[] splits = javaVersion.toLowerCase().split("[._]");
@@ -38,21 +34,17 @@ public final class SystemUtils
         // Minor
         versionString += "." + String.format("%03d", Integer.parseInt(splits[1]));
 
-        if (splits.length > 2)
-        {
+        if (splits.length > 2) {
             // Micro
             versionString += "." + String.format("%03d", Integer.parseInt(splits[2]));
         }
 
-        if ((splits.length > 3) && !splits[3].startsWith("ea"))
-        {
+        if ((splits.length > 3) && !splits[3].startsWith("ea")) {
             // Update
-            try
-            {
+            try {
                 versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 LOGGER.error(ex.getMessage(), ex);
             }
         }
@@ -60,49 +52,41 @@ public final class SystemUtils
         return Integer.parseInt(versionString.replace(".", ""));
     }
 
-    public static String getOsArch()
-    {
+    public static String getOsArch() {
         return System.getProperty("os.arch");
     }
 
-    public static String getOsName()
-    {
+    public static String getOsName() {
         return System.getProperty("os.name");
     }
 
-    public static String getUserDir()
-    {
+    public static String getUserDir() {
         return System.getProperty("user.dir");
     }
 
-    public static String getUserHome()
-    {
+    public static String getUserHome() {
         return System.getProperty("user.home");
     }
 
-    public static boolean isLinux()
-    {
+    public static boolean isLinux() {
         String os = getOsName().toLowerCase();
 
         return os.contains("linux");
     }
 
-    public static boolean isUnix()
-    {
+    public static boolean isUnix() {
         String os = getOsName().toLowerCase();
 
         return os.contains("nix") || os.contains("nux") || os.contains("aix");
     }
 
-    public static boolean isWindows()
-    {
+    public static boolean isWindows() {
         String os = getOsName().toLowerCase();
 
         return os.startsWith("win");
     }
 
-    private SystemUtils()
-    {
+    private SystemUtils() {
         super();
     }
 }

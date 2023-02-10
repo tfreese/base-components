@@ -19,13 +19,11 @@ import java.util.function.Function;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface SequenceQuery extends Function<String, String>
-{
+public interface SequenceQuery extends Function<String, String> {
     /**
      * Ermittelt anhand der {@link DatabaseMetaData} das passende SQL.
      */
-    static SequenceQuery determineQuery(final Connection connection) throws SQLException
-    {
+    static SequenceQuery determineQuery(final Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
 
         String product = metaData.getDatabaseProductName().toLowerCase();
@@ -33,12 +31,11 @@ public interface SequenceQuery extends Function<String, String>
         // int majorVersion = metaData.getDatabaseMajorVersion();
         // int minorVersion = metaData.getDatabaseMinorVersion();
 
-        return switch (product)
-                {
-                    case "oracle" -> seq -> "select " + seq + ".nextval from dual";
-                    case "hsql" -> seq -> "call next value for " + seq;
-                    case "sqlite" -> seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
-                    default -> throw new IllegalArgumentException("Unexpected value: " + product);
-                };
+        return switch (product) {
+            case "oracle" -> seq -> "select " + seq + ".nextval from dual";
+            case "hsql" -> seq -> "call next value for " + seq;
+            case "sqlite" -> seq -> "select random()"; // "SELECT ABS(RANDOM() - 1)";
+            default -> throw new IllegalArgumentException("Unexpected value: " + product);
+        };
     }
 }

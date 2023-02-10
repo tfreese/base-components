@@ -13,12 +13,10 @@ import javax.swing.event.TableColumnModelListener;
 /**
  * @author Thomas Freese
  */
-public class UpdateViewportSizeColumnListener implements TableColumnModelListener
-{
+public class UpdateViewportSizeColumnListener implements TableColumnModelListener {
     private final JTable table;
 
-    public UpdateViewportSizeColumnListener(final JTable table)
-    {
+    public UpdateViewportSizeColumnListener(final JTable table) {
         super();
 
         this.table = Objects.requireNonNull(table, "table required");
@@ -28,8 +26,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
      * @see javax.swing.event.TableColumnModelListener#columnAdded(javax.swing.event.TableColumnModelEvent)
      */
     @Override
-    public void columnAdded(final TableColumnModelEvent e)
-    {
+    public void columnAdded(final TableColumnModelEvent e) {
         updateViewportSize();
     }
 
@@ -37,8 +34,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
      * @see javax.swing.event.TableColumnModelListener#columnMarginChanged(javax.swing.event.ChangeEvent)
      */
     @Override
-    public void columnMarginChanged(final ChangeEvent e)
-    {
+    public void columnMarginChanged(final ChangeEvent e) {
         updateViewportSize();
     }
 
@@ -46,8 +42,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
      * @see javax.swing.event.TableColumnModelListener#columnMoved(javax.swing.event.TableColumnModelEvent)
      */
     @Override
-    public void columnMoved(final TableColumnModelEvent e)
-    {
+    public void columnMoved(final TableColumnModelEvent e) {
         updateViewportSize();
     }
 
@@ -55,8 +50,7 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
      * @see javax.swing.event.TableColumnModelListener#columnRemoved(javax.swing.event.TableColumnModelEvent)
      */
     @Override
-    public void columnRemoved(final TableColumnModelEvent e)
-    {
+    public void columnRemoved(final TableColumnModelEvent e) {
         updateViewportSize();
     }
 
@@ -64,13 +58,11 @@ public class UpdateViewportSizeColumnListener implements TableColumnModelListene
      * @see javax.swing.event.TableColumnModelListener#columnSelectionChanged(javax.swing.event.ListSelectionEvent)
      */
     @Override
-    public void columnSelectionChanged(final ListSelectionEvent e)
-    {
+    public void columnSelectionChanged(final ListSelectionEvent e) {
         // Empty
     }
 
-    protected void updateViewportSize()
-    {
+    protected void updateViewportSize() {
         JViewport view = (JViewport) this.table.getParent();
         JScrollPane pane = (JScrollPane) view.getParent();
 

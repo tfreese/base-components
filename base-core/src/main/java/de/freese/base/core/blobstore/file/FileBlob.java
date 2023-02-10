@@ -10,26 +10,22 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-final class FileBlob extends AbstractBlob
-{
+final class FileBlob extends AbstractBlob {
     private final Path absolutePath;
 
-    FileBlob(final BlobId id, final FileBlobStore store)
-    {
+    FileBlob(final BlobId id, final FileBlobStore store) {
         super(id);
 
         this.absolutePath = store.toContentPath(id);
     }
 
     @Override
-    public InputStream getInputStream() throws Exception
-    {
+    public InputStream getInputStream() throws Exception {
         return Files.newInputStream(this.absolutePath);
     }
 
     @Override
-    public long getLength() throws Exception
-    {
+    public long getLength() throws Exception {
         return Files.size(this.absolutePath);
     }
 
@@ -37,8 +33,7 @@ final class FileBlob extends AbstractBlob
      * @see Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.absolutePath.toString();
     }
 

@@ -29,15 +29,13 @@ import java.util.function.Supplier;
  * @author Thomas Freese
  * @see <a href="https://github.com/oheger/JavaMagReact">https://github.com/oheger/JavaMagReact (JavaMagazin 02/2018 )</a>
  */
-public final class AsyncFileReader<CH>
-{
+public final class AsyncFileReader<CH> {
     /**
      * Interne Klasse als Attachment der {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.
      *
      * @param <CH> Typ des ContentHolders
      */
-    private static class ReadContext<CH>
-    {
+    private static class ReadContext<CH> {
         private final ByteBuffer buffer;
 
         private final AsynchronousFileChannel channel;
@@ -48,9 +46,7 @@ public final class AsyncFileReader<CH>
 
         private int position;
 
-        ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler,
-                    final int bufferSize)
-        {
+        ReadContext(final AsynchronousFileChannel afc, final CompletableFuture<CH> cf, final CompletionHandler<Integer, ReadContext<CH>> handler, final int bufferSize) {
             super();
 
             this.channel = Objects.requireNonNull(afc, "AsynchronousFileChannel required");
@@ -59,14 +55,11 @@ public final class AsyncFileReader<CH>
             this.buffer = ByteBuffer.allocate(bufferSize);
         }
 
-        public void close()
-        {
-            try
-            {
+        public void close() {
+            try {
                 this.channel.close();
             }
-            catch (IOException ex)
-            {
+            catch (IOException ex) {
                 throw new UncheckedIOException(ex);
             }
         }
@@ -75,8 +68,7 @@ public final class AsyncFileReader<CH>
          * Marks this read operation as failed.<br/>
          * The context is also closed.
          */
-        public void fail(final Throwable ex)
-        {
+        public void fail(final Throwable ex) {
             this.future.completeExceptionally(ex);
             close();
         }
@@ -103,12 +95,10 @@ public final class AsyncFileReader<CH>
      * Einlesen der Datei.<br>
      * Der Inhalt kann z.B. mit {@link CompletableFuture#thenAccept(java.util.function.Consumer)} weiterverarbeitet werden.
      */
-    public CompletableFuture<CH> readFile(final Path path)
-    {
+    public CompletableFuture<CH> readFile(final Path path) {
         Objects.requireNonNull(path, "path required");
 
-        if (Files.isDirectory(path) || !Files.isReadable(path))
-        {
+        if (Files.isDirectory(path) || !Files.isReadable(path)) {
             throw new IllegalArgumentException("path is a directory or not readable: " + path);
         }
 
@@ -116,16 +106,14 @@ public final class AsyncFileReader<CH>
 
         CompletionHandler<Integer, ReadContext<CH>> handler = createHandler(getContentHolderSupplier(), getDataConsumer());
 
-        try
-        {
+        try {
             // AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, StandardOpenOption.READ);
             AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, new HashSet<>(Arrays.asList(StandardOpenOption.READ)), getExecutorService());
             ReadContext<CH> context = new ReadContext<>(channel, future, handler, getByteBufferSize());
 
             readBlock(context);
         }
-        catch (IOException ex)
-        {
+        catch (IOException ex) {
             future.completeExceptionally(ex);
         }
 
@@ -135,10 +123,8 @@ public final class AsyncFileReader<CH>
     /**
      * Blockgröße pro Lese-Operation.
      */
-    public void setByteBufferSize(final int byteBufferSize)
-    {
-        if (byteBufferSize < 0)
-        {
+    public void setByteBufferSize(final int byteBufferSize) {
+        if (byteBufferSize < 0) {
             throw new IllegalArgumentException("byteBufferSize < 0: " + byteBufferSize);
         }
 
@@ -148,24 +134,21 @@ public final class AsyncFileReader<CH>
     /**
      * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.
      */
-    public void setContentHolderSupplier(final Supplier<CH> contentHolderSupplier)
-    {
+    public void setContentHolderSupplier(final Supplier<CH> contentHolderSupplier) {
         this.contentHolderSupplier = Objects.requireNonNull(contentHolderSupplier, "contentHolderSupplier required");
     }
 
     /**
      * Nimmt die gelesenen Daten entgegen.
      */
-    public void setDataConsumer(final BiConsumer<CH, byte[]> dataConsumer)
-    {
+    public void setDataConsumer(final BiConsumer<CH, byte[]> dataConsumer) {
         this.dataConsumer = Objects.requireNonNull(dataConsumer, "dataConsumer required");
     }
 
     /**
      * Führt die parallelen Lese-Operationen aus.
      */
-    public void setExecutorService(final ExecutorService executorService)
-    {
+    public void setExecutorService(final ExecutorService executorService) {
         this.executorService = Objects.requireNonNull(executorService, "executorService required");
     }
 
@@ -175,26 +158,21 @@ public final class AsyncFileReader<CH>
      * @param contentHolderSupplier Object; erzeugt das Objekt um die gelesenen Daten aufzunehmen.
      * @param dataConsumer {@link BiConsumer}; Nimmt die gelesenen Daten entgegen.
      */
-    private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer)
-    {
+    private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer) {
         CH contextHolder = contentHolderSupplier.get();
 
-        return new CompletionHandler<>()
-        {
+        return new CompletionHandler<>() {
             /**
              * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
              */
             @Override
-            public void completed(final Integer count, final ReadContext<CH> context)
-            {
-                if (count < 0)
-                {
+            public void completed(final Integer count, final ReadContext<CH> context) {
+                if (count < 0) {
                     // Dateiende erreicht.
                     context.close();
                     context.future.complete(contextHolder);
                 }
-                else
-                {
+                else {
                     context.buffer.flip();
 
                     // byte[] data = context.buffer.array(); // Funktioniert nicht.
@@ -213,8 +191,7 @@ public final class AsyncFileReader<CH>
              * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
              */
             @Override
-            public void failed(final Throwable exc, final ReadContext<CH> context)
-            {
+            public void failed(final Throwable exc, final ReadContext<CH> context) {
                 context.fail(exc);
             }
         };
@@ -224,8 +201,7 @@ public final class AsyncFileReader<CH>
      * Blockgröße pro Lese-Operation.<br>
      * Default: 1024
      */
-    private int getByteBufferSize()
-    {
+    private int getByteBufferSize() {
         return this.byteBufferSize;
     }
 
@@ -233,8 +209,7 @@ public final class AsyncFileReader<CH>
      * Erzeugt das Objekt, um die gelesenen Daten aufzunehmen.<br>
      * Default: new StringBuilder(4096);
      */
-    private Supplier<CH> getContentHolderSupplier()
-    {
+    private Supplier<CH> getContentHolderSupplier() {
         return this.contentHolderSupplier;
     }
 
@@ -242,8 +217,7 @@ public final class AsyncFileReader<CH>
      * Nimmt die gelesenen Daten entgegen.<br>
      * Default: StringBuilder.append(new String(data));
      */
-    private BiConsumer<CH, byte[]> getDataConsumer()
-    {
+    private BiConsumer<CH, byte[]> getDataConsumer() {
         return this.dataConsumer;
     }
 
@@ -251,16 +225,14 @@ public final class AsyncFileReader<CH>
      * Führt die parallelen Lese-Operationen aus.<br>
      * Default: ForkJoinPool.commonPool()
      */
-    private ExecutorService getExecutorService()
-    {
+    private ExecutorService getExecutorService() {
         return this.executorService;
     }
 
     /**
      * Liest den nächsten Datenblock.
      */
-    private void readBlock(final ReadContext<CH> context)
-    {
+    private void readBlock(final ReadContext<CH> context) {
         context.buffer.clear();
         context.channel.read(context.buffer, context.position, context, context.handler);
     }

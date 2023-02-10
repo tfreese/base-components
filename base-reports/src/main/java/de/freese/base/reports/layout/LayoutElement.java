@@ -11,8 +11,7 @@ import java.awt.Insets;
  *
  * @author Thomas Freese
  */
-public interface LayoutElement
-{
+public interface LayoutElement {
     Font DEFAULT_FONT = new Font("Dialog", Font.PLAIN, 11);
 
     void addElement(LayoutElement element);

@@ -19,6 +19,5 @@ import org.openjdk.jmh.annotations.Warmup;
 @Fork(value = 1, warmups = 0)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-abstract class BenchmarkSettings
-{
+abstract class BenchmarkSettings {
 }

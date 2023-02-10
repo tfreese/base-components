@@ -15,12 +15,10 @@ import javax.crypto.Cipher;
  *
  * @author Thomas Freese
  */
-public class CryptoAsymetric extends AbstractCrypto
-{
+public class CryptoAsymetric extends AbstractCrypto {
     private KeyPair keyPair;
 
-    CryptoAsymetric(final CryptoConfig<?> cryptoConfig) throws Exception
-    {
+    CryptoAsymetric(final CryptoConfig<?> cryptoConfig) throws Exception {
         super(cryptoConfig);
     }
 
@@ -28,8 +26,7 @@ public class CryptoAsymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
      */
     @Override
-    public void sign(final InputStream in, final OutputStream out) throws Exception
-    {
+    public void sign(final InputStream in, final OutputStream out) throws Exception {
         Signature signature = createSignatureSign();
 
         sign(signature, in, out);
@@ -41,15 +38,13 @@ public class CryptoAsymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
      */
     @Override
-    public boolean verify(final InputStream in, final InputStream signIn) throws Exception
-    {
+    public boolean verify(final InputStream in, final InputStream signIn) throws Exception {
         Signature signature = createSignatureVerify();
 
         return verify(signature, in, signIn);
     }
 
-    void setKeyPair(final KeyPair keyPair)
-    {
+    void setKeyPair(final KeyPair keyPair) {
         this.keyPair = keyPair;
     }
 
@@ -57,8 +52,7 @@ public class CryptoAsymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.AbstractCrypto#createCipherDecrypt()
      */
     @Override
-    protected Cipher createCipherDecrypt() throws Exception
-    {
+    protected Cipher createCipherDecrypt() throws Exception {
         Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherDecrypt.init(Cipher.DECRYPT_MODE, getKeyPair().getPrivate(), getSecureRandom());
 
@@ -69,24 +63,21 @@ public class CryptoAsymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.AbstractCrypto#createCipherEncrypt()
      */
     @Override
-    protected Cipher createCipherEncrypt() throws Exception
-    {
+    protected Cipher createCipherEncrypt() throws Exception {
         Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherEncrypt.init(Cipher.ENCRYPT_MODE, getKeyPair().getPublic(), getSecureRandom());
 
         return cipherEncrypt;
     }
 
-    protected Signature createSignatureSign() throws Exception
-    {
+    protected Signature createSignatureSign() throws Exception {
         Signature signatureSign = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
         signatureSign.initSign(getKeyPair().getPrivate(), getSecureRandom());
 
         return signatureSign;
     }
 
-    protected Signature createSignatureVerify() throws Exception
-    {
+    protected Signature createSignatureVerify() throws Exception {
         Signature signatureVerify = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
         signatureVerify.initVerify(getKeyPair().getPublic());
 
@@ -97,13 +88,11 @@ public class CryptoAsymetric extends AbstractCrypto
      * @see de.freese.base.security.crypto.AbstractCrypto#getConfig()
      */
     @Override
-    protected CryptoConfigAsymetric getConfig()
-    {
+    protected CryptoConfigAsymetric getConfig() {
         return (CryptoConfigAsymetric) super.getConfig();
     }
 
-    protected KeyPair getKeyPair()
-    {
+    protected KeyPair getKeyPair() {
         return this.keyPair;
     }
 }

@@ -10,9 +10,10 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import de.freese.base.swing.task.inputblocker.InputBlocker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.freese.base.swing.task.inputblocker.InputBlocker;
 
 /**
  * Erweitert den {@link SwingWorker} um diverse Methoden und bietet die Möglichkeit detailliertere Listener zu verwenden.<br>
@@ -36,79 +37,63 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implements SwingTask
-{
+public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implements SwingTask {
     /**
      * PropertyChangeListener auf die Properties des {@link SwingWorker}s.<br/>
      * Dieser wird durch den SwingWorker im EDT gefeuert.<br>
      *
      * @author Thomas Freese
      */
-    private class SwingWorkerPCL implements PropertyChangeListener
-    {
+    private class SwingWorkerPCL implements PropertyChangeListener {
         /**
          * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
          */
         @Override
-        public void propertyChange(final PropertyChangeEvent event)
-        {
+        public void propertyChange(final PropertyChangeEvent event) {
             String propertyName = event.getPropertyName();
 
-            if ("state".equals(propertyName))
-            {
+            if ("state".equals(propertyName)) {
                 StateValue state = (StateValue) event.getNewValue();
                 AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
-                switch (state)
-                {
+                switch (state) {
                     case STARTED -> taskStarted(task);
                     case DONE -> taskDone(task);
-                    default ->
-                    {
+                    default -> {
                         // Empty
                     }
                 }
             }
-            else if (PROPERTY_PROGRESS.equals(propertyName))
-            {
-                synchronized (AbstractSwingTask.this)
-                {
+            else if (PROPERTY_PROGRESS.equals(propertyName)) {
+                synchronized (AbstractSwingTask.this) {
                     AbstractSwingTask.this.progressPropertyIsValid = true;
                 }
             }
         }
 
-        private void taskDone(final AbstractSwingTask<?, ?> task)
-        {
-            synchronized (AbstractSwingTask.this)
-            {
+        private void taskDone(final AbstractSwingTask<?, ?> task) {
+            synchronized (AbstractSwingTask.this) {
                 AbstractSwingTask.this.doneTime = System.currentTimeMillis();
             }
 
-            try
-            {
+            try {
                 task.removePropertyChangeListener(this);
             }
-            finally
-            {
-                if (getInputBlocker() != null)
-                {
+            finally {
+                if (getInputBlocker() != null) {
                     getInputBlocker().unblock();
                 }
             }
         }
 
-        private void taskStarted(final AbstractSwingTask<?, ?> task)
-        {
-            synchronized (AbstractSwingTask.this)
-            {
+        private void taskStarted(final AbstractSwingTask<?, ?> task) {
+            synchronized (AbstractSwingTask.this) {
                 AbstractSwingTask.this.startTime = System.currentTimeMillis();
             }
 
             firePropertyChange(PROPERTY_STARTED, null, true);
 
-            if (getInputBlocker() != null)
-            {
+            if (getInputBlocker() != null) {
                 getInputBlocker().block();
             }
         }
@@ -130,13 +115,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
 
     private String title;
 
-    protected AbstractSwingTask()
-    {
+    protected AbstractSwingTask() {
         this(null);
     }
 
-    protected AbstractSwingTask(final String name)
-    {
+    protected AbstractSwingTask(final String name) {
         super();
 
         this.name = Objects.requireNonNullElse(name, getClass().getName());
@@ -147,13 +130,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      * Liefert die Zeiteinheit, wie lange der Task bis jetzt läuft.
      */
-    public long getCurrentDuration(final TimeUnit unit)
-    {
+    public long getCurrentDuration(final TimeUnit unit) {
         long sTime;
         long currentTime;
 
-        synchronized (this)
-        {
+        synchronized (this) {
             sTime = this.startTime;
             currentTime = System.currentTimeMillis();
         }
@@ -177,13 +158,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #execute
      */
-    public long getExecutionDuration(final TimeUnit unit)
-    {
+    public long getExecutionDuration(final TimeUnit unit) {
         long sTime;
         long dTime;
 
-        synchronized (this)
-        {
+        synchronized (this) {
             sTime = this.startTime;
             dTime = this.doneTime;
         }
@@ -191,23 +170,19 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         return getDuration(unit, sTime, dTime);
     }
 
-    public InputBlocker getInputBlocker()
-    {
+    public InputBlocker getInputBlocker() {
         return this.inputBlocker;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
-    public String getSubTitle()
-    {
+    public String getSubTitle() {
         return this.subTitle;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return this.title;
     }
 
@@ -216,8 +191,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired.<br/>
      * Similarly, when a started Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
      */
-    public final boolean isPending()
-    {
+    public final boolean isPending() {
         return getState() == StateValue.PENDING;
     }
 
@@ -232,8 +206,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #setProgress
      */
-    public synchronized boolean isProgressPropertyValid()
-    {
+    public synchronized boolean isProgressPropertyValid() {
         return this.progressPropertyIsValid;
     }
 
@@ -242,13 +215,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * When a pending Task's state changes to {@code StateValue.STARTED} a PropertyChangeEvent for the "started" property is fired. Similarly, when a started
      * Task's state changes to {@code StateValue.DONE}, a "done" PropertyChangeEvent is fired.
      */
-    public final boolean isStarted()
-    {
+    public final boolean isStarted() {
         return getState() == StateValue.STARTED;
     }
 
-    public void setInputBlocker(final InputBlocker inputBlocker)
-    {
+    public void setInputBlocker(final InputBlocker inputBlocker) {
         this.inputBlocker = Objects.requireNonNull(inputBlocker, "inputBlocker required");
 
         addPropertyChangeListener(this.inputBlocker);
@@ -260,8 +231,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #done
      */
-    protected void cancelled()
-    {
+    protected void cancelled() {
         // Empty
     }
 
@@ -283,21 +253,16 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @see javax.swing.SwingWorker#done()
      */
     @Override
-    protected final void done()
-    {
-        Runnable runnable = () ->
-        {
+    protected final void done() {
+        Runnable runnable = () -> {
             // try
             // {
-            if (isCancelled())
-            {
+            if (isCancelled()) {
                 firePropertyChange(PROPERTY_CANCELLED, null, true);
                 cancelled();
             }
-            else
-            {
-                try
-                {
+            else {
+                try {
                     T result = get();
 
                     firePropertyChange(PROPERTY_SUCCEEDED, null, result);
@@ -308,8 +273,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
                 // firePropertyChange(PROPERTY_INTERRUPTED, null, ex);
                 // interrupted(ex);
                 // }
-                catch (InterruptedException | ExecutionException ex)
-                {
+                catch (InterruptedException | ExecutionException ex) {
                     firePropertyChange(PROPERTY_FAILED, null, ex);
                     failed(ex.getCause());
                 }
@@ -335,13 +299,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @see #get
      * @see #failed
      */
-    protected void failed(final Throwable cause)
-    {
+    protected void failed(final Throwable cause) {
         getLogger().error(cause.getMessage(), cause);
     }
 
-    protected final Logger getLogger()
-    {
+    protected final Logger getLogger() {
         return this.logger;
     }
 
@@ -349,8 +311,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @see javax.swing.SwingWorker#process(java.util.List)
      */
     @Override
-    protected void process(final List<V> chunks)
-    {
+    protected void process(final List<V> chunks) {
         firePropertyChange(PROPERTY_PROCESS, null, chunks);
     }
 
@@ -361,10 +322,8 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #setProgress(int)
      */
-    protected final void setProgress(final float percentage)
-    {
-        if ((percentage < 0.0) || (percentage > 1.0))
-        {
+    protected final void setProgress(final float percentage) {
+        if ((percentage < 0.0) || (percentage > 1.0)) {
             throw new IllegalArgumentException("invalid percentage");
         }
 
@@ -384,15 +343,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #setProgress(int)
      */
-    protected final void setProgress(final float value, final float min, final float max)
-    {
-        if (min >= max)
-        {
+    protected final void setProgress(final float value, final float min, final float max) {
+        if (min >= max) {
             throw new IllegalArgumentException("invalid range: min >= max");
         }
 
-        if ((value < min) || (value > max))
-        {
+        if ((value < min) || (value > max)) {
             throw new IllegalArgumentException("invalid value");
         }
 
@@ -413,15 +369,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #setProgress(int)
      */
-    protected final void setProgress(final int value, final int min, final int max)
-    {
-        if (min >= max)
-        {
+    protected final void setProgress(final int value, final int min, final int max) {
+        if (min >= max) {
             throw new IllegalArgumentException("invalid range: min >= max");
         }
 
-        if ((value < min) || (value > max))
-        {
+        if ((value < min) || (value > max)) {
             throw new IllegalArgumentException("invalid value");
         }
 
@@ -442,15 +395,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @see #setProgress(int)
      */
-    protected final void setProgress(final long value, final long min, final long max)
-    {
-        if (min >= max)
-        {
+    protected final void setProgress(final long value, final long min, final long max) {
+        if (min >= max) {
             throw new IllegalArgumentException("invalid range: min >= max");
         }
 
-        if ((value < min) || (value > max))
-        {
+        if ((value < min) || (value > max)) {
             throw new IllegalArgumentException("invalid value");
         }
 
@@ -458,8 +408,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         setProgress(Math.round(percentage * 100.0F));
     }
 
-    protected void setSubTitle(final String subTitle)
-    {
+    protected void setSubTitle(final String subTitle) {
         String old = this.subTitle;
 
         this.subTitle = subTitle;
@@ -467,8 +416,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         firePropertyChange(PROPERTY_SUBTITLE, old, this.subTitle);
     }
 
-    protected void setTitle(final String title)
-    {
+    protected void setTitle(final String title) {
         String old = this.title;
 
         this.title = title;
@@ -486,25 +434,20 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @see #get
      * @see #failed
      */
-    protected void succeeded(final T result)
-    {
+    protected void succeeded(final T result) {
         // Empty
     }
 
-    private long getDuration(final TimeUnit unit, final long startTime, final long endTime)
-    {
+    private long getDuration(final TimeUnit unit, final long startTime, final long endTime) {
         long dt;
 
-        if (startTime == -1L)
-        {
+        if (startTime == -1L) {
             dt = 0L;
         }
-        else if (endTime == -1L)
-        {
+        else if (endTime == -1L) {
             dt = System.currentTimeMillis() - startTime;
         }
-        else
-        {
+        else {
             dt = endTime - startTime;
         }
 

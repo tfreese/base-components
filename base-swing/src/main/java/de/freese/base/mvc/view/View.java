@@ -12,14 +12,12 @@ import de.freese.base.mvc.registry.ServiceRegistry;
 /**
  * @author Thomas Freese
  */
-public interface View extends ServiceRegistry
-{
+public interface View extends ServiceRegistry {
     ApplicationContext getApplicationContext();
 
     Component getComponent();
 
-    default Map<String, ActionListener> getInterestedMenuAndToolbarActions()
-    {
+    default Map<String, ActionListener> getInterestedMenuAndToolbarActions() {
         return Collections.emptyMap();
     }
 

@@ -52,8 +52,7 @@ import de.freese.base.swing.macOsX.OsxAdapter;
 /**
  * @author Thomas Freese
  */
-public final class MyAppMain extends JFrame implements ActionListener
-{
+public final class MyAppMain extends JFrame implements ActionListener {
     /**
      * Check that we are on Mac OS X. This is crucial to loading and using the OsxAdapter class.
      */
@@ -66,25 +65,18 @@ public final class MyAppMain extends JFrame implements ActionListener
     @Serial
     private static final long serialVersionUID = -8257153622565922709L;
 
-    public static void main(final String[] args)
-    {
-        SwingUtilities.invokeLater(() ->
-        {
+    public static void main(final String[] args) {
+        SwingUtilities.invokeLater(() -> {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
 
             new MyAppMain().setVisible(true);
         });
     }
+
     private final JDialog aboutBox;
     private final JComboBox<String> colorComboBox;
-    private final String[] colorNames =
-            {
-                    "White", "Black", "Red", "Blue", "Yellow", "Orange"
-            };
-    private final Color[] colors =
-            {
-                    Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE
-            };
+    private final String[] colorNames = {"White", "Black", "Red", "Blue", "Yellow", "Orange"};
+    private final Color[] colors = {Color.WHITE, Color.BLACK, Color.RED, Color.BLUE, Color.YELLOW, Color.ORANGE};
     private final JLabel imageLabel;
 
     private final JDialog prefs;
@@ -107,8 +99,7 @@ public final class MyAppMain extends JFrame implements ActionListener
 
     private JMenuItem supportMI;
 
-    private MyAppMain()
-    {
+    private MyAppMain() {
         super("OsxAdapter");
 
         addMenus();
@@ -131,10 +122,8 @@ public final class MyAppMain extends JFrame implements ActionListener
         // Preferences dialog lets you select the background color when displaying an image
         this.prefs = new JDialog(this, "OsxAdapter Preferences");
         this.colorComboBox = new JComboBox<>(this.colorNames);
-        this.colorComboBox.addActionListener(ev ->
-        {
-            if (MyAppMain.this.currentImage != null)
-            {
+        this.colorComboBox.addActionListener(ev -> {
+            if (MyAppMain.this.currentImage != null) {
                 MyAppMain.this.imageLabel.setBackground(MyAppMain.this.colors[MyAppMain.this.colorComboBox.getSelectedIndex()]);
             }
         });
@@ -156,8 +145,7 @@ public final class MyAppMain extends JFrame implements ActionListener
      * General info dialog; fed to the OsxAdapter as the method to call when<br>
      * "About OsxAdapter" is selected from the application menu.
      */
-    public void about()
-    {
+    public void about() {
         this.aboutBox.setLocation((int) this.getLocation().getX() + 22, (int) this.getLocation().getY() + 22);
         this.aboutBox.setVisible(true);
     }
@@ -166,41 +154,30 @@ public final class MyAppMain extends JFrame implements ActionListener
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     @Override
-    public void actionPerformed(final ActionEvent e)
-    {
+    public void actionPerformed(final ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == this.quitMI)
-        {
+        if (source == this.quitMI) {
             quit();
         }
-        else
-        {
-            if (source == this.optionsMI)
-            {
+        else {
+            if (source == this.optionsMI) {
                 preferences();
             }
-            else
-            {
-                if (source == this.aboutMI)
-                {
+            else {
+                if (source == this.aboutMI) {
                     about();
                 }
-                else
-                {
-                    if (source == this.openMI)
-                    {
+                else {
+                    if (source == this.openMI) {
                         // File:Open action shows a FileDialog for loading displayable images
                         FileDialog openDialog = new FileDialog(this);
                         openDialog.setMode(FileDialog.LOAD);
-                        openDialog.setFilenameFilter((dir, name) ->
-                        {
+                        openDialog.setFilenameFilter((dir, name) -> {
                             String[] supportedFiles = ImageIO.getReaderFormatNames();
 
-                            for (String supportedFile : supportedFiles)
-                            {
-                                if (name.endsWith(supportedFile))
-                                {
+                            for (String supportedFile : supportedFiles) {
+                                if (name.endsWith(supportedFile)) {
                                     return true;
                                 }
                             }
@@ -211,8 +188,7 @@ public final class MyAppMain extends JFrame implements ActionListener
                         openDialog.setVisible(true);
                         String filePath = openDialog.getDirectory() + openDialog.getFile();
 
-                        if (filePath.length() > 0)
-                        {
+                        if (filePath.length() > 0) {
                             loadImageFile(filePath);
                         }
                     }
@@ -221,8 +197,7 @@ public final class MyAppMain extends JFrame implements ActionListener
         }
     }
 
-    public void addMenus()
-    {
+    public void addMenus() {
         JMenu fileMenu = new JMenu("File");
         JMenuBar mainMenuBar = new JMenuBar();
         mainMenuBar.add(fileMenu = new JMenu("File"));
@@ -231,8 +206,7 @@ public final class MyAppMain extends JFrame implements ActionListener
         this.openMI.addActionListener(this);
 
         // Quit/prefs menu items are provided on Mac OS X; only add your own on other platforms
-        if (!IS_OS_MAC_OSX)
-        {
+        if (!IS_OS_MAC_OSX) {
             fileMenu.addSeparator();
             fileMenu.add(this.optionsMI = new JMenuItem("Options"));
             this.optionsMI.addActionListener(this);
@@ -249,8 +223,7 @@ public final class MyAppMain extends JFrame implements ActionListener
         this.helpMenu.add(this.supportMI = new JMenuItem("Technical Support"));
 
         // About menu item is provided on Mac OS X; only add your own on other platforms
-        if (!IS_OS_MAC_OSX)
-        {
+        if (!IS_OS_MAC_OSX) {
             this.helpMenu.addSeparator();
             this.helpMenu.add(this.aboutMI = new JMenuItem("About OsxAdapter"));
             this.aboutMI.addActionListener(this);
@@ -259,17 +232,14 @@ public final class MyAppMain extends JFrame implements ActionListener
         setJMenuBar(mainMenuBar);
     }
 
-    public void loadImageFile(final String path)
-    {
-        try
-        {
+    public void loadImageFile(final String path) {
+        try {
             this.currentImage = ImageIO.read(new File(path));
             this.imageLabel.setIcon(new ImageIcon(this.currentImage));
             this.imageLabel.setBackground(this.colors[this.colorComboBox.getSelectedIndex()]);
             this.imageLabel.setText("");
         }
-        catch (IOException ioe)
-        {
+        catch (IOException ioe) {
             System.out.println("Could not load image " + path);
         }
 
@@ -280,8 +250,7 @@ public final class MyAppMain extends JFrame implements ActionListener
      * General preferences' dialog; fed to the OsxAdapter as the method to call when<br>
      * "Preferences..." is selected from the application menu.
      */
-    public void preferences()
-    {
+    public void preferences() {
         this.prefs.setLocation((int) this.getLocation().getX() + 22, (int) this.getLocation().getY() + 22);
         this.prefs.setVisible(true);
     }
@@ -292,8 +261,7 @@ public final class MyAppMain extends JFrame implements ActionListener
      * Dock menu, or logging out.
      * <p/>
      */
-    public boolean quit()
-    {
+    public boolean quit() {
         int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Quit?", JOptionPane.YES_NO_OPTION);
 
         return (option == JOptionPane.YES_OPTION);
@@ -304,12 +272,9 @@ public final class MyAppMain extends JFrame implements ActionListener
      * Checks the platform, then attempts to register with the Apple EAWT.<br>
      * See OsxAdapter.java to see how this is done without directly referencing any Apple APIs
      */
-    public void registerForMacOSXEvents()
-    {
-        if (IS_OS_MAC_OSX)
-        {
-            try
-            {
+    public void registerForMacOSXEvents() {
+        if (IS_OS_MAC_OSX) {
+            try {
                 // Generate and register the OsxAdapter, passing it a hash of all the methods we
                 // wish to use as delegates for various com.apple.eawt.ApplicationListener methods.
                 OsxAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quit", (Class<?>[]) null));
@@ -317,8 +282,7 @@ public final class MyAppMain extends JFrame implements ActionListener
                 OsxAdapter.setPreferencesHandler(this, getClass().getDeclaredMethod("preferences", (Class<?>[]) null));
                 OsxAdapter.setFileHandler(this, getClass().getDeclaredMethod("loadImageFile", String.class));
             }
-            catch (NoSuchMethodException | SecurityException ex)
-            {
+            catch (NoSuchMethodException | SecurityException ex) {
                 System.err.println("Error while loading the OsxAdapter:");
                 ex.printStackTrace();
             }

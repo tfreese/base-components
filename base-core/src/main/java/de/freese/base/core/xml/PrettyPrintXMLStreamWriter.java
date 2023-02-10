@@ -26,8 +26,7 @@ import javax.xml.stream.XMLStreamWriter;
  *
  * @author Thomas Freese
  */
-public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
-{
+public class PrettyPrintXMLStreamWriter implements XMLStreamWriter {
     private final XMLStreamWriter delegate;
 
     private final Map<Integer, Boolean> nodeStates = new HashMap<>();
@@ -38,18 +37,15 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
 
     private String lineSeparator;
 
-    public PrettyPrintXMLStreamWriter(final OutputStream outputStream) throws XMLStreamException, FactoryConfigurationError
-    {
+    public PrettyPrintXMLStreamWriter(final OutputStream outputStream) throws XMLStreamException, FactoryConfigurationError {
         this(outputStream, "UTF8");
     }
 
-    public PrettyPrintXMLStreamWriter(final OutputStream outputStream, final String encoding) throws XMLStreamException, FactoryConfigurationError
-    {
+    public PrettyPrintXMLStreamWriter(final OutputStream outputStream, final String encoding) throws XMLStreamException, FactoryConfigurationError {
         this(XMLOutputFactory.newInstance().createXMLStreamWriter(outputStream, encoding));
     }
 
-    public PrettyPrintXMLStreamWriter(final XMLStreamWriter delegate)
-    {
+    public PrettyPrintXMLStreamWriter(final XMLStreamWriter delegate) {
         super();
 
         this.delegate = delegate;
@@ -61,8 +57,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#close()
      */
     @Override
-    public void close() throws XMLStreamException
-    {
+    public void close() throws XMLStreamException {
         getDelegate().close();
     }
 
@@ -70,18 +65,15 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#flush()
      */
     @Override
-    public void flush() throws XMLStreamException
-    {
+    public void flush() throws XMLStreamException {
         getDelegate().flush();
     }
 
-    public int getIndentAmount()
-    {
+    public int getIndentAmount() {
         return this.indentAmount;
     }
 
-    public String getLineSeparator()
-    {
+    public String getLineSeparator() {
         return this.lineSeparator;
     }
 
@@ -89,8 +81,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#getNamespaceContext()
      */
     @Override
-    public NamespaceContext getNamespaceContext()
-    {
+    public NamespaceContext getNamespaceContext() {
         return getDelegate().getNamespaceContext();
     }
 
@@ -98,8 +89,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#getPrefix(java.lang.String)
      */
     @Override
-    public String getPrefix(final String uri) throws XMLStreamException
-    {
+    public String getPrefix(final String uri) throws XMLStreamException {
         return getDelegate().getPrefix(uri);
     }
 
@@ -107,8 +97,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#getProperty(java.lang.String)
      */
     @Override
-    public Object getProperty(final String name)
-    {
+    public Object getProperty(final String name) {
         return getDelegate().getProperty(name);
     }
 
@@ -116,18 +105,15 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#setDefaultNamespace(java.lang.String)
      */
     @Override
-    public void setDefaultNamespace(final String uri) throws XMLStreamException
-    {
+    public void setDefaultNamespace(final String uri) throws XMLStreamException {
         getDelegate().setDefaultNamespace(uri);
     }
 
-    public void setIndentAmount(final int indentAmount)
-    {
+    public void setIndentAmount(final int indentAmount) {
         this.indentAmount = indentAmount;
     }
 
-    public void setLineSeparator(final String lineSeparator)
-    {
+    public void setLineSeparator(final String lineSeparator) {
         this.lineSeparator = lineSeparator;
     }
 
@@ -135,8 +121,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#setNamespaceContext(javax.xml.namespace.NamespaceContext)
      */
     @Override
-    public void setNamespaceContext(final NamespaceContext context) throws XMLStreamException
-    {
+    public void setNamespaceContext(final NamespaceContext context) throws XMLStreamException {
         getDelegate().setNamespaceContext(context);
     }
 
@@ -144,8 +129,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#setPrefix(java.lang.String, java.lang.String)
      */
     @Override
-    public void setPrefix(final String prefix, final String uri) throws XMLStreamException
-    {
+    public void setPrefix(final String prefix, final String uri) throws XMLStreamException {
         getDelegate().setPrefix(prefix, uri);
     }
 
@@ -153,8 +137,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String)
      */
     @Override
-    public void writeAttribute(final String localName, final String value) throws XMLStreamException
-    {
+    public void writeAttribute(final String localName, final String value) throws XMLStreamException {
         getDelegate().writeAttribute(localName, value);
     }
 
@@ -162,8 +145,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void writeAttribute(final String namespaceURI, final String localName, final String value) throws XMLStreamException
-    {
+    public void writeAttribute(final String namespaceURI, final String localName, final String value) throws XMLStreamException {
         getDelegate().writeAttribute(namespaceURI, localName, value);
     }
 
@@ -171,8 +153,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void writeAttribute(final String prefix, final String namespaceURI, final String localName, final String value) throws XMLStreamException
-    {
+    public void writeAttribute(final String prefix, final String namespaceURI, final String localName, final String value) throws XMLStreamException {
         getDelegate().writeAttribute(prefix, namespaceURI, localName, value);
     }
 
@@ -180,8 +161,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeCData(java.lang.String)
      */
     @Override
-    public void writeCData(final String data) throws XMLStreamException
-    {
+    public void writeCData(final String data) throws XMLStreamException {
         getDelegate().writeCData(data);
     }
 
@@ -189,8 +169,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeCharacters(char[], int, int)
      */
     @Override
-    public void writeCharacters(final char[] text, final int start, final int len) throws XMLStreamException
-    {
+    public void writeCharacters(final char[] text, final int start, final int len) throws XMLStreamException {
         getDelegate().writeCharacters(text, start, len);
     }
 
@@ -198,8 +177,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeCharacters(java.lang.String)
      */
     @Override
-    public void writeCharacters(final String text) throws XMLStreamException
-    {
+    public void writeCharacters(final String text) throws XMLStreamException {
         getDelegate().writeCharacters(text);
     }
 
@@ -207,8 +185,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeComment(java.lang.String)
      */
     @Override
-    public void writeComment(final String data) throws XMLStreamException
-    {
+    public void writeComment(final String data) throws XMLStreamException {
         getDelegate().writeComment(data);
     }
 
@@ -216,8 +193,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeDTD(java.lang.String)
      */
     @Override
-    public void writeDTD(final String dtd) throws XMLStreamException
-    {
+    public void writeDTD(final String dtd) throws XMLStreamException {
         getDelegate().writeDTD(dtd);
     }
 
@@ -225,8 +201,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeDefaultNamespace(java.lang.String)
      */
     @Override
-    public void writeDefaultNamespace(final String namespaceURI) throws XMLStreamException
-    {
+    public void writeDefaultNamespace(final String namespaceURI) throws XMLStreamException {
         getDelegate().writeDefaultNamespace(namespaceURI);
     }
 
@@ -234,8 +209,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeEmptyElement(java.lang.String)
      */
     @Override
-    public void writeEmptyElement(final String localName) throws XMLStreamException
-    {
+    public void writeEmptyElement(final String localName) throws XMLStreamException {
         handleWriteEmptyElement();
         getDelegate().writeEmptyElement(localName);
     }
@@ -244,8 +218,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeEmptyElement(java.lang.String, java.lang.String)
      */
     @Override
-    public void writeEmptyElement(final String namespaceURI, final String localName) throws XMLStreamException
-    {
+    public void writeEmptyElement(final String namespaceURI, final String localName) throws XMLStreamException {
         handleWriteEmptyElement();
         getDelegate().writeEmptyElement(namespaceURI, localName);
     }
@@ -254,8 +227,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeEmptyElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void writeEmptyElement(final String prefix, final String localName, final String namespaceURI) throws XMLStreamException
-    {
+    public void writeEmptyElement(final String prefix, final String localName, final String namespaceURI) throws XMLStreamException {
         handleWriteEmptyElement();
         getDelegate().writeEmptyElement(prefix, localName, namespaceURI);
     }
@@ -264,8 +236,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeEndDocument()
      */
     @Override
-    public void writeEndDocument() throws XMLStreamException
-    {
+    public void writeEndDocument() throws XMLStreamException {
         getDelegate().writeEndDocument();
     }
 
@@ -273,8 +244,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeEndElement()
      */
     @Override
-    public void writeEndElement() throws XMLStreamException
-    {
+    public void writeEndElement() throws XMLStreamException {
         handleWriteEndElement();
         getDelegate().writeEndElement();
     }
@@ -283,8 +253,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeEntityRef(java.lang.String)
      */
     @Override
-    public void writeEntityRef(final String name) throws XMLStreamException
-    {
+    public void writeEntityRef(final String name) throws XMLStreamException {
         getDelegate().writeEntityRef(name);
     }
 
@@ -292,8 +261,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeNamespace(java.lang.String, java.lang.String)
      */
     @Override
-    public void writeNamespace(final String prefix, final String namespaceURI) throws XMLStreamException
-    {
+    public void writeNamespace(final String prefix, final String namespaceURI) throws XMLStreamException {
         getDelegate().writeNamespace(prefix, namespaceURI);
     }
 
@@ -301,8 +269,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeProcessingInstruction(java.lang.String)
      */
     @Override
-    public void writeProcessingInstruction(final String target) throws XMLStreamException
-    {
+    public void writeProcessingInstruction(final String target) throws XMLStreamException {
         getDelegate().writeProcessingInstruction(target);
     }
 
@@ -310,8 +277,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeProcessingInstruction(java.lang.String, java.lang.String)
      */
     @Override
-    public void writeProcessingInstruction(final String target, final String data) throws XMLStreamException
-    {
+    public void writeProcessingInstruction(final String target, final String data) throws XMLStreamException {
         getDelegate().writeProcessingInstruction(target, data);
     }
 
@@ -319,8 +285,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeStartDocument()
      */
     @Override
-    public void writeStartDocument() throws XMLStreamException
-    {
+    public void writeStartDocument() throws XMLStreamException {
         getDelegate().writeStartDocument();
     }
 
@@ -328,8 +293,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeStartDocument(java.lang.String)
      */
     @Override
-    public void writeStartDocument(final String version) throws XMLStreamException
-    {
+    public void writeStartDocument(final String version) throws XMLStreamException {
         getDelegate().writeStartDocument(version);
     }
 
@@ -337,8 +301,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeStartDocument(java.lang.String, java.lang.String)
      */
     @Override
-    public void writeStartDocument(final String encoding, final String version) throws XMLStreamException
-    {
+    public void writeStartDocument(final String encoding, final String version) throws XMLStreamException {
         getDelegate().writeStartDocument(encoding, version);
     }
 
@@ -346,8 +309,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeStartElement(java.lang.String)
      */
     @Override
-    public void writeStartElement(final String localName) throws XMLStreamException
-    {
+    public void writeStartElement(final String localName) throws XMLStreamException {
         handleWriteStartElement();
         getDelegate().writeStartElement(localName);
     }
@@ -356,8 +318,7 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeStartElement(java.lang.String, java.lang.String)
      */
     @Override
-    public void writeStartElement(final String namespaceURI, final String localName) throws XMLStreamException
-    {
+    public void writeStartElement(final String namespaceURI, final String localName) throws XMLStreamException {
         handleWriteStartElement();
         getDelegate().writeStartElement(namespaceURI, localName);
     }
@@ -366,31 +327,25 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
      * @see javax.xml.stream.XMLStreamWriter#writeStartElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public void writeStartElement(final String prefix, final String localName, final String namespaceURI) throws XMLStreamException
-    {
+    public void writeStartElement(final String prefix, final String localName, final String namespaceURI) throws XMLStreamException {
         handleWriteStartElement();
         getDelegate().writeStartElement(prefix, localName, namespaceURI);
     }
 
-    protected XMLStreamWriter getDelegate()
-    {
+    protected XMLStreamWriter getDelegate() {
         return this.delegate;
     }
 
-    protected int getDepth()
-    {
+    protected int getDepth() {
         return this.depth;
     }
 
-    protected Map<Integer, Boolean> getNodeStates()
-    {
+    protected Map<Integer, Boolean> getNodeStates() {
         return this.nodeStates;
     }
 
-    protected void handleWriteEmptyElement() throws XMLStreamException
-    {
-        if (this.depth > 0)
-        {
+    protected void handleWriteEmptyElement() throws XMLStreamException {
+        if (this.depth > 0) {
             getNodeStates().put(getDepth() - 1, true);
         }
 
@@ -398,21 +353,17 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
         getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
     }
 
-    protected void handleWriteEndElement() throws XMLStreamException
-    {
+    protected void handleWriteEndElement() throws XMLStreamException {
         this.depth--;
 
-        if (getNodeStates().get(getDepth()))
-        {
+        if (getNodeStates().get(getDepth())) {
             getDelegate().writeCharacters(getLineSeparator());
             getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
         }
     }
 
-    protected void handleWriteStartElement() throws XMLStreamException
-    {
-        if (this.depth > 0)
-        {
+    protected void handleWriteStartElement() throws XMLStreamException {
+        if (this.depth > 0) {
             getNodeStates().put(getDepth() - 1, true);
         }
 
@@ -424,18 +375,15 @@ public class PrettyPrintXMLStreamWriter implements XMLStreamWriter
         this.depth++;
     }
 
-    protected String indent(final int depth, final int amount)
-    {
-        if (depth == 0)
-        {
+    protected String indent(final int depth, final int amount) {
+        if (depth == 0) {
             return null;
         }
 
         return " ".repeat(depth * amount);
     }
 
-    protected void setDepth(final int depth)
-    {
+    protected void setDepth(final int depth) {
         this.depth = depth;
     }
 }

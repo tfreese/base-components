@@ -11,8 +11,7 @@ import java.util.TreeMap;
  *
  * @author Thomas Freese
  */
-public enum Zodiac
-{
+public enum Zodiac {
     /**
      * Wassermann<br>
      * 21.01.
@@ -79,8 +78,7 @@ public enum Zodiac
      */
     private static final TreeMap<Integer, Zodiac> ZODIAC_MAP = new TreeMap<>();
 
-    static
-    {
+    static {
         ZODIAC_MAP.put(Zodiac.AQUARIUS.getStart(), Zodiac.AQUARIUS);
         ZODIAC_MAP.put(Zodiac.PISCES.getStart(), Zodiac.PISCES);
         ZODIAC_MAP.put(Zodiac.ARIES.getStart(), Zodiac.ARIES);
@@ -95,22 +93,19 @@ public enum Zodiac
         ZODIAC_MAP.put(Zodiac.CAPRICORN.getStart(), Zodiac.CAPRICORN);
     }
 
-    public static Zodiac getZodiac(final Date date)
-    {
+    public static Zodiac getZodiac(final Date date) {
         int monat = Integer.parseInt(String.format("%1$tm", date));
         int tag = Integer.parseInt(String.format("%1$td", date));
 
         return getZodiac(monat, tag);
     }
 
-    public static Zodiac getZodiac(final int month, final int dayOfMonth)
-    {
+    public static Zodiac getZodiac(final int month, final int dayOfMonth) {
         Integer monatTag = Integer.valueOf(month + "" + dayOfMonth);
 
         Entry<Integer, Zodiac> entry = ZODIAC_MAP.floorEntry(monatTag);
 
-        if (entry == null)
-        {
+        if (entry == null) {
             // Jahreswechsel beim Steinbock
             entry = ZODIAC_MAP.lastEntry();
         }
@@ -118,13 +113,11 @@ public enum Zodiac
         return entry.getValue();
     }
 
-    public static Zodiac getZodiac(final LocalDate localDate)
-    {
+    public static Zodiac getZodiac(final LocalDate localDate) {
         return getZodiac(localDate.getMonthValue(), localDate.getDayOfMonth());
     }
 
-    public static Zodiac getZodiac(final LocalDateTime localDateTime)
-    {
+    public static Zodiac getZodiac(final LocalDateTime localDateTime) {
         return getZodiac(localDateTime.getMonthValue(), localDateTime.getDayOfMonth());
     }
 
@@ -140,8 +133,7 @@ public enum Zodiac
      */
     private final int start;
 
-    Zodiac(final int start, final int end)
-    {
+    Zodiac(final int start, final int end) {
         this.start = start;
         this.end = end;
     }
@@ -151,8 +143,7 @@ public enum Zodiac
      *
      * @return int, Format: (M)MDD, inklusiv dieses Tages
      */
-    int getEnd()
-    {
+    int getEnd() {
         return this.end;
     }
 
@@ -161,8 +152,7 @@ public enum Zodiac
      *
      * @return int, Format: (M)MDD
      */
-    int getStart()
-    {
+    int getStart() {
         return this.start;
     }
 }

@@ -15,16 +15,13 @@ import java.util.function.BiConsumer;
  * @see java.util.function.BiConsumer
  */
 @FunctionalInterface
-public interface ThrowingBiConsumer<T, U, E extends Exception>
-{
+public interface ThrowingBiConsumer<T, U, E extends Exception> {
     void accept(T t, U u) throws E;
 
-    default ThrowingBiConsumer<T, U, E> andThen(final ThrowingBiConsumer<? super T, ? super U, E> after)
-    {
+    default ThrowingBiConsumer<T, U, E> andThen(final ThrowingBiConsumer<? super T, ? super U, E> after) {
         Objects.requireNonNull(after);
 
-        return (l, r) ->
-        {
+        return (l, r) -> {
             accept(l, r);
             after.accept(l, r);
         };

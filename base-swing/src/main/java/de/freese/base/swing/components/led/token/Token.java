@@ -9,8 +9,7 @@ import java.util.List;
  *
  * @author Thomas Freese
  */
-public interface Token<V>
-{
+public interface Token<V> {
     // String getDisplayValue();
 
     List<byte[]> getBitMasks();

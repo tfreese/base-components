@@ -6,7 +6,6 @@ import de.freese.base.mvc.view.View;
 /**
  * @author Thomas Freese
  */
-public interface Controller
-{
+public interface Controller {
     View getView();
 }

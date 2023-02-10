@@ -13,8 +13,7 @@ import javafx.concurrent.Task;
  * @see Task
  */
 @SuppressWarnings("checkstyle:InterfaceIsType")
-public interface SwingTask
-{
+public interface SwingTask {
     /**
      * Wurde bewusst abgebrochen.
      */

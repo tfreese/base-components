@@ -20,28 +20,24 @@ import de.freese.base.core.model.grid.factory.GridColumnFactory;
 /**
  * @author Thomas Freese
  */
-public class GridMetaData
-{
+public class GridMetaData {
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private final List<GridColumn<?>> columns = new ArrayList<>();
 
     private final GridColumnFactory gridColumnFactory;
 
-    public GridMetaData()
-    {
+    public GridMetaData() {
         this(new DefaultGridColumnFactory());
     }
 
-    public GridMetaData(final GridColumnFactory gridColumnFactory)
-    {
+    public GridMetaData(final GridColumnFactory gridColumnFactory) {
         super();
 
         this.gridColumnFactory = Objects.requireNonNull(gridColumnFactory, "gridColumnFactory required");
     }
 
-    public void addColumn(final GridColumn<?> column)
-    {
+    public void addColumn(final GridColumn<?> column) {
         // StreamSupport.stream(spliterator(), false);
         // boolean clazzExist = getColumns().stream().anyMatch(c -> column.getObjectClazz().equals(c.getObjectClazz()));
         //
@@ -54,28 +50,23 @@ public class GridMetaData
         getColumns().add(column);
     }
 
-    public int columnCount()
-    {
+    public int columnCount() {
         return getColumns().size();
     }
 
-    public GridColumn<?> getColumn(final int index)
-    {
+    public GridColumn<?> getColumn(final int index) {
         return getColumns().get(index);
     }
 
-    public GridColumnFactory getGridColumnFactory()
-    {
+    public GridColumnFactory getGridColumnFactory() {
         return this.gridColumnFactory;
     }
 
-    public void readMetaData(final DataInput dataInput) throws IOException, ClassNotFoundException
-    {
+    public void readMetaData(final DataInput dataInput) throws IOException, ClassNotFoundException {
         // Anzahl Spalten
         int columnCount = dataInput.readInt();
 
-        for (int i = 0; i < columnCount; i++)
-        {
+        for (int i = 0; i < columnCount; i++) {
             // Object-Class
             int length = dataInput.readInt();
             byte[] bytes = new byte[length];
@@ -90,8 +81,7 @@ public class GridMetaData
             // Name
             boolean isNull = dataInput.readBoolean(); // NULL-Marker
 
-            if (!isNull)
-            {
+            if (!isNull) {
                 length = dataInput.readInt();
                 bytes = new byte[length];
                 dataInput.readFully(bytes);
@@ -111,8 +101,7 @@ public class GridMetaData
             // Comments
             isNull = dataInput.readBoolean(); // NULL-Marker
 
-            if (!isNull)
-            {
+            if (!isNull) {
                 length = dataInput.readInt();
                 bytes = new byte[length];
                 dataInput.readFully(bytes);
@@ -132,13 +121,11 @@ public class GridMetaData
     // return getColumns().iterator();
     // }
 
-    public void readMetaData(final ResultSetMetaData metaData) throws SQLException
-    {
+    public void readMetaData(final ResultSetMetaData metaData) throws SQLException {
         // Anzahl Spalten
         int columnCount = metaData.getColumnCount();
 
-        for (int c = 1; c <= columnCount; c++)
-        {
+        for (int c = 1; c <= columnCount; c++) {
             GridColumn<?> column = this.gridColumnFactory.getColumnForSQL(metaData.getColumnType(c));
             column.setName(metaData.getColumnLabel(c));
             column.setLength(metaData.getColumnDisplaySize(c));
@@ -149,18 +136,15 @@ public class GridMetaData
         }
     }
 
-    public GridColumn<?> removeColumn(final int columnIndex)
-    {
+    public GridColumn<?> removeColumn(final int columnIndex) {
         return getColumns().remove(columnIndex);
     }
 
-    public void writeMetaData(final DataOutput dataOutput) throws IOException
-    {
+    public void writeMetaData(final DataOutput dataOutput) throws IOException {
         // Anzahl Spalten
         dataOutput.writeInt(columnCount());
 
-        for (GridColumn<?> column : getColumns())
-        {
+        for (GridColumn<?> column : getColumns()) {
             // Object-Class
             byte[] bytes = column.getObjectClazz().getName().getBytes(DEFAULT_CHARSET);
             dataOutput.writeInt(bytes.length);
@@ -172,8 +156,7 @@ public class GridMetaData
 
             dataOutput.writeBoolean(name == null); // NULL-Marker
 
-            if (name != null)
-            {
+            if (name != null) {
                 bytes = name.getBytes(DEFAULT_CHARSET);
                 dataOutput.writeInt(bytes.length);
                 dataOutput.write(bytes);
@@ -191,8 +174,7 @@ public class GridMetaData
 
             dataOutput.writeBoolean(comment == null); // NULL-Marker
 
-            if (comment != null)
-            {
+            if (comment != null) {
                 bytes = comment.getBytes(DEFAULT_CHARSET);
                 dataOutput.writeInt(bytes.length);
                 dataOutput.write(bytes);
@@ -200,8 +182,7 @@ public class GridMetaData
         }
     }
 
-    protected List<GridColumn<?>> getColumns()
-    {
+    protected List<GridColumn<?>> getColumns() {
         return this.columns;
     }
 }

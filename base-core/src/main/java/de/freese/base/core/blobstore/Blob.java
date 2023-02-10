@@ -9,12 +9,9 @@ import java.io.InputStream;
  *
  * @author Thomas Freese
  */
-public interface Blob
-{
-    default byte[] getAllBytes() throws Exception
-    {
-        try (InputStream inputStream = getInputStream())
-        {
+public interface Blob {
+    default byte[] getAllBytes() throws Exception {
+        try (InputStream inputStream = getInputStream()) {
             return inputStream.readAllBytes();
         }
 

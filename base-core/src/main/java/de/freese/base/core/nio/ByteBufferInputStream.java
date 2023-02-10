@@ -9,12 +9,10 @@ import java.util.Objects;
 /**
  * @author Thomas Freese
  */
-public class ByteBufferInputStream extends InputStream
-{
+public class ByteBufferInputStream extends InputStream {
     private final ByteBuffer buffer;
 
-    public ByteBufferInputStream(final ByteBuffer buffer)
-    {
+    public ByteBufferInputStream(final ByteBuffer buffer) {
         super();
 
         this.buffer = Objects.requireNonNull(buffer, "buffer required");
@@ -24,8 +22,7 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#available()
      */
     @Override
-    public int available() throws IOException
-    {
+    public int available() throws IOException {
         return this.buffer.remaining();
     }
 
@@ -33,8 +30,7 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#mark(int)
      */
     @Override
-    public synchronized void mark(final int readLimit)
-    {
+    public synchronized void mark(final int readLimit) {
         this.buffer.mark();
     }
 
@@ -42,8 +38,7 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#markSupported()
      */
     @Override
-    public boolean markSupported()
-    {
+    public boolean markSupported() {
         return true;
     }
 
@@ -51,10 +46,8 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#read()
      */
     @Override
-    public int read() throws IOException
-    {
-        if (this.buffer.hasRemaining())
-        {
+    public int read() throws IOException {
+        if (this.buffer.hasRemaining()) {
             return this.buffer.get() & 0xff;
         }
 
@@ -65,12 +58,10 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#read(byte[], int, int)
      */
     @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException
-    {
+    public int read(final byte[] b, final int off, final int len) throws IOException {
         int remaining = this.buffer.remaining();
 
-        if (remaining > 0)
-        {
+        if (remaining > 0) {
             int readBytes = Math.min(remaining, len);
             this.buffer.get(b, off, readBytes);
 
@@ -84,8 +75,7 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#reset()
      */
     @Override
-    public synchronized void reset() throws IOException
-    {
+    public synchronized void reset() throws IOException {
         this.buffer.reset();
     }
 
@@ -93,16 +83,13 @@ public class ByteBufferInputStream extends InputStream
      * @see java.io.InputStream#skip(long)
      */
     @Override
-    public long skip(final long n) throws IOException
-    {
+    public long skip(final long n) throws IOException {
         int bytes;
 
-        if (n > Integer.MAX_VALUE)
-        {
+        if (n > Integer.MAX_VALUE) {
             bytes = this.buffer.remaining();
         }
-        else
-        {
+        else {
             bytes = Math.min(this.buffer.remaining(), (int) n);
         }
 

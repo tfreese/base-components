@@ -17,8 +17,7 @@ import de.freese.base.swing.components.table.AbstractListTableModel;
  *
  * @author Thomas Freese
  */
-public abstract class AbstractTreeListenerTableModel extends AbstractListTableModel<Object> implements TreeExpansionListener, TreeModelListener
-{
+public abstract class AbstractTreeListenerTableModel extends AbstractListTableModel<Object> implements TreeExpansionListener, TreeModelListener {
     @Serial
     private static final long serialVersionUID = -3225572645684058554L;
 
@@ -30,8 +29,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * JTree.addTreeExpansionListener(this)<br>
      * JTree.getModel().addTreeModelListener(this)
      */
-    protected AbstractTreeListenerTableModel(final int columnCount, final JTree tree)
-    {
+    protected AbstractTreeListenerTableModel(final int columnCount, final JTree tree) {
         super(columnCount);
 
         this.tree = tree;
@@ -41,8 +39,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * @see javax.swing.event.TreeExpansionListener#treeCollapsed(javax.swing.event.TreeExpansionEvent)
      */
     @Override
-    public void treeCollapsed(final TreeExpansionEvent event)
-    {
+    public void treeCollapsed(final TreeExpansionEvent event) {
         updateFromTree();
     }
 
@@ -50,8 +47,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * @see javax.swing.event.TreeExpansionListener#treeExpanded(javax.swing.event.TreeExpansionEvent)
      */
     @Override
-    public void treeExpanded(final TreeExpansionEvent event)
-    {
+    public void treeExpanded(final TreeExpansionEvent event) {
         updateFromTree();
     }
 
@@ -59,24 +55,20 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeNodesChanged(final TreeModelEvent e)
-    {
-        if (!(e.getSource() instanceof JTree))
-        {
+    public void treeNodesChanged(final TreeModelEvent e) {
+        if (!(e.getSource() instanceof JTree)) {
             return;
         }
 
         Object object = e.getTreePath().getLastPathComponent();
 
-        if (object == null)
-        {
+        if (object == null) {
             return;
         }
 
         int row = getRowOf(object);
 
-        if (row < 0)
-        {
+        if (row < 0) {
             return;
         }
 
@@ -87,8 +79,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * @see javax.swing.event.TreeModelListener#treeNodesInserted(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeNodesInserted(final TreeModelEvent e)
-    {
+    public void treeNodesInserted(final TreeModelEvent e) {
         updateFromTree();
     }
 
@@ -96,8 +87,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * @see javax.swing.event.TreeModelListener#treeNodesRemoved(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeNodesRemoved(final TreeModelEvent e)
-    {
+    public void treeNodesRemoved(final TreeModelEvent e) {
         updateFromTree();
     }
 
@@ -105,36 +95,29 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
      * @see javax.swing.event.TreeModelListener#treeStructureChanged(javax.swing.event.TreeModelEvent)
      */
     @Override
-    public void treeStructureChanged(final TreeModelEvent e)
-    {
+    public void treeStructureChanged(final TreeModelEvent e) {
         updateFromTree();
     }
 
-    public void updateFromTree()
-    {
-        Runnable runnable = () ->
-        {
+    public void updateFromTree() {
+        Runnable runnable = () -> {
             getList().clear();
 
-            for (int row = 0; row < getTree().getRowCount(); row++)
-            {
+            for (int row = 0; row < getTree().getRowCount(); row++) {
                 TreePath treePath = getTree().getPathForRow(row);
                 getList().add(treePath.getLastPathComponent());
             }
         };
 
-        if (SwingUtilities.isEventDispatchThread())
-        {
+        if (SwingUtilities.isEventDispatchThread()) {
             runnable.run();
         }
-        else
-        {
+        else {
             SwingUtilities.invokeLater(runnable);
         }
     }
 
-    protected JTree getTree()
-    {
+    protected JTree getTree() {
         return this.tree;
     }
 }

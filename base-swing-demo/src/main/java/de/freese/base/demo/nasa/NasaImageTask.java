@@ -16,8 +16,7 @@ import de.freese.base.swing.task.AbstractSwingTask;
 /**
  * @author Thomas Freese
  */
-public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
-{
+public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void> {
     private final NasaController nasaController;
 
     private final ResourceMap resourceMap;
@@ -28,8 +27,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
 
     private URL url;
 
-    public NasaImageTask(final NasaController nasaController, final Callable<URL> urlCallable, final NasaView view, final ResourceMap resourceMap)
-    {
+    public NasaImageTask(final NasaController nasaController, final Callable<URL> urlCallable, final NasaView view, final ResourceMap resourceMap) {
         super();
 
         this.nasaController = Objects.requireNonNull(nasaController, "nasaController required");
@@ -42,8 +40,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      * @see AbstractSwingTask#cancelled()
      */
     @Override
-    protected void cancelled()
-    {
+    protected void cancelled() {
         this.view.setMessage("nasa.load.canceled", this.url, null);
 
         getLogger().info("Cancelled");
@@ -53,8 +50,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      * @see javax.swing.SwingWorker#doInBackground()
      */
     @Override
-    protected BufferedImage doInBackground() throws Exception
-    {
+    protected BufferedImage doInBackground() throws Exception {
         getLogger().info("Started");
 
         this.url = this.urlCallable.call();
@@ -62,14 +58,12 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
         this.view.setMessage("nasa.load.start", this.url, null);
         setSubTitle(this.resourceMap.getString("nasa.load.start", this.url));
 
-        IIOReadProgressListener rpl = new IioReadProgressAdapter()
-        {
+        IIOReadProgressListener rpl = new IioReadProgressAdapter() {
             /**
              * @see IioReadProgressAdapter#imageProgress(ImageReader, float)
              */
             @Override
-            public void imageProgress(final ImageReader source, final float percentageDone)
-            {
+            public void imageProgress(final ImageReader source, final float percentageDone) {
                 setProgress(percentageDone, 0.0F, 100.0F);
             }
         };
@@ -81,8 +75,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      * @see AbstractSwingTask#failed(Throwable)
      */
     @Override
-    protected void failed(final Throwable cause)
-    {
+    protected void failed(final Throwable cause) {
         super.failed(cause);
 
         this.view.setMessage("nasa.load.failed", this.url, cause);
@@ -92,8 +85,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void>
      * @see AbstractSwingTask#succeeded(Object)
      */
     @Override
-    protected void succeeded(final BufferedImage result)
-    {
+    protected void succeeded(final BufferedImage result) {
         this.view.setImage(this.url, result);
 
         getLogger().info("Succeeded");

@@ -8,15 +8,12 @@ import java.io.IOException;
 /**
  * @author Thomas Freese
  */
-public class BooleanGridColumn extends AbstractGridColumn<Boolean>
-{
-    public BooleanGridColumn()
-    {
+public class BooleanGridColumn extends AbstractGridColumn<Boolean> {
+    public BooleanGridColumn() {
         super(Boolean.class);
     }
 
-    public BooleanGridColumn(final String name)
-    {
+    public BooleanGridColumn(final String name) {
         super(Boolean.class);
 
         setName(name);
@@ -26,10 +23,8 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean>
      * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
      */
     @Override
-    public Boolean getValue(final Object object)
-    {
-        if (object == null)
-        {
+    public Boolean getValue(final Object object) {
+        if (object == null) {
             return null;
         }
 
@@ -40,8 +35,7 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
      */
     @Override
-    protected Boolean readNullSafe(final DataInput dataInput) throws IOException
-    {
+    protected Boolean readNullSafe(final DataInput dataInput) throws IOException {
         return dataInput.readBoolean();
     }
 
@@ -49,8 +43,7 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean>
      * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
      */
     @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Boolean value) throws IOException
-    {
+    protected void writeNullSafe(final DataOutput dataOutput, final Boolean value) throws IOException {
         dataOutput.writeBoolean(value);
     }
 }

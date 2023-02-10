@@ -23,10 +23,8 @@ import javax.swing.WindowConstants;
  *
  * @author Thomas Freese
  */
-public final class ShapedWindowMain
-{
-    public static void main(final String[] args)
-    {
+public final class ShapedWindowMain {
+    public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
@@ -35,35 +33,30 @@ public final class ShapedWindowMain
         boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If shaped windows aren't supported, exit.
-        if (!isPerPixelTranslucencySupported)
-        {
+        if (!isPerPixelTranslucencySupported) {
             System.err.println("Shaped windows are not supported");
             System.exit(0);
         }
 
         // If translucent windows aren't supported,
         // create an opaque window.
-        if (!isTranslucencySupported)
-        {
+        if (!isTranslucencySupported) {
             System.out.println("Translucency is not supported, creating an opaque window");
         }
 
         // Create the GUI on the event-dispatching thread
-        SwingUtilities.invokeLater(() ->
-        {
+        SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("ShapedWindow");
             frame.setLayout(new GridBagLayout());
 
             // It is best practice to set the window's shape in
             // the componentResized method. Then, if the window
             // changes size, the shape will be correctly recalculated.
-            frame.addComponentListener(new ComponentAdapter()
-            {
+            frame.addComponentListener(new ComponentAdapter() {
                 // Give the window an elliptical shape.
                 // If the window is resized, the shape is recalculated here.
                 @Override
-                public void componentResized(final ComponentEvent event)
-                {
+                public void componentResized(final ComponentEvent event) {
                     frame.setShape(new Ellipse2D.Double(0, 0, frame.getWidth(), frame.getHeight()));
                 }
             });
@@ -76,8 +69,7 @@ public final class ShapedWindowMain
             frame.add(new JButton("I am a Button"));
 
             // Set the window to 70% translucency, if supported.
-            if (isTranslucencySupported)
-            {
+            if (isTranslucencySupported) {
                 frame.setOpacity(0.7F);
             }
 
@@ -86,8 +78,7 @@ public final class ShapedWindowMain
         });
     }
 
-    private ShapedWindowMain()
-    {
+    private ShapedWindowMain() {
         super();
     }
 }

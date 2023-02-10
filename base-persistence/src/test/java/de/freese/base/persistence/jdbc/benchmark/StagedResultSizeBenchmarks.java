@@ -27,41 +27,30 @@ import org.openjdk.jmh.infra.Blackhole;
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
 // @org.junit.platform.commons.annotation.Testable
-public class StagedResultSizeBenchmarks extends BenchmarkSettings
-{
+public class StagedResultSizeBenchmarks extends BenchmarkSettings {
     /**
      * @author Thomas Freese
      */
     @State(Scope.Benchmark)
-    public static class ConnectionHolder
-    {
+    public static class ConnectionHolder {
         private final Connection derby;
         private final Connection h2;
 
         private final Connection hsqldb;
 
         private Connection connection;
-        @Param(
-                {
-                        "h2", "hsqldb", "derby"
-                })
+        @Param({"h2", "hsqldb", "derby"})
         private String db;
-        @Param(
-                {
-                        "1", "10", "100", "200"
-                })
+        @Param({"1", "10", "100", "200"})
         private int resultSize;
 
-        public ConnectionHolder()
-        {
-            try
-            {
+        public ConnectionHolder() {
+            try {
                 this.derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
                 this.h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");
                 this.hsqldb = DriverManager.getConnection("jdbc:hsqldb:mem:jmh;shutdown=false", "sa", "");
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -70,15 +59,13 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
          * Es sind mehrere Methoden möglich mit unterschiedlichen {@link Level}.
          */
         @Setup
-        public void setup()
-        {
-            this.connection = switch (this.db)
-                    {
-                        case "h2" -> this.h2;
-                        case "hsqldb" -> this.hsqldb;
-                        case "derby" -> this.derby;
-                        default -> throw new IllegalStateException("Unknown Database: " + this.db);
-                    };
+        public void setup() {
+            this.connection = switch (this.db) {
+                case "h2" -> this.h2;
+                case "hsqldb" -> this.hsqldb;
+                case "derby" -> this.derby;
+                default -> throw new IllegalStateException("Unknown Database: " + this.db);
+            };
 
             populateDb(this.connection);
         }
@@ -87,58 +74,45 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
          * Multiple Methods possible with different {@link Level}.
          */
         @TearDown
-        public void tearDown()
-        {
+        public void tearDown() {
             this.connection = null;
         }
 
-        private void populateDb(final Connection connection)
-        {
-            try (Statement statement = connection.createStatement())
-            {
+        private void populateDb(final Connection connection) {
+            try (Statement statement = connection.createStatement()) {
                 String dbName = connection.getMetaData().getDatabaseProductName();
 
-                if (dbName.toLowerCase().contains("derby"))
-                {
-                    try
-                    {
+                if (dbName.toLowerCase().contains("derby")) {
+                    try {
                         statement.execute("DROP TABLE result_sizes");
                     }
-                    catch (SQLException ex)
-                    {
+                    catch (SQLException ex) {
                         // Empty
                     }
                 }
-                else
-                {
+                else {
                     statement.execute("DROP TABLE IF EXISTS result_sizes");
                 }
 
                 statement.execute("CREATE TABLE result_sizes (id int, name VARCHAR(255))");
 
-                for (int i = 0; i < this.resultSize; i++)
-                {
+                for (int i = 0; i < this.resultSize; i++) {
                     statement.execute(String.format("INSERT INTO result_sizes VALUES(%d, '%s')", i, UUID.randomUUID()));
                 }
             }
-            catch (SQLException ex)
-            {
+            catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
 
     @Benchmark
-    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
-    {
-        try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM result_sizes WHERE name != ?"))
-        {
+    public void preparedStatement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
+        try (PreparedStatement statement = connectionHolder.connection.prepareStatement("SELECT * FROM result_sizes WHERE name != ?")) {
             statement.setString(1, "foo");
 
-            try (ResultSet resultSet = statement.executeQuery())
-            {
-                while (resultSet.next())
-                {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
                     blackhole.consume(resultSet.getString("name"));
                 }
             }
@@ -146,13 +120,9 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings
     }
 
     @Benchmark
-    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException
-    {
-        try (Statement statement = connectionHolder.connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM result_sizes"))
-        {
-            while (resultSet.next())
-            {
+    public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
+        try (Statement statement = connectionHolder.connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM result_sizes")) {
+            while (resultSet.next()) {
                 blackhole.consume(resultSet.getString("name"));
             }
         }

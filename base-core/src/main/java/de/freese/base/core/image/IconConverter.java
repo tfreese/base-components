@@ -10,27 +10,21 @@ import java.nio.charset.StandardCharsets;
  *
  * @author Thomas Freese
  */
-public final class IconConverter
-{
+public final class IconConverter {
     /**
      * Liest die Grafik aus der Quelldatei und generiert dafür Java-Quellcode in der Zieldatei
      */
-    public static void convert(final String sourceFile, final String destFile) throws IOException
-    {
-        try (FileInputStream input = new FileInputStream(sourceFile);
-             FileWriter output = new FileWriter(destFile, StandardCharsets.UTF_8))
-        {
+    public static void convert(final String sourceFile, final String destFile) throws IOException {
+        try (FileInputStream input = new FileInputStream(sourceFile); FileWriter output = new FileWriter(destFile, StandardCharsets.UTF_8)) {
             int i = 0;
 
             output.write("return new ImageIcon(new byte[] {");
 
-            if ((i = input.read()) != -1)
-            {
+            if ((i = input.read()) != -1) {
                 output.write(Byte.toString((byte) i));
             }
 
-            while ((i = input.read()) != -1)
-            {
+            while ((i = input.read()) != -1) {
                 output.write(",");
                 output.write(Byte.toString((byte) i));
             }
@@ -39,8 +33,7 @@ public final class IconConverter
         }
     }
 
-    private IconConverter()
-    {
+    private IconConverter() {
         super();
     }
 }

@@ -9,14 +9,12 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
  *
  * @author Thomas Freese
  */
-public class ColorAdapter extends XmlAdapter<String, Color>
-{
+public class ColorAdapter extends XmlAdapter<String, Color> {
     /**
      * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
      */
     @Override
-    public String marshal(final Color arg0) throws Exception
-    {
+    public String marshal(final Color arg0) throws Exception {
         // zB. ff00ff00 -> Grün
         String hex = "#" + Integer.toHexString(arg0.getRGB());
 
@@ -30,8 +28,7 @@ public class ColorAdapter extends XmlAdapter<String, Color>
      * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
      */
     @Override
-    public Color unmarshal(final String arg0) throws Exception
-    {
+    public Color unmarshal(final String arg0) throws Exception {
         return Color.decode(arg0);
     }
 }

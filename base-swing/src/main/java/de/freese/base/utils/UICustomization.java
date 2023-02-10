@@ -13,25 +13,23 @@ import java.util.Objects;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
-import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 import org.jdesktop.swingx.painter.MattePainter;
+
+import de.freese.base.swing.fontchange.SwingFontSizeChanger;
 
 /**
  * @author Thomas Freese
  */
-public final class UICustomization
-{
+public final class UICustomization {
     private static final String COLOR_ALTERNATING = "color.alternating";
 
     private static final String COLOR_LIGHT_GRAY = "color.lightgray";
 
-    public static Color getColorAlternating()
-    {
+    public static Color getColorAlternating() {
         return UIManager.getColor(COLOR_ALTERNATING);
     }
 
-    public static Color getColorLightGray()
-    {
+    public static Color getColorLightGray() {
         return UIManager.getColor(COLOR_LIGHT_GRAY);
     }
 
@@ -41,24 +39,20 @@ public final class UICustomization
      *
      * @param className String LookAndFeel, optional
      */
-    public static void install(final String className) throws Exception
-    {
+    public static void install(final String className) throws Exception {
         UIManager.setLookAndFeel(className);
 
         installDefaults();
     }
 
-    public static void setDefaultFont(final Font font)
-    {
-        for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet())
-        {
+    public static void setDefaultFont(final Font font) {
+        for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
             Object key = entry.getKey();
             // Object value = entry.getValue();
 
             String keyString = key.toString();
 
-            if (keyString.endsWith(".font") || keyString.endsWith(".acceleratorFont"))
-            {
+            if (keyString.endsWith(".font") || keyString.endsWith(".acceleratorFont")) {
                 UIManager.put(key, font);
             }
             // Nicht alle Fonts werden als Font-Objekte geladen
@@ -114,14 +108,11 @@ public final class UICustomization
         // UIManager.put("Viewport.font", font);
     }
 
-    public static void writeUIDefaults(final OutputStream outputStream)
-    {
+    public static void writeUIDefaults(final OutputStream outputStream) {
         // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
         // Formatter formatter = new Formatter(os);
 
-        try (Formatter formatterConsole = new Formatter(System.out);
-             Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN))
-        {
+        try (Formatter formatterConsole = new Formatter(System.out); Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN)) {
             UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
 
             String format = "%1$s \t %2$s \n";
@@ -144,8 +135,7 @@ public final class UICustomization
         }
     }
 
-    private static void installDefaults()
-    {
+    private static void installDefaults() {
         UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 
         UIManager.put("FileChooser.useSystemIcons", Boolean.TRUE);
@@ -170,11 +160,9 @@ public final class UICustomization
         defaults.put("TaskPane.specialTitleForeground", Color.WHITE);
         defaults.put("TaskPane.titleForeground", Color.BLACK);
         defaults.put("TaskPaneContainer.useGradient", Boolean.FALSE);
-        defaults.put("TaskPaneContainer.backgroundPainter",
-                new MattePainter(new GradientPaint(0, 0, UIManager.getColor("Panel.background"), 0, 1, UIManager.getColor("Panel.background")), true));
+        defaults.put("TaskPaneContainer.backgroundPainter", new MattePainter(new GradientPaint(0, 0, UIManager.getColor("Panel.background"), 0, 1, UIManager.getColor("Panel.background")), true));
 
-        defaults.put("JXTitledPanel.titlePainter", new MattePainter(new GradientPaint(0, 0, UIManager.getColor("TaskPane.titleBackgroundGradientStart"), 0, 1,
-                UIManager.getColor("TaskPane.titleBackgroundGradientEnd")), true));
+        defaults.put("JXTitledPanel.titlePainter", new MattePainter(new GradientPaint(0, 0, UIManager.getColor("TaskPane.titleBackgroundGradientStart"), 0, 1, UIManager.getColor("TaskPane.titleBackgroundGradientEnd")), true));
 
         // Wizard
         defaults.put("nb.errorColor", Color.RED);
@@ -182,8 +170,7 @@ public final class UICustomization
         // System.setProperty("WizardDisplayer.default",".wizard.WizardDisplayerImpl");
     }
 
-    private UICustomization()
-    {
+    private UICustomization() {
         super();
     }
 }

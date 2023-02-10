@@ -28,21 +28,17 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 /**
  * @author Thomas Freese
  */
-public final class DbServerExtension implements BeforeAllCallback, BeforeTestExecutionCallback, AfterAllCallback, AfterTestExecutionCallback
-{
+public final class DbServerExtension implements BeforeAllCallback, BeforeTestExecutionCallback, AfterAllCallback, AfterTestExecutionCallback {
     private static final Logger LOGGER = LoggerFactory.getLogger(DbServerExtension.class);
 
     private static final Duration SQL_TIMEOUT = Duration.ofSeconds(5);
 
-    public static Duration getSqlTimeout()
-    {
+    public static Duration getSqlTimeout() {
         return SQL_TIMEOUT;
     }
 
-    public static void showMemory()
-    {
-        if (!LOGGER.isDebugEnabled())
-        {
+    public static void showMemory() {
+        if (!LOGGER.isDebugEnabled()) {
             return;
         }
 
@@ -68,8 +64,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     private JdbcOperations jdbcOperations;
 
-    public DbServerExtension(final EmbeddedDatabaseType databaseType)
-    {
+    public DbServerExtension(final EmbeddedDatabaseType databaseType) {
         super();
 
         this.databaseType = Objects.requireNonNull(databaseType, "databaseType required");
@@ -79,22 +74,18 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
      * @see org.junit.jupiter.api.extension.AfterAllCallback#afterAll(org.junit.jupiter.api.extension.ExtensionContext)
      */
     @Override
-    public void afterAll(final ExtensionContext context) throws Exception
-    {
-        if (LOGGER.isDebugEnabled())
-        {
+    public void afterAll(final ExtensionContext context) throws Exception {
+        if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("{} - afterAll", this.databaseType);
 
             HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
 
-            LOGGER.debug("{} - Connections: idle={}, active={}, waiting={}", this.databaseType, poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(),
-                    poolMXBean.getThreadsAwaitingConnection());
+            LOGGER.debug("{} - Connections: idle={}, active={}, waiting={}", this.databaseType, poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(), poolMXBean.getThreadsAwaitingConnection());
         }
 
         LOGGER.debug("{} - close datasource", this.databaseType);
 
-        switch (getDatabaseType())
-        {
+        switch (getDatabaseType()) {
             case HSQL:
             case H2:
                 //                try (Connection connection = this.dataSource.getConnection();
@@ -119,13 +110,11 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
         TimeUnit.MILLISECONDS.sleep(100);
 
-        if (!this.dataSource.isClosed())
-        {
+        if (!this.dataSource.isClosed()) {
             this.dataSource.close();
         }
 
-        if (LOGGER.isDebugEnabled())
-        {
+        if (LOGGER.isDebugEnabled()) {
             long startTime = getStoreForGlobal(context).get("start-time", long.class);
             long duration = System.currentTimeMillis() - startTime;
 
@@ -141,8 +130,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
      * @see org.junit.jupiter.api.extension.AfterTestExecutionCallback#afterTestExecution(org.junit.jupiter.api.extension.ExtensionContext)
      */
     @Override
-    public void afterTestExecution(final ExtensionContext context) throws Exception
-    {
+    public void afterTestExecution(final ExtensionContext context) throws Exception {
         // Method testMethod = context.getRequiredTestMethod();
         // long startTime = getStoreForMethod(context).get("start-time", long.class);
         // long duration = System.currentTimeMillis() - startTime;
@@ -155,18 +143,15 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
      * @see org.junit.jupiter.api.extension.BeforeAllCallback#beforeAll(org.junit.jupiter.api.extension.ExtensionContext)
      */
     @Override
-    public void beforeAll(final ExtensionContext context) throws Exception
-    {
+    public void beforeAll(final ExtensionContext context) throws Exception {
         LOGGER.debug("{} - beforeAll", this.databaseType);
 
         getStoreForGlobal(context).put("start-time", System.currentTimeMillis());
 
         HikariConfig config = new HikariConfig();
 
-        switch (getDatabaseType())
-        {
-            case HSQL ->
-            {
+        switch (getDatabaseType()) {
+            case HSQL -> {
                 // JDBCPool pool = new JDBCPool(3);
                 // pool.setUrl("jdbc:hsqldb:mem:" + createDbName() + ";shutdown=true");
                 // pool.setUser("sa");
@@ -178,8 +163,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 config.setJdbcUrl("jdbc:hsqldb:mem:" + UUID.randomUUID() + ";shutdown=true");
             }
 
-            case H2 ->
-            {
+            case H2 -> {
                 // JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:" + createDbName() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
                 // pool.setMaxConnections(3);
 
@@ -189,8 +173,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
                 config.setJdbcUrl("jdbc:h2:mem:" + UUID.randomUUID() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true");
             }
 
-            case DERBY ->
-            {
+            case DERBY -> {
                 config.setDriverClassName("org.apache.derby.iapi.jdbc.AutoloadedDriver");
                 config.setJdbcUrl("jdbc:derby:memory:" + UUID.randomUUID() + ";create=true");
             }
@@ -224,67 +207,56 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
      * @see org.junit.jupiter.api.extension.BeforeTestExecutionCallback#beforeTestExecution(org.junit.jupiter.api.extension.ExtensionContext)
      */
     @Override
-    public void beforeTestExecution(final ExtensionContext context) throws Exception
-    {
+    public void beforeTestExecution(final ExtensionContext context) throws Exception {
         getStoreForMethod(context).put("start-time", System.currentTimeMillis());
     }
 
-    public DataSource getDataSource()
-    {
+    public DataSource getDataSource() {
         return this.dataSource;
     }
 
-    public EmbeddedDatabaseType getDatabaseType()
-    {
+    public EmbeddedDatabaseType getDatabaseType() {
         return this.databaseType;
     }
 
-    public String getDriver()
-    {
+    public String getDriver() {
         return this.dataSource.getDriverClassName();
     }
 
-    public JdbcOperations getJdbcOperations()
-    {
+    public JdbcOperations getJdbcOperations() {
         return this.jdbcOperations;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return this.dataSource.getPassword();
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return this.dataSource.getJdbcUrl();
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return this.dataSource.getUsername();
     }
 
     /**
      * Object-Store for Test-Class.
      */
-    Store getStoreForClass(final ExtensionContext context)
-    {
+    Store getStoreForClass(final ExtensionContext context) {
         return context.getStore(Namespace.create(getClass()));
     }
 
     /**
      * Object-Store for the hole Test.
      */
-    Store getStoreForGlobal(final ExtensionContext context)
-    {
+    Store getStoreForGlobal(final ExtensionContext context) {
         return context.getStore(Namespace.create("global"));
     }
 
     /**
      * Object-Store for Test-Method.
      */
-    Store getStoreForMethod(final ExtensionContext context)
-    {
+    Store getStoreForMethod(final ExtensionContext context) {
         return context.getStore(Namespace.create(getClass(), context.getRequiredTestMethod()));
     }
 }

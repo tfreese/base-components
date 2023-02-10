@@ -6,7 +6,6 @@ import java.awt.Font;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface FontChangeHandler
-{
+public interface FontChangeHandler {
     void fontChanged(Font newFont, Object object);
 }

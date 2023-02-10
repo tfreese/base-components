@@ -15,8 +15,7 @@ import de.freese.base.swing.icon.ColumnControlIcon;
  *
  * @author Thomas Freese
  */
-public class ColumnControlButton extends JButton
-{
+public class ColumnControlButton extends JButton {
     @Serial
     private static final long serialVersionUID = -1209957795127294654L;
 
@@ -24,39 +23,32 @@ public class ColumnControlButton extends JButton
 
     private transient ColumnControlWindow columnControlWindow;
 
-    public ColumnControlButton(final ExtTable table)
-    {
+    public ColumnControlButton(final ExtTable table) {
         super();
 
-        if (!(table.getColumnModel() instanceof ExtTableColumnModel))
-        {
+        if (!(table.getColumnModel() instanceof ExtTableColumnModel)) {
             throw new IllegalArgumentException("TableColumnModel muss vom Typ IExtTableColumnModel sein !");
         }
 
         this.tables.add(table);
         setIcon(new ColumnControlIcon());
-        addActionListener(e ->
-        {
+        addActionListener(e -> {
             getColumnControlWindow().clear();
             getColumnControlWindow().fill();
             getColumnControlWindow().show();
         });
     }
 
-    public List<ExtTable> getTables()
-    {
+    public List<ExtTable> getTables() {
         return this.tables;
     }
 
-    protected ColumnControlWindow createColumnControlWindow()
-    {
+    protected ColumnControlWindow createColumnControlWindow() {
         return new ColumnControlWindow(this);
     }
 
-    private ColumnControlWindow getColumnControlWindow()
-    {
-        if (this.columnControlWindow == null)
-        {
+    private ColumnControlWindow getColumnControlWindow() {
+        if (this.columnControlWindow == null) {
             this.columnControlWindow = createColumnControlWindow();
         }
 

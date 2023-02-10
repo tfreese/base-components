@@ -33,8 +33,7 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class TestSqLite
-{
+class TestSqLite {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestSqLite.class);
     /**
      * Paths.get(System.getProperty("user.dir"), "target")<br>
@@ -45,17 +44,14 @@ class TestSqLite
     private static SQLiteDataSource dataSource;
 
     @AfterAll
-    protected static void afterAll() throws Exception
-    {
+    protected static void afterAll() throws Exception {
         // Would delete files from other tests.
         // deleteDirectoryRecursive(PATH_TEST);
     }
 
     @BeforeAll
-    protected static void beforeAll() throws Exception
-    {
-        if (Files.notExists(PATH_TEST))
-        {
+    protected static void beforeAll() throws Exception {
+        if (Files.notExists(PATH_TEST)) {
             Files.createDirectories(PATH_TEST);
         }
 
@@ -79,17 +75,13 @@ class TestSqLite
     }
 
     @Test
-    void testSqliteJDBC() throws Exception
-    {
-        try (Connection connection = dataSource.getConnection())
-        {
-            try (Statement statement = connection.createStatement())
-            {
+    void testSqliteJDBC() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate("drop table if exists COMPANY");
             }
 
-            try (Statement stmt = connection.createStatement())
-            {
+            try (Statement stmt = connection.createStatement()) {
                 StringBuilder sql = new StringBuilder();
                 sql.append("CREATE TABLE COMPANY");
                 sql.append(" (ID      INTEGER PRIMARY KEY AUTOINCREMENT");
@@ -103,15 +95,12 @@ class TestSqLite
 
             connection.setAutoCommit(false);
 
-            try (Statement stmt = connection.createStatement())
-            {
+            try (Statement stmt = connection.createStatement()) {
                 String sql = "INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)";
                 stmt.executeUpdate(sql);
 
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys())
-                {
-                    while (generatedKeys.next())
-                    {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    while (generatedKeys.next()) {
                         LOGGER.debug("Key: {}", generatedKeys.getInt(1));
                     }
                 }
@@ -119,11 +108,8 @@ class TestSqLite
 
             connection.commit();
 
-            try (Statement stmt = connection.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY"))
-            {
-                while (rs.next())
-                {
+            try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY")) {
+                while (rs.next()) {
                     Map<String, Object> row = new LinkedHashMap<>();
                     row.put("ID", rs.getInt("ID"));
                     row.put("NAME", rs.getInt("NAME"));
@@ -140,8 +126,7 @@ class TestSqLite
     }
 
     @Test
-    void testSqliteSpring() throws Exception
-    {
+    void testSqliteSpring() throws Exception {
         // SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         // dataSource.setDriverClassName("org.sqlite.JDBC");
         // dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");
@@ -169,8 +154,7 @@ class TestSqLite
         // transactionManager.rollback(transactionStatus);
 
         // SqlRowSet result = jdbcTemplate.query("SELECT * FROM COMPANY", new SqlRowSetResultSetExtractor());
-        jdbcTemplate.query("SELECT * FROM COMPANY", rs ->
-        {
+        jdbcTemplate.query("SELECT * FROM COMPANY", rs -> {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("ID", rs.getInt("ID"));
             row.put("NAME", rs.getInt("NAME"));

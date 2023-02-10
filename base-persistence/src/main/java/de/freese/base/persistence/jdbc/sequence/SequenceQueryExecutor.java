@@ -14,25 +14,20 @@ import javax.sql.DataSource;
  *
  * @author Thomas Freese
  */
-public class SequenceQueryExecutor
-{
+public class SequenceQueryExecutor {
     private final SequenceQuery sequenceQuery;
 
-    public SequenceQueryExecutor(final SequenceQuery sequenceQuery)
-    {
+    public SequenceQueryExecutor(final SequenceQuery sequenceQuery) {
         super();
 
         this.sequenceQuery = Objects.requireNonNull(sequenceQuery, "sequenceQuery required");
     }
 
-    public long getNextID(final String sequence, final Connection connection) throws SQLException
-    {
+    public long getNextID(final String sequence, final Connection connection) throws SQLException {
         String sql = this.sequenceQuery.apply(sequence);
         long id = 0;
 
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql))
-        {
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             rs.next();
             id = rs.getLong(1);
         }
@@ -40,10 +35,8 @@ public class SequenceQueryExecutor
         return id;
     }
 
-    public long getNextID(final String sequence, final DataSource dataSource) throws SQLException
-    {
-        try (Connection connection = dataSource.getConnection())
-        {
+    public long getNextID(final String sequence, final DataSource dataSource) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
             return getNextID(sequence, connection);
         }
     }

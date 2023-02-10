@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.freese.base.core.exception.StackTraceLimiter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -16,13 +15,14 @@ import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import de.freese.base.core.exception.StackTraceLimiter;
+
 /**
  * Basis Implementierung des Excelinterfaces für POI.
  *
  * @author Thomas Freese
  */
-public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
-{
+public abstract class AbstractPoiExcelImpl extends AbstractExcelImport {
     private final Map<Short, Format> cacheFormat = new HashMap<>();
 
     private final DataFormatter dataFormatter = new DataFormatter();
@@ -39,17 +39,14 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see de.freese.base.reports.importer.excel.AbstractExcelImport#closeExcelFile()
      */
     @Override
-    public final void closeExcelFile() throws Exception
-    {
+    public final void closeExcelFile() throws Exception {
         this.cacheFormat.clear();
 
-        if (this.workBook != null)
-        {
+        if (this.workBook != null) {
             this.workBook = null;
         }
 
-        if (this.formulaEvaluator != null)
-        {
+        if (this.formulaEvaluator != null) {
             this.formulaEvaluator = null;
         }
 
@@ -60,8 +57,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#closeSheet()
      */
     @Override
-    public final void closeSheet()
-    {
+    public final void closeSheet() {
         // Empty
     }
 
@@ -69,17 +65,14 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#getNumColumns()
      */
     @Override
-    public final int getNumColumns()
-    {
+    public final int getNumColumns() {
         int numRows = getNumRows();
         int maxCol = 0;
 
-        for (int i = 0; i < numRows; i++)
-        {
+        for (int i = 0; i < numRows; i++) {
             Row r = this.sheet.getRow(i);
 
-            if ((r != null) && (maxCol < r.getLastCellNum()))
-            {
+            if ((r != null) && (maxCol < r.getLastCellNum())) {
                 maxCol = r.getLastCellNum();
             }
         }
@@ -91,8 +84,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#getNumRows()
      */
     @Override
-    public final int getNumRows()
-    {
+    public final int getNumRows() {
         int numRows = this.sheet.getLastRowNum();
 
         // if(numRows==0) { return 1; }
@@ -104,8 +96,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#getNumberOfSheets()
      */
     @Override
-    public final int getNumberOfSheets()
-    {
+    public final int getNumberOfSheets() {
         return this.workBook.getNumberOfSheets();
     }
 
@@ -113,8 +104,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#getSheetName()
      */
     @Override
-    public final String getSheetName()
-    {
+    public final String getSheetName() {
         return this.sheet.getSheetName();
     }
 
@@ -122,26 +112,20 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#getValueAt(int, int)
      */
     @Override
-    public final String getValueAt(final int row, final int column) throws ExcelException
-    {
+    public final String getValueAt(final int row, final int column) throws ExcelException {
         String value = null;
 
-        try
-        {
+        try {
             selectRow(row);
 
-            if (this.row != null)
-            {
+            if (this.row != null) {
                 Cell cell = this.row.getCell(column);
 
-                if (cell != null)
-                {
-                    if (!CellType.FORMULA.equals(cell.getCellType()))
-                    {
+                if (cell != null) {
+                    if (!CellType.FORMULA.equals(cell.getCellType())) {
                         value = this.dataFormatter.formatCellValue(cell);
                     }
-                    else
-                    {
+                    else {
                         // this.formulaEvaluator.evaluate(cell).getNumberValue();
                         value = this.dataFormatter.formatCellValue(cell, this.formulaEvaluator);
                     }
@@ -199,12 +183,10 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
                 }
             }
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             ExcelException eex = new ExcelException(getSheetName(), row, column, ex);
 
-            if (isThrowExcelException())
-            {
+            if (isThrowExcelException()) {
                 throw eex;
             }
 
@@ -213,8 +195,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
             getLogger().warn(sb.toString());
         }
 
-        if (value == null)
-        {
+        if (value == null) {
             value = "";
         }
 
@@ -225,8 +206,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#isSheetReadable()
      */
     @Override
-    public final boolean isSheetReadable()
-    {
+    public final boolean isSheetReadable() {
         /*
          * if(_sheet!=null && sheet.getProtect()==true) { System.out.println("****\n\n\n Protected\n\n\n **** "); return false; } for(int
          * i=0;i<getNumRows();i++) { if(sheet!=null && sheet.isRowBroken(i)) { System.out.println("****\n\n\n Row is broken\n\n\n **** "); } }
@@ -238,8 +218,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#openExcelFile(java.io.InputStream)
      */
     @Override
-    public final void openExcelFile(final InputStream inputStream) throws Exception
-    {
+    public final void openExcelFile(final InputStream inputStream) throws Exception {
         this.workBook = openWorkbook(inputStream);
 
         // this.formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
@@ -252,13 +231,11 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#selectSheet(int)
      */
     @Override
-    public final void selectSheet(final int sheetIndex) throws Exception
-    {
+    public final void selectSheet(final int sheetIndex) throws Exception {
         this.sheet = this.workBook.getSheetAt(sheetIndex);
 
         // Sheet vorhanden ?
-        if (this.sheet == null)
-        {
+        if (this.sheet == null) {
             throw new Exception("Excel Sheet not found at index: " + sheetIndex);
         }
     }
@@ -267,22 +244,18 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
      * @see ExcelImport#selectSheet(java.lang.String)
      */
     @Override
-    public final void selectSheet(final String sheetName) throws Exception
-    {
+    public final void selectSheet(final String sheetName) throws Exception {
         this.sheet = this.workBook.getSheet(sheetName);
 
         // Sheet vorhanden ?
-        if (this.sheet == null)
-        {
+        if (this.sheet == null) {
             int sheetCount = this.workBook.getNumberOfSheets();
 
             // Durch alle Sheets gehen und Namen trimmen
-            for (int i = 0; i < sheetCount; i++)
-            {
+            for (int i = 0; i < sheetCount; i++) {
                 String sName = this.workBook.getSheetName(i).strip();
 
-                if (sName.equals(sheetName.strip()))
-                {
+                if (sName.equals(sheetName.strip())) {
                     this.sheet = this.workBook.getSheetAt(i);
 
                     break;
@@ -291,18 +264,15 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
         }
 
         // Sheet vorhanden ?
-        if (this.sheet == null)
-        {
+        if (this.sheet == null) {
             throw new Exception("Excel Sheet not found: " + sheetName);
         }
     }
 
-    protected Format getDateFormatter(final short format)
-    {
+    protected Format getDateFormatter(final short format) {
         Format formatter = this.cacheFormat.get(format);
 
-        if (formatter == null)
-        {
+        if (formatter == null) {
             formatter = new SimpleDateFormat(getDateFormatByExcelIndex(format));
             this.cacheFormat.put(format, formatter);
         }
@@ -312,8 +282,7 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
 
     protected abstract Workbook openWorkbook(InputStream inputStream) throws Exception;
 
-    private String getDateFormatByExcelIndex(final int index)
-    {
+    private String getDateFormatByExcelIndex(final int index) {
         // case 165 -> "dd.MM.yy HH:mm";
         // case 167 -> "dd.M.yyyy";
         // case 169 -> "dd.MMMM.yyyy";
@@ -323,10 +292,8 @@ public abstract class AbstractPoiExcelImpl extends AbstractExcelImport
         return "dd.MM.yyyy";
     }
 
-    private void selectRow(final int rowNum)
-    {
-        if ((this.row == null) || (this.row.getRowNum() != rowNum))
-        {
+    private void selectRow(final int rowNum) {
+        if ((this.row == null) || (this.row.getRowNum() != rowNum)) {
             this.row = this.sheet.getRow(rowNum);
         }
     }
