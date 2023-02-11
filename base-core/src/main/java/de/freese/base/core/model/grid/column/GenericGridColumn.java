@@ -20,8 +20,8 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T> {
 
     private final ThrowingBiConsumer<DataOutput, T, IOException> writer;
 
-    public GenericGridColumn(final Class<T> objectClazz, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer, final ThrowingFunction<DataInput, T, IOException> reader) {
-        super(Objects.requireNonNull(objectClazz, "objectClazz required"));
+    public GenericGridColumn(final Class<T> type, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer, final ThrowingFunction<DataInput, T, IOException> reader) {
+        super(Objects.requireNonNull(type, "type required"));
 
         this.mapper = Objects.requireNonNull(mapper, "mapper required");
         this.writer = Objects.requireNonNull(writer, "writer required");

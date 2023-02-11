@@ -46,7 +46,7 @@ class TestGridColumns {
     void testBinary() throws IOException {
         BinaryGridColumn column = new BinaryGridColumn();
 
-        assertEquals(byte[].class, column.getObjectClazz());
+        assertEquals(byte[].class, column.getType());
 
         byte[] object = new byte[]{0, 1, 2, 3, 4, 5};
 
@@ -61,7 +61,7 @@ class TestGridColumns {
     void testBoolean() throws IOException {
         BooleanGridColumn column = new BooleanGridColumn();
 
-        assertEquals(Boolean.class, column.getObjectClazz());
+        assertEquals(Boolean.class, column.getType());
 
         assertNull(column.getValue(null));
         assertFalse(column.getValue(false));
@@ -76,7 +76,7 @@ class TestGridColumns {
     void testDate() throws IOException {
         DateGridColumn column = new DateGridColumn();
 
-        assertEquals(Date.class, column.getObjectClazz());
+        assertEquals(Date.class, column.getType());
 
         Date object = Date.from(ZonedDateTime.now().toInstant());
         // Date object = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(+2)));
@@ -94,7 +94,7 @@ class TestGridColumns {
     void testDouble() throws IOException {
         DoubleGridColumn column = new DoubleGridColumn();
 
-        assertEquals(Double.class, column.getObjectClazz());
+        assertEquals(Double.class, column.getType());
 
         double value = 1.123456D;
 
@@ -134,7 +134,7 @@ class TestGridColumns {
 
         GenericGridColumn<LocalDateTime> column = new GenericGridColumn<>(LocalDateTime.class, mapper, writer, reader);
 
-        assertEquals(LocalDateTime.class, column.getObjectClazz());
+        assertEquals(LocalDateTime.class, column.getType());
 
         LocalDateTime value = LocalDateTime.now().withNano(0);
 
@@ -149,7 +149,7 @@ class TestGridColumns {
     void testInteger() throws IOException {
         IntegerGridColumn column = new IntegerGridColumn();
 
-        assertEquals(Integer.class, column.getObjectClazz());
+        assertEquals(Integer.class, column.getType());
 
         int value = 123456;
 
@@ -164,7 +164,7 @@ class TestGridColumns {
     void testLong() throws IOException {
         LongGridColumn column = new LongGridColumn();
 
-        assertEquals(Long.class, column.getObjectClazz());
+        assertEquals(Long.class, column.getType());
 
         long value = 123456L;
 
@@ -179,7 +179,7 @@ class TestGridColumns {
     void testString() throws IOException {
         StringGridColumn column = new StringGridColumn();
 
-        assertEquals(String.class, column.getObjectClazz());
+        assertEquals(String.class, column.getType());
 
         String value = ",.-öä\"#ü+";
 

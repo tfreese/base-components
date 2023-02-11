@@ -38,24 +38,15 @@ public class GridMetaData {
     }
 
     public void addColumn(final GridColumn<?> column) {
-        // StreamSupport.stream(spliterator(), false);
-        // boolean clazzExist = getColumns().stream().anyMatch(c -> column.getObjectClazz().equals(c.getObjectClazz()));
-        //
-        // if (clazzExist)
-        // {
-        // String msg = String.format("column for class %s already exist: %s", clazz.getName(), optional.get().getClass().getName());
-        // throw new IllegalArgumentException(msg);
-        // }
-
         getColumns().add(column);
     }
 
-    public int columnCount() {
-        return getColumns().size();
+    public GridColumn<?> getColumn(final int columnIndex) {
+        return getColumns().get(columnIndex);
     }
 
-    public GridColumn<?> getColumn(final int index) {
-        return getColumns().get(index);
+    public int getColumnCount() {
+        return getColumns().size();
     }
 
     public GridColumnFactory getGridColumnFactory() {
@@ -63,22 +54,19 @@ public class GridMetaData {
     }
 
     public void readMetaData(final DataInput dataInput) throws IOException, ClassNotFoundException {
-        // Anzahl Spalten
         int columnCount = dataInput.readInt();
 
         for (int i = 0; i < columnCount; i++) {
-            // Object-Class
             int length = dataInput.readInt();
             byte[] bytes = new byte[length];
             dataInput.readFully(bytes);
 
-            String objectClazzName = new String(bytes, DEFAULT_CHARSET);
-            Class<?> objectClazz = Class.forName(objectClazzName);
-            GridColumn<?> column = this.gridColumnFactory.getColumnForType(objectClazz);
+            String typeName = new String(bytes, DEFAULT_CHARSET);
+            Class<?> type = Class.forName(typeName);
+            GridColumn<?> column = this.gridColumnFactory.getColumnForType(type);
 
             getColumns().add(column);
 
-            // Name
             boolean isNull = dataInput.readBoolean(); // NULL-Marker
 
             if (!isNull) {
@@ -90,15 +78,12 @@ public class GridMetaData {
                 column.setName(name);
             }
 
-            // Länge
             length = dataInput.readInt();
             column.setLength(length);
 
-            // Precision
             int precision = dataInput.readInt();
             column.setPrecision(precision);
 
-            // Comments
             isNull = dataInput.readBoolean(); // NULL-Marker
 
             if (!isNull) {
@@ -112,17 +97,7 @@ public class GridMetaData {
         }
     }
 
-    // /**
-    // * @see java.lang.Iterable#iterator()
-    // */
-    // @Override
-    // public Iterator<GridColumn<?>> iterator()
-    // {
-    // return getColumns().iterator();
-    // }
-
     public void readMetaData(final ResultSetMetaData metaData) throws SQLException {
-        // Anzahl Spalten
         int columnCount = metaData.getColumnCount();
 
         for (int c = 1; c <= columnCount; c++) {
@@ -130,7 +105,6 @@ public class GridMetaData {
             column.setName(metaData.getColumnLabel(c));
             column.setLength(metaData.getColumnDisplaySize(c));
             column.setPrecision(metaData.getPrecision(c));
-            // column.setScale(metaData.getScale(c));
 
             getColumns().add(column);
         }
@@ -141,16 +115,13 @@ public class GridMetaData {
     }
 
     public void writeMetaData(final DataOutput dataOutput) throws IOException {
-        // Anzahl Spalten
-        dataOutput.writeInt(columnCount());
+        dataOutput.writeInt(getColumnCount());
 
         for (GridColumn<?> column : getColumns()) {
-            // Object-Class
-            byte[] bytes = column.getObjectClazz().getName().getBytes(DEFAULT_CHARSET);
+            byte[] bytes = column.getType().getName().getBytes(DEFAULT_CHARSET);
             dataOutput.writeInt(bytes.length);
             dataOutput.write(bytes);
 
-            // Name
             String name = Optional.ofNullable(column.getName()).orElse("").strip();
             name = name.length() == 0 ? null : name;
 
@@ -162,13 +133,10 @@ public class GridMetaData {
                 dataOutput.write(bytes);
             }
 
-            // Länge
             dataOutput.writeInt(column.getLength());
 
-            // Precision
             dataOutput.writeInt(column.getPrecision());
 
-            // Comments
             String comment = Optional.ofNullable(column.getComment()).orElse("").strip();
             comment = comment.length() == 0 ? null : comment;
 

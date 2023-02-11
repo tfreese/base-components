@@ -111,7 +111,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         String clazzName = null;
 
         try {
-            clazzName = tryDetermineObjectClazz().getSimpleName();
+            clazzName = tryDetermineType().getSimpleName();
         }
         catch (Exception ex) {
             T object = borrowObject();
@@ -157,8 +157,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
     }
 
     /**
-     * Das hier funktioniert nur, wenn die erbende Klasse nicht auch generisch ist !<br>
-     * Z.B.:
+     * This works only, if the Super-Class is not generic too !
      *
      * <pre>
      * {@code
@@ -167,7 +166,7 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
      * </pre>
      */
     @SuppressWarnings("unchecked")
-    protected Class<T> tryDetermineObjectClazz() throws ClassCastException {
+    protected Class<T> tryDetermineType() throws ClassCastException {
         ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
 
         return (Class<T>) parameterizedType.getActualTypeArguments()[0];

@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 public final class Switch<T> {
     /**
      * @author Thomas Freese
-     * @see Switch
      */
     public static final class Case<T> {
         public static <T> Case<T> matchCase(final BooleanSupplier condition, final Supplier<T> value) {
@@ -60,7 +59,8 @@ public final class Switch<T> {
                 .filter(c -> c.condition.getAsBoolean())
                 .map(c -> c.value.get())
                 .findFirst()
-                .orElseGet(defaultCase.value);
+                .orElseGet(defaultCase.value)
+                ;
         //@formatter:on
 
         return Optional.ofNullable(result);

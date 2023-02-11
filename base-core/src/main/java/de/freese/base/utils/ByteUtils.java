@@ -109,7 +109,7 @@ public final class ByteUtils {
         return decompressed;
     }
 
-    public static <T> T deserializeObject(final byte[] bytes) {
+    public static <T> T deserializeObject(final Class<T> type, final byte[] bytes) {
         if (bytes == null) {
             return null;
         }
@@ -126,7 +126,7 @@ public final class ByteUtils {
             throw new RuntimeException(ex);
         }
 
-        return (T) object;
+        return type.cast(object);
     }
 
     public static long generateTempOID() {

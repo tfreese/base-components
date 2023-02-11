@@ -12,14 +12,16 @@ import de.freese.base.core.model.grid.column.GridColumn;
  */
 public class GridColumnBuilder {
     private final GridMetaData gridMetaData;
+
     private String comment;
+
     private int length = -1;
 
     private String name;
 
-    private Class<?> objectClazz;
-
     private int precision = -1;
+    
+    private Class<?> type;
 
     GridColumnBuilder(final GridMetaData gridMetaData) {
         super();
@@ -28,7 +30,7 @@ public class GridColumnBuilder {
     }
 
     public GridBuilder and() {
-        GridColumn<?> gc = this.gridMetaData.getGridColumnFactory().getColumnForType(this.objectClazz);
+        GridColumn<?> gc = this.gridMetaData.getGridColumnFactory().getColumnForType(this.type);
         gc.setComment(this.comment);
         gc.setLength(this.length);
         gc.setName(this.name);
@@ -61,14 +63,14 @@ public class GridColumnBuilder {
         return this;
     }
 
-    public GridColumnBuilder objectClazz(final Class<?> objectClazz) {
-        this.objectClazz = objectClazz;
+    public GridColumnBuilder precision(final int precision) {
+        this.precision = precision;
 
         return this;
     }
 
-    public GridColumnBuilder precision(final int precision) {
-        this.precision = precision;
+    public GridColumnBuilder type(final Class<?> type) {
+        this.type = type;
 
         return this;
     }

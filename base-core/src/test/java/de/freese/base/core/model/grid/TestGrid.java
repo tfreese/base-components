@@ -62,8 +62,8 @@ class TestGrid {
                .build();
        //@formatter:on
 
-        assertEquals(3, grid.columnCount());
-        assertEquals(0, grid.rowCount());
+        assertEquals(3, grid.getColumnCount());
+        assertEquals(0, grid.getRowCount());
 
         assertEquals("int", grid.getName(0));
         assertEquals("long", grid.getName(1));
@@ -71,7 +71,7 @@ class TestGrid {
 
         grid.addColumn(new BooleanGridColumn("boolean"));
 
-        assertEquals(4, grid.columnCount());
+        assertEquals(4, grid.getColumnCount());
         assertEquals("int", grid.getName(0));
         assertEquals("long", grid.getName(1));
         assertEquals("double", grid.getName(2));
@@ -128,11 +128,11 @@ class TestGrid {
             gmd2.readMetaData(dis);
         }
 
-        assertEquals(7, grid.columnCount());
-        assertEquals(grid.columnCount(), gmd2.columnCount());
+        assertEquals(7, grid.getColumnCount());
+        assertEquals(grid.getColumnCount(), gmd2.getColumnCount());
 
-        for (int i = 0; i < grid.columnCount(); i++) {
-            assertEquals(grid.getObjectClazz(i), gmd2.getColumn(i).getObjectClazz());
+        for (int i = 0; i < grid.getColumnCount(); i++) {
+            assertEquals(grid.getType(i), gmd2.getColumn(i).getType());
             assertEquals(grid.getName(i), gmd2.getColumn(i).getName());
             assertEquals(grid.getComment(i), gmd2.getColumn(i).getComment());
             assertEquals(grid.getLength(i), gmd2.getColumn(i).getLength());
@@ -178,30 +178,31 @@ class TestGrid {
         Grid grid = new Grid();
         grid.read(resultSetMock);
 
-        assertEquals(3, grid.columnCount());
-        assertEquals(data.length, grid.rowCount());
+        assertEquals(3, grid.getColumnCount());
+        assertEquals(data.length, grid.getRowCount());
 
-        assertEquals(Boolean.class, grid.getObjectClazz(0));
+        assertEquals(Boolean.class, grid.getType(0));
         assertEquals("boolean", grid.getName(0));
         assertNull(grid.getComment(0));
         assertEquals(1, grid.getLength(0));
         assertEquals(1, grid.getPrecision(0));
 
-        assertEquals(Double.class, grid.getObjectClazz(1));
+        assertEquals(Double.class, grid.getType(1));
         assertEquals("double", grid.getName(1));
         assertNull(grid.getComment(1));
         assertEquals(3, grid.getLength(1));
         assertEquals(3, grid.getPrecision(1));
 
-        assertEquals(String.class, grid.getObjectClazz(2));
+        assertEquals(String.class, grid.getType(2));
         assertEquals("string", grid.getName(2));
         assertNull(grid.getComment(2));
         assertEquals(10, grid.getLength(2));
         assertEquals(10, grid.getPrecision(2));
 
-        for (int r = 0; r < grid.rowCount(); r++) {
-            for (int c = 1; c < grid.columnCount(); c++) {
-                assertEquals(data[r][c], grid.getValue(c, r));
+        for (int r = 0; r < grid.getRowCount(); r++) {
+            for (int c = 1; c < grid.getColumnCount(); c++) {
+
+                assertEquals(data[r][c], grid.getValue(Object.class, c, r));
             }
         }
     }
@@ -237,28 +238,28 @@ class TestGrid {
             grid2.read(dis);
         }
 
-        assertEquals(7, grid1.columnCount());
-        assertEquals(2, grid1.rowCount());
-        assertEquals(grid1.columnCount(), grid2.columnCount());
-        assertEquals(grid1.rowCount(), grid2.rowCount());
+        assertEquals(7, grid1.getColumnCount());
+        assertEquals(2, grid1.getRowCount());
+        assertEquals(grid1.getColumnCount(), grid2.getColumnCount());
+        assertEquals(grid1.getRowCount(), grid2.getRowCount());
 
-        for (int i = 0; i < grid1.columnCount(); i++) {
-            assertEquals(grid1.getObjectClazz(i), grid2.getObjectClazz(i));
+        for (int i = 0; i < grid1.getColumnCount(); i++) {
+            assertEquals(grid1.getType(i), grid2.getType(i));
             assertEquals(grid1.getName(i), grid2.getName(i));
             assertEquals(grid1.getComment(i), grid2.getComment(i));
             assertEquals(grid1.getLength(i), grid2.getLength(i));
             assertEquals(grid1.getPrecision(i), grid2.getPrecision(i));
         }
 
-        for (int r = 0; r < grid1.rowCount(); r++) {
-            byte[] a1 = grid1.getValue(0, r);
-            byte[] a2 = grid2.getValue(0, r);
+        for (int r = 0; r < grid1.getRowCount(); r++) {
+            byte[] a1 = grid1.getValue(byte[].class, 0, r);
+            byte[] a2 = grid2.getValue(byte[].class, 0, r);
 
             assertArrayEquals(a1, a2);
 
-            for (int c = 1; c < grid1.columnCount(); c++) {
-                Object value1 = grid1.getValue(c, r);
-                Object value2 = grid2.getValue(c, r);
+            for (int c = 1; c < grid1.getColumnCount(); c++) {
+                Object value1 = grid1.getValue(Object.class, c, r);
+                Object value2 = grid2.getValue(Object.class, c, r);
 
                 assertEquals(value1, value2);
             }

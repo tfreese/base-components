@@ -4,12 +4,13 @@ package de.freese.base.core.model.grid.column;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author Thomas Freese
  */
 public abstract class AbstractGridColumn<T> implements GridColumn<T> {
-    private final Class<T> objectClazz;
+    private final Class<T> type;
 
     private String comment;
 
@@ -23,17 +24,17 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     //    {
     //        super();
     //
-    //        // Das hier funktioniert nur, wenn die erbende Klasse nicht auch generisch ist !
-    //        // z.B. : public class IntegerGridColumn extends AbstractGridColumn<Integer>
+    //        // This works only, if the Super-Class is not generic too !
+    //        // public class IntegerGridColumn extends AbstractGridColumn<Integer>
     //        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
     //
-    //        this.objectClazz = (Class<T>) parameterizedType.getActualTypeArguments()[0];
+    //        this.type = (Class<T>) parameterizedType.getActualTypeArguments()[0];
     //    }
 
-    protected AbstractGridColumn(final Class<T> objectClazz) {
+    protected AbstractGridColumn(final Class<T> type) {
         super();
 
-        this.objectClazz = objectClazz;
+        this.type = Objects.requireNonNull(type, "type required");
     }
 
     /**
@@ -61,19 +62,19 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getObjectClazz()
-     */
-    @Override
-    public Class<T> getObjectClazz() {
-        return this.objectClazz;
-    }
-
-    /**
      * @see de.freese.base.core.model.grid.column.GridColumn#getPrecision()
      */
     @Override
     public int getPrecision() {
         return this.precision;
+    }
+
+    /**
+     * @see de.freese.base.core.model.grid.column.GridColumn#getType()
+     */
+    @Override
+    public Class<T> getType() {
+        return this.type;
     }
 
     /**
@@ -131,7 +132,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
         StringBuilder builder = new StringBuilder();
         builder.append("GridColumn [");
         builder.append("name=").append(this.name);
-        builder.append(", objectClazz=").append(this.objectClazz.getSimpleName());
+        builder.append(", type=").append(this.type.getSimpleName());
         builder.append(", comment=").append(this.comment);
         builder.append(", length=").append(this.length);
         builder.append(", precision=").append(this.precision);

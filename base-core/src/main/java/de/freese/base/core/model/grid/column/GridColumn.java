@@ -15,9 +15,9 @@ public interface GridColumn<T> {
 
     String getName();
 
-    Class<T> getObjectClazz();
-
     int getPrecision();
+
+    Class<T> getType();
 
     T getValue(Object object);
 

@@ -37,9 +37,9 @@ public class GridBuilder {
         return new Grid(this.gridMetaData);
     }
 
-    public <T> GridColumnBuilder column(final Class<T> objectClazz) {
+    public <T> GridColumnBuilder column(final Class<T> type) {
         GridColumnBuilder gcb = new GridColumnBuilder(this.gridMetaData);
-        gcb.objectClazz(objectClazz);
+        gcb.type(type);
 
         return gcb;
     }

@@ -87,7 +87,7 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel {
         return this.scrollPane;
     }
 
-    public void setFilter(final Predicate filter) {
+    public void setFilter(final Predicate<T> filter) {
         DocumentListener documentListener = (DocumentListener) filter;
 
         getFilterTextField().getDocument().addDocumentListener(documentListener);

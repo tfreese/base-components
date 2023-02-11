@@ -42,38 +42,43 @@ public class Grid {
         getRows().clear();
     }
 
-    public int columnCount() {
-        return getGridMetaData().columnCount();
+    public GridColumn<?> getColumn(final int columnIndex) {
+        return getGridMetaData().getColumn(columnIndex);
     }
 
-    public GridColumn<?> getColumn(final int index) {
-        return getGridMetaData().getColumn(index);
+    public int getColumnCount() {
+        return getGridMetaData().getColumnCount();
     }
 
-    public String getComment(final int index) {
-        return getColumn(index).getComment();
+    public String getComment(final int columnIndex) {
+        return getColumn(columnIndex).getComment();
     }
 
-    public int getLength(final int index) {
-        return getColumn(index).getLength();
+    public int getLength(final int columnIndex) {
+        return getColumn(columnIndex).getLength();
     }
 
-    public String getName(final int index) {
-        return getColumn(index).getName();
+    public String getName(final int columnIndex) {
+        return getColumn(columnIndex).getName();
     }
 
-    public Class<?> getObjectClazz(final int index) {
-        return getColumn(index).getObjectClazz();
+    public int getPrecision(final int columnIndex) {
+        return getColumn(columnIndex).getPrecision();
     }
 
-    public int getPrecision(final int index) {
-        return getColumn(index).getPrecision();
+    public int getRowCount() {
+        return getRows().size();
     }
 
-    public <T> T getValue(final int columnIndex, final int rowIndex) {
+    public Class<?> getType(final int columnIndex) {
+        return getColumn(columnIndex).getType();
+    }
+
+    public <T> T getValue(final Class<T> type, final int columnIndex, final int rowIndex) {
         Object[] row = getRows().get(rowIndex);
+        Object value = getColumn(columnIndex).getValue(row[columnIndex]);
 
-        return (T) getColumn(columnIndex).getValue(row[columnIndex]);
+        return type.cast(value);
     }
 
     public void read(final DataInput dataInput) throws IOException, ClassNotFoundException {
@@ -83,9 +88,9 @@ public class Grid {
         int rowCount = dataInput.readInt();
 
         for (int i = 0; i < rowCount; i++) {
-            Object[] row = new Object[columnCount()];
+            Object[] row = new Object[getColumnCount()];
 
-            for (int c = 0; c < columnCount(); c++) {
+            for (int c = 0; c < getColumnCount(); c++) {
                 row[c] = getColumn(c).read(dataInput);
             }
 
@@ -97,9 +102,9 @@ public class Grid {
         getGridMetaData().readMetaData(resultSet.getMetaData());
 
         while (resultSet.next()) {
-            Object[] row = new Object[columnCount()];
+            Object[] row = new Object[getColumnCount()];
 
-            for (int c = 1; c <= columnCount(); c++) {
+            for (int c = 1; c <= getColumnCount(); c++) {
                 row[c - 1] = resultSet.getObject(c);
             }
 
@@ -111,18 +116,14 @@ public class Grid {
         return getGridMetaData().removeColumn(columnIndex);
     }
 
-    public int rowCount() {
-        return getRows().size();
-    }
-
     public void write(final DataOutput dataOutput) throws IOException {
         getGridMetaData().writeMetaData(dataOutput);
 
         // Anzahl Zeilen
-        dataOutput.writeInt(rowCount());
+        dataOutput.writeInt(getRowCount());
 
         for (Object[] row : getRows()) {
-            for (int c = 0; c < columnCount(); c++) {
+            for (int c = 0; c < getColumnCount(); c++) {
                 getColumn(c).write(dataOutput, row[c]);
             }
         }

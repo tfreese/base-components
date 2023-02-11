@@ -34,7 +34,6 @@ public final class UICustomization {
     }
 
     /**
-     * Look&Feel Installation.<br>
      * Default <code>UIManager.getSystemLookAndFeelClassName()</code>
      *
      * @param className String LookAndFeel, optional

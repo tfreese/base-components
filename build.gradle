@@ -181,14 +181,14 @@ project("base-swing") {
 
         javafx {
             version = "$version_javafxBase"
-            modules = ["javafx.controls"]
+            modules = ["javafx.base"]
         }
 
         implementation("com.fasterxml.jackson.core:jackson-databind")
         implementation("org.eclipse.angus:jakarta.mail")
         implementation("jakarta.xml.bind:jakarta.xml.bind-api")
         implementation("org.apache.commons:commons-collections4")
-        //implementation("org.openjfx:javafx-controls")
+        //implementation("org.openjfx:javafx-base")
         implementation("org.swinglabs.swingx:swingx-core")
 
         testImplementation("org.junit.jupiter:junit-jupiter-engine")

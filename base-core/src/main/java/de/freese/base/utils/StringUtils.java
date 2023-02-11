@@ -61,8 +61,8 @@ public final class StringUtils {
         int columnCount = rows.get(0).length;
 
         // Trenner zwischen Header und Daten.
-        // T[] row = (T[]) Array.newInstance(String.class, columnCount);
-        // T[] row = Arrays.copyOf(rows.get(0), columnCount);
+        // T[] row = (T[]) Array.newInstance(String.class, getColumnCount);
+        // T[] row = Arrays.copyOf(rows.get(0), getColumnCount);
         // T[] row = rows.get(0).clone();
         String[] row = new String[columnCount];
 

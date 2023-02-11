@@ -11,7 +11,7 @@ import de.freese.base.core.model.grid.column.GridColumn;
  */
 public interface GridColumnFactory {
     default GridColumn<?> getColumnForSQL(final int sqlType) {
-        Class<?> objectClazz = switch (sqlType) {
+        Class<?> type = switch (sqlType) {
             case Types.BINARY, Types.VARBINARY -> byte[].class;
             case Types.BOOLEAN -> Boolean.class;
             case Types.DATE -> Date.class;
@@ -23,8 +23,8 @@ public interface GridColumnFactory {
             default -> throw new UnsupportedOperationException("sqlType is not supported: " + sqlType);
         };
 
-        return getColumnForType(objectClazz);
+        return getColumnForType(type);
     }
 
-    GridColumn<?> getColumnForType(Class<?> objectClazz);
+    GridColumn<?> getColumnForType(Class<?> type);
 }
