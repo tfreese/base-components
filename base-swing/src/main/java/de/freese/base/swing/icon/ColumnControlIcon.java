@@ -5,12 +5,9 @@ import java.awt.Component;
 import java.awt.Graphics;
 
 import javax.swing.Icon;
-import javax.swing.JTable;
 import javax.swing.plaf.UIResource;
 
 /**
- * Icon für die column-control einer {@link JTable}.
- *
  * @author Thomas Freese
  */
 public class ColumnControlIcon implements Icon, UIResource {

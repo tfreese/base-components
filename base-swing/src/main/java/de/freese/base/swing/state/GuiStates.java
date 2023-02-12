@@ -34,6 +34,7 @@ public final class GuiStates {
     }
 
     private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
+    
     private final Set<Class<? extends GuiState>> states = new HashSet<>();
 
     private GuiStates() {
@@ -45,7 +46,7 @@ public final class GuiStates {
     }
 
     public Class<GuiState>[] getGuiStates() {
-        return states.stream().toArray(Class[]::new);
+        return states.toArray(Class[]::new);
     }
 
     public GuiState getState(final Class<? extends Component> componentClass) {

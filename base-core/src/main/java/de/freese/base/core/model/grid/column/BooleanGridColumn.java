@@ -1,22 +1,17 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-
 /**
  * @author Thomas Freese
  */
 public class BooleanGridColumn extends AbstractGridColumn<Boolean> {
+
     public BooleanGridColumn() {
-        super(Boolean.class);
+        super(Boolean.class, "boolean", -1, -1, null);
     }
 
     public BooleanGridColumn(final String name) {
-        super(Boolean.class);
-
-        setName(name);
+        super(Boolean.class, name, -1, -1, null);
     }
 
     /**
@@ -29,21 +24,5 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean> {
         }
 
         return (Boolean) object;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
-     */
-    @Override
-    protected Boolean readNullSafe(final DataInput dataInput) throws IOException {
-        return dataInput.readBoolean();
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Boolean value) throws IOException {
-        dataOutput.writeBoolean(value);
     }
 }

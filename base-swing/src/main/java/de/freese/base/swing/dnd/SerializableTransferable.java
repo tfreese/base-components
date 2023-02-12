@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * {@link Transferable} für {@link Serializable}s.
- *
  * @author Thomas Freese
  */
 public class SerializableTransferable implements Transferable {

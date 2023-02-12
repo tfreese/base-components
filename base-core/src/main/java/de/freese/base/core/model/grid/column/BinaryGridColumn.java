@@ -1,23 +1,21 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-
 /**
  * @author Thomas Freese
  */
 public class BinaryGridColumn extends AbstractGridColumn<byte[]> {
 
     public BinaryGridColumn() {
-        super(byte[].class);
+        super(byte[].class, "binary", -1, -1, null);
     }
 
     public BinaryGridColumn(final String name) {
-        super(byte[].class);
+        super(byte[].class, name, -1, -1, null);
+    }
 
-        setName(name);
+    public BinaryGridColumn(final String name, final String comment) {
+        super(byte[].class, name, -1, -1, comment);
     }
 
     /**
@@ -36,28 +34,5 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]> {
         }
 
         return value;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
-     */
-    @Override
-    protected byte[] readNullSafe(final DataInput dataInput) throws IOException {
-        int size = dataInput.readInt();
-
-        byte[] value = new byte[size];
-
-        dataInput.readFully(value);
-
-        return value;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final byte[] value) throws IOException {
-        dataOutput.writeInt(value.length);
-        dataOutput.write(value);
     }
 }

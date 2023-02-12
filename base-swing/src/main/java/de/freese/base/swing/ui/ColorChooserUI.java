@@ -8,8 +8,6 @@ import javax.swing.plaf.basic.BasicColorChooserUI;
 import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
 
 /**
- * UI des ColorChooser mit erweitertem Panel von SwingX.
- *
  * @author Thomas Freese
  */
 public class ColorChooserUI extends BasicColorChooserUI {

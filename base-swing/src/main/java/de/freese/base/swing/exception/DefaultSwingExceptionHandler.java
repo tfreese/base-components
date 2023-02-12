@@ -56,9 +56,6 @@ public class DefaultSwingExceptionHandler implements SwingExceptionHandler {
         return this.logger;
     }
 
-    /**
-     * Liefert die übersetzte Exception (HumanReadable).
-     */
     protected String getTranslatedMessage(final Throwable throwable, final Translator translator) {
         String message = throwable.getLocalizedMessage();
 

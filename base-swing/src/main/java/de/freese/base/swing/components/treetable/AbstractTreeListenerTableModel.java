@@ -13,8 +13,6 @@ import javax.swing.tree.TreePath;
 import de.freese.base.swing.components.table.AbstractListTableModel;
 
 /**
- * Ein {@link AbstractListTableModel}, welches ein {@link TreeModelListener} ist und sich bei Änderungen des Trees automatisch aktualisiert.
- *
  * @author Thomas Freese
  */
 public abstract class AbstractTreeListenerTableModel extends AbstractListTableModel<Object> implements TreeExpansionListener, TreeModelListener {
@@ -25,7 +23,7 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
 
     /**
      * @param tree {@link JTree}, Wird benötigt, um die Liste mit Objekten zu füllen, NICHT um die Listener zu registrieren !<br>
-     * Setzten der Listener:<br>
+     * Setzen der Listener:<br>
      * JTree.addTreeExpansionListener(this)<br>
      * JTree.getModel().addTreeModelListener(this)
      */

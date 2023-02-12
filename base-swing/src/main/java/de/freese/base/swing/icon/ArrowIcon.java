@@ -12,8 +12,6 @@ import javax.swing.Icon;
 import javax.swing.SwingConstants;
 
 /**
- * Konfigurierbares Dreiecksicon.
- *
  * @author Thomas Freese
  */
 public class ArrowIcon implements Icon {

@@ -4,7 +4,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.io.Serial;
 
 /**
- * Eigenes FlavorObject, um das Cloning von Serializable-Objekten zu verhindern.
+ * FlavorObject, to avoid the Cloning of Serializable-Objects.
  *
  * @author Thomas Freese
  */
@@ -25,7 +25,7 @@ public class NotSerializableDataFlavor extends DataFlavor {
      */
     @Override
     public boolean isFlavorSerializedObjectType() {
-        // Sonst würde er beim Transfer das Object klonen !
+        // Do not clone !
         return false;
     }
 }

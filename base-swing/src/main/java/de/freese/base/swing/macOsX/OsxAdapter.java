@@ -30,17 +30,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Adapter für Mac OS Menüs.
+ * Adapter for macOS Menus.
  *
  * @author Thomas Freese
  */
 public class OsxAdapter implements InvocationHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(OsxAdapter.class);
 
-    private static Object macOSXApplication;
+    private static Object macOsxApplication;
 
-    public static Object getMacOSXApplication() {
-        return macOSXApplication;
+    public static Object getMacOsxApplication() {
+        return macOsxApplication;
     }
 
     /**
@@ -57,8 +57,8 @@ public class OsxAdapter implements InvocationHandler {
         // If we're setting a handler, enable the About menu item by calling
         // com.apple.eawt.Application reflectively
         try {
-            Method enableAboutMethod = OsxAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", boolean.class);
-            enableAboutMethod.invoke(OsxAdapter.macOSXApplication, enableAboutMenu);
+            Method enableAboutMethod = OsxAdapter.macOsxApplication.getClass().getDeclaredMethod("setEnabledAboutMenu", boolean.class);
+            enableAboutMethod.invoke(OsxAdapter.macOsxApplication, enableAboutMenu);
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             OsxAdapter.LOGGER.error("OsxAdapter could not access the About Menu", ex);
@@ -100,8 +100,8 @@ public class OsxAdapter implements InvocationHandler {
         try {
             Class<?> applicationClass = Class.forName("com.apple.eawt.Application");
 
-            if (OsxAdapter.macOSXApplication == null) {
-                OsxAdapter.macOSXApplication = applicationClass.getConstructor((Class<?>[]) null).newInstance((Object[]) null);
+            if (OsxAdapter.macOsxApplication == null) {
+                OsxAdapter.macOsxApplication = applicationClass.getConstructor((Class<?>[]) null).newInstance((Object[]) null);
             }
 
             Class<?> applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
@@ -110,7 +110,7 @@ public class OsxAdapter implements InvocationHandler {
             // Create a proxy object around this handler that can be reflectively added as an Apple
             // ApplicationListener
             Object osxAdapterProxy = Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{applicationListenerClass}, adapter);
-            addListenerMethod.invoke(OsxAdapter.macOSXApplication, osxAdapterProxy);
+            addListenerMethod.invoke(OsxAdapter.macOsxApplication, osxAdapterProxy);
         }
         catch (ClassNotFoundException ex) {
             OsxAdapter.LOGGER.error("This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled.", ex);
@@ -136,8 +136,8 @@ public class OsxAdapter implements InvocationHandler {
         // If we're setting a handler, enable the Preference's menu item by calling
         // com.apple.eawt.Application reflectively
         try {
-            Method enablePrefsMethod = OsxAdapter.macOSXApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", boolean.class);
-            enablePrefsMethod.invoke(OsxAdapter.macOSXApplication, enablePrefsMenu);
+            Method enablePrefsMethod = OsxAdapter.macOsxApplication.getClass().getDeclaredMethod("setEnabledPreferencesMenu", boolean.class);
+            enablePrefsMethod.invoke(OsxAdapter.macOsxApplication, enablePrefsMenu);
         }
         catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             OsxAdapter.LOGGER.error("OsxAdapter could not access the About Menu", ex);

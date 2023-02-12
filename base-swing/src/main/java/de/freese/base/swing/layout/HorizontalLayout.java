@@ -7,8 +7,6 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 
 /**
- * LayoutManager für ein horizontales Layout.
- *
  * @author Thomas Freese
  */
 public class HorizontalLayout implements LayoutManager {

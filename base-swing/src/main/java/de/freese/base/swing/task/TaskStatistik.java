@@ -7,8 +7,6 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Enthält Informationen über die Ausführungszeiten von {@link AbstractSwingTask}s.
- *
  * @author Thomas Freese
  */
 public class TaskStatistik implements Serializable {
@@ -17,7 +15,7 @@ public class TaskStatistik implements Serializable {
     @Serial
     private static final long serialVersionUID = 1789042123984173851L;
     /**
-     * Immer N Werte vorhalten.
+     * Keep n Values.
      */
     private final transient Queue<Long> durations = new ConcurrentLinkedQueue<>();
 
@@ -25,9 +23,6 @@ public class TaskStatistik implements Serializable {
 
     private String taskName = "";
 
-    /**
-     * Durchschnittliche Ausführungszeit in ms.
-     */
     public long getAvg() {
         int anzahl = 0;
         long summe = 0;
@@ -44,31 +39,6 @@ public class TaskStatistik implements Serializable {
         return this.lastAccess;
     }
 
-    // /**
-    // * Liefert alle gemessenen Zeiten (ms).
-    // */
-    // public long[] getDurations()
-    // {
-    // long[] values = new long[this.durations.size()];
-    //
-    // // for (int i = 0; i < values.length; i++)
-    // // {
-    // // values[i] = this.durations.get(i);
-    // // }
-    // int i = 0;
-    //
-    // for (Iterator<Long> iterator = this.durations.iterator(); iterator.hasNext();)
-    // {
-    // values[i++] = iterator.next();
-    //
-    // }
-    //
-    // return values;
-    // }
-
-    /**
-     * Maximale Ausführungszeit in ms.
-     */
     public long getMax() {
         long max = Long.MIN_VALUE;
 
@@ -79,9 +49,6 @@ public class TaskStatistik implements Serializable {
         return max == Long.MIN_VALUE ? 0 : max;
     }
 
-    /**
-     * Minimale Ausführungszeit in ms.
-     */
     public long getMin() {
         long min = Long.MAX_VALUE;
 
@@ -96,13 +63,10 @@ public class TaskStatistik implements Serializable {
         return this.taskName;
     }
 
-    /**
-     * Setzt neue gemessene Ausführungszeit in ms.
-     */
     public void measureDuration(final long duration) {
         long avg = getAvg();
 
-        // Neue Zeiten nur berücksichtigen, wenn sie >= 10% des Durchschnitts sind
+        // Add new Times only when they >= 10% of the average.
         if (duration >= (avg * 0.1F)) {
             appendDuration(duration);
         }
@@ -110,9 +74,6 @@ public class TaskStatistik implements Serializable {
         this.lastAccess = new Date();
     }
 
-    /**
-     * Setzt alle gemessenen Zeiten (ms).
-     */
     public void setDurations(final long[] durations) {
         for (long zeit : durations) {
             appendDuration(zeit);
@@ -146,9 +107,6 @@ public class TaskStatistik implements Serializable {
         return builder.toString();
     }
 
-    /**
-     * Hinzufügen einer Zeit und ggf. entfernen der ältesten Zeit aus der Liste.
-     */
     protected void appendDuration(final long zeit) {
         this.durations.add(zeit);
 

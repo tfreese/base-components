@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import de.freese.base.utils.TableUtils;
 
 /**
- * Basisklasse eines {@link TransferHandler}s für {@link Serializable}s.
- *
  * @author Thomas Freese
  */
 public class SerializableTransferHandler extends TransferHandler {

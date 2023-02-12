@@ -3,15 +3,13 @@ package de.freese.base.swing.ui;
 import java.awt.Dimension;
 
 import javax.swing.JComponent;
-import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 /**
- * Anderes Layout für eine {@link JScrollBar}.
- *
  * @author Thomas Freese
  */
 public class ThinHorizontalScrollBarUI extends BasicScrollBarUI {
+    
     private final int height;
 
     public ThinHorizontalScrollBarUI(final int height) {

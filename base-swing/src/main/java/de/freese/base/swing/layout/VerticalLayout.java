@@ -7,8 +7,6 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 
 /**
- * LayoutManager für ein vertikales Layout.
- *
  * @author Thomas Freese
  */
 public class VerticalLayout implements LayoutManager {

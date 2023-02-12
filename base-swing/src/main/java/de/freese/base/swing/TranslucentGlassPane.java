@@ -18,8 +18,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
- * Transparente Glass-pane, zum Teil von SwingX Komponenten geklaut.
- *
  * @author Thomas Freese
  */
 public class TranslucentGlassPane extends JComponent implements MouseListener {
@@ -30,7 +28,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
 
     private final Timer animateTimer;
 
-    private final transient List<Component> dispatchList;
+    private final transient List<Component> dispatchComponents;
 
     private double alpha = 1.0D;
 
@@ -51,13 +49,11 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         this(Collections.emptyList());
     }
 
-    /**
-     * @param dispatchList {@link List}, Liste von Komponenten, an denen MouseEvents weitergeleitet werden sollen
-     */
-    public TranslucentGlassPane(final List<Component> dispatchList) {
+    public TranslucentGlassPane(final List<Component> dispatchComponents) {
         super();
 
-        this.dispatchList = dispatchList;
+        this.dispatchComponents = dispatchComponents;
+
         addMouseListener(this);
         setOpaque(false);
         setAlpha(this.alphaStart);
@@ -236,12 +232,9 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         // super.paintChildren(g);
     }
 
-    /**
-     * Liefert die JMenuBar, wenn sie in der DispatchList enthalten ist.
-     */
     private JMenuBar getJMenuBar() {
-        for (Component element : this.dispatchList) {
-            if (element instanceof JMenuBar b) {
+        for (Component component : this.dispatchComponents) {
+            if (component instanceof JMenuBar b) {
                 return b;
             }
         }
@@ -249,11 +242,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         return null;
     }
 
-    /**
-     * Weiterleiten von MouseEvents an Komponenten der DispatchList.
-     */
     private void redispatchMouseEvent(final MouseEvent event, final boolean repaint) {
-        if (this.dispatchList.isEmpty()) {
+        if (this.dispatchComponents.isEmpty()) {
             return;
         }
 
@@ -283,7 +273,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             // Find out exactly which component it's over.
             Component component = SwingUtilities.getDeepestComponentAt(getParent(), containerPoint.x, containerPoint.y);
 
-            if ((component != null) && this.dispatchList.contains(component)) {
+            if ((component != null) && this.dispatchComponents.contains(component)) {
                 // Forward events over the component.
                 Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
                 component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(), event.isPopupTrigger()));

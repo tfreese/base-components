@@ -1,22 +1,21 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-
 /**
  * @author Thomas Freese
  */
 public class IntegerGridColumn extends AbstractGridColumn<Integer> {
+
     public IntegerGridColumn() {
-        super(Integer.class);
+        super(Integer.class, "integer", -1, -1, null);
     }
 
     public IntegerGridColumn(final String name) {
-        super(Integer.class);
+        super(Integer.class, name, -1, -1, null);
+    }
 
-        setName(name);
+    public IntegerGridColumn(final String name, final String comment) {
+        super(Integer.class, name, -1, -1, comment);
     }
 
     /**
@@ -29,21 +28,5 @@ public class IntegerGridColumn extends AbstractGridColumn<Integer> {
         }
 
         return (Integer) object;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
-     */
-    @Override
-    protected Integer readNullSafe(final DataInput dataInput) throws IOException {
-        return dataInput.readInt();
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Integer value) throws IOException {
-        dataOutput.writeInt(value);
     }
 }

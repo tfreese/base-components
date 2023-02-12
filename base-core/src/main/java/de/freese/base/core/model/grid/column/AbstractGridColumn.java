@@ -1,24 +1,17 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 import java.util.Objects;
 
 /**
  * @author Thomas Freese
  */
 public abstract class AbstractGridColumn<T> implements GridColumn<T> {
+    private final String comment;
+    private final int length;
+    private final String name;
+    private final int precision;
     private final Class<T> type;
-
-    private String comment;
-
-    private int length = -1;
-
-    private String name;
-
-    private int precision = -1;
 
     //    protected AbstractGridColumn()
     //    {
@@ -31,10 +24,14 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     //        this.type = (Class<T>) parameterizedType.getActualTypeArguments()[0];
     //    }
 
-    protected AbstractGridColumn(final Class<T> type) {
+    protected AbstractGridColumn(final Class<T> type, final String name, final int length, final int precision, final String comment) {
         super();
 
         this.type = Objects.requireNonNull(type, "type required");
+        this.name = Objects.requireNonNull(name, "name required");
+        this.length = length;
+        this.precision = precision;
+        this.comment = comment;
     }
 
     /**
@@ -78,53 +75,6 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#read(java.io.DataInput)
-     */
-    @Override
-    public final T read(final DataInput dataInput) throws IOException {
-        boolean isNull = dataInput.readBoolean(); // NULL-Marker
-
-        if (isNull) {
-            return null;
-        }
-
-        return readNullSafe(dataInput);
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#setComment(java.lang.String)
-     */
-    @Override
-    public void setComment(final String comment) {
-        this.comment = comment;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#setLength(int)
-     */
-    @Override
-    public void setLength(final int length) {
-
-        this.length = length;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#setName(java.lang.String)
-     */
-    @Override
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#setPrecision(int)
-     */
-    @Override
-    public void setPrecision(final int precision) {
-        this.precision = precision;
-    }
-
-    /**
      * @see java.lang.Object#toString()
      */
     @Override
@@ -140,30 +90,4 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
 
         return builder.toString();
     }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#write(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    public final void write(final DataOutput dataOutput, final Object object) throws IOException {
-        T value = getValue(object);
-
-        dataOutput.writeBoolean(value == null); // NULL-Marker
-
-        if (value == null) {
-            return;
-        }
-
-        writeNullSafe(dataOutput, value);
-    }
-
-    /**
-     * Liest den Wert aus dem Stream, der NULL-Marker wurde bereits in {@link #read(DataInput)} gelesen.
-     */
-    protected abstract T readNullSafe(DataInput dataInput) throws IOException;
-
-    /**
-     * Schreibt den Wert in den Stream, der NULL-Marker wurde bereits in {@link #write(DataOutput, Object)} gesetzt.
-     */
-    protected abstract void writeNullSafe(DataOutput dataOutput, T value) throws IOException;
 }

@@ -15,20 +15,14 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 
 /**
- * Erweiterter JTree mit automatischem Scrolling bei DnD Aktionen.
- *
  * @author Thomas Freese
  */
 public class ExtTree extends JTree implements Autoscroll {
     @Serial
     private static final long serialVersionUID = -9201687902908324380L;
-    /**
-     * Rand zur Aussenkomponente.
-     */
+
     private int margin = 15;
-    /**
-     * Zeichnen des Autoscroll Rahmens ?
-     */
+
     private boolean paintAutoscrollBorder;
 
     public ExtTree() {
@@ -104,30 +98,18 @@ public class ExtTree extends JTree implements Autoscroll {
         return new Insets(top, left, bottom, right);
     }
 
-    /**
-     * Abstand vom Rand des Trees für DnD Scrolling.
-     */
     public int getMargin() {
         return this.margin;
     }
 
-    /**
-     * Rendert einen Border die DnD sensitive Fläche.
-     */
     public boolean isPaintAutoscrollBorder() {
         return this.paintAutoscrollBorder;
     }
 
-    /**
-     * Abstand vom Rand des Trees für DnD Scrolling.
-     */
     public void setMargin(final int margin) {
         this.margin = margin;
     }
 
-    /**
-     * Rendert einen Border die DnD sensitive Fläche.
-     */
     public void setPaintAutoscrollBorder(final boolean paintAutoscrollBorder) {
         this.paintAutoscrollBorder = paintAutoscrollBorder;
     }
@@ -137,8 +119,6 @@ public class ExtTree extends JTree implements Autoscroll {
     }
 
     /**
-     * Zeichnet den Tree, in Abhängigkeit von isPaintAutoscrollBorder auch den Autoscroll-Rahmen.
-     *
      * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
      */
     @Override

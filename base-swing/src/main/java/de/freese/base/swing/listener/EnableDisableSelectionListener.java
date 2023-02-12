@@ -13,16 +13,10 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreeSelectionModel;
 
 /**
- * Diese Klasse dient als {@link ListSelectionListener} oder {@link TreeSelectionListener}.<br>
- * Sie deaktiviert oder aktiviert eine Component/Action, je nachdem ob<br>
- * eine Auswahl in einem {@link ListSelectionModel} oder {@link TreeSelectionListener} getroffen wurde.
- *
  * @author Thomas Freese
  */
 public class EnableDisableSelectionListener implements ListSelectionListener, TreeSelectionListener {
     /**
-     * Interface als Adapter um Komponenten oder Actions zu kapseln.
-     *
      * @author Thomas Freese
      */
     @FunctionalInterface
@@ -52,12 +46,12 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
      * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
      */
     @Override
-    public void valueChanged(final ListSelectionEvent e) {
-        if (e.getValueIsAdjusting()) {
+    public void valueChanged(final ListSelectionEvent event) {
+        if (event.getValueIsAdjusting()) {
             return;
         }
 
-        Object source = e.getSource();
+        Object source = event.getSource();
 
         ListSelectionModel selectionModel = null;
 
@@ -68,15 +62,15 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
             selectionModel = m;
         }
 
-        this.adapter.setEnabled(componentEnabled(e, selectionModel));
+        this.adapter.setEnabled(componentEnabled(event, selectionModel));
     }
 
     /**
      * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
      */
     @Override
-    public void valueChanged(final TreeSelectionEvent e) {
-        Object source = e.getSource();
+    public void valueChanged(final TreeSelectionEvent event) {
+        Object source = event.getSource();
 
         TreeSelectionModel selectionModel = null;
 
@@ -87,16 +81,14 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
             selectionModel = m;
         }
 
-        this.adapter.setEnabled(componentEnabled(e, selectionModel));
+        this.adapter.setEnabled(componentEnabled(event, selectionModel));
     }
 
     protected boolean componentEnabled(final ListSelectionEvent event, final ListSelectionModel selectionModel) {
-        // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
         return !selectionModel.isSelectionEmpty();
     }
 
-    protected boolean componentEnabled(final TreeSelectionEvent e, final TreeSelectionModel selectionModel) {
-        // Möglicher NullPointer wird hier bewusst NICHT abgefangen !
+    protected boolean componentEnabled(final TreeSelectionEvent event, final TreeSelectionModel selectionModel) {
         return !selectionModel.isSelectionEmpty();
     }
 }

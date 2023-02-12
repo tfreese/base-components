@@ -1,14 +1,8 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Function;
-
-import de.freese.base.core.function.ThrowingBiConsumer;
-import de.freese.base.core.function.ThrowingFunction;
 
 /**
  * @author Thomas Freese
@@ -16,16 +10,22 @@ import de.freese.base.core.function.ThrowingFunction;
 public class GenericGridColumn<T> extends AbstractGridColumn<T> {
     private final Function<Object, T> mapper;
 
-    private final ThrowingFunction<DataInput, T, IOException> reader;
-
-    private final ThrowingBiConsumer<DataOutput, T, IOException> writer;
-
-    public GenericGridColumn(final Class<T> type, final Function<Object, T> mapper, final ThrowingBiConsumer<DataOutput, T, IOException> writer, final ThrowingFunction<DataInput, T, IOException> reader) {
-        super(Objects.requireNonNull(type, "type required"));
+    public GenericGridColumn(final Class<T> type, final Function<Object, T> mapper) {
+        super(type, "generic", -1, -1, null);
 
         this.mapper = Objects.requireNonNull(mapper, "mapper required");
-        this.writer = Objects.requireNonNull(writer, "writer required");
-        this.reader = Objects.requireNonNull(reader, "reader required");
+    }
+
+    public GenericGridColumn(final Class<T> type, final String name, final Function<Object, T> mapper) {
+        super(type, name, -1, -1, null);
+
+        this.mapper = Objects.requireNonNull(mapper, "mapper required");
+    }
+
+    public GenericGridColumn(final Class<T> type, final String name, final int length, final int precision, final String comment, final Function<Object, T> mapper) {
+        super(type, name, length, precision, comment);
+
+        this.mapper = Objects.requireNonNull(mapper, "mapper required");
     }
 
     /**
@@ -38,21 +38,5 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T> {
         }
 
         return this.mapper.apply(object);
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
-     */
-    @Override
-    protected T readNullSafe(final DataInput dataInput) throws IOException {
-        return this.reader.apply(dataInput);
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final T value) throws IOException {
-        this.writer.accept(dataOutput, value);
     }
 }

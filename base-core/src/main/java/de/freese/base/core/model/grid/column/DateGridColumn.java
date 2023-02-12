@@ -1,23 +1,23 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 import java.util.Date;
 
 /**
  * @author Thomas Freese
  */
 public class DateGridColumn extends AbstractGridColumn<Date> {
+
     public DateGridColumn() {
-        super(Date.class);
+        super(Date.class, "date", -1, -1, null);
     }
 
     public DateGridColumn(final String name) {
-        super(Date.class);
+        super(Date.class, name, -1, -1, null);
+    }
 
-        setName(name);
+    public DateGridColumn(final String name, final String comment) {
+        super(Date.class, name, -1, -1, comment);
     }
 
     /**
@@ -30,23 +30,5 @@ public class DateGridColumn extends AbstractGridColumn<Date> {
         }
 
         return (Date) object;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
-     */
-    @Override
-    protected Date readNullSafe(final DataInput dataInput) throws IOException {
-        long time = dataInput.readLong();
-
-        return new Date(time);
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Date value) throws IOException {
-        dataOutput.writeLong(value.getTime());
     }
 }

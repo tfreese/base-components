@@ -1,22 +1,21 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-
 /**
  * @author Thomas Freese
  */
 public class LongGridColumn extends AbstractGridColumn<Long> {
+
     public LongGridColumn() {
-        super(Long.class);
+        super(Long.class, "long", -1, -1, null);
     }
 
     public LongGridColumn(final String name) {
-        super(Long.class);
+        super(Long.class, name, -1, -1, null);
+    }
 
-        setName(name);
+    public LongGridColumn(final String name, final String comment) {
+        super(Long.class, name, -1, -1, comment);
     }
 
     /**
@@ -29,21 +28,5 @@ public class LongGridColumn extends AbstractGridColumn<Long> {
         }
 
         return (Long) object;
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#readNullSafe(java.io.DataInput)
-     */
-    @Override
-    protected Long readNullSafe(final DataInput dataInput) throws IOException {
-        return dataInput.readLong();
-    }
-
-    /**
-     * @see de.freese.base.core.model.grid.column.AbstractGridColumn#writeNullSafe(java.io.DataOutput, java.lang.Object)
-     */
-    @Override
-    protected void writeNullSafe(final DataOutput dataOutput, final Long value) throws IOException {
-        dataOutput.writeLong(value);
     }
 }

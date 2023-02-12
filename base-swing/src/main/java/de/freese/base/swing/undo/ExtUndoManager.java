@@ -9,8 +9,6 @@ import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEdit;
 
 /**
- * Erweiterter {@link UndoManager}.
- *
  * @author Thomas Freese
  */
 public class ExtUndoManager extends UndoManager {

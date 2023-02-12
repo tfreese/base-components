@@ -3,7 +3,6 @@ package de.freese.base.swing.components.treetable;
 import java.io.Serial;
 
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -20,8 +19,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     private static final long serialVersionUID = -7214861962851009038L;
 
     /**
-     * SelectionListener der {@link JTable} um die Selection auf den {@link JTree} zu übertragen.
-     *
      * @author Thomas Freese
      */
     private class ListSelectionHandler implements ListSelectionListener {
@@ -35,8 +32,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     }
 
     /**
-     * {@link ListSelectionModel}, welche bei Änderung des SelectionModes das {@link TreeSelectionModel} aktualisiert.
-     *
      * @author Thomas Freese
      */
     private class ThisListSelectionModel extends DefaultListSelectionModel {
@@ -54,7 +49,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
                 return;
             }
 
-            // TreeSelectionModel anpassen
             switch (selectionMode) {
                 case ListSelectionModel.SINGLE_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
                 case ListSelectionModel.SINGLE_INTERVAL_SELECTION -> updateTreeSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
@@ -164,9 +158,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
         }
     }
 
-    /**
-     * Aktualisiert den SelectionMode des {@link TreeSelectionModel}s ohne synchronisierung des {@link ListSelectionModel}s.
-     */
     private void updateTreeSelectionMode(final int mode) {
         super.setSelectionMode(mode);
     }

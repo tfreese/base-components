@@ -46,9 +46,6 @@ public final class SwingFontSizeChanger {
         return INSTANCE;
     }
 
-    /**
-     * Verknüpft ein oder mehrere Objekte mit einem Listener, der bei Font-Änderungen reagiert.
-     */
     public static void register(final Object object, final Object... others) {
         getInstance().register(object);
 
@@ -106,15 +103,12 @@ public final class SwingFontSizeChanger {
     }
 
     /**
-     * @return int; z.B. Font.PLAIN
+     * @return int; Font.PLAIN
      */
     public int getFontStyle() {
         return this.font.getStyle();
     }
 
-    /**
-     * Verknüpft ein Objekt mit einem Listener, der bei Font-Änderungen reagiert.
-     */
     public void register(final Object object) {
         PropertyChangeListener fontListener = event -> {
             if (object instanceof JComponent c) {
@@ -141,7 +135,6 @@ public final class SwingFontSizeChanger {
 
         this.propertyChangeSupport.firePropertyChange("font", oldFont, this.font);
 
-        // UI-Konstanten anpassen für neue Komponenten.
         UICustomization.setDefaultFont(font);
     }
 
@@ -155,35 +148,9 @@ public final class SwingFontSizeChanger {
         setFont(newFont);
     }
 
-    // @Deprecated
-    // private void setFontFamily(final String fontFamily)
-    // {
-    // if (getFontFamily().equals(fontFamily))
-    // {
-    // return;
-    // }
-    //
-    // Font newFont = new Font(fontFamily, this.font.getStyle(), this.font.getSize());
-    //
-    // setFont(newFont);
-    // }
-
     private void addFontChangeHandler(final Class<?> componentClass, final FontChangeHandler handler) {
         this.handlers.put(componentClass, handler);
     }
-
-    // @Deprecated
-    // private void setFontStyle(final int fontStyle)
-    // {
-    // if (getFontStyle() == fontStyle)
-    // {
-    // return;
-    // }
-    //
-    // Font newFont = this.font.deriveFont(fontStyle);
-    //
-    // setFont(newFont);
-    // }
 
     private void updateFontForComponent(final Font newFont, final JComponent component) {
         updateFontForObject(newFont, component);

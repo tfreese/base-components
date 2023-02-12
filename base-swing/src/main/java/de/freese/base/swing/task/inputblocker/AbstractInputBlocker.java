@@ -19,8 +19,6 @@ import de.freese.base.utils.GuiUtils;
 /**
  * InputBlocker können für einen {@link AbstractSwingTask} die GUI-Elemente für die Eingabe blockieren.
  *
- * @param <T> Konkreter Typ des Targets
- *
  * @author Thomas Freese
  */
 public abstract class AbstractInputBlocker<T> implements InputBlocker {

@@ -4,8 +4,6 @@ package de.freese.base.swing;
 import java.awt.Component;
 
 /**
- * Interface für alle Objekte, welche eine {@link Component} liefern können.
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

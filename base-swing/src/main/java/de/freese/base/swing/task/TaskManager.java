@@ -10,14 +10,10 @@ import java.util.concurrent.ExecutorService;
 import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
- * Diese Klasse verwaltet die einzelnen {@link AbstractSwingTask}s.
- *
  * @author Thomas Freese
  */
 public class TaskManager {
     /**
-     * PropertyChangeListener auf den aktuell aktiven Task.
-     *
      * @author Thomas Freese
      */
     private class ForegroundTaskPCL implements PropertyChangeListener {
@@ -26,7 +22,6 @@ public class TaskManager {
          */
         @Override
         public void propertyChange(final PropertyChangeEvent event) {
-            // Event an die Listener des TaskManagers weiterleiten.
             firePropertyChange(event);
 
             AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
@@ -43,8 +38,6 @@ public class TaskManager {
     }
 
     /**
-     * PropertyChangeListener auf einen Task.
-     *
      * @author Thomas Freese
      */
     private class TaskPCL implements PropertyChangeListener {
@@ -131,7 +124,6 @@ public class TaskManager {
 
     protected void setForegroundTask(final AbstractSwingTask<?, ?> task) {
         if (this.foregroundTask != null) {
-            // Wenn es schon einen gibt, dann nicht neu zuweisen.
             return;
         }
 
@@ -139,7 +131,6 @@ public class TaskManager {
         this.foregroundTask.removePropertyChangeListener(this.taskPCL);
         this.foregroundTask.addPropertyChangeListener(this.foregroundTaskPCL);
 
-        // Events wiederholen für die Listener des TaskManagers.
         firePropertyChange(SwingTask.PROPERTY_STARTED, null, true);
         firePropertyChange(SwingTask.PROPERTY_TITLE, null, this.foregroundTask.getTitle());
         firePropertyChange(SwingTask.PROPERTY_SUBTITLE, null, this.foregroundTask.getSubTitle());

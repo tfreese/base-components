@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
-import de.freese.base.swing.ui.HTMLTextButtonUI;
+import de.freese.base.swing.ui.HtmlTextButtonUI;
 import de.freese.base.utils.FontUtils;
 
 /**
@@ -84,7 +84,7 @@ public final class ButtonFactory {
     }
 
     public static void decorateToHTMLButton(final JButton button, final Color rolloverColor) {
-        button.setUI(new HTMLTextButtonUI(rolloverColor));
+        button.setUI(new HtmlTextButtonUI(rolloverColor));
         button.setBorderPainted(false);
         button.setBorder(null);
 
