@@ -5,9 +5,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * @param <SOURCE> Typ der Quelle
- * @param <TARGET> Typ des Ziels
- *
  * @author Thomas Freese
  */
 public abstract class AbstractConverter<SOURCE, TARGET> implements Converter<SOURCE, TARGET> {

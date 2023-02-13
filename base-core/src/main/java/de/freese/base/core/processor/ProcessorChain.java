@@ -6,14 +6,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Enthält eine Liste von {@link Processor} des Interceptor/Filter Patterns, die nacheinander abgearbeitet werden.
- *
- * @param <C> Typ des Kontextobjekts
- *
  * @author Thomas Freese
  */
 public final class ProcessorChain<C> implements Processor<C> {
     private final List<Processor<C>> processors = new LinkedList<>();
+
     private boolean enabled = true;
 
     public void addProcessor(final Processor<C> processor) {
@@ -44,11 +41,6 @@ public final class ProcessorChain<C> implements Processor<C> {
         return this.processors.get(index);
     }
 
-    /**
-     * Liefert die Anzahl der {@link Processor} in der {@link ProcessorChain} .
-     *
-     * @return int
-     */
     public int getSize() {
         return this.processors.size();
     }
@@ -65,9 +57,6 @@ public final class ProcessorChain<C> implements Processor<C> {
         return this.enabled;
     }
 
-    /**
-     * @return boolean, true, wenn {@link Processor} in der Chain enthalten war
-     */
     public boolean removeProcessor(final Processor<C> processor) {
         return this.processors.remove(processor);
     }

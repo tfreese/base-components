@@ -7,8 +7,6 @@ import java.util.Date;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * JAXB Adapter für ein {@link Date} Objekt.
- *
  * @author Thomas Freese
  */
 public class DateAdapter extends XmlAdapter<String, Date> {

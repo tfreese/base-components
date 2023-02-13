@@ -1,8 +1,6 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Prüfung auf gültige Endausdrücke.
- *
  * @author Thomas Freese
  */
 public class EndsWithTransformer implements RegExTransformer {

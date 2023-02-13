@@ -5,8 +5,6 @@ import java.awt.Color;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * JAXB Adapter für ein {@link Color} Objekt.
- *
  * @author Thomas Freese
  */
 public class ColorAdapter extends XmlAdapter<String, Color> {

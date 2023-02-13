@@ -1,8 +1,6 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Ersetzt * durch .*.
- *
  * @author Thomas Freese
  */
 public class ManySignsTransformer implements RegExTransformer {

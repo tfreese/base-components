@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implementierung des {@link ProgressCallback} Interfaces für den {@link Logger}.
- *
  * @author Thomas Freese
  */
 public class LoggerProgressCallback implements ProgressCallback {

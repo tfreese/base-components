@@ -3,8 +3,6 @@ package de.freese.base.core.progress;
 import java.util.function.BiConsumer;
 
 /**
- * Interface für einen Progress-Verlauf.
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

@@ -5,10 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Basisimplementierung eines Processors.
- *
- * @param <C> Typ des Kontextobjekts
- *
  * @author Thomas Freese
  */
 public abstract class AbstractProcessor<C> implements Processor<C> {

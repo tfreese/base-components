@@ -3,33 +3,21 @@ package de.freese.base.core.model.grid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import de.freese.base.core.model.grid.column.GridColumn;
 
 /**
  * @author Thomas Freese
  */
 public class Grid {
-    private final GridMetaData gridMetaData;
 
-    private final List<Object[]> rows = new ArrayList<>();
+    private final List<GridColumn<?>> columns = new ArrayList<>();
 
-    public Grid() {
-        this(new GridMetaData());
-    }
-
-    public Grid(final GridMetaData gridMetaData) {
-        super();
-
-        this.gridMetaData = Objects.requireNonNull(gridMetaData, "gridMetaData required");
-    }
+    private final List<GridRow> rows = new ArrayList<>();
 
     public void addColumn(final GridColumn<?> column) {
-        getGridMetaData().addColumn(column);
+        getColumns().add(column);
     }
 
-    public void addRow(final Object[] row) {
+    public void addRow(final GridRow row) {
         getRows().add(row);
     }
 
@@ -38,53 +26,67 @@ public class Grid {
     }
 
     public GridColumn<?> getColumn(final int columnIndex) {
-        return getGridMetaData().getColumn(columnIndex);
+        if (columnIndex >= getColumnCount()) {
+            return null;
+        }
+
+        return getColumns().get(columnIndex);
     }
 
     public int getColumnCount() {
-        return getGridMetaData().getColumnCount();
+        return getColumns().size();
     }
 
-    public String getComment(final int columnIndex) {
-        return getColumn(columnIndex).getComment();
+    public List<GridColumn<?>> getCopyOfColumns() {
+        return new ArrayList<>(getColumns());
     }
 
-    public int getLength(final int columnIndex) {
-        return getColumn(columnIndex).getLength();
-    }
+    public GridRow getRow(final int rowIndex) {
+        if (rowIndex >= getRowCount()) {
+            return null;
+        }
 
-    public String getName(final int columnIndex) {
-        return getColumn(columnIndex).getName();
-    }
-
-    public int getPrecision(final int columnIndex) {
-        return getColumn(columnIndex).getPrecision();
+        return getRows().get(rowIndex);
     }
 
     public int getRowCount() {
         return getRows().size();
     }
 
-    public Class<?> getType(final int columnIndex) {
-        return getColumn(columnIndex).getType();
-    }
-
     public <T> T getValue(final Class<T> type, final int rowIndex, final int columnIndex) {
-        Object[] row = getRows().get(rowIndex);
-        Object value = getColumn(columnIndex).getValue(row[columnIndex]);
+        GridRow gridRow = getRow(rowIndex);
+        GridColumn<?> gridColumn = getColumn(columnIndex);
+
+        if (gridRow == null || gridColumn == null) {
+            return null;
+        }
+
+        Object value = gridColumn.getValue(gridRow.getObject(columnIndex));
 
         return type.cast(value);
     }
 
     public GridColumn<?> removeColumn(final int columnIndex) {
-        return getGridMetaData().removeColumn(columnIndex);
+        if (columnIndex >= getColumnCount()) {
+            return null;
+        }
+
+        return getColumns().remove(columnIndex);
     }
 
-    protected GridMetaData getGridMetaData() {
-        return this.gridMetaData;
+    public GridRow removeRow(final int rowIndex) {
+        if (rowIndex >= getRowCount()) {
+            return null;
+        }
+
+        return getRows().remove(rowIndex);
     }
 
-    protected List<Object[]> getRows() {
+    protected List<GridColumn<?>> getColumns() {
+        return this.columns;
+    }
+
+    protected List<GridRow> getRows() {
         return this.rows;
     }
 }

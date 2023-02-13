@@ -23,7 +23,6 @@ import de.freese.base.core.model.grid.column.BooleanGridColumn;
 import de.freese.base.core.model.grid.column.DateGridColumn;
 import de.freese.base.core.model.grid.column.DoubleGridColumn;
 import de.freese.base.core.model.grid.column.GenericGridColumn;
-import de.freese.base.core.model.grid.column.GridColumn;
 import de.freese.base.core.model.grid.column.IntegerGridColumn;
 import de.freese.base.core.model.grid.column.LongGridColumn;
 import de.freese.base.core.model.grid.column.StringGridColumn;
@@ -35,42 +34,38 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 class TestGrid {
     @Test
     void testGrid() {
-        GridMetaData gridMetaData = new GridMetaData();
-        gridMetaData.addColumn(new BinaryGridColumn());
-        gridMetaData.addColumn(new BooleanGridColumn());
-        gridMetaData.addColumn(new DateGridColumn());
-        gridMetaData.addColumn(new DoubleGridColumn());
-        gridMetaData.addColumn(new IntegerGridColumn());
-        gridMetaData.addColumn(new LongGridColumn());
-        gridMetaData.addColumn(new StringGridColumn());
+        Grid grid = new Grid();
+        grid.addColumn(new BinaryGridColumn());
+        grid.addColumn(new BooleanGridColumn());
+        grid.addColumn(new DateGridColumn());
+        grid.addColumn(new DoubleGridColumn());
+        grid.addColumn(new IntegerGridColumn());
+        grid.addColumn(new LongGridColumn());
+        grid.addColumn(new StringGridColumn());
 
-        Grid grid = new Grid(gridMetaData);
-
-        Date date = new Date();
-
-        Object[] row = new Object[]{new byte[]{1, 2, 3}, true, date, 1.23456D, 42, 123456L, "this is a test"};
+        GridRow row = GridRow.of(new Object[]{new byte[]{1, 2, 3}, true, new Date(), 1.23456D, 42, 123456L, "this is a test"});
         grid.addRow(row);
 
         assertNotNull(grid.getValue(Object.class, 0, 0));
-        assertArrayEquals(new byte[]{1, 2, 3}, grid.getValue(byte[].class, 0, 0));
+        assertArrayEquals((byte[]) row.getObject(0), grid.getValue(byte[].class, 0, 0));
 
         assertNotNull(grid.getValue(Object.class, 0, 1));
-        assertEquals(true, grid.getValue(Boolean.class, 0, 1));
+        assertEquals(row.getObject(1), grid.getValue(Boolean.class, 0, 1));
 
         assertNotNull(grid.getValue(Object.class, 0, 2));
-        assertEquals(date, grid.getValue(Date.class, 0, 2));
+        assertEquals(row.getObject(2), grid.getValue(Date.class, 0, 2));
 
         assertNotNull(grid.getValue(Object.class, 0, 3));
-        assertEquals(1.23456D, grid.getValue(Double.class, 0, 3));
+        assertEquals(row.getObject(3), grid.getValue(Double.class, 0, 3));
 
         assertNotNull(grid.getValue(Object.class, 0, 4));
-        assertEquals(42, grid.getValue(Integer.class, 0, 4));
+        assertEquals(row.getObject(4), grid.getValue(Integer.class, 0, 4));
 
         assertNotNull(grid.getValue(Object.class, 0, 5));
-        assertEquals(123456L, grid.getValue(Long.class, 0, 5));
+        assertEquals(row.getObject(5), grid.getValue(Long.class, 0, 5));
 
         assertNotNull(grid.getValue(Object.class, 0, 6));
-        assertEquals("this is a test", grid.getValue(String.class, 0, 6));
+        assertEquals(row.getObject(6), grid.getValue(String.class, 0, 6));
     }
 
     @Test

@@ -1,17 +1,19 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
+import de.freese.base.core.model.grid.GridColumn;
+
 /**
  * @author Thomas Freese
  */
 public class StringGridColumn extends AbstractGridColumn<String> {
 
     public StringGridColumn() {
-        super(String.class, "string", -1, -1, null);
+        this("string");
     }
 
     public StringGridColumn(final String name) {
-        super(String.class, name, -1, -1, null);
+        this(name, null);
     }
 
     public StringGridColumn(final String name, final String comment) {
@@ -19,7 +21,7 @@ public class StringGridColumn extends AbstractGridColumn<String> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
+     * @see GridColumn#getValue(java.lang.Object)
      */
     @Override
     public String getValue(final Object object) {

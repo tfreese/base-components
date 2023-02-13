@@ -11,8 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * @param <T> Entity-Type
- *
  * @author Thomas Freese
  */
 class StreamSubscription<T> implements Subscription {

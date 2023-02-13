@@ -1,17 +1,19 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
+import de.freese.base.core.model.grid.GridColumn;
+
 /**
  * @author Thomas Freese
  */
 public class IntegerGridColumn extends AbstractGridColumn<Integer> {
 
     public IntegerGridColumn() {
-        super(Integer.class, "integer", -1, -1, null);
+        this("integer");
     }
 
     public IntegerGridColumn(final String name) {
-        super(Integer.class, name, -1, -1, null);
+        this(name, null);
     }
 
     public IntegerGridColumn(final String name, final String comment) {
@@ -19,7 +21,7 @@ public class IntegerGridColumn extends AbstractGridColumn<Integer> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
+     * @see GridColumn#getValue(java.lang.Object)
      */
     @Override
     public Integer getValue(final Object object) {

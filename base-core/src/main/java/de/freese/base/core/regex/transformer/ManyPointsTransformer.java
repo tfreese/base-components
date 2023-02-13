@@ -1,8 +1,6 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Mehrfache Punkte durch einen ersetzen.
- *
  * @author Thomas Freese
  */
 public class ManyPointsTransformer implements RegExTransformer {

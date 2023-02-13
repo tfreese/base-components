@@ -10,8 +10,6 @@ import java.util.function.LongConsumer;
 import javax.swing.ProgressMonitorInputStream;
 
 /**
- * {@link InputStream} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
- *
  * @author Thomas Freese
  * @see ProgressMonitorInputStream
  */
@@ -25,8 +23,7 @@ public class MonitoringInputStream extends InputStream {
     private long bytesRead;
 
     /**
-     * @param bytesReadConsumer {@link BiConsumer}; Erster Parameter = Anzahl gelesene Bytes, zweiter Parameter = Gesamtgröße
-     * @param size long; Anzahl Bytes (Größe) des gesamten Channels
+     * @param bytesReadConsumer {@link BiConsumer}; 1st Parameter = bytesRead, 2nd Parameter = Size
      */
     public MonitoringInputStream(final InputStream delegate, final BiConsumer<Long, Long> bytesReadConsumer, final long size, final boolean closeDelegate) {
         this(delegate, br -> bytesReadConsumer.accept(br, size), closeDelegate);

@@ -1,8 +1,6 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Auftretende Klammern werden escaped, da sie ein Sonderzeichen in den regulären Ausdrücken sind.
- *
  * @author Thomas Freese
  */
 public class EscapeBracketTransformer implements RegExTransformer {

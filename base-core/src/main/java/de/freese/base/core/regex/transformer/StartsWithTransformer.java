@@ -1,8 +1,6 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * Prüfung auf gültige Anfangsausdrücke.
- *
  * @author Thomas Freese
  */
 public class StartsWithTransformer implements RegExTransformer {

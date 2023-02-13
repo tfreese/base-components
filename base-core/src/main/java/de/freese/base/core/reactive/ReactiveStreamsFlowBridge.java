@@ -13,8 +13,6 @@ import java.util.concurrent.Flow;
 public final class ReactiveStreamsFlowBridge {
     /**
      * Flow Publisher that wraps a Reactive Streams Publisher.
-     *
-     * @param <T> the element type
      */
     private static final class FlowPublisherFromReactive<T> implements Flow.Publisher<T> {
         private final org.reactivestreams.Publisher<? extends T> reactiveStreams;
@@ -98,8 +96,6 @@ public final class ReactiveStreamsFlowBridge {
 
     /**
      * Wraps a Reactive Streams Subscriber and forwards methods of the Flow Subscriber to it.
-     *
-     * @param <T> the element type
      */
     private static final class FlowToReactiveSubscriber<T> implements Flow.Subscriber<T> {
         private final org.reactivestreams.Subscriber<? super T> reactiveStreams;
@@ -170,8 +166,6 @@ public final class ReactiveStreamsFlowBridge {
 
     /**
      * Reactive Streams Publisher that wraps a Flow Publisher.
-     *
-     * @param <T> the element type
      */
     private static final class ReactivePublisherFromFlow<T> implements org.reactivestreams.Publisher<T> {
         private final Flow.Publisher<? extends T> flow;
@@ -255,8 +249,6 @@ public final class ReactiveStreamsFlowBridge {
 
     /**
      * Wraps a Reactive Streams Subscriber and forwards methods of the Flow Subscriber to it.
-     *
-     * @param <T> the element type
      */
     private static final class ReactiveToFlowSubscriber<T> implements org.reactivestreams.Subscriber<T> {
         private final Flow.Subscriber<? super T> flow;
@@ -354,7 +346,6 @@ public final class ReactiveStreamsFlowBridge {
     /**
      * Converts a Reactive Streams Publisher into a Flow Publisher.
      *
-     * @param <T> the element type
      * @param reactiveStreamsPublisher the source Reactive Streams Publisher to convert
      *
      * @return the equivalent Flow Publisher
@@ -405,7 +396,6 @@ public final class ReactiveStreamsFlowBridge {
     /**
      * Converts a Flow Publisher into a Reactive Streams Publisher.
      *
-     * @param <T> the element type
      * @param flowPublisher the source Flow Publisher to convert
      *
      * @return the equivalent Reactive Streams Publisher

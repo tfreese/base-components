@@ -29,7 +29,7 @@ class TestStaxWriter {
             // XMLOutputFactory factory = XMLOutputFactory.newInstance();
             // factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
             // XMLStreamWriter writer = factory.createXMLStreamWriter(os, encoding);
-            XMLStreamWriter writer = new PrettyPrintXMLStreamWriter(os, encoding);
+            XMLStreamWriter writer = new PrettyPrintXmlStreamWriter(os, encoding);
 
             // PrettyPrint per Proxy
             // StaxPrettyPrintHandler handler = new StaxPrettyPrintHandler(writer);

@@ -1,8 +1,6 @@
 package de.freese.base.core.regex.transformer;
 
 /**
- * ? und _ durch .{1} ersetzen, nur ein beliebiges Zeichen soll auftreten.
- *
  * @author Thomas Freese
  */
 public class SingleSignTransformer implements RegExTransformer {

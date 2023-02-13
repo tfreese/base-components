@@ -8,19 +8,19 @@ import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 /**
- * {@link OutputStream} mit der Möglichkeit zur Überwachung durch einen Monitor.<br>
- *
  * @author Thomas Freese
  */
 public class MonitoringOutputStream extends OutputStream {
     private final LongConsumer bytesWrittenConsumer;
+    
     private final boolean closeDelegate;
+
     private final OutputStream delegate;
+
     private long bytesWritten;
 
     /**
-     * @param bytesWrittenConsumer {@link BiConsumer}; Erster Parameter = Anzahl geschriebene Bytes, zweiter Parameter = Gesamtgröße
-     * @param size long; Anzahl Bytes (Größe) des gesamten Channels
+     * @param bytesWrittenConsumer {@link BiConsumer}; 1st Parameter = bytesRead, 2nd Parameter = Size
      */
     public MonitoringOutputStream(final OutputStream delegate, final BiConsumer<Long, Long> bytesWrittenConsumer, final long size, final boolean closeDelegate) {
         this(delegate, bw -> bytesWrittenConsumer.accept(bw, size), closeDelegate);

@@ -8,9 +8,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * {@link NodeList} auf Basis einer {@link ArrayList} für die Möglichkeit der Sortierung.<br>
- * Diese Liste kann nur DOM {@link Node} Objekte aufnehmen.
- *
  * @author Thomas Freese
  */
 public class DomNodeList extends ArrayList<Node> implements NodeList {

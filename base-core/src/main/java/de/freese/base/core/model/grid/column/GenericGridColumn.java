@@ -4,6 +4,8 @@ package de.freese.base.core.model.grid.column;
 import java.util.Objects;
 import java.util.function.Function;
 
+import de.freese.base.core.model.grid.GridColumn;
+
 /**
  * @author Thomas Freese
  */
@@ -11,15 +13,11 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T> {
     private final Function<Object, T> mapper;
 
     public GenericGridColumn(final Class<T> type, final Function<Object, T> mapper) {
-        super(type, "generic", -1, -1, null);
-
-        this.mapper = Objects.requireNonNull(mapper, "mapper required");
+        this(type, "generic", mapper);
     }
 
     public GenericGridColumn(final Class<T> type, final String name, final Function<Object, T> mapper) {
-        super(type, name, -1, -1, null);
-
-        this.mapper = Objects.requireNonNull(mapper, "mapper required");
+        this(type, name, -1, -1, null, mapper);
     }
 
     public GenericGridColumn(final Class<T> type, final String name, final int length, final int precision, final String comment, final Function<Object, T> mapper) {
@@ -29,7 +27,7 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
+     * @see GridColumn#getValue(java.lang.Object)
      */
     @Override
     public T getValue(final Object object) {

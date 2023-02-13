@@ -3,8 +3,6 @@ package de.freese.base.core.xml.jaxb;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
- * JAXB Adapter für ein {@link Integer} die auch null sein können.
- *
  * @author Thomas Freese
  */
 public class NullIntegerAdapter extends XmlAdapter<String, Integer> {

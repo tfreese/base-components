@@ -10,11 +10,6 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
- * Kapselt einen {@link Stream} in einem {@link Publisher}.<br>
- * Siehe: StreamPublisherTest.
- *
- * @param <T> Entity-Type
- *
  * @author Thomas Freese
  * @see <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  */

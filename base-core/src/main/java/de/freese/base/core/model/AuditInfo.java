@@ -11,63 +11,63 @@ public class AuditInfo implements Serializable {
     @Serial
     private static final long serialVersionUID = 146275334726328864L;
 
-    private Date erstelltAm;
+    private Date changed;
 
-    private String erstelltVon = "";
+    private String changedBy;
 
-    private Date geaendertAm;
+    private Date created;
 
-    private String geaendertVon = "";
+    private String createdBy;
 
-    private Date gueltigBis;
+    private Date validFrom;
 
-    private Date gueltigVon;
+    private Date validUntil;
 
-    public Date getErstelltAm() {
-        return this.erstelltAm;
+    public Date getChanged() {
+        return this.changed;
     }
 
-    public String getErstelltVon() {
-        return this.erstelltVon;
+    public String getChangedBy() {
+        return this.changedBy;
     }
 
-    public Date getGeaendertAm() {
-        return this.geaendertAm;
+    public Date getCreated() {
+        return this.created;
     }
 
-    public String getGeaendertVon() {
-        return this.geaendertVon;
+    public String getCreatedBy() {
+        return this.createdBy;
     }
 
-    public Date getGueltigBis() {
-        return this.gueltigBis;
+    public Date getValidFrom() {
+        return this.validFrom;
     }
 
-    public Date getGueltigVon() {
-        return this.gueltigVon;
+    public Date getValidUntil() {
+        return this.validUntil;
     }
 
-    public void setErstelltAm(final Date erstelltAm) {
-        this.erstelltAm = erstelltAm;
+    public void setChanged(final Date changed) {
+        this.changed = changed;
     }
 
-    public void setErstelltVon(final String erstelltVon) {
-        this.erstelltVon = erstelltVon;
+    public void setChangedBy(final String changedBy) {
+        this.changedBy = changedBy;
     }
 
-    public void setGeaendertAm(final Date geaendertAm) {
-        this.geaendertAm = geaendertAm;
+    public void setCreated(final Date created) {
+        this.created = created;
     }
 
-    public void setGeaendertVon(final String geaendertVon) {
-        this.geaendertVon = geaendertVon;
+    public void setCreatedBy(final String createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public void setGueltigBis(final Date gueltigBis) {
-        this.gueltigBis = gueltigBis;
+    public void setValidFrom(final Date validFrom) {
+        this.validFrom = validFrom;
     }
 
-    public void setGueltigVon(final Date gueltigVon) {
-        this.gueltigVon = gueltigVon;
+    public void setValidUntil(final Date validUntil) {
+        this.validUntil = validUntil;
     }
 }

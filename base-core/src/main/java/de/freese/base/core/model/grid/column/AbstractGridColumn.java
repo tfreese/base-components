@@ -3,6 +3,8 @@ package de.freese.base.core.model.grid.column;
 
 import java.util.Objects;
 
+import de.freese.base.core.model.grid.GridColumn;
+
 /**
  * @author Thomas Freese
  */
@@ -35,7 +37,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getComment()
+     * @see GridColumn#getComment()
      */
     @Override
     public String getComment() {
@@ -43,7 +45,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getLength()
+     * @see GridColumn#getLength()
      */
     @Override
     public int getLength() {
@@ -51,7 +53,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getName()
+     * @see GridColumn#getName()
      */
     @Override
     public String getName() {
@@ -59,7 +61,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getPrecision()
+     * @see GridColumn#getPrecision()
      */
     @Override
     public int getPrecision() {
@@ -67,7 +69,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getType()
+     * @see GridColumn#getType()
      */
     @Override
     public Class<T> getType() {

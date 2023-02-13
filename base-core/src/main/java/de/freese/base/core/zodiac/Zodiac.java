@@ -7,8 +7,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
- * Klasse für die Sternzeichen.
- *
  * @author Thomas Freese
  */
 public enum Zodiac {

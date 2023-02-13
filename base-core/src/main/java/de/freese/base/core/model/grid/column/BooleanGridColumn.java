@@ -1,13 +1,15 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
+import de.freese.base.core.model.grid.GridColumn;
+
 /**
  * @author Thomas Freese
  */
 public class BooleanGridColumn extends AbstractGridColumn<Boolean> {
 
     public BooleanGridColumn() {
-        super(Boolean.class, "boolean", -1, -1, null);
+        this("boolean");
     }
 
     public BooleanGridColumn(final String name) {
@@ -15,7 +17,7 @@ public class BooleanGridColumn extends AbstractGridColumn<Boolean> {
     }
 
     /**
-     * @see de.freese.base.core.model.grid.column.GridColumn#getValue(java.lang.Object)
+     * @see GridColumn#getValue(java.lang.Object)
      */
     @Override
     public Boolean getValue(final Object object) {
