@@ -12,7 +12,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 /**
- * Service to start an stop the DB-Instances.
+ * Service to start and stop the DB-Instances.
  *
  * @author Thomas Freese
  */

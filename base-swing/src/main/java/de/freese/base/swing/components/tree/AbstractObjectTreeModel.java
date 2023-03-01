@@ -169,7 +169,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
     }
 
     /**
-     * Invoke this method if you've totally changed the children of node and its children children.<br/>
+     * Invoke this method if you've totally changed the children of node and its child children.<br/>
      * This will post a treeStructureChanged event.
      */
     public void nodeStructureChanged(final Object node) {

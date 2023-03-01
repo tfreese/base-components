@@ -96,10 +96,10 @@ public class TaskStatistik implements Serializable {
         StringBuilder builder = new StringBuilder();
 
         builder.append(getTaskName());
-        builder.append("; Min=" + getMin());
-        builder.append("; Max=" + getMax());
-        builder.append("; Avg=" + getAvg());
-        builder.append("; Size=" + this.durations.size());
+        builder.append("; Min=").append(getMin());
+        builder.append("; Max=").append(getMax());
+        builder.append("; Avg=").append(getAvg());
+        builder.append("; Size=").append(this.durations.size());
 
         String format = "%1$td.%1$tm.%1$tY %1$tT";
         builder.append("; Datum=").append(String.format(format, getLastAccess()));

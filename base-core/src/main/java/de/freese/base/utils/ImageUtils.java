@@ -392,7 +392,7 @@ public final class ImageUtils {
     }
 
     /**
-     * Liefert das Schwarzweiss Bild.
+     * Liefert das Schwarzweissbild.
      */
     public static BufferedImage toBlackWhiteImage(final BufferedImage image) {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -460,7 +460,7 @@ public final class ImageUtils {
     }
 
     /**
-     * Liefert das Schwarzweiss Bild.
+     * Liefert das Schwarzweissbild.
      */
     public static BufferedImage toBlackWhiteImage(final Image image) {
         BufferedImage bufferedImage = toBufferedImage(image);

@@ -14,8 +14,6 @@ import de.freese.base.reports.importer.excel.ExcelSheet;
 import de.freese.base.reports.importer.excel.ExcelToolkit;
 
 /**
- * Panel einer Exceldatei.
- *
  * @author Thomas Freese
  */
 public class ExcelPanel extends JPanel {

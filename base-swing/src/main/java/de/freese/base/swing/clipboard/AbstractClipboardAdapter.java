@@ -4,6 +4,7 @@ package de.freese.base.swing.clipboard;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.Serial;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ public abstract class AbstractClipboardAdapter {
         @Serial
         private static final long serialVersionUID = -6829341578505146619L;
 
-        public ActionCopy() {
+        protected ActionCopy() {
             super();
 
             putValue(NAME, "Copy");
@@ -50,7 +51,7 @@ public abstract class AbstractClipboardAdapter {
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e) {
+        public void actionPerformed(final ActionEvent event) {
             doCopy();
         }
     }
@@ -62,7 +63,7 @@ public abstract class AbstractClipboardAdapter {
         @Serial
         private static final long serialVersionUID = 4473841629940450442L;
 
-        public ActionPaste() {
+        protected ActionPaste() {
             super();
 
             putValue(NAME, "Paste");
@@ -74,7 +75,7 @@ public abstract class AbstractClipboardAdapter {
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e) {
+        public void actionPerformed(final ActionEvent event) {
             doPaste(false);
         }
     }
@@ -86,7 +87,7 @@ public abstract class AbstractClipboardAdapter {
         @Serial
         private static final long serialVersionUID = 6114190778366220106L;
 
-        public ActionPasteFlipAxes() {
+        protected ActionPasteFlipAxes() {
             super();
 
             putValue(NAME, "Paste (flip Axes)");
@@ -98,7 +99,7 @@ public abstract class AbstractClipboardAdapter {
          * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
          */
         @Override
-        public void actionPerformed(final ActionEvent e) {
+        public void actionPerformed(final ActionEvent event) {
             doPaste(true);
         }
     }
@@ -213,11 +214,11 @@ public abstract class AbstractClipboardAdapter {
     protected void initialize() {
         registerDefaultConverters();
 
-        KeyStroke copyKS = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false);
+        KeyStroke copyKS = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK, false);
 
         getComponent().registerKeyboardAction(getActionCopy(), "region-copy", copyKS, JComponent.WHEN_FOCUSED);
 
-        KeyStroke pasteKS = KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK, false);
+        KeyStroke pasteKS = KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK, false);
 
         getComponent().registerKeyboardAction(getActionPaste(), "region-paste", pasteKS, JComponent.WHEN_FOCUSED);
     }

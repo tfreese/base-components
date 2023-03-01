@@ -10,9 +10,7 @@ public final class DemoApplicationLauncher {
     public static void main(final String[] args) {
         final DemoApplication application = new DemoApplication();
 
-        SwingUtilities.invokeLater(() -> {
-            application.start();
-        });
+        SwingUtilities.invokeLater(application::start);
     }
 
     private DemoApplicationLauncher() {

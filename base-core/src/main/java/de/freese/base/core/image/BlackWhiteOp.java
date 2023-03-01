@@ -10,7 +10,7 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 
 /**
- * Erstellt ein reines Schwarz/Weiß Bild, indem alle Pixel die NICHT Schwarz sind in Weiß umgewandelt werden.
+ * Erstellt ein reines Schwarz/Weiß Bild, indem alle Pixel die NICHT Schwarz sind, in Weiß umgewandelt werden.
  *
  * @author Thomas Freese
  */

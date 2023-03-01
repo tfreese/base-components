@@ -73,7 +73,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     @Override
     public void addColumn(final TableColumn aColumn) {
         // hacking to guarantee correct events
-        // two step: add as visible, setVisible
+        // two-step: add as visible, setVisible
         boolean oldVisible = true;
 
         // add the visibility listener if appropriate
@@ -287,7 +287,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     protected void moveToVisible(final ExtTableColumn col) {
         col.putClientProperty(IGNORE_EVENT, Boolean.TRUE);
 
-        // two step process: first add at end of columns
+        // two-step process: first add at end of columns
         // then move to "best" position relative to where it
         // was before hiding.
         super.addColumn(col);

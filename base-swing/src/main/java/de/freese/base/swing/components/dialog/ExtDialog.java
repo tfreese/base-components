@@ -212,9 +212,6 @@ public class ExtDialog {
 
         ActionMap actionMap = firstButton.getActionMap();
         actionMap.put("enter", new AbstractAction() {
-            /**
-             *
-             */
             @Serial
             private static final long serialVersionUID = -1121213878070135406L;
 
@@ -235,9 +232,6 @@ public class ExtDialog {
 
             actionMap = lastButton.getActionMap();
             actionMap.put("esc", new AbstractAction() {
-                /**
-                 *
-                 */
                 @Serial
                 private static final long serialVersionUID = -1982802474829843159L;
 

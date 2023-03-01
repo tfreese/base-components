@@ -37,7 +37,7 @@ public final class TestPdfExporterMain {
         Exporter<List<String>> exporter = new AbstractPdfExporter<>() {
             @Override
             public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception {
-                // Must called before opening the Document.
+                // Must be called before opening the Document.
                 //secure(writer, "test", null);
 
                 document.open();

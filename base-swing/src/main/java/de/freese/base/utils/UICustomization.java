@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.Map.Entry;
@@ -118,7 +119,7 @@ public final class UICustomization {
 
             // @formatter:off
             uiDefaults.entrySet().stream()
-                .sorted((e1, e2) -> e1.getKey().toString().compareTo(e2.getKey().toString()))
+                .sorted(Comparator.comparing(e -> e.getKey().toString()))
                 .forEach(entry -> {
                     String key = entry.getKey().toString();
                     String value = Objects.toString(entry.getValue(), "NULL");

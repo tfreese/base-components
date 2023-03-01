@@ -15,8 +15,6 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 /**
- * Komponente zum Rendern der Sortierung auf einer Tabellenspalten-Überschrift.
- *
  * @author Thomas Freese
  */
 public class SortRendererComponent extends JPanel {

@@ -3,6 +3,7 @@ package de.freese.base.core.pool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,10 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger("RoundRobinPool");
 
-    //    private static final AtomicIntegerFieldUpdater<AbstractRoundRobinPool> NEXT_INDEX =
-    //            AtomicIntegerFieldUpdater.newUpdater(AbstractRoundRobinPool.class, "nextIndex");
+    private static final AtomicIntegerFieldUpdater<AbstractRoundRobinPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(AbstractRoundRobinPool.class, "nextIndex");
+
     private final List<T> queue;
+
     private volatile int nextIndex;
 
     protected AbstractRoundRobinPool(final int size) {
@@ -42,12 +44,12 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
             this.queue.add(create());
         }
 
-        T object = this.queue.get(this.nextIndex);
+        T object = this.queue.get(NEXT_INDEX.get(this));
 
-        this.nextIndex++;
+        NEXT_INDEX.incrementAndGet(this);
 
         if (this.nextIndex == getNumActive()) {
-            this.nextIndex = 0;
+            NEXT_INDEX.set(this, 0);
         }
 
         // int length = this.queue.size();

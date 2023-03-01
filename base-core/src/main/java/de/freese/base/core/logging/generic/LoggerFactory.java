@@ -1,7 +1,6 @@
 // Created: 29.04.2022
 package de.freese.base.core.logging.generic;
 
-import java.util.Iterator;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
@@ -44,9 +43,7 @@ public final class LoggerFactory {
         try {
             final ServiceLoader<LoggerProvider> loader = ServiceLoader.load(LoggerProvider.class, classLoader);
 
-            for (Iterator<LoggerProvider> iterator = loader.iterator(); iterator.hasNext(); ) {
-                LoggerProvider loggerProvider = iterator.next();
-
+            for (LoggerProvider loggerProvider : loader) {
                 logProvider(loggerProvider, "service loader");
 
                 return loggerProvider;

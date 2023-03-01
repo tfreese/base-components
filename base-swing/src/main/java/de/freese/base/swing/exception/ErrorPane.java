@@ -352,18 +352,18 @@ public final class ErrorPane extends JPanel {
     private String getDetailsAsHTML(final ErrorInfo errorInfo) {
         if (errorInfo.getErrorException() != null) {
             StringBuilder html = new StringBuilder("<html>");
-            html.append("<h2>" + escapeXml(errorInfo.getTitle()) + "</h2>");
+            html.append("<h2>").append(escapeXml(errorInfo.getTitle())).append("</h2>");
             html.append("<HR size='1' noshade>");
             html.append("<div></div>");
             html.append("<b>Message:</b>");
             html.append("<pre>");
-            html.append("    " + escapeXml(errorInfo.getBasicErrorMessage() + "\n\n"));
-            html.append("    " + escapeXml(errorInfo.getErrorException().toString()));
+            html.append("    ").append(escapeXml(errorInfo.getBasicErrorMessage())).append("\n\n");
+            html.append("    ").append(escapeXml(errorInfo.getErrorException().toString()));
             html.append("</pre>");
             html.append("<br>");
             html.append("<b>Level:</b>");
             html.append("<pre>");
-            html.append("    " + errorInfo.getErrorLevel());
+            html.append("    ").append(errorInfo.getErrorLevel());
             html.append("</pre>");
             html.append("<br>");
             html.append("<b>Stack Trace:</b>");
@@ -371,12 +371,12 @@ public final class ErrorPane extends JPanel {
             Throwable ex = errorInfo.getErrorException();
 
             while (ex != null) {
-                html.append("<h4>" + ex.getMessage() + "</h4>");
+                html.append("<h4>").append(ex.getMessage()).append("</h4>");
                 html.append("<pre>");
 
                 for (int i = 0; i < ex.getStackTrace().length; i++) {
                     StackTraceElement el = ex.getStackTrace()[i];
-                    html.append("    " + el.toString().replace("<init>", "&lt;init&gt;") + "\n");
+                    html.append("    ").append(el.toString().replace("<init>", "&lt;init&gt;")).append("\n");
                 }
 
                 html.append("</pre>");

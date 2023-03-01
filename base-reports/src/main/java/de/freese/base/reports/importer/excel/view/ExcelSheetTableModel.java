@@ -35,13 +35,12 @@ public class ExcelSheetTableModel extends AbstractTableModel {
      */
     @Override
     public String getColumnName(final int column) {
-        // Die erste Spalte hat keinen Namen in Excel.
+        // The first Column does not have a name.
         if (column == 0) {
-            // Leerzeichen im String verhindert, das die Header eine zu flache Höhe haben.
             return " ";
         }
 
-        // -1: Damit zweite Spalte mit A anfängt.
+        // -1: Second Column starts with A.
         return super.getColumnName(column - 1);
     }
 

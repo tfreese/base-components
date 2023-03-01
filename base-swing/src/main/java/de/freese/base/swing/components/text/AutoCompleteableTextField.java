@@ -142,7 +142,7 @@ public class AutoCompleteableTextField extends JTextField {
             Iterator<String> it = this.prevSearches.iterator();
             List<String> matches = new ArrayList<>();
 
-            // Treffer rausfinden
+            // Treffer herausfinden
             while (it.hasNext()) {
                 String search = it.next();
 

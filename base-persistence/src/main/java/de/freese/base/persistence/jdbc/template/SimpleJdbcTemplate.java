@@ -289,8 +289,8 @@ public class SimpleJdbcTemplate {
                 pss.setValues(stmt);
             }
 
-            ResultSet resultSet = stmt.executeQuery();
-            Connection connection = stmt.getConnection();
+            final ResultSet resultSet = stmt.executeQuery();
+            final Connection connection = stmt.getConnection();
 
             return Flux.generate((final SynchronousSink<T> sink) -> {
                 try {

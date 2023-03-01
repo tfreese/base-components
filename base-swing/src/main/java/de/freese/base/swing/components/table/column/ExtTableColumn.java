@@ -86,7 +86,7 @@ public class ExtTableColumn extends TableColumn {
     /**
      * Returns the visible property. The default is <code>true</code>.
      *
-     * @return boolean indicating whether or not this view column is visible in the table
+     * @return boolean indicating whether this view column is visible in the table
      *
      * @see #setVisible
      */
@@ -150,9 +150,9 @@ public class ExtTableColumn extends TableColumn {
     }
 
     /**
-     * Sets the visible property. This property controls whether or not this view column is currently visible in the table.
+     * Sets the visible property. This property controls whether this view column is currently visible in the table.
      *
-     * @param visible boolean indicating whether or not this view column is visible in the table
+     * @param visible boolean indicating whether this view column is visible in the table
      *
      * @see #setVisible
      */

@@ -88,7 +88,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
             }
 
             if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
-                // Rausfinden, ob unter Courser ein Button liegt, dann Tooltip malen
+                // Herausfinden, ob unter Courser ein Button liegt, dann Tooltip malen
                 // Alternativ im ToggleListener.mouseMoved malen lassen
                 PointerInfo pointerInfo = MouseInfo.getPointerInfo();
                 Point point = new Point(pointerInfo.getLocation());

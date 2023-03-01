@@ -403,7 +403,7 @@ public final class ExtMath {
     /**
      * Rundet ein Double Wert auf eine bestimmte Anzahl Nachkommastellen.<br>
      * Als {@link RoundingMode} wird HALF_UP verwendet.<br>
-     * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
+     * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      *
      * @param scale int Anzahl Nachkommastellen
      */
@@ -413,7 +413,7 @@ public final class ExtMath {
 
     /**
      * Rundet ein Double Wert auf eine bestimmte Anzahl Nachkommastellen und des RoundingModes.<br>
-     * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
+     * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      *
      * @param scale int Anzahl Nachkommastellen
      */
@@ -430,7 +430,7 @@ public final class ExtMath {
 
     /**
      * Liefert den abgerundeten Integer Wert des Double-Wertes.<br>
-     * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
+     * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      */
     public static int roundDown(final double value) {
         if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {
@@ -446,7 +446,7 @@ public final class ExtMath {
     /**
      * Rundet ein Double Wert auf einen Integer Wert.<br>
      * Als {@link RoundingMode} wird HALF_UP verwendet.<br>
-     * Ist der Wert NaN oder Infinite wird 0 geliefert.
+     * Ist der Wert NaN oder Infinite, wird 0 geliefert.
      */
     public static int roundToInt(final double value) {
         return (int) round(value, 0);
@@ -454,7 +454,7 @@ public final class ExtMath {
 
     /**
      * Liefert den aufgerundeten Integer Wert des Double-Wertes.<br>
-     * Ist der Wert NaN oder Infinite wird 0.0D geliefert.
+     * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      */
     public static int roundUp(final double value) {
         if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {

@@ -14,8 +14,6 @@ import javax.swing.ListSelectionModel;
 import de.freese.base.reports.importer.excel.ExcelSheet;
 
 /**
- * Panel eines Sheets einer Exceldatei.
- *
  * @author Thomas Freese
  */
 public class ExcelSheetPanel extends JPanel {

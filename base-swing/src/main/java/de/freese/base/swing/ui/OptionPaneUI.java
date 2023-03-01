@@ -15,7 +15,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicOptionPaneUI;
 
 /**
- * UI für die OptionPane, um auch den Background des ButtonsPanels dem des MessagePanels angleichen zu können.
+ * UI für die OptionPane, um auch den Background des ButtonsPanels, dem des MessagePanels angleichen zu können.
  *
  * @author Thomas Freese
  */

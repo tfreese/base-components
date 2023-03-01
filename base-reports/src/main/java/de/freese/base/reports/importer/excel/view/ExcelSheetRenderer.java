@@ -7,8 +7,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- * Renderer für die Tabelle der ExcelSheets.
- *
  * @author Thomas Freese
  */
 public class ExcelSheetRenderer extends DefaultTableCellRenderer {
@@ -35,7 +33,6 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer {
 
         Double num = null;
 
-        // Wenn möglich Ganzzahlen anzeigen
         try {
             num = value != null ? Double.valueOf(value.toString()) : null;
         }

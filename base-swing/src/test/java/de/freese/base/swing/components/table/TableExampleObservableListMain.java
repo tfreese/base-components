@@ -82,7 +82,7 @@ public final class TableExampleObservableListMain {
              */
             @Override
             protected void process(final List<int[]> chunks) {
-                chunks.forEach(list::add);
+                list.addAll(chunks);
             }
         };
 

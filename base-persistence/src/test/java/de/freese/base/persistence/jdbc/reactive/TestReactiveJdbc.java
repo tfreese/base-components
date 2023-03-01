@@ -137,10 +137,10 @@ class TestReactiveJdbc {
     void testFluxResultSetIterable() throws SQLException {
         List<Person> result = new ArrayList<>();
 
-        Connection connection = SERVER.getDataSource().getConnection();
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        final Connection connection = SERVER.getDataSource().getConnection();
+        final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
         statement.setFetchSize(1);
-        ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
+        final ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
         Iterable<Person> iterable = new ResultSetIterable<>(resultSet, new PersonRowMapper());
 

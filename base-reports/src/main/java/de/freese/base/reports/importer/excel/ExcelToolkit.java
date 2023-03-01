@@ -6,29 +6,26 @@ import java.util.StringTokenizer;
 import javax.swing.JTable;
 
 /**
- * Toolkit für Excel-Funktionalitäten.
- *
  * @author Thomas Freese
  */
 public final class ExcelToolkit {
     /**
-     * Ergibt bei 6,5 = F5.
+     * 6,5 = F5.
      */
     public static synchronized String getCellName(final int column, final int row) {
         return getColumnName(column) + row;
     }
 
     /**
-     * Liefert die Spaltennamen, zB 2 -> B.
+     * 2 -> B.
      */
     public static String getColumnName(final int column) {
-        // Die erste Spalte hat keinen Namen in Excel.
+        // The first Column does not have a name.
         if (column == 0) {
-            // Leerzeichen im String verhindert, das die Header eine zu flache Höhe haben.
             return " ";
         }
 
-        // Weil erste Spalte die Row-Numbers enthält und somit KEINEN Namen hat.
+        // The first Column contains the Row-Numbers and not a name.
         int c = column - 1;
 
         StringBuilder sb = new StringBuilder();
@@ -60,7 +57,7 @@ public final class ExcelToolkit {
     }
 
     /**
-     * Ergibt bei F5 = 6.
+     * F5 = 6
      */
     public static int getColumnNumber(final String cellName) {
         char c1 = cellName.charAt(0);
@@ -124,11 +121,11 @@ public final class ExcelToolkit {
         int columnEndNumber = getColumnNumber(end);
 
         if (columnStartNumber == columnEndNumber) {
-            // Eine Spalte selektiert, d.h. mehrere Zeilen
+            // A Column selected, it means multiple Rows.
             return (rowEndNumber - rowStartNumber) + 1;
         }
         else if (rowEndNumber == rowStartNumber) {
-            // Eine Zeile selektiert, d.h. mehrere Spalten
+            // A Row selected, it means multiple Columns.
             return (columnEndNumber - columnStartNumber) + 1;
         }
         else {
@@ -137,7 +134,7 @@ public final class ExcelToolkit {
     }
 
     /**
-     * Ergibt bei F5 = 5.
+     * F5 = 5
      */
     public static int getRowNumber(final String cellName) {
         // char c1 = cellName.charAt(0);

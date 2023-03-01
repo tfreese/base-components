@@ -151,7 +151,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
 
     /**
      * Secure with Password and limit rights.<br>
-     * Must called before opening the Document.
+     * Must be called before opening the Document.
      *
      * @param userPassword String, null = No Question during opening
      * @param ownerPassword String, null = No Question during changes
