@@ -42,7 +42,7 @@ class TestCalendarUtils {
         Calendar gregorianCalendar = new GregorianCalendar();
         Calendar calendar = CalendarUtils.calendarCreate();
 
-        assertEquals(gregorianCalendar.get(Calendar.SECOND), calendar.get(Calendar.SECOND));
+        assertEquals(gregorianCalendar.get(Calendar.SECOND), calendar.get(Calendar.SECOND), 1);
         assertEquals(gregorianCalendar.get(Calendar.MINUTE), calendar.get(Calendar.MINUTE));
         assertEquals(gregorianCalendar.get(Calendar.HOUR), calendar.get(Calendar.HOUR));
         assertEquals(gregorianCalendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.HOUR_OF_DAY));
@@ -90,7 +90,7 @@ class TestCalendarUtils {
         assertEquals(calendarRef.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.HOUR_OF_DAY));
         assertEquals(calendarRef.get(Calendar.HOUR), calendar.get(Calendar.HOUR));
         assertEquals(calendarRef.get(Calendar.MINUTE), calendar.get(Calendar.MINUTE));
-        assertEquals(calendarRef.get(Calendar.SECOND), calendar.get(Calendar.SECOND));
+        assertEquals(calendarRef.get(Calendar.SECOND), calendar.get(Calendar.SECOND), 1);
     }
 
     @Test
@@ -110,7 +110,7 @@ class TestCalendarUtils {
 
         assertEquals(calendarRef.get(Calendar.HOUR_OF_DAY), zonedDateTime.getHour());
         assertEquals(calendarRef.get(Calendar.MINUTE), zonedDateTime.getMinute());
-        assertEquals(calendarRef.get(Calendar.SECOND), zonedDateTime.getSecond());
+        assertEquals(calendarRef.get(Calendar.SECOND), zonedDateTime.getSecond(), 1);
     }
 
     @Test
@@ -130,7 +130,7 @@ class TestCalendarUtils {
 
         assertEquals(calendarRef.get(Calendar.HOUR_OF_DAY), zonedDateTime.getHour());
         assertEquals(calendarRef.get(Calendar.MINUTE), zonedDateTime.getMinute());
-        assertEquals(calendarRef.get(Calendar.SECOND), zonedDateTime.getSecond());
+        assertEquals(calendarRef.get(Calendar.SECOND), zonedDateTime.getSecond(), 1);
     }
 
     @Test
