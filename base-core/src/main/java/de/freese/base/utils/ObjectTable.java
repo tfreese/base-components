@@ -1,16 +1,18 @@
 // Created: 18.04.2020
 package de.freese.base.utils;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.function.IntFunction;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -81,52 +83,29 @@ public final class ObjectTable {
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
      */
-    public void writeCsv(final PrintStream printStream) {
-        writeCsv(printStream, row -> Arrays.stream(row).map(value -> Objects.toString(value, null)));
+    public void writeCsv(final OutputStream outputStream) {
+        IntFunction<String> headerFunction = this.header::get;
+        BiFunction<Integer, Integer, String> dataFunction = (row, column) -> Objects.toString(data.get(row)[column], null);
+        IntPredicate finishPredicate = row -> row < getRowCount();
+
+        CsvUtils.writeCsv(outputStream, getColumnCount(), headerFunction, dataFunction, finishPredicate);
     }
 
     /**
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
      */
-    public void writeCsv(final PrintStream printStream, Function<Object[], Stream<String>> csvDataFunction) {
-        UnaryOperator<String> csvFormatFunction = value -> {
-            if (value == null || value.strip().isBlank()) {
-                return "";
-            }
-
-            String v = value;
-
-            // Enthaltene Anführungszeichen escapen.
-            if (v.contains("\"")) {
-                v = v.replace("\"", "\"\"");
-            }
-
-            // Den Wert selbst in Anführungszeichen setzen.
-            return "\"" + v + "\"";
-        };
-
-        Function<List<String>, String> headerFunction = headerList -> headerList.stream().map(csvFormatFunction::apply).collect(Collectors.joining(","));
-        Function<Object[], String> dataFunction = row -> csvDataFunction.apply(row).map(csvFormatFunction::apply).collect(Collectors.joining(","));
-
-        printStream.println(headerFunction.apply(header));
-        data.forEach(row -> printStream.println(dataFunction.apply(row)));
-        printStream.flush();
+    public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData) {
+        writeStringTable(outputStream, separatorHeader, separatorData, value -> Objects.toString(value, ""));
     }
 
     /**
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
      */
-    public void writeStringTable(final PrintStream printStream, final char separatorHeader, final char separatorData) {
-        writeStringTable(printStream, separatorHeader, separatorData, value -> Objects.toString(value, ""));
-    }
+    public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData, Function<Object, String> dataFunction) {
+        PrintStream printStream = outputStream instanceof PrintStream ? (PrintStream) outputStream : new PrintStream(outputStream);
 
-    /**
-     * Schreibt Header und Daten in den PrintStream.<br>
-     * Der Stream wird nicht geschlossen.
-     */
-    public void writeStringTable(final PrintStream printStream, final char separatorHeader, final char separatorData, Function<Object, String> dataFunction) {
         int[] columnWidths = new int[getColumnCount()];
         Arrays.fill(columnWidths, 0);
 

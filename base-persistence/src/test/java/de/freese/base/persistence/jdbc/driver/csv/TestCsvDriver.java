@@ -84,7 +84,7 @@ class TestCsvDriver {
                 statement.execute(setTable.toString());
 
                 try (ResultSet resultSet = statement.executeQuery("select * from MY_CSV")) {
-                    JdbcUtils.write(resultSet, PRINT_STREAM);
+                    JdbcUtils.writeCsv(resultSet, PRINT_STREAM);
 
                     assertEquals("abc", resultSet.getString("TEXT"));
                     assertNotNull(resultSet.getDate("DATE"));

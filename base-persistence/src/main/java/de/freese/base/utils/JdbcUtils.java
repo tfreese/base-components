@@ -1,6 +1,7 @@
 // Created: 02.07.2009
 package de.freese.base.utils;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.CallableStatement;
@@ -14,9 +15,10 @@ import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringJoiner;
+import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.function.IntFunction;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -402,41 +404,22 @@ public final class JdbcUtils {
      * Der Stream wird nicht geschlossen.<br>
      * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
      */
-    public static void writeCsv(final ResultSet resultSet, final PrintStream ps) throws SQLException {
-        UnaryOperator<String> valueFunction = value -> {
-            if (value == null || value.strip().isBlank()) {
-                return "";
-            }
-
-            String v = value;
-
-            // Enthaltene Anführungszeichen escapen.
-            if (v.contains("\"")) {
-                v = v.replace("\"", "\"\"");
-            }
-
-            // Den Wert selbst in Anführungszeichen setzen.
-            return "\"" + v + "\"";
-        };
-
+    public static void writeCsv(final ResultSet resultSet, final OutputStream outputStream) throws SQLException {
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
 
-        StringJoiner stringJoiner = new StringJoiner(",");
+        IntFunction<String> headerFunction = column -> {
+            try {
+                return metaData.getColumnLabel(column + 1).toUpperCase();
+            }
+            catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
 
-        // Header
-        for (int column = 1; column <= columnCount; column++) {
-            stringJoiner.add(valueFunction.apply(metaData.getColumnLabel(column).toUpperCase()));
-        }
-
-        ps.println(stringJoiner);
-
-        // Daten
-        while (resultSet.next()) {
-            stringJoiner = new StringJoiner(",");
-
-            for (int column = 1; column <= columnCount; column++) {
-                Object obj = resultSet.getObject(column);
+        BiFunction<Integer, Integer, String> dataFunction = (row, column) -> {
+            try {
+                Object obj = resultSet.getObject(column + 1);
                 String value;
 
                 if (obj instanceof byte[] bytes) {
@@ -446,15 +429,25 @@ public final class JdbcUtils {
                     value = Objects.toString(obj, null);
                 }
 
-                stringJoiner.add(valueFunction.apply(value));
+                return value;
             }
+            catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        };
 
-            ps.println(stringJoiner);
-        }
+        IntPredicate finishPredicate = row -> {
+            try {
+                return resultSet.next();
+            }
+            catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        };
 
-        ps.flush();
+        CsvUtils.writeCsv(outputStream, columnCount, headerFunction, dataFunction, finishPredicate);
 
-        // ResultSet wieder zurück auf Anfang.
+        // Reset ResultSet.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
