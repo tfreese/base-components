@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -56,6 +57,14 @@ class TestCsvUtils {
             data = baos.toByteArray();
         }
 
+        // TextBlocks always uses \n as its line separator !
+        //        String expected = """
+        //                "Header_0","Header_1","Header_2"\r
+        //                "Value\\""\\,_0_0","Value\\""\\,_0_1","Value\\""\\,_0_2"\r
+        //                "Value\\""\\,_1_0","Value\\""\\,_1_1","Value\\""\\,_1_2"\r
+        //                "Value\\""\\,_2_0","Value\\""\\,_2_1","Value\\""\\,_2_2"\r
+        //                """;
+
         String expected = """
                 "Header_0","Header_1","Header_2"
                 "Value\\""\\,_0_0","Value\\""\\,_0_1","Value\\""\\,_0_2"
@@ -63,7 +72,7 @@ class TestCsvUtils {
                 "Value\\""\\,_2_0","Value\\""\\,_2_1","Value\\""\\,_2_2"
                 """;
 
-        assertEquals(expected, new String(data, StandardCharsets.UTF_8));
+        assertEquals(expected.lines().collect(Collectors.joining()), new String(data, StandardCharsets.UTF_8).lines().collect(Collectors.joining()));
 
         //        try (OutputStream outputStream = Files.newOutputStream(Paths.get(System.getProperty("java.io.tmpdir"), "csv-test.csv"), StandardOpenOption.TRUNCATE_EXISTING)) {
         //            CsvUtils.writeCsv(outputStream, 3, headerFunction, dataFunction, finishPredicate);
