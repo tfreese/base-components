@@ -52,7 +52,7 @@ public final class XMLGuiStateManager extends AbstractGuiStateManager {
 
     private void initJaxB() {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(getGuiStates().getGuiStates());
+            JAXBContext jaxbContext = JAXBContext.newInstance(getGuiStates().getGuiStates().toArray(Class[]::new));
 
             this.marshaller = jaxbContext.createMarshaller();
             this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

@@ -230,6 +230,7 @@ public abstract class KryoPool<T> {
      * @param maximumCapacity int; The maximum number of free objects to store in this pool.<br>
      * Objects are not created until {@link #obtain()} is called and no free objects are available.
      */
+    @SuppressWarnings("unchecked")
     protected KryoPool(final boolean threadSafe, final boolean softReferences, final int maximumCapacity) {
         Queue<T> queue;
 

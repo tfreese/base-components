@@ -2,6 +2,7 @@
 package de.freese.base.swing.state;
 
 import java.awt.Component;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,12 +15,12 @@ import java.util.function.Consumer;
 public final class GuiStates {
     public static GuiStates ofDefaults() {
         GuiStates guiStates = new GuiStates();
-        guiStates.customize(GuiStates::defaultConverters);
+        guiStates.customize(GuiStates::defaultStates);
 
         return guiStates;
     }
 
-    private static void defaultConverters(Set<Class<? extends GuiState>> guiStates) {
+    private static void defaultStates(Set<Class<? extends GuiState>> guiStates) {
         guiStates.add(ButtonGuiState.class);
         guiStates.add(ComboBoxGuiState.class);
         guiStates.add(ContainerGuiState.class);
@@ -34,7 +35,7 @@ public final class GuiStates {
     }
 
     private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
-    
+
     private final Set<Class<? extends GuiState>> states = new HashSet<>();
 
     private GuiStates() {
@@ -45,8 +46,8 @@ public final class GuiStates {
         guiStatesCustomizer.accept(states);
     }
 
-    public Class<GuiState>[] getGuiStates() {
-        return states.toArray(Class[]::new);
+    public Set<Class<? extends GuiState>> getGuiStates() {
+        return Collections.unmodifiableSet(states);
     }
 
     public GuiState getState(final Class<? extends Component> componentClass) {

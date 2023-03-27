@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory;
  * Ein stark vereinfachter ObjektPool.<br>
  * Die Objekte werden nicht wie bei einem herkömmlichen Pool für die Verwendung gesperrt,<br>
  * sondern im Round-Robin Verfahren bereitgestellt und erst erzeugt, wenn diese benötigt werden.<br>
- * Die Default Grösse des Pools beträgt <code>Runtime.availableProcessors() + 1</code>.<br>
  *
  * @author Thomas Freese
  */
 public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger("RoundRobinPool");
 
+    @SuppressWarnings("rawtypes")
     private static final AtomicIntegerFieldUpdater<AbstractRoundRobinPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(AbstractRoundRobinPool.class, "nextIndex");
 
     private final List<T> queue;
