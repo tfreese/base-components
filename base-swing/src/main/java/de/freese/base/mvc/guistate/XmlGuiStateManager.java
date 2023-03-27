@@ -14,12 +14,12 @@ import de.freese.base.swing.state.GuiStates;
 /**
  * @author Thomas Freese
  */
-public final class XMLGuiStateManager extends AbstractGuiStateManager {
+public final class XmlGuiStateManager extends AbstractGuiStateManager {
     private Marshaller marshaller;
 
     private Unmarshaller unMarshaller;
 
-    public XMLGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates) {
+    public XmlGuiStateManager(final LocalStorage localStorage, final GuiStates guiStates) {
         super(localStorage, guiStates, "xml");
 
     }

@@ -34,7 +34,7 @@ import de.freese.base.demo.nasa.view.NasaView;
 import de.freese.base.mvc.ApplicationContext;
 import de.freese.base.mvc.Releasable;
 import de.freese.base.mvc.guistate.GuiStateManager;
-import de.freese.base.mvc.guistate.XMLGuiStateManager;
+import de.freese.base.mvc.guistate.XmlGuiStateManager;
 import de.freese.base.mvc.storage.LocalStorage;
 import de.freese.base.resourcemap.ResourceMap;
 import de.freese.base.resourcemap.ResourceMapBuilder;
@@ -153,7 +153,7 @@ public class DemoApplication {
         LocalStorage localStorage = new LocalStorage(Paths.get(System.getProperty("user.home"), ".java-apps", applicationName.toLowerCase().replace(" ", "_")));
         applicationContext.registerService(LocalStorage.class, localStorage);
 
-        applicationContext.registerService(GuiStateManager.class, new XMLGuiStateManager(localStorage, GuiStates.ofDefaults()));
+        applicationContext.registerService(GuiStateManager.class, new XmlGuiStateManager(localStorage, GuiStates.ofDefaults()));
 
         applicationContext.registerService(SwingExceptionHandler.class, new DialogSwingExceptionHandler());
 
