@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import javax.swing.table.AbstractTableModel;
@@ -19,8 +20,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     @Serial
     private static final long serialVersionUID = 8219964863357772409L;
 
-    private final int columnCount;
-
     private final transient List<String> columnNames;
 
     private final transient List<T> list;
@@ -32,12 +31,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     protected AbstractListTableModel(final int columnCount, final List<T> list) {
         super();
 
-        if (columnCount < 0) {
-            throw new IllegalArgumentException("column count < 0: " + columnCount);
+        if (columnCount <= 0) {
+            throw new IllegalArgumentException("column count <= 0: " + columnCount);
         }
 
-        this.columnNames = null;
-        this.columnCount = columnCount;
+        this.columnNames = IntStream.rangeClosed(0, columnCount).mapToObj(super::getColumnName).toList();
         this.list = Objects.requireNonNull(list, "list required");
     }
 
@@ -48,9 +46,13 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
     protected AbstractListTableModel(final List<String> columnNames, final List<T> list) {
         super();
 
-        this.columnNames = Objects.requireNonNull(columnNames, "columnNames required");
-        this.columnCount = this.columnNames.size();
+        Objects.requireNonNull(columnNames, "columnNames required");
 
+        if (columnNames.isEmpty()) {
+            throw new IllegalArgumentException("columnNames are empty");
+        }
+
+        this.columnNames = columnNames;
         this.list = Objects.requireNonNull(list, "list required");
     }
 
@@ -97,7 +99,7 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
      */
     @Override
     public int getColumnCount() {
-        return this.columnCount;
+        return getColumnNames().size();
     }
 
     /**
@@ -105,10 +107,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
      */
     @Override
     public String getColumnName(final int column) {
-        if ((getColumnNames() == null) || getColumnNames().isEmpty()) {
-            return super.getColumnName(column);
-        }
-
         return getColumnNames().get(column);
     }
 
