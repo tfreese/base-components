@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -102,7 +101,7 @@ public abstract class AbstractResourceCache implements ResourceCache {
                 String newUrl = httpURLConnection.getHeaderField("Location");
 
                 // pen the new connection again
-                httpURLConnection = (HttpURLConnection) new URL(newUrl).openConnection();
+                httpURLConnection = (HttpURLConnection) URI.create(newUrl).toURL().openConnection();
                 httpURLConnection.setRequestMethod("HEAD");
             }
 
@@ -143,7 +142,7 @@ public abstract class AbstractResourceCache implements ResourceCache {
 
                     httpURLConnection.disconnect();
 
-                    httpURLConnection = (HttpURLConnection) new URL(newUrl).openConnection();
+                    httpURLConnection = (HttpURLConnection) URI.create(newUrl).toURL().openConnection();
                     httpURLConnection.setRequestProperty("Cookie", cookies);
                 }
 
