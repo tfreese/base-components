@@ -31,9 +31,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown, "ObjectPool-" + getClass().getSimpleName()));
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#borrowObject()
-     */
     @Override
     public T borrowObject() {
         T object = this.freeObjects.poll();
@@ -49,25 +46,16 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         return object;
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#getNumActive()
-     */
     @Override
     public int getNumActive() {
         return this.busy.size();
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#getNumIdle()
-     */
     @Override
     public int getNumIdle() {
         return this.freeObjects.size();
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#returnObject(java.lang.Object)
-     */
     @Override
     public void returnObject(final T object) {
         if (object == null) {
@@ -81,9 +69,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         this.busy.remove(object);
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#shutdown()
-     */
     @Override
     public void shutdown() {
         LOGGER.info("Close {}", this);
@@ -103,9 +88,6 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         }
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         String clazzName = null;
@@ -136,21 +118,21 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
     protected abstract T create();
 
     /**
-     * Wird in {@link #borrowObject()} ausgeführt.
+     * Executed in {@link #borrowObject()}.
      */
     protected void doActivate(final T object) {
         // Empty
     }
 
     /**
-     * Wird in {@link #shutdown()} ausgeführt.
+     * Executed in {@link #shutdown()}.
      */
     protected void doDestroy(final T object) {
         // Empty
     }
 
     /**
-     * Wird in {@link #returnObject(Object)} ausgeführt.
+     * Executed in {@link #returnObject(Object)}.
      */
     protected void doPassivate(final T object) {
         // Empty

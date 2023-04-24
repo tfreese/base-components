@@ -33,8 +33,6 @@ public abstract class KryoPool<T> {
     /**
      * Wraps queue values with {@link SoftReference} for {@link KryoPool}.
      *
-     * @param <T> Type
-     *
      * @author Martin Grotzke
      * @author Thomas Freese
      */
@@ -45,89 +43,56 @@ public abstract class KryoPool<T> {
             this.delegate = delegate;
         }
 
-        /**
-         * @see java.util.Queue#add(java.lang.Object)
-         */
         @Override
         public boolean add(final T e) {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#addAll(java.util.Collection)
-         */
         @Override
         public boolean addAll(final Collection<? extends T> c) {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#clear()
-         */
         @Override
         public void clear() {
             this.delegate.clear();
         }
 
-        /**
-         * @see java.util.Collection#contains(java.lang.Object)
-         */
         @Override
         public boolean contains(final Object o) {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#containsAll(java.util.Collection)
-         */
         @Override
         public boolean containsAll(final Collection<?> c) {
             return false;
         }
 
-        /**
-         * @see java.util.Queue#element()
-         */
         @Override
         public T element() {
             return null;
         }
 
-        /**
-         * @see java.util.Collection#isEmpty()
-         */
         @Override
         public boolean isEmpty() {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#iterator()
-         */
         @Override
         public Iterator<T> iterator() {
             return null;
         }
 
-        /**
-         * @see java.util.Queue#offer(java.lang.Object)
-         */
         @Override
         public boolean offer(final T e) {
             return this.delegate.add(new SoftReference<>(e));
         }
 
-        /**
-         * @see java.util.Queue#peek()
-         */
         @Override
         public T peek() {
             return null;
         }
 
-        /**
-         * @see java.util.Queue#poll()
-         */
         @Override
         public T poll() {
             while (true) {
@@ -145,57 +110,36 @@ public abstract class KryoPool<T> {
             }
         }
 
-        /**
-         * @see java.util.Queue#remove()
-         */
         @Override
         public T remove() {
             return null;
         }
 
-        /**
-         * @see java.util.Collection#remove(java.lang.Object)
-         */
         @Override
         public boolean remove(final Object o) {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#removeAll(java.util.Collection)
-         */
         @Override
         public boolean removeAll(final Collection<?> c) {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#retainAll(java.util.Collection)
-         */
         @Override
         public boolean retainAll(final Collection<?> c) {
             return false;
         }
 
-        /**
-         * @see java.util.Collection#size()
-         */
         @Override
         public int size() {
             return this.delegate.size();
         }
 
-        /**
-         * @see java.util.Collection#toArray()
-         */
         @Override
         public Object[] toArray() {
             return null;
         }
 
-        /**
-         * @see java.util.Collection#toArray(java.lang.Object[])
-         */
         @Override
         public <E> E[] toArray(final E[] a) {
             return null;

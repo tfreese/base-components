@@ -35,9 +35,6 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
         this.queue = new ArrayList<>(size);
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#borrowObject()
-     */
     @Override
     public T borrowObject() {
         if (getNumActive() < getTotalSize()) {
@@ -61,33 +58,21 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
         return object;
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#getNumActive()
-     */
     @Override
     public int getNumActive() {
         return this.queue.size();
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#getNumIdle()
-     */
     @Override
     public int getNumIdle() {
         return 0;
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#returnObject(java.lang.Object)
-     */
     @Override
     public void returnObject(final T object) {
         // Empty
     }
 
-    /**
-     * @see de.freese.base.core.pool.ObjectPool#shutdown()
-     */
     @Override
     public void shutdown() {
         LOGGER.info("Close {}", this);
@@ -96,9 +81,6 @@ public abstract class AbstractRoundRobinPool<T> implements ObjectPool<T> {
         this.queue.clear();
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         String clazzName = borrowObject().getClass().getSimpleName();
