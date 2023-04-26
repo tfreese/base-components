@@ -12,10 +12,10 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * @author Thomas Freese
@@ -67,7 +67,7 @@ public final class StringUtils {
         String[] row = new String[columnCount];
 
         for (int column = 0; column < columnCount; column++) {
-            row[column] = repeat(sep, rows.get(0)[column].length());
+            row[column] = sep.repeat(rows.get(0)[column].length());
         }
 
         rows.add(1, row);
@@ -163,7 +163,8 @@ public final class StringUtils {
         byte[] bytes = HexFormat.of().parseHex(cs);
         String sign = null;
 
-        try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes); DataInputStream datainputstream = new DataInputStream(bytearrayinputstream)) {
+        try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes);
+             DataInputStream datainputstream = new DataInputStream(bytearrayinputstream)) {
             sign = datainputstream.readUTF();
         }
         catch (IOException ioexception) {
@@ -334,44 +335,27 @@ public final class StringUtils {
     }
 
     /**
-     * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
-     *
-     * @see org.apache.commons.lang3.StringUtils#remove(String, char)
+     * Removes all ASCII Chars < 32 (SPACE) und > 126 (~).<br>
      */
     public static String removeNonAscii(final String input) {
-        return removeNonAscii(input, c -> false);
+        return removeNonAscii(input, null);
     }
 
     /**
-     * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
-     * Andere nicht entfernbare Zeichen können über das {@link Predicate} definiert werden.
-     *
-     * @see org.apache.commons.lang3.StringUtils#remove(String, char)
+     * Removes all ASCII Chars < 32 (SPACE) und > 126 (~) and except the Predicates.
      */
     public static String removeNonAscii(final String input, Predicate<Character> keep) {
-        if (input == null || input.isBlank()) {
-            return input;
+        Predicate<Character> filter = c -> c >= 32 && c <= 126;
+
+        if (keep != null) {
+            filter = filter.or(keep);
         }
 
-        char[] chars = input.toCharArray();
-        int pos = 0;
-
-        for (char c : chars) {
-            if (!keep.test(c) && (c < 32 || c > 126)) {
-                continue;
-            }
-
-            chars[pos++] = c;
-        }
-
-        return new String(chars, 0, pos);
+        return replaceChars(input, filter, c -> null);
     }
 
     /**
-     * Entfernt alle ASCII Zeichen < 32 (SPACE) und > 126 (~).<br>
-     * Behält die Umlaute und das 'ß'.
-     *
-     * @see org.apache.commons.lang3.StringUtils#remove(String, char)
+     * Removes all ASCII Chars < 32 (SPACE) und > 126 (~) and except german special chars.
      */
     public static String removeNonAsciiGerman(final String input) {
         Set<Character> keepChars = Set.of(
@@ -394,36 +378,44 @@ public final class StringUtils {
     }
 
     /**
-     * <pre>
-     * StringUtils.repeat(null, 2) = null
-     * StringUtils.repeat("", 0)   = ""
-     * StringUtils.repeat("", 2)   = ""
-     * StringUtils.repeat("a", 3)  = "aaa"
-     * StringUtils.repeat("ab", 2) = "abab"
-     * StringUtils.repeat("a", -2) = ""
-     * </pre>
+     * ReplacementFunction:<br>
+     * To remove: char -> null<br>
+     * To replace: char-> 'something else'
      */
-    public static String repeat(final CharSequence cs, final int repeat) {
-        // return org.apache.commons.lang3.StringUtils.repeat(text, repeat);
-
-        if (cs == null) {
-            return null;
+    public static String replaceChars(final String input, Predicate<Character> keep, Function<Character, String> replacementFunction) {
+        if (input == null || input.isBlank()) {
+            return input;
         }
 
-        if ((repeat <= 0) || (cs.length() == 0)) {
-            return EMPTY;
+        StringBuilder sb = new StringBuilder();
+
+        for (char c : input.toCharArray()) {
+            if (keep.test(c)) {
+                sb.append(c);
+            }
+            else {
+                String replacement = replacementFunction.apply(c);
+
+                if (replacement != null) {
+                    sb.append(replacement);
+                }
+            }
         }
 
-        //        StringBuilder sb = new StringBuilder();
+        return sb.toString();
+
+        //        char[] chars = input.toCharArray();
+        //        int pos = 0;
         //
-        //        for (int i = 0; i < repeat; i++)
-        //        {
-        //            sb.append(cs);
+        //        for (char c : chars) {
+        //            if (!keep.test(c)) {
+        //                continue;
+        //            }
+        //
+        //            chars[pos++] = c;
         //        }
         //
-        //        return sb.toString();
-
-        return cs.toString().repeat(repeat);
+        //        return new String(chars, 0, pos);
     }
 
     /**
@@ -616,16 +608,18 @@ public final class StringUtils {
             return EMPTY;
         }
 
-        // @formatter:off
-        return Stream.of(text)
-                .map(t -> t.replace("\n", SPACE)) // Keine Zeilenumbrüche
-                .map(t -> t.replace("\t", SPACE)) // Keine Tabulatoren
-                .map(t -> t.split(SPACE))
-                .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
-                //.peek(System.out::println)
-                .filter(StringUtils::isNotBlank) // leere Strings filtern
-                .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
-        // @formatter:on
+        return text.lines().map(String::strip).collect(Collectors.joining(SPACE));
+
+        //        // @formatter:off
+//        return Stream.of(text)
+//                .map(t -> t.replace("\n", SPACE)) // Keine Zeilenumbrüche
+//                .map(t -> t.replace("\t", SPACE)) // Keine Tabulatoren
+//                .map(t -> t.split(SPACE))
+//                .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
+//                //.peek(System.out::println)
+//                .filter(StringUtils::isNotBlank) // leere Strings filtern
+//                .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
+//        // @formatter:on
     }
 
     public static String unicodeToHexString(final CharSequence cs) {

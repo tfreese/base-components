@@ -419,9 +419,13 @@ public final class ImageUtils {
 
         BufferedImage merged = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-        Graphics graphics = merged.getGraphics();
+        RenderingHints hints = getRenderingHintsQuality();
+
+        Graphics2D graphics = merged.createGraphics();
+        graphics.setRenderingHints(hints);
         graphics.drawImage(image, 0, 0, null);
         graphics.drawImage(overlay, 0, 0, null);
+        graphics.dispose();
 
         return merged;
     }
@@ -485,66 +489,9 @@ public final class ImageUtils {
      * Liefert das Schwarzweissbild.
      */
     public static BufferedImage toBlackWhiteImage(final BufferedImage image) {
-        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        RenderingHints hints = getRenderingHintsQuality();
 
-        BufferedImageOp op;
-
-        // int width = getSourceImage().getWidth();
-        // int height = getSourceImage().getHeight();
-        // ColorModel colorModel = ColorModel.getRGBdefault();
-        //
-        // BufferedImage blackWhiteImage = new BufferedImage(width, height,
-        // BufferedImage.TYPE_INT_RGB);
-        // byte[] data = new byte[256];
-        // Arrays.fill(data, (byte) 255);
-        // data[0] = (byte)0;
-        // data[254] = (byte)255;
-        // data[253] = (byte)255;
-        // data[252] = (byte)255;
-        // data[251] = (byte)255;
-        // data[250] = (byte)255;
-        //
-        // IndexColorModel colorModel = new IndexColorModel(2, 256, data, data, data);
-        //
-        // blackWhiteImage = new BufferedImage(width, height,
-        // BufferedImage.TYPE_BYTE_INDEXED, colorModel);
-        //
-        // Graphics2D g2d = this.blackWhiteImage.createGraphics();
-        // g2d.drawRenderedImage(getEdgeImage(), null);
-        // g2d.dispose();
-        //
-        //
-        // short[] red = new short[256];
-        // short[] green = new short[256];
-        // short[] blue = new short[256];
-        //
-        // for (int i = 0; i < 255; i++)
-        // {
-        // red[i]=255;
-        // green[i]=255;
-        // blue[i]=255;
-        // }
-        //
-        // red[0]=0;
-        // green[0]=0;
-        // blue[0]=0;
-        //
-        // short[][] data = new short[][] {
-        // red, green, blue
-        // };
-        //
-        // LookupTable lookupTable = new ShortLookupTable(0, data);
-        // op = new LookupOp(lookupTable, hints);
-        //
-        //
-        // float[] factors = new float[] {
-        // 1000f, 1000f, 1000f
-        // };
-        // float[] offsets = new float[] {
-        // 0.0f, 0.0f, 0.0f
-        // };
-        // BufferedImageOp op = new RescaleOp(factors, offsets, hints);
-        op = new BlackWhiteOp(hints, 0);
+        BufferedImageOp op = new BlackWhiteOp(hints, 0);
 
         return op.filter(image, null);
     }
@@ -567,8 +514,8 @@ public final class ImageUtils {
         }
 
         BufferedImage returnImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics graphics = returnImage.getGraphics();
 
+        Graphics graphics = returnImage.getGraphics();
         icon.paintIcon(null, graphics, 0, 0);
         graphics.dispose();
 
@@ -583,50 +530,12 @@ public final class ImageUtils {
             return bi;
         }
 
-        BufferedImage bufferedImage;
-
-        // boolean hasAlpha = hasAlpha(image);
-        //
-        // try
-        // {
-        // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        //
-        // int transparency = Transparency.OPAQUE;
-        //
-        // if (hasAlpha)
-        // {
-        // transparency = Transparency.BITMASK;
-        // }
-        //
-        // GraphicsDevice gs = ge.getDefaultScreenDevice();
-        // GraphicsConfiguration gc = gs.getDefaultConfiguration();
-        //
-        // bufferedImage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparency);
-        // }
-        // catch (HeadlessException ex)
-        // {
-        // // Keine GUI vorhanden
-        // }
-        //
-        // if (bufferedImage == null)
-        // {
-        // int type = BufferedImage.TYPE_INT_RGB;
-        //
-        // if (hasAlpha)
-        // {
-        // type = BufferedImage.TYPE_INT_ARGB;
-        // }
-        //
-        // bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);
-        // }
-
-        bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
         RenderingHints hints = getRenderingHintsQuality();
 
         Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(hints);
-
         graphics.drawImage(image, 0, 0, null);
         graphics.dispose();
 
@@ -659,7 +568,8 @@ public final class ImageUtils {
         // };
 
         Kernel kernel = new Kernel(3, 3, matrix);
-        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        RenderingHints hints = getRenderingHintsQuality();
+
         ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, hints);
 
         return op.filter(bufferedImage, null);
@@ -668,7 +578,7 @@ public final class ImageUtils {
     /**
      * Graut das Icon aus.
      */
-    public static Icon toGrayIcon(final Icon icon) {
+    public static ImageIcon toGrayIcon(final Icon icon) {
         BufferedImage bufferedImage = toBufferedImage(icon);
         Image result = toGrayImage(bufferedImage);
 
@@ -689,7 +599,8 @@ public final class ImageUtils {
      */
     public static BufferedImage toGrayImage(final BufferedImage bufferedImage) {
         ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        RenderingHints hints = getRenderingHintsQuality();
+
         ColorConvertOp op = new ColorConvertOp(colorSpace, hints);
 
         return op.filter(bufferedImage, null);
@@ -728,7 +639,7 @@ public final class ImageUtils {
         // 1.0f / 9.0f
         // };
         Kernel kernel = new Kernel(3, 3, matrix);
-        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        RenderingHints hints = getRenderingHintsQuality();
 
         ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, hints);
 

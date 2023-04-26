@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * @author Thomas Freese
@@ -17,12 +18,10 @@ public final class FileUtils {
     private static final String[] SIZE_UNITS = {"B", "KB", "MB", "GB", "TB"};
 
     /**
-     * Kopiert die bestehende Datei nach *.last.
+     * Copies the File to *.last.
      */
-    public static void copy(final Path path) throws IOException {
-        if (path == null) {
-            throw new NullPointerException("path required");
-        }
+    public static void copyToLast(final Path path) throws IOException {
+        Objects.requireNonNull(path, "path required");
 
         Path parent = path.getParent();
         String fileName = path.getFileName().toString();
@@ -36,7 +35,9 @@ public final class FileUtils {
             Files.delete(last);
         }
 
-        Files.copy(path, last); // StandardCopyOption
+        if (Files.exists(path)) {
+            Files.move(path, last); // StandardCopyOption
+        }
     }
 
     public static void deleteDirectoryRecursive(final File file) throws IOException {
@@ -83,57 +84,31 @@ public final class FileUtils {
         });
     }
 
-    /**
-     * Benennt die bestehende Datei in *.last um.
-     */
-    public static void rename(final Path path) throws IOException {
-        Objects.requireNonNull(path, "path required");
-
-        Path parent = path.getParent();
-        String fileName = path.getFileName().toString();
-        Path last = parent.resolve(fileName + ".last");
-
-        if (!Files.exists(parent)) {
-            Files.createDirectories(parent);
-        }
-
-        if (Files.exists(last)) {
-            Files.delete(last);
-        }
-
-        if (Files.exists(path)) {
-            Files.move(path, last); // StandardCopyOption
-        }
-    }
-
-    /**
-     * Liefert einen gültigen Dateinamen ohne mehrfache Spaces.<br>
-     * Sonderzeichen werden ersetzt:<br>
-     * <ul>
-     * <li>" -> '
-     * <li>/ -> _
-     * <li>, -> _
-     * <li>* -> _
-     * <li>' ' -> _
-     * </ul>
-     */
-    public static String rewriteFileName(final String fileName) {
+    public static String normalizeFileName(final String fileName) {
         if ((fileName == null) || (fileName.strip().length() == 0)) {
             return fileName;
         }
 
-        String name = StringUtils.normalizeSpace(fileName);
-        name = name.replace('"', '\'');
-        name = name.replace('/', '_');
-        name = name.replace(',', '_');
-        name = name.replace('*', '_');
-        name = name.replace(' ', '_');
+        // digits [0-9]: 48-57
+        Predicate<Character> digitsPredicate = c -> c >= 48 && c <= 57;
 
-        // Mehrere Sonderzeichen waren hintereinander.
-        name = name.replace("__", "_");
-        name = name.replace("__", "_");
+        // uppercase letters [A-Z]: 65-90
+        Predicate<Character> upperCaseLettersPredicate = c -> c >= 65 && c <= 90;
 
-        return name;
+        // lowercase letters [a-z]: 97-122
+        Predicate<Character> lowerCaseLettersPredicate = c -> c >= 97 && c <= 122;
+
+        // Specials: '(' 40; ')' 41; '-' 45; '.' 46;  '_' 95
+        Predicate<Character> specialCharsPredicate = c -> c == 40 || c == 41 || c == 45 || c == 46 || c == 95;
+
+        // @formatter:off
+        Predicate<Character> fileNameCompatible = digitsPredicate.or(upperCaseLettersPredicate)
+                .or(lowerCaseLettersPredicate)
+                .or(specialCharsPredicate)
+                ;
+        // @formatter:on
+
+        return StringUtils.replaceChars(fileName, fileNameCompatible, c -> "_");
     }
 
     /**

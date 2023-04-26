@@ -3,7 +3,7 @@ package de.freese.base.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Set;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -30,10 +30,10 @@ class TestStringUtils {
         String result = StringUtils.removeNonAscii(sb.toString());
         assertEquals("abcd", result);
 
-        Set<Character> keepChars = Set.of(
-                // Horizontal Tab
-                (char) 9);
-        result = StringUtils.removeNonAscii(sb.toString(), keepChars::contains);
+        // Horizontal Tab
+        Predicate<Character> keepChars = c -> c == 9;
+
+        result = StringUtils.removeNonAscii(sb.toString(), keepChars);
         assertEquals("a" + (char) 9 + "bcd", result);
 
         sb.append('ä');

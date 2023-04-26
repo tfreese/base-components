@@ -45,8 +45,6 @@ public class BlackWhiteOp implements BufferedImageOp {
      */
     @Override
     public BufferedImage createCompatibleDestImage(final BufferedImage src, final ColorModel destCM) {
-        BufferedImage image;
-
         ColorModel colorModel = destCM;
 
         if (colorModel == null) {
@@ -58,9 +56,8 @@ public class BlackWhiteOp implements BufferedImageOp {
 
         int w = src.getWidth();
         int h = src.getHeight();
-        image = new BufferedImage(colorModel, colorModel.createCompatibleWritableRaster(w, h), colorModel.isAlphaPremultiplied(), null);
 
-        return image;
+        return new BufferedImage(colorModel, colorModel.createCompatibleWritableRaster(w, h), colorModel.isAlphaPremultiplied(), null);
     }
 
     /**
