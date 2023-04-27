@@ -1,12 +1,13 @@
 // Created: 03.11.2016
 package de.freese.base.core.nio.buffer;
 
+import java.nio.Buffer;
 import java.nio.CharBuffer;
 import java.util.Objects;
 
 /**
- * Adapter für den {@link CharBuffer} mit AutoExpand-Funktion.<br>
- * Der carriage return line feed (crlf) wird automatisch bei jeder put-Methode angefügt.
+ * Adapter for the {@link Buffer} with AutoExpand-Function.
+ * The carriage return line feed (crlf) is inserted in every put-Method.
  *
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
@@ -39,10 +40,6 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
         this.crlf = Objects.requireNonNull(crlf, "crlf required");
     }
 
-    /**
-     * Fügt eine Leerzeile hinzu.<br>
-     * Default: "\r\n"
-     */
     public AutoExpandCharBufferCrLf putLn() {
         appendCrlf();
 
@@ -73,9 +70,6 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
         return this;
     }
 
-    /**
-     * @see AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
     @Override
     protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity) {
         CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
@@ -86,17 +80,11 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
         return newBuffer;
     }
 
-    /**
-     * Fügt CRLF an, wenn dieser != null.
-     */
     private void appendCrlf() {
         autoExpand(getCrlf().length());
         getBuffer().put(getCrlf());
     }
 
-    /**
-     * carriage return line feed (NETASCII_EOL)
-     */
     private String getCrlf() {
         return this.crlf;
     }

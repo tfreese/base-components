@@ -21,9 +21,6 @@ public class LoggerProgressCallback implements ProgressCallback {
         this.logger = Objects.requireNonNull(logger, "logger required");
     }
 
-    /**
-     * @see de.freese.base.core.progress.ProgressCallback#setProgress(double)
-     */
     @Override
     public void setProgress(final double percentage) {
         if (this.logger.isInfoEnabled()) {

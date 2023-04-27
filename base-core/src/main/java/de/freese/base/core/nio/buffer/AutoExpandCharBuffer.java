@@ -1,13 +1,14 @@
 // Created: 03.11.2016
 package de.freese.base.core.nio.buffer;
 
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetEncoder;
 
 /**
- * Adapter für den {@link CharBuffer} mit AutoExpand-Funktion.<br>
+ * Adapter for the {@link Buffer} with AutoExpand-Function.
  *
  * @author Thomas Freese
  */
@@ -86,9 +87,6 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer> {
         return this;
     }
 
-    /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
     @Override
     protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity) {
         CharBuffer newBuffer = CharBuffer.allocate(newCapacity);

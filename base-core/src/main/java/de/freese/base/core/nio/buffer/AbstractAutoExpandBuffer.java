@@ -5,9 +5,7 @@ import java.nio.Buffer;
 import java.util.Objects;
 
 /**
- * Adapter für den {@link Buffer} mit AutoExpand-Funktion.
- *
- * @param <B> Konkreter Buffer
+ * Adapter for the {@link Buffer} with AutoExpand-Function.
  *
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
@@ -19,7 +17,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     private static final int CALCULATE_THRESHOLD = 1024 * 1024 * 4;
 
     /**
-     * Siehe jdk.internal.util.ArraysSupport#MAX_ARRAY_LENGTH<br>
+     * See jdk.internal.util.ArraysSupport#MAX_ARRAY_LENGTH<br>
      * <br>
      * The maximum length of array to allocate (unless necessary).<br>
      * Some VMs reserve some header words in an array. Attempts to allocate larger<br>
@@ -28,8 +26,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     private static final int MAX_CAPACITY = Integer.MAX_VALUE - 8;
 
     /**
-     * Berechnet die neue Größe des Buffers.<br>
-     *
      * @see "io.netty.buffer.AbstractByteBufAllocator.calculateNewCapacity(int, int)"
      * @see "org.springframework.core.io.buffer.DefaultDataBuffer.calculateCapacity(int)"
      */
@@ -42,7 +38,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
             return CALCULATE_THRESHOLD;
         }
 
-        // Über dem Schwellenwert: die neue Größe nicht einfach verdoppeln, sondern um Schwellenwert vergrößern.
+        // Above the Threshold: do not duplicate the size, but increase by Threshold.
         if (neededCapacity > CALCULATE_THRESHOLD) {
             int newCapacity = (neededCapacity / CALCULATE_THRESHOLD) * CALCULATE_THRESHOLD;
 
@@ -56,11 +52,11 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
             return newCapacity;
         }
 
-        // Nicht über dem Schwellenwert: bis auf Schwellenwert vergrößern in "power of 2" Schritten, angefangen bei 64.
-        // << 1: Bit-Shift nach links, vergrößert um power of 2; 1,2,4,8,16,32,...
-        // >> 1: Bit-Shift nach rechts, verkleinert um power of 2; ...,32,16,8,4,2,1
+        // Not above the Threshold: increase to Threshold in "power of 2" Steps, started by 64.
+        // << 1: Bit-Shift to left, increase by power of 2; 1,2,4,8,16,32,...
+        // >> 1: Bit-Shift to right, decrease by power of 2; ...,32,16,8,4,2,1
 
-        // Liefert den höchsten Wert (power of 2), der kleiner als neededCapacity ist.
+        // Get the next higher Value (power of 2), which is smaller than neededCapacity.
         // int newCapacity = Integer.highestOneBit(neededCapacity);
 
         int newCapacity = 64;
@@ -74,9 +70,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
 
     private B buffer;
 
-    /**
-     * Eigene Variable, da kein direkter Zugriff auf Buffer.markValue().
-     */
     private int mark = -1;
 
     protected AbstractAutoExpandBuffer(final B buffer) {
@@ -177,16 +170,10 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
         return position(position() + size);
     }
 
-    /**
-     * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     */
     protected void autoExpand(final int expectedRemaining) {
         autoExpand(position(), expectedRemaining);
     }
 
-    /**
-     * Erweitert den Buffer so weit, wenn nötig, um die angegebene Größe aufnehmen zu können.
-     */
     protected void autoExpand(final int position, final int expectedRemaining) {
         int newLimit = position + expectedRemaining;
 
@@ -210,7 +197,7 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
         }
 
         if (newLimit > limit()) {
-            // Limit setzen, um StackOverflowError zu vermeiden.
+            // Set the Limit, to avoid StackOverflowError.
             this.buffer.limit(newLimit);
         }
     }

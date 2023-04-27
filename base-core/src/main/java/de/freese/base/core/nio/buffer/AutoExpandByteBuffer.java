@@ -4,6 +4,7 @@ package de.freese.base.core.nio.buffer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.CharBuffer;
@@ -11,7 +12,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 
 /**
- * Adapter für den {@link ByteBuffer} mit AutoExpand-Funktion.<br>
+ * Adapter for the {@link Buffer} with AutoExpand-Function.
  *
  * @author Thomas Freese
  * @see "org.springframework.core.io.buffer.DataBuffer"
@@ -42,39 +43,23 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         super(buffer);
     }
 
-    /**
-     * Liefert einen {@link InputStream}, der aus dem Buffer liest.<br>
-     * {@link InputStream#read()} liefert <tt>-1</tt>, wenn der Buffer sein Limit erreicht.
-     */
     public InputStream asInputStream() {
         return new InputStream() {
-            /**
-             * @see java.io.InputStream#available()
-             */
             @Override
             public int available() throws IOException {
                 return AutoExpandByteBuffer.this.remaining();
             }
 
-            /**
-             * @see java.io.InputStream#mark(int)
-             */
             @Override
             public synchronized void mark(final int readLimit) {
                 AutoExpandByteBuffer.this.mark();
             }
 
-            /**
-             * @see java.io.InputStream#markSupported()
-             */
             @Override
             public boolean markSupported() {
                 return true;
             }
 
-            /**
-             * @see java.io.InputStream#read()
-             */
             @Override
             public int read() throws IOException {
                 if (AutoExpandByteBuffer.this.hasRemaining()) {
@@ -84,9 +69,6 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
                 return -1;
             }
 
-            /**
-             * @see java.io.InputStream#read(byte[], int, int)
-             */
             @Override
             public int read(final byte[] b, final int off, final int len) throws IOException {
                 int remaining = AutoExpandByteBuffer.this.remaining();
@@ -101,17 +83,11 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
                 return -1;
             }
 
-            /**
-             * @see java.io.InputStream#reset()
-             */
             @Override
             public synchronized void reset() throws IOException {
                 AutoExpandByteBuffer.this.reset();
             }
 
-            /**
-             * @see java.io.InputStream#skip(long)
-             */
             @Override
             public long skip(final long n) throws IOException {
                 int bytes;
@@ -130,22 +106,13 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         };
     }
 
-    /**
-     * Liefert einen {@link OutputStream}, der in den Buffer schreibt.<br>
-     */
     public OutputStream asOutputStream() {
         return new OutputStream() {
-            /**
-             * @see java.io.OutputStream#write(byte[], int, int)
-             */
             @Override
             public void write(final byte[] b, final int off, final int len) throws IOException {
                 AutoExpandByteBuffer.this.put(b, off, len);
             }
 
-            /**
-             * @see java.io.OutputStream#write(int)
-             */
             @Override
             public void write(final int b) throws IOException {
                 AutoExpandByteBuffer.this.put((byte) b);
@@ -197,16 +164,10 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return getBuffer().getFloat(index);
     }
 
-    /**
-     * Liefert die Hexadezimal Darstellung des {@link ByteBuffer}.
-     */
     public String getHexDump() {
         return getHexDump(Integer.MAX_VALUE);
     }
 
-    /**
-     * Liefert die Hexadezimal Darstellung des {@link ByteBuffer}.
-     */
     public String getHexDump(final int lengthLimit) {
         if (lengthLimit == 0) {
             throw new IllegalArgumentException("lengthLimit: " + lengthLimit + " (expected: 1+)");

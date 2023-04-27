@@ -2,6 +2,7 @@
 package de.freese.base.core.pool;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger("ObjectPool");
 
-    private final Set<T> busy = new HashSet<>();
+    private final Set<T> busy = Collections.synchronizedSet(new HashSet<>());
 
     private final Queue<T> freeObjects;
 
