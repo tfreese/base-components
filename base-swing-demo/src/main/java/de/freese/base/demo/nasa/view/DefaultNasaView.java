@@ -3,7 +3,7 @@ package de.freese.base.demo.nasa.view;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.net.URL;
+import java.net.URI;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -50,7 +50,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         controller = new NasaController(this);
 
         nasaPanel.getButtonPrevious().addActionListener(event -> {
-            NasaImageTask task = new NasaImageTask(controller, controller::getPreviousURL, this, getResourceMap());
+            NasaImageTask task = new NasaImageTask(controller, controller::getPreviousUri, this, getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
 
@@ -58,7 +58,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         });
 
         nasaPanel.getButtonNext().addActionListener(event -> {
-            NasaImageTask task = new NasaImageTask(controller, controller::getNextURL, this, getResourceMap());
+            NasaImageTask task = new NasaImageTask(controller, controller::getNextUri, this, getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
 
@@ -79,20 +79,20 @@ public class DefaultNasaView extends AbstractView implements NasaView {
     }
 
     @Override
-    public void setImage(final URL url, final BufferedImage image) {
+    public void setImage(final URI uri, final BufferedImage image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
         ResourceMap resourceMap = getResourceMap();
-        String tip = resourceMap.getString("nasa.imageTooltip", url, width, height);
+        String tip = resourceMap.getString("nasa.imageTooltip", uri, width, height);
 
         JLabel label = getComponent().getLabelImage();
         label.setToolTipText(tip);
         label.setText(null);
         label.setIcon(new ImageIcon(image));
 
-        label = getComponent().getLabelURL();
-        label.setText(resourceMap.getString("nasa.label.url", url));
+        label = getComponent().getLabelUri();
+        label.setText(resourceMap.getString("nasa.label.uri", uri));
 
         // ScrollPane zentrieren
         JScrollPane scrollPane = getComponent().getScrollPane();
@@ -113,7 +113,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
     }
 
     @Override
-    public void setMessage(final String key, final URL url, final Throwable throwable) {
+    public void setMessage(final String key, final URI uri, final Throwable throwable) {
         if (throwable != null) {
             handleException(throwable);
         }

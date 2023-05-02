@@ -435,7 +435,7 @@ class TestResourceMap {
     void testUrl() throws Exception {
         URL value = resourceMap.getURL("test.url");
 
-        URL ref = new URL("http://www.google.de");
+        URL ref = new URI("http://www.google.de").toURL();
 
         assertNotNull(value);
         assertEquals(ref, value);

@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,55 +33,55 @@ public class NasaController extends AbstractController {
 
     private final Random random = new Random();
 
-    private final List<URL> urlHistory = new ArrayList<>();
+    private final List<URI> uriHistory = new ArrayList<>();
 
-    private int urlHistoryCurrentIndex = -1;
+    private int uriHistoryCurrentIndex = -1;
 
     public NasaController(final NasaView view) {
         super(view);
     }
 
-    public URL getNextURL() throws MalformedURLException {
-        // if (++this.urlHistoryCurrentIndex == this.imageNames.length)
+    public URI getNextUri() throws Exception {
+        // if (++this.uriHistoryCurrentIndex == this.imageNames.length)
         // {
-        // this.urlHistoryCurrentIndex = 0;
+        // this.uriHistoryCurrentIndex = 0;
         // }
 
-        this.urlHistoryCurrentIndex++;
-        URL url = null;
+        this.uriHistoryCurrentIndex++;
+        URI uri = null;
 
-        // Bin ich am Ende der URL-History ?
-        if (this.urlHistoryCurrentIndex < this.urlHistory.size()) {
-            url = this.urlHistory.get(this.urlHistoryCurrentIndex);
+        // Bin ich am Ende der History ?
+        if (this.uriHistoryCurrentIndex < this.uriHistory.size()) {
+            uri = this.uriHistory.get(this.uriHistoryCurrentIndex);
         }
         else {
-            url = generateUrl();
-            this.urlHistory.add(url);
+            uri = generateUri();
+            this.uriHistory.add(uri);
         }
 
-        return url;
+        return uri;
     }
 
-    public URL getPreviousURL() throws MalformedURLException {
-        // if (--this.urlHistoryCurrentIndex < 0)
+    public URI getPreviousUri() throws Exception {
+        // if (--this.uriHistoryCurrentIndex < 0)
         // {
-        // this.urlHistoryCurrentIndex = this.imageNames.length - 1;
+        // this.uriHistoryCurrentIndex = this.imageNames.length - 1;
         // }
 
-        this.urlHistoryCurrentIndex--;
-        URL url = null;
+        this.uriHistoryCurrentIndex--;
+        URI uri = null;
 
-        // Bin ich am Anfang der URL-History ?
-        if (this.urlHistoryCurrentIndex >= 0) {
-            url = this.urlHistory.get(this.urlHistoryCurrentIndex);
+        // Bin ich am Anfang der History ?
+        if (this.uriHistoryCurrentIndex >= 0) {
+            uri = this.uriHistory.get(this.uriHistoryCurrentIndex);
         }
         else {
-            url = generateUrl();
-            this.urlHistory.add(0, url);
-            this.urlHistoryCurrentIndex = 0;
+            uri = generateUri();
+            this.uriHistory.add(0, uri);
+            this.uriHistoryCurrentIndex = 0;
         }
 
-        return url;
+        return uri;
     }
 
     @Override
@@ -90,12 +89,12 @@ public class NasaController extends AbstractController {
         return (NasaView) super.getView();
     }
 
-    public BufferedImage loadImage(LocalStorage localStorage, final URL url, final IIOReadProgressListener listener) throws Exception {
+    public BufferedImage loadImage(LocalStorage localStorage, final URI uri, final IIOReadProgressListener listener) throws Exception {
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
         // ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
 
-        Path urlPath = Paths.get(url.getPath());
-        String fileName = urlPath.getFileName().toString();
+        Path path = Paths.get(uri.getPath());
+        String fileName = path.getFileName().toString();
         String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         // Optional.ofNullable(fileName).filter(f -> f.contains(".")).map(f -> f.substring(fileName.lastIndexOf(".") + 1));
         Path cachedFileName = Paths.get("images", fileName);
@@ -106,14 +105,14 @@ public class NasaController extends AbstractController {
         InputStream inputStream = null;
 
         if (cacheFileExist) {
-            getLogger().info("URL load from: {}", cachePath);
+            getLogger().info("Load from: {}", cachePath);
             inputStream = localStorage.getInputStream(cachedFileName);
         }
         else {
-            inputStream = url.openStream();
+            inputStream = uri.toURL().openStream();
         }
 
-        // byte[] digest = this.messageDigest.digest(url.toString().getBytes(StandardCharsets.UTF_8));
+        // byte[] digest = this.messageDigest.digest(uri.toString().getBytes(StandardCharsets.UTF_8));
         // String hex = Hex.encodeHexString(digest, false);
 
         ImageReader reader = null;
@@ -152,7 +151,7 @@ public class NasaController extends AbstractController {
                 outputStream.flush();
             }
 
-            getLogger().info("URL saved in: {}", cachePath);
+            getLogger().info("Saved in: {}", cachePath);
         }
 
         inputStream.close();
@@ -160,9 +159,9 @@ public class NasaController extends AbstractController {
         return image;
     }
 
-    protected boolean existUrl(final URL url) {
+    protected boolean exist(final URI uri) {
         try {
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection httpURLConnection = (HttpURLConnection) uri.toURL().openConnection();
             httpURLConnection.setRequestMethod("HEAD");
 
             int responseCode = httpURLConnection.getResponseCode();
@@ -172,39 +171,38 @@ public class NasaController extends AbstractController {
             }
         }
         catch (Exception ex) {
-            // Ignore
-            getLogger().warn("URL not exist: {}", url);
+            getLogger().warn("URI not exist: {}", uri);
         }
 
         return false;
     }
 
-    protected URL generateUrl() throws MalformedURLException {
-        String urlString = null;
-        boolean randomUrls = true;
+    protected URI generateUri() throws Exception {
+        String uriString = null;
+        boolean randomUris = true;
 
-        if (!randomUrls) {
+        if (!randomUris) {
             int index = this.random.nextInt(this.imageNames.length);
-            urlString = IMAGE_DIR + this.imageNames[index];
+            uriString = IMAGE_DIR + this.imageNames[index];
         }
         else {
-            urlString = String.format("%sPIA%05d.jpg", IMAGE_DIR, (this.random.nextInt(12196) + 1));
+            uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, (this.random.nextInt(12196) + 1));
         }
 
-        getLogger().info("URL: {}", urlString);
+        getLogger().info("URI: {}", uriString);
 
-        URL url = new URL(urlString);
+        URI uri = new URI(uriString);
 
-        if (!existUrl(url)) {
-            getLogger().warn("URL not exist: {}", url);
-            url = generateUrl();
+        if (!exist(uri)) {
+            getLogger().warn("Not exist: {}", uri);
+            uri = generateUri();
         }
 
-        if (!existUrl(url)) {
-            getLogger().warn("URL not exist: {}", url);
-            url = generateUrl();
+        if (!exist(uri)) {
+            getLogger().warn("Not exist: {}", uri);
+            uri = generateUri();
         }
 
-        return url;
+        return uri;
     }
 }

@@ -31,7 +31,7 @@ class NasaPanel extends JPanel {
 
     private JLabel labelImage;
 
-    private JLabel labelURL;
+    private JLabel labelUri;
 
     private JScrollPane scrollPane;
 
@@ -70,12 +70,12 @@ class NasaPanel extends JPanel {
         return this.labelImage;
     }
 
-    JLabel getLabelURL() {
-        if (this.labelURL == null) {
-            this.labelURL = new JLabel();
+    JLabel getLabelUri() {
+        if (this.labelUri == null) {
+            this.labelUri = new JLabel();
         }
 
-        return this.labelURL;
+        return this.labelUri;
     }
 
     JScrollPane getScrollPane() {
@@ -109,7 +109,7 @@ class NasaPanel extends JPanel {
         }
 
         toolBar.addSeparator(new Dimension(50, 10));
-        toolBar.add(getLabelURL());
+        toolBar.add(getLabelUri());
 
         add(toolBar, BorderLayout.NORTH);
         add(getScrollPane(), BorderLayout.CENTER);

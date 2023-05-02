@@ -1,6 +1,8 @@
 package de.freese.base.resourcemap.converter;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -13,9 +15,9 @@ public class UrlResourceConverter extends AbstractResourceConverter<URL> {
     @Override
     public URL convert(final String key, final String value) {
         try {
-            return new URL(value);
+            return new URI(value).toURL();
         }
-        catch (MalformedURLException ex) {
+        catch (URISyntaxException | MalformedURLException ex) {
             throwException(key, value, "Invalid URL");
         }
 

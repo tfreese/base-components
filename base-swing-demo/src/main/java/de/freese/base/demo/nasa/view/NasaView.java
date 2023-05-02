@@ -2,7 +2,7 @@
 package de.freese.base.demo.nasa.view;
 
 import java.awt.image.BufferedImage;
-import java.net.URL;
+import java.net.URI;
 
 import de.freese.base.mvc.view.View;
 
@@ -10,7 +10,7 @@ import de.freese.base.mvc.view.View;
  * @author Thomas Freese
  */
 public interface NasaView extends View {
-    void setImage(URL url, BufferedImage image);
+    void setImage(URI uri, BufferedImage image);
 
-    void setMessage(String key, URL url, Throwable throwable);
+    void setMessage(String key, URI uri, Throwable throwable);
 }
