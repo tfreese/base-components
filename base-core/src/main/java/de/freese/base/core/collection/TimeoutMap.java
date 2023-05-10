@@ -87,7 +87,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
 
                 if (nowMillis > Long.MAX_VALUE - timeToLiveMillis) {
                     // expiration would be greater than Long.MAX_VALUE never expire
-                    return -1;
+                    return -1L;
                 }
 
                 // timeToLiveMillis in the future
@@ -115,7 +115,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
         if (expirationTimeObject != null) {
             final long expirationTime = expirationTimeObject;
 
-            return expirationTime >= 0 && nowMillis >= expirationTime;
+            return expirationTime >= 0L && nowMillis >= expirationTime;
         }
 
         return false;
@@ -125,7 +125,7 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
         return System.currentTimeMillis();
     }
 
-    private final Map<K, Long> expirationMap;
+    private final Map<Object, Long> expirationMap;
 
     private final ExpirationPolicy<K, V> expirationPolicy;
 
@@ -144,18 +144,13 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
         this.expirationMap = new HashMap<>();
     }
 
-    /**
-     * @see java.util.Map#clear()
-     */
     @Override
     public void clear() {
         this.expirationMap.clear();
+
         super.clear();
     }
 
-    /**
-     * @see java.util.Map#containsKey(java.lang.Object)
-     */
     @Override
     public boolean containsKey(final Object key) {
         removeIfExpired(key, now());
@@ -245,10 +240,10 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
      * @see #isExpired(long, Long)
      */
     private void removeAllExpired(final long nowMillis) {
-        final Iterator<Map.Entry<K, Long>> iter = expirationMap.entrySet().iterator();
+        final Iterator<Map.Entry<Object, Long>> iter = expirationMap.entrySet().iterator();
 
         while (iter.hasNext()) {
-            final Map.Entry<K, Long> expirationEntry = iter.next();
+            final Map.Entry<Object, Long> expirationEntry = iter.next();
 
             if (isExpired(nowMillis, expirationEntry.getValue())) {
                 // remove entry from decorated map

@@ -15,6 +15,7 @@ import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.WeakHashMap;
@@ -33,6 +34,11 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestTimeoutMap {
+
+    private static final Duration DURATION_DEFAULT = Duration.ofMillis(200);
+
+    private static final Duration DURATION_SLEEP = DURATION_DEFAULT.plusMillis(100);
+
     static Stream<Arguments> createArguments() throws Exception {
         // @formatter:off
         return Stream.of(
@@ -42,7 +48,8 @@ class TestTimeoutMap {
                 Arguments.of("ConcurrentHashMap", new ConcurrentHashMap<>()),
                 Arguments.of("IdentityHashMap", new IdentityHashMap<>()),
                 Arguments.of("WeakHashMap", new WeakHashMap<>()),
-                Arguments.of("Hashtable", new Hashtable<>())
+                Arguments.of("Hashtable", new Hashtable<>()),
+                Arguments.of("Properties", new Properties())
         );
         // @formatter:on
     }
@@ -50,7 +57,7 @@ class TestTimeoutMap {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
     void testCompute(final String name, final Map<String, Integer> decorated) throws Exception {
-        Map<String, Integer> map = new TimeoutMap<>(Duration.ofMillis(500), decorated);
+        Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.compute("a", (key, value) -> value == null ? 1 : ++value);
         assertEquals(1, map.size());
@@ -66,7 +73,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(2), map.values());
 
-        TimeUnit.MILLISECONDS.sleep(500);
+        TimeUnit.MILLISECONDS.sleep(DURATION_SLEEP.toMillis());
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
@@ -78,7 +85,7 @@ class TestTimeoutMap {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
     void testComputeIfAbsent(final String name, final Map<String, List<Integer>> decorated) throws Exception {
-        Map<String, List<Integer>> map = new TimeoutMap<>(Duration.ofMillis(500), decorated);
+        Map<String, List<Integer>> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.computeIfAbsent("a", key -> new ArrayList<>()).add(1);
         assertEquals(1, map.size());
@@ -94,7 +101,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(List.of(1, 1)), map.values());
 
-        TimeUnit.MILLISECONDS.sleep(500);
+        TimeUnit.MILLISECONDS.sleep(DURATION_SLEEP.toMillis());
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
@@ -106,7 +113,7 @@ class TestTimeoutMap {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
     void testGet(final String name, final Map<String, Integer> decorated) throws Exception {
-        Map<String, Integer> map = new TimeoutMap<>(Duration.ofMillis(500), decorated);
+        Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.put("a", 1);
         assertEquals(1, map.size());
@@ -115,7 +122,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(1), map.values());
 
-        TimeUnit.MILLISECONDS.sleep(500);
+        TimeUnit.MILLISECONDS.sleep(DURATION_SLEEP.toMillis());
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
