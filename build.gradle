@@ -67,8 +67,7 @@ subprojects {
 project("base-calendar") {
     description = "Common Classes for Calendar."
     dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.junit.jupiter:junit-jupiter")
     }
 }
 
@@ -83,7 +82,7 @@ project("base-net") {
         implementation("commons-net:commons-net")
 //        implementation("org.slf4j:slf4j-api")
 
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.slf4j:slf4j-simple")
     }
 }
@@ -108,9 +107,7 @@ project("base-persistence") {
         testImplementation("org.assertj:assertj-core")
         testImplementation("org.apache.derby:derby")
         testImplementation("org.hsqldb:hsqldb")
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
-        testImplementation("org.junit.jupiter:junit-jupiter-params")
-        testImplementation("org.junit.platform:junit-platform-runner")
+        testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("org.openjdk.jmh:jmh-core")
         testImplementation("org.openjdk.jmh:jmh-generator-annprocess")
@@ -137,7 +134,7 @@ project("base-reports") {
         implementation("org.apache.poi:poi-ooxml")
         implementation("org.springframework:spring-core")
 
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter")
     }
 }
 
@@ -149,7 +146,7 @@ project("base-resourcemap") {
 
         implementation("org.slf4j:slf4j-api")
 
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.slf4j:slf4j-simple")
         testImplementation("org.slf4j:jcl-over-slf4j")
         testImplementation("org.springframework:spring-core")
@@ -166,7 +163,7 @@ project("base-security") {
         implementation("org.bouncycastle:bcmail-jdk18on")
         implementation("org.slf4j:slf4j-api")
 
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter")
         testImplementation("org.slf4j:slf4j-simple")
     }
 }
@@ -191,7 +188,7 @@ project("base-swing") {
         //implementation("org.openjfx:javafx-base")
         implementation("org.swinglabs.swingx:swingx-core")
 
-        testImplementation("org.junit.jupiter:junit-jupiter-engine")
+        testImplementation("org.junit.jupiter:junit-jupiter")
     }
 }
 
