@@ -9,9 +9,7 @@ import java.util.function.Consumer;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * {@link Spliterator} für ein {@link ResultSet}.<br>
- *
- * @param <T> Type of Entity
+ * {@link Spliterator} for a {@link ResultSet}.<br/>
  *
  * @author Thomas Freese
  */
@@ -25,25 +23,16 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
         this.iterator = new ResultSetIterator<>(resultSet, rowMapper);
     }
 
-    /**
-     * @see java.util.Spliterator#characteristics()
-     */
     @Override
     public int characteristics() {
         return Spliterator.ORDERED;
     }
 
-    /**
-     * @see java.util.Spliterator#estimateSize()
-     */
     @Override
     public long estimateSize() {
         return Long.MAX_VALUE;
     }
 
-    /**
-     * @see java.util.Spliterator#tryAdvance(java.util.function.Consumer)
-     */
     @Override
     public boolean tryAdvance(final Consumer<? super T> action) {
         if (this.iterator.hasNext()) {
@@ -56,9 +45,7 @@ public class ResultSetSpliterator<T> implements Spliterator<T> // extends Splite
     }
 
     /**
-     * Keine Parallelität.
-     *
-     * @see java.util.Spliterator#trySplit()
+     * No Parallelism.
      */
     @Override
     public Spliterator<T> trySplit() {

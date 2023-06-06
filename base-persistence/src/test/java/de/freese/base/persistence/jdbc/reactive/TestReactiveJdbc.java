@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.concurrent.Flow.Publisher;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -95,7 +96,13 @@ class TestReactiveJdbc {
         statement.setFetchSize(10);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
-        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
+        Consumer<ResultSet> doOnClose = rs -> {
+            JdbcUtils.closeSilent(rs);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
+        };
+
+        Publisher<Person> publisher = new ResultSetPublisher<>(resultSet, new PersonRowMapper(), doOnClose);
 
         List<Person> result = new ArrayList<>();
         publisher.subscribe(new ResultSetSubscriberForAll<>(result::add));
@@ -110,7 +117,13 @@ class TestReactiveJdbc {
         statement.setFetchSize(10);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
-        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
+        Consumer<ResultSet> doOnClose = rs -> {
+            JdbcUtils.closeSilent(rs);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
+        };
+
+        Publisher<Person> publisher = new ResultSetPublisher<>(resultSet, new PersonRowMapper(), doOnClose);
 
         List<Person> result = new ArrayList<>();
         publisher.subscribe(new ResultSetSubscriberForEachObject<>(result::add));
@@ -125,7 +138,13 @@ class TestReactiveJdbc {
         statement.setFetchSize(10);
         ResultSet resultSet = statement.executeQuery("select * from PERSON order by ID asc");
 
-        Publisher<Person> publisher = new ResultSetPublisher<>(connection, statement, resultSet, new PersonRowMapper());
+        Consumer<ResultSet> doOnClose = rs -> {
+            JdbcUtils.closeSilent(rs);
+            JdbcUtils.closeSilent(statement);
+            JdbcUtils.closeSilent(connection);
+        };
+
+        Publisher<Person> publisher = new ResultSetPublisher<>(resultSet, new PersonRowMapper(), doOnClose);
 
         List<Person> result = new ArrayList<>();
         publisher.subscribe(new ResultSetSubscriberForFetchSize<>(result::add, 2));

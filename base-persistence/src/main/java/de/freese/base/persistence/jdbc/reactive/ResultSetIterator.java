@@ -10,9 +10,7 @@ import java.util.Objects;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * {@link Iterator} für ein {@link ResultSet}.<br>
- *
- * @param <T> Type of Entity
+ * {@link Iterator} for a {@link ResultSet}.<br/>
  *
  * @author Thomas Freese
  */
@@ -28,9 +26,6 @@ public class ResultSetIterator<T> implements Iterator<T> {
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
     }
 
-    /**
-     * @see java.util.Iterator#hasNext()
-     */
     @Override
     public boolean hasNext() {
         try {
@@ -42,9 +37,6 @@ public class ResultSetIterator<T> implements Iterator<T> {
         }
     }
 
-    /**
-     * @see java.util.Iterator#next()
-     */
     @Override
     public T next() {
         try {

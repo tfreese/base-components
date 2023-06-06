@@ -7,8 +7,6 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @param <R> Row-Type
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 /**
- * {@link ThreadLocal} für eine {@link Connection}.
+ * {@link ThreadLocal} for a {@link Connection}.
  *
  * @author Thomas Freese
  */

@@ -25,10 +25,7 @@ public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T
 
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
     }
-
-    /**
-     * @see de.freese.base.persistence.jdbc.template.function.ResultSetExtractor#extractData(java.sql.ResultSet)
-     */
+    
     @Override
     public List<T> extractData(final ResultSet resultSet) throws SQLException {
         List<T> results = new ArrayList<>();

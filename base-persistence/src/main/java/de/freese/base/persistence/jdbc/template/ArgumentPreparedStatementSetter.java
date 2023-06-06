@@ -232,9 +232,6 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter 
         this.args = args;
     }
 
-    /**
-     * @see de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter#setValues(java.sql.PreparedStatement)
-     */
     @Override
     public void setValues(final PreparedStatement preparedStatement) throws SQLException {
         if (this.args == null) {

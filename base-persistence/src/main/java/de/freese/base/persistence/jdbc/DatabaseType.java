@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import de.freese.base.utils.JdbcUtils;
 
 /**
- * Geklaut von org.springframework.boot.jdbc.DatabaseDriver
+ * Inspired by org.springframework.boot.jdbc.DatabaseDriver
  *
  * @author Thomas Freese
  */

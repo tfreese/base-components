@@ -349,7 +349,7 @@ class TestSimpleJdbcTemplate {
 
         List<Person> result = new ArrayList<>();
 
-        List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 1));
+        List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
 
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
@@ -377,7 +377,7 @@ class TestSimpleJdbcTemplate {
 
         List<Person> result = new ArrayList<>();
 
-        List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 1));
+        List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
 
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
@@ -548,7 +548,9 @@ class TestSimpleJdbcTemplate {
         String sql = "call next value for " + sequence;
         long id = 0;
 
-        try (Connection connection = jdbcTemplate.getDataSource().getConnection(); Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             rs.next();
             id = rs.getLong(1);
         }

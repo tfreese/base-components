@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.concurrent.Flow.Publisher;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
@@ -30,12 +31,8 @@ import reactor.core.publisher.SynchronousSink;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
-import de.freese.base.persistence.jdbc.template.function.CallableStatementCallback;
-import de.freese.base.persistence.jdbc.template.function.CallableStatementCreator;
 import de.freese.base.persistence.jdbc.template.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.template.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementCallback;
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementCreator;
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
@@ -78,8 +75,8 @@ public class SimpleJdbcTemplate {
      * {? = call my_procedure(?)};
      */
     public boolean call(final String sql, final PreparedStatementSetter pss) {
-        CallableStatementCreator sc = con -> createCallableStatement(con, sql);
-        CallableStatementCallback<Boolean> action = stmt -> {
+        StatementCreator<CallableStatement> sc = con -> createCallableStatement(con, sql);
+        StatementCallback<CallableStatement, Boolean> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("call: {}", sql);
             }
@@ -93,76 +90,12 @@ public class SimpleJdbcTemplate {
             return stmt.execute();
         };
 
-        return execute(sc, action);
-    }
-
-    /**
-     * callableStatement.registerOutParameter(2, java.sql.Types.VARCHAR);<br>
-     * callableStatement.execute(); ODER executeUpdate();<br>
-     * callableStatement.getString(2);
-     */
-    public <T> T execute(final CallableStatementCreator sc, final CallableStatementCallback<T> action) {
-        Connection connection = null;
-        CallableStatement stmt = null;
-
-        try {
-            connection = getConnection();
-
-            stmt = sc.createCallableStatement(connection);
-
-            applyStatementSettings(stmt);
-
-            T result = action.doInStatement(stmt);
-
-            handleWarnings(stmt);
-
-            return result;
-        }
-        catch (SQLException ex) {
-            close(stmt);
-            stmt = null;
-
-            close(connection);
-            connection = null;
-
-            throw convertException(ex);
-        }
-        finally {
-            close(stmt);
-            close(connection);
-        }
-    }
-
-    public <T> T execute(final ConnectionCallback<T> action) {
-        Connection connection = null;
-
-        try {
-            connection = getConnection();
-
-            return action.doInConnection(connection);
-        }
-        catch (SQLException ex) {
-            close(connection);
-            connection = null;
-
-            throw convertException(ex);
-        }
-        finally {
-            close(connection);
-        }
-    }
-
-    public <T> T execute(final PreparedStatementCreator sc, final PreparedStatementCallback<T> action) {
-        return execute(sc, action, true);
-    }
-
-    public <T> T execute(final StatementCreator sc, final StatementCallback<T> action) {
         return execute(sc, action, true);
     }
 
     public boolean execute(final String sql) {
-        StatementCreator sc = this::createStatement;
-        StatementCallback<Boolean> action = stmt -> {
+        StatementCreator<Statement> sc = this::createStatement;
+        StatementCallback<Statement, Boolean> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("execute: {}", sql);
             }
@@ -170,7 +103,7 @@ public class SimpleJdbcTemplate {
             return stmt.execute(sql);
         };
 
-        return execute(sc, action);
+        return execute(sc, action, true);
     }
 
     public DataSource getDataSource() {
@@ -192,7 +125,7 @@ public class SimpleJdbcTemplate {
     public boolean isBatchSupported() {
         ConnectionCallback<Boolean> action = this::isBatchSupported;
 
-        return execute(action);
+        return execute(action, true);
     }
 
     /**
@@ -211,8 +144,8 @@ public class SimpleJdbcTemplate {
     }
 
     public <T> T query(final String sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss) {
-        PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
-        PreparedStatementCallback<T> action = stmt -> {
+        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
+        StatementCallback<PreparedStatement, T> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("query: {}", sql);
             }
@@ -235,7 +168,7 @@ public class SimpleJdbcTemplate {
             }
         };
 
-        return execute(sc, action);
+        return execute(sc, action, true);
     }
 
     public <T> List<T> query(final String sql, final RowMapper<T> rowMapper) {
@@ -265,11 +198,10 @@ public class SimpleJdbcTemplate {
     }
 
     /**
-     * Erzeugt über den {@link RowMapper} einen {@link Flux} aus Entities.<br>
-     * Das Schliessen der DB-Ressourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Flux#doFinally}-Methode.<br>
-     * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Fluxes ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Ressourcen geschlossen sind.<br>
-     * Beispiel: <code>
+     * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link Flux#doFinally}-Method.<br>
+     * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+     * Reuse is not possible, because the Resources are closed after first usage.<br>
+     * Example: <code>
      * <pre>
      * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
      * flux.subscribe(System.out::println);
@@ -277,8 +209,8 @@ public class SimpleJdbcTemplate {
      * </code>
      */
     public <T> Flux<T> queryAsFlux(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
-        PreparedStatementCallback<Flux<T>> action = stmt -> {
+        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
+        StatementCallback<PreparedStatement, Flux<T>> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("queryAsFlux: {}", sql);
             }
@@ -331,12 +263,10 @@ public class SimpleJdbcTemplate {
     }
 
     /**
-     * Erzeugt einen {@link Publisher} aus dem {@link ResultSet}.<br>
-     * Das Schliessen der DB-Ressourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der
-     * {@link ResultSetSubscription#closeJdbcResources}-Methode.<br>
-     * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Eine Wiederverwendung des Publishers ist ebenfalls nicht möglich, da nach dem ersten Mal bereits alle DB-Ressourcen geschlossen sind.<br>
-     * Beispiel: <code>
+     * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link ResultSetSubscription}<br>
+     * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+     * Reuse is not possible, because the Resources are closed after first usage.<br>
+     * Example: <code>
      * <pre>
      * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
      * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
@@ -344,8 +274,8 @@ public class SimpleJdbcTemplate {
      * </code>
      */
     public <T> Publisher<T> queryAsPublisher(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
-        PreparedStatementCallback<Publisher<T>> action = stmt -> {
+        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
+        StatementCallback<PreparedStatement, Publisher<T>> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("queryAsPublisher: {}", sql);
             }
@@ -356,10 +286,16 @@ public class SimpleJdbcTemplate {
                 pss.setValues(stmt);
             }
 
-            ResultSet resultSet = stmt.executeQuery();
-            Connection connection = stmt.getConnection();
+            final ResultSet resultSet = stmt.executeQuery();
+            final Connection connection = stmt.getConnection();
 
-            return new ResultSetPublisher<>(connection, stmt, resultSet, rowMapper);
+            Consumer<ResultSet> doOnClose = rs -> {
+                close(rs);
+                close(stmt);
+                close(connection);
+            };
+
+            return new ResultSetPublisher<>(resultSet, rowMapper, doOnClose);
         };
 
         return execute(sc, action, false);
@@ -380,11 +316,10 @@ public class SimpleJdbcTemplate {
     }
 
     /**
-     * Erzeugt über den {@link RowMapper} einen {@link Stream} aus Entities.<br>
-     * Das Schliessen der DB-Ressourcen ({@link ResultSet}, {@link Statement}, {@link Connection}) erfolgt in der {@link Stream#onClose}-Methode.<br>
-     * Daher MUSS die {@link Stream#close}-Methode zwingend aufgerufen werden (try-resource).<br>
-     * <b>Der JDBC-Treiber muss ResultSet-Streaming unterstützen (setFetchSize(int)) !</b><br>
-     * Beispiel: <code>
+     * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in  {@link Stream#onClose}-Method.<br>
+     * {@link Stream#close}-Method MUST be called (try-resource).<br>
+     * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+     * Example: <code>
      * <pre>
      * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
      * {
@@ -394,8 +329,8 @@ public class SimpleJdbcTemplate {
      * </code>
      */
     public <T> Stream<T> queryAsStream(final String sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
-        PreparedStatementCallback<Stream<T>> action = stmt -> {
+        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
+        StatementCallback<PreparedStatement, Stream<T>> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("queryAsStream: {}", sql);
             }
@@ -406,8 +341,8 @@ public class SimpleJdbcTemplate {
                 pss.setValues(stmt);
             }
 
-            ResultSet resultSet = stmt.executeQuery();
-            Connection connection = stmt.getConnection();
+            final ResultSet resultSet = stmt.executeQuery();
+            final Connection connection = stmt.getConnection();
 
             // @formatter:off
             Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
@@ -462,8 +397,8 @@ public class SimpleJdbcTemplate {
      * @return int; affectedRows
      */
     public int update(final String sql, final PreparedStatementSetter pss) {
-        PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
-        PreparedStatementCallback<Integer> action = stmt -> {
+        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
+        StatementCallback<PreparedStatement, Integer> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("update: {}", sql);
             }
@@ -477,7 +412,7 @@ public class SimpleJdbcTemplate {
             return stmt.executeUpdate();
         };
 
-        return execute(sc, action);
+        return execute(sc, action, true);
     }
 
     /**
@@ -496,8 +431,8 @@ public class SimpleJdbcTemplate {
      * @return int[]; affectedRows
      */
     public <T> int[] updateBatch(final String sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
-        PreparedStatementCreator sc = con -> createPreparedStatement(con, sql);
-        PreparedStatementCallback<int[]> action = stmt -> {
+        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
+        StatementCallback<PreparedStatement, int[]> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("updateBatch: size={}; {}", batchArgs.size(), sql);
             }
@@ -537,7 +472,7 @@ public class SimpleJdbcTemplate {
             return affectedRows.stream().flatMapToInt(IntStream::of).toArray();
         };
 
-        return execute(sc, action);
+        return execute(sc, action, true);
     }
 
     /**
@@ -632,27 +567,15 @@ public class SimpleJdbcTemplate {
         return connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
     }
 
-    protected <T> T execute(final PreparedStatementCreator sc, final PreparedStatementCallback<T> action, final boolean closeResources) {
+    protected <T> T execute(final ConnectionCallback<T> action, final boolean closeResources) {
         Connection connection = null;
-        PreparedStatement stmt = null;
 
         try {
             connection = getConnection();
 
-            stmt = sc.createPreparedStatement(connection);
-
-            applyStatementSettings(stmt);
-
-            T result = action.doInStatement(stmt);
-
-            handleWarnings(stmt);
-
-            return result;
+            return action.doInConnection(connection);
         }
         catch (SQLException ex) {
-            close(stmt);
-            stmt = null;
-
             close(connection);
             connection = null;
 
@@ -660,44 +583,42 @@ public class SimpleJdbcTemplate {
         }
         finally {
             if (closeResources) {
-                close(stmt);
                 close(connection);
             }
         }
     }
 
-    protected <T> T execute(final StatementCreator sc, final StatementCallback<T> action, final boolean closeResources) {
-        Connection connection = null;
-        Statement stmt = null;
+    /**
+     * callableStatement.registerOutParameter(2, java.sql.Types.VARCHAR);<br>
+     * callableStatement.execute(); ODER executeUpdate();<br>
+     * callableStatement.getString(2);
+     */
+    protected <S extends Statement, T> T execute(final StatementCreator<S> sc, final StatementCallback<S, T> action, final boolean closeResources) {
+        ConnectionCallback<T> connectionCallback = con -> {
+            S stmt = null;
 
-        try {
-            connection = getConnection();
+            try {
+                stmt = sc.createStatement(con);
 
-            stmt = sc.createStatement(connection);
+                applyStatementSettings(stmt);
 
-            applyStatementSettings(stmt);
+                T result = action.doInStatement(stmt);
 
-            T result = action.doInStatement(stmt);
+                handleWarnings(stmt);
 
-            handleWarnings(stmt);
-
-            return result;
-        }
-        catch (SQLException ex) {
-            close(stmt);
-            stmt = null;
-
-            close(connection);
-            connection = null;
-
-            throw convertException(ex);
-        }
-        finally {
-            if (closeResources) {
-                close(stmt);
-                close(connection);
+                return result;
             }
-        }
+            catch (SQLException ex) {
+                throw convertException(ex);
+            }
+            finally {
+                if (closeResources) {
+                    close(stmt);
+                }
+            }
+        };
+
+        return execute(connectionCallback, closeResources);
     }
 
     protected Connection getConnection() throws SQLException {

@@ -7,14 +7,9 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @param <T> Return-Type
- *
  * @author Thomas Freese
  */
 @FunctionalInterface
 public interface ConnectionCallback<T> {
-    /**
-     * Ausführung von Code in einer {@link Connection}.
-     */
     T doInConnection(Connection connection) throws SQLException;
 }

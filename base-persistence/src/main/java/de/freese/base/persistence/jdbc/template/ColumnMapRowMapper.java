@@ -19,9 +19,6 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 public class ColumnMapRowMapper implements RowMapper<Map<String, Object>> {
     private String[] columnNames;
 
-    /**
-     * @see de.freese.base.persistence.jdbc.template.function.RowMapper#mapRow(java.sql.ResultSet)
-     */
     @Override
     public Map<String, Object> mapRow(final ResultSet resultSet) throws SQLException {
         if (this.columnNames == null) {

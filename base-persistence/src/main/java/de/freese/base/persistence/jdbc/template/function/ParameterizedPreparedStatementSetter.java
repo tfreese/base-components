@@ -7,8 +7,6 @@ import java.sql.SQLException;
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
- * @param <T> Argument-Type
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

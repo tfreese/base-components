@@ -8,9 +8,7 @@ import java.util.Objects;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 
 /**
- * {@link Iterable} für ein {@link ResultSet}.<br>
- *
- * @param <T> Type of Entity
+ * {@link Iterable} for a {@link ResultSet}.<br/>
  *
  * @author Thomas Freese
  */
@@ -26,9 +24,6 @@ public class ResultSetIterable<T> implements Iterable<T> {
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
     }
 
-    /**
-     * @see java.lang.Iterable#iterator()
-     */
     @Override
     public Iterator<T> iterator() {
         return new ResultSetIterator<>(this.resultSet, this.rowMapper);

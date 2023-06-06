@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link Subscriber} der jedes Objekt einzeln anfordert.
- *
- * @param <T> Entity-Type
+ * {@link Subscriber} fetching single Elements.
  *
  * @author Thomas Freese
  */
@@ -29,46 +27,34 @@ public class ResultSetSubscriberForEachObject<T> implements Subscriber<T> {
         this.consumer = Objects.requireNonNull(consumer, "consumer required");
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onComplete()
-     */
     @Override
     public void onComplete() {
         LOGGER.debug("onComplete");
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-     */
     @Override
     public void onError(final Throwable throwable) {
         LOGGER.error(throwable.getMessage(), throwable);
 
-        // Wird bereits in der ResultSetSubscription verarbeitet..
+        // Handled in ResultSetSubscription.
         // this.subscription.cancel();
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
-     */
     @Override
     public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
 
         this.consumer.accept(item);
 
-        // Nächstes Element anfordern.
+        // Fetch next Element.
         this.subscription.request(1);
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
-     */
     @Override
     public void onSubscribe(final Subscription subscription) {
         this.subscription = subscription;
 
-        // Erstes Element anfordern.
+        // Fetch first Element.
         this.subscription.request(1);
     }
 }

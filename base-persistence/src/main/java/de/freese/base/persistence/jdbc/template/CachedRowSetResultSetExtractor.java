@@ -29,9 +29,6 @@ public class CachedRowSetResultSetExtractor implements ResultSetExtractor<Cached
         this.rowSetFactory = Objects.requireNonNull(rowSetFactory, "rowSetFactory required");
     }
 
-    /**
-     * @see de.freese.base.persistence.jdbc.template.function.ResultSetExtractor#extractData(java.sql.ResultSet)
-     */
     @Override
     public CachedRowSet extractData(final ResultSet resultSet) throws SQLException {
         CachedRowSet rowSet = this.rowSetFactory.createCachedRowSet();

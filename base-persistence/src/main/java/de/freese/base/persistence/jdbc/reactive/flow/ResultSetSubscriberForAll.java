@@ -10,9 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link Subscriber} der alle Objekte auf einmal anfordert.
- *
- * @param <T> Entity-Type
+ * {@link Subscriber} fetches all Elements.
  *
  * @author Thomas Freese
  */
@@ -27,28 +25,19 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T> {
         this.consumer = Objects.requireNonNull(consumer, "consumer required");
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onComplete()
-     */
     @Override
     public void onComplete() {
         LOGGER.debug("onComplete");
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-     */
     @Override
     public void onError(final Throwable throwable) {
         LOGGER.error(throwable.getMessage(), throwable);
 
-        // Wird bereits in der ResultSetSubscription verarbeitet.
+        // Handled in ResultSetSubscription.
         // this.subscription.cancel();
     }
 
-    /**
-     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onNext(java.lang.Object)
-     */
     @Override
     public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
@@ -56,12 +45,9 @@ public class ResultSetSubscriberForAll<T> implements Subscriber<T> {
         this.consumer.accept(item);
     }
 
-    /**
-     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onSubscribe(java.util.concurrent.Flow.Subscription)
-     */
     @Override
     public void onSubscribe(final Subscription subscription) {
-        // Alle Elemente anfordern, Gefahr durch OutOfMemory.
+        // Fetch all Elements, OutOfMemory possible.
         subscription.request(Long.MAX_VALUE);
     }
 }

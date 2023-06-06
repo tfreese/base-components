@@ -12,15 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link Subscriber} der die Objekte in Blöcken anfordert.
- *
- * @param <T> Entity-Type
+ * {@link Subscriber} fetching the Element by Blocks.
  *
  * @author Thomas Freese
  */
 public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
-    private static final int DEFAULT_FETCH_SIZE = 100;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);
 
     private final AtomicBoolean completed;
@@ -33,14 +29,6 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
 
     private Subscription subscription;
 
-    /**
-     * Erstellt ein neues {@link ResultSetSubscriberForFetchSize} Object.<br>
-     * Default fetchSize = 100
-     */
-    public ResultSetSubscriberForFetchSize(final Consumer<T> consumer) {
-        this(consumer, DEFAULT_FETCH_SIZE);
-    }
-
     public ResultSetSubscriberForFetchSize(final Consumer<T> consumer, final int fetchSize) {
         super();
 
@@ -51,9 +39,6 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
         this.counter = new AtomicInteger(0);
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onComplete()
-     */
     @Override
     public void onComplete() {
         LOGGER.debug("onComplete");
@@ -61,20 +46,14 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
         this.completed.set(true);
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-     */
     @Override
     public void onError(final Throwable throwable) {
         LOGGER.error(throwable.getMessage(), throwable);
 
-        // Wird bereits in der ResultSetSubscription verarbeitet.
+        // Handled in ResultSetSubscription.
         // this.subscription.cancel();
     }
 
-    /**
-     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onNext(java.lang.Object)
-     */
     @Override
     public void onNext(final T item) {
         LOGGER.debug("onNext: {}", item);
@@ -86,19 +65,16 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
         if (this.counter.get() > (this.fetchSize - 1)) {
             this.counter.set(0);
 
-            // Die nächsten n-Elemente anfordern.
+            // Fetch the next n Elements.
             this.subscription.request(this.completed.get() ? 0 : this.fetchSize);
         }
     }
 
-    /**
-     * @see de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject#onSubscribe(java.util.concurrent.Flow.Subscription)
-     */
     @Override
     public void onSubscribe(final Subscription subscription) {
         this.subscription = subscription;
 
-        // Die ersten n-Elemente anfordern.
+        // Fetch the first n Elements.
         subscription.request(this.fetchSize);
     }
 }
