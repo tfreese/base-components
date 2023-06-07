@@ -3,9 +3,8 @@ package de.freese.base.persistence.jdbc.template;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
@@ -15,23 +14,23 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  *
  * @author Thomas Freese
  */
-public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>> {
+public class RowMapperConsumableResultSetExtractor<T> implements ResultSetExtractor<Void> {
+    private final Consumer<T> consumer;
     private final RowMapper<T> rowMapper;
 
-    public RowMapperResultSetExtractor(final RowMapper<T> rowMapper) {
+    public RowMapperConsumableResultSetExtractor(final RowMapper<T> rowMapper, final Consumer<T> consumer) {
         super();
 
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
+        this.consumer = Objects.requireNonNull(consumer, "consumer required");
     }
 
     @Override
-    public List<T> extractData(final ResultSet resultSet) throws SQLException {
-        List<T> results = new ArrayList<>();
-
+    public Void extractData(final ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
-            results.add(this.rowMapper.mapRow(resultSet));
+            consumer.accept(this.rowMapper.mapRow(resultSet));
         }
 
-        return results;
+        return null;
     }
 }

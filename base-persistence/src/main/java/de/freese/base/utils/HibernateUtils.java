@@ -103,6 +103,7 @@ public final class HibernateUtils {
         return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
+    @SuppressWarnings("deprecation")
     public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw, final Logger logger) {
         logInfo(logger, String.format("Read PersistenceStatistics: %s", sessionFactory.getSessionFactoryOptions().getSessionFactoryName()));
 

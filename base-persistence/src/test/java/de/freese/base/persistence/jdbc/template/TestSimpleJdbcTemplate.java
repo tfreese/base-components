@@ -3,7 +3,6 @@ package de.freese.base.persistence.jdbc.template;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -30,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -77,7 +77,7 @@ class TestSimpleJdbcTemplate {
         sql.append(" VALUES");
         sql.append(" (next value for person_seq, 'Freese', 'Thomas')");
 
-        int affectedRows = jdbcTemplate.update(sql.toString());
+        int affectedRows = jdbcTemplate.update(sql);
 
         assertEquals(1, affectedRows);
     }
@@ -93,12 +93,12 @@ class TestSimpleJdbcTemplate {
         personen.add(new Person(0, "LastName3", "FirstName3"));
         personen.add(new Person(0, "Nachname4", "Vorname5"));
 
-        int[] affectedRows = jdbcTemplate.updateBatch(sql.toString(), personen, (ps, person) -> {
+        int[] affectedRows = jdbcTemplate.updateBatch(sql, personen, (ps, person) -> {
             long id = getNextID("PERSON_SEQ");
             ps.setLong(1, id);
             ps.setString(2, person.getLastName());
             ps.setString(3, person.getFirstName());
-        });
+        }, 5);
 
         assertEquals(2, affectedRows.length);
         assertEquals(1, affectedRows[0]);
@@ -121,7 +121,7 @@ class TestSimpleJdbcTemplate {
 
         assertEquals(3L, id);
 
-        int affectedRows = jdbcTemplate.update(sql.toString(), ps -> {
+        int affectedRows = jdbcTemplate.update(sql, ps -> {
             ps.setLong(1, id);
             ps.setString(2, "LastName3");
             ps.setString(3, "FirstName3");
@@ -131,10 +131,33 @@ class TestSimpleJdbcTemplate {
     }
 
     @Test
+    void testQueryAsConsumable() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by LAST_NAME desc");
+
+        List<Person> results = new ArrayList<>();
+        jdbcTemplate.query(sql, new RowMapperConsumableResultSetExtractor<>(new PersonRowMapper(), results::add));
+
+        assertNotNull(results);
+        assertEquals(2, results.size());
+
+        assertEquals(2, results.get(0).getId());
+        assertEquals("LastName2", results.get(0).getLastName());
+        assertEquals("FirstName2", results.get(0).getFirstName());
+
+        assertEquals(1, results.get(1).getId());
+        assertEquals("LastName1", results.get(1).getLastName());
+        assertEquals("FirstName1", results.get(1).getFirstName());
+    }
+
+    @Test
     void testQueryAsFlux() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by ID asc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux("select * from PERSON order by ID asc", new PersonRowMapper());
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux(sql, new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
         Flux<Person> flux = supplier.get();
@@ -158,24 +181,30 @@ class TestSimpleJdbcTemplate {
 
     @Test
     void testQueryAsFluxParallel() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by ID asc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Flux<Person> flux = jdbcTemplate.queryAsFlux("select * from PERSON order by ID asc", new PersonRowMapper());
+        Flux<Person> flux = jdbcTemplate.queryAsFlux(sql, new PersonRowMapper());
 
         // @formatter:off
-        flux.parallel()
+        Disposable disposable = flux.parallel()
             .runOn(Schedulers.fromExecutor(Executors.newCachedThreadPool()))
             .subscribe(p -> LOGGER.debug("FluxParallel: {}, {}", Thread.currentThread().getName(), p));
         // @formatter:on
 
-        assertTrue(true);
+        assertNotNull(disposable);
     }
 
     @Test
     void testQueryAsFluxPreparedParam() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc", new PersonRowMapper(), "LastName%");
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux(sql, new PersonRowMapper(), "LastName%");
 
         Flux<Person> flux = supplier.get();
         assertEquals(2, flux.count().block());
@@ -197,9 +226,12 @@ class TestSimpleJdbcTemplate {
 
     @Test
     void testQueryAsFluxPreparedSetter() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc", new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
 
         Flux<Person> flux = supplier.get();
         assertEquals(2, flux.count().block());
@@ -220,11 +252,68 @@ class TestSimpleJdbcTemplate {
     }
 
     @Test
+    void testQueryAsList() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by LAST_NAME desc");
+
+        List<Person> results = jdbcTemplate.query(sql, new PersonRowMapper());
+
+        assertNotNull(results);
+        assertEquals(2, results.size());
+
+        assertEquals(2, results.get(0).getId());
+        assertEquals("LastName2", results.get(0).getLastName());
+        assertEquals("FirstName2", results.get(0).getFirstName());
+
+        assertEquals(1, results.get(1).getId());
+        assertEquals("LastName1", results.get(1).getLastName());
+        assertEquals("FirstName1", results.get(1).getFirstName());
+    }
+
+    @Test
+    void testQueryAsListPreparedParam() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
+        List<Person> results = jdbcTemplate.query(sql, new PersonRowMapper(), "LastName%");
+
+        assertNotNull(results);
+        assertEquals(2, results.size());
+
+        assertEquals(2, results.get(0).getId());
+        assertEquals("LastName2", results.get(0).getLastName());
+        assertEquals("FirstName2", results.get(0).getFirstName());
+
+        assertEquals(1, results.get(1).getId());
+        assertEquals("LastName1", results.get(1).getLastName());
+        assertEquals("FirstName1", results.get(1).getFirstName());
+    }
+
+    @Test
+    void testQueryAsListPreparedSetter() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
+        List<Person> results = jdbcTemplate.query(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+
+        assertNotNull(results);
+        assertEquals(2, results.size());
+
+        assertEquals(2, results.get(0).getId());
+        assertEquals("LastName2", results.get(0).getLastName());
+        assertEquals("FirstName2", results.get(0).getFirstName());
+
+        assertEquals(1, results.get(1).getId());
+        assertEquals("LastName1", results.get(1).getLastName());
+        assertEquals("FirstName1", results.get(1).getFirstName());
+    }
+
+    @Test
     void testQueryAsMap() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON");
 
-        List<Map<String, Object>> results = jdbcTemplate.query(sql.toString());
+        List<Map<String, Object>> results = jdbcTemplate.query(sql);
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -250,7 +339,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        List<Map<String, Object>> results = jdbcTemplate.query(sql.toString(), new ColumnMapRowMapper(), "LastName%");
+        List<Map<String, Object>> results = jdbcTemplate.query(sql, new ColumnMapRowMapper(), "LastName%");
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -280,7 +369,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        List<Map<String, Object>> results = jdbcTemplate.query(sql.toString(), new ColumnMapRowMapper(), ps -> ps.setString(1, "LastName%"));
+        List<Map<String, Object>> results = jdbcTemplate.query(sql, new ColumnMapRowMapper(), ps -> ps.setString(1, "LastName%"));
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -306,45 +395,10 @@ class TestSimpleJdbcTemplate {
     }
 
     @Test
-    void testQueryAsPreparedParam() throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
-
-        List<Person> results = jdbcTemplate.query(sql.toString(), new PersonRowMapper(), "LastName%");
-
-        assertNotNull(results);
-        assertEquals(2, results.size());
-
-        assertEquals(2, results.get(0).getId());
-        assertEquals("LastName2", results.get(0).getLastName());
-        assertEquals("FirstName2", results.get(0).getFirstName());
-
-        assertEquals(1, results.get(1).getId());
-        assertEquals("LastName1", results.get(1).getLastName());
-        assertEquals("FirstName1", results.get(1).getFirstName());
-    }
-
-    @Test
-    void testQueryAsPreparedSetter() throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
-
-        List<Person> results = jdbcTemplate.query(sql.toString(), new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
-
-        assertNotNull(results);
-        assertEquals(2, results.size());
-
-        assertEquals(2, results.get(0).getId());
-        assertEquals("LastName2", results.get(0).getLastName());
-        assertEquals("FirstName2", results.get(0).getFirstName());
-
-        assertEquals(1, results.get(1).getId());
-        assertEquals("LastName1", results.get(1).getLastName());
-        assertEquals("FirstName1", results.get(1).getFirstName());
-    }
-
-    @Test
     void testQueryAsPublisherPreparedParam() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
         jdbcTemplate.setFetchSize(1);
 
         List<Person> result = new ArrayList<>();
@@ -354,7 +408,7 @@ class TestSimpleJdbcTemplate {
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
-            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc", new PersonRowMapper(), "LastName%");
+            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher(sql, new PersonRowMapper(), "LastName%");
             publisher.subscribe(subscriber);
 
             assertEquals(2, result.size());
@@ -373,6 +427,9 @@ class TestSimpleJdbcTemplate {
 
     @Test
     void testQueryAsPublisherPreparedSetter() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
         jdbcTemplate.setFetchSize(1);
 
         List<Person> result = new ArrayList<>();
@@ -382,7 +439,7 @@ class TestSimpleJdbcTemplate {
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
-            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc", new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
             publisher.subscribe(subscriber);
 
             assertEquals(2, result.size());
@@ -401,9 +458,12 @@ class TestSimpleJdbcTemplate {
 
     @Test
     void testQueryAsStream() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by id asc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON order by id asc", new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
 
@@ -435,13 +495,15 @@ class TestSimpleJdbcTemplate {
      */
     @Test
     void testQueryAsStreamParallel() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON order by id asc");
+
         jdbcTemplate.setFetchSize(1);
 
-        // RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON order by id asc", new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
-            // TimeUnit.MILLISECONDS.sleep(1000);
+            assertNotNull(stream);
 
             // @formatter:off
             stream
@@ -449,27 +511,16 @@ class TestSimpleJdbcTemplate {
                 .forEach(p -> LOGGER.debug("StreamParallel: {}, {}", Thread.currentThread().getName(), p));
             // @formatter:on
         }
-        // });
-
-        // Throwable cause = exception.getCause();
-        //
-        // while (!(cause instanceof SQLException))
-        // {
-        // cause = cause.getCause();
-        // }
-        //
-        // assertEquals(
-        // "invalid cursor state: identifier cursor not positioned on row in UPDATE, DELETE, SET, or GET statement: ; ResultSet is positioned after last row",
-        // cause.getMessage());
-
-        assertTrue(true);
     }
 
     @Test
     void testQueryAsStreamPreparedParam() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc", new PersonRowMapper(), "LastName%");
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper(), "LastName%");
 
         try (Stream<Person> stream = supplier.get()) {
             assertEquals(2, stream.count());
@@ -494,9 +545,12 @@ class TestSimpleJdbcTemplate {
 
     @Test
     void testQueryAsStreamPreparedSetter() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
+
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc", new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
 
         try (Stream<Person> stream = supplier.get()) {
             assertEquals(2, stream.count());
@@ -520,7 +574,7 @@ class TestSimpleJdbcTemplate {
     }
 
     @Test
-    void testQueryWithMaxRows() throws Exception {
+    void testQueryListWithMaxRows() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by LAST_NAME desc");
 
@@ -530,7 +584,7 @@ class TestSimpleJdbcTemplate {
         final List<Person> results;
 
         try {
-            results = jdbcTemplate.query(sql.toString(), new PersonRowMapper());
+            results = jdbcTemplate.query(sql, new PersonRowMapper());
         }
         finally {
             jdbcTemplate.setMaxRows(maxRows);
