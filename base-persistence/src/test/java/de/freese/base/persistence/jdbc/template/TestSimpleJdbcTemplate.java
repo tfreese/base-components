@@ -3,6 +3,7 @@ package de.freese.base.persistence.jdbc.template;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -596,6 +597,53 @@ class TestSimpleJdbcTemplate {
         assertEquals(2, results.get(0).getId());
         assertEquals("LastName2", results.get(0).getLastName());
         assertEquals("FirstName2", results.get(0).getFirstName());
+    }
+
+    @Test
+    void testTransaction() throws Exception {
+        if (jdbcTemplate.isSpringManaged()) {
+            return;
+        }
+
+        StringBuilder sqlInsert = new StringBuilder();
+        sqlInsert.append("INSERT INTO PERSON (ID, LAST_NAME, FIRST_NAME)");
+        sqlInsert.append(" VALUES");
+        sqlInsert.append(" (next value for person_seq, ?, ?)");
+
+        StringBuilder sqlSelect = new StringBuilder();
+        sqlSelect.append("select * from PERSON order by LAST_NAME desc");
+
+        List<Person> results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        assertNotNull(results);
+        assertEquals(2, results.size());
+
+        jdbcTemplate.beginTransaction();
+
+        Exception exception = assertThrows(SQLException.class, () -> jdbcTemplate.beginTransaction());
+        assertEquals("Transaction already started", exception.getMessage());
+
+        int affectedRows = jdbcTemplate.update(sqlInsert, "a", "b");
+        assertEquals(1, affectedRows);
+
+        results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        assertNotNull(results);
+        assertEquals(3, results.size());
+
+        jdbcTemplate.commitTransaction();
+
+        jdbcTemplate.beginTransaction();
+        affectedRows = jdbcTemplate.update(sqlInsert, "x", "y");
+        assertEquals(1, affectedRows);
+
+        results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        assertNotNull(results);
+        assertEquals(4, results.size());
+
+        jdbcTemplate.rollbackTransaction();
+
+        results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        assertNotNull(results);
+        assertEquals(3, results.size());
     }
 
     private long getNextID(final String sequence) throws SQLException {

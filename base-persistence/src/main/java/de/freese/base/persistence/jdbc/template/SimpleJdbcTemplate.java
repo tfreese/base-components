@@ -38,6 +38,9 @@ import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
 import de.freese.base.persistence.jdbc.template.function.RowMapper;
 import de.freese.base.persistence.jdbc.template.function.StatementCallback;
 import de.freese.base.persistence.jdbc.template.function.StatementCreator;
+import de.freese.base.persistence.jdbc.template.transaction.SimpleTransactionHandler;
+import de.freese.base.persistence.jdbc.template.transaction.SpringTransactionHandler;
+import de.freese.base.persistence.jdbc.template.transaction.TransactionHandler;
 import de.freese.base.utils.JdbcUtils;
 
 /**
@@ -50,16 +53,27 @@ public class SimpleJdbcTemplate {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    private final TransactionHandler transactionHandler;
+
     private int fetchSize = 1000;
 
     private int maxRows = -1;
 
     private int queryTimeout = -1;
 
-    public SimpleJdbcTemplate(final DataSource dataSource) {
+    public SimpleJdbcTemplate(DataSource dataSource) {
+        this(dataSource, new SimpleTransactionHandler());
+    }
+
+    public SimpleJdbcTemplate(DataSource dataSource, TransactionHandler transactionHandler) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
+        this.transactionHandler = Objects.requireNonNull(transactionHandler, "transactionHandler required");
+    }
+
+    public void beginTransaction() throws SQLException {
+        getTransactionHandler().beginTransaction(getDataSource());
     }
 
     /**
@@ -89,6 +103,10 @@ public class SimpleJdbcTemplate {
         };
 
         return execute(sc, action, true);
+    }
+
+    public void commitTransaction() throws SQLException {
+        getTransactionHandler().commitTransaction();
     }
 
     public boolean execute(final CharSequence sql) {
@@ -124,6 +142,10 @@ public class SimpleJdbcTemplate {
         ConnectionCallback<Boolean> action = this::isBatchSupported;
 
         return execute(action, true);
+    }
+
+    public boolean isSpringManaged() {
+        return getTransactionHandler() instanceof SpringTransactionHandler;
     }
 
     /**
@@ -359,6 +381,10 @@ public class SimpleJdbcTemplate {
         return execute(sc, action, false);
     }
 
+    public void rollbackTransaction() throws SQLException {
+        getTransactionHandler().rollbackTransaction();
+    }
+
     public void setFetchSize(final int fetchSize) {
         this.fetchSize = fetchSize;
     }
@@ -440,8 +466,8 @@ public class SimpleJdbcTemplate {
 
                     if (((n % batchSize) == 0) || (n == batchArgs.size())) {
                         if (getLogger().isDebugEnabled()) {
-                            int batchIndex = ((n % batchSize) == 0) ? n / batchSize : (n / batchSize) + 1;
-                            int items = n - ((((n % batchSize) == 0) ? (n / batchSize) - 1 : (n / batchSize)) * batchSize);
+                            int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
+                            int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
                             getLogger().debug("Sending SQL batch update #{} with {} items", batchIndex, items);
                         }
 
@@ -489,17 +515,7 @@ public class SimpleJdbcTemplate {
     }
 
     protected void close(final Connection connection) {
-        getLogger().debug("close connection");
-
-        // Spring-Variant
-        // DataSourceUtils.releaseConnection(connection, getDataSource());
-
-        try {
-            JdbcUtils.close(connection);
-        }
-        catch (Exception ex) {
-            getLogger().error("Could not close JDBC Connection", ex);
-        }
+        getTransactionHandler().close(connection, getDataSource());
     }
 
     protected void close(final ResultSet resultSet) {
@@ -607,14 +623,15 @@ public class SimpleJdbcTemplate {
     }
 
     protected Connection getConnection() throws SQLException {
-        // Spring-Variant
-        // return DataSourceUtils.getConnection(getDataSource());
-
-        return getDataSource().getConnection();
+        return getTransactionHandler().getConnection(getDataSource());
     }
 
     protected Logger getLogger() {
         return this.logger;
+    }
+
+    protected TransactionHandler getTransactionHandler() {
+        return transactionHandler;
     }
 
     protected void handleWarnings(final Statement stmt) throws SQLException {
