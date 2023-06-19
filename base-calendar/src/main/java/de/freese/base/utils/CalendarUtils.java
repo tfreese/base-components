@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
@@ -88,6 +89,14 @@ public final class CalendarUtils {
         return toDate(instant);
     }
 
+    public static long toEpochTimeMillies(final LocalDate localDate) {
+        return toEpochTimeMillies(localDate.atStartOfDay());
+    }
+
+    public static long toEpochTimeMillies(final LocalDateTime localDateTime) {
+        return localDateTime.toInstant(ZoneOffset.UTC).toEpochMilli();
+    }
+
     public static Instant toInstant(final Date date) {
         if (date instanceof java.sql.Date d) {
             // LocalDate localDate = d.toLocalDate();
@@ -127,6 +136,10 @@ public final class CalendarUtils {
         Instant instant = toInstant(date);
 
         return toLocalDate(instant);
+    }
+
+    public static LocalDate toLocalDate(final long timestamp) {
+        return toLocalDate(Instant.ofEpochMilli(timestamp));
     }
 
     public static LocalDate toLocalDate(final Instant instant) {
