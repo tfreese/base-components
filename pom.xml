@@ -43,9 +43,6 @@
         </developer>
     </developers>
 
-    <properties>
-    </properties>
-
     <modules>
         <module>base-core</module>
         <module>base-calendar</module>

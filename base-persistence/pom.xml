@@ -15,9 +15,6 @@
     <name>${project.groupId} - ${project.artifactId}</name>
     <description>Common Patterns and Classes for the Persistence Layer.</description>
 
-    <properties>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
