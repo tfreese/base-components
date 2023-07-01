@@ -34,7 +34,7 @@ public final class Switch<T> {
         }
 
         public static <T> Case<T> matchDefault(final Supplier<T> value) {
-            return new Case<>(() -> true, value);
+            return matchCase(() -> true, value);
         }
 
         private final BooleanSupplier condition;

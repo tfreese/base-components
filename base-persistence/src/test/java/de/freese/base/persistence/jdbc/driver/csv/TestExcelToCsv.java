@@ -7,7 +7,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -49,7 +49,7 @@ class TestExcelToCsv {
         });
 
         // Format numbers: 0,1 -> 0.1
-        Function<String, String> toNumberFunction = value -> value.replace(',', '.');
+        UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
         toCsv.setConvertFunction(2, toNumberFunction);
         toCsv.setConvertFunction(4, toNumberFunction);
 
@@ -77,7 +77,7 @@ class TestExcelToCsv {
         });
 
         // Format numbers: 0,1 -> 0.1
-        Function<String, String> toNumberFunction = value -> value.replace(',', '.');
+        UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
         toCsv.setConvertFunction(2, toNumberFunction);
         toCsv.setConvertFunction(4, toNumberFunction);
 

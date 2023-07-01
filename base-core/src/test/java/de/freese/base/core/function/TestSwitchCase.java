@@ -23,9 +23,9 @@ class TestSwitchCase {
             //@formatter:off
             Optional<String> result = Switch.match(
                     Case.matchDefault(() -> "unknown value"),
-                    Case.matchCase(() -> i==0, () -> "Value = 0"),
-                    Case.matchCase(() -> i==1, () -> "Value = 1"),
-                    Case.matchCase(() -> i==2, () -> "Value = 2")
+                    Case.matchCase(() -> i == 0, () -> "Value = 0"),
+                    Case.matchCase(() -> i == 1, () -> "Value = 1"),
+                    Case.matchCase(() -> i == 2, () -> "Value = 2")
                     );
             //@formatter:on
 

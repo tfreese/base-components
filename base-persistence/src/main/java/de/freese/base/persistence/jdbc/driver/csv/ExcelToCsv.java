@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -44,7 +45,7 @@ public class ExcelToCsv {
     /**
      * 0-Based
      */
-    private final Map<Integer, Function<String, String>> columnFunctions = new HashMap<>();
+    private final Map<Integer, UnaryOperator<String>> columnFunctions = new HashMap<>();
 
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);
     /**
@@ -141,7 +142,7 @@ public class ExcelToCsv {
      * {@link Function} for converting the value.<br>
      * Is called, when the Value != null and not empty.<br>
      */
-    public void setConvertFunction(final int columnIndex, final Function<String, String> function) {
+    public void setConvertFunction(final int columnIndex, final UnaryOperator<String> function) {
         this.columnFunctions.put(columnIndex, function);
     }
 
@@ -165,7 +166,7 @@ public class ExcelToCsv {
 
     /**
      * Default: 0<br>
-     * If < 0 the Header s ignored.<br>
+     * If headerRow < 0 the Header s ignored.<br>
      */
     public void setHeaderRow(final int headerRow) {
         this.headerRow = headerRow;
@@ -232,7 +233,7 @@ public class ExcelToCsv {
 
         if ((value != null) && (row.getRowNum() != this.headerRow)) {
             // this.columnFunctions.getOrDefault(column, Function.identity()).apply(value);
-            Function<String, String> function = this.columnFunctions.get(column);
+            UnaryOperator<String> function = this.columnFunctions.get(column);
 
             if (function != null) {
                 value = function.apply(value);
