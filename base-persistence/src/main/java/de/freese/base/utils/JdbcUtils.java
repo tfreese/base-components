@@ -98,16 +98,13 @@ public final class JdbcUtils {
         }
     }
 
-    /**
-     * Erstellt einen String aus per Komma getrennten ids.
-     */
     public static String createIDsAsString(final Iterable<? extends Number> ids) {
         return StreamSupport.stream(ids.spliterator(), false).map(String::valueOf).collect(Collectors.joining(","));
     }
 
     /**
-     * Erzeugt eine "in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * Erzeugt eine "in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte</br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or</br>
      * als weitere "in"-Clause angehängt.
      */
     public static void createInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements) {
@@ -115,8 +112,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Erzeugt eine "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * Erzeugt eine "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte</br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or</br>
      * als weitere "not in"-Clause angehängt.
      */
     public static void createNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements) {
@@ -164,8 +161,6 @@ public final class JdbcUtils {
     }
 
     /**
-     * Liefert den Produktnamen der Datenbank.
-     *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException {
@@ -180,8 +175,6 @@ public final class JdbcUtils {
     }
 
     /**
-     * Liefert die ProduktVersion der Datenbank.
-     *
      * @see #extractDatabaseMetaData(DataSource, Function)
      */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException {
@@ -293,8 +286,7 @@ public final class JdbcUtils {
     }
 
     /**
-     * Erzeugt aus dem {@link ResultSet} eine {@link ObjectTable}.<br>
-     * Wenn das ResultSet einen Typ != ResultSet.TYPE_FORWARD_ONLY besitzt, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
+     * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static ObjectTable toObjectTable(final ResultSet resultSet) throws SQLException {
         Objects.requireNonNull(resultSet, "resultSet required");
@@ -335,7 +327,6 @@ public final class JdbcUtils {
             objectTable.addRow(row);
         }
 
-        // ResultSet wieder zurück auf Anfang.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {
             resultSet.first();
         }
@@ -343,9 +334,6 @@ public final class JdbcUtils {
         return objectTable;
     }
 
-    /**
-     * Erzeugt aus den {@link ResultSetMetaData} eine {@link ObjectTable}.<br>
-     */
     public static ObjectTable toObjectTable(final ResultSetMetaData rsMeta) throws SQLException {
         Objects.requireNonNull(rsMeta, "resultSetMetaData required");
 
@@ -366,8 +354,8 @@ public final class JdbcUtils {
             row[0] = rsMeta.getColumnName(col);
             row[1] = rsMeta.getColumnClassName(col);
             row[2] = rsMeta.getColumnTypeName(col);
-            row[3] = "" + rsMeta.getColumnType(col);
-            row[4] = "" + rsMeta.isNullable(col);
+            row[3] = String.valueOf(rsMeta.getColumnType(col));
+            row[4] = String.valueOf(rsMeta.isNullable(col));
 
             objectTable.addRow(row);
         }
@@ -376,10 +364,9 @@ public final class JdbcUtils {
     }
 
     /**
-     * Schreibt das ResultSet in den PrintStream.<br>
-     * Dabei wird die Spaltenbreite auf den breitesten Wert angepasst.<br>
-     * Der Stream wird nicht geschlossen.<br>
-     * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
+     * Tabular printing the {@link ResultSet}.</br>
+     * Stream is not closed.</br>
+     * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException {
         ObjectTable objectTable = toObjectTable(resultSet);
@@ -392,7 +379,7 @@ public final class JdbcUtils {
     }
 
     /**
-     * Tabellarische Ausgabe der ResultSetMetaDaten.
+     * Tabular printing the {@link ResultSetMetaData}.
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException {
         ObjectTable objectTable = toObjectTable(rsMeta);
@@ -400,9 +387,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Schreibt das ResultSet als CSV-Datei.<br>
-     * Der Stream wird nicht geschlossen.<br>
-     * Wenn das ResultSet vom Typ != ResultSet.TYPE_FORWARD_ONLY ist, wird {@link ResultSet#first()} aufgerufen und kann weiter verwendet werden.
+     * Stream is not closed.</br>
+     * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static void writeCsv(final ResultSet resultSet, final OutputStream outputStream) throws SQLException {
         ResultSetMetaData metaData = resultSet.getMetaData();
@@ -454,8 +440,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Erzeugt eine "in"- oder "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
-     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
+     * Erzeugt eine "in"- oder "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte</br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or</br>
      * als weitere Clause angehängt.
      */
     private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn) {
