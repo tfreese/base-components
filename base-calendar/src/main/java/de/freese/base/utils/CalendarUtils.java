@@ -178,6 +178,15 @@ public final class CalendarUtils {
         return localDate.atStartOfDay();
     }
 
+    public static long toNanoOfSecond(final LocalDate localDate) {
+        return 0;
+        //        return toNanoOfSecond(localDate.atStartOfDay());
+    }
+
+    public static long toNanoOfSecond(final LocalDateTime localDateTime) {
+        return localDateTime.getNano();
+    }
+
     public static java.sql.Date toSqlDate(final Instant instant) {
         LocalDate localDate = toLocalDate(instant);
 
