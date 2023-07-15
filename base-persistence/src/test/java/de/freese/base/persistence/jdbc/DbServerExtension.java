@@ -47,7 +47,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         long allocatedMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
 
-        long divider = 1024 * 1024;
+        long divider = 1024L * 1024L;
         String unit = "MB";
 
         NumberFormat format = NumberFormat.getInstance();
@@ -70,9 +70,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         this.databaseType = Objects.requireNonNull(databaseType, "databaseType required");
     }
 
-    /**
-     * @see org.junit.jupiter.api.extension.AfterAllCallback#afterAll(org.junit.jupiter.api.extension.ExtensionContext)
-     */
     @Override
     public void afterAll(final ExtensionContext context) throws Exception {
         if (LOGGER.isDebugEnabled()) {
@@ -126,9 +123,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         System.gc();
     }
 
-    /**
-     * @see org.junit.jupiter.api.extension.AfterTestExecutionCallback#afterTestExecution(org.junit.jupiter.api.extension.ExtensionContext)
-     */
     @Override
     public void afterTestExecution(final ExtensionContext context) throws Exception {
         // Method testMethod = context.getRequiredTestMethod();
@@ -139,9 +133,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         // LOGGER.debug("{} - Idle Connections = {}", this.databaseType, this.dataSource.getHikariPoolMXBean().getIdleConnections());
     }
 
-    /**
-     * @see org.junit.jupiter.api.extension.BeforeAllCallback#beforeAll(org.junit.jupiter.api.extension.ExtensionContext)
-     */
     @Override
     public void beforeAll(final ExtensionContext context) throws Exception {
         LOGGER.debug("{} - beforeAll", this.databaseType);
@@ -203,9 +194,6 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         // populator.execute(dataSource);
     }
 
-    /**
-     * @see org.junit.jupiter.api.extension.BeforeTestExecutionCallback#beforeTestExecution(org.junit.jupiter.api.extension.ExtensionContext)
-     */
     @Override
     public void beforeTestExecution(final ExtensionContext context) throws Exception {
         getStoreForMethod(context).put("start-time", System.currentTimeMillis());

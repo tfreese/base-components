@@ -6,7 +6,9 @@ package de.freese.base.persistence.jdbc;
  */
 public class Person {
     private final String firstName;
+
     private final long id;
+
     private final String lastName;
 
     public Person(final long id, final String lastName, final String firstName) {
@@ -29,9 +31,6 @@ public class Person {
         return this.lastName;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
