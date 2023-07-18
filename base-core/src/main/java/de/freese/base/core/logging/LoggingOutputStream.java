@@ -29,9 +29,6 @@ public class LoggingOutputStream extends OutputStream {
         this.level = Objects.requireNonNull(level, "level required");
     }
 
-    /**
-     * @see java.io.OutputStream#write(int)
-     */
     @Override
     public void write(final int b) throws IOException {
         if (b == '\n') {

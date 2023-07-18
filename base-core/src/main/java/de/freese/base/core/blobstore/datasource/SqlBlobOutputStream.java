@@ -1,7 +1,7 @@
 package de.freese.base.core.blobstore.datasource;
 
+import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +14,8 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Thomas Freese
  */
-final class SqlBlobOutputStream extends OutputStream {
+final class SqlBlobOutputStream extends FilterOutputStream {
     private final java.sql.Blob blob;
-
-    private final OutputStream blobOutputStream;
 
     private final Connection connection;
 
@@ -28,23 +26,24 @@ final class SqlBlobOutputStream extends OutputStream {
     private final URI uri;
 
     SqlBlobOutputStream(URI uri, final Connection connection, final PreparedStatement prepareStatement) throws SQLException {
+        super(null);
+
         this.uri = Objects.requireNonNull(uri, "uri required");
 
         this.connection = Objects.requireNonNull(connection, "connection required");
         this.prepareStatement = Objects.requireNonNull(prepareStatement, "prepareStatement required");
 
         this.blob = connection.createBlob();
-        this.blobOutputStream = blob.setBinaryStream(1);
+        this.out = blob.setBinaryStream(1);
     }
 
     @Override
     public void close() throws IOException {
-        super.close();
 
         SQLException sex = null;
 
         try {
-            this.blobOutputStream.close();
+            super.close();
 
             this.prepareStatement.setString(1, this.uri.toString());
             this.prepareStatement.setBlob(2, this.blob);
@@ -78,26 +77,6 @@ final class SqlBlobOutputStream extends OutputStream {
         if (sex != null) {
             throw new RuntimeException(sex);
         }
-    }
-
-    @Override
-    public void flush() throws IOException {
-        this.blobOutputStream.flush();
-    }
-
-    @Override
-    public void write(final byte[] b) throws IOException {
-        this.blobOutputStream.write(b);
-    }
-
-    @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException {
-        this.blobOutputStream.write(b, off, len);
-    }
-
-    @Override
-    public void write(final int b) throws IOException {
-        this.blobOutputStream.write(b);
     }
 
     private Logger getLogger() {

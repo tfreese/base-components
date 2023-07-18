@@ -1,6 +1,7 @@
 // Created: 29.03.2020
 package de.freese.base.core.throttle.io;
 
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -11,8 +12,7 @@ import de.freese.base.core.throttle.Throttler;
 /**
  * @author Thomas Freese
  */
-public class ThrottledInputStream extends InputStream {
-    private final InputStream inputStream;
+public class ThrottledInputStream extends FilterInputStream {
 
     private final Throttler throttler;
 
@@ -21,26 +21,9 @@ public class ThrottledInputStream extends InputStream {
     private long sleepTimeNanos;
 
     public ThrottledInputStream(final InputStream inputStream, final Throttler throttler) {
-        super();
+        super(inputStream);
 
-        this.inputStream = Objects.requireNonNull(inputStream, "inputStream required");
         this.throttler = Objects.requireNonNull(throttler, "throttler required");
-    }
-
-    /**
-     * @see java.io.InputStream#available()
-     */
-    @Override
-    public int available() throws IOException {
-        return this.inputStream.available();
-    }
-
-    /**
-     * @see java.io.InputStream#close()
-     */
-    @Override
-    public void close() throws IOException {
-        this.inputStream.close();
     }
 
     public long getBytesRead() {
@@ -51,14 +34,11 @@ public class ThrottledInputStream extends InputStream {
         return this.sleepTimeNanos;
     }
 
-    /**
-     * @see java.io.InputStream#read()
-     */
     @Override
     public int read() throws IOException {
         throttle(1);
 
-        int data = this.inputStream.read();
+        int data = super.read();
 
         if (data != -1) {
             this.bytesRead++;
@@ -67,9 +47,6 @@ public class ThrottledInputStream extends InputStream {
         return data;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -80,6 +57,10 @@ public class ThrottledInputStream extends InputStream {
         sb.append("]");
 
         return sb.toString();
+    }
+
+    protected InputStream getDelegate() {
+        return this.in;
     }
 
     private void throttle(final int permits) {

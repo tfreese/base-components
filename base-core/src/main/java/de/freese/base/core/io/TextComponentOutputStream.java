@@ -1,5 +1,6 @@
 package de.freese.base.core.io;
 
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -15,67 +16,32 @@ import javax.swing.text.JTextComponent;
  *
  * @author Thomas Freese
  */
-public class TextComponentOutputStream extends OutputStream {
-    private final byte[] littleBuffer = new byte[1];
+public class TextComponentOutputStream extends FilterOutputStream {
 
-    private OutputStream out;
+    private final byte[] littleBuffer = new byte[1];
 
     private JTextComponent textComponent;
 
-    public TextComponentOutputStream(final JTextComponent textComponent) {
-        super();
+    public TextComponentOutputStream(final OutputStream outputStream, final JTextComponent textArea) {
+        super(outputStream);
 
-        this.textComponent = textComponent;
+        this.textComponent = textArea;
     }
 
-    public TextComponentOutputStream(final JTextComponent textArea, final OutputStream out) {
-        this(textArea);
-
-        this.out = out;
-    }
-
-    /**
-     * @see java.io.OutputStream#close()
-     */
     @Override
     public void close() throws IOException {
+        super.close();
+
         this.textComponent = null;
-        this.out = null;
     }
 
-    /**
-     * @see java.io.OutputStream#flush()
-     */
-    @Override
-    public void flush() throws IOException {
-        // Empty
-    }
-
-    /**
-     * @see java.io.OutputStream#write(byte[])
-     */
-    @Override
-    public void write(final byte[] b) throws IOException {
-        write(b, 0, b.length);
-    }
-
-    /**
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        String s = new String(b, off, len, StandardCharsets.UTF_8);
+        super.write(b, off, len);
 
-        if (this.out != null) {
-            this.out.write(b, off, len);
-        }
-
-        updateComponent(s);
+        updateComponent(new String(b, off, len, StandardCharsets.UTF_8));
     }
 
-    /**
-     * @see java.io.OutputStream#write(int)
-     */
     @Override
     public void write(final int b) throws IOException {
         this.littleBuffer[0] = (byte) b;

@@ -1,6 +1,7 @@
 // Created: 11.01.2017
 package de.freese.base.core.nio;
 
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
@@ -10,12 +11,10 @@ import java.util.function.LongConsumer;
 /**
  * @author Thomas Freese
  */
-public class MonitoringOutputStream extends OutputStream {
+public class MonitoringOutputStream extends FilterOutputStream {
     private final LongConsumer bytesWrittenConsumer;
-    
-    private final boolean closeDelegate;
 
-    private final OutputStream delegate;
+    private final boolean closeDelegate;
 
     private long bytesWritten;
 
@@ -27,61 +26,31 @@ public class MonitoringOutputStream extends OutputStream {
     }
 
     public MonitoringOutputStream(final OutputStream delegate, final LongConsumer bytesWrittenConsumer, final boolean closeDelegate) {
-        super();
+        super(delegate);
 
-        this.delegate = Objects.requireNonNull(delegate, "delegate required");
         this.bytesWrittenConsumer = Objects.requireNonNull(bytesWrittenConsumer, "bytesWrittenConsumer required");
         this.closeDelegate = closeDelegate;
     }
 
-    /**
-     * @see java.io.OutputStream#close()
-     */
     @Override
     public void close() throws IOException {
         if (this.closeDelegate) {
-            this.delegate.close();
+            super.close();
         }
     }
 
-    /**
-     * @see java.io.OutputStream#flush()
-     */
-    @Override
-    public void flush() throws IOException {
-        this.delegate.flush();
-    }
-
-    /**
-     * @see java.io.OutputStream#write(byte[])
-     */
-    @Override
-    public void write(final byte[] b) throws IOException {
-        this.delegate.write(b);
-
-        this.bytesWritten += b.length;
-
-        this.bytesWrittenConsumer.accept(this.bytesWritten);
-    }
-
-    /**
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
-        this.delegate.write(b, off, len);
+        super.write(b, off, len);
 
         this.bytesWritten += len;
 
         this.bytesWrittenConsumer.accept(this.bytesWritten);
     }
 
-    /**
-     * @see java.io.OutputStream#write(int)
-     */
     @Override
     public void write(final int b) throws IOException {
-        this.delegate.write(b);
+        super.write(b);
 
         this.bytesWritten++;
 
