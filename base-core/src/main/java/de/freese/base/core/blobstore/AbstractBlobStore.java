@@ -8,13 +8,14 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public abstract class AbstractBlobStore implements BlobStore {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public Blob get(final BlobId id) throws Exception {
-        if (!exists(id)) {
-            return null;
-        }
+        //        if (!exists(id)) {
+        //            return null;
+        //        }
 
         return doGet(id);
     }

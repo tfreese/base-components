@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public abstract class AbstractBlob implements Blob {
+    
     private final BlobId id;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -25,9 +26,6 @@ public abstract class AbstractBlob implements Blob {
         return this.id;
     }
 
-    /**
-     * @see Object#toString()
-     */
     @Override
     public String toString() {
         return getId().toString();

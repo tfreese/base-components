@@ -1,4 +1,4 @@
-package de.freese.base.core.blobstore.datasource;
+package de.freese.base.core.blobstore.jdbc;
 
 import java.io.InputStream;
 import java.util.Objects;
@@ -9,12 +9,12 @@ import de.freese.base.core.blobstore.BlobId;
 /**
  * @author Thomas Freese
  */
-class DatasourceBlob extends AbstractBlob {
-    private final DatasourceBlobStore blobStore;
+class JdbcBlob extends AbstractBlob {
+    private final JdbcBlobStore blobStore;
 
-    private long length = -1;
+    private long length = Long.MAX_VALUE;
 
-    DatasourceBlob(final BlobId id, DatasourceBlobStore blobStore) {
+    JdbcBlob(final BlobId id, JdbcBlobStore blobStore) {
         super(id);
 
         this.blobStore = Objects.requireNonNull(blobStore, "blobStore required");
@@ -27,7 +27,7 @@ class DatasourceBlob extends AbstractBlob {
 
     @Override
     public long getLength() throws Exception {
-        if (length < 0) {
+        if (length == Long.MAX_VALUE) {
             length = blobStore.length(getId());
         }
 

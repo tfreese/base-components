@@ -71,9 +71,6 @@ public class FileBlobStore extends AbstractBlobStore {
         return Files.exists(path);
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return this.basePath.toString();
@@ -112,6 +109,6 @@ public class FileBlobStore extends AbstractBlobStore {
 
     @Override
     protected Blob doGet(final BlobId id) throws Exception {
-        return new FileBlob(id, this);
+        return new FileBlob(id, toContentPath(id));
     }
 }

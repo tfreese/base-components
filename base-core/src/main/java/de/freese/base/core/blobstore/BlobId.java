@@ -8,7 +8,8 @@ import java.util.Objects;
 
 /**
  * Unique ID for a Blob from a {@link BlobStore}.<br>
- * <a href="https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api">nexus-blobstore-api</a>
+ * <a href="https://github.com/sonatype/nexus-public/blob/master/components/nexus-blobstore-api">nexus-blobstore-api</a><br>
+ * <a href="https://github.com/sonatype/goodies/tree/main/lifecycle">goodies</a>
  *
  * @author Thomas Freese
  */

@@ -32,8 +32,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.DisposableBean;
 
-import de.freese.base.core.blobstore.datasource.DatasourceBlobStore;
 import de.freese.base.core.blobstore.file.FileBlobStore;
+import de.freese.base.core.blobstore.jdbc.JdbcBlobStore;
 import de.freese.base.core.blobstore.memory.MemoryBlobStore;
 import de.freese.base.core.io.AbstractIoTest;
 
@@ -113,9 +113,9 @@ class TestBlobStore {
         return Stream.of(
                 Arguments.of("Memory", new MemoryBlobStore()),
                 Arguments.of("File", new FileBlobStore(PATH_TEST)),
-                Arguments.of("DataSource-H2", new DatasourceBlobStore(dataSourceH2)),
-                Arguments.of("DataSource-HSQLDB", new DatasourceBlobStore(dataSourceHsqldb)),
-                Arguments.of("DataSource-Derby", new DatasourceBlobStore(dataSourceDerby))
+                Arguments.of("DataSource-H2", new JdbcBlobStore(dataSourceH2)),
+                Arguments.of("DataSource-HSQLDB", new JdbcBlobStore(dataSourceHsqldb)),
+                Arguments.of("DataSource-Derby", new JdbcBlobStore(dataSourceDerby))
         );
         // @formatter:on
     }
@@ -133,8 +133,8 @@ class TestBlobStore {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArgumentes")
     @Order(1)
-    void testBlobStore(final String name, final BlobStore blobStore) throws Exception {
-        if (blobStore instanceof DatasourceBlobStore dsBs) {
+    void testInputStream(final String name, final BlobStore blobStore) throws Exception {
+        if (blobStore instanceof JdbcBlobStore dsBs) {
             dsBs.createDatabaseIfNotExist();
         }
 
@@ -147,31 +147,76 @@ class TestBlobStore {
 
         assertFalse(blobStore.exists(blobId));
 
-        try (InputStream inputStream = Files.newInputStream(path); OutputStream outputStream = blobStore.create(blobId)) {
+        // Insert
+        try (InputStream inputStream = Files.newInputStream(path)) {
+            blobStore.create(blobId, inputStream);
+        }
+
+        testAfterInsert(blobStore, blobId, uri, fileSize, bytes);
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createArgumentes")
+    @Order(1)
+    void testNotExistingUri(final String name, final BlobStore blobStore) throws Exception {
+        if (blobStore instanceof JdbcBlobStore dsBs) {
+            dsBs.createDatabaseIfNotExist();
+        }
+
+        URI uri = URI.create("file:///not_existing");
+        BlobId blobId = new BlobId(uri);
+        assertFalse(blobStore.exists(blobId));
+
+        // Select
+        Blob blob = blobStore.get(blobId);
+        assertNotNull(blob);
+        assertEquals(-1, blob.getLength());
+        assertEquals(uri, blob.getId().getUri());
+        assertArrayEquals(new byte[0], blob.getAllBytes());
+
+        // Delete
+        blobStore.delete(blobId);
+        assertFalse(blobStore.exists(blobId));
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("createArgumentes")
+    @Order(1)
+    void testOutputStream(final String name, final BlobStore blobStore) throws Exception {
+        if (blobStore instanceof JdbcBlobStore dsBs) {
+            dsBs.createDatabaseIfNotExist();
+        }
+
+        Path path = Paths.get("pom.xml");
+        long fileSize = Files.size(path);
+        byte[] bytes = Files.readAllBytes(path);
+
+        URI uri = path.toUri();
+        BlobId blobId = new BlobId(uri);
+
+        assertFalse(blobStore.exists(blobId));
+
+        // Insert
+        try (InputStream inputStream = Files.newInputStream(path);
+             OutputStream outputStream = blobStore.create(blobId)) {
             inputStream.transferTo(outputStream);
         }
 
+        testAfterInsert(blobStore, blobId, uri, fileSize, bytes);
+    }
+
+    protected void testAfterInsert(BlobStore blobStore, BlobId blobId, URI uri, long fileSize, byte[] bytes) throws Exception {
         assertTrue(blobStore.exists(blobId));
 
+        // Select
         Blob blob = blobStore.get(blobId);
         assertNotNull(blob);
         assertEquals(fileSize, blob.getLength());
         assertEquals(uri, blob.getId().getUri());
         assertArrayEquals(bytes, blob.getAllBytes());
 
+        // Delete
         blobStore.delete(blobId);
         assertFalse(blobStore.exists(blobId));
-
-        try (InputStream inputStream = Files.newInputStream(path)) {
-            blobStore.create(blobId, inputStream);
-        }
-
-        blob = blobStore.get(blobId);
-        assertNotNull(blob);
-        assertEquals(fileSize, blob.getLength());
-        assertEquals(uri, blob.getId().getUri());
-        assertArrayEquals(bytes, blob.getAllBytes());
-
-        blobStore.delete(blobId);
     }
 }
