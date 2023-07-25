@@ -201,31 +201,36 @@ public final class ClassUtils {
      * @see ClassLoader#getSystemClassLoader()
      */
     public static ClassLoader getDefaultClassLoader() {
-        ClassLoader cl = null;
+        ClassLoader classLoader = null;
 
         try {
-            cl = Thread.currentThread().getContextClassLoader();
+            classLoader = Thread.currentThread().getContextClassLoader();
         }
         catch (Exception ex) {
             // Cannot access thread context ClassLoader - falling back...
         }
 
-        if (cl == null) {
+        if (classLoader == null) {
             // No thread context class loader -> use class loader of this class.
-            cl = ClassUtils.class.getClassLoader();
-
-            if (cl == null) {
-                // getClassLoader() returning null indicates the bootstrap ClassLoader
-                try {
-                    cl = ClassLoader.getSystemClassLoader();
-                }
-                catch (Exception ex) {
-                    // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
-                }
+            try {
+                classLoader = ClassUtils.class.getClassLoader();
+            }
+            catch (Exception ex) {
+                // Cannot access class loader of this class.
             }
         }
 
-        return cl;
+        if (classLoader == null) {
+            // getClassLoader() returning null indicates the bootstrap ClassLoader
+            try {
+                classLoader = ClassLoader.getSystemClassLoader();
+            }
+            catch (Exception ex) {
+                // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+            }
+        }
+
+        return classLoader;
     }
 
     /**
