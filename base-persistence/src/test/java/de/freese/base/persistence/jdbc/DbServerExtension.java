@@ -1,6 +1,8 @@
 // Created: 14.06.2019
 package de.freese.base.persistence.jdbc;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.Objects;
@@ -85,15 +87,15 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         switch (getDatabaseType()) {
             case HSQL:
             case H2:
-                //                try (Connection connection = this.dataSource.getConnection();
-                //                     Statement statement = connection.createStatement())
-                //                {
-                //                    statement.execute("SHUTDOWN");
-                //                }
-                //                catch (Exception ex)
-                //                {
-                //                    LOGGER.error(ex.getMessage());
-                //                }
+                // Handled already by hsql with 'shutdown=true'.
+                try (Connection connection = this.dataSource.getConnection();
+                     Statement statement = connection.createStatement()) {
+                    statement.execute("SHUTDOWN COMPACT");
+                }
+                catch (Exception ex) {
+                    LOGGER.error(ex.getMessage());
+                }
+
                 break;
 
             case DERBY:
