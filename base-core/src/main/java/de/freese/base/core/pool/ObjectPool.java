@@ -8,11 +8,13 @@ import java.util.NoSuchElementException;
  *
  * @author Thomas Freese
  */
-public interface ObjectPool<T> {
+public interface ObjectPool<T> extends AutoCloseable {
+    void free(T object);
+
     /**
-     * @throws NoSuchElementException if Pool is depleted
+     * @throws NoSuchElementException if Pool is depleted/exhausted
      */
-    T borrowObject();
+    T get();
 
     int getNumActive();
 
@@ -21,8 +23,4 @@ public interface ObjectPool<T> {
     default int getTotalSize() {
         return getNumActive() + getNumIdle();
     }
-
-    void returnObject(T object);
-
-    void shutdown();
 }

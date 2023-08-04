@@ -1,50 +1,44 @@
 // Created: 10.04.2020
 package de.freese.base.core.pool;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * <a href="https://github.com/EsotericSoftware/kryo/blob/master/src/com/esotericsoftware/kryo/util/Pool.java">Kryo Pool</a>
- *
  * @author Thomas Freese
  */
-public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger("ObjectPool");
+public abstract class AbstractObjectPool<T> extends AbstractPool<T> {
+
+    public static void main(String[] args) {
+        try (ObjectPool<Long> pool = new AbstractObjectPool<>() {
+            @Override
+            protected Long create() {
+                return System.nanoTime();
+            }
+        }) {
+            for (int i = 0; i < 10; i++) {
+                Long value = pool.get();
+                System.out.println(value);
+                pool.free(value);
+            }
+        }
+        catch (Exception ex) {
+            // Ignore
+        }
+    }
 
     private final Set<T> busy = Collections.synchronizedSet(new HashSet<>());
 
-    private final Queue<T> freeObjects;
+    private final Queue<T> freeObjects = new ConcurrentLinkedQueue<>();
 
     protected AbstractObjectPool() {
         super();
 
-        this.freeObjects = new LinkedBlockingQueue<>(Integer.MAX_VALUE);
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown, "ObjectPool-" + getClass().getSimpleName()));
-    }
-
-    @Override
-    public T borrowObject() {
-        T object = this.freeObjects.poll();
-
-        if (object == null) {
-            object = create();
-        }
-
-        doActivate(object);
-
-        this.busy.add(object);
-
-        return object;
+        //        Runtime.getRuntime().addShutdownHook(new Thread(this::close, "ObjectPool-" + getClass().getSimpleName()));
     }
 
     @Override
@@ -57,23 +51,17 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         return this.freeObjects.size();
     }
 
-    @Override
-    public void returnObject(final T object) {
-        if (object == null) {
-            return;
-        }
+    protected abstract T create();
 
-        doPassivate(object);
-
-        this.freeObjects.offer(object);
-
-        this.busy.remove(object);
+    /**
+     * Executed in {@link #get()}.
+     */
+    protected void doActivate(final T object) {
+        // Empty
     }
 
     @Override
-    public void shutdown() {
-        LOGGER.info("Close {}", this);
-
+    protected void doClose() {
         while (!this.freeObjects.isEmpty()) {
             T object = this.freeObjects.poll();
 
@@ -89,69 +77,41 @@ public abstract class AbstractObjectPool<T> implements ObjectPool<T> {
         }
     }
 
-    @Override
-    public String toString() {
-        String clazzName = null;
-
-        try {
-            clazzName = tryDetermineType().getSimpleName();
-        }
-        catch (Exception ex) {
-            T object = borrowObject();
-
-            if (object != null) {
-                clazzName = object.getClass().getSimpleName();
-
-                returnObject(object);
-            }
-        }
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(getClass().getSimpleName());
-        builder.append("<").append(clazzName).append(">");
-        builder.append(": ");
-        builder.append("idle = ").append(getNumIdle());
-        builder.append(", active = ").append(getNumActive());
-
-        return builder.toString();
-    }
-
-    protected abstract T create();
-
     /**
-     * Executed in {@link #borrowObject()}.
-     */
-    protected void doActivate(final T object) {
-        // Empty
-    }
-
-    /**
-     * Executed in {@link #shutdown()}.
+     * Executed in {@link #close()}.
      */
     protected void doDestroy(final T object) {
         // Empty
     }
 
-    /**
-     * Executed in {@link #returnObject(Object)}.
-     */
-    protected void doPassivate(final T object) {
-        // Empty
+    @Override
+    protected void doFree(final T object) {
+        doPassivate(object);
+
+        this.freeObjects.offer(object);
+
+        this.busy.remove(object);
+    }
+
+    @Override
+    protected T doGet() {
+        T object = this.freeObjects.poll();
+
+        if (object == null) {
+            object = create();
+        }
+
+        doActivate(object);
+
+        this.busy.add(object);
+
+        return object;
     }
 
     /**
-     * This works only, if the Super-Class is not generic too !
-     *
-     * <pre>
-     * {@code
-     * public class MyObjectPool extends AbstractObjectPool<Integer>
-     * }
-     * </pre>
+     * Executed in {@link #free(Object)}.
      */
-    @SuppressWarnings("unchecked")
-    protected Class<T> tryDetermineType() throws ClassCastException {
-        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
-
-        return (Class<T>) parameterizedType.getActualTypeArguments()[0];
+    protected void doPassivate(final T object) {
+        // Empty
     }
 }
