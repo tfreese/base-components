@@ -46,7 +46,7 @@ public class DatabasePopulator {
                         LOGGER.debug(sql);
                     }
 
-                    statement.execute(sql);
+                    statement.execute(sql.replace(";", ""));
 
                     // int rowsAffected = statement.getUpdateCount();
                     //
@@ -79,7 +79,9 @@ public class DatabasePopulator {
 
         if ((fileLines == null) && (script != null)) {
             // InputStream inputStream = getClass().getClassLoader().getResourceAsStream(script);
-            try (InputStream inputStream = script.openStream(); InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8); BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+            try (InputStream inputStream = script.openStream();
+                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
                 fileLines = bufferedReader.lines().toList();
             }
         }
@@ -107,13 +109,13 @@ public class DatabasePopulator {
         List<String> sqls = new ArrayList<>();
         sqls.add(scriptLines.get(0));
 
-        // SQLs sind immer mit einem ';' abgeschlossen.
+        // SQLs ending with ';'.
         for (int i = 1; i < scriptLines.size(); i++) {
             String prevSql = sqls.get(sqls.size() - 1);
             String line = scriptLines.get(i);
 
             if (!prevSql.endsWith(";")) {
-                sqls.set(sqls.size() - 1, prevSql + " " + line);
+                sqls.set(sqls.size() - 1, prevSql + line);
             }
             else {
                 sqls.add(line);
