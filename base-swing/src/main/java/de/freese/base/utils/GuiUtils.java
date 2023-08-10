@@ -28,21 +28,15 @@ public final class GuiUtils {
     /**
      * @author Thomas Freese
      */
-    private static class ToolBarSeparator extends JPanel {
+    private static final class ToolBarSeparator extends JPanel {
         @Serial
         private static final long serialVersionUID = -7069549788210052499L;
 
-        /**
-         * @see javax.swing.JComponent#getPreferredSize()
-         */
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(16, 1);
         }
 
-        /**
-         * @see javax.swing.JComponent#paint(java.awt.Graphics)
-         */
         @Override
         public void paint(final Graphics g) {
             // Empty

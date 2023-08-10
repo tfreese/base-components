@@ -28,10 +28,7 @@ public class TableColumnSorter {
     /**
      * @author Thomas Freese
      */
-    private class HeaderMouseListener extends MouseAdapter {
-        /**
-         * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
-         */
+    private final class HeaderMouseListener extends MouseAdapter {
         @Override
         public void mouseClicked(final MouseEvent e) {
             if (!getTable().isSortable()) {

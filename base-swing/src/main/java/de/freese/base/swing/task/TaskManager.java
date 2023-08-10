@@ -16,10 +16,7 @@ public class TaskManager {
     /**
      * @author Thomas Freese
      */
-    private class ForegroundTaskPCL implements PropertyChangeListener {
-        /**
-         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-         */
+    private final class ForegroundTaskPCL implements PropertyChangeListener {
         @Override
         public void propertyChange(final PropertyChangeEvent event) {
             firePropertyChange(event);
@@ -40,10 +37,7 @@ public class TaskManager {
     /**
      * @author Thomas Freese
      */
-    private class TaskPCL implements PropertyChangeListener {
-        /**
-         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-         */
+    private final class TaskPCL implements PropertyChangeListener {
         @Override
         public void propertyChange(final PropertyChangeEvent event) {
             AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();

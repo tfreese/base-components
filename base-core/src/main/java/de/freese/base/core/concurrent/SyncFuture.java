@@ -19,17 +19,11 @@ public class SyncFuture<T> implements Future<T> {
 
     private T result;
 
-    /**
-     * @see java.util.concurrent.Future#cancel(boolean)
-     */
     @Override
     public boolean cancel(final boolean mayInterruptIfRunning) {
         return false;
     }
 
-    /**
-     * @see java.util.concurrent.Future#get()
-     */
     @Override
     public T get() throws InterruptedException, ExecutionException {
         this.latch.await();
@@ -37,9 +31,6 @@ public class SyncFuture<T> implements Future<T> {
         return this.result;
     }
 
-    /**
-     * @see java.util.concurrent.Future#get(long, java.util.concurrent.TimeUnit)
-     */
     @Override
     public T get(final long timeout, final TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         if (this.latch.await(timeout, unit)) {
@@ -53,17 +44,11 @@ public class SyncFuture<T> implements Future<T> {
         return this.startTime;
     }
 
-    /**
-     * @see java.util.concurrent.Future#isCancelled()
-     */
     @Override
     public boolean isCancelled() {
         return false;
     }
 
-    /**
-     * @see java.util.concurrent.Future#isDone()
-     */
     @Override
     public boolean isDone() {
         return this.result != null;

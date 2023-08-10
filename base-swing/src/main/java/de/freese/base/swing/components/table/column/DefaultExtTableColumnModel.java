@@ -28,13 +28,10 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     @Serial
     private static final long serialVersionUID = 7120329832987702244L;
 
-    private class VisibilityListener implements PropertyChangeListener, Serializable {
+    private final class VisibilityListener implements PropertyChangeListener, Serializable {
         @Serial
         private static final long serialVersionUID = -5146125743167750699L;
 
-        /**
-         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-         */
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
             if ("visible".equals(evt.getPropertyName())) {
@@ -67,9 +64,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      */
     private final VisibilityListener visibilityListener = new VisibilityListener();
 
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#addColumn(javax.swing.table.TableColumn)
-     */
     @Override
     public void addColumn(final TableColumn aColumn) {
         // hacking to guarantee correct events
@@ -96,9 +90,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         }
     }
 
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#addColumnModelListener(javax.swing.event.TableColumnModelListener)
-     */
     @Override
     public void addColumnModelListener(final TableColumnModelListener listener) {
         super.addColumnModelListener(listener);
@@ -108,9 +99,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         }
     }
 
-    /**
-     * @see ExtTableColumnModel#getColumnCount(boolean)
-     */
     @Override
     public int getColumnCount(final boolean includeHidden) {
         if (includeHidden) {
@@ -120,9 +108,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         return getColumnCount();
     }
 
-    /**
-     * @see ExtTableColumnModel#getColumnExt(int)
-     */
     @Override
     public ExtTableColumn getColumnExt(final int columnIndex) {
         TableColumn column = getColumn(columnIndex);
@@ -134,9 +119,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         return null;
     }
 
-    /**
-     * @see ExtTableColumnModel#getColumnExt(java.lang.Object)
-     */
     @Override
     public ExtTableColumn getColumnExt(final Object identifier) {
         for (TableColumn column : this.initialColumns) {
@@ -148,9 +130,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         return null;
     }
 
-    /**
-     * @see ExtTableColumnModel#getColumns(boolean)
-     */
     @Override
     public List<TableColumn> getColumns(final boolean includeHidden) {
         if (includeHidden) {
@@ -196,9 +175,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         return Boolean.TRUE.equals(((ExtTableColumn) this.currentColumns.get(oldIndex)).getClientProperty(IGNORE_EVENT));
     }
 
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#moveColumn(int, int)
-     */
     @Override
     public void moveColumn(final int columnIndex, final int newIndex) {
         if (columnIndex != newIndex) {
@@ -208,9 +184,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         super.moveColumn(columnIndex, newIndex);
     }
 
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         super.propertyChange(evt);
@@ -218,9 +191,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         fireColumnPropertyChange(evt);
     }
 
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#removeColumn(javax.swing.table.TableColumn)
-     */
     @Override
     public void removeColumn(final TableColumn column) {
         if (column instanceof ExtTableColumn c) {
@@ -233,9 +203,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         super.removeColumn(column);
     }
 
-    /**
-     * @see javax.swing.table.DefaultTableColumnModel#removeColumnModelListener(javax.swing.event.TableColumnModelListener)
-     */
     @Override
     public void removeColumnModelListener(final TableColumnModelListener listener) {
         super.removeColumnModelListener(listener);

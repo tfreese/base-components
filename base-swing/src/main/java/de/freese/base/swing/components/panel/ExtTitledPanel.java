@@ -29,10 +29,7 @@ public class ExtTitledPanel extends JXTitledPanel {
      *
      * @author Thomas Freese
      */
-    private class ButtonEnabledPropertyChangeListener implements PropertyChangeListener {
-        /**
-         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-         */
+    private final class ButtonEnabledPropertyChangeListener implements PropertyChangeListener {
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
             repaint();

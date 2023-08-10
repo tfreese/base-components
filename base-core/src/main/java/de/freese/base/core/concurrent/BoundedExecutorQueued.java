@@ -35,9 +35,6 @@ public class BoundedExecutorQueued implements Executor {
         this.rateLimiter = new Semaphore(parallelism, true);
     }
 
-    /**
-     * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
-     */
     @Override
     public void execute(final Runnable runnable) {
         if (runnable == null) {

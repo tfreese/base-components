@@ -25,9 +25,6 @@ public class NamePreservingRunnable implements Runnable {
         this.runnableName = Objects.requireNonNull(runnableName, "runnableName required");
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         final Thread currentThread = Thread.currentThread();

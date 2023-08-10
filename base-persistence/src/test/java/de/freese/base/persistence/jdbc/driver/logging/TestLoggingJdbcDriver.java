@@ -53,7 +53,7 @@ class TestLoggingJdbcDriver {
     /**
      * @author Thomas Freese
      */
-    private static class BasicDataSourceConnectionPool implements ConnectionPool {
+    private static final class BasicDataSourceConnectionPool implements ConnectionPool {
         private final BasicDataSource dataSource;
 
         BasicDataSourceConnectionPool() {
@@ -65,38 +65,23 @@ class TestLoggingJdbcDriver {
             ConnectionPoolConfigurer.configureBasic(this.dataSource, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#close()
-         */
         @Override
         public void close() throws SQLException {
             this.dataSource.close();
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
-         */
         @Override
         public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
         }
     }
 
-    /**
-     * @author Thomas Freese
-     */
-    private static class DriverManagerConnectionPool implements ConnectionPool {
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#close()
-         */
+    private static final class DriverManagerConnectionPool implements ConnectionPool {
         @Override
         public void close() throws SQLException {
             // Empty
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
-         */
         @Override
         public Connection getConnection() throws SQLException {
             return DriverManager.getConnection(URL, "sa", null);
@@ -106,7 +91,7 @@ class TestLoggingJdbcDriver {
     /**
      * @author Thomas Freese
      */
-    private static class HikariConnectionPool implements ConnectionPool {
+    private static final class HikariConnectionPool implements ConnectionPool {
         private final HikariDataSource dataSource;
 
         HikariConnectionPool() {
@@ -119,17 +104,11 @@ class TestLoggingJdbcDriver {
             this.dataSource = new HikariDataSource(config);
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#close()
-         */
         @Override
         public void close() throws SQLException {
             this.dataSource.close();
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
-         */
         @Override
         public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
@@ -139,7 +118,7 @@ class TestLoggingJdbcDriver {
     /**
      * @author Thomas Freese
      */
-    private static class SpringSingleConnectionDataSource implements ConnectionPool {
+    private static final class SpringSingleConnectionDataSource implements ConnectionPool {
         private final SingleConnectionDataSource dataSource;
 
         SpringSingleConnectionDataSource() {
@@ -153,17 +132,11 @@ class TestLoggingJdbcDriver {
             this.dataSource.setSuppressClose(true);
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#close()
-         */
         @Override
         public void close() throws SQLException {
             this.dataSource.destroy();
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
-         */
         @Override
         public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();
@@ -173,7 +146,7 @@ class TestLoggingJdbcDriver {
     /**
      * @author Thomas Freese
      */
-    private static class TomcatConnectionPool implements ConnectionPool {
+    private static final class TomcatConnectionPool implements ConnectionPool {
         private final DataSource dataSource;
 
         TomcatConnectionPool() {
@@ -186,17 +159,11 @@ class TestLoggingJdbcDriver {
             this.dataSource = new DataSource(poolProperties);
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#close()
-         */
         @Override
         public void close() throws SQLException {
             this.dataSource.close();
         }
 
-        /**
-         * @see TestLoggingJdbcDriver.ConnectionPool#getConnection()
-         */
         @Override
         public Connection getConnection() throws SQLException {
             return this.dataSource.getConnection();

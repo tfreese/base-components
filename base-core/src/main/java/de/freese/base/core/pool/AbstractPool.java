@@ -70,7 +70,7 @@ public abstract class AbstractPool<T> implements ObjectPool<T> {
 
     protected abstract void doClose();
 
-    protected abstract void doFree(final T object);
+    protected abstract void doFree(T object);
 
     protected abstract T doGet();
 

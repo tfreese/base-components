@@ -25,7 +25,7 @@ public class ConfigureableDocument extends PlainDocument {
     @Serial
     private static final long serialVersionUID = 4200946186651706734L;
 
-    private static class DigitProcessor extends AbstractProcessor<DocumentContext> {
+    private static final class DigitProcessor extends AbstractProcessor<DocumentContext> {
         // private static final DecimalFormat FORMATTER = new DecimalFormat("###,###,##0");
 
         private boolean floatsAllowed;
@@ -36,9 +36,6 @@ public class ConfigureableDocument extends PlainDocument {
             setEnabled(false);
         }
 
-        /**
-         * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
-         */
         @Override
         public void execute(final DocumentContext context) throws Exception {
             String fullText = context.fullText;
@@ -99,7 +96,7 @@ public class ConfigureableDocument extends PlainDocument {
     /**
      * @author Thomas Freese
      */
-    private static class DocumentContext {
+    private static final class DocumentContext {
         private String currentText;
 
         private String fullText;
@@ -134,7 +131,7 @@ public class ConfigureableDocument extends PlainDocument {
     /**
      * @author Thomas Freese
      */
-    private static class LengthProcessor extends AbstractProcessor<DocumentContext> {
+    private static final class LengthProcessor extends AbstractProcessor<DocumentContext> {
         private int maxLength = Integer.MAX_VALUE;
 
         LengthProcessor() {
@@ -143,9 +140,6 @@ public class ConfigureableDocument extends PlainDocument {
             setEnabled(false);
         }
 
-        /**
-         * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
-         */
         @Override
         public void execute(final DocumentContext context) throws Exception {
             String fullText = context.fullText;
@@ -163,16 +157,13 @@ public class ConfigureableDocument extends PlainDocument {
     /**
      * @author Thomas Freese
      */
-    private static class UpperCaseProcessor extends AbstractProcessor<DocumentContext> {
+    private static final class UpperCaseProcessor extends AbstractProcessor<DocumentContext> {
         UpperCaseProcessor() {
             super();
 
             setEnabled(false);
         }
 
-        /**
-         * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
-         */
         @Override
         public void execute(final DocumentContext context) throws Exception {
             context.newText = context.newText.toUpperCase();
@@ -207,9 +198,6 @@ public class ConfigureableDocument extends PlainDocument {
         this.processorChain.addProcessor(this.upperCaseProcessor);
     }
 
-    /**
-     * @see javax.swing.text.Document#insertString(int, java.lang.String, javax.swing.text.AttributeSet)
-     */
     @Override
     public void insertString(final int offs, final String str, final AttributeSet a) throws BadLocationException {
         if (str == null) {

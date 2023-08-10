@@ -12,12 +12,9 @@ import java.io.OutputStream;
  * @author Thomas Freese
  */
 public final class XmlStorage {
-    private static class XMLExceptionListener implements ExceptionListener {
+    private static final class XMLExceptionListener implements ExceptionListener {
         private Exception exception;
 
-        /**
-         * @see java.beans.ExceptionListener#exceptionThrown(java.lang.Exception)
-         */
         @Override
         public void exceptionThrown(final Exception ex) {
             if (this.exception == null) {

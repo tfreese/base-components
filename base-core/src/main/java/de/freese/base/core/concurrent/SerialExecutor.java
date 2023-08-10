@@ -22,9 +22,6 @@ public class SerialExecutor implements Executor {
         this.delegate = Objects.requireNonNull(delegate, "delegate required");
     }
 
-    /**
-     * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
-     */
     @Override
     public synchronized void execute(final Runnable runnable) {
         this.queue.add(() -> {

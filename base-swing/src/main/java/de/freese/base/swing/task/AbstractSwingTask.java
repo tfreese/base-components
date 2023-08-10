@@ -44,10 +44,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      *
      * @author Thomas Freese
      */
-    private class SwingWorkerPCL implements PropertyChangeListener {
-        /**
-         * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-         */
+    private final class SwingWorkerPCL implements PropertyChangeListener {
         @Override
         public void propertyChange(final PropertyChangeEvent event) {
             String propertyName = event.getPropertyName();
@@ -249,9 +246,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     // getLogger().error(ex.getMessage(), ex);
     // }
 
-    /**
-     * @see javax.swing.SwingWorker#done()
-     */
     @Override
     protected final void done() {
         Runnable runnable = () -> {
@@ -307,9 +301,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
         return this.logger;
     }
 
-    /**
-     * @see javax.swing.SwingWorker#process(java.util.List)
-     */
     @Override
     protected void process(final List<V> chunks) {
         firePropertyChange(PROPERTY_PROCESS, null, chunks);

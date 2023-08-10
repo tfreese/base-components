@@ -28,7 +28,7 @@ public class ExtComboBox<T> extends JComboBox<T> {
     /**
      * @author Thomas Freese
      */
-    private static class AutoWidthComboBoxUI<T> extends MetalComboBoxUI {
+    private static final class AutoWidthComboBoxUI<T> extends MetalComboBoxUI {
         /**
          * @author Thomas Freese
          */
@@ -41,9 +41,6 @@ public class ExtComboBox<T> extends JComboBox<T> {
                 super((JComboBox<Object>) comboBox);
             }
 
-            /**
-             * @see javax.swing.plaf.basic.BasicComboPopup#computePopupBounds(int, int, int, int)
-             */
             @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             protected Rectangle computePopupBounds(final int px, final int py, final int pw, final int ph) {
@@ -76,9 +73,6 @@ public class ExtComboBox<T> extends JComboBox<T> {
                 return rect;
             }
 
-            /**
-             * @see javax.swing.plaf.basic.BasicComboPopup#configureList()
-             */
             @Override
             protected void configureList() {
                 super.configureList();
@@ -87,9 +81,6 @@ public class ExtComboBox<T> extends JComboBox<T> {
                 this.list.setBackground(UIManager.getColor("MenuItem.background"));
             }
 
-            /**
-             * @see javax.swing.plaf.basic.BasicComboPopup#configureScroller()
-             */
             @Override
             protected void configureScroller() {
                 super.configureScroller();
@@ -98,9 +89,6 @@ public class ExtComboBox<T> extends JComboBox<T> {
             }
         }
 
-        /**
-         * @see javax.swing.plaf.metal.MetalComboBoxUI#createPopup()
-         */
         @SuppressWarnings("unchecked")
         @Override
         protected ComboPopup createPopup() {
@@ -151,9 +139,6 @@ public class ExtComboBox<T> extends JComboBox<T> {
         this.fireOnNull = fireOnNull;
     }
 
-    /**
-     * @see javax.swing.JComboBox#selectedItemChanged()
-     */
     @Override
     protected void selectedItemChanged() {
         if (this.selectedItemReminder != null) {

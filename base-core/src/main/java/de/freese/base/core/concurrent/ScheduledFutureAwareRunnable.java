@@ -30,7 +30,9 @@ public class ScheduledFutureAwareRunnable implements Runnable {
     private final BooleanSupplier exitCondition;
 
     private final String name;
+
     private final Runnable task;
+
     private ScheduledFuture<?> scheduledFuture;
 
     public ScheduledFutureAwareRunnable(final BooleanSupplier exitCondition, final Runnable task) {
@@ -48,9 +50,6 @@ public class ScheduledFutureAwareRunnable implements Runnable {
         this.name = name;
     }
 
-    /**
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         if (this.exitCondition.getAsBoolean()) {

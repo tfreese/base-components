@@ -21,10 +21,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     /**
      * @author Thomas Freese
      */
-    private class ListSelectionHandler implements ListSelectionListener {
-        /**
-         * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
-         */
+    private final class ListSelectionHandler implements ListSelectionListener {
         @Override
         public void valueChanged(final ListSelectionEvent e) {
             updateSelectedPathsFromSelectedRows();
@@ -34,13 +31,10 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     /**
      * @author Thomas Freese
      */
-    private class ThisListSelectionModel extends DefaultListSelectionModel {
+    private final class ThisListSelectionModel extends DefaultListSelectionModel {
         @Serial
         private static final long serialVersionUID = 1564334781623965506L;
 
-        /**
-         * @see javax.swing.DefaultListSelectionModel#setSelectionMode(int)
-         */
         @Override
         public void setSelectionMode(final int selectionMode) {
             super.setSelectionMode(selectionMode);
@@ -103,9 +97,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
         // paths are the only thing that needs to be updated.
     }
 
-    /**
-     * @see javax.swing.tree.DefaultTreeSelectionModel#setSelectionMode(int)
-     */
     @Override
     public void setSelectionMode(final int mode) {
         updateTreeSelectionMode(mode);

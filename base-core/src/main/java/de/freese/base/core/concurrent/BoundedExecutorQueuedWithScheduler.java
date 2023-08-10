@@ -21,10 +21,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
     /**
      * @author Thomas Freese
      */
-    private class QueueScheduler implements Runnable {
-        /**
-         * @see java.lang.Thread#run()
-         */
+    private final class QueueScheduler implements Runnable {
         @Override
         public void run() {
             while (!Thread.interrupted()) {
@@ -95,9 +92,6 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
         delegate.execute(new QueueScheduler());
     }
 
-    /**
-     * @see java.util.concurrent.Executor#execute(java.lang.Runnable)
-     */
     @Override
     public void execute(final Runnable runnable) {
         if (runnable == null) {
