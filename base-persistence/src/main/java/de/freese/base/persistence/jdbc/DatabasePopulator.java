@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.sql.DataSource;
@@ -29,15 +32,15 @@ import org.slf4j.LoggerFactory;
 public class DatabasePopulator {
     public static final Logger LOGGER = LoggerFactory.getLogger(DatabasePopulator.class);
 
-    private final List<URL> scripts = new ArrayList<>();
+    private final List<URL> scriptUrls = new ArrayList<>();
 
-    public void addScript(final URL script) {
-        this.scripts.add(script);
+    public void addScript(final URL scriptUrl) {
+        this.scriptUrls.add(scriptUrl);
     }
 
     public void populate(final Connection connection) throws Exception {
-        for (URL script : this.scripts) {
-            List<String> sqls = getScriptSQLs(script);
+        for (URL scriptUrl : this.scriptUrls) {
+            List<String> sqls = parseSQLs(scriptUrl);
 
             // sqls.forEach(System.out::println);
             try (Statement statement = connection.createStatement()) {
@@ -46,7 +49,7 @@ public class DatabasePopulator {
                         LOGGER.debug(sql);
                     }
 
-                    statement.execute(sql.replace(";", ""));
+                    statement.execute(sql);
 
                     // int rowsAffected = statement.getUpdateCount();
                     //
@@ -62,12 +65,30 @@ public class DatabasePopulator {
         }
     }
 
-    protected List<String> getScriptLines(final URL script) throws Exception {
+    protected List<String> parseSQLs(final URL scriptUrl) throws Exception {
+        String sqlScript = parseScript(scriptUrl);
+
+        List<String> sqls = new ArrayList<>();
+
+        // SQLs ending with ';'.
+        try (Scanner scanner = new Scanner(sqlScript)) {
+            scanner.useDelimiter(";");
+
+            while (scanner.hasNext()) {
+                String sql = scanner.next().strip();
+                sqls.add(sql);
+            }
+        }
+
+        return sqls;
+    }
+
+    protected String parseScript(final URL scriptUrl) throws Exception {
         List<String> fileLines = null;
 
-        if (script != null) {
+        if (scriptUrl != null) {
             // Funktioniert nicht, wenn die Skripte in einem anderen Archiv liegen.
-            Path path = Paths.get(script.toURI());
+            Path path = Paths.get(scriptUrl.toURI());
 
             try (Stream<String> lines = Files.lines(path)) {
                 fileLines = lines.toList();
@@ -77,9 +98,9 @@ public class DatabasePopulator {
             }
         }
 
-        if ((fileLines == null) && (script != null)) {
+        if ((fileLines == null) && (scriptUrl != null)) {
             // InputStream inputStream = getClass().getClassLoader().getResourceAsStream(script);
-            try (InputStream inputStream = script.openStream();
+            try (InputStream inputStream = scriptUrl.openStream();
                  InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                  BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
                 fileLines = bufferedReader.lines().toList();
@@ -87,41 +108,19 @@ public class DatabasePopulator {
         }
 
         if (fileLines == null) {
-            return new ArrayList<>();
+            throw new IllegalStateException("no SQLs found");
         }
 
         // @formatter:off
         return fileLines.stream()
-                .map(String::strip)
+                .filter(Objects::nonNull)
                 .filter(l -> !l.isEmpty())
                 .filter(l -> !l.startsWith("--"))
                 .filter(l -> !l.startsWith("#"))
-                .map(l -> l.replace("\n", " ").replace("\r", " "))
                 .map(String::strip)
-                .toList()
+                .filter(l -> !l.isEmpty())
+                .collect(Collectors.joining(" "))
                 ;
         // @formatter:on
-    }
-
-    protected List<String> getScriptSQLs(final URL script) throws Exception {
-        List<String> scriptLines = getScriptLines(script);
-
-        List<String> sqls = new ArrayList<>();
-        sqls.add(scriptLines.get(0));
-
-        // SQLs ending with ';'.
-        for (int i = 1; i < scriptLines.size(); i++) {
-            String prevSql = sqls.get(sqls.size() - 1);
-            String line = scriptLines.get(i);
-
-            if (!prevSql.endsWith(";")) {
-                sqls.set(sqls.size() - 1, prevSql + line);
-            }
-            else {
-                sqls.add(line);
-            }
-        }
-
-        return sqls;
     }
 }
