@@ -27,11 +27,6 @@ public class SimpleTransactionHandler implements TransactionHandler {
 
         Connection connection = getConnection(dataSource);
 
-        // Change ReadOnly Flag, works only outside a Transaction.
-        if (connection.isReadOnly()) {
-            connection.setReadOnly(false);
-        }
-
         if (connection.getAutoCommit()) {
             connection.setAutoCommit(false);
         }

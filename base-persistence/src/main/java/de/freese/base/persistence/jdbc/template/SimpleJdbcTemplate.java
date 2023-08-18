@@ -155,12 +155,14 @@ public class SimpleJdbcTemplate {
         return query(sql, new ColumnMapRowMapper(), (PreparedStatementSetter) null);
     }
 
-    public <T> T query(final CharSequence sql, final ResultSetExtractor<T> rse) {
-        return query(sql, rse, (PreparedStatementSetter) null);
-    }
-
     public <T> T query(final CharSequence sql, final ResultSetExtractor<T> rse, final Object... params) {
-        return query(sql, rse, new ArgumentPreparedStatementSetter(params));
+        PreparedStatementSetter pss = null;
+
+        if (params != null && params.length > 0) {
+            pss = new ArgumentPreparedStatementSetter(params);
+        }
+
+        return query(sql, rse, pss);
     }
 
     public <T> T query(final CharSequence sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss) {
@@ -191,12 +193,14 @@ public class SimpleJdbcTemplate {
         return execute(sc, action, true);
     }
 
-    public <T> List<T> query(final CharSequence sql, final RowMapper<T> rowMapper) {
-        return query(sql, rowMapper, (PreparedStatementSetter) null);
-    }
-
     public <T> List<T> query(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        return query(sql, rowMapper, new ArgumentPreparedStatementSetter(params));
+        PreparedStatementSetter pss = null;
+
+        if (params != null && params.length > 0) {
+            pss = new ArgumentPreparedStatementSetter(params);
+        }
+
+        return query(sql, rowMapper, pss);
     }
 
     public <T> List<T> query(final CharSequence sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
@@ -206,15 +210,14 @@ public class SimpleJdbcTemplate {
     /**
      * @see #queryAsFlux(CharSequence, RowMapper, PreparedStatementSetter)
      */
-    public <T> Flux<T> queryAsFlux(final CharSequence sql, final RowMapper<T> rowMapper) {
-        return queryAsFlux(sql, rowMapper, (PreparedStatementSetter) null);
-    }
-
-    /**
-     * @see #queryAsFlux(CharSequence, RowMapper, PreparedStatementSetter)
-     */
     public <T> Flux<T> queryAsFlux(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        return queryAsFlux(sql, rowMapper, new ArgumentPreparedStatementSetter(params));
+        PreparedStatementSetter pss = null;
+
+        if (params != null && params.length > 0) {
+            pss = new ArgumentPreparedStatementSetter(params);
+        }
+
+        return queryAsFlux(sql, rowMapper, pss);
     }
 
     /**
@@ -271,15 +274,14 @@ public class SimpleJdbcTemplate {
     /**
      * @see #queryAsPublisher(CharSequence, RowMapper, PreparedStatementSetter)
      */
-    public <T> Publisher<T> queryAsPublisher(final CharSequence sql, final RowMapper<T> rowMapper) {
-        return queryAsPublisher(sql, rowMapper, (PreparedStatementSetter) null);
-    }
-
-    /**
-     * @see #queryAsPublisher(CharSequence, RowMapper, PreparedStatementSetter)
-     */
     public <T> Publisher<T> queryAsPublisher(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        return queryAsPublisher(sql, rowMapper, new ArgumentPreparedStatementSetter(params));
+        PreparedStatementSetter pss = null;
+
+        if (params != null && params.length > 0) {
+            pss = new ArgumentPreparedStatementSetter(params);
+        }
+
+        return queryAsPublisher(sql, rowMapper, pss);
     }
 
     /**
@@ -324,15 +326,14 @@ public class SimpleJdbcTemplate {
     /**
      * @see #queryAsStream(CharSequence, RowMapper, PreparedStatementSetter)
      */
-    public <T> Stream<T> queryAsStream(final CharSequence sql, final RowMapper<T> rowMapper) {
-        return queryAsStream(sql, rowMapper, (PreparedStatementSetter) null);
-    }
-
-    /**
-     * @see #queryAsStream(CharSequence, RowMapper, PreparedStatementSetter)
-     */
     public <T> Stream<T> queryAsStream(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        return queryAsStream(sql, rowMapper, new ArgumentPreparedStatementSetter(params));
+        PreparedStatementSetter pss = null;
+
+        if (params != null && params.length > 0) {
+            pss = new ArgumentPreparedStatementSetter(params);
+        }
+
+        return queryAsStream(sql, rowMapper, pss);
     }
 
     /**
@@ -402,17 +403,14 @@ public class SimpleJdbcTemplate {
      *
      * @return int; affectedRows
      */
-    public int update(final CharSequence sql) {
-        return update(sql, (PreparedStatementSetter) null);
-    }
-
-    /**
-     * INSERT, UPDATE, DELETE
-     *
-     * @return int; affectedRows
-     */
     public int update(final CharSequence sql, final Object... params) {
-        return update(sql, new ArgumentPreparedStatementSetter(params));
+        PreparedStatementSetter pss = null;
+
+        if (params != null && params.length > 0) {
+            pss = new ArgumentPreparedStatementSetter(params);
+        }
+
+        return update(sql, pss);
     }
 
     /**

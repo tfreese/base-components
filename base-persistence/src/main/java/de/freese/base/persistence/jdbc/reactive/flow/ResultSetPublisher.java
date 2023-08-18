@@ -15,7 +15,9 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 public class ResultSetPublisher<T> implements Publisher<T> {
 
     private final Consumer<ResultSet> doOnClose;
+    
     private final ResultSet resultSet;
+
     private final RowMapper<T> rowMapper;
 
     public ResultSetPublisher(final ResultSet resultSet, final RowMapper<T> rowMapper, Consumer<ResultSet> doOnClose) {

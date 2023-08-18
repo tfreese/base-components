@@ -15,6 +15,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class ResultSetIterator<T> implements Iterator<T> {
+    
     private final ResultSet resultSet;
 
     private final RowMapper<T> rowMapper;

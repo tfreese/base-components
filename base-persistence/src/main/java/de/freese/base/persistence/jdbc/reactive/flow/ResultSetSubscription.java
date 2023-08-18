@@ -18,9 +18,13 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  */
 public class ResultSetSubscription<T> implements Subscription {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscription.class);
+
     private final Consumer<ResultSet> doOnClose;
+
     private final RowMapper<T> rowMapper;
+
     private final Subscriber<? super T> subscriber;
+    
     private ResultSet resultSet;
 
     ResultSetSubscription(final ResultSet resultSet, final RowMapper<T> rowMapper, Consumer<ResultSet> doOnClose, final Subscriber<? super T> subscriber) {
