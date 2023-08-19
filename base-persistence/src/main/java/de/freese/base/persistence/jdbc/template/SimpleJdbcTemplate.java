@@ -79,27 +79,41 @@ public class SimpleJdbcTemplate {
     /**
      * {call my_procedure()};
      */
-    public void call(final String sql) {
-        call(sql, null);
+    public void call(final CharSequence sql) {
+        call(sql, null, null);
     }
 
     /**
      * {? = call my_procedure(?)};
      */
-    public boolean call(final CharSequence sql, final PreparedStatementSetter pss) {
+    public <T> T call(final CharSequence sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss) {
         StatementCreator<CallableStatement> sc = con -> createCallableStatement(con, sql);
-        StatementCallback<CallableStatement, Boolean> action = stmt -> {
+        StatementCallback<CallableStatement, T> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("call: {}", sql);
             }
 
-            stmt.clearParameters();
+            ResultSet resultSet = null;
 
-            if (pss != null) {
-                pss.setValues(stmt);
+            try {
+                stmt.clearParameters();
+
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                if (rse == null) {
+                    stmt.execute();
+                }
+                else {
+                    resultSet = stmt.executeQuery();
+
+                    return rse.extractData(resultSet);
+                }
             }
-
-            return stmt.execute();
+            finally {
+                close(resultSet);
+            }
         };
 
         return execute(sc, action, true);
@@ -312,6 +326,8 @@ public class SimpleJdbcTemplate {
             final Connection connection = stmt.getConnection();
 
             Consumer<ResultSet> doOnClose = rs -> {
+                getLogger().debug("close jdbc publisher");
+
                 close(rs);
                 close(stmt);
                 close(connection);

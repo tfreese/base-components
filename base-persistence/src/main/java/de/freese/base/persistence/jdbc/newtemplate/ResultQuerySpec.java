@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.concurrent.Flow;
 import java.util.stream.Stream;
 
-import org.springframework.jdbc.support.rowset.SqlRowSet;
+import javax.sql.RowSet;
+
 import reactor.core.publisher.Flux;
 
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
@@ -27,9 +28,7 @@ public interface ResultQuerySpec {
 
     <T> Flow.Publisher<T> publisher(RowMapper<T> rowMapper);
 
-    SqlRowSet rowSet();
-
-    Map<String, Object> singleRow();
+    RowSet rowSet();
 
     <T> Stream<T> stream(RowMapper<T> rowMapper);
 }

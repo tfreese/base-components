@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.jdbc.core.SqlTypeValue;
 
@@ -230,6 +231,12 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter 
         super();
 
         this.args = args;
+    }
+
+    public ArgumentPreparedStatementSetter(final List<Object> args) {
+        super();
+
+        this.args = args.toArray();
     }
 
     @Override
