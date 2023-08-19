@@ -108,7 +108,8 @@ class TestSqLite {
 
             connection.commit();
 
-            try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY")) {
+            try (Statement stmt = connection.createStatement();
+                 ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY")) {
                 while (rs.next()) {
                     Map<String, Object> row = new LinkedHashMap<>();
                     row.put("ID", rs.getInt("ID"));
@@ -153,7 +154,7 @@ class TestSqLite {
         transactionManager.commit(transactionStatus);
         // transactionManager.rollback(transactionStatus);
 
-        // SqlRowSet result = jdbcTemplate.query("SELECT * FROM COMPANY", new SqlRowSetResultSetExtractor());
+        // SqlRowSet result = jdbcTemplate.extract("SELECT * FROM COMPANY", new SqlRowSetResultSetExtractor());
         jdbcTemplate.query("SELECT * FROM COMPANY", rs -> {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("ID", rs.getInt("ID"));

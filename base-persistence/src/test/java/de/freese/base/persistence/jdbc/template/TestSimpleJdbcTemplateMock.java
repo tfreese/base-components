@@ -81,7 +81,7 @@ class TestSimpleJdbcTemplateMock {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Object> result = jdbcTemplate.queryAsFlux("some sql", rs -> rs.getObject(1)).collectList().block();
+        List<Object> result = jdbcTemplate.select("some sql").flux(rs -> rs.getObject(1)).collectList().block();
 
         assertEquals(2, result.size());
         assertEquals(11, result.get(0));
@@ -103,7 +103,7 @@ class TestSimpleJdbcTemplateMock {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Map<String, Object>> result = jdbcTemplate.query("some sql");
+        List<Map<String, Object>> result = jdbcTemplate.select("some sql").list();
 
         assertEquals(2, result.size());
         assertTrue(result.get(0).containsKey("COL"));
@@ -132,7 +132,7 @@ class TestSimpleJdbcTemplateMock {
             when(resultSet.next()).thenReturn(true, true, false);
             when(resultSet.getObject(1)).thenReturn(11, 22);
 
-            Flow.Publisher<Object> publisher = jdbcTemplate.queryAsPublisher("some sql", rs -> rs.getObject(1));
+            Flow.Publisher<Object> publisher = jdbcTemplate.select("some sql").publisher(rs -> rs.getObject(1));
 
             publisher.subscribe(subscriber);
 
@@ -157,7 +157,7 @@ class TestSimpleJdbcTemplateMock {
 
         List<Object> result = null;
 
-        try (Stream<Object> stream = jdbcTemplate.queryAsStream("some sql", rs -> rs.getObject(1))) {
+        try (Stream<Object> stream = jdbcTemplate.select("some sql").stream(rs -> rs.getObject(1))) {
             result = stream.toList();
         }
 
@@ -179,7 +179,7 @@ class TestSimpleJdbcTemplateMock {
     void testUpdate() throws Exception {
         when(preparedStatement.executeUpdate()).thenReturn(2);
 
-        int affectedRows = jdbcTemplate.update("some sql");
+        int affectedRows = jdbcTemplate.update("some sql").execute();
 
         assertEquals(2, affectedRows);
 
@@ -213,7 +213,7 @@ class TestSimpleJdbcTemplateMock {
     void testUpdateParameter() throws Exception {
         when(preparedStatement.executeUpdate()).thenReturn(2);
 
-        int affectedRows = jdbcTemplate.update("some sql", 1);
+        int affectedRows = jdbcTemplate.update("some sql").param(1).execute();
 
         assertEquals(2, affectedRows);
 
@@ -229,7 +229,7 @@ class TestSimpleJdbcTemplateMock {
     void testUpdateParameterNull() throws Exception {
         when(preparedStatement.executeUpdate()).thenReturn(2);
 
-        int affectedRows = jdbcTemplate.update("some sql", new Object[]{null});
+        int affectedRows = jdbcTemplate.update("some sql").param(null).execute();
 
         assertEquals(2, affectedRows);
 

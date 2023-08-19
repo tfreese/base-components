@@ -78,7 +78,7 @@ class TestSimpleJdbcTemplate {
         sql.append(" VALUES");
         sql.append(" (next value for person_seq, 'Freese', 'Thomas')");
 
-        int affectedRows = jdbcTemplate.update(sql);
+        int affectedRows = jdbcTemplate.update(sql).execute();
 
         assertEquals(1, affectedRows);
     }
@@ -113,7 +113,7 @@ class TestSimpleJdbcTemplate {
         sql.append(" VALUES");
         sql.append(" (?, ?, ?)");
 
-        // long id = jdbcTemplate.query("call next value for kontakt_seq", rs -> {
+        // long id = jdbcTemplate.extract("call next value for kontakt_seq", rs -> {
         // rs.next();
         //
         // return rs.getLong(1);
@@ -122,11 +122,11 @@ class TestSimpleJdbcTemplate {
 
         assertEquals(3L, id);
 
-        int affectedRows = jdbcTemplate.update(sql, ps -> {
+        int affectedRows = jdbcTemplate.update(sql).preparedStatementSetter(ps -> {
             ps.setLong(1, id);
             ps.setString(2, "LastName3");
             ps.setString(3, "FirstName3");
-        });
+        }).execute();
 
         assertEquals(1, affectedRows);
     }
@@ -137,7 +137,8 @@ class TestSimpleJdbcTemplate {
         sql.append("select * from PERSON order by LAST_NAME desc");
 
         List<Person> results = new ArrayList<>();
-        jdbcTemplate.query(sql, new RowMapperConsumableResultSetExtractor<>(new PersonRowMapper(), results::add));
+
+        jdbcTemplate.select(sql).extract(new RowMapperConsumableResultSetExtractor<>(new PersonRowMapper(), results::add));
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -158,7 +159,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux(sql, new PersonRowMapper());
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).flux(new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
         Flux<Person> flux = supplier.get();
@@ -187,7 +188,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Flux<Person> flux = jdbcTemplate.queryAsFlux(sql, new PersonRowMapper());
+        Flux<Person> flux = jdbcTemplate.select(sql).flux(new PersonRowMapper());
 
         // @formatter:off
         Disposable disposable = flux.parallel()
@@ -205,7 +206,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux(sql, new PersonRowMapper(), "LastName%");
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).param("LastName%").flux(new PersonRowMapper());
 
         Flux<Person> flux = supplier.get();
         assertEquals(2, flux.count().block());
@@ -232,7 +233,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.queryAsFlux(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).flux(new PersonRowMapper());
 
         Flux<Person> flux = supplier.get();
         assertEquals(2, flux.count().block());
@@ -257,7 +258,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by LAST_NAME desc");
 
-        List<Person> results = jdbcTemplate.query(sql, new PersonRowMapper());
+        List<Person> results = jdbcTemplate.select(sql).list(new PersonRowMapper());
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -276,7 +277,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        List<Person> results = jdbcTemplate.query(sql, new PersonRowMapper(), "LastName%");
+        List<Person> results = jdbcTemplate.select(sql).param("LastName%").list(new PersonRowMapper());
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -295,7 +296,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        List<Person> results = jdbcTemplate.query(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+        List<Person> results = jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).list(new PersonRowMapper());
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -314,7 +315,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON");
 
-        List<Map<String, Object>> results = jdbcTemplate.query(sql);
+        List<Map<String, Object>> results = jdbcTemplate.select(sql).list();
 
         assertNotNull(results);
         assertEquals(2, results.size());
@@ -330,66 +331,6 @@ class TestSimpleJdbcTemplate {
         // Values
         Map<String, Object> map = results.get(0);
 
-        assertEquals("1", map.get("ID").toString());
-        assertEquals("LastName1", map.get("LAST_NAME"));
-        assertEquals("FirstName1", map.get("FIRST_NAME"));
-    }
-
-    @Test
-    void testQueryAsMapPreparedParam() throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
-
-        List<Map<String, Object>> results = jdbcTemplate.query(sql, new ColumnMapRowMapper(), "LastName%");
-
-        assertNotNull(results);
-        assertEquals(2, results.size());
-
-        // ColumnNames
-        Set<String> columnNames = results.get(0).keySet();
-        Iterator<String> nameIterator = columnNames.iterator();
-
-        assertEquals("ID", nameIterator.next());
-        assertEquals("LAST_NAME", nameIterator.next());
-        assertEquals("FIRST_NAME", nameIterator.next());
-
-        // Values
-        Map<String, Object> map = results.get(0);
-        assertEquals("2", map.get("ID").toString());
-        assertEquals("LastName2", map.get("LAST_NAME"));
-        assertEquals("FirstName2", map.get("FIRST_NAME"));
-
-        map = results.get(1);
-        assertEquals("1", map.get("ID").toString());
-        assertEquals("LastName1", map.get("LAST_NAME"));
-        assertEquals("FirstName1", map.get("FIRST_NAME"));
-    }
-
-    @Test
-    void testQueryAsMapPreparedSetter() throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
-
-        List<Map<String, Object>> results = jdbcTemplate.query(sql, new ColumnMapRowMapper(), ps -> ps.setString(1, "LastName%"));
-
-        assertNotNull(results);
-        assertEquals(2, results.size());
-
-        // ColumnNames
-        Set<String> columnNames = results.get(0).keySet();
-        Iterator<String> nameIterator = columnNames.iterator();
-
-        assertEquals("ID", nameIterator.next());
-        assertEquals("LAST_NAME", nameIterator.next());
-        assertEquals("FIRST_NAME", nameIterator.next());
-
-        // Values
-        Map<String, Object> map = results.get(0);
-        assertEquals("2", map.get("ID").toString());
-        assertEquals("LastName2", map.get("LAST_NAME"));
-        assertEquals("FirstName2", map.get("FIRST_NAME"));
-
-        map = results.get(1);
         assertEquals("1", map.get("ID").toString());
         assertEquals("LastName1", map.get("LAST_NAME"));
         assertEquals("FirstName1", map.get("FIRST_NAME"));
@@ -409,7 +350,7 @@ class TestSimpleJdbcTemplate {
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
-            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher(sql, new PersonRowMapper(), "LastName%");
+            Publisher<Person> publisher = jdbcTemplate.select(sql).param("LastName%").publisher(new PersonRowMapper());
             publisher.subscribe(subscriber);
 
             assertEquals(2, result.size());
@@ -440,7 +381,7 @@ class TestSimpleJdbcTemplate {
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
-            Publisher<Person> publisher = jdbcTemplate.queryAsPublisher(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+            Publisher<Person> publisher = jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).publisher(new PersonRowMapper());
             publisher.subscribe(subscriber);
 
             assertEquals(2, result.size());
@@ -464,7 +405,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).stream(new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
 
@@ -501,7 +442,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).stream(new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
             assertNotNull(stream);
@@ -521,7 +462,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper(), "LastName%");
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).param("LastName%").stream(new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
             assertEquals(2, stream.count());
@@ -551,7 +492,7 @@ class TestSimpleJdbcTemplate {
 
         jdbcTemplate.setFetchSize(1);
 
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.queryAsStream(sql, new PersonRowMapper(), ps -> ps.setString(1, "LastName%"));
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).stream(new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
             assertEquals(2, stream.count());
@@ -585,7 +526,7 @@ class TestSimpleJdbcTemplate {
         final List<Person> results;
 
         try {
-            results = jdbcTemplate.query(sql, new PersonRowMapper());
+            results = jdbcTemplate.select(sql).list(new PersonRowMapper());
         }
         finally {
             jdbcTemplate.setMaxRows(maxRows);
@@ -613,7 +554,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sqlSelect = new StringBuilder();
         sqlSelect.append("select * from PERSON order by LAST_NAME desc");
 
-        List<Person> results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        List<Person> results = jdbcTemplate.select(sqlSelect).list(new PersonRowMapper());
         assertNotNull(results);
         assertEquals(2, results.size());
 
@@ -622,26 +563,26 @@ class TestSimpleJdbcTemplate {
         Exception exception = assertThrows(SQLException.class, () -> jdbcTemplate.beginTransaction());
         assertEquals("Transaction already started", exception.getMessage());
 
-        int affectedRows = jdbcTemplate.update(sqlInsert, "a", "b");
+        int affectedRows = jdbcTemplate.update(sqlInsert).param("a").param("b").execute();
         assertEquals(1, affectedRows);
 
-        results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        results = jdbcTemplate.select(sqlSelect).list(new PersonRowMapper());
         assertNotNull(results);
         assertEquals(3, results.size());
 
         jdbcTemplate.commitTransaction();
 
         jdbcTemplate.beginTransaction();
-        affectedRows = jdbcTemplate.update(sqlInsert, "x", "y");
+        affectedRows = jdbcTemplate.update(sqlInsert).param("x").param("y").execute();
         assertEquals(1, affectedRows);
 
-        results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        results = jdbcTemplate.select(sqlSelect).list(new PersonRowMapper());
         assertNotNull(results);
         assertEquals(4, results.size());
 
         jdbcTemplate.rollbackTransaction();
 
-        results = jdbcTemplate.query(sqlSelect, new PersonRowMapper());
+        results = jdbcTemplate.select(sqlSelect).list(new PersonRowMapper());
         assertNotNull(results);
         assertEquals(3, results.size());
     }
@@ -657,7 +598,7 @@ class TestSimpleJdbcTemplate {
             id = rs.getLong(1);
         }
 
-        // long id = jdbcTemplate.query("call next value for kontakt_seq", rs -> {
+        // long id = jdbcTemplate.extract("call next value for kontakt_seq", rs -> {
         // rs.next();
         //
         // return rs.getLong(1);

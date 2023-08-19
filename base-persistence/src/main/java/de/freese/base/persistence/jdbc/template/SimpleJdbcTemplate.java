@@ -49,6 +49,243 @@ import de.freese.base.utils.JdbcUtils;
  * @author Thomas Freese
  */
 public class SimpleJdbcTemplate {
+    private abstract class AbstractJdbcBuilder<B extends AbstractJdbcBuilder> {
+        private final List<Object> params = new ArrayList<>();
+
+        private final CharSequence sql;
+
+        private PreparedStatementSetter preparedStatementSetter;
+
+        protected AbstractJdbcBuilder(final CharSequence sql) {
+            super();
+
+            this.sql = Objects.requireNonNull(sql, "sql required");
+        }
+
+        public B param(final Object param) {
+            params.add(param);
+
+            return (B) this;
+        }
+
+        public B preparedStatementSetter(final PreparedStatementSetter preparedStatementSetter) {
+            this.preparedStatementSetter = preparedStatementSetter;
+
+            return (B) this;
+        }
+
+        PreparedStatementSetter getPreparedStatementSetter() {
+            if (!params.isEmpty() && preparedStatementSetter != null) {
+                throw new IllegalStateException("use preparedStatementSetter or param, but not booth");
+            }
+
+            PreparedStatementSetter pss = preparedStatementSetter;
+
+            if (!params.isEmpty()) {
+                pss = new ArgumentPreparedStatementSetter(params);
+            }
+
+            return pss;
+        }
+
+        CharSequence getSql() {
+            return sql;
+        }
+    }
+
+    public class UpdateBuilder extends AbstractJdbcBuilder<UpdateBuilder> {
+        public UpdateBuilder(final CharSequence sql) {
+            super(sql);
+        }
+
+        public int execute() {
+            StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, getSql());
+            StatementCallback<PreparedStatement, Integer> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("update: {}", getSql());
+                }
+
+                stmt.clearParameters();
+
+                PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                return stmt.executeUpdate();
+            };
+
+            return SimpleJdbcTemplate.this.execute(sc, action, true);
+        }
+    }
+
+    public class SelectBuilder extends AbstractJdbcBuilder<SelectBuilder> {
+
+        public SelectBuilder(final CharSequence sql) {
+            super(sql);
+        }
+
+        public <T> T extract(final ResultSetExtractor<T> resultSetExtractor) {
+            return query(getSql(), resultSetExtractor, getPreparedStatementSetter());
+        }
+
+        /**
+         * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link Flux#doFinally}-Method.<br>
+         * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+         * Reuse is not possible, because the Resources are closed after first usage.<br>
+         * Example: <code>
+         * <pre>
+         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
+         * flux.subscribe(System.out::println);
+         * </pre>
+         * </code>
+         */
+        public <T> Flux<T> flux(final RowMapper<T> rowMapper) {
+            StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, getSql());
+            StatementCallback<PreparedStatement, Flux<T>> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("queryAsFlux: {}", getSql());
+                }
+
+                stmt.clearParameters();
+
+                PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                final ResultSet resultSet = stmt.executeQuery();
+                final Connection connection = stmt.getConnection();
+
+                return Flux.generate((final SynchronousSink<T> sink) -> {
+                    try {
+                        if (resultSet.next()) {
+                            sink.next(rowMapper.mapRow(resultSet));
+                        }
+                        else {
+                            sink.complete();
+                        }
+                    }
+                    catch (SQLException ex) {
+                        sink.error(ex);
+                    }
+                }).doFinally(state -> {
+                    getLogger().debug("close jdbc flux");
+
+                    close(resultSet);
+                    close(stmt);
+                    close(connection);
+                });
+            };
+
+            return execute(sc, action, false);
+        }
+
+        /**
+         * @return {@link List}; Map-Key = COLUMN_NAME in UpperCase
+         */
+        public List<Map<String, Object>> list() {
+            return list(new ColumnMapRowMapper());
+        }
+
+        public <T> List<T> list(final RowMapper<T> rowMapper) {
+            return extract(new RowMapperResultSetExtractor<>(rowMapper));
+        }
+
+        /**
+         * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link ResultSetSubscription}<br>
+         * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+         * Reuse is not possible, because the Resources are closed after first usage.<br>
+         * Example: <code>
+         * <pre>
+         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
+         * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
+         * </pre>
+         * </code>
+         */
+        public <T> Publisher<T> publisher(final RowMapper<T> rowMapper) {
+            StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, getSql());
+            StatementCallback<PreparedStatement, Publisher<T>> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("queryAsPublisher: {}", getSql());
+                }
+
+                stmt.clearParameters();
+
+                PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                final ResultSet resultSet = stmt.executeQuery();
+                final Connection connection = stmt.getConnection();
+
+                Consumer<ResultSet> doOnClose = rs -> {
+                    getLogger().debug("close jdbc publisher");
+
+                    close(rs);
+                    close(stmt);
+                    close(connection);
+                };
+
+                return new ResultSetPublisher<>(resultSet, rowMapper, doOnClose);
+            };
+
+            return execute(sc, action, false);
+        }
+
+        /**
+         * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in  {@link Stream#onClose}-Method.<br>
+         * {@link Stream#close}-Method MUST be called (try-resource).<br>
+         * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+         * Example: <code>
+         * <pre>
+         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
+         * {
+         *     stream.forEach(System.out::println);
+         * }
+         * </pre>
+         * </code>
+         */
+        public <T> Stream<T> stream(RowMapper<T> rowMapper) {
+            StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, getSql());
+            StatementCallback<PreparedStatement, Stream<T>> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("queryAsStream: {}", getSql());
+                }
+
+                stmt.clearParameters();
+
+                PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                final ResultSet resultSet = stmt.executeQuery();
+                final Connection connection = stmt.getConnection();
+
+                // @formatter:off
+                Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
+
+                return StreamSupport.stream(spliterator, false)
+                        .onClose(() -> {
+                            getLogger().debug("close jdbc stream");
+
+                            close(resultSet);
+                            close(stmt);
+                            close(connection);
+                        });
+                // @formatter:on
+            };
+
+            return execute(sc, action, false);
+        }
+    }
+
     private final DataSource dataSource;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -104,6 +341,8 @@ public class SimpleJdbcTemplate {
 
                 if (rse == null) {
                     stmt.execute();
+
+                    return null;
                 }
                 else {
                     resultSet = stmt.executeQuery();
@@ -163,27 +402,13 @@ public class SimpleJdbcTemplate {
     }
 
     /**
-     * @return {@link List}; Map-Key = COLUMN_NAME in UpperCase
+     * @param pss {@link PreparedStatementSetter}; optional
      */
-    public List<Map<String, Object>> query(final CharSequence sql) {
-        return query(sql, new ColumnMapRowMapper(), (PreparedStatementSetter) null);
-    }
-
-    public <T> T query(final CharSequence sql, final ResultSetExtractor<T> rse, final Object... params) {
-        PreparedStatementSetter pss = null;
-
-        if (params != null && params.length > 0) {
-            pss = new ArgumentPreparedStatementSetter(params);
-        }
-
-        return query(sql, rse, pss);
-    }
-
     public <T> T query(final CharSequence sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss) {
         StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
         StatementCallback<PreparedStatement, T> action = stmt -> {
             if (getLogger().isDebugEnabled()) {
-                getLogger().debug("query: {}", sql);
+                getLogger().debug("extract: {}", sql);
             }
 
             ResultSet resultSet = null;
@@ -207,199 +432,12 @@ public class SimpleJdbcTemplate {
         return execute(sc, action, true);
     }
 
-    public <T> List<T> query(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        PreparedStatementSetter pss = null;
-
-        if (params != null && params.length > 0) {
-            pss = new ArgumentPreparedStatementSetter(params);
-        }
-
-        return query(sql, rowMapper, pss);
-    }
-
-    public <T> List<T> query(final CharSequence sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        return query(sql, new RowMapperResultSetExtractor<>(rowMapper), pss);
-    }
-
-    /**
-     * @see #queryAsFlux(CharSequence, RowMapper, PreparedStatementSetter)
-     */
-    public <T> Flux<T> queryAsFlux(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        PreparedStatementSetter pss = null;
-
-        if (params != null && params.length > 0) {
-            pss = new ArgumentPreparedStatementSetter(params);
-        }
-
-        return queryAsFlux(sql, rowMapper, pss);
-    }
-
-    /**
-     * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link Flux#doFinally}-Method.<br>
-     * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
-     * Reuse is not possible, because the Resources are closed after first usage.<br>
-     * Example: <code>
-     * <pre>
-     * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
-     * flux.subscribe(System.out::println);
-     * </pre>
-     * </code>
-     */
-    public <T> Flux<T> queryAsFlux(final CharSequence sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
-        StatementCallback<PreparedStatement, Flux<T>> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("queryAsFlux: {}", sql);
-            }
-
-            stmt.clearParameters();
-
-            if (pss != null) {
-                pss.setValues(stmt);
-            }
-
-            final ResultSet resultSet = stmt.executeQuery();
-            final Connection connection = stmt.getConnection();
-
-            return Flux.generate((final SynchronousSink<T> sink) -> {
-                try {
-                    if (resultSet.next()) {
-                        sink.next(rowMapper.mapRow(resultSet));
-                    }
-                    else {
-                        sink.complete();
-                    }
-                }
-                catch (SQLException ex) {
-                    sink.error(ex);
-                }
-            }).doFinally(state -> {
-                getLogger().debug("close jdbc flux");
-
-                close(resultSet);
-                close(stmt);
-                close(connection);
-            });
-        };
-
-        return execute(sc, action, false);
-    }
-
-    /**
-     * @see #queryAsPublisher(CharSequence, RowMapper, PreparedStatementSetter)
-     */
-    public <T> Publisher<T> queryAsPublisher(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        PreparedStatementSetter pss = null;
-
-        if (params != null && params.length > 0) {
-            pss = new ArgumentPreparedStatementSetter(params);
-        }
-
-        return queryAsPublisher(sql, rowMapper, pss);
-    }
-
-    /**
-     * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link ResultSetSubscription}<br>
-     * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
-     * Reuse is not possible, because the Resources are closed after first usage.<br>
-     * Example: <code>
-     * <pre>
-     * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
-     * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
-     * </pre>
-     * </code>
-     */
-    public <T> Publisher<T> queryAsPublisher(final CharSequence sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
-        StatementCallback<PreparedStatement, Publisher<T>> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("queryAsPublisher: {}", sql);
-            }
-
-            stmt.clearParameters();
-
-            if (pss != null) {
-                pss.setValues(stmt);
-            }
-
-            final ResultSet resultSet = stmt.executeQuery();
-            final Connection connection = stmt.getConnection();
-
-            Consumer<ResultSet> doOnClose = rs -> {
-                getLogger().debug("close jdbc publisher");
-
-                close(rs);
-                close(stmt);
-                close(connection);
-            };
-
-            return new ResultSetPublisher<>(resultSet, rowMapper, doOnClose);
-        };
-
-        return execute(sc, action, false);
-    }
-
-    /**
-     * @see #queryAsStream(CharSequence, RowMapper, PreparedStatementSetter)
-     */
-    public <T> Stream<T> queryAsStream(final CharSequence sql, final RowMapper<T> rowMapper, final Object... params) {
-        PreparedStatementSetter pss = null;
-
-        if (params != null && params.length > 0) {
-            pss = new ArgumentPreparedStatementSetter(params);
-        }
-
-        return queryAsStream(sql, rowMapper, pss);
-    }
-
-    /**
-     * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in  {@link Stream#onClose}-Method.<br>
-     * {@link Stream#close}-Method MUST be called (try-resource).<br>
-     * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
-     * Example: <code>
-     * <pre>
-     * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
-     * {
-     *     stream.forEach(System.out::println);
-     * }
-     * </pre>
-     * </code>
-     */
-    public <T> Stream<T> queryAsStream(final CharSequence sql, final RowMapper<T> rowMapper, final PreparedStatementSetter pss) {
-        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
-        StatementCallback<PreparedStatement, Stream<T>> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("queryAsStream: {}", sql);
-            }
-
-            stmt.clearParameters();
-
-            if (pss != null) {
-                pss.setValues(stmt);
-            }
-
-            final ResultSet resultSet = stmt.executeQuery();
-            final Connection connection = stmt.getConnection();
-
-            // @formatter:off
-            Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
-
-            return StreamSupport.stream(spliterator, false)
-                    .onClose(() -> {
-                        getLogger().debug("close jdbc stream");
-
-                        close(resultSet);
-                        close(stmt);
-                        close(connection);
-                    });
-            // @formatter:on
-        };
-
-        return execute(sc, action, false);
-    }
-
     public void rollbackTransaction() throws SQLException {
         getTransactionHandler().rollbackTransaction();
+    }
+
+    public SelectBuilder select(CharSequence sql) {
+        return new SelectBuilder(sql);
     }
 
     public void setFetchSize(final int fetchSize) {
@@ -419,38 +457,8 @@ public class SimpleJdbcTemplate {
      *
      * @return int; affectedRows
      */
-    public int update(final CharSequence sql, final Object... params) {
-        PreparedStatementSetter pss = null;
-
-        if (params != null && params.length > 0) {
-            pss = new ArgumentPreparedStatementSetter(params);
-        }
-
-        return update(sql, pss);
-    }
-
-    /**
-     * INSERT, UPDATE, DELETE
-     *
-     * @return int; affectedRows
-     */
-    public int update(final CharSequence sql, final PreparedStatementSetter pss) {
-        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
-        StatementCallback<PreparedStatement, Integer> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("update: {}", sql);
-            }
-
-            stmt.clearParameters();
-
-            if (pss != null) {
-                pss.setValues(stmt);
-            }
-
-            return stmt.executeUpdate();
-        };
-
-        return execute(sc, action, true);
+    public UpdateBuilder update(final CharSequence sql) {
+        return new UpdateBuilder(sql);
     }
 
     /**
