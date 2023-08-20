@@ -53,7 +53,7 @@ class TestSimpleJdbcTemplateMock {
     private final ResultSet resultSet = mock(ResultSet.class);
 
     private final ResultSetMetaData resultSetMetaData = mock(ResultSetMetaData.class);
-
+    private JdbcClient jdbcClient;
     private SimpleJdbcTemplate jdbcTemplate;
 
     @AfterEach
@@ -72,8 +72,10 @@ class TestSimpleJdbcTemplateMock {
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(preparedStatement.getConnection()).thenReturn(connection);
         when(resultSet.getMetaData()).thenReturn(resultSetMetaData);
+        when(resultSet.getStatement()).thenReturn(preparedStatement);
 
         jdbcTemplate = new SimpleJdbcTemplate(dataSource);
+        jdbcClient = new JdbcClient(dataSource);
     }
 
     @Test
@@ -81,7 +83,7 @@ class TestSimpleJdbcTemplateMock {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Object> result = jdbcTemplate.select("some sql").flux(rs -> rs.getObject(1)).collectList().block();
+        List<Object> result = jdbcClient.select("some sql").executeAsFlux(rs -> rs.getObject(1)).collectList().block();
 
         assertEquals(2, result.size());
         assertEquals(11, result.get(0));
@@ -103,7 +105,7 @@ class TestSimpleJdbcTemplateMock {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Map<String, Object>> result = jdbcTemplate.select("some sql").list();
+        List<Map<String, Object>> result = jdbcClient.select("some sql").executeAsList();
 
         assertEquals(2, result.size());
         assertTrue(result.get(0).containsKey("COL"));
@@ -132,7 +134,7 @@ class TestSimpleJdbcTemplateMock {
             when(resultSet.next()).thenReturn(true, true, false);
             when(resultSet.getObject(1)).thenReturn(11, 22);
 
-            Flow.Publisher<Object> publisher = jdbcTemplate.select("some sql").publisher(rs -> rs.getObject(1));
+            Flow.Publisher<Object> publisher = jdbcClient.select("some sql").executeAsPublisher(rs -> rs.getObject(1));
 
             publisher.subscribe(subscriber);
 
@@ -157,7 +159,7 @@ class TestSimpleJdbcTemplateMock {
 
         List<Object> result = null;
 
-        try (Stream<Object> stream = jdbcTemplate.select("some sql").stream(rs -> rs.getObject(1))) {
+        try (Stream<Object> stream = jdbcClient.select("some sql").executeAsStream(rs -> rs.getObject(1))) {
             result = stream.toList();
         }
 
