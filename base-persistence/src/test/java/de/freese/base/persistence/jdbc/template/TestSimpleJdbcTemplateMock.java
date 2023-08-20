@@ -194,7 +194,7 @@ class TestSimpleJdbcTemplateMock {
     void testUpdateBatch() throws Exception {
         when(preparedStatement.executeBatch()).thenReturn(new int[]{1});
 
-        int[] affectedRows = jdbcTemplate.updateBatch("some sql", List.of(11, 22), (ps, data) -> ps.setInt(1, data), 1);
+        int[] affectedRows = jdbcTemplate.update("some sql").executeBatch(List.of(11, 22), (ps, data) -> ps.setInt(1, data), 1);
 
         assertArrayEquals(new int[]{1, 1}, affectedRows);
 

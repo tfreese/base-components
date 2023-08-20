@@ -94,7 +94,7 @@ class TestSimpleJdbcTemplate {
         personen.add(new Person(0, "LastName3", "FirstName3"));
         personen.add(new Person(0, "Nachname4", "Vorname5"));
 
-        int[] affectedRows = jdbcTemplate.updateBatch(sql, personen, (ps, person) -> {
+        int[] affectedRows = jdbcTemplate.update(sql).executeBatch(personen, (ps, person) -> {
             long id = getNextID("PERSON_SEQ");
             ps.setLong(1, id);
             ps.setString(2, person.getLastName());

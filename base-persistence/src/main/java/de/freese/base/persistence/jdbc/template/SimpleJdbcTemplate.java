@@ -49,7 +49,9 @@ import de.freese.base.utils.JdbcUtils;
  * @author Thomas Freese
  */
 public class SimpleJdbcTemplate {
-    private abstract class AbstractJdbcBuilder<B extends AbstractJdbcBuilder> {
+
+    private static abstract class AbstractJdbcBuilder<B extends AbstractJdbcBuilder<?>> {
+
         private final List<Object> params = new ArrayList<>();
 
         private final CharSequence sql;
@@ -62,12 +64,14 @@ public class SimpleJdbcTemplate {
             this.sql = Objects.requireNonNull(sql, "sql required");
         }
 
+        @SuppressWarnings("unchecked")
         public B param(final Object param) {
             params.add(param);
 
             return (B) this;
         }
 
+        @SuppressWarnings("unchecked")
         public B preparedStatementSetter(final PreparedStatementSetter preparedStatementSetter) {
             this.preparedStatementSetter = preparedStatementSetter;
 
@@ -93,7 +97,56 @@ public class SimpleJdbcTemplate {
         }
     }
 
+    public class CallBuilder extends AbstractJdbcBuilder<CallBuilder> {
+
+        public CallBuilder(final CharSequence sql) {
+            super(sql);
+        }
+
+        public void execute() {
+            execute(null);
+        }
+
+        public <T> T execute(ResultSetExtractor<T> resultSetExtractor) {
+            StatementCreator<CallableStatement> sc = con -> createCallableStatement(con, getSql());
+            StatementCallback<CallableStatement, T> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("call: {}", getSql());
+                }
+
+                ResultSet resultSet = null;
+
+                try {
+                    stmt.clearParameters();
+
+                    PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                    if (pss != null) {
+                        pss.setValues(stmt);
+                    }
+
+                    if (resultSetExtractor == null) {
+                        stmt.execute();
+
+                        return null;
+                    }
+                    else {
+                        resultSet = stmt.executeQuery();
+
+                        return resultSetExtractor.extractData(resultSet);
+                    }
+                }
+                finally {
+                    close(resultSet);
+                }
+            };
+
+            return SimpleJdbcTemplate.this.execute(sc, action, true);
+        }
+    }
+
     public class UpdateBuilder extends AbstractJdbcBuilder<UpdateBuilder> {
+
         public UpdateBuilder(final CharSequence sql) {
             super(sql);
         }
@@ -118,6 +171,51 @@ public class SimpleJdbcTemplate {
 
             return SimpleJdbcTemplate.this.execute(sc, action, true);
         }
+
+        public <T> int[] executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
+            StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, getSql());
+            StatementCallback<PreparedStatement, int[]> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("updateBatch: size={}; {}", batchArgs.size(), getSql());
+                }
+
+                boolean supportsBatch = isBatchSupported(stmt.getConnection());
+
+                List<int[]> affectedRows = new ArrayList<>();
+                int n = 0;
+
+                for (T arg : batchArgs) {
+                    stmt.clearParameters();
+                    ppss.setValues(stmt, arg);
+                    n++;
+
+                    if (supportsBatch) {
+                        stmt.addBatch();
+
+                        if (((n % batchSize) == 0) || (n == batchArgs.size())) {
+                            if (getLogger().isDebugEnabled()) {
+                                int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
+                                int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
+                                getLogger().debug("Sending SQL batch update #{} with {} items", batchIndex, items);
+                            }
+
+                            affectedRows.add(stmt.executeBatch());
+                            stmt.clearBatch();
+                        }
+                    }
+                    else {
+                        // Batch not possible -> direct execution.
+                        int affectedRow = stmt.executeUpdate();
+
+                        affectedRows.add(new int[]{affectedRow});
+                    }
+                }
+
+                return affectedRows.stream().flatMapToInt(IntStream::of).toArray();
+            };
+
+            return SimpleJdbcTemplate.this.execute(sc, action, true);
+        }
     }
 
     public class SelectBuilder extends AbstractJdbcBuilder<SelectBuilder> {
@@ -127,7 +225,33 @@ public class SimpleJdbcTemplate {
         }
 
         public <T> T extract(final ResultSetExtractor<T> resultSetExtractor) {
-            return query(getSql(), resultSetExtractor, getPreparedStatementSetter());
+            StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, getSql());
+            StatementCallback<PreparedStatement, T> action = stmt -> {
+                if (getLogger().isDebugEnabled()) {
+                    getLogger().debug("extract: {}", getSql());
+                }
+
+                ResultSet resultSet = null;
+
+                try {
+                    stmt.clearParameters();
+
+                    PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                    if (pss != null) {
+                        pss.setValues(stmt);
+                    }
+
+                    resultSet = stmt.executeQuery();
+
+                    return resultSetExtractor.extractData(resultSet);
+                }
+                finally {
+                    close(resultSet);
+                }
+            };
+
+            return execute(sc, action, true);
         }
 
         /**
@@ -314,48 +438,10 @@ public class SimpleJdbcTemplate {
     }
 
     /**
-     * {call my_procedure()};
+     * {call my_procedure(?)};
      */
-    public void call(final CharSequence sql) {
-        call(sql, null, null);
-    }
-
-    /**
-     * {? = call my_procedure(?)};
-     */
-    public <T> T call(final CharSequence sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss) {
-        StatementCreator<CallableStatement> sc = con -> createCallableStatement(con, sql);
-        StatementCallback<CallableStatement, T> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("call: {}", sql);
-            }
-
-            ResultSet resultSet = null;
-
-            try {
-                stmt.clearParameters();
-
-                if (pss != null) {
-                    pss.setValues(stmt);
-                }
-
-                if (rse == null) {
-                    stmt.execute();
-
-                    return null;
-                }
-                else {
-                    resultSet = stmt.executeQuery();
-
-                    return rse.extractData(resultSet);
-                }
-            }
-            finally {
-                close(resultSet);
-            }
-        };
-
-        return execute(sc, action, true);
+    public CallBuilder call(final CharSequence sql) {
+        return new CallBuilder(sql);
     }
 
     public void commitTransaction() throws SQLException {
@@ -401,37 +487,6 @@ public class SimpleJdbcTemplate {
         return getTransactionHandler() instanceof SpringTransactionHandler;
     }
 
-    /**
-     * @param pss {@link PreparedStatementSetter}; optional
-     */
-    public <T> T query(final CharSequence sql, final ResultSetExtractor<T> rse, final PreparedStatementSetter pss) {
-        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
-        StatementCallback<PreparedStatement, T> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("extract: {}", sql);
-            }
-
-            ResultSet resultSet = null;
-
-            try {
-                stmt.clearParameters();
-
-                if (pss != null) {
-                    pss.setValues(stmt);
-                }
-
-                resultSet = stmt.executeQuery();
-
-                return rse.extractData(resultSet);
-            }
-            finally {
-                close(resultSet);
-            }
-        };
-
-        return execute(sc, action, true);
-    }
-
     public void rollbackTransaction() throws SQLException {
         getTransactionHandler().rollbackTransaction();
     }
@@ -459,56 +514,6 @@ public class SimpleJdbcTemplate {
      */
     public UpdateBuilder update(final CharSequence sql) {
         return new UpdateBuilder(sql);
-    }
-
-    /**
-     * INSERT, UPDATE, DELETE
-     *
-     * @return int[]; affectedRows
-     */
-    public <T> int[] updateBatch(final CharSequence sql, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
-        StatementCreator<PreparedStatement> sc = con -> createPreparedStatement(con, sql);
-        StatementCallback<PreparedStatement, int[]> action = stmt -> {
-            if (getLogger().isDebugEnabled()) {
-                getLogger().debug("updateBatch: size={}; {}", batchArgs.size(), sql);
-            }
-
-            boolean supportsBatch = isBatchSupported(stmt.getConnection());
-
-            List<int[]> affectedRows = new ArrayList<>();
-            int n = 0;
-
-            for (T arg : batchArgs) {
-                stmt.clearParameters();
-                ppss.setValues(stmt, arg);
-                n++;
-
-                if (supportsBatch) {
-                    stmt.addBatch();
-
-                    if (((n % batchSize) == 0) || (n == batchArgs.size())) {
-                        if (getLogger().isDebugEnabled()) {
-                            int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
-                            int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
-                            getLogger().debug("Sending SQL batch update #{} with {} items", batchIndex, items);
-                        }
-
-                        affectedRows.add(stmt.executeBatch());
-                        stmt.clearBatch();
-                    }
-                }
-                else {
-                    // Batch not possible -> direct execution.
-                    int affectedRow = stmt.executeUpdate();
-
-                    affectedRows.add(new int[]{affectedRow});
-                }
-            }
-
-            return affectedRows.stream().flatMapToInt(IntStream::of).toArray();
-        };
-
-        return execute(sc, action, true);
     }
 
     /**
