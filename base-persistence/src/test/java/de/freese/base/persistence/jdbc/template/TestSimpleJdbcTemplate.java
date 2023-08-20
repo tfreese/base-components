@@ -157,9 +157,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by ID asc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).flux(new PersonRowMapper());
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).flux(new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
         Flux<Person> flux = supplier.get();
@@ -186,9 +184,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by ID asc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Flux<Person> flux = jdbcTemplate.select(sql).flux(new PersonRowMapper());
+        Flux<Person> flux = jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).flux(new PersonRowMapper());
 
         // @formatter:off
         Disposable disposable = flux.parallel()
@@ -204,9 +200,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).param("LastName%").flux(new PersonRowMapper());
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).param("LastName%").flux(new PersonRowMapper());
 
         Flux<Person> flux = supplier.get();
         assertEquals(2, flux.count().block());
@@ -231,9 +225,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).flux(new PersonRowMapper());
+        Supplier<Flux<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).flux(new PersonRowMapper());
 
         Flux<Person> flux = supplier.get();
         assertEquals(2, flux.count().block());
@@ -341,8 +333,6 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        jdbcTemplate.setFetchSize(1);
-
         List<Person> result = new ArrayList<>();
 
         List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
@@ -350,7 +340,7 @@ class TestSimpleJdbcTemplate {
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
-            Publisher<Person> publisher = jdbcTemplate.select(sql).param("LastName%").publisher(new PersonRowMapper());
+            Publisher<Person> publisher = jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).param("LastName%").publisher(new PersonRowMapper());
             publisher.subscribe(subscriber);
 
             assertEquals(2, result.size());
@@ -372,8 +362,6 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        jdbcTemplate.setFetchSize(1);
-
         List<Person> result = new ArrayList<>();
 
         List<Flow.Subscriber<Person>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
@@ -381,7 +369,7 @@ class TestSimpleJdbcTemplate {
         for (Flow.Subscriber<Person> subscriber : subscribers) {
             result.clear();
 
-            Publisher<Person> publisher = jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).publisher(new PersonRowMapper());
+            Publisher<Person> publisher = jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).publisher(new PersonRowMapper());
             publisher.subscribe(subscriber);
 
             assertEquals(2, result.size());
@@ -403,9 +391,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by id asc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).stream(new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).stream(new PersonRowMapper());
 
         AtomicInteger counter = new AtomicInteger(0);
 
@@ -440,9 +426,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by id asc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).stream(new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).stream(new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
             assertNotNull(stream);
@@ -460,9 +444,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).param("LastName%").stream(new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).param("LastName%").stream(new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
             assertEquals(2, stream.count());
@@ -490,9 +472,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON where LAST_NAME like ? order by LAST_NAME desc");
 
-        jdbcTemplate.setFetchSize(1);
-
-        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).stream(new PersonRowMapper());
+        Supplier<Stream<Person>> supplier = () -> jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setFetchSize(1)).preparedStatementSetter(ps -> ps.setString(1, "LastName%")).stream(new PersonRowMapper());
 
         try (Stream<Person> stream = supplier.get()) {
             assertEquals(2, stream.count());
@@ -520,17 +500,7 @@ class TestSimpleJdbcTemplate {
         StringBuilder sql = new StringBuilder();
         sql.append("select * from PERSON order by LAST_NAME desc");
 
-        int maxRows = jdbcTemplate.getMaxRows();
-        jdbcTemplate.setMaxRows(1);
-
-        final List<Person> results;
-
-        try {
-            results = jdbcTemplate.select(sql).list(new PersonRowMapper());
-        }
-        finally {
-            jdbcTemplate.setMaxRows(maxRows);
-        }
+        List<Person> results = jdbcTemplate.select(sql).statementConfigurer(stmt -> stmt.setMaxRows(1)).list(new PersonRowMapper());
 
         assertNotNull(results);
         assertEquals(1, results.size());

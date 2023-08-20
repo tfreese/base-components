@@ -15,7 +15,9 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class RowMapperConsumableResultSetExtractor<T> implements ResultSetExtractor<Void> {
+
     private final Consumer<T> consumer;
+    
     private final RowMapper<T> rowMapper;
 
     public RowMapperConsumableResultSetExtractor(final RowMapper<T> rowMapper, final Consumer<T> consumer) {

@@ -17,6 +17,7 @@ import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
  * @author Thomas Freese
  */
 public class CachedRowSetResultSetExtractor implements ResultSetExtractor<CachedRowSet> {
+    
     private final RowSetFactory rowSetFactory;
 
     public CachedRowSetResultSetExtractor() throws SQLException {

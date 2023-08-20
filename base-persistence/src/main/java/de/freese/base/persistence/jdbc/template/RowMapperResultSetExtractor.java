@@ -16,6 +16,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>> {
+    
     private final RowMapper<T> rowMapper;
 
     public RowMapperResultSetExtractor(final RowMapper<T> rowMapper) {

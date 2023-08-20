@@ -17,6 +17,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class ColumnMapRowMapper implements RowMapper<Map<String, Object>> {
+    
     private String[] columnNames;
 
     @Override

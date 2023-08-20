@@ -15,6 +15,7 @@ import de.freese.base.utils.JdbcUtils;
  * @author Thomas Freese
  */
 public class SimpleTransactionHandler implements TransactionHandler {
+    
     private static final ThreadLocal<Connection> CONNECTIONS = new ThreadLocal<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTransactionHandler.class);

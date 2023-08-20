@@ -28,6 +28,7 @@ import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter
  * @author Thomas Freese
  */
 public class ArgumentPreparedStatementSetter implements PreparedStatementSetter {
+    
     /**
      * Constant that indicates an unknown (or unspecified) SQL type.
      *

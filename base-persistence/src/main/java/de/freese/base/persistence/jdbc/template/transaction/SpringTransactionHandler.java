@@ -20,6 +20,7 @@ import org.springframework.transaction.TransactionStatus;
  * @see TransactionStatus
  */
 public class SpringTransactionHandler implements TransactionHandler {
+    
     @Override
     public void beginTransaction(final DataSource dataSource) throws SQLException {
         // Handled by Spring-TransactionManager.
