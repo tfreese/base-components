@@ -1,19 +1,23 @@
 // Created: 20.08.23
 package de.freese.base.persistence.jdbc.template;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.concurrent.Flow;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -28,6 +32,7 @@ import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
 import de.freese.base.persistence.jdbc.template.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.template.function.ParameterizedPreparedStatementSetter;
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.template.function.ResultSetCallback;
 import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
@@ -36,13 +41,13 @@ import de.freese.base.persistence.jdbc.template.function.StatementCallback;
 import de.freese.base.persistence.jdbc.template.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.template.function.StatementCreator;
 import de.freese.base.persistence.jdbc.template.transaction.SimpleTransactionHandler;
+import de.freese.base.persistence.jdbc.template.transaction.SpringTransactionHandler;
 import de.freese.base.persistence.jdbc.template.transaction.TransactionHandler;
-import de.freese.base.utils.JdbcUtils;
 
 /**
  * @author Thomas Freese
  */
-public class JdbcClient {
+public class JdbcTemplate {
 
     private abstract static class AbstractJdbcBuilder<B extends AbstractJdbcBuilder<?>> {
 
@@ -104,7 +109,7 @@ public class JdbcClient {
         }
     }
 
-    public class SelectBuilder extends AbstractJdbcBuilder {
+    public class SelectBuilder extends AbstractJdbcBuilder<SelectBuilder> {
 
         public SelectBuilder(final CharSequence sql) {
             super(sql);
@@ -115,9 +120,7 @@ public class JdbcClient {
                 getLogger().debug("execute: {}", getSql());
             }
 
-            ResultSetCallback<T> resultSetCallback = resultSet -> resultSetExtractor.extractData(resultSet);
-
-            return executePrepared(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, true);
+            return JdbcTemplate.this.execute(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetExtractor::extractData, true);
         }
 
         /**
@@ -161,7 +164,7 @@ public class JdbcClient {
                 });
             };
 
-            return executePrepared(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+            return JdbcTemplate.this.execute(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
         }
 
         public <T> List<T> executeAsList(final RowMapper<T> rowMapper) {
@@ -206,7 +209,7 @@ public class JdbcClient {
                 return new ResultSetPublisher<>(resultSet, rowMapper, doOnClose);
             };
 
-            return executePrepared(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+            return JdbcTemplate.this.execute(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
         }
 
         /**
@@ -245,7 +248,143 @@ public class JdbcClient {
                 // @formatter:on
             };
 
-            return executePrepared(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+            return JdbcTemplate.this.execute(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+        }
+    }
+
+    public class CallBuilder extends AbstractJdbcBuilder<CallBuilder> {
+
+        public CallBuilder(final CharSequence sql) {
+            super(sql);
+        }
+
+        public boolean execute() {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("call: {}", getSql());
+            }
+
+            StatementCreator<CallableStatement> statementCreator = con -> createCallableStatement(con, getSql(), getStatementConfigurer());
+            StatementCallback<CallableStatement, Boolean> statementCallback = stmt -> {
+
+                try {
+                    PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                    if (pss != null) {
+                        pss.setValues(stmt);
+                    }
+
+                    return stmt.execute();
+                }
+                catch (SQLException ex) {
+                    throw convertException(ex);
+                }
+            };
+
+            return JdbcTemplate.this.execute(statementCreator, statementCallback, true);
+        }
+
+        public <T> T execute(final ResultSetExtractor<T> resultSetExtractor) {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("call: {}", getSql());
+            }
+
+            StatementCreator<CallableStatement> statementCreator = con -> createCallableStatement(con, getSql(), getStatementConfigurer());
+            StatementCallback<CallableStatement, T> statementCallback = stmt -> {
+                ResultSet resultSet = null;
+
+                try {
+                    PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                    if (pss != null) {
+                        pss.setValues(stmt);
+                    }
+
+                    resultSet = stmt.executeQuery();
+
+                    return resultSetExtractor.extractData(resultSet);
+                }
+                catch (SQLException ex) {
+                    throw convertException(ex);
+                }
+                finally {
+                    close(resultSet);
+                }
+            };
+
+            return JdbcTemplate.this.execute(statementCreator, statementCallback, true);
+        }
+    }
+
+    public class UpdateBuilder extends AbstractJdbcBuilder<UpdateBuilder> {
+
+        public UpdateBuilder(final CharSequence sql) {
+            super(sql);
+        }
+
+        public int execute() {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("update: {}", getSql());
+            }
+
+            StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, getSql(), getStatementConfigurer());
+            StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
+
+                PreparedStatementSetter pss = getPreparedStatementSetter();
+
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                return stmt.executeUpdate();
+            };
+
+            return JdbcTemplate.this.execute(statementCreator, statementCallback, true);
+        }
+
+        public <T> int[] executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
+            if (getLogger().isDebugEnabled()) {
+                getLogger().debug("updateBatch: size={}; {}", batchArgs.size(), getSql());
+            }
+
+            StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, getSql(), getStatementConfigurer());
+            StatementCallback<PreparedStatement, int[]> statementCallback = stmt -> {
+
+                boolean supportsBatch = isBatchSupported(stmt.getConnection());
+
+                List<int[]> affectedRows = new ArrayList<>();
+                int n = 0;
+
+                for (T arg : batchArgs) {
+                    stmt.clearParameters();
+                    ppss.setValues(stmt, arg);
+                    n++;
+
+                    if (supportsBatch) {
+                        stmt.addBatch();
+
+                        if (((n % batchSize) == 0) || (n == batchArgs.size())) {
+                            if (getLogger().isDebugEnabled()) {
+                                int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
+                                int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
+                                getLogger().debug("Sending SQL batch update #{} with {} items", batchIndex, items);
+                            }
+
+                            affectedRows.add(stmt.executeBatch());
+                            stmt.clearBatch();
+                        }
+                    }
+                    else {
+                        // Batch not possible -> direct execution.
+                        int affectedRow = stmt.executeUpdate();
+
+                        affectedRows.add(new int[]{affectedRow});
+                    }
+                }
+
+                return affectedRows.stream().flatMapToInt(IntStream::of).toArray();
+            };
+
+            return JdbcTemplate.this.execute(statementCreator, statementCallback, true);
         }
     }
 
@@ -255,33 +394,41 @@ public class JdbcClient {
 
     private final TransactionHandler transactionHandler;
 
-    public JdbcClient(final DataSource dataSource) {
+    public JdbcTemplate(final DataSource dataSource) {
         this(dataSource, new SimpleTransactionHandler());
     }
 
-    public JdbcClient(final DataSource dataSource, final TransactionHandler transactionHandler) {
+    public JdbcTemplate(final DataSource dataSource, final TransactionHandler transactionHandler) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
         this.transactionHandler = Objects.requireNonNull(transactionHandler, "transactionHandler required");
     }
 
-    public <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
-        Connection connection = null;
+    public void beginTransaction() throws SQLException {
+        getTransactionHandler().beginTransaction(getDataSource());
+    }
 
-        try {
-            connection = getConnection();
+    /**
+     * {call my_procedure(?)};
+     */
+    public CallBuilder call(final CharSequence sql) {
+        return new CallBuilder(sql);
+    }
 
-            return connectionCallback.doInConnection(connection);
+    public void commitTransaction() throws SQLException {
+        getTransactionHandler().commitTransaction();
+    }
+
+    public boolean execute(final CharSequence sql) {
+        if (getLogger().isDebugEnabled()) {
+            getLogger().debug("execute: {}", sql);
         }
-        catch (SQLException ex) {
-            throw convertException(ex);
-        }
-        finally {
-            if (closeResources) {
-                close(connection);
-            }
-        }
+
+        StatementCreator<Statement> sc = con -> createStatement(con, null);
+        StatementCallback<Statement, Boolean> action = stmt -> stmt.execute(sql.toString());
+
+        return execute(sc, action, true);
     }
 
     public <S extends Statement, T> T execute(final StatementCreator<S> statementCreator, final StatementCallback<S, T> statementCallback, final boolean closeResources) {
@@ -310,10 +457,28 @@ public class JdbcClient {
         return execute(connectionCallback, closeResources);
     }
 
+    public <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
+        Connection connection = null;
+
+        try {
+            connection = getConnection();
+
+            return connectionCallback.doInConnection(connection);
+        }
+        catch (SQLException ex) {
+            throw convertException(ex);
+        }
+        finally {
+            if (closeResources) {
+                close(connection);
+            }
+        }
+    }
+
     /**
      * @param pss {@link PreparedStatementSetter}; optional
      */
-    public <T> T executePrepared(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback, final boolean closeResources) {
+    public <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback, final boolean closeResources) {
         StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, sql, statementConfigurer);
         StatementCallback<PreparedStatement, T> statementCallback = stmt -> {
             ResultSet resultSet = null;
@@ -340,8 +505,26 @@ public class JdbcClient {
         return execute(statementCreator, statementCallback, closeResources);
     }
 
+    public boolean isBatchSupported() {
+        ConnectionCallback<Boolean> action = this::isBatchSupported;
+
+        return execute(action, true);
+    }
+
+    public boolean isSpringManaged() {
+        return getTransactionHandler() instanceof SpringTransactionHandler;
+    }
+
+    public void rollbackTransaction() throws SQLException {
+        getTransactionHandler().rollbackTransaction();
+    }
+
     public SelectBuilder select(final CharSequence sql) {
         return new SelectBuilder(sql);
+    }
+
+    public UpdateBuilder update(final CharSequence sql) {
+        return new UpdateBuilder(sql);
     }
 
     protected void close(final Connection connection) {
@@ -352,7 +535,11 @@ public class JdbcClient {
         getLogger().debug("close resultSet");
 
         try {
-            JdbcUtils.close(resultSet);
+            if ((resultSet == null) || resultSet.isClosed()) {
+                return;
+            }
+
+            resultSet.close();
         }
         catch (Exception ex) {
             getLogger().error("Could not close JDBC ResultSet", ex);
@@ -363,7 +550,11 @@ public class JdbcClient {
         getLogger().debug("close statement");
 
         try {
-            JdbcUtils.close(statement);
+            if ((statement == null) || statement.isClosed()) {
+                return;
+            }
+
+            statement.close();
         }
         catch (Exception ex) {
             getLogger().error("Could not close JDBC Statement", ex);
@@ -389,6 +580,16 @@ public class JdbcClient {
         return new RuntimeException(th);
     }
 
+    protected CallableStatement createCallableStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+        if (configurer != null) {
+            configurer.configure(callableStatement);
+        }
+
+        return callableStatement;
+    }
+
     protected PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
@@ -397,6 +598,16 @@ public class JdbcClient {
         }
 
         return preparedStatement;
+    }
+
+    protected Statement createStatement(final Connection connection, final StatementConfigurer configurer) throws SQLException {
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+        if (configurer != null) {
+            configurer.configure(statement);
+        }
+
+        return statement;
     }
 
     protected Connection getConnection() throws SQLException {
@@ -425,5 +636,11 @@ public class JdbcClient {
                 warning = warning.getNextWarning();
             }
         }
+    }
+
+    protected boolean isBatchSupported(final Connection connection) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
+
+        return metaData.supportsBatchUpdates();
     }
 }

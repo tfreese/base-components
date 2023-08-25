@@ -9,13 +9,11 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.utils.JdbcUtils;
-
 /**
  * @author Thomas Freese
  */
 public class SimpleTransactionHandler implements TransactionHandler {
-    
+
     private static final ThreadLocal<Connection> CONNECTIONS = new ThreadLocal<>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleTransactionHandler.class);
@@ -44,7 +42,11 @@ public class SimpleTransactionHandler implements TransactionHandler {
         LOGGER.debug("close connection");
 
         try {
-            JdbcUtils.close(connection);
+            if ((connection == null) || connection.isClosed()) {
+                return;
+            }
+
+            connection.close();
         }
         catch (Exception ex) {
             LOGGER.error("Could not close JDBC Connection", ex);

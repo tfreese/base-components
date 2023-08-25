@@ -36,6 +36,7 @@ public final class JdbcUtils {
     public static void close(final Connection connection) throws SQLException {
         // Spring-Variante
         // DataSourceUtils.releaseConnection(connection, getDataSource());
+        // JdbcUtils.closeConnection(connection)
 
         if ((connection == null) || connection.isClosed()) {
             return;
@@ -46,7 +47,7 @@ public final class JdbcUtils {
 
     public static void close(final ResultSet resultSet) throws SQLException {
         // Spring-Variante
-        // DataSourceUtils.closeResultSet(resultSet);
+        // JdbcUtils.closeResultSet(resultSet);
 
         if ((resultSet == null) || resultSet.isClosed()) {
             return;

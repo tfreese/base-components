@@ -13,11 +13,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,19 +44,23 @@ import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetch
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSimpleJdbcTemplateMock {
 
-    private final Connection connection = mock(Connection.class);
+    private final CallableStatement callableStatement = mock();
 
-    private final DataSource dataSource = mock(DataSource.class);
+    private final Connection connection = mock();
 
-    private final DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
+    private final DataSource dataSource = mock();
 
-    private final PreparedStatement preparedStatement = mock(PreparedStatement.class);
+    private final DatabaseMetaData databaseMetaData = mock();
 
-    private final ResultSet resultSet = mock(ResultSet.class);
+    private final PreparedStatement preparedStatement = mock();
 
-    private final ResultSetMetaData resultSetMetaData = mock(ResultSetMetaData.class);
-    private JdbcClient jdbcClient;
-    private SimpleJdbcTemplate jdbcTemplate;
+    private final ResultSet resultSet = mock();
+
+    private final ResultSetMetaData resultSetMetaData = mock();
+
+    private final Statement statement = mock();
+
+    private JdbcTemplate jdbcTemplate;
 
     @AfterEach
     void afterEach() throws Exception {
@@ -64,35 +70,60 @@ class TestSimpleJdbcTemplateMock {
     @BeforeEach
     void beforeEach() throws Exception {
         when(dataSource.getConnection()).thenReturn(connection);
+
         when(connection.getMetaData()).thenReturn(databaseMetaData);
         when(connection.prepareStatement(anyString(), anyInt(), anyInt())).thenReturn(preparedStatement);
+        when(connection.prepareCall(anyString(), anyInt(), anyInt())).thenReturn(callableStatement);
+        when(connection.createStatement(anyInt(), anyInt())).thenReturn(statement);
+
         when(databaseMetaData.getDriverName()).thenReturn("mock");
         when(databaseMetaData.getDatabaseProductName()).thenReturn("mock");
         when(databaseMetaData.supportsBatchUpdates()).thenReturn(true);
+
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(preparedStatement.getConnection()).thenReturn(connection);
-        when(resultSet.getMetaData()).thenReturn(resultSetMetaData);
-        when(resultSet.getStatement()).thenReturn(preparedStatement);
 
-        jdbcTemplate = new SimpleJdbcTemplate(dataSource);
-        jdbcClient = new JdbcClient(dataSource);
+        when(callableStatement.execute()).thenReturn(true);
+        when(callableStatement.executeQuery()).thenReturn(resultSet);
+
+        when(statement.executeQuery(anyString())).thenReturn(resultSet);
+        when(statement.getConnection()).thenReturn(connection);
+
+        when(resultSet.getMetaData()).thenReturn(resultSetMetaData);
+
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Test
+    void testCall() throws Exception {
+        boolean result = jdbcTemplate.call("some sql").execute();
+
+        assertTrue(result);
+
+        verify(connection).prepareCall(anyString(), anyInt(), anyInt());
+        verify(connection).close();
+        verify(callableStatement).execute();
+        verify(callableStatement).getWarnings();
+        verify(callableStatement).close();
     }
 
     @Test
     void testQueryFlux() throws Exception {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
+        when(resultSet.getStatement()).thenReturn(preparedStatement);
 
-        List<Object> result = jdbcClient.select("some sql").executeAsFlux(rs -> rs.getObject(1)).collectList().block();
+        List<Object> result = jdbcTemplate.select("some sql").executeAsFlux(rs -> rs.getObject(1)).collectList().block();
 
+        assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(11, result.get(0));
         assertEquals(22, result.get(1));
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
         verify(preparedStatement).executeQuery();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
         verify(resultSet, times(2)).getObject(1);
         verify(resultSet).close();
@@ -105,8 +136,9 @@ class TestSimpleJdbcTemplateMock {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Map<String, Object>> result = jdbcClient.select("some sql").executeAsList();
+        List<Map<String, Object>> result = jdbcTemplate.select("some sql").executeAsList();
 
+        assertNotNull(result);
         assertEquals(2, result.size());
         assertTrue(result.get(0).containsKey("COL"));
         assertEquals(11, result.get(0).values().iterator().next());
@@ -115,15 +147,41 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
         verify(preparedStatement).executeQuery();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
         verify(resultSet, times(2)).getObject(1);
         verify(resultSet).close();
     }
 
     @Test
+    void testQueryParameter() throws Exception {
+        when(preparedStatement.executeUpdate()).thenReturn(2);
+        when(resultSet.next()).thenReturn(true, true, false);
+        when(resultSet.getInt(1)).thenReturn(11, 22);
+        when(resultSet.getStatement()).thenReturn(preparedStatement);
+
+        List<Integer> result = jdbcTemplate.select("some sql").param(1).executeAsList(rs -> rs.getInt(1));
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(11, result.get(0));
+        assertEquals(22, result.get(1));
+
+        verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
+        verify(connection).close();
+        verify(preparedStatement).setInt(1, 1);
+        verify(preparedStatement).executeQuery();
+        verify(preparedStatement).getWarnings();
+        verify(preparedStatement).close();
+        verify(resultSet, times(2)).getInt(1);
+        verify(resultSet).close();
+    }
+
+    @Test
     void testQueryPublisher() throws Exception {
+        when(resultSet.getStatement()).thenReturn(preparedStatement);
+
         List<Object> result = new ArrayList<>();
 
         List<Flow.Subscriber<Object>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
@@ -134,7 +192,7 @@ class TestSimpleJdbcTemplateMock {
             when(resultSet.next()).thenReturn(true, true, false);
             when(resultSet.getObject(1)).thenReturn(11, 22);
 
-            Flow.Publisher<Object> publisher = jdbcClient.select("some sql").executeAsPublisher(rs -> rs.getObject(1));
+            Flow.Publisher<Object> publisher = jdbcTemplate.select("some sql").executeAsPublisher(rs -> rs.getObject(1));
 
             publisher.subscribe(subscriber);
 
@@ -145,8 +203,8 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection, times(3)).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection, times(3)).close();
-        verify(preparedStatement, atLeast(3)).clearParameters();
         verify(preparedStatement, times(3)).executeQuery();
+        verify(preparedStatement, times(3)).getWarnings();
         verify(preparedStatement, times(3)).close();
         verify(resultSet, times(6)).getObject(1);
         verify(resultSet, times(3)).close();
@@ -156,10 +214,11 @@ class TestSimpleJdbcTemplateMock {
     void testQueryStream() throws Exception {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
+        when(resultSet.getStatement()).thenReturn(preparedStatement);
 
         List<Object> result = null;
 
-        try (Stream<Object> stream = jdbcClient.select("some sql").executeAsStream(rs -> rs.getObject(1))) {
+        try (Stream<Object> stream = jdbcTemplate.select("some sql").executeAsStream(rs -> rs.getObject(1))) {
             result = stream.toList();
         }
 
@@ -170,8 +229,8 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
         verify(preparedStatement).executeQuery();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
         verify(resultSet, times(2)).getObject(1);
         verify(resultSet).close();
@@ -187,8 +246,8 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
         verify(preparedStatement).executeUpdate();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
     }
 
@@ -202,12 +261,14 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
+        verify(databaseMetaData).supportsBatchUpdates();
+        verify(preparedStatement, times(2)).clearParameters();
         verify(preparedStatement).setInt(1, 11);
         verify(preparedStatement).setInt(1, 22);
         verify(preparedStatement, times(2)).addBatch();
         verify(preparedStatement, times(2)).executeBatch();
-        verify(preparedStatement, atLeast(2)).clearBatch();
+        verify(preparedStatement, times(2)).clearBatch();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
     }
 
@@ -221,9 +282,9 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
         verify(preparedStatement).setInt(1, 1);
         verify(preparedStatement).executeUpdate();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
     }
 
@@ -237,9 +298,9 @@ class TestSimpleJdbcTemplateMock {
 
         verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
         verify(connection).close();
-        verify(preparedStatement, atLeast(1)).clearParameters();
         verify(preparedStatement).setNull(1, 0);
         verify(preparedStatement).executeUpdate();
+        verify(preparedStatement).getWarnings();
         verify(preparedStatement).close();
     }
 }

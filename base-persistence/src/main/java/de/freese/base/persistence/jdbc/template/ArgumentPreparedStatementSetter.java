@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.jdbc.core.SqlTypeValue;
 
@@ -28,7 +29,7 @@ import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter
  * @author Thomas Freese
  */
 public class ArgumentPreparedStatementSetter implements PreparedStatementSetter {
-    
+
     /**
      * Constant that indicates an unknown (or unspecified) SQL type.
      *
@@ -231,13 +232,13 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter 
     public ArgumentPreparedStatementSetter(final Object[] args) {
         super();
 
-        this.args = args;
+        this.args = Objects.requireNonNull(args, "args required");
     }
 
     public ArgumentPreparedStatementSetter(final List<Object> args) {
         super();
 
-        this.args = args.toArray();
+        this.args = Objects.requireNonNull(args, "args required").toArray();
     }
 
     @Override
