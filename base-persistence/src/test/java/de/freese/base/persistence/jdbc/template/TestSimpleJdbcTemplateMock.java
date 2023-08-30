@@ -23,11 +23,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Flow;
 import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
+import jdk.incubator.concurrent.ScopedValue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -37,6 +39,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetchSize;
+import de.freese.base.persistence.jdbc.template.transaction.Transaction;
 
 /**
  * @author Thomas Freese
@@ -234,6 +237,31 @@ class TestSimpleJdbcTemplateMock {
         verify(preparedStatement).close();
         verify(resultSet, times(2)).getObject(1);
         verify(resultSet).close();
+    }
+
+    @Test
+    void testTransaction() throws Exception {
+        when(preparedStatement.executeUpdate()).thenReturn(2);
+
+        Callable<Integer> sqlCallable = () -> jdbcTemplate.update("some sql").execute();
+
+        try (Transaction transaction = jdbcTemplate.createTransaction()) {
+            transaction.begin();
+
+            int affectedRows = ScopedValue.where(JdbcTemplate.TRANSACTION, transaction, sqlCallable);
+
+            assertEquals(2, affectedRows);
+
+            transaction.commit();
+        }
+
+        verify(preparedStatement).executeUpdate();
+        verify(preparedStatement).getWarnings();
+        verify(preparedStatement).close();
+        verify(connection).prepareStatement(anyString(), anyInt(), anyInt());
+        verify(connection).setAutoCommit(false);
+        verify(connection).commit();
+        verify(connection).close();
     }
 
     @Test

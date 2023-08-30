@@ -2,7 +2,7 @@
 package de.freese.base.persistence.jdbc.template.transaction;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Objects;
 
 import javax.sql.DataSource;
 
@@ -12,37 +12,45 @@ import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.TransactionStatus;
 
 /**
- * {@link TransactionHandler} to get the current transactional {@link Connection} managed by Spring.
+ * {@link Transaction} to get the current transactional {@link Connection} managed by Spring.
  *
  * @author Thomas Freese
  * @see TransactionManager
  * @see TransactionDefinition
  * @see TransactionStatus
  */
-public class SpringTransactionHandler implements TransactionHandler {
-    
+public class SpringTransaction implements Transaction {
+
+    private final DataSource dataSource;
+
+    public SpringTransaction(final DataSource dataSource) {
+        super();
+
+        this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
+    }
+
     @Override
-    public void beginTransaction(final DataSource dataSource) throws SQLException {
+    public void begin() {
         // Handled by Spring-TransactionManager.
     }
 
     @Override
-    public void close(final Connection connection, final DataSource dataSource) {
-        DataSourceUtils.releaseConnection(connection, dataSource);
+    public void close() {
+        DataSourceUtils.releaseConnection(getConnection(), dataSource);
     }
 
     @Override
-    public void commitTransaction() throws SQLException {
+    public void commit() {
         // Handled by Spring-TransactionManager.
     }
 
     @Override
-    public Connection getConnection(final DataSource dataSource) throws SQLException {
+    public Connection getConnection() {
         return DataSourceUtils.getConnection(dataSource);
     }
 
     @Override
-    public void rollbackTransaction() throws SQLException {
+    public void rollback() {
         // Handled by Spring-TransactionManager.
     }
 }

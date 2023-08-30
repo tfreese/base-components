@@ -10,7 +10,7 @@ package de.freese.base.persistence.jdbc.transaction;
 // import java.lang.annotation.Target;
 //
 /// **
-// * Annotation für das Steuern einer Transaction auf Methoden-Ebene.
+// * Annotation für das Steuern einer SimpleTransaction auf Methoden-Ebene.
 // *
 // * @author Thomas Freese
 // */

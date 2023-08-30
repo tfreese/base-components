@@ -137,8 +137,8 @@ public final class HibernateUtils {
                 txCount -= successfulTxCount;
             }
 
-            pw.println("Begin Transaction Count : " + txCount);
-            pw.println("Commit Transaction Count: " + successfulTxCount);
+            pw.println("Begin SimpleTransaction Count : " + txCount);
+            pw.println("Commit SimpleTransaction Count: " + successfulTxCount);
             pw.println();
 
             double hitCount = 0D;

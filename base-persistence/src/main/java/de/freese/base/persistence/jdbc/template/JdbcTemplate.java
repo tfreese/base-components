@@ -17,12 +17,14 @@ import java.util.Objects;
 import java.util.Spliterator;
 import java.util.concurrent.Flow;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import javax.sql.DataSource;
 
+import jdk.incubator.concurrent.ScopedValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -40,14 +42,15 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
 import de.freese.base.persistence.jdbc.template.function.StatementCallback;
 import de.freese.base.persistence.jdbc.template.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.template.function.StatementCreator;
-import de.freese.base.persistence.jdbc.template.transaction.SimpleTransactionHandler;
-import de.freese.base.persistence.jdbc.template.transaction.SpringTransactionHandler;
-import de.freese.base.persistence.jdbc.template.transaction.TransactionHandler;
+import de.freese.base.persistence.jdbc.template.transaction.SimpleTransaction;
+import de.freese.base.persistence.jdbc.template.transaction.Transaction;
 
 /**
  * @author Thomas Freese
  */
 public class JdbcTemplate {
+
+    public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
 
     private abstract static class AbstractJdbcBuilder<B extends AbstractJdbcBuilder<?>> {
 
@@ -392,21 +395,17 @@ public class JdbcTemplate {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final TransactionHandler transactionHandler;
+    private final Function<DataSource, Transaction> transactionHandler;
 
     public JdbcTemplate(final DataSource dataSource) {
-        this(dataSource, new SimpleTransactionHandler());
+        this(dataSource, SimpleTransaction::new);
     }
 
-    public JdbcTemplate(final DataSource dataSource, final TransactionHandler transactionHandler) {
+    public JdbcTemplate(final DataSource dataSource, final Function<DataSource, Transaction> transactionHandler) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
         this.transactionHandler = Objects.requireNonNull(transactionHandler, "transactionHandler required");
-    }
-
-    public void beginTransaction() throws SQLException {
-        getTransactionHandler().beginTransaction(getDataSource());
     }
 
     /**
@@ -416,8 +415,8 @@ public class JdbcTemplate {
         return new CallBuilder(sql);
     }
 
-    public void commitTransaction() throws SQLException {
-        getTransactionHandler().commitTransaction();
+    public Transaction createTransaction() {
+        return transactionHandler.apply(getDataSource());
     }
 
     public boolean execute(final CharSequence sql) {
@@ -511,14 +510,6 @@ public class JdbcTemplate {
         return execute(action, true);
     }
 
-    public boolean isSpringManaged() {
-        return getTransactionHandler() instanceof SpringTransactionHandler;
-    }
-
-    public void rollbackTransaction() throws SQLException {
-        getTransactionHandler().rollbackTransaction();
-    }
-
     public SelectBuilder select(final CharSequence sql) {
         return new SelectBuilder(sql);
     }
@@ -528,7 +519,26 @@ public class JdbcTemplate {
     }
 
     protected void close(final Connection connection) {
-        getTransactionHandler().close(connection, getDataSource());
+        Transaction transaction = TRANSACTION.orElse(null);
+
+        if (transaction != null) {
+            // Closed by Transaction#close.
+            return;
+        }
+
+        getLogger().debug("close connection");
+
+        try {
+            if ((connection == null) || connection.isClosed()) {
+                return;
+            }
+
+            connection.close();
+        }
+        catch (Exception ex) {
+            //            throw new UncheckedSqlException(ex);
+            getLogger().error("Could not close JDBC Connection", ex);
+        }
     }
 
     protected void close(final ResultSet resultSet) {
@@ -564,8 +574,8 @@ public class JdbcTemplate {
     protected RuntimeException convertException(final Exception ex) {
         Throwable th = ex;
 
-        if (th instanceof RuntimeException e) {
-            throw e;
+        if (th instanceof RuntimeException re) {
+            throw re;
         }
 
         if (th.getCause() instanceof SQLException) {
@@ -610,8 +620,19 @@ public class JdbcTemplate {
         return statement;
     }
 
-    protected Connection getConnection() throws SQLException {
-        return getTransactionHandler().getConnection(getDataSource());
+    protected Connection getConnection() {
+        Transaction transaction = TRANSACTION.orElse(null);
+
+        if (transaction != null) {
+            return transaction.getConnection();
+        }
+
+        try {
+            return getDataSource().getConnection();
+        }
+        catch (SQLException ex) {
+            throw new UncheckedSqlException(ex);
+        }
     }
 
     protected DataSource getDataSource() {
@@ -620,10 +641,6 @@ public class JdbcTemplate {
 
     protected Logger getLogger() {
         return logger;
-    }
-
-    protected TransactionHandler getTransactionHandler() {
-        return transactionHandler;
     }
 
     protected void handleWarnings(final Statement stmt) throws SQLException {

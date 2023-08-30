@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class SingleDataSource implements DataSource, AutoCloseable {
+    
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("SimpleDataSource");
 
     private final ReentrantLock reentrantLock = new ReentrantLock();
@@ -44,9 +45,6 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
     private String username;
 
-    /**
-     * @see java.lang.AutoCloseable#close()
-     */
     @Override
     public void close() {
         try {
@@ -68,9 +66,6 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         }
     }
 
-    /**
-     * @see javax.sql.DataSource#getConnection()
-     */
     @Override
     public Connection getConnection() throws SQLException {
         this.reentrantLock.lock();
@@ -91,9 +86,6 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return this.proxyConnection;
     }
 
-    /**
-     * @see javax.sql.DataSource#getConnection(java.lang.String, java.lang.String)
-     */
     @Override
     public Connection getConnection(final String username, final String password) throws SQLException {
         if (Objects.equals(username, getUsername()) && Objects.equals(password, getPassword())) {
@@ -107,25 +99,16 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return this.connectionProperties;
     }
 
-    /**
-     * @see javax.sql.CommonDataSource#getLogWriter()
-     */
     @Override
     public PrintWriter getLogWriter() throws SQLException {
         throw new UnsupportedOperationException("getLogWriter");
     }
 
-    /**
-     * @see javax.sql.CommonDataSource#getLoginTimeout()
-     */
     @Override
     public int getLoginTimeout() throws SQLException {
         return 0;
     }
 
-    /**
-     * @see javax.sql.CommonDataSource#getParentLogger()
-     */
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -146,9 +129,6 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         return this.username;
     }
 
-    /**
-     * @see java.sql.Wrapper#isWrapperFor(java.lang.Class)
-     */
     @Override
     public boolean isWrapperFor(final Class<?> iface) throws SQLException {
         return iface.isInstance(this);
@@ -181,17 +161,11 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         }
     }
 
-    /**
-     * @see javax.sql.CommonDataSource#setLogWriter(java.io.PrintWriter)
-     */
     @Override
     public void setLogWriter(final PrintWriter out) throws SQLException {
         throw new UnsupportedOperationException("setLogWriter");
     }
 
-    /**
-     * @see javax.sql.CommonDataSource#setLoginTimeout(int)
-     */
     @Override
     public void setLoginTimeout(final int seconds) throws SQLException {
         throw new UnsupportedOperationException("setLoginTimeout");
@@ -219,9 +193,6 @@ public class SingleDataSource implements DataSource, AutoCloseable {
         this.username = username.strip();
     }
 
-    /**
-     * @see java.sql.Wrapper#unwrap(java.lang.Class)
-     */
     @Override
     public <T> T unwrap(final Class<T> iface) throws SQLException {
         if (iface.isInstance(this)) {
