@@ -33,32 +33,21 @@ class TestStreamPublisher {
     static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
 
     /**
-     * @param <T> Typ der Entity
-     *
      * @author Thomas Freese
      */
     static class MyTestSubscriber<T> implements Subscriber<T> {
         private Subscription subscription;
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onComplete()
-         */
         @Override
         public void onComplete() {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onComplete");
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-         */
         @Override
         public void onError(final Throwable t) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onError: " + t.getMessage());
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
-         */
         @Override
         public void onNext(final T item) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onNext: " + item);
@@ -66,9 +55,6 @@ class TestStreamPublisher {
             this.subscription.request(1); // Nächstes Element anfordern.
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
-         */
         @Override
         public void onSubscribe(final Subscription subscription) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe");
@@ -104,9 +90,6 @@ class TestStreamPublisher {
             this.function = function;
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onComplete()
-         */
         @Override
         public void onComplete() {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onComplete");
@@ -114,9 +97,6 @@ class TestStreamPublisher {
             close();
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-         */
         @Override
         public void onError(final Throwable throwable) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onError: " + throwable.getMessage());
@@ -124,9 +104,6 @@ class TestStreamPublisher {
             closeExceptionally(throwable);
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
-         */
         @Override
         public void onNext(final T item) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe: " + item);
@@ -135,9 +112,6 @@ class TestStreamPublisher {
             this.subscription.request(1); // Nächstes Element anfordern.
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
-         */
         @Override
         public void onSubscribe(final Subscription subscription) {
             System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe");
