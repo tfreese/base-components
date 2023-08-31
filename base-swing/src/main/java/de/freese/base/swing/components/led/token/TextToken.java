@@ -20,9 +20,6 @@ public class TextToken extends AbstractToken<CharSequence> {
         setValue(value);
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final CharSequence value) {
         CharSequence displayValue = Objects.requireNonNull(value, "value required");

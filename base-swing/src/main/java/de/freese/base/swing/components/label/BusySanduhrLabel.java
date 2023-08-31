@@ -61,9 +61,6 @@ public class BusySanduhrLabel extends JLabel {
         });
     }
 
-    /**
-     * @see javax.swing.JComponent#setVisible(boolean)
-     */
     @Override
     public void setVisible(final boolean visible) {
         super.setVisible(visible);
@@ -76,9 +73,6 @@ public class BusySanduhrLabel extends JLabel {
         }
     }
 
-    /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);

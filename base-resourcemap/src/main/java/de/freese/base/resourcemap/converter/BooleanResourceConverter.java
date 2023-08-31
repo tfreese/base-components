@@ -15,9 +15,6 @@ public class BooleanResourceConverter extends AbstractResourceConverter<Boolean>
         this.trueStrings = trueStrings;
     }
 
-    /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
-     */
     @Override
     public Boolean convert(final String key, final String value) {
         String v = value.strip();

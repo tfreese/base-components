@@ -36,9 +36,6 @@ public class FarbCodeLabel extends JLabel {
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         addMouseListener(new MouseAdapter() {
-            /**
-             * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
-             */
             @Override
             public void mouseReleased(final MouseEvent event) {
                 int oldRGB = getBackground().getRGB();

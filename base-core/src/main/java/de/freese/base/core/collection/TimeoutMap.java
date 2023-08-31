@@ -236,8 +236,6 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
      * Removes all entries in the map whose expiration time is less than
      * {@code now}. The exceptions are entries with negative expiration
      * times; those entries are never removed.
-     *
-     * @see #isExpired(long, Long)
      */
     private void removeAllExpired(final long nowMillis) {
         final Iterator<Map.Entry<Object, Long>> iter = expirationMap.entrySet().iterator();

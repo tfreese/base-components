@@ -50,9 +50,6 @@ public class Tupel3<A, B, C> extends Tupel2<A, B> {
         this.valueC = valueC;
     }
 
-    /**
-     * @see de.freese.base.core.model.tupel.Tupel2#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

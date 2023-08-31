@@ -14,9 +14,6 @@ import de.freese.base.swing.clipboard.ClipboardConverter;
 public abstract class AbstractClipboardConverter implements ClipboardConverter {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @see de.freese.base.swing.clipboard.ClipboardConverter#toClipboard(java.lang.Object)
-     */
     @Override
     public String toClipboard(final Object object) {
         if (object != null) {

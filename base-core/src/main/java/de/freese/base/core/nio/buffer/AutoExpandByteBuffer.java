@@ -321,9 +321,6 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
         return this;
     }
 
-    /**
-     * @see de.freese.base.core.nio.buffer.AbstractAutoExpandBuffer#createNewBuffer(java.nio.Buffer, int)
-     */
     @Override
     protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity) {
         ByteOrder bo = buffer.order();

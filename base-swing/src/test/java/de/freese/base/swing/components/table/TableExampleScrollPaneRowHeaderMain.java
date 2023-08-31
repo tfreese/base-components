@@ -34,9 +34,6 @@ public final class TableExampleScrollPaneRowHeaderMain {
             super(columnNames);
         }
 
-        /**
-         * @see javax.swing.table.TableModel#getValueAt(int, int)
-         */
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
             Map<String, String> map = getObjectAt(rowIndex);

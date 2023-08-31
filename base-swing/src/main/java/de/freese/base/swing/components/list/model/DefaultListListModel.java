@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
@@ -59,9 +58,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
         fireIntervalAdded(this, sizeOld, getList().size() - 1);
     }
 
-    /**
-     * @see javax.swing.ListModel#addListDataListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public synchronized void addListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
@@ -77,9 +73,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
         return getList().contains(object);
     }
 
-    /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
     @Override
     public T getElementAt(final int index) {
         return getList().get(index);
@@ -93,9 +86,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
         return getList().indexOf(object);
     }
 
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
     @Override
     public int getSize() {
         return getList().size();
@@ -124,9 +114,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
         fireIntervalRemoved(this, index, index);
     }
 
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public synchronized void removeListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
@@ -139,9 +126,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
-     *
-     * @see EventListenerList
-     * @see DefaultListModel
      */
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
@@ -165,9 +149,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
-     *
-     * @see EventListenerList
-     * @see DefaultListModel
      */
     protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
@@ -192,9 +173,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param source the ListModel that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
-     *
-     * @see EventListenerList
-     * @see DefaultListModel
      */
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();

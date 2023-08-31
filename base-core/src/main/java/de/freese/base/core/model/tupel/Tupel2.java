@@ -60,9 +60,6 @@ public class Tupel2<A, B> {
         this.valueB = valueB;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -15,9 +15,6 @@ public class ColorChooserUI extends BasicColorChooserUI {
         return new ColorChooserUI();
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicColorChooserUI#createDefaultChoosers()
-     */
     @Override
     protected AbstractColorChooserPanel[] createDefaultChoosers() {
         AbstractColorChooserPanel[] chooserPanels = super.createDefaultChoosers();

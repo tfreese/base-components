@@ -9,9 +9,6 @@ import javax.swing.KeyStroke;
  * @author Thomas Freese
  */
 public class KeyStrokeResourceConverter extends AbstractResourceConverter<KeyStroke> {
-    /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
-     */
     @Override
     public KeyStroke convert(final String key, final String value) {
         String v = value;

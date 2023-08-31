@@ -29,9 +29,6 @@ final class MdiDesktopManager extends DefaultDesktopManager {
         this.desktop = desktop;
     }
 
-    /**
-     * @see javax.swing.DefaultDesktopManager#endDraggingFrame(javax.swing.JComponent)
-     */
     @Override
     public void endDraggingFrame(final JComponent f) {
         super.endDraggingFrame(f);
@@ -39,9 +36,6 @@ final class MdiDesktopManager extends DefaultDesktopManager {
         resizeDesktop();
     }
 
-    /**
-     * @see javax.swing.DefaultDesktopManager#endResizingFrame(javax.swing.JComponent)
-     */
     @Override
     public void endResizingFrame(final JComponent f) {
         super.endResizingFrame(f);

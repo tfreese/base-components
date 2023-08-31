@@ -50,9 +50,6 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D> {
         this.valueE = valueE;
     }
 
-    /**
-     * @see de.freese.base.core.model.tupel.Tupel4#toString()
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -38,9 +38,6 @@ public final class RegExToWildcard implements RegExTransformer {
         this.transformers.add(new EndsWithTransformer());
     }
 
-    /**
-     * @see de.freese.base.core.regex.transformer.RegExTransformer#regExToWildcard(java.lang.String)
-     */
     @Override
     public String regExToWildcard(final String regex) {
         String expression = regex;
@@ -62,8 +59,6 @@ public final class RegExToWildcard implements RegExTransformer {
 
     /**
      * Wenn ein '@' am Anfang enthalten ist, wird der Ausdruck unverändert zurückgeliefert und das '@' entfernt.
-     *
-     * @see de.freese.base.core.regex.transformer.RegExTransformer#wildcardToRegEx(java.lang.String)
      */
     @Override
     public String wildcardToRegEx(final String wildcard) {

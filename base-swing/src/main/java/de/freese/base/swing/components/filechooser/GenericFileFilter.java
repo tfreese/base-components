@@ -8,11 +8,6 @@ import javax.swing.filechooser.FileFilter;
  * {@link FileFilter} für bestimmte DatenTypen.
  *
  * @author Thomas Freese
- * @see CsvFileFilter
- * @see ImageFileFilter
- * @see PdfFileFilter
- * @see PptFileFilter
- * @see XlsFileFilter
  */
 public class GenericFileFilter extends FileFilter implements java.io.FileFilter {
     private final boolean includeDirectories;
@@ -29,9 +24,6 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
         this.includeDirectories = includeDirectories;
     }
 
-    /**
-     * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
-     */
     @Override
     public boolean accept(final File f) {
         if (this.includeDirectories && f.isDirectory()) {
@@ -49,9 +41,6 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
         return false;
     }
 
-    /**
-     * @see javax.swing.filechooser.FileFilter#getDescription()
-     */
     @Override
     public String getDescription() {
         StringBuilder sb = new StringBuilder();

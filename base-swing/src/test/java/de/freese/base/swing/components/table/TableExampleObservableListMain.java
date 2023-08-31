@@ -29,9 +29,6 @@ public final class TableExampleObservableListMain {
             super(columnCount, list);
         }
 
-        /**
-         * @see javax.swing.table.TableModel#getValueAt(int, int)
-         */
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
             int[] row = getObjectAt(rowIndex);
@@ -50,9 +47,6 @@ public final class TableExampleObservableListMain {
 
         JFrame frame = new JFrame("TableExample1");
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent we) {
                 System.exit(0);
@@ -63,9 +57,6 @@ public final class TableExampleObservableListMain {
         frame.setVisible(true);
 
         SwingWorker<Void, int[]> swingWorker = new SwingWorker<>() {
-            /**
-             * @see javax.swing.SwingWorker#doInBackground()
-             */
             @Override
             protected Void doInBackground() throws Exception {
                 for (int i = 1; i < 6; i++) {
@@ -77,9 +68,6 @@ public final class TableExampleObservableListMain {
                 return null;
             }
 
-            /**
-             * @see javax.swing.SwingWorker#process(java.util.List)
-             */
             @Override
             protected void process(final List<int[]> chunks) {
                 list.addAll(chunks);

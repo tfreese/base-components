@@ -56,9 +56,6 @@ public class ColumnControlWindow implements AWTEventListener {
         }
     }
 
-    /**
-     * @see java.awt.event.AWTEventListener#eventDispatched(java.awt.AWTEvent)
-     */
     @Override
     public void eventDispatched(final AWTEvent event) {
         if ((event.getID() == MouseEvent.MOUSE_EXITED)) {
@@ -106,9 +103,6 @@ public class ColumnControlWindow implements AWTEventListener {
             @Serial
             private static final long serialVersionUID = 7374736910757374058L;
 
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
             @Override
             public void actionPerformed(final ActionEvent e) {
                 for (ExtTable table : ColumnControlWindow.this.controlButton.getTables()) {
@@ -167,9 +161,6 @@ public class ColumnControlWindow implements AWTEventListener {
             this.window.setFocusableWindowState(false);
 
             this.window.addMouseListener(new MouseAdapter() {
-                /**
-                 * @see java.awt.event.MouseAdapter#mouseExited(java.awt.event.MouseEvent)
-                 */
                 @Override
                 public void mouseExited(final MouseEvent e) {
                     hideAndClear();
@@ -177,9 +168,6 @@ public class ColumnControlWindow implements AWTEventListener {
             });
             // this.window.addFocusListener(new FocusAdapter()
             // {
-            // /**
-            // * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-            // */
             // @Override
             // public void focusLost(final FocusEvent e)
             // {

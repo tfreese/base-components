@@ -14,9 +14,6 @@ import java.util.List;
 public class LineGraphPainter extends AbstractGraphPainter {
     private final Line2D line2d = new Line2D.Float();
 
-    /**
-     * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
-     */
     @Override
     public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
         List<Float> values = getValues().getLastValues((int) width);

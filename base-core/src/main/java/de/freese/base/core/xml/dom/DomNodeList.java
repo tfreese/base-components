@@ -24,9 +24,6 @@ public class DomNodeList extends ArrayList<Node> implements NodeList {
         addAll(nodeList);
     }
 
-    /**
-     * @see java.util.ArrayList#addAll(int, java.util.Collection)
-     */
     @Override
     public boolean addAll(final int index, final Collection<? extends Node> c) {
         throw new UnsupportedOperationException();
@@ -38,17 +35,11 @@ public class DomNodeList extends ArrayList<Node> implements NodeList {
         }
     }
 
-    /**
-     * @see org.w3c.dom.NodeList#getLength()
-     */
     @Override
     public int getLength() {
         return size();
     }
 
-    /**
-     * @see org.w3c.dom.NodeList#item(int)
-     */
     @Override
     public Node item(final int index) {
         return get(index);

@@ -25,9 +25,6 @@ import javax.net.ssl.X509TrustManager;
  */
 public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
     private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager() {
-        /**
-         * @see javax.net.ssl.X509TrustManager#checkClientTrusted(java.security.cert.X509Certificate[], java.lang.String)
-         */
         @Override
         public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             // Always trust - it is an example.
@@ -37,9 +34,6 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
             System.err.println("UNKNOWN CLIENT CERTIFICATE: " + chain[0].getSubjectX500Principal());
         }
 
-        /**
-         * @see javax.net.ssl.X509TrustManager#checkServerTrusted(java.security.cert.X509Certificate[], java.lang.String)
-         */
         @Override
         public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             // Always trust - it is an example.
@@ -47,9 +41,6 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
             System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectX500Principal());
         }
 
-        /**
-         * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
-         */
         @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
@@ -60,25 +51,16 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
         return new TrustManager[]{DUMMY_TRUST_MANAGER};
     }
 
-    /**
-     * @see javax.net.ssl.TrustManagerFactorySpi#engineGetTrustManagers()
-     */
     @Override
     protected TrustManager[] engineGetTrustManagers() {
         return getTrustManagers();
     }
 
-    /**
-     * @see javax.net.ssl.TrustManagerFactorySpi#engineInit(java.security.KeyStore)
-     */
     @Override
     protected void engineInit(final KeyStore keystore) throws KeyStoreException {
         // Unused
     }
 
-    /**
-     * @see javax.net.ssl.TrustManagerFactorySpi#engineInit(javax.net.ssl.ManagerFactoryParameters)
-     */
     @Override
     protected void engineInit(final ManagerFactoryParameters managerFactoryParameters) throws InvalidAlgorithmParameterException {
         // Unused

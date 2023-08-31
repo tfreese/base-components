@@ -17,10 +17,6 @@ public class PptTabbedPaneUI extends BasicTabbedPaneUI {
         return new PptTabbedPaneUI();
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicTabbedPaneUI#paintText(java.awt.Graphics, int, java.awt.Font, java.awt.FontMetrics, int, java.lang.String,
-     * java.awt.Rectangle, boolean)
-     */
     @Override
     protected void paintText(final Graphics g, final int tabPlacement, final Font font, final FontMetrics metrics, final int tabIndex, final String title, final Rectangle textRect, final boolean isSelected) {
         if (isSelected) {

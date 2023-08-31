@@ -76,9 +76,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
         refresh();
     }
 
-    /**
-     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
-     */
     @Override
     public Class<?> getColumnClass(final int columnIndex) {
         if (getRowCount() != 0) {
@@ -94,17 +91,11 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
         return super.getColumnClass(columnIndex);
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
     @Override
     public int getColumnCount() {
         return getColumnNames().size();
     }
 
-    /**
-     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-     */
     @Override
     public String getColumnName(final int column) {
         return getColumnNames().get(column);
@@ -114,9 +105,6 @@ public abstract class AbstractListTableModel<T> extends AbstractTableModel {
         return getList().get(rowIndex);
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
     @Override
     public int getRowCount() {
         return getList().size();

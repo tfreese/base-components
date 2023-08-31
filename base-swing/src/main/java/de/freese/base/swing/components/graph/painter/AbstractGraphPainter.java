@@ -19,9 +19,6 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         super();
     }
 
-    /**
-     * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
-     */
     @Override
     public void paint(final Graphics2D g, final Component parent, final int width, final int height) {
         configureGraphics(g, parent);

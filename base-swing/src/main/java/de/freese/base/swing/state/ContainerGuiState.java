@@ -34,9 +34,6 @@ public class ContainerGuiState extends AbstractGuiState {
         super(supportedTypes);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         super.restore(component);
@@ -51,9 +48,6 @@ public class ContainerGuiState extends AbstractGuiState {
         container.setBounds(this.x, this.y, this.width, this.height);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         super.store(component);

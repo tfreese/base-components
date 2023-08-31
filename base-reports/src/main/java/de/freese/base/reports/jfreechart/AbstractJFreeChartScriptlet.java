@@ -98,8 +98,6 @@ public abstract class AbstractJFreeChartScriptlet<T> {
     /**
      * Erzeugt das Diagramm.<br>
      * Für die Dekorierung des Diagramms die {@link #decorateChart(Object, JFreeChart)} Methode aufrufen.
-     *
-     * @see #decorateChart(Object, JFreeChart)
      */
     public abstract JFreeChart createChart(T model);
 

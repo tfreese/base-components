@@ -36,9 +36,6 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
         this.enableCache = enableCache;
     }
 
-    /**
-     * @see RecursiveTask#compute()
-     */
     @Override
     protected Long compute() {
         Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);

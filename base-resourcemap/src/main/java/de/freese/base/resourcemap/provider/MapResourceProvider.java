@@ -12,9 +12,6 @@ import java.util.function.Consumer;
 public final class MapResourceProvider implements ResourceProvider {
     private final Map<Locale, Map<String, String>> mapLocale = new HashMap<>();
 
-    /**
-     * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale)
-     */
     @Override
     public Map<String, String> getResources(final String bundleName, final Locale locale) {
         return this.mapLocale.computeIfAbsent(locale, k -> new HashMap<>());

@@ -51,9 +51,6 @@ public interface ResourceMap {
         ICON,
         SHORT_DESCRIPTION,
         TEXT {
-            /**
-             * @see de.freese.base.resourcemap.DefaultResourceMap.EnumResourceType#getPostFix()
-             */
             @Override
             protected String getPostFix() {
                 return "";

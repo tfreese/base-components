@@ -36,49 +36,31 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
         this.comment = comment;
     }
 
-    /**
-     * @see GridColumn#getComment()
-     */
     @Override
     public String getComment() {
         return this.comment;
     }
 
-    /**
-     * @see GridColumn#getLength()
-     */
     @Override
     public int getLength() {
         return this.length;
     }
 
-    /**
-     * @see GridColumn#getName()
-     */
     @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @see GridColumn#getPrecision()
-     */
     @Override
     public int getPrecision() {
         return this.precision;
     }
 
-    /**
-     * @see GridColumn#getType()
-     */
     @Override
     public Class<T> getType() {
         return this.type;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

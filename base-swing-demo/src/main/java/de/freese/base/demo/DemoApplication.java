@@ -109,9 +109,6 @@ public class DemoApplication {
         applicationContext.setMainFrame(frame);
 
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see WindowAdapter#windowClosing(WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent event) {
                 try {

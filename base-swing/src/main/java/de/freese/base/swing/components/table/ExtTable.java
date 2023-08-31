@@ -60,9 +60,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         this.showHeader = showHeader;
     }
 
-    /**
-     * @see javax.swing.JTable#addNotify()
-     */
     @Override
     public void addNotify() {
         super.addNotify();
@@ -119,9 +116,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         }
     }
 
-    /**
-     * @see javax.swing.JTable#createDefaultColumnsFromModel()
-     */
     @Override
     public void createDefaultColumnsFromModel() {
         TableModel model = getModel();
@@ -250,9 +244,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         this.sortable = sortable;
     }
 
-    /**
-     * @see javax.swing.JTable#configureEnclosingScrollPane()
-     */
     @Override
     protected void configureEnclosingScrollPane() {
         configureColumnControl();
@@ -284,9 +275,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         return new ColumnControlButton(this);
     }
 
-    /**
-     * @see javax.swing.JTable#createDefaultColumnModel()
-     */
     @Override
     protected TableColumnModel createDefaultColumnModel() {
         DefaultExtTableColumnModel columnModel = new DefaultExtTableColumnModel();
@@ -295,9 +283,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
         return columnModel;
     }
 
-    /**
-     * @see javax.swing.JTable#initializeLocalVars()
-     */
     @Override
     protected void initializeLocalVars() {
         super.initializeLocalVars();
@@ -314,9 +299,6 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
             @Serial
             private static final long serialVersionUID = -5537831177642642702L;
 
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
             @Override
             public void actionPerformed(final ActionEvent e) {
                 packAll(-1);

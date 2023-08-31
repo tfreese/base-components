@@ -62,9 +62,6 @@ public final class FileUtils {
         }
 
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
-            /**
-             * @see java.nio.file.SimpleFileVisitor#postVisitDirectory(java.lang.Object, java.io.IOException)
-             */
             @Override
             public FileVisitResult postVisitDirectory(final Path dir, final IOException exc) throws IOException {
                 Files.delete(dir);
@@ -72,9 +69,6 @@ public final class FileUtils {
                 return FileVisitResult.CONTINUE;
             }
 
-            /**
-             * @see java.nio.file.SimpleFileVisitor#visitFile(java.lang.Object, java.nio.file.attribute.BasicFileAttributes)
-             */
             @Override
             public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs) throws IOException {
                 Files.delete(file);

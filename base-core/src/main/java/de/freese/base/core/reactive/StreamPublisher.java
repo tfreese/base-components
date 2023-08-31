@@ -29,9 +29,6 @@ public class StreamPublisher<T> implements Publisher<T> {
         this(ForkJoinPool.commonPool(), streamSupplier);
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Publisher#subscribe(java.util.concurrent.Flow.Subscriber)
-     */
     @Override
     public void subscribe(final Subscriber<? super T> subscriber) {
         StreamSubscription<T> subscription = new StreamSubscription<>(getExecutor(), this.streamSupplier.get().iterator(), subscriber);

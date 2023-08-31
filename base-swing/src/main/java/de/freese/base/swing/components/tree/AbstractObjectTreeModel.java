@@ -21,9 +21,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
 
     private final Map<Object, List<?>> treeCache = new HashMap<>();
 
-    /**
-     * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
-     */
     @Override
     public void addTreeModelListener(final TreeModelListener listener) {
         synchronized (this.eventListenerList) {
@@ -31,25 +28,16 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
         }
     }
 
-    /**
-     * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
-     */
     @Override
     public Object getChild(final Object parent, final int index) {
         return getChildren(parent).get(index);
     }
 
-    /**
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
     @Override
     public int getChildCount(final Object parent) {
         return getChildren(parent).size();
     }
 
-    /**
-     * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object, java.lang.Object)
-     */
     @Override
     public int getIndexOfChild(final Object parent, final Object child) {
         return getChildren(parent).indexOf(child);
@@ -81,9 +69,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
         return list.toArray();
     }
 
-    /**
-     * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
-     */
     @Override
     public boolean isLeaf(final Object node) {
         return ((getChildren(node) == null) || (getChildren(node).isEmpty()));
@@ -248,9 +233,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
         }
     }
 
-    /**
-     * @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.TreeModelListener)
-     */
     @Override
     public void removeTreeModelListener(final TreeModelListener listener) {
         synchronized (this.eventListenerList) {
@@ -258,9 +240,6 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
         }
     }
 
-    /**
-     * @see javax.swing.tree.TreeModel#valueForPathChanged(javax.swing.tree.TreePath, java.lang.Object)
-     */
     @Override
     public void valueForPathChanged(final TreePath path, final Object newValue) {
         // Empty

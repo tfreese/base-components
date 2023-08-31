@@ -12,7 +12,6 @@ import java.util.function.Function;
  * @param <E> Konkreter Exception-Typ
  *
  * @author Thomas Freese
- * @see java.util.function.Function
  */
 @FunctionalInterface
 public interface ThrowingFunction<T, R, E extends Exception> {

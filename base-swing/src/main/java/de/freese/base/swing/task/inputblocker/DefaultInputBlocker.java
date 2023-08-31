@@ -52,9 +52,6 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
         return this;
     }
 
-    /**
-     * @see de.freese.base.swing.task.inputblocker.InputBlocker#block()
-     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void block() {
@@ -75,9 +72,6 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
-     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void unblock() {

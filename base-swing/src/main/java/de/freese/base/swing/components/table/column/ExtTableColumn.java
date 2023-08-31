@@ -54,16 +54,11 @@ public class ExtTableColumn extends TableColumn {
      * @param key Object which is used as key to retrieve value
      *
      * @return Object containing value of client property or <code>null</code>
-     *
-     * @see #putClientProperty
      */
     public Object getClientProperty(final Object key) {
         return ((key == null) || (this.clientProperties == null)) ? null : this.clientProperties.get(key);
     }
 
-    /**
-     * @see javax.swing.table.TableColumn#getResizable()
-     */
     @Override
     public boolean getResizable() {
         return super.getResizable() && (getMinWidth() < getMaxWidth());
@@ -87,8 +82,6 @@ public class ExtTableColumn extends TableColumn {
      * Returns the visible property. The default is <code>true</code>.
      *
      * @return boolean indicating whether this view column is visible in the table
-     *
-     * @see #setVisible
      */
     public boolean isVisible() {
         return this.visible;
@@ -110,8 +103,6 @@ public class ExtTableColumn extends TableColumn {
      * @param value Object containing value of client property
      *
      * @throws IllegalArgumentException if key is <code>null</code>
-     * @see #getClientProperty
-     * @see javax.swing.JComponent#putClientProperty
      */
     public void putClientProperty(final Object key, final Object value) {
         if (key == null) {
@@ -153,8 +144,6 @@ public class ExtTableColumn extends TableColumn {
      * Sets the visible property. This property controls whether this view column is currently visible in the table.
      *
      * @param visible boolean indicating whether this view column is visible in the table
-     *
-     * @see #setVisible
      */
     public void setVisible(final boolean visible) {
         boolean oldVisible = this.visible;

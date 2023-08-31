@@ -44,9 +44,6 @@ public class TreeAndTable {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
-                /**
-                 * @see java.awt.Component#setBounds(int, int, int, int)
-                 */
                 @Override
                 public void setBounds(final int x, final int y, final int width, final int height) {
                     Rectangle tableBounds = getTable().getBounds();
@@ -59,9 +56,6 @@ public class TreeAndTable {
                     super.setBounds(x, tableBounds.y, width, tableBounds.height);
                 }
 
-                /**
-                 * @see javax.swing.JTree#setRowHeight(int)
-                 */
                 @Override
                 public void setRowHeight(final int rowHeight) {
                     if (this.rowHeight > 0) {

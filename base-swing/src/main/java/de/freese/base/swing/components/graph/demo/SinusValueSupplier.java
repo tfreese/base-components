@@ -11,9 +11,6 @@ public class SinusValueSupplier implements Supplier<Float> {
 
     private int grad;
 
-    /**
-     * @see java.util.function.Supplier#get()
-     */
     @Override
     public Float get() {
         double radian = this.grad * GRAD_TO_RADIAN_FACTOR;

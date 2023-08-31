@@ -23,17 +23,11 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
         setChangeMouseCursor(true);
     }
 
-    /**
-     * @see de.freese.base.swing.task.inputblocker.InputBlocker#block()
-     */
     @Override
     public void block() {
         setGlassPaneVisible(true);
     }
 
-    /**
-     * @see de.freese.base.swing.task.inputblocker.InputBlocker#unblock()
-     */
     @Override
     public void unblock() {
         setGlassPaneVisible(false);

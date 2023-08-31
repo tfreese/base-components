@@ -10,9 +10,6 @@ import javax.imageio.ImageIO;
  * @author Thomas Freese
  */
 public class ImageResourceConverter extends AbstractResourceConverter<BufferedImage> {
-    /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
-     */
     @Override
     public BufferedImage convert(final String key, final String value) {
         if (value == null) {

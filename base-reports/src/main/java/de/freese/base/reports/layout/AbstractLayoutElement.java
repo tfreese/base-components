@@ -51,9 +51,6 @@ public abstract class AbstractLayoutElement implements LayoutElement {
         this.name = name;
     }
 
-    /**
-     * @see LayoutElement#addElement(LayoutElement)
-     */
     @Override
     public void addElement(final LayoutElement element) {
         if (!this.elements.contains(element)) {
@@ -78,97 +75,61 @@ public abstract class AbstractLayoutElement implements LayoutElement {
         return bufferedImage;
     }
 
-    /**
-     * @see LayoutElement#getBackground()
-     */
     @Override
     public Color getBackground() {
         return this.background;
     }
 
-    /**
-     * @see LayoutElement#getElementAt(int)
-     */
     @Override
     public LayoutElement getElementAt(final int index) {
         return this.elements.get(index);
     }
 
-    /**
-     * @see LayoutElement#getElementCount()
-     */
     @Override
     public int getElementCount() {
         return this.elements.size();
     }
 
-    /**
-     * @see LayoutElement#getFont()
-     */
     @Override
     public Font getFont() {
         return this.font;
     }
 
-    /**
-     * @see LayoutElement#getForeground()
-     */
     @Override
     public Color getForeground() {
         return this.foreground;
     }
 
-    /**
-     * @see LayoutElement#getHeight()
-     */
     @Override
     public double getHeight() {
         return this.height;
     }
 
-    /**
-     * @see LayoutElement#getInsets()
-     */
     @Override
     public Insets getInsets() {
         return this.insets;
     }
 
-    /**
-     * @see LayoutElement#getParent()
-     */
     @Override
     public LayoutElement getParent() {
         return this.parent;
     }
 
-    /**
-     * @see LayoutElement#getWidth()
-     */
     @Override
     public double getWidth() {
         return this.width;
     }
 
-    /**
-     * @see LayoutElement#getX()
-     */
     @Override
     public double getX() {
         return (getParent() == null) ? this.x : (this.x + getParent().getX());
     }
 
-    /**
-     * @see LayoutElement#getY()
-     */
     @Override
     public double getY() {
         return (getParent() == null) ? this.y : (this.y + getParent().getY());
     }
 
-    /**
-     * @see LayoutElement#paint(java.awt.Graphics2D)
-     */
     @Override
     public void paint(final Graphics2D g2d) {
         g2d.setColor(getBackground());
@@ -182,9 +143,6 @@ public abstract class AbstractLayoutElement implements LayoutElement {
         g2d.drawRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
     }
 
-    /**
-     * @see LayoutElement#removeElement(LayoutElement)
-     */
     @Override
     public boolean removeElement(final LayoutElement element) {
         boolean contains = this.elements.remove(element);
@@ -201,73 +159,46 @@ public abstract class AbstractLayoutElement implements LayoutElement {
         ImageIO.write(bufferedImage, type, file);
     }
 
-    /**
-     * @see LayoutElement#setBackground(java.awt.Color)
-     */
     @Override
     public void setBackground(final Color color) {
         this.background = color;
     }
 
-    /**
-     * @see LayoutElement#setFont(java.awt.Font)
-     */
     @Override
     public void setFont(final Font font) {
         this.font = font;
     }
 
-    /**
-     * @see LayoutElement#setForeground(java.awt.Color)
-     */
     @Override
     public void setForeground(final Color color) {
         this.foreground = color;
     }
 
-    /**
-     * @see LayoutElement#setHeight(double)
-     */
     @Override
     public void setHeight(final double height) {
         this.height = height;
     }
 
-    /**
-     * @see LayoutElement#setInsets(java.awt.Insets)
-     */
     @Override
     public void setInsets(final Insets insets) {
         this.insets = insets;
     }
 
-    /**
-     * @see LayoutElement#setParent(LayoutElement)
-     */
     @Override
     public void setParent(final LayoutElement parent) {
         this.parent = parent;
     }
 
-    /**
-     * @see LayoutElement#setWidth(double)
-     */
     @Override
     public void setWidth(final double width) {
         this.width = width;
     }
 
-    /**
-     * @see LayoutElement#setX(double)
-     */
     @Override
     public void setX(final double x) {
         this.x = x;
     }
 
-    /**
-     * @see LayoutElement#setY(double)
-     */
     @Override
     public void setY(final double y) {
         this.y = y;

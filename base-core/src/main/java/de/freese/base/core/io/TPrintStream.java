@@ -17,9 +17,6 @@ public class TPrintStream extends PrintStream {
         this.out2 = out2;
     }
 
-    /**
-     * @see java.io.PrintStream#close()
-     */
     @Override
     public void close() {
         super.close();
@@ -27,9 +24,6 @@ public class TPrintStream extends PrintStream {
         this.out2.close();
     }
 
-    /**
-     * @see java.io.PrintStream#flush()
-     */
     @Override
     public void flush() {
         super.flush();
@@ -37,9 +31,6 @@ public class TPrintStream extends PrintStream {
         this.out2.flush();
     }
 
-    /**
-     * @see java.io.PrintStream#write(byte[], int, int)
-     */
     @Override
     public void write(final byte[] buf, final int off, final int len) {
         super.write(buf, off, len);

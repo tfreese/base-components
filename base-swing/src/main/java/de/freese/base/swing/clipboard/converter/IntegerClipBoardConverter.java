@@ -4,9 +4,6 @@ package de.freese.base.swing.clipboard.converter;
  * @author Thomas Freese
  */
 public class IntegerClipBoardConverter extends AbstractNumberClipBoardConverter {
-    /**
-     * @see de.freese.base.swing.clipboard.ClipboardConverter#fromClipboard(java.lang.String)
-     */
     @Override
     public Object fromClipboard(final String value) {
         if (value == null) {

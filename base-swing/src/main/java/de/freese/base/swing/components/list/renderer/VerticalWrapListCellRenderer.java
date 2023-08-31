@@ -29,14 +29,11 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
         this.matteBorder = BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK);
     }
 
-    /**
-     * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
-     */
     @Override
     public Component getListCellRendererComponent(final JList<? extends T> list, final T value, final int index, final boolean isSelected, final boolean cellHasFocus) {
         Component component = this.delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-        // 16 <=> @see JList#getPreferredScrollableViewportSize()
+        // 16 <=> see JList#getPreferredScrollableViewportSize()
         int fixedCellHeight = list.getFixedCellHeight() <= 0 ? 16 : list.getFixedCellHeight();
         int visibleRowCount = Math.max(1, (list.getHeight() / fixedCellHeight));
 

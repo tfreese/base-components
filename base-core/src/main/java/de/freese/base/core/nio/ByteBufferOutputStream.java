@@ -18,17 +18,11 @@ public class ByteBufferOutputStream extends OutputStream {
         this.buffer = Objects.requireNonNull(buffer, "buffer required");
     }
 
-    /**
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException {
         this.buffer.put(b, off, len);
     }
 
-    /**
-     * @see java.io.OutputStream#write(int)
-     */
     @Override
     public void write(final int b) throws IOException {
         this.buffer.put((byte) b);

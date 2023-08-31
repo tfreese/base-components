@@ -54,15 +54,9 @@ public final class GradientTranslucentWindowMain {
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
             JPanel panel = new JPanel() {
-                /**
-                 *
-                 */
                 @Serial
                 private static final long serialVersionUID = 1L;
 
-                /**
-                 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-                 */
                 @Override
                 protected void paintComponent(final Graphics g) {
                     if (g instanceof Graphics2D g2d) {

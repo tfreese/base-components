@@ -42,9 +42,6 @@ public class ScrollPaneSynchronizer implements AdjustmentListener {
         this.h2 = sp2.getHorizontalScrollBar();
     }
 
-    /**
-     * @see java.awt.event.AdjustmentListener#adjustmentValueChanged(java.awt.event.AdjustmentEvent)
-     */
     @Override
     public void adjustmentValueChanged(final AdjustmentEvent event) {
         JScrollBar scrollBar = (JScrollBar) event.getSource();

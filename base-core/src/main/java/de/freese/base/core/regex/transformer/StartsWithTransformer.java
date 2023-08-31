@@ -4,9 +4,6 @@ package de.freese.base.core.regex.transformer;
  * @author Thomas Freese
  */
 public class StartsWithTransformer implements RegExTransformer {
-    /**
-     * @see de.freese.base.core.regex.transformer.RegExTransformer#regExToWildcard(java.lang.String)
-     */
     @Override
     public String regExToWildcard(final String regex) {
         if (regex.startsWith(".*")) {
@@ -20,9 +17,6 @@ public class StartsWithTransformer implements RegExTransformer {
         return regex;
     }
 
-    /**
-     * @see de.freese.base.core.regex.transformer.RegExTransformer#wildcardToRegEx(java.lang.String)
-     */
     @Override
     public String wildcardToRegEx(final String wildcard) {
         if (!wildcard.startsWith("^") && !wildcard.startsWith(".*") && !wildcard.startsWith(".{1}")) {

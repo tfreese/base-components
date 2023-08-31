@@ -122,7 +122,6 @@ public final class ReflectionUtils {
      * @param fieldCallback the callback to invoke for each field
      *
      * @throws IllegalStateException if introspection fails
-     * @see #doWithFields
      */
     public static void doWithLocalFields(final Class<?> clazz, final FieldCallback fieldCallback) {
         for (Field field : getDeclaredFields(clazz)) {
@@ -144,7 +143,6 @@ public final class ReflectionUtils {
      * @param mc the callback to invoke for each method
      *
      * @throws IllegalStateException if introspection fails
-     * @see #doWithMethods(Class, MethodCallback, Predicate)
      */
     public static void doWithMethods(final Class<?> clazz, final MethodCallback mc) {
         doWithMethods(clazz, mc, null);
@@ -237,8 +235,6 @@ public final class ReflectionUtils {
      *
      * @param method the method to invoke
      * @param target the target object to invoke the method on
-     *
-     * @see #invokeMethod(java.lang.reflect.Method, Object, Object[])
      */
     public static Object invokeMethod(final Method method, final Object target) {
         return invokeMethod(method, target, EMPTY_OBJECT_ARRAY);
@@ -268,8 +264,6 @@ public final class ReflectionUtils {
     /**
      * Make the given field accessible, explicitly setting it accessible if necessary. The {@code setAccessible(true)} method is only called when actually
      * necessary, to avoid unnecessary conflicts with a JVM SecurityManager (if active).
-     *
-     * @see java.lang.reflect.Field#setAccessible
      */
     @SuppressWarnings("deprecation")  // on JDK 9
     public static void makeAccessible(final Field field) {
@@ -281,8 +275,6 @@ public final class ReflectionUtils {
     /**
      * Make the given method accessible, explicitly setting it accessible if necessary. The {@code setAccessible(true)} method is only called when actually
      * necessary, to avoid unnecessary conflicts with a JVM SecurityManager (if active).
-     *
-     * @see java.lang.reflect.Method#setAccessible
      */
     @SuppressWarnings("deprecation")  // on JDK 9
     public static void makeAccessible(final Method method) {
@@ -331,7 +323,6 @@ public final class ReflectionUtils {
      * copying.
      *
      * @throws IllegalStateException if introspection fails
-     * @see Class#getDeclaredFields()
      */
     private static Field[] getDeclaredFields(final Class<?> clazz) {
         Objects.requireNonNull(clazz, "clazz required");

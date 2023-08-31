@@ -26,9 +26,6 @@ public class SpringResourceScanner implements ResourceScanner {
         this.resourcePatternResolver = new PathMatchingResourcePatternResolver();
     }
 
-    /**
-     * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
-     */
     @Override
     public Set<String> scanResources(final String basePath) {
         String path = basePath;

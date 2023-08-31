@@ -38,9 +38,6 @@ public final class RandomGraphMain {
         }
 
         LineGraphPainter linePainter = new LineGraphPainter() {
-            /**
-             * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
-             */
             @Override
             protected float getYKoordinate(final float value, final float height) {
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
@@ -56,9 +53,6 @@ public final class RandomGraphMain {
         lineGraph.useBufferedImage(false);
 
         BarGraphPainter barPainter = new BarGraphPainter() {
-            /**
-             * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
-             */
             @Override
             protected float getYKoordinate(final float value, final float height) {
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.

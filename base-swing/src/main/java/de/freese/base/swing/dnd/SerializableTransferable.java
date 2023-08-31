@@ -20,9 +20,6 @@ public class SerializableTransferable implements Transferable {
         this.objects = objects;
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-     */
     @Override
     public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
         if (isDataFlavorSupported(flavor)) {
@@ -32,17 +29,11 @@ public class SerializableTransferable implements Transferable {
         throw new UnsupportedFlavorException(flavor);
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-     */
     @Override
     public DataFlavor[] getTransferDataFlavors() {
         return new DataFlavor[]{FLAVOR};
     }
 
-    /**
-     * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-     */
     @Override
     public boolean isDataFlavorSupported(final DataFlavor flavor) {
         return (flavor.getRepresentationClass().isAssignableFrom(Serializable[].class));

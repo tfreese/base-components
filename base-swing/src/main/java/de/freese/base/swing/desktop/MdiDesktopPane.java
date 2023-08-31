@@ -37,9 +37,6 @@ public final class MdiDesktopPane extends JDesktopPane {
         cascadeFrames(100, getTitleHeight());
     }
 
-    // /**
-    // * @see java.awt.Container#add(java.awt.Component)
-    // */
     // public Component add(final JInternalFrame frame)
     // {
     // JInternalFrame[] allFrames = getAllFrames();
@@ -112,9 +109,6 @@ public final class MdiDesktopPane extends JDesktopPane {
         return 23;
     }
 
-    /**
-     * @see java.awt.Container#remove(java.awt.Component)
-     */
     @Override
     public void remove(final Component comp) {
         super.remove(comp);
@@ -138,9 +132,6 @@ public final class MdiDesktopPane extends JDesktopPane {
         setAllSize(new Dimension(width, height));
     }
 
-    /**
-     * @see java.awt.Component#setBounds(int, int, int, int)
-     */
     @Override
     public void setBounds(final int x, final int y, final int width, final int height) {
         super.setBounds(x, y, width, height);

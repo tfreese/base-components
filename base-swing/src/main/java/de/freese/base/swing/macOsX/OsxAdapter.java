@@ -72,9 +72,6 @@ public class OsxAdapter implements InvocationHandler {
      */
     public static void setFileHandler(final Object target, final Method fileHandler) {
         setHandler(new OsxAdapter("handleOpenFile", target, fileHandler) {
-            /**
-             * @see OsxAdapter#callTarget(java.lang.Object)
-             */
             @Override
             public boolean callTarget(final Object appleEvent) {
                 if (appleEvent != null) {
@@ -199,8 +196,6 @@ public class OsxAdapter implements InvocationHandler {
      * InvocationHandler implementation.<br>
      * This is the entry point for our proxy object; it is called every time an ApplicationListener<br>
      * method is invoked.
-     *
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
      */
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {

@@ -38,9 +38,6 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
         this.nullText = nullText;
     }
 
-    /**
-     * @see javax.swing.DefaultListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
-     */
     @Override
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
         JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

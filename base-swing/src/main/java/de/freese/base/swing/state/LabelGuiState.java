@@ -24,9 +24,6 @@ public class LabelGuiState extends AbstractGuiState {
         super(JLabel.class);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         super.restore(component);
@@ -36,9 +33,6 @@ public class LabelGuiState extends AbstractGuiState {
         label.setText(this.text);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         super.store(component);

@@ -17,17 +17,11 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         super(list);
     }
 
-    /**
-     * @see javax.swing.ComboBoxModel#getSelectedItem()
-     */
     @Override
     public Object getSelectedItem() {
         return this.selectedObject;
     }
 
-    /**
-     * @see javax.swing.ComboBoxModel#setSelectedItem(java.lang.Object)
-     */
     @Override
     public void setSelectedItem(final Object anItem) {
         int index = getList().indexOf(anItem);
@@ -42,9 +36,6 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         fireContentsChanged(this, index, index);
     }
 
-    /**
-     * @see de.freese.base.swing.components.list.model.AbstractObservableListListModel#fireContentsChanged(java.lang.Object, int, int)
-     */
     @Override
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
         this.selectedObject = null;
@@ -52,9 +43,6 @@ public abstract class AbstractObservableListComboBoxModel<T> extends AbstractObs
         super.fireContentsChanged(source, index0, index1);
     }
 
-    /**
-     * @see de.freese.base.swing.components.list.model.AbstractObservableListListModel#fireIntervalRemoved(java.lang.Object, int, int)
-     */
     @Override
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
         if (this.selectedObject != null) {

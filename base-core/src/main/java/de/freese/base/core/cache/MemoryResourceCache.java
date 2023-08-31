@@ -20,17 +20,11 @@ public class MemoryResourceCache extends AbstractResourceCache {
         this.map = new TreeMap<>();
     }
 
-    /**
-     * @see ResourceCache#clear()
-     */
     @Override
     public void clear() {
         this.map.clear();
     }
 
-    /**
-     * @see de.freese.base.core.cache.ResourceCache#getResource(java.net.URI)
-     */
     @Override
     public InputStream getResource(final URI uri) throws Exception {
         byte[] content = this.map.get(uri);
@@ -39,7 +33,8 @@ public class MemoryResourceCache extends AbstractResourceCache {
             //int size = (int) getContentLength(uri);
             int size = 1024;
 
-            try (InputStream inputStream = toInputStream(uri); ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {
+            try (InputStream inputStream = toInputStream(uri);
+                 ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {
                 inputStream.transferTo(baos);
                 // byte[] buffer = new byte[4096];
                 // // long count = 0;

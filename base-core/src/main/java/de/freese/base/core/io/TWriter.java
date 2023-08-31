@@ -20,9 +20,6 @@ public class TWriter extends Writer {
         this.out2 = out2;
     }
 
-    /**
-     * @see java.io.Writer#close()
-     */
     @Override
     public void close() throws IOException {
         IOException exception = null;
@@ -46,18 +43,12 @@ public class TWriter extends Writer {
         }
     }
 
-    /**
-     * @see java.io.Writer#flush()
-     */
     @Override
     public void flush() throws IOException {
         this.out1.flush();
         this.out2.flush();
     }
 
-    /**
-     * @see java.io.Writer#write(char[], int, int)
-     */
     @Override
     public void write(final char[] cbuf, final int off, final int len) throws IOException {
         this.out1.write(cbuf, off, len);

@@ -12,17 +12,11 @@ public abstract class AbstractProcessor<C> implements Processor<C> {
 
     private boolean enabled = true;
 
-    /**
-     * @see de.freese.base.core.processor.Processor#isEnabled()
-     */
     @Override
     public boolean isEnabled() {
         return this.enabled;
     }
 
-    /**
-     * @see de.freese.base.core.processor.Processor#setEnabled(boolean)
-     */
     @Override
     public void setEnabled(final boolean enabled) {
         this.enabled = enabled;

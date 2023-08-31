@@ -3,8 +3,6 @@ package de.freese.base.core.model.grid.column;
 
 import java.util.Date;
 
-import de.freese.base.core.model.grid.GridColumn;
-
 /**
  * @author Thomas Freese
  */
@@ -22,9 +20,6 @@ public class DateGridColumn extends AbstractGridColumn<Date> {
         super(Date.class, name, -1, -1, comment);
     }
 
-    /**
-     * @see GridColumn#getValue(java.lang.Object)
-     */
     @Override
     public Date getValue(final Object object) {
         if (object == null) {

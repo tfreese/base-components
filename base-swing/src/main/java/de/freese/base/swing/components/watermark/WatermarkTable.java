@@ -66,25 +66,16 @@ public class WatermarkTable extends JPanel implements WatermarkComponent {
         return this.table;
     }
 
-    /**
-     * @see WatermarkComponent#getWatermark()
-     */
     @Override
     public ImageIcon getWatermark() {
         return getViewport().getWatermark();
     }
 
-    /**
-     * @see WatermarkComponent#setPosition(java.awt.Point)
-     */
     @Override
     public void setPosition(final Point position) {
         getViewport().setPosition(position);
     }
 
-    /**
-     * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
-     */
     @Override
     public void setWatermark(final ImageIcon watermark) {
         getViewport().setWatermark(watermark);

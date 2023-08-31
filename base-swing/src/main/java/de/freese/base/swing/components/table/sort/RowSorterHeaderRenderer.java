@@ -39,9 +39,6 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         // this.rowSorter.addPropertyChangeListener(this);
     }
 
-    /**
-     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
-     */
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         JComponent component = (JComponent) getTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -88,9 +85,6 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         return this.tableCellRenderer;
     }
 
-    // /**
-    // * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-    // */
     // public void propertyChange(final PropertyChangeEvent evt)
     // {
     // if (evt.getPropertyName().equals("ROWSORTER_ORDER_CHANGED"))

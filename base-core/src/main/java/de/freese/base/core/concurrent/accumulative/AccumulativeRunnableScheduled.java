@@ -52,17 +52,11 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T> {
         this.submitConsumer = Objects.requireNonNull(submitConsumer, "submitConsumer required");
     }
 
-    /**
-     * @see de.freese.base.core.concurrent.accumulative.AccumulativeRunnable#run(java.util.List)
-     */
     @Override
     protected void run(final List<T> args) {
         this.submitConsumer.accept(args);
     }
 
-    /**
-     * @see de.freese.base.core.concurrent.accumulative.AccumulativeRunnable#submit()
-     */
     @Override
     protected final void submit() {
         if (this.scheduledExecutor != null) {

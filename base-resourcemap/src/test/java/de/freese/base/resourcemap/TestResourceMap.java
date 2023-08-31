@@ -225,9 +225,6 @@ class TestResourceMap {
         assertEquals(ref, value);
     }
 
-    /**
-     * @see TestResourceMap#testImageIcon()
-     */
     @Test
     void testIcon() {
         Icon value = resourceMap.getIcon("test.icon");
@@ -252,9 +249,6 @@ class TestResourceMap {
         assertNotNull(ref);
     }
 
-    /**
-     * @see TestResourceMap#testIcon()
-     */
     @Test
     void testImageIcon() {
         ImageIcon value = resourceMap.getImageIcon("test.icon");

@@ -45,9 +45,6 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
         getValues().addValue(value);
     }
 
-    /**
-     * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
-     */
     @Override
     public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
         FontMetrics fm = g.getFontMetrics(FONT);
@@ -117,9 +114,6 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
         // g.translate(-xOffset, -yOffset);
     }
 
-    /**
-     * @see de.freese.base.swing.components.graph.model.AbstractPainterModel#getYKoordinate(float, float)
-     */
     @Override
     protected float getYKoordinate(final float value, final float height) {
         // Prozent-Wert umrechnen.

@@ -32,8 +32,6 @@ import java.util.function.Supplier;
 public final class AsyncFileReader<CH> {
     /**
      * Interne Klasse als Attachment der {@link AsynchronousFileChannel#read(ByteBuffer, long, Object, CompletionHandler)} Operation.
-     *
-     * @param <CH> Typ des ContentHolders
      */
     private static class ReadContext<CH> {
         private final ByteBuffer buffer;
@@ -162,9 +160,6 @@ public final class AsyncFileReader<CH> {
         CH contextHolder = contentHolderSupplier.get();
 
         return new CompletionHandler<>() {
-            /**
-             * @see java.nio.channels.CompletionHandler#completed(java.lang.Object, java.lang.Object)
-             */
             @Override
             public void completed(final Integer count, final ReadContext<CH> context) {
                 if (count < 0) {
@@ -187,9 +182,6 @@ public final class AsyncFileReader<CH> {
                 }
             }
 
-            /**
-             * @see java.nio.channels.CompletionHandler#failed(java.lang.Throwable, java.lang.Object)
-             */
             @Override
             public void failed(final Throwable exc, final ReadContext<CH> context) {
                 context.fail(exc);

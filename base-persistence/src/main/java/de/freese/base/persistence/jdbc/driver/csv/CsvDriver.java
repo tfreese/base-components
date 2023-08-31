@@ -22,7 +22,6 @@ import java.util.logging.Logger;
  * For Backend a HSQLDB Text-Table is used.
  *
  * @author Thomas Freese
- * @see HsqldbTextTableBuilder
  */
 public final class CsvDriver implements java.sql.Driver {
     public static final String URL_PREFIX = "jdbc:csv";
@@ -59,9 +58,6 @@ public final class CsvDriver implements java.sql.Driver {
         super();
     }
 
-    /**
-     * @see java.sql.Driver#acceptsURL(java.lang.String)
-     */
     @Override
     public boolean acceptsURL(final String url) throws SQLException {
         if ((url == null) || url.isBlank()) {
@@ -71,9 +67,6 @@ public final class CsvDriver implements java.sql.Driver {
         return url.startsWith(URL_PREFIX);
     }
 
-    /**
-     * @see java.sql.Driver#connect(java.lang.String, java.util.Properties)
-     */
     @Override
     public Connection connect(final String url, final Properties info) throws SQLException {
         if (!acceptsURL(url)) {
@@ -142,41 +135,26 @@ public final class CsvDriver implements java.sql.Driver {
         return firstBuilder.build(builders);
     }
 
-    /**
-     * @see java.sql.Driver#getMajorVersion()
-     */
     @Override
     public int getMajorVersion() {
         return 1;
     }
 
-    /**
-     * @see java.sql.Driver#getMinorVersion()
-     */
     @Override
     public int getMinorVersion() {
         return 0;
     }
 
-    /**
-     * @see java.sql.Driver#getParentLogger()
-     */
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         return null;
     }
 
-    /**
-     * @see java.sql.Driver#getPropertyInfo(java.lang.String, java.util.Properties)
-     */
     @Override
     public DriverPropertyInfo[] getPropertyInfo(final String url, final Properties info) throws SQLException {
         return new DriverPropertyInfo[0];
     }
 
-    /**
-     * @see java.sql.Driver#jdbcCompliant()
-     */
     @Override
     public boolean jdbcCompliant() {
         return false;

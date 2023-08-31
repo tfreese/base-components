@@ -89,9 +89,6 @@ public class ExtDialog {
         this.dialog.setLocationRelativeTo(null);
     }
 
-    /**
-     * @see JDialog#dispose()
-     */
     public void dispose() {
         this.optionClicked = JOptionPane.CLOSED_OPTION;
 
@@ -114,23 +111,14 @@ public class ExtDialog {
         return (this.optionClicked == JOptionPane.OK_OPTION) || (this.optionClicked == JOptionPane.YES_OPTION);
     }
 
-    /**
-     * @see JDialog#setLocationRelativeTo(Component)
-     */
     public void setLocationRelativeTo(final Component component) {
         this.dialog.setLocationRelativeTo(component);
     }
 
-    /**
-     * @see JDialog#setResizable(boolean)
-     */
     public void setResizable(final boolean resizable) {
         this.dialog.setResizable(resizable);
     }
 
-    /**
-     * @see JDialog#setVisible(boolean)
-     */
     public void setVisible(final boolean visible) {
         this.optionClicked = JOptionPane.CLOSED_OPTION;
 
@@ -215,9 +203,6 @@ public class ExtDialog {
             @Serial
             private static final long serialVersionUID = -1121213878070135406L;
 
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
             @Override
             public void actionPerformed(final ActionEvent e) {
                 firstButton.doClick();
@@ -235,9 +220,6 @@ public class ExtDialog {
                 @Serial
                 private static final long serialVersionUID = -1982802474829843159L;
 
-                /**
-                 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-                 */
                 @Override
                 public void actionPerformed(final ActionEvent e) {
                     lastButton.doClick();

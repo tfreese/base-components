@@ -23,17 +23,11 @@ public class DateAdapter extends XmlAdapter<String, Date> {
         this.formatter = new SimpleDateFormat(pattern);
     }
 
-    /**
-     * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
-     */
     @Override
     public String marshal(final Date date) throws Exception {
         return this.formatter.format(date);
     }
 
-    /**
-     * @see jakarta.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
-     */
     @Override
     public Date unmarshal(final String date) throws Exception {
         return this.formatter.parse(date);

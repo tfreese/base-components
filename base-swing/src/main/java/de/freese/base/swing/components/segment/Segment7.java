@@ -72,17 +72,11 @@ public final class Segment7 extends Canvas {
         enableEvents(AWTEvent.KEY_EVENT_MASK);
     }
 
-    /**
-     * @see java.awt.Component#getMinimumSize()
-     */
     @Override
     public Dimension getMinimumSize() {
         return new Dimension(10, 18);
     }
 
-    /**
-     * @see java.awt.Component#getPreferredSize()
-     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(5 * 10, 5 * 18);
@@ -92,9 +86,6 @@ public final class Segment7 extends Canvas {
         return this.digit;
     }
 
-    /**
-     * @see java.awt.Canvas#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         Color darkRed = new Color(127, 0, 0);
@@ -144,9 +135,6 @@ public final class Segment7 extends Canvas {
         repaint();
     }
 
-    /**
-     * @see java.awt.Component#processComponentEvent(java.awt.event.ComponentEvent)
-     */
     @Override
     protected void processComponentEvent(final ComponentEvent event) {
         if (event.getID() == ComponentEvent.COMPONENT_SHOWN) {
@@ -156,9 +144,6 @@ public final class Segment7 extends Canvas {
         super.processComponentEvent(event);
     }
 
-    /**
-     * @see java.awt.Component#processFocusEvent(java.awt.event.FocusEvent)
-     */
     @Override
     protected void processFocusEvent(final FocusEvent event) {
         if (event.getID() == FocusEvent.FOCUS_GAINED) {
@@ -173,9 +158,6 @@ public final class Segment7 extends Canvas {
         super.processFocusEvent(event);
     }
 
-    /**
-     * @see java.awt.Component#processKeyEvent(java.awt.event.KeyEvent)
-     */
     @Override
     protected void processKeyEvent(final KeyEvent event) {
         if (event.getID() == KeyEvent.KEY_PRESSED) {
@@ -195,9 +177,6 @@ public final class Segment7 extends Canvas {
         super.processKeyEvent(event);
     }
 
-    /**
-     * @see java.awt.Component#processMouseEvent(java.awt.event.MouseEvent)
-     */
     @Override
     protected void processMouseEvent(final MouseEvent event) {
         if (event.getID() == MouseEvent.MOUSE_PRESSED) {

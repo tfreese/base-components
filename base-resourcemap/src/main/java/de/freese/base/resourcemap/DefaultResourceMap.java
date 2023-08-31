@@ -64,17 +64,11 @@ class DefaultResourceMap implements ResourceMap {
         this.bundleName = Objects.requireNonNull(bundleName, "bundleName required");
     }
 
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#getBundleName()
-     */
     @Override
     public String getBundleName() {
         return this.bundleName;
     }
 
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#getChild(java.lang.String)
-     */
     @Override
     public ResourceMap getChild(final String bundleName) {
         if (getBundleName().equals(bundleName)) {
@@ -92,9 +86,6 @@ class DefaultResourceMap implements ResourceMap {
         return null;
     }
 
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#getObject(java.lang.String, java.lang.Class)
-     */
     @Override
     public final <T> T getObject(final String key, final Class<T> type) {
         Objects.requireNonNull(key, "key required");
@@ -135,9 +126,6 @@ class DefaultResourceMap implements ResourceMap {
         return value;
     }
 
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#getString(java.lang.String, java.lang.Object[])
-     */
     @Override
     public final String getString(final String key, final Object... args) {
         String value = getResource(key);
@@ -167,9 +155,6 @@ class DefaultResourceMap implements ResourceMap {
         }
     }
 
-    /**
-     * @see de.freese.base.resourcemap.ResourceMap#load(java.util.Locale)
-     */
     @Override
     public void load(final Locale locale) {
         this.locale = Objects.requireNonNull(locale, "locale required");
@@ -187,9 +172,6 @@ class DefaultResourceMap implements ResourceMap {
         getChildren().forEach(child -> child.load(locale));
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

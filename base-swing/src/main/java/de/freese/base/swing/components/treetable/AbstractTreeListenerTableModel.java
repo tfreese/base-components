@@ -33,25 +33,16 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
         this.tree = tree;
     }
 
-    /**
-     * @see javax.swing.event.TreeExpansionListener#treeCollapsed(javax.swing.event.TreeExpansionEvent)
-     */
     @Override
     public void treeCollapsed(final TreeExpansionEvent event) {
         updateFromTree();
     }
 
-    /**
-     * @see javax.swing.event.TreeExpansionListener#treeExpanded(javax.swing.event.TreeExpansionEvent)
-     */
     @Override
     public void treeExpanded(final TreeExpansionEvent event) {
         updateFromTree();
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeNodesChanged(final TreeModelEvent e) {
         if (!(e.getSource() instanceof JTree)) {
@@ -73,25 +64,16 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
         fireTableRowsUpdated(row, row);
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeNodesInserted(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeNodesInserted(final TreeModelEvent e) {
         updateFromTree();
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeNodesRemoved(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeNodesRemoved(final TreeModelEvent e) {
         updateFromTree();
     }
 
-    /**
-     * @see javax.swing.event.TreeModelListener#treeStructureChanged(javax.swing.event.TreeModelEvent)
-     */
     @Override
     public void treeStructureChanged(final TreeModelEvent e) {
         updateFromTree();

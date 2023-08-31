@@ -93,7 +93,8 @@ class PgpCryptoBc {
     }
 
     static void pubRingDump(final String file) throws Exception {
-        try (InputStream inputStream = new FileInputStream(file); InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream)) {
+        try (InputStream inputStream = new FileInputStream(file);
+             InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream)) {
             PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             Iterator<PGPPublicKeyRing> rIt = pubRings.getKeyRings();
@@ -136,9 +137,6 @@ class PgpCryptoBc {
         }
     }
 
-    // /**
-    // * @see de.freese.base.security.codec.keypair.ICryptoCodecKeyPair#setKeyPair(java.security.KeyPair)
-    // */
     // @Override
     // public void setKeyPair(final KeyPair keyPair)
     // {
@@ -154,9 +152,6 @@ class PgpCryptoBc {
         }
     }
 
-    // /**
-    // * @see de.freese.base.security.codec.ICryptoCodec#decrypt(byte[])
-    // */
     // @Override
     // public byte[] decrypt(final byte[] bytes) throws GeneralSecurityException
     // {
@@ -326,7 +321,8 @@ class PgpCryptoBc {
     public PGPPublicKey findPublicKey(final String keyIn, final String hexCode) throws Exception {
         PGPPublicKey publicKey = null;
 
-        try (InputStream inputStream = new FileInputStream(keyIn); InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream)) {
+        try (InputStream inputStream = new FileInputStream(keyIn);
+             InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream)) {
             PGPPublicKeyRingCollection pubRings = new PGPPublicKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             Iterator<PGPPublicKeyRing> iteratorKeyring = pubRings.getKeyRings();
@@ -379,7 +375,8 @@ class PgpCryptoBc {
     public PGPSecretKey readSecretKey(final String keyIn) throws Exception {
         PGPSecretKey secretKey = null;
 
-        try (InputStream inputStream = new FileInputStream(keyIn); InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream)) {
+        try (InputStream inputStream = new FileInputStream(keyIn);
+             InputStream decoderInputStream = PGPUtil.getDecoderStream(inputStream)) {
             PGPSecretKeyRingCollection keyRingCollection = new PGPSecretKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
             // We just loop through the collection till we find a key suitable for signing.
@@ -560,9 +557,6 @@ class PgpCryptoBc {
         return true;
     }
 
-    // /**
-    // * @see de.freese.base.security.codec.ICryptoCodec#encrypt(byte[])
-    // */
     // @Override
     // public byte[] encrypt(final byte[] bytes) throws GeneralSecurityException
     // {

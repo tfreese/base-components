@@ -33,9 +33,6 @@ public class RendererKeySelectionManager implements KeySelectionManager {
         this.comboBox = comboBox;
     }
 
-    /**
-     * @see javax.swing.JComboBox.KeySelectionManager#selectionForKey(char, javax.swing.ComboBoxModel)
-     */
     @Override
     public int selectionForKey(final char key, final ComboBoxModel<?> model) {
         int selectedIndex = getSelectedIndex(model);

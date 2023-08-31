@@ -152,8 +152,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param unit the time unit of the return value
      *
      * @return the length of time this Task has run.
-     *
-     * @see #execute
      */
     public long getExecutionDuration(final TimeUnit unit) {
         long sTime;
@@ -200,8 +198,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * A task that does keep the progress property up to date should initialize it to 0, to ensure that {@code isProgressPropertyValid} is always true.
      *
      * @return true if the {@link #setProgress progress} property has been set.
-     *
-     * @see #setProgress
      */
     public synchronized boolean isProgressPropertyValid() {
         return this.progressPropertyIsValid;
@@ -225,8 +221,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     /**
      * Called when this Task has been cancelled by {@link #cancel(boolean)}.<br/>
      * This method runs on the EDT. It does nothing by default.
-     *
-     * @see #done
      */
     protected void cancelled() {
         // Empty
@@ -237,9 +231,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     // * This method runs on the EDT. It does nothing by default.
     // *
     // * @param ex the {@code InterruptedException} thrown by {@code get}
-    // * @see #cancel
-    // * @see #done
-    // * @see #get
     // */
     // protected void interrupted(final InterruptedException ex)
     // {
@@ -288,10 +279,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * This method runs on the EDT. It Logs an error message by default.
      *
      * @param cause the {@link Throwable#getCause cause} of the {@code ExecutionException}
-     *
-     * @see #done
-     * @see #get
-     * @see #failed
      */
     protected void failed(final Throwable cause) {
         getLogger().error(cause.getMessage(), cause);
@@ -310,8 +297,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * Convenience method that sets the {@code progress} property to <code>percentage * 100</code>.
      *
      * @param percentage a value in the range 0.0 ... 1.0 inclusive
-     *
-     * @see #setProgress(int)
      */
     protected final void setProgress(final float percentage) {
         if ((percentage < 0.0) || (percentage > 1.0)) {
@@ -331,8 +316,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param value a value in the range min ... max, inclusive
      * @param min the minimum value of the range
      * @param max the maximum value of the range
-     *
-     * @see #setProgress(int)
      */
     protected final void setProgress(final float value, final float min, final float max) {
         if (min >= max) {
@@ -357,8 +340,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param value a value in the range min ... max, inclusive
      * @param min the minimum value of the range
      * @param max the maximum value of the range
-     *
-     * @see #setProgress(int)
      */
     protected final void setProgress(final int value, final int min, final int max) {
         if (min >= max) {
@@ -383,8 +364,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param value a value in the range min ... max, inclusive
      * @param min the minimum value of the range
      * @param max the maximum value of the range
-     *
-     * @see #setProgress(int)
      */
     protected final void setProgress(final long value, final long min, final long max) {
         if (min >= max) {
@@ -420,10 +399,6 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * This method runs on the EDT. It does nothing by default.
      *
      * @param result the value returned by the {@code get} method
-     *
-     * @see #done
-     * @see #get
-     * @see #failed
      */
     protected void succeeded(final T result) {
         // Empty

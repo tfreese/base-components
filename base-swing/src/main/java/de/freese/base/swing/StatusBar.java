@@ -90,9 +90,6 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
         add(this.statusAnimationLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 3, 2, 6));
     }
 
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         String propertyName = evt.getPropertyName();

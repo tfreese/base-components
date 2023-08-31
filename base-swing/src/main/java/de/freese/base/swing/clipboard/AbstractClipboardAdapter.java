@@ -47,9 +47,6 @@ public abstract class AbstractClipboardAdapter {
             putValue(LONG_DESCRIPTION, "Copy");
         }
 
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
         @Override
         public void actionPerformed(final ActionEvent event) {
             doCopy();
@@ -71,9 +68,6 @@ public abstract class AbstractClipboardAdapter {
             putValue(LONG_DESCRIPTION, "Paste");
         }
 
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
         @Override
         public void actionPerformed(final ActionEvent event) {
             doPaste(false);
@@ -95,9 +89,6 @@ public abstract class AbstractClipboardAdapter {
             putValue(LONG_DESCRIPTION, "Paste (flip Axes)");
         }
 
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
         @Override
         public void actionPerformed(final ActionEvent event) {
             doPaste(true);

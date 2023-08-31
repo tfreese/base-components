@@ -42,9 +42,6 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         this.adapter.setEnabled(false);
     }
 
-    /**
-     * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
-     */
     @Override
     public void valueChanged(final ListSelectionEvent event) {
         if (event.getValueIsAdjusting()) {
@@ -65,9 +62,6 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
         this.adapter.setEnabled(componentEnabled(event, selectionModel));
     }
 
-    /**
-     * @see javax.swing.event.TreeSelectionListener#valueChanged(javax.swing.event.TreeSelectionEvent)
-     */
     @Override
     public void valueChanged(final TreeSelectionEvent event) {
         Object source = event.getSource();

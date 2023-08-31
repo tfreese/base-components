@@ -26,9 +26,6 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void> {
         setTitle(this.resourceMap.getString("fibonacci.title"));
     }
 
-    /**
-     * @see javax.swing.SwingWorker#doInBackground()
-     */
     @Override
     protected Long doInBackground() throws Exception {
         if (this.value > 50) {

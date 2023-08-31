@@ -61,25 +61,16 @@ public class ArrowIcon implements Icon {
         // }).getImage());
     }
 
-    /**
-     * @see javax.swing.ImageIcon#getIconHeight()
-     */
     @Override
     public int getIconHeight() {
         return this.height;
     }
 
-    /**
-     * @see javax.swing.ImageIcon#getIconWidth()
-     */
     @Override
     public int getIconWidth() {
         return this.width;
     }
 
-    /**
-     * @see javax.swing.ImageIcon#paintIcon(java.awt.Component, java.awt.Graphics, int, int)
-     */
     @Override
     public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
         Graphics2D g2d = (Graphics2D) g.create();

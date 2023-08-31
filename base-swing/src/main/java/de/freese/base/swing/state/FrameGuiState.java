@@ -29,9 +29,6 @@ public class FrameGuiState extends ContainerGuiState {
         super(JFrame.class, JWindow.class, JDialog.class, ExtFrame.class);
     }
 
-    /**
-     * @see de.freese.base.swing.state.ContainerGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         super.restore(component);
@@ -46,9 +43,6 @@ public class FrameGuiState extends ContainerGuiState {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.state.ContainerGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         super.store(component);

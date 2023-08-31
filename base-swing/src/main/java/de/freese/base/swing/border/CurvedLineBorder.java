@@ -32,17 +32,11 @@ public class CurvedLineBorder extends LineBorder {
         this.arcSize = arcSize;
     }
 
-    /**
-     * @see javax.swing.border.LineBorder#getBorderInsets(java.awt.Component)
-     */
     @Override
     public Insets getBorderInsets(final Component c) {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
 
-    /**
-     * @see javax.swing.border.LineBorder#getBorderInsets(java.awt.Component, java.awt.Insets)
-     */
     @Override
     public Insets getBorderInsets(final Component c, final Insets insets) {
         Insets margin = null;
@@ -65,9 +59,6 @@ public class CurvedLineBorder extends LineBorder {
         return insets;
     }
 
-    /**
-     * @see javax.swing.border.LineBorder#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
-     */
     @Override
     public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
         Color oldColor = g.getColor();

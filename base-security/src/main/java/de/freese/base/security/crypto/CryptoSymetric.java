@@ -31,8 +31,6 @@ public class CryptoSymetric extends AbstractCrypto {
 
     /**
      * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
-     *
-     * @see de.freese.base.security.crypto.Crypto#sign(java.io.InputStream, java.io.OutputStream)
      */
     @Override
     public void sign(final InputStream in, final OutputStream out) throws Exception {
@@ -43,8 +41,6 @@ public class CryptoSymetric extends AbstractCrypto {
 
     /**
      * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
-     *
-     * @see de.freese.base.security.crypto.Crypto#verify(java.io.InputStream, java.io.InputStream)
      */
     @Override
     public boolean verify(final InputStream in, final InputStream signIn) throws Exception {
@@ -58,9 +54,6 @@ public class CryptoSymetric extends AbstractCrypto {
         this.key = key;
     }
 
-    /**
-     * @see de.freese.base.security.crypto.AbstractCrypto#createCipherDecrypt()
-     */
     @Override
     protected Cipher createCipherDecrypt() throws Exception {
         if (getConfig().getAlgorithmCipher().contains("/GCM/")) {
@@ -88,9 +81,6 @@ public class CryptoSymetric extends AbstractCrypto {
         return cipherDecrypt;
     }
 
-    /**
-     * @see de.freese.base.security.crypto.AbstractCrypto#createCipherEncrypt()
-     */
     @Override
     protected Cipher createCipherEncrypt() throws Exception {
         if (getConfig().getAlgorithmCipher().contains("/GCM/")) {
@@ -118,9 +108,6 @@ public class CryptoSymetric extends AbstractCrypto {
         return cipherEncrypt;
     }
 
-    /**
-     * @see de.freese.base.security.crypto.AbstractCrypto#getConfig()
-     */
     @Override
     protected CryptoConfigSymetric getConfig() {
         return (CryptoConfigSymetric) super.getConfig();

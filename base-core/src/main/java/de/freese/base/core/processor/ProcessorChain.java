@@ -19,9 +19,6 @@ public final class ProcessorChain<C> implements Processor<C> {
         this.processors.add(processor);
     }
 
-    /**
-     * @see de.freese.base.core.processor.Processor#execute(java.lang.Object)
-     */
     @Override
     public void execute(final C context) throws Exception {
         if (!isEnabled()) {
@@ -49,9 +46,6 @@ public final class ProcessorChain<C> implements Processor<C> {
         return this.processors.indexOf(processor);
     }
 
-    /**
-     * @see de.freese.base.core.processor.Processor#isEnabled()
-     */
     @Override
     public boolean isEnabled() {
         return this.enabled;
@@ -61,9 +55,6 @@ public final class ProcessorChain<C> implements Processor<C> {
         return this.processors.remove(processor);
     }
 
-    /**
-     * @see de.freese.base.core.processor.Processor#setEnabled(boolean)
-     */
     @Override
     public void setEnabled(final boolean enabled) {
         this.enabled = enabled;

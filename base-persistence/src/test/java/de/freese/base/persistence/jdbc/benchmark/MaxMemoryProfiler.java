@@ -17,10 +17,6 @@ import org.openjdk.jmh.results.ScalarResult;
  * @author Thomas Freese
  */
 public class MaxMemoryProfiler implements InternalProfiler {
-    /**
-     * @see InternalProfiler#afterIteration(BenchmarkParams, IterationParams,
-     * IterationResult)
-     */
     @Override
     public Collection<? extends Result<?>> afterIteration(final BenchmarkParams benchmarkParams, final IterationParams iterationParams, final IterationResult result) {
         long totalHeap = Runtime.getRuntime().totalMemory();
@@ -34,17 +30,11 @@ public class MaxMemoryProfiler implements InternalProfiler {
         return results;
     }
 
-    /**
-     * @see InternalProfiler#beforeIteration(BenchmarkParams, IterationParams)
-     */
     @Override
     public void beforeIteration(final BenchmarkParams benchmarkParams, final IterationParams iterationParams) {
         // Empty
     }
 
-    /**
-     * @see org.openjdk.jmh.profile.Profiler#getDescription()
-     */
     @Override
     public String getDescription() {
         return "Max memory heap profiler";

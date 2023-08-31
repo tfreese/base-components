@@ -53,17 +53,11 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
         this.lineSeparator = System.getProperty("line.separator");
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#close()
-     */
     @Override
     public void close() throws XMLStreamException {
         getDelegate().close();
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#flush()
-     */
     @Override
     public void flush() throws XMLStreamException {
         getDelegate().flush();
@@ -77,33 +71,21 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
         return this.lineSeparator;
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#getNamespaceContext()
-     */
     @Override
     public NamespaceContext getNamespaceContext() {
         return getDelegate().getNamespaceContext();
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#getPrefix(java.lang.String)
-     */
     @Override
     public String getPrefix(final String uri) throws XMLStreamException {
         return getDelegate().getPrefix(uri);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#getProperty(java.lang.String)
-     */
     @Override
     public Object getProperty(final String name) {
         return getDelegate().getProperty(name);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#setDefaultNamespace(java.lang.String)
-     */
     @Override
     public void setDefaultNamespace(final String uri) throws XMLStreamException {
         getDelegate().setDefaultNamespace(uri);
@@ -117,215 +99,137 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
         this.lineSeparator = lineSeparator;
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#setNamespaceContext(javax.xml.namespace.NamespaceContext)
-     */
     @Override
     public void setNamespaceContext(final NamespaceContext context) throws XMLStreamException {
         getDelegate().setNamespaceContext(context);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#setPrefix(java.lang.String, java.lang.String)
-     */
     @Override
     public void setPrefix(final String prefix, final String uri) throws XMLStreamException {
         getDelegate().setPrefix(prefix, uri);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String)
-     */
     @Override
     public void writeAttribute(final String localName, final String value) throws XMLStreamException {
         getDelegate().writeAttribute(localName, value);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void writeAttribute(final String namespaceURI, final String localName, final String value) throws XMLStreamException {
         getDelegate().writeAttribute(namespaceURI, localName, value);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void writeAttribute(final String prefix, final String namespaceURI, final String localName, final String value) throws XMLStreamException {
         getDelegate().writeAttribute(prefix, namespaceURI, localName, value);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeCData(java.lang.String)
-     */
     @Override
     public void writeCData(final String data) throws XMLStreamException {
         getDelegate().writeCData(data);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeCharacters(char[], int, int)
-     */
     @Override
     public void writeCharacters(final char[] text, final int start, final int len) throws XMLStreamException {
         getDelegate().writeCharacters(text, start, len);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeCharacters(java.lang.String)
-     */
     @Override
     public void writeCharacters(final String text) throws XMLStreamException {
         getDelegate().writeCharacters(text);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeComment(java.lang.String)
-     */
     @Override
     public void writeComment(final String data) throws XMLStreamException {
         getDelegate().writeComment(data);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeDTD(java.lang.String)
-     */
     @Override
     public void writeDTD(final String dtd) throws XMLStreamException {
         getDelegate().writeDTD(dtd);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeDefaultNamespace(java.lang.String)
-     */
     @Override
     public void writeDefaultNamespace(final String namespaceURI) throws XMLStreamException {
         getDelegate().writeDefaultNamespace(namespaceURI);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeEmptyElement(java.lang.String)
-     */
     @Override
     public void writeEmptyElement(final String localName) throws XMLStreamException {
         handleWriteEmptyElement();
         getDelegate().writeEmptyElement(localName);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeEmptyElement(java.lang.String, java.lang.String)
-     */
     @Override
     public void writeEmptyElement(final String namespaceURI, final String localName) throws XMLStreamException {
         handleWriteEmptyElement();
         getDelegate().writeEmptyElement(namespaceURI, localName);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeEmptyElement(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void writeEmptyElement(final String prefix, final String localName, final String namespaceURI) throws XMLStreamException {
         handleWriteEmptyElement();
         getDelegate().writeEmptyElement(prefix, localName, namespaceURI);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeEndDocument()
-     */
     @Override
     public void writeEndDocument() throws XMLStreamException {
         getDelegate().writeEndDocument();
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeEndElement()
-     */
     @Override
     public void writeEndElement() throws XMLStreamException {
         handleWriteEndElement();
         getDelegate().writeEndElement();
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeEntityRef(java.lang.String)
-     */
     @Override
     public void writeEntityRef(final String name) throws XMLStreamException {
         getDelegate().writeEntityRef(name);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeNamespace(java.lang.String, java.lang.String)
-     */
     @Override
     public void writeNamespace(final String prefix, final String namespaceURI) throws XMLStreamException {
         getDelegate().writeNamespace(prefix, namespaceURI);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeProcessingInstruction(java.lang.String)
-     */
     @Override
     public void writeProcessingInstruction(final String target) throws XMLStreamException {
         getDelegate().writeProcessingInstruction(target);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeProcessingInstruction(java.lang.String, java.lang.String)
-     */
     @Override
     public void writeProcessingInstruction(final String target, final String data) throws XMLStreamException {
         getDelegate().writeProcessingInstruction(target, data);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeStartDocument()
-     */
     @Override
     public void writeStartDocument() throws XMLStreamException {
         getDelegate().writeStartDocument();
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeStartDocument(java.lang.String)
-     */
     @Override
     public void writeStartDocument(final String version) throws XMLStreamException {
         getDelegate().writeStartDocument(version);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeStartDocument(java.lang.String, java.lang.String)
-     */
     @Override
     public void writeStartDocument(final String encoding, final String version) throws XMLStreamException {
         getDelegate().writeStartDocument(encoding, version);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeStartElement(java.lang.String)
-     */
     @Override
     public void writeStartElement(final String localName) throws XMLStreamException {
         handleWriteStartElement();
         getDelegate().writeStartElement(localName);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeStartElement(java.lang.String, java.lang.String)
-     */
     @Override
     public void writeStartElement(final String namespaceURI, final String localName) throws XMLStreamException {
         handleWriteStartElement();
         getDelegate().writeStartElement(namespaceURI, localName);
     }
 
-    /**
-     * @see javax.xml.stream.XMLStreamWriter#writeStartElement(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void writeStartElement(final String prefix, final String localName, final String namespaceURI) throws XMLStreamException {
         handleWriteStartElement();

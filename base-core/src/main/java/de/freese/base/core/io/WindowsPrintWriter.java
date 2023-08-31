@@ -40,8 +40,6 @@ public class WindowsPrintWriter extends PrintWriter {
 
     /**
      * Implementierung entspricht PrintWriter.newLine Methode.
-     *
-     * @see java.io.PrintWriter#println()
      */
     @Override
     public void println() {

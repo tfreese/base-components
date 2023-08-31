@@ -17,9 +17,6 @@ public class DurationStatistikTask extends AbstractSwingTask<Void, Void> {
         setTitle("TaskStatistik");
     }
 
-    /**
-     * @see javax.swing.SwingWorker#doInBackground()
-     */
     @Override
     protected Void doInBackground() throws Exception {
         getLogger().info("Started");

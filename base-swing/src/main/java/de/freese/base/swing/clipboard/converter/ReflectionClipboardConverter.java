@@ -19,9 +19,6 @@ public class ReflectionClipboardConverter extends AbstractClipboardConverter {
         this.clazz = Objects.requireNonNull(clazz, "clazz required");
     }
 
-    /**
-     * @see de.freese.base.swing.clipboard.ClipboardConverter#fromClipboard(java.lang.String)
-     */
     @Override
     public Object fromClipboard(final String value) {
         try {

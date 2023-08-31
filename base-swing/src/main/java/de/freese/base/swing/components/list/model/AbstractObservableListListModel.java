@@ -3,7 +3,6 @@ package de.freese.base.swing.components.list.model;
 
 import java.util.Objects;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListDataEvent;
@@ -27,33 +26,21 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
         this.list.addListener(this);
     }
 
-    /**
-     * @see javax.swing.ListModel#addListDataListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public synchronized void addListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
     }
 
-    /**
-     * @see javax.swing.ListModel#getElementAt(int)
-     */
     @Override
     public T getElementAt(final int index) {
         return getList().get(index);
     }
 
-    /**
-     * @see javax.swing.ListModel#getSize()
-     */
     @Override
     public int getSize() {
         return getList().size();
     }
 
-    /**
-     * @see javafx.collections.ListChangeListener#onChanged(javafx.collections.ListChangeListener.Change)
-     */
     @Override
     public void onChanged(final Change<? extends T> change) {
         while (change.next()) {
@@ -77,9 +64,6 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
         }
     }
 
-    /**
-     * @see javax.swing.ListModel#removeListDataListener(javax.swing.event.ListDataListener)
-     */
     @Override
     public synchronized void removeListDataListener(final ListDataListener listener) {
         this.eventListenerList.add(ListDataListener.class, listener);
@@ -92,9 +76,6 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
-     *
-     * @see EventListenerList
-     * @see DefaultListModel
      */
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
@@ -118,9 +99,6 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param source the <code>ListModel</code> that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
-     *
-     * @see EventListenerList
-     * @see DefaultListModel
      */
     protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();
@@ -145,9 +123,6 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param source the ListModel that changed, typically "this"
      * @param index0 one end of the new interval
      * @param index1 the other end of the new interval
-     *
-     * @see EventListenerList
-     * @see DefaultListModel
      */
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
         Object[] listeners = this.eventListenerList.getListenerList();

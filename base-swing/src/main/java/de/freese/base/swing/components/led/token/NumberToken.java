@@ -26,9 +26,6 @@ public class NumberToken extends AbstractToken<Number> {
         setValue(value);
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final Number value) {
         String displayValue = String.format(this.format, value);

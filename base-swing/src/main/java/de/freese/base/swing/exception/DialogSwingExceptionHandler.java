@@ -20,10 +20,6 @@ public class DialogSwingExceptionHandler extends DefaultSwingExceptionHandler {
         this.enableSendMail = false;
     }
 
-    /**
-     * @see DefaultSwingExceptionHandler#handleException(java.lang.Throwable, org.slf4j.Logger, java.awt.Component,
-     * de.freese.base.core.i18n.Translator)
-     */
     @Override
     public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translatorAdapter) {
         logger.error(throwable.getMessage(), throwable);

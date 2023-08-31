@@ -57,9 +57,6 @@ public class ExtTaskPane extends JXTaskPane {
         return childTaskPanes;
     }
 
-    // /**
-    // * @see org.jdesktop.swingx.JXTaskPane#setAnimated(boolean)
-    // */
     // @Override
     // public void setAnimated(final boolean animated)
     // {

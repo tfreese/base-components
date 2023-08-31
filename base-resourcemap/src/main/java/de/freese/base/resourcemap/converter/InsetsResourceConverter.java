@@ -7,9 +7,6 @@ import java.util.List;
  * @author Thomas Freese
  */
 public class InsetsResourceConverter extends AbstractResourceConverter<Insets> {
-    /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
-     */
     @Override
     public Insets convert(final String key, final String value) {
         List<Double> tlbr = parseDoubles(key, value, 4, "Invalid top,left,bottom,right Insets string");

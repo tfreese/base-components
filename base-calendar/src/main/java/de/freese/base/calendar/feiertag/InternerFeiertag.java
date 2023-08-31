@@ -22,9 +22,6 @@ public class InternerFeiertag extends Feiertag {
         this.tag = tag;
     }
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object obj) {
         if (!(obj instanceof InternerFeiertag statischerFeiertag)) {
@@ -34,17 +31,11 @@ public class InternerFeiertag extends Feiertag {
         return (getJahr() == statischerFeiertag.getJahr()) && (getMonat() == statischerFeiertag.getMonat()) && (getTag() == statischerFeiertag.getTag()) && getTyp().equals(statischerFeiertag.getTyp());
     }
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return toString().hashCode();
     }
 
-    /**
-     * @see de.freese.base.calendar.feiertag.Feiertag#toString()
-     */
     @Override
     public String toString() {
         return super.toString() + " (" + getJahr() + "_" + getMonat() + "_" + getTag() + ")";

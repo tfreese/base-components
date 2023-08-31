@@ -55,17 +55,11 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
         setBorder(this.noFocusBorder);
     }
 
-    /**
-     * @see javax.swing.JComponent#firePropertyChange(java.lang.String, boolean, boolean)
-     */
     @Override
     public void firePropertyChange(final String propertyName, final boolean oldValue, final boolean newValue) {
         // Empty
     }
 
-    /**
-     * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
-     */
     @Override
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean hasFocus) {
         generalSetup(list, isSelected, hasFocus, index);
@@ -82,9 +76,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
         return this;
     }
 
-    /**
-     * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
-     */
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         generalSetup(table, isSelected, hasFocus, row);
@@ -101,9 +92,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
         return this;
     }
 
-    /**
-     * @see javax.swing.tree.TreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
-     */
     @Override
     public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected, final boolean isExpanded, final boolean isLeaf, final int row, final boolean hasFocus) {
         generalSetup(tree, isSelected, hasFocus, row);
@@ -119,41 +107,26 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
         return this;
     }
 
-    /**
-     * @see javax.swing.JComponent#repaint(long, int, int, int, int)
-     */
     @Override
     public void repaint(final long tm, final int x, final int y, final int width, final int height) {
         // Empty
     }
 
-    /**
-     * @see javax.swing.JComponent#repaint(java.awt.Rectangle)
-     */
     @Override
     public void repaint(final Rectangle r) {
         // Empty
     }
 
-    /**
-     * @see javax.swing.JComponent#revalidate()
-     */
     @Override
     public void revalidate() {
         // Empty
     }
 
-    /**
-     * @see java.awt.Container#validate()
-     */
     @Override
     public void validate() {
         // Empty
     }
 
-    /**
-     * @see java.awt.Component#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
-     */
     @Override
     protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
         // Strings get interned...
@@ -192,8 +165,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
      * Sets the <code>String</code> object for the cell being rendered to <code>value</code>.
      *
      * @param value the string value for this cell; if value is <code>null</code> it sets the text value to an empty string
-     *
-     * @see JLabel#setText
      */
     protected void setValue(final Object value) {
         setText((value == null) ? "" : value.toString());

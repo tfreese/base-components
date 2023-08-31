@@ -9,9 +9,6 @@ import org.jdesktop.swingx.JXMonthView;
  * @author Thomas Freese
  */
 public class DatePickerFontChangeHandler extends ComponentFontChangeHandler {
-    /**
-     * @see de.freese.base.swing.fontchange.handler.ComponentFontChangeHandler#fontChanged(java.awt.Font, java.lang.Object)
-     */
     @Override
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);

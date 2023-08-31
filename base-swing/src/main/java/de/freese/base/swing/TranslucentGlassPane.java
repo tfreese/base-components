@@ -87,9 +87,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         return this.timerIncrementMillies;
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseClicked(final MouseEvent event) {
         redispatchMouseEvent(event, false);
@@ -97,33 +94,21 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         Toolkit.getDefaultToolkit().beep();
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseEntered(final MouseEvent event) {
         redispatchMouseEvent(event, false);
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseExited(final MouseEvent event) {
         redispatchMouseEvent(event, false);
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
     @Override
     public void mousePressed(final MouseEvent event) {
         redispatchMouseEvent(event, false);
     }
 
-    /**
-     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-     */
     @Override
     public void mouseReleased(final MouseEvent event) {
         redispatchMouseEvent(event, true);
@@ -174,9 +159,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         this.timerIncrementMillies = timerIncrementMillies;
     }
 
-    /**
-     * @see javax.swing.JComponent#setVisible(boolean)
-     */
     @Override
     public void setVisible(final boolean flag) {
         setAlpha(this.alphaStart);
@@ -189,9 +171,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         }
     }
 
-    // /**
-    // * @see javax.swing.JComponent#paintChildren(java.awt.Graphics)
-    // */
     // protected void paintChildren(Graphics g)
     // {
     // // Die Children werden in der transparenz der Glass-pane gezeichnet,
@@ -201,9 +180,6 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
     // super.paintChildren(g);
     // }
 
-    /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);

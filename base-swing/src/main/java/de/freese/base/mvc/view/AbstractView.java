@@ -47,9 +47,6 @@ public abstract class AbstractView implements View {
         // // Dialoge sollten nicht die Tasks blockieren bei Fehlermeldungen
         // SwingUtilities.invokeLater(new Runnable()
         // {
-        // /**
-        // * @see java.lang.Runnable#run()
-        // */
         // @Override
         // public void run()
         // {

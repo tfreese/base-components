@@ -11,7 +11,6 @@ import java.util.function.Consumer;
  * @param <E> Konkreter Exception-Typ
  *
  * @author Thomas Freese
- * @see java.util.function.Consumer
  */
 @FunctionalInterface
 public interface ThrowingConsumer<T, E extends Exception> {

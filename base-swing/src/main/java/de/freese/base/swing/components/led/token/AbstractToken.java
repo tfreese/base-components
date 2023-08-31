@@ -29,17 +29,11 @@ public abstract class AbstractToken<V> implements Token<V> {
         this.color = color;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#getBitMasks()
-     */
     @Override
     public List<byte[]> getBitMasks() {
         return this.bitMasks;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#getColor()
-     */
     @Override
     public Color getColor() {
         return this.color;

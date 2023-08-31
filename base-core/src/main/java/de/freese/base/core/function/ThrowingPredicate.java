@@ -11,7 +11,6 @@ import java.util.function.Predicate;
  * @param <E> Konkreter Exception-Typ
  *
  * @author Thomas Freese
- * @see java.util.function.Predicate
  */
 @FunctionalInterface
 public interface ThrowingPredicate<T, E extends Exception> {

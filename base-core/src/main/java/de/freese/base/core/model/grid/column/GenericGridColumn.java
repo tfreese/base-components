@@ -4,8 +4,6 @@ package de.freese.base.core.model.grid.column;
 import java.util.Objects;
 import java.util.function.Function;
 
-import de.freese.base.core.model.grid.GridColumn;
-
 /**
  * @author Thomas Freese
  */
@@ -26,9 +24,6 @@ public class GenericGridColumn<T> extends AbstractGridColumn<T> {
         this.mapper = Objects.requireNonNull(mapper, "mapper required");
     }
 
-    /**
-     * @see GridColumn#getValue(java.lang.Object)
-     */
     @Override
     public T getValue(final Object object) {
         if (object == null) {

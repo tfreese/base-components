@@ -1,8 +1,6 @@
 // Created: 25.01.2018
 package de.freese.base.core.model.grid.column;
 
-import de.freese.base.core.model.grid.GridColumn;
-
 /**
  * @author Thomas Freese
  */
@@ -24,9 +22,6 @@ public class DoubleGridColumn extends AbstractGridColumn<Double> {
         super(Double.class, name, length, precision, comment);
     }
 
-    /**
-     * @see GridColumn#getValue(java.lang.Object)
-     */
     @Override
     public Double getValue(final Object object) {
         if (object == null) {

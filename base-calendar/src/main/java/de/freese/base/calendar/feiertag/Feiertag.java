@@ -23,9 +23,6 @@ public class Feiertag {
         return this.variablerFeiertag;
     }
 
-    /**
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         if (isVariablerFeiertag()) {

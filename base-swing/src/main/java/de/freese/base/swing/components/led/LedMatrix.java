@@ -183,9 +183,6 @@ public class LedMatrix implements Painter<LedConfig> {
         super();
     }
 
-    /**
-     * @see javax.swing.Painter#paint(java.awt.Graphics2D, java.lang.Object, int, int)
-     */
     @Override
     public void paint(final Graphics2D g, final LedConfig config, final int width, final int height) {
         configureGraphics(g, config);

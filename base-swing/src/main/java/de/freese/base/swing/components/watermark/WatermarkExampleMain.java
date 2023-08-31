@@ -34,9 +34,6 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new WatermarkExampleMain());
         frame.addWindowListener(new WindowAdapter() {
-            /**
-             * @see java.awt.event.WindowAdapter#windowClosing(java.awt.event.WindowEvent)
-             */
             @Override
             public void windowClosing(final WindowEvent e) {
                 Window win = e.getWindow();
@@ -70,9 +67,6 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
         initialize();
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent ae) {
         JFileChooser chooser = new JFileChooser();

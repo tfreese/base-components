@@ -20,9 +20,6 @@ public class NotSerializableDataFlavor extends DataFlavor {
         super(representationClass, humanPresentableName);
     }
 
-    /**
-     * @see java.awt.datatransfer.DataFlavor#isFlavorSerializedObjectType()
-     */
     @Override
     public boolean isFlavorSerializedObjectType() {
         // Do not clone !

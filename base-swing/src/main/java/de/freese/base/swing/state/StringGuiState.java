@@ -26,9 +26,6 @@ public class StringGuiState extends AbstractGuiState {
         return this.value;
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         // Empty
@@ -38,9 +35,6 @@ public class StringGuiState extends AbstractGuiState {
         this.value = value;
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         // Empty

@@ -1,13 +1,10 @@
 // Created: 18.05.2020
 package de.freese.base.swing.task;
 
-import javax.swing.SwingWorker;
-
 /**
  * API für asynchrone Ausführungen unter Swing, analog zur JavaFX Task-Implementierung.
  *
  * @author Thomas Freese
- * @see SwingWorker
  */
 @SuppressWarnings("checkstyle:InterfaceIsType")
 public interface SwingTask {

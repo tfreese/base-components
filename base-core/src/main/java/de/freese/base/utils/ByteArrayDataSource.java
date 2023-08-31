@@ -148,17 +148,11 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
     }
 
-    /**
-     * @see jakarta.activation.DataSource#getContentType()
-     */
     @Override
     public String getContentType() {
         return this.mimeType;
     }
 
-    /**
-     * @see jakarta.activation.DataSource#getInputStream()
-     */
     @Override
     public InputStream getInputStream() throws IOException {
         if (this.data == null) {
@@ -168,17 +162,11 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         return new ByteArrayInputStream(this.data);
     }
 
-    /**
-     * @see jakarta.activation.DataSource#getName()
-     */
     @Override
     public String getName() {
         return this.name;
     }
 
-    /**
-     * @see jakarta.activation.DataSource#getOutputStream()
-     */
     @Override
     public OutputStream getOutputStream() throws IOException {
         if (this.data == null) {

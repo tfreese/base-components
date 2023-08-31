@@ -21,9 +21,6 @@ public final class ReactiveStreamsFlowBridge {
             this.reactiveStreams = reactivePublisher;
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Publisher#subscribe(java.util.concurrent.Flow.Subscriber)
-         */
         @Override
         public void subscribe(final Flow.Subscriber<? super T> flow) {
             if (flow == null) {
@@ -48,41 +45,26 @@ public final class ReactiveStreamsFlowBridge {
             this.reactiveStreams = reactive;
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onComplete()
-         */
         @Override
         public void onComplete() {
             this.reactiveStreams.onComplete();
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-         */
         @Override
         public void onError(final Throwable t) {
             this.reactiveStreams.onError(t);
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
-         */
         @Override
         public void onNext(final T t) {
             this.reactiveStreams.onNext(t);
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
-         */
         @Override
         public void onSubscribe(final Flow.Subscription s) {
             this.reactiveStreams.onSubscribe(new ReactiveToFlowSubscription(s));
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Publisher#subscribe(java.util.concurrent.Flow.Subscriber)
-         */
         @Override
         public void subscribe(final Flow.Subscriber<? super U> s) {
             if (s == null) {
@@ -104,33 +86,21 @@ public final class ReactiveStreamsFlowBridge {
             this.reactiveStreams = reactive;
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onComplete()
-         */
         @Override
         public void onComplete() {
             this.reactiveStreams.onComplete();
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onError(java.lang.Throwable)
-         */
         @Override
         public void onError(final Throwable throwable) {
             this.reactiveStreams.onError(throwable);
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onNext(java.lang.Object)
-         */
         @Override
         public void onNext(final T item) {
             this.reactiveStreams.onNext(item);
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscriber#onSubscribe(java.util.concurrent.Flow.Subscription)
-         */
         @Override
         public void onSubscribe(final Flow.Subscription subscription) {
             this.reactiveStreams.onSubscribe(new ReactiveToFlowSubscription(subscription));
@@ -147,17 +117,11 @@ public final class ReactiveStreamsFlowBridge {
             this.reactiveStreams = reactive;
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscription#cancel()
-         */
         @Override
         public void cancel() {
             this.reactiveStreams.cancel();
         }
 
-        /**
-         * @see java.util.concurrent.Flow.Subscription#request(long)
-         */
         @Override
         public void request(final long n) {
             this.reactiveStreams.request(n);
@@ -174,9 +138,6 @@ public final class ReactiveStreamsFlowBridge {
             this.flow = flowPublisher;
         }
 
-        /**
-         * @see org.reactivestreams.Publisher#subscribe(org.reactivestreams.Subscriber)
-         */
         @Override
         public void subscribe(final org.reactivestreams.Subscriber<? super T> reactive) {
             if (reactive == null) {
@@ -201,41 +162,26 @@ public final class ReactiveStreamsFlowBridge {
             this.flow = flow;
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onComplete()
-         */
         @Override
         public void onComplete() {
             this.flow.onComplete();
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onError(java.lang.Throwable)
-         */
         @Override
         public void onError(final Throwable t) {
             this.flow.onError(t);
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onNext(java.lang.Object)
-         */
         @Override
         public void onNext(final T t) {
             this.flow.onNext(t);
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onSubscribe(org.reactivestreams.Subscription)
-         */
         @Override
         public void onSubscribe(final org.reactivestreams.Subscription s) {
             this.flow.onSubscribe(new FlowToReactiveSubscription(s));
         }
 
-        /**
-         * @see org.reactivestreams.Publisher#subscribe(org.reactivestreams.Subscriber)
-         */
         @Override
         public void subscribe(final org.reactivestreams.Subscriber<? super U> s) {
             if (s == null) {
@@ -257,33 +203,21 @@ public final class ReactiveStreamsFlowBridge {
             this.flow = flow;
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onComplete()
-         */
         @Override
         public void onComplete() {
             this.flow.onComplete();
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onError(java.lang.Throwable)
-         */
         @Override
         public void onError(final Throwable throwable) {
             this.flow.onError(throwable);
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onNext(java.lang.Object)
-         */
         @Override
         public void onNext(final T item) {
             this.flow.onNext(item);
         }
 
-        /**
-         * @see org.reactivestreams.Subscriber#onSubscribe(org.reactivestreams.Subscription)
-         */
         @Override
         public void onSubscribe(final org.reactivestreams.Subscription subscription) {
             this.flow.onSubscribe(new FlowToReactiveSubscription(subscription));
@@ -300,17 +234,11 @@ public final class ReactiveStreamsFlowBridge {
             this.flow = flow;
         }
 
-        /**
-         * @see org.reactivestreams.Subscription#cancel()
-         */
         @Override
         public void cancel() {
             this.flow.cancel();
         }
 
-        /**
-         * @see org.reactivestreams.Subscription#request(long)
-         */
         @Override
         public void request(final long n) {
             this.flow.request(n);

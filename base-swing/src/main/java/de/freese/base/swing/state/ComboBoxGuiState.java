@@ -29,9 +29,6 @@ public class ComboBoxGuiState extends AbstractGuiState {
         super(JComboBox.class);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public void restore(final Component component) {
@@ -73,9 +70,6 @@ public class ComboBoxGuiState extends AbstractGuiState {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public void store(final Component component) {

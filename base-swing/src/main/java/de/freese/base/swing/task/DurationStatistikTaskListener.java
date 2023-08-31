@@ -24,9 +24,6 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
 
     private Timer timer;
 
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         String propertyName = event.getPropertyName();

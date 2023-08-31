@@ -36,9 +36,6 @@ abstract class AbstractCrypto implements Crypto {
         this.secureRandom = SecureRandom.getInstance(this.config.getAlgorithmSecureRandom(), this.config.getProviderSecureRandom());
     }
 
-    /**
-     * @see de.freese.base.security.crypto.Crypto#decrypt(byte[])
-     */
     @Override
     public byte[] decrypt(final byte[] bytes) throws Exception {
         Cipher cipher = createCipherDecrypt();
@@ -46,9 +43,6 @@ abstract class AbstractCrypto implements Crypto {
         return decrypt(cipher, bytes);
     }
 
-    /**
-     * @see de.freese.base.security.crypto.Crypto#decrypt(java.io.InputStream, java.io.OutputStream)
-     */
     @Override
     public void decrypt(final InputStream in, final OutputStream out) throws Exception {
         Cipher cipher = createCipherDecrypt();
@@ -56,9 +50,6 @@ abstract class AbstractCrypto implements Crypto {
         decrypt(cipher, in, out);
     }
 
-    /**
-     * @see de.freese.base.security.crypto.Crypto#digest(byte[])
-     */
     @Override
     public byte[] digest(final byte[] bytes) throws Exception {
         MessageDigest messageDigest = createMessageDigest();
@@ -71,9 +62,6 @@ abstract class AbstractCrypto implements Crypto {
         return digest;
     }
 
-    /**
-     * @see de.freese.base.security.crypto.Crypto#digest(java.io.InputStream)
-     */
     @Override
     public byte[] digest(final InputStream in) throws Exception {
         MessageDigest messageDigest = createMessageDigest();
@@ -92,9 +80,6 @@ abstract class AbstractCrypto implements Crypto {
         return messageDigest.digest();
     }
 
-    /**
-     * @see de.freese.base.security.crypto.Crypto#encrypt(byte[])
-     */
     @Override
     public byte[] encrypt(final byte[] bytes) throws Exception {
         Cipher cipher = createCipherEncrypt();
@@ -102,9 +87,6 @@ abstract class AbstractCrypto implements Crypto {
         return encrypt(cipher, bytes);
     }
 
-    /**
-     * @see de.freese.base.security.crypto.Crypto#encrypt(java.io.InputStream, java.io.OutputStream)
-     */
     @Override
     public void encrypt(final InputStream in, final OutputStream out) throws Exception {
         Cipher cipher = createCipherEncrypt();

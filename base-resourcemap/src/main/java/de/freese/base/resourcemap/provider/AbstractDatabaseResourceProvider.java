@@ -15,14 +15,12 @@ import javax.sql.DataSource;
  * @author Thomas Freese
  */
 public abstract class AbstractDatabaseResourceProvider implements ResourceProvider {
-    /**
-     * @see de.freese.base.resourcemap.provider.ResourceProvider#getResources(java.lang.String, java.util.Locale)
-     */
     @Override
     public Map<String, String> getResources(final String bundleName, final Locale locale) {
         Map<String, String> map = new HashMap<>();
 
-        try (Connection connection = getDataSource().getConnection(); PreparedStatement preparedStatement = createPreparedStatement(connection)) {
+        try (Connection connection = getDataSource().getConnection();
+             PreparedStatement preparedStatement = createPreparedStatement(connection)) {
             setLocaleProperty(preparedStatement, locale);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

@@ -19,9 +19,6 @@ public class GenericMethodListCellRenderer extends AbstractGenericListCellRender
         super(methodName, nullText);
     }
 
-    /**
-     * @see de.freese.base.swing.components.list.renderer.AbstractGenericListCellRenderer#getString(java.lang.Object, java.lang.String)
-     */
     @Override
     protected String getString(final Object object, final String attribute) throws Exception {
         return "" + invokeMethod(object, attribute);

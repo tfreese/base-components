@@ -22,9 +22,6 @@ public class HorizontalLayout implements LayoutManager {
         this.gap = gap;
     }
 
-    /**
-     * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String, java.awt.Component)
-     */
     @Override
     public void addLayoutComponent(final String name, final Component c) {
         // Empty
@@ -34,9 +31,6 @@ public class HorizontalLayout implements LayoutManager {
         return this.gap;
     }
 
-    /**
-     * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
-     */
     @Override
     public void layoutContainer(final Container parent) {
         Insets insets = parent.getInsets();
@@ -55,17 +49,11 @@ public class HorizontalLayout implements LayoutManager {
         }
     }
 
-    /**
-     * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
-     */
     @Override
     public Dimension minimumLayoutSize(final Container parent) {
         return preferredLayoutSize(parent);
     }
 
-    /**
-     * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
-     */
     @Override
     public Dimension preferredLayoutSize(final Container parent) {
         Insets insets = parent.getInsets();
@@ -87,9 +75,6 @@ public class HorizontalLayout implements LayoutManager {
         return pref;
     }
 
-    /**
-     * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
-     */
     @Override
     public void removeLayoutComponent(final Component c) {
         // Empty

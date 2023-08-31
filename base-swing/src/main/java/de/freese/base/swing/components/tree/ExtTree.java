@@ -67,9 +67,6 @@ public class ExtTree extends JTree implements Autoscroll {
         initialize();
     }
 
-    /**
-     * @see java.awt.dnd.Autoscroll#autoscroll(java.awt.Point)
-     */
     @Override
     public void autoscroll(final Point p) {
         int realRow = getRowForLocation(p.x, p.y);
@@ -82,9 +79,6 @@ public class ExtTree extends JTree implements Autoscroll {
         scrollRowToVisible(realRow);
     }
 
-    /**
-     * @see java.awt.dnd.Autoscroll#getAutoscrollInsets()
-     */
     @Override
     public Insets getAutoscrollInsets() {
         Rectangle outer = getBounds();
@@ -118,9 +112,6 @@ public class ExtTree extends JTree implements Autoscroll {
         setAutoscrolls(true);
     }
 
-    /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);

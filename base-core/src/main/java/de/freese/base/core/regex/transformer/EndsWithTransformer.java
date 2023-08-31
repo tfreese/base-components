@@ -4,9 +4,6 @@ package de.freese.base.core.regex.transformer;
  * @author Thomas Freese
  */
 public class EndsWithTransformer implements RegExTransformer {
-    /**
-     * @see de.freese.base.core.regex.transformer.RegExTransformer#regExToWildcard(java.lang.String)
-     */
     @Override
     public String regExToWildcard(final String regex) {
         if (regex.endsWith(".*")) {
@@ -24,9 +21,6 @@ public class EndsWithTransformer implements RegExTransformer {
         return regex;
     }
 
-    /**
-     * @see de.freese.base.core.regex.transformer.RegExTransformer#wildcardToRegEx(java.lang.String)
-     */
     @Override
     public String wildcardToRegEx(final String wildcard) {
         if (!wildcard.endsWith("$") && !wildcard.endsWith(".*") && !wildcard.endsWith(".{1}")) {

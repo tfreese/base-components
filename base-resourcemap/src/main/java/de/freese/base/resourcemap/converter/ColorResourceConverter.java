@@ -9,9 +9,6 @@ import java.awt.Color;
  * @author Thomas Freese
  */
 public class ColorResourceConverter extends AbstractResourceConverter<Color> {
-    /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
-     */
     @Override
     public Color convert(final String key, final String value) {
         Color color = null;

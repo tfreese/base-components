@@ -90,9 +90,6 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
             // TreeUtils.expand(tree, 10);
 
             SwingWorker<Void, TreePath> testWorker = new SwingWorker<>() {
-                /**
-                 * @see SwingWorker#doInBackground()
-                 */
                 @Override
                 protected Void doInBackground() throws Exception {
                     int[] expansionIndices = new int[]{0, 1, 2};
@@ -127,9 +124,6 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
                     return null;
                 }
 
-                /**
-                 * @see SwingWorker#process(List)
-                 */
                 @Override
                 protected void process(final List<TreePath> chunks) {
                     for (TreePath treePath : chunks) {

@@ -40,9 +40,6 @@ public class BlackWhiteOp implements BufferedImageOp {
         this.colorLimit = colorLimit;
     }
 
-    /**
-     * @see java.awt.image.BufferedImageOp#createCompatibleDestImage(java.awt.image.BufferedImage, java.awt.image.ColorModel)
-     */
     @Override
     public BufferedImage createCompatibleDestImage(final BufferedImage src, final ColorModel destCM) {
         ColorModel colorModel = destCM;
@@ -60,9 +57,6 @@ public class BlackWhiteOp implements BufferedImageOp {
         return new BufferedImage(colorModel, colorModel.createCompatibleWritableRaster(w, h), colorModel.isAlphaPremultiplied(), null);
     }
 
-    /**
-     * @see java.awt.image.BufferedImageOp#filter(java.awt.image.BufferedImage, java.awt.image.BufferedImage)
-     */
     @Override
     public BufferedImage filter(final BufferedImage src, final BufferedImage dest) {
         if (src == null) {
@@ -107,17 +101,11 @@ public class BlackWhiteOp implements BufferedImageOp {
         return destImage;
     }
 
-    /**
-     * @see java.awt.image.BufferedImageOp#getBounds2D(java.awt.image.BufferedImage)
-     */
     @Override
     public Rectangle2D getBounds2D(final BufferedImage src) {
         return src.getRaster().getBounds();
     }
 
-    /**
-     * @see java.awt.image.BufferedImageOp#getPoint2D(java.awt.geom.Point2D, java.awt.geom.Point2D)
-     */
     @Override
     public Point2D getPoint2D(final Point2D srcPt, final Point2D dstPt) {
         Point2D point2d = dstPt;
@@ -131,9 +119,6 @@ public class BlackWhiteOp implements BufferedImageOp {
         return point2d;
     }
 
-    /**
-     * @see java.awt.image.BufferedImageOp#getRenderingHints()
-     */
     @Override
     public RenderingHints getRenderingHints() {
         return this.hints;

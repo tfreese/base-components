@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
  * A Tree ExpandListener for LazyLoading of the Children for a MutableTreeNode.<br>
  *
  * @author Thomas Freese
- * @see LazyLoadingTreeNode
  */
 public class LazyLoadingTreeController implements TreeWillExpandListener {
     private final Executor executor;
@@ -61,17 +60,11 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
         this.semaphore.acquireUninterruptibly();
     }
 
-    /**
-     * @see TreeWillExpandListener#treeWillCollapse(TreeExpansionEvent)
-     */
     @Override
     public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException {
         // Empty
     }
 
-    /**
-     * @see TreeWillExpandListener#treeWillExpand(TreeExpansionEvent)
-     */
     @Override
     public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException {
         DefaultTreeModel treeModel = (DefaultTreeModel) ((JTree) event.getSource()).getModel();

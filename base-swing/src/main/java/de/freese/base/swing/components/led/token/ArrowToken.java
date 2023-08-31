@@ -33,9 +33,6 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection> {
         setValue(value);
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.token.Token#setValue(java.lang.Object)
-     */
     @Override
     public void setValue(final ArrowDirection value) {
         String displayValue = Objects.requireNonNull(value, "value required").name();

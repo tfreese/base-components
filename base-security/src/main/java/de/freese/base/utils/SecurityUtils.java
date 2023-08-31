@@ -37,8 +37,6 @@ public final class SecurityUtils {
 
     /**
      * This method returns the available implementations for a service type.
-     *
-     * @param serviceType String, @see {@link #getServiceTypes()}
      */
     public static String[] getCryptoImpls(final String serviceType) {
         Set<String> result = new TreeSet<>();

@@ -24,9 +24,6 @@ public class ListGuiState extends AbstractGuiState {
         super(JList.class);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         super.restore(component);
@@ -41,9 +38,6 @@ public class ListGuiState extends AbstractGuiState {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         super.store(component);

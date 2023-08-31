@@ -28,9 +28,6 @@ public class TextComponentGuiState extends AbstractGuiState {
         return this.text;
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         super.restore(component);
@@ -45,9 +42,6 @@ public class TextComponentGuiState extends AbstractGuiState {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         super.store(component);
@@ -57,9 +51,6 @@ public class TextComponentGuiState extends AbstractGuiState {
         this.text = textComponent.getText();
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#supportsType(java.lang.Class)
-     */
     @Override
     public boolean supportsType(final Class<?> type) {
         return JTextComponent.class.isAssignableFrom(type);

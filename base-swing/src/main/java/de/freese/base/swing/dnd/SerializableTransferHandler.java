@@ -28,9 +28,6 @@ public class SerializableTransferHandler extends TransferHandler {
 
     private final transient Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * @see javax.swing.TransferHandler#canImport(javax.swing.JComponent, java.awt.datatransfer.DataFlavor[])
-     */
     @Override
     public boolean canImport(final JComponent comp, final DataFlavor[] transferFlavors) {
         for (DataFlavor transferFlavor : transferFlavors) {
@@ -42,17 +39,11 @@ public class SerializableTransferHandler extends TransferHandler {
         return false;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-     */
     @Override
     public int getSourceActions(final JComponent c) {
         return COPY;
     }
 
-    /**
-     * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-     */
     @Override
     protected Transferable createTransferable(final JComponent c) {
         List<Serializable> objects = new ArrayList<>();

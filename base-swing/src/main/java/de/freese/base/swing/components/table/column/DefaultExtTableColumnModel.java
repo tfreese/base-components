@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.event.EventListenerList;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
@@ -215,8 +214,6 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     /**
      * Notifies <code>TableColumnModelExtListener</code>s about property changes of contained columns. The event instance is the original as fired by the
      * <code>TableColumn</code>.
-     *
-     * @see EventListenerList
      */
     protected void fireColumnPropertyChange(final PropertyChangeEvent evt) {
         if (IGNORE_EVENT.equals(evt.getPropertyName())) {

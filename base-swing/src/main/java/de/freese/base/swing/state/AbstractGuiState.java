@@ -32,9 +32,6 @@ public abstract class AbstractGuiState implements GuiState {
         return this.created;
     }
 
-    /**
-     * @see GuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         if (component == null) {
@@ -45,9 +42,6 @@ public abstract class AbstractGuiState implements GuiState {
         component.setVisible(this.visible);
     }
 
-    /**
-     * @see GuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         Objects.requireNonNull(component, "component required");
@@ -56,9 +50,6 @@ public abstract class AbstractGuiState implements GuiState {
         this.visible = component.isVisible();
     }
 
-    /**
-     * @see GuiState#supportsType(java.lang.Class)
-     */
     @Override
     public boolean supportsType(final Class<?> type) {
         for (Class<?> supportedType : this.supportedTypes) {

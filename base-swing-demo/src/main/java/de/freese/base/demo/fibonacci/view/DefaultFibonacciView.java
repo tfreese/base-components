@@ -85,9 +85,6 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView 
         this.controller.shutdown();
     }
 
-    /**
-     * @see FibonacciView#setResult(long)
-     */
     @Override
     public void setResult(final long value) {
         String text = getResourceMap().getString("fibonacci.result", value);

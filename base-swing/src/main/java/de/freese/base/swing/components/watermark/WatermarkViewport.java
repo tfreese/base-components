@@ -26,17 +26,11 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent {
         setOpaque(false);
     }
 
-    /**
-     * @see WatermarkComponent#getWatermark()
-     */
     @Override
     public ImageIcon getWatermark() {
         return this.watermark;
     }
 
-    /**
-     * @see javax.swing.JViewport#paint(java.awt.Graphics)
-     */
     @Override
     public void paint(final Graphics g) {
         if (this.watermark != null) {
@@ -61,17 +55,11 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent {
         super.paint(g);
     }
 
-    /**
-     * @see WatermarkComponent#setPosition(java.awt.Point)
-     */
     @Override
     public void setPosition(final Point position) {
         this.position = position;
     }
 
-    /**
-     * @see WatermarkComponent#setWatermark(javax.swing.ImageIcon)
-     */
     @Override
     public void setWatermark(final ImageIcon watermark) {
         this.watermark = watermark;

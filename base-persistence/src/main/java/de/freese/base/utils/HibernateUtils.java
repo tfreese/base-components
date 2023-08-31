@@ -65,9 +65,6 @@ public final class HibernateUtils {
      * Liefert das konkrete Objekt hinter dem {@link HibernateProxy}.
      *
      * @param maybeProxy möglicher {@link HibernateProxy}
-     *
-     * @see HibernateProxy
-     * @see LazyInitializer
      */
     public static <T> T deProxy(final Object maybeProxy) throws ClassCastException {
         Class<T> baseClass = getClassFromProxy(maybeProxy);
@@ -80,9 +77,6 @@ public final class HibernateUtils {
      *
      * @param maybeProxy möglicher {@link HibernateProxy}
      * @param baseClass Klasse für den cast
-     *
-     * @see HibernateProxy
-     * @see LazyInitializer
      */
     public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException {
         if (maybeProxy instanceof HibernateProxy hibernateProxy) {
@@ -258,9 +252,6 @@ public final class HibernateUtils {
      * Force initialization of a proxy or persistent collection.<br>
      * Note: This only ensures initialization of a proxy object or collection.<br>
      * It is not guaranteed that the elements INSIDE the collection will be initialized/materialized.
-     *
-     * @see Hibernate#isInitialized(Object)
-     * @see Hibernate#initialize(Object)
      */
     public static void initialize(final Object maybeProxy) {
         if (!Hibernate.isInitialized(maybeProxy)) {

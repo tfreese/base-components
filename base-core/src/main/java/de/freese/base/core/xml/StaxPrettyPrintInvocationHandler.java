@@ -30,9 +30,6 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
         this.lineSeparator = System.getProperty("line.separator");
     }
 
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-     */
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         String m = method.getName();

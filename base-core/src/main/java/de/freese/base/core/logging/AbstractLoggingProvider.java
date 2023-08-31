@@ -14,9 +14,6 @@ public abstract class AbstractLoggingProvider implements LoggingProvider {
         super();
     }
 
-    /**
-     * @see de.freese.base.core.logging.LoggingProvider#getLogger()
-     */
     @Override
     public Logger getLogger() {
         return this.logger;

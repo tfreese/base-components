@@ -10,7 +10,6 @@ import java.util.function.Supplier;
  * @param <E> Konkreter Exception-Typ
  *
  * @author Thomas Freese
- * @see java.util.function.Supplier
  */
 @FunctionalInterface
 public interface ThrowingSupplier<R, E extends Exception> {

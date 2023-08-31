@@ -73,9 +73,6 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         return this.groupedColumnCount;
     }
 
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         if ("enabled".equals(evt.getPropertyName())) {
@@ -152,15 +149,9 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
     protected Action createControlAction() {
         Action control = new AbstractAction() {
-            /**
-             *
-             */
             @Serial
             private static final long serialVersionUID = 1L;
 
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
             @Override
             public void actionPerformed(final ActionEvent e) {
                 showPopup();
@@ -191,9 +182,6 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
             @Serial
             private static final long serialVersionUID = -6186677548811556005L;
 
-            /**
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
             @Override
             public void actionPerformed(final ActionEvent e) {
                 // JTableExcelExporter excelExporter = new JTableExcelExporter("");

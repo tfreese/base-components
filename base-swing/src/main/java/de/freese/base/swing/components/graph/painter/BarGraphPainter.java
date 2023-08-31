@@ -14,9 +14,6 @@ import java.util.List;
 public class BarGraphPainter extends AbstractGraphPainter {
     private final Rectangle2D rectangle2d = new Rectangle2D.Float();
 
-    /**
-     * @see de.freese.base.swing.components.graph.painter.AbstractGraphPainter#paintGraph(java.awt.Graphics2D, java.awt.Component, float, float)
-     */
     @Override
     public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
         List<Float> values = getValues().getLastValues((int) width);

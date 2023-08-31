@@ -13,7 +13,6 @@ import java.util.function.BiFunction;
  * @param <E> Konkreter Exception-Typ
  *
  * @author Thomas Freese
- * @see java.util.function.BiFunction
  */
 @FunctionalInterface
 public interface ThrowingBiFunction<T, U, R, E extends Exception> {

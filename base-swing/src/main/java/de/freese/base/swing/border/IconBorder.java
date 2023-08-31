@@ -45,9 +45,6 @@ public class IconBorder implements Border, Serializable {
         setIcon(icon);
     }
 
-    /**
-     * @see javax.swing.border.Border#getBorderInsets(java.awt.Component)
-     */
     @Override
     public Insets getBorderInsets(final Component c) {
         if (this.borderInsets == null) {
@@ -90,17 +87,11 @@ public class IconBorder implements Border, Serializable {
         return this.iconButton;
     }
 
-    /**
-     * @see javax.swing.border.Border#isBorderOpaque()
-     */
     @Override
     public boolean isBorderOpaque() {
         return false;
     }
 
-    /**
-     * @see javax.swing.border.Border#paintBorder(java.awt.Component, java.awt.Graphics, int, int, int, int)
-     */
     @Override
     public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
         int xPos = 0;

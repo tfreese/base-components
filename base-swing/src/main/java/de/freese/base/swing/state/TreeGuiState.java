@@ -34,9 +34,6 @@ public class TreeGuiState extends AbstractGuiState {
         return (this.selectedRows != null) && (this.selectedRows.length > 0);
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#restore(java.awt.Component)
-     */
     @Override
     public void restore(final Component component) {
         super.restore(component);
@@ -77,9 +74,6 @@ public class TreeGuiState extends AbstractGuiState {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.state.AbstractGuiState#store(java.awt.Component)
-     */
     @Override
     public void store(final Component component) {
         super.store(component);

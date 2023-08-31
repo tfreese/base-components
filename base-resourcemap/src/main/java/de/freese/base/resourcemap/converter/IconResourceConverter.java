@@ -9,9 +9,6 @@ import javax.swing.ImageIcon;
  * @author Thomas Freese
  */
 public class IconResourceConverter extends AbstractResourceConverter<Icon> {
-    /**
-     * @see de.freese.base.resourcemap.converter.ResourceConverter#convert(java.lang.String, java.lang.String)
-     */
     @Override
     public Icon convert(final String key, final String value) {
         if (value == null) {

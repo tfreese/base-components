@@ -123,9 +123,6 @@ public final class ErrorPane extends JPanel {
                 // {
                 // private static final long serialVersionUID = 0L;
                 //
-                // /**
-                // * @see javax.swing.TransferHandler#createTransferable(javax.swing.JComponent)
-                // */
                 // protected Transferable createTransferable(JComponent c)
                 // {
                 // String text = getEditorPaneDetails().getSelectedText();
@@ -140,9 +137,6 @@ public final class ErrorPane extends JPanel {
                 // return new StringSelection(text);
                 // }
                 //
-                // /**
-                // * @see javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
-                // */
                 // public int getSourceActions(JComponent c)
                 // {
                 // return TransferHandler.COPY;
@@ -170,9 +164,6 @@ public final class ErrorPane extends JPanel {
             }
 
             this.buttonClose.addKeyListener(new KeyAdapter() {
-                /**
-                 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-                 */
                 @Override
                 public void keyPressed(final KeyEvent e) {
                     if ((e.getKeyCode() == KeyEvent.VK_ENTER)) {
@@ -201,9 +192,6 @@ public final class ErrorPane extends JPanel {
             this.buttonDetails.setText(text + " >>");
 
             this.buttonDetails.addKeyListener(new KeyAdapter() {
-                /**
-                 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
-                 */
                 @Override
                 public void keyPressed(final KeyEvent e) {
                     if ((e.getKeyCode() == KeyEvent.VK_ENTER)) {
@@ -301,9 +289,6 @@ public final class ErrorPane extends JPanel {
                     //
                     // Resource resource = new InputStreamResource(dataSource.getInputStream())
                     // {
-                    // /**
-                    // * @see org.springframework.core.io.InputStreamResource#isOpen()
-                    // */
                     // @Override
                     // public boolean isOpen()
                     // {

@@ -13,9 +13,6 @@ public interface Throttler {
     /**
      * Attempts to acquire a permit to perform an execution against the rate limiter, waiting until one is available or
      * the thread is interrupted.
-     *
-     * @see #tryAcquirePermit()
-     * @see #reservePermit()
      */
     default void acquirePermit() {
         acquirePermits(1);
@@ -26,8 +23,6 @@ public interface Throttler {
      * they are available or the thread is interrupted.
      *
      * @throws IllegalArgumentException if {@code permits} is < 1
-     * @see #tryAcquirePermits(int)
-     * @see #reservePermits(int)
      */
     default void acquirePermits(final int permits) {
         long waitNanos = reservePermits(permits);
@@ -70,9 +65,6 @@ public interface Throttler {
      * Reserves a permit to perform an execution against the rate limiter, and returns the nanoseconds that the caller is
      * expected to wait before acting on the permit. Returns {@code 0} if the permit is immediately available and no
      * waiting is needed.
-     *
-     * @see #acquirePermit()
-     * @see #tryAcquirePermit()
      */
     default long reservePermit() {
         return reservePermits(1);
@@ -84,8 +76,6 @@ public interface Throttler {
      * waiting is needed.
      *
      * @throws IllegalArgumentException if {@code permits} is < 1
-     * @see #acquirePermits(int)
-     * @see #tryAcquirePermits(int)
      */
     long reservePermits(int permits);
 
@@ -93,9 +83,6 @@ public interface Throttler {
      * Tries to acquire a permit to perform an execution against the rate limiter, returning immediately without waiting.
      *
      * @return whether the requested {@code permits} are successfully acquired or not
-     *
-     * @see #acquirePermit()
-     * @see #reservePermits(int)
      */
     default boolean tryAcquirePermit() {
         return tryAcquirePermits(1);
@@ -108,7 +95,6 @@ public interface Throttler {
      * @return whether the requested {@code permits} are successfully acquired or not
      *
      * @throws IllegalArgumentException if {@code permits} is < 1
-     * @see #acquirePermits(int)
      */
     default boolean tryAcquirePermits(int permits) {
         return reservePermits(permits) == 0;

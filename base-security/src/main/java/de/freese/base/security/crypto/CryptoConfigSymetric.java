@@ -54,9 +54,6 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric> {
         super();
     }
 
-    /**
-     * @see de.freese.base.security.crypto.CryptoConfig#build()
-     */
     @Override
     public Crypto build() throws Exception {
         CryptoSymetric crypto = new CryptoSymetric(this);

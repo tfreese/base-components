@@ -24,8 +24,6 @@ public class DefaultResourceScanner implements ResourceScanner {
     /**
      * Versucht alle Property-Dateien im Package zu finden und setzt diese als BundleBaseNames.<br>
      * Die Packages dürfen im bin-, META_INF- oder im Jar-Ordner liegen.
-     *
-     * @see de.freese.base.resourcemap.scanner.ResourceScanner#scanResources(java.lang.String)
      */
     @Override
     public Set<String> scanResources(final String basePath) {

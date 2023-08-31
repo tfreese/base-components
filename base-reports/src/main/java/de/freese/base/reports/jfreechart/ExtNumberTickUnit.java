@@ -32,9 +32,6 @@ public class ExtNumberTickUnit extends NumberTickUnit {
         this.excludes = excludes;
     }
 
-    /**
-     * @see org.jfree.chart.axis.NumberTickUnit#valueToString(double)
-     */
     @Override
     public String valueToString(final double value) {
         String strValue = super.valueToString(value);

@@ -18,33 +18,21 @@ public class ByteBufferInputStream extends InputStream {
         this.buffer = Objects.requireNonNull(buffer, "buffer required");
     }
 
-    /**
-     * @see java.io.InputStream#available()
-     */
     @Override
     public int available() throws IOException {
         return this.buffer.remaining();
     }
 
-    /**
-     * @see java.io.InputStream#mark(int)
-     */
     @Override
     public synchronized void mark(final int readLimit) {
         this.buffer.mark();
     }
 
-    /**
-     * @see java.io.InputStream#markSupported()
-     */
     @Override
     public boolean markSupported() {
         return true;
     }
 
-    /**
-     * @see java.io.InputStream#read()
-     */
     @Override
     public int read() throws IOException {
         if (this.buffer.hasRemaining()) {
@@ -54,9 +42,6 @@ public class ByteBufferInputStream extends InputStream {
         return -1;
     }
 
-    /**
-     * @see java.io.InputStream#read(byte[], int, int)
-     */
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
         int remaining = this.buffer.remaining();
@@ -71,17 +56,11 @@ public class ByteBufferInputStream extends InputStream {
         return -1;
     }
 
-    /**
-     * @see java.io.InputStream#reset()
-     */
     @Override
     public synchronized void reset() throws IOException {
         this.buffer.reset();
     }
 
-    /**
-     * @see java.io.InputStream#skip(long)
-     */
     @Override
     public long skip(final long n) throws IOException {
         int bytes;

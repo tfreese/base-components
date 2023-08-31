@@ -37,10 +37,6 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
     @Serial
     private static final long serialVersionUID = 4992566896817015389L;
 
-    /**
-     * @see org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean#createExecutor(int, int, int, java.util.concurrent.BlockingQueue,
-     * java.util.concurrent.ThreadFactory, java.util.concurrent.RejectedExecutionHandler)
-     */
     @Override
     protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue, final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler) {
         ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
@@ -53,9 +49,6 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
         return tpe;
     }
 
-    /**
-     * @see org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean#createQueue(int)
-     */
     @Override
     protected BlockingQueue<Runnable> createQueue(final int queueCapacity) {
         if (queueCapacity > 0) {

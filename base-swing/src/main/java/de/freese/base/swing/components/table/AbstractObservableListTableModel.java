@@ -26,9 +26,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         list.addListener(this);
     }
 
-    /**
-     * @see javafx.collections.ListChangeListener#onChanged(javafx.collections.ListChangeListener.Change)
-     */
     @Override
     public void onChanged(final Change<? extends T> change) {
         while (change.next()) {
@@ -58,9 +55,6 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
         }
     }
 
-    /**
-     * @see de.freese.base.swing.components.table.AbstractListTableModel#getList()
-     */
     @Override
     protected ObservableList<T> getList() {
         return (ObservableList<T>) super.getList();

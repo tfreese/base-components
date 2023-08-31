@@ -16,17 +16,11 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
 
     private transient Object selectedObject;
 
-    /**
-     * @see javax.swing.ComboBoxModel#getSelectedItem()
-     */
     @Override
     public Object getSelectedItem() {
         return this.selectedObject;
     }
 
-    /**
-     * @see javax.swing.ComboBoxModel#setSelectedItem(java.lang.Object)
-     */
     @Override
     public void setSelectedItem(final Object anItem) {
         int index = getList().indexOf(anItem);
@@ -41,9 +35,6 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
         fireContentsChanged(this, index, index);
     }
 
-    /**
-     * @see de.freese.base.swing.components.list.model.DefaultListListModel#fireContentsChanged(java.lang.Object, int, int)
-     */
     @Override
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
         this.selectedObject = null;
@@ -53,8 +44,6 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
 
     /**
      * Überschrieben, da beim Entfernen von Objekten auch das selektierte Objekt der ComboBox angepasst werden muss.
-     *
-     * @see de.freese.base.swing.components.list.model.DefaultListListModel#fireIntervalRemoved(java.lang.Object, int, int)
      */
     @Override
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {

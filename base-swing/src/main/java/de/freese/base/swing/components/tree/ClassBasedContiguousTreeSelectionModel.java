@@ -50,9 +50,6 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
         setSelectionMode(DISCONTIGUOUS_TREE_SELECTION);
     }
 
-    /**
-     * @see javax.swing.tree.DefaultTreeSelectionModel#addSelectionPath(javax.swing.tree.TreePath)
-     */
     @Override
     public void addSelectionPath(final TreePath path) {
         if ((path == null) || (path.getLastPathComponent() == null)) {

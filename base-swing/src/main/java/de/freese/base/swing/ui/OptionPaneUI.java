@@ -24,9 +24,6 @@ public class OptionPaneUI extends BasicOptionPaneUI {
         return new OptionPaneUI();
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicOptionPaneUI#createButtonArea()
-     */
     @Override
     protected Container createButtonArea() {
         Container c = super.createButtonArea();
@@ -38,9 +35,6 @@ public class OptionPaneUI extends BasicOptionPaneUI {
         return c;
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicOptionPaneUI#createMessageArea()
-     */
     @Override
     protected Container createMessageArea() {
         JPanel top = new JPanel();
@@ -62,9 +56,6 @@ public class OptionPaneUI extends BasicOptionPaneUI {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
-                /**
-                 * @see javax.swing.JComponent#getPreferredSize()
-                 */
                 @Override
                 public Dimension getPreferredSize() {
                     return new Dimension(15, 1);

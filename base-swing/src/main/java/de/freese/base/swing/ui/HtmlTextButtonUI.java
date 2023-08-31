@@ -38,15 +38,10 @@ public class HtmlTextButtonUI extends BasicButtonUI {
     /**
      * Methode wurde überschrieben, da beim Öffnen neuer Panels, die sich über den Button legen, dieser das abschliessende RolloverEvent nicht bekommt und
      * blau unterstrichen bleibt.
-     *
-     * @see javax.swing.plaf.basic.BasicButtonUI#createButtonListener(javax.swing.AbstractButton)
      */
     @Override
     protected BasicButtonListener createButtonListener(final AbstractButton b) {
         return new BasicButtonListener(b) {
-            /**
-             * @see javax.swing.plaf.basic.BasicButtonListener#mouseReleased(java.awt.event.MouseEvent)
-             */
             @Override
             public void mouseReleased(final MouseEvent event) {
                 super.mouseReleased(event);
@@ -59,9 +54,6 @@ public class HtmlTextButtonUI extends BasicButtonUI {
         };
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicButtonUI#paintText(java.awt.Graphics, javax.swing.AbstractButton, java.awt.Rectangle, java.lang.String)
-     */
     @Override
     protected void paintText(final Graphics g, final AbstractButton b, final Rectangle textRect, final String text) {
         super.paintText(g, b, textRect, text);
@@ -76,9 +68,6 @@ public class HtmlTextButtonUI extends BasicButtonUI {
         }
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicButtonUI#paintText(java.awt.Graphics, javax.swing.JComponent, java.awt.Rectangle, java.lang.String)
-     */
     @Override
     protected void paintText(final Graphics g, final JComponent c, final Rectangle textRect, final String text) {
         // Diese Methode wurde überschrieben, da der DisabledText um 1 Pixel nach Links

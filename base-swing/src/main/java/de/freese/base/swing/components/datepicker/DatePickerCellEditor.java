@@ -35,9 +35,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
 
     // public static final String ID = "EnterAction";
     //
-    // /**
-    // * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-    // */
     // public void actionPerformed(ActionEvent e)
     // {
     // stopCellEditing();
@@ -56,9 +53,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
             this.cellEditor = cellEditor;
         }
 
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
         @Override
         public void actionPerformed(final ActionEvent e) {
             if (JXDatePicker.COMMIT_KEY.equals(e.getActionCommand())) {
@@ -81,9 +75,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         // );
     }
 
-    /**
-     * @see javax.swing.CellEditor#getCellEditorValue()
-     */
     @Override
     public Object getCellEditorValue() {
         return this.datePicker.getDate();
@@ -93,9 +84,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         return this.datePicker;
     }
 
-    /**
-     * @see javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing.JTable, java.lang.Object, boolean, int, int)
-     */
     @Override
     public Component getTableCellEditorComponent(final JTable table, final Object value, final boolean isSelected, final int row, final int column) {
         this.datePicker.setDate((Date) value);
@@ -103,9 +91,6 @@ public class DatePickerCellEditor extends AbstractCellEditor implements TableCel
         return this.datePicker;
     }
 
-    /**
-     * @see javax.swing.tree.TreeCellEditor#getTreeCellEditorComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int)
-     */
     @Override
     public Component getTreeCellEditorComponent(final JTree tree, final Object value, final boolean isSelected, final boolean expanded, final boolean leaf, final int row) {
         Date date = null;

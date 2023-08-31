@@ -94,9 +94,6 @@ public abstract class AbstractGraphComponent extends Component {
 
     protected void init() {
         addMouseListener(new MouseAdapter() {
-            /**
-             * @see java.awt.event.MouseAdapter#mouseClicked(java.awt.event.MouseEvent)
-             */
             @Override
             public void mouseClicked(final MouseEvent event) {
                 onMouseClicked(event);
@@ -104,9 +101,6 @@ public abstract class AbstractGraphComponent extends Component {
         });
 
         addComponentListener(new ComponentAdapter() {
-            /**
-             * @see java.awt.event.ComponentAdapter#componentResized(java.awt.event.ComponentEvent)
-             */
             @Override
             public void componentResized(final ComponentEvent event) {
                 onComponentResized(event);
@@ -124,8 +118,6 @@ public abstract class AbstractGraphComponent extends Component {
 
     // /**
     // * Nur verwenden wenn Klasse von JComponent vererbt !!!
-    // *
-    // * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
     // */
     // @Override
     // protected void paintComponent(final Graphics g)

@@ -12,7 +12,6 @@ import java.util.function.BiConsumer;
  * @param <E> Konkreter Exception-Typ
  *
  * @author Thomas Freese
- * @see java.util.function.BiConsumer
  */
 @FunctionalInterface
 public interface ThrowingBiConsumer<T, U, E extends Exception> {

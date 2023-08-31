@@ -59,65 +59,41 @@ public class LedPanel extends Component implements LedConfig {
         repaint();
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getColorBackground()
-     */
     @Override
     public Color getColorBackground() {
         return this.colorBackground;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getColorBackgroundDot()
-     */
     @Override
     public Color getColorBackgroundDot() {
         return this.colorBackgroundDot;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getDotHeight()
-     */
     @Override
     public int getDotHeight() {
         return this.dotHeight;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getDotWidth()
-     */
     @Override
     public int getDotWidth() {
         return this.dotWidth;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getHgap()
-     */
     @Override
     public int getHgap() {
         return this.hgap;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getTokenGap()
-     */
     @Override
     public int getTokenGap() {
         return this.tokenGap;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.element.Element#getTokens()
-     */
     @Override
     public List<Token<?>> getTokens() {
         return this.tokens;
     }
 
-    /**
-     * @see de.freese.base.swing.components.led.LedConfig#getVgap()
-     */
     @Override
     public int getVgap() {
         return this.vgap;
@@ -125,8 +101,6 @@ public class LedPanel extends Component implements LedConfig {
 
     /**
      * Nur verwenden, wenn Klasse von Component vererbt !!!
-     *
-     * @see java.awt.Component#paint(java.awt.Graphics)
      */
     @Override
     public void paint(final Graphics g) {
@@ -153,8 +127,6 @@ public class LedPanel extends Component implements LedConfig {
 
     // /**
     // * Nur verwenden wenn Klasse von JComponent vererbt !!!
-    // *
-    // * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
     // */
     // @Override
     // protected void paintComponent(final Graphics g)

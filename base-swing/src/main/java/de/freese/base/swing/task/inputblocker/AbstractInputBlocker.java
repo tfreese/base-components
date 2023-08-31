@@ -30,9 +30,6 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
 
     private JRootPane rootPane;
 
-    /**
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         // Empty

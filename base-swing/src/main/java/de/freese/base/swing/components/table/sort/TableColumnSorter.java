@@ -127,9 +127,6 @@ public class TableColumnSorter {
 
         // Runnable runnable = new Runnable()
         // {
-        // /**
-        // * @see java.lang.Runnable#run()
-        // */
         // @Override
         // public void run()
         // {

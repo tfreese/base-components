@@ -48,9 +48,6 @@ public class AutoCompleteableTextField extends JTextField {
             putValue(Action.NAME, this.term);
         }
 
-        /**
-         * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-         */
         @Override
         public void actionPerformed(final ActionEvent e) {
             Runnable runner = () -> {
@@ -63,9 +60,6 @@ public class AutoCompleteableTextField extends JTextField {
             SwingUtilities.invokeLater(runner);
         }
 
-        /**
-         * @see java.lang.Object#toString()
-         */
         @Override
         public String toString() {
             return this.term;
@@ -84,9 +78,6 @@ public class AutoCompleteableTextField extends JTextField {
         super(columns);
 
         addFocusListener(new FocusAdapter() {
-            /**
-             * @see java.awt.event.FocusAdapter#focusLost(java.awt.event.FocusEvent)
-             */
             @Override
             public void focusLost(final FocusEvent e) {
                 if ((AutoCompleteableTextField.this.prevSearchMenu == null) || !AutoCompleteableTextField.this.prevSearchMenu.isVisible()) {
@@ -96,9 +87,6 @@ public class AutoCompleteableTextField extends JTextField {
         });
 
         addKeyListener(new KeyAdapter() {
-            /**
-             * @see java.awt.event.KeyAdapter#keyReleased(java.awt.event.KeyEvent)
-             */
             @Override
             public void keyReleased(final KeyEvent e) {
                 if ((e.getKeyCode() == KeyEvent.VK_ENTER) || (e.getKeyCode() == KeyEvent.VK_TAB)) {

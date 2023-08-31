@@ -150,9 +150,6 @@ public final class MyAppMain extends JFrame implements ActionListener {
         this.aboutBox.setVisible(true);
     }
 
-    /**
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
     @Override
     public void actionPerformed(final ActionEvent e) {
         Object source = e.getSource();

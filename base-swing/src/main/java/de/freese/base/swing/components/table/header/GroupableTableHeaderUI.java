@@ -20,9 +20,6 @@ import javax.swing.table.TableColumnModel;
  * @version 1.0 pre 2004
  */
 public class GroupableTableHeaderUI extends BasicTableHeaderUI {
-    /**
-     * @see javax.swing.plaf.basic.BasicTableHeaderUI#getPreferredSize(javax.swing.JComponent)
-     */
     @Override
     public Dimension getPreferredSize(final JComponent c) {
         long width = 0;
@@ -36,9 +33,6 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         return createHeaderSize(width);
     }
 
-    /**
-     * @see javax.swing.plaf.basic.BasicTableHeaderUI#paint(java.awt.Graphics, javax.swing.JComponent)
-     */
     @Override
     public void paint(final Graphics g, final JComponent c) {
         Rectangle clipBounds = g.getClipBounds();

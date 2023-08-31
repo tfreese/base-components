@@ -67,9 +67,6 @@ public class GroupableTableHeader extends JTableHeader {
         }
     }
 
-    /**
-     * @see javax.swing.table.JTableHeader#setReorderingAllowed(boolean)
-     */
     @Override
     public void setReorderingAllowed(final boolean b) {
         this.reorderingAllowed = false;

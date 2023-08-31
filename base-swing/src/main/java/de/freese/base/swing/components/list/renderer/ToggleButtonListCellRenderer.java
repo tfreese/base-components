@@ -37,9 +37,6 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
         this.labelRenderer.setHorizontalAlignment(SwingConstants.CENTER);
     }
 
-    /**
-     * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
-     */
     @Override
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
         if (value instanceof Boolean b) {

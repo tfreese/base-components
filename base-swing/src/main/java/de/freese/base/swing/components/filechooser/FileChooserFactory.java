@@ -9,9 +9,6 @@ import javax.swing.filechooser.FileFilter;
  * @author Thomas Freese
  */
 public final class FileChooserFactory {
-    /**
-     * @see GenericFileFilter
-     */
     public static JFileChooser createFileChooser(final FileFilter... fileFilter) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);

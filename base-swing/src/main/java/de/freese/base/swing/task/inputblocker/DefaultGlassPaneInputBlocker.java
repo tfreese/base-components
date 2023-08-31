@@ -65,9 +65,6 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker 
         getGlassPane().add(this.labelSubTitle, GbcBuilder.of(0, 2));
     }
 
-    /**
-     * @see de.freese.base.swing.task.inputblocker.AbstractInputBlocker#propertyChange(java.beans.PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         String propertyName = event.getPropertyName();

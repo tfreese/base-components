@@ -23,9 +23,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
      * @author Thomas Freese
      */
     protected class PopupListener extends MouseAdapter {
-        /**
-         * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
-         */
         @Override
         public void mouseReleased(final MouseEvent e) {
             if (isEnabled() && e.isPopupTrigger()) {
@@ -67,9 +64,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         initialize();
     }
 
-    /**
-     * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#doCopy()
-     */
     @Override
     public void doCopy() {
         int[] rowsSelected = getTable().getSelectedRows();
@@ -116,9 +110,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         getClipboard().setContents(selection, selection);
     }
 
-    /**
-     * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#doPaste(boolean)
-     */
     @Override
     public void doPaste(final boolean flipAxes) {
         int[] rowsSelected = getTable().getSelectedRows();
@@ -200,9 +191,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         return this.popup;
     }
 
-    /**
-     * @see de.freese.base.swing.clipboard.AbstractClipboardAdapter#initialize()
-     */
     @Override
     protected void initialize() {
         super.initialize();

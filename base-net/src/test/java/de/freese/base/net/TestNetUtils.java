@@ -68,9 +68,6 @@ class TestNetUtils {
         // System.setProperty("https.nonProxyHosts", "localhost|host1|host2");
         // java.net.Authenticator.setDefault(new java.net.Authenticator()
         // {
-        // /**
-        // * @see java.net.Authenticator#getPasswordAuthentication()
-        // */
         // @Override
         // protected PasswordAuthentication getPasswordAuthentication()
         // {

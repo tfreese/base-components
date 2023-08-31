@@ -70,10 +70,6 @@ public final class LookupException extends RuntimeException {
         return this.value;
     }
 
-    /**
-     * @see LookupException#LOGGABLE_STACKTRACES
-     * @see java.lang.Throwable#printStackTrace(java.io.PrintStream)
-     */
     @Override
     public void printStackTrace(final PrintStream printStream) {
         printStream.println(this);
@@ -86,10 +82,6 @@ public final class LookupException extends RuntimeException {
         printStream.println("\t...");
     }
 
-    /**
-     * @see LookupException#LOGGABLE_STACKTRACES
-     * @see java.lang.Throwable#printStackTrace(java.io.PrintWriter)
-     */
     @Override
     public void printStackTrace(final PrintWriter printWriter) {
         printWriter.println(this);

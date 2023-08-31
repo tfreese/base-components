@@ -96,9 +96,6 @@ public class Pop3Protocol extends AbstractProtocol {
         }
     }
 
-    /**
-     * @see de.freese.base.net.protocol.AbstractProtocol#close()
-     */
     @Override
     public void close() {
         try {
@@ -318,9 +315,6 @@ public class Pop3Protocol extends AbstractProtocol {
         return true;
     }
 
-    /**
-     * @see de.freese.base.net.protocol.AbstractProtocol#getDigest(java.lang.String)
-     */
     @Override
     protected String getDigest(final String password) {
         return super.getDigest(this.apopChallenge + password);

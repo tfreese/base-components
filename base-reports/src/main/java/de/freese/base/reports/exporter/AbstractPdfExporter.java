@@ -73,7 +73,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
     }
 
     /**
-     * @param align int, @see {@link PdfContentByte#ALIGN_LEFT} ...
+     * @param align int,  {@link PdfContentByte#ALIGN_LEFT} ...
      */
     protected void drawText(final PdfWriter writer, final String text, final float x, final float y, final float fontSize, final int align, final BaseFont baseFont) {
         PdfContentByte contentByte = writer.getDirectContent();

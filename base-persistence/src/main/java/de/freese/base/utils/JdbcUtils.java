@@ -161,9 +161,6 @@ public final class JdbcUtils {
         return getByte(rs, rs.findColumn(columnName));
     }
 
-    /**
-     * @see #extractDatabaseMetaData(DataSource, Function)
-     */
     public static String getDatabaseProductName(final DataSource dataSource) throws SQLException {
         return extractDatabaseMetaData(dataSource, dbMd -> {
             try {
@@ -175,9 +172,6 @@ public final class JdbcUtils {
         });
     }
 
-    /**
-     * @see #extractDatabaseMetaData(DataSource, Function)
-     */
     public static String getDatabaseProductVersion(final DataSource dataSource) throws SQLException {
         return extractDatabaseMetaData(dataSource, dbMd -> {
             try {

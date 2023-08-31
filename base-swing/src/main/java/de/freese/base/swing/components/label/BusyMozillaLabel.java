@@ -85,9 +85,6 @@ public class BusyMozillaLabel extends JLabel {
         return this.circleRadius;
     }
 
-    /**
-     * @see javax.swing.JComponent#getHeight()
-     */
     @Override
     public int getHeight() {
         return getCircleRadius();
@@ -100,25 +97,16 @@ public class BusyMozillaLabel extends JLabel {
         return this.highlightColor;
     }
 
-    /**
-     * @see javax.swing.JComponent#getMaximumSize()
-     */
     @Override
     public Dimension getMaximumSize() {
         return getPreferredSize();
     }
 
-    /**
-     * @see javax.swing.JComponent#getMinimumSize()
-     */
     @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
     }
 
-    /**
-     * @see javax.swing.JComponent#getPreferredSize()
-     */
     @Override
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
@@ -168,9 +156,6 @@ public class BusyMozillaLabel extends JLabel {
         }
     }
 
-    /**
-     * @see javax.swing.JComponent#setVisible(boolean)
-     */
     @Override
     public void setVisible(final boolean visible) {
         super.setVisible(visible);
@@ -195,9 +180,6 @@ public class BusyMozillaLabel extends JLabel {
         // setVisible(true);
     }
 
-    /**
-     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-     */
     @Override
     protected void paintComponent(final Graphics g) {
         // Point point = getLocation();

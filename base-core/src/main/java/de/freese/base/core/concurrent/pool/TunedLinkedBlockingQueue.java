@@ -48,9 +48,6 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
         super(capacity);
     }
 
-    /**
-     * @see java.util.concurrent.LinkedBlockingQueue#offer(java.lang.Object)
-     */
     @Override
     public boolean offer(final T e) {
         if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt()) {
@@ -61,9 +58,6 @@ public class TunedLinkedBlockingQueue<T> extends LinkedBlockingQueue<T> {
         return super.offer(e);
     }
 
-    /**
-     * @see java.util.concurrent.LinkedBlockingQueue#offer(java.lang.Object, long, java.util.concurrent.TimeUnit)
-     */
     @Override
     public boolean offer(final T e, final long timeout, final TimeUnit unit) throws InterruptedException {
         if (this.poolCurrentSize.getAsInt() < this.poolMaxSize.getAsInt()) {

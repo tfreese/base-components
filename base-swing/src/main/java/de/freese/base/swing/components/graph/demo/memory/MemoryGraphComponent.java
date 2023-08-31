@@ -42,9 +42,6 @@ public class MemoryGraphComponent extends AbstractGraphComponent {
         }
     }
 
-    /**
-     * @see de.freese.base.swing.components.graph.AbstractGraphComponent#onMouseClicked(java.awt.event.MouseEvent)
-     */
     @Override
     protected void onMouseClicked(final MouseEvent event) {
         if (((event.getModifiersEx()) & InputEvent.SHIFT_DOWN_MASK) == InputEvent.SHIFT_DOWN_MASK) {

@@ -26,9 +26,6 @@ public class LineLayoutElement extends AbstractLayoutElement {
         this.orientation = orientation;
     }
 
-    /**
-     * @see de.freese.base.reports.layout.AbstractLayoutElement#getHeight()
-     */
     @Override
     public double getHeight() {
         return switch (getOrientation()) {
@@ -49,9 +46,6 @@ public class LineLayoutElement extends AbstractLayoutElement {
         return this.thickness;
     }
 
-    /**
-     * @see de.freese.base.reports.layout.AbstractLayoutElement#getWidth()
-     */
     @Override
     public double getWidth() {
         return switch (getOrientation()) {

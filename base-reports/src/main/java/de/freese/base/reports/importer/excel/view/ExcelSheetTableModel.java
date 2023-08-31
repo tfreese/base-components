@@ -22,17 +22,11 @@ public class ExcelSheetTableModel extends AbstractTableModel {
         this.excelSheet = Objects.requireNonNull(excelSheet, "excelSheet required");
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
     @Override
     public int getColumnCount() {
         return this.excelSheet.getColumnCount();
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getColumnName(int)
-     */
     @Override
     public String getColumnName(final int column) {
         // The first Column does not have a name.
@@ -44,17 +38,11 @@ public class ExcelSheetTableModel extends AbstractTableModel {
         return super.getColumnName(column - 1);
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
     @Override
     public int getRowCount() {
         return this.excelSheet.getRowCount();
     }
 
-    /**
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
     @Override
     public Object getValueAt(final int rowIndex, final int columnIndex) {
         if (columnIndex == 0) {

@@ -34,17 +34,11 @@ class StreamSubscription<T> implements Subscription {
         this.subscriber = Objects.requireNonNull(subscriber, "subscriber required");
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscription#cancel()
-     */
     @Override
     public void cancel() {
         terminate();
     }
 
-    /**
-     * @see java.util.concurrent.Flow.Subscription#request(long)
-     */
     @Override
     public void request(final long n) {
         if ((n <= 0) && !terminate()) {

@@ -19,9 +19,6 @@ public class FibonacciTaskListener implements PropertyChangeListener {
         this.view = Objects.requireNonNull(view, "view required");
     }
 
-    /**
-     * @see PropertyChangeListener#propertyChange(PropertyChangeEvent)
-     */
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
         String propertyName = event.getPropertyName();
