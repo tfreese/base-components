@@ -4,9 +4,9 @@ package de.freese.base.core.reactive;
 import java.util.concurrent.Flow;
 
 /***
- * Bridge between Reactive Streams API and the Java 9{@link java.util.concurrent.Flow} API.
+ * Bridge between Reactive Streams API and the Java 9{@link java.util.concurrent.Flow} API.<br>
  *
- * @see <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
+ * <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  *
  * @author Thomas Freese
  */

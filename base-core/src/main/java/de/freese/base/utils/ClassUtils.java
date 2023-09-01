@@ -298,8 +298,6 @@ public final class ClassUtils {
      * Determine if the supplied class is an <em>inner class</em>, i.e. a non-static member of an enclosing class.
      *
      * @return {@code true} if the supplied class is an inner class
-     *
-     * @see Class#isMemberClass()
      */
     public static boolean isInnerClass(final Class<?> clazz) {
         return (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers()));

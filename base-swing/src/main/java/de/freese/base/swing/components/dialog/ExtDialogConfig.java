@@ -60,24 +60,10 @@ public class ExtDialogConfig {
         return this.message;
     }
 
-    /**
-     * @see JOptionPane#PLAIN_MESSAGE
-     * @see JOptionPane#INFORMATION_MESSAGE
-     * @see JOptionPane#QUESTION_MESSAGE
-     * @see JOptionPane#WARNING_MESSAGE
-     * @see JOptionPane#ERROR_MESSAGE
-     */
     public int getMessageType() {
         return this.messageType;
     }
 
-    /**
-     * @see JOptionPane#OK_OPTION
-     * @see JOptionPane#OK_CANCEL_OPTION
-     * @see JOptionPane#YES_OPTION
-     * @see JOptionPane#YES_NO_OPTION
-     * @see JOptionPane#YES_NO_CANCEL_OPTION
-     */
     public int getOptionType() {
         return this.optionType;
     }
@@ -118,13 +104,6 @@ public class ExtDialogConfig {
         this.message = message;
     }
 
-    /**
-     * @see JOptionPane#PLAIN_MESSAGE
-     * @see JOptionPane#INFORMATION_MESSAGE
-     * @see JOptionPane#QUESTION_MESSAGE
-     * @see JOptionPane#WARNING_MESSAGE
-     * @see JOptionPane#ERROR_MESSAGE
-     */
     public void setMessageType(final int messageType) {
         this.messageType = messageType;
     }
@@ -133,13 +112,6 @@ public class ExtDialogConfig {
         this.modal = modal;
     }
 
-    /**
-     * @see JOptionPane#OK_OPTION
-     * @see JOptionPane#OK_CANCEL_OPTION
-     * @see JOptionPane#YES_OPTION
-     * @see JOptionPane#YES_NO_OPTION
-     * @see JOptionPane#YES_NO_CANCEL_OPTION
-     */
     public void setOptionType(final int optionType) {
         this.optionType = optionType;
     }

@@ -21,13 +21,13 @@ import java.util.function.Supplier;
 /**
  * Einlesen einer Datei über ein {@link AsynchronousFileChannel}.<br>
  * Der Inhalt wird einem {@link CompletableFuture} übergeben und kann z.B. mit<br>
- * {@link CompletableFuture#thenAccept(java.util.function.Consumer)} weiterverarbeitet werden.
+ * {@link CompletableFuture#thenAccept(java.util.function.Consumer)} weiterverarbeitet werden.<br>
+ * <a href="https://github.com/oheger/JavaMagReact">https://github.com/oheger/JavaMagReact (JavaMagazin 02/2018 )</a>
  *
  * @param <CH> Typ des ContentHolders
  *
  * @author Oliver Heger
  * @author Thomas Freese
- * @see <a href="https://github.com/oheger/JavaMagReact">https://github.com/oheger/JavaMagReact (JavaMagazin 02/2018 )</a>
  */
 public final class AsyncFileReader<CH> {
     /**

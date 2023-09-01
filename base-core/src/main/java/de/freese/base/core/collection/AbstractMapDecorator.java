@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * @author Thomas Freese
- * @see <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java</a>
+ * <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/AbstractMapDecorator.java</a>
  */
 public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     private final Map<K, V> decoratedMap;

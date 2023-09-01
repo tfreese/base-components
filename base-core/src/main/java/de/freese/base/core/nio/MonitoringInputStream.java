@@ -11,8 +11,9 @@ import java.util.function.LongConsumer;
 import javax.swing.ProgressMonitorInputStream;
 
 /**
+ * {@link ProgressMonitorInputStream}
+ *
  * @author Thomas Freese
- * @see ProgressMonitorInputStream
  */
 public class MonitoringInputStream extends FilterInputStream {
     private final LongConsumer bytesReadConsumer;

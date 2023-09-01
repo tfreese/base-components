@@ -10,8 +10,9 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
+ * <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
+ *
  * @author Thomas Freese
- * @see <a href= "https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
  */
 public class StreamPublisher<T> implements Publisher<T> {
     private final Executor executor;

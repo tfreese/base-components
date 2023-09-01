@@ -19,8 +19,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.jdbc.core.SqlTypeValue;
-
 import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
 
 /**
@@ -31,15 +29,10 @@ import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter
 public class ArgumentPreparedStatementSetter implements PreparedStatementSetter {
 
     /**
-     * Constant that indicates an unknown (or unspecified) SQL type.
-     *
-     * @see java.sql.Types
+     * {@link Types}
      */
     public static final int TYPE_UNKNOWN = Integer.MIN_VALUE;
 
-    /**
-     * @see SqlTypeValue
-     */
     public static void setParameterValue(final PreparedStatement ps, final int paramIndex, final Object value) throws SQLException {
         if (value == null) {
             setNull(ps, paramIndex);
