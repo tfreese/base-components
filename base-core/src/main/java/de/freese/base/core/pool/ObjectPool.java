@@ -1,27 +1,26 @@
 // Created: 30.08.23
 package de.freese.base.core.pool;
 
+import java.time.Duration;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
  * @author Thomas Freese
  */
-public final class ObjectPool<T> implements AutoCloseable {
+public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCloseable {
 
-    private final Set<T> busy = Collections.synchronizedSet(new HashSet<>());
-
+    private final Set<T> busyObjects = Collections.synchronizedSet(new HashSet<>());
+    private final Map<T, Long> creationTimestamps = Collections.synchronizedMap(new HashMap<>());
     private final Supplier<T> creator;
-
     private final Consumer<T> doOnClose;
-
-    private final Queue<T> queue = new ConcurrentLinkedQueue<>();
+    private long expirationDuration = -1;
 
     public ObjectPool(Supplier<T> creator) {
         this(creator, Objects::nonNull);
@@ -36,39 +35,71 @@ public final class ObjectPool<T> implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        queue.forEach(doOnClose);
-        queue.clear();
+        getIdleObjects().forEach(doOnClose);
+        getIdleObjects().clear();
 
-        busy.forEach(doOnClose);
-        busy.clear();
+        busyObjects.forEach(doOnClose);
+        busyObjects.clear();
     }
 
+    @Override
     public void free(T object) {
-        this.queue.offer(object);
-        this.busy.remove(object);
-    }
-
-    public T get() {
-        T object = queue.poll();
+        super.free(object);
 
         if (object == null) {
-            object = creator.get();
+            return;
         }
 
-        busy.add(object);
+        busyObjects.remove(object);
+    }
+
+    @Override
+    public T get() {
+        T object = getIdleObjects().poll();
+
+        if (object != null && expirationDuration > 0) {
+            Long creationTimestamp = creationTimestamps.getOrDefault(object, 0L);
+            long expiryTimestamp = creationTimestamp + expirationDuration;
+
+            if (expiryTimestamp < System.currentTimeMillis()) {
+                creationTimestamps.remove(object);
+                busyObjects.remove(object);
+                doOnClose.accept(object);
+                object = null;
+            }
+        }
+
+        if (object == null) {
+            object = create();
+        }
+
+        busyObjects.add(object);
 
         return object;
     }
 
     public int getNumActive() {
-        return busy.size();
+        return busyObjects.size();
     }
 
     public int getNumIdle() {
-        return queue.size();
+        return getIdleObjects().size();
     }
 
     public int getTotalSize() {
         return getNumActive() + getNumIdle();
+    }
+
+    public void setExpirationDuration(Duration duration) {
+        this.expirationDuration = duration.toMillis();
+    }
+
+    @Override
+    protected T create() {
+        T object = creator.get();
+
+        creationTimestamps.put(object, System.currentTimeMillis());
+
+        return object;
     }
 }
