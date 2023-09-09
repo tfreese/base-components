@@ -111,7 +111,9 @@ public final class SshExec {
     public String execute(final String command) throws IOException {
         //        this.clientSession.createChannel(Channel.CHANNEL_EXEC);
 
-        try (ChannelExec channelExec = this.clientSession.createExecChannel(command); ByteArrayOutputStream responseStream = new ByteArrayOutputStream(); ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
+        try (ChannelExec channelExec = this.clientSession.createExecChannel(command);
+             ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+             ByteArrayOutputStream errorStream = new ByteArrayOutputStream()) {
             channelExec.setOut(responseStream);
             channelExec.setErr(errorStream);
 
@@ -127,6 +129,7 @@ public final class SshExec {
             }
 
             errorStream.flush();
+
             String error = errorStream.toString(StandardCharsets.UTF_8);
 
             if (!error.isEmpty()) {
@@ -134,6 +137,7 @@ public final class SshExec {
             }
 
             responseStream.flush();
+            
             return responseStream.toString(StandardCharsets.UTF_8);
         }
     }

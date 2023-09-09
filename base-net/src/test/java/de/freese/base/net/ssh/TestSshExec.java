@@ -7,19 +7,21 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.condition.EnabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
 @Disabled("sshd not always available")
+@TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSshExec {
+    private static final String HOST = "remote";
+    private static final String PASSWORD = "pass";
+    private static final String USER = "user";
+
+    //    @EnabledOnOs({OS.LINUX, OS.MAC})
     @Test
-    @EnabledOnOs({OS.LINUX, OS.MAC})
     void testSshUserCertificate() throws Exception {
-        SshExec sshExec = SshExec.connectByUserCertificate("user", "pass", "remote", 22);
+        SshExec sshExec = SshExec.connectByUserCertificate(USER, PASSWORD, HOST, 22);
 
         String result = sshExec.execute("df -h");
 
@@ -31,10 +33,10 @@ class TestSshExec {
         sshExec.disconnect();
     }
 
+    //    @EnabledOnOs({OS.LINUX, OS.MAC})
     @Test
-    @EnabledOnOs({OS.LINUX, OS.MAC})
     void testSshUserPassword() throws Exception {
-        SshExec sshExec = SshExec.connectByUserPassword("user", "pass", "remote", 22);
+        SshExec sshExec = SshExec.connectByUserPassword(USER, PASSWORD, HOST, 22);
 
         String result = sshExec.execute("df -h");
 
