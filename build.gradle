@@ -52,8 +52,6 @@ subprojects {
                 entry "jmh-generator-annprocess"
             }
 
-            dependency "org.openjfx:javafx-controls:$version_javafx"
-
             dependency "org.swinglabs.swingx:swingx-core:$version_swingx"
         }
     }
@@ -172,7 +170,7 @@ project("base-swing") {
         api(project(":base-resourcemap"))
 
         javafx {
-            version = "$version_javafxBase"
+            version = "$version_javafx"
             modules = ["javafx.base"]
         }
 
@@ -180,7 +178,6 @@ project("base-swing") {
         implementation("org.eclipse.angus:jakarta.mail")
         implementation("jakarta.xml.bind:jakarta.xml.bind-api")
         implementation("org.apache.commons:commons-collections4")
-        //implementation("org.openjfx:javafx-base")
         implementation("org.swinglabs.swingx:swingx-core")
     }
 }
