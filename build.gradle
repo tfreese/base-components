@@ -1,6 +1,6 @@
-// Tasks im SubModul ausführen: gradle MODUL:clean build
+// Execute Task in SubModule: gradle MODUL:clean build
 buildscript {
-    // Für Plugins
+    // For Plugins
     repositories {
         mavenLocal()
         mavenCentral()
