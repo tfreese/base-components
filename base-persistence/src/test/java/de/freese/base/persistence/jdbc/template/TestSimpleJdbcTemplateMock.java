@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
-import jdk.incubator.concurrent.ScopedValue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -248,7 +247,7 @@ class TestSimpleJdbcTemplateMock {
         try (Transaction transaction = jdbcTemplate.createTransaction()) {
             transaction.begin();
 
-            int affectedRows = ScopedValue.where(JdbcTemplate.TRANSACTION, transaction, sqlCallable);
+            int affectedRows = ScopedValue.callWhere(JdbcTemplate.TRANSACTION, transaction, sqlCallable);
 
             assertEquals(2, affectedRows);
 

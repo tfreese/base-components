@@ -10,10 +10,3 @@ include "base-resourcemap"
 include "base-security"
 include "base-swing"
 include "base-swing-demo"
-
-buildCache {
-    local {
-        //directory = new File(rootDir, 'build-cache')
-        removeUnusedEntriesAfterDays = 7
-    }
-}

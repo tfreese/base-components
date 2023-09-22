@@ -24,7 +24,6 @@ import java.util.stream.StreamSupport;
 
 import javax.sql.DataSource;
 
-import jdk.incubator.concurrent.ScopedValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
