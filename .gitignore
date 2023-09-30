@@ -1,4 +1,2 @@
-!.mvn
-
 base-persistence/mem.*
 base-persistence/db/

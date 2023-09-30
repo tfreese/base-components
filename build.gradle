@@ -7,11 +7,11 @@ buildscript {
     }
 
     dependencies {
-        classpath "de.freese.gradle:gradle-plugins:0.0.1-SNAPSHOT"
-        classpath "io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement"
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot"
-        classpath "org.openjfx:javafx-plugin:$version_javafxPlugin"
-        classpath "com.github.ben-manes:gradle-versions-plugin:0.48.0"
+        classpath("de.freese.gradle:gradle-plugins:$version_myConventionPlugin")
+        classpath("io.spring.gradle:dependency-management-plugin:$version_springDependencyManagement")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$version_springBoot")
+        classpath("org.openjfx:javafx-plugin:$version_javafxPlugin")
+        classpath("com.github.ben-manes:gradle-versions-plugin:0.48.0")
     }
 }
 
@@ -26,24 +26,24 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:$version_springBoot"
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$version_springCloud"
+            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
         }
 
         dependencies {
-            dependency "com.github.librepdf:openpdf:$version_openpdf"
-            dependency "commons-net:commons-net:$version_commonsNet"
+            dependency("com.github.librepdf:openpdf:$version_openpdf")
+            dependency("commons-net:commons-net:$version_commonsNet")
 
-            dependency "dev.failsafe:failsafe:$version_failsafe"
+            dependency("dev.failsafe:failsafe:$version_failsafe")
 
             dependencySet(group: "org.bouncycastle", version: "$version_bouncycastle") {
                 entry "bcpg-jdk18on"
                 entry "bcmail-jdk18on"
             }
 
-            dependency "org.apache.commons:commons-collections4:$version_commonsCollections"
-            dependency "org.apache.poi:poi-ooxml:$version_poi"
-            dependency "org.apache.sshd:sshd-core:$version_sshd"
+            dependency("org.apache.commons:commons-collections4:$version_commonsCollections")
+            dependency("org.apache.poi:poi-ooxml:$version_poi")
+            dependency("org.apache.sshd:sshd-core:$version_sshd")
 
             dependency("org.jfree:jfreechart:$version_jfreechart") {
                 exclude "com.lowagie:itext"
@@ -55,7 +55,7 @@ subprojects {
                 entry "jmh-generator-annprocess"
             }
 
-            dependency "org.swinglabs.swingx:swingx-core:$version_swingx"
+            dependency("org.swinglabs.swingx:swingx-core:$version_swingx")
         }
     }
 
