@@ -17,7 +17,7 @@ buildscript {
 
 subprojects {
     apply plugin: "java"
-    apply plugin: "maven-publish"
+//    apply plugin: "maven-publish"
     apply plugin: "io.spring.dependency-management"
     apply plugin: "de.freese.gradle.plugin.conventions"
 
@@ -104,23 +104,24 @@ project("base-persistence") {
 
         compileOnly("jakarta.servlet:jakarta.servlet-api")
 
+        testAnnotationProcessor("org.openjdk.jmh:jmh-generator-annprocess")
+
         testImplementation("com.h2database:h2")
         testImplementation("org.assertj:assertj-core")
         testImplementation("org.apache.derby:derby")
         testImplementation("org.hsqldb:hsqldb")
         testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("org.openjdk.jmh:jmh-core")
-        testImplementation("org.openjdk.jmh:jmh-generator-annprocess")
         testImplementation("org.slf4j:slf4j-simple")
         testImplementation("org.xerial:sqlite-jdbc")
     }
 
-    test {
-        filter {
-            // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
-            excludeTestsMatching "de.freese.base.persistence.jdbc.benchmark.*"
-        }
-    }
+//    test {
+//        filter {
+//            // JMH-Test deaktivieren, weil das mit den Annotation-Processor nicht klappt.
+//            excludeTestsMatching "de.freese.base.persistence.jdbc.benchmark.*"
+//        }
+//    }
 }
 
 project("base-reports") {
