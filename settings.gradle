@@ -1,5 +1,5 @@
 // Without rootProject.name the Name of the Projekt-Directory is used.
-rootProject.name = "base"
+rootProject.name = "base-components"
 
 include "base-calendar"
 include "base-core"
