@@ -46,7 +46,7 @@ public final class RoundRobinPool<T> implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         queue.forEach(doOnClose);
         queue.clear();
     }

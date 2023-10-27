@@ -2,12 +2,10 @@
 package de.freese.base.core.pool;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -16,8 +14,11 @@ import java.util.function.Supplier;
  */
 public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCloseable {
 
-    private final Set<T> busyObjects = Collections.synchronizedSet(new HashSet<>());
-    private final Map<T, Long> creationTimestamps = Collections.synchronizedMap(new HashMap<>());
+    /**
+     * CopyOnWriteArraySet
+     */
+    private final Set<T> busyObjects = ConcurrentHashMap.newKeySet();
+    private final Map<T, Long> creationTimestamps = new ConcurrentHashMap<>();
     private final Supplier<T> creator;
     private final Consumer<T> doOnClose;
     private long expirationDuration = -1;
@@ -34,7 +35,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         getIdleObjects().forEach(doOnClose);
         getIdleObjects().clear();
 

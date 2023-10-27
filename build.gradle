@@ -18,6 +18,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+//            mavenBom("org.springframework.boot:spring-boot-dependencies:$version_springBoot")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:$version_springCloud")
         }
 
@@ -64,7 +65,7 @@ project("base-calendar") {
     apply plugin: "java"
     description = "Common Classes for Calendar."
     dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter")
+        
     }
 }
 
@@ -86,6 +87,13 @@ project("base-net") {
 project("base-persistence") {
     apply plugin: "java-library"
     description = "Common Patterns and Classes for the Persistence Layer."
+//    configurations.configureEach {
+//        exclude group: "ch.qos.logback", module: "logback-classic"
+//    }
+    configurations.testImplementation {
+        exclude group: "ch.qos.logback", module: "logback-classic"
+    }
+
     dependencies {
         api(project(":base-core"))
 

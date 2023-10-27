@@ -73,6 +73,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable {
     private List<T> arguments;
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public final synchronized void add(final T... args) {
         boolean isSubmitted = true;
 
