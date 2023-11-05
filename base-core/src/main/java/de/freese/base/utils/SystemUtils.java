@@ -18,38 +18,37 @@ public final class SystemUtils {
         return System.getProperty("java.io.tmpdir");
     }
 
-    /**
-     * Liefert die Java-Version als zusammenhängende Zahl.
-     *
-     * @return int, Beispiel 1800072
-     */
     public static int getJavaVersion() {
-        // String javaVersion = SystemUtils.JAVA_VERSION;
-        String javaVersion = System.getProperty("java.version");
-        String[] splits = javaVersion.toLowerCase().split("[._]");
+        return Runtime.version().feature();
 
-        // Major
-        String versionString = String.format("%03d", Integer.parseInt(splits[0]));
+        //        Runtime.class.getPackage().getImplementationVersion();
 
-        // Minor
-        versionString += "." + String.format("%03d", Integer.parseInt(splits[1]));
-
-        if (splits.length > 2) {
-            // Micro
-            versionString += "." + String.format("%03d", Integer.parseInt(splits[2]));
-        }
-
-        if ((splits.length > 3) && !splits[3].startsWith("ea")) {
-            // Update
-            try {
-                versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
-            }
-            catch (Exception ex) {
-                LOGGER.error(ex.getMessage(), ex);
-            }
-        }
-
-        return Integer.parseInt(versionString.replace(".", ""));
+        //        // String javaVersion = SystemUtils.JAVA_VERSION;
+        //        String javaVersion = System.getProperty("java.version");
+        //        String[] splits = javaVersion.toLowerCase().split("[._]");
+        //
+        //        // Major
+        //        String versionString = String.format("%03d", Integer.parseInt(splits[0]));
+        //
+        //        // Minor
+        //        versionString += "." + String.format("%03d", Integer.parseInt(splits[1]));
+        //
+        //        if (splits.length > 2) {
+        //            // Micro
+        //            versionString += "." + String.format("%03d", Integer.parseInt(splits[2]));
+        //        }
+        //
+        //        if ((splits.length > 3) && !splits[3].startsWith("ea")) {
+        //            // Update
+        //            try {
+        //                versionString += "." + String.format("%03d", Integer.parseInt(splits[3]));
+        //            }
+        //            catch (Exception ex) {
+        //                LOGGER.error(ex.getMessage(), ex);
+        //            }
+        //        }
+        //
+        //        return Integer.parseInt(versionString.replace(".", ""));
     }
 
     public static String getOsArch() {

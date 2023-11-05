@@ -41,7 +41,7 @@ public class LoggingOutputStream extends OutputStream {
                 case ERROR -> this.logger.error(line);
                 case INFO -> this.logger.info(line);
                 case WARN -> this.logger.warn(line);
-                default -> throw new UnsupportedOperationException("Level not supported:" + this.level);
+                default -> throw new UnsupportedOperationException("Level not supported: " + this.level);
             }
         }
         else {

@@ -8,5 +8,5 @@ package de.freese.base.core.model.builder.request;
  */
 @FunctionalInterface
 public interface RequestPerformer {
-    void perform(RequestBuilder builder) throws Exception;
+    void perform(RequestBuilder<?> builder) throws Exception;
 }

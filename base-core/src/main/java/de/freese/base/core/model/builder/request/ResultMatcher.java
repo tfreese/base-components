@@ -6,5 +6,5 @@ package de.freese.base.core.model.builder.request;
  */
 @FunctionalInterface
 public interface ResultMatcher {
-    void match(RequestResult result) throws Exception;
+    void match(RequestResult<?> result) throws Exception;
 }

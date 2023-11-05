@@ -1,6 +1,7 @@
 package de.freese.base.core.collection;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,132 +17,33 @@ import java.util.Set;
  * <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java</a>
  */
 public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
-    /**
-     * A policy to determine the expiration time for key-value entries.
-     */
-    @FunctionalInterface
-    public interface ExpirationPolicy<K, V> {
-        /**
-         * Determine the expiration time for the given key-value entry.
-         *
-         * @return the expiration time value measured in milliseconds. A
-         * negative return value indicates the entry never expires.
-         */
-        long expirationTime(K key, V value);
-    }
 
-    /**
-     * A {@link ExpirationPolicy} that returns an expiration time that is a constant about of time in the future from the current time.
-     */
-    public static class ConstantTimeToLiveExpirationPolicy<K, V> implements ExpirationPolicy<K, V> {
-        /**
-         * the constant time-to-live value measured in milliseconds.
-         */
-        private final long timeToLiveMillis;
-
-        /**
-         * Default constructor. Constructs a policy using a negative
-         * time-to-live value that results in entries never expiring.
-         */
-        public ConstantTimeToLiveExpirationPolicy() {
-            this(-1L);
-        }
-
-        public ConstantTimeToLiveExpirationPolicy(Duration timeToLiveDuration) {
-            this(Objects.requireNonNull(timeToLiveDuration, "timeToLiveDuration required").toMillis());
-        }
-
-        /**
-         * Construct a policy with the given time-to-live constant measured in
-         * milliseconds. A negative time-to-live value indicates entries never
-         * expire. A zero time-to-live value indicates entries expire (nearly)
-         * immediately.
-         *
-         * @param timeToLiveMillis the constant amount of time (in milliseconds)
-         * an entry is available before it expires. A negative value
-         * results in entries that NEVER expire. A zero value results in
-         * entries that ALWAYS expire.
-         */
-        public ConstantTimeToLiveExpirationPolicy(final long timeToLiveMillis) {
-            super();
-
-            this.timeToLiveMillis = timeToLiveMillis;
-        }
-
-        /**
-         * Determine the expiration time for the given key-value entry.
-         *
-         * @param key the key for the entry (ignored).
-         * @param value the value for the entry (ignored).
-         *
-         * @return if {@link #timeToLiveMillis} &ge; 0, an expiration time of
-         * {@link #timeToLiveMillis} +
-         * {@link System#currentTimeMillis()} is returned. Otherwise, -1
-         * is returned indicating the entry never expires.
-         */
-        @Override
-        public long expirationTime(final K key, final V value) {
-            if (timeToLiveMillis >= 0L) {
-                // avoid numerical overflow
-                final long nowMillis = now();
-
-                if (nowMillis > Long.MAX_VALUE - timeToLiveMillis) {
-                    // expiration would be greater than Long.MAX_VALUE never expire
-                    return -1L;
-                }
-
-                // timeToLiveMillis in the future
-                return nowMillis + timeToLiveMillis;
-            }
-
-            // never expire
-            return -1L;
-        }
-    }
-
-    /**
-     * Determines if the given expiration time is less than {@code now}.
-     *
-     * @param nowMillis the time in milliseconds used to compare against the
-     * expiration time.
-     * @param expirationTimeObject the expiration time value retrieved from
-     * {@link #expirationMap}, can be null.
-     *
-     * @return {@code true} if {@code expirationTimeObject} is &ge; 0
-     * and {@code expirationTimeObject} &lt; {@code now}.
-     * {@code false} otherwise.
-     */
-    private static boolean isExpired(final long nowMillis, final Long expirationTimeObject) {
-        if (expirationTimeObject != null) {
-            final long expirationTime = expirationTimeObject;
-
-            return expirationTime >= 0L && nowMillis >= expirationTime;
+    private static boolean isExpired(final Instant now, final Instant expiration) {
+        if (expiration != null) {
+            return expiration.isBefore(now);
+            //            final long expirationTime = expirationTimeObject;
+            //
+            //            return expirationTime >= 0L && nowMillis >= expirationTime;
         }
 
         return false;
     }
 
-    private static long now() {
-        return System.currentTimeMillis();
+    private static Instant now() {
+        return Instant.now();
     }
 
-    private final Map<Object, Long> expirationMap;
-
-    private final ExpirationPolicy<K, V> expirationPolicy;
+    private final Duration expirationDuration;
+    private final Map<K, Instant> expirationMap = new HashMap<>();
 
     public TimeoutMap(Duration expirationDuration) {
         this(expirationDuration, new HashMap<>());
     }
 
     public TimeoutMap(Duration expirationDuration, Map<K, V> decoratedMap) {
-        this(new ConstantTimeToLiveExpirationPolicy<>(expirationDuration), decoratedMap);
-    }
-
-    public TimeoutMap(ExpirationPolicy<K, V> expirationPolicy, Map<K, V> decoratedMap) {
         super(decoratedMap);
 
-        this.expirationPolicy = Objects.requireNonNull(expirationPolicy, "expirationPolicy required");
-        this.expirationMap = new HashMap<>();
+        this.expirationDuration = Objects.requireNonNull(expirationDuration, "expirationDuration required");
     }
 
     @Override
@@ -195,20 +97,23 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
 
     @Override
     public V put(final K key, final V value) {
-        // remove the previous record
-        removeIfExpired(key, now());
+        final Instant expiration = Instant.now().plus(expirationDuration);
 
-        // record expiration time of new entry
-        final long expirationTime = expirationPolicy.expirationTime(key, value);
-
-        this.expirationMap.put(key, expirationTime);
+        this.expirationMap.put(key, expiration);
 
         return super.put(key, value);
     }
 
     @Override
     public void putAll(final Map<? extends K, ? extends V> map) {
-        map.forEach(this::put);
+        //        map.forEach(this::put);
+
+        final Instant expiration = Instant.now().plus(expirationDuration);
+
+        for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
+            this.expirationMap.put(entry.getKey(), expiration);
+            super.put(entry.getKey(), entry.getValue());
+        }
     }
 
     @Override
@@ -237,13 +142,13 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
      * {@code now}. The exceptions are entries with negative expiration
      * times; those entries are never removed.
      */
-    private void removeAllExpired(final long nowMillis) {
-        final Iterator<Map.Entry<Object, Long>> iter = expirationMap.entrySet().iterator();
+    private void removeAllExpired(final Instant now) {
+        final Iterator<Map.Entry<K, Instant>> iter = expirationMap.entrySet().iterator();
 
         while (iter.hasNext()) {
-            final Map.Entry<Object, Long> expirationEntry = iter.next();
+            final Map.Entry<K, Instant> expirationEntry = iter.next();
 
-            if (isExpired(nowMillis, expirationEntry.getValue())) {
+            if (isExpired(now, expirationEntry.getValue())) {
                 // remove entry from decorated map
                 super.remove(expirationEntry.getKey());
 
@@ -258,10 +163,10 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
      * less than {@code now}. If the entry has a negative expiration time,
      * the entry is never removed.
      */
-    private void removeIfExpired(final Object key, final long nowMillis) {
-        final Long expirationTimeObject = expirationMap.get(key);
+    private void removeIfExpired(final Object key, final Instant now) {
+        final Instant expiration = expirationMap.get(key);
 
-        if (isExpired(nowMillis, expirationTimeObject)) {
+        if (isExpired(now, expiration)) {
             remove(key);
         }
     }

@@ -5,6 +5,6 @@ package de.freese.base.core.model.builder.request;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface RequestResult {
-    Object getObject();
+public interface RequestResult<T> {
+    T getObject();
 }

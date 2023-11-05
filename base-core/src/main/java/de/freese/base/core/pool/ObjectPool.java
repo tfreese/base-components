@@ -21,7 +21,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
     private final Map<T, Long> creationTimestamps = new ConcurrentHashMap<>();
     private final Supplier<T> creator;
     private final Consumer<T> doOnClose;
-    private long expirationDuration = -1;
+    private long expirationDuration = -1L;
 
     public ObjectPool(Supplier<T> creator) {
         this(creator, Objects::nonNull);
@@ -58,7 +58,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
     public T get() {
         T object = getIdleObjects().poll();
 
-        if (object != null && expirationDuration > 0) {
+        if (object != null && expirationDuration > 0L) {
             Long creationTimestamp = creationTimestamps.getOrDefault(object, 0L);
             long expiryTimestamp = creationTimestamp + expirationDuration;
 

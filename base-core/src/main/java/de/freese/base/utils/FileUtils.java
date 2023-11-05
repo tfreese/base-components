@@ -79,7 +79,7 @@ public final class FileUtils {
     }
 
     public static String normalizeFileName(final String fileName) {
-        if ((fileName == null) || (fileName.strip().length() == 0)) {
+        if (fileName == null || fileName.isBlank()) {
             return fileName;
         }
 

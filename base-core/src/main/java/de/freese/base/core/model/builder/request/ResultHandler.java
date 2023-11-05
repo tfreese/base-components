@@ -6,5 +6,5 @@ package de.freese.base.core.model.builder.request;
  */
 @FunctionalInterface
 public interface ResultHandler {
-    void handle(RequestResult result) throws Exception;
+    void handle(RequestResult<?> result) throws Exception;
 }

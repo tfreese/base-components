@@ -46,7 +46,7 @@ public final class RegExToWildcard implements RegExTransformer {
             return null;
         }
 
-        if ("".equals(expression.strip())) {
+        if (expression.isBlank()) {
             return "";
         }
 
@@ -70,7 +70,7 @@ public final class RegExToWildcard implements RegExTransformer {
         }
 
         // .* als default IST NICHT ZULÄSSIG !!!
-        if ("".equals(expression.strip())) {
+        if (expression.isBlank()) {
             return "";
         }
 

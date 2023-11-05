@@ -47,7 +47,8 @@ public final class ByteUtils {
             return new byte[0];
         }
 
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(); GZIPOutputStream zos = new GZIPOutputStream(bos)) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             GZIPOutputStream zos = new GZIPOutputStream(bos)) {
             zos.write(bytes);
 
             zos.flush();
@@ -86,22 +87,22 @@ public final class ByteUtils {
 
         byte[] decompressed = null;
 
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length)) {
-            try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes); GZIPInputStream zis = new GZIPInputStream(bis)) {
-                byte[] buffer = new byte[4096];
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
+             ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+             GZIPInputStream zis = new GZIPInputStream(bis)) {
+            byte[] buffer = new byte[4096];
 
-                while (true) {
-                    int length = zis.read(buffer);
+            while (true) {
+                int length = zis.read(buffer);
 
-                    if (length == -1) {
-                        break;
-                    }
-
-                    bos.write(buffer, 0, length);
+                if (length == -1) {
+                    break;
                 }
 
-                bos.flush();
+                bos.write(buffer, 0, length);
             }
+
+            bos.flush();
 
             decompressed = bos.toByteArray();
         }
@@ -116,7 +117,8 @@ public final class ByteUtils {
 
         final Object object;
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes); ObjectInputStream out = new ObjectInputStream(bais)) {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+             ObjectInputStream out = new ObjectInputStream(bais)) {
             object = out.readObject();
         }
         catch (final IOException ex) {

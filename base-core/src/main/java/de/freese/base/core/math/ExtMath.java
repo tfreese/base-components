@@ -68,7 +68,7 @@ public final class ExtMath {
             return 0;
         }
 
-        return checksum(n / 10) + (n % 10);
+        return checksum(n / 10L) + (n % 10L);
     }
 
     /**
@@ -262,30 +262,30 @@ public final class ExtMath {
     public static boolean isPrime(final long number) {
         boolean prim = true;
 
-        if ((number % 2) == 0) {
+        if ((number % 2L) == 0L) {
             prim = false;
         }
         else {
-            if (number > 3) {
+            if (number > 3L) {
                 long counter;
 
                 long root = (long) Math.sqrt(number);
 
                 // Zahl finden, deren Quadrat etwas grösser
                 // ist, als die zu prüfende Zahl
-                if ((root % 2) == 0) {
+                if ((root % 2L) == 0L) {
                     root++;
                 }
                 else {
-                    root += 2;
+                    root += 2L;
                 }
 
-                counter = 1;
+                counter = 1L;
 
                 do {
                     counter++;
 
-                    if ((number % counter) == 0) {
+                    if ((number % counter) == 0L) {
                         prim = false;
 
                         break;
@@ -295,11 +295,11 @@ public final class ExtMath {
             }
         }
 
-        if (number == 1) {
+        if (number == 1L) {
             prim = false;
         }
 
-        if (number == 2) {
+        if (number == 2L) {
             prim = true;
         }
 
@@ -333,7 +333,7 @@ public final class ExtMath {
      * Calculates the largest common divisor.
      */
     public static long lcd(final long a, final long b) {
-        if (b == 0) {
+        if (b == 0L) {
             return a;
         }
 
@@ -482,8 +482,8 @@ public final class ExtMath {
             return null;
         }
 
-        double aValue = (a == null) ? 0 : a;
-        double bValue = (b == null) ? 0 : b;
+        double aValue = (a == null) ? 0D : a;
+        double bValue = (b == null) ? 0D : b;
 
         return aValue - bValue;
     }
@@ -510,8 +510,8 @@ public final class ExtMath {
             return null;
         }
 
-        long aValue = (a == null) ? 0 : a;
-        long bValue = (b == null) ? 0 : b;
+        long aValue = (a == null) ? 0L : a;
+        long bValue = (b == null) ? 0L : b;
 
         return aValue - bValue;
     }
@@ -527,8 +527,8 @@ public final class ExtMath {
             return null;
         }
 
-        aValue = (Double.isNaN(aValue)) ? 0 : aValue;
-        bValue = (Double.isNaN(bValue)) ? 0 : bValue;
+        aValue = (Double.isNaN(aValue)) ? 0D : aValue;
+        bValue = (Double.isNaN(bValue)) ? 0D : bValue;
 
         return aValue + bValue;
     }
@@ -555,8 +555,8 @@ public final class ExtMath {
             return null;
         }
 
-        long aValue = (a == null) ? 0 : a;
-        long bValue = (b == null) ? 0 : b;
+        long aValue = (a == null) ? 0L : a;
+        long bValue = (b == null) ? 0L : b;
 
         return aValue + bValue;
     }
