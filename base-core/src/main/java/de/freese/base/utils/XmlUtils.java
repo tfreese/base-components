@@ -40,15 +40,16 @@ public final class XmlUtils {
     }
 
     public static Document getDocument(final InputSource inputSource) throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
         // Protect against to XXE attacks.
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // Compliant
-        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // Compliant
+        documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-        factory.setValidating(false);
+        documentBuilderFactory.setValidating(false);
 
-        return factory.newDocumentBuilder().parse(inputSource);
+        return documentBuilderFactory.newDocumentBuilder().parse(inputSource);
     }
 
     public static Document getDocument(final InputStream inputStream) throws Exception {
