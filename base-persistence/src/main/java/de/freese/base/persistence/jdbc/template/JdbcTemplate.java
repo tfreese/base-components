@@ -131,7 +131,7 @@ public class JdbcTemplate {
          * Reuse is not possible, because the Resources are closed after first usage.<br>
          * Example: <code>
          * <pre>
-         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
+         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, StatementSetter));
          * flux.subscribe(System.out::println);
          * </pre>
          * </code>
@@ -186,7 +186,7 @@ public class JdbcTemplate {
          * Reuse is not possible, because the Resources are closed after first usage.<br>
          * Example: <code>
          * <pre>
-         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
+         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, StatementSetter));
          * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
          * </pre>
          * </code>
@@ -220,7 +220,7 @@ public class JdbcTemplate {
          * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
          * Example: <code>
          * <pre>
-         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
+         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, StatementSetter))
          * {
          *     stream.forEach(System.out::println);
          * }
