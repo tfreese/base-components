@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese
@@ -24,7 +24,7 @@ public class ResultSetSubscription<T> implements Subscription {
     private final RowMapper<T> rowMapper;
 
     private final Subscriber<? super T> subscriber;
-    
+
     private ResultSet resultSet;
 
     ResultSetSubscription(final ResultSet resultSet, final RowMapper<T> rowMapper, Consumer<ResultSet> doOnClose, final Subscriber<? super T> subscriber) {

@@ -6,21 +6,21 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */
-public class RowMapperConsumableResultSetExtractor<T> implements ResultSetExtractor<Void> {
+public class RowMapperConsumableResultSetCallback<T> implements ResultSetCallback<Void> {
 
     private final Consumer<T> consumer;
-    
+
     private final RowMapper<T> rowMapper;
 
-    public RowMapperConsumableResultSetExtractor(final RowMapper<T> rowMapper, final Consumer<T> consumer) {
+    public RowMapperConsumableResultSetCallback(final RowMapper<T> rowMapper, final Consumer<T> consumer) {
         super();
 
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
@@ -28,7 +28,7 @@ public class RowMapperConsumableResultSetExtractor<T> implements ResultSetExtrac
     }
 
     @Override
-    public Void extractData(final ResultSet resultSet) throws SQLException {
+    public Void doInResultSet(final ResultSet resultSet) throws SQLException {
         while (resultSet.next()) {
             consumer.accept(this.rowMapper.mapRow(resultSet));
         }

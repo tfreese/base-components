@@ -9,29 +9,29 @@ import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetFactory;
 import javax.sql.rowset.RowSetProvider;
 
-import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */
-public class CachedRowSetResultSetExtractor implements ResultSetExtractor<CachedRowSet> {
-    
+public class CachedRowSetResultSetCallback implements ResultSetCallback<CachedRowSet> {
+
     private final RowSetFactory rowSetFactory;
 
-    public CachedRowSetResultSetExtractor() throws SQLException {
+    public CachedRowSetResultSetCallback() throws SQLException {
         this(RowSetProvider.newFactory());
     }
 
-    public CachedRowSetResultSetExtractor(final RowSetFactory rowSetFactory) {
+    public CachedRowSetResultSetCallback(final RowSetFactory rowSetFactory) {
         super();
 
         this.rowSetFactory = Objects.requireNonNull(rowSetFactory, "rowSetFactory required");
     }
 
     @Override
-    public CachedRowSet extractData(final ResultSet resultSet) throws SQLException {
+    public CachedRowSet doInResultSet(final ResultSet resultSet) throws SQLException {
         CachedRowSet rowSet = this.rowSetFactory.createCachedRowSet();
 
         rowSet.populate(resultSet);

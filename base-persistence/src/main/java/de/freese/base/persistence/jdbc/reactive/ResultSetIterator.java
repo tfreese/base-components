@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * {@link Iterator} for a {@link ResultSet}.<br/>
@@ -15,7 +15,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class ResultSetIterator<T> implements Iterator<T> {
-    
+
     private final ResultSet resultSet;
 
     private final RowMapper<T> rowMapper;

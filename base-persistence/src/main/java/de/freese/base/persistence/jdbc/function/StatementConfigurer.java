@@ -1,5 +1,5 @@
 // Created: 20.08.23
-package de.freese.base.persistence.jdbc.template.function;
+package de.freese.base.persistence.jdbc.function;
 
 import java.sql.SQLException;
 import java.sql.Statement;

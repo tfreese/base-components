@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Objects;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * {@link Iterable} for a {@link ResultSet}.<br/>
@@ -13,7 +13,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class ResultSetIterable<T> implements Iterable<T> {
-    
+
     private final ResultSet resultSet;
 
     private final RowMapper<T> rowMapper;

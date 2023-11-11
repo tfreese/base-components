@@ -29,18 +29,18 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
+import de.freese.base.persistence.jdbc.UncheckedSqlException;
+import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
+import de.freese.base.persistence.jdbc.function.StatementConfigurer;
+import de.freese.base.persistence.jdbc.function.StatementCreator;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
-import de.freese.base.persistence.jdbc.template.function.ConnectionCallback;
-import de.freese.base.persistence.jdbc.template.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
-import de.freese.base.persistence.jdbc.template.function.ResultSetCallback;
-import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
-import de.freese.base.persistence.jdbc.template.function.StatementCallback;
-import de.freese.base.persistence.jdbc.template.function.StatementConfigurer;
-import de.freese.base.persistence.jdbc.template.function.StatementCreator;
 import de.freese.base.persistence.jdbc.template.transaction.SimpleTransaction;
 import de.freese.base.persistence.jdbc.template.transaction.Transaction;
 
@@ -117,12 +117,12 @@ public class JdbcTemplate {
             super(sql);
         }
 
-        public <T> T execute(final ResultSetExtractor<T> resultSetExtractor) {
+        public <T> T execute(final ResultSetCallback<T> resultSetCallback) {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("execute: {}", getSql());
             }
 
-            return JdbcTemplate.this.execute(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetExtractor::extractData, true);
+            return JdbcTemplate.this.execute(getSql(), getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, true);
         }
 
         /**
@@ -131,7 +131,7 @@ public class JdbcTemplate {
          * Reuse is not possible, because the Resources are closed after first usage.<br>
          * Example: <code>
          * <pre>
-         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, StatementSetter));
+         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
          * flux.subscribe(System.out::println);
          * </pre>
          * </code>
@@ -170,7 +170,7 @@ public class JdbcTemplate {
         }
 
         public <T> List<T> executeAsList(final RowMapper<T> rowMapper) {
-            return execute(new RowMapperResultSetExtractor<>(rowMapper));
+            return execute(new RowMapperResultSetCallback<>(rowMapper));
         }
 
         /**
@@ -186,7 +186,7 @@ public class JdbcTemplate {
          * Reuse is not possible, because the Resources are closed after first usage.<br>
          * Example: <code>
          * <pre>
-         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, StatementSetter));
+         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
          * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
          * </pre>
          * </code>
@@ -220,7 +220,7 @@ public class JdbcTemplate {
          * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
          * Example: <code>
          * <pre>
-         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, StatementSetter))
+         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
          * {
          *     stream.forEach(System.out::println);
          * }
@@ -285,7 +285,7 @@ public class JdbcTemplate {
             return JdbcTemplate.this.execute(statementCreator, statementCallback, true);
         }
 
-        public <T> T execute(final ResultSetExtractor<T> resultSetExtractor) {
+        public <T> T execute(final ResultSetCallback<T> resultSetCallback) {
             if (getLogger().isDebugEnabled()) {
                 getLogger().debug("call: {}", getSql());
             }
@@ -303,7 +303,7 @@ public class JdbcTemplate {
 
                     resultSet = stmt.executeQuery();
 
-                    return resultSetExtractor.extractData(resultSet);
+                    return resultSetCallback.doInResultSet(resultSet);
                 }
                 catch (SQLException ex) {
                     throw convertException(ex);

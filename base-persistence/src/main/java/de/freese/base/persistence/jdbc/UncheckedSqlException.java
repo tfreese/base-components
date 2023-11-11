@@ -1,5 +1,5 @@
 // Created: 30.08.23
-package de.freese.base.persistence.jdbc.template;
+package de.freese.base.persistence.jdbc;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;

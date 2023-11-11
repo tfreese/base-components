@@ -1,5 +1,5 @@
 // Created: 12.01.2017
-package de.freese.base.persistence.jdbc.client;
+package de.freese.base.persistence.jdbc.function;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,6 +10,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface StatementSetter<T> {
-    void setValues(PreparedStatement preparedStatement, T argument) throws SQLException;
+public interface PreparedStatementSetter {
+    void setValues(PreparedStatement preparedStatement) throws SQLException;
 }

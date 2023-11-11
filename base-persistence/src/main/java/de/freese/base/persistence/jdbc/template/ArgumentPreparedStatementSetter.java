@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-import de.freese.base.persistence.jdbc.template.function.PreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>

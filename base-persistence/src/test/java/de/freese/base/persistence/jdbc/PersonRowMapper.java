@@ -4,7 +4,7 @@ package de.freese.base.persistence.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * @author Thomas Freese

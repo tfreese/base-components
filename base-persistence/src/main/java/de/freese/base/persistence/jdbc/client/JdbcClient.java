@@ -1,22 +1,20 @@
 // Created: 10.11.23
 package de.freese.base.persistence.jdbc.client;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.SequencedSet;
 import java.util.Set;
-import java.util.Spliterator;
 import java.util.concurrent.Flow;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import javax.sql.DataSource;
 
@@ -24,7 +22,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
-import de.freese.base.persistence.jdbc.template.UncheckedSqlException;
+import de.freese.base.persistence.jdbc.UncheckedSqlException;
+import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.StatementCallback;
+import de.freese.base.persistence.jdbc.function.StatementConfigurer;
+import de.freese.base.persistence.jdbc.function.StatementCreator;
 
 /**
  * <a href="https://github.com/spring-projects/spring-framework/blob/main/spring-jdbc/src/main/java/org/springframework/jdbc/core/simple/JdbcClient.java">Spring's JdbcClient</a>
@@ -32,121 +38,42 @@ import de.freese.base.persistence.jdbc.template.UncheckedSqlException;
  * @author Thomas Freese
  */
 public class JdbcClient {
-    class StatementSpec {
-        private final CharSequence sql;
+    interface InsertSpec {
+        int execute();
 
-        private StatementSetter<?> preparedStatementSetter;
-        private StatementConfigurer statementConfigurer;
+        <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
 
-        public StatementSpec(final CharSequence sql) {
-            super();
+        InsertSpec statementConfigurer(StatementConfigurer statementConfigurer);
 
-            this.sql = Objects.requireNonNull(sql, "sql required");
-        }
+        InsertSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
+    }
 
-        public StatementSpec setStatementConfigurer(StatementConfigurer statementConfigurer) {
-            this.statementConfigurer = statementConfigurer;
+    interface SelectSpec {
+        <T> T execute(ResultSetCallback<T> resultSetCallback);
 
-            return this;
-        }
+        <T> Flux<T> executeAsFlux(RowMapper<T> rowMapper);
 
-        int delete() {
-            // TODO
-            return 0;
-        }
+        <T> List<T> executeAsList(RowMapper<T> rowMapper);
 
-        int insert() {
-            // TODO
-            return 0;
-        }
+        <T> Flow.Publisher<T> executeAsPublisher(RowMapper<T> rowMapper);
 
-        int insert(final Set<Long> keyHolder) {
-            // TODO
-            return 0;
-        }
+        <T> Set<T> executeAsSet(RowMapper<T> rowMapper);
 
-        StatementSpec preparedStatementSetter(StatementSetter<?> preparedStatementSetter) {
-            this.preparedStatementSetter = preparedStatementSetter;
+        <T> Stream<T> executeAsStream(RowMapper<T> rowMapper);
 
-            return this;
-        }
+        SelectSpec statementConfigurer(StatementConfigurer statementConfigurer);
 
-        <T> Flux<T> selectFlux(final RowMapper<T> rowMapper) {
-            // TODO
-            return null;
-        }
+        SelectSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
+    }
 
-        <T> List<T> selectList(RowMapper<T> rowMapper) {
-            List<T> results = new ArrayList<>();
+    interface UpdateSpec {
+        int execute();
 
-            try (Connection connection = getConnection();
-                 PreparedStatement preparedStatement = createPreparedStatement(connection, sql, statementConfigurer)) {
+        <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
 
-                if (preparedStatementSetter != null) {
-                    preparedStatementSetter.setValues(preparedStatement, null);
-                }
+        UpdateSpec statementConfigurer(StatementConfigurer statementConfigurer);
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        results.add(rowMapper.mapRow(resultSet));
-                    }
-                }
-
-                handleWarnings(preparedStatement);
-            }
-            catch (SQLException ex) {
-                throw convertException(ex);
-            }
-            //            finally {
-            //                if (closeResources) {
-            //                    close(resultSet);
-            //                }
-            //            }
-
-            return results;
-        }
-
-        <T> Flow.Publisher<T> selectPublisher(RowMapper<T> rowMapper) {
-            // TODO
-            return null;
-        }
-
-        <T> SequencedSet<T> selectSet(RowMapper<T> rowMapper) {
-            return new LinkedHashSet<>(selectList(rowMapper));
-        }
-
-        <T> Stream<T> selectStream(RowMapper<T> rowMapper) {
-            try {
-                final Connection connection = getConnection();
-                final PreparedStatement preparedStatement = createPreparedStatement(connection, sql, statementConfigurer);
-
-                if (preparedStatementSetter != null) {
-                    preparedStatementSetter.setValues(preparedStatement, null);
-                }
-
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                handleWarnings(preparedStatement);
-
-                Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
-
-                return StreamSupport.stream(spliterator, false).onClose(() -> {
-                    getLogger().debug("close jdbc stream");
-
-                    close(resultSet);
-                    close(preparedStatement);
-                    close(connection);
-                });
-            }
-            catch (SQLException ex) {
-                throw convertException(ex);
-            }
-        }
-
-        int update() {
-            // TODO
-            return 0;
-        }
+        UpdateSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
     }
 
     private final DataSource dataSource;
@@ -158,11 +85,25 @@ public class JdbcClient {
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
     }
 
-    public StatementSpec sql(CharSequence sql) {
-        return new StatementSpec(sql);
+    public InsertSpec insert(final CharSequence sql) {
+        return new DefaultInsertSpec(sql, this);
     }
 
-    protected void close(final Connection connection) {
+    public boolean isBatchSupported() {
+        ConnectionCallback<Boolean> action = this::isBatchSupported;
+
+        return execute(action, true);
+    }
+
+    public SelectSpec select(final CharSequence sql) {
+        return new DefaultSelectSpec(sql, this);
+    }
+
+    public UpdateSpec update(final CharSequence sql) {
+        return new DefaultUpdateSpec(sql, this);
+    }
+
+    void close(final Connection connection) {
         //        Transaction transaction = TRANSACTION.orElse(null);
         //
         //        if (transaction != null) {
@@ -185,7 +126,7 @@ public class JdbcClient {
         }
     }
 
-    protected void close(final ResultSet resultSet) {
+    void close(final ResultSet resultSet) {
         getLogger().debug("close resultSet");
 
         try {
@@ -200,7 +141,7 @@ public class JdbcClient {
         }
     }
 
-    protected void close(final Statement statement) {
+    void close(final Statement statement) {
         getLogger().debug("close statement");
 
         try {
@@ -215,7 +156,91 @@ public class JdbcClient {
         }
     }
 
-    protected RuntimeException convertException(final Exception ex) {
+    CallableStatement createCallableStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
+        CallableStatement callableStatement = connection.prepareCall(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+        if (configurer != null) {
+            configurer.configure(callableStatement);
+        }
+
+        return callableStatement;
+    }
+
+    <S extends Statement, T> T execute(final StatementCreator<S> statementCreator, final StatementCallback<S, T> statementCallback, final boolean closeResources) {
+        ConnectionCallback<T> connectionCallback = con -> {
+            S stmt = null;
+
+            try {
+                stmt = statementCreator.createStatement(con);
+
+                T result = statementCallback.doInStatement(stmt);
+
+                handleWarnings(stmt);
+
+                return result;
+            }
+            catch (SQLException ex) {
+                throw convertException(ex);
+            }
+            finally {
+                if (closeResources) {
+                    close(stmt);
+                }
+            }
+        };
+
+        return execute(connectionCallback, closeResources);
+    }
+
+    /**
+     * @param pss {@link PreparedStatementSetter}; optional
+     */
+    <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback, final boolean closeResources) {
+        StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, sql, statementConfigurer);
+        StatementCallback<PreparedStatement, T> statementCallback = stmt -> {
+            ResultSet resultSet = null;
+
+            try {
+                if (pss != null) {
+                    pss.setValues(stmt);
+                }
+
+                resultSet = stmt.executeQuery();
+
+                return resultSetCallback.doInResultSet(resultSet);
+            }
+            catch (SQLException ex) {
+                throw convertException(ex);
+            }
+            finally {
+                if (closeResources) {
+                    close(resultSet);
+                }
+            }
+        };
+
+        return execute(statementCreator, statementCallback, closeResources);
+    }
+
+    <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
+        Connection connection = null;
+
+        try {
+            connection = getConnection();
+
+            return connectionCallback.doInConnection(connection);
+        }
+        catch (SQLException ex) {
+            throw convertException(ex);
+        }
+        finally {
+            if (closeResources) {
+                close(connection);
+            }
+        }
+    }
+
+    private RuntimeException convertException(final Exception ex) {
         Throwable th = ex;
 
         if (th instanceof RuntimeException re) {
@@ -234,7 +259,7 @@ public class JdbcClient {
         return new RuntimeException(th);
     }
 
-    protected PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
+    private PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
         if (configurer != null) {
@@ -244,7 +269,7 @@ public class JdbcClient {
         return preparedStatement;
     }
 
-    protected Connection getConnection() {
+    private Connection getConnection() {
         try {
             return getDataSource().getConnection();
         }
@@ -253,15 +278,15 @@ public class JdbcClient {
         }
     }
 
-    protected DataSource getDataSource() {
+    private DataSource getDataSource() {
         return dataSource;
     }
 
-    protected Logger getLogger() {
+    private Logger getLogger() {
         return logger;
     }
 
-    protected void handleWarnings(final Statement stmt) throws SQLException {
+    private void handleWarnings(final Statement stmt) throws SQLException {
         if (getLogger().isDebugEnabled()) {
             SQLWarning warning = stmt.getWarnings();
 
@@ -273,4 +298,9 @@ public class JdbcClient {
         }
     }
 
+    private boolean isBatchSupported(final Connection connection) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
+
+        return metaData.supportsBatchUpdates();
+    }
 }

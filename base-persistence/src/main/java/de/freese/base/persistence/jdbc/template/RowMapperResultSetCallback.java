@@ -7,26 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import de.freese.base.persistence.jdbc.template.function.ResultSetExtractor;
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
  *
  * @author Thomas Freese
  */
-public class RowMapperResultSetExtractor<T> implements ResultSetExtractor<List<T>> {
-    
+public class RowMapperResultSetCallback<T> implements ResultSetCallback<List<T>> {
+
     private final RowMapper<T> rowMapper;
 
-    public RowMapperResultSetExtractor(final RowMapper<T> rowMapper) {
+    public RowMapperResultSetCallback(final RowMapper<T> rowMapper) {
         super();
 
         this.rowMapper = Objects.requireNonNull(rowMapper, "rowMapper required");
     }
 
     @Override
-    public List<T> extractData(final ResultSet resultSet) throws SQLException {
+    public List<T> doInResultSet(final ResultSet resultSet) throws SQLException {
         List<T> results = new ArrayList<>();
 
         while (resultSet.next()) {

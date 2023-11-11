@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import de.freese.base.persistence.jdbc.template.function.RowMapper;
+import de.freese.base.persistence.jdbc.function.RowMapper;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
@@ -17,7 +17,7 @@ import de.freese.base.persistence.jdbc.template.function.RowMapper;
  * @author Thomas Freese
  */
 public class ColumnMapRowMapper implements RowMapper<Map<String, Object>> {
-    
+
     private String[] columnNames;
 
     @Override
