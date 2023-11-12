@@ -1,5 +1,5 @@
 // Created: 30.08.23
-package de.freese.base.persistence.jdbc.template.transaction;
+package de.freese.base.persistence.jdbc.transaction;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,7 +35,7 @@ public final class SimpleTransaction implements Transaction {
     @Override
     public void begin() {
         try {
-            checkConnection();
+            validateConnection();
             getConnection().setAutoCommit(false);
         }
         catch (SQLException ex) {
@@ -48,7 +48,6 @@ public final class SimpleTransaction implements Transaction {
         LOGGER.debug("close connection");
 
         try {
-
             if ((connection == null) || connection.isClosed()) {
                 return;
             }
@@ -64,7 +63,7 @@ public final class SimpleTransaction implements Transaction {
     @Override
     public void commit() {
         try {
-            checkConnection();
+            validateConnection();
             getConnection().commit();
         }
         catch (SQLException ex) {
@@ -80,7 +79,7 @@ public final class SimpleTransaction implements Transaction {
     @Override
     public void rollback() {
         try {
-            checkConnection();
+            validateConnection();
             getConnection().rollback();
         }
         catch (SQLException ex) {
@@ -88,7 +87,7 @@ public final class SimpleTransaction implements Transaction {
         }
     }
 
-    private void checkConnection() throws SQLException {
+    private void validateConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             throw new SQLException("connection is closed");
         }

@@ -75,7 +75,7 @@ class TestSqLite {
     }
 
     @Test
-    void testSqliteJDBC() throws Exception {
+    void testSqliteJdbc() throws Exception {
         try (Connection connection = dataSource.getConnection()) {
             try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate("drop table if exists COMPANY");

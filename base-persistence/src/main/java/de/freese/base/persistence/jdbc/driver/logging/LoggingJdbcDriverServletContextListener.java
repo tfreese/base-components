@@ -10,14 +10,13 @@ import jakarta.servlet.ServletContextListener;
  * @author Thomas Freese
  */
 public class LoggingJdbcDriverServletContextListener implements ServletContextListener {
-
     @Override
-    public void contextDestroyed(final ServletContextEvent sce) {
+    public void contextDestroyed(final ServletContextEvent event) {
         // Empty
     }
 
     @Override
-    public void contextInitialized(final ServletContextEvent sce) {
+    public void contextInitialized(final ServletContextEvent event) {
         try {
             DriverManager.registerDriver(new LoggingJdbcDriver());
 

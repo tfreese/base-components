@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class ResultSetSubscriberForAll<T> implements Subscriber<T> {
-    
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForAll.class);
 
     private final Consumer<T> consumer;

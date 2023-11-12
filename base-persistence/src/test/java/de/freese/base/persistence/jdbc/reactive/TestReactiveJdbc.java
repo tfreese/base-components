@@ -47,7 +47,7 @@ import de.freese.base.utils.JdbcUtils;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestReactiveJdbc {
     @RegisterExtension
-    static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2);
+    static final DbServerExtension SERVER = new DbServerExtension(EmbeddedDatabaseType.H2, true);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestReactiveJdbc.class);
 
@@ -255,12 +255,12 @@ class TestReactiveJdbc {
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        assertEquals(1, result.get(0).getId());
-        assertEquals("LastName1", result.get(0).getLastName());
-        assertEquals("FirstName1", result.get(0).getFirstName());
+        assertEquals(1, result.get(0).id());
+        assertEquals("LastName1", result.get(0).lastName());
+        assertEquals("FirstName1", result.get(0).firstName());
 
-        assertEquals(2, result.get(1).getId());
-        assertEquals("LastName2", result.get(1).getLastName());
-        assertEquals("FirstName2", result.get(1).getFirstName());
+        assertEquals(2, result.get(1).id());
+        assertEquals("LastName2", result.get(1).lastName());
+        assertEquals("FirstName2", result.get(1).firstName());
     }
 }

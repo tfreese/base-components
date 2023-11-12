@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.function.Function;
 
 /**
- * Liefert die Query für eine Sequence.<br>
- * Beispiel:<br>
+ * Returns the Query for a Sequence.<br>
+ * Example:<br>
  *
  * <pre>
  * - Oracle: select SEQUENCE.nextval from dual
@@ -20,9 +20,6 @@ import java.util.function.Function;
  */
 @FunctionalInterface
 public interface SequenceQuery extends Function<String, String> {
-    /**
-     * Ermittelt anhand der {@link DatabaseMetaData} das passende SQL.
-     */
     static SequenceQuery determineQuery(final Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
 

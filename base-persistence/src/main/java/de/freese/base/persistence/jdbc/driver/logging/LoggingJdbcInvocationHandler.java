@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -24,8 +25,8 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
     LoggingJdbcInvocationHandler(final Object target, final Set<String> logMethods) {
         super();
 
-        this.target = target;
-        this.logMethods = logMethods;
+        this.target = Objects.requireNonNull(target, "target required");
+        this.logMethods = Objects.requireNonNull(logMethods, "logMethods required");
     }
 
     @Override

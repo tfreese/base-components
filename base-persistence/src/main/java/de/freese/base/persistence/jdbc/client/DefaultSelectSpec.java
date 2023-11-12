@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
@@ -23,6 +24,7 @@ import reactor.core.publisher.SynchronousSink;
 
 import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.ResultSetCallback;
+import de.freese.base.persistence.jdbc.function.ResultSetCallbackColumnMap;
 import de.freese.base.persistence.jdbc.function.RowMapper;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
@@ -95,6 +97,11 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
         };
 
         return execute(resultSetCallback);
+    }
+
+    @Override
+    public List<Map<String, Object>> executeAsMap() {
+        return execute(new ResultSetCallbackColumnMap());
     }
 
     @Override

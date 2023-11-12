@@ -13,7 +13,6 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  * @author Thomas Freese
  */
 public class ResultSetPublisher<T> implements Publisher<T> {
-
     private final Consumer<ResultSet> doOnClose;
 
     private final ResultSet resultSet;

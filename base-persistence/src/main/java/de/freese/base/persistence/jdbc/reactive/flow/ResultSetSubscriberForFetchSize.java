@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
-    
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);
 
     private final AtomicBoolean completed;

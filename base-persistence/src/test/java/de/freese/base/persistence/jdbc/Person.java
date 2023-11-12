@@ -4,33 +4,7 @@ package de.freese.base.persistence.jdbc;
 /**
  * @author Thomas Freese
  */
-public class Person {
-    private final String firstName;
-
-    private final long id;
-
-    private final String lastName;
-
-    public Person(final long id, final String lastName, final String firstName) {
-        super();
-
-        this.id = id;
-        this.lastName = lastName;
-        this.firstName = firstName;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public long getId() {
-        return this.id;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
+public record Person(long id, String lastName, String firstName) {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

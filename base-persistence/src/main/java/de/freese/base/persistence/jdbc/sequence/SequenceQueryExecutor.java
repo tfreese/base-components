@@ -25,9 +25,10 @@ public class SequenceQueryExecutor {
 
     public long getNextID(final String sequence, final Connection connection) throws SQLException {
         String sql = this.sequenceQuery.apply(sequence);
-        long id = 0;
+        long id = 0L;
 
-        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             rs.next();
             id = rs.getLong(1);
         }

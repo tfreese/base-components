@@ -54,7 +54,7 @@ public final class HsqldbTextTableBuilder {
 
     private boolean allQuoted = true;
 
-    private int cacheRows = 10000;
+    private int cacheRows = 10_000;
     /**
      * [kB]; 1024 KB = 1 MB
      */

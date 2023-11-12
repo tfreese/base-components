@@ -35,7 +35,6 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings {
     public static class ConnectionHolder {
         private final Connection derby;
         private final Connection h2;
-
         private final Connection hsqldb;
 
         private Connection connection;
@@ -121,7 +120,8 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings {
 
     @Benchmark
     public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
-        try (Statement statement = connectionHolder.connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM result_sizes")) {
+        try (Statement statement = connectionHolder.connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM result_sizes")) {
             while (resultSet.next()) {
                 blackhole.consume(resultSet.getString("name"));
             }

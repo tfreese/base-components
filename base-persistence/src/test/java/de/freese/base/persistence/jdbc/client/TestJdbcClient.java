@@ -1,264 +1,215 @@
-// Created: 10.11.23
+// Created: 12.11.23
 package de.freese.base.persistence.jdbc.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Flow;
+import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 
-import javax.sql.DataSource;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForAll;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForEachObject;
-import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetchSize;
+import de.freese.base.persistence.jdbc.DbServerExtension;
+import de.freese.base.persistence.jdbc.MultiDatabaseExtension;
+import de.freese.base.persistence.jdbc.transaction.Transaction;
 
 /**
  * @author Thomas Freese
  */
 @TestMethodOrder(MethodOrderer.MethodName.class)
-@SuppressWarnings("try")
 class TestJdbcClient {
-    private final CallableStatement callableStatement = mock();
+    @RegisterExtension
+    static final MultiDatabaseExtension DATABASE_EXTENSION = new MultiDatabaseExtension(true);
 
-    private final Connection connection = mock();
-
-    private final DataSource dataSource = mock();
-
-    private final DatabaseMetaData databaseMetaData = mock();
-
-    private final PreparedStatement preparedStatement = mock();
-
-    private final ResultSet resultSet = mock();
-
-    private final ResultSetMetaData resultSetMetaData = mock();
-
-    private final Statement statement = mock();
-
-    private JdbcClient jdbcClient;
-
-    @AfterEach
-    void afterEach() throws Exception {
-        verify(connection, atLeast(1)).close();
+    static Stream<Arguments> getDatabases() {
+        return DATABASE_EXTENSION.getServers().stream().map(server -> Arguments.of(server.getDatabaseType(), server));
     }
 
-    @BeforeEach
-    void beforeEach() throws Exception {
-        when(dataSource.getConnection()).thenReturn(connection);
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getDatabases")
+    @DisplayName("testDelete")
+    void testDelete(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        jdbcClient.execute(createTableSql(databaseType));
 
-        when(connection.getMetaData()).thenReturn(databaseMetaData);
-        when(connection.prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY))).thenReturn(preparedStatement);
-        when(connection.prepareCall(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY))).thenReturn(callableStatement);
-        when(connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)).thenReturn(statement);
+        List<String> names = List.of("name1", "name2", "name3");
 
-        when(databaseMetaData.getDriverName()).thenReturn("mock");
-        when(databaseMetaData.getDatabaseProductName()).thenReturn("mock");
-        when(databaseMetaData.supportsBatchUpdates()).thenReturn(true);
+        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        assertEquals(names.size(), affectedRows);
 
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(preparedStatement.getConnection()).thenReturn(connection);
+        affectedRows = jdbcClient.delete("delete from person where id = ?").statementSetter(ps -> ps.setLong(1, 3)).execute();
+        assertEquals(1, affectedRows);
 
-        when(callableStatement.execute()).thenReturn(true);
-        when(callableStatement.executeQuery()).thenReturn(resultSet);
-
-        when(statement.executeQuery(anyString())).thenReturn(resultSet);
-        when(statement.getConnection()).thenReturn(connection);
-
-        when(resultSet.getMetaData()).thenReturn(resultSetMetaData);
-
-        jdbcClient = new JdbcClient(dataSource);
-    }
-
-    @Test
-    void testSelectConfigurer() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
-
-        List<Object> result = jdbcClient.select("select configurer").statementConfigurer(st -> st.setFetchSize(4)).executeAsList(rs -> rs.getObject(1));
-
+        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
         assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(11, result.get(0));
-        assertEquals(22, result.get(1));
+        assertEquals(names.size() - 1, result.size());
 
-        verify(connection).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection).close();
-        verify(preparedStatement).setFetchSize(4);
-        verify(preparedStatement).executeQuery();
-        verify(preparedStatement).getWarnings();
-        verify(preparedStatement).close();
-        verify(resultSet, times(2)).getObject(1);
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testSelectFlux() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
-        when(resultSet.getStatement()).thenReturn(preparedStatement);
-
-        List<Object> result = jdbcClient.select("select flux").executeAsFlux(rs -> rs.getObject(1)).collectList().block();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(11, result.get(0));
-        assertEquals(22, result.get(1));
-
-        verify(connection).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection).close();
-        verify(preparedStatement).executeQuery();
-        verify(preparedStatement).getWarnings();
-        verify(preparedStatement).close();
-        verify(resultSet, times(2)).getObject(1);
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testSelectList() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
-
-        List<Object> result = jdbcClient.select("select list").executeAsList(rs -> rs.getObject(1));
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(11, result.get(0));
-        assertEquals(22, result.get(1));
-
-        verify(connection).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection).close();
-        verify(preparedStatement).executeQuery();
-        verify(preparedStatement).getWarnings();
-        verify(preparedStatement).close();
-        verify(resultSet, times(2)).getObject(1);
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testSelectParameter() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
-
-        List<Object> result = jdbcClient.select("select parameter").statementSetter(ps -> ps.setInt(1, 1)).executeAsList(rs -> rs.getObject(1));
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(11, result.get(0));
-        assertEquals(22, result.get(1));
-
-        verify(connection).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection).close();
-        verify(preparedStatement).setInt(1, 1);
-        verify(preparedStatement).executeQuery();
-        verify(preparedStatement).getWarnings();
-        verify(preparedStatement).close();
-        verify(resultSet, times(2)).getObject(1);
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testSelectPublisher() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
-        when(resultSet.getStatement()).thenReturn(preparedStatement);
-
-        List<Object> result = new ArrayList<>();
-
-        List<Flow.Subscriber<Object>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
-
-        for (Flow.Subscriber<Object> subscriber : subscribers) {
-            result.clear();
-
-            when(resultSet.next()).thenReturn(true, true, false);
-            when(resultSet.getObject(1)).thenReturn(11, 22);
-
-            Flow.Publisher<Object> publisher = jdbcClient.select("some sql").executeAsPublisher(rs -> rs.getObject(1));
-
-            publisher.subscribe(subscriber);
-
-            assertEquals(2, result.size());
-            assertEquals(11, result.get(0));
-            assertEquals(22, result.get(1));
+        for (int i = 0; i < names.size() - 1; i++) {
+            assertEquals(2, result.get(i).size());
+            assertEquals(i + 1L, result.get(i).get("ID"));
+            assertEquals("name" + (i + 1), result.get(i).get("NAME"));
         }
 
-        verify(connection, times(3)).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection, times(3)).close();
-        verify(preparedStatement, times(3)).executeQuery();
-        verify(preparedStatement, times(3)).getWarnings();
-        verify(preparedStatement, times(3)).close();
-        verify(resultSet, times(6)).getObject(1);
-        verify(resultSet, times(3)).close();
+        jdbcClient.execute("drop table person");
     }
 
-    @Test
-    void testSelectSet() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getDatabases")
+    @DisplayName("testInsertBatch")
+    void testInsertBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        jdbcClient.execute(createTableSql(databaseType));
 
-        Set<Object> result = jdbcClient.select("select set").executeAsSet(rs -> rs.getObject(1));
+        List<String> names = List.of("name1", "name2", "name3");
 
-        List<Object> resultList = new ArrayList<>(result);
+        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        assertEquals(names.size(), affectedRows);
 
+        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
         assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(11, resultList.get(0));
-        assertEquals(22, resultList.get(1));
+        assertEquals(names.size(), result.size());
 
-        verify(connection).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection).close();
-        verify(preparedStatement).executeQuery();
-        verify(preparedStatement).getWarnings();
-        verify(preparedStatement).close();
-        verify(resultSet, times(2)).getObject(1);
-        verify(resultSet).close();
-    }
-
-    @Test
-    void testSelectStream() throws Exception {
-        when(resultSet.next()).thenReturn(true, true, false);
-        when(resultSet.getObject(1)).thenReturn(11, 22);
-        when(resultSet.getStatement()).thenReturn(preparedStatement);
-
-        List<Object> result = null;
-
-        try (Stream<Object> stream = jdbcClient.select("select stream").executeAsStream(rs -> rs.getObject(1))) {
-            result = stream.toList();
+        for (int i = 0; i < names.size(); i++) {
+            assertEquals(2, result.get(i).size());
+            assertEquals(i + 1L, result.get(i).get("ID"));
+            assertEquals("name" + (i + 1), result.get(i).get("NAME"));
         }
 
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(11, result.get(0));
-        assertEquals(22, result.get(1));
+        jdbcClient.execute("drop table person");
+    }
 
-        verify(connection).prepareStatement(anyString(), eq(ResultSet.TYPE_FORWARD_ONLY), eq(ResultSet.CONCUR_READ_ONLY));
-        verify(connection).close();
-        verify(preparedStatement).executeQuery();
-        verify(preparedStatement).getWarnings();
-        verify(preparedStatement).close();
-        verify(resultSet, times(2)).getObject(1);
-        verify(resultSet).close();
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getDatabases")
+    @DisplayName("testInsertWithKeyConsumer")
+    void testInsertWithKeyConsumer(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        jdbcClient.execute(createTableSql(databaseType));
+
+        List<Long> keys = new ArrayList<>();
+        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").execute(keys::add, ps -> ps.setString(1, "name1"));
+        assertEquals(1, affectedRows);
+        assertEquals(1L, keys.get(0));
+
+        List<Map<String, Object>> result = jdbcClient.select("select * from person").executeAsMap();
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(2, result.get(0).size());
+        assertEquals(1L, result.get(0).get("ID"));
+        assertEquals("name1", result.get(0).get("NAME"));
+
+        jdbcClient.execute("drop table person");
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getDatabases")
+    @DisplayName("testTransaction")
+    void testTransaction(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        jdbcClient.execute(createTableSql(databaseType));
+
+        List<String> names = List.of("name1", "name2");
+
+        Callable<Integer> insertCallable = () -> jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+
+        try (Transaction transaction = jdbcClient.createTransaction()) {
+            transaction.begin();
+
+            int affectedRows = ScopedValue.callWhere(JdbcClient.TRANSACTION, transaction, insertCallable);
+            assertEquals(names.size(), affectedRows);
+
+            // Out of TransactionScope.
+            //            List<Map<String, Object>> result = new JdbcClient(server.getDataSource()).select("select * from person order by name asc").executeAsMap();
+            //            assertNotNull(result);
+            //            assertEquals(0, result.size());
+
+            transaction.commit();
+        }
+
+        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        assertNotNull(result);
+        assertEquals(names.size(), result.size());
+
+        jdbcClient.execute("drop table person");
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getDatabases")
+    @DisplayName("testUpdate")
+    void testUpdate(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        jdbcClient.execute(createTableSql(databaseType));
+
+        List<Long> keys = new ArrayList<>();
+        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").execute(keys::add, ps -> ps.setString(1, "name1"));
+        assertEquals(1, affectedRows);
+        assertEquals(1L, keys.get(0));
+
+        affectedRows = jdbcClient.update("update person set name = ? where id = ?").execute(ps -> {
+            ps.setString(1, "name11");
+            ps.setLong(2, 1L);
+        });
+        assertEquals(1, affectedRows);
+
+        List<Map<String, Object>> result = jdbcClient.select("select * from person").executeAsMap();
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(2, result.get(0).size());
+        assertEquals(1L, result.get(0).get("ID"));
+        assertEquals("name11", result.get(0).get("NAME"));
+
+        jdbcClient.execute("drop table person");
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getDatabases")
+    @DisplayName("testUpdateBatch")
+    void testUpdateBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        jdbcClient.execute(createTableSql(databaseType));
+
+        List<String> names = List.of("name1", "name2", "name3");
+
+        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        assertEquals(names.size(), affectedRows);
+
+        Map<Long, String> map = Map.of(1L, "name11", 2L, "name22", 3L, "name33");
+        affectedRows = jdbcClient.update("update person set name = ? where id = ?").executeBatch(map.entrySet(), (ps, entry) -> {
+            ps.setString(1, entry.getValue());
+            ps.setLong(2, entry.getKey());
+        }, 2);
+        assertEquals(map.size(), affectedRows);
+
+        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        assertNotNull(result);
+        assertEquals(names.size(), result.size());
+
+        for (int i = 0; i < names.size(); i++) {
+            assertEquals(2, result.get(i).size());
+            assertEquals(i + 1L, result.get(i).get("ID"));
+            assertEquals("name" + (i + 1) + (i + 1), result.get(i).get("NAME"));
+        }
+
+        jdbcClient.execute("drop table person");
+    }
+
+    private String createTableSql(final EmbeddedDatabaseType databaseType) {
+        return switch (databaseType) {
+            // "GENERATED ALWAYS AS IDENTITY" - Always provides auto-incremented sequence values. You are not allowed to specify your own values.
+            // "GENERATED BY DEFAULT AS IDENTITY" - Provides auto-incremented sequence values only when you are not providing values.
+            case DERBY, H2 -> "CREATE TABLE person (id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL)";
+
+            // Is always NOT NULL.
+            case HSQL -> "CREATE TABLE person (id BIGINT GENERATED BY DEFAULT AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL)";
+        };
     }
 }

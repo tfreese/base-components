@@ -1,41 +1,44 @@
-// Created: 10.05.2018
-package de.freese.base.persistence.jdbc.template;
+// Created: 12.11.23
+package de.freese.base.persistence.jdbc.function;
 
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
-import de.freese.base.persistence.jdbc.function.RowMapper;
-
 /**
- * Inspired by org.springframework.jdbc.core<br>
- *
  * @author Thomas Freese
  */
-public class ColumnMapRowMapper implements RowMapper<Map<String, Object>> {
-
+public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<String, Object>>> {
     private String[] columnNames;
 
     @Override
-    public Map<String, Object> mapRow(final ResultSet resultSet) throws SQLException {
+    public List<Map<String, Object>> doInResultSet(final ResultSet resultSet) throws SQLException {
         if (this.columnNames == null) {
             this.columnNames = getColumnNames(resultSet);
         }
 
-        Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
+        List<Map<String, Object>> list = new ArrayList<>();
 
-        for (int i = 1; i <= this.columnNames.length; i++) {
-            String columnName = this.columnNames[i - 1];
-            Object obj = getColumnValue(resultSet, i);
+        while (resultSet.next()) {
+            Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
 
-            map.put(columnName, obj);
+            for (int i = 1; i <= this.columnNames.length; i++) {
+                String columnName = this.columnNames[i - 1];
+                Object obj = getColumnValue(resultSet, i);
+
+                map.put(columnName, obj);
+            }
+
+            list.add(map);
         }
 
-        return map;
+        return list;
     }
 
     protected String getColumnName(final ResultSetMetaData resultSetMetaData, final int index) throws SQLException {

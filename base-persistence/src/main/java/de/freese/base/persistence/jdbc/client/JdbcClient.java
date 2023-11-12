@@ -9,12 +9,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Flow;
+import java.util.function.Function;
 import java.util.function.LongConsumer;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import javax.sql.DataSource;
@@ -33,6 +37,8 @@ import de.freese.base.persistence.jdbc.function.StatementCallback;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementCreator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
+import de.freese.base.persistence.jdbc.transaction.SimpleTransaction;
+import de.freese.base.persistence.jdbc.transaction.Transaction;
 
 /**
  * <a href="https://github.com/spring-projects/spring-framework/blob/main/spring-jdbc/src/main/java/org/springframework/jdbc/core/simple/JdbcClient.java">Spring's JdbcClient</a>
@@ -40,6 +46,8 @@ import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
  * @author Thomas Freese
  */
 public class JdbcClient {
+    public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
+
     interface DeleteSpec {
         int execute();
 
@@ -49,15 +57,13 @@ public class JdbcClient {
     }
 
     interface InsertSpec {
-        int execute();
+        int execute(PreparedStatementSetter preparedStatementSetter);
 
-        int execute(LongConsumer generatedKeysConsumer);
+        int execute(LongConsumer generatedKeysConsumer, PreparedStatementSetter preparedStatementSetter);
 
-        <T> int[] executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
+        <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
 
         InsertSpec statementConfigurer(StatementConfigurer statementConfigurer);
-
-        InsertSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
     }
 
     interface SelectSpec {
@@ -77,6 +83,8 @@ public class JdbcClient {
         <T> Flux<T> executeAsFlux(RowMapper<T> rowMapper);
 
         <T> List<T> executeAsList(RowMapper<T> rowMapper);
+
+        List<Map<String, Object>> executeAsMap();
 
         /**
          * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link ResultSetSubscription}<br>
@@ -114,22 +122,30 @@ public class JdbcClient {
     }
 
     interface UpdateSpec {
-        int execute();
+        int execute(PreparedStatementSetter preparedStatementSetter);
 
         <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
 
         UpdateSpec statementConfigurer(StatementConfigurer statementConfigurer);
-
-        UpdateSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
     }
 
     private final DataSource dataSource;
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Function<DataSource, Transaction> transactionHandler;
 
     public JdbcClient(final DataSource dataSource) {
+        this(dataSource, SimpleTransaction::new);
+    }
+
+    public JdbcClient(final DataSource dataSource, final Function<DataSource, Transaction> transactionHandler) {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
+        this.transactionHandler = Objects.requireNonNull(transactionHandler, "transactionHandler required");
+    }
+
+    public Transaction createTransaction() {
+        return transactionHandler.apply(getDataSource());
     }
 
     public DeleteSpec delete(final CharSequence sql) {
@@ -162,12 +178,12 @@ public class JdbcClient {
     }
 
     void close(final Connection connection) {
-        //        Transaction transaction = TRANSACTION.orElse(null);
-        //
-        //        if (transaction != null) {
-        //            // Closed by Transaction#close.
-        //            return;
-        //        }
+        Transaction transaction = TRANSACTION.orElse(null);
+
+        if (transaction != null) {
+            // Closed by Transaction#close.
+            return;
+        }
 
         getLogger().debug("close connection");
 
@@ -226,6 +242,16 @@ public class JdbcClient {
 
     PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+        if (configurer != null) {
+            configurer.configure(preparedStatement);
+        }
+
+        return preparedStatement;
+    }
+
+    PreparedStatement createPreparedStatementForInsert(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
         if (configurer != null) {
             configurer.configure(preparedStatement);
@@ -318,6 +344,46 @@ public class JdbcClient {
         return execute(statementCreator, statementCallback, closeResources);
     }
 
+    <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize, StatementCreator<PreparedStatement> statementCreator, Logger logger) {
+        StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
+            boolean supportsBatch = isBatchSupported(stmt.getConnection());
+
+            List<int[]> affectedRows = new ArrayList<>();
+            int n = 0;
+
+            for (T arg : batchArgs) {
+                stmt.clearParameters();
+                ppss.setValues(stmt, arg);
+                n++;
+
+                if (supportsBatch) {
+                    stmt.addBatch();
+
+                    if (((n % batchSize) == 0) || (n == batchArgs.size())) {
+                        if (logger.isDebugEnabled()) {
+                            int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
+                            int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
+                            logger.debug("Sending SQL batch update #{} with {} items", batchIndex, items);
+                        }
+
+                        affectedRows.add(stmt.executeBatch());
+                        stmt.clearBatch();
+                    }
+                }
+                else {
+                    // Batch not possible -> direct execution.
+                    int affectedRow = stmt.executeUpdate();
+
+                    affectedRows.add(new int[]{affectedRow});
+                }
+            }
+
+            return affectedRows.stream().flatMapToInt(IntStream::of).sum();
+        };
+
+        return execute(statementCreator, statementCallback, true);
+    }
+
     boolean isBatchSupported(final Connection connection) throws SQLException {
         DatabaseMetaData metaData = connection.getMetaData();
 
@@ -344,6 +410,12 @@ public class JdbcClient {
     }
 
     private Connection getConnection() {
+        Transaction transaction = TRANSACTION.orElse(null);
+
+        if (transaction != null) {
+            return transaction.getConnection();
+        }
+
         try {
             return getDataSource().getConnection();
         }

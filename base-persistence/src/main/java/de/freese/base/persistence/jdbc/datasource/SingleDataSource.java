@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public class SingleDataSource implements DataSource, AutoCloseable {
-    
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("SimpleDataSource");
 
     private final ReentrantLock reentrantLock = new ReentrantLock();

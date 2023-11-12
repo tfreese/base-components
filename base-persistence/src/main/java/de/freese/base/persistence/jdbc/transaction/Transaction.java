@@ -1,5 +1,5 @@
 // Created: 30.08.23
-package de.freese.base.persistence.jdbc.template.transaction;
+package de.freese.base.persistence.jdbc.transaction;
 
 import java.sql.Connection;
 
@@ -7,7 +7,6 @@ import java.sql.Connection;
  * @author Thomas Freese
  */
 public interface Transaction extends AutoCloseable {
-
     void begin();
 
     void close();

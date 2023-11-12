@@ -13,8 +13,9 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  *
  * @author Thomas Freese
  */
-public class ResultSetSpliterator<T> implements Spliterator<T> // extends Spliterators.AbstractSpliterator<T>
-{
+public class ResultSetSpliterator<T> implements Spliterator<T> {
+    // extends Spliterators.AbstractSpliterator<T>
+    
     private final Iterator<T> iterator;
 
     public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper) {
