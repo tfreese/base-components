@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Flow;
+import java.util.function.LongConsumer;
 import java.util.stream.Stream;
 
 import javax.sql.DataSource;
@@ -31,6 +32,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
 import de.freese.base.persistence.jdbc.function.StatementCallback;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementCreator;
+import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
 
 /**
  * <a href="https://github.com/spring-projects/spring-framework/blob/main/spring-jdbc/src/main/java/org/springframework/jdbc/core/simple/JdbcClient.java">Spring's JdbcClient</a>
@@ -38,10 +40,20 @@ import de.freese.base.persistence.jdbc.function.StatementCreator;
  * @author Thomas Freese
  */
 public class JdbcClient {
+    interface DeleteSpec {
+        int execute();
+
+        DeleteSpec statementConfigurer(StatementConfigurer statementConfigurer);
+
+        DeleteSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
+    }
+
     interface InsertSpec {
         int execute();
 
-        <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
+        int execute(LongConsumer generatedKeysConsumer);
+
+        <T> int[] executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
 
         InsertSpec statementConfigurer(StatementConfigurer statementConfigurer);
 
@@ -51,14 +63,49 @@ public class JdbcClient {
     interface SelectSpec {
         <T> T execute(ResultSetCallback<T> resultSetCallback);
 
+        /**
+         * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link Flux#doFinally}-Method.<br>
+         * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+         * Reuse is not possible, because the Resources are closed after first usage.<br>
+         * Example: <code>
+         * <pre>
+         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
+         * flux.subscribe(System.out::println);
+         * </pre>
+         * </code>
+         */
         <T> Flux<T> executeAsFlux(RowMapper<T> rowMapper);
 
         <T> List<T> executeAsList(RowMapper<T> rowMapper);
 
+        /**
+         * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link ResultSetSubscription}<br>
+         * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+         * Reuse is not possible, because the Resources are closed after first usage.<br>
+         * Example: <code>
+         * <pre>
+         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
+         * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
+         * </pre>
+         * </code>
+         */
         <T> Flow.Publisher<T> executeAsPublisher(RowMapper<T> rowMapper);
 
         <T> Set<T> executeAsSet(RowMapper<T> rowMapper);
 
+        /**
+         * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in  {@link Stream#onClose}-Method.<br>
+         * {@link Stream#close}-Method MUST be called (try-resource).<br>
+         * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
+         * Example: <code>
+         * <pre>
+         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
+         * {
+         *     stream.forEach(System.out::println);
+         * }
+         * </pre>
+         * </code>
+         */
         <T> Stream<T> executeAsStream(RowMapper<T> rowMapper);
 
         SelectSpec statementConfigurer(StatementConfigurer statementConfigurer);
@@ -83,6 +130,17 @@ public class JdbcClient {
         super();
 
         this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
+    }
+
+    public DeleteSpec delete(final CharSequence sql) {
+        return new DefaultDeleteSpec(sql, this);
+    }
+
+    public boolean execute(final CharSequence sql) {
+        StatementCreator<Statement> sc = con -> createStatement(con, null);
+        StatementCallback<Statement, Boolean> action = stmt -> stmt.execute(sql.toString());
+
+        return execute(sc, action, true);
     }
 
     public InsertSpec insert(final CharSequence sql) {
@@ -166,6 +224,44 @@ public class JdbcClient {
         return callableStatement;
     }
 
+    PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+        if (configurer != null) {
+            configurer.configure(preparedStatement);
+        }
+
+        return preparedStatement;
+    }
+
+    Statement createStatement(final Connection connection, final StatementConfigurer configurer) throws SQLException {
+        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+        if (configurer != null) {
+            configurer.configure(statement);
+        }
+
+        return statement;
+    }
+
+    <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
+        Connection connection = null;
+
+        try {
+            connection = getConnection();
+
+            return connectionCallback.doInConnection(connection);
+        }
+        catch (SQLException ex) {
+            throw convertException(ex);
+        }
+        finally {
+            if (closeResources) {
+                close(connection);
+            }
+        }
+    }
+
     <S extends Statement, T> T execute(final StatementCreator<S> statementCreator, final StatementCallback<S, T> statementCallback, final boolean closeResources) {
         ConnectionCallback<T> connectionCallback = con -> {
             S stmt = null;
@@ -222,22 +318,10 @@ public class JdbcClient {
         return execute(statementCreator, statementCallback, closeResources);
     }
 
-    <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
-        Connection connection = null;
+    boolean isBatchSupported(final Connection connection) throws SQLException {
+        DatabaseMetaData metaData = connection.getMetaData();
 
-        try {
-            connection = getConnection();
-
-            return connectionCallback.doInConnection(connection);
-        }
-        catch (SQLException ex) {
-            throw convertException(ex);
-        }
-        finally {
-            if (closeResources) {
-                close(connection);
-            }
-        }
+        return metaData.supportsBatchUpdates();
     }
 
     private RuntimeException convertException(final Exception ex) {
@@ -257,16 +341,6 @@ public class JdbcClient {
         // }
 
         return new RuntimeException(th);
-    }
-
-    private PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-
-        if (configurer != null) {
-            configurer.configure(preparedStatement);
-        }
-
-        return preparedStatement;
     }
 
     private Connection getConnection() {
@@ -296,11 +370,5 @@ public class JdbcClient {
                 warning = warning.getNextWarning();
             }
         }
-    }
-
-    private boolean isBatchSupported(final Connection connection) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
-
-        return metaData.supportsBatchUpdates();
     }
 }
