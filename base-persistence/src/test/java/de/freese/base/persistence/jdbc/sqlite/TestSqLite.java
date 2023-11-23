@@ -68,7 +68,7 @@ class TestSqLite {
 
         SQLiteConfig config = new SQLiteConfig();
         config.setReadOnly(false);
-        config.setReadUncommited(false);
+        config.setReadUncommitted(false);
 
         dataSource = new SQLiteConnectionPoolDataSource(config);
         dataSource.setUrl("jdbc:sqlite:" + PATH_TEST + "/sqlite.db");
@@ -99,7 +99,9 @@ class TestSqLite {
                 String sql = "INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)";
                 stmt.executeUpdate(sql);
 
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                // getGeneratedKeys not supported.
+                //                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                try (ResultSet generatedKeys = stmt.executeQuery("SELECT last_insert_rowid()")) {
                     while (generatedKeys.next()) {
                         LOGGER.debug("Key: {}", generatedKeys.getInt(1));
                     }

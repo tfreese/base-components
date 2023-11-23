@@ -39,7 +39,7 @@ public final class ConnectionPoolConfigurer {
         basicDataSource.setInitialSize(1);
 
         // Max. 5 Sekunden warten auf Connection.
-        basicDataSource.setMaxWaitMillis(Duration.ofSeconds(5).toMillis());
+        basicDataSource.setMaxWait(Duration.ofSeconds(5));
 
         basicDataSource.setDefaultAutoCommit(Boolean.FALSE);
         basicDataSource.setDefaultReadOnly(Boolean.FALSE);
@@ -48,7 +48,7 @@ public final class ConnectionPoolConfigurer {
             basicDataSource.setValidationQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
-            basicDataSource.setValidationQueryTimeout((int) Duration.ofSeconds(3).toSeconds());
+            basicDataSource.setValidationQueryTimeout(Duration.ofSeconds(3));
 
             // Connections prüfen, die IDLE sind.
             basicDataSource.setTestWhileIdle(true);
@@ -61,14 +61,14 @@ public final class ConnectionPoolConfigurer {
         }
 
         // 60 Sekunden: Zeit nach der eine Connection als "Idle" markiert wird.
-        basicDataSource.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
+        basicDataSource.setMinEvictableIdle(Duration.ofSeconds(60));
 
         // Alle 60 Sekunden auf Idle-Connections prüfen.
-        basicDataSource.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(60).toMillis());
+        basicDataSource.setDurationBetweenEvictionRuns(Duration.ofSeconds(60));
         basicDataSource.setNumTestsPerEvictionRun(1);
 
         // Eine Connection darf max. 1 Stunde alt werden, 0 = keine Alterung.
-        basicDataSource.setMaxConnLifetimeMillis(Duration.ofHours(1).toMillis());
+        basicDataSource.setMaxConn(Duration.ofHours(1));
 
         // Entfernen von verwaisten (Timeout) Connections/Langläufern.
         basicDataSource.setAbandonedUsageTracking(true);
@@ -77,7 +77,7 @@ public final class ConnectionPoolConfigurer {
         basicDataSource.setRemoveAbandonedOnMaintenance(true);
 
         // Nach 10 Minuten Connections/Langläufer als verwaist markieren.
-        basicDataSource.setRemoveAbandonedTimeout((int) Duration.ofMinutes(10).toSeconds());
+        basicDataSource.setRemoveAbandonedTimeout(Duration.ofMinutes(10));
     }
 
     /**

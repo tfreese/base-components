@@ -17,8 +17,8 @@ import java.util.StringTokenizer;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
-import com.sun.mail.util.LineInputStream;
-import com.sun.mail.util.SharedByteArrayOutputStream;
+import org.eclipse.angus.mail.util.LineInputStream;
+import org.eclipse.angus.mail.util.SharedByteArrayOutputStream;
 
 import de.freese.base.net.protocol.AbstractProtocol;
 
