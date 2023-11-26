@@ -1,8 +1,6 @@
 package de.freese.base.core.image;
 
 /**
- * Enum für Grafikformate.
- *
  * @author Thomas Freese
  */
 public enum ImageFormat {
@@ -19,7 +17,7 @@ public enum ImageFormat {
      */
     JPEG,
     /**
-     *
+     * Joint Photographic Experts Group format - lossy
      */
     JPG,
     /**

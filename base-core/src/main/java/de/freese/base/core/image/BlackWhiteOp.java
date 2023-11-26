@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
+import java.util.Objects;
 
 /**
  * Erstellt ein reines Schwarz/Weiß Bild, indem alle Pixel die NICHT Schwarz sind, in Weiß umgewandelt werden.
@@ -41,8 +42,8 @@ public class BlackWhiteOp implements BufferedImageOp {
     }
 
     @Override
-    public BufferedImage createCompatibleDestImage(final BufferedImage src, final ColorModel destCM) {
-        ColorModel colorModel = destCM;
+    public BufferedImage createCompatibleDestImage(final BufferedImage src, final ColorModel destCm) {
+        ColorModel colorModel = destCm;
 
         if (colorModel == null) {
             colorModel = src.getColorModel();
@@ -59,12 +60,10 @@ public class BlackWhiteOp implements BufferedImageOp {
 
     @Override
     public BufferedImage filter(final BufferedImage src, final BufferedImage dest) {
-        if (src == null) {
-            throw new NullPointerException("src image");
-        }
+        Objects.requireNonNull(src, "src required");
 
         if (src == dest) {
-            throw new IllegalArgumentException("src image cannot be the " + "same as the dst image");
+            throw new IllegalArgumentException("src image cannot be the same as the dest image");
         }
 
         BufferedImage destImage = dest;
@@ -121,6 +120,12 @@ public class BlackWhiteOp implements BufferedImageOp {
 
     @Override
     public RenderingHints getRenderingHints() {
+        //        RenderingHints copy = new RenderingHints(null);
+        //
+        //        copy.putAll(this.hints);
+        //
+        //        return copy;
+
         return this.hints;
     }
 }

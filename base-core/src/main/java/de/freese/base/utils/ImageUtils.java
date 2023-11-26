@@ -20,8 +20,10 @@ import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
 import java.awt.image.Kernel;
 import java.awt.image.PixelGrabber;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serial;
 
@@ -366,6 +368,19 @@ public final class ImageUtils {
         return new TriangleIcon(width, height, direction, foreground);
     }
 
+    public static BufferedImage decode(final byte[] bytes) throws IOException {
+        try (InputStream inputStream = new ByteArrayInputStream(bytes)) {
+            return decode(inputStream);
+        }
+    }
+
+    /**
+     * Stream is not closed.
+     */
+    public static BufferedImage decode(final InputStream inputStream) throws IOException {
+        return ImageIO.read(inputStream);
+    }
+
     /**
      * Encode the image in a specific format.
      */
@@ -656,14 +671,14 @@ public final class ImageUtils {
     }
 
     /**
-     * Encode the image in a specific format and write it to an OutputStream.
+     * Stream is not closed.
      */
     public static void writeImage(final BufferedImage image, final ImageFormat format, final OutputStream outputStream) throws IOException {
         ImageIO.write(image, format.name(), outputStream);
     }
 
     /**
-     * Encode the image in a specific format and write it to an OutputStream.
+     * Stream is not closed.
      */
     public static void writeImage(final Image image, final ImageFormat format, final OutputStream outputStream) throws IOException {
         BufferedImage bufferedImage = toBufferedImage(image);
