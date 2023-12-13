@@ -36,11 +36,11 @@ public class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
     private final Duration expirationDuration;
     private final Map<K, Instant> expirationMap = new HashMap<>();
 
-    public TimeoutMap(Duration expirationDuration) {
+    public TimeoutMap(final Duration expirationDuration) {
         this(expirationDuration, new HashMap<>());
     }
 
-    public TimeoutMap(Duration expirationDuration, Map<K, V> decoratedMap) {
+    public TimeoutMap(final Duration expirationDuration, final Map<K, V> decoratedMap) {
         super(decoratedMap);
 
         this.expirationDuration = Objects.requireNonNull(expirationDuration, "expirationDuration required");

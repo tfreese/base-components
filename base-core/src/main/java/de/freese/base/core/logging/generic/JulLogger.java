@@ -9,27 +9,27 @@ import java.util.logging.Level;
 class JulLogger implements Logger {
     private final java.util.logging.Logger julLogger;
 
-    JulLogger(String name) {
+    JulLogger(final String name) {
         this.julLogger = java.util.logging.Logger.getLogger(name);
     }
 
     @Override
-    public void debug(String message) {
+    public void debug(final String message) {
         this.julLogger.log(Level.FINE, message);
     }
 
     @Override
-    public void error(String message) {
+    public void error(final String message) {
         this.julLogger.log(Level.SEVERE, message);
     }
 
     @Override
-    public void error(String message, Throwable error) {
+    public void error(final String message, final Throwable error) {
         this.julLogger.log(Level.SEVERE, message, error);
     }
 
     @Override
-    public void info(String message) {
+    public void info(final String message) {
         this.julLogger.log(Level.INFO, message);
     }
 

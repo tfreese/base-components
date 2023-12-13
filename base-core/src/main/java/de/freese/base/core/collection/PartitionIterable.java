@@ -23,7 +23,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Die letzte Partition kann kleiner als die anderen sein.<br>
      * Je nach Länge der Collection kann die effektive Anzahl an Partitionen kleiner als gefordert sein.
      */
-    public static <T> PartitionIterable<T> ofPartitionCount(Collection<T> origin, int partitionCount) {
+    public static <T> PartitionIterable<T> ofPartitionCount(final Collection<T> origin, final int partitionCount) {
         final List<T> originList;
 
         if (origin instanceof List<T> list) {
@@ -42,7 +42,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Die letzte Partition kann kleiner als die anderen sein.<br>
      * Je nach Länge der Collection kann die effektive Anzahl an Partitionen kleiner als gefordert sein.
      */
-    public static <T> PartitionIterable<T> ofPartitionCountModulo(Collection<T> origin, int partitionCount) {
+    public static <T> PartitionIterable<T> ofPartitionCountModulo(final Collection<T> origin, final int partitionCount) {
         final List<T> originList;
 
         if (origin instanceof List<T> list) {
@@ -60,7 +60,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Die Reihenfolge der Elemente bleibt erhalten.<br>
      * Die letzte Partition kann kleiner als die anderen sein.
      */
-    public static <T> PartitionIterable<T> ofPartitionLength(Collection<T> origin, int partitionLength) {
+    public static <T> PartitionIterable<T> ofPartitionLength(final Collection<T> origin, final int partitionLength) {
         final List<T> originList;
 
         if (origin instanceof List<T> list) {
@@ -158,7 +158,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Die Reihenfolge der Elemente bleibt erhalten.<br>
      * Die letzte Partition kann kleiner als die anderen sein.
      */
-    private static <T> List<List<T>> getPartitionsByLength(List<T> origin, int partitionLength) {
+    private static <T> List<List<T>> getPartitionsByLength(final List<T> origin, final int partitionLength) {
         if ((origin == null) || origin.isEmpty()) {
             return Collections.emptyList();
         }
@@ -180,7 +180,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
 
     private final List<List<T>> partitions;
 
-    private PartitionIterable(List<List<T>> partitions) {
+    private PartitionIterable(final List<List<T>> partitions) {
         super();
 
         this.partitions = Objects.requireNonNull(partitions, "partitions required");

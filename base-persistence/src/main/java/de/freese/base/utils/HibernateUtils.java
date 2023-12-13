@@ -264,7 +264,7 @@ public final class HibernateUtils {
      * of a proxy (without initializing the proxy!). It is
      * almost always better to use the entity name!
      */
-    private static Class<?> getClassWithoutInitializingProxy(Object object) {
+    private static Class<?> getClassWithoutInitializingProxy(final Object object) {
         if (object instanceof HibernateProxy hibernateProxy) {
             LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 

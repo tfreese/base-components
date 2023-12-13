@@ -1,5 +1,5 @@
 // Created: 30.08.23
-package de.freese.base.persistence.jdbc;
+package de.freese.base.persistence.exception;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -33,7 +33,7 @@ public class UncheckedSqlException extends RuntimeException {
     }
 
     @Serial
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+    private void readObject(final ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
 
         Throwable cause = super.getCause();

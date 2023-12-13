@@ -13,7 +13,7 @@ import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
 public final class Resilience4JThrottlerAdapter implements Throttler {
     private static final RateLimiterRegistry RATELIMITER_REGISTRY = RateLimiterRegistry.ofDefaults();
 
-    public static Throttler create(final int permits, Duration duration) {
+    public static Throttler create(final int permits, final Duration duration) {
         RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(permits).limitRefreshPeriod(duration)
                 //.timeoutDuration(Duration.ofMinutes(1))
                 .build();

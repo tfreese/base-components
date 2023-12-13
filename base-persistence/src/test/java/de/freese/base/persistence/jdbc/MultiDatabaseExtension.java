@@ -23,7 +23,7 @@ public class MultiDatabaseExtension implements BeforeAllCallback, AfterAllCallba
     /**
      * Junit-{@link Extension} needs a Default-Constructor !
      */
-    public MultiDatabaseExtension(boolean autoCommit) {
+    public MultiDatabaseExtension(final boolean autoCommit) {
         super();
 
         this.servers.computeIfAbsent(EmbeddedDatabaseType.H2, key -> new DbServerExtension(key, autoCommit));

@@ -99,7 +99,7 @@ public final class NetUtils {
         return hostName;
     }
 
-    public static LocalDateTime getNtpTime(String host, int port) throws IOException {
+    public static LocalDateTime getNtpTime(final String host, final int port) throws IOException {
         InetAddress inetAddress = InetAddress.getByName(host);
         NTPUDPClient timeClient = null;
 

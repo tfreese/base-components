@@ -52,7 +52,7 @@ public final class ImageUtils {
         @Serial
         private static final long serialVersionUID = 102999713634663152L;
 
-        public static void main(String[] args) {
+        public static void main(final String[] args) {
             JLabel label = new JLabel(new ImageIcon(new EmptyIcon().getImage()));
 
             JFrame frame = new JFrame();
@@ -128,7 +128,7 @@ public final class ImageUtils {
         @Serial
         private static final long serialVersionUID = -3986977626709987448L;
 
-        public static void main(String[] args) {
+        public static void main(final String[] args) {
             JLabel label = new JLabel(new ImageIcon(new MissingIcon().getImage()));
 
             JFrame frame = new JFrame();
@@ -213,7 +213,7 @@ public final class ImageUtils {
         @Serial
         private static final long serialVersionUID = 6491045895051309036L;
 
-        public static void main(String[] args) {
+        public static void main(final String[] args) {
             JLabel label = new JLabel(new ImageIcon(new TriangleIcon(SwingConstants.NORTH).getImage()));
 
             JFrame frame = new JFrame();

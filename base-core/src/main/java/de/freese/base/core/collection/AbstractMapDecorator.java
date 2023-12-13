@@ -12,7 +12,7 @@ import java.util.Set;
 public abstract class AbstractMapDecorator<K, V> implements Map<K, V> {
     private final Map<K, V> decoratedMap;
 
-    protected AbstractMapDecorator(Map<K, V> decoratedMap) {
+    protected AbstractMapDecorator(final Map<K, V> decoratedMap) {
         super();
 
         this.decoratedMap = Objects.requireNonNull(decoratedMap, "decoratedMap required");

@@ -32,7 +32,7 @@ public final class MenuAndToolbarContext {
             super();
         }
 
-        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu, JMenuItem menuItem) {
+        public Builder addMenuBarItem(final JMenuBar menuBar, final JMenu menu, final JMenuItem menuItem) {
             if (!contains(menuBar, menu)) {
                 menuBar.add(menu);
             }
@@ -48,7 +48,7 @@ public final class MenuAndToolbarContext {
             return this;
         }
 
-        public Builder addMenuBarItem(JMenuBar menuBar, JMenu menu1, JMenu menu2, JMenuItem menuItem) {
+        public Builder addMenuBarItem(final JMenuBar menuBar, final JMenu menu1, final JMenu menu2, final JMenuItem menuItem) {
             if (!contains(menuBar, menu1)) {
                 menuBar.add(menu1);
             }
@@ -69,7 +69,7 @@ public final class MenuAndToolbarContext {
             return this;
         }
 
-        public Builder addToolBarButton(JToolBar toolBar, AbstractButton abstractButton) {
+        public Builder addToolBarButton(final JToolBar toolBar, final AbstractButton abstractButton) {
             if (!contains(toolBar, abstractButton)) {
                 toolBar.add(abstractButton);
 
@@ -96,7 +96,7 @@ public final class MenuAndToolbarContext {
             return context;
         }
 
-        private boolean contains(JComponent parent, JComponent child) {
+        private boolean contains(final JComponent parent, final JComponent child) {
             for (int i = 0; i < parent.getComponentCount(); i++) {
                 // Must same Reference.
                 if (child == parent.getComponent(i)) {
@@ -116,7 +116,7 @@ public final class MenuAndToolbarContext {
 
     private View currentView;
 
-    private MenuAndToolbarContext(Map<String, List<Component>> index) {
+    private MenuAndToolbarContext(final Map<String, List<Component>> index) {
         super();
 
         this.index = index;
@@ -136,7 +136,7 @@ public final class MenuAndToolbarContext {
         // TODO Enable Defaults for File/Exit and Help/About.
     }
 
-    public void setCurrentView(View currentView) {
+    public void setCurrentView(final View currentView) {
         // TODO Enable Defaults for File/Exit.
 
         this.currentView = currentView;
@@ -148,7 +148,7 @@ public final class MenuAndToolbarContext {
         // TODO Enable Default for Help/About.
     }
 
-    private void delegateEventToCurrentView(ActionEvent event) {
+    private void delegateEventToCurrentView(final ActionEvent event) {
         if (currentView == null) {
             return;
         }

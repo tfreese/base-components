@@ -477,10 +477,10 @@ class PgpCryptoBc {
     }
 
     @SuppressWarnings("checkstyle:ParameterAssignment")
-    public boolean verifyFile(InputStream in, final InputStream keyIn, final String extractContentFile) throws Exception {
-        in = PGPUtil.getDecoderStream(in);
+    public boolean verifyFile(final InputStream in, final InputStream keyIn, final String extractContentFile) throws Exception {
+        InputStream decoderInputStream = PGPUtil.getDecoderStream(in);
 
-        PGPObjectFactory pgpFact = new PGPObjectFactory(in, new BcKeyFingerprintCalculator());
+        PGPObjectFactory pgpFact = new PGPObjectFactory(decoderInputStream, new BcKeyFingerprintCalculator());
         PGPCompressedData c1 = (PGPCompressedData) pgpFact.nextObject();
 
         pgpFact = new PGPObjectFactory(c1.getDataStream(), new BcKeyFingerprintCalculator());

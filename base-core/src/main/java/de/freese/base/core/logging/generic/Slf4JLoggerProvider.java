@@ -6,7 +6,7 @@ package de.freese.base.core.logging.generic;
  */
 class Slf4JLoggerProvider implements LoggerProvider {
     @Override
-    public Logger createLogger(String name) {
+    public Logger createLogger(final String name) {
         return new Slf4jLogger(name);
     }
 

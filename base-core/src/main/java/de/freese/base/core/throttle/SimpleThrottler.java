@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Thomas Freese
  */
 public final class SimpleThrottler implements Throttler {
-    static Throttler create(final int permits, Duration duration) {
+    static Throttler create(final int permits, final Duration duration) {
         return new SimpleThrottler(permits, duration);
     }
 
@@ -34,7 +34,7 @@ public final class SimpleThrottler implements Throttler {
 
     private long nextFreeSlotNanos;
 
-    private SimpleThrottler(final int permits, Duration duration) {
+    private SimpleThrottler(final int permits, final Duration duration) {
         super();
 
         if (permits <= 0) {

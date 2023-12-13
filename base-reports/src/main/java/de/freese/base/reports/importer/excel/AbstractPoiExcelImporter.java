@@ -93,7 +93,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         return logger;
     }
 
-    protected int getNumColumns(Sheet sheet, int numRows) {
+    protected int getNumColumns(final Sheet sheet, final int numRows) {
         int maxCol = 0;
 
         for (int i = 0; i < numRows; i++) {
@@ -107,7 +107,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         return maxCol + 1;
     }
 
-    protected int getNumRows(Sheet sheet) {
+    protected int getNumRows(final Sheet sheet) {
         int numRows = sheet.getLastRowNum();
 
         // if(numRows==0) { return 1; }
@@ -115,11 +115,11 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         return numRows + 1;
     }
 
-    protected int getNumberOfSheets(Workbook workbook) {
+    protected int getNumberOfSheets(final Workbook workbook) {
         return workbook.getNumberOfSheets();
     }
 
-    protected String getValueAt(Row row, final int rowIndex, final int columnIndex) {
+    protected String getValueAt(final Row row, final int rowIndex, final int columnIndex) {
         String value = null;
 
         if (row != null) {
@@ -194,7 +194,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         return value;
     }
 
-    protected boolean isSheetReadable(Sheet sheet) {
+    protected boolean isSheetReadable(final Sheet sheet) {
         /*
          * if(_sheet!=null && sheet.getProtect()==true) { getLogger().warn("****\n\n\n Protected\n\n\n **** "); return false; } for(int
          * i=0;i<getNumRows();i++) { if(sheet!=null && sheet.isRowBroken(i)) { getLogger().warn("****\n\n\n Row is broken\n\n\n **** "); } }

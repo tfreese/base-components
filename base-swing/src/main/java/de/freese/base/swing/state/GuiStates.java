@@ -20,7 +20,7 @@ public final class GuiStates {
         return guiStates;
     }
 
-    private static void defaultStates(Set<Class<? extends GuiState>> guiStates) {
+    private static void defaultStates(final Set<Class<? extends GuiState>> guiStates) {
         guiStates.add(ButtonGuiState.class);
         guiStates.add(ComboBoxGuiState.class);
         guiStates.add(ContainerGuiState.class);
@@ -42,7 +42,7 @@ public final class GuiStates {
         super();
     }
 
-    public void customize(Consumer<Set<Class<? extends GuiState>>> guiStatesCustomizer) {
+    public void customize(final Consumer<Set<Class<? extends GuiState>>> guiStatesCustomizer) {
         guiStatesCustomizer.accept(states);
     }
 

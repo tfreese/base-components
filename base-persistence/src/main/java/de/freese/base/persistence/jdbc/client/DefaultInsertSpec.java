@@ -35,7 +35,7 @@ class DefaultInsertSpec implements JdbcClient.InsertSpec {
     }
 
     @Override
-    public int execute(final LongConsumer generatedKeysConsumer, PreparedStatementSetter preparedStatementSetter) {
+    public int execute(final LongConsumer generatedKeysConsumer, final PreparedStatementSetter preparedStatementSetter) {
         StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatementForInsert(con, sql, statementConfigurer);
         StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
             if (preparedStatementSetter != null) {
@@ -59,7 +59,7 @@ class DefaultInsertSpec implements JdbcClient.InsertSpec {
     }
 
     @Override
-    public int execute(PreparedStatementSetter preparedStatementSetter) {
+    public int execute(final PreparedStatementSetter preparedStatementSetter) {
         return execute(null, preparedStatementSetter);
     }
 

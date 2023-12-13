@@ -11,11 +11,11 @@ import java.util.ServiceLoader;
 public final class LoggerFactory {
     private static final LoggerProvider LOGGER_PROVIDER = find();
 
-    public static Logger createLogger(Class<?> clazz) {
+    public static Logger createLogger(final Class<?> clazz) {
         return LOGGER_PROVIDER.createLogger(clazz);
     }
 
-    public static Logger createLogger(String name) {
+    public static Logger createLogger(final String name) {
         return LOGGER_PROVIDER.createLogger(name);
     }
 

@@ -23,11 +23,11 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
     private final Consumer<T> doOnClose;
     private long expirationDuration = -1L;
 
-    public ObjectPool(Supplier<T> creator) {
+    public ObjectPool(final Supplier<T> creator) {
         this(creator, Objects::nonNull);
     }
 
-    public ObjectPool(Supplier<T> creator, Consumer<T> doOnClose) {
+    public ObjectPool(final Supplier<T> creator, final Consumer<T> doOnClose) {
         super();
 
         this.creator = Objects.requireNonNull(creator, "creator required");
@@ -44,7 +44,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
     }
 
     @Override
-    public void free(T object) {
+    public void free(final T object) {
         super.free(object);
 
         if (object == null) {
@@ -91,7 +91,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
         return getNumActive() + getNumIdle();
     }
 
-    public void setExpirationDuration(Duration duration) {
+    public void setExpirationDuration(final Duration duration) {
         this.expirationDuration = duration.toMillis();
     }
 

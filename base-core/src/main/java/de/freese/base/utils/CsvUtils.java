@@ -68,7 +68,7 @@ public final class CsvUtils {
      * @param dataFunction {@link BiFunction}; row, column -> value
      * @param finishPredicate {@link IntPredicate}; row -> true/false
      */
-    public static void writeCsv(OutputStream outputStream, int columnCount, IntFunction<String> headerFunction, BiFunction<Integer, Integer, String> dataFunction, IntPredicate finishPredicate) {
+    public static void writeCsv(final OutputStream outputStream, final int columnCount, final IntFunction<String> headerFunction, final BiFunction<Integer, Integer, String> dataFunction, final IntPredicate finishPredicate) {
         final PrintStream printStream;
 
         if (outputStream instanceof PrintStream ps) {
@@ -125,7 +125,7 @@ public final class CsvUtils {
         printStream.flush();
     }
 
-    private static String[] parseCsvRow(String csvRow) {
+    private static String[] parseCsvRow(final String csvRow) {
         String row = csvRow;
         List<String> token = new ArrayList<>();
 

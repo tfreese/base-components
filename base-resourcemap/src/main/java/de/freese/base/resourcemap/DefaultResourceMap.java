@@ -200,7 +200,7 @@ class DefaultResourceMap implements ResourceMap {
         this.resourceCache = Objects.requireNonNull(resourceCache, "resourceCache required");
     }
 
-    void setResourceConverters(ResourceConverters resourceConverters) {
+    void setResourceConverters(final ResourceConverters resourceConverters) {
         this.resourceConverters = resourceConverters;
     }
 

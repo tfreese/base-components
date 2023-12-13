@@ -36,7 +36,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
     /**
      * Das Laden der Kind-Knoten wird als {@link SwingWorker} mit der Methode {@link SwingWorker#execute()} ausgeführt.
      */
-    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction) {
+    public LazyLoadingTreeController(final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction) {
         this(loadFunction, null);
     }
 
@@ -46,7 +46,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
      *
      * @param executor {@link Executor}; Optional
      */
-    public LazyLoadingTreeController(Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction, final Executor executor) {
+    public LazyLoadingTreeController(final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction, final Executor executor) {
         super();
 
         this.loadFunction = Objects.requireNonNull(loadFunction, "loadFunction required");
@@ -91,7 +91,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
         return this.logger;
     }
 
-    protected void loadChildren(DefaultTreeModel treeModel, final LazyLoadingTreeNode node) {
+    protected void loadChildren(final DefaultTreeModel treeModel, final LazyLoadingTreeNode node) {
         // Alle Children entfernen.
         node.removeAllChildren();
 

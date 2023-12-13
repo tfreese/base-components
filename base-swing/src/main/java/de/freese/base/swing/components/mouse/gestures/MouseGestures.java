@@ -58,7 +58,7 @@ public class MouseGestures {
      */
     private AWTEventListener mouseGesturesEventListener;
 
-    public void addMouseGesturesListener(MouseGesturesListener listener) {
+    public void addMouseGesturesListener(final MouseGesturesListener listener) {
         if (listener == null) {
             return;
         }
@@ -90,7 +90,7 @@ public class MouseGestures {
      *
      * @param listener Instance of {@link MouseGesturesListener}
      */
-    public void removeMouseGesturesListener(MouseGesturesListener listener) {
+    public void removeMouseGesturesListener(final MouseGesturesListener listener) {
         if (listener == null) {
             return;
         }
@@ -103,7 +103,7 @@ public class MouseGestures {
      *
      * @param gridSize New grid size in pixels
      */
-    public void setGridSize(int gridSize) {
+    public void setGridSize(final int gridSize) {
         mouseGesturesRecognizer.setGridSize(gridSize);
     }
 
@@ -113,7 +113,7 @@ public class MouseGestures {
      * @param mouseButton <code>MouseEvent.BUTTON1_DOWN_MASK</code>, <code>MouseEvent.BUTTON2_DOWN_MASK</code>
      * or <code>MouseEvent.BUTTON3_DOWN_MASK</code>
      */
-    public void setMouseButton(int mouseButton) {
+    public void setMouseButton(final int mouseButton) {
         this.mouseButton = mouseButton;
     }
 
@@ -159,7 +159,7 @@ public class MouseGestures {
      * @param gesture String representation of recognized movements. "L" for left, "R" for right,
      * "U" for up, "D" for down movements. For example: "ULD".
      */
-    void fireGestureMovementRecognized(String gesture) {
+    void fireGestureMovementRecognized(final String gesture) {
         listeners.forEach(listener -> listener.gestureMovementRecognized(gesture));
     }
 
@@ -169,7 +169,7 @@ public class MouseGestures {
      * @param gesture String representation of mouse gesture. "L" for left, "R" for right,
      * "U" for up, "D" for down movements. For example: "ULD".
      */
-    private void fireProcessMouseGesture(String gesture) {
+    private void fireProcessMouseGesture(final String gesture) {
         listeners.forEach(listener -> listener.processGesture(gesture));
     }
 }

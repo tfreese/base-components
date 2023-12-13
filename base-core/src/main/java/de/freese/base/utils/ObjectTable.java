@@ -44,14 +44,14 @@ public final class ObjectTable {
     /**
      * Die Row muss die gleiche Anzahl an Daten haben, wie die Anzahl der Spalten, sonst knallt es.
      */
-    public void addRow(Object[] row) {
+    public void addRow(final Object[] row) {
         addRow(Arrays.asList(row));
     }
 
     /**
      * Die Row muss die gleiche Anzahl an Daten haben, wie die Anzahl der Spalten, sonst knallt es.
      */
-    public void addRow(Iterable<Object> row) {
+    public void addRow(final Iterable<Object> row) {
         Object[] rowData = new Object[getColumnCount()];
         int column = 0;
 
@@ -103,7 +103,7 @@ public final class ObjectTable {
      * Schreibt Header und Daten in den PrintStream.<br>
      * Der Stream wird nicht geschlossen.
      */
-    public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData, Function<Object, String> dataFunction) {
+    public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData, final Function<Object, String> dataFunction) {
         PrintStream printStream = outputStream instanceof PrintStream ? (PrintStream) outputStream : new PrintStream(outputStream);
 
         int[] columnWidths = new int[getColumnCount()];

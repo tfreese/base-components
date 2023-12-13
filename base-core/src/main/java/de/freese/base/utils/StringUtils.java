@@ -344,7 +344,7 @@ public final class StringUtils {
     /**
      * Removes all ASCII Chars < 32 (SPACE) und > 126 (~) and except the Predicates.
      */
-    public static String removeNonAscii(final String input, Predicate<Character> keep) {
+    public static String removeNonAscii(final String input, final Predicate<Character> keep) {
         Predicate<Character> filter = c -> c >= 32 && c <= 126;
 
         if (keep != null) {
@@ -382,7 +382,7 @@ public final class StringUtils {
      * To remove: char -> null<br>
      * To replace: char-> 'something else'
      */
-    public static String replaceChars(final String input, Predicate<Character> keep, Function<Character, String> replacementFunction) {
+    public static String replaceChars(final String input, final Predicate<Character> keep, final Function<Character, String> replacementFunction) {
         if (input == null || input.isBlank()) {
             return input;
         }

@@ -89,7 +89,7 @@ public class NasaController extends AbstractController {
         return (NasaView) super.getView();
     }
 
-    public BufferedImage loadImage(LocalStorage localStorage, final URI uri, final IIOReadProgressListener listener) throws Exception {
+    public BufferedImage loadImage(final LocalStorage localStorage, final URI uri, final IIOReadProgressListener listener) throws Exception {
         // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
         // ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
 

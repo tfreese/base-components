@@ -14,7 +14,7 @@ public class ExcelSheet implements Serializable {
     private final transient List<String[]> rowValues;
     private final String sheetName;
 
-    public ExcelSheet(final String sheetName, List<String[]> rowValues) {
+    public ExcelSheet(final String sheetName, final List<String[]> rowValues) {
         super();
 
         this.sheetName = Objects.requireNonNull(sheetName, "sheetName required");

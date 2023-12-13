@@ -46,8 +46,8 @@ class TestThrottler //extends AbstractIoTest
         doTest(name, 6000, throttleFunction);
     }
 
-    private void doTest(String name, final int permits, final Function<Integer, Throttler> throttleFunction) throws Exception {
-        Throttler throttler = throttleFunction.apply(permits);
+    private void doTest(final String name, final int permits, final Function<Integer, Throttler> throttleFunction) throws Exception {
+        final Throttler throttler = throttleFunction.apply(permits);
 
         // Warmup...sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.
         throttler.acquirePermit();

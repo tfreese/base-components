@@ -46,7 +46,7 @@ public final class CalendarUtils {
         return calendar;
     }
 
-    public static DayOfWeek calendarToDayOfWeek(Calendar calendar) {
+    public static DayOfWeek calendarToDayOfWeek(final Calendar calendar) {
         final int dow = calendar.get(Calendar.DAY_OF_WEEK);
 
         return switch (dow) {
@@ -61,7 +61,7 @@ public final class CalendarUtils {
         };
     }
 
-    public static int dayOfWeekToCalendar(DayOfWeek dayOfWeek) {
+    public static int dayOfWeekToCalendar(final DayOfWeek dayOfWeek) {
         return switch (dayOfWeek) {
             case MONDAY -> Calendar.MONDAY;
             case TUESDAY -> Calendar.TUESDAY;

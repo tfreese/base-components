@@ -19,7 +19,7 @@ public class ResultSetPublisher<T> implements Publisher<T> {
 
     private final RowMapper<T> rowMapper;
 
-    public ResultSetPublisher(final ResultSet resultSet, final RowMapper<T> rowMapper, Consumer<ResultSet> doOnClose) {
+    public ResultSetPublisher(final ResultSet resultSet, final RowMapper<T> rowMapper, final Consumer<ResultSet> doOnClose) {
         super();
 
         this.resultSet = Objects.requireNonNull(resultSet, "resultSet required");

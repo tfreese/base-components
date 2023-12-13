@@ -48,7 +48,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
     /**
      * Die StatusBar reagiert auf Events des aktuell im {@link TaskManager} enthaltenen ForegroundTasks.
      */
-    public StatusBar(final ResourceMap resourceMap, TaskManager taskManager) {
+    public StatusBar(final ResourceMap resourceMap, final TaskManager taskManager) {
         super();
 
         Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
@@ -91,8 +91,8 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
     }
 
     @Override
-    public void propertyChange(final PropertyChangeEvent evt) {
-        String propertyName = evt.getPropertyName();
+    public void propertyChange(final PropertyChangeEvent event) {
+        String propertyName = event.getPropertyName();
 
         if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
             showBusyAnimation();
@@ -100,11 +100,11 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
             this.progressBar.setIndeterminate(true);
         }
         else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName)) {
-            String text = (String) (evt.getNewValue());
+            String text = (String) event.getNewValue();
             setMessage(text);
         }
         else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName)) {
-            int value = ((Integer) (evt.getNewValue()));
+            int value = (Integer) event.getNewValue();
             this.progressBar.setEnabled(true);
             this.progressBar.setIndeterminate(false);
             this.progressBar.setValue(value);

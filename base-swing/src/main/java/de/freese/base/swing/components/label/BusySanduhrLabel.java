@@ -33,7 +33,7 @@ public class BusySanduhrLabel extends JLabel {
         this(text, WaitIcons.getWaitIcons());
     }
 
-    public BusySanduhrLabel(final String text, ImageIcon[] icons) {
+    public BusySanduhrLabel(final String text, final ImageIcon[] icons) {
         super(text);
 
         this.icons = icons;

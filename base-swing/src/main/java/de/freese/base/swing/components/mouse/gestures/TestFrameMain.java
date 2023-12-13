@@ -44,7 +44,7 @@ public final class TestFrameMain extends JFrame {
     @Serial
     private static final long serialVersionUID = -3351411878765636929L;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         TestFrameMain frame = new TestFrameMain();
         frame.setVisible(true);
     }
@@ -95,14 +95,14 @@ public final class TestFrameMain extends JFrame {
         mouseGestures = new MouseGestures();
         mouseGestures.addMouseGesturesListener(new MouseGesturesListener() {
             @Override
-            public void gestureMovementRecognized(String currentGesture) {
+            public void gestureMovementRecognized(final String currentGesture) {
                 String displayValue = currentGesture.chars().mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining(","));
 
                 setGestureString(displayValue);
             }
 
             @Override
-            public void processGesture(String gesture) {
+            public void processGesture(final String gesture) {
                 try {
                     TimeUnit.MILLISECONDS.sleep(200);
                 }
@@ -140,7 +140,7 @@ public final class TestFrameMain extends JFrame {
         getContentPane().add(jPanel, BorderLayout.SOUTH);
     }
 
-    private void setGestureString(String gesture) {
+    private void setGestureString(final String gesture) {
         statusLabel.setText("Mouse gesture: " + gesture);
     }
 }

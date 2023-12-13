@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
-import de.freese.base.persistence.jdbc.UncheckedSqlException;
+import de.freese.base.persistence.exception.UncheckedSqlException;
 import de.freese.base.persistence.jdbc.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
@@ -344,7 +344,7 @@ public class JdbcClient {
         return execute(statementCreator, statementCallback, closeResources);
     }
 
-    <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize, StatementCreator<PreparedStatement> statementCreator, Logger logger) {
+    <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize, final StatementCreator<PreparedStatement> statementCreator, final Logger logger) {
         StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
             boolean supportsBatch = isBatchSupported(stmt.getConnection());
 

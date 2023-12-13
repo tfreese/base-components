@@ -22,7 +22,7 @@ public class FibonacciController extends AbstractController {
 
     private final ForkJoinPool forkJoinPool;
 
-    public FibonacciController(FibonacciView view) {
+    public FibonacciController(final FibonacciView view) {
         super(view);
 
         // this.forkJoinPool = new ForkJoinPool();

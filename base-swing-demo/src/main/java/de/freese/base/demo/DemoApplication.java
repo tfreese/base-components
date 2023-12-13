@@ -75,7 +75,7 @@ public class DemoApplication {
         createFrame(applicationContext);
     }
 
-    protected void createFrame(ApplicationContext applicationContext) {
+    protected void createFrame(final ApplicationContext applicationContext) {
         getLogger().info("Initialize GUI");
 
         // Main-Panel
@@ -140,7 +140,7 @@ public class DemoApplication {
         return logger;
     }
 
-    protected void initApplicationContext(ApplicationContext applicationContext, String applicationName) {
+    protected void initApplicationContext(final ApplicationContext applicationContext, final String applicationName) {
         getLogger().info("Initialize ApplicationContext");
 
         // Min. 1 Thread, unused Thread will be terminated after 60 seconds.
@@ -168,7 +168,7 @@ public class DemoApplication {
         applicationContext.registerService(TaskManager.class, new TaskManager(executorService));
     }
 
-    protected void initLookAndFeel(String applicationName) {
+    protected void initLookAndFeel(final String applicationName) {
         getLogger().info("Initialize LookAndFeel");
 
         try {
@@ -207,7 +207,7 @@ public class DemoApplication {
         }
     }
 
-    protected void initResourceMap(ApplicationContext applicationContext) {
+    protected void initResourceMap(final ApplicationContext applicationContext) {
         getLogger().info("Initialize ResourceMap");
 
         ResourceProvider resourceProvider = new ResourceBundleProvider();
@@ -240,7 +240,7 @@ public class DemoApplication {
         applicationContext.setResourceMapRoot(rootMap);
     }
 
-    protected void initShutdownHook(ApplicationContext applicationContext) {
+    protected void initShutdownHook(final ApplicationContext applicationContext) {
         getLogger().info("Initialize ShutdownHook");
 
         Runnable shutdownTask = () -> {
@@ -257,7 +257,7 @@ public class DemoApplication {
         Runtime.getRuntime().addShutdownHook(this.shutdownHook);
     }
 
-    private void release(ApplicationContext applicationContext) {
+    private void release(final ApplicationContext applicationContext) {
         getLogger().info("Release");
 
         int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?", "Exit", JOptionPane.YES_NO_OPTION);

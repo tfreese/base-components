@@ -32,7 +32,7 @@ public final class ResourceConverters {
         return resourceConverters;
     }
 
-    private static void defaultConverters(Map<Class<?>, ResourceConverter<?>> converters) {
+    private static void defaultConverters(final Map<Class<?>, ResourceConverter<?>> converters) {
         converters.put(Boolean.class, new BooleanResourceConverter("true", "on", "yes", "1"));
         converters.put(BufferedImage.class, new ImageResourceConverter());
         converters.put(Byte.class, new ByteResourceConverter());
@@ -73,12 +73,12 @@ public final class ResourceConverters {
         super();
     }
 
-    public void customize(Consumer<Map<Class<?>, ResourceConverter<?>>> converterCustomizer) {
+    public void customize(final Consumer<Map<Class<?>, ResourceConverter<?>>> converterCustomizer) {
         converterCustomizer.accept(converters);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> ResourceConverter<T> getConverter(Class<T> type) {
+    public <T> ResourceConverter<T> getConverter(final Class<T> type) {
         ResourceConverter<?> resourceConverter = this.converters.get(type);
 
         if (resourceConverter == null && type.isPrimitive()) {

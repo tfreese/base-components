@@ -27,7 +27,7 @@ public class ResultSetSubscription<T> implements Subscription {
 
     private ResultSet resultSet;
 
-    ResultSetSubscription(final ResultSet resultSet, final RowMapper<T> rowMapper, Consumer<ResultSet> doOnClose, final Subscriber<? super T> subscriber) {
+    ResultSetSubscription(final ResultSet resultSet, final RowMapper<T> rowMapper, final Consumer<ResultSet> doOnClose, final Subscriber<? super T> subscriber) {
         super();
 
         this.resultSet = Objects.requireNonNull(resultSet, "resultSet required");

@@ -64,7 +64,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     private HikariDataSource dataSource;
     private JdbcOperations jdbcOperations;
 
-    public DbServerExtension(final EmbeddedDatabaseType databaseType, boolean autoCommit) {
+    public DbServerExtension(final EmbeddedDatabaseType databaseType, final boolean autoCommit) {
         super();
 
         this.databaseType = Objects.requireNonNull(databaseType, "databaseType required");

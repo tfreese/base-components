@@ -51,7 +51,7 @@ public final class SshExec {
         });
     }
 
-    private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer, Consumer<ClientSession> clientSessionConfigurer) throws IOException {
+    private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer, final Consumer<ClientSession> clientSessionConfigurer) throws IOException {
         LOGGER.debug("connecting to {}@{}", user, host);
 
         SshClient sshClient = SshClient.setUpDefaultClient();
@@ -81,7 +81,7 @@ public final class SshExec {
 
     private final SshClient sshClient;
 
-    private SshExec(SshClient sshClient, ClientSession clientSession, final String host) {
+    private SshExec(final SshClient sshClient, final ClientSession clientSession, final String host) {
         super();
 
         this.sshClient = Objects.requireNonNull(sshClient, "sshClient required");
@@ -137,7 +137,7 @@ public final class SshExec {
             }
 
             responseStream.flush();
-            
+
             return responseStream.toString(StandardCharsets.UTF_8);
         }
     }

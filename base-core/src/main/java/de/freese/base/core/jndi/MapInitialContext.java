@@ -37,12 +37,12 @@ public final class MapInitialContext extends InitialContext {
     }
 
     @Override
-    public void bind(String key, Object value) {
+    public void bind(final String key, final Object value) {
         cache.put(key, value);
     }
 
     @Override
-    public Object lookup(String key) throws NamingException {
+    public Object lookup(final String key) throws NamingException {
         return cache.get(key);
     }
 

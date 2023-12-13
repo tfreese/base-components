@@ -17,7 +17,7 @@ public final class ReactiveStreamsFlowBridge {
     private static final class FlowPublisherFromReactive<T> implements Flow.Publisher<T> {
         private final org.reactivestreams.Publisher<? extends T> reactiveStreams;
 
-        FlowPublisherFromReactive(org.reactivestreams.Publisher<? extends T> reactivePublisher) {
+        FlowPublisherFromReactive(final org.reactivestreams.Publisher<? extends T> reactivePublisher) {
             this.reactiveStreams = reactivePublisher;
         }
 

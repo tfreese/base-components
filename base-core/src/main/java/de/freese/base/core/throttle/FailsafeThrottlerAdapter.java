@@ -9,7 +9,7 @@ import dev.failsafe.RateLimiter;
  * @author Thomas Freese
  */
 public final class FailsafeThrottlerAdapter implements Throttler {
-    public static Throttler create(final int permits, Duration duration) {
+    public static Throttler create(final int permits, final Duration duration) {
         return new FailsafeThrottlerAdapter(RateLimiter.burstyBuilder(permits, duration).build());
     }
 

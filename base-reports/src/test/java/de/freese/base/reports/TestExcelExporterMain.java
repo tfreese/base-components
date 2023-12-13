@@ -87,7 +87,7 @@ public final class TestExcelExporterMain {
         task.run();
     }
 
-    private static CellStyle getCellStyleDefault(Workbook workbook) {
+    private static CellStyle getCellStyleDefault(final Workbook workbook) {
         if (cellStyleDefault == null) {
             Font fontHeader = workbook.createFont();
             fontHeader.setBold(false);
@@ -108,7 +108,7 @@ public final class TestExcelExporterMain {
         return cellStyleDefault;
     }
 
-    private static CellStyle getCellStyleDefaultBackground(Workbook workbook) {
+    private static CellStyle getCellStyleDefaultBackground(final Workbook workbook) {
         if (cellStyleDefaultBackground == null) {
             CellStyle cs = ((XSSFCellStyle) getCellStyleDefault(workbook)).copy();
             cs.setFillPattern(FillPatternType.SOLID_FOREGROUND);

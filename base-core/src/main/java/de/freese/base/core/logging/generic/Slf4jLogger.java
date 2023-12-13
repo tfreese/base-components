@@ -7,27 +7,27 @@ package de.freese.base.core.logging.generic;
 class Slf4jLogger implements Logger {
     private final org.slf4j.Logger slf4jLogger;
 
-    Slf4jLogger(String name) {
+    Slf4jLogger(final String name) {
         this.slf4jLogger = org.slf4j.LoggerFactory.getLogger(name);
     }
 
     @Override
-    public void debug(String message) {
+    public void debug(final String message) {
         this.slf4jLogger.debug(message);
     }
 
     @Override
-    public void error(String message) {
+    public void error(final String message) {
         this.slf4jLogger.error(message);
     }
 
     @Override
-    public void error(String message, Throwable error) {
+    public void error(final String message, final Throwable error) {
         this.slf4jLogger.error(message, error);
     }
 
     @Override
-    public void info(String message) {
+    public void info(final String message) {
         this.slf4jLogger.info(message);
     }
 

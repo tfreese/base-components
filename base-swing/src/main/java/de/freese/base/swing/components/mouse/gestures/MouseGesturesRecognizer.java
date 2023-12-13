@@ -66,7 +66,9 @@ class MouseGesturesRecognizer {
      */
     private Point startPoint;
 
-    MouseGesturesRecognizer(MouseGestures mouseGestures) {
+    MouseGesturesRecognizer(final MouseGestures mouseGestures) {
+        super();
+
         this.mouseGestures = mouseGestures;
     }
 
@@ -103,13 +105,13 @@ class MouseGesturesRecognizer {
         return gesture.length() > 0;
     }
 
-    void processMouseEvent(MouseEvent mouseEvent) {
-        if (!(mouseEvent.getSource() instanceof Component)) {
+    void processMouseEvent(final MouseEvent event) {
+        if (!(event.getSource() instanceof Component)) {
             return;
         }
 
-        Point mouseEventPoint = mouseEvent.getPoint();
-        SwingUtilities.convertPointToScreen(mouseEventPoint, (Component) mouseEvent.getSource());
+        Point mouseEventPoint = event.getPoint();
+        SwingUtilities.convertPointToScreen(mouseEventPoint, (Component) event.getSource());
 
         if (startPoint == null) {
             startPoint = mouseEventPoint;
@@ -152,15 +154,15 @@ class MouseGesturesRecognizer {
      *
      * @param gridSize New grid size in pixels
      */
-    void setGridSize(int gridSize) {
+    void setGridSize(final int gridSize) {
         this.gridSize = gridSize;
     }
 
-    private int getDeltaX(Point a, Point b) {
+    private int getDeltaX(final Point a, final Point b) {
         return b.x - a.x;
     }
 
-    private int getDeltaY(Point a, Point b) {
+    private int getDeltaY(final Point a, final Point b) {
         return b.y - a.y;
     }
 
@@ -169,7 +171,7 @@ class MouseGesturesRecognizer {
      *
      * @param move String representation of recognized movement
      */
-    private void saveMove(String move) {
+    private void saveMove(final String move) {
         // should not store two equal moves in succession
         if ((gesture.length() > 0) && (gesture.charAt(gesture.length() - 1) == move.charAt(0))) {
             return;

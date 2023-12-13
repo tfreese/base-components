@@ -94,7 +94,7 @@ public final class XmlUtils {
         return schema;
     }
 
-    public static void validate(Unmarshaller unmarshaller, Schema schema, String xml, boolean validate, boolean logValidationErrors) throws Exception {
+    public static void validate(final Unmarshaller unmarshaller, final Schema schema, final String xml, final boolean validate, final boolean logValidationErrors) throws Exception {
         if (!validate) {
             return;
         }

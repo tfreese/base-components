@@ -22,12 +22,12 @@ public final class RoundRobinPool<T> implements AutoCloseable {
 
     private volatile int nextIndex;
 
-    public RoundRobinPool(int size, Supplier<T> creator) {
+    public RoundRobinPool(final int size, final Supplier<T> creator) {
         this(size, creator, Objects::nonNull);
 
     }
 
-    public RoundRobinPool(int size, Supplier<T> creator, Consumer<T> doOnClose) {
+    public RoundRobinPool(final int size, final Supplier<T> creator, final Consumer<T> doOnClose) {
         super();
 
         if (size < 1) {

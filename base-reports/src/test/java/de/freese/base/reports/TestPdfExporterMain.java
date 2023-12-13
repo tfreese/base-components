@@ -109,7 +109,7 @@ public final class TestPdfExporterMain {
         //        TimeUnit.SECONDS.sleep(5);
     }
 
-    private static PdfPCell createCell(String text, Font font) {
+    private static PdfPCell createCell(final String text, final Font font) {
         PdfPCell cell = new PdfPCell();
         cell.setNoWrap(true);
         cell.setFixedHeight(20F);
