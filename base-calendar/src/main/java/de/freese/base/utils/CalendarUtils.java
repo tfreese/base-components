@@ -40,14 +40,14 @@ public final class CalendarUtils {
      * Calendar calendar = new GregorianCalendar(Locale.GERMAN);<br>
      */
     public static Calendar calendarCreate(final Date date) {
-        Calendar calendar = Calendar.getInstance(Locale.GERMAN);
+        final Calendar calendar = Calendar.getInstance(Locale.GERMAN);
         calendar.setTime(date);
 
         return calendar;
     }
 
     public static DayOfWeek calendarToDayOfWeek(Calendar calendar) {
-        int dow = calendar.get(Calendar.DAY_OF_WEEK);
+        final int dow = calendar.get(Calendar.DAY_OF_WEEK);
 
         return switch (dow) {
             case Calendar.MONDAY -> DayOfWeek.MONDAY;
@@ -78,13 +78,13 @@ public final class CalendarUtils {
     }
 
     public static Date toDate(final LocalDate localDate) {
-        Instant instant = toInstant(localDate);
+        final Instant instant = toInstant(localDate);
 
         return toDate(instant);
     }
 
     public static Date toDate(final LocalDateTime localDateTime) {
-        Instant instant = toInstant(localDateTime);
+        final Instant instant = toInstant(localDateTime);
 
         return toDate(instant);
     }
@@ -113,7 +113,7 @@ public final class CalendarUtils {
      * Instant.from(localDate);<br>
      */
     public static Instant toInstant(final LocalDate localDate) {
-        ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+        final ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
 
         return zonedDateTime.toInstant();
     }
@@ -123,7 +123,7 @@ public final class CalendarUtils {
      * LocalDateTime.atZone(ZoneId.systemDefault()).toInstant();<br>
      */
     public static Instant toInstant(final LocalDateTime localDateTime) {
-        ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+        final ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
 
         return zonedDateTime.toInstant();
     }
@@ -133,7 +133,7 @@ public final class CalendarUtils {
             return d.toLocalDate();
         }
 
-        Instant instant = toInstant(date);
+        final Instant instant = toInstant(date);
 
         return toLocalDate(instant);
     }
@@ -158,7 +158,7 @@ public final class CalendarUtils {
             return ts.toLocalDateTime();
         }
 
-        Instant instant = toInstant(date);
+        final Instant instant = toInstant(date);
 
         return toLocalDateTime(instant);
     }
@@ -188,7 +188,7 @@ public final class CalendarUtils {
     }
 
     public static java.sql.Date toSqlDate(final Instant instant) {
-        LocalDate localDate = toLocalDate(instant);
+        final LocalDate localDate = toLocalDate(instant);
 
         return toSqlDate(localDate);
     }
@@ -198,7 +198,7 @@ public final class CalendarUtils {
     }
 
     public static java.sql.Date toSqlDate(final LocalDateTime localDateTime) {
-        LocalDate localDate = toLocalDate(localDateTime);
+        final LocalDate localDate = toLocalDate(localDateTime);
 
         return toSqlDate(localDate);
     }
@@ -208,7 +208,7 @@ public final class CalendarUtils {
     }
 
     public static Timestamp toSqlTimestamp(final LocalDate localDate) {
-        LocalDateTime localDateTime = toLocalDateTime(localDate);
+        final LocalDateTime localDateTime = toLocalDateTime(localDate);
 
         return toSqlTimestamp(localDateTime);
     }
@@ -229,7 +229,7 @@ public final class CalendarUtils {
             return ldt.toLocalDate();
         }
 
-        Instant instant = toInstant(accessor);
+        final Instant instant = toInstant(accessor);
 
         return toLocalDate(instant);
     }
@@ -239,7 +239,7 @@ public final class CalendarUtils {
             return ldt;
         }
 
-        Instant instant = toInstant(accessor);
+        final Instant instant = toInstant(accessor);
 
         return toLocalDateTime(instant);
     }

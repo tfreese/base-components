@@ -36,7 +36,7 @@ public class CaffeineResourceCache extends FileResourceCache {
 
     @Override
     public InputStream getResource(final URI uri) throws Exception {
-        byte[] content = this.cache.get(uri);
+        final byte[] content = this.cache.get(uri);
 
         if ((content == null) || (content.length == 0)) {
             return null;
@@ -50,15 +50,16 @@ public class CaffeineResourceCache extends FileResourceCache {
      */
     private LoadingCache<URI, byte[]> createCache(final int keepBytesInMemory) {
         // Größe der Datei = Gewicht
-        Weigher<URI, byte[]> weigher = (key, value) -> value.length;
+        final Weigher<URI, byte[]> weigher = (key, value) -> value.length;
 
-        CacheLoader<URI, byte[]> cacheLoader = key -> {
+        final CacheLoader<URI, byte[]> cacheLoader = key -> {
             byte[] content = {};
 
-            // int size = (int) getContentLength(key);
-            int size = 1024;
+            //final int size = (int) getContentLength(key);
+            final int size = 1024;
 
-            try (InputStream inputStream = super.getResource(key); ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {
+            try (InputStream inputStream = super.getResource(key);
+                 ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {
                 inputStream.transferTo(baos);
 
                 baos.flush();

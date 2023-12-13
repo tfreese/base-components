@@ -13,6 +13,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer {
     @Serial
     private static final long serialVersionUID = 2719021291033059644L;
 
+    @SuppressWarnings("checkstyle:IllegalCatch")
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -34,7 +35,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer {
             num = value != null ? Double.valueOf(value.toString()) : null;
         }
         catch (Throwable th) {
-            // th.printStackTrace();
+            // Empty;
         }
 
         if ((num != null) && (((num.intValue()) - num) == 0.0D)) {

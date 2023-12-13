@@ -22,7 +22,7 @@ public class ThrowableTracker {
     }
 
     public Throwable getLastThrowable() {
-        List<Throwable> ths = getThrowables();
+        final List<Throwable> ths = getThrowables();
 
         return ths.get(ths.size() - 1);
     }

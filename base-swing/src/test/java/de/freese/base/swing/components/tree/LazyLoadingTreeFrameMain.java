@@ -68,6 +68,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
                 TimeUnit.MILLISECONDS.sleep(250);
             }
             catch (InterruptedException ex) {
+                // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }
 
@@ -112,6 +113,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
                             TimeUnit.MILLISECONDS.sleep(350);
                         }
                         catch (InterruptedException ex) {
+                            // Restore interrupted state.
                             Thread.currentThread().interrupt();
                         }
 

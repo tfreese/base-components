@@ -189,7 +189,7 @@ public final class TableUtils {
      * @param min int; -1 = default
      * @param max int; -1 = default
      */
-    public static void packColumn(final JTable table, final TableColumn column, int margin, final int min, final int max) {
+    public static void packColumn(final JTable table, final TableColumn column, final int margin, final int min, final int max) {
         if (!column.getResizable()) {
             return;
         }
@@ -210,11 +210,13 @@ public final class TableUtils {
             width = Math.max(width, comp.getPreferredSize().width);
         }
 
-        if (margin < 0) {
-            margin = 3;
+        int mMargin = margin;
+
+        if (mMargin < 0) {
+            mMargin = 3;
         }
 
-        width += 2 * margin;
+        width += 2 * mMargin;
 
         if ((min > 0) && (width < min)) {
             width = min;

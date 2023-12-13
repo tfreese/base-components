@@ -94,10 +94,9 @@ public class ExtTableColumn extends TableColumn {
     /**
      * Sets the client property "key" to <code>value</code>. If <code>value</code> is <code>null</code> this method will remove the property. Changes to client
      * properties are reported with <code>PropertyChange</code> events. The name of the property (for the sake of PropertyChange events) is
-     * <code>key.toString()</code>.
-     * <p>
+     * <code>key.toString()</code>.<br>
+     * <br>
      * The <code>get/putClientProperty</code> methods provide access to a per-instance hashtable, which is intended for small scale extensions of TableColumn.
-     * <p>
      *
      * @param key Object which is used as key to retrieve value
      * @param value Object containing value of client property
@@ -161,8 +160,8 @@ public class ExtTableColumn extends TableColumn {
 
     /**
      * Notifies registered <code>PropertyChangeListener</code>s about property changes. This method must be invoked internally whe any of the enhanced
-     * properties changed.
-     * <p>
+     * properties changed.<br>
+     * <br>
      * Implementation note: needed to replicate super functionality because super's field <code>propertyChangeSupport</code> and method <code>fireXX</code> are
      * both private.
      *

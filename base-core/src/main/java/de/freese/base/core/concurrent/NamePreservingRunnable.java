@@ -28,7 +28,7 @@ public class NamePreservingRunnable implements Runnable {
     @Override
     public void run() {
         final Thread currentThread = Thread.currentThread();
-        String oldName = currentThread.getName();
+        final String oldName = currentThread.getName();
 
         setName(currentThread, this.runnableName);
 

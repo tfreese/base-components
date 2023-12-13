@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.function.Function;
@@ -120,14 +119,14 @@ class TestGrid {
 
     @Test
     void testGridColumnGeneric() {
-        ZoneId zoneId = ZoneId.systemDefault();
-        // ZoneId zoneId = ZoneId.of("Europe/Berlin");
-        // ZoneOffset zoneOffset = zoneId.getRules().getOffset(instant);
-        // ZoneOffset zoneOffset = ZoneOffset.ofHours(+2);
-
-        // long time = Instant.now().getEpochSecond();
-        // long time = value.atZone(zoneId).toInstant().toEpochMilli();
-        // LocalDateTime value = LocalDateTime.ofEpochSecond(time, 0, zoneOffset);
+        //        ZoneId zoneId = ZoneId.systemDefault();
+        //        ZoneId zoneId = ZoneId.of("Europe/Berlin");
+        //        ZoneOffset zoneOffset = zoneId.getRules().getOffset(instant);
+        //        ZoneOffset zoneOffset = ZoneOffset.ofHours(+2);
+        //
+        //        long time = Instant.now().getEpochSecond();
+        //        long time = value.atZone(zoneId).toInstant().toEpochMilli();
+        //        LocalDateTime value = LocalDateTime.ofEpochSecond(time, 0, zoneOffset);
 
         Function<Object, LocalDateTime> mapper = LocalDateTime.class::cast;
 

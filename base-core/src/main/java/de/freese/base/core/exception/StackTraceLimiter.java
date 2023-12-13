@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  */
 public final class StackTraceLimiter {
     public static StackTraceElement[] getLimitedStackTrace(final Throwable th, final int elements) {
-        StackTraceElement[] limitedTrace = new StackTraceElement[elements];
+        final StackTraceElement[] limitedTrace = new StackTraceElement[elements];
 
         System.arraycopy(th.getStackTrace(), 0, limitedTrace, 0, elements);
 
@@ -32,7 +32,8 @@ public final class StackTraceLimiter {
 
     private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer) {
         consumer.accept(th);
-        StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
+        
+        final StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
 
         for (StackTraceElement stackTraceElement : limitedTrace) {
             consumer.accept("\tat " + stackTraceElement);

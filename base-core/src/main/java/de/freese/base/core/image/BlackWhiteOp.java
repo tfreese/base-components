@@ -52,8 +52,8 @@ public class BlackWhiteOp implements BufferedImageOp {
             colorModel = ColorModel.getRGBdefault();
         }
 
-        int w = src.getWidth();
-        int h = src.getHeight();
+        final int w = src.getWidth();
+        final int h = src.getHeight();
 
         return new BufferedImage(colorModel, colorModel.createCompatibleWritableRaster(w, h), colorModel.isAlphaPremultiplied(), null);
     }
@@ -72,20 +72,20 @@ public class BlackWhiteOp implements BufferedImageOp {
             destImage = createCompatibleDestImage(src, null);
         }
 
-        int width = src.getWidth();
-        int height = src.getHeight();
+        final int width = src.getWidth();
+        final int height = src.getHeight();
 
-        int rgbBlack = Color.BLACK.getRGB();
-        int rgbWhite = Color.WHITE.getRGB();
+        final int rgbBlack = Color.BLACK.getRGB();
+        final int rgbWhite = Color.WHITE.getRGB();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int pixel = src.getRGB(x, y);
+                final int pixel = src.getRGB(x, y);
 
-                @SuppressWarnings("unused") int alpha = (pixel >> 24) & 0xff;
-                int red = (pixel >> 16) & 0xff;
-                int green = (pixel >> 8) & 0xff;
-                int blue = pixel & 0xff;
+                //int alpha = (pixel >> 24) & 0xff;
+                final int red = (pixel >> 16) & 0xff;
+                final int green = (pixel >> 8) & 0xff;
+                final int blue = pixel & 0xff;
 
                 if ((red > this.colorLimit) || (green > this.colorLimit) || (blue > this.colorLimit)) {
                     // int rgb = ((255 & 0xFF) << 24) | ((255 & 0xFF) << 16) | ((255 & 0xFF) << 8) | ((255 & 0xFF) << 0);

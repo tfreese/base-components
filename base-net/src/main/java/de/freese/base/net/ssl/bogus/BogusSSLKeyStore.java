@@ -14,7 +14,7 @@ import java.io.InputStream;
  *          -keystore cert.jks
  * </pre>
  *
- * @author Norman Maurer <norman@apache.org>
+ * @author Norman Maurer norman@apache.org
  * @author Thomas Freese
  */
 public final class BogusSSLKeyStore {

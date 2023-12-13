@@ -30,8 +30,8 @@ public class MemoryResourceCache extends AbstractResourceCache {
         byte[] content = this.map.get(uri);
 
         if (content == null) {
-            //int size = (int) getContentLength(uri);
-            int size = 1024;
+            //final int size = (int) getContentLength(uri);
+            final int size = 1024;
 
             try (InputStream inputStream = toInputStream(uri);
                  ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {

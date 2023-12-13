@@ -33,10 +33,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * <br>
  * Defaults:
  * <ul>
- * <li>headerRow = 0
- * <li>firstDataRow = 1
- * <li>fieldSeparator = ';'
- * <li>quoteCharacter = '"'
+ * <li>headerRow = 0</li>
+ * <li>firstDataRow = 1</li>
+ * <li>fieldSeparator = ';'</li>
+ * <li>quoteCharacter = '"'</li>
  * </ul>
  *
  * @author Thomas Freese

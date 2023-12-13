@@ -50,9 +50,9 @@ public class TextComponentOutputStream extends FilterOutputStream {
     }
 
     private void updateComponent(final String text) {
-        Runnable runnable = () -> {
-            JTextComponent tc = this.textComponent;
-            Document document = tc.getDocument();
+        final Runnable runnable = () -> {
+            final JTextComponent tc = this.textComponent;
+            final Document document = tc.getDocument();
 
             try {
                 document.insertString(document.getLength(), text, null);
@@ -61,9 +61,9 @@ public class TextComponentOutputStream extends FilterOutputStream {
                 tc.setCaretPosition(document.getLength());
 
                 // Max. 500 Zeilen zulassen
-                int idealSize = 1000;
-                int maxExcess = 500;
-                int excess = document.getLength() - idealSize;
+                final int idealSize = 1000;
+                final int maxExcess = 500;
+                final int excess = document.getLength() - idealSize;
 
                 if (excess >= maxExcess) {
                     try {

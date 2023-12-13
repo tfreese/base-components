@@ -11,12 +11,12 @@ import javax.net.ServerSocketFactory;
 
 /**
  * Simple utility methods for working with network sockets &mdash; for example,
- * for finding available ports on {@code localhost}.
- *
- * <p>Within this class, a TCP port refers to a port for a {@link ServerSocket};
- * whereas, a UDP port refers to a port for a {@link DatagramSocket}.
- *
- * <p>{@code SocketUtils} was introduced in Spring Framework 4.0, primarily to
+ * for finding available ports on {@code localhost}.<br>
+ * <br>
+ * Within this class, a TCP port refers to a port for a {@link ServerSocket};
+ * whereas, a UDP port refers to a port for a {@link DatagramSocket}.<br>
+ * <br>
+ * {@code SocketUtils} was introduced in Spring Framework 4.0, primarily to
  * assist in writing integration tests which start an external server on an
  * available random port. However, these utilities make no guarantee about the
  * subsequent availability of a given port and are therefore unreliable. Instead
@@ -325,7 +325,7 @@ public final class SocketUtils {
      * Although {@code SocketUtils} consists solely of static utility methods,
      * this constructor is intentionally {@code public}.
      * <h4>Rationale</h4>
-     * <p>Static methods from this class may be invoked from within XML
+     * Static methods from this class may be invoked from within XML
      * configuration files using the Spring Expression Language (SpEL) and the
      * following syntax.
      * <pre><code>&lt;bean id="bean1" ... p:port="#{T(org.springframework.util.SocketUtils).findAvailableTcpPort(12000)}" /&gt;</code></pre>

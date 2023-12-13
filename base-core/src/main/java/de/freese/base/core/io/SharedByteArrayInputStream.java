@@ -29,15 +29,17 @@ public class SharedByteArrayInputStream extends ByteArrayInputStream {
         return ByteBuffer.wrap(this.buf, 0, this.count);
     }
 
-    public InputStream toStream(final long start, long end) {
+    public InputStream toStream(final long start, final long end) {
         if (start < 0) {
             throw new IllegalArgumentException("start < 0");
         }
 
-        if (end == -1) {
-            end = this.count - (long) this.startIndex;
+        long to = end;
+
+        if (to == -1) {
+            to = this.count - (long) this.startIndex;
         }
 
-        return new SharedByteArrayInputStream(this.buf, this.startIndex + (int) start, (int) (end - start));
+        return new SharedByteArrayInputStream(this.buf, this.startIndex + (int) start, (int) (to - start));
     }
 }

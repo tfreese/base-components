@@ -39,7 +39,7 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
 
     @Override
     protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue, final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler) {
-        ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
+        final ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
         if (queue instanceof TunedLinkedBlockingQueue<?> q) {
             q.setPoolCurrentSize(tpe::getPoolSize);

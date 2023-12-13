@@ -21,14 +21,14 @@ import javax.swing.SwingUtilities;
 
 /**
  * An abstract class to be used in the cases where we need {@code Runnable} to perform some actions on an appendable set of data. The set of data might be
- * appended after the {@code Runnable} is sent for the execution. Usually such {@code Runnables} are sent to the EDT.
- * <p>
+ * appended after the {@code Runnable} is sent for the execution. Usually such {@code Runnables} are sent to the EDT.<br>
+ * <br>
  * Usage example:
- * <p>
+ * <br>
  * Say we want to implement JLabel.setText(String text) which sends {@code text} string to the JLabel.setTextImpl(String text) on the EDT. In the event
  * JLabel.setText is called rapidly many times off the EDT we will get many updates on the EDT but only the last one is important. (Every next updates overrides
- * the previous one.) We might want to implement this {@code setText} in a way that only the last update is delivered.
- * <p>
+ * the previous one.) We might want to implement this {@code setText} in a way that only the last update is delivered.<br>
+ * <br>
  * Here is how one can do this using {@code AccumulativeRunnable}:
  *
  * <pre>
@@ -45,10 +45,10 @@ import javax.swing.SwingUtilities;
  *     doSetTextImpl.add(text);
  * }
  * </pre>
- * <p>
+ * <br>
  * Say we want to implement addDirtyRegion(Rectangle rect) which sends this region to the {@code handleDirtyRegions(List<Rect> regions)} on the EDT.
- * addDirtyRegions better be accumulated before handling on the EDT.
- * <p>
+ * addDirtyRegions better be accumulated before handling on the EDT.<br>
+ * <br>
  * Here is how it can be implemented using AccumulativeRunnable:
  *
  * <pre>
@@ -105,10 +105,8 @@ public abstract class AccumulativeRunnable<T> implements Runnable {
     protected abstract void run(List<T> args);
 
     /**
-     * Sends this {@code Runnable} for the execution
-     * <p>
-     * This method is to be executed only from {@code add} method.
-     * <p>
+     * Sends this {@code Runnable} for the execution.<br>
+     * This method is to be executed only from {@code add} method.<br>
      * This implementation uses {@code SwingWorker.invokeLater}.
      */
     protected void submit() {
@@ -121,7 +119,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable {
      * @return accumulated arguments
      */
     private synchronized List<T> flush() {
-        List<T> list = this.arguments;
+        final List<T> list = this.arguments;
         this.arguments = null;
 
         return list;

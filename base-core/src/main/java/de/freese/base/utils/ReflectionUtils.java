@@ -135,8 +135,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Perform the given callback operation on all matching methods of the given class and superclasses.
-     * <p>
+     * Perform the given callback operation on all matching methods of the given class and superclasses.<br>
      * The same named method occurring on subclass and superclass will appear twice, unless excluded by a {@link Predicate}.
      *
      * @param clazz the class to introspect
@@ -149,8 +148,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Perform the given callback operation on all matching methods of the given class and superclasses (or given interface and super-interfaces).
-     * <p>
+     * Perform the given callback operation on all matching methods of the given class and superclasses (or given interface and super-interfaces).<br>
      * The same named method occurring on subclass and superclass will appear twice, unless excluded by the specified {@link Predicate}.
      *
      * @param clazz the class to introspect
@@ -187,8 +185,7 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Handle the given invocation target exception. Should only be called if no checked exception is expected to be thrown by the target method.
-     * <p>
+     * Handle the given invocation target exception. Should only be called if no checked exception is expected to be thrown by the target method.<br>
      * Throws the underlying RuntimeException or Error in case of such a root cause. Throws an UndeclaredThrowableException otherwise.
      *
      * @param ex the invocation target exception to handle
@@ -198,10 +195,8 @@ public final class ReflectionUtils {
     }
 
     /**
-     * Handle the given reflection exception.
-     * <p>
-     * Should only be called if no checked exception is expected to be thrown by a target method, or if an error occurs while accessing a method or field.
-     * <p>
+     * Handle the given reflection exception.<br>
+     * Should only be called if no checked exception is expected to be thrown by a target method, or if an error occurs while accessing a method or field.<br>
      * Throws the underlying RuntimeException or Error in case of an InvocationTargetException with such a root cause. Throws an IllegalStateException with an
      * appropriate message or UndeclaredThrowableException otherwise.
      *
@@ -229,8 +224,7 @@ public final class ReflectionUtils {
 
     /**
      * Invoke the specified {@link Method} against the supplied target object with no arguments. The target object can be {@code null} when invoking a static
-     * {@link Method}.
-     * <p>
+     * {@link Method}.<br>
      * Thrown exceptions are handled via a call to {@link #handleReflectionException}.
      *
      * @param method the method to invoke
@@ -242,8 +236,7 @@ public final class ReflectionUtils {
 
     /**
      * Invoke the specified {@link Method} against the supplied target object with the supplied arguments. The target object can be {@code null} when invoking a
-     * static {@link Method}.
-     * <p>
+     * static {@link Method}.<br>
      * Thrown exceptions are handled via a call to {@link #handleReflectionException}.
      *
      * @param method the method to invoke
@@ -285,8 +278,7 @@ public final class ReflectionUtils {
 
     /**
      * Rethrow the given {@link Throwable exception}, which is presumably the <em>target exception</em> of an {@link InvocationTargetException}. Should only be
-     * called if no checked exception is expected to be thrown by the target method.
-     * <p>
+     * called if no checked exception is expected to be thrown by the target method.<br>
      * Rethrows the underlying exception cast to a {@link RuntimeException} or {@link Error} if appropriate; otherwise, throws an
      * {@link UndeclaredThrowableException}.
      *

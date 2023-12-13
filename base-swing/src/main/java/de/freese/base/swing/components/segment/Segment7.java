@@ -40,7 +40,7 @@ public final class Segment7 extends Canvas {
             {1, 2, 8, 9, 8, 2}, // Segment 3
             {1, 2, 2, 1, 0, 0}, // Segment 4
             {1, 2, 2, 1, 0, 0}, // Segment 5
-            {1, 2, 8, 9, 8, 2}, // Segment 6
+            {1, 2, 8, 9, 8, 2} // Segment 6
     };
 
     private final int[][] polysy = {{1, 0, 0, 1, 2, 2}, // Segment 0
@@ -49,7 +49,7 @@ public final class Segment7 extends Canvas {
             {17, 16, 16, 17, 18, 18}, // Segment 3
             {9, 10, 16, 17, 16, 10}, // Segment 4
             {1, 2, 8, 9, 8, 2}, // Segment 5
-            {9, 8, 8, 9, 10, 10}, // Segment 6
+            {9, 8, 8, 9, 10, 10} // Segment 6
     };
 
     private int digit;

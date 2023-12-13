@@ -189,8 +189,8 @@ public final class ClassUtils {
 
     /**
      * Return the default ClassLoader to use: typically the thread context ClassLoader, if available; the ClassLoader that loaded the ClassUtils class will be
-     * used as fallback.
-     * <p>
+     * used as fallback.<br>
+     * <br>
      * Call this method if you intend to use the thread context ClassLoader in a scenario where you clearly prefer a non-null ClassLoader reference: for
      * example, for class path resource loading (but not necessarily for {@code Class.forName}, which accepts a {@code null} ClassLoader reference as well).
      *
@@ -315,8 +315,8 @@ public final class ClassUtils {
     }
 
     /**
-     * Resolve the given class name as primitive class, if appropriate, according to the JVM's naming rules for primitive classes.
-     * <p>
+     * Resolve the given class name as primitive class, if appropriate, according to the JVM's naming rules for primitive classes.<br>
+     * <br>
      * Also supports the JVM's internal class names for primitive arrays. Does <i>not</i> support the "[]" suffix notation for primitive arrays; this is only
      * supported by {@link #forName(String, ClassLoader)}.
      *

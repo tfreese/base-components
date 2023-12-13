@@ -26,7 +26,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
         public void run() {
             while (!Thread.interrupted()) {
                 try {
-                    Runnable runnable = BoundedExecutorQueuedWithScheduler.this.queue.take();
+                    final Runnable runnable = BoundedExecutorQueuedWithScheduler.this.queue.take();
 
                     if (runnable == SHUTDOWN_RUNNABLE) {
                         break;

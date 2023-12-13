@@ -32,7 +32,8 @@ public class SharedByteArrayOutputStream extends ByteArrayOutputStream {
     }
 
     public void write(final ByteBuffer buffer, final int length) {
-        byte[] data = new byte[length];
+        final byte[] data = new byte[length];
+        
         buffer.get(data);
 
         writeBytes(data);

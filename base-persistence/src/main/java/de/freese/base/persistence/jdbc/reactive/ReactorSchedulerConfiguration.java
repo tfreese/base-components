@@ -11,17 +11,17 @@ import reactor.core.scheduler.Schedulers;
 /**
  * Spring-Konfiguration des {@link Scheduler}s vom reactor-Framework für JDBC-Verarbeitung.<br>
  *
- * <pre>
+ * <pre>{@code
  * Mono<City> city = Mono.defer(() -> Mono.just(this.cityRepository.findByNameAndCountryAllIgnoringCase(name, country)))
  *                  .subscribeOn(jdbcScheduler);
- * <br>
+ *
  * Mono<Iterable<City>> cities = Mono.fromCallable(() -> this.cityRepository.findAll())
  *                  .subscribeOn(jdbcScheduler);
- * <br>
+ *
  * return Mono.fromCallable(() -> transactionTemplate.execute(status -> {
  *                  return cityRepository.save(new City(name, country));
  *              })).subscribeOn(jdbcScheduler);
- * </pre>
+ * }</pre>
  *
  * @author Thomas Freese
  */

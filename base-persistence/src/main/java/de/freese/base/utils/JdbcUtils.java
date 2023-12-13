@@ -104,8 +104,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Erzeugt eine "in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte</br>
-     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or</br>
+     * Erzeugt eine "in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere "in"-Clause angehängt.
      */
     public static void createInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements) {
@@ -113,8 +113,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Erzeugt eine "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte</br>
-     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or</br>
+     * Erzeugt eine "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere "not in"-Clause angehängt.
      */
     public static void createNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements) {
@@ -359,8 +359,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Tabular printing the {@link ResultSet}.</br>
-     * Stream is not closed.</br>
+     * Tabular printing the {@link ResultSet}.<br>
+     * Stream is not closed.<br>
      * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException {
@@ -382,7 +382,7 @@ public final class JdbcUtils {
     }
 
     /**
-     * Stream is not closed.</br>
+     * Stream is not closed.<br>
      * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static void writeCsv(final ResultSet resultSet, final OutputStream outputStream) throws SQLException {
@@ -435,8 +435,8 @@ public final class JdbcUtils {
     }
 
     /**
-     * Erzeugt eine "in"- oder "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte</br>
-     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or</br>
+     * Erzeugt eine "in"- oder "not in"-Clause und berücksichtigt das bei Oracle nur max. 1000 Werte<br>
+     * enthalten sein dürfen. Existieren mehr als 1000 Werte, werden diese mit einem or<br>
      * als weitere Clause angehängt.
      */
     private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn) {

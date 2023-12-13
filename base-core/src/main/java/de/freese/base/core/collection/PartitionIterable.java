@@ -84,10 +84,10 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
             return Collections.emptyList();
         }
 
-        int effectiveCount = Math.min(origin.size(), partitionCount);
-        int effectiveLength = origin.size() / effectiveCount;
+        final int effectiveCount = Math.min(origin.size(), partitionCount);
+        final int effectiveLength = origin.size() / effectiveCount;
 
-        int[] partitionSizes = new int[effectiveCount];
+        final int[] partitionSizes = new int[effectiveCount];
         Arrays.fill(partitionSizes, effectiveLength);
 
         // Die Gesamtgröße der einzelnen Partitionen ggf. anpassen.
@@ -118,7 +118,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
             }
         }
 
-        List<List<T>> partitions = new ArrayList<>(effectiveCount);
+        final List<List<T>> partitions = new ArrayList<>(effectiveCount);
         int fromIndex = 0;
 
         for (int partitionSize : partitionSizes) {
@@ -141,11 +141,11 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
             return Collections.emptyList();
         }
 
-        Map<Integer, List<T>> partitionMap = new HashMap<>();
+        final Map<Integer, List<T>> partitionMap = new HashMap<>();
 
         for (int i = 0; i < origin.size(); i++) {
-            T value = origin.get(i);
-            int indexToUse = i % partitionCount;
+            final T value = origin.get(i);
+            final int indexToUse = i % partitionCount;
 
             partitionMap.computeIfAbsent(indexToUse, key -> new ArrayList<>()).add(value);
         }
@@ -163,12 +163,12 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
             return Collections.emptyList();
         }
 
-        List<List<T>> batches = new ArrayList<>();
+        final List<List<T>> batches = new ArrayList<>();
         int fromIndex = 0;
 
         while (fromIndex < origin.size()) {
-            int offset = Math.min(origin.size() - fromIndex, partitionLength);
-            int endIndex = fromIndex + offset;
+            final int offset = Math.min(origin.size() - fromIndex, partitionLength);
+            final int endIndex = fromIndex + offset;
 
             batches.add(origin.subList(fromIndex, endIndex));
 
@@ -207,7 +207,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
                     throw new NoSuchElementException();
                 }
 
-                List<T> partition = partitions.get(index);
+                final List<T> partition = partitions.get(index);
 
                 index++;
 

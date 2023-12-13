@@ -56,6 +56,7 @@ public class WindowsPrintWriter extends PrintWriter {
                 }
             }
             catch (InterruptedIOException ex) {
+                // Restore interrupted state.
                 Thread.currentThread().interrupt();
             }
             catch (IOException ex) {

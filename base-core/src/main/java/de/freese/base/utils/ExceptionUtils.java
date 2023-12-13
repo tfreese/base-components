@@ -75,12 +75,13 @@ public final class ExceptionUtils {
      *
      * @return List, never null
      */
-    public static List<Throwable> getThrowableList(Throwable throwable) {
+    public static List<Throwable> getThrowableList(final Throwable throwable) {
+        Throwable th = throwable;
         final List<Throwable> list = new ArrayList<>();
 
-        while ((throwable != null) && !list.contains(throwable)) {
-            list.add(throwable);
-            throwable = throwable.getCause();
+        while ((th != null) && !list.contains(th)) {
+            list.add(th);
+            th = th.getCause();
         }
 
         return list;

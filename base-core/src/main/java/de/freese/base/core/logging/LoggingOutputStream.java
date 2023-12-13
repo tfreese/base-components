@@ -32,7 +32,7 @@ public class LoggingOutputStream extends OutputStream {
     @Override
     public void write(final int b) throws IOException {
         if (b == '\n') {
-            String line = this.baos.toString(StandardCharsets.UTF_8);
+            final String line = this.baos.toString(StandardCharsets.UTF_8);
             this.baos.reset();
 
             switch (this.level) {

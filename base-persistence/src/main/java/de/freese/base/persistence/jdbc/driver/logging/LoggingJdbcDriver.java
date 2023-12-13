@@ -21,14 +21,14 @@ import org.springframework.util.ClassUtils;
  * The Driver is activated by Url-Postfix: jdbc:logger:<br>
  * <br>
  * J2SE-Configuration:<br>
- * <code>
+ * <pre>
+ * {@code
  * DriverManager.registerDriver(new LoggingJdbcDriver("execute", "executeQuery", "executeUpdate", "prepareStatement", "prepareCall"));<br>
  * Connection connection = DriverManager.getConnection("jdbc:logger:jdbc:generic:mem"))
- * </code><br>
+ * }</pre>
  * <br>
  * J2EE-Konfiguration:<br>
  * Register the Driver by ServletListener: {@link LoggingJdbcDriverServletContextListener}<br>
- * </code>
  *
  * @author Thomas Freese
  */

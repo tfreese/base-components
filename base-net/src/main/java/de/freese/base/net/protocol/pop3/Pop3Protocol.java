@@ -71,7 +71,7 @@ public class Pop3Protocol extends AbstractProtocol {
                 this.serverSocket.close();
             }
             catch (Exception th) {
-                throw new IOException("Connect failed");
+                throw new IOException("Connect failed: ", th);
             }
         }
 

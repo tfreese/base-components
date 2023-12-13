@@ -32,7 +32,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-        String m = method.getName();
+        final String m = method.getName();
 
         // if (true)
         // {
@@ -65,6 +65,8 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
 
                 this.target.writeCharacters(this.lineSeparator);
                 this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
+            }
+            default -> {
             }
         }
 

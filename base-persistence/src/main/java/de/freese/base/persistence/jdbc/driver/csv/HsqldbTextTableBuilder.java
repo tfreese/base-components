@@ -20,12 +20,12 @@ import java.util.Objects;
  * <br>
  * Defaults:
  * <ul>
- * <li>encoding = UTF-8
- * <li>ignoreFirst = true
- * <li>fieldSeparator = \semi = ';'
- * <li>allQuoted = true
- * <li>cacheRows = 10000
- * <li>cacheSize = 1024 KB = 1 MB
+ * <li>encoding = UTF-8</li>
+ * <li>ignoreFirst = true</li>
+ * <li>fieldSeparator = \semi = ';'</li>
+ * <li>allQuoted = true</li>
+ * <li>cacheRows = 10000</li>
+ * <li>cacheSize = 1024 KB = 1 MB</li>
  * </ul>
  * Weitere Informationen unter:<br>
  * <a href="http://hsqldb.org/doc/guide/texttables-chapt.html">texttables</a><br>
@@ -79,11 +79,11 @@ public final class HsqldbTextTableBuilder {
      * Diese muss mit der Struktur der CSV-Datei übereinstimmen.<br>
      * Beispiel:<br>
      * <ul>
-     * <li>addColumn("TEXT varchar(10) PRIMARY KEY")
-     * <li>addColumn("DATE date")
-     * <li>addColumn("TIMESTAMP timestamp")
-     * <li>addColumn("LONG bigint")
-     * <li>addColumn("DOUBLE decimal(4,3)")
+     * <li>addColumn("TEXT varchar(10) PRIMARY KEY")</li>
+     * <li>addColumn("DATE date")</li>
+     * <li>addColumn("TIMESTAMP timestamp")</li>
+     * <li>addColumn("LONG bigint")</li>
+     * <li>addColumn("DOUBLE decimal(4,3)")</li>
      * </ul>
      */
     public HsqldbTextTableBuilder addColumn(final String column) {

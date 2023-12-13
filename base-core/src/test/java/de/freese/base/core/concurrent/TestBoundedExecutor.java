@@ -58,6 +58,7 @@ class TestBoundedExecutor {
             TimeUnit.MILLISECONDS.sleep(300);
         }
         catch (InterruptedException ex) {
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
     }

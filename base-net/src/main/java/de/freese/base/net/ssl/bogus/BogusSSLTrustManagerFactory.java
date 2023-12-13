@@ -20,7 +20,7 @@ import javax.net.ssl.X509TrustManager;
 /**
  * Bogus {@link TrustManagerFactorySpi} which accepts any certificate even if it is invalid.
  *
- * @author Norman Maurer <norman@apache.org>
+ * @author Norman Maurer norman@apache.org
  * @author Thomas Freese
  */
 public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {

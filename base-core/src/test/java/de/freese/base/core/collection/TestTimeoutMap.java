@@ -59,14 +59,14 @@ class TestTimeoutMap {
     void testCompute(final String name, final Map<String, Integer> decorated) throws Exception {
         Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
-        map.compute("a", (key, value) -> value == null ? 1 : ++value);
+        map.compute("a", (key, value) -> value == null ? 1 : 1 + value);
         assertEquals(1, map.size());
         assertFalse(map.isEmpty());
         assertEquals(1, map.get("a"));
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(1), map.values());
 
-        map.compute("a", (key, value) -> value == null ? 1 : ++value);
+        map.compute("a", (key, value) -> value == null ? 1 : 1 + value);
         assertEquals(1, map.size());
         assertFalse(map.isEmpty());
         assertEquals(2, map.get("a"));

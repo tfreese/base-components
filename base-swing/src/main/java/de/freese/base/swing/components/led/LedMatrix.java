@@ -250,33 +250,37 @@ public class LedMatrix implements Painter<LedConfig> {
         // }
     }
 
-    protected int paintToken(final Graphics2D g, final LedConfig config, final int width, final int height, final Token<?> token, int x) {
-        int dotWidth = config.getDotWidth();
-        int hGap = config.getHgap();
-        int tokenGap = config.getTokenGap();
+    protected int paintToken(final Graphics2D g, final LedConfig config, final int width, final int height, final Token<?> token, final int x) {
+        final int dotWidth = config.getDotWidth();
+        final int hGap = config.getHgap();
+        final int tokenGap = config.getTokenGap();
 
-        Color color = token.getColor();
+        final Color color = token.getColor();
         g.setColor(color);
 
-        for (byte[] bitMask : token.getBitMasks()) {
-            x = paintTokenDots(g, config, width, height, bitMask, x);
+        int transformedX = x;
 
-            if (x >= width) {
+        for (byte[] bitMask : token.getBitMasks()) {
+            transformedX = paintTokenDots(g, config, width, height, bitMask, x);
+
+            if (transformedX >= width) {
                 break;
             }
         }
 
-        x += (tokenGap * (hGap + dotWidth));
+        transformedX += (tokenGap * (hGap + dotWidth));
 
-        return x;
+        return transformedX;
     }
 
-    protected int paintTokenDots(final Graphics2D g, final LedConfig config, final int width, final int height, final byte[] bitMask, int x) {
-        int dotWidth = config.getDotWidth();
-        int dotHeight = config.getDotHeight();
-        int hGap = config.getHgap();
-        int vGap = config.getVgap();
-        int topInset = 1;
+    protected int paintTokenDots(final Graphics2D g, final LedConfig config, final int width, final int height, final byte[] bitMask, final int x) {
+        final int dotWidth = config.getDotWidth();
+        final int dotHeight = config.getDotHeight();
+        final int hGap = config.getHgap();
+        final int vGap = config.getVgap();
+        final int topInset = 1;
+
+        int transformedX = x;
 
         for (byte mask : bitMask) {
             for (int row = 0; row < 7; row++) {
@@ -287,13 +291,13 @@ public class LedMatrix implements Painter<LedConfig> {
                 }
             }
 
-            x += hGap + dotWidth;
+            transformedX += hGap + dotWidth;
 
-            if (x >= width) {
+            if (transformedX >= width) {
                 break;
             }
         }
 
-        return x;
+        return transformedX;
     }
 }

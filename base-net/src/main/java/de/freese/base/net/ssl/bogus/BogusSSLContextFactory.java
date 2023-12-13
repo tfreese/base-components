@@ -20,8 +20,8 @@ import javax.net.ssl.TrustManager;
 /**
  * Creates a bogus {@link SSLContext}.<br>
  * A client-side context created by this factory accepts any certificate even if it is invalid.<br>
- * A server-side context created by this factory sends a bogus certificate defined in {@link BogusSSLKeyStore}.
- * <p>
+ * A server-side context created by this factory sends a bogus certificate defined in {@link BogusSSLKeyStore}.<br>
+ * <br>
  * You will have to create your context differently in a real world application.
  * <h3>Client Certificate Authentication</h3> To enable client certificate authentication:
  * <ul>
@@ -33,7 +33,7 @@ import javax.net.ssl.TrustManager;
  * {@link SSLContext#init(KeyManager[], TrustManager[], SecureRandom)} to validate the client certificate.</li>
  * </ul>
  *
- * @author Norman Maurer <norman@apache.org>
+ * @author Norman Maurer norman@apache.org
  * @author Thomas Freese
  */
 public final class BogusSSLContextFactory {

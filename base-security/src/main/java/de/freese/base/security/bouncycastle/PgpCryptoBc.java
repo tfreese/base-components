@@ -476,6 +476,7 @@ class PgpCryptoBc {
         }
     }
 
+    @SuppressWarnings("checkstyle:ParameterAssignment")
     public boolean verifyFile(InputStream in, final InputStream keyIn, final String extractContentFile) throws Exception {
         in = PGPUtil.getDecoderStream(in);
 

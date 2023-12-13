@@ -63,7 +63,7 @@ public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T> {
             this.scheduledExecutor.schedule(() -> SwingUtilities.invokeLater(this), this.delay.toMillis(), TimeUnit.MILLISECONDS);
         }
         else {
-            Timer timer = new Timer((int) this.delay.toMillis(), event -> SwingUtilities.invokeLater(this));
+            final Timer timer = new Timer((int) this.delay.toMillis(), event -> SwingUtilities.invokeLater(this));
             timer.setRepeats(false);
             timer.start();
         }

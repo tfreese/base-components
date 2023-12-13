@@ -100,14 +100,14 @@ public final class AsyncFileReader<CH> {
             throw new IllegalArgumentException("path is a directory or not readable: " + path);
         }
 
-        CompletableFuture<CH> future = new CompletableFuture<>();
+        final CompletableFuture<CH> future = new CompletableFuture<>();
 
-        CompletionHandler<Integer, ReadContext<CH>> handler = createHandler(getContentHolderSupplier(), getDataConsumer());
+        final CompletionHandler<Integer, ReadContext<CH>> handler = createHandler(getContentHolderSupplier(), getDataConsumer());
 
         try {
-            // AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, StandardOpenOption.READ);
-            AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, new HashSet<>(Arrays.asList(StandardOpenOption.READ)), getExecutorService());
-            ReadContext<CH> context = new ReadContext<>(channel, future, handler, getByteBufferSize());
+            // final AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, StandardOpenOption.READ);
+            final AsynchronousFileChannel channel = AsynchronousFileChannel.open(path, new HashSet<>(Arrays.asList(StandardOpenOption.READ)), getExecutorService());
+            final ReadContext<CH> context = new ReadContext<>(channel, future, handler, getByteBufferSize());
 
             readBlock(context);
         }
@@ -157,7 +157,7 @@ public final class AsyncFileReader<CH> {
      * @param dataConsumer {@link BiConsumer}; Nimmt die gelesenen Daten entgegen.
      */
     private CompletionHandler<Integer, ReadContext<CH>> createHandler(final Supplier<CH> contentHolderSupplier, final BiConsumer<CH, byte[]> dataConsumer) {
-        CH contextHolder = contentHolderSupplier.get();
+        final CH contextHolder = contentHolderSupplier.get();
 
         return new CompletionHandler<>() {
             @Override
@@ -171,7 +171,7 @@ public final class AsyncFileReader<CH> {
                     context.buffer.flip();
 
                     // byte[] data = context.buffer.array(); // Funktioniert nicht.
-                    byte[] data = new byte[count];
+                    final byte[] data = new byte[count];
                     context.buffer.get(data);
 
                     dataConsumer.accept(contextHolder, data);

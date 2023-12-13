@@ -417,6 +417,7 @@ public final class ImageUtils {
             pg.grabPixels();
         }
         catch (InterruptedException ex) {
+            // Restore interrupted state.
             Thread.currentThread().interrupt();
         }
 
