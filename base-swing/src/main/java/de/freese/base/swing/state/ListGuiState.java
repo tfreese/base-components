@@ -28,7 +28,7 @@ public class ListGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JList<?> list = (JList<?>) component;
+        final JList<?> list = (JList<?>) component;
 
         try {
             list.setSelectedIndices(this.selectedIndices);
@@ -42,7 +42,7 @@ public class ListGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JList<?> list = (JList<?>) component;
+        final JList<?> list = (JList<?>) component;
 
         this.selectedIndices = list.getSelectedIndices();
     }

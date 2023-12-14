@@ -22,23 +22,14 @@ public abstract class AbstractLayoutElement implements LayoutElement {
     private final List<LayoutElement> elements = new ArrayList<>(20);
 
     private Color background = Color.WHITE;
-
     private Font font = DEFAULT_FONT;
-
     private Color foreground = Color.BLACK;
-
     private double height;
-
     private Insets insets = new Insets(0, 0, 0, 0);
-
     private String name = "";
-
     private LayoutElement parent;
-
     private double width;
-
     private double x;
-
     private double y;
 
     protected AbstractLayoutElement() {
@@ -61,9 +52,9 @@ public abstract class AbstractLayoutElement implements LayoutElement {
     }
 
     public BufferedImage createImage() {
-        BufferedImage bufferedImage = new BufferedImage((int) getWidth() + 1, (int) getHeight() + 1, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage bufferedImage = new BufferedImage((int) getWidth() + 1, (int) getHeight() + 1, BufferedImage.TYPE_INT_RGB);
 
-        Graphics2D g2d = bufferedImage.createGraphics();
+        final Graphics2D g2d = bufferedImage.createGraphics();
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -145,7 +136,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     @Override
     public boolean removeElement(final LayoutElement element) {
-        boolean contains = this.elements.remove(element);
+        final boolean contains = this.elements.remove(element);
 
         if (contains) {
             element.setParent(null);
@@ -155,7 +146,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
     }
 
     public void saveImageAsJPEG(final BufferedImage bufferedImage, final String fileName, final String type) throws Exception {
-        File file = new File(fileName);
+        final File file = new File(fileName);
         ImageIO.write(bufferedImage, type, file);
     }
 
@@ -210,7 +201,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
 
     protected void paintChildren(final Graphics2D g2d) {
         for (int i = 0; i < getElementCount(); i++) {
-            LayoutElement element = getElementAt(i);
+            final LayoutElement element = getElementAt(i);
 
             element.paint(g2d);
         }
@@ -219,7 +210,7 @@ public abstract class AbstractLayoutElement implements LayoutElement {
     protected void paintName(final Graphics2D g2d) {
         g2d.setColor(getForeground());
 
-        String text = getName() + " (" + getWidth() + "x" + getHeight() + ")";
+        final String text = getName() + " (" + getWidth() + "x" + getHeight() + ")";
         g2d.drawString(text, (float) (getX() + 3D), (float) (getY() + getHeight() - 3D));
     }
 

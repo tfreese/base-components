@@ -24,7 +24,7 @@ public final class GbcBuilder extends GridBagConstraints {
      * </ul>
      */
     public static GbcBuilder of(final int gridx, final int gridy) {
-        GbcBuilder gbcBuilder = new GbcBuilder(gridx, gridy);
+        final GbcBuilder gbcBuilder = new GbcBuilder(gridx, gridy);
         gbcBuilder.fillNone();
         gbcBuilder.insets(5, 5, 5, 5);
 

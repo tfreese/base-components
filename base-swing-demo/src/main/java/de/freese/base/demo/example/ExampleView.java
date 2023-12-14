@@ -17,16 +17,16 @@ public class ExampleView extends AbstractView {
     public ExampleView initComponent(final ApplicationContext applicationContext) {
         super.initComponent(applicationContext);
 
-        ResourceMap resourceMap = getResourceMap();
+        final ResourceMap resourceMap = getResourceMap();
 
-        ExamplePanel examplePanel = new ExamplePanel();
+        final ExamplePanel examplePanel = new ExamplePanel();
         setComponent(examplePanel);
 
         examplePanel.init();
         examplePanel.getButtonTaskStatistik().setText(resourceMap.getString("example.button.task.statistik.text"));
 
         examplePanel.getButtonTaskStatistik().addActionListener(event -> {
-            AbstractSwingTask<?, ?> task = new DurationStatistikTask();
+            final AbstractSwingTask<?, ?> task = new DurationStatistikTask();
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(examplePanel));
 
             // Könnte als konfigurierbare Funktion im Task implementiert werden.

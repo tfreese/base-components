@@ -7,7 +7,6 @@ import javax.swing.RowFilter.Entry;
  */
 public class RowFilterEntry<M> extends Entry<M, Integer> {
     private final int column;
-
     private final M model;
 
     public RowFilterEntry(final M model, final int column) {

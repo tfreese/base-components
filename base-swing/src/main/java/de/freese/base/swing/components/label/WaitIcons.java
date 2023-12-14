@@ -519,7 +519,7 @@ public final class WaitIcons {
     }
 
     public static ImageIcon[] getWaitIcons() {
-        ImageIcon[] imageArray = new ImageIcon[15];
+        final ImageIcon[] imageArray = new ImageIcon[15];
 
         imageArray[0] = getWaitIcon1();
         imageArray[1] = getWaitIcon2();

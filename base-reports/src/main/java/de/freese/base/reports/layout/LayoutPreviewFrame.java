@@ -22,15 +22,15 @@ public class LayoutPreviewFrame extends JFrame {
     public LayoutPreviewFrame(final AbstractLayoutElement layoutElement) throws HeadlessException {
         super();
 
-        Image designImage = layoutElement.createImage();
+        final Image designImage = layoutElement.createImage();
 
         // Darstellung
-        ImageIcon imageIcon = new ImageIcon(designImage);
+        final ImageIcon imageIcon = new ImageIcon(designImage);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        JLabel label = new JLabel();
+        final JLabel label = new JLabel();
         label.setIcon(imageIcon);
 
         getContentPane().add(label);

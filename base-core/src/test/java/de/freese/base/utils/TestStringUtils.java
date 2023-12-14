@@ -16,7 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class TestStringUtils {
     @Test
     void testRemoveNonAscii() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append((char) 97); // a
         sb.append((char) 9); // Horizontal Tab
         sb.append((char) 98); // b
@@ -31,7 +31,7 @@ class TestStringUtils {
         assertEquals("abcd", result);
 
         // Horizontal Tab
-        Predicate<Character> keepChars = c -> c == 9;
+        final Predicate<Character> keepChars = c -> c == 9;
 
         result = StringUtils.removeNonAscii(sb.toString(), keepChars);
         assertEquals("a" + (char) 9 + "bcd", result);
@@ -47,11 +47,11 @@ class TestStringUtils {
 
     @Test
     void testStringUtilsNormalizeSpace() {
-        String text = "  ab c  d    efg ";
+        final String text = "  ab c  d    efg ";
         String result = StringUtils.normalizeSpace(text);
         assertEquals("ab c d efg", result);
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(' ');
         sb.append(' ');
         sb.append('a');

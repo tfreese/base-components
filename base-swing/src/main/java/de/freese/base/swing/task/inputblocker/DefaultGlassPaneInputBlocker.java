@@ -21,15 +21,13 @@ import de.freese.base.swing.task.SwingTask;
  */
 public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker {
     private final JLabel labelSubTitle;
-
     private final JLabel labelTitle;
-
     private final JProgressBar progressBar;
 
     public DefaultGlassPaneInputBlocker(final Component target) {
         super(target);
 
-        Font defaultFont = SwingFontSizeChanger.getInstance().getFont();
+        final Font defaultFont = SwingFontSizeChanger.getInstance().getFont();
 
         this.progressBar = new JProgressBar();
         this.progressBar.setFont(defaultFont.deriveFont(Font.BOLD, defaultFont.getSize()));
@@ -67,10 +65,10 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker 
 
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
-        String propertyName = event.getPropertyName();
+        final String propertyName = event.getPropertyName();
 
         if (SwingTask.PROPERTY_PROGRESS.equals(propertyName)) {
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (task.isDone()) {
                 return;
@@ -83,7 +81,7 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker 
 
             this.progressBar.setValue(Integer.parseInt(event.getNewValue().toString()));
 
-            // StringBuilder sb = new StringBuilder();
+            // final StringBuilder sb = new StringBuilder();
             // sb.append(task.getTitle() == null ? "" : task.getTitle());
             // sb.append(" ").append(evt.getNewValue().toString());
             // sb.append(" %");
@@ -92,7 +90,7 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker 
 
         }
         else if (SwingTask.PROPERTY_TITLE.equals(propertyName)) {
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (task.isDone()) {
                 return;
@@ -101,7 +99,7 @@ public class DefaultGlassPaneInputBlocker extends AbstractGlassPaneInputBlocker 
             this.labelTitle.setText(task.getTitle() == null ? "" : task.getTitle());
         }
         else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName)) {
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             if (task.isDone()) {
                 return;

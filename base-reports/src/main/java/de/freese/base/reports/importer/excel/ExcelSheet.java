@@ -11,6 +11,7 @@ import java.util.Objects;
 public class ExcelSheet implements Serializable {
     @Serial
     private static final long serialVersionUID = 574094444465628429L;
+
     private final transient List<String[]> rowValues;
     private final String sheetName;
 

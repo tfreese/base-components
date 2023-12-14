@@ -48,13 +48,13 @@ class TestCsvDriver {
         // Text-Tables should work in Memory-Mode.
         System.setProperty("textdb.allow_full_path", "true");
 
-        StringBuilder url = new StringBuilder();
+        final StringBuilder url = new StringBuilder();
         url.append("jdbc:hsqldb:mem:").append(System.currentTimeMillis());
         url.append(";shutdown=true");
         url.append(";readonly=true");
         url.append(";files_readonly=true");
 
-        StringBuilder createTable = new StringBuilder();
+        final StringBuilder createTable = new StringBuilder();
         createTable.append("create text table MY_CSV (");
         createTable.append(" TEXT varchar(10) PRIMARY KEY,");
         createTable.append(" DATE date,");
@@ -63,7 +63,7 @@ class TestCsvDriver {
         createTable.append(" DOUBLE decimal(4,3)");
         createTable.append(")");
 
-        StringBuilder setTable = new StringBuilder();
+        final StringBuilder setTable = new StringBuilder();
         setTable.append("set table");
         setTable.append(" MY_CSV");
         setTable.append(" source");
@@ -106,7 +106,7 @@ class TestCsvDriver {
     @Test
     void testCsvDriver01() throws Exception {
         // Struktur
-        StringBuilder file1 = new StringBuilder();
+        final StringBuilder file1 = new StringBuilder();
         file1.append("[");
         file1.append("src/test/resources/test1.csv");
         file1.append(";TEXT varchar(10) PRIMARY KEY");
@@ -124,7 +124,9 @@ class TestCsvDriver {
         file1.append(",cache_size=1024"); // max. Cache-Size in kB
         file1.append("]");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1);
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV")) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals("abc", resultSet.getString("TEXT"));
@@ -137,7 +139,7 @@ class TestCsvDriver {
     @Test
     void testCsvDriver02() throws Exception {
         // Struktur
-        StringBuilder file1 = new StringBuilder();
+        final StringBuilder file1 = new StringBuilder();
         file1.append("[");
         file1.append("src/test/resources/test1.csv");
         file1.append(";TEXT varchar(10) PRIMARY KEY");
@@ -155,7 +157,7 @@ class TestCsvDriver {
         file1.append(",cache_size=1024"); // max. Cache-Size in kB
         file1.append("]");
 
-        StringBuilder file2 = new StringBuilder();
+        final StringBuilder file2 = new StringBuilder();
         file2.append("[");
         file2.append("src/test/resources/test2.csv");
         file2.append(";TEXT varchar(10) PRIMARY KEY");
@@ -167,7 +169,7 @@ class TestCsvDriver {
         file2.append(",tableName=test2");
         file2.append("]");
 
-        StringBuilder file3 = new StringBuilder();
+        final StringBuilder file3 = new StringBuilder();
         file3.append("[");
         file3.append("src/test/resources/test3.csv");
         file3.append(";TEXT varchar(10) PRIMARY KEY");
@@ -178,7 +180,7 @@ class TestCsvDriver {
         file3.append(",tableName=test3");
         file3.append("]");
 
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
         sql.append("select");
         sql.append(" min(t1.LONG) as MIN_T1_LONG");
         sql.append(", max(t2.LONG) as MAX_T2_LONG");
@@ -187,7 +189,9 @@ class TestCsvDriver {
         sql.append(" inner join TEST2 t2 on t2.TEXT = t1.TEXT");
         sql.append(" inner join TEST3 t3 on t3.TEXT = t1.TEXT");
 
-        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1 + file2 + file3); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet resultSet = statement.executeQuery(sql.toString())) {
+        try (Connection connection = DriverManager.getConnection("jdbc:csv:" + file1 + file2 + file3);
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery(sql.toString())) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals(1234, resultSet.getInt("MIN_T1_LONG"), 0);

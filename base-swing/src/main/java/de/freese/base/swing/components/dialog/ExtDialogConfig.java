@@ -18,7 +18,6 @@ public class ExtDialogConfig {
     private final Map<Integer, ActionListener> buttonActionListeners = new HashMap<>();
 
     private Icon icon;
-
     private Object message = "";
     /**
      * @see JOptionPane#PLAIN_MESSAGE
@@ -28,7 +27,6 @@ public class ExtDialogConfig {
      * @see JOptionPane#ERROR_MESSAGE
      */
     private int messageType = JOptionPane.PLAIN_MESSAGE;
-
     private boolean modal = true;
     /**
      * @see JOptionPane#DEFAULT_OPTION
@@ -37,15 +35,10 @@ public class ExtDialogConfig {
      * @see JOptionPane#OK_CANCEL_OPTION
      */
     private int optionType = JOptionPane.OK_OPTION;
-
     private String[] options;
-
     private Component owner;
-
     private boolean resizeable = true;
-
     private String title = "";
-
     private WindowListener windowListener;
 
     public ActionListener getButtonActionListener(final int buttonIndex) {

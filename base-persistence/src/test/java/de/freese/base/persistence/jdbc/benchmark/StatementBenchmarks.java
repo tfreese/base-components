@@ -79,7 +79,7 @@ public class StatementBenchmarks extends BenchmarkSettings {
 
         private void populateDb(final Connection connection) {
             try (Statement statement = connection.createStatement()) {
-                String dbName = connection.getMetaData().getDatabaseProductName();
+                final String dbName = connection.getMetaData().getDatabaseProductName();
 
                 if (dbName.toLowerCase().contains("derby")) {
                     try {
@@ -119,7 +119,8 @@ public class StatementBenchmarks extends BenchmarkSettings {
 
     @Benchmark
     public void statement(final ConnectionHolder connectionHolder, final Blackhole blackhole) throws SQLException {
-        try (Statement statement = connectionHolder.connection.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM simple_test")) {
+        try (Statement statement = connectionHolder.connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM simple_test")) {
             while (resultSet.next()) {
                 blackhole.consume(resultSet.getString("name"));
             }

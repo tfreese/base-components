@@ -32,10 +32,10 @@ public final class TestExcelExporterMain {
     private static CellStyle cellStyleDefaultBackground;
 
     public static void main(final String[] args) throws Exception {
-        Exporter<Integer> exporter = new AbstractExcelExporter<>() {
+        final Exporter<Integer> exporter = new AbstractExcelExporter<>() {
             @Override
             public void export(final Workbook workbook, final Integer dataCount) throws Exception {
-                Sheet sheet = workbook.createSheet("SHEET_NAME");
+                final Sheet sheet = workbook.createSheet("SHEET_NAME");
                 sheet.setZoom(100);
 
                 // Header
@@ -62,7 +62,7 @@ public final class TestExcelExporterMain {
                     cell.setCellStyle(getCellStyleDefault(workbook));
                 }
 
-                CellRangeAddress cellRangeAddress = new CellRangeAddress(0, dataCount, 0, 1);
+                final CellRangeAddress cellRangeAddress = new CellRangeAddress(0, dataCount, 0, 1);
                 sheet.setAutoFilter(cellRangeAddress);
                 sheet.createFreezePane(0, 1);
 
@@ -72,10 +72,10 @@ public final class TestExcelExporterMain {
             }
         };
 
-        Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.xlsx");
+        final Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.xlsx");
         exporter.export(filePath, 50);
 
-        Runnable task = () -> {
+        final Runnable task = () -> {
             try {
                 Desktop.getDesktop().open(filePath.toFile());
             }
@@ -89,11 +89,11 @@ public final class TestExcelExporterMain {
 
     private static CellStyle getCellStyleDefault(final Workbook workbook) {
         if (cellStyleDefault == null) {
-            Font fontHeader = workbook.createFont();
+            final Font fontHeader = workbook.createFont();
             fontHeader.setBold(false);
             fontHeader.setFontHeightInPoints((short) 12);
 
-            CellStyle cs = workbook.createCellStyle();
+            final CellStyle cs = workbook.createCellStyle();
             cs.setFont(fontHeader);
             cs.setAlignment(HorizontalAlignment.CENTER);
             cs.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -110,7 +110,7 @@ public final class TestExcelExporterMain {
 
     private static CellStyle getCellStyleDefaultBackground(final Workbook workbook) {
         if (cellStyleDefaultBackground == null) {
-            CellStyle cs = ((XSSFCellStyle) getCellStyleDefault(workbook)).copy();
+            final CellStyle cs = ((XSSFCellStyle) getCellStyleDefault(workbook)).copy();
             cs.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             cs.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 

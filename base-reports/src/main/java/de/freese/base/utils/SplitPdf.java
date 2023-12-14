@@ -19,7 +19,6 @@ public class SplitPdf {
     private static final Logger LOGGER = LoggerFactory.getLogger(SplitPdf.class);
 
     private byte[] pdfFile;
-
     private String pdfFileName;
 
     public SplitPdf(final byte[] pdfFile) {
@@ -53,14 +52,14 @@ public class SplitPdf {
         }
 
         // OriginalPDF
-        PdfReader pdfReader = getPDFReader();
-        int pages = pdfReader.getNumberOfPages();
+        final PdfReader pdfReader = getPDFReader();
+        final int pages = pdfReader.getNumberOfPages();
         LOGGER.info("There are {} pages in the original file.", pages);
 
         // Neues Dokument erzeugen.
-        Document newDoc = new Document(pdfReader.getPageSizeWithRotation(1));
+        final Document newDoc = new Document(pdfReader.getPageSizeWithRotation(1));
 
-        PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStream);
+        final PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStream);
         newPdfWriter.setFullCompression();
 
         //            newDoc.addTitle(...);
@@ -74,10 +73,10 @@ public class SplitPdf {
         // Durch das RangeArray gehen.
         for (String range : ranges) {
             // Range in konkrete Zahlen wandeln.
-            String[] splits = range.split("-");
+            final String[] splits = range.split("-");
 
-            int startPage = Integer.parseInt(splits[0]);
-            int endPage = Integer.parseInt(splits[1]);
+            final int startPage = Integer.parseInt(splits[0]);
+            final int endPage = Integer.parseInt(splits[1]);
 
             if ((startPage > pages) || (endPage > pages)) {
                 LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", range, pages);
@@ -88,7 +87,7 @@ public class SplitPdf {
             LOGGER.info("Splitting Range {}", range);
 
             // Inhalt des Originals holen.
-            PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
+            final PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
 
             for (int i = startPage; i <= endPage; i++) {
                 // Seitengrösse des Originals setzen.
@@ -98,10 +97,10 @@ public class SplitPdf {
                 newDoc.newPage();
 
                 // Seite des Originals importieren.
-                PdfImportedPage pdfimportedpage = newPdfWriter.getImportedPage(pdfReader, i);
+                final PdfImportedPage pdfimportedpage = newPdfWriter.getImportedPage(pdfReader, i);
 
                 // Seitenausrichtung des Originals einlesen.
-                int rotation = pdfReader.getPageRotation(i);
+                final int rotation = pdfReader.getPageRotation(i);
 
                 // Seiteninhalt des Originals importieren.
                 if ((rotation == 90) || (rotation == 270)) {
@@ -135,19 +134,19 @@ public class SplitPdf {
         }
 
         // OriginalPDF
-        PdfReader pdfReader = getPDFReader();
-        int pages = pdfReader.getNumberOfPages();
+        final PdfReader pdfReader = getPDFReader();
+        final int pages = pdfReader.getNumberOfPages();
         LOGGER.info("There are {} pages in the original file.", pages);
 
         // Durch das RangeArray gehen.
         for (int r = 0; r < ranges.length; r++) {
-            String range = ranges[r];
+            final String range = ranges[r];
 
             // Range in konkrete Zahlen wandeln.
-            String[] splits = range.split("-");
+            final String[] splits = range.split("-");
 
-            int startPage = Integer.parseInt(splits[0]);
-            int endPage = Integer.parseInt(splits[1]);
+            final int startPage = Integer.parseInt(splits[0]);
+            final int endPage = Integer.parseInt(splits[1]);
 
             if ((startPage > pages) || (endPage > pages)) {
                 LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", ranges[r], pages);
@@ -158,9 +157,9 @@ public class SplitPdf {
             LOGGER.info("Splitting Range {}", range);
 
             // Neues Dokument erzeugen.
-            Document newDoc = new Document(pdfReader.getPageSizeWithRotation(1));
+            final Document newDoc = new Document(pdfReader.getPageSizeWithRotation(1));
 
-            PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStreams[r]);
+            final PdfWriter newPdfWriter = PdfWriter.getInstance(newDoc, outStreams[r]);
             newPdfWriter.setFullCompression();
 
             //            newDoc.addTitle(...);
@@ -172,7 +171,7 @@ public class SplitPdf {
             newDoc.open();
 
             // Inhalt des Originals holen.
-            PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
+            final PdfContentByte pdfContentByte = newPdfWriter.getDirectContent();
 
             for (int i = startPage; i <= endPage; i++) {
                 // Seitengrösse des Originals setzen.
@@ -182,10 +181,10 @@ public class SplitPdf {
                 newDoc.newPage();
 
                 // Seite des Originals importieren.
-                PdfImportedPage pdfimportedpage = newPdfWriter.getImportedPage(pdfReader, i);
+                final PdfImportedPage pdfimportedpage = newPdfWriter.getImportedPage(pdfReader, i);
 
                 // Seitenausrichtung des Originals einlesen.
-                int rotation = pdfReader.getPageRotation(i);
+                final int rotation = pdfReader.getPageRotation(i);
 
                 // Seiteninhalt des Originals importieren
                 if ((rotation == 90) || (rotation == 270)) {

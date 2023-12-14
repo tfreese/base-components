@@ -161,14 +161,14 @@ public class LedMatrix implements Painter<LedConfig> {
      * </pre>
      */
     public static byte[] getTokenBitMask(final byte[][] ledDots) {
-        byte[] bitMask = new byte[ledDots[0].length];
+        final byte[] bitMask = new byte[ledDots[0].length];
 
         for (int col = 0; col < ledDots[0].length; col++) {
             // Bitmask pro Spalte anlegen.
             byte mask = 0;
 
             for (int row = 0; row < ledDots.length; row++) {
-                byte b = ledDots[row][col];
+                final byte b = ledDots[row][col];
 
                 mask |= (b << row);
             }
@@ -193,7 +193,7 @@ public class LedMatrix implements Painter<LedConfig> {
     }
 
     public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height) {
-        int leftInset = config.getDotWidth() + config.getHgap();
+        final int leftInset = config.getDotWidth() + config.getHgap();
         int x = leftInset;
 
         // TODO Hier Ansetzen für das Scrolling.
@@ -216,10 +216,10 @@ public class LedMatrix implements Painter<LedConfig> {
     }
 
     protected void paintBackground(final Graphics2D g, final LedConfig config, final int width, final int height) {
-        int dotWidth = config.getDotWidth();
-        int dotHeight = config.getDotHeight();
-        int hGap = config.getHgap();
-        int vGap = config.getVgap();
+        final int dotWidth = config.getDotWidth();
+        final int dotHeight = config.getDotHeight();
+        final int hGap = config.getHgap();
+        final int vGap = config.getVgap();
 
         // Nur die Linien zeichnen.
         g.setColor(config.getColorBackgroundDot());
@@ -285,7 +285,7 @@ public class LedMatrix implements Painter<LedConfig> {
         for (byte mask : bitMask) {
             for (int row = 0; row < 7; row++) {
                 if (((mask & 0xFF) & (1 << row)) != 0) {
-                    int y = ((row + topInset) * (dotHeight + vGap));
+                    final int y = ((row + topInset) * (dotHeight + vGap));
 
                     g.fillRect(x, y, dotWidth, dotHeight);
                 }

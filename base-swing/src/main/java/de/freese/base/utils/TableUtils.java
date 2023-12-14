@@ -36,15 +36,15 @@ public final class TableUtils {
      * Selektiert die Zelle an der gewünschten Position und zentriert sie innerhalb der ScrollPane.
      */
     public static void centerTableInScrollPane(final JTable table, final int row, final int column) {
-        JViewport viewport = (JViewport) table.getParent();
+        final JViewport viewport = (JViewport) table.getParent();
         table.changeSelection(row, column, false, false);
 
         // This rectangle is relative to the table where the northwest corner of cell (0,0) is
         // always (0,0).
-        Rectangle rect = table.getCellRect(row, column, true);
+        final Rectangle rect = table.getCellRect(row, column, true);
 
         // The location of the view relative to the table
-        Rectangle viewRect = viewport.getViewRect();
+        final Rectangle viewRect = viewport.getViewRect();
 
         // Translate the cell location so that it is relative to the view, assuming the northwest
         // corner of the view is (0,0).
@@ -71,7 +71,7 @@ public final class TableUtils {
     }
 
     public static TableCellRenderer getCellRenderer(final JTable table, final int column) {
-        int viewIndex = table.convertColumnIndexToView(column);
+        final int viewIndex = table.convertColumnIndexToView(column);
 
         TableCellRenderer renderer = null;
 
@@ -91,7 +91,7 @@ public final class TableUtils {
     }
 
     public static Object getFirstSelectedObject(final JTable table) {
-        Object[] obj = getSelectedObjects(table);
+        final Object[] obj = getSelectedObjects(table);
 
         if ((obj != null) && (obj.length > 0)) {
             return obj[0];
@@ -104,7 +104,7 @@ public final class TableUtils {
         TableCellRenderer renderer = column.getHeaderRenderer();
 
         if (renderer == null) {
-            JTableHeader header = table.getTableHeader();
+            final JTableHeader header = table.getTableHeader();
 
             if (header != null) {
                 renderer = header.getDefaultRenderer();
@@ -117,10 +117,10 @@ public final class TableUtils {
     public static String getRenderedValueAt(final JTable table, final int row, final int column) {
         String value = null;
 
-        TableCellRenderer tcr = getCellRenderer(table, column);
+        final TableCellRenderer tcr = getCellRenderer(table, column);
 
         if (tcr != null) {
-            Component c = table.prepareRenderer(tcr, row, column);
+            final Component c = table.prepareRenderer(tcr, row, column);
 
             if (c instanceof JLabel label) {
                 value = label.getText().strip();
@@ -136,10 +136,10 @@ public final class TableUtils {
         }
 
         if (value == null) {
-            TableModel tm = table.getModel();
+            final TableModel tm = table.getModel();
 
             if (tm != null) {
-                int colIdxModel = table.convertColumnIndexToModel(column);
+                final int colIdxModel = table.convertColumnIndexToModel(column);
                 value = tm.getValueAt(row, colIdxModel).toString().strip();
             }
         }
@@ -148,12 +148,12 @@ public final class TableUtils {
     }
 
     public static Object[] getSelectedObjects(final JTable table) {
-        int[] rows = table.getSelectedRows();
-        Object[] result = new Object[rows.length];
+        final int[] rows = table.getSelectedRows();
+        final Object[] result = new Object[rows.length];
 
         if (table.getModel() instanceof AbstractListTableModel<?> model) {
             for (int i = 0; i < rows.length; i++) {
-                int modelRowIndex = table.convertRowIndexToModel(rows[i]);
+                final int modelRowIndex = table.convertRowIndexToModel(rows[i]);
 
                 result[i] = model.getObjectAt(modelRowIndex);
             }
@@ -194,19 +194,19 @@ public final class TableUtils {
             return;
         }
 
-        int columnIndex = table.convertColumnIndexToView(column.getModelIndex());
+        final int columnIndex = table.convertColumnIndexToView(column.getModelIndex());
         int width = 0;
-        TableCellRenderer headerRenderer = getHeaderRenderer(table, column);
+        final TableCellRenderer headerRenderer = getHeaderRenderer(table, column);
 
         if (headerRenderer != null) {
-            Component comp = headerRenderer.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, 0, columnIndex);
+            final Component comp = headerRenderer.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, 0, columnIndex);
             width = comp.getPreferredSize().width;
         }
 
-        TableCellRenderer renderer = getCellRenderer(table, column);
+        final TableCellRenderer renderer = getCellRenderer(table, column);
 
         for (int r = 0; r < table.getRowCount(); r++) {
-            Component comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, columnIndex), false, false, r, columnIndex);
+            final Component comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, columnIndex), false, false, r, columnIndex);
             width = Math.max(width, comp.getPreferredSize().width);
         }
 

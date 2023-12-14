@@ -27,14 +27,14 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView 
     public FibonacciView initComponent(final ApplicationContext applicationContext) {
         super.initComponent(applicationContext);
 
-        FibonacciPanel fibonacciPanel = new FibonacciPanel();
+        final FibonacciPanel fibonacciPanel = new FibonacciPanel();
         setComponent(fibonacciPanel);
 
         fibonacciPanel.init();
 
         fibonacciPanel.getTextField().setText("48");
 
-        ResourceMap resourceMap = getResourceMap();
+        final ResourceMap resourceMap = getResourceMap();
 
         fibonacciPanel.getLabel().setText(resourceMap.getString("fibonacci.label"));
         fibonacciPanel.getLabelResult().setText(resourceMap.getString("fibonacci.result", 0));
@@ -49,9 +49,9 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView 
             setResult(0);
 
             // Task mit GlassPaneInputBlocker
-            int value = Integer.parseInt(fibonacciPanel.getTextField().getText());
+            final int value = Integer.parseInt(fibonacciPanel.getTextField().getText());
 
-            FibonacciTask task = new FibonacciTask(value, controller, resourceMap);
+            final FibonacciTask task = new FibonacciTask(value, controller, resourceMap);
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(fibonacciPanel));
 
             // Könnte auch im Task implementiert werden.
@@ -64,9 +64,9 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView 
             setResult(0);
 
             // Task mit ComponentInputBlocker
-            int value = Integer.parseInt(fibonacciPanel.getTextField().getText());
+            final int value = Integer.parseInt(fibonacciPanel.getTextField().getText());
 
-            FibonacciTask task = new FibonacciTask(value, controller, getResourceMap());
+            final FibonacciTask task = new FibonacciTask(value, controller, getResourceMap());
             task.setInputBlocker(new DefaultInputBlocker().add((Component) event.getSource()));
 
             // Könnte auch im Task implementiert werden.
@@ -87,7 +87,7 @@ public class DefaultFibonacciView extends AbstractView implements FibonacciView 
 
     @Override
     public void setResult(final long value) {
-        String text = getResourceMap().getString("fibonacci.result", value);
+        final String text = getResourceMap().getString("fibonacci.result", value);
         getComponent().getLabelResult().setText(text);
     }
 

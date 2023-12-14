@@ -50,7 +50,7 @@ public final class GuiUtils {
      * Bildschirmauflösung verkleinert.<br>
      */
     public static void adjustFrame(final JFrame frame) {
-        Dimension screenSize = GuiUtils.getScreenSize();
+        final Dimension screenSize = GuiUtils.getScreenSize();
 
         if ((frame.getWidth() > screenSize.width) || (frame.getHeight() > screenSize.height)) {
             frame.setSize(screenSize);
@@ -68,14 +68,14 @@ public final class GuiUtils {
      * Erzeugt einen PNG-Screenshot als {@link DataSource}.
      */
     public static DataSource createScreenShot() throws Exception {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int width = (int) dimension.getWidth();
-        int height = (int) dimension.getHeight();
+        final Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        final int width = (int) dimension.getWidth();
+        final int height = (int) dimension.getHeight();
 
-        DataSource dataSource = GuiUtils.createScreenShot(0, 0, width, height);
+        final DataSource dataSource = GuiUtils.createScreenShot(0, 0, width, height);
 
         if (dataSource instanceof ByteArrayDataSource b) {
-            String fileName = "screenshot_" + System.currentTimeMillis() + ".png";
+            final String fileName = "screenshot_" + System.currentTimeMillis() + ".png";
 
             b.setName(fileName);
         }
@@ -89,12 +89,12 @@ public final class GuiUtils {
     public static DataSource createScreenShot(final Component c) throws Exception {
         Objects.requireNonNull(c, "component required");
 
-        int x = c.getX();
-        int y = c.getY();
-        int width = c.getWidth();
-        int height = c.getHeight();
+        final int x = c.getX();
+        final int y = c.getY();
+        final int width = c.getWidth();
+        final int height = c.getHeight();
 
-        DataSource dataSource = GuiUtils.createScreenShot(x, y, width, height);
+        final DataSource dataSource = GuiUtils.createScreenShot(x, y, width, height);
 
         if (dataSource instanceof ByteArrayDataSource b) {
             String fileName = "screenshot";
@@ -112,7 +112,7 @@ public final class GuiUtils {
      * Erzeugt einen PNG-Screenshot des Koordinatenbereichs als {@link DataSource}.
      */
     public static DataSource createScreenShot(final int x, final int y, final int width, final int height) throws Exception {
-        BufferedImage shot = new Robot().createScreenCapture(new Rectangle(x, y, width, height));
+        final BufferedImage shot = new Robot().createScreenCapture(new Rectangle(x, y, width, height));
 
         ByteArrayDataSource dataSource = null;
 
@@ -155,7 +155,7 @@ public final class GuiUtils {
      * Wird nichts gefunden, kommt null zurück.<br>
      */
     public static Component find(final Component comp, final String name) {
-        String compName = comp.getName();
+        final String compName = comp.getName();
 
         Component found = null;
 
@@ -179,7 +179,7 @@ public final class GuiUtils {
      * Gibt das aktuell fokussierte Frame zurück, oder das erste Frame, welches gefunden wird.
      */
     public static Frame getActiveFrame() {
-        Frame[] frames = Frame.getFrames();
+        final Frame[] frames = Frame.getFrames();
         Frame activeFrame = null;
 
         for (Frame frame : frames) {

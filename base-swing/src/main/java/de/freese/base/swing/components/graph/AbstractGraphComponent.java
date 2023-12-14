@@ -26,9 +26,7 @@ public abstract class AbstractGraphComponent extends Component {
     private final transient Painter<Component> painter;
 
     private transient BufferedImage bufferedImage;
-
     private transient Graphics2D bufferedImageGraphics2d;
-
     private boolean useBufferedImage;
 
     protected AbstractGraphComponent(final Painter<Component> painter) {
@@ -56,7 +54,7 @@ public abstract class AbstractGraphComponent extends Component {
             g.drawImage(getBufferedImage(), 0, 0, this);
         }
         else {
-            Graphics2D g2d = (Graphics2D) g;
+            final Graphics2D g2d = (Graphics2D) g;
 
             getPainter().paint(g2d, this, getWidth(), getHeight());
         }

@@ -67,7 +67,7 @@ class TestBoundedExecutor {
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutor")
     void testExecute(final String name, final int parallelism) {
-        BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
+        final BoundedExecutor boundedExecutor = new BoundedExecutor(executorService, parallelism);
 
         execute(boundedExecutor, null);
     }
@@ -76,7 +76,7 @@ class TestBoundedExecutor {
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutorQueued")
     void testExecuteQueued(final String name, final int parallelism) {
-        BoundedExecutorQueued boundedExecutor = new BoundedExecutorQueued(executorService, parallelism);
+        final BoundedExecutorQueued boundedExecutor = new BoundedExecutorQueued(executorService, parallelism);
 
         execute(boundedExecutor, boundedExecutor::getQueueSize);
     }
@@ -85,7 +85,7 @@ class TestBoundedExecutor {
     @MethodSource("createTestData")
     @DisplayName("BoundedExecutorQueuedWithScheduler")
     void testExecuteQueuedWithScheduler(final String name, final int parallelism) {
-        BoundedExecutorQueuedWithScheduler boundedExecutor = new BoundedExecutorQueuedWithScheduler(executorService, parallelism);
+        final BoundedExecutorQueuedWithScheduler boundedExecutor = new BoundedExecutorQueuedWithScheduler(executorService, parallelism);
 
         execute(boundedExecutor, boundedExecutor::getQueueSize);
 
@@ -95,7 +95,7 @@ class TestBoundedExecutor {
     private void execute(final Executor executor, final Supplier<Integer> queueSizeSupplier) {
         System.out.println();
 
-        Runnable task = () -> {
+        final Runnable task = () -> {
             if (queueSizeSupplier == null) {
                 System.out.printf("%s%n", Thread.currentThread().getName());
             }
@@ -107,7 +107,7 @@ class TestBoundedExecutor {
         };
 
         // @formatter::off
-        List<FutureTask<Object>> futures = IntStream.range(0, 10).mapToObj(i -> new FutureTask<>(task, null)).map(futureTask -> {
+        final List<FutureTask<Object>> futures = IntStream.range(0, 10).mapToObj(i -> new FutureTask<>(task, null)).map(futureTask -> {
             executor.execute(futureTask);
             return futureTask;
         }).toList();

@@ -16,7 +16,6 @@ public class WatermarkViewport extends JViewport implements WatermarkComponent {
     private static final long serialVersionUID = 4443174665479649215L;
 
     private Point position;
-
     private ImageIcon watermark;
 
     public WatermarkViewport(final Component view) {

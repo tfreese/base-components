@@ -71,7 +71,7 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
         }
         else {
             // Alles andere ausser den definierten Typen raus.
-            List<TreePath> paths = new ArrayList<>();
+            final List<TreePath> paths = new ArrayList<>();
 
             for (TreePath treePath : selectedPaths) {
                 if (containsClazzes(treePath.getLastPathComponent().getClass())) {

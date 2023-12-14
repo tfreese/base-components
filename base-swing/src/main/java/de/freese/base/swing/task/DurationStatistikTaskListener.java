@@ -19,14 +19,13 @@ import org.slf4j.LoggerFactory;
  */
 public final class DurationStatistikTaskListener implements PropertyChangeListener {
     private static final Map<String, TaskStatistik> CACHE = new HashMap<>();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DurationStatistikTaskListener.class);
 
     private Timer timer;
 
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
-        String propertyName = event.getPropertyName();
+        final String propertyName = event.getPropertyName();
 
         if (SwingTask.PROPERTY_CANCELLED.equals(propertyName)) {
             stopTimer();
@@ -35,7 +34,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
             stopTimer();
         }
         else if (SwingTask.PROPERTY_SUCCEEDED.equals(propertyName)) {
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
             if ((taskName == null) || (taskName.length() == 0)) {
@@ -43,12 +42,12 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
                 taskName = task.getClass().getName();
             }
 
-            TaskStatistik taskStatistik = getTaskStatistik(taskName);
+            final TaskStatistik taskStatistik = getTaskStatistik(taskName);
             taskStatistik.measureDuration(task.getExecutionDuration(TimeUnit.MILLISECONDS));
             updateTaskStatistik(taskStatistik);
         }
         else if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
             if ((taskName == null) || (taskName.length() == 0)) {
@@ -56,7 +55,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
                 taskName = task.getClass().getName();
             }
 
-            TaskStatistik taskStatistik = getTaskStatistik(taskName);
+            final TaskStatistik taskStatistik = getTaskStatistik(taskName);
             final long mittelwert = taskStatistik.getAvg();
 
             if (mittelwert > 0) {
@@ -65,7 +64,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
                         return;
                     }
 
-                    long execution = task.getCurrentDuration(TimeUnit.MILLISECONDS);
+                    final long execution = task.getCurrentDuration(TimeUnit.MILLISECONDS);
                     float prozent = execution / (float) mittelwert;
 
                     if (prozent > 0.99) {

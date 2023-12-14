@@ -50,7 +50,7 @@ public class AutoCompleteableTextField extends JTextField {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            Runnable runner = () -> {
+            final Runnable runner = () -> {
                 setText(PrevSearchAction.this.term);
 
                 // getFilterTextField().setCaretPosition(term.length());
@@ -79,7 +79,7 @@ public class AutoCompleteableTextField extends JTextField {
 
         addFocusListener(new FocusAdapter() {
             @Override
-            public void focusLost(final FocusEvent e) {
+            public void focusLost(final FocusEvent event) {
                 if ((AutoCompleteableTextField.this.prevSearchMenu == null) || !AutoCompleteableTextField.this.prevSearchMenu.isVisible()) {
                     saveLastSearch();
                 }
@@ -88,16 +88,16 @@ public class AutoCompleteableTextField extends JTextField {
 
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(final KeyEvent e) {
-                if ((e.getKeyCode() == KeyEvent.VK_ENTER) || (e.getKeyCode() == KeyEvent.VK_TAB)) {
-                    JPopupMenu popupMenu = AutoCompleteableTextField.this.prevSearchMenu;
+            public void keyReleased(final KeyEvent event) {
+                if ((event.getKeyCode() == KeyEvent.VK_ENTER) || (event.getKeyCode() == KeyEvent.VK_TAB)) {
+                    final JPopupMenu popupMenu = AutoCompleteableTextField.this.prevSearchMenu;
 
                     // Wenn das PopupMenu geöffnet ist, das selektierte MenuItem ausführen.
                     if ((popupMenu != null) && popupMenu.isVisible()) {
-                        MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
+                        final MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
 
                         if (path.length > 0) {
-                            JMenuItem menuItem = (JMenuItem) path[path.length - 1];
+                            final JMenuItem menuItem = (JMenuItem) path[path.length - 1];
 
                             menuItem.doClick();
                             popupMenu.setVisible(false);
@@ -109,7 +109,7 @@ public class AutoCompleteableTextField extends JTextField {
                     // Bei Enter oder Tabulator den Fokus wechseln und so den neuen Text zu Vervollständigung aufnehmen.
                     transferFocus();
                 }
-                else if (Character.isJavaIdentifierPart(e.getKeyChar())) {
+                else if (Character.isJavaIdentifierPart(event.getKeyChar())) {
                     // Popup einblenden
                     popupMenu(0, (int) getSize().getHeight());
                 }
@@ -127,12 +127,12 @@ public class AutoCompleteableTextField extends JTextField {
         if ((!this.prevSearches.isEmpty()) && (getText().strip().length() > 0)) {
             this.prevSearchMenu = new JPopupMenu();
 
-            Iterator<String> it = this.prevSearches.iterator();
-            List<String> matches = new ArrayList<>();
+            final Iterator<String> it = this.prevSearches.iterator();
+            final List<String> matches = new ArrayList<>();
 
             // Treffer herausfinden
             while (it.hasNext()) {
-                String search = it.next();
+                final String search = it.next();
 
                 if (search.contains(getText().strip())) {
                     matches.add(search);
@@ -143,7 +143,7 @@ public class AutoCompleteableTextField extends JTextField {
             Collections.sort(matches);
 
             for (String element : matches) {
-                Action action = new PrevSearchAction(element);
+                final Action action = new PrevSearchAction(element);
 
                 this.prevSearchMenu.add(action);
             }
@@ -165,7 +165,7 @@ public class AutoCompleteableTextField extends JTextField {
      * Text im Textfeld in die Historie aufnehmen, max. 10 Einträge.
      */
     private void saveLastSearch() {
-        String search = getText().strip();
+        final String search = getText().strip();
 
         if ((search != null) && (search.length() > 1) && !this.prevSearches.contains(search)) {
             // System.out.println("AutoCompleteableTextField.saveLastSearch(): " + search);

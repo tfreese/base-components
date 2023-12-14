@@ -48,7 +48,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
             return;
         }
 
-        Object source = event.getSource();
+        final Object source = event.getSource();
 
         ListSelectionModel selectionModel = null;
 
@@ -64,7 +64,7 @@ public class EnableDisableSelectionListener implements ListSelectionListener, Tr
 
     @Override
     public void valueChanged(final TreeSelectionEvent event) {
-        Object source = event.getSource();
+        final Object source = event.getSource();
 
         TreeSelectionModel selectionModel = null;
 

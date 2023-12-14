@@ -10,7 +10,7 @@ public class FloatClipBoardConverter extends AbstractNumberClipBoardConverter {
             return null;
         }
 
-        String temp = normalizeFraction(value);
+        final String temp = normalizeFraction(value);
 
         return Float.valueOf(temp);
     }

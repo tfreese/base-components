@@ -28,7 +28,7 @@ public class LabelGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JLabel label = (JLabel) component;
+        final JLabel label = (JLabel) component;
 
         label.setText(this.text);
     }
@@ -37,7 +37,7 @@ public class LabelGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JLabel label = (JLabel) component;
+        final JLabel label = (JLabel) component;
 
         this.text = label.getText();
     }

@@ -22,7 +22,6 @@ public class ComboBoxGuiState extends AbstractGuiState {
     private static final long serialVersionUID = -8701963133645177327L;
 
     private int selectedIndex;
-
     private String selectedName = "";
 
     public ComboBoxGuiState() {
@@ -34,20 +33,20 @@ public class ComboBoxGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JComboBox<Object> comboBox = (JComboBox<Object>) component;
+        final JComboBox<Object> comboBox = (JComboBox<Object>) component;
 
         // Try to find the object by name.
         try {
             if ((this.selectedName != null) && (this.selectedName.length() > 0)) {
-                ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
-                JList<Object> dummy = new JList<>();
+                final ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
+                final JList<Object> dummy = new JList<>();
 
                 for (int i = 0; i < comboBox.getModel().getSize(); i++) {
-                    Object value = comboBox.getModel().getElementAt(i);
-                    Component c = renderer.getListCellRendererComponent(dummy, value, i, true, true);
+                    final Object value = comboBox.getModel().getElementAt(i);
+                    final Component c = renderer.getListCellRendererComponent(dummy, value, i, true, true);
 
                     if (c instanceof JLabel l) {
-                        String text = l.getText();
+                        final String text = l.getText();
 
                         if (this.selectedName.equals(text)) {
                             this.selectedIndex = i;
@@ -75,15 +74,15 @@ public class ComboBoxGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JComboBox<Object> comboBox = (JComboBox<Object>) component;
+        final JComboBox<Object> comboBox = (JComboBox<Object>) component;
         this.selectedIndex = comboBox.getSelectedIndex();
         this.selectedIndex = (this.selectedIndex == -1) ? 0 : this.selectedIndex;
 
         try {
-            JList<Object> dummy = new JList<>();
-            Object value = comboBox.getSelectedItem();
-            ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
-            Component c = renderer.getListCellRendererComponent(dummy, value, this.selectedIndex, true, true);
+            final JList<Object> dummy = new JList<>();
+            final Object value = comboBox.getSelectedItem();
+            final ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
+            final Component c = renderer.getListCellRendererComponent(dummy, value, this.selectedIndex, true, true);
 
             if (c instanceof JLabel l) {
                 this.selectedName = l.getText();

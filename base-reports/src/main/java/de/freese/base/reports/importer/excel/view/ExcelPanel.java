@@ -33,8 +33,8 @@ public class ExcelPanel extends JPanel {
     }
 
     public String getSelectedRange() {
-        ExcelSheetPanel selectedPanel = (ExcelSheetPanel) getJTabbedPane().getSelectedComponent();
-        JTable table = selectedPanel.getTable();
+        final ExcelSheetPanel selectedPanel = (ExcelSheetPanel) getJTabbedPane().getSelectedComponent();
+        final JTable table = selectedPanel.getTable();
 
         return ExcelToolkit.getRange(table);
     }
@@ -63,7 +63,7 @@ public class ExcelPanel extends JPanel {
     }
 
     private void initialize() {
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        final GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;

@@ -38,11 +38,11 @@ public class FarbCodeLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(final MouseEvent event) {
-                int oldRGB = getBackground().getRGB();
+                final int oldRGB = getBackground().getRGB();
 
-                Frame activeFrame = GuiUtils.getActiveFrame();
+                final Frame activeFrame = GuiUtils.getActiveFrame();
 
-                Color newColor = JColorChooser.showDialog(activeFrame, "Choose Color", getBackground());
+                final Color newColor = JColorChooser.showDialog(activeFrame, "Choose Color", getBackground());
 
                 if (newColor != null) {
                     setBackground(newColor);

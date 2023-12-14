@@ -162,10 +162,10 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      */
     protected void decorateChart(final T model, final JFreeChart chart) {
         // Plot
-        Plot plot = chart.getPlot();
+        final Plot plot = chart.getPlot();
         decoratePlot(model, plot);
 
-        PlotAdapter plotAdapter = new PlotAdapter(plot);
+        final PlotAdapter plotAdapter = new PlotAdapter(plot);
 
         // x-Achse
         decorateXAxis(model, plot, plotAdapter.getXAxis());
@@ -222,7 +222,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
 
         for (int row = 0; row < dataSet.getRowCount(); row++) {
             for (int col = 0; col < dataSet.getColumnCount(); col++) {
-                Number value = dataSet.getValue(row, col);
+                final Number value = dataSet.getValue(row, col);
 
                 if (value != null) {
                     yMax = Math.max(yMax, value.doubleValue());
@@ -273,12 +273,12 @@ public abstract class AbstractJFreeChartScriptlet<T> {
         int factor = 1000;
 
         for (int row = 0; row < dataSet.getRowCount(); row++) {
-            Comparable<?> rowKey = dataSet.getRowKey(row);
+            final Comparable<?> rowKey = dataSet.getRowKey(row);
 
             for (int column = 0; column < dataSet.getColumnCount(); column++) {
-                Comparable<?> columnKey = dataSet.getColumnKey(column);
+                final Comparable<?> columnKey = dataSet.getColumnKey(column);
 
-                Number value = dataSet.getValue(rowKey, columnKey);
+                final Number value = dataSet.getValue(rowKey, columnKey);
 
                 if (value == null) {
                     continue;
@@ -299,12 +299,12 @@ public abstract class AbstractJFreeChartScriptlet<T> {
             return;
         }
 
-        double tick = calculateTick(yMaxValue, maxTickUnits, upperTickMargin, fractionDigits);
+        final double tick = calculateTick(yMaxValue, maxTickUnits, upperTickMargin, fractionDigits);
 
         axis.setTickMarksVisible(true);
         axis.setRange(new Range(0.0D, tick * maxTickUnits), true, true);
 
-        TickUnits tickUnits = new TickUnits();
+        final TickUnits tickUnits = new TickUnits();
         DecimalFormat formatter = getDecimalFormatter();
 
         // Wenn Tick Kommastellen hat, Formatter wechseln

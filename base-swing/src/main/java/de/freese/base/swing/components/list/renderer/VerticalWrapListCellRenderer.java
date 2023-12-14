@@ -19,7 +19,6 @@ import javax.swing.border.Border;
  */
 public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
     private final ListCellRenderer<T> delegate;
-
     private final Border matteBorder;
 
     public VerticalWrapListCellRenderer(final ListCellRenderer<T> delegate) {
@@ -31,18 +30,18 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
 
     @Override
     public Component getListCellRendererComponent(final JList<? extends T> list, final T value, final int index, final boolean isSelected, final boolean cellHasFocus) {
-        Component component = this.delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        final Component component = this.delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
         // 16 <=> see JList#getPreferredScrollableViewportSize()
-        int fixedCellHeight = list.getFixedCellHeight() <= 0 ? 16 : list.getFixedCellHeight();
-        int visibleRowCount = Math.max(1, (list.getHeight() / fixedCellHeight));
+        final int fixedCellHeight = list.getFixedCellHeight() <= 0 ? 16 : list.getFixedCellHeight();
+        final int visibleRowCount = Math.max(1, (list.getHeight() / fixedCellHeight));
 
         if (!isSelected && ((index % (2 * visibleRowCount)) >= visibleRowCount)) {
             component.setBackground(UIManager.getColor("Table.alternateRowColor"));
         }
 
         if ((index >= visibleRowCount) && (component instanceof JComponent jComponent)) {
-            Border compoundBorder = BorderFactory.createCompoundBorder(this.matteBorder, jComponent.getBorder());
+            final Border compoundBorder = BorderFactory.createCompoundBorder(this.matteBorder, jComponent.getBorder());
             jComponent.setBorder(compoundBorder);
         }
 

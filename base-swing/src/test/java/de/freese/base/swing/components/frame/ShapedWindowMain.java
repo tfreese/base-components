@@ -26,11 +26,11 @@ import javax.swing.WindowConstants;
 public final class ShapedWindowMain {
     public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        final GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-        boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
-        boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
+        final boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+        final boolean isTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If shaped windows aren't supported, exit.
         if (!isPerPixelTranslucencySupported) {
@@ -46,7 +46,7 @@ public final class ShapedWindowMain {
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("ShapedWindow");
+            final JFrame frame = new JFrame("ShapedWindow");
             frame.setLayout(new GridBagLayout());
 
             // It is best practice to set the window's shape in

@@ -10,7 +10,7 @@ import javax.swing.filechooser.FileFilter;
  */
 public final class FileChooserFactory {
     public static JFileChooser createFileChooser(final FileFilter... fileFilter) {
-        JFileChooser fileChooser = new JFileChooser();
+        final JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fileChooser.setAcceptAllFileFilterUsed(false);

@@ -35,7 +35,7 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
 
     protected JComponent getGlassPane() {
         if (this.glassPane == null) {
-            TranslucentGlassPane gp = new TranslucentGlassPane();
+            final TranslucentGlassPane gp = new TranslucentGlassPane();
             gp.setShowDelayMillies(100);
             gp.setTimerIncrementMillies(10);
 
@@ -46,7 +46,7 @@ public abstract class AbstractGlassPaneInputBlocker extends AbstractInputBlocker
     }
 
     protected void setGlassPaneVisible(final boolean visible) {
-        JRootPane rootPane = getRootPane();
+        final JRootPane rootPane = getRootPane();
 
         if (rootPane == null) {
             getGlassPane().setVisible(true);

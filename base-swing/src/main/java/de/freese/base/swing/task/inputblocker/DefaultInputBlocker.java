@@ -57,7 +57,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
     public void block() {
         setMouseCursorBusy(true);
 
-        boolean enabled = false;
+        final boolean enabled = false;
 
         for (Object target : getTargets()) {
             if (target instanceof Component c) {
@@ -75,7 +75,7 @@ public class DefaultInputBlocker extends AbstractInputBlocker<Object> {
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void unblock() {
-        boolean enabled = true;
+        final boolean enabled = true;
 
         for (Object target : getTargets()) {
             if (target instanceof Component c) {

@@ -47,7 +47,7 @@ public class HtmlTextButtonUI extends BasicButtonUI {
                 super.mouseReleased(event);
 
                 if (SwingUtilities.isLeftMouseButton(event)) {
-                    ButtonModel model = ((AbstractButton) event.getSource()).getModel();
+                    final ButtonModel model = ((AbstractButton) event.getSource()).getModel();
                     model.setRollover(false);
                 }
             }
@@ -59,8 +59,8 @@ public class HtmlTextButtonUI extends BasicButtonUI {
         super.paintText(g, b, textRect, text);
 
         if (b.getModel().isRollover() && b.getModel().isEnabled()) {
-            FontMetrics fm = g.getFontMetrics();
-            AttributedString s = new AttributedString(text);
+            final FontMetrics fm = g.getFontMetrics();
+            final AttributedString s = new AttributedString(text);
             s.addAttribute(TextAttribute.FONT, b.getFont());
             s.addAttribute(TextAttribute.FOREGROUND, this.rolloverColor);
             s.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
@@ -72,10 +72,10 @@ public class HtmlTextButtonUI extends BasicButtonUI {
     protected void paintText(final Graphics g, final JComponent c, final Rectangle textRect, final String text) {
         // Diese Methode wurde überschrieben, da der DisabledText um 1 Pixel nach Links
         // gerückt wurde und somit der erste Buchstabe abgeschnitten wurde.
-        AbstractButton b = (AbstractButton) c;
-        ButtonModel model = b.getModel();
-        FontMetrics fm = g.getFontMetrics();
-        int mnemonicIndex = b.getDisplayedMnemonicIndex();
+        final AbstractButton b = (AbstractButton) c;
+        final ButtonModel model = b.getModel();
+        final FontMetrics fm = g.getFontMetrics();
+        final int mnemonicIndex = b.getDisplayedMnemonicIndex();
 
         // Draw the Text
         if (model.isEnabled()) {

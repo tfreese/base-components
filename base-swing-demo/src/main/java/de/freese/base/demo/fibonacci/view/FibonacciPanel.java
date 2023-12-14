@@ -19,13 +19,9 @@ class FibonacciPanel extends JPanel {
     private static final long serialVersionUID = -2648632168520329957L;
 
     private JButton buttonComponentBlock;
-
     private JButton buttonGlassPaneBlock;
-
     private JLabel label;
-
     private JLabel labelResult;
-
     private JTextField textField;
 
     JButton getButtonComponentBlock() {

@@ -20,7 +20,6 @@ public class BusySanduhrLabel extends JLabel {
     private static final long serialVersionUID = -1861610997435401369L;
 
     private final Timer animateTimer;
-
     private final ImageIcon[] icons;
 
     private int imageIndex;
@@ -77,7 +76,7 @@ public class BusySanduhrLabel extends JLabel {
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2d = (Graphics2D) g;
+        final Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         if (!this.animateTimer.isRunning() && isVisible()) {

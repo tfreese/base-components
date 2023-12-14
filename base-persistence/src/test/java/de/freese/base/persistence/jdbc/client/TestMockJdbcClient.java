@@ -43,19 +43,12 @@ import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscriberForFetch
 @SuppressWarnings("try")
 class TestMockJdbcClient {
     private final CallableStatement callableStatement = mock();
-
     private final Connection connection = mock();
-
     private final DataSource dataSource = mock();
-
     private final DatabaseMetaData databaseMetaData = mock();
-
     private final PreparedStatement preparedStatement = mock();
-
     private final ResultSet resultSet = mock();
-
     private final ResultSetMetaData resultSetMetaData = mock();
-
     private final Statement statement = mock();
 
     private JdbcClient jdbcClient;
@@ -97,7 +90,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Object> result = jdbcClient.select("select configurer").statementConfigurer(st -> st.setFetchSize(4)).executeAsList(rs -> rs.getObject(1));
+        final List<Object> result = jdbcClient.select("select configurer").statementConfigurer(st -> st.setFetchSize(4)).executeAsList(rs -> rs.getObject(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -120,7 +113,7 @@ class TestMockJdbcClient {
         when(resultSet.getObject(1)).thenReturn(11, 22);
         when(resultSet.getStatement()).thenReturn(preparedStatement);
 
-        List<Object> result = jdbcClient.select("select flux").executeAsFlux(rs -> rs.getObject(1)).collectList().block();
+        final List<Object> result = jdbcClient.select("select flux").executeAsFlux(rs -> rs.getObject(1)).collectList().block();
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -141,7 +134,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Object> result = jdbcClient.select("select list").executeAsList(rs -> rs.getObject(1));
+        final List<Object> result = jdbcClient.select("select list").executeAsList(rs -> rs.getObject(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -162,7 +155,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        List<Object> result = jdbcClient.select("select parameter").statementSetter(ps -> ps.setInt(1, 1)).executeAsList(rs -> rs.getObject(1));
+        final List<Object> result = jdbcClient.select("select parameter").statementSetter(ps -> ps.setInt(1, 1)).executeAsList(rs -> rs.getObject(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -185,9 +178,9 @@ class TestMockJdbcClient {
         when(resultSet.getObject(1)).thenReturn(11, 22);
         when(resultSet.getStatement()).thenReturn(preparedStatement);
 
-        List<Object> result = new ArrayList<>();
+        final List<Object> result = new ArrayList<>();
 
-        List<Flow.Subscriber<Object>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
+        final List<Flow.Subscriber<Object>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
 
         for (Flow.Subscriber<Object> subscriber : subscribers) {
             result.clear();
@@ -195,7 +188,7 @@ class TestMockJdbcClient {
             when(resultSet.next()).thenReturn(true, true, false);
             when(resultSet.getObject(1)).thenReturn(11, 22);
 
-            Flow.Publisher<Object> publisher = jdbcClient.select("some sql").executeAsPublisher(rs -> rs.getObject(1));
+            final Flow.Publisher<Object> publisher = jdbcClient.select("some sql").executeAsPublisher(rs -> rs.getObject(1));
 
             publisher.subscribe(subscriber);
 
@@ -218,9 +211,9 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        Set<Object> result = jdbcClient.select("select set").executeAsSet(rs -> rs.getObject(1));
+        final Set<Object> result = jdbcClient.select("select set").executeAsSet(rs -> rs.getObject(1));
 
-        List<Object> resultList = new ArrayList<>(result);
+        final List<Object> resultList = new ArrayList<>(result);
 
         assertNotNull(result);
         assertEquals(2, result.size());

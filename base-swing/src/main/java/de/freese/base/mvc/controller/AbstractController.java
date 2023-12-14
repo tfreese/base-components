@@ -13,7 +13,6 @@ import de.freese.base.mvc.view.View;
  */
 public abstract class AbstractController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final View view;
 
     protected AbstractController(final View view) {

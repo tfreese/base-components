@@ -11,9 +11,7 @@ import de.freese.base.swing.task.AbstractSwingTask;
  */
 public class FibonacciTask extends AbstractSwingTask<Long, Void> {
     private final FibonacciController controller;
-
     private final ResourceMap resourceMap;
-
     private final int value;
 
     public FibonacciTask(final int value, final FibonacciController controller, final ResourceMap resourceMap) {
@@ -39,7 +37,7 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void> {
         final long operations = this.controller.getOperationCount(this.value);
         // System.out.println(this.operations);
 
-        long result = this.controller.fibonacci(this.value, v -> setProgress(v, 0, operations));
+        final long result = this.controller.fibonacci(this.value, v -> setProgress(v, 0, operations));
 
         setSubTitle(this.resourceMap.getString("fibonacci.finished"));
 

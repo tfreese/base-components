@@ -26,9 +26,7 @@ public class IconBorder implements Border, Serializable {
     private final int iconPosition;
 
     private Insets borderInsets;
-
     private transient Icon icon;
-
     private JButton iconButton = new JButton();
 
     public IconBorder(final Icon icon) {
@@ -138,7 +136,7 @@ public class IconBorder implements Border, Serializable {
         this.borderInsets = null;
         getIconButton().setIcon(this.icon);
 
-        Dimension dimension = new Dimension(this.icon.getIconWidth(), this.icon.getIconHeight());
+        final Dimension dimension = new Dimension(this.icon.getIconWidth(), this.icon.getIconHeight());
         getIconButton().setMinimumSize(dimension);
         getIconButton().setPreferredSize(dimension);
         getIconButton().setMaximumSize(dimension);

@@ -28,10 +28,10 @@ public abstract class AbstractPainterModel {
      * @param height float: Höhe des Graphen
      */
     protected float getYKoordinate(final float value, final float height) {
-        float minValue = getValues().getMinValue();
-        float maxValue = getValues().getMaxValue();
-        float minNorm = 0.0F;
-        float maxNorm = height;
+        final float minValue = getValues().getMinValue();
+        final float maxValue = getValues().getMaxValue();
+        final float minNorm = 0.0F;
+        final float maxNorm = height;
 
         return minNorm + (((value - minValue) * (maxNorm - minNorm)) / (maxValue - minValue));
     }

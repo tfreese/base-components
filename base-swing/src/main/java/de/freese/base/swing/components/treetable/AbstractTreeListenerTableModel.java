@@ -44,18 +44,18 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
     }
 
     @Override
-    public void treeNodesChanged(final TreeModelEvent e) {
-        if (!(e.getSource() instanceof JTree)) {
+    public void treeNodesChanged(final TreeModelEvent event) {
+        if (!(event.getSource() instanceof JTree)) {
             return;
         }
 
-        Object object = e.getTreePath().getLastPathComponent();
+        final Object object = event.getTreePath().getLastPathComponent();
 
         if (object == null) {
             return;
         }
 
-        int row = getRowOf(object);
+        final int row = getRowOf(object);
 
         if (row < 0) {
             return;
@@ -65,26 +65,26 @@ public abstract class AbstractTreeListenerTableModel extends AbstractListTableMo
     }
 
     @Override
-    public void treeNodesInserted(final TreeModelEvent e) {
+    public void treeNodesInserted(final TreeModelEvent event) {
         updateFromTree();
     }
 
     @Override
-    public void treeNodesRemoved(final TreeModelEvent e) {
+    public void treeNodesRemoved(final TreeModelEvent event) {
         updateFromTree();
     }
 
     @Override
-    public void treeStructureChanged(final TreeModelEvent e) {
+    public void treeStructureChanged(final TreeModelEvent event) {
         updateFromTree();
     }
 
     public void updateFromTree() {
-        Runnable runnable = () -> {
+        final Runnable runnable = () -> {
             getList().clear();
 
             for (int row = 0; row < getTree().getRowCount(); row++) {
-                TreePath treePath = getTree().getPathForRow(row);
+                final TreePath treePath = getTree().getPathForRow(row);
                 getList().add(treePath.getLastPathComponent());
             }
         };

@@ -30,7 +30,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  */
 public final class DbServerExtension implements BeforeAllCallback, BeforeTestExecutionCallback, AfterAllCallback, AfterTestExecutionCallback {
     private static final Logger LOGGER = LoggerFactory.getLogger(DbServerExtension.class);
-
     private static final Duration SQL_TIMEOUT = Duration.ofSeconds(5);
 
     public static Duration getSqlTimeout() {
@@ -42,15 +41,15 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
             return;
         }
 
-        Runtime runtime = Runtime.getRuntime();
-        long maxMemory = runtime.maxMemory();
-        long allocatedMemory = runtime.totalMemory();
-        long freeMemory = runtime.freeMemory();
+        final Runtime runtime = Runtime.getRuntime();
+        final long maxMemory = runtime.maxMemory();
+        final long allocatedMemory = runtime.totalMemory();
+        final long freeMemory = runtime.freeMemory();
 
-        long divider = 1024L * 1024L;
-        String unit = "MB";
+        final long divider = 1024L * 1024L;
+        final String unit = "MB";
 
-        NumberFormat format = NumberFormat.getInstance();
+        final NumberFormat format = NumberFormat.getInstance();
 
         LOGGER.debug("Free memory: {}", format.format(freeMemory / divider) + unit);
         LOGGER.debug("Allocated memory: {}", format.format(allocatedMemory / divider) + unit);
@@ -76,7 +75,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("{} - afterAll", this.databaseType);
 
-            HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
+            final HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
 
             LOGGER.debug("{} - Connections: idle={}, active={}, waiting={}", this.databaseType, poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(), poolMXBean.getThreadsAwaitingConnection());
         }
@@ -113,8 +112,8 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         }
 
         if (LOGGER.isDebugEnabled()) {
-            long startTime = getStoreForGlobal(context).get("start-time", long.class);
-            long duration = System.currentTimeMillis() - startTime;
+            final long startTime = getStoreForGlobal(context).get("start-time", long.class);
+            final long duration = System.currentTimeMillis() - startTime;
 
             LOGGER.debug("{} - All Tests took {} ms.", this.databaseType, duration);
         }
@@ -126,9 +125,9 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     @Override
     public void afterTestExecution(final ExtensionContext context) throws Exception {
-        // Method testMethod = context.getRequiredTestMethod();
-        // long startTime = getStoreForMethod(context).get("start-time", long.class);
-        // long duration = System.currentTimeMillis() - startTime;
+        // final Method testMethod = context.getRequiredTestMethod();
+        // final long startTime = getStoreForMethod(context).get("start-time", long.class);
+        // final long duration = System.currentTimeMillis() - startTime;
         //
         // LOGGER.debug("{} - Method [{}] took {} ms.", this.databaseType, testMethod.getName(), duration);
         // LOGGER.debug("{} - Idle Connections = {}", this.databaseType, this.dataSource.getHikariPoolMXBean().getIdleConnections());
@@ -140,11 +139,11 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
         getStoreForGlobal(context).put("start-time", System.currentTimeMillis());
 
-        HikariConfig config = new HikariConfig();
+        final HikariConfig config = new HikariConfig();
 
         switch (getDatabaseType()) {
             case HSQL -> {
-                // JDBCPool pool = new JDBCPool(3);
+                // final JDBCPool pool = new JDBCPool(3);
                 // pool.setUrl("jdbc:hsqldb:mem:" + createDbName() + ";shutdown=true");
                 // pool.setUser("sa");
                 // pool.setPassword(null);
@@ -156,7 +155,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
             }
 
             case H2 -> {
-                // JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:" + createDbName() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
+                // final JdbcConnectionPool pool = JdbcConnectionPool.create("jdbc:h2:mem:" + createDbName() + ";DB_CLOSE_DELAY=0;DB_CLOSE_ON_EXIT=true", "sa", null);
                 // pool.setMaxConnections(3);
 
                 // ;DB_CLOSE_DELAY=-1 doesn't close the DB after the end of the last connection.
@@ -190,7 +189,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
         // Class.forName(getDriver(), true, getClass().getClassLoader());
 
-        // ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        // final ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         // populator.addScript(new ClassPathResource("hsqldb-schema.sql"));
         // populator.addScript(new ClassPathResource("hsqldb-data.sql"));
         // populator.execute(dataSource);

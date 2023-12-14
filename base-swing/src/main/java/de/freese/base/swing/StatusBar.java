@@ -28,21 +28,13 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
     private static final long serialVersionUID = -5987325109823650807L;
 
     private final Timer busyIconTimer;
-
     private final transient Icon[] busyIcons = new Icon[15];
-
     private final transient Icon idleIcon;
-
     private final Timer messageTimer;
-
     private final Insets zeroInsets = new Insets(0, 0, 0, 0);
-
     private int busyIconIndex;
-
     private JLabel messageLabel;
-
     private JProgressBar progressBar;
-
     private JLabel statusAnimationLabel;
 
     /**
@@ -51,11 +43,11 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
     public StatusBar(final ResourceMap resourceMap, final TaskManager taskManager) {
         super();
 
-        Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
+        final Integer messageTimeout = resourceMap.getInteger("statusbar.message.timeout");
         this.messageTimer = new Timer(messageTimeout, event -> this.messageLabel.setText(""));
         this.messageTimer.setRepeats(false);
         this.idleIcon = resourceMap.getIcon("statusbar.icon.idle");
-        int busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
+        final int busyAnimationRate = resourceMap.getInteger("statusbar.animation.rate");
 
         for (int i = 0; i < this.busyIcons.length; i++) {
             this.busyIcons[i] = resourceMap.getIcon("statusbar.icon." + i);
@@ -92,7 +84,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(final PropertyChangeEvent event) {
-        String propertyName = event.getPropertyName();
+        final String propertyName = event.getPropertyName();
 
         if (SwingTask.PROPERTY_STARTED.equals(propertyName)) {
             showBusyAnimation();
@@ -100,11 +92,11 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
             this.progressBar.setIndeterminate(true);
         }
         else if (SwingTask.PROPERTY_SUBTITLE.equals(propertyName)) {
-            String text = (String) event.getNewValue();
+            final String text = (String) event.getNewValue();
             setMessage(text);
         }
         else if (SwingTask.PROPERTY_PROGRESS.equals(propertyName)) {
-            int value = (Integer) event.getNewValue();
+            final int value = (Integer) event.getNewValue();
             this.progressBar.setEnabled(true);
             this.progressBar.setIndeterminate(false);
             this.progressBar.setValue(value);

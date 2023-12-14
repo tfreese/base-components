@@ -13,17 +13,17 @@ import javax.swing.event.TableColumnModelEvent;
  */
 public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelListener {
     @Override
-    public void columnAdded(final TableColumnModelEvent e) {
+    public void columnAdded(final TableColumnModelEvent event) {
         // Empty
     }
 
     @Override
-    public void columnMarginChanged(final ChangeEvent e) {
+    public void columnMarginChanged(final ChangeEvent event) {
         // Empty
     }
 
     @Override
-    public void columnMoved(final TableColumnModelEvent e) {
+    public void columnMoved(final TableColumnModelEvent event) {
         // Empty
     }
 
@@ -33,12 +33,12 @@ public class ExtTableColumnModelListenerAdapter implements ExtTableColumnModelLi
     }
 
     @Override
-    public void columnRemoved(final TableColumnModelEvent e) {
+    public void columnRemoved(final TableColumnModelEvent event) {
         // Empty
     }
 
     @Override
-    public void columnSelectionChanged(final ListSelectionEvent e) {
+    public void columnSelectionChanged(final ListSelectionEvent event) {
         // Empty
     }
 }

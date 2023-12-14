@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  */
 public final class ExtDialogMain {
     public static void main(final String[] args) {
-        ExtDialogConfig config = new ExtDialogConfig();
+        final ExtDialogConfig config = new ExtDialogConfig();
         config.setTitle("Test");
         config.setMessageType(JOptionPane.QUESTION_MESSAGE);
         config.setOptionType(JOptionPane.OK_CANCEL_OPTION);
@@ -23,7 +23,7 @@ public final class ExtDialogMain {
             Toolkit.getDefaultToolkit().beep();
         });
 
-        ExtDialog dialog = new ExtDialog();
+        final ExtDialog dialog = new ExtDialog();
         dialog.configure(config);
         dialog.setVisible(true);
 

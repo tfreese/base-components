@@ -14,8 +14,8 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JTable table = (JTable) object;
-        int rowHeightNew = newFont.getSize() + 5;
+        final JTable table = (JTable) object;
+        final int rowHeightNew = newFont.getSize() + 5;
 
         // if (table.getRowHeight() < rowHeightNew) {
         table.setRowHeight(rowHeightNew);
@@ -31,9 +31,9 @@ public class TableFontChangeHandler extends ComponentFontChangeHandler {
 
         // CellRenderer
         for (int c = 0; c < table.getColumnCount(); c++) {
-            Class<?> columnClass = table.getColumnClass(c);
+            final Class<?> columnClass = table.getColumnClass(c);
 
-            TableCellRenderer cellRenderer = table.getDefaultRenderer(columnClass);
+            final TableCellRenderer cellRenderer = table.getDefaultRenderer(columnClass);
 
             if (cellRenderer instanceof Component) {
                 super.fontChanged(newFont, cellRenderer);

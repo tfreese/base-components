@@ -20,10 +20,10 @@ public class PptTabbedPaneUI extends BasicTabbedPaneUI {
     @Override
     protected void paintText(final Graphics g, final int tabPlacement, final Font font, final FontMetrics metrics, final int tabIndex, final String title, final Rectangle textRect, final boolean isSelected) {
         if (isSelected) {
-            Font boldFont = this.tabPane.getFont().deriveFont(Font.BOLD);
-            FontMetrics boldFontMetrics = this.tabPane.getFontMetrics(boldFont);
+            final Font boldFont = this.tabPane.getFont().deriveFont(Font.BOLD);
+            final FontMetrics boldFontMetrics = this.tabPane.getFontMetrics(boldFont);
 
-            int vDifference = (int) (boldFontMetrics.getStringBounds(title, g).getWidth()) - textRect.width;
+            final int vDifference = (int) (boldFontMetrics.getStringBounds(title, g).getWidth()) - textRect.width;
             textRect.x -= (vDifference / 2);
 
             super.paintText(g, tabPlacement, boldFont, boldFontMetrics, tabIndex, title, textRect, isSelected);

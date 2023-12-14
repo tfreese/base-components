@@ -13,9 +13,9 @@ public class DatePickerFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JXDatePicker datePicker = (JXDatePicker) object;
+        final JXDatePicker datePicker = (JXDatePicker) object;
 
-        JXMonthView monthView = datePicker.getMonthView();
+        final JXMonthView monthView = datePicker.getMonthView();
         super.fontChanged(newFont, monthView);
     }
 }

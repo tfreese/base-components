@@ -14,9 +14,9 @@ public class TextComponentFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JTextComponent textComponent = (JTextComponent) object;
+        final JTextComponent textComponent = (JTextComponent) object;
 
-        FontMetrics fontMetrics = textComponent.getFontMetrics(textComponent.getFont());
+        final FontMetrics fontMetrics = textComponent.getFontMetrics(textComponent.getFont());
         int newHeight = fontMetrics.getMaxAscent() + fontMetrics.getMaxAscent() + 1;
 
         if (newFont.getSize() > 10) {
@@ -24,7 +24,7 @@ public class TextComponentFontChangeHandler extends ComponentFontChangeHandler {
             newHeight -= 3;
         }
 
-        Dimension newSize = new Dimension(textComponent.getWidth(), newHeight);
+        final Dimension newSize = new Dimension(textComponent.getWidth(), newHeight);
         textComponent.setPreferredSize(newSize);
     }
 }

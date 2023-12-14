@@ -16,7 +16,6 @@ import javax.swing.table.TableColumnModel;
 public class GroupableTableHeader extends JTableHeader {
     @SuppressWarnings("unused")
     private static final String UI_CLASS_ID = "GroupableTableHeaderUI";
-
     @Serial
     private static final long serialVersionUID = -1642321287557836367L;
 
@@ -44,7 +43,7 @@ public class GroupableTableHeader extends JTableHeader {
 
         for (GroupableColumn groupableColumn : this.columnGroups) {
             if (groupableColumn != null) {
-                List<Object> groups = groupableColumn.getColumnGroups(tableColumn, new ArrayList<>());
+                final List<Object> groups = groupableColumn.getColumnGroups(tableColumn, new ArrayList<>());
 
                 if (groups != null) {
                     return groups;
@@ -60,7 +59,7 @@ public class GroupableTableHeader extends JTableHeader {
             return;
         }
 
-        int columnMargin = getColumnModel().getColumnMargin();
+        final int columnMargin = getColumnModel().getColumnMargin();
 
         for (GroupableColumn groupableColumn : this.columnGroups) {
             groupableColumn.setColumnMargin(columnMargin);

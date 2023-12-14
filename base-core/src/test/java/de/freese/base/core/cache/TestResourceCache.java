@@ -27,11 +27,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  */
 class TestResourceCache {
     private static final ResourceCache CACHE_CAFFEINE = new CaffeineResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache2"), 6000);
-
     private static final ResourceCache CACHE_FILE = new FileResourceCache(Paths.get(System.getProperty("java.io.tmpdir"), ".javaCache1"));
-
     private static final ResourceCache CACHE_MEMORY = new MemoryResourceCache();
-
     private static final Map<String, byte[]> MAP = new ConcurrentHashMap<>();
 
     @AfterAll
@@ -53,8 +50,8 @@ class TestResourceCache {
     }
 
     static Stream<Arguments> createArgumentes() throws Exception {
-        URI urlLocalFile = Paths.get("pom.xml").toUri();
-        URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
+        final URI urlLocalFile = Paths.get("pom.xml").toUri();
+        final URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
 
         // @formatter:off
         return Stream.of(
@@ -82,15 +79,15 @@ class TestResourceCache {
     @MethodSource("createArgumentes")
     @Order(1)
     void testInitialLoad(final String name, final ResourceCache resourceCache, final URI uri) throws Exception {
-        InputStream inputStream = resourceCache.getResource(uri);
+        final InputStream inputStream = resourceCache.getResource(uri);
         assertNotNull(inputStream);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         inputStream.transferTo(baos);
 
         baos.flush();
 
-        byte[] bytes = baos.toByteArray();
+        final byte[] bytes = baos.toByteArray();
 
         MAP.put(name, bytes);
     }
@@ -99,15 +96,15 @@ class TestResourceCache {
     @MethodSource("createArgumentes")
     @Order(2)
     void testReload(final String name, final ResourceCache resourceCache, final URI uri) throws Exception {
-        InputStream inputStream = resourceCache.getResource(uri);
+        final InputStream inputStream = resourceCache.getResource(uri);
         assertNotNull(inputStream);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         inputStream.transferTo(baos);
 
         baos.flush();
 
-        byte[] bytes = baos.toByteArray();
+        final byte[] bytes = baos.toByteArray();
 
         assertArrayEquals(MAP.get(name), bytes);
     }

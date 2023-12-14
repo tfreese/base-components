@@ -25,24 +25,17 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
     private static final long serialVersionUID = -8037679488481229262L;
 
     private final double alphaEnd = 0.6D;
-
     private final Timer animateTimer;
-
     private final transient List<Component> dispatchComponents;
-
     private double alpha = 1.0D;
-
     private double alphaIncrement = 0.02D;
-
     private double alphaStart;
     /**
      * If the old alpha value was 1.0, I keep track of the opaque setting because a translucent component is not opaque, but I want to be able to restore
      * opacity to its default setting if the alpha is 1.0. Honestly, I don't know if this is necessary or not, but it sounded good on paper :)
      */
     private boolean oldOpaque;
-
     private int showDelayMillies = 100;
-
     private int timerIncrementMillies = 10;
 
     public TranslucentGlassPane() {
@@ -121,7 +114,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
      */
     public void setAlpha(final double alpha) {
         if (this.alpha != alpha) {
-            double oldAlpha = this.alpha;
+            final double oldAlpha = this.alpha;
             this.alpha = alpha;
 
             if ((alpha > 0D) && (alpha < 1D)) {
@@ -187,11 +180,11 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         // Hintergrund
         g.setColor(new Color(255, 255, 255, (int) (getAlpha() * 255)));
 
-        Rectangle clip = g.getClipBounds();
+        final Rectangle clip = g.getClipBounds();
         g.fillRect(clip.x, clip.y, clip.width, clip.height);
 
         // Vordergrund
-        // Graphics2D g2d = (Graphics2D) g;
+        // final Graphics2D g2d = (Graphics2D) g;
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // getAlpha()));
         if (!this.animateTimer.isRunning() && (getAlpha() < this.alphaEnd)) {
@@ -223,13 +216,13 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             return;
         }
 
-        Point glassPanePoint = event.getPoint();
-        Point containerPoint = SwingUtilities.convertPoint(this, glassPanePoint, getParent());
+        final Point glassPanePoint = event.getPoint();
+        final Point containerPoint = SwingUtilities.convertPoint(this, glassPanePoint, getParent());
 
         //        if (containerPoint.y < 0)
         //        {
         //            // we're not in the content pane
-        //            JMenuBar menuBar = getJMenuBar();
+        //            final JMenuBar menuBar = getJMenuBar();
         //
         //            if ((menuBar != null) && ((containerPoint.y + menuBar.getHeight()) >= 0))
         //            {
@@ -247,11 +240,11 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         if (containerPoint.y >= 0) {
             // The mouse event is probably over the content pane.
             // Find out exactly which component it's over.
-            Component component = SwingUtilities.getDeepestComponentAt(getParent(), containerPoint.x, containerPoint.y);
+            final Component component = SwingUtilities.getDeepestComponentAt(getParent(), containerPoint.x, containerPoint.y);
 
             if ((component != null) && this.dispatchComponents.contains(component)) {
                 // Forward events over the component.
-                Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
+                final Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
                 component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(), event.isPopupTrigger()));
             }
         }

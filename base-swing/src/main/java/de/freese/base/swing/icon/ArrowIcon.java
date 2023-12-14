@@ -22,11 +22,8 @@ public class ArrowIcon implements Icon {
     }
 
     private final int direction;
-
     private final Color foreground;
-
     private final int height;
-
     private final int width;
 
     /**
@@ -73,14 +70,15 @@ public class ArrowIcon implements Icon {
 
     @Override
     public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-        Graphics2D g2d = (Graphics2D) g.create();
+        final Graphics2D g2d = (Graphics2D) g.create();
 
         g2d.addRenderingHints(RENDERING_HINTS);
         g2d.setColor(this.foreground);
-        int centerX = this.width / 2;
-        int centerY = this.height / 2;
-        int[] xPoints;
-        int[] yPoints;
+
+        final int centerX = this.width / 2;
+        final int centerY = this.height / 2;
+        final int[] xPoints;
+        final int[] yPoints;
 
         if (this.direction == SwingConstants.NORTH) {
             xPoints = new int[]{x, x + centerX, x + (centerX * 2)};

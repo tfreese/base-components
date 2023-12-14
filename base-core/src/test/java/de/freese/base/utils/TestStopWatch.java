@@ -16,7 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class TestStopWatch {
     @Test
     void testNanoConvert() {
-        long nanos = 1_000_000_000L;
+        final long nanos = 1_000_000_000L;
 
         assertEquals(1_000_000_000L, TimeUnit.NANOSECONDS.convert(nanos, TimeUnit.NANOSECONDS));
         assertEquals(1_000_000L, TimeUnit.MICROSECONDS.convert(nanos, TimeUnit.NANOSECONDS));
@@ -27,7 +27,7 @@ class TestStopWatch {
 
     @Test
     void testPrettyPrint() throws InterruptedException {
-        StopWatch stopWatch = new StopWatch();
+        final StopWatch stopWatch = new StopWatch();
         assertEquals("StopWatch-1", stopWatch.getId());
 
         stopWatch.start();

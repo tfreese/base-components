@@ -25,46 +25,44 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractPoiExcelImporter implements ExcelImporter {
 
     private final Map<Short, Format> cacheFormat = new HashMap<>();
-
     private final DataFormatter dataFormatter = new DataFormatter();
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private FormulaEvaluator formulaEvaluator;
 
     @Override
     public List<ExcelSheet> readSheets(final InputStream inputStream) throws Exception {
-        Workbook workBook = openWorkbook(inputStream);
+        final Workbook workBook = openWorkbook(inputStream);
 
         // this.formulaEvaluator = new HSSFFormulaEvaluator((HSSFWorkbook) workbook);
         // this.formulaEvaluator = new XSSFFormulaEvaluator((XSSFWorkbook) workbook);
         this.formulaEvaluator = workBook.getCreationHelper().createFormulaEvaluator();
         workBook.setMissingCellPolicy(Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
-        int numSheets = getNumberOfSheets(workBook);
+        final int numSheets = getNumberOfSheets(workBook);
 
-        List<ExcelSheet> sheets = new ArrayList<>(numSheets);
+        final List<ExcelSheet> sheets = new ArrayList<>(numSheets);
 
         for (int i = 0; i < numSheets; i++) {
-            Sheet sheet = selectSheet(workBook, i);
+            final Sheet sheet = selectSheet(workBook, i);
 
             if (!isSheetReadable(sheet)) {
                 getLogger().warn("Sheet is not readable: Index = {}, Name = {}", i, sheet.getSheetName());
                 continue;
             }
 
-            int numRows = getNumRows(sheet);
-            int numColumns = getNumColumns(sheet, numRows);
+            final int numRows = getNumRows(sheet);
+            final int numColumns = getNumColumns(sheet, numRows);
 
-            List<String[]> rowValues = new ArrayList<>(numRows);
+            final List<String[]> rowValues = new ArrayList<>(numRows);
 
             for (int rowIndex = 0; rowIndex < numRows; rowIndex++) {
-                String[] rowValue = new String[numColumns];
+                final String[] rowValue = new String[numColumns];
 
-                Row row = selectRow(sheet, rowIndex);
+                final Row row = selectRow(sheet, rowIndex);
 
                 for (int columnIndex = 0; columnIndex < numColumns; columnIndex++) {
-                    String value = getValueAt(row, rowIndex, columnIndex);
+                    final String value = getValueAt(row, rowIndex, columnIndex);
 
                     rowValue[columnIndex] = value;
                 }
@@ -97,7 +95,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         int maxCol = 0;
 
         for (int i = 0; i < numRows; i++) {
-            Row r = sheet.getRow(i);
+            final Row r = sheet.getRow(i);
 
             if ((r != null) && (maxCol < r.getLastCellNum())) {
                 maxCol = r.getLastCellNum();
@@ -108,7 +106,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
     }
 
     protected int getNumRows(final Sheet sheet) {
-        int numRows = sheet.getLastRowNum();
+        final int numRows = sheet.getLastRowNum();
 
         // if(numRows==0) { return 1; }
 
@@ -123,7 +121,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         String value = null;
 
         if (row != null) {
-            Cell cell = row.getCell(columnIndex);
+            final Cell cell = row.getCell(columnIndex);
 
             if (cell != null) {
                 if (!CellType.FORMULA.equals(cell.getCellType())) {

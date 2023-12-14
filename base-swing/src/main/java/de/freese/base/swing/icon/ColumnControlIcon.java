@@ -23,7 +23,7 @@ public class ColumnControlIcon implements Icon, UIResource {
 
     @Override
     public void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-        Color color = c.getForeground();
+        final Color color = c.getForeground();
         g.setColor(color);
 
         // draw horizontal lines

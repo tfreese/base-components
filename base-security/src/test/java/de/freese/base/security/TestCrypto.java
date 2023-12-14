@@ -35,15 +35,13 @@ import de.freese.base.security.crypto.CryptoConfigSymetric;
 @Execution(ExecutionMode.CONCURRENT)
 class TestCrypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
-
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
-
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     @Test
     void testAsymetricRsa() throws Exception {
         // @formatter:off
-         Crypto crypto = CryptoConfig.asymetric()
+        final Crypto crypto = CryptoConfig.asymetric()
              .providerCipher("SunJCE")
              .providerKeyGenerator("SunRsaSign")
              .providerSignature("SunRsaSign")
@@ -67,7 +65,7 @@ class TestCrypto {
         }
 
         // @formatter:off
-         Crypto crypto = CryptoConfig.asymetric()
+        final Crypto crypto = CryptoConfig.asymetric()
              .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
              .algorithmCipher("RSA/ECB/NoPadding")
              .algorithmKeyGenerator("RSA")
@@ -84,7 +82,7 @@ class TestCrypto {
     @Test
     void testSymetricAesCbc() throws Exception {
         // @formatter:off
-        Crypto crypto = CryptoConfig.symetric()
+        final Crypto crypto = CryptoConfig.symetric()
             //.providerDefault("SunJCE")
             .algorithmDefault("AES")
             .algorithmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
@@ -105,7 +103,7 @@ class TestCrypto {
         }
 
         // @formatter:off
-        Crypto crypto = CryptoConfig.symetric()
+        final Crypto crypto = CryptoConfig.symetric()
             .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
             .algorithmDefault("PBEWITHSHA256AND256BITAES-CBC-BC")
             .algorithmKeyGenerator("AES")
@@ -123,7 +121,7 @@ class TestCrypto {
     @Test
     void testSymetricAesGcm() throws Exception {
         // @formatter:off
-         Crypto crypto = CryptoConfig.symetric()
+        final Crypto crypto = CryptoConfig.symetric()
              .algorithmDefault("AES")
              .algorithmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
              .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
@@ -139,34 +137,34 @@ class TestCrypto {
     @Test
     void testSymetricAesGcmPlain() throws Exception {
         // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
-        String cipherTransformation = "AES/GCM/NoPadding";
+        final String cipherTransformation = "AES/GCM/NoPadding";
 
-        byte[] initVector = new byte[512];
+        final byte[] initVector = new byte[512];
 
         // Password/Key erstellen
-        // SecureRandom random = SecureRandom.getInstanceStrong();
-        // SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
-        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        // final SecureRandom random = SecureRandom.getInstanceStrong();
+        // final SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        final SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
+        final KeyGenerator keyGen = KeyGenerator.getInstance("AES");
         keyGen.init(256, secureRandom);
 
         secureRandom.nextBytes(initVector);
-        Key key = keyGen.generateKey();
+        final Key key = keyGen.generateKey();
 
         // Verschlüsseln
-        Cipher encodeCipher = Cipher.getInstance(cipherTransformation);
+        final Cipher encodeCipher = Cipher.getInstance(cipherTransformation);
         encodeCipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
 
-        byte[] encrypted = encodeCipher.doFinal(SOURCE_BYTES);
-        String encryptedString = Base64.getEncoder().encodeToString(encrypted);
+        final byte[] encrypted = encodeCipher.doFinal(SOURCE_BYTES);
+        final String encryptedString = Base64.getEncoder().encodeToString(encrypted);
         System.out.println(encryptedString);
 
         // Entschlüsseln
-        Cipher decodeCipher = Cipher.getInstance(cipherTransformation);
+        final Cipher decodeCipher = Cipher.getInstance(cipherTransformation);
         decodeCipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
 
-        byte[] decrypted = decodeCipher.doFinal(encrypted);
-        String decryptedString = new String(decrypted, CHARSET);
+        final byte[] decrypted = decodeCipher.doFinal(encrypted);
+        final String decryptedString = new String(decrypted, CHARSET);
         System.out.println(decryptedString);
 
         assertEquals(SOURCE, decryptedString);
@@ -175,7 +173,7 @@ class TestCrypto {
     @Test
     void testSymetricBlowfish() throws Exception {
         // @formatter:off
-        Crypto crypto = CryptoConfig.symetric()
+        final Crypto crypto = CryptoConfig.symetric()
             .algorithmDefault("Blowfish")
             .algorithmCipher("Blowfish/CBC/PKCS5Padding")
             .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 8))
@@ -191,7 +189,7 @@ class TestCrypto {
     @Test
     void testSymetricDes() throws Exception {
         // @formatter:off
-        Crypto crypto = CryptoConfig.symetric()
+        final Crypto crypto = CryptoConfig.symetric()
             .algorithmDefault("DES")
             .algorithmCipher("DES/CBC/PKCS5Padding")
             .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 8))
@@ -216,12 +214,14 @@ class TestCrypto {
         assertArrayEquals(SOURCE_BYTES, decrypted);
 
         // Streams
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             crypto.encrypt(bais, baos);
             encrypted = baos.toByteArray();
         }
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(encrypted); ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(encrypted);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             crypto.decrypt(bais, baos);
             decrypted = baos.toByteArray();
         }
@@ -246,7 +246,7 @@ class TestCrypto {
             bais.reset();
 
             try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig)) {
-                boolean verified = crypto.verify(bais, inputStream);
+                final boolean verified = crypto.verify(bais, inputStream);
                 assertTrue(verified, "Wrong Signature");
             }
         }

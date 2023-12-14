@@ -52,7 +52,7 @@ public final class XmlGuiStateManager extends AbstractGuiStateManager {
 
     private void initJaxB() {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(getGuiStates().getGuiStates().toArray(Class[]::new));
+            final JAXBContext jaxbContext = JAXBContext.newInstance(getGuiStates().getGuiStates().toArray(Class[]::new));
 
             this.marshaller = jaxbContext.createMarshaller();
             this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -63,7 +63,7 @@ public final class XmlGuiStateManager extends AbstractGuiStateManager {
             throw ex;
         }
         catch (Exception ex) {
-            RuntimeException re = new RuntimeException(ex);
+            final RuntimeException re = new RuntimeException(ex);
             re.setStackTrace(ex.getStackTrace());
 
             throw re;

@@ -32,7 +32,7 @@ public class TextComponentGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JTextComponent textComponent = (JTextComponent) component;
+        final JTextComponent textComponent = (JTextComponent) component;
 
         try {
             textComponent.setText(getText());
@@ -46,7 +46,7 @@ public class TextComponentGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JTextComponent textComponent = (JTextComponent) component;
+        final JTextComponent textComponent = (JTextComponent) component;
 
         this.text = textComponent.getText();
     }

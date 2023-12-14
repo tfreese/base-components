@@ -110,7 +110,7 @@ class MouseGesturesRecognizer {
             return;
         }
 
-        Point mouseEventPoint = event.getPoint();
+        final Point mouseEventPoint = event.getPoint();
         SwingUtilities.convertPointToScreen(mouseEventPoint, (Component) event.getSource());
 
         if (startPoint == null) {
@@ -118,16 +118,16 @@ class MouseGesturesRecognizer {
             return;
         }
 
-        int deltaX = getDeltaX(startPoint, mouseEventPoint);
-        int deltaY = getDeltaY(startPoint, mouseEventPoint);
-        int absDeltaX = Math.abs(deltaX);
-        int absDeltaY = Math.abs(deltaY);
+        final int deltaX = getDeltaX(startPoint, mouseEventPoint);
+        final int deltaY = getDeltaY(startPoint, mouseEventPoint);
+        final int absDeltaX = Math.abs(deltaX);
+        final int absDeltaY = Math.abs(deltaY);
 
         if ((absDeltaX < gridSize) && (absDeltaY < gridSize)) {
             return;
         }
 
-        double absTangent = ((double) absDeltaX) / absDeltaY;
+        final double absTangent = ((double) absDeltaX) / absDeltaY;
 
         if (absTangent < 1D) {
             if (deltaY < 0) {

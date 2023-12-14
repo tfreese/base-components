@@ -25,7 +25,6 @@ public final class ToggleButtonListCellRenderer implements ListCellRenderer<Obje
     }
 
     private final DefaultListCellRenderer labelRenderer;
-
     private final JToggleButton toggleButton;
 
     private ToggleButtonListCellRenderer(final JToggleButton toggleButton) {

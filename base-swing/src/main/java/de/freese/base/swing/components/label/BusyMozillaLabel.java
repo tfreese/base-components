@@ -35,7 +35,6 @@ public class BusyMozillaLabel extends JLabel {
      * Nummer des animierten Kreises.
      */
     private int circleIndex;
-
     private int circleRadius = 40;
     /**
      * Farbe des führenden Kreises.
@@ -109,7 +108,7 @@ public class BusyMozillaLabel extends JLabel {
 
     @Override
     public Dimension getPreferredSize() {
-        Dimension d = super.getPreferredSize();
+        final Dimension d = super.getPreferredSize();
 
         d.height = getHeight();
         d.width += (getCircleRadius() + 5);
@@ -189,7 +188,7 @@ public class BusyMozillaLabel extends JLabel {
         g.translate(getCircleRadius() + 5, 0);
         // g.translate(getCircleRadius() + 5 + getX(), getY());
 
-        Graphics2D g2d = (Graphics2D) g;
+        final Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         super.paintComponent(g);
@@ -199,11 +198,11 @@ public class BusyMozillaLabel extends JLabel {
         // Zentrum des Kreises setzen
         g.translate(-(getCircleRadius() / 2) - 5, (getCircleRadius() / 2));
 
-        double theta = (Math.PI * 2.0) / getMaxCircles();
+        final double theta = (Math.PI * 2.0) / getMaxCircles();
 
         // Radius und Durchmesser der kleinen Kreise
-        int r = getCircleRadius() / 8;
-        int d = 2 * r;
+        final int r = getCircleRadius() / 8;
+        final int d = 2 * r;
 
         for (int index = 0; index < getMaxCircles(); index++) {
             g.setColor(calcCircleColor(index));
@@ -252,7 +251,7 @@ public class BusyMozillaLabel extends JLabel {
         for (int t = 0; t < getTrail(); t++) {
             if (index == (((this.circleIndex - t) + getMaxCircles()) % getMaxCircles())) {
                 // Faktor für interpolation
-                float terp = 1 - (((float) (getTrail() - t)) / (float) getTrail());
+                final float terp = 1 - (((float) (getTrail() - t)) / (float) getTrail());
 
                 // Farbe interpolieren
                 return interpolate(getHighlightColor(), getBaseColor(), terp);
@@ -273,9 +272,9 @@ public class BusyMozillaLabel extends JLabel {
      * Mischen von 2 Farben mit Interpolationsfaktor.
      */
     private Color interpolate(final Color a, final Color b, final float factor) {
-        float[] acomp = a.getRGBComponents(null);
-        float[] bcomp = b.getRGBComponents(null);
-        float[] ccomp = new float[4];
+        final float[] acomp = a.getRGBComponents(null);
+        final float[] bcomp = b.getRGBComponents(null);
+        final float[] ccomp = new float[4];
 
         // System.out.println("a comp ");
         // for(float f : acomp) {

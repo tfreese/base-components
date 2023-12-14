@@ -23,9 +23,7 @@ public abstract class AbstractIoTest {
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
      */
     protected static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java");
-
     protected static final long SIZE_100kb = 100 * 1024;
-
     protected static final long SIZE_10kb = 10 * 1024;
 
     /**
@@ -72,8 +70,8 @@ public abstract class AbstractIoTest {
     }
 
     protected Path createFile(final long size) throws IOException {
-        // Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile." + COUNTER.incrementAndGet());
-        Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(size + "_testfile.bin");
+        // final Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve("testfile." + COUNTER.incrementAndGet());
+        final Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(size + "_testfile.bin");
 
         if (Files.notExists(path)) {
             Files.createDirectories(path.getParent());
@@ -87,7 +85,7 @@ public abstract class AbstractIoTest {
     }
 
     protected Path createFile(final String fileName) throws IOException {
-        Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(fileName);
+        final Path path = PATH_TEST.resolve(getClass().getSimpleName()).resolve(fileName);
 
         if (Files.notExists(path)) {
             Files.createDirectories(path.getParent());

@@ -21,7 +21,7 @@ public class TaskManager {
         public void propertyChange(final PropertyChangeEvent event) {
             firePropertyChange(event);
 
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             switch (event.getPropertyName()) {
                 case SwingTask.PROPERTY_CANCELLED, SwingTask.PROPERTY_FAILED, SwingTask.PROPERTY_SUCCEEDED -> {
@@ -40,7 +40,7 @@ public class TaskManager {
     private final class TaskPCL implements PropertyChangeListener {
         @Override
         public void propertyChange(final PropertyChangeEvent event) {
-            AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+            final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             switch (event.getPropertyName()) {
                 case SwingTask.PROPERTY_STARTED, SwingTask.PROPERTY_PROGRESS -> {
@@ -54,11 +54,8 @@ public class TaskManager {
     }
 
     private final ExecutorService executorService;
-
     private final PropertyChangeListener foregroundTaskPCL;
-
     private final PropertyChangeSupport propertyChangeSupport;
-
     private final PropertyChangeListener taskPCL;
 
     private AbstractSwingTask<?, ?> foregroundTask;

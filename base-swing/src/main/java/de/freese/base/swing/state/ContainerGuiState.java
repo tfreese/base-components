@@ -19,11 +19,8 @@ public class ContainerGuiState extends AbstractGuiState {
     private static final long serialVersionUID = 3075009969118716461L;
 
     private int height;
-
     private int width;
-
     private int x;
-
     private int y;
 
     public ContainerGuiState() {
@@ -38,7 +35,7 @@ public class ContainerGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        Container container = (Container) component;
+        final Container container = (Container) component;
 
         if ((this.width == 0) && (this.height == 0)) {
             // Configuration not saved before.
@@ -52,9 +49,9 @@ public class ContainerGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        Container container = (Container) component;
+        final Container container = (Container) component;
 
-        Rectangle bounds = container.getBounds();
+        final Rectangle bounds = container.getBounds();
 
         this.x = (int) bounds.getX();
         this.y = (int) bounds.getY();

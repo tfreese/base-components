@@ -31,10 +31,10 @@ import javax.swing.WindowConstants;
 public final class GradientTranslucentWindowMain {
     public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        final GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-        boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+        final boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
         // If translucent windows aren't supported, exit.
         if (!isPerPixelTranslucencySupported) {
@@ -47,13 +47,13 @@ public final class GradientTranslucentWindowMain {
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("GradientTranslucentWindow");
+            final JFrame frame = new JFrame("GradientTranslucentWindow");
             frame.setBackground(new Color(0, 0, 0, 0));
             frame.setSize(new Dimension(600, 400));
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-            JPanel panel = new JPanel() {
+            final JPanel panel = new JPanel() {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
@@ -64,8 +64,8 @@ public final class GradientTranslucentWindowMain {
                         final int G = 240;
                         final int B = 240;
 
-                        Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
-                        // Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
+                        final Paint paint = new GradientPaint(0.0F, 0.0F, new Color(R, G, B, 0), 0.0F, getHeight(), new Color(R, G, B, 100), true);
+                        // final Paint paint = new GradientPaint(0.0F, 0.0F, new Color(0, 0, 0, 0), 0.0f, getHeight(), new Color(0, 0, 0, 0), true);
                         g2d.setPaint(paint);
                         g2d.fillRect(0, 0, getWidth(), getHeight());
                     }

@@ -23,17 +23,11 @@ public class LedPanel extends Component implements LedConfig {
     private final transient List<Token<?>> tokens = new LinkedList<>();
 
     private Color colorBackground;
-
     private Color colorBackgroundDot;
-
     private int dotHeight;
-
     private int dotWidth;
-
     private int hgap;
-
     private int tokenGap;
-
     private int vgap;
 
     public LedPanel() {
@@ -106,7 +100,7 @@ public class LedPanel extends Component implements LedConfig {
     public void paint(final Graphics g) {
         // super.paint(g);
 
-        Graphics2D g2d = (Graphics2D) g;
+        final Graphics2D g2d = (Graphics2D) g;
 
         this.ledMatrix.paint(g2d, this, getWidth(), getHeight());
     }

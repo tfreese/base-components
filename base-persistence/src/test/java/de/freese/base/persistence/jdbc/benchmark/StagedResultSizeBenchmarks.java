@@ -79,7 +79,7 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings {
 
         private void populateDb(final Connection connection) {
             try (Statement statement = connection.createStatement()) {
-                String dbName = connection.getMetaData().getDatabaseProductName();
+                final String dbName = connection.getMetaData().getDatabaseProductName();
 
                 if (dbName.toLowerCase().contains("derby")) {
                     try {

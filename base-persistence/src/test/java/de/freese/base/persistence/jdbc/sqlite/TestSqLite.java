@@ -66,7 +66,7 @@ class TestSqLite {
         //
         // Connection connection = DriverManager.getConnection("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db")
 
-        SQLiteConfig config = new SQLiteConfig();
+        final SQLiteConfig config = new SQLiteConfig();
         config.setReadOnly(false);
         config.setReadUncommitted(false);
 
@@ -82,7 +82,7 @@ class TestSqLite {
             }
 
             try (Statement stmt = connection.createStatement()) {
-                StringBuilder sql = new StringBuilder();
+                final StringBuilder sql = new StringBuilder();
                 sql.append("CREATE TABLE COMPANY");
                 sql.append(" (ID      INTEGER PRIMARY KEY AUTOINCREMENT");
                 sql.append(", NAME    TEXT    NOT NULL");
@@ -96,7 +96,7 @@ class TestSqLite {
             connection.setAutoCommit(false);
 
             try (Statement stmt = connection.createStatement()) {
-                String sql = "INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)";
+                final String sql = "INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)";
                 stmt.executeUpdate(sql);
 
                 // getGeneratedKeys not supported.
@@ -113,7 +113,7 @@ class TestSqLite {
             try (Statement stmt = connection.createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT * FROM COMPANY")) {
                 while (rs.next()) {
-                    Map<String, Object> row = new LinkedHashMap<>();
+                    final Map<String, Object> row = new LinkedHashMap<>();
                     row.put("ID", rs.getInt("ID"));
                     row.put("NAME", rs.getInt("NAME"));
                     row.put("AGE", rs.getInt("AGE"));
@@ -130,16 +130,16 @@ class TestSqLite {
 
     @Test
     void testSqliteSpring() throws Exception {
-        // SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
+        // final SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         // dataSource.setDriverClassName("org.sqlite.JDBC");
         // dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");
         // dataSource.setSuppressClose(true);
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        final JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         jdbcTemplate.update("drop table if exists COMPANY");
 
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
         sql.append("CREATE TABLE COMPANY");
         sql.append(" (ID      INTEGER PRIMARY KEY AUTOINCREMENT");
         sql.append(", NAME    TEXT    NOT NULL");
@@ -148,9 +148,9 @@ class TestSqLite {
         sql.append(", SALARY  REAL)");
         jdbcTemplate.update(sql.toString());
 
-        PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
-        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-        TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
+        final PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+        final TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
+        final TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
 
         jdbcTemplate.update("INSERT INTO COMPANY (NAME, AGE, ADDRESS, SALARY) VALUES ('Paul', 32, 'California', 20000)");
         transactionManager.commit(transactionStatus);
@@ -158,7 +158,7 @@ class TestSqLite {
 
         // SqlRowSet result = jdbcTemplate.extract("SELECT * FROM COMPANY", new SqlRowSetResultSetExtractor());
         jdbcTemplate.query("SELECT * FROM COMPANY", rs -> {
-            Map<String, Object> row = new LinkedHashMap<>();
+            final Map<String, Object> row = new LinkedHashMap<>();
             row.put("ID", rs.getInt("ID"));
             row.put("NAME", rs.getInt("NAME"));
             row.put("AGE", rs.getInt("AGE"));

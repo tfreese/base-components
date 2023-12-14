@@ -24,9 +24,9 @@ class TestPools {
 
     @Test
     void testAbstractObjectPool() throws Exception {
-        AtomicInteger atomicInteger = new AtomicInteger(0);
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
 
-        AbstractObjectPool<Integer> pool = new AbstractObjectPool<>() {
+        final AbstractObjectPool<Integer> pool = new AbstractObjectPool<>() {
             @Override
             protected Integer create() {
                 return atomicInteger.incrementAndGet();
@@ -56,8 +56,8 @@ class TestPools {
 
     @Test
     void testObjectPool() throws Exception {
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        List<Integer> onCloseList = new ArrayList<>();
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
+        final List<Integer> onCloseList = new ArrayList<>();
 
         try (ObjectPool<Integer> pool = new ObjectPool<>(atomicInteger::incrementAndGet, onCloseList::add)) {
             Integer value1 = pool.get();
@@ -92,8 +92,8 @@ class TestPools {
 
     @Test
     void testObjectPoolExpiry() throws Exception {
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        List<Integer> onCloseList = new ArrayList<>();
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
+        final List<Integer> onCloseList = new ArrayList<>();
 
         try (ObjectPool<Integer> pool = new ObjectPool<>(atomicInteger::incrementAndGet, onCloseList::add)) {
             pool.setExpirationDuration(Duration.ofMillis(25));
@@ -128,8 +128,8 @@ class TestPools {
 
     @Test
     void testRoundRobinPool() throws Exception {
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        List<Integer> onCloseList = new ArrayList<>();
+        final AtomicInteger atomicInteger = new AtomicInteger(0);
+        final List<Integer> onCloseList = new ArrayList<>();
 
         try (RoundRobinPool<Integer> pool = new RoundRobinPool<>(3, atomicInteger::incrementAndGet, onCloseList::add)) {
             assertEquals(1, pool.get());

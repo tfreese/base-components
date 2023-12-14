@@ -31,13 +31,13 @@ import javax.crypto.spec.GCMParameterSpec;
  */
 public final class KeystoreMain {
     public static void main(final String[] args) throws Exception {
-        String provider = "SunJCE";// "SUN";
+        final String provider = "SunJCE";// "SUN";
 
-        char[] keystorePSW = "gehaim".toCharArray();
+        final char[] keystorePSW = "gehaim".toCharArray();
 
         // KeyStore.getDefaultType();
-        Path keystorePath = Paths.get(System.getProperty("java.io.tmpdir"), "keystore.p12");
-        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        final Path keystorePath = Paths.get(System.getProperty("java.io.tmpdir"), "keystore.p12");
+        final KeyStore keyStore = KeyStore.getInstance("PKCS12");
 
         if (Files.exists(keystorePath)) {
             try (InputStream in = Files.newInputStream(keystorePath)) {
@@ -48,15 +48,15 @@ public final class KeystoreMain {
             keyStore.load(null, keystorePSW);
         }
 
-        SecureRandom secureRandom = new SecureRandom();
+        final SecureRandom secureRandom = new SecureRandom();
         SecretKey secretKey = null;
 
         // Keys erzeugen, wenn nicht vorhanden.
-        String alias = "test-AES-256";
-        char[] aliasPSW = alias.toCharArray();
+        final String alias = "test-AES-256";
+        final char[] aliasPSW = alias.toCharArray();
 
         if (!keyStore.containsAlias(alias)) {
-            KeyGenerator kg = KeyGenerator.getInstance("AES", provider);
+            final KeyGenerator kg = KeyGenerator.getInstance("AES", provider);
             kg.init(256, secureRandom);
             secretKey = kg.generateKey();
 
@@ -76,7 +76,7 @@ public final class KeystoreMain {
 
         // byte iv[] = new byte[16];
         // secureRandom.nextBytes(iv);
-        byte[] iv = secureRandom.generateSeed(16);
+        final byte[] iv = secureRandom.generateSeed(16);
 
         encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey, new GCMParameterSpec(128, iv)); // IvParameterSpec(iv)
         decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
@@ -85,12 +85,12 @@ public final class KeystoreMain {
         // Certificate cert = keyStore.getCertificate(alias);
         // PublicKey publicKey = cert.getPublicKey();
         // PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias, aliasPSW);
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
+        final KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
         kpg.initialize(1024, secureRandom);
-        KeyPair keyPair = kpg.generateKeyPair();
+        final KeyPair keyPair = kpg.generateKeyPair();
 
-        PublicKey publicKey = keyPair.getPublic();
-        PrivateKey privateKey = keyPair.getPrivate();
+        final PublicKey publicKey = keyPair.getPublic();
+        final PrivateKey privateKey = keyPair.getPrivate();
 
         // "RSA/ECB/PKCS1Padding"
         encryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", provider);
@@ -101,9 +101,10 @@ public final class KeystoreMain {
         testCrypt(encryptCipher, decryptCipher);
 
         // Stream
-        try (InputStream in = new FileInputStream("pom.xml"); CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher)) {
+        try (InputStream in = new FileInputStream("pom.xml");
+             CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher)) {
             // OutputStream out = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
+            final byte[] buffer = new byte[1024];
             int numRead = 0;
 
             while ((numRead = in.read(buffer)) >= 0) {
@@ -118,14 +119,14 @@ public final class KeystoreMain {
     }
 
     private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception {
-        String message = "abcABC123";
+        final String message = "abcABC123";
         System.out.println("Message: " + message);
 
-        byte[] encryptedBytes = encryptCipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
+        final byte[] encryptedBytes = encryptCipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
         System.out.println("Encrypted Bytes: " + new String(encryptedBytes, StandardCharsets.UTF_8));
         System.out.println("Encrypted Base64: " + Base64.getEncoder().encodeToString(encryptedBytes));
 
-        byte[] decryptedBytes = decryptCipher.doFinal(encryptedBytes);
+        final byte[] decryptedBytes = decryptCipher.doFinal(encryptedBytes);
         System.out.println("Decrypted Message: " + new String(decryptedBytes, StandardCharsets.UTF_8));
 
         System.out.println();

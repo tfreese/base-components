@@ -23,7 +23,7 @@ public class DefaultListComboBoxModel<T> extends DefaultListListModel<T> impleme
 
     @Override
     public void setSelectedItem(final Object anItem) {
-        int index = getList().indexOf(anItem);
+        final int index = getList().indexOf(anItem);
 
         if (index != -1) {
             this.selectedObject = getList().get(index);

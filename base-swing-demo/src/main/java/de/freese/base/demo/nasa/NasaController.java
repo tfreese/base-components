@@ -30,9 +30,7 @@ public class NasaController extends AbstractController {
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
 
     private final String[] imageNames = {"PIA03623.jpg", "PIA03171.jpg", "PIA02652.jpg", "PIA05108.jpg", "PIA02696.jpg", "PIA05049.jpg", "PIA05460.jpg", "PIA07327.jpg", "PIA05117.jpg", "PIA05199.jpg", "PIA05990.jpg"};
-
     private final Random random = new Random();
-
     private final List<URI> uriHistory = new ArrayList<>();
 
     private int uriHistoryCurrentIndex = -1;
@@ -90,17 +88,17 @@ public class NasaController extends AbstractController {
     }
 
     public BufferedImage loadImage(final LocalStorage localStorage, final URI uri, final IIOReadProgressListener listener) throws Exception {
-        // ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
-        // ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
+        // final ImageReader reader = ImageIO.getImageReadersBySuffix("jpg").next();
+        // final ImageReader reader = ImageIO.getImageReadersByFormatName("JPEG").next();
 
-        Path path = Paths.get(uri.getPath());
-        String fileName = path.getFileName().toString();
-        String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+        final Path path = Paths.get(uri.getPath());
+        final String fileName = path.getFileName().toString();
+        final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         // Optional.ofNullable(fileName).filter(f -> f.contains(".")).map(f -> f.substring(fileName.lastIndexOf(".") + 1));
-        Path cachedFileName = Paths.get("images", fileName);
-        Path cachePath = localStorage.getAbsolutPath(cachedFileName);
+        final Path cachedFileName = Paths.get("images", fileName);
+        final Path cachePath = localStorage.getAbsolutPath(cachedFileName);
 
-        boolean cacheFileExist = Files.exists(cachePath);
+        final boolean cacheFileExist = Files.exists(cachePath);
 
         InputStream inputStream = null;
 
@@ -119,7 +117,7 @@ public class NasaController extends AbstractController {
         BufferedImage image = null;
 
         try (ImageInputStream iis = ImageIO.createImageInputStream(inputStream)) {
-            Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+            final Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
             if ((readers != null) && readers.hasNext()) {
                 reader = readers.next();
@@ -134,7 +132,7 @@ public class NasaController extends AbstractController {
                 reader.addIIOReadProgressListener(listener);
             }
 
-            int index = reader.getMinIndex();
+            final int index = reader.getMinIndex();
             image = reader.read(index);
         }
         finally {
@@ -161,10 +159,10 @@ public class NasaController extends AbstractController {
 
     protected boolean exist(final URI uri) {
         try {
-            HttpURLConnection httpURLConnection = (HttpURLConnection) uri.toURL().openConnection();
+            final HttpURLConnection httpURLConnection = (HttpURLConnection) uri.toURL().openConnection();
             httpURLConnection.setRequestMethod("HEAD");
 
-            int responseCode = httpURLConnection.getResponseCode();
+            final int responseCode = httpURLConnection.getResponseCode();
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 return true;
@@ -179,10 +177,10 @@ public class NasaController extends AbstractController {
 
     protected URI generateUri() throws Exception {
         String uriString = null;
-        boolean randomUris = true;
+        final boolean randomUris = true;
 
         if (!randomUris) {
-            int index = this.random.nextInt(this.imageNames.length);
+            final int index = this.random.nextInt(this.imageNames.length);
             uriString = IMAGE_DIR + this.imageNames[index];
         }
         else {

@@ -34,7 +34,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         @Override
         public void propertyChange(final PropertyChangeEvent evt) {
             if ("visible".equals(evt.getPropertyName())) {
-                ExtTableColumn columnExt = (ExtTableColumn) evt.getSource();
+                final ExtTableColumn columnExt = (ExtTableColumn) evt.getSource();
 
                 if (columnExt.isVisible()) {
                     moveToVisible(columnExt);
@@ -109,7 +109,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
 
     @Override
     public ExtTableColumn getColumnExt(final int columnIndex) {
-        TableColumn column = getColumn(columnIndex);
+        final TableColumn column = getColumn(columnIndex);
 
         if (column instanceof ExtTableColumn c) {
             return c;
@@ -221,7 +221,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         }
 
         // Guaranteed to return a non-null array
-        Object[] listeners = this.listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
@@ -258,11 +258,11 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
 
         // this is analogous to the proposed fix in #253-swingx
         // but uses the currentColumns as reference.
-        int addIndex = this.currentColumns.indexOf(col);
+        final int addIndex = this.currentColumns.indexOf(col);
 
         for (int i = 0; i < (getColumnCount() - 1); i++) {
-            TableColumn tableCol = getColumn(i);
-            int actualPosition = this.currentColumns.indexOf(tableCol);
+            final TableColumn tableCol = getColumn(i);
+            final int actualPosition = this.currentColumns.indexOf(tableCol);
 
             if (actualPosition > addIndex) {
                 super.moveColumn(getColumnCount() - 1, i);
@@ -280,11 +280,11 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @param newIndex the new visible position.
      */
     private void updateCurrentColumns(final int oldIndex, final int newIndex) {
-        TableColumn movedColumn = this.tableColumns.elementAt(oldIndex);
-        int oldPosition = this.currentColumns.indexOf(movedColumn);
+        final TableColumn movedColumn = this.tableColumns.elementAt(oldIndex);
+        final int oldPosition = this.currentColumns.indexOf(movedColumn);
 
-        TableColumn targetColumn = this.tableColumns.elementAt(newIndex);
-        int newPosition = this.currentColumns.indexOf(targetColumn);
+        final TableColumn targetColumn = this.tableColumns.elementAt(newIndex);
+        final int newPosition = this.currentColumns.indexOf(targetColumn);
 
         this.currentColumns.remove(oldPosition);
         this.currentColumns.add(newPosition, movedColumn);

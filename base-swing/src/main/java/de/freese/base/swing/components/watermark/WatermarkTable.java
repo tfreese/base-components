@@ -22,9 +22,7 @@ public class WatermarkTable extends JPanel implements WatermarkComponent {
     private static final long serialVersionUID = 4400500160883780741L;
 
     private JScrollPane scrollPane;
-
     private JTable table;
-
     private WatermarkViewport viewport;
 
     /**

@@ -15,11 +15,9 @@ public abstract class AbstractGuiState implements GuiState {
     private static final long serialVersionUID = 5367608044965230104L;
 
     private final long created = System.currentTimeMillis();
-
     private final transient Class<?>[] supportedTypes;
 
     private boolean enabled = true;
-
     private boolean visible = true;
 
     protected AbstractGuiState(final Class<?>... supportedTypes) {

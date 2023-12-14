@@ -14,10 +14,10 @@ import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
  */
 public final class ColorChooserUIMain {
     public static void main(final String[] args) {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JColorChooser colorChooser = new JColorChooser();
+        final JColorChooser colorChooser = new JColorChooser();
         colorChooser.addChooserPanel(new EyeDropperColorChooserPanel());
 
         frame.getContentPane().add(BorderLayout.CENTER, colorChooser);

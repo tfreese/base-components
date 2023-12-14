@@ -33,16 +33,16 @@ class TestNetUtils {
      * Aktiviert die Proxy-Kommunikation.
      */
     static void enableProxy() {
-        String proxy = "...";
+        final String proxy = "...";
         // DNS-Auflösung konfigurieren.
         // System.setProperty("sun.net.spi.nameservice.nameservers", "8.8.8.8");
         // System.setProperty("sun.net.spi.nameservice.provider.1", "dns,sun");
         // System.setProperty("sun.net.spi.nameservice.domain", "DOMAIN");
 
         // Proxy instance, proxy ip = 123.0.0.1 with port 8080
-        // Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxy, 8080));
+        // final Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxy, 8080));
         // URL url = new URL("http://www.yahoo.com");
-        // HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
+        // final HttpURLConnection uc = (HttpURLConnection) url.openConnection(proxy);
         // uc.connect();
         //
         // ProxySelector.getDefault().select(new URI("http://www.yahoo.com"));
@@ -103,18 +103,18 @@ class TestNetUtils {
 
         try {
             // List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
             while (interfaces.hasMoreElements()) {
-                NetworkInterface nic = interfaces.nextElement();
+                final NetworkInterface nic = interfaces.nextElement();
 
                 // nic.getInterfaceAddresses().forEach(System.out::println);
 
                 // Stream<InetAddress> addresses = nic.inetAddresses();
-                Enumeration<InetAddress> addresses = nic.getInetAddresses();
+                final Enumeration<InetAddress> addresses = nic.getInetAddresses();
 
                 while (addresses.hasMoreElements()) {
-                    InetAddress address = addresses.nextElement();
+                    final InetAddress address = addresses.nextElement();
 
                     if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
                         hostName = address.getHostName();
@@ -141,7 +141,7 @@ class TestNetUtils {
 
     @Test
     void testPtbZeit() throws Exception {
-        LocalDateTime ptbTime = NetUtils.getPtbTime();
+        final LocalDateTime ptbTime = NetUtils.getPtbTime();
         assertNotNull(ptbTime);
 
         //        System.out.printf("%1$tY-%1$tm-%1$td %1$tT%n", ptbTime);
@@ -149,7 +149,7 @@ class TestNetUtils {
 
     @Test
     void testValidHost() throws Exception {
-        boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
+        final boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
         assertTrue(validHost);
     }
 }

@@ -10,7 +10,7 @@ public class LongClipBoardConverter extends AbstractNumberClipBoardConverter {
             return null;
         }
 
-        String temp = normalizeNonFraction(value);
+        final String temp = normalizeNonFraction(value);
 
         return Long.valueOf(temp);
     }

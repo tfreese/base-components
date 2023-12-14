@@ -22,9 +22,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     private static final long serialVersionUID = 335775306955315738L;
 
     private final String attribute;
-
     private final transient Logger logger = LoggerFactory.getLogger(getClass());
-
     private final String nullText;
 
     protected AbstractGenericListCellRenderer(final String attribute) {
@@ -40,7 +38,7 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
 
     @Override
     public Component getListCellRendererComponent(final JList<?> list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus) {
-        JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        final JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
         if (value != null) {
             try {
@@ -73,13 +71,13 @@ public abstract class AbstractGenericListCellRenderer extends DefaultListCellRen
     protected abstract String getString(Object object, String attribute) throws Exception;
 
     protected Object invokeField(final Object value, final String fieldName) throws Exception {
-        Field field = value.getClass().getField(fieldName);
+        final Field field = value.getClass().getField(fieldName);
 
         return field.get(value);
     }
 
     protected Object invokeMethod(final Object value, final String methodName) throws Exception {
-        Method method = value.getClass().getMethod(methodName, (Class<?>[]) null);
+        final Method method = value.getClass().getMethod(methodName, (Class<?>[]) null);
 
         return method.invoke(value, (Object[]) null);
     }

@@ -52,19 +52,19 @@ class TestThrottler //extends AbstractIoTest
         // Warmup...sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.
         throttler.acquirePermit();
 
-        int size = 12_000;
+        final int size = 12_000;
 
-        long start = System.nanoTime();
+        final long start = System.nanoTime();
 
         for (int i = 0; i < size; i++) {
             throttler.acquirePermit();
         }
 
-        long elapsed = System.nanoTime() - start;
+        final long elapsed = System.nanoTime() - start;
 
-        double rate = size / (elapsed / 1_000_000_000D);
-        double timeMillis = (double) elapsed / 1_000_000D;
-        double delta = Math.abs(rate - permits);
+        final double rate = size / (elapsed / 1_000_000_000D);
+        final double timeMillis = (double) elapsed / 1_000_000D;
+        final double delta = Math.abs(rate - permits);
 
         System.out.printf("%-20s; Time = %9.3f ms; Permits = %d; Rate = %8.3f 1/s; Delta = %8.3f%n", name, timeMillis, permits, rate, delta);
 

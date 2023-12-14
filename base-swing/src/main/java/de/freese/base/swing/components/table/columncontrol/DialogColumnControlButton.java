@@ -43,12 +43,10 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      * Property für {@link PropertyChangeListener}, wenn Sichtbarkeit geändert.
      */
     public static final String TOGGLE_VISIBILITY = "toggleVisibility";
-
     @Serial
     private static final long serialVersionUID = -3076920096726720396L;
 
     private final JXTable table;
-
     private int groupedColumnCount = 15;
 
     public DialogColumnControlButton(final JXTable table) {
@@ -92,9 +90,9 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
      * Feuert das {@link PropertyChangeEvent} "toggleVisibility", wenn die Spaltensichtbarkeit verändert wird.
      */
     public void showPopup() {
-        Map<TableColumnExt, JComponent> columnComponentMap = new HashMap<>();
+        final Map<TableColumnExt, JComponent> columnComponentMap = new HashMap<>();
 
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         // panel.initGUI();
         panel.setLayout(new GridBagLayout());
 
@@ -103,7 +101,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         populateAdditionalComponents(panel);
         configureColumnComponents(panel, columnComponentMap);
 
-        JScrollPane scrollPane = new JScrollPane();
+        final JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(panel);
 
         // int choice =
@@ -115,7 +113,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         // {
         // toggleColumnVisibility(columnComponentMap);
         // }
-        ExtDialog dialog = DialogFactory.createOkAbbrechen(this, getAction().getValue(Action.SHORT_DESCRIPTION).toString(), scrollPane, false);
+        final ExtDialog dialog = DialogFactory.createOkAbbrechen(this, getAction().getValue(Action.SHORT_DESCRIPTION).toString(), scrollPane, false);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
@@ -138,7 +136,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
             return null;
         }
 
-        JCheckBox checkBox = new JCheckBox();
+        final JCheckBox checkBox = new JCheckBox();
         checkBox.setFocusPainted(false);
         checkBox.setFocusable(false);
         checkBox.setText(column.getTitle());
@@ -148,7 +146,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     protected Action createControlAction() {
-        Action control = new AbstractAction() {
+        final Action control = new AbstractAction() {
             @Serial
             private static final long serialVersionUID = 1L;
 
@@ -178,26 +176,26 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     protected Action createExcelExportAction() {
-        Action action = new AbstractAction("Excel Export (TODO)") {
+        final Action action = new AbstractAction("Excel Export (TODO)") {
             @Serial
             private static final long serialVersionUID = -6186677548811556005L;
 
             @Override
             public void actionPerformed(final ActionEvent e) {
-                // JTableExcelExporter excelExporter = new JTableExcelExporter("");
-                // ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // final JTableExcelExporter excelExporter = new JTableExcelExporter("");
+                // final ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 //
                 // try
                 // {
                 // excelExporter.export(baos, null, getTable());
                 // baos.close();
                 //
-                // ByteArrayDataSource dataSource =
+                // final ByteArrayDataSource dataSource =
                 // new ByteArrayDataSource(baos.toBytes(),
                 // ByteArrayDataSource.MIMETYPE_APPLICATION_EXCEL);
                 // dataSource.setName(String.format("%d.xls",
                 // Long.valueOf(System.currentTimeMillis())));
-                // String fileName = FileContext.getInstance().saveTemp(dataSource);
+                // final String fileName = FileContext.getInstance().saveTemp(dataSource);
                 // FileContext.getInstance().openFile(fileName);
                 // }
                 // catch (Exception ex)
@@ -235,7 +233,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     protected boolean isColumnControlled(final TableColumnExt column) {
-        Boolean controlDisabled = (Boolean) column.getClientProperty(COLUMN_CONTROL_DISABLED);
+        final Boolean controlDisabled = (Boolean) column.getClientProperty(COLUMN_CONTROL_DISABLED);
 
         if (controlDisabled == null) {
             return true;
@@ -250,14 +248,14 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     protected void populateColumns(final JPanel panel, final Map<TableColumnExt, JComponent> columnComponentMap) {
-        List<TableColumn> columns = getTable().getColumns(true);
+        final List<TableColumn> columns = getTable().getColumns(true);
 
         int gbcCol = 0;
         int col = 0;
 
         for (TableColumn tableColumn : columns) {
-            TableColumnExt columnExt = (TableColumnExt) tableColumn;
-            JComponent component = createColumnComponent(columnExt);
+            final TableColumnExt columnExt = (TableColumnExt) tableColumn;
+            final JComponent component = createColumnComponent(columnExt);
 
             if (component == null) {
                 continue;
@@ -265,7 +263,7 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
 
             columnComponentMap.put(columnExt, component);
 
-            GridBagConstraints gbc = GbcBuilder.of(gbcCol, GridBagConstraints.RELATIVE);
+            final GridBagConstraints gbc = GbcBuilder.of(gbcCol, GridBagConstraints.RELATIVE);
             panel.add(component, gbc);
 
             col++;
@@ -277,15 +275,15 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
     }
 
     protected void populateExcelExport(final JPanel panel) {
-        Action action = createExcelExportAction();
+        final Action action = createExcelExportAction();
 
-        GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER);
+        final GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER);
         panel.add(new JButton(action), gbc);
     }
 
     protected void populatePackAll(final JPanel panel) {
-        Action action = getTable().getActionMap().get(JXTable.PACKALL_ACTION_COMMAND);
-        GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
+        final Action action = getTable().getActionMap().get(JXTable.PACKALL_ACTION_COMMAND);
+        final GridBagConstraints gbc = GbcBuilder.of(0, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).insets(5, 5, 0, 5);
         panel.add(new JButton(action), gbc);
     }
 
@@ -293,10 +291,10 @@ public class DialogColumnControlButton extends JButton implements PropertyChange
         boolean doToggle = false;
 
         for (Entry<TableColumnExt, JComponent> entry : columnComponentMap.entrySet()) {
-            TableColumnExt column = entry.getKey();
-            JComponent component = entry.getValue();
+            final TableColumnExt column = entry.getKey();
+            final JComponent component = entry.getValue();
 
-            boolean toggled = toggleColumnVisibility(column, component);
+            final boolean toggled = toggleColumnVisibility(column, component);
 
             if (toggled) {
                 doToggle = true;

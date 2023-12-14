@@ -34,7 +34,6 @@ import de.freese.base.utils.TreeUtils;
  */
 public final class LazyLoadingTreeFrameMain extends JFrame {
     private static final Logger LOGGER = LoggerFactory.getLogger(LazyLoadingTreeFrameMain.class);
-
     @Serial
     private static final long serialVersionUID = 3374150787460216252L;
 
@@ -48,8 +47,8 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
         // Tree
         final JTree tree = new JTree();
 
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root", true);
-        DefaultTreeModel model = new DefaultTreeModel(rootNode);
+        final DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root", true);
+        final DefaultTreeModel model = new DefaultTreeModel(rootNode);
 
         for (int i = 0; i < 3; i++) {
             rootNode.add(new LazyLoadingTreeNode("Node " + (i + 1)));
@@ -57,8 +56,8 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
 
         tree.setModel(model);
 
-        Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction = node -> {
-            List<MutableTreeNode> children = new ArrayList<>();
+        final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction = node -> {
+            final List<MutableTreeNode> children = new ArrayList<>();
 
             for (int i = 0; i < 3; i++) {
                 children.add(new LazyLoadingTreeNode("Node " + (i + 1)));
@@ -76,7 +75,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
         };
 
         //LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction);
-        LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction, Executors.newCachedThreadPool());
+        final LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction, Executors.newCachedThreadPool());
         tree.addTreeWillExpandListener(controller);
 
         // Frame
@@ -84,16 +83,16 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
         setLayout(new BorderLayout());
         add(new JScrollPane(tree), BorderLayout.CENTER);
 
-        JButton button = new JButton("Expand TreePath");
+        final JButton button = new JButton("Expand TreePath");
         button.addActionListener(event -> {
             TreeUtils.collapse(tree);
             // TreePath treePath = tree.getPathForRow(4);
             // TreeUtils.expand(tree, 10);
 
-            SwingWorker<Void, TreePath> testWorker = new SwingWorker<>() {
+            final SwingWorker<Void, TreePath> testWorker = new SwingWorker<>() {
                 @Override
                 protected Void doInBackground() throws Exception {
-                    int[] expansionIndices = new int[]{0, 1, 2};
+                    final int[] expansionIndices = new int[]{0, 1, 2};
 
                     Object parent = tree.getModel().getRoot();
                     TreePath treePath = new TreePath(parent);

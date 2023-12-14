@@ -26,11 +26,8 @@ import org.slf4j.LoggerFactory;
  */
 public class LazyLoadingTreeController implements TreeWillExpandListener {
     private final Executor executor;
-
     private final Function<LazyLoadingTreeNode, List<MutableTreeNode>> loadFunction;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final Semaphore semaphore = new Semaphore(1, true);
 
     /**
@@ -67,9 +64,9 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
 
     @Override
     public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException {
-        DefaultTreeModel treeModel = (DefaultTreeModel) ((JTree) event.getSource()).getModel();
-        TreePath path = event.getPath();
-        Object lastPathComponent = path.getLastPathComponent();
+        final DefaultTreeModel treeModel = (DefaultTreeModel) ((JTree) event.getSource()).getModel();
+        final TreePath path = event.getPath();
+        final Object lastPathComponent = path.getLastPathComponent();
 
         if (lastPathComponent instanceof LazyLoadingTreeNode lazyNode) {
             loadChildren(treeModel, lazyNode);
@@ -96,12 +93,12 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
         node.removeAllChildren();
 
         // Loading Node setzen.
-        MutableTreeNode loadingNode = createLoadingNode();
+        final MutableTreeNode loadingNode = createLoadingNode();
         node.add(loadingNode);
         //treeModel.insertNodeInto(loadingNode, node, 0);
         treeModel.nodeStructureChanged(node);
 
-        SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>() {
+        final SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>() {
             @Override
             protected List<MutableTreeNode> doInBackground() throws Exception {
                 getLogger().debug("Loading children for {}", node);
@@ -114,7 +111,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
                 loadingNode.removeFromParent();
 
                 try {
-                    List<MutableTreeNode> children = get();
+                    final List<MutableTreeNode> children = get();
 
                     children.forEach(node::add);
 

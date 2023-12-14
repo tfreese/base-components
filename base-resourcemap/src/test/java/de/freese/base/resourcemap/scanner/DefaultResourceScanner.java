@@ -36,18 +36,18 @@ public class DefaultResourceScanner implements ResourceScanner {
         }
 
         // Packages dürfen im bin-, META_INF- oder im Jar-Ordner liegen
-        String folderRegex = "(.*bin[/\\\\]|^META-INF[/\\\\]|^)";
+        final String folderRegex = "(.*bin[/\\\\]|^META-INF[/\\\\]|^)";
 
         // Properties-Struktur
-        String propertyRegex = ".[^/\\\\]+(_[a-z]{2})?(_[A-Z]{2})?\\.properties$";
+        final String propertyRegex = ".[^/\\\\]+(_[a-z]{2})?(_[A-Z]{2})?\\.properties$";
 
         // Nach dem Package darf kein / oder \ Zeichen kommen
-        String pathRegex = searchPath.length() > 0 ? searchPath + "[/\\\\]" : searchPath;
+        final String pathRegex = searchPath.length() > 0 ? searchPath + "[/\\\\]" : searchPath;
 
         // Alles zusammenbauen
-        String resourceRegex = folderRegex + pathRegex + propertyRegex;
+        final String resourceRegex = folderRegex + pathRegex + propertyRegex;
 
-        Set<String> resources = getResources(resourceRegex);
+        final Set<String> resources = getResources(resourceRegex);
 
         if (resources.isEmpty()) {
             DefaultResourceScanner.LOGGER.error("No Bundles in Path \"{}\"", basePath);
@@ -56,7 +56,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         }
 
         // Für ResourceBundle normalisieren
-        Set<String> bundleNames = new HashSet<>();
+        final Set<String> bundleNames = new HashSet<>();
 
         for (String resource : resources) {
             // Den reinen Dateinamen raus fummeln, Unterstrich berücksichtigen
@@ -73,16 +73,16 @@ public class DefaultResourceScanner implements ResourceScanner {
      * Durchsucht die Ressourcen eines ClassPath-Elements.
      */
     private Set<String> getResources(final String pattern) {
-        Pattern regExPattern = Pattern.compile(pattern);
+        final Pattern regExPattern = Pattern.compile(pattern);
 
-        String classPath = System.getProperty("java.class.path", ".");
-        String pathSeparator = System.getProperty("path.separator", ";");
+        final String classPath = System.getProperty("java.class.path", ".");
+        final String pathSeparator = System.getProperty("path.separator", ";");
 
-        String[] classPathElements = classPath.split(pathSeparator);
-        Set<String> resources = new HashSet<>();
+        final String[] classPathElements = classPath.split(pathSeparator);
+        final Set<String> resources = new HashSet<>();
 
         for (String element : classPathElements) {
-            File file = new File(element);
+            final File file = new File(element);
 
             if (file.isDirectory()) {
                 resources.addAll(getResourcesFromDirectory(file, regExPattern));
@@ -99,8 +99,8 @@ public class DefaultResourceScanner implements ResourceScanner {
      * Durchsucht rekursiv die Dateien eines Verzeichnisses.
      */
     private Set<String> getResourcesFromDirectory(final File directory, final Pattern pattern) {
-        Set<String> resources = new HashSet<>();
-        File[] fileList = directory.listFiles();
+        final Set<String> resources = new HashSet<>();
+        final File[] fileList = directory.listFiles();
 
         for (File file : fileList) {
             if (file.isDirectory()) {
@@ -108,8 +108,8 @@ public class DefaultResourceScanner implements ResourceScanner {
             }
             else {
                 try {
-                    String fileName = file.getCanonicalPath();
-                    boolean accept = pattern.matcher(fileName).matches();
+                    final String fileName = file.getCanonicalPath();
+                    final boolean accept = pattern.matcher(fileName).matches();
 
                     if (accept) {
                         resources.add(fileName);
@@ -128,7 +128,7 @@ public class DefaultResourceScanner implements ResourceScanner {
      * Durchsucht den Inhalt einer JAR-Datei.
      */
     private Set<String> getResourcesFromJarFile(final File file, final Pattern pattern) {
-        Set<String> resources = new HashSet<>();
+        final Set<String> resources = new HashSet<>();
         ZipFile zf = null;
 
         try {
@@ -142,14 +142,14 @@ public class DefaultResourceScanner implements ResourceScanner {
             return resources;
         }
 
-        Enumeration<? extends ZipEntry> e = zf.entries();
+        final Enumeration<? extends ZipEntry> e = zf.entries();
 
         while (e.hasMoreElements()) {
-            ZipEntry ze = e.nextElement();
-            String fileName = ze.getName();
+            final ZipEntry ze = e.nextElement();
+            final String fileName = ze.getName();
             // LOGGER.info(fileName);
 
-            boolean accept = pattern.matcher(fileName).matches();
+            final boolean accept = pattern.matcher(fileName).matches();
 
             if (accept) {
                 resources.add(fileName);

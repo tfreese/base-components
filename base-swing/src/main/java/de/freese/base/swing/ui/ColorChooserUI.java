@@ -17,10 +17,10 @@ public class ColorChooserUI extends BasicColorChooserUI {
 
     @Override
     protected AbstractColorChooserPanel[] createDefaultChoosers() {
-        AbstractColorChooserPanel[] chooserPanels = super.createDefaultChoosers();
+        final AbstractColorChooserPanel[] chooserPanels = super.createDefaultChoosers();
 
         // SwingX Panel dranhängen
-        AbstractColorChooserPanel[] panels = new AbstractColorChooserPanel[chooserPanels.length + 1];
+        final AbstractColorChooserPanel[] panels = new AbstractColorChooserPanel[chooserPanels.length + 1];
         System.arraycopy(chooserPanels, 0, panels, 0, chooserPanels.length);
 
         panels[chooserPanels.length] = new EyeDropperColorChooserPanel();

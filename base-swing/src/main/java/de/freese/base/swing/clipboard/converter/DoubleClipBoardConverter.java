@@ -10,7 +10,7 @@ public class DoubleClipBoardConverter extends AbstractNumberClipBoardConverter {
             return null;
         }
 
-        String temp = normalizeFraction(value);
+        final String temp = normalizeFraction(value);
 
         return Double.valueOf(temp);
     }

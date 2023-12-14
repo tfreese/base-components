@@ -18,7 +18,7 @@ public final class FarbCodeLabelMain {
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setSize(new Dimension(400, 400));
 
-        FarbCodeLabel farbCodeLabel = new FarbCodeLabel();
+        final FarbCodeLabel farbCodeLabel = new FarbCodeLabel();
 
         frame.getContentPane().add(new JLabel("Click on Colour to choose new"), BorderLayout.NORTH);
         frame.getContentPane().add(farbCodeLabel, BorderLayout.CENTER);

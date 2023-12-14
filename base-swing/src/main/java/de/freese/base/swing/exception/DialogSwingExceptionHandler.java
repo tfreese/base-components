@@ -24,13 +24,13 @@ public class DialogSwingExceptionHandler extends DefaultSwingExceptionHandler {
     public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translatorAdapter) {
         logger.error(throwable.getMessage(), throwable);
 
-        String message = getTranslatedMessage(throwable, translatorAdapter);
+        final String message = getTranslatedMessage(throwable, translatorAdapter);
 
         showErrorPane(parentComponent, message, throwable);
     }
 
     private void showErrorPane(final Component parentComponent, final String message, final Throwable throwable) {
-        ErrorInfo errorInfo = new ErrorInfo("ERROR", message, null, null, throwable, null, null);
+        final ErrorInfo errorInfo = new ErrorInfo("ERROR", message, null, null, throwable, null, null);
 
         ErrorPane.showDialog(parentComponent, errorInfo, this.enableSendMail);
     }

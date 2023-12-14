@@ -30,7 +30,7 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
             return true;
         }
 
-        String filename = f.getName();
+        final String filename = f.getName();
 
         for (String type : this.types) {
             if (filename.toLowerCase().endsWith(type)) {
@@ -43,7 +43,7 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
 
     @Override
     public String getDescription() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < this.types.length; i++) {
             sb.append("*").append(this.types[i]);

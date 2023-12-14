@@ -45,16 +45,16 @@ public final class LocalStorage {
     }
 
     public Path createTemporaryFile(final String prefix, final String suffix) throws IOException {
-        Path path = Files.createTempFile(getStorageDirectory(), prefix, suffix);
+        final Path path = Files.createTempFile(getStorageDirectory(), prefix, suffix);
 
-        File file = path.toFile();
+        final File file = path.toFile();
         file.deleteOnExit();
 
         return path;
     }
 
     public void deleteDirectory(final Path relativePath) throws IOException {
-        Path path = getAbsolutPath(relativePath);
+        final Path path = getAbsolutPath(relativePath);
 
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             @Override
@@ -72,7 +72,7 @@ public final class LocalStorage {
     }
 
     public boolean deleteFile(final Path relativePath) throws IOException {
-        Path path = getAbsolutPath(relativePath);
+        final Path path = getAbsolutPath(relativePath);
 
         return Files.deleteIfExists(path);
     }
@@ -82,7 +82,7 @@ public final class LocalStorage {
     }
 
     public InputStream getInputStream(final Path relativePath, final OpenOption... options) throws IOException {
-        Path path = getAbsolutPath(relativePath);
+        final Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());
 
@@ -90,7 +90,7 @@ public final class LocalStorage {
     }
 
     public OutputStream getOutputStream(final Path relativePath, final OpenOption... options) throws IOException {
-        Path path = getAbsolutPath(relativePath);
+        final Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());
 
@@ -120,7 +120,7 @@ public final class LocalStorage {
     }
 
     public void save(final Path relativePath, final byte[] data, final OpenOption... options) throws Exception {
-        Path path = getAbsolutPath(relativePath);
+        final Path path = getAbsolutPath(relativePath);
 
         createDirectories(path.getParent());
 

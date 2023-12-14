@@ -40,7 +40,7 @@ public final class MenuAndToolbarContext {
             if (!contains(menu, menuItem)) {
                 menu.add(menuItem);
 
-                List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
+                final List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
                 list.add(menu);
                 list.add(menuItem);
             }
@@ -60,7 +60,7 @@ public final class MenuAndToolbarContext {
             if (!contains(menu2, menuItem)) {
                 menu2.add(menuItem);
 
-                List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
+                final List<Component> list = index.computeIfAbsent(menuItem.getActionCommand(), key -> new ArrayList<>());
                 list.add(menu1);
                 list.add(menu2);
                 list.add(menuItem);
@@ -80,7 +80,7 @@ public final class MenuAndToolbarContext {
         }
 
         public MenuAndToolbarContext build() {
-            MenuAndToolbarContext context = new MenuAndToolbarContext(index);
+            final MenuAndToolbarContext context = new MenuAndToolbarContext(index);
 
             for (List<Component> components : index.values()) {
                 for (Component component : components) {
@@ -153,7 +153,7 @@ public final class MenuAndToolbarContext {
             return;
         }
 
-        ActionListener actionListener = currentView.getInterestedMenuAndToolbarActions().get(event.getActionCommand());
+        final ActionListener actionListener = currentView.getInterestedMenuAndToolbarActions().get(event.getActionCommand());
 
         if (actionListener == null) {
             return;

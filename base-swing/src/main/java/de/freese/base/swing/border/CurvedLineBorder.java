@@ -61,7 +61,7 @@ public class CurvedLineBorder extends LineBorder {
 
     @Override
     public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-        Color oldColor = g.getColor();
+        final Color oldColor = g.getColor();
 
         g.setColor(getLineColor());
         g.drawRoundRect(x, y, width - 1, height - 1, this.arcSize, this.arcSize);

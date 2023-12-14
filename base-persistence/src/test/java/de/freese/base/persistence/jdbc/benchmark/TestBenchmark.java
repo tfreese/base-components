@@ -29,7 +29,7 @@ class TestBenchmark {
     @Test
     void testStagedResultSizeBenchmarks() throws Exception {
         // @formatter:off
-        Options options = new OptionsBuilder()
+        final Options options = new OptionsBuilder()
                 .parent(DEFAULT_OPTIONS)
                 .include(StagedResultSizeBenchmarks.class.getSimpleName())
                 .build()
@@ -44,7 +44,7 @@ class TestBenchmark {
     @Test
     void testStatementBenchmarks() throws Exception {
         // @formatter:off
-        Options options = new OptionsBuilder()
+        final Options options = new OptionsBuilder()
                 .parent(DEFAULT_OPTIONS)
                 .include(StatementBenchmarks.class.getSimpleName())
                 .build()

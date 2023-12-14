@@ -24,11 +24,8 @@ public class ExtTableColumn extends TableColumn {
     private transient Map<Object, Object> clientProperties;
 
     private Sort sort = Sort.UNSORTED;
-
     private boolean sortable = true;
-
     private boolean visible = true;
-
     private boolean visibleChange = true;
 
     public ExtTableColumn() {
@@ -69,7 +66,7 @@ public class ExtTableColumn extends TableColumn {
     }
 
     public String getTitle() {
-        Object header = getHeaderValue();
+        final Object header = getHeaderValue();
 
         return header != null ? header.toString() : null;
     }
@@ -112,7 +109,7 @@ public class ExtTableColumn extends TableColumn {
             return;
         }
 
-        Object old = getClientProperty(key);
+        final Object old = getClientProperty(key);
 
         if (value == null) {
             getClientProperties().remove(key);
@@ -125,7 +122,7 @@ public class ExtTableColumn extends TableColumn {
     }
 
     public void setSort(final Sort sort) {
-        Sort oldSort = this.sort;
+        final Sort oldSort = this.sort;
         this.sort = sort;
 
         firePropertyChange("sort", oldSort, sort);
@@ -145,14 +142,14 @@ public class ExtTableColumn extends TableColumn {
      * @param visible boolean indicating whether this view column is visible in the table
      */
     public void setVisible(final boolean visible) {
-        boolean oldVisible = this.visible;
+        final boolean oldVisible = this.visible;
         this.visible = visible;
 
         firePropertyChange("visible", oldVisible, visible);
     }
 
     public void setVisibleChange(final boolean visibleChange) {
-        boolean oldVisibleChange = this.visibleChange;
+        final boolean oldVisibleChange = this.visibleChange;
         this.visibleChange = visibleChange;
 
         firePropertyChange("visible_change", oldVisibleChange, visibleChange);
@@ -171,10 +168,10 @@ public class ExtTableColumn extends TableColumn {
      */
     protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
         if (((oldValue != null) && !oldValue.equals(newValue)) || ((oldValue == null) && (newValue != null))) {
-            PropertyChangeListener[] pcl = getPropertyChangeListeners();
+            final PropertyChangeListener[] pcl = getPropertyChangeListeners();
 
             if ((pcl != null) && (pcl.length != 0)) {
-                PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
+                final PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
 
                 for (PropertyChangeListener element : pcl) {
                     element.propertyChange(pce);

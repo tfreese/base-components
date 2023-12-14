@@ -21,13 +21,10 @@ import de.freese.base.swing.icon.ArrowIcon;
 public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyChangeListener
 {
     public static final Color COLOR_MEDIUM_LIGHT_BROWN = new Color(150, 140, 130);
-
     public static final Icon ICON_ASCENDING = new ArrowIcon(6, 6, SwingConstants.NORTH, COLOR_MEDIUM_LIGHT_BROWN);
-
     public static final Icon ICON_DESCENDING = new ArrowIcon(6, 6, SwingConstants.SOUTH, COLOR_MEDIUM_LIGHT_BROWN);
 
     private final TableColumnSorter rowSorter;
-
     private final TableCellRenderer tableCellRenderer;
 
     public RowSorterHeaderRenderer(final TableColumnSorter rowSorter, final TableCellRenderer tableCellRenderer) {
@@ -41,13 +38,13 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
 
     @Override
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-        JComponent component = (JComponent) getTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        final JComponent component = (JComponent) getTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         if (column == -1) {
             return component;
         }
 
-        TableColumn tc = table.getColumnModel().getColumn(column);
+        final TableColumn tc = table.getColumnModel().getColumn(column);
 
         if (!(tc instanceof ExtTableColumn tableColumnExt)) {
             return component;
@@ -57,10 +54,10 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
             return component;
         }
 
-        Icon sortIcon = getIcon(tableColumnExt);
-        String priority = getSortPriority(tableColumnExt);
+        final Icon sortIcon = getIcon(tableColumnExt);
+        final String priority = getSortPriority(tableColumnExt);
 
-        JComponent src = new SortRendererComponent(component, sortIcon, priority, COLOR_MEDIUM_LIGHT_BROWN);
+        final JComponent src = new SortRendererComponent(component, sortIcon, priority, COLOR_MEDIUM_LIGHT_BROWN);
         // src.setMinimumSize(c.getMinimumSize());
         // Breite der Spalte in die Komponente setzen
         // c.setPreferredSize(new Dimension(tc.getWidth(), 1));
@@ -70,13 +67,13 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
     }
 
     protected Icon getIcon(final ExtTableColumn tableColumnExt) {
-        Sort sort = tableColumnExt.getSort();
+        final Sort sort = tableColumnExt.getSort();
 
         return (Sort.DESCENDING.equals(sort)) ? ICON_DESCENDING : ICON_ASCENDING;
     }
 
     protected String getSortPriority(final ExtTableColumn tableColumnExt) {
-        int index = this.rowSorter.getSortPriority(tableColumnExt);
+        final int index = this.rowSorter.getSortPriority(tableColumnExt);
 
         return (index == -1) ? null : ("" + (index + 1));
     }

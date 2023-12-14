@@ -30,40 +30,40 @@ public class TableColumnSorter {
      */
     private final class HeaderMouseListener extends MouseAdapter {
         @Override
-        public void mouseClicked(final MouseEvent e) {
+        public void mouseClicked(final MouseEvent event) {
             if (!getTable().isSortable()) {
                 return;
             }
 
-            JTableHeader header = (JTableHeader) e.getSource();
-            TableColumnModel columnModel = header.getColumnModel();
+            final JTableHeader header = (JTableHeader) event.getSource();
+            final TableColumnModel columnModel = header.getColumnModel();
 
             if (!(columnModel instanceof ExtTableColumnModel)) {
                 return;
             }
 
-            int viewColumnIndex = columnModel.getColumnIndexAtX(e.getX());
+            final int viewColumnIndex = columnModel.getColumnIndexAtX(event.getX());
 
             // Keine Tabellenspalte unter dem Cursor vorhanden
             if (viewColumnIndex == -1) {
                 return;
             }
 
-            ExtTableColumn extTableColumn = (ExtTableColumn) columnModel.getColumn(viewColumnIndex);
+            final ExtTableColumn extTableColumn = (ExtTableColumn) columnModel.getColumn(viewColumnIndex);
 
             // Nicht sortierbare Spalte
             if (!extTableColumn.isSortable()) {
                 return;
             }
 
-            int columnModelIndex = extTableColumn.getModelIndex();
+            final int columnModelIndex = extTableColumn.getModelIndex();
 
             if (columnModelIndex != -1) {
-                Sort sort = extTableColumn.getSort();
+                final Sort sort = extTableColumn.getSort();
                 // System.out.println(sort.getPrevious() + "<-" + sort);
                 // System.out.println(sort + "->" + sort.getNext());
 
-                Sort newSort = e.isShiftDown() ? sort.getPrevious() : sort.getNext();
+                final Sort newSort = event.isShiftDown() ? sort.getPrevious() : sort.getNext();
 
                 setSortStatus(extTableColumn, newSort);
             }
@@ -93,7 +93,7 @@ public class TableColumnSorter {
 
         table.putClientProperty("ROWSORTER", this);
 
-        JTableHeader header = table.getTableHeader();
+        final JTableHeader header = table.getTableHeader();
         header.addMouseListener(new HeaderMouseListener());
         header.setDefaultRenderer(new RowSorterHeaderRenderer(this, header.getDefaultRenderer()));
     }

@@ -30,13 +30,13 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
     private static final long serialVersionUID = -4609321404275287633L;
 
     public static void main(final String[] args) {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(new WatermarkExampleMain());
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent e) {
-                Window win = e.getWindow();
+                final Window win = e.getWindow();
                 win.setVisible(false);
                 win.dispose();
                 System.exit(0);
@@ -50,15 +50,10 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
     private final JLabel jLabel = new JLabel();
 
     private JButton jButton;
-
     private JPanel jPanel;
-
     private JPanel jPanel1;
-
     private JSplitPane jSplitPane;
-
     private WatermarkTable watermarkTable;
-
     private WatermarkTree watermarkTree;
 
     private WatermarkExampleMain() {
@@ -69,14 +64,14 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
 
     @Override
     public void actionPerformed(final ActionEvent ae) {
-        JFileChooser chooser = new JFileChooser();
-        int option = chooser.showOpenDialog(this);
+        final JFileChooser chooser = new JFileChooser();
+        final int option = chooser.showOpenDialog(this);
 
         if (option != JFileChooser.CANCEL_OPTION) {
-            File curFile = chooser.getSelectedFile();
+            final File curFile = chooser.getSelectedFile();
             this.jLabel.setText(curFile.getAbsolutePath());
 
-            ImageIcon image = new ImageIcon(curFile.getAbsolutePath());
+            final ImageIcon image = new ImageIcon(curFile.getAbsolutePath());
             getWatermarkTable().setWatermark(image);
             getWatermarkTree().setWatermark(image);
         }
@@ -105,7 +100,7 @@ public final class WatermarkExampleMain extends JPanel implements ActionListener
 
     private JPanel getJPanel1() {
         if (this.jPanel1 == null) {
-            JLabel jLabel1 = new JLabel();
+            final JLabel jLabel1 = new JLabel();
             this.jPanel1 = new JPanel();
             this.jLabel.setText("None");
             this.jLabel.setFont(new Font("MS Sans Serif", Font.ITALIC, 11));

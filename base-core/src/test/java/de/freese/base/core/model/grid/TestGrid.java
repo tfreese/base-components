@@ -33,7 +33,7 @@ import de.freese.base.core.model.grid.column.StringGridColumn;
 class TestGrid {
     @Test
     void testGrid() {
-        Grid grid = new Grid();
+        final Grid grid = new Grid();
         grid.addColumn(new BinaryGridColumn());
         grid.addColumn(new BooleanGridColumn());
         grid.addColumn(new DateGridColumn());
@@ -42,7 +42,7 @@ class TestGrid {
         grid.addColumn(new LongGridColumn());
         grid.addColumn(new StringGridColumn());
 
-        GridRow row = GridRow.of(new Object[]{new byte[]{1, 2, 3}, true, new Date(), 1.23456D, 42, 123456L, "this is a test"});
+        final GridRow row = GridRow.of(new Object[]{new byte[]{1, 2, 3}, true, new Date(), 1.23456D, 42, 123456L, "this is a test"});
         grid.addRow(row);
 
         assertNotNull(grid.getValue(Object.class, 0, 0));
@@ -69,11 +69,11 @@ class TestGrid {
 
     @Test
     void testGridColumnBinary() {
-        GridColumn<byte[]> column = new BinaryGridColumn();
+        final GridColumn<byte[]> column = new BinaryGridColumn();
 
         assertEquals(byte[].class, column.getType());
 
-        byte[] object = new byte[]{0, 1, 2, 3, 4, 5};
+        final byte[] object = new byte[]{0, 1, 2, 3, 4, 5};
 
         assertNull(column.getValue(null));
         assertArrayEquals(object, column.getValue(object));
@@ -81,7 +81,7 @@ class TestGrid {
 
     @Test
     void testGridColumnBoolean() {
-        GridColumn<Boolean> column = new BooleanGridColumn();
+        final GridColumn<Boolean> column = new BooleanGridColumn();
 
         assertEquals(Boolean.class, column.getType());
 
@@ -92,14 +92,14 @@ class TestGrid {
 
     @Test
     void testGridColumnDate() {
-        GridColumn<Date> column = new DateGridColumn();
+        final GridColumn<Date> column = new DateGridColumn();
 
         assertEquals(Date.class, column.getType());
 
-        Date object = Date.from(ZonedDateTime.now().toInstant());
-        // Date object = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(+2)));
-        // Date object = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
-        // Date object = Date.from(LocalDateTime.now().atZone(ZoneId.of("Europe/Berlin")).toInstant());
+        final Date object = Date.from(ZonedDateTime.now().toInstant());
+        // final Date object = Date.from(LocalDateTime.now().toInstant(ZoneOffset.ofHours(+2)));
+        // final Date object = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+        // final Date object = Date.from(LocalDateTime.now().atZone(ZoneId.of("Europe/Berlin")).toInstant());
 
         assertNull(column.getValue(null));
         assertEquals(object, column.getValue(object));
@@ -107,11 +107,11 @@ class TestGrid {
 
     @Test
     void testGridColumnDouble() {
-        GridColumn<Double> column = new DoubleGridColumn();
+        final GridColumn<Double> column = new DoubleGridColumn();
 
         assertEquals(Double.class, column.getType());
 
-        double value = 1.123456D;
+        final double value = 1.123456D;
 
         assertNull(column.getValue(null));
         assertEquals(value, column.getValue(value), 0D);
@@ -119,22 +119,22 @@ class TestGrid {
 
     @Test
     void testGridColumnGeneric() {
-        //        ZoneId zoneId = ZoneId.systemDefault();
-        //        ZoneId zoneId = ZoneId.of("Europe/Berlin");
-        //        ZoneOffset zoneOffset = zoneId.getRules().getOffset(instant);
-        //        ZoneOffset zoneOffset = ZoneOffset.ofHours(+2);
+        //        final ZoneId zoneId = ZoneId.systemDefault();
+        //        final ZoneId zoneId = ZoneId.of("Europe/Berlin");
+        //        final ZoneOffset zoneOffset = zoneId.getRules().getOffset(instant);
+        //        final ZoneOffset zoneOffset = ZoneOffset.ofHours(+2);
         //
-        //        long time = Instant.now().getEpochSecond();
-        //        long time = value.atZone(zoneId).toInstant().toEpochMilli();
-        //        LocalDateTime value = LocalDateTime.ofEpochSecond(time, 0, zoneOffset);
+        //        final long time = Instant.now().getEpochSecond();
+        //        final long time = value.atZone(zoneId).toInstant().toEpochMilli();
+        //        final LocalDateTime value = LocalDateTime.ofEpochSecond(time, 0, zoneOffset);
 
-        Function<Object, LocalDateTime> mapper = LocalDateTime.class::cast;
+        final Function<Object, LocalDateTime> mapper = LocalDateTime.class::cast;
 
-        GridColumn<LocalDateTime> column = new GenericGridColumn<>(LocalDateTime.class, mapper);
+        final GridColumn<LocalDateTime> column = new GenericGridColumn<>(LocalDateTime.class, mapper);
 
         assertEquals(LocalDateTime.class, column.getType());
 
-        LocalDateTime value = LocalDateTime.now().withNano(0);
+        final LocalDateTime value = LocalDateTime.now().withNano(0);
 
         assertNull(column.getValue(null));
         assertEquals(value, column.getValue(value));
@@ -142,11 +142,11 @@ class TestGrid {
 
     @Test
     void testGridColumnInteger() {
-        GridColumn<Integer> column = new IntegerGridColumn();
+        final GridColumn<Integer> column = new IntegerGridColumn();
 
         assertEquals(Integer.class, column.getType());
 
-        int value = 123456;
+        final int value = 123456;
 
         assertNull(column.getValue(null));
         assertEquals(value, column.getValue(value));
@@ -154,11 +154,11 @@ class TestGrid {
 
     @Test
     void testGridColumnLong() {
-        GridColumn<Long> column = new LongGridColumn();
+        final GridColumn<Long> column = new LongGridColumn();
 
         assertEquals(Long.class, column.getType());
 
-        long value = 123456L;
+        final long value = 123456L;
 
         assertNull(column.getValue(null));
         assertEquals(value, column.getValue(value));
@@ -166,11 +166,11 @@ class TestGrid {
 
     @Test
     void testGridColumnString() {
-        GridColumn<String> column = new StringGridColumn();
+        final GridColumn<String> column = new StringGridColumn();
 
         assertEquals(String.class, column.getType());
 
-        String value = ",.-öä\"#ü+";
+        final String value = ",.-öä\"#ü+";
 
         assertNull(column.getValue(null));
         assertEquals(value, column.getValue(value));

@@ -36,17 +36,17 @@ public final class TableExampleScrollPaneRowHeaderMain {
 
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
-            Map<String, String> map = getObjectAt(rowIndex);
+            final Map<String, String> map = getObjectAt(rowIndex);
 
             return map.get(getColumnName(columnIndex));
         }
     }
 
     public static void main(final String[] args) {
-        List<Map<String, String>> list = new ArrayList<>();
+        final List<Map<String, String>> list = new ArrayList<>();
 
         for (int row = 0; row < 100; row++) {
-            Map<String, String> map = new LinkedHashMap<>();
+            final Map<String, String> map = new LinkedHashMap<>();
             list.add(map);
 
             for (int col = 0; col < 10; col++) {
@@ -55,10 +55,10 @@ public final class TableExampleScrollPaneRowHeaderMain {
         }
 
         // ViewPort
-        MyTableModel tableModelData = new MyTableModel(new ArrayList<>(list.get(0).keySet()));
+        final MyTableModel tableModelData = new MyTableModel(new ArrayList<>(list.get(0).keySet()));
         tableModelData.addAll(list);
 
-        JTable tableData = new JTable(tableModelData);
+        final JTable tableData = new JTable(tableModelData);
         tableData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableData.setAutoCreateRowSorter(true);
@@ -66,14 +66,14 @@ public final class TableExampleScrollPaneRowHeaderMain {
         // tableData.getTableHeader().setBackground(Color.GRAY);
         // tableData.getTableHeader().setForeground(Color.WHITE);
 
-        TableColumnModel columnModel = tableData.getColumnModel();
+        final TableColumnModel columnModel = tableData.getColumnModel();
 
         for (int c = 0; c < columnModel.getColumnCount(); c++) {
             columnModel.getColumn(c).setPreferredWidth(100);
         }
 
         // RowHeader
-        JTable tableRowHeader = new JTable();
+        final JTable tableRowHeader = new JTable();
         tableRowHeader.setAutoCreateColumnsFromModel(false);
         tableRowHeader.setModel(tableModelData);
         tableRowHeader.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -92,7 +92,7 @@ public final class TableExampleScrollPaneRowHeaderMain {
 
         // Die ersten beiden Spalten der Daten-Tabelle in den RowHeader stecken.
         for (int i = 0; i < 2; i++) {
-            TableColumn tableColumn = columnModel.getColumn(i);
+            final TableColumn tableColumn = columnModel.getColumn(i);
             columnModel.removeColumn(tableColumn);
             tableRowHeader.getColumnModel().addColumn(tableColumn);
         }
@@ -101,12 +101,12 @@ public final class TableExampleScrollPaneRowHeaderMain {
         tableRowHeader.setPreferredScrollableViewportSize(tableRowHeader.getPreferredSize());
 
         // GUI
-        JScrollPane scrollPane = new JScrollPane(tableData);
+        final JScrollPane scrollPane = new JScrollPane(tableData);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setRowHeaderView(tableRowHeader);
         scrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, tableRowHeader.getTableHeader());
 
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(scrollPane);
         frame.setSize(new Dimension(800, 600));

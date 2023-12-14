@@ -14,9 +14,10 @@ import javax.swing.WindowConstants;
  */
 public final class ArrowIconMain {
     public static void main(final String[] args) {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JLabel label = new JLabel(new ArrowIcon(30, 30, SwingConstants.NORTH, Color.MAGENTA));
+
+        final JLabel label = new JLabel(new ArrowIcon(30, 30, SwingConstants.NORTH, Color.MAGENTA));
         frame.getContentPane().add(BorderLayout.CENTER, label);
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);

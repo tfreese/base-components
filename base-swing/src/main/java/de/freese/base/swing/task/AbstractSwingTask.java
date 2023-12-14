@@ -47,11 +47,11 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     private final class SwingWorkerPCL implements PropertyChangeListener {
         @Override
         public void propertyChange(final PropertyChangeEvent event) {
-            String propertyName = event.getPropertyName();
+            final String propertyName = event.getPropertyName();
 
             if ("state".equals(propertyName)) {
-                StateValue state = (StateValue) event.getNewValue();
-                AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
+                final StateValue state = (StateValue) event.getNewValue();
+                final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
                 switch (state) {
                     case STARTED -> taskStarted(task);
@@ -97,19 +97,13 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final String name;
 
     private long doneTime = -1L;
-
     private InputBlocker inputBlocker;
-
     private boolean progressPropertyIsValid;
-
     private long startTime = -1L;
-
     private String subTitle;
-
     private String title;
 
     protected AbstractSwingTask() {
@@ -128,8 +122,8 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * Liefert die Zeiteinheit, wie lange der Task bis jetzt läuft.
      */
     public long getCurrentDuration(final TimeUnit unit) {
-        long sTime;
-        long currentTime;
+        final long sTime;
+        final long currentTime;
 
         synchronized (this) {
             sTime = this.startTime;
@@ -154,8 +148,8 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @return the length of time this Task has run.
      */
     public long getExecutionDuration(final TimeUnit unit) {
-        long sTime;
-        long dTime;
+        final long sTime;
+        final long dTime;
 
         synchronized (this) {
             sTime = this.startTime;
@@ -239,7 +233,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
 
     @Override
     protected final void done() {
-        Runnable runnable = () -> {
+        final Runnable runnable = () -> {
             // try
             // {
             if (isCancelled()) {
@@ -248,7 +242,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             }
             else {
                 try {
-                    T result = get();
+                    final T result = get();
 
                     firePropertyChange(PROPERTY_SUCCEEDED, null, result);
                     succeeded(result);
@@ -326,7 +320,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid value");
         }
 
-        float percentage = (value - min) / (max - min);
+        final float percentage = (value - min) / (max - min);
         setProgress(Math.round(percentage * 100.0F));
     }
 
@@ -350,7 +344,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid value");
         }
 
-        float percentage = (float) (value - min) / (float) (max - min);
+        final float percentage = (float) (value - min) / (float) (max - min);
         setProgress(Math.round(percentage * 100.0F));
     }
 
@@ -374,12 +368,12 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid value");
         }
 
-        float percentage = (float) (value - min) / (float) (max - min);
+        final float percentage = (float) (value - min) / (float) (max - min);
         setProgress(Math.round(percentage * 100.0F));
     }
 
     protected void setSubTitle(final String subTitle) {
-        String old = this.subTitle;
+        final String old = this.subTitle;
 
         this.subTitle = subTitle;
 
@@ -387,7 +381,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     protected void setTitle(final String title) {
-        String old = this.title;
+        final String old = this.title;
 
         this.title = title;
 
@@ -405,7 +399,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     private long getDuration(final TimeUnit unit, final long startTime, final long endTime) {
-        long dt;
+        final long dt;
 
         if (startTime == -1L) {
             dt = 0L;

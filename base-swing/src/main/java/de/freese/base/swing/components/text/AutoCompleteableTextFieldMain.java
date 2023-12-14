@@ -12,12 +12,12 @@ import javax.swing.WindowConstants;
  */
 public final class AutoCompleteableTextFieldMain {
     public static void main(final String[] args) {
-        JFrame frame = new JFrame("AutoCompleteableTextField");
+        final JFrame frame = new JFrame("AutoCompleteableTextField");
 
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout());
 
-        JLabel label = new JLabel("Text: ");
+        final JLabel label = new JLabel("Text: ");
 
         label.setFocusable(true);
 

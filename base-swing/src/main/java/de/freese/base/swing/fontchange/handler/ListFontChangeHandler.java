@@ -14,13 +14,13 @@ public class ListFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JList<?> list = (JList<?>) object;
-        int rowHeightNew = newFont.getSize() + 4;
+        final JList<?> list = (JList<?>) object;
+        final int rowHeightNew = newFont.getSize() + 4;
 
         // if (list.getFixedCellHeight() < rowHeightNew) {
         list.setFixedCellHeight(rowHeightNew);
 
-        ListCellRenderer<?> cellRenderer = list.getCellRenderer();
+        final ListCellRenderer<?> cellRenderer = list.getCellRenderer();
 
         if (cellRenderer instanceof Component) {
             super.fontChanged(newFont, cellRenderer);

@@ -46,24 +46,24 @@ public class SerializableTransferHandler extends TransferHandler {
 
     @Override
     protected Transferable createTransferable(final JComponent c) {
-        List<Serializable> objects = new ArrayList<>();
+        final List<Serializable> objects = new ArrayList<>();
 
         if (c instanceof JList<?> list) {
-            List<?> selectedValues = list.getSelectedValuesList();
+            final List<?> selectedValues = list.getSelectedValuesList();
 
             for (Object value : selectedValues) {
                 objects.add((Serializable) value);
             }
         }
         else if (c instanceof JTree tree) {
-            TreePath[] selectedPaths = tree.getSelectionPaths();
+            final TreePath[] selectedPaths = tree.getSelectionPaths();
 
             for (TreePath treePath : selectedPaths) {
                 objects.add((Serializable) treePath.getLastPathComponent());
             }
         }
         else if (c instanceof JTable table) {
-            Object[] selectedObjects = TableUtils.getSelectedObjects(table);
+            final Object[] selectedObjects = TableUtils.getSelectedObjects(table);
 
             for (Object object : selectedObjects) {
                 objects.add((Serializable) object);

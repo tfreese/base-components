@@ -34,7 +34,7 @@ public final class TestPdfExporterMain {
     // BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
 
     public static void main(final String[] args) throws Exception {
-        Exporter<List<String>> exporter = new AbstractPdfExporter<>() {
+        final Exporter<List<String>> exporter = new AbstractPdfExporter<>() {
             @Override
             public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception {
                 // Must be called before opening the Document.
@@ -60,15 +60,15 @@ public final class TestPdfExporterMain {
 
                 document.newPage();
 
-                float[] columnWidths = {40F, 80F, 40F};
+                final float[] columnWidths = {40F, 80F, 40F};
 
-                PdfPTable table = new PdfPTable(columnWidths);
+                final PdfPTable table = new PdfPTable(columnWidths);
                 table.setTotalWidth(160F);
                 table.setLockedWidth(true);
 
                 model.forEach(value -> table.addCell(createCell(value, PDF_FONT_12_BLACK_BOLD)));
 
-                PdfContentByte contentByte = writer.getDirectContent();
+                final PdfContentByte contentByte = writer.getDirectContent();
                 table.writeSelectedRows(0, -1, getMinX(document) - 0.5F, getMaxY(document) - 20F, contentByte);
 
                 //                getDocument().add(table);
@@ -79,15 +79,15 @@ public final class TestPdfExporterMain {
                 drawRectangle(writer, 400, 400, 100, 100, Color.BLUE, Color.MAGENTA);
                 drawRectangle(writer, 400, 250, 100, 100, null, null);
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 drawTextFooter(document, writer, "Footer: " + LocalDateTime.now().format(formatter), PDF_FONT_12_BLACK);
             }
         };
 
-        Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.pdf");
+        final Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), "test.pdf");
         exporter.export(filePath, List.of("1", "2", "3", "", "4", ""));
 
-        Runnable task = () -> {
+        final Runnable task = () -> {
             try {
                 Desktop.getDesktop().open(filePath.toFile());
             }
@@ -102,7 +102,7 @@ public final class TestPdfExporterMain {
         //
         //        ForkJoinPool.commonPool().execute(task);
         //
-        //        Thread thread = new Thread(task);
+        //        final Thread thread = new Thread(task);
         //        thread.setDaemon(true);
         //        thread.start();
         //
@@ -110,7 +110,7 @@ public final class TestPdfExporterMain {
     }
 
     private static PdfPCell createCell(final String text, final Font font) {
-        PdfPCell cell = new PdfPCell();
+        final PdfPCell cell = new PdfPCell();
         cell.setNoWrap(true);
         cell.setFixedHeight(20F);
         cell.setPadding(0.0F);
@@ -123,7 +123,7 @@ public final class TestPdfExporterMain {
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setBorderWidth(0.5F);
 
-        Paragraph paragraph = new Paragraph(text, font);
+        final Paragraph paragraph = new Paragraph(text, font);
         cell.setPhrase(paragraph);
 
         return cell;

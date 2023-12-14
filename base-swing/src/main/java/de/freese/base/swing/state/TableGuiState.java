@@ -32,21 +32,13 @@ public class TableGuiState extends AbstractGuiState {
         private static final long serialVersionUID = -4666054569112117571L;
 
         private boolean editable = true;
-
         private int maxWidth = 30;
-
         private int minWidth = 30;
-
         private int modelIndex;
-
         private int preferredWidth = 50;
-
         private boolean resizeable = true;
-
         private boolean sortable = true;
-
         private boolean visible = true;
-
         private int width = 50;
 
         public ColumnState() {
@@ -109,7 +101,7 @@ public class TableGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JTable table = (JTable) component;
+        final JTable table = (JTable) component;
 
         if ((this.selectedRows != null) && (this.selectedRows.length > 0)) {
             // With SINGLE_SELECTION must setColumnSelectionAllowed(false) be called to do this working.
@@ -118,7 +110,7 @@ public class TableGuiState extends AbstractGuiState {
                     table.addRowSelectionInterval(row, row);
                 }
 
-                Rectangle rectangle = table.getCellRect(this.selectedRows[0], 0, true);
+                final Rectangle rectangle = table.getCellRect(this.selectedRows[0], 0, true);
                 table.scrollRectToVisible(rectangle);
             }
             catch (Exception ex) {
@@ -127,10 +119,10 @@ public class TableGuiState extends AbstractGuiState {
         }
 
         if ((this.columnStates != null) && (this.columnStates.length > 0)) {
-            List<TableColumn> columns = getColumns(table);
+            final List<TableColumn> columns = getColumns(table);
 
             for (int i = 0; i < columns.size(); i++) {
-                int index = findModelIndex(i);
+                final int index = findModelIndex(i);
 
                 if (index < 0) {
                     continue;
@@ -142,7 +134,7 @@ public class TableGuiState extends AbstractGuiState {
                     tableColumn = columns.get(index);
                 }
 
-                ColumnState columnState = this.columnStates[index];
+                final ColumnState columnState = this.columnStates[index];
 
                 columnState.update(tableColumn);
             }
@@ -153,15 +145,15 @@ public class TableGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JTable table = (JTable) component;
+        final JTable table = (JTable) component;
 
         this.selectedRows = table.getSelectedRows();
 
-        List<TableColumn> columns = getColumns(table);
+        final List<TableColumn> columns = getColumns(table);
         this.columnStates = new ColumnState[columns.size()];
 
         for (int i = 0; i < columns.size(); i++) {
-            TableColumn column = columns.get(i);
+            final TableColumn column = columns.get(i);
             this.columnStates[i] = new ColumnState(column);
         }
     }
@@ -177,7 +169,7 @@ public class TableGuiState extends AbstractGuiState {
     }
 
     private List<TableColumn> getColumns(final JTable table) {
-        List<TableColumn> columns = new ArrayList<>();
+        final List<TableColumn> columns = new ArrayList<>();
 
         if (table instanceof JXTable jxTable) {
             columns.addAll(jxTable.getColumns(true));

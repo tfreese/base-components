@@ -33,7 +33,7 @@ public class FrameGuiState extends ContainerGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        Frame frame = (Frame) component;
+        final Frame frame = (Frame) component;
 
         frame.setExtendedState(this.extendedState);
 
@@ -47,7 +47,7 @@ public class FrameGuiState extends ContainerGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        Frame frame = (Frame) component;
+        final Frame frame = (Frame) component;
 
         this.extendedState = frame.getExtendedState();
 

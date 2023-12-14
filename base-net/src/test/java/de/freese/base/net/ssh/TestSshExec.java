@@ -21,9 +21,9 @@ class TestSshExec {
     //    @EnabledOnOs({OS.LINUX, OS.MAC})
     @Test
     void testSshUserCertificate() throws Exception {
-        SshExec sshExec = SshExec.connectByUserCertificate(USER, PASSWORD, HOST, 22);
+        final SshExec sshExec = SshExec.connectByUserCertificate(USER, PASSWORD, HOST, 22);
 
-        String result = sshExec.execute("df -h");
+        final String result = sshExec.execute("df -h");
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -36,9 +36,9 @@ class TestSshExec {
     //    @EnabledOnOs({OS.LINUX, OS.MAC})
     @Test
     void testSshUserPassword() throws Exception {
-        SshExec sshExec = SshExec.connectByUserPassword(USER, PASSWORD, HOST, 22);
+        final SshExec sshExec = SshExec.connectByUserPassword(USER, PASSWORD, HOST, 22);
 
-        String result = sshExec.execute("df -h");
+        final String result = sshExec.execute("df -h");
 
         assertNotNull(result);
         assertFalse(result.isEmpty());

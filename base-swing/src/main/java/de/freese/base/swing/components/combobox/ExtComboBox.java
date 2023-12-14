@@ -44,11 +44,11 @@ public class ExtComboBox<T> extends JComboBox<T> {
             @SuppressWarnings({"rawtypes", "unchecked"})
             @Override
             protected Rectangle computePopupBounds(final int px, final int py, final int pw, final int ph) {
-                Rectangle rect = super.computePopupBounds(px, py, pw, ph);
+                final Rectangle rect = super.computePopupBounds(px, py, pw, ph);
 
                 int width = rect.width;
-                int itemCount = this.comboBox.getItemCount();
-                ListCellRenderer renderer = this.comboBox.getRenderer();
+                final int itemCount = this.comboBox.getItemCount();
+                final ListCellRenderer renderer = this.comboBox.getRenderer();
 
                 // If the scroll bar appears, need to accommodate !
                 int scroll = 0;
@@ -59,10 +59,10 @@ public class ExtComboBox<T> extends JComboBox<T> {
 
                 // Detect max. Width.
                 for (int i = 0; i < itemCount; i++) {
-                    Component c = renderer.getListCellRendererComponent(getList(), this.comboBox.getItemAt(i), i, false, false);
+                    final Component c = renderer.getListCellRendererComponent(getList(), this.comboBox.getItemAt(i), i, false, false);
 
                     if (c instanceof JLabel label) {
-                        int labelWidth = 1 + c.getFontMetrics(c.getFont()).stringWidth(label.getText());
+                        final int labelWidth = 1 + c.getFontMetrics(c.getFont()).stringWidth(label.getText());
 
                         width = Math.max(width, labelWidth + scroll);
                     }
@@ -92,7 +92,7 @@ public class ExtComboBox<T> extends JComboBox<T> {
         @SuppressWarnings("unchecked")
         @Override
         protected ComboPopup createPopup() {
-            BasicComboPopup popup = new AutoWidthComboPopup((JComboBox<T>) this.comboBox);
+            final BasicComboPopup popup = new AutoWidthComboPopup((JComboBox<T>) this.comboBox);
             popup.getAccessibleContext().setAccessibleParent(this.comboBox);
 
             return popup;

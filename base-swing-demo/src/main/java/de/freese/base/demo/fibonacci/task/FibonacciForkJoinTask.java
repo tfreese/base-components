@@ -20,11 +20,8 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
     private static final long serialVersionUID = 67781993370162624L;
 
     private final boolean enableCache;
-
     private final int n;
-
     private final transient LongConsumer operationConsumer;
-
     private final AtomicLong operationCount;
 
     public FibonacciForkJoinTask(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount, final boolean enableCache) {
@@ -38,7 +35,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);
+        final Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);
 
         if ((value != null) && (value > 0)) {
             return value;
@@ -53,8 +50,8 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
             this.operationConsumer.accept(this.operationCount.get());
         }
         else {
-            FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(this.n - 1, this.operationConsumer, this.operationCount, this.enableCache);
-            FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.operationConsumer, this.operationCount, this.enableCache);
+            final FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(this.n - 1, this.operationConsumer, this.operationCount, this.enableCache);
+            final FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.operationConsumer, this.operationCount, this.enableCache);
             task2.fork();
 
             result = task1.compute() + task2.join();

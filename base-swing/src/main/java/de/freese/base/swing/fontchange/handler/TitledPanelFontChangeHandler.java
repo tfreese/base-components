@@ -12,9 +12,9 @@ public class TitledPanelFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JXTitledPanel titledPanel = (JXTitledPanel) object;
+        final JXTitledPanel titledPanel = (JXTitledPanel) object;
 
-        Font oldFont = titledPanel.getFont();
+        final Font oldFont = titledPanel.getFont();
 
         if (oldFont == null) {
             titledPanel.setTitleFont(newFont.deriveFont(Font.BOLD));

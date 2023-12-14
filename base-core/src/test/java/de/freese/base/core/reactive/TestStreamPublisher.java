@@ -30,7 +30,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 @Execution(ExecutionMode.CONCURRENT)
 class TestStreamPublisher {
     static final Executor EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-
     static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
 
     /**
@@ -134,7 +133,7 @@ class TestStreamPublisher {
 
     @Test
     void testStreamPublisherToSubscriber() {
-        Publisher<Integer> publisher = new StreamPublisher<>(EXECUTOR, STREAM_SUPPLIER);
+        final Publisher<Integer> publisher = new StreamPublisher<>(EXECUTOR, STREAM_SUPPLIER);
         // Publisher<Integer> publisher = new StreamPublisher<>(streamSupplier);
         publisher.subscribe(new MyTestSubscriber<>());
 
@@ -148,7 +147,7 @@ class TestStreamPublisher {
         // try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>(EXECUTOR, Flow.defaultBufferSize()))
         try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>()) {
             // close-Methode in MyTransformProcessor#onComplete.
-            var transformProcessor = new MyTransformProcessor<Integer, String>(EXECUTOR, i -> "-" + i + "-");
+            final var transformProcessor = new MyTransformProcessor<Integer, String>(EXECUTOR, i -> "-" + i + "-");
             // var transformProcessor = new MyTransformProcessor<Integer, String>(i -> "-" + Integer.toString(i) + "-");
             publisher.subscribe(transformProcessor);
 

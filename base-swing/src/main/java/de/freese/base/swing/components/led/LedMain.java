@@ -17,9 +17,9 @@ import de.freese.base.swing.components.led.token.TextToken;
  */
 public final class LedMain {
     public static void main(final String[] args) {
-        LedPanel ledPanel = new LedPanel();
+        final LedPanel ledPanel = new LedPanel();
 
-        JFrame frame = new JFrame("LED Panel");
+        final JFrame frame = new JFrame("LED Panel");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBackground(Color.BLACK);
 

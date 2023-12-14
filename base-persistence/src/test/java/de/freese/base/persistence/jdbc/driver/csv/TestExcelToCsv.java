@@ -37,19 +37,19 @@ class TestExcelToCsv {
 
     @Test
     void testExcelToCsv01() throws Exception {
-        Path excelSource = Paths.get("src/test/resources/test1.xlsx");
+        final Path excelSource = Paths.get("src/test/resources/test1.xlsx");
 
-        ExcelToCsv toCsv = new ExcelToCsv();
+        final ExcelToCsv toCsv = new ExcelToCsv();
         toCsv.setColumnIndices(0, 1, 2, 3, 4);
 
         // Format date: 1/1/16 -> 2016-01-01
         toCsv.setConvertFunction(1, value -> {
-            String[] date = value.split("/");
+            final String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
 
         // Format numbers: 0,1 -> 0.1
-        UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
+        final UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
         toCsv.setConvertFunction(2, toNumberFunction);
         toCsv.setConvertFunction(4, toNumberFunction);
 
@@ -63,21 +63,21 @@ class TestExcelToCsv {
 
     @Test
     void testExcelToCsv02() throws Exception {
-        Path excelSource = Paths.get("src/test/resources/test1.xlsx");
+        final Path excelSource = Paths.get("src/test/resources/test1.xlsx");
 
-        ExcelToCsv toCsv = new ExcelToCsv();
+        final ExcelToCsv toCsv = new ExcelToCsv();
         toCsv.setFieldSeparator('\t');
         toCsv.setQuoteCharacter(null);
         toCsv.setColumnIndices(0, 1, 2, 3, 4);
 
         // Format date: 1/1/16 -> 2016-01-01
         toCsv.setConvertFunction(1, value -> {
-            String[] date = value.split("/");
+            final String[] date = value.split("/");
             return "20" + date[2] + "-" + date[1] + "-" + date[0];
         });
 
         // Format numbers: 0,1 -> 0.1
-        UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
+        final UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
         toCsv.setConvertFunction(2, toNumberFunction);
         toCsv.setConvertFunction(4, toNumberFunction);
 

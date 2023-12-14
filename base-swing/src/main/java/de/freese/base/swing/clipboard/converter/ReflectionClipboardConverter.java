@@ -22,7 +22,7 @@ public class ReflectionClipboardConverter extends AbstractClipboardConverter {
     @Override
     public Object fromClipboard(final String value) {
         try {
-            Constructor<?> con = this.clazz.getConstructor(String.class);
+            final Constructor<?> con = this.clazz.getConstructor(String.class);
 
             return con.newInstance(value);
         }

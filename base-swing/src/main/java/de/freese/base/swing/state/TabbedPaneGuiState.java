@@ -32,7 +32,7 @@ public class TabbedPaneGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JTabbedPane tabbedPane = (JTabbedPane) component;
+        final JTabbedPane tabbedPane = (JTabbedPane) component;
 
         try {
             tabbedPane.setSelectedIndex(this.selectedIndex != -1 ? this.selectedIndex : 0);
@@ -50,7 +50,7 @@ public class TabbedPaneGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JTabbedPane tabbedPane = (JTabbedPane) component;
+        final JTabbedPane tabbedPane = (JTabbedPane) component;
 
         this.selectedIndex = tabbedPane.getSelectedIndex();
     }

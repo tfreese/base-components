@@ -16,16 +16,16 @@ public class MenuBarFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JMenuBar menuBar = (JMenuBar) object;
+        final JMenuBar menuBar = (JMenuBar) object;
 
         // JMenu
         for (int i = 0; i < menuBar.getMenuCount(); i++) {
-            JMenu menu = menuBar.getMenu(i);
+            final JMenu menu = menuBar.getMenu(i);
             super.fontChanged(newFont, menu);
 
             // JMenuItem
             for (int j = 0; j < menu.getItemCount(); j++) {
-                JMenuItem menuItem = menu.getItem(j);
+                final JMenuItem menuItem = menu.getItem(j);
 
                 if (menuItem == null) {
                     continue;

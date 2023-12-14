@@ -26,9 +26,9 @@ public class ComboBoxGroup implements ItemListener {
     }
 
     @Override
-    public void itemStateChanged(final ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-            JComboBox<?> srcComboBox = (JComboBox<?>) e.getSource();
+    public void itemStateChanged(final ItemEvent event) {
+        if (event.getStateChange() == ItemEvent.SELECTED) {
+            final JComboBox<?> srcComboBox = (JComboBox<?>) event.getSource();
 
             // Remove selection from all other ComboBoxes.
             for (JComboBox<?> comboBox : this.boxes) {

@@ -56,17 +56,16 @@ import de.freese.base.utils.UICustomization;
  */
 public class DemoApplication {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final List<Releasable> releasables = new ArrayList<>();
 
     private Thread shutdownHook;
 
     public void start() {
-        String applicationName = "Demo Application";
+        final String applicationName = "Demo Application";
 
         getLogger().info("Starting {}", applicationName);
 
-        ApplicationContext applicationContext = new ApplicationContext();
+        final ApplicationContext applicationContext = new ApplicationContext();
         initApplicationContext(applicationContext, applicationName);
         initResourceMap(applicationContext);
         initLookAndFeel(applicationName);
@@ -79,33 +78,33 @@ public class DemoApplication {
         getLogger().info("Initialize GUI");
 
         // Main-Panel
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        StatusBar statusBar = new StatusBar(applicationContext.getResourceMap("bundles/statusbar"), applicationContext.getService(TaskManager.class));
+        final StatusBar statusBar = new StatusBar(applicationContext.getResourceMap("bundles/statusbar"), applicationContext.getService(TaskManager.class));
         statusBar.initialize();
         panel.add(statusBar, BorderLayout.SOUTH);
 
-        JTabbedPane tabbedPane = new JTabbedPane();
+        final JTabbedPane tabbedPane = new JTabbedPane();
         panel.add(tabbedPane, BorderLayout.CENTER);
 
-        ExampleView exampleView = new ExampleView();
+        final ExampleView exampleView = new ExampleView();
         String tabTitle = applicationContext.getResourceMap("bundles/example").getString("example.title");
         tabbedPane.addTab(tabTitle, exampleView.initComponent(applicationContext).getComponent());
 
-        FibonacciView fibonacciView = new DefaultFibonacciView();
+        final FibonacciView fibonacciView = new DefaultFibonacciView();
         releasables.add(fibonacciView);
         tabTitle = applicationContext.getResourceMap("bundles/fibonacci").getString("fibonacci.title");
         tabbedPane.addTab(tabTitle, fibonacciView.initComponent(applicationContext).getComponent());
 
-        NasaView nasaView = new DefaultNasaView();
+        final NasaView nasaView = new DefaultNasaView();
         tabTitle = applicationContext.getResourceMap("bundles/nasa").getString("nasa.title");
         tabbedPane.addTab(tabTitle, nasaView.initComponent(applicationContext).getComponent());
 
         // Main-Frame
-        ResourceMap resourceMap = applicationContext.getResourceMapRoot();
+        final ResourceMap resourceMap = applicationContext.getResourceMapRoot();
 
-        JFrame frame = new ExtFrame();
+        final JFrame frame = new ExtFrame();
         applicationContext.setMainFrame(frame);
 
         frame.addWindowListener(new WindowAdapter() {
@@ -144,10 +143,10 @@ public class DemoApplication {
         getLogger().info("Initialize ApplicationContext");
 
         // Min. 1 Thread, unused Thread will be terminated after 60 seconds.
-        ExecutorService executorService = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
+        final ExecutorService executorService = new ThreadPoolExecutor(1, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<>());
         applicationContext.registerService(ExecutorService.class, executorService);
 
-        LocalStorage localStorage = new LocalStorage(Paths.get(System.getProperty("user.home"), ".java-apps", applicationName.toLowerCase().replace(" ", "_")));
+        final LocalStorage localStorage = new LocalStorage(Paths.get(System.getProperty("user.home"), ".java-apps", applicationName.toLowerCase().replace(" ", "_")));
         applicationContext.registerService(LocalStorage.class, localStorage);
 
         applicationContext.registerService(GuiStateManager.class, new XmlGuiStateManager(localStorage, GuiStates.ofDefaults()));
@@ -210,11 +209,11 @@ public class DemoApplication {
     protected void initResourceMap(final ApplicationContext applicationContext) {
         getLogger().info("Initialize ResourceMap");
 
-        ResourceProvider resourceProvider = new ResourceBundleProvider();
-        // ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};
+        final ResourceProvider resourceProvider = new ResourceBundleProvider();
+        //final  ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};
 
         // @formatter:off
-        ResourceMap rootMap = ResourceMapBuilder.create()
+        final ResourceMap rootMap = ResourceMapBuilder.create()
             .resourceProvider(resourceProvider)
                 //.converter(..., ...)
             .bundleName("bundles/demo")
@@ -243,7 +242,7 @@ public class DemoApplication {
     protected void initShutdownHook(final ApplicationContext applicationContext) {
         getLogger().info("Initialize ShutdownHook");
 
-        Runnable shutdownTask = () -> {
+        final Runnable shutdownTask = () -> {
             try {
                 release(applicationContext);
             }
@@ -260,7 +259,7 @@ public class DemoApplication {
     private void release(final ApplicationContext applicationContext) {
         getLogger().info("Release");
 
-        int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?", "Exit", JOptionPane.YES_NO_OPTION);
+        final int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?", "Exit", JOptionPane.YES_NO_OPTION);
 
         if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION)) {
             getLogger().info("Release aborted");

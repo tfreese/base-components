@@ -14,7 +14,7 @@ public final class JListUtils {
     }
 
     public static <T> void fillList(final JList<T> list, final Iterator<T> iterator) {
-        DefaultListModel<T> listModel = (DefaultListModel<T>) list.getModel();
+        final DefaultListModel<T> listModel = (DefaultListModel<T>) list.getModel();
         listModel.removeAllElements();
 
         while (iterator.hasNext()) {

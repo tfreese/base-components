@@ -129,7 +129,7 @@ public class MouseGestures {
                         if (mouseGesturesRecognizer.isGestureRecognized()) {
                             // prevents displaying popup menu and so on
                             mouseEvent.consume();
-                            String gesture = mouseGesturesRecognizer.getGesture();
+                            final String gesture = mouseGesturesRecognizer.getGesture();
                             // clear temporary information
                             mouseGesturesRecognizer.clearTemporaryInfo();
                             // execute action

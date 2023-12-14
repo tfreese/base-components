@@ -26,7 +26,7 @@ public class OptionPaneUI extends BasicOptionPaneUI {
 
     @Override
     protected Container createButtonArea() {
-        Container c = super.createButtonArea();
+        final Container c = super.createButtonArea();
 
         if (c instanceof JComponent jc) {
             jc.setOpaque(false);
@@ -37,22 +37,22 @@ public class OptionPaneUI extends BasicOptionPaneUI {
 
     @Override
     protected Container createMessageArea() {
-        JPanel top = new JPanel();
+        final JPanel top = new JPanel();
         top.setOpaque(false);
         top.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
         top.setLayout(new BorderLayout());
 
-        /* Fill the body. */
-        JPanel body = new JPanel();
+        // Fill the body.
+        final JPanel body = new JPanel();
         body.setOpaque(false);
 
-        JPanel realBody = new JPanel();
+        final JPanel realBody = new JPanel();
         realBody.setOpaque(false);
 
         realBody.setLayout(new BorderLayout());
 
         if (getIcon() != null) {
-            JPanel sep = new JPanel() {
+            final JPanel sep = new JPanel() {
                 @Serial
                 private static final long serialVersionUID = 1L;
 
@@ -70,7 +70,7 @@ public class OptionPaneUI extends BasicOptionPaneUI {
 
         body.setLayout(new GridBagLayout());
 
-        GridBagConstraints cons = new GridBagConstraints();
+        final GridBagConstraints cons = new GridBagConstraints();
         cons.gridx = cons.gridy = 0;
         cons.gridwidth = GridBagConstraints.REMAINDER;
         cons.gridheight = 1;

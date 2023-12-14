@@ -19,10 +19,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  */
 public final class MdiDesktopPane extends JDesktopPane {
     private static final int FRAME_OFFSET = 20;
-
     @Serial
     private static final long serialVersionUID = -1067444001367381670L;
-
     private final MdiDesktopManager manager;
 
     public MdiDesktopPane() {
@@ -39,12 +37,12 @@ public final class MdiDesktopPane extends JDesktopPane {
 
     // public Component add(final JInternalFrame frame)
     // {
-    // JInternalFrame[] allFrames = getAllFrames();
+    // final JInternalFrame[] allFrames = getAllFrames();
     // Point p = null;
     // int w = 0;
     // int h = 0;
     //
-    // Component retVal = super.add(frame);
+    // final Component retVal = super.add(frame);
     //
     // checkDesktopSize();
     //
@@ -97,7 +95,7 @@ public final class MdiDesktopPane extends JDesktopPane {
     public int getTitleHeight() {
         try {
             for (JInternalFrame frame : getAllFrames()) {
-                Dimension dimension = ((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
+                final Dimension dimension = ((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
 
                 return dimension.height;
             }
@@ -157,7 +155,7 @@ public final class MdiDesktopPane extends JDesktopPane {
      * Cascade all internal frames.
      */
     private void cascadeFrames(final int minWidth, final int minHeight) {
-        JInternalFrame[] allFrames = getAllFrames();
+        final JInternalFrame[] allFrames = getAllFrames();
         int x = 0;
         int y = 0;
 
@@ -188,7 +186,7 @@ public final class MdiDesktopPane extends JDesktopPane {
      * Tile all internal frames.
      */
     private void tileFrames(final int minWidth, final int minHeight) {
-        JInternalFrame[] allFrames = getAllFrames();
+        final JInternalFrame[] allFrames = getAllFrames();
         this.manager.setNormalSize();
 
         // count frames that aren't iconized
@@ -201,8 +199,8 @@ public final class MdiDesktopPane extends JDesktopPane {
         }
 
         int rows = (int) Math.sqrt(frameCount);
-        int cols = frameCount / rows;
-        int extra = frameCount % rows;
+        final int cols = frameCount / rows;
+        final int extra = frameCount % rows;
         // number of columns with an extra row
 
         int width = getWidth() / cols;
@@ -242,7 +240,7 @@ public final class MdiDesktopPane extends JDesktopPane {
      * Tile all internal frames in flat style.
      */
     private void tileFramesFlat(final int minHeight) {
-        JInternalFrame[] allFrames = getAllFrames();
+        final JInternalFrame[] allFrames = getAllFrames();
         this.manager.setNormalSize();
         int y = 0;
 

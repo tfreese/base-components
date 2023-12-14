@@ -22,7 +22,6 @@ public class ExtTree extends JTree implements Autoscroll {
     private static final long serialVersionUID = -9201687902908324380L;
 
     private int margin = 15;
-
     private boolean paintAutoscrollBorder;
 
     public ExtTree() {
@@ -69,9 +68,9 @@ public class ExtTree extends JTree implements Autoscroll {
 
     @Override
     public void autoscroll(final Point p) {
-        int realRow = getRowForLocation(p.x, p.y);
+        final int realRow = getRowForLocation(p.x, p.y);
 
-        // Rectangle outer = getBounds();
+        // final Rectangle outer = getBounds();
         // realRow = (
         // ((p.y + outer.y) <= getMargin()) ? ((realRow < 1) ? 0 : (realRow - 1))
         // : ((realRow < (getRowCount() - 1)) ? (realRow + 1) : realRow)
@@ -81,13 +80,13 @@ public class ExtTree extends JTree implements Autoscroll {
 
     @Override
     public Insets getAutoscrollInsets() {
-        Rectangle outer = getBounds();
-        Rectangle inner = getParent().getBounds();
+        final Rectangle outer = getBounds();
+        final Rectangle inner = getParent().getBounds();
 
-        int top = (inner.y - outer.y) + getMargin();
-        int left = (inner.x - outer.x) + getMargin();
-        int bottom = (outer.height - inner.height - inner.y) + outer.y + getMargin();
-        int right = (outer.width - inner.width - inner.x) + outer.x + getMargin();
+        final int top = (inner.y - outer.y) + getMargin();
+        final int left = (inner.x - outer.x) + getMargin();
+        final int bottom = (outer.height - inner.height - inner.y) + outer.y + getMargin();
+        final int right = (outer.width - inner.width - inner.x) + outer.x + getMargin();
 
         return new Insets(top, left, bottom, right);
     }
@@ -117,8 +116,8 @@ public class ExtTree extends JTree implements Autoscroll {
         super.paintComponent(g);
 
         if (isPaintAutoscrollBorder()) {
-            Rectangle outer = getBounds();
-            Rectangle inner = getParent().getBounds();
+            final Rectangle outer = getBounds();
+            final Rectangle inner = getParent().getBounds();
 
             g.setColor(Color.red);
             g.drawRect(-outer.x + getMargin(), -outer.y + getMargin(), inner.width - (getMargin() * 2), inner.height - (getMargin() * 2));

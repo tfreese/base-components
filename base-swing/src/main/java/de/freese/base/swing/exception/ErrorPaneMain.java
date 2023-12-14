@@ -11,11 +11,11 @@ import org.jdesktop.swingx.error.ErrorInfo;
 public final class ErrorPaneMain {
     public static void main(final String[] args) {
         try {
-            Exception cause = new Exception("I'm the cause");
+            final Exception cause = new Exception("I'm the cause");
             throw new Exception("I'm a secondary exception", cause);
         }
         catch (Exception ex) {
-            ErrorInfo errorInfo = new ErrorInfo("ErrorTitle", "basic error message", null, "category", ex, Level.ALL, null);
+            final ErrorInfo errorInfo = new ErrorInfo("ErrorTitle", "basic error message", null, "category", ex, Level.ALL, null);
 
             ErrorPane.showDialog(null, errorInfo, false);
         }

@@ -55,7 +55,6 @@ public final class SwingFontSizeChanger {
     }
 
     private final Map<Class<?>, FontChangeHandler> handlers = new HashMap<>();
-
     private final PropertyChangeSupport propertyChangeSupport;
 
     private Font font;
@@ -110,7 +109,7 @@ public final class SwingFontSizeChanger {
     }
 
     public void register(final Object object) {
-        PropertyChangeListener fontListener = event -> {
+        final PropertyChangeListener fontListener = event -> {
             if (object instanceof JComponent c) {
                 updateFontForComponent(getFont(), c);
             }
@@ -130,7 +129,7 @@ public final class SwingFontSizeChanger {
     }
 
     public void setFont(final Font font) {
-        Font oldFont = this.font;
+        final Font oldFont = this.font;
         this.font = font;
 
         this.propertyChangeSupport.firePropertyChange("font", oldFont, this.font);
@@ -143,7 +142,7 @@ public final class SwingFontSizeChanger {
             return;
         }
 
-        Font newFont = this.font.deriveFont(fontSize);
+        final Font newFont = this.font.deriveFont(fontSize);
 
         setFont(newFont);
     }
@@ -159,7 +158,7 @@ public final class SwingFontSizeChanger {
     private void updateFontForContainer(final Font newFont, final Container container) {
         updateFontForObject(newFont, container);
 
-        Component[] components = container.getComponents();
+        final Component[] components = container.getComponents();
 
         for (Component comp : components) {
             if (comp instanceof JComponent c) {

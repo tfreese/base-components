@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 public final class GuiStates {
     public static GuiStates ofDefaults() {
-        GuiStates guiStates = new GuiStates();
+        final GuiStates guiStates = new GuiStates();
         guiStates.customize(GuiStates::defaultStates);
 
         return guiStates;
@@ -35,7 +35,6 @@ public final class GuiStates {
     }
 
     private final Map<Class<? extends GuiState>, GuiState> instanceMap = new HashMap<>();
-
     private final Set<Class<? extends GuiState>> states = new HashSet<>();
 
     private GuiStates() {

@@ -32,7 +32,7 @@ public class ColumnControlButton extends JButton {
 
         this.tables.add(table);
         setIcon(new ColumnControlIcon());
-        addActionListener(e -> {
+        addActionListener(event -> {
             getColumnControlWindow().clear();
             getColumnControlWindow().fill();
             getColumnControlWindow().show();

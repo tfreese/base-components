@@ -12,9 +12,9 @@ import de.freese.base.swing.fontchange.FontChangeHandler;
 public class TitledBorderFontChangeHandler implements FontChangeHandler {
     @Override
     public void fontChanged(final Font newFont, final Object object) {
-        TitledBorder titledBorder = (TitledBorder) object;
+        final TitledBorder titledBorder = (TitledBorder) object;
 
-        Font oldFont = titledBorder.getTitleFont();
+        final Font oldFont = titledBorder.getTitleFont();
 
         if (oldFont == null) {
             titledBorder.setTitleFont(newFont);

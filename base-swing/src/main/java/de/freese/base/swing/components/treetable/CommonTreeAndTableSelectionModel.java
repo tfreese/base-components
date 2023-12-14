@@ -55,7 +55,6 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
     }
 
     private final JTree tree;
-
     private boolean updateTreeSelectionMode = true;
     /**
      * Set to true when we are updating the ListSelectionModel.
@@ -126,15 +125,15 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
             try {
                 // This is way expensive, ListSelectionModel needs an
                 // enumerator for iterating.
-                int min = this.listSelectionModel.getMinSelectionIndex();
-                int max = this.listSelectionModel.getMaxSelectionIndex();
+                final int min = this.listSelectionModel.getMinSelectionIndex();
+                final int max = this.listSelectionModel.getMaxSelectionIndex();
 
                 clearSelection();
 
                 if ((min != -1) && (max != -1)) {
                     for (int counter = min; counter <= max; counter++) {
                         if (this.listSelectionModel.isSelectedIndex(counter)) {
-                            TreePath selPath = this.tree.getPathForRow(counter);
+                            final TreePath selPath = this.tree.getPathForRow(counter);
 
                             if (selPath != null) {
                                 addSelectionPath(selPath);

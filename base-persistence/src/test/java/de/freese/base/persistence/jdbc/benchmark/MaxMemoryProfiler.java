@@ -19,11 +19,11 @@ import org.openjdk.jmh.results.ScalarResult;
 public class MaxMemoryProfiler implements InternalProfiler {
     @Override
     public Collection<? extends Result<?>> afterIteration(final BenchmarkParams benchmarkParams, final IterationParams iterationParams, final IterationResult result) {
-        long totalHeap = Runtime.getRuntime().totalMemory();
+        final long totalHeap = Runtime.getRuntime().totalMemory();
 
-        double megaBytes = totalHeap / 1024D / 1024D;
+        final double megaBytes = totalHeap / 1024D / 1024D;
 
-        List<ScalarResult> results = new ArrayList<>();
+        final List<ScalarResult> results = new ArrayList<>();
         results.add(new ScalarResult("memory.heap.avg", megaBytes, "MB", AggregationPolicy.AVG));
         results.add(new ScalarResult("memory.heap.max", megaBytes, "MB", AggregationPolicy.MAX));
 

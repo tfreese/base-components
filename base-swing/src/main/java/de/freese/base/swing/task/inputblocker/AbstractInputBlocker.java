@@ -23,11 +23,9 @@ import de.freese.base.utils.GuiUtils;
  */
 public abstract class AbstractInputBlocker<T> implements InputBlocker {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final List<T> targets = new ArrayList<>();
 
     private boolean changeMouseCursor;
-
     private JRootPane rootPane;
 
     @Override
@@ -69,7 +67,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
 
         // Fallback: Das aktuelle Fenster holen.
         if (rp == null) {
-            Frame activeFrame = GuiUtils.getActiveFrame();
+            final Frame activeFrame = GuiUtils.getActiveFrame();
 
             if (activeFrame instanceof RootPaneContainer c) {
                 rp = c.getRootPane();
@@ -112,7 +110,7 @@ public abstract class AbstractInputBlocker<T> implements InputBlocker {
             return;
         }
 
-        JRootPane rp = getRootPane();
+        final JRootPane rp = getRootPane();
 
         if (rp == null) {
             return;

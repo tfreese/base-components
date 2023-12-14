@@ -88,13 +88,13 @@ public final class Segment7 extends Canvas {
 
     @Override
     public void paint(final Graphics g) {
-        Color darkRed = new Color(127, 0, 0);
-        Color lightRed = new Color(255, 0, 0);
-        Color yellow = new Color(255, 255, 0);
+        final Color darkRed = new Color(127, 0, 0);
+        final Color lightRed = new Color(255, 0, 0);
+        final Color yellow = new Color(255, 255, 0);
 
         // dx und dy berechnen
-        int dx = getSize().width / 10;
-        int dy = getSize().height / 18;
+        final int dx = getSize().width / 10;
+        final int dy = getSize().height / 18;
 
         // Hintergrund
         g.setColor(darkRed);
@@ -111,7 +111,7 @@ public final class Segment7 extends Canvas {
         for (int i = 0; i < 7; ++i) {
             // alle Segmente
             if (this.digits[this.digit][i] == 1) {
-                Polygon poly = new Polygon();
+                final Polygon poly = new Polygon();
 
                 for (int j = 0; j < 6; ++j) { // alle Eckpunkte
                     poly.addPoint(dx * this.polysx[i][j], dy * this.polysy[i][j]);
@@ -161,7 +161,7 @@ public final class Segment7 extends Canvas {
     @Override
     protected void processKeyEvent(final KeyEvent event) {
         if (event.getID() == KeyEvent.KEY_PRESSED) {
-            char key = event.getKeyChar();
+            final char key = event.getKeyChar();
 
             if ((key >= '0') && (key <= '9')) {
                 setValue(key - '0');

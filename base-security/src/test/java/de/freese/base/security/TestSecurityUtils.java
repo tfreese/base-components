@@ -36,7 +36,7 @@ class TestSecurityUtils {
 
     @Test
     void testCipher() {
-        String[] values = SecurityUtils.getCryptoImpls("Cipher");
+        final String[] values = SecurityUtils.getCryptoImpls("Cipher");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -63,15 +63,15 @@ class TestSecurityUtils {
         //
         // KeyPair keyPair = keyPairGenerator.genKeyPair();
 
-        KeyPair keyPair = SecurityUtils.createDefaultKeyPair();
+        final KeyPair keyPair = SecurityUtils.createDefaultKeyPair();
 
         System.out.println("Public key " + keyPair.getPublic());
         System.out.println();
         System.out.println("Private key " + keyPair.getPrivate());
 
-        RSAPublicKey rsaPub = (RSAPublicKey) keyPair.getPublic();
-        BigInteger publicKeyModulus = rsaPub.getModulus();
-        BigInteger publicKeyExponent = rsaPub.getPublicExponent();
+        final RSAPublicKey rsaPub = (RSAPublicKey) keyPair.getPublic();
+        final BigInteger publicKeyModulus = rsaPub.getModulus();
+        final BigInteger publicKeyExponent = rsaPub.getPublicExponent();
 
         System.out.println();
         System.out.println("publicKeyModulus: " + publicKeyModulus);
@@ -82,7 +82,7 @@ class TestSecurityUtils {
 
     @Test
     void testKeyManagerFactory() {
-        String[] values = SecurityUtils.getCryptoImpls("KeyManagerFactory");
+        final String[] values = SecurityUtils.getCryptoImpls("KeyManagerFactory");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -97,7 +97,7 @@ class TestSecurityUtils {
 
     @Test
     void testKeyPairGenerator() {
-        String[] values = SecurityUtils.getCryptoImpls("KeyPairGenerator");
+        final String[] values = SecurityUtils.getCryptoImpls("KeyPairGenerator");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -112,7 +112,7 @@ class TestSecurityUtils {
 
     @Test
     void testMessageDigest() {
-        String[] values = SecurityUtils.getCryptoImpls("MessageDigest");
+        final String[] values = SecurityUtils.getCryptoImpls("MessageDigest");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -127,7 +127,7 @@ class TestSecurityUtils {
 
     @Test
     void testProvider() {
-        String[] values = SecurityUtils.getCryptoImpls("Provider");
+        final String[] values = SecurityUtils.getCryptoImpls("Provider");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -142,7 +142,7 @@ class TestSecurityUtils {
 
     @Test
     void testSecureRandom() {
-        String[] values = SecurityUtils.getCryptoImpls("SecureRandom");
+        final String[] values = SecurityUtils.getCryptoImpls("SecureRandom");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -157,7 +157,7 @@ class TestSecurityUtils {
 
     @Test
     void testServiceTypes() {
-        String[] values = SecurityUtils.getServiceTypes();
+        final String[] values = SecurityUtils.getServiceTypes();
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -172,7 +172,7 @@ class TestSecurityUtils {
 
     @Test
     void testSignature() {
-        String[] values = SecurityUtils.getCryptoImpls("Signature");
+        final String[] values = SecurityUtils.getCryptoImpls("Signature");
         assertNotNull(values);
         assertTrue(values.length > 0);
 
@@ -187,7 +187,7 @@ class TestSecurityUtils {
 
     @Test
     void testTrustManagerFactory() {
-        String[] values = SecurityUtils.getCryptoImpls("TrustManagerFactory");
+        final String[] values = SecurityUtils.getCryptoImpls("TrustManagerFactory");
         assertNotNull(values);
         assertTrue(values.length > 0);
 

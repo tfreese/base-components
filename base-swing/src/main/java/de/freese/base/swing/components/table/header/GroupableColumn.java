@@ -23,9 +23,7 @@ public class GroupableColumn {
     private final List<Object> columns = Collections.synchronizedList(new ArrayList<>());
 
     private int margin;
-
     private TableCellRenderer renderer;
-
     private String text;
 
     public GroupableColumn(final String text) {
@@ -40,7 +38,7 @@ public class GroupableColumn {
 
                 @Override
                 public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
-                    JTableHeader header = table.getTableHeader();
+                    final JTableHeader header = table.getTableHeader();
 
                     if (header != null) {
                         setForeground(header.getForeground());
@@ -88,8 +86,8 @@ public class GroupableColumn {
     }
 
     public Dimension getSize(final JTable table) {
-        Component comp = this.renderer.getTableCellRendererComponent(table, getHeaderValue(), false, false, -1, -1);
-        int height = comp.getPreferredSize().height;
+        final Component comp = this.renderer.getTableCellRendererComponent(table, getHeaderValue(), false, false, -1, -1);
+        final int height = comp.getPreferredSize().height;
         int width = 0;
 
         for (Object column : this.columns) {
@@ -134,7 +132,7 @@ public class GroupableColumn {
 
         for (Object column : this.columns) {
             if (column instanceof GroupableColumn c) {
-                List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
+                final List<Object> groups = c.getColumnGroups(tableColumn, new ArrayList<>(columns));
 
                 if (groups != null) {
                     return groups;

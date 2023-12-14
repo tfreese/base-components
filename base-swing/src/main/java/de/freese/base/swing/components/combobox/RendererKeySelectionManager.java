@@ -20,11 +20,9 @@ import javax.swing.text.JTextComponent;
 public class RendererKeySelectionManager implements KeySelectionManager {
     @SuppressWarnings("rawtypes")
     private final JComboBox comboBox;
-
     private final JList<Object> list = new JList<>();
 
     private long lastKeyTime;
-
     private String pattern = "";
 
     public RendererKeySelectionManager(final JComboBox<?> comboBox) {
@@ -35,7 +33,7 @@ public class RendererKeySelectionManager implements KeySelectionManager {
 
     @Override
     public int selectionForKey(final char key, final ComboBoxModel<?> model) {
-        int selectedIndex = getSelectedIndex(model);
+        final int selectedIndex = getSelectedIndex(model);
 
         setPattern(key);
 
@@ -51,7 +49,7 @@ public class RendererKeySelectionManager implements KeySelectionManager {
     }
 
     private int getSelectedIndex(final ComboBoxModel<?> model) {
-        Object selectedObject = model.getSelectedItem();
+        final Object selectedObject = model.getSelectedItem();
 
         if (selectedObject != null) {
             for (int i = 0; i < model.getSize(); i++) {
@@ -71,9 +69,9 @@ public class RendererKeySelectionManager implements KeySelectionManager {
             this.list.setModel(this.comboBox.getModel());
         }
 
-        Object value = this.comboBox.getModel().getElementAt(row);
+        final Object value = this.comboBox.getModel().getElementAt(row);
 
-        Component rendererComponent = this.comboBox.getRenderer().getListCellRendererComponent(this.list, value, row, false, false);
+        final Component rendererComponent = this.comboBox.getRenderer().getListCellRendererComponent(this.list, value, row, false, false);
 
         String text = null;
 
@@ -102,7 +100,7 @@ public class RendererKeySelectionManager implements KeySelectionManager {
         // Search from top to current selection
         for (int i = fromIndex; i < endIndex; i++) {
             if (model.getElementAt(i) != null) {
-                String s = getString(i);
+                final String s = getString(i);
 
                 if (s.startsWith(this.pattern)) {
                     return i;
@@ -118,7 +116,7 @@ public class RendererKeySelectionManager implements KeySelectionManager {
      * gedrückt wird, so wird das Tastaturzeichen an die bestehende Zeichenfolge angehängt.
      */
     private void setPattern(final char aKey) {
-        long curTime = System.currentTimeMillis();
+        final long curTime = System.currentTimeMillis();
 
         // If last key was typed less than 250 ms ago, append to current pattern
         if ((curTime - this.lastKeyTime) < 250) {

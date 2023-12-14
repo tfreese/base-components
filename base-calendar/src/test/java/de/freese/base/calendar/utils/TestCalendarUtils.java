@@ -27,7 +27,7 @@ import de.freese.base.utils.CalendarUtils;
 class TestCalendarUtils {
     @Test
     void testCalendarAtStartOfDay() {
-        Calendar calendar = new GregorianCalendar();
+        final Calendar calendar = new GregorianCalendar();
         CalendarUtils.calendarAtStartOfDay(calendar);
 
         assertEquals(0, calendar.get(Calendar.MILLISECOND));
@@ -39,8 +39,8 @@ class TestCalendarUtils {
 
     @Test
     void testCalendarCreate() {
-        Calendar gregorianCalendar = new GregorianCalendar();
-        Calendar calendar = CalendarUtils.calendarCreate();
+        final Calendar gregorianCalendar = new GregorianCalendar();
+        final Calendar calendar = CalendarUtils.calendarCreate();
 
         assertEquals(gregorianCalendar.get(Calendar.SECOND), calendar.get(Calendar.SECOND), 1);
         assertEquals(gregorianCalendar.get(Calendar.MINUTE), calendar.get(Calendar.MINUTE));
@@ -58,10 +58,10 @@ class TestCalendarUtils {
 
     @Test
     void testToDateLocalDate() {
-        Calendar calendarRef = CalendarUtils.calendarCreate();
+        final Calendar calendarRef = CalendarUtils.calendarCreate();
 
-        Date date = CalendarUtils.toDate(LocalDate.now());
-        Calendar calendar = CalendarUtils.calendarCreate(date);
+        final Date date = CalendarUtils.toDate(LocalDate.now());
+        final Calendar calendar = CalendarUtils.calendarCreate(date);
 
         assertEquals(calendarRef.get(Calendar.YEAR), calendar.get(Calendar.YEAR));
         assertEquals(calendarRef.get(Calendar.MONTH), calendar.get(Calendar.MONTH));
@@ -74,10 +74,10 @@ class TestCalendarUtils {
 
     @Test
     void testToDateLocalDateTime() {
-        Calendar calendarRef = CalendarUtils.calendarCreate();
+        final Calendar calendarRef = CalendarUtils.calendarCreate();
 
-        Date date = CalendarUtils.toDate(LocalDateTime.now());
-        Calendar calendar = CalendarUtils.calendarCreate(date);
+        final Date date = CalendarUtils.toDate(LocalDateTime.now());
+        final Calendar calendar = CalendarUtils.calendarCreate(date);
 
         assertEquals(calendarRef.get(Calendar.YEAR), calendar.get(Calendar.YEAR));
         assertEquals(calendarRef.get(Calendar.MONTH), calendar.get(Calendar.MONTH));
@@ -95,11 +95,11 @@ class TestCalendarUtils {
 
     @Test
     void testToInstantDateSql() {
-        java.sql.Date dateRef = new java.sql.Date(System.currentTimeMillis());
-        Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
+        final java.sql.Date dateRef = new java.sql.Date(System.currentTimeMillis());
+        final Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
-        Instant instant = CalendarUtils.toInstant(dateRef);
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        final Instant instant = CalendarUtils.toInstant(dateRef);
+        final ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
 
         assertEquals(calendarRef.get(Calendar.YEAR), zonedDateTime.getYear());
         assertEquals(calendarRef.get(Calendar.MONTH) + 1, zonedDateTime.getMonth().getValue());
@@ -115,11 +115,11 @@ class TestCalendarUtils {
 
     @Test
     void testToInstantDateUtil() {
-        Date dateRef = new Date();
-        Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
+        final Date dateRef = new Date();
+        final Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
-        Instant instant = CalendarUtils.toInstant(dateRef);
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        final Instant instant = CalendarUtils.toInstant(dateRef);
+        final ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
 
         assertEquals(calendarRef.get(Calendar.YEAR), zonedDateTime.getYear());
         assertEquals(calendarRef.get(Calendar.MONTH) + 1, zonedDateTime.getMonth().getValue());
@@ -135,10 +135,10 @@ class TestCalendarUtils {
 
     @Test
     void testToInstantLocalDate() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        Instant instant = CalendarUtils.toInstant(localDateRef);
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        final Instant instant = CalendarUtils.toInstant(localDateRef);
+        final ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
 
         assertEquals(localDateRef.getYear(), zonedDateTime.getYear());
         assertEquals(localDateRef.getMonth(), zonedDateTime.getMonth());
@@ -150,10 +150,10 @@ class TestCalendarUtils {
 
     @Test
     void testToInstantLocalDateTime() {
-        LocalDateTime localDateTimeRef = LocalDateTime.now();
+        final LocalDateTime localDateTimeRef = LocalDateTime.now();
 
-        Instant instant = CalendarUtils.toInstant(localDateTimeRef);
-        ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+        final Instant instant = CalendarUtils.toInstant(localDateTimeRef);
+        final ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
 
         assertEquals(localDateTimeRef.getYear(), zonedDateTime.getYear());
         assertEquals(localDateTimeRef.getMonth(), zonedDateTime.getMonth());
@@ -169,10 +169,10 @@ class TestCalendarUtils {
 
     @Test
     void testToLocalDateDate() {
-        Date dateRef = new Date();
-        Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
+        final Date dateRef = new Date();
+        final Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
-        LocalDate localDate = CalendarUtils.toLocalDate(dateRef);
+        final LocalDate localDate = CalendarUtils.toLocalDate(dateRef);
 
         assertEquals(calendarRef.get(Calendar.YEAR), localDate.getYear());
         assertEquals(calendarRef.get(Calendar.MONTH) + 1, localDate.getMonth().getValue());
@@ -184,10 +184,10 @@ class TestCalendarUtils {
 
     @Test
     void testToLocalDateInstant() {
-        LocalDateTime localDateTimeRef = LocalDateTime.now();
+        final LocalDateTime localDateTimeRef = LocalDateTime.now();
 
-        Instant instant = CalendarUtils.toInstant(localDateTimeRef);
-        LocalDate localDate = CalendarUtils.toLocalDate(instant);
+        final Instant instant = CalendarUtils.toInstant(localDateTimeRef);
+        final LocalDate localDate = CalendarUtils.toLocalDate(instant);
 
         assertEquals(localDateTimeRef.getYear(), localDate.getYear());
         assertEquals(localDateTimeRef.getMonth(), localDate.getMonth());
@@ -199,9 +199,9 @@ class TestCalendarUtils {
 
     @Test
     void testToLocalDateLocalDateTime() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        LocalDate localDate = CalendarUtils.toLocalDate(LocalDateTime.now());
+        final LocalDate localDate = CalendarUtils.toLocalDate(LocalDateTime.now());
 
         assertEquals(localDateRef.getYear(), localDate.getYear());
         assertEquals(localDateRef.getMonth(), localDate.getMonth());
@@ -213,10 +213,10 @@ class TestCalendarUtils {
 
     @Test
     void testToLocalDateTimeDate() {
-        Date dateRef = new Date();
-        Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
+        final Date dateRef = new Date();
+        final Calendar calendarRef = CalendarUtils.calendarCreate(dateRef);
 
-        LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(dateRef);
+        final LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(dateRef);
 
         assertEquals(calendarRef.get(Calendar.YEAR), localDateTime.getYear());
         assertEquals(calendarRef.get(Calendar.MONTH) + 1, localDateTime.getMonth().getValue());
@@ -232,10 +232,10 @@ class TestCalendarUtils {
 
     @Test
     void testToLocalDateTimeInstant() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        Instant instant = CalendarUtils.toInstant(localDateRef);
-        LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(instant);
+        final Instant instant = CalendarUtils.toInstant(localDateRef);
+        final LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(instant);
 
         assertEquals(localDateRef.getYear(), localDateTime.getYear());
         assertEquals(localDateRef.getMonth(), localDateTime.getMonth());
@@ -252,9 +252,9 @@ class TestCalendarUtils {
 
     @Test
     void testToLocalDateTimeLocalDate() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(localDateRef);
+        final LocalDateTime localDateTime = CalendarUtils.toLocalDateTime(localDateRef);
 
         assertEquals(localDateRef.getYear(), localDateTime.getYear());
         assertEquals(localDateRef.getMonth(), localDateTime.getMonth());
@@ -271,12 +271,12 @@ class TestCalendarUtils {
 
     @Test
     void testToSqlDateInstant() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        Instant instant = CalendarUtils.toInstant(localDateRef);
+        final Instant instant = CalendarUtils.toInstant(localDateRef);
 
-        java.sql.Date date = CalendarUtils.toSqlDate(instant);
-        Calendar calendar = CalendarUtils.calendarCreate(date);
+        final java.sql.Date date = CalendarUtils.toSqlDate(instant);
+        final Calendar calendar = CalendarUtils.calendarCreate(date);
 
         assertEquals(localDateRef.getYear(), calendar.get(Calendar.YEAR));
         assertEquals(localDateRef.getMonth().getValue(), calendar.get(Calendar.MONTH) + 1);
@@ -288,10 +288,10 @@ class TestCalendarUtils {
 
     @Test
     void testToSqlDateLocalDate() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        java.sql.Date date = CalendarUtils.toSqlDate(localDateRef);
-        Calendar calendar = CalendarUtils.calendarCreate(date);
+        final java.sql.Date date = CalendarUtils.toSqlDate(localDateRef);
+        final Calendar calendar = CalendarUtils.calendarCreate(date);
 
         assertEquals(localDateRef.getYear(), calendar.get(Calendar.YEAR));
         assertEquals(localDateRef.getMonth().getValue(), calendar.get(Calendar.MONTH) + 1);
@@ -303,10 +303,10 @@ class TestCalendarUtils {
 
     @Test
     void testToSqlDateLocalDateTime() {
-        LocalDateTime localDateTimeRef = LocalDateTime.now();
+        final LocalDateTime localDateTimeRef = LocalDateTime.now();
 
-        java.sql.Date date = CalendarUtils.toSqlDate(localDateTimeRef);
-        Calendar calendar = CalendarUtils.calendarCreate(date);
+        final java.sql.Date date = CalendarUtils.toSqlDate(localDateTimeRef);
+        final Calendar calendar = CalendarUtils.calendarCreate(date);
 
         assertEquals(localDateTimeRef.getYear(), calendar.get(Calendar.YEAR));
         assertEquals(localDateTimeRef.getMonth().getValue(), calendar.get(Calendar.MONTH) + 1);
@@ -322,12 +322,12 @@ class TestCalendarUtils {
 
     @Test
     void testToSqlTimestampInstant() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        Instant instant = CalendarUtils.toInstant(localDateRef);
+        final Instant instant = CalendarUtils.toInstant(localDateRef);
 
-        Timestamp timestamp = CalendarUtils.toSqlTimestamp(instant);
-        Calendar calendar = CalendarUtils.calendarCreate(timestamp);
+        final Timestamp timestamp = CalendarUtils.toSqlTimestamp(instant);
+        final Calendar calendar = CalendarUtils.calendarCreate(timestamp);
 
         assertEquals(localDateRef.getYear(), calendar.get(Calendar.YEAR));
         assertEquals(localDateRef.getMonth().getValue(), calendar.get(Calendar.MONTH) + 1);
@@ -343,10 +343,10 @@ class TestCalendarUtils {
 
     @Test
     void testToSqlTimestampLocalDate() {
-        LocalDate localDateRef = LocalDate.now();
+        final LocalDate localDateRef = LocalDate.now();
 
-        Timestamp timestamp = CalendarUtils.toSqlTimestamp(localDateRef);
-        Calendar calendar = CalendarUtils.calendarCreate(timestamp);
+        final Timestamp timestamp = CalendarUtils.toSqlTimestamp(localDateRef);
+        final Calendar calendar = CalendarUtils.calendarCreate(timestamp);
 
         assertEquals(localDateRef.getYear(), calendar.get(Calendar.YEAR));
         assertEquals(localDateRef.getMonth().getValue(), calendar.get(Calendar.MONTH) + 1);
@@ -362,10 +362,10 @@ class TestCalendarUtils {
 
     @Test
     void testToSqlTimestampLocalDateTime() {
-        LocalDateTime localDateTimeRef = LocalDateTime.now();
+        final LocalDateTime localDateTimeRef = LocalDateTime.now();
 
-        Timestamp timestamp = CalendarUtils.toSqlTimestamp(localDateTimeRef);
-        Calendar calendar = CalendarUtils.calendarCreate(timestamp);
+        final Timestamp timestamp = CalendarUtils.toSqlTimestamp(localDateTimeRef);
+        final Calendar calendar = CalendarUtils.calendarCreate(timestamp);
 
         assertEquals(localDateTimeRef.getYear(), calendar.get(Calendar.YEAR));
         assertEquals(localDateTimeRef.getMonth().getValue(), calendar.get(Calendar.MONTH) + 1);

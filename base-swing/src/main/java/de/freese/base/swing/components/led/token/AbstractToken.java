@@ -16,7 +16,6 @@ public abstract class AbstractToken<V> implements Token<V> {
     private final Color color;
 
     private List<byte[]> bitMasks;
-
     private CharSequence displayValue;
 
     protected AbstractToken() {

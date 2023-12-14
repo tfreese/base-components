@@ -24,12 +24,12 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
  */
 public final class RandomGraphMain {
     public static void main(final String[] args) {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-        GraphicsDevice[] gds = ge.getScreenDevices();
+        final GraphicsDevice[] gds = ge.getScreenDevices();
 
         for (GraphicsDevice gd : gds) {
-            boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
+            final boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
             if (!isPerPixelTranslucencySupported) {
                 System.out.println("Per-pixel translucency is not supported on device " + gd.getIDstring());
@@ -37,41 +37,41 @@ public final class RandomGraphMain {
             }
         }
 
-        LineGraphPainter linePainter = new LineGraphPainter() {
+        final LineGraphPainter linePainter = new LineGraphPainter() {
             @Override
             protected float getYKoordinate(final float value, final float height) {
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
                 // return value * height;
 
                 // Sinus: x-Achse auf halber Höhe
-                float middle = height / 2F;
+                final float middle = height / 2F;
 
                 return (value * middle) + middle;
             }
         };
-        DefaultGraphComponent lineGraph = new DefaultGraphComponent(linePainter);
+        final DefaultGraphComponent lineGraph = new DefaultGraphComponent(linePainter);
         lineGraph.useBufferedImage(false);
 
-        BarGraphPainter barPainter = new BarGraphPainter() {
+        final BarGraphPainter barPainter = new BarGraphPainter() {
             @Override
             protected float getYKoordinate(final float value, final float height) {
                 // // Werte-Bereich: 0 - 1 -> Prozentual umrechnen.
                 // return value * height;
 
                 // Sinus: x-Achse auf halber Höhe
-                float middle = height / 2F;
+                final float middle = height / 2F;
 
                 return (value * middle) + middle;
             }
         };
-        DefaultGraphComponent barGraph = new DefaultGraphComponent(barPainter);
+        final DefaultGraphComponent barGraph = new DefaultGraphComponent(barPainter);
         barGraph.useBufferedImage(false);
 
-        Supplier<Float> valueSupplier = new SinusValueSupplier();
+        final Supplier<Float> valueSupplier = new SinusValueSupplier();
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
         scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            float value = valueSupplier.get();
+            final float value = valueSupplier.get();
             linePainter.getValues().addValue(value);
             barPainter.getValues().addValue(value);
 
@@ -79,14 +79,14 @@ public final class RandomGraphMain {
             barGraph.paintGraph();
         }, 500, 40, TimeUnit.MILLISECONDS);
 
-        boolean translucency = false;
+        final boolean translucency = false;
 
         if (translucency) {
             // Sonst kommt Exception: The frame is getDecoratedMap
             JFrame.setDefaultLookAndFeelDecorated(true);
         }
 
-        JFrame frame = new JFrame("Random Monitor");
+        final JFrame frame = new JFrame("Random Monitor");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // frame.setUndecorated(true);
         // frame.setOpacity(0.55F);
@@ -104,10 +104,10 @@ public final class RandomGraphMain {
         // {
         // try
         // { // no PageFlipping available with opengl
-        // BufferCapabilities cap =
+        // final BufferCapabilities cap =
         // new BufferCapabilities(new ImageCapabilities(true), new ImageCapabilities(true), BufferCapabilities.FlipContents.BACKGROUND);
         // // ExtendedBufferCapabilities is supposed to do a vsync
-        // ExtendedBufferCapabilities ebc = new ExtendedBufferCapabilities(cap, ExtendedBufferCapabilities.VSyncType.VSYNC_ON);
+        // final ExtendedBufferCapabilities ebc = new ExtendedBufferCapabilities(cap, ExtendedBufferCapabilities.VSyncType.VSYNC_ON);
         //
         // if (!VSyncedBSManager.vsyncAllowed(ebc))
         // {

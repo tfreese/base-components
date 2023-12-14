@@ -96,19 +96,13 @@ public abstract class AbstractClipboardAdapter {
     }
 
     private final Clipboard clipboard;
-
     private final JComponent component;
-
     private final Map<Class<?>, ClipboardConverter> converterMap = new HashMap<>();
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private Action actionCopy;
-
     private Action actionPaste;
-
     private Action actionPasteFlipAxes;
-
     private boolean enabled = true;
 
     protected AbstractClipboardAdapter(final JComponent component) {
@@ -205,11 +199,11 @@ public abstract class AbstractClipboardAdapter {
     protected void initialize() {
         registerDefaultConverters();
 
-        KeyStroke copyKS = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK, false);
+        final KeyStroke copyKS = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK, false);
 
         getComponent().registerKeyboardAction(getActionCopy(), "region-copy", copyKS, JComponent.WHEN_FOCUSED);
 
-        KeyStroke pasteKS = KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK, false);
+        final KeyStroke pasteKS = KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK, false);
 
         getComponent().registerKeyboardAction(getActionPaste(), "region-paste", pasteKS, JComponent.WHEN_FOCUSED);
     }

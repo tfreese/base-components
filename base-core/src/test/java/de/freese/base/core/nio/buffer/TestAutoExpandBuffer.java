@@ -13,7 +13,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class TestAutoExpandBuffer {
     @Test
     void testByteBufferWithByte() {
-        AutoExpandByteBuffer bb = AutoExpandByteBuffer.of(1, false);
+        final AutoExpandByteBuffer bb = AutoExpandByteBuffer.of(1, false);
         assertEquals(0, bb.position());
         assertEquals(1, bb.limit());
         assertEquals(1, bb.capacity());
@@ -51,7 +51,7 @@ class TestAutoExpandBuffer {
 
     @Test
     void testByteBufferWithLong() {
-        AutoExpandByteBuffer bb = AutoExpandByteBuffer.of(8, false);
+        final AutoExpandByteBuffer bb = AutoExpandByteBuffer.of(8, false);
         assertEquals(0, bb.position());
         assertEquals(8, bb.limit());
         assertEquals(8, bb.capacity());
@@ -89,7 +89,7 @@ class TestAutoExpandBuffer {
 
     @Test
     void testCharBufferCrLfWithChar() {
-        AutoExpandCharBufferCrLf bb = AutoExpandCharBufferCrLf.of(1, "\r\n");
+        final AutoExpandCharBufferCrLf bb = AutoExpandCharBufferCrLf.of(1, "\r\n");
         assertEquals(0, bb.position());
         assertEquals(1, bb.limit());
         assertEquals(1, bb.capacity());
@@ -135,7 +135,7 @@ class TestAutoExpandBuffer {
 
     @Test
     void testCharBufferCrLfWithString() {
-        AutoExpandCharBufferCrLf bb = AutoExpandCharBufferCrLf.of(4, "\r\n");
+        final AutoExpandCharBufferCrLf bb = AutoExpandCharBufferCrLf.of(4, "\r\n");
         assertEquals(0, bb.position());
         assertEquals(4, bb.limit());
         assertEquals(4, bb.capacity());
@@ -177,7 +177,7 @@ class TestAutoExpandBuffer {
 
     @Test
     void testCharBufferWithChar() {
-        AutoExpandCharBuffer bb = AutoExpandCharBuffer.of(1);
+        final AutoExpandCharBuffer bb = AutoExpandCharBuffer.of(1);
         assertEquals(0, bb.position());
         assertEquals(1, bb.limit());
         assertEquals(1, bb.capacity());
@@ -215,7 +215,7 @@ class TestAutoExpandBuffer {
 
     @Test
     void testCharBufferWithString() {
-        AutoExpandCharBuffer bb = AutoExpandCharBuffer.of(4);
+        final AutoExpandCharBuffer bb = AutoExpandCharBuffer.of(4);
         assertEquals(0, bb.position());
         assertEquals(4, bb.limit());
         assertEquals(4, bb.capacity());

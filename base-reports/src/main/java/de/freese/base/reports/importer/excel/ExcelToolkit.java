@@ -28,7 +28,7 @@ public final class ExcelToolkit {
         // The first Column contains the Row-Numbers and not a name.
         int c = column - 1;
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (; c >= 0; c = (c / 26) - 1) {
             sb.append((char) (c % 26) + 'A');
@@ -38,8 +38,8 @@ public final class ExcelToolkit {
 
         // column--;
         //
-        // int a = column / 26;
-        // int b = column % 26;
+        // final int a = column / 26;
+        // final int b = column % 26;
         //
         // // 'A' = 65
         // if (a == 0)
@@ -60,8 +60,8 @@ public final class ExcelToolkit {
      * F5 = 6
      */
     public static int getColumnNumber(final String cellName) {
-        char c1 = cellName.charAt(0);
-        char c2 = cellName.charAt(1);
+        final char c1 = cellName.charAt(0);
+        final char c2 = cellName.charAt(1);
 
         int column = 0;
 
@@ -94,14 +94,14 @@ public final class ExcelToolkit {
     }
 
     public static String getRange(final JTable table) {
-        int[] selectedColumns = table.getSelectedColumns();
-        int[] selectedRows = table.getSelectedRows();
+        final int[] selectedColumns = table.getSelectedColumns();
+        final int[] selectedRows = table.getSelectedRows();
 
         if ((selectedColumns.length > 0) && (selectedRows.length > 0)) {
-            String col1 = getColumnName(selectedColumns[0]);
-            String col2 = getColumnName(selectedColumns[selectedColumns.length - 1]);
-            String row1 = Integer.toString(selectedRows[0] + 1);
-            String row2 = Integer.toString(selectedRows[selectedRows.length - 1] + 1);
+            final String col1 = getColumnName(selectedColumns[0]);
+            final String col2 = getColumnName(selectedColumns[selectedColumns.length - 1]);
+            final String row1 = Integer.toString(selectedRows[0] + 1);
+            final String row2 = Integer.toString(selectedRows[selectedRows.length - 1] + 1);
 
             return String.format("%s%s:%s%s", col1, row1, col2, row2);
         }
@@ -110,15 +110,15 @@ public final class ExcelToolkit {
     }
 
     public static int getRowColumnCount(final String range) throws IllegalStateException {
-        StringTokenizer tokenizer = new StringTokenizer(range, ":");
-        String start = tokenizer.nextToken();
-        String end = tokenizer.nextToken();
+        final StringTokenizer tokenizer = new StringTokenizer(range, ":");
+        final String start = tokenizer.nextToken();
+        final String end = tokenizer.nextToken();
 
-        int rowStartNumber = getRowNumber(start);
-        int rowEndNumber = getRowNumber(end);
+        final int rowStartNumber = getRowNumber(start);
+        final int rowEndNumber = getRowNumber(end);
 
-        int columnStartNumber = getColumnNumber(start);
-        int columnEndNumber = getColumnNumber(end);
+        final int columnStartNumber = getColumnNumber(start);
+        final int columnEndNumber = getColumnNumber(end);
 
         if (columnStartNumber == columnEndNumber) {
             // A Column selected, it means multiple Rows.
@@ -138,16 +138,16 @@ public final class ExcelToolkit {
      */
     public static int getRowNumber(final String cellName) {
         // char c1 = cellName.charAt(0);
-        char c2 = cellName.charAt(1);
+        final char c2 = cellName.charAt(1);
 
         int row = 0;
 
         if (((c2 >= 'a') && (c2 <= 'z')) || ((c2 >= 'A') && (c2 <= 'Z'))) {
-            String strRow = cellName.substring(2);
+            final String strRow = cellName.substring(2);
             row = Integer.parseInt(strRow);
         }
         else {
-            String strRow = cellName.substring(1);
+            final String strRow = cellName.substring(1);
             row = Integer.parseInt(strRow);
         }
 
@@ -155,9 +155,9 @@ public final class ExcelToolkit {
     }
 
     public static boolean isMultiRowOrColumn(final String value) {
-        StringTokenizer tokenizer = new StringTokenizer(value, ":");
-        String start = tokenizer.nextToken();
-        String end = tokenizer.nextToken();
+        final StringTokenizer tokenizer = new StringTokenizer(value, ":");
+        final String start = tokenizer.nextToken();
+        final String end = tokenizer.nextToken();
         StringBuilder rowBuf = new StringBuilder();
         StringBuilder colBuf = new StringBuilder();
 
@@ -184,8 +184,8 @@ public final class ExcelToolkit {
             }
         }
 
-        String rowEnd = rowBuf.toString();
-        String colEnd = colBuf.toString();
+        final String rowEnd = rowBuf.toString();
+        final String colEnd = colBuf.toString();
 
         return (!rowStart.equals(rowEnd)) && (!colStart.equals(colEnd));
     }
@@ -195,22 +195,22 @@ public final class ExcelToolkit {
             return true;
         }
 
-        StringTokenizer regionTokenizer = new StringTokenizer(range, ";");
+        final StringTokenizer regionTokenizer = new StringTokenizer(range, ";");
 
         int numRangeValues = 0;
 
         while (regionTokenizer.hasMoreTokens()) {
-            StringTokenizer tokenizer = new StringTokenizer(regionTokenizer.nextToken(), ":");
-            String start = (String) tokenizer.nextElement();
-            String end = (String) tokenizer.nextElement();
+            final StringTokenizer tokenizer = new StringTokenizer(regionTokenizer.nextToken(), ":");
+            final String start = (String) tokenizer.nextElement();
+            final String end = (String) tokenizer.nextElement();
 
             // Columns
-            int startCol = getColumnNumber(start);
-            int endCol = getColumnNumber(end);
+            final int startCol = getColumnNumber(start);
+            final int endCol = getColumnNumber(end);
 
             // Rows
-            int startRow = getRowNumber(start);
-            int endRow = getRowNumber(end);
+            final int startRow = getRowNumber(start);
+            final int endRow = getRowNumber(end);
 
             // Linear
             if (startCol == endCol) {
@@ -229,7 +229,7 @@ public final class ExcelToolkit {
     }
 
     public static boolean overlapAllRanges(final String ranges, final String range) {
-        StringTokenizer tokenizer = new StringTokenizer(ranges, ";");
+        final StringTokenizer tokenizer = new StringTokenizer(ranges, ";");
 
         while (tokenizer.hasMoreTokens()) {
             if (overlapRanges(tokenizer.nextToken(), range)) {
@@ -244,22 +244,22 @@ public final class ExcelToolkit {
         StringTokenizer tokenizer = new StringTokenizer(range1, ":");
         String start = tokenizer.nextToken();
         String end = tokenizer.nextToken();
-        int r1FirstCol = getColumnNumber(start);
-        int r1LastCol = getColumnNumber(end);
-        int r1FirstRow = getRowNumber(start);
-        int r1LastRow = getRowNumber(end);
+        final int r1FirstCol = getColumnNumber(start);
+        final int r1LastCol = getColumnNumber(end);
+        final int r1FirstRow = getRowNumber(start);
+        final int r1LastRow = getRowNumber(end);
 
         tokenizer = new StringTokenizer(range2, ":");
         start = tokenizer.nextToken();
         end = tokenizer.nextToken();
 
-        int r2FirstCol = getColumnNumber(start);
-        int r2LastCol = getColumnNumber(end);
-        int r2FirstRow = getRowNumber(start);
-        int r2LastRow = getRowNumber(end);
+        final int r2FirstCol = getColumnNumber(start);
+        final int r2LastCol = getColumnNumber(end);
+        final int r2FirstRow = getRowNumber(start);
+        final int r2LastRow = getRowNumber(end);
 
-        Rectangle r1 = new Rectangle(r1FirstCol, r1FirstRow, (r1LastCol - r1FirstCol) + 1, (r1LastRow - r1FirstRow) + 1);
-        Rectangle r2 = new Rectangle(r2FirstCol, r2FirstRow, (r2LastCol - r2FirstCol) + 1, (r2LastRow - r2FirstRow) + 1);
+        final Rectangle r1 = new Rectangle(r1FirstCol, r1FirstRow, (r1LastCol - r1FirstCol) + 1, (r1LastRow - r1FirstRow) + 1);
+        final Rectangle r2 = new Rectangle(r2FirstCol, r2FirstRow, (r2LastCol - r2FirstCol) + 1, (r2LastRow - r2FirstRow) + 1);
 
         return r1.intersects(r2);
     }

@@ -36,9 +36,7 @@ import de.freese.base.persistence.jdbc.datasource.ConnectionPoolConfigurer;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestLoggingJdbcDriver {
     private static final String DRIVER = "org.h2.Driver";
-
     private static final List<ConnectionPool> POOLS = new ArrayList<>();
-
     private static final String URL = "jdbc:logger:jdbc:h2:mem:" + UUID.randomUUID();
 
     /**
@@ -97,7 +95,7 @@ class TestLoggingJdbcDriver {
         HikariConnectionPool() {
             super();
 
-            HikariConfig config = new HikariConfig();
+            final HikariConfig config = new HikariConfig();
 
             ConnectionPoolConfigurer.configureHikari(config, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
 
@@ -152,7 +150,7 @@ class TestLoggingJdbcDriver {
         TomcatConnectionPool() {
             super();
 
-            PoolProperties poolProperties = new PoolProperties();
+            final PoolProperties poolProperties = new PoolProperties();
 
             ConnectionPoolConfigurer.configureTomcat(poolProperties, LoggingJdbcDriver.class.getName(), URL, "sa", null, null);
 

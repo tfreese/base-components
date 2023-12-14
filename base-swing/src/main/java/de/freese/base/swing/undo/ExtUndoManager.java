@@ -20,8 +20,8 @@ public class ExtUndoManager extends UndoManager {
     }
 
     public synchronized List<UndoableEdit> getUndoableEdits() {
-        List<UndoableEdit> undoableEdits = new ArrayList<>();
-        UndoableEdit nextRedoableEdit = editToBeRedone();
+        final List<UndoableEdit> undoableEdits = new ArrayList<>();
+        final UndoableEdit nextRedoableEdit = editToBeRedone();
 
         for (UndoableEdit undoableEdit : this.edits) {
             if (undoableEdit == nextRedoableEdit) {

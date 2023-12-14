@@ -25,14 +25,14 @@ public final class XmlStorage {
 
     @SuppressWarnings("unchecked")
     public static <T> T loadBean(final InputStream inputStream) throws IOException {
-        XMLExceptionListener el = new XMLExceptionListener();
+        final XMLExceptionListener el = new XMLExceptionListener();
 
         try (XMLDecoder decoder = new XMLDecoder(inputStream)) {
             decoder.setExceptionListener(el);
-            Object bean = decoder.readObject();
+            final Object bean = decoder.readObject();
 
             if (el.exception != null) {
-                IOException ex = new IOException(el.exception.getMessage());
+                final IOException ex = new IOException(el.exception.getMessage());
                 ex.setStackTrace(el.exception.getStackTrace());
 
                 throw ex;
@@ -43,8 +43,8 @@ public final class XmlStorage {
     }
 
     public static ByteArrayOutputStream saveBean(final Object bean) throws IOException {
-        XMLExceptionListener el = new XMLExceptionListener();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final XMLExceptionListener el = new XMLExceptionListener();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (XMLEncoder encoder = new XMLEncoder(baos)) {
             encoder.setExceptionListener(el);
@@ -52,7 +52,7 @@ public final class XmlStorage {
         }
 
         if (el.exception != null) {
-            IOException ex = new IOException(el.exception.getMessage());
+            final IOException ex = new IOException(el.exception.getMessage());
             ex.setStackTrace(el.exception.getStackTrace());
 
             throw ex;
@@ -62,7 +62,7 @@ public final class XmlStorage {
     }
 
     public static void saveBean(final OutputStream outputStream, final Object bean) throws IOException {
-        XMLExceptionListener el = new XMLExceptionListener();
+        final XMLExceptionListener el = new XMLExceptionListener();
 
         try (XMLEncoder encoder = new XMLEncoder(outputStream)) {
             encoder.setExceptionListener(el);
@@ -70,7 +70,7 @@ public final class XmlStorage {
         }
 
         if (el.exception != null) {
-            IOException ex = new IOException(el.exception.getMessage());
+            final IOException ex = new IOException(el.exception.getMessage());
             ex.setStackTrace(el.exception.getStackTrace());
 
             throw ex;

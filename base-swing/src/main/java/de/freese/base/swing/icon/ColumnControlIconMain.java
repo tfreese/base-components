@@ -12,9 +12,10 @@ import javax.swing.WindowConstants;
  */
 public final class ColumnControlIconMain {
     public static void main(final String[] args) {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JLabel label = new JLabel(new ColumnControlIcon());
+        
+        final JLabel label = new JLabel(new ColumnControlIcon());
         frame.getContentPane().add(BorderLayout.CENTER, label);
         frame.setSize(300, 300);
         frame.setLocationRelativeTo(null);

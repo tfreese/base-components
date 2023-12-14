@@ -11,9 +11,9 @@ import de.freese.base.swing.fontchange.FontChangeHandler;
 public class ComponentFontChangeHandler implements FontChangeHandler {
     @Override
     public void fontChanged(final Font newFont, final Object object) {
-        Component component = (Component) object;
+        final Component component = (Component) object;
 
-        Font oldFont = component.getFont();
+        final Font oldFont = component.getFont();
 
         if (oldFont == null) {
             component.setFont(newFont);

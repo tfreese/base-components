@@ -21,10 +21,10 @@ class TestGenericBuilder {
     @Test
     void testMultiple() {
         // 3 Objekte bauen
-        int n = 3;
+        final int n = 3;
 
         //@formatter:off
-        List<String[]> list = GenericBuilder.of(() -> new String[2])
+        final List<String[]> list = GenericBuilder.of(() -> new String[2])
            .with(a -> a[0] = "A")
            .with(a -> a[1] = "B")
            .build(n);
@@ -42,7 +42,7 @@ class TestGenericBuilder {
     @Test
     void testWithBiConsumer() {
         //@formatter:off
-        List<String> list = GenericBuilder.of(ArrayList<String>::new)
+        final List<String> list = GenericBuilder.of(ArrayList<String>::new)
             .with(ArrayList::add, "A")
             .with(ArrayList::add, "B")
             .build();
@@ -57,7 +57,7 @@ class TestGenericBuilder {
     @Test
     void testWithConsumer() {
         //@formatter:off
-        List<String> list = GenericBuilder.of(ArrayList<String>::new)
+        final List<String> list = GenericBuilder.of(ArrayList<String>::new)
             .with(l -> l.add("A"))
             .with(l -> l.add("B"))
             .build();
@@ -72,11 +72,11 @@ class TestGenericBuilder {
     @Test
     void testWithMix() {
         //@formatter:off
-       List<String> list = GenericBuilder.of(ArrayList<String>::new)
+        final List<String> list = GenericBuilder.of(ArrayList<String>::new)
            .with(l -> l.add("A"))
            .with(ArrayList::add, "B")
            .build();
-       //@formatter:on
+        //@formatter:on
 
         assertNotNull(list);
         assertEquals(2, list.size());

@@ -45,7 +45,7 @@ public final class TestFrameMain extends JFrame {
     private static final long serialVersionUID = -3351411878765636929L;
 
     public static void main(final String[] args) {
-        TestFrameMain frame = new TestFrameMain();
+        final TestFrameMain frame = new TestFrameMain();
         frame.setVisible(true);
     }
 
@@ -66,22 +66,22 @@ public final class TestFrameMain extends JFrame {
     }
 
     private void initControls() {
-        JCheckBox jCheckBoxButton1 = new JCheckBox("Right button");
+        final JCheckBox jCheckBoxButton1 = new JCheckBox("Right button");
         jCheckBoxButton1.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON3_DOWN_MASK));
 
-        JCheckBox jCheckBoxButton2 = new JCheckBox("Middle button");
+        final JCheckBox jCheckBoxButton2 = new JCheckBox("Middle button");
         jCheckBoxButton2.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON2_DOWN_MASK));
 
-        JCheckBox jCheckBoxButton3 = new JCheckBox("Left button");
+        final JCheckBox jCheckBoxButton3 = new JCheckBox("Left button");
         jCheckBoxButton3.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON1_DOWN_MASK));
 
-        ButtonGroup buttonGroup = new ButtonGroup();
+        final ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(jCheckBoxButton1);
         buttonGroup.add(jCheckBoxButton2);
         buttonGroup.add(jCheckBoxButton3);
         jCheckBoxButton1.setSelected(true);
 
-        JPanel jPanel = new JPanel(new GridLayout(4, 1));
+        final JPanel jPanel = new JPanel(new GridLayout(4, 1));
         jPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         jPanel.add(new JLabel("Select mouse button used for gestures handling."));
         jPanel.add(jCheckBoxButton1);
@@ -96,7 +96,7 @@ public final class TestFrameMain extends JFrame {
         mouseGestures.addMouseGesturesListener(new MouseGesturesListener() {
             @Override
             public void gestureMovementRecognized(final String currentGesture) {
-                String displayValue = currentGesture.chars().mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining(","));
+                final String displayValue = currentGesture.chars().mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining(","));
 
                 setGestureString(displayValue);
             }
@@ -118,8 +118,8 @@ public final class TestFrameMain extends JFrame {
     }
 
     private void initSize() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension size = new Dimension(640, 480);
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension size = new Dimension(640, 480);
 
         if (size.height > screenSize.height) {
             size.height = screenSize.height;
@@ -134,7 +134,7 @@ public final class TestFrameMain extends JFrame {
     }
 
     private void initStatusBar() {
-        JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         jPanel.setBorder(BorderFactory.createLoweredBevelBorder());
         jPanel.add(statusLabel);
         getContentPane().add(jPanel, BorderLayout.SOUTH);

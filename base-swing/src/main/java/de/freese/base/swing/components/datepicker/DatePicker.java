@@ -42,7 +42,7 @@ public class DatePicker extends JXDatePicker {
     }
 
     public Calendar getCalendar() {
-        Calendar calendar = new GregorianCalendar();
+        final Calendar calendar = new GregorianCalendar();
         calendar.setTime(getDate());
 
         return calendar;

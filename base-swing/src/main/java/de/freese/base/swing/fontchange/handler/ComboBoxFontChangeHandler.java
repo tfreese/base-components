@@ -14,9 +14,9 @@ public class ComboBoxFontChangeHandler extends ComponentFontChangeHandler {
     public void fontChanged(final Font newFont, final Object object) {
         super.fontChanged(newFont, object);
 
-        JComboBox<?> comboBox = (JComboBox<?>) object;
+        final JComboBox<?> comboBox = (JComboBox<?>) object;
 
-        ListCellRenderer<?> cellRenderer = comboBox.getRenderer();
+        final ListCellRenderer<?> cellRenderer = comboBox.getRenderer();
 
         if (cellRenderer instanceof Component) {
             super.fontChanged(newFont, cellRenderer);

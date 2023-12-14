@@ -33,7 +33,7 @@ public class DefaultSwingExceptionHandler implements SwingExceptionHandler {
 
     @Override
     public void handleException(final Throwable throwable, final Logger logger, final Component parentComponent, final Translator translator) {
-        String message = getTranslatedMessage(throwable, translator);
+        final String message = getTranslatedMessage(throwable, translator);
 
         logger.error(message);
         logger.error(throwable.getMessage(), throwable);

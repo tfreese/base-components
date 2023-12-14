@@ -20,7 +20,7 @@ public final class BenchmarkRunnerMain {
         // Builder overwrites the Class-Annotations.
         // Needs filled target\classes\META-INF\BenchmarkList -> Rebuild bevor execute
         // @formatter:off
-        Options options = new OptionsBuilder()
+        final Options options = new OptionsBuilder()
                 .include(StatementBenchmarks.class.getSimpleName())
                 .include(StagedResultSizeBenchmarks.class.getSimpleName())
                 .shouldFailOnError(true)

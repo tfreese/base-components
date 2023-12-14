@@ -10,7 +10,6 @@ import javax.swing.SwingConstants;
  */
 public class LineLayoutElement extends AbstractLayoutElement {
     private int orientation = -1;
-
     private int thickness = 1;
 
     public LineLayoutElement() {

@@ -23,7 +23,6 @@ public class ExcelSheetPanel extends JPanel {
     private final ExcelSheet excelSheet;
 
     private JScrollPane scrollPane;
-
     private JTable table;
 
     public ExcelSheetPanel(final ExcelSheet excelSheet) {
@@ -51,7 +50,7 @@ public class ExcelSheetPanel extends JPanel {
     }
 
     private void initialize() {
-        GridBagConstraints gbc = new GridBagConstraints();
+        final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weighty = 1.0;
         gbc.weightx = 1.0;

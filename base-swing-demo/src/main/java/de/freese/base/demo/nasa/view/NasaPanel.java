@@ -24,15 +24,10 @@ class NasaPanel extends JPanel {
     private static final long serialVersionUID = 2482594442090386688L;
 
     private JButton buttonCancel;
-
     private JButton buttonNext;
-
     private JButton buttonPrevious;
-
     private JLabel labelImage;
-
     private JLabel labelUri;
-
     private JScrollPane scrollPane;
 
     JButton getButtonCancel() {
@@ -90,12 +85,12 @@ class NasaPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder());
 
-        JToolBar toolBar = new JToolBar();
+        final JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
-        Border border = new EmptyBorder(2, 9, 2, 9); // top, left, bottom, right
+        final Border border = new EmptyBorder(2, 9, 2, 9); // top, left, bottom, right
 
-        List<JButton> buttons = new ArrayList<>();
+        final List<JButton> buttons = new ArrayList<>();
         buttons.add(getButtonPrevious());
         buttons.add(getButtonNext());
         buttons.add(getButtonCancel());

@@ -15,9 +15,9 @@ import javax.swing.WindowConstants;
  */
 public final class MemoryGraphMain {
     public static void main(final String[] args) {
-        MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
+        final MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
 
-        JFrame frame = new JFrame("Memory Monitor");
+        final JFrame frame = new JFrame("Memory Monitor");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setBackground(Color.BLACK);
 

@@ -42,41 +42,30 @@ import de.freese.base.utils.GuiUtils;
  */
 public final class ErrorPane extends JPanel {
     private static final Dimension SIZE_DETAIL = new Dimension(6400, 350);
-
     private static final Dimension SIZE_MESSAGE = new Dimension(640, 130);
 
     @Serial
     private static final long serialVersionUID = 8841473190098899651L;
 
     public static void showDialog(final Component owner, final ErrorInfo errorInfo, final boolean enableSendMail) {
-        JOptionPane pane = new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new String[]{});
+        final JOptionPane pane = new JOptionPane(new ErrorPane(errorInfo, null, enableSendMail), JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new String[]{});
 
-        JDialog dialog = pane.createDialog(owner, errorInfo.getTitle());
+        final JDialog dialog = pane.createDialog(owner, errorInfo.getTitle());
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.setResizable(true);
         dialog.setVisible(true);
     }
 
     private final transient ErrorInfo errorInfo;
-
     private final Component owner;
-
     private JButton buttonClipboard;
-
     private JButton buttonClose;
-
     private JButton buttonDetails;
-
     private JButton buttonSend;
-
     private JPanel detailPanel;
-
     private JEditorPane editorPaneDetails;
-
     private JEditorPane editorPaneMessage;
-
     private JLabel labelIcon;
-
     private JScrollPane scrollPaneMessage;
 
     private ErrorPane(final ErrorInfo errorInfo, final Component owner, final boolean enableSendMail) {
@@ -108,17 +97,17 @@ public final class ErrorPane extends JPanel {
             }
 
             this.buttonClipboard.addActionListener(event -> {
-                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
                 getEditorPaneDetails().selectAll();
 
-                String text = getEditorPaneDetails().getSelectedText();
+                final String text = getEditorPaneDetails().getSelectedText();
 
                 // getEditorPaneDetails().select(-1, -1);
-                StringSelection selection = new StringSelection(text);
+                final StringSelection selection = new StringSelection(text);
                 clipboard.setContents(selection, selection);
 
-                // TransferHandler transferHandler =
+                // final TransferHandler transferHandler =
                 // new TransferHandler()
                 // {
                 // private static final long serialVersionUID = 0L;
@@ -173,7 +162,7 @@ public final class ErrorPane extends JPanel {
             });
 
             this.buttonClose.addActionListener(event -> {
-                Component c = getOwner();
+                final Component c = getOwner();
 
                 if (c instanceof Window w) {
                     w.dispose();
@@ -203,7 +192,7 @@ public final class ErrorPane extends JPanel {
             this.buttonDetails.addActionListener(event -> {
                 Dimension newSize = null;
 
-                Component component = getOwner();
+                final Component component = getOwner();
 
                 if (!getDetailPanel().isVisible()) {
                     newSize = new Dimension(component.getWidth(), component.getHeight() + SIZE_DETAIL.height);
@@ -242,19 +231,19 @@ public final class ErrorPane extends JPanel {
                 // String userID = Context.getUser().getUserId();
 
                 try {
-                    Component x = getOwner();
+                    final Component x = getOwner();
                     Component ownerParent = SwingUtilities.getAncestorOfClass(Dialog.class, x);
 
                     if (ownerParent == null) {
                         ownerParent = SwingUtilities.getAncestorOfClass(Frame.class, x);
                     }
 
-                    DataSource dataSource = GuiUtils.createScreenShot(ownerParent);
+                    final DataSource dataSource = GuiUtils.createScreenShot(ownerParent);
 
                     // String[] recipients =
                     // Context.getClientProperties().getMailExceptionTOs();
 
-                    MailWrapper mailWrapper = new MailWrapper();
+                    final MailWrapper mailWrapper = new MailWrapper();
                     // mailWrapper.setHost(Context.getClientProperties().getMailHost());
                     mailWrapper.setFrom("system@system.de");
                     // mailWrapper.setSubject("Exception (" + userID + ")");
@@ -323,7 +312,7 @@ public final class ErrorPane extends JPanel {
             this.detailPanel.setPreferredSize(SIZE_DETAIL);
             this.detailPanel.setMaximumSize(SIZE_DETAIL);
 
-            JScrollPane scrollPane = new JScrollPane(getEditorPaneDetails());
+            final JScrollPane scrollPane = new JScrollPane(getEditorPaneDetails());
 
             this.detailPanel.add(scrollPane, GbcBuilder.of(0, 0).fillBoth());
             this.detailPanel.add(getButtonClipboard(), GbcBuilder.of(0, 1).anchorCenter());
@@ -336,7 +325,7 @@ public final class ErrorPane extends JPanel {
 
     private String getDetailsAsHTML(final ErrorInfo errorInfo) {
         if (errorInfo.getErrorException() != null) {
-            StringBuilder html = new StringBuilder("<html>");
+            final StringBuilder html = new StringBuilder("<html>");
             html.append("<h2>").append(escapeXml(errorInfo.getTitle())).append("</h2>");
             html.append("<HR size='1' noshade>");
             html.append("<div></div>");
@@ -360,7 +349,7 @@ public final class ErrorPane extends JPanel {
                 html.append("<pre>");
 
                 for (int i = 0; i < ex.getStackTrace().length; i++) {
-                    StackTraceElement el = ex.getStackTrace()[i];
+                    final StackTraceElement el = ex.getStackTrace()[i];
                     html.append("    ").append(el.toString().replace("<init>", "&lt;init&gt;")).append("\n");
                 }
 

@@ -34,7 +34,7 @@ public abstract class AbstractNumberClipBoardConverter extends AbstractClipboard
         String temp = normalize(value);
         temp = temp.replace("\\.", ",");
 
-        int index = temp.indexOf(',');
+        final int index = temp.indexOf(',');
 
         // Nur den Wert VOR dem Komma verwenden !
         if (index != -1) {

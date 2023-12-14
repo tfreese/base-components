@@ -35,10 +35,10 @@ public class ArrowToken extends AbstractToken<ArrowToken.ArrowDirection> {
 
     @Override
     public void setValue(final ArrowDirection value) {
-        String displayValue = Objects.requireNonNull(value, "value required").name();
+        final String displayValue = Objects.requireNonNull(value, "value required").name();
         setDisplayValue(displayValue);
 
-        byte[] bitMask = LedMatrix.getBitMask(value);
+        final byte[] bitMask = LedMatrix.getBitMask(value);
         addBitMask(bitMask);
     }
 }

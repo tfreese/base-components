@@ -17,11 +17,11 @@ import org.junit.jupiter.api.Test;
 class TestStaxWriter {
     @Test
     void testStaxWriter() throws Exception {
-        String encoding = "ISO-8859-1";
+        final String encoding = "ISO-8859-1";
 
         // System.setProperty("javax.xml.stream.XMLOutputFactory", value) ;
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try (OutputStream os = baos) {
             // OutputStream os1 = new ByteArrayOutputStream();
@@ -29,7 +29,7 @@ class TestStaxWriter {
             // XMLOutputFactory factory = XMLOutputFactory.newInstance();
             // factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
             // XMLStreamWriter writer = factory.createXMLStreamWriter(os, encoding);
-            XMLStreamWriter writer = new PrettyPrintXmlStreamWriter(os, encoding);
+            final XMLStreamWriter writer = new PrettyPrintXmlStreamWriter(os, encoding);
 
             // PrettyPrint per Proxy
             // StaxPrettyPrintHandler handler = new StaxPrettyPrintHandler(writer);
@@ -84,7 +84,7 @@ class TestStaxWriter {
         // xmlInput.getInputStream().close();
         // xmlOutput.getOutputStream().close();
 
-        String xml = baos.toString(StandardCharsets.UTF_8);
+        final String xml = baos.toString(StandardCharsets.UTF_8);
         System.out.println(xml);
 
         assertTrue(true);

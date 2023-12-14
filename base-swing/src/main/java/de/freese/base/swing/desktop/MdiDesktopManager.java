@@ -44,13 +44,13 @@ final class MdiDesktopManager extends DefaultDesktopManager {
     }
 
     public void resizeDesktop() {
-        JScrollPane scrollPane = getScrollPane();
-        Insets scrollInsets = getScrollPaneInsets();
+        final JScrollPane scrollPane = getScrollPane();
+        final Insets scrollInsets = getScrollPaneInsets();
         int x = 0;
         int y = 0;
 
         if (scrollPane != null) {
-            JInternalFrame[] allFrames = this.desktop.getAllFrames();
+            final JInternalFrame[] allFrames = this.desktop.getAllFrames();
 
             for (JInternalFrame allFrame : allFrames) {
                 if ((allFrame.getX() + allFrame.getWidth()) > x) {
@@ -62,7 +62,7 @@ final class MdiDesktopManager extends DefaultDesktopManager {
                 }
             }
 
-            Dimension d = scrollPane.getVisibleRect().getSize();
+            final Dimension d = scrollPane.getVisibleRect().getSize();
 
             if (scrollPane.getBorder() != null) {
                 d.setSize(d.getWidth() - scrollInsets.left - scrollInsets.right, d.getHeight() - scrollInsets.top - scrollInsets.bottom);
@@ -83,13 +83,13 @@ final class MdiDesktopManager extends DefaultDesktopManager {
     }
 
     public void setNormalSize() {
-        JScrollPane scrollPane = getScrollPane();
-        Insets scrollInsets = getScrollPaneInsets();
+        final JScrollPane scrollPane = getScrollPane();
+        final Insets scrollInsets = getScrollPaneInsets();
         int width = 0;
         int height = 0;
 
         if (scrollPane != null) {
-            Dimension d = scrollPane.getVisibleRect().getSize();
+            final Dimension d = scrollPane.getVisibleRect().getSize();
 
             if (scrollPane.getBorder() != null) {
                 d.setSize(d.getWidth() - scrollInsets.left - scrollInsets.right, d.getHeight() - scrollInsets.top - scrollInsets.bottom);
@@ -116,7 +116,7 @@ final class MdiDesktopManager extends DefaultDesktopManager {
     }
 
     private Insets getScrollPaneInsets() {
-        JScrollPane scrollPane = getScrollPane();
+        final JScrollPane scrollPane = getScrollPane();
 
         if (scrollPane == null) {
             return new Insets(0, 0, 0, 0);

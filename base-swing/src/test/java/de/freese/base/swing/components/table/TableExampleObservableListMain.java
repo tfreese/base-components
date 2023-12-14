@@ -31,21 +31,21 @@ public final class TableExampleObservableListMain {
 
         @Override
         public Object getValueAt(final int rowIndex, final int columnIndex) {
-            int[] row = getObjectAt(rowIndex);
+            final int[] row = getObjectAt(rowIndex);
 
             return row[columnIndex];
         }
     }
 
     public static void main(final String[] args) throws Exception {
-        ObservableList<int[]> list = FXCollections.observableArrayList();
+        final ObservableList<int[]> list = FXCollections.observableArrayList();
 
-        JTable table = new JTable();
+        final JTable table = new JTable();
         table.setModel(new MyTableModel(5, list));
 
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        JFrame frame = new JFrame("TableExample1");
+        final JFrame frame = new JFrame("TableExample1");
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(final WindowEvent we) {
@@ -56,7 +56,7 @@ public final class TableExampleObservableListMain {
         frame.pack();
         frame.setVisible(true);
 
-        SwingWorker<Void, int[]> swingWorker = new SwingWorker<>() {
+        final SwingWorker<Void, int[]> swingWorker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
                 for (int i = 1; i < 6; i++) {

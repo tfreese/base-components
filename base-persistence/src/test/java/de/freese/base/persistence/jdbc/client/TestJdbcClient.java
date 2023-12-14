@@ -39,10 +39,10 @@ class TestJdbcClient {
     @MethodSource("getDatabases")
     @DisplayName("testDelete")
     void testDelete(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
-        List<String> names = List.of("name1", "name2", "name3");
+        final List<String> names = List.of("name1", "name2", "name3");
 
         int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
         assertEquals(names.size(), affectedRows);
@@ -50,7 +50,7 @@ class TestJdbcClient {
         affectedRows = jdbcClient.delete("delete from person where id = ?").statementSetter(ps -> ps.setLong(1, 3)).execute();
         assertEquals(1, affectedRows);
 
-        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
         assertNotNull(result);
         assertEquals(names.size() - 1, result.size());
 
@@ -67,15 +67,15 @@ class TestJdbcClient {
     @MethodSource("getDatabases")
     @DisplayName("testInsertBatch")
     void testInsertBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
-        List<String> names = List.of("name1", "name2", "name3");
+        final List<String> names = List.of("name1", "name2", "name3");
 
-        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        final int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
         assertEquals(names.size(), affectedRows);
 
-        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
         assertNotNull(result);
         assertEquals(names.size(), result.size());
 
@@ -92,15 +92,15 @@ class TestJdbcClient {
     @MethodSource("getDatabases")
     @DisplayName("testInsertWithKeyConsumer")
     void testInsertWithKeyConsumer(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
-        List<Long> keys = new ArrayList<>();
-        int affectedRows = jdbcClient.insert("insert into person (name) values (?)").execute(keys::add, ps -> ps.setString(1, "name1"));
+        final List<Long> keys = new ArrayList<>();
+        final int affectedRows = jdbcClient.insert("insert into person (name) values (?)").execute(keys::add, ps -> ps.setString(1, "name1"));
         assertEquals(1, affectedRows);
         assertEquals(1L, keys.get(0));
 
-        List<Map<String, Object>> result = jdbcClient.select("select * from person").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.select("select * from person").executeAsMap();
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(2, result.get(0).size());
@@ -114,28 +114,28 @@ class TestJdbcClient {
     @MethodSource("getDatabases")
     @DisplayName("testTransaction")
     void testTransaction(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
-        List<String> names = List.of("name1", "name2");
+        final List<String> names = List.of("name1", "name2");
 
-        Callable<Integer> insertCallable = () -> jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        final Callable<Integer> insertCallable = () -> jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
 
         try (Transaction transaction = jdbcClient.createTransaction()) {
             transaction.begin();
 
-            int affectedRows = ScopedValue.callWhere(JdbcClient.TRANSACTION, transaction, insertCallable);
+            final int affectedRows = ScopedValue.callWhere(JdbcClient.TRANSACTION, transaction, insertCallable);
             assertEquals(names.size(), affectedRows);
 
             // Out of TransactionScope.
-            //            List<Map<String, Object>> result = new JdbcClient(server.getDataSource()).select("select * from person order by name asc").executeAsMap();
+            //            final List<Map<String, Object>> result = new JdbcClient(server.getDataSource()).select("select * from person order by name asc").executeAsMap();
             //            assertNotNull(result);
             //            assertEquals(0, result.size());
 
             transaction.commit();
         }
 
-        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
         assertNotNull(result);
         assertEquals(names.size(), result.size());
 
@@ -146,10 +146,10 @@ class TestJdbcClient {
     @MethodSource("getDatabases")
     @DisplayName("testUpdate")
     void testUpdate(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
-        List<Long> keys = new ArrayList<>();
+        final List<Long> keys = new ArrayList<>();
         int affectedRows = jdbcClient.insert("insert into person (name) values (?)").execute(keys::add, ps -> ps.setString(1, "name1"));
         assertEquals(1, affectedRows);
         assertEquals(1L, keys.get(0));
@@ -160,7 +160,7 @@ class TestJdbcClient {
         });
         assertEquals(1, affectedRows);
 
-        List<Map<String, Object>> result = jdbcClient.select("select * from person").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.select("select * from person").executeAsMap();
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(2, result.get(0).size());
@@ -174,22 +174,22 @@ class TestJdbcClient {
     @MethodSource("getDatabases")
     @DisplayName("testUpdateBatch")
     void testUpdateBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
+        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
-        List<String> names = List.of("name1", "name2", "name3");
+        final List<String> names = List.of("name1", "name2", "name3");
 
         int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
         assertEquals(names.size(), affectedRows);
 
-        Map<Long, String> map = Map.of(1L, "name11", 2L, "name22", 3L, "name33");
+        final Map<Long, String> map = Map.of(1L, "name11", 2L, "name22", 3L, "name33");
         affectedRows = jdbcClient.update("update person set name = ? where id = ?").executeBatch(map.entrySet(), (ps, entry) -> {
             ps.setString(1, entry.getValue());
             ps.setLong(2, entry.getKey());
         }, 2);
         assertEquals(map.size(), affectedRows);
 
-        List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
         assertNotNull(result);
         assertEquals(names.size(), result.size());
 

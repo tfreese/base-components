@@ -43,7 +43,7 @@ public final class ButtonFactory {
     }
 
     public static JButton createHTMLTextButton(final Color rolloverColor) {
-        JButton button = new JButton();
+        final JButton button = new JButton();
 
         decorateToHTMLButton(button, rolloverColor);
 
@@ -51,14 +51,15 @@ public final class ButtonFactory {
     }
 
     public static JButton createMoveToolBarButton16x16(final ArrowDirection direction) {
-        JButton button = createToolbarButton16x16();
+        final JButton button = createToolbarButton16x16();
+
         decorateMoveButton(button, direction, 15);
 
         return button;
     }
 
     public static JButton createToolbarButton(final int size) {
-        JButton button = new JButton();
+        final JButton button = new JButton();
 
         button.setBorder(BorderFactory.createEmptyBorder());
         button.setFocusPainted(false);

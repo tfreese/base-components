@@ -24,11 +24,8 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel {
     private static final long serialVersionUID = 9023884779864134283L;
 
     private JLabel filterLabel;
-
     private JTextField filterTextField;
-
     private JList<T> list;
-
     private JScrollPane scrollPane;
 
     public ListFilterAuswahlPanel() {
@@ -88,7 +85,7 @@ public class ListFilterAuswahlPanel<T> extends ExtTitledPanel {
     }
 
     public void setFilter(final Predicate<T> filter) {
-        DocumentListener documentListener = (DocumentListener) filter;
+        final DocumentListener documentListener = (DocumentListener) filter;
 
         getFilterTextField().getDocument().addDocumentListener(documentListener);
     }

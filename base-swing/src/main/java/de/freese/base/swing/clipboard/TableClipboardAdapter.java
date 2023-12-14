@@ -24,19 +24,19 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
      */
     protected class PopupListener extends MouseAdapter {
         @Override
-        public void mouseReleased(final MouseEvent e) {
-            if (isEnabled() && e.isPopupTrigger()) {
-                JPopupMenu popupMenu = getPopupMenu();
+        public void mouseReleased(final MouseEvent event) {
+            if (isEnabled() && event.isPopupTrigger()) {
+                final JPopupMenu popupMenu = getPopupMenu();
 
                 if (popupMenu != null) {
-                    // JTable table = (JTable) e.getSource();
-                    // int row = table.rowAtPoint(new Point(e.getX(),e.getY()));
-                    int[] rowsSelected = getTable().getSelectedRows();
-                    int[] colsSelected = getTable().getSelectedColumns();
+                    // final JTable table = (JTable) e.getSource();
+                    // final int row = table.rowAtPoint(new Point(e.getX(),e.getY()));
+                    final int[] rowsSelected = getTable().getSelectedRows();
+                    final int[] colsSelected = getTable().getSelectedColumns();
 
                     if ((rowsSelected.length > 0) && (colsSelected.length > 0)) {
                         if (getTable().isEnabled()) {
-                            popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                            popupMenu.show(event.getComponent(), event.getX(), event.getY());
                         }
                     }
                 }
@@ -45,7 +45,6 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
     }
 
     private boolean externalPopup;
-
     private JPopupMenu popup;
 
     public TableClipboardAdapter(final JTable table) {
@@ -66,8 +65,8 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
 
     @Override
     public void doCopy() {
-        int[] rowsSelected = getTable().getSelectedRows();
-        int[] colsSelected = getTable().getSelectedColumns();
+        final int[] rowsSelected = getTable().getSelectedRows();
+        final int[] colsSelected = getTable().getSelectedColumns();
 
         if ((rowsSelected.length == 0) && (colsSelected.length == 0)) {
             Toolkit.getDefaultToolkit().beep();
@@ -77,14 +76,14 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             return;
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int element : rowsSelected) {
             for (int col = 0; col < colsSelected.length; col++) {
-                Class<?> clazz = getTable().getColumnClass(colsSelected[col]);
-                ClipboardConverter converter = getConverter(clazz);
+                final Class<?> clazz = getTable().getColumnClass(colsSelected[col]);
+                final ClipboardConverter converter = getConverter(clazz);
 
-                Object value = getTable().getValueAt(element, colsSelected[col]);
+                final Object value = getTable().getValueAt(element, colsSelected[col]);
                 String stringValue = "";
 
                 if (value != null) {
@@ -105,15 +104,15 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             sb.append("\n");
         }
 
-        StringSelection selection = new StringSelection(sb.toString());
+        final StringSelection selection = new StringSelection(sb.toString());
 
         getClipboard().setContents(selection, selection);
     }
 
     @Override
     public void doPaste(final boolean flipAxes) {
-        int[] rowsSelected = getTable().getSelectedRows();
-        int[] colsSelected = getTable().getSelectedColumns();
+        final int[] rowsSelected = getTable().getSelectedRows();
+        final int[] colsSelected = getTable().getSelectedColumns();
 
         if ((rowsSelected.length == 0) && (colsSelected.length == 0)) {
             Toolkit.getDefaultToolkit().beep();
@@ -123,8 +122,8 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             return;
         }
 
-        int startRow = rowsSelected[0];
-        int startCol = colsSelected[0];
+        final int startRow = rowsSelected[0];
+        final int startCol = colsSelected[0];
 
         String clipboardString = "";
 
@@ -134,6 +133,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         catch (Exception ex) {
             getLogger().error(ex.getMessage(), ex);
         }
+
         // 2 dim String Array der Werte aufbauen
         String[][] matrix = getPasteMatrix(clipboardString);
 
@@ -141,17 +141,17 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             matrix = flipMatrix(matrix);
         }
 
-        List<Point> points = new ArrayList<>();
+        final List<Point> points = new ArrayList<>();
 
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
-                String stringValue = matrix[row][col];
-                int currentColumn = startCol + col;
-                int currentRow = startRow + row;
+                final String stringValue = matrix[row][col];
+                final int currentColumn = startCol + col;
+                final int currentRow = startRow + row;
 
                 if ((currentRow < getTable().getRowCount()) && (currentColumn < getTable().getColumnCount())) {
-                    Class<?> clazz = getTable().getColumnClass(currentColumn);
-                    ClipboardConverter converter = getConverter(clazz);
+                    final Class<?> clazz = getTable().getColumnClass(currentColumn);
+                    final ClipboardConverter converter = getConverter(clazz);
                     Object value = null;
 
                     if (converter == null) {
@@ -173,8 +173,8 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
 
         // Selektiere alle eingefügten Werte.
         for (Point point : points) {
-            int rowIndex = startRow + (int) point.getX();
-            int columnIndex = startCol + (int) point.getY();
+            final int rowIndex = startRow + (int) point.getX();
+            final int columnIndex = startCol + (int) point.getY();
 
             if ((getTable().getRowCount() > rowIndex) && (getTable().getColumnCount() > columnIndex)) {
                 getTable().addRowSelectionInterval(rowIndex, rowIndex);
@@ -215,7 +215,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             return null;
         }
 
-        String[][] newMatrix = new String[matrix[0].length][matrix.length];
+        final String[][] newMatrix = new String[matrix[0].length][matrix.length];
 
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
@@ -230,13 +230,13 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
      * Liefert ein 2 dim String Array für die Paste Action.
      */
     private String[][] getPasteMatrix(final String clipboardString) {
-        String[] rows = clipboardString.split("\n");
+        final String[] rows = clipboardString.split("\n");
 
         // 1. max. Anzahl an Spalten ermitteln
         int maxCols = Integer.MIN_VALUE;
 
         for (String row2 : rows) {
-            String[] cols = row2.split("\t");
+            final String[] cols = row2.split("\t");
 
             maxCols = Math.max(maxCols, cols.length);
         }
@@ -246,13 +246,13 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         }
 
         // 2. StringMatrix füllen
-        String[][] matrix = new String[rows.length][maxCols];
+        final String[][] matrix = new String[rows.length][maxCols];
 
         for (int row = 0; row < rows.length; row++) {
-            String[] cols = rows[row].split("\t");
+            final String[] cols = rows[row].split("\t");
 
             for (int col = 0; col < cols.length; col++) {
-                String stringValue = cols[col];
+                final String stringValue = cols[col];
 
                 matrix[row][col] = stringValue;
             }

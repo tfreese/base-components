@@ -21,19 +21,18 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestCsvUtils {
-
     @Test
     void testParseCsv() throws Exception {
-        String csv = """
+        final String csv = """
                 "Header_0","Header_1","Header_2"
                 "Value\\""\\,_0_0","Value\\""\\,_0_1","Value\\""\\,_0_2"
                 "Value\\""\\,_1_0","Value\\""\\,_1_1","Value\\""\\,_1_2"
                 "Value\\""\\,_2_0","Value\\""\\,_2_1","Value\\""\\,_2_2"
                 """;
 
-        StringReader stringReader = new StringReader(csv);
+        final StringReader stringReader = new StringReader(csv);
 
-        List<String[]> data = CsvUtils.parseCsv(stringReader);
+        final List<String[]> data = CsvUtils.parseCsv(stringReader);
 
         assertEquals("[Header_0, Header_1, Header_2]", Arrays.toString(data.get(0)));
         assertEquals("[Value\",_0_0, Value\",_0_1, Value\",_0_2]", Arrays.toString(data.get(1)));
@@ -43,9 +42,9 @@ class TestCsvUtils {
 
     @Test
     void testWriteCsv() throws Exception {
-        IntFunction<String> headerFunction = column -> "Header_" + column;
-        BiFunction<Integer, Integer, String> dataFunction = (row, column) -> "Value\",_" + row + "_" + column;
-        IntPredicate finishPredicate = row -> row < 3;
+        final IntFunction<String> headerFunction = column -> "Header_" + column;
+        final BiFunction<Integer, Integer, String> dataFunction = (row, column) -> "Value\",_" + row + "_" + column;
+        final IntPredicate finishPredicate = row -> row < 3;
 
         //        CsvUtils.writeCsv(System.out, 3, headerFunction, dataFunction, finishPredicate);
 
@@ -65,7 +64,7 @@ class TestCsvUtils {
         //                "Value\\""\\,_2_0","Value\\""\\,_2_1","Value\\""\\,_2_2"\r
         //                """;
 
-        String expected = """
+        final String expected = """
                 "Header_0","Header_1","Header_2"
                 "Value\\""\\,_0_0","Value\\""\\,_0_1","Value\\""\\,_0_2"
                 "Value\\""\\,_1_0","Value\\""\\,_1_1","Value\\""\\,_1_2"

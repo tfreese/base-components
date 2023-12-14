@@ -30,7 +30,7 @@ public class FibonacciController extends AbstractController {
     }
 
     public long fibonacci(final int n, final LongConsumer operationConsumer) {
-        Long value = FIBONACCI_CACHE.get(n);
+        final Long value = FIBONACCI_CACHE.get(n);
 
         if ((value != null) && (value > 0)) {
             return value;
@@ -74,7 +74,7 @@ public class FibonacciController extends AbstractController {
             return n;
         }
 
-        FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, operationConsumer, operationCount, false);
+        final FibonacciForkJoinTask task = new FibonacciForkJoinTask(n, operationConsumer, operationCount, false);
 
         return this.forkJoinPool.invoke(task);
     }

@@ -33,7 +33,6 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     private final Color foreground;
     private final transient Border noFocusBorder;
     private final Color selectedBackground;
-
     private final Color selectedForeground;
 
     private int index = -1;

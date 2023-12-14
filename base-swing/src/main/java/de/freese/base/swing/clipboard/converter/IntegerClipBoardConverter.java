@@ -10,7 +10,7 @@ public class IntegerClipBoardConverter extends AbstractNumberClipBoardConverter 
             return null;
         }
 
-        String temp = normalizeNonFraction(value);
+        final String temp = normalizeNonFraction(value);
 
         return Integer.valueOf(temp);
     }

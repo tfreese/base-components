@@ -24,7 +24,6 @@ public class SortRendererComponent extends JPanel {
     private static final long serialVersionUID = -5261935215031937262L;
 
     private final JComponent mainComponent;
-
     private final Color textSortColor;
 
     private JLabel jLabelIcon;
@@ -35,7 +34,7 @@ public class SortRendererComponent extends JPanel {
         this.mainComponent = mainComponent;
         this.textSortColor = textSortColor;
 
-        Border mainBorder = mainComponent.getBorder();
+        final Border mainBorder = mainComponent.getBorder();
         setBorder(BorderFactory.createCompoundBorder(mainBorder, EMPTY_BORDER));
         this.mainComponent.setBorder(null);
 
@@ -55,7 +54,7 @@ public class SortRendererComponent extends JPanel {
             this.jLabelIcon.setForeground(this.textSortColor);
             this.jLabelIcon.setBackground(UIManager.getColor("TableHeader.background"));
 
-            Font font = this.jLabelIcon.getFont().deriveFont(10F);
+            final Font font = this.jLabelIcon.getFont().deriveFont(10F);
             this.jLabelIcon.setFont(font);
             this.jLabelIcon.setIconTextGap(2);
         }

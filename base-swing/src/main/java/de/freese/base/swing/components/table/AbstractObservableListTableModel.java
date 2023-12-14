@@ -30,20 +30,20 @@ public abstract class AbstractObservableListTableModel<T> extends AbstractListTa
     public void onChanged(final Change<? extends T> change) {
         while (change.next()) {
             if (change.wasAdded()) {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
+                final int firstRow = change.getFrom();
+                final int lastRow = change.getTo();
 
                 fireTableRowsInserted(firstRow, lastRow);
             }
             else if (change.wasRemoved()) {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
+                final int firstRow = change.getFrom();
+                final int lastRow = change.getTo();
 
                 fireTableRowsDeleted(firstRow, lastRow);
             }
             else if (change.wasUpdated()) {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
+                final int firstRow = change.getFrom();
+                final int lastRow = change.getTo();
 
                 fireTableRowsUpdated(firstRow, lastRow);
             }

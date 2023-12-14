@@ -23,7 +23,6 @@ import de.freese.base.swing.fontchange.SwingFontSizeChanger;
  */
 public final class UICustomization {
     private static final String COLOR_ALTERNATING = "color.alternating";
-
     private static final String COLOR_LIGHT_GRAY = "color.lightgray";
 
     public static Color getColorAlternating() {
@@ -47,10 +46,10 @@ public final class UICustomization {
 
     public static void setDefaultFont(final Font font) {
         for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
-            Object key = entry.getKey();
+            final Object key = entry.getKey();
             // Object value = entry.getValue();
 
-            String keyString = key.toString();
+            final String keyString = key.toString();
 
             if (keyString.endsWith(".font") || keyString.endsWith(".acceleratorFont")) {
                 UIManager.put(key, font);
@@ -112,17 +111,18 @@ public final class UICustomization {
         // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
         // Formatter formatter = new Formatter(os);
 
-        try (Formatter formatterConsole = new Formatter(System.out); Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN)) {
-            UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
+        try (Formatter formatterConsole = new Formatter(System.out);
+             Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN)) {
+            final UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
 
-            String format = "%1$s \t %2$s \n";
+            final String format = "%1$s \t %2$s \n";
 
             // @formatter:off
             uiDefaults.entrySet().stream()
                 .sorted(Comparator.comparing(e -> e.getKey().toString()))
                 .forEach(entry -> {
-                    String key = entry.getKey().toString();
-                    String value = Objects.toString(entry.getValue(), "NULL");
+                    final String key = entry.getKey().toString();
+                    final String value = Objects.toString(entry.getValue(), "NULL");
 
                     formatterConsole.format(format, key, value);
                     formatterFile.format(format, key, value);
@@ -136,7 +136,7 @@ public final class UICustomization {
     }
 
     private static void installDefaults() {
-        UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+        final UIDefaults defaults = UIManager.getLookAndFeelDefaults();
 
         UIManager.put("FileChooser.useSystemIcons", Boolean.TRUE);
 

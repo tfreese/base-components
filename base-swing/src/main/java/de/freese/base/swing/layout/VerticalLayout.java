@@ -33,14 +33,14 @@ public class VerticalLayout implements LayoutManager {
 
     @Override
     public void layoutContainer(final Container parent) {
-        Insets insets = parent.getInsets();
-        Dimension size = parent.getSize();
+        final Insets insets = parent.getInsets();
+        final Dimension size = parent.getSize();
 
-        int width = size.width - insets.left - insets.right;
+        final int width = size.width - insets.left - insets.right;
         int height = insets.top;
 
         for (int i = 0, c = parent.getComponentCount(); i < c; i++) {
-            Component m = parent.getComponent(i);
+            final Component m = parent.getComponent(i);
 
             if (m.isVisible()) {
                 m.setBounds(insets.left, height, width, m.getPreferredSize().height);
@@ -56,14 +56,14 @@ public class VerticalLayout implements LayoutManager {
 
     @Override
     public Dimension preferredLayoutSize(final Container parent) {
-        Insets insets = parent.getInsets();
-        Dimension pref = new Dimension(0, 0);
+        final Insets insets = parent.getInsets();
+        final Dimension pref = new Dimension(0, 0);
 
         for (int i = 0, c = parent.getComponentCount(); i < c; i++) {
-            Component m = parent.getComponent(i);
+            final Component m = parent.getComponent(i);
 
             if (m.isVisible()) {
-                Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
+                final Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
                 pref.height += componentPreferredSize.height + this.gap;
                 pref.width = Math.max(pref.width, componentPreferredSize.width);
             }

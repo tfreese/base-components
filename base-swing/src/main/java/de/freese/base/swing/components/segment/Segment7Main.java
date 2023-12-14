@@ -9,9 +9,9 @@ import javax.swing.WindowConstants;
  */
 public final class Segment7Main {
     public static void main(final String[] args) {
-        Segment7 seg = new Segment7();
+        final Segment7 seg = new Segment7();
 
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(seg);
 

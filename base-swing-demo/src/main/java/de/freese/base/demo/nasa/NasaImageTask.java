@@ -18,11 +18,8 @@ import de.freese.base.swing.task.AbstractSwingTask;
  */
 public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void> {
     private final NasaController nasaController;
-
     private final ResourceMap resourceMap;
-
     private final Callable<URI> uriCallable;
-
     private final NasaView view;
 
     private URI uri;
@@ -52,7 +49,7 @@ public class NasaImageTask extends AbstractSwingTask<BufferedImage, Void> {
         this.view.setMessage("nasa.load.start", this.uri, null);
         setSubTitle(this.resourceMap.getString("nasa.load.start", this.uri));
 
-        IIOReadProgressListener rpl = new IioReadProgressAdapter() {
+        final IIOReadProgressListener rpl = new IioReadProgressAdapter() {
             @Override
             public void imageProgress(final ImageReader source, final float percentageDone) {
                 setProgress(percentageDone, 0.0F, 100.0F);

@@ -45,13 +45,11 @@ import de.freese.base.swing.layout.GbcBuilder;
  */
 public class ExtDialog {
     private JButton[] buttons;
-
     private JDialog dialog;
-
     private int optionClicked = JOptionPane.CLOSED_OPTION;
 
     public void configure(final ExtDialogConfig config) {
-        Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
+        final Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
 
         if (window instanceof Frame f) {
             this.dialog = new JDialog(f, config.isModal());
@@ -126,13 +124,13 @@ public class ExtDialog {
     }
 
     private void configureButtons(final JDialog dialog, final ExtDialogConfig config) {
-        JPanel buttonPanel = new JPanel();
+        final JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BasicOptionPaneUI.ButtonAreaLayout(true, 10));
         buttonPanel.setMinimumSize(new Dimension(10, 30));
 
-        Locale locale = this.dialog.getLocale();
-        int optionType = config.getOptionType();
-        String[] options = config.getOptions();
+        final Locale locale = this.dialog.getLocale();
+        final int optionType = config.getOptionType();
+        final String[] options = config.getOptions();
 
         if (optionType == JOptionPane.DEFAULT_OPTION) {
             this.buttons = new JButton[]{new JButton()};
@@ -185,7 +183,7 @@ public class ExtDialog {
             buttonPanel.add(button);
         }
 
-        GridBagConstraints gbc = GbcBuilder.of(0, 2).gridwidth(2).insets(10, 10, 10, 10);
+        final GridBagConstraints gbc = GbcBuilder.of(0, 2).gridwidth(2).insets(10, 10, 10, 10);
         this.dialog.add(buttonPanel, gbc);
     }
 
@@ -229,7 +227,7 @@ public class ExtDialog {
     }
 
     private void configureIcon(final JDialog dialog, final ExtDialogConfig config) {
-        GridBagConstraints gbc = GbcBuilder.of(0, 0).insets(null).anchorNorthWest();
+        final GridBagConstraints gbc = GbcBuilder.of(0, 0).insets(null).anchorNorthWest();
 
         Icon icon = config.getIcon();
 
@@ -252,16 +250,16 @@ public class ExtDialog {
             dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         }
 
-        ActionListener defaultActionListener = event -> {
-            JComponent component = (JComponent) event.getSource();
-            Object option = component.getClientProperty("option");
+        final ActionListener defaultActionListener = event -> {
+            final JComponent component = (JComponent) event.getSource();
+            final Object option = component.getClientProperty("option");
 
             ExtDialog.this.optionClicked = (Integer) option;
             dialog.dispose();
         };
 
         for (int i = 0; i < this.buttons.length; i++) {
-            ActionListener actionListener = config.getButtonActionListener(i);
+            final ActionListener actionListener = config.getButtonActionListener(i);
 
             if (actionListener != null) {
                 if (actionListener instanceof Action a) {
@@ -282,14 +280,14 @@ public class ExtDialog {
         Component messageComponent = null;
 
         if (config.getMessage() instanceof String) {
-            JEditorPane editorPane = new JEditorPane();
+            final JEditorPane editorPane = new JEditorPane();
             editorPane.setEditable(false);
             editorPane.setOpaque(false);
             editorPane.setContentType("text/html");
             editorPane.setEditorKitForContentType("text/plain", new StyledEditorKit());
             editorPane.setEditorKitForContentType("text/html", new HTMLEditorKit());
 
-            Font font = UIManager.getFont("OptionPane.messageFont");
+            final Font font = UIManager.getFont("OptionPane.messageFont");
             editorPane.setFont(font);
 
             editorPane.setText((String) config.getMessage());
@@ -300,7 +298,7 @@ public class ExtDialog {
             messageComponent = (Component) config.getMessage();
         }
 
-        GridBagConstraints gbc = GbcBuilder.of(1, 0).insets(10, 10, 10, 10).gridheight(2).anchorNorthWest();
+        final GridBagConstraints gbc = GbcBuilder.of(1, 0).insets(10, 10, 10, 10).gridheight(2).anchorNorthWest();
         this.dialog.add(messageComponent, gbc);
     }
 
@@ -322,11 +320,11 @@ public class ExtDialog {
             return null;
         }
 
-        String propertyName = switch (messageType) {
-            case JOptionPane.ERROR_MESSAGE -> propertyName = "OptionPane.errorIcon";
-            case JOptionPane.INFORMATION_MESSAGE -> propertyName = "OptionPane.informationIcon";
-            case JOptionPane.WARNING_MESSAGE -> propertyName = "OptionPane.warningIcon";
-            case JOptionPane.QUESTION_MESSAGE -> propertyName = "OptionPane.questionIcon";
+        final String propertyName = switch (messageType) {
+            case JOptionPane.ERROR_MESSAGE -> "OptionPane.errorIcon";
+            case JOptionPane.INFORMATION_MESSAGE -> "OptionPane.informationIcon";
+            case JOptionPane.WARNING_MESSAGE -> "OptionPane.warningIcon";
+            case JOptionPane.QUESTION_MESSAGE -> "OptionPane.questionIcon";
             default -> null;
         };
 
@@ -338,7 +336,7 @@ public class ExtDialog {
     }
 
     private int getMnemonic(final String key, final Locale locale) {
-        String value = (String) UIManager.get(key, locale);
+        final String value = (String) UIManager.get(key, locale);
 
         if (value == null) {
             return 0;

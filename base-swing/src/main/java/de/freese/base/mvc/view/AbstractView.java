@@ -18,7 +18,6 @@ public abstract class AbstractView implements View {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private ApplicationContext applicationContext;
-
     private Component component;
 
     @Override
@@ -38,7 +37,7 @@ public abstract class AbstractView implements View {
 
     @Override
     public void handleException(final Throwable throwable) {
-        SwingExceptionHandler exceptionHandler = getService(SwingExceptionHandler.class);
+        final SwingExceptionHandler exceptionHandler = getService(SwingExceptionHandler.class);
 
         exceptionHandler.handleException(throwable, getLogger(), getComponent(), (key, args) -> getResourceMap().getString(key, args));
 

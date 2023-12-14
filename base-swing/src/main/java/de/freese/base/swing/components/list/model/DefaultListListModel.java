@@ -23,7 +23,6 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
     private static final long serialVersionUID = 8362504657702002619L;
 
     private final EventListenerList eventListenerList = new EventListenerList();
-
     private final transient List<T> list;
 
     public DefaultListListModel() {
@@ -51,7 +50,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
             return;
         }
 
-        int sizeOld = getList().size();
+        final int sizeOld = getList().size();
 
         getList().addAll(objects);
 
@@ -103,7 +102,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
     }
 
     public void remove(final T object) {
-        int index = getList().indexOf(object);
+        final int index = getList().indexOf(object);
 
         if (index < 0) {
             return;
@@ -128,7 +127,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param index1 the other end of the new interval
      */
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -151,7 +150,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -175,7 +174,7 @@ public class DefaultListListModel<T> implements ListModel<T>, Serializable {
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {

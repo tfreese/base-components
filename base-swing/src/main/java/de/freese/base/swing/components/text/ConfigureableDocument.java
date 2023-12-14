@@ -38,7 +38,7 @@ public class ConfigureableDocument extends PlainDocument {
 
         @Override
         public void execute(final DocumentContext context) throws Exception {
-            String fullText = context.fullText;
+            final String fullText = context.fullText;
 
             String regex = "[-]?[0-9]+";
 
@@ -50,7 +50,7 @@ public class ConfigureableDocument extends PlainDocument {
                 regex += "([,.][0-9]+)?";
             }
 
-            Pattern pattern = Pattern.compile(regex);
+            final Pattern pattern = Pattern.compile(regex);
 
             if (!pattern.matcher(fullText).matches()) {
                 throw new IllegalStateException("Text is not number");
@@ -98,9 +98,7 @@ public class ConfigureableDocument extends PlainDocument {
      */
     private static final class DocumentContext {
         private String currentText;
-
         private String fullText;
-
         private String newText;
 
         public String getCurrentText() {
@@ -142,7 +140,7 @@ public class ConfigureableDocument extends PlainDocument {
 
         @Override
         public void execute(final DocumentContext context) throws Exception {
-            String fullText = context.fullText;
+            final String fullText = context.fullText;
 
             if (fullText.length() > this.maxLength) {
                 throw new IllegalStateException("Max. length of Document reached !");
@@ -171,11 +169,8 @@ public class ConfigureableDocument extends PlainDocument {
     }
 
     private final transient DigitProcessor digitProcessor;
-
     private final transient LengthProcessor lengthProcessor;
-
     private final transient ProcessorChain<DocumentContext> processorChain = new ProcessorChain<>();
-
     private final transient UpperCaseProcessor upperCaseProcessor;
 
     public ConfigureableDocument() {
@@ -204,14 +199,14 @@ public class ConfigureableDocument extends PlainDocument {
             return;
         }
 
-        DocumentContext context = new DocumentContext();
+        final DocumentContext context = new DocumentContext();
         context.currentText = getText(0, getLength());
         context.newText = str;
         context.fullText = context.currentText + context.newText;
 
         if (offs < getLength()) {
             // Wenn neuer Text nicht am Ende eingegeben wurde
-            StringBuilder sb = new StringBuilder(context.currentText);
+            final StringBuilder sb = new StringBuilder(context.currentText);
             sb.insert(offs, context.newText);
 
             context.fullText = sb.toString();

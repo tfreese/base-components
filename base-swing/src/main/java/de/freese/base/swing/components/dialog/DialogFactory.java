@@ -12,7 +12,7 @@ import de.freese.base.resourcemap.ResourceMap;
  */
 public final class DialogFactory {
     public static ExtDialog create(final Component parent, final String title, final Object message, final int messageType, final int optionType, final Icon icon, final boolean show) {
-        ExtDialogConfig config = new ExtDialogConfig();
+        final ExtDialogConfig config = new ExtDialogConfig();
         config.setOwner(parent);
         config.setTitle(title);
         config.setMessage(message);
@@ -20,7 +20,7 @@ public final class DialogFactory {
         config.setOptionType(optionType);
         config.setIcon(icon);
 
-        ExtDialog dialog = new ExtDialog();
+        final ExtDialog dialog = new ExtDialog();
         dialog.configure(config);
         dialog.setVisible(show);
 

@@ -22,7 +22,7 @@ public class TextToken extends AbstractToken<CharSequence> {
 
     @Override
     public void setValue(final CharSequence value) {
-        CharSequence displayValue = Objects.requireNonNull(value, "value required");
+        final CharSequence displayValue = Objects.requireNonNull(value, "value required");
 
         createBitMasks(displayValue);
     }

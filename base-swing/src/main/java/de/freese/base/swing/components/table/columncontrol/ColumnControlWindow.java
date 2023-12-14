@@ -59,7 +59,7 @@ public class ColumnControlWindow implements AWTEventListener {
     @Override
     public void eventDispatched(final AWTEvent event) {
         if ((event.getID() == MouseEvent.MOUSE_EXITED)) {
-            Component source = (Component) event.getSource();
+            final Component source = (Component) event.getSource();
 
             if (!isChild(source, getWindow()) && !(event.getSource() instanceof JWindow) && !event.getSource().equals(this.controlButton)) {
                 hideAndClear();
@@ -68,26 +68,26 @@ public class ColumnControlWindow implements AWTEventListener {
     }
 
     public void fill() {
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         panel.setBorder(new CompoundBorder(null, new LineBorder(Color.DARK_GRAY, 1)));
         panel.setLayout(new VerticalLayout());
         // panel.add(new JLabel("Column control"));
 
         // Spalten der Tabellen
         for (ExtTable table : this.controlButton.getTables()) {
-            ExtTableColumnModel tableColumnModelExt = (ExtTableColumnModel) table.getColumnModel();
-            List<TableColumn> columns = tableColumnModelExt.getColumns(true);
+            final ExtTableColumnModel tableColumnModelExt = (ExtTableColumnModel) table.getColumnModel();
+            final List<TableColumn> columns = tableColumnModelExt.getColumns(true);
 
             for (TableColumn tableColumn : columns) {
                 if (!(tableColumn instanceof ExtTableColumn extTableColumn) || !extTableColumn.isVisibleChange()) {
                     continue;
                 }
 
-                JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem();
+                final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem();
                 menuItem.setSelected(extTableColumn.isVisible());
                 menuItem.setText(tableColumn.getHeaderValue().toString());
-                menuItem.addActionListener(e -> {
-                    JCheckBoxMenuItem menuItem1 = (JCheckBoxMenuItem) e.getSource();
+                menuItem.addActionListener(event -> {
+                    final JCheckBoxMenuItem menuItem1 = (JCheckBoxMenuItem) event.getSource();
 
                     extTableColumn.setVisible(menuItem1.isSelected());
                 });
@@ -97,19 +97,19 @@ public class ColumnControlWindow implements AWTEventListener {
         }
 
         // ZusatzActions
-        String packText = Locale.GERMAN.equals(Locale.getDefault()) ? "Spalten anpassen" : "Pack Columns";
+        final String packText = Locale.GERMAN.equals(Locale.getDefault()) ? "Spalten anpassen" : "Pack Columns";
 
-        Action packAllAction = new AbstractAction(packText) {
+        final Action packAllAction = new AbstractAction(packText) {
             @Serial
             private static final long serialVersionUID = 7374736910757374058L;
 
             @Override
-            public void actionPerformed(final ActionEvent e) {
+            public void actionPerformed(final ActionEvent event) {
                 for (ExtTable table : ColumnControlWindow.this.controlButton.getTables()) {
-                    Action action = table.getActionMap().get("pack_all");
+                    final Action action = table.getActionMap().get("pack_all");
 
                     if (action != null) {
-                        action.actionPerformed(e);
+                        action.actionPerformed(event);
                     }
                 }
             }
@@ -123,11 +123,11 @@ public class ColumnControlWindow implements AWTEventListener {
     public void show() {
         getWindow().setVisible(true);
 
-        Dimension windowSize = getWindow().getSize();
+        final Dimension windowSize = getWindow().getSize();
 
-        int dX = this.controlButton.getComponentOrientation().isLeftToRight() ? (-windowSize.width) : 0;
+        final int dX = this.controlButton.getComponentOrientation().isLeftToRight() ? (-windowSize.width) : 0;
 
-        Point pt = this.controlButton.getLocationOnScreen();
+        final Point pt = this.controlButton.getLocationOnScreen();
         pt.translate(dX, 0);
         getWindow().setLocation(pt);
         getWindow().pack();
@@ -145,7 +145,7 @@ public class ColumnControlWindow implements AWTEventListener {
             c = this.controlButton;
         }
 
-        Component parent = c.getParent();
+        final Component parent = c.getParent();
 
         if (parent instanceof Frame f) {
             return f;

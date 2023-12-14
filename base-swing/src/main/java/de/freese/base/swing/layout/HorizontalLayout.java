@@ -33,14 +33,14 @@ public class HorizontalLayout implements LayoutManager {
 
     @Override
     public void layoutContainer(final Container parent) {
-        Insets insets = parent.getInsets();
-        Dimension size = parent.getSize();
+        final Insets insets = parent.getInsets();
+        final Dimension size = parent.getSize();
 
-        int height = size.height - insets.top - insets.bottom;
+        final int height = size.height - insets.top - insets.bottom;
         int width = insets.left;
 
         for (int i = 0, c = parent.getComponentCount(); i < c; i++) {
-            Component m = parent.getComponent(i);
+            final Component m = parent.getComponent(i);
 
             if (m.isVisible()) {
                 m.setBounds(width, insets.top, m.getPreferredSize().width, height);
@@ -56,14 +56,14 @@ public class HorizontalLayout implements LayoutManager {
 
     @Override
     public Dimension preferredLayoutSize(final Container parent) {
-        Insets insets = parent.getInsets();
-        Dimension pref = new Dimension(0, 0);
+        final Insets insets = parent.getInsets();
+        final Dimension pref = new Dimension(0, 0);
 
         for (int i = 0, c = parent.getComponentCount(); i < c; i++) {
-            Component m = parent.getComponent(i);
+            final Component m = parent.getComponent(i);
 
             if (m.isVisible()) {
-                Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
+                final Dimension componentPreferredSize = parent.getComponent(i).getPreferredSize();
                 pref.height = Math.max(pref.height, componentPreferredSize.height);
                 pref.width += componentPreferredSize.width + this.gap;
             }

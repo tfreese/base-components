@@ -23,10 +23,10 @@ import javax.swing.WindowConstants;
 public final class TranslucentWindowMain {
     public static void main(final String[] args) {
         // Determine if the GraphicsDevice supports translucency.
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        final GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-        boolean translucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
+        final boolean translucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.TRANSLUCENT);
 
         // If translucent windows aren't supported, exit.
         if (!translucencySupported) {
@@ -38,7 +38,7 @@ public final class TranslucentWindowMain {
 
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("TranslucentWindow");
+            final JFrame frame = new JFrame("TranslucentWindow");
             frame.setLayout(new GridBagLayout());
 
             frame.setSize(600, 400);

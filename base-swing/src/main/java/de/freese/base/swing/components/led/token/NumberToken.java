@@ -28,7 +28,7 @@ public class NumberToken extends AbstractToken<Number> {
 
     @Override
     public void setValue(final Number value) {
-        String displayValue = String.format(this.format, value);
+        final String displayValue = String.format(this.format, value);
 
         createBitMasks(displayValue);
     }

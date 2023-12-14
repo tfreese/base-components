@@ -20,7 +20,6 @@ public class TaskStatistik implements Serializable {
     private final transient Queue<Long> durations = new ConcurrentLinkedQueue<>();
 
     private Date lastAccess = new Date();
-
     private String taskName = "";
 
     public long getAvg() {
@@ -64,7 +63,7 @@ public class TaskStatistik implements Serializable {
     }
 
     public void measureDuration(final long duration) {
-        long avg = getAvg();
+        final long avg = getAvg();
 
         // Add new Times only when they >= 10% of the average.
         if (duration >= (avg * 0.1F)) {
@@ -90,7 +89,7 @@ public class TaskStatistik implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         builder.append(getTaskName());
         builder.append("; Min=").append(getMin());
@@ -98,7 +97,7 @@ public class TaskStatistik implements Serializable {
         builder.append("; Avg=").append(getAvg());
         builder.append("; Size=").append(this.durations.size());
 
-        String format = "%1$td.%1$tm.%1$tY %1$tT";
+        final String format = "%1$td.%1$tm.%1$tY %1$tT";
         builder.append("; Datum=").append(String.format(format, getLastAccess()));
 
         return builder.toString();

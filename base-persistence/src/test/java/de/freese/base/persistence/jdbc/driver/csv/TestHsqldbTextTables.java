@@ -50,7 +50,7 @@ class TestHsqldbTextTables {
     @Test
     void testTextTableBuilder01() throws Exception {
         // @formatter:off
-        HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test1.csv"))
                 .addColumn("TEXT varchar(10) PRIMARY KEY")
                 .addColumn("DATE date")
@@ -61,7 +61,9 @@ class TestHsqldbTextTables {
         // @formatter:on
 
         // ResultSet-Types = To move back the cursor.
-        try (Connection connection = builder.build(); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV")) {
+        try (Connection connection = builder.build();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery("select * from TEST1_CSV")) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals("abc", resultSet.getString("TEXT"));
@@ -74,7 +76,7 @@ class TestHsqldbTextTables {
     @Test
     void testTextTableBuilder02() throws Exception {
         // @formatter:off
-        HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test1.csv"))
                 .setTableName("TEST_CSV")
                 .addColumn("TEXT varchar(10) PRIMARY KEY")
@@ -86,7 +88,8 @@ class TestHsqldbTextTables {
         // @formatter:on
 
         // ResultSet-Types = To move back the cursor.
-        try (Connection connection = builder.build(); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (Connection connection = builder.build();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             executeSelects(statement);
         }
     }
@@ -94,7 +97,7 @@ class TestHsqldbTextTables {
     @Test
     void testTextTableBuilder03() throws Exception {
         // @formatter:off
-        HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test2.csv"))
                 .setTableName("test_csv")
                 .setFieldSeparator(",")
@@ -107,7 +110,8 @@ class TestHsqldbTextTables {
         // @formatter:on
 
         // ResultSet-Types = To move back the cursor.
-        try (Connection connection = builder.build(); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (Connection connection = builder.build();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             executeSelects(statement);
         }
     }
@@ -115,7 +119,7 @@ class TestHsqldbTextTables {
     @Test
     void testTextTableBuilder04() throws Exception {
         // @formatter:off
-        HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test3.csv"))
                 .setTableName("test_csv")
                 .setFieldSeparator("\\t")
@@ -128,7 +132,8 @@ class TestHsqldbTextTables {
         // @formatter:on
 
         // ResultSet-Types = To move back the cursor.
-        try (Connection connection = builder.build(); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (Connection connection = builder.build();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             executeSelects(statement);
         }
     }
@@ -136,7 +141,7 @@ class TestHsqldbTextTables {
     @Test
     void testTextTableBuilder05() throws Exception {
         // @formatter:off
-        HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test4.csv"))
                 .setTableName("test_csv")
                 .setFieldSeparator("\\t")
@@ -150,7 +155,8 @@ class TestHsqldbTextTables {
         // @formatter:on
 
         // ResultSet-Types = To move back the cursor.
-        try (Connection connection = builder.build(); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+        try (Connection connection = builder.build();
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             executeSelects(statement);
         }
     }
@@ -158,7 +164,7 @@ class TestHsqldbTextTables {
     @Test
     void testTextTableBuilder06() throws Exception {
         // @formatter:off
-        HsqldbTextTableBuilder builder1 = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder1 = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test1.csv"))
                 .addColumn("TEXT varchar(10) PRIMARY KEY")
                 .addColumn("DATE date")
@@ -167,7 +173,7 @@ class TestHsqldbTextTables {
                 .addColumn("DOUBLE decimal(4,3)")
                 ;
 
-        HsqldbTextTableBuilder builder2 = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder2 = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test2.csv"))
                 .setTableName("test2")
                 .setFieldSeparator(",")
@@ -177,7 +183,7 @@ class TestHsqldbTextTables {
                 .addColumn("LONG bigint")
                 ;
 
-        HsqldbTextTableBuilder builder3 = HsqldbTextTableBuilder.create()
+        final HsqldbTextTableBuilder builder3 = HsqldbTextTableBuilder.create()
                 .setPath(Paths.get("src/test/resources/test3.csv"))
                 .setTableName("test3")
                 .setFieldSeparator("\\t")
@@ -188,7 +194,7 @@ class TestHsqldbTextTables {
                 ;
         // @formatter:on
 
-        StringBuilder sql = new StringBuilder();
+        final StringBuilder sql = new StringBuilder();
         sql.append("select");
         sql.append(" min(t1.LONG) as MIN_T1_LONG");
         sql.append(", max(t2.LONG) as MAX_T2_LONG");
@@ -198,7 +204,9 @@ class TestHsqldbTextTables {
         sql.append(" inner join TEST3 t3 on t3.TEXT = t1.TEXT");
 
         // ResultSet-Types = To move back the cursor.
-        try (Connection connection = builder1.build(builder2, builder3); Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY); ResultSet resultSet = statement.executeQuery(sql.toString())) {
+        try (Connection connection = builder1.build(builder2, builder3);
+             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery(sql.toString())) {
             JdbcUtils.write(resultSet, PRINT_STREAM);
 
             assertEquals(1234, resultSet.getInt("MIN_T1_LONG"), 0);

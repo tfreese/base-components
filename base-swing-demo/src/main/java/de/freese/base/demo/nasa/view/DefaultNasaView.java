@@ -36,12 +36,12 @@ public class DefaultNasaView extends AbstractView implements NasaView {
     public NasaView initComponent(final ApplicationContext applicationContext) {
         super.initComponent(applicationContext);
 
-        NasaPanel nasaPanel = new NasaPanel();
+        final NasaPanel nasaPanel = new NasaPanel();
         setComponent(nasaPanel);
 
         nasaPanel.init();
 
-        ResourceMap resourceMap = getResourceMap();
+        final ResourceMap resourceMap = getResourceMap();
 
         decorate(getComponent().getButtonPrevious(), resourceMap, "nasa.button.previous");
         decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
@@ -50,7 +50,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         controller = new NasaController(this);
 
         nasaPanel.getButtonPrevious().addActionListener(event -> {
-            NasaImageTask task = new NasaImageTask(controller, controller::getPreviousUri, this, getResourceMap());
+            final NasaImageTask task = new NasaImageTask(controller, controller::getPreviousUri, this, getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
 
@@ -58,7 +58,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         });
 
         nasaPanel.getButtonNext().addActionListener(event -> {
-            NasaImageTask task = new NasaImageTask(controller, controller::getNextUri, this, getResourceMap());
+            final NasaImageTask task = new NasaImageTask(controller, controller::getNextUri, this, getResourceMap());
             // task.setInputBlocker(new DefaultInputBlocker().add(panel.getButtonNext(), panel.getButtonPrevious()));
             task.setInputBlocker(new DefaultGlassPaneInputBlocker(nasaPanel));
 
@@ -66,7 +66,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         });
 
         nasaPanel.getButtonCancel().addActionListener(event -> {
-            AbstractSwingTask<?, ?> task = getService(TaskManager.class).getForegroundTask();
+            final AbstractSwingTask<?, ?> task = getService(TaskManager.class).getForegroundTask();
 
             if (task != null) {
                 task.cancel(true);
@@ -80,11 +80,11 @@ public class DefaultNasaView extends AbstractView implements NasaView {
 
     @Override
     public void setImage(final URI uri, final BufferedImage image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
+        final int width = image.getWidth();
+        final int height = image.getHeight();
 
-        ResourceMap resourceMap = getResourceMap();
-        String tip = resourceMap.getString("nasa.imageTooltip", uri, width, height);
+        final ResourceMap resourceMap = getResourceMap();
+        final String tip = resourceMap.getString("nasa.imageTooltip", uri, width, height);
 
         JLabel label = getComponent().getLabelImage();
         label.setToolTipText(tip);
@@ -95,18 +95,18 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         label.setText(resourceMap.getString("nasa.label.uri", uri));
 
         // ScrollPane zentrieren
-        JScrollPane scrollPane = getComponent().getScrollPane();
-        JViewport viewport = scrollPane.getViewport();
-        JScrollBar scrollBarH = scrollPane.getHorizontalScrollBar();
-        JScrollBar scrollBarV = scrollPane.getVerticalScrollBar();
+        final JScrollPane scrollPane = getComponent().getScrollPane();
+        final JViewport viewport = scrollPane.getViewport();
+        final JScrollBar scrollBarH = scrollPane.getHorizontalScrollBar();
+        final JScrollBar scrollBarV = scrollPane.getVerticalScrollBar();
 
         // scrollBarH.setValue((scrollBarH.getMaximum() - scrollBarH.getMinimum()) / 2);
         // scrollBarV.setValue((scrollBarV.getMaximum() - scrollBarV.getMinimum()) / 2);
         // scrollBarH.setValue(width / 2);
         // scrollBarV.setValue(height / 2);
 
-        int deltaH = scrollBarH.getVisibleAmount() / 2;
-        int deltaV = scrollBarV.getVisibleAmount() / 2;
+        final int deltaH = scrollBarH.getVisibleAmount() / 2;
+        final int deltaV = scrollBarV.getVisibleAmount() / 2;
 
         viewport.setViewPosition(new Point((width / 2) - deltaH, (height / 2) - deltaV));
         // viewport.validate();

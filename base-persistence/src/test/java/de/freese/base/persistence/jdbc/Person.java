@@ -7,7 +7,7 @@ package de.freese.base.persistence.jdbc;
 public record Person(long id, String lastName, String firstName) {
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("Person [");
         builder.append("id=").append(this.id);
         builder.append(", lastName=").append(this.lastName);

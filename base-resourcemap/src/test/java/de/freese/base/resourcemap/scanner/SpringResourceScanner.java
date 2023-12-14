@@ -35,10 +35,10 @@ public class SpringResourceScanner implements ResourceScanner {
         }
 
         try {
-            Resource[] resources = this.resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
+            final Resource[] resources = this.resourcePatternResolver.getResources("classpath*:" + path + "/*.properties");
 
             // Für ResourceBundle normalisieren
-            Set<String> bundleNames = new HashSet<>();
+            final Set<String> bundleNames = new HashSet<>();
 
             for (Resource resource : resources) {
                 bundleNames.add(path + "/" + resource.getFilename());

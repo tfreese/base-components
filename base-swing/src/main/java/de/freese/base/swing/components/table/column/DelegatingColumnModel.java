@@ -21,7 +21,6 @@ import javax.swing.table.TableColumnModel;
  */
 public class DelegatingColumnModel implements TableColumnModel, ListSelectionListener {
     private final JTable delegateTable;
-
     private final ListSelectionModel listSelectionModel;
 
     public DelegatingColumnModel(final JTable delegateTable) {
@@ -137,9 +136,9 @@ public class DelegatingColumnModel implements TableColumnModel, ListSelectionLis
     }
 
     @Override
-    public void valueChanged(final ListSelectionEvent e) {
+    public void valueChanged(final ListSelectionEvent event) {
         if (getDelegateColumnModel() instanceof ListSelectionListener l) {
-            l.valueChanged(e);
+            l.valueChanged(event);
         }
     }
 }

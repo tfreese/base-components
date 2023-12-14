@@ -36,7 +36,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 class TestTimeoutMap {
 
     private static final Duration DURATION_DEFAULT = Duration.ofMillis(200);
-
     private static final Duration DURATION_SLEEP = DURATION_DEFAULT.plusMillis(100);
 
     static Stream<Arguments> createArguments() throws Exception {
@@ -57,7 +56,7 @@ class TestTimeoutMap {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
     void testCompute(final String name, final Map<String, Integer> decorated) throws Exception {
-        Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
+        final Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.compute("a", (key, value) -> value == null ? 1 : 1 + value);
         assertEquals(1, map.size());
@@ -85,7 +84,7 @@ class TestTimeoutMap {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
     void testComputeIfAbsent(final String name, final Map<String, List<Integer>> decorated) throws Exception {
-        Map<String, List<Integer>> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
+        final Map<String, List<Integer>> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.computeIfAbsent("a", key -> new ArrayList<>()).add(1);
         assertEquals(1, map.size());
@@ -113,7 +112,7 @@ class TestTimeoutMap {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
     void testGet(final String name, final Map<String, Integer> decorated) throws Exception {
-        Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
+        final Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.put("a", 1);
         assertEquals(1, map.size());

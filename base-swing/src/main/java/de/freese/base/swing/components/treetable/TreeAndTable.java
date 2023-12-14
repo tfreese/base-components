@@ -16,13 +16,12 @@ import de.freese.base.swing.components.table.ExtTable;
  */
 public class TreeAndTable {
     private JTable table;
-
     private JTree tree;
 
     public TreeAndTable() {
         super();
 
-        CommonTreeAndTableSelectionModel selectionModel = new CommonTreeAndTableSelectionModel(this.tree);
+        final CommonTreeAndTableSelectionModel selectionModel = new CommonTreeAndTableSelectionModel(this.tree);
         getTree().setSelectionModel(selectionModel);
         getTable().setSelectionModel(selectionModel.getListSelectionModel());
 
@@ -46,7 +45,7 @@ public class TreeAndTable {
 
                 @Override
                 public void setBounds(final int x, final int y, final int width, final int height) {
-                    Rectangle tableBounds = getTable().getBounds();
+                    final Rectangle tableBounds = getTable().getBounds();
 
                     // if (y != tableBounds.y)
                     // {

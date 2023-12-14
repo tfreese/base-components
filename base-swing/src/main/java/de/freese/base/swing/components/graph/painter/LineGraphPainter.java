@@ -16,27 +16,27 @@ public class LineGraphPainter extends AbstractGraphPainter {
 
     @Override
     public void paintGraph(final Graphics2D g, final Component parent, final float width, final float height) {
-        List<Float> values = getValues().getLastValues((int) width);
+        final List<Float> values = getValues().getLastValues((int) width);
 
         if (values.isEmpty()) {
             return;
         }
 
-        float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
+        final float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
         // float xOffset = 0F; // Diagramm von links aufbauen.
 
         g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
 
         // Sinus: x-Achse auf halber Höhe
-        float middle = height / 2F;
+        final float middle = height / 2F;
         float yLast = middle - (values.get(0) * middle);
 
         for (int i = 1; i < values.size(); i++) {
-            float value = values.get(i);
+            final float value = values.get(i);
             // float y = xOffset + (height * value);
 
-            float x = i + xOffset;
-            float y = middle - (value * middle);
+            final float x = i + xOffset;
+            final float y = middle - (value * middle);
 
             this.line2d.setLine(x - 1, yLast, x, y);
             g.draw(this.line2d);

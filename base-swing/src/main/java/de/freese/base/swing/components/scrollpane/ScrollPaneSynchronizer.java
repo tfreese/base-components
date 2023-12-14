@@ -26,11 +26,8 @@ import javax.swing.JScrollPane;
  */
 public class ScrollPaneSynchronizer implements AdjustmentListener {
     private final JScrollBar h1;
-
     private final JScrollBar h2;
-
     private final JScrollBar v1;
-
     private final JScrollBar v2;
 
     public ScrollPaneSynchronizer(final JScrollPane sp1, final JScrollPane sp2) {
@@ -44,9 +41,9 @@ public class ScrollPaneSynchronizer implements AdjustmentListener {
 
     @Override
     public void adjustmentValueChanged(final AdjustmentEvent event) {
-        JScrollBar scrollBar = (JScrollBar) event.getSource();
+        final JScrollBar scrollBar = (JScrollBar) event.getSource();
 
-        int value = scrollBar.getValue();
+        final int value = scrollBar.getValue();
         JScrollBar target = null;
 
         if (scrollBar == this.v1) {

@@ -17,7 +17,7 @@ public final class BusyMozillaLabelMain {
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setSize(new Dimension(400, 400));
 
-        BusyMozillaLabel mozillaLabel = new BusyMozillaLabel("Taeschd");
+        final BusyMozillaLabel mozillaLabel = new BusyMozillaLabel("Taeschd");
 
         // mozillaLabel.setTrail(7);
         frame.getContentPane().add(mozillaLabel, BorderLayout.NORTH);

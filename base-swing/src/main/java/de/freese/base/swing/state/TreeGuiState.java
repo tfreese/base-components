@@ -21,7 +21,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class TreeGuiState extends AbstractGuiState {
     @Serial
     private static final long serialVersionUID = -3862916832341697120L;
-
     private final transient List<int[]> expansionIndices = new ArrayList<>();
 
     private int[] selectedRows;
@@ -38,9 +37,9 @@ public class TreeGuiState extends AbstractGuiState {
     public void restore(final Component component) {
         super.restore(component);
 
-        JTree tree = (JTree) component;
+        final JTree tree = (JTree) component;
 
-        TreeModel model = tree.getModel();
+        final TreeModel model = tree.getModel();
 
         if (model == null) {
             return;
@@ -78,17 +77,17 @@ public class TreeGuiState extends AbstractGuiState {
     public void store(final Component component) {
         super.store(component);
 
-        JTree tree = (JTree) component;
+        final JTree tree = (JTree) component;
 
         this.expansionIndices.clear();
 
-        TreeModel model = tree.getModel();
+        final TreeModel model = tree.getModel();
 
         if (model == null) {
             return;
         }
 
-        int rows = tree.getRowCount();
+        final int rows = tree.getRowCount();
 
         // Save expanded TreePaths.
         for (int row = 0; row < rows; row++) {
@@ -96,15 +95,15 @@ public class TreeGuiState extends AbstractGuiState {
                 continue;
             }
 
-            TreePath treePath = tree.getPathForRow(row);
+            final TreePath treePath = tree.getPathForRow(row);
 
             if (treePath != null) {
-                int count = treePath.getPathCount();
-                int[] indices = new int[count - 1];
+                final int count = treePath.getPathCount();
+                final int[] indices = new int[count - 1];
                 Object parent = model.getRoot();
 
                 for (int counter = 1; counter < count; counter++) {
-                    Object pathComponent = treePath.getPathComponent(counter);
+                    final Object pathComponent = treePath.getPathComponent(counter);
 
                     indices[counter - 1] = model.getIndexOfChild(parent, pathComponent);
                     parent = treePath.getPathComponent(counter);

@@ -25,9 +25,10 @@ class TestZodiac {
      */
     @Test
     void testAquarius() {
-        Calendar calendar = new GregorianCalendar();
+        final Calendar calendar = new GregorianCalendar();
         calendar.set(Calendar.MONTH, Calendar.JANUARY);
         calendar.set(Calendar.DAY_OF_MONTH, 21);
+
         Zodiac zodiac = Zodiac.getZodiac(calendar.getTime());
         assertEquals(Zodiac.AQUARIUS, zodiac);
 

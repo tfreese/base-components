@@ -16,7 +16,6 @@ import javafx.collections.ObservableList;
  */
 public abstract class AbstractObservableListListModel<T> implements ListModel<T>, ListChangeListener<T> {
     private final EventListenerList eventListenerList = new EventListenerList();
-
     private final ObservableList<T> list;
 
     protected AbstractObservableListListModel(final ObservableList<T> list) {
@@ -45,14 +44,14 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
     public void onChanged(final Change<? extends T> change) {
         while (change.next()) {
             if (change.wasAdded()) {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
+                final int firstRow = change.getFrom();
+                final int lastRow = change.getTo();
 
                 fireIntervalAdded(change.getList(), firstRow, lastRow);
             }
             else if (change.wasRemoved()) {
-                int firstRow = change.getFrom();
-                int lastRow = change.getTo();
+                final int firstRow = change.getFrom();
+                final int lastRow = change.getTo();
 
                 fireIntervalRemoved(change.getList(), firstRow, lastRow);
             }
@@ -78,7 +77,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param index1 the other end of the new interval
      */
     protected void fireContentsChanged(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -101,7 +100,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalAdded(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -125,7 +124,7 @@ public abstract class AbstractObservableListListModel<T> implements ListModel<T>
      * @param index1 the other end of the new interval
      */
     protected void fireIntervalRemoved(final Object source, final int index0, final int index1) {
-        Object[] listeners = this.eventListenerList.getListenerList();
+        final Object[] listeners = this.eventListenerList.getListenerList();
         ListDataEvent event = null;
 
         for (int i = listeners.length - 2; i >= 0; i -= 2) {

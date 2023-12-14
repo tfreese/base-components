@@ -20,14 +20,14 @@ public class ThinHorizontalScrollBarUI extends BasicScrollBarUI {
 
     @Override
     public Dimension getMaximumSize(final JComponent c) {
-        Dimension d = super.getMaximumSize(c);
+        final Dimension d = super.getMaximumSize(c);
 
         return new Dimension(d.width, this.height);
     }
 
     @Override
     public Dimension getPreferredSize(final JComponent c) {
-        Dimension d = super.getPreferredSize(c);
+        final Dimension d = super.getPreferredSize(c);
 
         return new Dimension(d.width, this.height);
     }

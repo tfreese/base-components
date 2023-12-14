@@ -12,9 +12,7 @@ import de.freese.base.resourcemap.ResourceMap;
  */
 public final class ApplicationContext extends AbstractServiceRegistry {
     private JFrame mainFrame;
-
     private ResourceMap resourceMapRoot;
-
     private String userId;
 
     public JFrame getMainFrame() {

@@ -12,9 +12,9 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
 public class PersonRowMapper implements RowMapper<Person> {
     @Override
     public Person mapRow(final ResultSet rs) throws SQLException {
-        long id = rs.getLong("ID");
-        String nachname = rs.getString("LAST_NAME");
-        String vorname = rs.getString("FIRST_NAME");
+        final long id = rs.getLong("ID");
+        final String nachname = rs.getString("LAST_NAME");
+        final String vorname = rs.getString("FIRST_NAME");
 
         return new Person(id, nachname, vorname);
     }

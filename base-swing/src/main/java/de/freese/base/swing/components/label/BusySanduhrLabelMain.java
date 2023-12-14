@@ -19,7 +19,7 @@ public final class BusySanduhrLabelMain {
         frame.getContentPane().setLayout(new BorderLayout());
         frame.setSize(new Dimension(400, 400));
 
-        BusySanduhrLabel busySanduhrLabel = new BusySanduhrLabel("Taeschd");
+        final BusySanduhrLabel busySanduhrLabel = new BusySanduhrLabel("Taeschd");
         busySanduhrLabel.setIcon(ImageUtils.createEmptyIcon());
 
         frame.getContentPane().add(busySanduhrLabel, BorderLayout.NORTH);

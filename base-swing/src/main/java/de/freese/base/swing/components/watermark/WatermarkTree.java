@@ -20,9 +20,7 @@ public class WatermarkTree extends JPanel implements WatermarkComponent {
     private static final long serialVersionUID = -7736500453003929181L;
 
     private JScrollPane scrollPane;
-
     private JTree tree;
-
     private WatermarkViewport viewport;
 
     /**
