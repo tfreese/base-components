@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import de.freese.base.persistence.jdbc.function.RowMapper;
 
@@ -15,7 +17,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  */
 public class ResultSetSpliterator<T> implements Spliterator<T> {
     // extends Spliterators.AbstractSpliterator<T>
-    
+
     private final Iterator<T> iterator;
 
     public ResultSetSpliterator(final ResultSet resultSet, final RowMapper<T> rowMapper) {
@@ -32,6 +34,10 @@ public class ResultSetSpliterator<T> implements Spliterator<T> {
     @Override
     public long estimateSize() {
         return Long.MAX_VALUE;
+    }
+
+    public Stream<T> stream() {
+        return StreamSupport.stream(this, false);
     }
 
     @Override
