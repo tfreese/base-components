@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 public class EmptyBorderResourceConverter extends AbstractResourceConverter<EmptyBorder> {
     @Override
     public EmptyBorder convert(final String key, final String value) {
-        List<Double> tlbr = parseDoubles(key, value, 4, "Invalid top,left,bottom,right EmptyBorder string");
+        final List<Double> tlbr = parseDoubles(key, value, 4, "Invalid top,left,bottom,right EmptyBorder string");
 
         return new EmptyBorder(tlbr.get(0).intValue(), tlbr.get(1).intValue(), tlbr.get(2).intValue(), tlbr.get(3).intValue());
     }

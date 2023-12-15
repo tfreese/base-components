@@ -50,7 +50,7 @@ public final class ExtMath {
             return -1;
         }
 
-        char[] numArray = number.strip().toCharArray();
+        final char[] numArray = number.strip().toCharArray();
         long result = 0;
 
         for (int i = 0; i < numArray.length; i++) {
@@ -82,7 +82,7 @@ public final class ExtMath {
             return null;
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         double tmp;
         long number = value;
 
@@ -115,7 +115,7 @@ public final class ExtMath {
     public static List<String> factors(final BigInteger value, final int certainty) {
         BigInteger bi = value;
 
-        List<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         BigInteger n = BigInteger.valueOf(2);
 
         while (!bi.isProbablePrime(certainty)) {
@@ -142,7 +142,7 @@ public final class ExtMath {
             throw new IllegalArgumentException("Dies \"" + roman + "\" ist keine gültige römische Zahl.");
         }
 
-        char[] chars = roman.toUpperCase().toCharArray();
+        final char[] chars = roman.toUpperCase().toCharArray();
         char lastChar = ' ';
         int value = 0;
 
@@ -174,7 +174,7 @@ public final class ExtMath {
             throw new IllegalArgumentException("Die eingegebene Zahl muss zwischen 1 und 3999 liegen!");
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         int val = value;
 
         while ((val / 1000) >= 1) {
@@ -310,7 +310,7 @@ public final class ExtMath {
      * Falls der übergebene {@link String} eine gültige römische Zahl ist, wird <code>true</code> geliefert, sonst <code>false</code>.
      */
     public static boolean isValidRomanNumber(final String roman) {
-        String pattern = "M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})";
+        final String pattern = "M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})";
 
         return Pattern.compile(pattern).matcher(roman.toUpperCase()).matches();
         //
@@ -365,7 +365,7 @@ public final class ExtMath {
      */
     public static List<String> primeFactors(final BigInteger value, final int certainty) {
         BigInteger bi = value;
-        List<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         BigInteger n = BigInteger.ONE;
 
         while (!bi.isProbablePrime(certainty)) {
@@ -438,7 +438,7 @@ public final class ExtMath {
         }
 
         // double ceil = Math.ceil(value);
-        double floor = Math.floor(value);
+        final double floor = Math.floor(value);
 
         return (int) floor;
     }
@@ -462,7 +462,7 @@ public final class ExtMath {
         }
 
         // double floor = Math.floor(value);
-        double ceil = Math.ceil(value);
+        final double ceil = Math.ceil(value);
 
         return (int) ceil;
     }
@@ -482,8 +482,8 @@ public final class ExtMath {
             return null;
         }
 
-        double aValue = (a == null) ? 0D : a;
-        double bValue = (b == null) ? 0D : b;
+        final double aValue = (a == null) ? 0D : a;
+        final double bValue = (b == null) ? 0D : b;
 
         return aValue - bValue;
     }
@@ -496,8 +496,8 @@ public final class ExtMath {
             return null;
         }
 
-        int aValue = (a == null) ? 0 : a;
-        int bValue = (b == null) ? 0 : b;
+        final int aValue = (a == null) ? 0 : a;
+        final int bValue = (b == null) ? 0 : b;
 
         return aValue - bValue;
     }
@@ -510,8 +510,8 @@ public final class ExtMath {
             return null;
         }
 
-        long aValue = (a == null) ? 0L : a;
-        long bValue = (b == null) ? 0L : b;
+        final long aValue = (a == null) ? 0L : a;
+        final long bValue = (b == null) ? 0L : b;
 
         return aValue - bValue;
     }
@@ -541,8 +541,8 @@ public final class ExtMath {
             return null;
         }
 
-        int aValue = (a == null) ? 0 : a;
-        int bValue = (b == null) ? 0 : b;
+        final int aValue = (a == null) ? 0 : a;
+        final int bValue = (b == null) ? 0 : b;
 
         return aValue + bValue;
     }
@@ -555,8 +555,8 @@ public final class ExtMath {
             return null;
         }
 
-        long aValue = (a == null) ? 0L : a;
-        long bValue = (b == null) ? 0L : b;
+        final long aValue = (a == null) ? 0L : a;
+        final long bValue = (b == null) ? 0L : b;
 
         return aValue + bValue;
     }

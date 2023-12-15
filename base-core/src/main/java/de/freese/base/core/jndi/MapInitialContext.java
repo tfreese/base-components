@@ -22,9 +22,9 @@ import javax.naming.spi.NamingManager;
 public final class MapInitialContext extends InitialContext {
     public static void init() throws NamingException {
         final InitialContext initialContext = new MapInitialContext();
+        final InitialContextFactory factory = environment -> initialContext;
+        final InitialContextFactoryBuilder builder = environment -> factory;
 
-        InitialContextFactory factory = environment -> initialContext;
-        InitialContextFactoryBuilder builder = environment -> factory;
         NamingManager.setInitialContextFactoryBuilder(builder);
 
         //        NamingManager.setInitialContextFactoryBuilder(environment -> environment1 -> initialContext);
@@ -53,7 +53,7 @@ public final class MapInitialContext extends InitialContext {
 
     @Override
     public void rename(final String oldName, final String newName) throws NamingException {
-        Object value = lookup(oldName);
+        final Object value = lookup(oldName);
         unbind(oldName);
         bind(newName, value);
     }

@@ -13,12 +13,10 @@ final class Pop3Response {
      * all the bytes from a multi-line response
      */
     private InputStream bytes;
-
     /**
      * rest of line after "+OK" or "-ERR"
      */
     private String data;
-
     /**
      * true if "+OK"
      */

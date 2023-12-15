@@ -24,7 +24,7 @@ public class BinaryGridColumn extends AbstractGridColumn<byte[]> {
             return null;
         }
 
-        byte[] value = (byte[]) object;
+        final byte[] value = (byte[]) object;
 
         if (value.length == 0) {
             return null;

@@ -20,7 +20,6 @@ import java.util.stream.StreamSupport;
  */
 public final class ObjectTable {
     private final List<Object[]> data;
-
     private final List<String> header;
 
     public ObjectTable(final String[] header) {
@@ -52,7 +51,7 @@ public final class ObjectTable {
      * Die Row muss die gleiche Anzahl an Daten haben, wie die Anzahl der Spalten, sonst knallt es.
      */
     public void addRow(final Iterable<Object> row) {
-        Object[] rowData = new Object[getColumnCount()];
+        final Object[] rowData = new Object[getColumnCount()];
         int column = 0;
 
         for (Object value : row) {
@@ -84,9 +83,9 @@ public final class ObjectTable {
      * Der Stream wird nicht geschlossen.
      */
     public void writeCsv(final OutputStream outputStream) {
-        IntFunction<String> headerFunction = this.header::get;
-        BiFunction<Integer, Integer, String> dataFunction = (row, column) -> Objects.toString(data.get(row)[column], null);
-        IntPredicate finishPredicate = row -> row < getRowCount();
+        final IntFunction<String> headerFunction = this.header::get;
+        final BiFunction<Integer, Integer, String> dataFunction = (row, column) -> Objects.toString(data.get(row)[column], null);
+        final IntPredicate finishPredicate = row -> row < getRowCount();
 
         CsvUtils.writeCsv(outputStream, getColumnCount(), headerFunction, dataFunction, finishPredicate);
     }
@@ -104,20 +103,20 @@ public final class ObjectTable {
      * Der Stream wird nicht geschlossen.
      */
     public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData, final Function<Object, String> dataFunction) {
-        PrintStream printStream = outputStream instanceof PrintStream ? (PrintStream) outputStream : new PrintStream(outputStream);
+        final PrintStream printStream = outputStream instanceof PrintStream ? (PrintStream) outputStream : new PrintStream(outputStream);
 
-        int[] columnWidths = new int[getColumnCount()];
+        final int[] columnWidths = new int[getColumnCount()];
         Arrays.fill(columnWidths, 0);
 
         IntStream.range(0, columnWidths.length).forEach(column -> {
-            int lengthHeader = Objects.toString(header.get(column), "").length();
-            int lengthData = data.stream().map(row -> row[column]).map(dataFunction).filter(Objects::nonNull).mapToInt(CharSequence::length).max().orElse(0);
+            final int lengthHeader = Objects.toString(header.get(column), "").length();
+            final int lengthData = data.stream().map(row -> row[column]).map(dataFunction).filter(Objects::nonNull).mapToInt(CharSequence::length).max().orElse(0);
 
             columnWidths[column] = Math.max(lengthHeader, lengthData);
         });
 
-        String headerString = IntStream.range(0, columnWidths.length).mapToObj(column -> {
-            String h = header.get(column);
+        final String headerString = IntStream.range(0, columnWidths.length).mapToObj(column -> {
+            final String h = header.get(column);
             return h + " ".repeat(columnWidths[column] - h.length());
         }).collect(Collectors.joining(" " + separatorData + " "));
 
@@ -125,8 +124,8 @@ public final class ObjectTable {
         printStream.println(("" + separatorHeader).repeat(headerString.length()));
 
         data.forEach(row -> {
-            String rowString = IntStream.range(0, columnWidths.length).mapToObj(column -> {
-                String value = dataFunction.apply(row[column]);
+            final String rowString = IntStream.range(0, columnWidths.length).mapToObj(column -> {
+                final String value = dataFunction.apply(row[column]);
                 return value + " ".repeat(columnWidths[column] - value.length());
             }).collect(Collectors.joining(" " + separatorData + " "));
 

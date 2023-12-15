@@ -23,9 +23,9 @@ public final class FileUtils {
     public static void copyToLast(final Path path) throws IOException {
         Objects.requireNonNull(path, "path required");
 
-        Path parent = path.getParent();
-        String fileName = path.getFileName().toString();
-        Path last = parent.resolve(fileName + ".last");
+        final Path parent = path.getParent();
+        final String fileName = path.getFileName().toString();
+        final Path last = parent.resolve(fileName + ".last");
 
         if (!Files.exists(parent)) {
             Files.createDirectories(parent);
@@ -84,19 +84,19 @@ public final class FileUtils {
         }
 
         // digits [0-9]: 48-57
-        Predicate<Character> digitsPredicate = c -> c >= 48 && c <= 57;
+        final Predicate<Character> digitsPredicate = c -> c >= 48 && c <= 57;
 
         // uppercase letters [A-Z]: 65-90
-        Predicate<Character> upperCaseLettersPredicate = c -> c >= 65 && c <= 90;
+        final Predicate<Character> upperCaseLettersPredicate = c -> c >= 65 && c <= 90;
 
         // lowercase letters [a-z]: 97-122
-        Predicate<Character> lowerCaseLettersPredicate = c -> c >= 97 && c <= 122;
+        final Predicate<Character> lowerCaseLettersPredicate = c -> c >= 97 && c <= 122;
 
         // Specials: '(' 40; ')' 41; '-' 45; '.' 46;  '_' 95
-        Predicate<Character> specialCharsPredicate = c -> c == 40 || c == 41 || c == 45 || c == 46 || c == 95;
+        final Predicate<Character> specialCharsPredicate = c -> c == 40 || c == 41 || c == 45 || c == 46 || c == 95;
 
         // @formatter:off
-        Predicate<Character> fileNameCompatible = digitsPredicate.or(upperCaseLettersPredicate)
+        final Predicate<Character> fileNameCompatible = digitsPredicate.or(upperCaseLettersPredicate)
                 .or(lowerCaseLettersPredicate)
                 .or(specialCharsPredicate)
                 ;
@@ -109,8 +109,8 @@ public final class FileUtils {
      * @return String, z.B. '___,___ MB'
      */
     public static String toHumanReadableSize(final long size) {
-        int unitIndex = (int) (Math.log10(size) / 3);
-        double unitValue = 1 << (unitIndex * 10);
+        final int unitIndex = (int) (Math.log10(size) / 3);
+        final double unitValue = 1 << (unitIndex * 10);
 
         // return new DecimalFormat("#,##0.#").format(size / unitValue) + " " + SIZE_UNITS[unitIndex];
         return String.format("%7.3f %s", size / unitValue, SIZE_UNITS[unitIndex]);

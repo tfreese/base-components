@@ -15,9 +15,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
     private static final String INDENT_CHAR = " ";
 
     private final Map<Integer, Boolean> hasChildElement = new HashMap<>();
-
     private final String lineSeparator;
-
     private final XMLStreamWriter target;
 
     private int depth;

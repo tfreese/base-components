@@ -92,14 +92,14 @@ public enum Zodiac {
     }
 
     public static Zodiac getZodiac(final Date date) {
-        int monat = Integer.parseInt(String.format("%1$tm", date));
-        int tag = Integer.parseInt(String.format("%1$td", date));
+        final int monat = Integer.parseInt(String.format("%1$tm", date));
+        final int tag = Integer.parseInt(String.format("%1$td", date));
 
         return getZodiac(monat, tag);
     }
 
     public static Zodiac getZodiac(final int month, final int dayOfMonth) {
-        Integer monatTag = Integer.valueOf(month + "" + dayOfMonth);
+        final Integer monatTag = Integer.valueOf(month + "" + dayOfMonth);
 
         Entry<Integer, Zodiac> entry = ZODIAC_MAP.floorEntry(monatTag);
 

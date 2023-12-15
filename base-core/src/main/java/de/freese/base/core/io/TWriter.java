@@ -10,7 +10,6 @@ import java.io.Writer;
  */
 public class TWriter extends Writer {
     private final Writer out1;
-
     private final Writer out2;
 
     public TWriter(final Writer out1, final Writer out2) {

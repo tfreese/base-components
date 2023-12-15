@@ -15,15 +15,10 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 class StreamSubscription<T> implements Subscription {
     private final AtomicLong demand = new AtomicLong();
-
     private final AtomicReference<Throwable> error = new AtomicReference<>();
-
     private final Executor executor;
-
     private final AtomicBoolean isTerminated = new AtomicBoolean(false);
-
     private final Iterator<? extends T> iterator;
-
     private final Subscriber<? super T> subscriber;
 
     StreamSubscription(final Executor executor, final Iterator<? extends T> iterator, final Subscriber<? super T> subscriber) {
@@ -48,8 +43,8 @@ class StreamSubscription<T> implements Subscription {
         }
 
         for (; ; ) {
-            long currentDemand = this.demand.getAcquire(); // >= Java9
-            // long currentDemand = this.demand.get(); // <= Java8
+            final long currentDemand = this.demand.getAcquire(); // >= Java9
+            // final long currentDemand = this.demand.get(); // <= Java8
 
             if (currentDemand == Long.MAX_VALUE) {
                 return;
@@ -87,7 +82,7 @@ class StreamSubscription<T> implements Subscription {
     }
 
     void doOnSubscribed() {
-        Throwable throwable = this.error.get();
+        final Throwable throwable = this.error.get();
 
         if ((throwable != null) && !terminate()) {
             getExecutor().execute(() -> this.subscriber.onError(throwable));

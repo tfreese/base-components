@@ -21,7 +21,7 @@ import java.util.function.Function;
 @FunctionalInterface
 public interface SequenceQuery extends Function<String, String> {
     static SequenceQuery determineQuery(final Connection connection) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         String product = metaData.getDatabaseProductName().toLowerCase();
         product = product.split(" ")[0];

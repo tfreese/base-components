@@ -28,8 +28,8 @@ class DefaultDeleteSpec implements JdbcClient.DeleteSpec {
 
     @Override
     public int execute() {
-        StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
-        StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
+        final StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
+        final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
             if (preparedStatementSetter != null) {
                 preparedStatementSetter.setValues(stmt);
             }

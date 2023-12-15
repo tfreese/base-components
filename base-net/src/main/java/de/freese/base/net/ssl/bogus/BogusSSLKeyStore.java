@@ -281,7 +281,7 @@ public final class BogusSSLKeyStore {
     // @formatter:on
 
     public static InputStream asInputStream() {
-        byte[] data = new byte[DATA.length];
+        final byte[] data = new byte[DATA.length];
 
         for (int i = 0; i < data.length; i++) {
             data[i] = (byte) DATA[i];

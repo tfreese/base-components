@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractProtocol {
     private final HexFormat hexFormat = HexFormat.of().withUpperCase();
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public abstract void close();
@@ -31,8 +30,8 @@ public abstract class AbstractProtocol {
      */
     protected String getDigest(final String password) {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            final MessageDigest md = MessageDigest.getInstance("SHA-256");
+            final byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
             return hexFormat.formatHex(digest);
         }

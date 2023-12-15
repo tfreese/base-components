@@ -40,7 +40,7 @@ public class DatabasePopulator {
 
     public void populate(final Connection connection) throws Exception {
         for (URL scriptUrl : this.scriptUrls) {
-            List<String> sqls = parseSQLs(scriptUrl);
+            final List<String> sqls = parseSQLs(scriptUrl);
 
             // sqls.forEach(System.out::println);
             try (Statement statement = connection.createStatement()) {
@@ -66,16 +66,16 @@ public class DatabasePopulator {
     }
 
     protected List<String> parseSQLs(final URL scriptUrl) throws Exception {
-        String sqlScript = parseScript(scriptUrl);
+        final String sqlScript = parseScript(scriptUrl);
 
-        List<String> sqls = new ArrayList<>();
+        final List<String> sqls = new ArrayList<>();
 
         // SQLs ending with ';'.
         try (Scanner scanner = new Scanner(sqlScript)) {
             scanner.useDelimiter(";");
 
             while (scanner.hasNext()) {
-                String sql = scanner.next().strip();
+                final String sql = scanner.next().strip();
                 sqls.add(sql);
             }
         }
@@ -88,7 +88,7 @@ public class DatabasePopulator {
 
         if (scriptUrl != null) {
             // Funktioniert nicht, wenn die Skripte in einem anderen Archiv liegen.
-            Path path = Paths.get(scriptUrl.toURI());
+            final Path path = Paths.get(scriptUrl.toURI());
 
             try (Stream<String> lines = Files.lines(path)) {
                 fileLines = lines.toList();

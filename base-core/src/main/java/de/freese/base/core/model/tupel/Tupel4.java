@@ -32,7 +32,7 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C> {
             return false;
         }
 
-        Tupel4<?, ?, ?, ?> tupel4 = (Tupel4<?, ?, ?, ?>) o;
+        final Tupel4<?, ?, ?, ?> tupel4 = (Tupel4<?, ?, ?, ?>) o;
 
         return Objects.equals(valueD, tupel4.valueD);
     }
@@ -52,7 +52,7 @@ public class Tupel4<A, B, C, D> extends Tupel3<A, B, C> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
         sb.append("; ");
         sb.append("D=").append(toString(getValueD()));

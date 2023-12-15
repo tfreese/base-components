@@ -21,7 +21,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
     }
 
     public static AutoExpandCharBufferCrLf of(final int capacity, final String crlf) {
-        CharBuffer charBuffer = CharBuffer.allocate(capacity);
+        final CharBuffer charBuffer = CharBuffer.allocate(capacity);
 
         return new AutoExpandCharBufferCrLf(charBuffer, crlf);
     }
@@ -72,7 +72,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
 
     @Override
     protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity) {
-        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+        final CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
 
         buffer.flip();
         newBuffer.put(buffer);

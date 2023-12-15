@@ -17,7 +17,7 @@ public class DoubleToIntAdapter extends XmlAdapter<String, Integer> {
             return null;
         }
 
-        double value = Double.parseDouble(arg0);
+        final double value = Double.parseDouble(arg0);
 
         return (int) value;
     }

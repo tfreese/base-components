@@ -11,7 +11,6 @@ import java.util.concurrent.Executor;
  */
 public class SerialExecutor implements Executor {
     private final Executor delegate;
-
     private final Queue<Runnable> queue = new ArrayDeque<>();
 
     private Runnable active;

@@ -21,9 +21,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractResourceCache implements ResourceCache {
     private final HexFormat hexFormat;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final MessageDigest messageDigest;
 
     protected AbstractResourceCache() {

@@ -40,7 +40,7 @@ public final class XmlUtils {
     }
 
     public static Document getDocument(final InputSource inputSource) throws Exception {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
         // Protect against to XXE attacks.
         documentBuilderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
@@ -64,7 +64,7 @@ public final class XmlUtils {
      * Getting all Schema-Files from the Jar of the Type.
      */
     public static Schema getSchema(final Class<?> type) throws Exception {
-        Schema schema;
+        final Schema schema;
 
         //        schema = schemaCache.get(type);
         //
@@ -73,18 +73,18 @@ public final class XmlUtils {
         //        }
 
         // Determine jar file based on types class file
-        String typeClassFilePath = type.getResource("/" + type.getName().replace('.', '/') + ".class").getFile();
-        URL jarFileURL = URI.create(typeClassFilePath.substring(0, typeClassFilePath.indexOf(".jar!") + 4)).toURL();
+        final String typeClassFilePath = type.getResource("/" + type.getName().replace('.', '/') + ".class").getFile();
+        final URL jarFileURL = URI.create(typeClassFilePath.substring(0, typeClassFilePath.indexOf(".jar!") + 4)).toURL();
 
         // Search schema files in jars meta-inf folder
-        Source[] schemas;
+        final Source[] schemas;
 
         try (FileSystem fileSystem = FileSystems.newFileSystem(Paths.get(jarFileURL.toURI()), type.getClassLoader());
              Stream<Path> stream = Files.walk(fileSystem.getPath("/META-INF"), 1)) {
             schemas = stream.filter(path -> path.toString().endsWith(".xsd")).map(XmlUtils::toSchema).toArray(Source[]::new);
         }
 
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
         schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
 
@@ -100,9 +100,9 @@ public final class XmlUtils {
         }
 
         if (logValidationErrors) {
-            Validator validator = schema.newValidator();
+            final Validator validator = schema.newValidator();
 
-            ErrorHandler errorHandler = new ErrorHandler() {
+            final ErrorHandler errorHandler = new ErrorHandler() {
                 @Override
                 public void error(final SAXParseException exception) throws SAXException {
                     // Empty
@@ -131,7 +131,7 @@ public final class XmlUtils {
 
     private static Source toSchema(final Path path) {
         try {
-            URI uri = path.toUri();
+            final URI uri = path.toUri();
 
             return new StreamSource(uri.toURL().openStream(), uri.toString());
         }

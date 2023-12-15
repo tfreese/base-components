@@ -14,7 +14,7 @@ import java.nio.charset.CharsetEncoder;
  */
 public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer> {
     public static AutoExpandCharBuffer of(final int capacity) {
-        CharBuffer charBuffer = CharBuffer.allocate(capacity);
+        final CharBuffer charBuffer = CharBuffer.allocate(capacity);
 
         return new AutoExpandCharBuffer(charBuffer);
     }
@@ -60,7 +60,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer> {
     }
 
     public String getString(final int index, final int length) {
-        char[] dst = new char[length];
+        final char[] dst = new char[length];
 
         get(index, dst);
 
@@ -89,7 +89,7 @@ public class AutoExpandCharBuffer extends AbstractAutoExpandBuffer<CharBuffer> {
 
     @Override
     protected CharBuffer createNewBuffer(final CharBuffer buffer, final int newCapacity) {
-        CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
+        final CharBuffer newBuffer = CharBuffer.allocate(newCapacity);
 
         buffer.flip();
         newBuffer.put(buffer);

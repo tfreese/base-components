@@ -69,7 +69,6 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     }
 
     private B buffer;
-
     private int mark = -1;
 
     protected AbstractAutoExpandBuffer(final B buffer) {
@@ -175,13 +174,13 @@ public abstract class AbstractAutoExpandBuffer<B extends Buffer> {
     }
 
     protected void autoExpand(final int position, final int expectedRemaining) {
-        int newLimit = position + expectedRemaining;
+        final int newLimit = position + expectedRemaining;
 
         if (newLimit > capacity()) {
             // Buffer muss erweitert werden.
-            int newCapacity = calculateNewCapacity(newLimit);
+            final int newCapacity = calculateNewCapacity(newLimit);
 
-            B newBuffer = createNewBuffer(getBuffer(), newCapacity);
+            final B newBuffer = createNewBuffer(getBuffer(), newCapacity);
 
             // Alten Zustand wiederherstellen.
             newBuffer.limit(newCapacity);

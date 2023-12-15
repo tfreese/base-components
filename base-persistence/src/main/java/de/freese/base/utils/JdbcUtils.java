@@ -123,20 +123,20 @@ public final class JdbcUtils {
 
     public static <T> T extractDatabaseMetaData(final DataSource dataSource, final Function<DatabaseMetaData, T> callback) throws SQLException {
         try (Connection connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection()) {
-            DatabaseMetaData metaData = Objects.requireNonNull(connection.getMetaData(), "metaData required");
+            final DatabaseMetaData metaData = Objects.requireNonNull(connection.getMetaData(), "metaData required");
 
             return callback.apply(metaData);
         }
     }
 
     public static Boolean getBoolean(final CallableStatement cs, final int index) throws SQLException {
-        boolean value = cs.getBoolean(index);
+        final boolean value = cs.getBoolean(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Boolean getBoolean(final ResultSet rs, final int index) throws SQLException {
-        boolean value = rs.getBoolean(index);
+        final boolean value = rs.getBoolean(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -146,13 +146,13 @@ public final class JdbcUtils {
     }
 
     public static Byte getByte(final CallableStatement cs, final int index) throws SQLException {
-        byte value = cs.getByte(index);
+        final byte value = cs.getByte(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Byte getByte(final ResultSet rs, final int index) throws SQLException {
-        byte value = rs.getByte(index);
+        final byte value = rs.getByte(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -184,13 +184,13 @@ public final class JdbcUtils {
     }
 
     public static Double getDouble(final CallableStatement cs, final int index) throws SQLException {
-        double value = cs.getDouble(index);
+        final double value = cs.getDouble(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Double getDouble(final ResultSet rs, final int index) throws SQLException {
-        double value = rs.getDouble(index);
+        final double value = rs.getDouble(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -200,13 +200,13 @@ public final class JdbcUtils {
     }
 
     public static Float getFloat(final CallableStatement cs, final int index) throws SQLException {
-        float value = cs.getFloat(index);
+        final float value = cs.getFloat(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Float getFloat(final ResultSet rs, final int index) throws SQLException {
-        float value = rs.getFloat(index);
+        final float value = rs.getFloat(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -216,13 +216,13 @@ public final class JdbcUtils {
     }
 
     public static Integer getInteger(final CallableStatement cs, final int index) throws SQLException {
-        int value = cs.getInt(index);
+        final int value = cs.getInt(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Integer getInteger(final ResultSet rs, final int index) throws SQLException {
-        int value = rs.getInt(index);
+        final int value = rs.getInt(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -232,13 +232,13 @@ public final class JdbcUtils {
     }
 
     public static Long getLong(final CallableStatement cs, final int index) throws SQLException {
-        long value = cs.getLong(index);
+        final long value = cs.getLong(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Long getLong(final ResultSet rs, final int index) throws SQLException {
-        long value = rs.getLong(index);
+        final long value = rs.getLong(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -248,13 +248,13 @@ public final class JdbcUtils {
     }
 
     public static Short getShort(final CallableStatement cs, final int index) throws SQLException {
-        short value = cs.getShort(index);
+        final short value = cs.getShort(index);
 
         return cs.wasNull() ? null : value;
     }
 
     public static Short getShort(final ResultSet rs, final int index) throws SQLException {
-        short value = rs.getShort(index);
+        final short value = rs.getShort(index);
 
         return rs.wasNull() ? null : value;
     }
@@ -267,7 +267,7 @@ public final class JdbcUtils {
      * Fügt zu der IN-Query die entsprechenden Werte hinzu.
      */
     public static StringBuilder parameterAsString(final Iterable<String> values, final char separator) {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         for (Iterator<String> iter = values.iterator(); iter.hasNext(); ) {
             builder.append(iter.next());
@@ -286,25 +286,25 @@ public final class JdbcUtils {
     public static ObjectTable toObjectTable(final ResultSet resultSet) throws SQLException {
         Objects.requireNonNull(resultSet, "resultSet required");
 
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
+        final ResultSetMetaData metaData = resultSet.getMetaData();
+        final int columnCount = metaData.getColumnCount();
 
         // Spaltennamen / Header
-        String[] header = new String[columnCount];
+        final String[] header = new String[columnCount];
 
         for (int column = 1; column <= columnCount; column++) {
             header[column - 1] = metaData.getColumnLabel(column).toUpperCase();
         }
 
-        ObjectTable objectTable = new ObjectTable(header);
+        final ObjectTable objectTable = new ObjectTable(header);
 
         // Daten
         while (resultSet.next()) {
-            Object[] row = new Object[columnCount];
+            final Object[] row = new Object[columnCount];
 
             for (int column = 1; column <= columnCount; column++) {
-                Object obj = resultSet.getObject(column);
-                Object value;
+                final Object obj = resultSet.getObject(column);
+                final Object value;
 
                 if (obj == null) {
                     value = "";
@@ -333,18 +333,18 @@ public final class JdbcUtils {
         Objects.requireNonNull(rsMeta, "resultSetMetaData required");
 
         // Spaltennamen / Header
-        String[] header = new String[5];
+        final String[] header = new String[5];
         header[0] = "ColumnName";
         header[1] = "ClassName";
         header[2] = "TypeName";
         header[3] = "Type";
         header[4] = "Nullable";
 
-        ObjectTable objectTable = new ObjectTable(header);
+        final ObjectTable objectTable = new ObjectTable(header);
 
         // Daten
         for (int col = 1; col <= rsMeta.getColumnCount(); col++) {
-            Object[] row = new String[5];
+            final Object[] row = new String[5];
 
             row[0] = rsMeta.getColumnName(col);
             row[1] = rsMeta.getColumnClassName(col);
@@ -364,7 +364,7 @@ public final class JdbcUtils {
      * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static void write(final ResultSet resultSet, final PrintStream ps) throws SQLException {
-        ObjectTable objectTable = toObjectTable(resultSet);
+        final ObjectTable objectTable = toObjectTable(resultSet);
         objectTable.writeStringTable(ps, '-', '|');
 
         // ResultSet wieder zurück auf Anfang.
@@ -377,7 +377,7 @@ public final class JdbcUtils {
      * Tabular printing the {@link ResultSetMetaData}.
      */
     public static void write(final ResultSetMetaData rsMeta, final PrintStream ps) throws SQLException {
-        ObjectTable objectTable = toObjectTable(rsMeta);
+        final ObjectTable objectTable = toObjectTable(rsMeta);
         objectTable.writeStringTable(ps, '-', '|');
     }
 
@@ -386,10 +386,10 @@ public final class JdbcUtils {
      * If the ResultSet is != ResultSet.TYPE_FORWARD_ONLY, {@link ResultSet#first()} is called and the {@link ResultSet} can still used.
      */
     public static void writeCsv(final ResultSet resultSet, final OutputStream outputStream) throws SQLException {
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
+        final ResultSetMetaData metaData = resultSet.getMetaData();
+        final int columnCount = metaData.getColumnCount();
 
-        IntFunction<String> headerFunction = column -> {
+        final IntFunction<String> headerFunction = column -> {
             try {
                 return metaData.getColumnLabel(column + 1).toUpperCase();
             }
@@ -398,10 +398,10 @@ public final class JdbcUtils {
             }
         };
 
-        BiFunction<Integer, Integer, String> dataFunction = (row, column) -> {
+        final BiFunction<Integer, Integer, String> dataFunction = (row, column) -> {
             try {
-                Object obj = resultSet.getObject(column + 1);
-                String value;
+                final Object obj = resultSet.getObject(column + 1);
+                final String value;
 
                 if (obj instanceof byte[] bytes) {
                     value = new String(bytes, StandardCharsets.UTF_8);
@@ -417,7 +417,7 @@ public final class JdbcUtils {
             }
         };
 
-        IntPredicate finishPredicate = row -> {
+        final IntPredicate finishPredicate = row -> {
             try {
                 return resultSet.next();
             }
@@ -448,12 +448,12 @@ public final class JdbcUtils {
             return;
         }
 
-        Iterator<? extends Number> iterator = elements.iterator();
+        final Iterator<? extends Number> iterator = elements.iterator();
 
         int i = 0;
 
         while (iterator.hasNext()) {
-            Number number = iterator.next();
+            final Number number = iterator.next();
 
             sql.append(number);
             i++;

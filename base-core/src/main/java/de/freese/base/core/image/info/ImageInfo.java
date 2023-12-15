@@ -19,9 +19,7 @@ public class ImageInfo {
     private final List<ImageColorChannelInfo> channelInfos = new ArrayList<>();
 
     private BufferedImage coOccurrenceMatrixImage;
-
     private double[] infoVector;
-
     private double[] infoVectorReScaled;
 
     public ImageInfo(final String fileName) throws Exception {

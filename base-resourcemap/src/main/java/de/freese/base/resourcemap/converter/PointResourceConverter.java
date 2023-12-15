@@ -9,9 +9,9 @@ import java.util.List;
 public class PointResourceConverter extends AbstractResourceConverter<Point> {
     @Override
     public Point convert(final String key, final String value) {
-        List<Double> xy = parseDoubles(key, value, 2, "Invalid x,y Point string");
+        final List<Double> xy = parseDoubles(key, value, 2, "Invalid x,y Point string");
 
-        Point point = new Point();
+        final Point point = new Point();
         point.setLocation(xy.get(0), xy.get(1));
 
         return point;

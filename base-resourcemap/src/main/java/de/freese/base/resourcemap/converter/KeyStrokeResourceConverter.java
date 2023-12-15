@@ -14,7 +14,7 @@ public class KeyStrokeResourceConverter extends AbstractResourceConverter<KeyStr
         String v = value;
 
         if (v.contains("shortcut")) {
-            int k = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
+            final int k = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
             v = v.replace("shortcut", (k == KeyEvent.VK_META) ? "meta" : "control");
         }
 

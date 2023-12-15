@@ -7,13 +7,13 @@ public class EndsWithTransformer implements RegExTransformer {
     @Override
     public String regExToWildcard(final String regex) {
         if (regex.endsWith(".*")) {
-            int index = regex.lastIndexOf(".*");
+            final int index = regex.lastIndexOf(".*");
 
             return regex.substring(0, index);
         }
 
         if (regex.endsWith(".{1}")) {
-            int index = regex.lastIndexOf(".{1}");
+            final int index = regex.lastIndexOf(".{1}");
 
             return regex.substring(0, index);
         }

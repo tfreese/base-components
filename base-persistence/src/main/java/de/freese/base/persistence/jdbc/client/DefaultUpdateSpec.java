@@ -34,8 +34,8 @@ class DefaultUpdateSpec implements JdbcClient.UpdateSpec {
 
     @Override
     public int execute(final PreparedStatementSetter preparedStatementSetter) {
-        StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
-        StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
+        final StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
+        final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
             if (preparedStatementSetter != null) {
                 preparedStatementSetter.setValues(stmt);
             }
@@ -48,7 +48,7 @@ class DefaultUpdateSpec implements JdbcClient.UpdateSpec {
 
     @Override
     public <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
-        StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
+        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
 
         return this.jdbcClient.executeBatch(batchArgs, ppss, batchSize, statementCreator, LOGGER);
     }

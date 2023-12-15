@@ -78,7 +78,7 @@ public final class CsvUtils {
             printStream = new PrintStream(outputStream, false, StandardCharsets.UTF_8);
         }
 
-        UnaryOperator<String> csvFormatFunction = value -> {
+        final UnaryOperator<String> csvFormatFunction = value -> {
             if (value == null || value.strip().isBlank()) {
                 return "";
             }
@@ -127,7 +127,7 @@ public final class CsvUtils {
 
     private static String[] parseCsvRow(final String csvRow) {
         String row = csvRow;
-        List<String> token = new ArrayList<>();
+        final List<String> token = new ArrayList<>();
 
         while (!row.isBlank()) {
             if (row.startsWith(",")) {
@@ -137,7 +137,7 @@ public final class CsvUtils {
                 continue;
             }
 
-            int endIndex = row.indexOf("\",");
+            final int endIndex = row.indexOf("\",");
 
             if (endIndex < 0) {
                 // Last Value -> End

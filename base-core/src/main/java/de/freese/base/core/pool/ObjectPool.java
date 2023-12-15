@@ -59,8 +59,8 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
         T object = getIdleObjects().poll();
 
         if (object != null && expirationDuration > 0L) {
-            Long creationTimestamp = creationTimestamps.getOrDefault(object, 0L);
-            long expiryTimestamp = creationTimestamp + expirationDuration;
+            final Long creationTimestamp = creationTimestamps.getOrDefault(object, 0L);
+            final long expiryTimestamp = creationTimestamp + expirationDuration;
 
             if (expiryTimestamp < System.currentTimeMillis()) {
                 creationTimestamps.remove(object);
@@ -97,7 +97,7 @@ public final class ObjectPool<T> extends AbstractObjectPool<T> implements AutoCl
 
     @Override
     protected T create() {
-        T object = creator.get();
+        final T object = creator.get();
 
         creationTimestamps.put(object, System.currentTimeMillis());
 

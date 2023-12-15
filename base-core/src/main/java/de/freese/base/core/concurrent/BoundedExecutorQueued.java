@@ -15,9 +15,7 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedExecutorQueued implements Executor {
     private final Executor delegate;
-
     private final Queue<Runnable> queue = new ArrayDeque<>();
-
     private final Semaphore rateLimiter;
 
     /**

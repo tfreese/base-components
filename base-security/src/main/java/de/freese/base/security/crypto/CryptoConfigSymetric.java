@@ -45,9 +45,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric> {
     //@formatter:on
 
     private byte[] initVector;
-
     private Key key;
-
     private byte[] keyBytes;
 
     CryptoConfigSymetric() {
@@ -56,7 +54,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric> {
 
     @Override
     public Crypto build() throws Exception {
-        CryptoSymetric crypto = new CryptoSymetric(this);
+        final CryptoSymetric crypto = new CryptoSymetric(this);
 
         // Key
         Key theKey = null;
@@ -82,7 +80,7 @@ public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric> {
         // }
         // }
         else if (getKeySize() > 0) {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
+            final KeyGenerator keyGenerator = KeyGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
             keyGenerator.init(getKeySize(), crypto.getSecureRandom());
 
             theKey = keyGenerator.generateKey();

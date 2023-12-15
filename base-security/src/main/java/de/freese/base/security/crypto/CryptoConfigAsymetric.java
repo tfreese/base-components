@@ -18,7 +18,7 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric> {
 
     @Override
     public Crypto build() throws Exception {
-        CryptoAsymetric crypto = new CryptoAsymetric(this);
+        final CryptoAsymetric crypto = new CryptoAsymetric(this);
 
         // Key
         KeyPair theKeyPair = null;
@@ -27,7 +27,7 @@ public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric> {
             theKeyPair = getKeyPair();
         }
         else if (getKeySize() > 0) {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
+            final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(getAlgorithmKeyGenerator(), getProviderKeyGenerator());
             keyPairGenerator.initialize(getKeySize(), crypto.getSecureRandom());
 
             theKeyPair = keyPairGenerator.generateKeyPair();

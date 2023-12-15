@@ -20,7 +20,7 @@ public abstract class AbstractObjectPool<T> {
     }
 
     public T get() {
-        T object = getIdleObjects().poll();
+        final T object = getIdleObjects().poll();
 
         return object != null ? object : create();
     }

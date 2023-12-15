@@ -17,7 +17,6 @@ import java.util.function.Consumer;
  */
 public class StopWatch {
     private static final AtomicInteger ID_NUMBER = new AtomicInteger(1);
-
     private static final AtomicInteger TASK_NUMBER = new AtomicInteger(1);
 
     /**
@@ -62,7 +61,7 @@ public class StopWatch {
                 printStream.printf("%15s | %9s | %3s | Task Name%n", TimeUnit.NANOSECONDS.toChronoUnit(), timeUnit.toChronoUnit(), "%");
 
                 for (TaskInfo task : sw.getTaskList()) {
-                    long nanos = task.getTime(TimeUnit.NANOSECONDS);
+                    final long nanos = task.getTime(TimeUnit.NANOSECONDS);
 
                     // @formatter:off
                     printStream.printf("%,15d | %,9d | %3.0f | %s%n"
@@ -88,17 +87,12 @@ public class StopWatch {
     }
 
     private final String id;
-
     private final List<TaskInfo> taskList = new LinkedList<>();
 
     private String currentTaskName;
-
     private boolean keepTaskList = true;
-
     private TaskInfo lastTaskInfo;
-
     private long startTimeNanos;
-
     private long totalTimeNanos;
 
     public StopWatch() {
@@ -136,7 +130,7 @@ public class StopWatch {
     }
 
     public List<TaskInfo> getTaskList() {
-        List<TaskInfo> copy = new ArrayList<>(getTaskCount());
+        final List<TaskInfo> copy = new ArrayList<>(getTaskCount());
         copy.addAll(this.taskList);
 
         return copy;
@@ -214,7 +208,7 @@ public class StopWatch {
             throw new IllegalStateException("Can't stop StopWatch: it's not running");
         }
 
-        long lastTime = System.nanoTime() - this.startTimeNanos;
+        final long lastTime = System.nanoTime() - this.startTimeNanos;
         this.totalTimeNanos += lastTime;
         this.lastTaskInfo = new TaskInfo(this.currentTaskName, lastTime);
 

@@ -10,7 +10,6 @@ import java.util.List;
 public class Grid {
 
     private final List<GridColumn<?>> columns = new ArrayList<>();
-
     private final List<GridRow> rows = new ArrayList<>();
 
     public void addColumn(final GridColumn<?> column) {
@@ -54,14 +53,14 @@ public class Grid {
     }
 
     public <T> T getValue(final Class<T> type, final int rowIndex, final int columnIndex) {
-        GridRow gridRow = getRow(rowIndex);
-        GridColumn<?> gridColumn = getColumn(columnIndex);
+        final GridRow gridRow = getRow(rowIndex);
+        final GridColumn<?> gridColumn = getColumn(columnIndex);
 
         if (gridRow == null || gridColumn == null) {
             return null;
         }
 
-        Object value = gridColumn.getValue(gridRow.getObject(columnIndex));
+        final Object value = gridColumn.getValue(gridRow.getObject(columnIndex));
 
         return type.cast(value);
     }

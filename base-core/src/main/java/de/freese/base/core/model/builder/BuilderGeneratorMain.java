@@ -8,7 +8,7 @@ import de.freese.base.core.model.tupel.Tupel3;
  */
 public final class BuilderGeneratorMain {
     public static void main(final String[] args) {
-        BuilderGenerator generator = new BuilderGenerator(fields -> {
+        final BuilderGenerator generator = new BuilderGenerator(fields -> {
             fields.remove("serialVersionUID");
             fields.remove("valueB");
             return fields;

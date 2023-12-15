@@ -39,13 +39,13 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
      * The format of the numbers is specified by Double.valueOf().
      */
     protected List<Double> parseDoubles(final String key, final String value, final int n, final String message) throws RuntimeException {
-        String[] splits = value.split(",|;|-|\\s+", n);
+        final String[] splits = value.split(",|;|-|\\s+", n);
 
         if (splits.length != n) {
             throwException(key, value, message);
         }
 
-        List<Double> doubles = new ArrayList<>(n);
+        final List<Double> doubles = new ArrayList<>(n);
 
         for (String doubleString : splits) {
             doubles.add(Double.parseDouble(doubleString));
@@ -55,13 +55,13 @@ public abstract class AbstractResourceConverter<T> implements ResourceConverter<
     }
 
     protected void throwException(final String key, final String value, final String message) throws RuntimeException {
-        String msg = String.format("%s = %s: %s", key, value, message);
+        final String msg = String.format("%s = %s: %s", key, value, message);
 
         throw new RuntimeException(msg);
     }
 
     protected void throwException(final String key, final String value, final Throwable cause) throws RuntimeException {
-        String msg = String.format("%s = %s", key, value);
+        final String msg = String.format("%s = %s", key, value);
 
         throw new RuntimeException(msg, cause);
     }

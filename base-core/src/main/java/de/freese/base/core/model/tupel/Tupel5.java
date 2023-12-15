@@ -32,7 +32,7 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D> {
             return false;
         }
 
-        Tupel5<?, ?, ?, ?, ?> tupel5 = (Tupel5<?, ?, ?, ?, ?>) o;
+        final Tupel5<?, ?, ?, ?, ?> tupel5 = (Tupel5<?, ?, ?, ?, ?>) o;
 
         return Objects.equals(valueE, tupel5.valueE);
     }
@@ -52,7 +52,7 @@ public class Tupel5<A, B, C, D, E> extends Tupel4<A, B, C, D> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
         sb.append("; ");
         sb.append("E=").append(toString(getValueE()));

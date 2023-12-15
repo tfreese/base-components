@@ -24,7 +24,7 @@ public final class NetUtils {
      * Wandelt die binäre IP-Adresse in ein lesbares Format um.
      */
     public static String convertAddressToDotRepresentation(final byte[] ipAddress) {
-        StringBuilder ipAddressStr = new StringBuilder();
+        final StringBuilder ipAddressStr = new StringBuilder();
 
         for (int i = 0; i < ipAddress.length; i++) {
             if (i > 0) {
@@ -59,19 +59,19 @@ public final class NetUtils {
 
         if (hostName == null) {
             try {
-                // List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-                Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+                // final List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+                final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
                 while (interfaces.hasMoreElements()) {
-                    NetworkInterface nic = interfaces.nextElement();
+                    final NetworkInterface nic = interfaces.nextElement();
 
                     // nic.getInterfaceAddresses().forEach(System.out::println);
 
-                    // Stream<InetAddress> addresses = nic.inetAddresses();
-                    Enumeration<InetAddress> addresses = nic.getInetAddresses();
+                    // final Stream<InetAddress> addresses = nic.inetAddresses();
+                    final Enumeration<InetAddress> addresses = nic.getInetAddresses();
 
                     while (addresses.hasMoreElements()) {
-                        InetAddress address = addresses.nextElement();
+                        final InetAddress address = addresses.nextElement();
 
                         if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
                             // IPv4
@@ -100,13 +100,13 @@ public final class NetUtils {
     }
 
     public static LocalDateTime getNtpTime(final String host, final int port) throws IOException {
-        InetAddress inetAddress = InetAddress.getByName(host);
+        final InetAddress inetAddress = InetAddress.getByName(host);
         NTPUDPClient timeClient = null;
 
         try {
             timeClient = new NTPUDPClient();
-            TimeInfo timeInfo = timeClient.getTime(inetAddress, port);
-            long timeStamp = timeInfo.getMessage().getTransmitTimeStamp().getTime();
+            final TimeInfo timeInfo = timeClient.getTime(inetAddress, port);
+            final long timeStamp = timeInfo.getMessage().getTransmitTimeStamp().getTime();
 
             return LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStamp), ZoneId.systemDefault());
         }
@@ -125,7 +125,7 @@ public final class NetUtils {
         IOException exception = null;
 
         for (int i = 1; i <= 3; i++) {
-            String host = String.format("ptbtime%d.ptb.de", i);
+            final String host = String.format("ptbtime%d.ptb.de", i);
 
             try {
                 return getNtpTime(host, NTP_PORT);

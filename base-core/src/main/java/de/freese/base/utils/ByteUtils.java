@@ -26,7 +26,7 @@ public final class ByteUtils {
     public static String bytesToHex(final byte[] bytes) {
         return HexFormat.of().withUpperCase().formatHex(bytes);
         //
-        //        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        //        final StringBuilder sb = new StringBuilder(bytes.length * 2);
         //
         //        for (byte b : bytes)
         //        {
@@ -57,17 +57,17 @@ public final class ByteUtils {
             return bos.toByteArray();
         }
 
-        // Deflater compressor = new Deflater();
+        // final Deflater compressor = new Deflater();
         // compressor.setLevel(Deflater.BEST_COMPRESSION);
         // compressor.setInput(bytes);
         // compressor.finish();
         //
-        // ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
-        // byte[] buf = new byte[1024];
+        // final ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
+        // final byte[] buf = new byte[1024];
         //
         // while (!compressor.finished())
         // {
-        // int count = compressor.deflate(buf);
+        // final int count = compressor.deflate(buf);
         // bos.write(buf, 0, count);
         // }
         //
@@ -90,10 +90,10 @@ public final class ByteUtils {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes.length);
              ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
              GZIPInputStream zis = new GZIPInputStream(bis)) {
-            byte[] buffer = new byte[4096];
+            final byte[] buffer = new byte[4096];
 
             while (true) {
-                int length = zis.read(buffer);
+                final int length = zis.read(buffer);
 
                 if (length == -1) {
                     break;
@@ -132,7 +132,7 @@ public final class ByteUtils {
     }
 
     public static long generateTempOID() {
-        UUID uuid = UUID.randomUUID();
+        final UUID uuid = UUID.randomUUID();
 
         long oid = (uuid.getMostSignificantBits() >> 32) ^ uuid.getMostSignificantBits();
         oid ^= (uuid.getLeastSignificantBits() >> 32) ^ uuid.getLeastSignificantBits();
@@ -151,12 +151,12 @@ public final class ByteUtils {
         //            throw new IllegalArgumentException("Invalid hexadecimal String supplied.");
         //        }
         //
-        //        byte[] bytes = new byte[hexString.length() / 2];
+        //        final byte[] bytes = new byte[hexString.length() / 2];
         //
         //        for (int i = 0; i < hexString.length(); i += 2)
         //        {
-        //            int firstDigit = Character.digit(hexString.charAt(i), 16);
-        //            int secondDigit = Character.digit(hexString.charAt(i + 1), 16);
+        //            final int firstDigit = Character.digit(hexString.charAt(i), 16);
+        //            final int secondDigit = Character.digit(hexString.charAt(i + 1), 16);
         //
         //            if ((firstDigit < 0) || (secondDigit < 0))
         //            {
@@ -191,7 +191,7 @@ public final class ByteUtils {
     }
 
     public static byte[] toBytes(final boolean value) {
-        byte[] bytes = new byte[1];
+        final byte[] bytes = new byte[1];
 
         if (value) {
             bytes[0] = (byte) 1;
@@ -201,7 +201,7 @@ public final class ByteUtils {
     }
 
     public static byte[] toBytes(final char value) {
-        byte[] bytes = new byte[2];
+        final byte[] bytes = new byte[2];
 
         bytes[0] = (byte) (0xFF & (value >> 8));
         bytes[1] = (byte) (0xFF & value);
@@ -210,19 +210,19 @@ public final class ByteUtils {
     }
 
     public static byte[] toBytes(final double value) {
-        long longValue = Double.doubleToRawLongBits(value);
+        final long longValue = Double.doubleToRawLongBits(value);
 
         return toBytes(longValue);
     }
 
     public static byte[] toBytes(final float value) {
-        int intValue = Float.floatToRawIntBits(value);
+        final int intValue = Float.floatToRawIntBits(value);
 
         return toBytes(intValue);
     }
 
     public static byte[] toBytes(final int value) {
-        byte[] bytes = new byte[4];
+        final byte[] bytes = new byte[4];
 
         bytes[0] = (byte) (0xFF & (value >> 24));
         bytes[1] = (byte) (0xFF & (value >> 16));
@@ -233,7 +233,7 @@ public final class ByteUtils {
     }
 
     public static byte[] toBytes(final long value) {
-        byte[] bytes = new byte[8];
+        final byte[] bytes = new byte[8];
 
         bytes[0] = (byte) (0xFF & (value >> 56));
         bytes[1] = (byte) (0xFF & (value >> 48));
@@ -248,7 +248,7 @@ public final class ByteUtils {
     }
 
     public static byte[] toBytes(final short value) {
-        byte[] bytes = new byte[2];
+        final byte[] bytes = new byte[2];
 
         bytes[0] = (byte) (0xFF & (value >> 8));
         bytes[1] = (byte) (0xFF & value);
@@ -257,9 +257,9 @@ public final class ByteUtils {
     }
 
     public static byte[] toBytes(final String value) {
-        char[] chars = value.toCharArray();
-        int size = chars.length;
-        byte[] bytes = new byte[size];
+        final char[] chars = value.toCharArray();
+        final int size = chars.length;
+        final byte[] bytes = new byte[size];
 
         for (int i = 0; i < size; i++) {
             bytes[i] = (byte) chars[i];
@@ -273,13 +273,13 @@ public final class ByteUtils {
     }
 
     public static double toDouble(final byte[] value) {
-        long longValue = toLong(value);
+        final long longValue = toLong(value);
 
         return Double.longBitsToDouble(longValue);
     }
 
     public static float toFloat(final byte[] value) {
-        int intValue = toInt(value);
+        final int intValue = toInt(value);
 
         return Float.intBitsToFloat(intValue);
     }

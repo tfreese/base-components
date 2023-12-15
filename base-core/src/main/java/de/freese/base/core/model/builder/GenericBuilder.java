@@ -34,7 +34,6 @@ public class GenericBuilder<T> implements Builder<T> {
     }
 
     private final List<Consumer<T>> instanceModifiers = new ArrayList<>();
-
     private final Supplier<T> instantiator;
 
     /**
@@ -49,7 +48,7 @@ public class GenericBuilder<T> implements Builder<T> {
 
     @Override
     public T build() {
-        T value = getInstantiator().get();
+        final T value = getInstantiator().get();
 
         getInstanceModifiers().forEach(modifier -> modifier.accept(value));
         getInstanceModifiers().clear();
@@ -61,10 +60,10 @@ public class GenericBuilder<T> implements Builder<T> {
      * Erzeugt das Objekt n-mal.
      */
     public List<T> build(final int n) {
-        List<T> list = new ArrayList<>(n);
+        final List<T> list = new ArrayList<>(n);
 
         for (int i = 0; i < n; i++) {
-            T value = getInstantiator().get();
+            final T value = getInstantiator().get();
             getInstanceModifiers().forEach(modifier -> modifier.accept(value));
 
             list.add(value);
@@ -79,7 +78,7 @@ public class GenericBuilder<T> implements Builder<T> {
      * Beispiel: with(ArrayList::add, "Sample object")
      */
     public <U> GenericBuilder<T> with(final BiConsumer<T, U> setter, final U value) {
-        Consumer<T> c = instance -> setter.accept(instance, value);
+        final Consumer<T> c = instance -> setter.accept(instance, value);
 
         return with(c);
     }

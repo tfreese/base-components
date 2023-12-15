@@ -14,9 +14,7 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  */
 public class ResultSetPublisher<T> implements Publisher<T> {
     private final Consumer<ResultSet> doOnClose;
-
     private final ResultSet resultSet;
-
     private final RowMapper<T> rowMapper;
 
     public ResultSetPublisher(final ResultSet resultSet, final RowMapper<T> rowMapper, final Consumer<ResultSet> doOnClose) {
@@ -29,7 +27,7 @@ public class ResultSetPublisher<T> implements Publisher<T> {
 
     @Override
     public void subscribe(final Subscriber<? super T> subscriber) {
-        ResultSetSubscription<T> subscription = new ResultSetSubscription<>(this.resultSet, this.rowMapper, this.doOnClose, subscriber);
+        final ResultSetSubscription<T> subscription = new ResultSetSubscription<>(this.resultSet, this.rowMapper, this.doOnClose, subscriber);
 
         subscriber.onSubscribe(subscription);
     }

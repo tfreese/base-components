@@ -70,9 +70,7 @@ public class BoundedExecutorQueuedWithScheduler implements Executor {
     }
 
     private final Executor delegate;
-
     private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
-
     private final Semaphore rateLimiter;
 
     /**

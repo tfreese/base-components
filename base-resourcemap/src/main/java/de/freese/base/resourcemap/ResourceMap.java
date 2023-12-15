@@ -58,8 +58,8 @@ public interface ResourceMap {
         };
 
         public final String getEnumKey(final Enum<?> enumValue) {
-            String clazz = enumValue.getClass().getSimpleName().toLowerCase();
-            String value = enumValue.name().toLowerCase();
+            final String clazz = enumValue.getClass().getSimpleName().toLowerCase();
+            final String value = enumValue.name().toLowerCase();
 
             return String.format("%s.%s.%s%s", "enum", clazz, value, getPostFix());
         }
@@ -74,7 +74,7 @@ public interface ResourceMap {
     }
 
     default boolean getBoolean(final String key, final boolean defaultValue) {
-        Boolean value = getBoolean(key);
+        final Boolean value = getBoolean(key);
 
         return value != null ? value : defaultValue;
     }
@@ -86,7 +86,7 @@ public interface ResourceMap {
     }
 
     default byte getByte(final String key, final byte defaultValue) {
-        Byte value = getObject(key, Byte.class);
+        final Byte value = getObject(key, Byte.class);
 
         return value != null ? value : defaultValue;
     }
@@ -116,7 +116,7 @@ public interface ResourceMap {
     }
 
     default double getDouble(final String key, final double defaultValue) {
-        Double value = getObject(key, Double.class);
+        final Double value = getObject(key, Double.class);
 
         return value != null ? value : defaultValue;
     }
@@ -130,7 +130,7 @@ public interface ResourceMap {
     }
 
     default Float getFloat(final String key, final float defaultValue) {
-        Float value = getObject(key, Float.class);
+        final Float value = getObject(key, Float.class);
 
         return value != null ? value : defaultValue;
     }
@@ -206,7 +206,7 @@ public interface ResourceMap {
     }
 
     default int getInteger(final String key, final int defaultValue) {
-        Integer value = getObject(key, Integer.class);
+        final Integer value = getObject(key, Integer.class);
 
         return value != null ? value : defaultValue;
     }
@@ -219,7 +219,7 @@ public interface ResourceMap {
      * </pre>
      */
     default Integer getKeyCode(final String key) {
-        KeyStroke ks = getKeyStroke(key);
+        final KeyStroke ks = getKeyStroke(key);
 
         return (ks != null) ? ks.getKeyCode() : null;
     }
@@ -240,7 +240,7 @@ public interface ResourceMap {
     }
 
     default long getLong(final String key, final long defaultValue) {
-        Long value = getObject(key, Long.class);
+        final Long value = getObject(key, Long.class);
 
         return value != null ? value : defaultValue;
     }
@@ -274,7 +274,7 @@ public interface ResourceMap {
     }
 
     default short getShort(final String key, final short defaultValue) {
-        Short value = getObject(key, Short.class);
+        final Short value = getObject(key, Short.class);
 
         return value != null ? value : defaultValue;
     }

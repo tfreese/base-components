@@ -26,7 +26,7 @@ import javax.swing.border.EmptyBorder;
  */
 public final class ResourceConverters {
     public static ResourceConverters ofDefaults() {
-        ResourceConverters resourceConverters = new ResourceConverters();
+        final ResourceConverters resourceConverters = new ResourceConverters();
         resourceConverters.customize(ResourceConverters::defaultConverters);
 
         return resourceConverters;
@@ -83,7 +83,7 @@ public final class ResourceConverters {
 
         if (resourceConverter == null && type.isPrimitive()) {
             // MethodType..unwrap()
-            Class<T> wrapperType = (Class<T>) MethodType.methodType(type).wrap().returnType();
+            final Class<T> wrapperType = (Class<T>) MethodType.methodType(type).wrap().returnType();
 
             resourceConverter = this.converters.get(wrapperType);
         }

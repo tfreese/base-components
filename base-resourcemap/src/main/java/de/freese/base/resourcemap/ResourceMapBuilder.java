@@ -45,15 +45,11 @@ public final class ResourceMapBuilder {
     }
 
     private final List<ResourceMapBuilder> childBuilders = new ArrayList<>();
-
     private final ResourceMapBuilder parentBuilder;
 
     private String bundleName;
-
     private Map<Class<?>, ResourceConverter<?>> converters;
-
     private ResourceCache resourceCache;
-
     private ResourceProvider resourceProvider;
 
     private ResourceMapBuilder(final ResourceMapBuilder parentBuilder) {
@@ -73,19 +69,19 @@ public final class ResourceMapBuilder {
             throw new IllegalArgumentException("bundleName is empty");
         }
 
-        ResourceConverters resourceConverters = ResourceConverters.ofDefaults();
+        final ResourceConverters resourceConverters = ResourceConverters.ofDefaults();
 
         if (converters != null && !converters.isEmpty()) {
             resourceConverters.customize(map -> map.putAll(converters));
         }
 
-        DefaultResourceMap resourceMap = new DefaultResourceMap(this.bundleName);
+        final DefaultResourceMap resourceMap = new DefaultResourceMap(this.bundleName);
         resourceMap.setResourceProvider(this.resourceProvider);
         resourceMap.setResourceCache(this.resourceCache != null ? this.resourceCache : new SingleResourceCache());
         resourceMap.setResourceConverters(resourceConverters);
 
         for (ResourceMapBuilder childBuilder : this.childBuilders) {
-            ResourceMap child = childBuilder.build();
+            final ResourceMap child = childBuilder.build();
 
             resourceMap.addChild((DefaultResourceMap) child);
             ((DefaultResourceMap) child).setParent(resourceMap);
@@ -95,7 +91,7 @@ public final class ResourceMapBuilder {
     }
 
     public ResourceMap buildAndLoad(final Locale locale) {
-        ResourceMap resourceMap = build();
+        final ResourceMap resourceMap = build();
         resourceMap.load(locale);
 
         return resourceMap;

@@ -34,7 +34,7 @@ public class Tupel2<A, B> {
             return false;
         }
 
-        Tupel2<?, ?> tupel2 = (Tupel2<?, ?>) o;
+        final Tupel2<?, ?> tupel2 = (Tupel2<?, ?>) o;
 
         return Objects.equals(valueA, tupel2.valueA) && Objects.equals(valueB, tupel2.valueB);
     }
@@ -62,7 +62,7 @@ public class Tupel2<A, B> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("A=").append(toString(getValueA()));
         sb.append("; ");
         sb.append("B=").append(toString(getValueB()));

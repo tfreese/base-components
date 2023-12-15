@@ -11,31 +11,19 @@ import java.awt.image.ColorModel;
  */
 public class ImageColorChannelInfo {
     private final BufferedImage bufferedImage;
-
     private final ColorChannel colorChannel;
 
     private int[][] coOccurrenceMatrix;
-
     private double entropie = -1.0D;
-
     private int farbTiefe = -1;
-
     private int[] histogramm;
-
     private double inverseDifferenz = -1.0D;
-
     private double inversesDifferenzMoment = -1.0D;
-
     private double kontrast = -1.0D;
-
     private int maximalerFarbwert = -1;
-
     private int minimalerFarbwert = -1;
-
     private int mittlererFarbwert = -1;
-
     private double unaehnlichkeit = -1.0D;
-
     private double uniformitaet = -1.0D;
 
     public ImageColorChannelInfo(final BufferedImage bufferedImage, final ColorChannel colorChannel) {
@@ -165,9 +153,9 @@ public class ImageColorChannelInfo {
 
         // Letzte Pixelzeile für Histogramm nicht vergessen.
         for (int y = 0; y < height; y++) {
-            int pixel = this.bufferedImage.getRGB(width - 1, y);
+            final int pixel = this.bufferedImage.getRGB(width - 1, y);
 
-            int color = this.colorChannel.getValue(pixel);
+            final int color = this.colorChannel.getValue(pixel);
 
             this.minimalerFarbwert = Math.min(this.minimalerFarbwert, color);
             this.maximalerFarbwert = Math.max(this.maximalerFarbwert, color);

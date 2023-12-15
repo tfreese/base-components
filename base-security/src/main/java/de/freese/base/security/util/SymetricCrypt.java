@@ -34,7 +34,6 @@ public class SymetricCrypt {
      * AES Initialisierungsvektor, muss dem Empfänger bekannt sein !
      */
     private static final byte[] INIT_VECTOR = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
     private static final SymetricCrypt INSTANCE = new SymetricCrypt(StandardCharsets.UTF_8);
 
     public static SymetricCrypt getUTF8Instance() {
@@ -42,8 +41,8 @@ public class SymetricCrypt {
     }
 
     private static Key createDefaultKey() {
-        // byte[] key = new byte[AES_KEY_SIZE];
-        // SecureRandom secureRandom = new SecureRandom();
+        // final byte[] key = new byte[AES_KEY_SIZE];
+        // final SecureRandom secureRandom = new SecureRandom();
         // secureRandom.nextBytes(key);
         //
         // return new SecretKeySpec(key, "AES");
@@ -51,7 +50,6 @@ public class SymetricCrypt {
     }
 
     private final Charset charset;
-
     private final Key key;
 
     public SymetricCrypt(final Charset charset) {
@@ -69,15 +67,16 @@ public class SymetricCrypt {
      * @param input Verschlüsselter {@link InputStream}, dieser wird geschlossen.
      */
     public InputStream decrypt(final InputStream input) throws Exception {
-        Path file = Files.createTempFile("pim", ".tmp");
+        final Path file = Files.createTempFile("pim", ".tmp");
         file.toFile().deleteOnExit();
 
-        Cipher decodeCipher = Cipher.getInstance(AES_ALGORYTHM);
+        final Cipher decodeCipher = Cipher.getInstance(AES_ALGORYTHM);
         decodeCipher.init(Cipher.DECRYPT_MODE, getKey(), new IvParameterSpec(INIT_VECTOR));
 
-        try (OutputStream fileOS = new BufferedOutputStream(Files.newOutputStream(file)); OutputStream cipherOS = new CipherOutputStream(fileOS, decodeCipher)) {
+        try (OutputStream fileOS = new BufferedOutputStream(Files.newOutputStream(file));
+             OutputStream cipherOS = new CipherOutputStream(fileOS, decodeCipher)) {
             // IOUtils.copy(input, cipherOS);
-            byte[] buffer = new byte[BUFFER_SIZE];
+            final byte[] buffer = new byte[BUFFER_SIZE];
             int numRead = 0;
 
             while ((numRead = input.read(buffer)) >= 0) {
@@ -98,11 +97,11 @@ public class SymetricCrypt {
             return null;
         }
 
-        Cipher decodeCipher = Cipher.getInstance(AES_ALGORYTHM);
+        final Cipher decodeCipher = Cipher.getInstance(AES_ALGORYTHM);
         decodeCipher.init(Cipher.DECRYPT_MODE, getKey(), new IvParameterSpec(INIT_VECTOR));
 
-        // byte[] decrypted = decodeCipher.doFinal(Base64.decodeBase64(input));
-        byte[] decrypted = decodeCipher.doFinal(Base64.getDecoder().decode(input));
+        // final byte[] decrypted = decodeCipher.doFinal(Base64.decodeBase64(input));
+        final byte[] decrypted = decodeCipher.doFinal(Base64.getDecoder().decode(input));
 
         return new String(decrypted, getCharset());
     }
@@ -111,12 +110,13 @@ public class SymetricCrypt {
      * @param input Der {@link InputStream} wird geschlossen.
      */
     public InputStream encrypt(final InputStream input) throws Exception {
-        Path file = Files.createTempFile("pim", ".tmp");
+        final Path file = Files.createTempFile("pim", ".tmp");
         file.toFile().deleteOnExit();
 
-        try (OutputStream fileOS = new BufferedOutputStream(Files.newOutputStream(file)); OutputStream cipherOS = getCipherOutputStream(fileOS)) {
+        try (OutputStream fileOS = new BufferedOutputStream(Files.newOutputStream(file));
+             OutputStream cipherOS = getCipherOutputStream(fileOS)) {
             // IOUtils.copy(input, cipherOS);
-            byte[] buffer = new byte[BUFFER_SIZE];
+            final byte[] buffer = new byte[BUFFER_SIZE];
             int numRead = 0;
 
             while ((numRead = input.read(buffer)) >= 0) {
@@ -137,17 +137,17 @@ public class SymetricCrypt {
             return null;
         }
 
-        Cipher encodeCipher = Cipher.getInstance(AES_ALGORYTHM);
+        final Cipher encodeCipher = Cipher.getInstance(AES_ALGORYTHM);
         encodeCipher.init(Cipher.ENCRYPT_MODE, getKey(), new IvParameterSpec(INIT_VECTOR));
 
-        byte[] encrypted = encodeCipher.doFinal(input.getBytes(getCharset()));
+        final byte[] encrypted = encodeCipher.doFinal(input.getBytes(getCharset()));
 
         // return Base64.encodeBase64String(encrypted);
         return new String(Base64.getEncoder().encode(encrypted), getCharset());
     }
 
     public OutputStream getCipherOutputStream(final OutputStream output) throws Exception {
-        Cipher encodeCipher = Cipher.getInstance(AES_ALGORYTHM);
+        final Cipher encodeCipher = Cipher.getInstance(AES_ALGORYTHM);
         encodeCipher.init(Cipher.ENCRYPT_MODE, getKey(), new IvParameterSpec(INIT_VECTOR));
 
         return new CipherOutputStream(output, encodeCipher);

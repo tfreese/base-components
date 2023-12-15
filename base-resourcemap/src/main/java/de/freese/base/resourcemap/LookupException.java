@@ -18,21 +18,16 @@ public final class LookupException extends RuntimeException {
     private static final long serialVersionUID = 7433783834856512381L;
 
     public static String createMessage(final String baseName, final String key, final String value, final Class<?> type, final Locale locale, final String info) {
-        String format = "%s: Bundle=\"%s\", Key=\"%s\", Value=\"%s\", Type=\"%s\", Locale=\"%s\"";
+        final String format = "%s: Bundle=\"%s\", Key=\"%s\", Value=\"%s\", Type=\"%s\", Locale=\"%s\"";
 
         return String.format(format, info, baseName, key, value, type.getName(), locale.toString());
     }
 
     private final String baseName;
-
     private final String info;
-
     private final String key;
-
     private final Locale locale;
-
     private final Class<?> type;
-
     private final String value;
 
     LookupException(final String baseName, final String key, final String value, final Class<?> type, final Locale locale, final String info) {
@@ -73,7 +68,7 @@ public final class LookupException extends RuntimeException {
     @Override
     public void printStackTrace(final PrintStream printStream) {
         printStream.println(this);
-        StackTraceElement[] trace = getStackTrace();
+        final StackTraceElement[] trace = getStackTrace();
 
         for (int i = 0; i < LOGGABLE_STACKTRACES; i++) {
             printStream.println("\tat " + trace[i]);
@@ -85,7 +80,7 @@ public final class LookupException extends RuntimeException {
     @Override
     public void printStackTrace(final PrintWriter printWriter) {
         printWriter.println(this);
-        StackTraceElement[] trace = getStackTrace();
+        final StackTraceElement[] trace = getStackTrace();
 
         for (int i = 0; i < LOGGABLE_STACKTRACES; i++) {
             printWriter.println("\tat " + trace[i]);
@@ -95,7 +90,7 @@ public final class LookupException extends RuntimeException {
     }
 
     private String truncate(final String s) {
-        int n = s.length();
+        final int n = s.length();
 
         return (n < 128) ? s : s.substring(0, 128) + "...[" + (n - 128) + " more characters]";
     }

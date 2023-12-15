@@ -30,7 +30,7 @@ public final class MapResourceProvider implements ResourceProvider {
     }
 
     public MapResourceProvider put(final Locale locale, final Consumer<Map<String, String>> mapConsumer) {
-        Map<String, String> map = this.mapLocale.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<String, String> map = this.mapLocale.computeIfAbsent(locale, k -> new HashMap<>());
 
         mapConsumer.accept(map);
 

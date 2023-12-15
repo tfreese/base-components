@@ -32,7 +32,7 @@ public final class StaticResourceCache implements ResourceCache {
 
     @Override
     public void clear(final String bundleName, final Locale locale) {
-        Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
+        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
 
         byLocale.remove(locale);
     }
@@ -44,7 +44,7 @@ public final class StaticResourceCache implements ResourceCache {
 
     @Override
     public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key) {
-        Map<String, T> byKey = getValues(bundleName, locale, type);
+        final Map<String, T> byKey = getValues(bundleName, locale, type);
 
         return byKey.get(key);
     }
@@ -52,24 +52,24 @@ public final class StaticResourceCache implements ResourceCache {
     @SuppressWarnings("unchecked")
     @Override
     public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
-        Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
-        Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
-        Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
+        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
+        final Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
 
         return (Map<String, T>) byKey;
     }
 
     @Override
     public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value) {
-        Map<String, T> byKey = getValues(bundleName, locale, type);
+        final Map<String, T> byKey = getValues(bundleName, locale, type);
 
         byKey.put(key, value);
     }
 
     @Override
     public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values) {
-        Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
-        Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<Locale, Map<Class<?>, Map<String, ?>>> byLocale = this.cache.computeIfAbsent(bundleName, k -> new HashMap<>());
+        final Map<Class<?>, Map<String, ?>> byType = byLocale.computeIfAbsent(locale, k -> new HashMap<>());
 
         byType.put(type, values);
     }

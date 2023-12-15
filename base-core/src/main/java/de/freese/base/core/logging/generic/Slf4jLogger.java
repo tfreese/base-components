@@ -5,44 +5,44 @@ package de.freese.base.core.logging.generic;
  * @author Thomas Freese
  */
 class Slf4jLogger implements Logger {
-    private final org.slf4j.Logger slf4jLogger;
+    private final org.slf4j.Logger logger;
 
     Slf4jLogger(final String name) {
-        this.slf4jLogger = org.slf4j.LoggerFactory.getLogger(name);
+        this.logger = org.slf4j.LoggerFactory.getLogger(name);
     }
 
     @Override
     public void debug(final String message) {
-        this.slf4jLogger.debug(message);
+        this.logger.debug(message);
     }
 
     @Override
     public void error(final String message) {
-        this.slf4jLogger.error(message);
+        this.logger.error(message);
     }
 
     @Override
     public void error(final String message, final Throwable error) {
-        this.slf4jLogger.error(message, error);
+        this.logger.error(message, error);
     }
 
     @Override
     public void info(final String message) {
-        this.slf4jLogger.info(message);
+        this.logger.info(message);
     }
 
     @Override
     public boolean isDebugEnabled() {
-        return this.slf4jLogger.isDebugEnabled();
+        return this.logger.isDebugEnabled();
     }
 
     @Override
     public boolean isErrorEnabled() {
-        return this.slf4jLogger.isErrorEnabled();
+        return this.logger.isErrorEnabled();
     }
 
     @Override
     public boolean isInfoEnabled() {
-        return this.slf4jLogger.isInfoEnabled();
+        return this.logger.isInfoEnabled();
     }
 }

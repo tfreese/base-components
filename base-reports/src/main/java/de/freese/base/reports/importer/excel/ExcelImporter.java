@@ -12,19 +12,19 @@ import java.util.List;
 public interface ExcelImporter {
 
     static List<ExcelSheet> ofPoiXls(Path filePath) throws Exception {
-        ExcelImporter excelImporter = new ExcelImporterPoiXls();
+        final ExcelImporter excelImporter = new ExcelImporterPoiXls();
 
         return excelImporter.readSheets(filePath);
     }
 
     static List<ExcelSheet> ofPoiXlsx(InputStream inputStream) throws Exception {
-        ExcelImporter excelImporter = new ExcelImporterPoiXlsx();
+        final ExcelImporter excelImporter = new ExcelImporterPoiXlsx();
 
         return excelImporter.readSheets(inputStream);
     }
 
     static List<ExcelSheet> ofPoiXlsx(Path filePath) throws Exception {
-        ExcelImporter excelImporter = new ExcelImporterPoiXlsx();
+        final ExcelImporter excelImporter = new ExcelImporterPoiXlsx();
 
         return excelImporter.readSheets(filePath);
     }

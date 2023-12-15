@@ -6,8 +6,8 @@ package de.freese.base.resourcemap.converter;
 public abstract class AbstractNumberResourceConverter<T extends Number> extends AbstractResourceConverter<T> {
     @Override
     public T convert(final String key, final String value) {
-        String[] splits = value.split("&"); // number ampersand radix
-        int radix = (splits.length == 2) ? Integer.parseInt(splits[1]) : -1;
+        final String[] splits = value.split("&"); // number ampersand radix
+        final int radix = (splits.length == 2) ? Integer.parseInt(splits[1]) : -1;
 
         return convertString(splits[0], radix);
     }

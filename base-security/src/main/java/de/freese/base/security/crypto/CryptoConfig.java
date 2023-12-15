@@ -32,29 +32,17 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
     }
 
     private String algorithmCipher;
-
     private String algorithmDefault;
-
     private String algorithmDigest;
-
     private String algorithmKeyGenerator;
-
     private String algorithmSecureRandom;
-
     private String algorithmSignature;
-
     private int keySize;
-
     private String providerCipher;
-
     private String providerDefault;
-
     private String providerDigest;
-
     private String providerKeyGenerator;
-
     private String providerSecureRandom;
-
     private String providerSignature;
 
     CryptoConfig() {

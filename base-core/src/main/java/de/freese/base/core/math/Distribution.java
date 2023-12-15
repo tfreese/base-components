@@ -20,7 +20,7 @@ public final class Distribution {
      */
     public static double[] linear(final int anzahl, final double wert, final int nachkommaStellen) {
         // Lineare Distribution -> alle Faktoren auf 1
-        double[] faktoren = new double[anzahl];
+        final double[] faktoren = new double[anzahl];
         Arrays.fill(faktoren, 1.0D);
 
         return proportional(faktoren, wert, nachkommaStellen);
@@ -40,7 +40,7 @@ public final class Distribution {
      */
     public static double[] proportional(final double[] faktoren, final double wert, final int nachkommaStellen) {
         double mWert = wert;
-        double[] daten = new double[faktoren.length];
+        final double[] daten = new double[faktoren.length];
         Arrays.fill(daten, 0.0D);
 
         if (Double.isNaN(mWert) || Double.isInfinite(mWert) || (Double.compare(mWert, 0.0D) == 0)) {
@@ -84,7 +84,7 @@ public final class Distribution {
      * Sind ALLE Faktoren null, so wird linear verteilt.
      */
     public static double[] proportional(final Double[] faktoren, final double wert) {
-        double[] faktorenDouble = new double[faktoren.length];
+        final double[] faktorenDouble = new double[faktoren.length];
 
         for (int i = 0; i < faktoren.length; i++) {
             if (faktoren[i] == null) {

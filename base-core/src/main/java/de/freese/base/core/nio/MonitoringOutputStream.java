@@ -13,7 +13,6 @@ import java.util.function.LongConsumer;
  */
 public class MonitoringOutputStream extends FilterOutputStream {
     private final LongConsumer bytesWrittenConsumer;
-
     private final boolean closeDelegate;
 
     private long bytesWritten;

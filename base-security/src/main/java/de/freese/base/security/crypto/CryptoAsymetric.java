@@ -24,7 +24,7 @@ public class CryptoAsymetric extends AbstractCrypto {
 
     @Override
     public void sign(final InputStream in, final OutputStream out) throws Exception {
-        Signature signature = createSignatureSign();
+        final Signature signature = createSignatureSign();
 
         sign(signature, in, out);
     }
@@ -34,7 +34,7 @@ public class CryptoAsymetric extends AbstractCrypto {
      */
     @Override
     public boolean verify(final InputStream in, final InputStream signIn) throws Exception {
-        Signature signature = createSignatureVerify();
+        final Signature signature = createSignatureVerify();
 
         return verify(signature, in, signIn);
     }
@@ -45,7 +45,7 @@ public class CryptoAsymetric extends AbstractCrypto {
 
     @Override
     protected Cipher createCipherDecrypt() throws Exception {
-        Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
+        final Cipher cipherDecrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherDecrypt.init(Cipher.DECRYPT_MODE, getKeyPair().getPrivate(), getSecureRandom());
 
         return cipherDecrypt;
@@ -53,21 +53,21 @@ public class CryptoAsymetric extends AbstractCrypto {
 
     @Override
     protected Cipher createCipherEncrypt() throws Exception {
-        Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
+        final Cipher cipherEncrypt = Cipher.getInstance(getConfig().getAlgorithmCipher(), getConfig().getProviderCipher());
         cipherEncrypt.init(Cipher.ENCRYPT_MODE, getKeyPair().getPublic(), getSecureRandom());
 
         return cipherEncrypt;
     }
 
     protected Signature createSignatureSign() throws Exception {
-        Signature signatureSign = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
+        final Signature signatureSign = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
         signatureSign.initSign(getKeyPair().getPrivate(), getSecureRandom());
 
         return signatureSign;
     }
 
     protected Signature createSignatureVerify() throws Exception {
-        Signature signatureVerify = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
+        final Signature signatureVerify = Signature.getInstance(getConfig().getAlgorithmSignature(), getConfig().getProviderSignature());
         signatureVerify.initVerify(getKeyPair().getPublic());
 
         return signatureVerify;

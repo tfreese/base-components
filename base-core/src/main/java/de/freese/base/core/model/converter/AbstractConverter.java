@@ -9,7 +9,6 @@ import java.util.function.Function;
  */
 public abstract class AbstractConverter<SOURCE, TARGET> implements Converter<SOURCE, TARGET> {
     private final Function<SOURCE, TARGET> fromSource;
-
     private final Function<TARGET, SOURCE> fromTarget;
 
     protected AbstractConverter(final Function<SOURCE, TARGET> fromSource, final Function<TARGET, SOURCE> fromTarget) {

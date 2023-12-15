@@ -17,7 +17,6 @@ import javax.swing.Timer;
  */
 public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T> {
     private final Duration delay;
-
     private final ScheduledExecutorService scheduledExecutor;
 
     private Consumer<List<T>> submitConsumer = chunks -> {

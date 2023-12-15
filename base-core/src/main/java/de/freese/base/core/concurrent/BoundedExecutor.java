@@ -13,7 +13,6 @@ import java.util.concurrent.Semaphore;
  */
 public class BoundedExecutor implements Executor {
     private final Executor delegate;
-
     private final Semaphore rateLimiter;
 
     /**

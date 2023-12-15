@@ -270,7 +270,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      * Normalisiert die Daten für die 1000-er Darstellung.
      */
     protected void normalize(final DefaultCategoryDataset dataSet) {
-        int factor = 1000;
+        final int factor = 1000;
 
         for (int row = 0; row < dataSet.getRowCount(); row++) {
             final Comparable<?> rowKey = dataSet.getRowKey(row);

@@ -29,22 +29,19 @@ import de.freese.base.net.protocol.AbstractProtocol;
  */
 public class Pop3Protocol extends AbstractProtocol {
     private String apopChallenge;
-
     private BufferedReader inputReader;
-
     private Writer outputWriter;
-
     private Socket serverSocket;
 
     public Pop3Protocol(final String host, final int port, final Properties props, final String propPrefix, final boolean isSSL) throws IOException {
         super();
 
-        Properties myProperties = props != null ? props : new Properties();
-        int myPort = port > 0 ? port : Pop3Command.POP3_PORT;
+        final Properties myProperties = props != null ? props : new Properties();
+        final int myPort = port > 0 ? port : Pop3Command.POP3_PORT;
 
-        Pop3Response r = new Pop3Response();
-        String apop = myProperties.getProperty(propPrefix + ".apop.enable");
-        boolean enableAPOP = "true".equalsIgnoreCase(apop);
+        Pop3Response response = new Pop3Response();
+        final String apop = myProperties.getProperty(propPrefix + ".apop.enable");
+        final boolean enableAPOP = "true".equalsIgnoreCase(apop);
 
         try {
             if (getLogger().isDebugEnabled()) {
@@ -52,7 +49,7 @@ public class Pop3Protocol extends AbstractProtocol {
             }
 
             if (isSSL) {
-                SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+                final SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                 this.serverSocket = socketFactory.createSocket(host, myPort);
                 ((SSLSocket) this.serverSocket).setEnabledProtocols(new String[]{"TLSv3"});
             }
@@ -64,7 +61,7 @@ public class Pop3Protocol extends AbstractProtocol {
             this.inputReader = new BufferedReader(new InputStreamReader(this.serverSocket.getInputStream(), StandardCharsets.ISO_8859_1));
             this.outputWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(this.serverSocket.getOutputStream(), StandardCharsets.ISO_8859_1)));
 
-            r = simpleCommand(null);
+            response = simpleCommand(null);
         }
         catch (IOException ioe) {
             try {
@@ -75,7 +72,7 @@ public class Pop3Protocol extends AbstractProtocol {
             }
         }
 
-        if (!r.isOk()) {
+        if (!response.isOk()) {
             try {
                 this.serverSocket.close();
             }
@@ -85,11 +82,11 @@ public class Pop3Protocol extends AbstractProtocol {
         }
 
         if (enableAPOP) {
-            int challStart = r.getData().indexOf('<'); // start of challenge
-            int challEnd = r.getData().indexOf('>', challStart); // end of challenge
+            final int challStart = response.getData().indexOf('<'); // start of challenge
+            final int challEnd = response.getData().indexOf('>', challStart); // end of challenge
 
             if ((challStart != -1) && (challEnd != -1)) {
-                this.apopChallenge = r.getData().substring(challStart, challEnd + 1);
+                this.apopChallenge = response.getData().substring(challStart, challEnd + 1);
             }
 
             getLogger().debug("APOP challenge: {}", this.apopChallenge);
@@ -113,7 +110,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Delete (permanently) the specified message.
      */
     public synchronized boolean dele(final int messageNumber) throws IOException {
-        Pop3Response r = simpleCommand(Pop3Command.DELE + " " + messageNumber);
+        final Pop3Response r = simpleCommand(Pop3Command.DELE + " " + messageNumber);
 
         return r.isOk();
     }
@@ -122,12 +119,12 @@ public class Pop3Protocol extends AbstractProtocol {
      * Return the size of the message using the LIST command.
      */
     public synchronized int list(final int messageNumber) throws IOException {
-        Pop3Response r = simpleCommand(Pop3Command.LIST + " " + messageNumber);
+        final Pop3Response r = simpleCommand(Pop3Command.LIST + " " + messageNumber);
         int size = -1;
 
         if (r.isOk() && (r.getData() != null)) {
             try {
-                StringTokenizer st = new StringTokenizer(r.getData());
+                final StringTokenizer st = new StringTokenizer(r.getData());
                 st.nextToken(); // skip message number
                 size = Integer.parseInt(st.nextToken());
             }
@@ -184,7 +181,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Do a NOOP.
      */
     public synchronized boolean noop() throws IOException {
-        Pop3Response r = simpleCommand(Pop3Command.NOOP);
+        final Pop3Response r = simpleCommand(Pop3Command.NOOP);
 
         return r.isOk();
     }
@@ -196,7 +193,7 @@ public class Pop3Protocol extends AbstractProtocol {
         boolean ok = false;
 
         try {
-            Pop3Response r = simpleCommand(Pop3Command.QUIT);
+            final Pop3Response r = simpleCommand(Pop3Command.QUIT);
             ok = r.isOk();
         }
         finally {
@@ -218,7 +215,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * ISharedInputStream to allow us to share the array.
      */
     public synchronized InputStream retr(final int messageNumber, final int size) throws IOException {
-        Pop3Response r = multilineCommand(Pop3Command.RETR + " " + messageNumber, size);
+        final Pop3Response r = multilineCommand(Pop3Command.RETR + " " + messageNumber, size);
 
         return r.getBytes();
     }
@@ -227,7 +224,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Do an RESET.
      */
     public synchronized boolean rset() throws IOException {
-        Pop3Response r = simpleCommand(Pop3Command.RSET);
+        final Pop3Response r = simpleCommand(Pop3Command.RSET);
 
         return r.isOk();
     }
@@ -238,12 +235,12 @@ public class Pop3Protocol extends AbstractProtocol {
      * @return int[]; 0 = Messages, 1 = Size of Messages
      */
     public synchronized int[] stat() throws IOException {
-        Pop3Response r = simpleCommand(Pop3Command.STAT);
-        int[] result = new int[2];
+        final Pop3Response r = simpleCommand(Pop3Command.STAT);
+        final int[] result = new int[2];
 
         if (r.isOk() && (r.getData() != null)) {
             try {
-                StringTokenizer st = new StringTokenizer(r.getData());
+                final StringTokenizer st = new StringTokenizer(r.getData());
 
                 result[0] = Integer.parseInt(st.nextToken());
                 result[1] = Integer.parseInt(st.nextToken());
@@ -260,7 +257,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Return the message header and the first n lines of the message.
      */
     public synchronized InputStream top(final int messageNumber, final int n) throws IOException {
-        Pop3Response r = multilineCommand(Pop3Command.TOP + " " + messageNumber + " " + n, 0);
+        final Pop3Response r = multilineCommand(Pop3Command.TOP + " " + messageNumber + " " + n, 0);
 
         return r.getBytes();
     }
@@ -269,13 +266,13 @@ public class Pop3Protocol extends AbstractProtocol {
      * Return the UIDL string for the message.
      */
     public synchronized String uidl(final int messageNumber) throws IOException {
-        Pop3Response r = simpleCommand(Pop3Command.UIDL + " " + messageNumber);
+        final Pop3Response r = simpleCommand(Pop3Command.UIDL + " " + messageNumber);
 
         if (!r.isOk()) {
             return null;
         }
 
-        int i = r.getData().indexOf(' ');
+        final int i = r.getData().indexOf(' ');
 
         if (i > 0) {
             return r.getData().substring(i + 1);
@@ -288,7 +285,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Return the UIDL strings for all messages. The UID for msg #N is returned in uids[N-1].
      */
     public synchronized boolean uidl(final String[] uids) throws IOException {
-        Pop3Response r = multilineCommand(Pop3Command.UIDL, 15 * uids.length);
+        final Pop3Response r = multilineCommand(Pop3Command.UIDL, 15 * uids.length);
 
         if (!r.isOk()) {
             return false;
@@ -298,13 +295,13 @@ public class Pop3Protocol extends AbstractProtocol {
             String line = null;
 
             while ((line = lis.readLine()) != null) {
-                int i = line.indexOf(' ');
+                final int i = line.indexOf(' ');
 
                 if ((i < 1) || (i >= line.length())) {
                     continue;
                 }
 
-                int n = Integer.parseInt(line.substring(0, i));
+                final int n = Integer.parseInt(line.substring(0, i));
 
                 if ((n > 0) && (n <= uids.length)) {
                     uids[n - 1] = line.substring(i + 1);
@@ -324,7 +321,7 @@ public class Pop3Protocol extends AbstractProtocol {
      * Issue a POP3 command that expects a multi-line response. <code>size</code> is an estimate of the response size.
      */
     private Pop3Response multilineCommand(final String cmd, final int size) throws IOException {
-        Pop3Response r = simpleCommand(cmd);
+        final Pop3Response r = simpleCommand(cmd);
 
         if (!r.isOk()) {
             return (r);
@@ -379,7 +376,7 @@ public class Pop3Protocol extends AbstractProtocol {
             this.outputWriter.flush();
         }
 
-        String line = this.inputReader.readLine();
+        final String line = this.inputReader.readLine();
 
         if (line == null) {
             getLogger().debug("S: EOF");
@@ -389,7 +386,7 @@ public class Pop3Protocol extends AbstractProtocol {
 
         getLogger().debug("S: {}", line);
 
-        Pop3Response r = new Pop3Response();
+        final Pop3Response r = new Pop3Response();
 
         if (line.startsWith(Pop3Command.OK)) {
             r.setOk(true);
@@ -401,7 +398,7 @@ public class Pop3Protocol extends AbstractProtocol {
             throw new IOException("Unexpected response: " + line);
         }
 
-        int i;
+        final int i;
 
         if ((i = line.indexOf(' ')) >= 0) {
             // +OK/-ERR abschneiden

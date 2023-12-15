@@ -24,7 +24,6 @@ abstract class AbstractCrypto implements Crypto {
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private final CryptoConfig<?> config;
-
     private final SecureRandom secureRandom;
 
     AbstractCrypto(final CryptoConfig<?> cryptoConfig) throws Exception {
@@ -38,25 +37,25 @@ abstract class AbstractCrypto implements Crypto {
 
     @Override
     public byte[] decrypt(final byte[] bytes) throws Exception {
-        Cipher cipher = createCipherDecrypt();
+        final Cipher cipher = createCipherDecrypt();
 
         return decrypt(cipher, bytes);
     }
 
     @Override
     public void decrypt(final InputStream in, final OutputStream out) throws Exception {
-        Cipher cipher = createCipherDecrypt();
+        final Cipher cipher = createCipherDecrypt();
 
         decrypt(cipher, in, out);
     }
 
     @Override
     public byte[] digest(final byte[] bytes) throws Exception {
-        MessageDigest messageDigest = createMessageDigest();
+        final MessageDigest messageDigest = createMessageDigest();
 
         messageDigest.update(bytes);
 
-        byte[] digest = messageDigest.digest();
+        final byte[] digest = messageDigest.digest();
         messageDigest.reset();
 
         return digest;
@@ -64,13 +63,13 @@ abstract class AbstractCrypto implements Crypto {
 
     @Override
     public byte[] digest(final InputStream in) throws Exception {
-        MessageDigest messageDigest = createMessageDigest();
+        final MessageDigest messageDigest = createMessageDigest();
 
         return digest(messageDigest, in);
     }
 
     public byte[] digest(final MessageDigest messageDigest, final InputStream in) throws Exception {
-        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int numRead = 0;
 
         while ((numRead = in.read(buffer)) >= 0) {
@@ -82,14 +81,14 @@ abstract class AbstractCrypto implements Crypto {
 
     @Override
     public byte[] encrypt(final byte[] bytes) throws Exception {
-        Cipher cipher = createCipherEncrypt();
+        final Cipher cipher = createCipherEncrypt();
 
         return encrypt(cipher, bytes);
     }
 
     @Override
     public void encrypt(final InputStream in, final OutputStream out) throws Exception {
-        Cipher cipher = createCipherEncrypt();
+        final Cipher cipher = createCipherEncrypt();
 
         encrypt(cipher, in, out);
     }
@@ -107,7 +106,7 @@ abstract class AbstractCrypto implements Crypto {
     }
 
     protected void decrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception {
-        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
         try (CipherInputStream cipherInputStream = new CipherInputStream(in, cipher)) {
             int numRead = 0;
@@ -125,7 +124,7 @@ abstract class AbstractCrypto implements Crypto {
     }
 
     protected void encrypt(final Cipher cipher, final InputStream in, final OutputStream out) throws Exception {
-        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
 
         try (CipherOutputStream cipherOutputStream = new CipherOutputStream(out, cipher)) {
             int numRead = 0;
@@ -150,7 +149,7 @@ abstract class AbstractCrypto implements Crypto {
      * @param in {@link InputStream}, Verschlüsselt
      */
     protected void sign(final Signature signature, final InputStream in, final OutputStream out) throws Exception {
-        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int numRead = 0;
 
         while ((numRead = in.read(buffer)) >= 0) {
@@ -158,7 +157,7 @@ abstract class AbstractCrypto implements Crypto {
         }
 
         // Bei einer RSA KeySize von 4096 wird die BlockSize 512 betragen (4096/8).
-        byte[] sig = signature.sign();
+        final byte[] sig = signature.sign();
         out.write(sig);
 
         out.flush();
@@ -168,7 +167,7 @@ abstract class AbstractCrypto implements Crypto {
      * @param in {@link InputStream}; Verschlüsselt
      */
     protected boolean verify(final Signature signature, final InputStream in, final InputStream signIn) throws Exception {
-        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         int numRead = 0;
 
         while ((numRead = in.read(buffer)) >= 0) {

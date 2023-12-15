@@ -15,6 +15,7 @@ public class MonitoringWritableByteChannel implements WritableByteChannel {
     private final LongConsumer bytesWrittenConsumer;
     private final boolean closeDelegate;
     private final WritableByteChannel delegate;
+
     private long bytesWritten;
 
     /**
@@ -46,7 +47,7 @@ public class MonitoringWritableByteChannel implements WritableByteChannel {
 
     @Override
     public int write(final ByteBuffer src) throws IOException {
-        int writeCount = this.delegate.write(src);
+        final int writeCount = this.delegate.write(src);
 
         if (writeCount > 0) {
             this.bytesWritten += writeCount;

@@ -28,21 +28,14 @@ import jakarta.mail.internet.MimeMultipart;
  */
 public class MailWrapper {
     private final Properties additionalHeaderProperties = new Properties();
-
     private final List<DataSource> attachments = new ArrayList<>();
-
     private final List<DataSource> inlines = new ArrayList<>();
-
     private final Properties javaMailProperties = new Properties();
-
     private final List<InternetAddress> to = new ArrayList<>();
 
     private InternetAddress from;
-
     private boolean html;
-
     private String subject;
-
     private String text;
 
     public MailWrapper() {
@@ -100,10 +93,10 @@ public class MailWrapper {
             throw new IllegalStateException("recipients: size = " + getToSize());
         }
 
-        Session session = Session.getInstance(this.javaMailProperties);
+        final Session session = Session.getInstance(this.javaMailProperties);
         // session.setDebug(debug);
 
-        MimeMessage mail = new MimeMessage(session);
+        final MimeMessage mail = new MimeMessage(session);
         mail.setFrom(this.from);
         mail.setRecipients(Message.RecipientType.TO, this.to.toArray(new InternetAddress[0]));
         mail.setSubject((this.subject == null) ? "" : this.subject);
@@ -114,16 +107,16 @@ public class MailWrapper {
         }
 
         // mixed, für Attachments
-        Multipart rootMultipart = new MimeMultipart("mixed");
+        final Multipart rootMultipart = new MimeMultipart("mixed");
 
         // related, für Text und Inlines
-        MimeMultipart relatedMultipart = new MimeMultipart("related");
-        MimeBodyPart relatedBodyPart = new MimeBodyPart();
+        final MimeMultipart relatedMultipart = new MimeMultipart("related");
+        final MimeBodyPart relatedBodyPart = new MimeBodyPart();
         relatedBodyPart.setContent(relatedMultipart);
         rootMultipart.addBodyPart(relatedBodyPart);
 
         if (this.text != null) {
-            MimeBodyPart textBodyPart = new MimeBodyPart();
+            final MimeBodyPart textBodyPart = new MimeBodyPart();
             // textBodyPart.setText(this.text);
 
             if (this.html) {
@@ -137,9 +130,9 @@ public class MailWrapper {
         }
 
         for (int i = 0; i < this.inlines.size(); i++) {
-            DataSource dataSource = this.inlines.get(i);
+            final DataSource dataSource = this.inlines.get(i);
 
-            MimeBodyPart inlineBodyPart = new MimeBodyPart();
+            final MimeBodyPart inlineBodyPart = new MimeBodyPart();
             inlineBodyPart.setDisposition(Part.INLINE);
             inlineBodyPart.setDataHandler(new DataHandler(dataSource));
             inlineBodyPart.setHeader("Content-ID", "<" + i + ">");
@@ -147,7 +140,7 @@ public class MailWrapper {
         }
 
         for (DataSource dataSource : this.attachments) {
-            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+            final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
             attachmentBodyPart.setDisposition(Part.ATTACHMENT);
             attachmentBodyPart.setFileName(dataSource.getName());
             attachmentBodyPart.setDataHandler(new DataHandler(dataSource));
@@ -213,7 +206,7 @@ public class MailWrapper {
             throw new NullPointerException("address");
         }
 
-        InternetAddress[] parsed = InternetAddress.parse(address);
+        final InternetAddress[] parsed = InternetAddress.parse(address);
 
         if (parsed.length != 1) {
             throw new AddressException("Illegal address", address);

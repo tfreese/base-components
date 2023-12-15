@@ -29,19 +29,12 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     private final ReentrantLock reentrantLock = new ReentrantLock();
 
     private Boolean autoCommit;
-
     private Connection connection;
-
     private Properties connectionProperties;
-
     private String password;
-
     private Connection proxyConnection;
-
     private Boolean readOnly;
-
     private String url;
-
     private String username;
 
     @Override

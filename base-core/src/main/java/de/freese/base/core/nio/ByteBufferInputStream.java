@@ -44,10 +44,10 @@ public class ByteBufferInputStream extends InputStream {
 
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
-        int remaining = this.buffer.remaining();
+        final int remaining = this.buffer.remaining();
 
         if (remaining > 0) {
-            int readBytes = Math.min(remaining, len);
+            final int readBytes = Math.min(remaining, len);
             this.buffer.get(b, off, readBytes);
 
             return readBytes;
@@ -63,7 +63,7 @@ public class ByteBufferInputStream extends InputStream {
 
     @Override
     public long skip(final long n) throws IOException {
-        int bytes;
+        final int bytes;
 
         if (n > Integer.MAX_VALUE) {
             bytes = this.buffer.remaining();

@@ -17,7 +17,6 @@ import java.util.HexFormat;
  */
 public final class DigestUtils {
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
-
     private static final HexFormat HEX_FORMAT = HexFormat.of().withUpperCase();
 
     public static MessageDigest createMd5Digest() {
@@ -57,7 +56,7 @@ public final class DigestUtils {
      * Die Position des {@link ByteBuffer} wird wieder auf den Ursprungs-Wert gesetzt.<br>
      */
     public static void digest(final MessageDigest messageDigest, final ByteBuffer byteBuffer) {
-        int position = byteBuffer.position();
+        final int position = byteBuffer.position();
 
         messageDigest.update(byteBuffer);
 

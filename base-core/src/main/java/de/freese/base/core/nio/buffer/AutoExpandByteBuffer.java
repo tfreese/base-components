@@ -28,7 +28,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     }
 
     public static AutoExpandByteBuffer of(final int capacity, final boolean direct) {
-        ByteBuffer byteBuffer = direct ? ByteBuffer.allocateDirect(capacity) : ByteBuffer.allocate(capacity);
+        final ByteBuffer byteBuffer = direct ? ByteBuffer.allocateDirect(capacity) : ByteBuffer.allocate(capacity);
 
         return new AutoExpandByteBuffer(byteBuffer);
     }
@@ -71,10 +71,10 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
             @Override
             public int read(final byte[] b, final int off, final int len) throws IOException {
-                int remaining = AutoExpandByteBuffer.this.remaining();
+                final int remaining = AutoExpandByteBuffer.this.remaining();
 
                 if (remaining > 0) {
-                    int readBytes = Math.min(remaining, len);
+                    final int readBytes = Math.min(remaining, len);
                     AutoExpandByteBuffer.this.get(b, off, readBytes);
 
                     return readBytes;
@@ -90,7 +90,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
             @Override
             public long skip(final long n) throws IOException {
-                int bytes;
+                final int bytes;
 
                 if (n > Integer.MAX_VALUE) {
                     bytes = AutoExpandByteBuffer.this.remaining();
@@ -173,9 +173,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
             throw new IllegalArgumentException("lengthLimit: " + lengthLimit + " (expected: 1+)");
         }
 
-        ByteBuffer buffer = getBuffer();
+        final ByteBuffer buffer = getBuffer();
 
-        boolean truncate = buffer.remaining() > lengthLimit;
+        final boolean truncate = buffer.remaining() > lengthLimit;
         int size = 0;
 
         if (truncate) {
@@ -189,14 +189,14 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
             return "empty";
         }
 
-        int position = buffer.position();
+        final int position = buffer.position();
 
-        char[] hexCode = "0123456789ABCDEF".toCharArray();
+        final char[] hexCode = "0123456789ABCDEF".toCharArray();
 
-        StringBuilder sb = new StringBuilder(size * 2);
+        final StringBuilder sb = new StringBuilder(size * 2);
 
         for (; size > 0; size--) {
-            int byteValue = buffer.get() & 0xFF;
+            final int byteValue = buffer.get() & 0xFF;
 
             sb.append(hexCode[byteValue >> 4]);
             sb.append(hexCode[byteValue & 0xF]);
@@ -323,9 +323,9 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
 
     @Override
     protected ByteBuffer createNewBuffer(final ByteBuffer buffer, final int newCapacity) {
-        ByteOrder bo = buffer.order();
+        final ByteOrder bo = buffer.order();
 
-        ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);
+        final ByteBuffer newBuffer = buffer.isDirect() ? ByteBuffer.allocateDirect(newCapacity) : ByteBuffer.allocate(newCapacity);
 
         buffer.flip();
         newBuffer.put(buffer);

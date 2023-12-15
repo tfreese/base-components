@@ -14,14 +14,14 @@ public final class Resilience4JThrottlerAdapter implements Throttler {
     private static final RateLimiterRegistry RATELIMITER_REGISTRY = RateLimiterRegistry.ofDefaults();
 
     public static Throttler create(final int permits, final Duration duration) {
-        RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(permits).limitRefreshPeriod(duration)
+        final RateLimiterConfig config = RateLimiterConfig.custom().limitForPeriod(permits).limitRefreshPeriod(duration)
                 //.timeoutDuration(Duration.ofMinutes(1))
                 .build();
 
         // Sorgt für Wiederverwendung des RateLimiters bei gleicher Permit/Duration Kombination.
-        String name = permits + "_" + duration;
+        final String name = permits + "_" + duration;
 
-        RateLimiter rateLimiter = RATELIMITER_REGISTRY.rateLimiter(name, config);
+        final RateLimiter rateLimiter = RATELIMITER_REGISTRY.rateLimiter(name, config);
 
         return new Resilience4JThrottlerAdapter(rateLimiter);
     }

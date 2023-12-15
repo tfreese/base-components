@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
@@ -46,25 +45,21 @@ public class ExcelToCsv {
      * 0-Based
      */
     private final Map<Integer, UnaryOperator<String>> columnFunctions = new HashMap<>();
-
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);
     /**
      * 0-Based
      */
     private int[] columnIndices;
-
     private char fieldSeparator = ';';
     /**
      * 0. Row = Header.
      */
     private int firstDataRow = 1;
-
     private FormulaEvaluator formulaEvaluator;
     /**
      * 0. Row = Header.
      */
     private int headerRow;
-
     private Character quoteCharacter = '"';
 
     public void convert(final Path excelSource, final Path csvDest) throws IOException {
@@ -95,24 +90,24 @@ public class ExcelToCsv {
         }
 
         try (Workbook workbook = getWorkbook(excelSource)) {
-            Sheet sheet = workbook.getSheetAt(0);
+            final Sheet sheet = workbook.getSheetAt(0);
 
             // Write Header.
             if (this.headerRow >= 0) {
-                String[] headers = getHeaders(sheet);
+                final String[] headers = getHeaders(sheet);
                 writeCSV(csvWriter, headers);
             }
 
             // Read Data.
             // for (int r = this.firstDataRow; r < (sheet.getLastRowNum() + 1); r++)
             for (int r = this.firstDataRow; r < (sheet.getPhysicalNumberOfRows() + 1); r++) {
-                Row row = sheet.getRow(r);
+                final Row row = sheet.getRow(r);
 
                 if (row == null) {
                     continue;
                 }
 
-                String[] values = new String[this.columnIndices.length];
+                final String[] values = new String[this.columnIndices.length];
 
                 for (int c = 0; c < this.columnIndices.length; c++) {
                     values[c] = getValue(row, this.columnIndices[c]);
@@ -187,9 +182,9 @@ public class ExcelToCsv {
             return null;
         }
 
-        Row row = sheet.getRow(this.headerRow);
+        final Row row = sheet.getRow(this.headerRow);
 
-        String[] headers = new String[this.columnIndices.length];
+        final String[] headers = new String[this.columnIndices.length];
 
         for (int c = 0; c < this.columnIndices.length; c++) {
             headers[c] = getValue(row, this.columnIndices[c]);
@@ -205,7 +200,7 @@ public class ExcelToCsv {
             return null;
         }
 
-        String value = null;
+        String value;
 
         if (!CellType.FORMULA.equals(cell.getCellType())) {
             value = this.dataFormatter.formatCellValue(cell);
@@ -225,7 +220,7 @@ public class ExcelToCsv {
         // value = Double.toString(v);
         // }
 
-        value = Optional.ofNullable(value).map(String::strip).orElse("");
+        //        value = Optional.ofNullable(value).map(String::strip).orElse("");
 
         if (value.isBlank()) {
             value = null;
@@ -233,7 +228,7 @@ public class ExcelToCsv {
 
         if ((value != null) && (row.getRowNum() != this.headerRow)) {
             // this.columnFunctions.getOrDefault(column, Function.identity()).apply(value);
-            UnaryOperator<String> function = this.columnFunctions.get(column);
+            final UnaryOperator<String> function = this.columnFunctions.get(column);
 
             if (function != null) {
                 value = function.apply(value);
@@ -244,7 +239,7 @@ public class ExcelToCsv {
     }
 
     private Workbook getWorkbook(final Path excelSource) throws IOException {
-        Workbook workbook = null;
+        final Workbook workbook;
 
         // workbook = WorkbookFactory.create(Files.newInputStream(excelSource, StandardOpenOption.READ));
         if (excelSource.toString().toLowerCase().endsWith(".xls")) {
@@ -263,7 +258,7 @@ public class ExcelToCsv {
     }
 
     private void writeCSV(final Writer writer, final String[] values) throws IOException {
-        StringBuilder row = new StringBuilder();
+        final StringBuilder row = new StringBuilder();
 
         for (int i = 0; i < values.length; i++) {
             if (this.quoteCharacter != null) {

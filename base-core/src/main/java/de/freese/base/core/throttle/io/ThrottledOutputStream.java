@@ -17,7 +17,6 @@ public class ThrottledOutputStream extends FilterOutputStream {
     private final Throttler throttler;
 
     private long bytesWritten;
-
     private long sleepTimeNanos;
 
     public ThrottledOutputStream(final OutputStream outputStream, final Throttler throttler) {
@@ -36,7 +35,7 @@ public class ThrottledOutputStream extends FilterOutputStream {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttler);
         sb.append(", bytesWritten=").append(getBytesWritten());
@@ -56,7 +55,7 @@ public class ThrottledOutputStream extends FilterOutputStream {
     }
 
     private void throttle(final int permits) {
-        long waitNanos = this.throttler.reservePermits(permits);
+        final long waitNanos = this.throttler.reservePermits(permits);
 
         if (waitNanos > 0L) {
             try {

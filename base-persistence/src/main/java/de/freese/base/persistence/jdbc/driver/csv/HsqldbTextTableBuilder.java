@@ -53,21 +53,15 @@ public final class HsqldbTextTableBuilder {
     private final List<String> columns = new ArrayList<>();
 
     private boolean allQuoted = true;
-
     private int cacheRows = 10_000;
     /**
      * [kB]; 1024 KB = 1 MB
      */
     private int cacheSize = 1024;
-
     private Charset charset = StandardCharsets.UTF_8;
-
     private String fieldSeparator = "\\semi";
-
     private boolean ignoreFirst = true;
-
     private Path path;
-
     private String tableName;
 
     private HsqldbTextTableBuilder() {
@@ -103,7 +97,7 @@ public final class HsqldbTextTableBuilder {
         // Damit Text-Tables auch im Memory-Mode funktionieren.
         System.setProperty("textdb.allow_full_path", "true");
 
-        List<HsqldbTextTableBuilder> list = new ArrayList<>();
+        final List<HsqldbTextTableBuilder> list = new ArrayList<>();
         list.add(this);
         list.addAll(Arrays.asList(builders));
 
@@ -116,14 +110,14 @@ public final class HsqldbTextTableBuilder {
             }
         }
 
-        StringBuilder url = new StringBuilder();
+        final StringBuilder url = new StringBuilder();
         // url.append("jdbc:hsqldb:mem:").append(this.tableName).append("-").append(System.currentTimeMillis());
         url.append("jdbc:hsqldb:mem:").append(System.currentTimeMillis());
         url.append(";shutdown=true");
         url.append(",readonly=true");
         url.append(",files_readonly=true");
 
-        Connection connection = DriverManager.getConnection(url.toString());
+        final Connection connection = DriverManager.getConnection(url.toString());
         // connection.setReadOnly(true);
 
         try {
@@ -135,7 +129,7 @@ public final class HsqldbTextTableBuilder {
                     sql.append(" (");
 
                     for (Iterator<String> iterator = ttb.columns.iterator(); iterator.hasNext(); ) {
-                        String column = iterator.next();
+                        final String column = iterator.next();
                         sql.append(column);
 
                         if (iterator.hasNext()) {

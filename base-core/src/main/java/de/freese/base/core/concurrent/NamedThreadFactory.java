@@ -11,11 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class NamedThreadFactory implements ThreadFactory {
     private final boolean daemon;
-
     private final ThreadFactory defaultThreadFactory = Executors.defaultThreadFactory();
-
     private final String namePattern;
-
     private final AtomicInteger threadNumber = new AtomicInteger(1);
 
     /**

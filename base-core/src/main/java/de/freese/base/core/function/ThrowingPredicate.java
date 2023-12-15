@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface ThrowingPredicate<T, E extends Exception> {
     static <T, E> ThrowingPredicate<T, Exception> isEqual(final Object targetRef) {
-        ThrowingPredicate<T, Exception> predicate = null;
+        final ThrowingPredicate<T, Exception> predicate;
 
         if (targetRef == null) {
             predicate = Objects::isNull;

@@ -28,7 +28,7 @@ public class SingleResourceCache implements ResourceCache {
 
     @Override
     public <T> T getValue(final String bundleName, final Locale locale, final Class<T> type, final String key) {
-        Map<String, T> byKey = getValues(bundleName, locale, type);
+        final Map<String, T> byKey = getValues(bundleName, locale, type);
 
         return byKey.get(key);
     }
@@ -37,22 +37,22 @@ public class SingleResourceCache implements ResourceCache {
     @Override
     public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
         // bundeName wird ignoriert.
-        Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
-        Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
+        final Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
 
         return (Map<String, T>) byKey;
     }
 
     @Override
     public <T> void putValue(final String bundleName, final Locale locale, final Class<T> type, final String key, final T value) {
-        Map<String, T> byKey = getValues(bundleName, locale, type);
+        final Map<String, T> byKey = getValues(bundleName, locale, type);
 
         byKey.put(key, value);
     }
 
     @Override
     public <T> void putValues(final String bundleName, final Locale locale, final Class<T> type, final Map<String, T> values) {
-        Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
+        final Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
 
         byType.put(type, values);
     }

@@ -25,9 +25,7 @@ import java.util.logging.Logger;
  */
 public final class CsvDriver implements java.sql.Driver {
     public static final String URL_PREFIX = "jdbc:csv";
-
     private static final Driver INSTANCE = new CsvDriver();
-
     private static volatile boolean registered;
 
     static {
@@ -42,7 +40,7 @@ public final class CsvDriver implements java.sql.Driver {
                 DriverManager.registerDriver(INSTANCE);
             }
             catch (Exception ex) {
-                PrintWriter writer = DriverManager.getLogWriter();
+                final PrintWriter writer = DriverManager.getLogWriter();
 
                 if (writer != null) {
                     ex.printStackTrace(writer);
@@ -73,16 +71,16 @@ public final class CsvDriver implements java.sql.Driver {
             return null;
         }
 
-        String[] files = substringsBetween(url, "[", "]");
+        final String[] files = substringsBetween(url, "[", "]");
 
-        List<HsqldbTextTableBuilder> builderList = new ArrayList<>();
+        final List<HsqldbTextTableBuilder> builderList = new ArrayList<>();
 
         for (String file : files) {
-            HsqldbTextTableBuilder ttb = HsqldbTextTableBuilder.create();
+            final HsqldbTextTableBuilder ttb = HsqldbTextTableBuilder.create();
             builderList.add(ttb);
 
             // Split URL in DB and Properties.
-            String[] splits = file.split(";");
+            final String[] splits = file.split(";");
 
             String fileName = splits[0];
 
@@ -90,12 +88,12 @@ public final class CsvDriver implements java.sql.Driver {
                 fileName = fileName.substring(URL_PREFIX.length());
             }
 
-            Path path = Paths.get(fileName);
+            final Path path = Paths.get(fileName);
             ttb.setPath(path);
 
             // CSV-Structure
             if (splits.length >= 2) {
-                String[] columns = splits[1].split(",");
+                final String[] columns = splits[1].split(",");
 
                 for (String column : columns) {
                     ttb.addColumn(column);
@@ -104,10 +102,10 @@ public final class CsvDriver implements java.sql.Driver {
 
             // CSV-Layout
             if (splits.length >= 3) {
-                String[] layout = splits[2].split(",");
+                final String[] layout = splits[2].split(",");
 
                 for (String pair : layout) {
-                    String[] keyValue = pair.split("=");
+                    final String[] keyValue = pair.split("=");
 
                     switch (keyValue[0]) {
                         case "ignore_first" -> ttb.setIgnoreFirst(Boolean.parseBoolean(keyValue[1]));
@@ -125,7 +123,7 @@ public final class CsvDriver implements java.sql.Driver {
             }
         }
 
-        HsqldbTextTableBuilder firstBuilder = builderList.remove(0);
+        final HsqldbTextTableBuilder firstBuilder = builderList.remove(0);
         HsqldbTextTableBuilder[] builders = {};
 
         if (!builderList.isEmpty()) {

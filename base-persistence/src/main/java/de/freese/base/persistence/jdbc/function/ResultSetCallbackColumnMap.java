@@ -23,14 +23,14 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
             this.columnNames = getColumnNames(resultSet);
         }
 
-        List<Map<String, Object>> list = new ArrayList<>();
+        final List<Map<String, Object>> list = new ArrayList<>();
 
         while (resultSet.next()) {
-            Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
+            final Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
 
             for (int i = 1; i <= this.columnNames.length; i++) {
-                String columnName = this.columnNames[i - 1];
-                Object obj = getColumnValue(resultSet, i);
+                final String columnName = this.columnNames[i - 1];
+                final Object obj = getColumnValue(resultSet, i);
 
                 map.put(columnName, obj);
             }
@@ -52,13 +52,13 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
     }
 
     protected String[] getColumnNames(final ResultSet resultSet) throws SQLException {
-        ResultSetMetaData metaData = resultSet.getMetaData();
-        int columnCount = metaData.getColumnCount();
+        final ResultSetMetaData metaData = resultSet.getMetaData();
+        final int columnCount = metaData.getColumnCount();
 
-        String[] names = new String[columnCount];
+        final String[] names = new String[columnCount];
 
         for (int i = 0; i < columnCount; i++) {
-            String key = getColumnName(metaData, i + 1);
+            final String key = getColumnName(metaData, i + 1);
 
             names[i] = key;
         }
@@ -84,7 +84,7 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
             obj = rs.getTimestamp(index);
         }
         else if ((className != null) && className.startsWith("oracle.sql.DATE")) {
-            String metaDataClassName = rs.getMetaData().getColumnClassName(index);
+            final String metaDataClassName = rs.getMetaData().getColumnClassName(index);
 
             if ("java.sql.Timestamp".equals(metaDataClassName) || "oracle.sql.TIMESTAMP".equals(metaDataClassName)) {
                 obj = rs.getTimestamp(index);

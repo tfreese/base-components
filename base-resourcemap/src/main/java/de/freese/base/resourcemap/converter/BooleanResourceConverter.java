@@ -17,7 +17,7 @@ public class BooleanResourceConverter extends AbstractResourceConverter<Boolean>
 
     @Override
     public Boolean convert(final String key, final String value) {
-        String v = value.strip();
+        final String v = value.strip();
 
         for (String trueString : this.trueStrings) {
             if (v.equalsIgnoreCase(trueString)) {

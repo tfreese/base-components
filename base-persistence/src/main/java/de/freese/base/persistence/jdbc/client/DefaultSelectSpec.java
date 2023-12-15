@@ -56,7 +56,7 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
     @Override
     public <T> Flux<T> executeAsFlux(final RowMapper<T> rowMapper) {
-        ResultSetCallback<Flux<T>> resultSetCallback = resultSet -> {
+        final ResultSetCallback<Flux<T>> resultSetCallback = resultSet -> {
             final Statement statement = resultSet.getStatement();
             final Connection connection = statement.getConnection();
 
@@ -86,8 +86,8 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
     @Override
     public <T> List<T> executeAsList(final RowMapper<T> rowMapper) {
-        ResultSetCallback<List<T>> resultSetCallback = rs -> {
-            List<T> results = new ArrayList<>();
+        final ResultSetCallback<List<T>> resultSetCallback = rs -> {
+            final List<T> results = new ArrayList<>();
 
             while (rs.next()) {
                 results.add(rowMapper.mapRow(rs));
@@ -106,11 +106,11 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
     @Override
     public <T> Flow.Publisher<T> executeAsPublisher(final RowMapper<T> rowMapper) {
-        ResultSetCallback<Flow.Publisher<T>> resultSetCallback = resultSet -> {
+        final ResultSetCallback<Flow.Publisher<T>> resultSetCallback = resultSet -> {
             final Statement statement = resultSet.getStatement();
             final Connection connection = statement.getConnection();
 
-            Consumer<ResultSet> doOnClose = rs -> {
+            final Consumer<ResultSet> doOnClose = rs -> {
                 LOGGER.debug("close jdbc publisher");
 
                 jdbcClient.close(rs);
@@ -126,8 +126,8 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
     @Override
     public <T> Set<T> executeAsSet(final RowMapper<T> rowMapper) {
-        ResultSetCallback<Set<T>> resultSetCallback = rs -> {
-            Set<T> results = new LinkedHashSet<>();
+        final ResultSetCallback<Set<T>> resultSetCallback = rs -> {
+            final Set<T> results = new LinkedHashSet<>();
 
             while (rs.next()) {
                 results.add(rowMapper.mapRow(rs));
@@ -141,12 +141,12 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
     @Override
     public <T> Stream<T> executeAsStream(final RowMapper<T> rowMapper) {
-        ResultSetCallback<Stream<T>> resultSetCallback = resultSet -> {
+        final ResultSetCallback<Stream<T>> resultSetCallback = resultSet -> {
             final Statement statement = resultSet.getStatement();
             final Connection connection = statement.getConnection();
 
             // @formatter:off
-            Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
+            final Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
 
             return StreamSupport.stream(spliterator, false)
                     .onClose(() -> {

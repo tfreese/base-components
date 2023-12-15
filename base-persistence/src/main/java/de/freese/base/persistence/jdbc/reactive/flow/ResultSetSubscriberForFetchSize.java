@@ -20,11 +20,8 @@ public class ResultSetSubscriberForFetchSize<T> implements Subscriber<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscriberForFetchSize.class);
 
     private final AtomicBoolean completed;
-
     private final Consumer<T> consumer;
-
     private final AtomicInteger counter;
-
     private final int fetchSize;
 
     private Subscription subscription;

@@ -29,7 +29,7 @@ public interface ProgressCallback extends BiConsumer<Integer, Integer> {
             throw new IllegalArgumentException("invalid value: " + value);
         }
 
-        double percentage = (double) value / (double) max;
+        final double percentage = (double) value / (double) max;
 
         setProgress(percentage);
     }

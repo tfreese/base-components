@@ -21,7 +21,6 @@ public final class ReflectionUtils {
      * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
      */
     public static final Predicate<Method> USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
-
     private static final Object[] EMPTY_OBJECT_ARRAY = {};
 
     /**
@@ -58,7 +57,7 @@ public final class ReflectionUtils {
     public static boolean declaresException(final Method method, final Class<?> exceptionType) {
         Objects.requireNonNull(method, "method required");
 
-        Class<?>[] declaredExceptions = method.getExceptionTypes();
+        final Class<?>[] declaredExceptions = method.getExceptionTypes();
 
         for (Class<?> declaredException : declaredExceptions) {
             if (declaredException.isAssignableFrom(exceptionType)) {
@@ -95,7 +94,7 @@ public final class ReflectionUtils {
         Class<?> targetClass = clazz;
 
         do {
-            Field[] fields = getDeclaredFields(targetClass);
+            final Field[] fields = getDeclaredFields(targetClass);
 
             for (Field field : fields) {
                 if ((fieldFilter != null) && !fieldFilter.test(field)) {
@@ -159,7 +158,7 @@ public final class ReflectionUtils {
      */
     public static void doWithMethods(final Class<?> clazz, final MethodCallback mc, final Predicate<Method> methodFilter) {
         // Keep backing up the inheritance hierarchy.
-        Method[] methods = getDeclaredMethods(clazz);
+        final Method[] methods = getDeclaredMethods(clazz);
 
         for (Method method : methods) {
             if ((methodFilter != null) && !methodFilter.test(method)) {
@@ -297,7 +296,7 @@ public final class ReflectionUtils {
     }
 
     private static List<Method> findConcreteMethodsOnInterfaces(final Class<?> clazz) {
-        List<Method> result = new ArrayList<>();
+        final List<Method> result = new ArrayList<>();
 
         for (Class<?> ifc : clazz.getInterfaces()) {
             for (Method ifcMethod : ifc.getMethods()) {
@@ -341,8 +340,8 @@ public final class ReflectionUtils {
 
         if (methods == null) {
             try {
-                Method[] declaredMethods = clazz.getDeclaredMethods();
-                List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
+                final Method[] declaredMethods = clazz.getDeclaredMethods();
+                final List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
 
                 if (defaultMethods != null) {
                     methods = new Method[declaredMethods.length + defaultMethods.size()];

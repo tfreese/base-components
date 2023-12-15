@@ -19,7 +19,6 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
     private static final Logger LOGGER = LoggingJdbcDriver.LOGGER;
 
     private final Set<String> logMethods;
-
     private final Object target;
 
     LoggingJdbcInvocationHandler(final Object target, final Set<String> logMethods) {
@@ -32,7 +31,7 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         try {
-            boolean logMethod = this.logMethods.contains(method.getName());
+            final boolean logMethod = this.logMethods.contains(method.getName());
 
             // if (LOGGER.isDebugEnabled())
             if (logMethod) {

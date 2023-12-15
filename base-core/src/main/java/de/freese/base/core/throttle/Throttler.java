@@ -25,7 +25,7 @@ public interface Throttler {
      * @throws IllegalArgumentException if {@code permits} is < 1
      */
     default void acquirePermits(final int permits) {
-        long waitNanos = reservePermits(permits);
+        final long waitNanos = reservePermits(permits);
 
         if (waitNanos > 0L) {
             //TimeUnit.NANOSECONDS.sleep(waitNanos);
@@ -36,7 +36,7 @@ public interface Throttler {
 
             try {
                 long remainingNanos = waitNanos;
-                long end = System.nanoTime() + remainingNanos;
+                final long end = System.nanoTime() + remainingNanos;
 
                 while (true) {
                     try {

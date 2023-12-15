@@ -20,9 +20,7 @@ public class ResultSetSubscription<T> implements Subscription {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSetSubscription.class);
 
     private final Consumer<ResultSet> doOnClose;
-
     private final RowMapper<T> rowMapper;
-
     private final Subscriber<? super T> subscriber;
 
     private ResultSet resultSet;
@@ -48,7 +46,7 @@ public class ResultSetSubscription<T> implements Subscription {
         try {
             for (int i = 0; i < n; i++) {
                 if (this.resultSet.next()) {
-                    T row = this.rowMapper.mapRow(this.resultSet);
+                    final T row = this.rowMapper.mapRow(this.resultSet);
                     this.subscriber.onNext(row);
                 }
                 else {

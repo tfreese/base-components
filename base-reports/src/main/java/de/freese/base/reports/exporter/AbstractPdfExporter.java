@@ -19,8 +19,8 @@ import com.lowagie.text.pdf.PdfWriter;
 public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
     @Override
     public void export(final OutputStream outputStream, final T model) throws Exception {
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, outputStream);
+        final Document document = new Document();
+        final PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
         export(document, writer, model);
 
@@ -34,7 +34,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
      * @param strokeColor {@link Color}, optional, if null, default Color is used.
      */
     protected void drawLine(final PdfWriter writer, final float x1, final float y1, final float x2, final float y2, final Color strokeColor) {
-        PdfContentByte contentByte = writer.getDirectContent();
+        final PdfContentByte contentByte = writer.getDirectContent();
         contentByte.saveState();
 
         if (strokeColor != null) {
@@ -53,7 +53,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
      * @param borderColor {@link Color}, optional, if null, default Color is used.
      */
     protected void drawRectangle(final PdfWriter writer, final float x, final float y, final float width, final float height, final Color fillColor, final Color borderColor) {
-        PdfContentByte contentByte = writer.getDirectContent();
+        final PdfContentByte contentByte = writer.getDirectContent();
         contentByte.saveState();
 
         if (fillColor != null) {
@@ -76,7 +76,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
      * @param align int,  {@link PdfContentByte#ALIGN_LEFT} ...
      */
     protected void drawText(final PdfWriter writer, final String text, final float x, final float y, final float fontSize, final int align, final BaseFont baseFont) {
-        PdfContentByte contentByte = writer.getDirectContent();
+        final PdfContentByte contentByte = writer.getDirectContent();
         contentByte.beginText();
         contentByte.setFontAndSize(baseFont, fontSize);
         contentByte.showTextAligned(align, text, x, y, 0);
@@ -157,8 +157,8 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
      * @param ownerPassword String, null = No Question during changes
      */
     protected void secure(final PdfWriter writer, final String userPassword, final String ownerPassword) throws DocumentException {
-        byte[] userPwd = userPassword != null ? userPassword.getBytes(StandardCharsets.UTF_8) : null;
-        byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes(StandardCharsets.UTF_8) : null;
+        final byte[] userPwd = userPassword != null ? userPassword.getBytes(StandardCharsets.UTF_8) : null;
+        final byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes(StandardCharsets.UTF_8) : null;
 
         writer.setEncryption(userPwd, ownerPwd, PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS, PdfWriter.ENCRYPTION_AES_128);
     }

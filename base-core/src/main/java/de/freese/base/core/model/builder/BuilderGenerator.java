@@ -35,7 +35,7 @@ public class BuilderGenerator {
         Objects.requireNonNull(clazz, "clazz required");
         Objects.requireNonNull(printStream, "printStream required");
 
-        Map<String, Field> fields = getFields(clazz, withSuperAttributes);
+        final Map<String, Field> fields = getFields(clazz, withSuperAttributes);
 
         final String simpleClazzName = clazz.getSimpleName().replace("Abstract", "");
 
@@ -76,8 +76,8 @@ public class BuilderGenerator {
 
         // Methods
         fields.values().forEach(field -> {
-            String fieldName = field.getName();
-            String typeName = field.getType().getSimpleName();
+            final String fieldName = field.getName();
+            final String typeName = field.getType().getSimpleName();
 
             printStream.println();
             printStream.println(INDENT + "/**");
@@ -95,7 +95,7 @@ public class BuilderGenerator {
     }
 
     protected Map<String, Field> getFields(final Class<?> clazz, final boolean withSuperAttributes) {
-        Map<String, Field> fields = new TreeMap<>();
+        final Map<String, Field> fields = new TreeMap<>();
 
         if (withSuperAttributes) {
             ReflectionUtils.doWithFields(clazz, field -> fields.put(field.getName(), field));

@@ -20,33 +20,21 @@ import jakarta.activation.DataSource;
  */
 public class ByteArrayDataSource implements DataSource, Serializable {
     public static final String MIMETYPE_APPLICATION_EXCEL = "application/vnd.ms-excel";
-
     public static final String MIMETYPE_APPLICATION_HTTP = "application/http";
     /**
      * MimeTypes siehe auch <a href="http://www.iana.org/assignments/media-types">http://www.iana.org/assignments/media-types</a>
      */
     public static final String MIMETYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
-
     public static final String MIMETYPE_APPLICATION_PDF = "application/pdf";
-
     public static final String MIMETYPE_APPLICATION_POWERPOINT = "application/vnd.ms-powerpoint";
-
     public static final String MIMETYPE_APPLICATION_XML = "application/xml";
-
     public static final String MIMETYPE_IMAGE_BMP = "image/bmp";
-
     public static final String MIMETYPE_IMAGE_GIF = "image/gif";
-
     public static final String MIMETYPE_IMAGE_JPEG = "image/jpeg";
-
     public static final String MIMETYPE_IMAGE_PNG = "image/png";
-
     public static final String MIMETYPE_TEXT_CSV = "text/csv";
-
     public static final String MIMETYPE_TEXT_HTML = "text/html";
-
     public static final String MIMETYPE_TEXT_PLAIN = "text/plain";
-
     @Serial
     private static final long serialVersionUID = -3420529375053580438L;
 
@@ -55,7 +43,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
             return null;
         }
 
-        String name = resourceName.toLowerCase();
+        final String name = resourceName.toLowerCase();
         String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
 
         if (name.startsWith("http")) {
@@ -91,9 +79,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
     }
 
     private final byte[] data;
-
     private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
-
     private String name = "";
 
     public ByteArrayDataSource(final byte[] data, final String mimeType) {
@@ -111,7 +97,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         this.mimeType = Objects.requireNonNull(mimeType, "mimeType required");
 
         final byte[] bytes = new byte[4096];
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         while (true) {
             final int bytesRead = is.read(bytes);
@@ -173,7 +159,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
             throw new IOException("no data");
         }
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write(this.data);
 
         return baos;

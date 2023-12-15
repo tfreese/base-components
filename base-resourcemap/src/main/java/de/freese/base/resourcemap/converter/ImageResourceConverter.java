@@ -16,7 +16,7 @@ public class ImageResourceConverter extends AbstractResourceConverter<BufferedIm
             throwException(key, "null", "path is null");
         }
 
-        URL url = getUrl(value);
+        final URL url = getUrl(value);
 
         if (url != null) {
             try {

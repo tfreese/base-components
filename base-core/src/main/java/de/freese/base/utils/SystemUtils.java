@@ -24,8 +24,8 @@ public final class SystemUtils {
         //        Runtime.class.getPackage().getImplementationVersion();
 
         //        // String javaVersion = SystemUtils.JAVA_VERSION;
-        //        String javaVersion = System.getProperty("java.version");
-        //        String[] splits = javaVersion.toLowerCase().split("[._]");
+        //        final String javaVersion = System.getProperty("java.version");
+        //        final String[] splits = javaVersion.toLowerCase().split("[._]");
         //
         //        // Major
         //        String versionString = String.format("%03d", Integer.parseInt(splits[0]));
@@ -68,19 +68,19 @@ public final class SystemUtils {
     }
 
     public static boolean isLinux() {
-        String os = getOsName().toLowerCase();
+        final String os = getOsName().toLowerCase();
 
         return os.contains("linux");
     }
 
     public static boolean isUnix() {
-        String os = getOsName().toLowerCase();
+        final String os = getOsName().toLowerCase();
 
         return os.contains("nix") || os.contains("nux") || os.contains("aix");
     }
 
     public static boolean isWindows() {
-        String os = getOsName().toLowerCase();
+        final String os = getOsName().toLowerCase();
 
         return os.startsWith("win");
     }

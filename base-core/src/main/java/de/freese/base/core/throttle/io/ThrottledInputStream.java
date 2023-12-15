@@ -17,7 +17,6 @@ public class ThrottledInputStream extends FilterInputStream {
     private final Throttler throttler;
 
     private long bytesRead;
-
     private long sleepTimeNanos;
 
     public ThrottledInputStream(final InputStream inputStream, final Throttler throttler) {
@@ -38,7 +37,7 @@ public class ThrottledInputStream extends FilterInputStream {
     public int read() throws IOException {
         throttle(1);
 
-        int data = super.read();
+        final int data = super.read();
 
         if (data != -1) {
             this.bytesRead++;
@@ -49,7 +48,7 @@ public class ThrottledInputStream extends FilterInputStream {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("throttle=").append(this.throttler);
         sb.append(", bytesRead=").append(this.bytesRead);
@@ -64,7 +63,7 @@ public class ThrottledInputStream extends FilterInputStream {
     }
 
     private void throttle(final int permits) {
-        long waitNanos = this.throttler.reservePermits(permits);
+        final long waitNanos = this.throttler.reservePermits(permits);
 
         if (waitNanos > 0L) {
             try {

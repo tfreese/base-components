@@ -153,8 +153,8 @@ public class JdbcClient {
     }
 
     public boolean execute(final CharSequence sql) {
-        StatementCreator<Statement> sc = con -> createStatement(con, null);
-        StatementCallback<Statement, Boolean> action = stmt -> stmt.execute(sql.toString());
+        final StatementCreator<Statement> sc = con -> createStatement(con, null);
+        final StatementCallback<Statement, Boolean> action = stmt -> stmt.execute(sql.toString());
 
         return execute(sc, action, true);
     }
@@ -164,7 +164,7 @@ public class JdbcClient {
     }
 
     public boolean isBatchSupported() {
-        ConnectionCallback<Boolean> action = this::isBatchSupported;
+        final ConnectionCallback<Boolean> action = this::isBatchSupported;
 
         return execute(action, true);
     }
@@ -178,7 +178,7 @@ public class JdbcClient {
     }
 
     void close(final Connection connection) {
-        Transaction transaction = TRANSACTION.orElse(null);
+        final Transaction transaction = TRANSACTION.orElse(null);
 
         if (transaction != null) {
             // Closed by Transaction#close.
@@ -231,7 +231,7 @@ public class JdbcClient {
     }
 
     CallableStatement createCallableStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
-        CallableStatement callableStatement = connection.prepareCall(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        final CallableStatement callableStatement = connection.prepareCall(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
         if (configurer != null) {
             configurer.configure(callableStatement);
@@ -241,7 +241,7 @@ public class JdbcClient {
     }
 
     PreparedStatement createPreparedStatement(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        final PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
         if (configurer != null) {
             configurer.configure(preparedStatement);
@@ -251,7 +251,7 @@ public class JdbcClient {
     }
 
     PreparedStatement createPreparedStatementForInsert(final Connection connection, final CharSequence sql, final StatementConfigurer configurer) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
+        final PreparedStatement preparedStatement = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
         if (configurer != null) {
             configurer.configure(preparedStatement);
@@ -261,7 +261,7 @@ public class JdbcClient {
     }
 
     Statement createStatement(final Connection connection, final StatementConfigurer configurer) throws SQLException {
-        Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+        final Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
         if (configurer != null) {
             configurer.configure(statement);
@@ -289,13 +289,13 @@ public class JdbcClient {
     }
 
     <S extends Statement, T> T execute(final StatementCreator<S> statementCreator, final StatementCallback<S, T> statementCallback, final boolean closeResources) {
-        ConnectionCallback<T> connectionCallback = con -> {
+        final ConnectionCallback<T> connectionCallback = con -> {
             S stmt = null;
 
             try {
                 stmt = statementCreator.createStatement(con);
 
-                T result = statementCallback.doInStatement(stmt);
+                final T result = statementCallback.doInStatement(stmt);
 
                 handleWarnings(stmt);
 
@@ -318,8 +318,8 @@ public class JdbcClient {
      * @param pss {@link PreparedStatementSetter}; optional
      */
     <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback, final boolean closeResources) {
-        StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, sql, statementConfigurer);
-        StatementCallback<PreparedStatement, T> statementCallback = stmt -> {
+        final StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, sql, statementConfigurer);
+        final StatementCallback<PreparedStatement, T> statementCallback = stmt -> {
             ResultSet resultSet = null;
 
             try {
@@ -345,10 +345,10 @@ public class JdbcClient {
     }
 
     <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize, final StatementCreator<PreparedStatement> statementCreator, final Logger logger) {
-        StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
-            boolean supportsBatch = isBatchSupported(stmt.getConnection());
+        final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
+            final boolean supportsBatch = isBatchSupported(stmt.getConnection());
 
-            List<int[]> affectedRows = new ArrayList<>();
+            final List<int[]> affectedRows = new ArrayList<>();
             int n = 0;
 
             for (T arg : batchArgs) {
@@ -361,8 +361,8 @@ public class JdbcClient {
 
                     if (((n % batchSize) == 0) || (n == batchArgs.size())) {
                         if (logger.isDebugEnabled()) {
-                            int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
-                            int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
+                            final int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
+                            final int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);
                             logger.debug("Sending SQL batch update #{} with {} items", batchIndex, items);
                         }
 
@@ -372,7 +372,7 @@ public class JdbcClient {
                 }
                 else {
                     // Batch not possible -> direct execution.
-                    int affectedRow = stmt.executeUpdate();
+                    final int affectedRow = stmt.executeUpdate();
 
                     affectedRows.add(new int[]{affectedRow});
                 }
@@ -385,7 +385,7 @@ public class JdbcClient {
     }
 
     boolean isBatchSupported(final Connection connection) throws SQLException {
-        DatabaseMetaData metaData = connection.getMetaData();
+        final DatabaseMetaData metaData = connection.getMetaData();
 
         return metaData.supportsBatchUpdates();
     }
@@ -410,7 +410,7 @@ public class JdbcClient {
     }
 
     private Connection getConnection() {
-        Transaction transaction = TRANSACTION.orElse(null);
+        final Transaction transaction = TRANSACTION.orElse(null);
 
         if (transaction != null) {
             return transaction.getConnection();

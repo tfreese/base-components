@@ -57,7 +57,7 @@ public final class SimpleThrottler implements Throttler {
 
         long delayNanos = 0L;
 
-        long nowNanos = System.nanoTime();
+        final long nowNanos = System.nanoTime();
 
         // Aktueller Timestamp liegt noch vor dem nächsten verfügbaren Zeitfenster -> warten.
         if (nowNanos <= this.nextFreeSlotNanos) {
@@ -72,7 +72,7 @@ public final class SimpleThrottler implements Throttler {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName()).append(" [");
         sb.append("permitIntervalNanos=").append(this.permitIntervalNanos);
         sb.append("]");

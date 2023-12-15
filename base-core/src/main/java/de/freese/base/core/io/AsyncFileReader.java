@@ -35,11 +35,8 @@ public final class AsyncFileReader<CH> {
      */
     private static class ReadContext<CH> {
         private final ByteBuffer buffer;
-
         private final AsynchronousFileChannel channel;
-
         private final CompletableFuture<CH> future;
-
         private final CompletionHandler<Integer, ReadContext<CH>> handler;
 
         private int position;

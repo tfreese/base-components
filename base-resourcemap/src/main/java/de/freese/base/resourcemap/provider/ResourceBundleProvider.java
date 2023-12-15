@@ -13,23 +13,23 @@ import java.util.ResourceBundle;
 public final class ResourceBundleProvider implements ResourceProvider {
     @Override
     public Map<String, String> getResources(final String bundleName, final Locale locale) {
-        Map<String, String> bundles = new HashMap<>();
+        final Map<String, String> bundles = new HashMap<>();
 
         try {
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
+            final ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
 
             for (String key : resourceBundle.keySet()) {
-                String value = resourceBundle.getString(key);
+                final String value = resourceBundle.getString(key);
 
                 bundles.put(key, value);
             }
 
-            //            Enumeration<String> keys = resourceBundle.getKeys();
+            //            final Enumeration<String> keys = resourceBundle.getKeys();
             //
             //            while (keys.hasMoreElements())
             //            {
-            //                String key = keys.nextElement();
-            //                String value = resourceBundle.getString(key);
+            //                final String key = keys.nextElement();
+            //                final String value = resourceBundle.getString(key);
             //
             //                bundles.put(key, value);
             //            }

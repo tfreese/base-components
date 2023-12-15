@@ -14,7 +14,6 @@ import de.freese.base.persistence.jdbc.function.RowMapper;
  */
 public class ResultSetIterable<T> implements Iterable<T> {
     private final ResultSet resultSet;
-
     private final RowMapper<T> rowMapper;
 
     public ResultSetIterable(final ResultSet resultSet, final RowMapper<T> rowMapper) {

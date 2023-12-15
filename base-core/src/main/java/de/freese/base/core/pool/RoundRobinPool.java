@@ -17,7 +17,6 @@ public final class RoundRobinPool<T> implements AutoCloseable {
     private static final AtomicIntegerFieldUpdater<RoundRobinPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(RoundRobinPool.class, "nextIndex");
 
     private final Consumer<T> doOnClose;
-
     private final List<T> queue;
 
     private volatile int nextIndex;
@@ -52,7 +51,7 @@ public final class RoundRobinPool<T> implements AutoCloseable {
     }
 
     public T get() {
-        T object = this.queue.get(NEXT_INDEX.get(this));
+        final T object = this.queue.get(NEXT_INDEX.get(this));
 
         NEXT_INDEX.incrementAndGet(this);
 

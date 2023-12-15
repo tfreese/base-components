@@ -53,9 +53,9 @@ public final class ImageUtils {
         private static final long serialVersionUID = 102999713634663152L;
 
         public static void main(final String[] args) {
-            JLabel label = new JLabel(new ImageIcon(new EmptyIcon().getImage()));
+            final JLabel label = new JLabel(new ImageIcon(new EmptyIcon().getImage()));
 
-            JFrame frame = new JFrame();
+            final JFrame frame = new JFrame();
             frame.add(label);
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             frame.setSize(200, 200);
@@ -64,9 +64,7 @@ public final class ImageUtils {
         }
 
         private final int iconHeight;
-
         private final int iconWidth;
-
         private transient BufferedImage bufferedImage;
 
         /**
@@ -100,7 +98,7 @@ public final class ImageUtils {
         public Image getImage() {
             if (this.bufferedImage == null) {
                 this.bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                Graphics graphics = this.bufferedImage.getGraphics();
+                final Graphics graphics = this.bufferedImage.getGraphics();
                 paintIcon(null, graphics, 0, 0);
                 graphics.dispose();
             }
@@ -129,9 +127,9 @@ public final class ImageUtils {
         private static final long serialVersionUID = -3986977626709987448L;
 
         public static void main(final String[] args) {
-            JLabel label = new JLabel(new ImageIcon(new MissingIcon().getImage()));
+            final JLabel label = new JLabel(new ImageIcon(new MissingIcon().getImage()));
 
-            JFrame frame = new JFrame();
+            final JFrame frame = new JFrame();
             frame.add(label);
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             frame.setSize(200, 200);
@@ -140,9 +138,7 @@ public final class ImageUtils {
         }
 
         private final int iconHeight;
-
         private final int iconWidth;
-
         private transient BufferedImage bufferedImage;
 
         /**
@@ -176,7 +172,7 @@ public final class ImageUtils {
         public Image getImage() {
             if (this.bufferedImage == null) {
                 this.bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                Graphics graphics = this.bufferedImage.getGraphics();
+                final Graphics graphics = this.bufferedImage.getGraphics();
                 paintIcon(null, graphics, 0, 0);
                 graphics.dispose();
             }
@@ -186,7 +182,7 @@ public final class ImageUtils {
 
         @Override
         public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            Graphics2D g2d = (Graphics2D) g.create();
+            final Graphics2D g2d = (Graphics2D) g.create();
 
             g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
 
@@ -214,9 +210,9 @@ public final class ImageUtils {
         private static final long serialVersionUID = 6491045895051309036L;
 
         public static void main(final String[] args) {
-            JLabel label = new JLabel(new ImageIcon(new TriangleIcon(SwingConstants.NORTH).getImage()));
+            final JLabel label = new JLabel(new ImageIcon(new TriangleIcon(SwingConstants.NORTH).getImage()));
 
-            JFrame frame = new JFrame();
+            final JFrame frame = new JFrame();
             frame.add(label);
             frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             frame.setSize(200, 200);
@@ -225,13 +221,9 @@ public final class ImageUtils {
         }
 
         private final int direction;
-
         private final Color foreground;
-
         private final int iconHeight;
-
         private final int iconWidth;
-
         private transient BufferedImage bufferedImage;
 
         /**
@@ -276,7 +268,7 @@ public final class ImageUtils {
         public Image getImage() {
             if (this.bufferedImage == null) {
                 this.bufferedImage = new BufferedImage(getIconWidth() + 1, getIconHeight() + 1, BufferedImage.TYPE_INT_ARGB);
-                Graphics graphics = this.bufferedImage.getGraphics();
+                final Graphics graphics = this.bufferedImage.getGraphics();
                 paintIcon(null, graphics, 0, 0);
                 graphics.dispose();
             }
@@ -286,14 +278,15 @@ public final class ImageUtils {
 
         @Override
         public synchronized void paintIcon(final Component c, final Graphics g, final int x, final int y) {
-            Graphics2D g2d = (Graphics2D) g.create();
+            final Graphics2D g2d = (Graphics2D) g.create();
 
             g2d.addRenderingHints(ImageUtils.getRenderingHintsQuality());
             g2d.setColor(this.foreground);
-            int centerX = getIconWidth() / 2;
-            int centerY = getIconHeight() / 2;
-            int[] xPoints;
-            int[] yPoints;
+
+            final int centerX = getIconWidth() / 2;
+            final int centerY = getIconHeight() / 2;
+            final int[] xPoints;
+            final int[] yPoints;
 
             if (this.direction == SwingConstants.NORTH) {
                 xPoints = new int[]{x, x + centerX, x + (centerX * 2)};
@@ -395,7 +388,7 @@ public final class ImageUtils {
     }
 
     public static RenderingHints getRenderingHintsQuality() {
-        RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        final RenderingHints hints = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         // hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
         hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -411,7 +404,7 @@ public final class ImageUtils {
             return bImage.getColorModel().hasAlpha();
         }
 
-        PixelGrabber pg = new PixelGrabber(image, 0, 0, 1, 1, false);
+        final PixelGrabber pg = new PixelGrabber(image, 0, 0, 1, 1, false);
 
         try {
             pg.grabPixels();
@@ -421,7 +414,7 @@ public final class ImageUtils {
             Thread.currentThread().interrupt();
         }
 
-        ColorModel cm = pg.getColorModel();
+        final ColorModel cm = pg.getColorModel();
 
         return cm.hasAlpha();
     }
@@ -430,14 +423,14 @@ public final class ImageUtils {
      * Vereint zwei Bilder in einem. dabei wird das zweite über das erste Bild gelegt.
      */
     public static BufferedImage merge(final Image image, final Image overlay) {
-        int width = Math.max(image.getWidth(null), overlay.getWidth(null));
-        int height = Math.max(image.getHeight(null), overlay.getHeight(null));
+        final int width = Math.max(image.getWidth(null), overlay.getWidth(null));
+        final int height = Math.max(image.getHeight(null), overlay.getHeight(null));
 
-        BufferedImage merged = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage merged = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-        RenderingHints hints = getRenderingHintsQuality();
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        Graphics2D graphics = merged.createGraphics();
+        final Graphics2D graphics = merged.createGraphics();
         graphics.setRenderingHints(hints);
         graphics.drawImage(image, 0, 0, null);
         graphics.drawImage(overlay, 0, 0, null);
@@ -457,7 +450,7 @@ public final class ImageUtils {
      * Skaliert das Bild auf eine feste Größe.
      */
     public static BufferedImage scaleImage(final Image src, final int width, final int height) {
-        Image scaled = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        final Image scaled = src.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 
         return toBufferedImage(scaled);
     }
@@ -466,18 +459,18 @@ public final class ImageUtils {
      * Skaliert das Bild auf die neuen Seitenverhältnisse.
      */
     public static BufferedImage scaleImageByRatio(final Image src, final double ratioWidth, final double ratioHeight) {
-        BufferedImage bufferedImage = toBufferedImage(src);
+        final BufferedImage bufferedImage = toBufferedImage(src);
 
-        AffineTransform tx = new AffineTransform();
+        final AffineTransform tx = new AffineTransform();
         tx.scale(ratioWidth, ratioHeight);
 
         // tx.shear(shiftX, shiftY);
         // tx.translate(x, y);
         // tx.rotate(radians, origin.getWidth()/2, origin.getHeight()/2);
 
-        RenderingHints hints = getRenderingHintsQuality();
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        AffineTransformOp op = new AffineTransformOp(tx, hints);
+        final AffineTransformOp op = new AffineTransformOp(tx, hints);
 
         return op.filter(bufferedImage, null);
     }
@@ -486,17 +479,17 @@ public final class ImageUtils {
      * Skaliert das Bild unter Beibehaltung des Seitenverhältnisses bis auf die maximale angegebene Höhe oder Breite.
      */
     public static BufferedImage scaleImageKeepRatio(final Image src, final int maxWidth, final int maxHeight) {
-        BufferedImage bufferedImage = toBufferedImage(src);
+        final BufferedImage bufferedImage = toBufferedImage(src);
 
-        double widthRatio = (double) maxWidth / bufferedImage.getWidth();
-        double heightRatio = (double) maxHeight / bufferedImage.getHeight();
+        final double widthRatio = (double) maxWidth / bufferedImage.getWidth();
+        final double heightRatio = (double) maxHeight / bufferedImage.getHeight();
 
-        double ratio = Math.min(widthRatio, heightRatio);
+        final double ratio = Math.min(widthRatio, heightRatio);
 
         return scaleImageByRatio(bufferedImage, ratio, ratio);
 
-        // double newWidth = bufferedImage.getWidth() * ratio;
-        // double newHeight = bufferedImage.getHeight() * ratio;
+        // final double newWidth = bufferedImage.getWidth() * ratio;
+        // final double newHeight = bufferedImage.getHeight() * ratio;
         //
         // return scaleImage(bufferedImage, (int) newWidth, (int) newHeight);
     }
@@ -505,9 +498,9 @@ public final class ImageUtils {
      * Liefert das Schwarzweissbild.
      */
     public static BufferedImage toBlackWhiteImage(final BufferedImage image) {
-        RenderingHints hints = getRenderingHintsQuality();
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        BufferedImageOp op = new BlackWhiteOp(hints, 0);
+        final BufferedImageOp op = new BlackWhiteOp(hints, 0);
 
         return op.filter(image, null);
     }
@@ -516,7 +509,7 @@ public final class ImageUtils {
      * Liefert das Schwarzweissbild.
      */
     public static BufferedImage toBlackWhiteImage(final Image image) {
-        BufferedImage bufferedImage = toBufferedImage(image);
+        final BufferedImage bufferedImage = toBufferedImage(image);
 
         return toBlackWhiteImage(bufferedImage);
     }
@@ -529,9 +522,9 @@ public final class ImageUtils {
             return bi;
         }
 
-        BufferedImage returnImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage returnImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 
-        Graphics graphics = returnImage.getGraphics();
+        final Graphics graphics = returnImage.getGraphics();
         icon.paintIcon(null, graphics, 0, 0);
         graphics.dispose();
 
@@ -546,11 +539,11 @@ public final class ImageUtils {
             return bi;
         }
 
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
-        RenderingHints hints = getRenderingHintsQuality();
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        Graphics2D graphics = bufferedImage.createGraphics();
+        final Graphics2D graphics = bufferedImage.createGraphics();
         graphics.setRenderingHints(hints);
         graphics.drawImage(image, 0, 0, null);
         graphics.dispose();
@@ -562,10 +555,10 @@ public final class ImageUtils {
      * Liefert das Kanten Bild.
      */
     public static BufferedImage toEdgeImage(final Image image) {
-        BufferedImage bufferedImage = toBufferedImage(image);
+        final BufferedImage bufferedImage = toBufferedImage(image);
 
         // Sobel Operator, horizontal & vertikal
-        float[] matrix = {0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F};
+        final float[] matrix = {0.0F, -1.0F, 0.0F, -1.0F, 4.0F, -1.0F, 0.0F, -1.0F, 0.0F};
 
         // // Sobel Operator, horizontal
         // float[] matrix = new float[]
@@ -583,10 +576,10 @@ public final class ImageUtils {
         // -1.0f, -2.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 2.0f, 1.0f
         // };
 
-        Kernel kernel = new Kernel(3, 3, matrix);
-        RenderingHints hints = getRenderingHintsQuality();
+        final Kernel kernel = new Kernel(3, 3, matrix);
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, hints);
+        final ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, hints);
 
         return op.filter(bufferedImage, null);
     }
@@ -595,8 +588,8 @@ public final class ImageUtils {
      * Graut das Icon aus.
      */
     public static ImageIcon toGrayIcon(final Icon icon) {
-        BufferedImage bufferedImage = toBufferedImage(icon);
-        Image result = toGrayImage(bufferedImage);
+        final BufferedImage bufferedImage = toBufferedImage(icon);
+        final Image result = toGrayImage(bufferedImage);
 
         return new ImageIcon(result);
     }
@@ -605,7 +598,7 @@ public final class ImageUtils {
      * Graut das Icon aus.
      */
     public static ImageIcon toGrayIcon(final ImageIcon imageIcon, final int percent) {
-        Image image = toGrayImage(imageIcon.getImage(), percent);
+        final Image image = toGrayImage(imageIcon.getImage(), percent);
 
         return new ImageIcon(image);
     }
@@ -614,10 +607,10 @@ public final class ImageUtils {
      * Erzeugt ein Graustufenbild.
      */
     public static BufferedImage toGrayImage(final BufferedImage bufferedImage) {
-        ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        RenderingHints hints = getRenderingHintsQuality();
+        final ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        ColorConvertOp op = new ColorConvertOp(colorSpace, hints);
+        final ColorConvertOp op = new ColorConvertOp(colorSpace, hints);
 
         return op.filter(bufferedImage, null);
     }
@@ -628,8 +621,8 @@ public final class ImageUtils {
      * @param percent int, 0-100%
      */
     public static Image toGrayImage(final Image image, final int percent) {
-        ImageFilter filter = new GrayFilter(true, percent);
-        ImageProducer prod = new FilteredImageSource(image.getSource(), filter);
+        final ImageFilter filter = new GrayFilter(true, percent);
+        final ImageProducer prod = new FilteredImageSource(image.getSource(), filter);
 
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
@@ -638,10 +631,10 @@ public final class ImageUtils {
      * Liefert das geschärfte Bild.
      */
     public static BufferedImage toSharpenImage(final BufferedImage image) {
-        float[] matrix = {0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F};
+        final float[] matrix = {0.0F, -1.0F, 0.0F, -1.0F, 5.0F, -1.0F, 0.0F, -1.0F, 0.0F};
 
         // Kantenglättung
-        // float[] matrix =
+        // final float[] matrix =
         // new float[]
         // {
         // 1.0f / 9.0f,
@@ -654,10 +647,10 @@ public final class ImageUtils {
         // 1.0f / 9.0f,
         // 1.0f / 9.0f
         // };
-        Kernel kernel = new Kernel(3, 3, matrix);
-        RenderingHints hints = getRenderingHintsQuality();
+        final Kernel kernel = new Kernel(3, 3, matrix);
+        final RenderingHints hints = getRenderingHintsQuality();
 
-        ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, hints);
+        final ConvolveOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, hints);
 
         return op.filter(image, null);
     }
@@ -666,7 +659,7 @@ public final class ImageUtils {
      * Liefert das geschärfte Bild.
      */
     public static BufferedImage toSharpenImage(final Image image) {
-        BufferedImage bufferedImage = toBufferedImage(image);
+        final BufferedImage bufferedImage = toBufferedImage(image);
 
         return toSharpenImage(bufferedImage);
     }
@@ -682,7 +675,7 @@ public final class ImageUtils {
      * Stream is not closed.
      */
     public static void writeImage(final Image image, final ImageFormat format, final OutputStream outputStream) throws IOException {
-        BufferedImage bufferedImage = toBufferedImage(image);
+        final BufferedImage bufferedImage = toBufferedImage(image);
 
         writeImage(bufferedImage, format, outputStream);
     }

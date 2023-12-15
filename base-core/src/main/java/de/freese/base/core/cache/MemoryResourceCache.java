@@ -36,7 +36,7 @@ public class MemoryResourceCache extends AbstractResourceCache {
             try (InputStream inputStream = toInputStream(uri);
                  ByteArrayOutputStream baos = new ByteArrayOutputStream(size)) {
                 inputStream.transferTo(baos);
-                // byte[] buffer = new byte[4096];
+                // final byte[] buffer = new byte[4096];
                 // // long count = 0;
                 // int n = 0;
                 //

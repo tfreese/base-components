@@ -46,12 +46,10 @@ import de.freese.base.resourcemap.provider.ResourceProvider;
  */
 class DefaultResourceMap implements ResourceMap {
     private final String bundleName;
-
     private final List<DefaultResourceMap> children = new ArrayList<>();
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
     private final Map<Locale, Map<String, String>> resources = new HashMap<>();
+
     private Locale locale;
     private DefaultResourceMap parent;
     private ResourceCache resourceCache;
@@ -76,7 +74,7 @@ class DefaultResourceMap implements ResourceMap {
         }
 
         for (ResourceMap child : getChildren()) {
-            ResourceMap rm = child.getChild(bundleName);
+            final ResourceMap rm = child.getChild(bundleName);
 
             if (rm != null) {
                 return rm;
@@ -91,21 +89,19 @@ class DefaultResourceMap implements ResourceMap {
         Objects.requireNonNull(key, "key required");
         Objects.requireNonNull(type, "type required");
 
-        T value;
-
-        value = getResourceCache().getValue(getBundleName(), getLocale(), type, key);
+        T value = getResourceCache().getValue(getBundleName(), getLocale(), type, key);
 
         if (value != null) {
             return value;
         }
 
-        String stringValue = getResource(key);
+        final String stringValue = getResource(key);
 
         if (stringValue == null) {
             return null;
         }
 
-        ResourceConverter<T> converter = getConverter(type);
+        final ResourceConverter<T> converter = getConverter(type);
 
         if (converter != null) {
             try {
@@ -163,7 +159,7 @@ class DefaultResourceMap implements ResourceMap {
             return;
         }
 
-        Map<String, String> resourcesLocale = getResourceProvider().getResources(getBundleName(), locale);
+        final Map<String, String> resourcesLocale = getResourceProvider().getResources(getBundleName(), locale);
 
         this.resources.put(locale, resourcesLocale);
 
@@ -174,7 +170,7 @@ class DefaultResourceMap implements ResourceMap {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ResourceMap [bundleName=");
         builder.append(getBundleName());
         builder.append(", parent=");
@@ -272,21 +268,21 @@ class DefaultResourceMap implements ResourceMap {
      * Value of ${null} is null.
      */
     protected final void substitutePlaceholder(final Map<String, String> resources) {
-        List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
+        final List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
 
         for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); ) {
-            Entry<String, String> entry = iterator.next();
+            final Entry<String, String> entry = iterator.next();
             String expression = entry.getValue();
 
-            List<String> keys = new ArrayList<>();
+            final List<String> keys = new ArrayList<>();
             int startIndex = 0;
             int lastEndIndex = 0;
 
             while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1) {
-                int endIndex = expression.indexOf('}', startIndex);
+                final int endIndex = expression.indexOf('}', startIndex);
 
                 if (endIndex != -1) {
-                    String key = expression.substring(startIndex + 2, endIndex);
+                    final String key = expression.substring(startIndex + 2, endIndex);
                     keys.add(key);
 
                     lastEndIndex = endIndex;
@@ -294,7 +290,7 @@ class DefaultResourceMap implements ResourceMap {
             }
 
             for (String key : keys) {
-                String value = getResource(key);
+                final String value = getResource(key);
 
                 if (value == null) {
                     continue;

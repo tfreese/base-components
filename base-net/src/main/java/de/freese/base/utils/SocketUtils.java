@@ -51,7 +51,7 @@ public final class SocketUtils {
             @Override
             protected boolean isPortAvailable(final int port) {
                 try {
-                    ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(port, 1, InetAddress.getByName("localhost"));
+                    final ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(port, 1, InetAddress.getByName("localhost"));
                     serverSocket.close();
                     return true;
                 }
@@ -65,7 +65,7 @@ public final class SocketUtils {
             @Override
             protected boolean isPortAvailable(final int port) {
                 try {
-                    DatagramSocket socket = new DatagramSocket(port, InetAddress.getByName("localhost"));
+                    final DatagramSocket socket = new DatagramSocket(port, InetAddress.getByName("localhost"));
                     socket.close();
                     return true;
                 }
@@ -91,7 +91,7 @@ public final class SocketUtils {
             isTrue(maxPort >= minPort, "'maxPort' must be greater than or equal to 'minPort'");
             isTrue(maxPort <= PORT_RANGE_MAX, "'maxPort' must be less than or equal to " + PORT_RANGE_MAX);
 
-            int portRange = maxPort - minPort;
+            final int portRange = maxPort - minPort;
             int candidatePort;
             int searchCounter = 0;
 
@@ -127,7 +127,7 @@ public final class SocketUtils {
             isTrue(numRequested > 0, "'numRequested' must be greater than 0");
             isTrue((maxPort - minPort) >= numRequested, "'numRequested' must not be greater than 'maxPort' - 'minPort'");
 
-            SortedSet<Integer> availablePorts = new TreeSet<>();
+            final SortedSet<Integer> availablePorts = new TreeSet<>();
             int attemptCount = 0;
 
             while ((++attemptCount <= numRequested + 100) && availablePorts.size() < numRequested) {
@@ -157,7 +157,7 @@ public final class SocketUtils {
          * @return a random port number within the specified range
          */
         private int findRandomPort(final int minPort, final int maxPort) {
-            int portRange = maxPort - minPort;
+            final int portRange = maxPort - minPort;
 
             return minPort + random.nextInt(portRange + 1);
         }

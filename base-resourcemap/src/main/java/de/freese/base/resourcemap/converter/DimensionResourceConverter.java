@@ -9,9 +9,9 @@ import java.util.List;
 public class DimensionResourceConverter extends AbstractResourceConverter<Dimension> {
     @Override
     public Dimension convert(final String key, final String value) {
-        List<Double> xy = parseDoubles(key, value, 2, "Invalid x,y Dimension string");
+        final List<Double> xy = parseDoubles(key, value, 2, "Invalid x,y Dimension string");
 
-        Dimension dimension = new Dimension();
+        final Dimension dimension = new Dimension();
         dimension.setSize(xy.get(0), xy.get(1));
 
         return dimension;

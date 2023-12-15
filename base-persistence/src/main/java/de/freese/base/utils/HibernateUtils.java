@@ -27,7 +27,7 @@ public final class HibernateUtils {
     public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger) {
         logInfo(logger, String.format("Clear Cache: %s", name));
 
-        Cache cache = sessionFactory.getCache();
+        final Cache cache = sessionFactory.getCache();
 
         try {
             logInfo(logger, "evictDefaultQueryRegion");
@@ -67,7 +67,7 @@ public final class HibernateUtils {
      * @param maybeProxy möglicher {@link HibernateProxy}
      */
     public static <T> T deProxy(final Object maybeProxy) throws ClassCastException {
-        Class<T> baseClass = getClassFromProxy(maybeProxy);
+        final Class<T> baseClass = getClassFromProxy(maybeProxy);
 
         return deProxy(maybeProxy, baseClass);
     }
@@ -80,7 +80,7 @@ public final class HibernateUtils {
      */
     public static <T> T deProxy(final Object maybeProxy, final Class<T> baseClass) throws ClassCastException {
         if (maybeProxy instanceof HibernateProxy hibernateProxy) {
-            LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
+            final LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return baseClass.cast(initializer.getImplementation());
         }
@@ -107,7 +107,7 @@ public final class HibernateUtils {
         pw.println();
 
         try {
-            Statistics stats = sessionFactory.getStatistics();
+            final Statistics stats = sessionFactory.getStatistics();
 
             pw.println("Statistics enabled......: " + stats.isStatisticsEnabled());
             pw.println();
@@ -123,7 +123,7 @@ public final class HibernateUtils {
             pw.println("Session close Count.....: " + stats.getSessionCloseCount());
 
             long txCount = stats.getTransactionCount();
-            long successfulTxCount = stats.getSuccessfulTransactionCount();
+            final long successfulTxCount = stats.getSuccessfulTransactionCount();
 
             // Hibernate Bug: Wenn der TxManager kein JTA TransactionManager ist,
             // werden die Tx doppelt gezählt (txCount = 2 * successfulTxCount).
@@ -175,12 +175,12 @@ public final class HibernateUtils {
 
             try {
                 // Cache-Regionen
-                String[] cacheRegions = stats.getSecondLevelCacheRegionNames();
+                final String[] cacheRegions = stats.getSecondLevelCacheRegionNames();
 
                 Arrays.sort(cacheRegions);
 
                 for (String cacheRegion : cacheRegions) {
-                    CacheRegionStatistics cacheStatistics = stats.getDomainDataRegionStatistics(cacheRegion);
+                    final CacheRegionStatistics cacheStatistics = stats.getDomainDataRegionStatistics(cacheRegion);
 
                     hitCount = cacheStatistics.getHitCount();
                     missCount = cacheStatistics.getMissCount();
@@ -205,23 +205,22 @@ public final class HibernateUtils {
                 // Objektspezifische Statistiken
                 // Map<String, ?> metaData = sessionFactory.getAllClassMetadata();
                 // .collect(Collectors.toCollection(TreeSet::new))
-                Metamodel metamodel = sessionFactory.getMetamodel();
+                final Metamodel metamodel = sessionFactory.getMetamodel();
 
                 // @formatter:off
                 metamodel.getEntities().stream()
                     .map(entityType -> entityType.getJavaType().getName())
                     .sorted()
                     .forEach(className -> {
-                    try
-                    {
-                        EntityStatistics entityStats = stats.getEntityStatistics(className);
+                    try {
+                        final EntityStatistics entityStats = stats.getEntityStatistics(className);
 
-                        long inserts = entityStats.getInsertCount();
-                        long updates = entityStats.getUpdateCount();
-                        long deletes = entityStats.getDeleteCount();
-                        long fetches = entityStats.getFetchCount();
-                        long loads = entityStats.getLoadCount();
-                        long changes = inserts + updates + deletes;
+                        final long inserts = entityStats.getInsertCount();
+                        final long updates = entityStats.getUpdateCount();
+                        final long deletes = entityStats.getDeleteCount();
+                        final long fetches = entityStats.getFetchCount();
+                        final long loads = entityStats.getLoadCount();
+                        final long changes = inserts + updates + deletes;
 
                         pw.println(className + " fetches " + fetches + " times");
                         pw.println(className + " loads   " + loads + " times");
@@ -231,8 +230,7 @@ public final class HibernateUtils {
                         pw.println(className + " changed " + changes + " times");
                         pw.println();
                     }
-                    catch (Exception ex)
-                    {
+                    catch (Exception ex) {
                         logErr(logger, ex);
                         pw.println();
                         ex.printStackTrace(pw);
@@ -266,7 +264,7 @@ public final class HibernateUtils {
      */
     private static Class<?> getClassWithoutInitializingProxy(final Object object) {
         if (object instanceof HibernateProxy hibernateProxy) {
-            LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
+            final LazyInitializer initializer = hibernateProxy.getHibernateLazyInitializer();
 
             return initializer.getPersistentClass();
         }
@@ -310,7 +308,7 @@ public final class HibernateUtils {
             return 0.0D;
         }
 
-        BigDecimal bigDecimal = BigDecimal.valueOf(value).setScale(scale, RoundingMode.HALF_UP);
+        final BigDecimal bigDecimal = BigDecimal.valueOf(value).setScale(scale, RoundingMode.HALF_UP);
 
         return bigDecimal.doubleValue();
     }

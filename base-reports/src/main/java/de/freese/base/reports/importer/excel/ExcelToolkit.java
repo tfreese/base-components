@@ -170,8 +170,8 @@ public final class ExcelToolkit {
             }
         }
 
-        String rowStart = rowBuf.toString();
-        String colStart = colBuf.toString();
+        final String rowStart = rowBuf.toString();
+        final String colStart = colBuf.toString();
         rowBuf = new StringBuilder();
         colBuf = new StringBuilder();
 
@@ -219,8 +219,8 @@ public final class ExcelToolkit {
 
             // Otherwise it's a block
             else {
-                int numCols = endCol - startCol;
-                int numRows = endRow - startRow;
+                final int numCols = endCol - startCol;
+                final int numRows = endRow - startRow;
                 numRangeValues += (numCols * numRows);
             }
         }

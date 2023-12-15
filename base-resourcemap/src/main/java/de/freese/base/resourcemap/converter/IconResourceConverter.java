@@ -15,7 +15,7 @@ public class IconResourceConverter extends AbstractResourceConverter<Icon> {
             throwException(key, "null", "path is null");
         }
 
-        URL url = getUrl(value);
+        final URL url = getUrl(value);
 
         if (url != null) {
             return new ImageIcon(url);

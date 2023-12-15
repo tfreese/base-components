@@ -54,7 +54,7 @@ public final class SshExec {
     private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer, final Consumer<ClientSession> clientSessionConfigurer) throws IOException {
         LOGGER.debug("connecting to {}@{}", user, host);
 
-        SshClient sshClient = SshClient.setUpDefaultClient();
+        final SshClient sshClient = SshClient.setUpDefaultClient();
         sshClient.setServerKeyVerifier(AcceptAllServerKeyVerifier.INSTANCE);
 
         sshClientConfigurer.accept(sshClient);
@@ -63,8 +63,8 @@ public final class SshExec {
         sshClient.start();
 
         // Connect to the server
-        ConnectFuture cf = sshClient.connect(user, host, port);
-        ClientSession clientSession = cf.verify().getSession();
+        final ConnectFuture cf = sshClient.connect(user, host, port);
+        final ClientSession clientSession = cf.verify().getSession();
 
         clientSessionConfigurer.accept(clientSession);
 
@@ -76,9 +76,7 @@ public final class SshExec {
     }
 
     private final ClientSession clientSession;
-
     private final String host;
-
     private final SshClient sshClient;
 
     private SshExec(final SshClient sshClient, final ClientSession clientSession, final String host) {
@@ -120,8 +118,8 @@ public final class SshExec {
             // Execute and wait
             channelExec.open();
 
-            Duration timeout = Duration.ofSeconds(3);
-            Set<ClientChannelEvent> events = channelExec.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), timeout);
+            final Duration timeout = Duration.ofSeconds(3);
+            final Set<ClientChannelEvent> events = channelExec.waitFor(EnumSet.of(ClientChannelEvent.CLOSED), timeout);
 
             // Check if timed out
             if (events.contains(ClientChannelEvent.TIMEOUT)) {
@@ -130,7 +128,7 @@ public final class SshExec {
 
             errorStream.flush();
 
-            String error = errorStream.toString(StandardCharsets.UTF_8);
+            final String error = errorStream.toString(StandardCharsets.UTF_8);
 
             if (!error.isEmpty()) {
                 throw new IOException(error);

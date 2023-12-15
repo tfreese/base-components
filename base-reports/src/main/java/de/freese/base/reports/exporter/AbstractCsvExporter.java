@@ -24,13 +24,14 @@ public abstract class AbstractCsvExporter<T> extends AbstractExporter<T> {
     public abstract void export(PrintWriter pw, T model) throws Exception;
 
     public StringBuffer export(final T model) throws Exception {
-        StringWriter sw = new StringWriter();
-        BufferedWriter bw = new BufferedWriter(sw);
-
-        try (PrintWriter pw = new WindowsPrintWriter(bw, true)) {
+        try (StringWriter sw = new StringWriter();
+             BufferedWriter bw = new BufferedWriter(sw);
+             PrintWriter pw = new WindowsPrintWriter(bw, true)) {
             export(pw, model);
-        }
 
-        return sw.getBuffer();
+            pw.flush();
+
+            return sw.getBuffer();
+        }
     }
 }

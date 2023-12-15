@@ -12,15 +12,10 @@ public class AuditInfo implements Serializable {
     private static final long serialVersionUID = 146275334726328864L;
 
     private Date changed;
-
     private String changedBy;
-
     private Date created;
-
     private String createdBy;
-
     private Date validFrom;
-
     private Date validUntil;
 
     public Date getChanged() {

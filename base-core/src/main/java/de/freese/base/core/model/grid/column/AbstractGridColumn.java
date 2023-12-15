@@ -21,7 +21,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
     //
     //        // This works only, if the Super-Class is not generic too !
     //        // public class IntegerGridColumn extends AbstractGridColumn<Integer>
-    //        ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+    //        final ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
     //
     //        this.type = (Class<T>) parameterizedType.getActualTypeArguments()[0];
     //    }
@@ -63,7 +63,7 @@ public abstract class AbstractGridColumn<T> implements GridColumn<T> {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("GridColumn [");
         builder.append("name=").append(this.name);
         builder.append(", type=").append(this.type.getSimpleName());

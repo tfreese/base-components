@@ -17,7 +17,6 @@ import java.util.Objects;
  */
 public class BlackWhiteOp implements BufferedImageOp {
     private final int colorLimit;
-
     private final RenderingHints hints;
 
     public BlackWhiteOp() {

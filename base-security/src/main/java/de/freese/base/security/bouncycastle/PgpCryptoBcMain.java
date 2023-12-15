@@ -21,10 +21,10 @@ public final class PgpCryptoBcMain {
 
         // pubRingDump("/home/tommy/.gnupg/pubring.gpg");
 
-        PgpCryptoBc codec = new PgpCryptoBc();
+        final PgpCryptoBc codec = new PgpCryptoBc();
 
         System.out.println("Encrypt");
-        PGPPublicKey publicKey = codec.findPublicKey("/home/tommy/.gnupg/pubring.gpg", "96322AD9");
+        final PGPPublicKey publicKey = codec.findPublicKey("/home/tommy/.gnupg/pubring.gpg", "96322AD9");
         // PGPSecretKey secretKey = codec.readSecretKey("/home/tommy/.gnupg/secring.gpg");
         // codec.signEncryptFile("/tmp/conkyrc.gpg", "/home/tommy/.conkyrc", publicKey, secretKey, args[0].toCharArray(), false, true);
         codec.encryptFile("/tmp/conkyrc.gpg", "/home/tommy/.conkyrc", publicKey, false, true);
@@ -34,7 +34,9 @@ public final class PgpCryptoBcMain {
 
         System.out.println("Decrypt");
 
-        try (InputStream in = new FileInputStream("/tmp/conkyrc.gpg"); OutputStream out = new FileOutputStream("/tmp/test.txt"); InputStream keyIn = new FileInputStream("/home/tommy/.gnupg/secring.gpg")) {
+        try (InputStream in = new FileInputStream("/tmp/conkyrc.gpg");
+             OutputStream out = new FileOutputStream("/tmp/test.txt");
+             InputStream keyIn = new FileInputStream("/home/tommy/.gnupg/secring.gpg")) {
             codec.decryptFile(in, out, keyIn, args[0].toCharArray());
         }
     }

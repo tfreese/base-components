@@ -30,7 +30,6 @@ public final class ClassUtils {
      * Suffix for array class names: {@code "[]"}.
      */
     public static final String ARRAY_SUFFIX = "[]";
-
     /**
      * The CGLIB class separator: {@code "$$"}.
      */
@@ -63,12 +62,10 @@ public final class ClassUtils {
      * Map with primitive type name as key and corresponding primitive type as value, for example: "int" -> "int.class".
      */
     private static final Map<String, Class<?>> primitiveTypeNameMap = new HashMap<>(32);
-
     /**
      * Map with primitive type as key and corresponding wrapper type as value, for example: int.class -> Integer.class.
      */
     private static final Map<Class<?>, Class<?>> primitiveTypeToWrapperMap = new IdentityHashMap<>(8);
-
     /**
      * Map with primitive wrapper type as key and corresponding primitive type as value, for example: Integer.class -> int.class.
      */
@@ -91,7 +88,7 @@ public final class ClassUtils {
             registerCommonClasses(entry.getKey());
         }
 
-        Set<Class<?>> primitiveTypes = new HashSet<>(32);
+        final Set<Class<?>> primitiveTypes = new HashSet<>(32);
         primitiveTypes.addAll(primitiveWrapperTypeMap.values());
         Collections.addAll(primitiveTypes, boolean[].class, byte[].class, char[].class, double[].class, float[].class, int[].class, long[].class, short[].class);
         primitiveTypes.add(void.class);
@@ -105,7 +102,7 @@ public final class ClassUtils {
         registerCommonClasses(Throwable.class, Exception.class, RuntimeException.class, Error.class, StackTraceElement.class, StackTraceElement[].class);
         registerCommonClasses(Enum.class, Iterable.class, Iterator.class, Enumeration.class, Collection.class, List.class, Set.class, Map.class, Map.Entry.class, Optional.class);
 
-        Class<?>[] javaLanguageInterfaceArray = {Serializable.class, Externalizable.class, Closeable.class, AutoCloseable.class, Cloneable.class, Comparable.class};
+        final Class<?>[] javaLanguageInterfaceArray = {Serializable.class, Externalizable.class, Closeable.class, AutoCloseable.class, Cloneable.class, Comparable.class};
 
         registerCommonClasses(javaLanguageInterfaceArray);
         javaLanguageInterfaces = new HashSet<>(Arrays.asList(javaLanguageInterfaceArray));
@@ -138,24 +135,24 @@ public final class ClassUtils {
 
         // "java.lang.String[]" style arrays
         if (name.endsWith(ARRAY_SUFFIX)) {
-            String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
-            Class<?> elementClass = forName(elementClassName, classLoader);
+            final String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
+            final Class<?> elementClass = forName(elementClassName, classLoader);
 
             return Array.newInstance(elementClass, 0).getClass();
         }
 
         // "[Ljava.lang.String;" style arrays
         if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
-            String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
-            Class<?> elementClass = forName(elementName, classLoader);
+            final String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
+            final Class<?> elementClass = forName(elementName, classLoader);
 
             return Array.newInstance(elementClass, 0).getClass();
         }
 
         // "[[I" or "[[Ljava.lang.String;" style arrays
         if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
-            String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
-            Class<?> elementClass = forName(elementName, classLoader);
+            final String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
+            final Class<?> elementClass = forName(elementName, classLoader);
 
             return Array.newInstance(elementClass, 0).getClass();
         }
@@ -170,10 +167,10 @@ public final class ClassUtils {
             return Class.forName(name, false, clToUse);
         }
         catch (ClassNotFoundException ex) {
-            int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
+            final int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
 
             if (lastDotIndex != -1) {
-                String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
+                final String innerClassName = name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
 
                 try {
                     return Class.forName(innerClassName, false, clToUse);
@@ -253,7 +250,7 @@ public final class ClassUtils {
     public static String getShortName(final String className) {
         Objects.requireNonNull(className, "className required");
 
-        int lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
+        final int lastDotIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
         int nameEndIndex = className.indexOf(CGLIB_CLASS_SEPARATOR);
 
         if (nameEndIndex == -1) {
@@ -284,12 +281,12 @@ public final class ClassUtils {
         }
 
         if (lhsType.isPrimitive()) {
-            Class<?> resolvedPrimitive = primitiveWrapperTypeMap.get(rhsType);
+            final Class<?> resolvedPrimitive = primitiveWrapperTypeMap.get(rhsType);
 
             return (lhsType == resolvedPrimitive);
         }
 
-        Class<?> resolvedWrapper = primitiveTypeToWrapperMap.get(rhsType);
+        final Class<?> resolvedWrapper = primitiveTypeToWrapperMap.get(rhsType);
 
         return ((resolvedWrapper != null) && lhsType.isAssignableFrom(resolvedWrapper));
     }

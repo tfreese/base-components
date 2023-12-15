@@ -17,7 +17,6 @@ import javax.swing.ProgressMonitorInputStream;
  */
 public class MonitoringInputStream extends FilterInputStream {
     private final LongConsumer bytesReadConsumer;
-
     private final boolean closeDelegate;
 
     private long bytesRead;
@@ -45,7 +44,7 @@ public class MonitoringInputStream extends FilterInputStream {
 
     @Override
     public int read() throws IOException {
-        int read = super.read();
+        final int read = super.read();
 
         this.bytesRead++;
 
@@ -56,7 +55,7 @@ public class MonitoringInputStream extends FilterInputStream {
 
     @Override
     public int read(final byte[] b, final int off, final int len) throws IOException {
-        int readCount = super.read(b, off, len);
+        final int readCount = super.read(b, off, len);
 
         if (readCount > 0) {
             this.bytesRead += readCount;
@@ -78,7 +77,7 @@ public class MonitoringInputStream extends FilterInputStream {
 
     @Override
     public long skip(final long n) throws IOException {
-        long readCount = super.skip(n);
+        final long readCount = super.skip(n);
 
         if (readCount > 0) {
             this.bytesRead += readCount;

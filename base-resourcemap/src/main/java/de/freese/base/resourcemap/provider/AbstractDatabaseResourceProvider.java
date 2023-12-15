@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 public abstract class AbstractDatabaseResourceProvider implements ResourceProvider {
     @Override
     public Map<String, String> getResources(final String bundleName, final Locale locale) {
-        Map<String, String> map = new HashMap<>();
+        final Map<String, String> map = new HashMap<>();
 
         try (Connection connection = getDataSource().getConnection();
              PreparedStatement preparedStatement = createPreparedStatement(connection)) {

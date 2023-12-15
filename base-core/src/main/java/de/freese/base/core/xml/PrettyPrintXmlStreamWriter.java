@@ -28,13 +28,10 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     private final XMLStreamWriter delegate;
-
     private final Map<Integer, Boolean> nodeStates = new HashMap<>();
 
     private int depth;
-
     private int indentAmount = 4;
-
     private String lineSeparator;
 
     public PrettyPrintXmlStreamWriter(final OutputStream outputStream) throws XMLStreamException, FactoryConfigurationError {

@@ -38,10 +38,10 @@ public final class ExecutorUtils {
      * @param threadNamePattern String; Beispiel: thread-%02d<br>
      */
     public static ExecutorService createThreadPool(final String threadNamePattern) {
-        int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
-        int maxSize = coreSize * 2;
-        int queueSize = maxSize * 10;
-        int keepAliveSeconds = 60;
+        final int coreSize = Math.max(2, Runtime.getRuntime().availableProcessors());
+        final int maxSize = coreSize * 2;
+        final int queueSize = maxSize * 10;
+        final int keepAliveSeconds = 60;
 
         return createThreadPool(threadNamePattern, coreSize, maxSize, queueSize, keepAliveSeconds);
     }
@@ -71,7 +71,7 @@ public final class ExecutorUtils {
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      */
     public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut, final boolean exposeUnconfigurableExecutor) {
-        BlockingQueue<Runnable> queue;
+        final BlockingQueue<Runnable> queue;
 
         if (queueSize > 0) {
             queue = new LinkedBlockingQueue<>(queueSize);
@@ -80,9 +80,9 @@ public final class ExecutorUtils {
             queue = new SynchronousQueue<>();
         }
 
-        ThreadFactory threadFactory = new NamedThreadFactory(threadNamePattern, true);
+        final ThreadFactory threadFactory = new NamedThreadFactory(threadNamePattern, true);
 
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
+        final ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(coreSize, maxSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
         threadPoolExecutor.allowCoreThreadTimeOut(allowCoreThreadTimeOut);
 

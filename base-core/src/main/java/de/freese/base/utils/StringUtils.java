@@ -25,11 +25,8 @@ public final class StringUtils {
      * non-breaking space
      */
     public static final char ASCII_NON_BREAKING_SPACE = 160;
-
     public static final char ASCII_SPACE = 32;
-
     public static final String EMPTY = "";
-
     public static final String SPACE = " ";
 
     /**
@@ -56,15 +53,15 @@ public final class StringUtils {
             return;
         }
 
-        String sep = (separator == null) || separator.isBlank() ? "|" : separator;
+        final String sep = (separator == null) || separator.isBlank() ? "|" : separator;
 
-        int columnCount = rows.get(0).length;
+        final int columnCount = rows.get(0).length;
 
         // Trenner zwischen Header und Daten.
-        // T[] row = (T[]) Array.newInstance(String.class, getColumnCount);
-        // T[] row = Arrays.copyOf(rows.get(0), getColumnCount);
-        // T[] row = rows.get(0).clone();
-        String[] row = new String[columnCount];
+        // final T[] row = (T[]) Array.newInstance(String.class, getColumnCount);
+        // final T[] row = Arrays.copyOf(rows.get(0), getColumnCount);
+        // final T[] row = rows.get(0).clone();
+        final String[] row = new String[columnCount];
 
         for (int column = 0; column < columnCount; column++) {
             row[column] = sep.repeat(rows.get(0)[column].length());
@@ -93,7 +90,7 @@ public final class StringUtils {
             return;
         }
 
-        int columnCount = list.get(0).length;
+        final int columnCount = list.get(0).length;
 
         list.stream().parallel().forEach(r -> {
             for (int column = 0; column < columnCount; column++) {
@@ -120,9 +117,9 @@ public final class StringUtils {
             return new int[0];
         }
 
-        int columnCount = list.get(0).length;
+        final int columnCount = list.get(0).length;
 
-        int[] columnWidths = new int[columnCount];
+        final int[] columnWidths = new int[columnCount];
         Arrays.fill(columnWidths, 0);
 
         // @formatter:off
@@ -149,7 +146,7 @@ public final class StringUtils {
             return new int[0];
         }
 
-        List<String[]> list = new ArrayList<>(1);
+        final List<String[]> list = new ArrayList<>(1);
         list.add(array);
 
         return getWidths(list);
@@ -160,7 +157,7 @@ public final class StringUtils {
             return EMPTY;
         }
 
-        byte[] bytes = HexFormat.of().parseHex(cs);
+        final byte[] bytes = HexFormat.of().parseHex(cs);
         String sign = null;
 
         try (ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(bytes);
@@ -186,7 +183,7 @@ public final class StringUtils {
     public static boolean isBlank(final CharSequence cs) {
         // return org.apache.commons.lang3.StringUtils.isBlank(cs);
 
-        int strLen;
+        final int strLen;
 
         if ((cs == null) || ((strLen = cs.length()) == 0)) {
             return true;
@@ -358,7 +355,7 @@ public final class StringUtils {
      * Removes all ASCII Chars < 32 (SPACE) und > 126 (~) and except german special chars.
      */
     public static String removeNonAsciiGerman(final String input) {
-        Set<Character> keepChars = Set.of(
+        final Set<Character> keepChars = Set.of(
                 // 228
                 'ä',
                 // 196
@@ -387,14 +384,14 @@ public final class StringUtils {
             return input;
         }
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (char c : input.toCharArray()) {
             if (keep.test(c)) {
                 sb.append(c);
             }
             else {
-                String replacement = replacementFunction.apply(c);
+                final String replacement = replacementFunction.apply(c);
 
                 if (replacement != null) {
                     sb.append(replacement);
@@ -404,7 +401,7 @@ public final class StringUtils {
 
         return sb.toString();
 
-        //        char[] chars = input.toCharArray();
+        //        final char[] chars = input.toCharArray();
         //        int pos = 0;
         //
         //        for (char c : chars) {
@@ -445,12 +442,12 @@ public final class StringUtils {
             return EMPTY;
         }
 
-        String mText = text.strip();
+        final String mText = text.strip();
 
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < (mText.length() - 1); i++) {
-            char c = mText.charAt(i);
+            final char c = mText.charAt(i);
             sb.append(c);
 
             if ((Character.isLowerCase(c) && Character.isUpperCase(mText.charAt(i + 1)))) {
@@ -623,7 +620,7 @@ public final class StringUtils {
     }
 
     public static String unicodeToHexString(final CharSequence cs) {
-        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+        final ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 
         try (DataOutputStream dataoutputstream = new DataOutputStream(bytearrayoutputstream)) {
             dataoutputstream.writeUTF(cs.toString());
