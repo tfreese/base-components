@@ -23,8 +23,8 @@ public abstract class AbstractIoTest {
      * Paths.get(System.getProperty("java.io.tmpdir"), "java")
      */
     protected static final Path PATH_TEST = Paths.get(System.getProperty("java.io.tmpdir"), "java");
-    protected static final long SIZE_100kb = 100 * 1024;
-    protected static final long SIZE_10kb = 10 * 1024;
+    protected static final long SIZE_100_KB = 100 * 1024;
+    protected static final long SIZE_10_KB = 10 * 1024;
 
     /**
      * Löscht das Verzeichnis rekursiv inklusive Dateien und Unterverzeichnisse.

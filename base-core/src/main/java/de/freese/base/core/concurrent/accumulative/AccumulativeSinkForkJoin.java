@@ -15,10 +15,10 @@ import reactor.core.scheduler.Schedulers;
  * @author Thomas Freese
  */
 public class AccumulativeSinkForkJoin extends AbstractAccumulativeSink {
-    private static final Scheduler FORK_JOIN__SCHEDULER = Schedulers.fromExecutor(ForkJoinPool.commonPool());
+    private static final Scheduler FORK_JOIN_SCHEDULER = Schedulers.fromExecutor(ForkJoinPool.commonPool());
 
     @Override
     protected Scheduler getScheduler() {
-        return FORK_JOIN__SCHEDULER;
+        return FORK_JOIN_SCHEDULER;
     }
 }

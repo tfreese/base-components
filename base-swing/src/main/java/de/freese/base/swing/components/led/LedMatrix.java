@@ -16,7 +16,7 @@ import de.freese.base.swing.components.led.token.Token;
  * @author Thomas Freese
  */
 public class LedMatrix implements Painter<LedConfig> {
-    private static final Map<Object, byte[]> bitMaskMap = new HashMap<>();
+    private static final Map<Object, byte[]> BIT_MASK_MAP = new HashMap<>();
 
     static {
         addBitMask(" ", new byte[]{0, 0, 0, 0, 0});
@@ -122,11 +122,11 @@ public class LedMatrix implements Painter<LedConfig> {
     }
 
     public static void addBitMask(final Object object, final byte[] bitMask) {
-        bitMaskMap.put(object, bitMask);
+        BIT_MASK_MAP.put(object, bitMask);
     }
 
     public static byte[] getBitMask(final Object object) {
-        return bitMaskMap.get(object);
+        return BIT_MASK_MAP.get(object);
     }
 
     /**

@@ -44,7 +44,7 @@ public final class SocketUtils {
      */
     public static final int PORT_RANGE_MIN = 1024;
 
-    private static final Random random = new Random(System.nanoTime());
+    private static final Random RANDOM = new Random(System.nanoTime());
 
     private enum SocketType {
         TCP {
@@ -97,7 +97,8 @@ public final class SocketUtils {
 
             do {
                 if (searchCounter > portRange) {
-                    throw new IllegalStateException(String.format("Could not find an available %s port in the range [%d, %d] after %d attempts", name(), minPort, maxPort, searchCounter));
+                    throw new IllegalStateException(
+                            String.format("Could not find an available %s port in the range [%d, %d] after %d attempts", name(), minPort, maxPort, searchCounter));
                 }
 
                 candidatePort = findRandomPort(minPort, maxPort);
@@ -159,7 +160,7 @@ public final class SocketUtils {
         private int findRandomPort(final int minPort, final int maxPort) {
             final int portRange = maxPort - minPort;
 
-            return minPort + random.nextInt(portRange + 1);
+            return minPort + RANDOM.nextInt(portRange + 1);
         }
     }
 
