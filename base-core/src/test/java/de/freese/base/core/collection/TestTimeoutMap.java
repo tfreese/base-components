@@ -1,6 +1,7 @@
 // Created: 04.06.2018
 package de.freese.base.core.collection;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -20,7 +21,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.parallel.Execution;
@@ -36,7 +36,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class TestTimeoutMap {
 
     private static final Duration DURATION_DEFAULT = Duration.ofMillis(200);
-    private static final Duration DURATION_SLEEP = DURATION_DEFAULT.plusMillis(100);
+    private static final Duration DURATION_SLEEP = DURATION_DEFAULT.plusMillis(50);
 
     static Stream<Arguments> createArguments() throws Exception {
         // @formatter:off
@@ -72,7 +72,8 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(2), map.values());
 
-        TimeUnit.MILLISECONDS.sleep(DURATION_SLEEP.toMillis());
+        //        await().pollDelay(DURATION_SLEEP).until(() -> true);
+        await().atMost(DURATION_SLEEP).until(map::isEmpty);
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
@@ -100,7 +101,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(List.of(1, 1)), map.values());
 
-        TimeUnit.MILLISECONDS.sleep(DURATION_SLEEP.toMillis());
+        await().atMost(DURATION_SLEEP).until(map::isEmpty);
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
@@ -121,7 +122,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(1), map.values());
 
-        TimeUnit.MILLISECONDS.sleep(DURATION_SLEEP.toMillis());
+        await().atMost(DURATION_SLEEP).until(map::isEmpty);
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));

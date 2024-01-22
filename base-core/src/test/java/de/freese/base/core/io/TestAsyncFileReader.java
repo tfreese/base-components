@@ -1,12 +1,13 @@
 package de.freese.base.core.io;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -64,7 +65,7 @@ class TestAsyncFileReader {
         future2.thenAccept(cs -> printer.accept(startTime2, cs));
 
         // Dient nur dazu, damit das Programm nicht vorzeitig beendet wird
-        TimeUnit.MILLISECONDS.sleep(100);
+        await().pollDelay(Duration.ofMillis(100)).until(() -> true);
 
         assertTrue(true);
     }

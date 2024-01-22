@@ -1,11 +1,12 @@
 // Created: 14.06.2019
 package de.freese.base.persistence.jdbc;
 
+import static org.awaitility.Awaitility.await;
+
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -77,7 +78,8 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
             final HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
 
-            LOGGER.debug("{} - Connections: idle={}, active={}, waiting={}", this.databaseType, poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(), poolMXBean.getThreadsAwaitingConnection());
+            LOGGER.debug("{} - Connections: idle={}, active={}, waiting={}", this.databaseType, poolMXBean.getIdleConnections(), poolMXBean.getActiveConnections(),
+                    poolMXBean.getThreadsAwaitingConnection());
         }
 
         LOGGER.debug("{} - close datasource", this.databaseType);
@@ -105,7 +107,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
         this.dataSource.close();
 
-        TimeUnit.MILLISECONDS.sleep(100);
+        await().pollDelay(Duration.ofMillis(100)).until(() -> true);
 
         if (!this.dataSource.isClosed()) {
             this.dataSource.close();

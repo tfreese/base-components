@@ -1,12 +1,12 @@
 // Created: 30.08.23
 package de.freese.base.core.pool;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.MethodOrderer;
@@ -106,7 +106,7 @@ class TestPools {
             assertEquals(1, value);
             pool.free(value);
 
-            TimeUnit.MILLISECONDS.sleep(50);
+            await().pollDelay(Duration.ofMillis(50)).until(() -> true);
 
             value = pool.get();
             assertEquals(2, value);

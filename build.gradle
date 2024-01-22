@@ -54,6 +54,7 @@ subprojects {
     afterEvaluate { project ->
         if (project.plugins.hasPlugin("java") || project.plugins.hasPlugin("java-library") || project.plugins.hasPlugin("application")) {
             dependencies {
+                testImplementation("org.awaitility:awaitility")
                 testImplementation("org.junit.jupiter:junit-jupiter")
                 testRuntimeOnly("org.junit.platform:junit-platform-launcher")
             }
@@ -65,7 +66,7 @@ project("base-calendar") {
     apply plugin: "java"
     description = "Common Classes for Calendar."
     dependencies {
-        
+
     }
 }
 

@@ -1,11 +1,13 @@
 package de.freese.base.swing.components.tree;
 
+import static org.awaitility.Awaitility.await;
+
 import java.awt.BorderLayout;
 import java.io.Serial;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 import javax.swing.JButton;
@@ -63,13 +65,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
                 children.add(new LazyLoadingTreeNode("Node " + (i + 1)));
             }
 
-            try {
-                TimeUnit.MILLISECONDS.sleep(250);
-            }
-            catch (InterruptedException ex) {
-                // Restore interrupted state.
-                Thread.currentThread().interrupt();
-            }
+            await().pollDelay(Duration.ofMillis(250)).until(() -> true);
 
             return children;
         };
@@ -108,13 +104,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
 
                         treePath = treePath.pathByAddingChild(parent);
 
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(350);
-                        }
-                        catch (InterruptedException ex) {
-                            // Restore interrupted state.
-                            Thread.currentThread().interrupt();
-                        }
+                        await().pollDelay(Duration.ofMillis(350)).until(() -> true);
 
                         LOGGER.debug("publish");
                         publish(treePath);

@@ -1,16 +1,17 @@
 // Created: 03.04.2021
 package de.freese.base.core.concurrent;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -54,13 +55,15 @@ class TestBoundedExecutor {
     }
 
     private static void sleep() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(300);
-        }
-        catch (InterruptedException ex) {
-            // Restore interrupted state.
-            Thread.currentThread().interrupt();
-        }
+        //        try {
+        //            TimeUnit.MILLISECONDS.sleep(300);
+        //        }
+        //        catch (InterruptedException ex) {
+        //            // Restore interrupted state.
+        //            Thread.currentThread().interrupt();
+        //        }
+
+        await().pollDelay(Duration.ofMillis(300)).until(() -> true);
     }
 
     @ParameterizedTest(name = "{0}")

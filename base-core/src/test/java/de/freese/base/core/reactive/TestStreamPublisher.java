@@ -1,8 +1,10 @@
 // Created: 16.01.2018
 package de.freese.base.core.reactive;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,7 +14,6 @@ import java.util.concurrent.Flow.Publisher;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.util.concurrent.SubmissionPublisher;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -124,7 +125,7 @@ class TestStreamPublisher {
 
     @AfterAll
     static void afterAll() throws Exception {
-        TimeUnit.MILLISECONDS.sleep(500);
+        await().pollDelay(Duration.ofMillis(500)).until(() -> true);
 
         if (EXECUTOR instanceof ExecutorService) {
             ((ExecutorService) EXECUTOR).shutdown();

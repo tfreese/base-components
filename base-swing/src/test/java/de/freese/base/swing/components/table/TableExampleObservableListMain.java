@@ -1,10 +1,12 @@
 package de.freese.base.swing.components.table;
 
+import static org.awaitility.Awaitility.await;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serial;
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -62,7 +64,7 @@ public final class TableExampleObservableListMain {
                 for (int i = 1; i < 6; i++) {
                     publish(new int[]{i, 2, 3, 4, 5});
 
-                    TimeUnit.MILLISECONDS.sleep(2000);
+                    await().pollDelay(Duration.ofMillis(2000)).until(() -> true);
                 }
 
                 return null;
