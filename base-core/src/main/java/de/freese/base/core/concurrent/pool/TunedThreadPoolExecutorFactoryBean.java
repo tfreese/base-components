@@ -38,7 +38,8 @@ public class TunedThreadPoolExecutorFactoryBean extends ThreadPoolExecutorFactor
     private static final long serialVersionUID = 4992566896817015389L;
 
     @Override
-    protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue, final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler) {
+    protected ThreadPoolExecutor createExecutor(final int corePoolSize, final int maxPoolSize, final int keepAliveSeconds, final BlockingQueue<Runnable> queue,
+                                                final ThreadFactory threadFactory, final RejectedExecutionHandler rejectedExecutionHandler) {
         final ThreadPoolExecutor tpe = new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
         if (queue instanceof TunedLinkedBlockingQueue<?> q) {

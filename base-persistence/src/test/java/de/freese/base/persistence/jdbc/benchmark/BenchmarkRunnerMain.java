@@ -43,7 +43,7 @@ public final class BenchmarkRunnerMain {
         // @formatter:on
 
         new Runner(options).run();
-        //Collection<RunResult> results = new Runner(options).run();
+        // Collection<RunResult> results = new Runner(options).run();
     }
 
     private BenchmarkRunnerMain() {

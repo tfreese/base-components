@@ -92,7 +92,8 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     }
 
     @Override
-    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected, final boolean isExpanded, final boolean isLeaf, final int row, final boolean hasFocus) {
+    public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean isSelected, final boolean isExpanded, final boolean isLeaf, final int row,
+                                                  final boolean hasFocus) {
         generalSetup(tree, isSelected, hasFocus, row);
         setText(tree.convertValueToText(value, isSelected, isExpanded, isLeaf, row, hasFocus));
 

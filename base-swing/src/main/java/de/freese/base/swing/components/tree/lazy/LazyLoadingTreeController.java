@@ -95,7 +95,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
         // Loading Node setzen.
         final MutableTreeNode loadingNode = createLoadingNode();
         node.add(loadingNode);
-        //treeModel.insertNodeInto(loadingNode, node, 0);
+        // treeModel.insertNodeInto(loadingNode, node, 0);
         treeModel.nodeStructureChanged(node);
 
         final SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>() {

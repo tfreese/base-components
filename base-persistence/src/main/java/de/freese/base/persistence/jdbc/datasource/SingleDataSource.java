@@ -68,7 +68,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
             }
 
             if (this.connection.isClosed()) {
-                throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks " + "shouldClose() before closing Connections, or set 'suppressClose' to 'true'");
+                throw new SQLException(
+                        "Connection was closed in SingleConnectionDataSource. Check that user code checks " + "shouldClose() before closing Connections, or set 'suppressClose' to 'true'");
             }
         }
         finally {
@@ -212,7 +213,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     private Connection getCloseSuppressingConnectionProxy(final Connection connection) {
-        return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{Connection.class}, new ConnectionNotClosingInvocationHandler(connection));
+        return (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[]{Connection.class},
+                new ConnectionNotClosingInvocationHandler(connection));
     }
 
     private Connection getConnectionFromDriver(final Properties props) throws SQLException {

@@ -317,7 +317,8 @@ public class JdbcClient {
     /**
      * @param pss {@link PreparedStatementSetter}; optional
      */
-    <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback, final boolean closeResources) {
+    <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback,
+                  final boolean closeResources) {
         final StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, sql, statementConfigurer);
         final StatementCallback<PreparedStatement, T> statementCallback = stmt -> {
             ResultSet resultSet = null;
@@ -344,7 +345,8 @@ public class JdbcClient {
         return execute(statementCreator, statementCallback, closeResources);
     }
 
-    <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize, final StatementCreator<PreparedStatement> statementCreator, final Logger logger) {
+    <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize,
+                         final StatementCreator<PreparedStatement> statementCreator, final Logger logger) {
         final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
             final boolean supportsBatch = isBatchSupported(stmt.getConnection());
 

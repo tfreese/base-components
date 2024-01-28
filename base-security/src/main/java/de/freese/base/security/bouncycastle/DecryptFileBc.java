@@ -105,7 +105,8 @@ public class DecryptFileBc {
     /**
      * Entschlüsselt die Datei mit einem {@link X509Certificate}.
      */
-    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception {
+    public void decryptX509File(final String encryptedFile, final String decryptedFile, final String keystoreFile, final char[] keyStorePassword, final String alias,
+                                final char[] aliasPassword) throws Exception {
         final PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
         decryptX509File(encryptedFile, decryptedFile, privateKey);
@@ -138,7 +139,8 @@ public class DecryptFileBc {
     /**
      * Entschlüsselt alle Dateien innerhalb des Verzeichnisses mit dem {@link PrivateKey} eines {@link X509Certificate} OHNE Unterverzeichnisse.
      */
-    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception {
+    public void decryptX509Folder(final String inputFolder, final String outputFolder, final String keystoreFile, final char[] keyStorePassword, final String alias,
+                                  final char[] aliasPassword) throws Exception {
         final PrivateKey privateKey = getPrivateKey(keystoreFile, keyStorePassword, alias, aliasPassword);
 
         decryptX509Folder(inputFolder, outputFolder, privateKey);

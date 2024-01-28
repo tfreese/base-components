@@ -14,7 +14,7 @@ public final class ColumnControlIconMain {
     public static void main(final String[] args) {
         final JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
+
         final JLabel label = new JLabel(new ColumnControlIcon());
         frame.getContentPane().add(BorderLayout.CENTER, label);
         frame.setSize(300, 300);

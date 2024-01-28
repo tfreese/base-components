@@ -82,7 +82,8 @@ public final class SslContextFactory {
      * HttpsURLConnection.setDefaultSSLSocketFactory(SSLContext.getDefault().getSocketFactory());<br>
      * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())<br>
      */
-    public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile, final char[] trustStorePassword, final char[] certPassword) throws Exception {
+    public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile, final char[] trustStorePassword,
+                                              final char[] certPassword) throws Exception {
         // KeyStore.getInstance("JKS", "SUN")
         final KeyStore keyStore = KeyStore.getInstance("JKS");
 

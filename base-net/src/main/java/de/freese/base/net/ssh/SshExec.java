@@ -51,7 +51,8 @@ public final class SshExec {
         });
     }
 
-    private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer, final Consumer<ClientSession> clientSessionConfigurer) throws IOException {
+    private static SshExec connect(final String user, final String host, final int port, final Consumer<SshClient> sshClientConfigurer,
+                                   final Consumer<ClientSession> clientSessionConfigurer) throws IOException {
         LOGGER.debug("connecting to {}@{}", user, host);
 
         final SshClient sshClient = SshClient.setUpDefaultClient();

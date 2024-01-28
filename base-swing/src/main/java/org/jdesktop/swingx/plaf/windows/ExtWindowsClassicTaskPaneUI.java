@@ -135,7 +135,8 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
                     final JButton button = getButtonFor(e.getX(), e.getY());
 
                     if (button != null) {
-                        final MouseEvent evt = new MouseEvent(button, MouseEvent.MOUSE_ENTERED, e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(), e.isPopupTrigger());
+                        final MouseEvent evt = new MouseEvent(button, MouseEvent.MOUSE_ENTERED, e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(),
+                                e.isPopupTrigger());
                         button.dispatchEvent(evt);
                     }
                 }

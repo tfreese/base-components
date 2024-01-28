@@ -32,7 +32,7 @@ public final class StackTraceLimiter {
 
     private static void printStackTrace(final Throwable th, final int elements, final Consumer<Object> consumer) {
         consumer.accept(th);
-        
+
         final StackTraceElement[] limitedTrace = getLimitedStackTrace(th, elements);
 
         for (StackTraceElement stackTraceElement : limitedTrace) {

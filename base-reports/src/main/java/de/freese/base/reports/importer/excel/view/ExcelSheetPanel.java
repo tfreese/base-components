@@ -29,7 +29,7 @@ public class ExcelSheetPanel extends JPanel {
         super();
 
         this.excelSheet = Objects.requireNonNull(excelSheet, "excelSheet required");
-        
+
         initialize();
     }
 

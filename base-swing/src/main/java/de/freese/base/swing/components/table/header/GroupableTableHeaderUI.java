@@ -125,11 +125,11 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         for (int column = 0; column < columnModel.getColumnCount(); column++) {
             final TableColumn aColumn = columnModel.getColumn(column);
 
-            //final  TableCellRenderer renderer = aColumn.getHeaderRenderer();
+            // final  TableCellRenderer renderer = aColumn.getHeaderRenderer();
             // int cHeight = 0;
             // if (renderer != null)
             // {
-            //final  Component comp =
+            // final  Component comp =
             // renderer.getTableCellRendererComponent(
             // header.getTable(), aColumn.getHeaderValue(), false, false, -1,
             // column

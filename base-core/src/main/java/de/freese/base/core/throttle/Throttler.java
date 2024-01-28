@@ -28,8 +28,8 @@ public interface Throttler {
         final long waitNanos = reservePermits(permits);
 
         if (waitNanos > 0L) {
-            //TimeUnit.NANOSECONDS.sleep(waitNanos);
-            //LockSupport.parkNanos(waitNanos);
+            // TimeUnit.NANOSECONDS.sleep(waitNanos);
+            // LockSupport.parkNanos(waitNanos);
 
             // Inspired by com.google.common.util.concurrent.Uninterruptibles.
             boolean interrupted = false;

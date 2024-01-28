@@ -55,7 +55,7 @@ public class CaffeineResourceCache extends FileResourceCache {
         final CacheLoader<URI, byte[]> cacheLoader = key -> {
             byte[] content = {};
 
-            //final int size = (int) getContentLength(key);
+            // final int size = (int) getContentLength(key);
             final int size = 1024;
 
             try (InputStream inputStream = super.getResource(key);

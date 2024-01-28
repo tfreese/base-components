@@ -7,7 +7,6 @@
     <!--property name="pattern" value="%date{HH:mm:ss.SSS} - %clr(%.-1level){yellow}[%-12thread] - %logger{0} - %message%n" /-->
     <property name="pattern" value="%date{HH:mm:ss.SSS} - %5level - [%20.-20thread] - %replace(%-40.-40logger{0}){' ', '.'}[%method] - %message%n" />
 
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <target>System.out</target>
         <immediateFlush>true</immediateFlush>

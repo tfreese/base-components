@@ -52,7 +52,8 @@ class LoggingJdbcInvocationHandler implements InvocationHandler {
             }
 
             if (method.getReturnType().isInterface()) {
-                return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{method.getReturnType()}, new LoggingJdbcInvocationHandler(result, this.logMethods));
+                return Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{method.getReturnType()},
+                        new LoggingJdbcInvocationHandler(result, this.logMethods));
             }
 
             return result;

@@ -28,7 +28,8 @@ public class InternerFeiertag extends Feiertag {
             return false;
         }
 
-        return (getJahr() == statischerFeiertag.getJahr()) && (getMonat() == statischerFeiertag.getMonat()) && (getTag() == statischerFeiertag.getTag()) && getTyp().equals(statischerFeiertag.getTyp());
+        return (getJahr() == statischerFeiertag.getJahr()) && (getMonat() == statischerFeiertag.getMonat()) && (getTag() == statischerFeiertag.getTag()) && getTyp().equals(
+                statischerFeiertag.getTyp());
     }
 
     @Override

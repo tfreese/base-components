@@ -180,7 +180,8 @@ class TestMockJdbcClient {
 
         final List<Object> result = new ArrayList<>();
 
-        final List<Flow.Subscriber<Object>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add), new ResultSetSubscriberForFetchSize<>(result::add, 2));
+        final List<Flow.Subscriber<Object>> subscribers = List.of(new ResultSetSubscriberForAll<>(result::add), new ResultSetSubscriberForEachObject<>(result::add),
+                new ResultSetSubscriberForFetchSize<>(result::add, 2));
 
         for (Flow.Subscriber<Object> subscriber : subscribers) {
             result.clear();

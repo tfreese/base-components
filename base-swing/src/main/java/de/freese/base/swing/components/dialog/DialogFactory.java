@@ -11,7 +11,8 @@ import de.freese.base.resourcemap.ResourceMap;
  * @author Thomas Freese
  */
 public final class DialogFactory {
-    public static ExtDialog create(final Component parent, final String title, final Object message, final int messageType, final int optionType, final Icon icon, final boolean show) {
+    public static ExtDialog create(final Component parent, final String title, final Object message, final int messageType, final int optionType, final Icon icon,
+                                   final boolean show) {
         final ExtDialogConfig config = new ExtDialogConfig();
         config.setOwner(parent);
         config.setTitle(title);
@@ -32,7 +33,8 @@ public final class DialogFactory {
     }
 
     public static ExtDialog createInArbeit(final Component parent, final ResourceMap resourceMap, final boolean show) {
-        return create(parent, resourceMap.getString("titel.info"), resourceMap.getString("titel.in_arbeit"), JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, resourceMap.getIcon("icons/schleimmann.gif"), show);
+        return create(parent, resourceMap.getString("titel.info"), resourceMap.getString("titel.in_arbeit"), JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION,
+                resourceMap.getIcon("icons/schleimmann.gif"), show);
     }
 
     public static ExtDialog createInfo(final Component parent, final ResourceMap resourceMap, final Object message, final boolean show) {

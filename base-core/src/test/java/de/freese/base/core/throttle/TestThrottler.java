@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestThrottler //extends AbstractIoTest
+class TestThrottler // extends AbstractIoTest
 {
     static Stream<Arguments> createThrottler() {
         // @formatter:off

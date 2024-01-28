@@ -76,7 +76,8 @@ public class LoggingJdbcDriver implements Driver {
             final Driver targetDriver = DriverManager.getDriver(url.substring(PREFIX.length()));
             final Connection targetConnection = targetDriver.connect(url.substring(PREFIX.length()), info);
 
-            return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{Connection.class}, new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
+            return (Connection) Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class<?>[]{Connection.class},
+                    new LoggingJdbcInvocationHandler(targetConnection, LOG_METHODS));
         }
 
         return null;

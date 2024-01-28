@@ -415,7 +415,8 @@ class PgpCryptoBc {
         return secretKey;
     }
 
-    public void signEncryptFile(final String encryptedFile, final String fileName, final PGPPublicKey publicKey, final PGPSecretKey secretKey, final char[] password, final boolean armored, final boolean withIntegrityCheck) throws Exception {
+    public void signEncryptFile(final String encryptedFile, final String fileName, final PGPPublicKey publicKey, final PGPSecretKey secretKey, final char[] password,
+                                final boolean armored, final boolean withIntegrityCheck) throws Exception {
         try (OutputStream outputStream = armored ? new ArmoredOutputStream(new FileOutputStream(encryptedFile)) : new FileOutputStream(encryptedFile)) {
             final BcPGPDataEncryptorBuilder dataEncryptor = new BcPGPDataEncryptorBuilder(SymmetricKeyAlgorithmTags.AES_256);
             dataEncryptor.setWithIntegrityPacket(withIntegrityCheck);

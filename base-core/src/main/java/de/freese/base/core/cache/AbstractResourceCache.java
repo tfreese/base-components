@@ -32,10 +32,10 @@ public abstract class AbstractResourceCache implements ResourceCache {
     }
 
     protected MessageDigest createMessageDigest() {
-        //final String algorithm ="SHA"; // 40 Zeichen
-        //final String algorithm ="SHA-1"; // 40 Zeichen
-        //final String algorithm ="SHA-256"; // 64 Zeichen
-        //final String algorithm ="SHA-384"; // 96 Zeichen
+        // final String algorithm ="SHA"; // 40 Zeichen
+        // final String algorithm ="SHA-1"; // 40 Zeichen
+        // final String algorithm ="SHA-256"; // 64 Zeichen
+        // final String algorithm ="SHA-384"; // 96 Zeichen
         final String algorithm = "SHA-512"; // 128 Zeichen
 
         try {

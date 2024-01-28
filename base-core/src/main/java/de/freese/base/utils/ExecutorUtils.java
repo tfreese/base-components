@@ -70,7 +70,9 @@ public final class ExecutorUtils {
      * waiting for work.
      * @param exposeUnconfigurableExecutor boolean Should expose an unconfigurable decorator for the created executor.
      */
-    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds, final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut, final boolean exposeUnconfigurableExecutor) {
+    public static ExecutorService createThreadPool(final String threadNamePattern, final int coreSize, final int maxSize, final int queueSize, final int keepAliveSeconds,
+                                                   final RejectedExecutionHandler rejectedExecutionHandler, final boolean allowCoreThreadTimeOut,
+                                                   final boolean exposeUnconfigurableExecutor) {
         final BlockingQueue<Runnable> queue;
 
         if (queueSize > 0) {

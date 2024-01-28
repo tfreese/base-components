@@ -245,7 +245,8 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             if ((component != null) && this.dispatchComponents.contains(component)) {
                 // Forward events over the component.
                 final Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
-                component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(), event.isPopupTrigger()));
+                component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(),
+                        event.isPopupTrigger()));
             }
         }
 

@@ -27,7 +27,8 @@ public final class ConnectionPoolConfigurer {
      *
      * @param validationQuery String; optional
      */
-    public static void configureBasic(final BasicDataSource basicDataSource, final String driverClassName, final String url, final String userName, final String password, final String validationQuery) {
+    public static void configureBasic(final BasicDataSource basicDataSource, final String driverClassName, final String url, final String userName, final String password,
+                                      final String validationQuery) {
         basicDataSource.setDriverClassName(driverClassName);
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(userName);
@@ -91,7 +92,8 @@ public final class ConnectionPoolConfigurer {
      *
      * @param validationQuery String; optional
      */
-    public static void configureHikari(final HikariConfig config, final String driverClassName, final String url, final String userName, final String password, final String validationQuery) {
+    public static void configureHikari(final HikariConfig config, final String driverClassName, final String url, final String userName, final String password,
+                                       final String validationQuery) {
         config.setDriverClassName(driverClassName);
         config.setJdbcUrl(url);
         config.setUsername(userName);
@@ -150,7 +152,8 @@ public final class ConnectionPoolConfigurer {
      *
      * @param validationQuery String; optional
      */
-    public static void configureTomcat(final PoolProperties poolProperties, final String driverClassName, final String url, final String userName, final String password, final String validationQuery) {
+    public static void configureTomcat(final PoolProperties poolProperties, final String driverClassName, final String url, final String userName, final String password,
+                                       final String validationQuery) {
         poolProperties.setDriverClassName(driverClassName);
         poolProperties.setUrl(url);
         poolProperties.setUsername(userName);

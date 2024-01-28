@@ -70,7 +70,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
             return children;
         };
 
-        //LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction);
+        // LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction);
         final LazyLoadingTreeController controller = new LazyLoadingTreeController(loadFunction, Executors.newCachedThreadPool());
         tree.addTreeWillExpandListener(controller);
 

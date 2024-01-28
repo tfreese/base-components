@@ -37,7 +37,8 @@ public class GroupableColumn {
                 private static final long serialVersionUID = -7722809265471063718L;
 
                 @Override
-                public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
+                public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row,
+                                                               final int column) {
                     final JTableHeader header = table.getTableHeader();
 
                     if (header != null) {

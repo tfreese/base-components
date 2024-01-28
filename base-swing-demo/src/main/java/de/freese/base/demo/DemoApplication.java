@@ -210,7 +210,7 @@ public class DemoApplication {
         getLogger().info("Initialize ResourceMap");
 
         final ResourceProvider resourceProvider = new ResourceBundleProvider();
-        //final  ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};
+        // final  ResourceProvider resourceProvider = new AbstractDatabaseResourceProvider() {...};
 
         // @formatter:off
         final ResourceMap rootMap = ResourceMapBuilder.create()

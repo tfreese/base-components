@@ -73,7 +73,8 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
         this.statusAnimationLabel = new JLabel();
         this.statusAnimationLabel.setIcon(this.idleIcon);
 
-        add(new JSeparator(), GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(this.zeroInsets));
+        add(new JSeparator(),
+                GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).gridwidth(GridBagConstraints.REMAINDER).fillHorizontal().insets(this.zeroInsets));
 
         add(this.messageLabel, GbcBuilder.of(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE).insets(2, 6, 2, 3).fillHorizontal());
 
