@@ -24,7 +24,7 @@ import javax.swing.JToolBar;
 public abstract class AbstractMenuAndToolbarContext {
     protected static final String ROOT_NAME = "ROOT";
 
-    private static class DelegateAction extends AbstractAction {
+    private static final class DelegateAction extends AbstractAction {
         @Serial
         private static final long serialVersionUID = 6983453488082237165L;
 

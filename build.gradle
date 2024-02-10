@@ -56,7 +56,9 @@ subprojects {
             dependencies {
                 testImplementation("org.awaitility:awaitility")
                 testImplementation("org.junit.jupiter:junit-jupiter")
+                testImplementation("org.mockito:mockito-junit-jupiter")
                 testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+                testRuntimeOnly("org.slf4j:slf4j-simple")
             }
         }
     }
@@ -80,8 +82,6 @@ project("base-net") {
         implementation("org.eclipse.angus:jakarta.mail")
         implementation("commons-net:commons-net")
 //        implementation("org.slf4j:slf4j-api")
-
-        testImplementation("org.slf4j:slf4j-simple")
     }
 }
 
@@ -100,7 +100,6 @@ project("base-persistence") {
 
         api("org.apache.tomcat:tomcat-jdbc")
 
-        implementation("org.apache.poi:poi-ooxml")
         implementation("org.apache.commons:commons-dbcp2")
         implementation("org.apache.logging.log4j:log4j-to-slf4j")
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -114,9 +113,7 @@ project("base-persistence") {
         testImplementation("org.assertj:assertj-core")
         testImplementation("org.apache.derby:derby")
         testImplementation("org.hsqldb:hsqldb")
-        testImplementation("org.mockito:mockito-junit-jupiter")
         testImplementation("org.openjdk.jmh:jmh-core")
-        testImplementation("org.slf4j:slf4j-simple")
         testImplementation("org.xerial:sqlite-jdbc")
     }
 
@@ -149,7 +146,6 @@ project("base-resourcemap") {
 
         implementation("org.slf4j:slf4j-api")
 
-        testImplementation("org.slf4j:slf4j-simple")
         testImplementation("org.slf4j:jcl-over-slf4j")
         testImplementation("org.springframework:spring-core")
     }
@@ -164,8 +160,6 @@ project("base-security") {
         implementation("org.bouncycastle:bcpg-jdk18on")
         implementation("org.bouncycastle:bcmail-jdk18on")
         implementation("org.slf4j:slf4j-api")
-
-        testImplementation("org.slf4j:slf4j-simple")
     }
 }
 

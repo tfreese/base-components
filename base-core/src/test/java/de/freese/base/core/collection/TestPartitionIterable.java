@@ -31,8 +31,8 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(1, partitions.size());
-        assertEquals(1, partitions.get(0).size());
-        assertEquals("[0]", partitions.get(0).toString());
+        assertEquals(1, partitions.getFirst().size());
+        assertEquals("[0]", partitions.getFirst().toString());
 
         // 2
         partitionIterable = PartitionIterable.ofPartitionCount(List.of(0, 1), 2);
@@ -104,17 +104,17 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(1, partitions.size());
-        assertEquals(1, partitions.get(0).size());
-        assertEquals("[0]", partitions.get(0).toString());
+        assertEquals(1, partitions.getFirst().size());
+        assertEquals("[0]", partitions.getFirst().toString());
 
         // 2
         partitionIterable = PartitionIterable.ofPartitionCountModulo(List.of(0, 1), 2);
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(1, partitions.get(0).size());
+        assertEquals(1, partitions.getFirst().size());
         assertEquals(1, partitions.get(1).size());
-        assertEquals("[0]", partitions.get(0).toString());
+        assertEquals("[0]", partitions.getFirst().toString());
         assertEquals("[1]", partitions.get(1).toString());
 
         // 3
@@ -122,9 +122,9 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(2, partitions.get(0).size());
+        assertEquals(2, partitions.getFirst().size());
         assertEquals(1, partitions.get(1).size());
-        assertEquals("[0, 2]", partitions.get(0).toString());
+        assertEquals("[0, 2]", partitions.getFirst().toString());
         assertEquals("[1]", partitions.get(1).toString());
 
         // 4
@@ -132,9 +132,9 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(2, partitions.get(0).size());
+        assertEquals(2, partitions.getFirst().size());
         assertEquals(2, partitions.get(1).size());
-        assertEquals("[0, 2]", partitions.get(0).toString());
+        assertEquals("[0, 2]", partitions.getFirst().toString());
         assertEquals("[1, 3]", partitions.get(1).toString());
 
         // 5
@@ -142,9 +142,9 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(3, partitions.get(0).size());
+        assertEquals(3, partitions.getFirst().size());
         assertEquals(2, partitions.get(1).size());
-        assertEquals("[0, 2, 4]", partitions.get(0).toString());
+        assertEquals("[0, 2, 4]", partitions.getFirst().toString());
         assertEquals("[1, 3]", partitions.get(1).toString());
 
         // 6
@@ -152,9 +152,9 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(3, partitions.get(0).size());
+        assertEquals(3, partitions.getFirst().size());
         assertEquals(3, partitions.get(1).size());
-        assertEquals("[0, 2, 4]", partitions.get(0).toString());
+        assertEquals("[0, 2, 4]", partitions.getFirst().toString());
         assertEquals("[1, 3, 5]", partitions.get(1).toString());
     }
 
@@ -177,25 +177,25 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(1, partitions.size());
-        assertEquals(1, partitions.get(0).size());
-        assertEquals("[0]", partitions.get(0).toString());
+        assertEquals(1, partitions.getFirst().size());
+        assertEquals("[0]", partitions.getFirst().toString());
 
         // 2
         partitionIterable = PartitionIterable.ofPartitionLength(List.of(0, 1), 2);
         partitions = partitionIterable.getPartitions();
 
         assertEquals(1, partitions.size());
-        assertEquals(2, partitions.get(0).size());
-        assertEquals("[0, 1]", partitions.get(0).toString());
+        assertEquals(2, partitions.getFirst().size());
+        assertEquals("[0, 1]", partitions.getFirst().toString());
 
         // 3
         partitionIterable = PartitionIterable.ofPartitionLength(List.of(0, 1, 2), 2);
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(2, partitions.get(0).size());
+        assertEquals(2, partitions.getFirst().size());
         assertEquals(1, partitions.get(1).size());
-        assertEquals("[0, 1]", partitions.get(0).toString());
+        assertEquals("[0, 1]", partitions.getFirst().toString());
         assertEquals("[2]", partitions.get(1).toString());
 
         // 4
@@ -203,9 +203,9 @@ class TestPartitionIterable {
         partitions = partitionIterable.getPartitions();
 
         assertEquals(2, partitions.size());
-        assertEquals(2, partitions.get(0).size());
+        assertEquals(2, partitions.getFirst().size());
         assertEquals(2, partitions.get(1).size());
-        assertEquals("[0, 1]", partitions.get(0).toString());
+        assertEquals("[0, 1]", partitions.getFirst().toString());
         assertEquals("[2, 3]", partitions.get(1).toString());
 
         // 5
