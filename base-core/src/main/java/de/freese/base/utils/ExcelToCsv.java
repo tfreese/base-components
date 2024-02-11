@@ -9,13 +9,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -42,16 +40,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Thomas Freese
  */
 public class ExcelToCsv {
-    /**
-     * 0-Based
-     */
-    private final Map<Integer, UnaryOperator<String>> columnFunctions = new HashMap<>();
     private final DataFormatter dataFormatter = new DataFormatter(Locale.getDefault(), true);
-
     /**
      * 0-Based
      */
-    private List<Integer> parseableColumns;
+    private BiFunction<Integer, String, String> columnValueConverter = (column, origin) -> origin;
     private char fieldSeparator = ';';
     /**
      * 0. Row = Header.
@@ -62,6 +55,10 @@ public class ExcelToCsv {
      * 0. Row = Header.
      */
     private int headerRow;
+    /**
+     * 0-Based
+     */
+    private List<Integer> parseableColumns;
     private char quoteCharacter = '"';
 
     public void convert(final Path excelSource, final Path csvPath) throws IOException {
@@ -125,22 +122,12 @@ public class ExcelToCsv {
         }
     }
 
-    public void setParseableColumns(final List<Integer> parseableColumns) {
-        Objects.requireNonNull(parseableColumns, "columnIndices required");
-
-        if (parseableColumns.isEmpty()) {
-            throw new IllegalArgumentException("columnIndices length is empty");
-        }
-
-        this.parseableColumns = List.copyOf(parseableColumns);
-    }
-
     /**
      * {@link Function} for converting the value.<br>
      * Is called, when the Value != null and not empty.<br>
      */
-    public void setConvertFunction(final int columnIndex, final UnaryOperator<String> function) {
-        this.columnFunctions.put(columnIndex, function);
+    public void setColumnValueConverter(final BiFunction<Integer, String, String> columnValueConverter) {
+        this.columnValueConverter = Objects.requireNonNull(columnValueConverter, "columnValueConverter required");
     }
 
     /**
@@ -167,6 +154,19 @@ public class ExcelToCsv {
      */
     public void setHeaderRow(final int headerRow) {
         this.headerRow = headerRow;
+    }
+
+    /**
+     * 0-Based
+     */
+    public void setParseableColumns(final List<Integer> parseableColumns) {
+        Objects.requireNonNull(parseableColumns, "parseableColumns required");
+
+        if (parseableColumns.isEmpty()) {
+            throw new IllegalArgumentException("parseableColumns length is empty");
+        }
+
+        this.parseableColumns = List.copyOf(parseableColumns);
     }
 
     /**
@@ -229,12 +229,7 @@ public class ExcelToCsv {
         }
 
         if ((value != null) && (row.getRowNum() != this.headerRow)) {
-            // this.columnFunctions.getOrDefault(column, Function.identity()).apply(value);
-            final UnaryOperator<String> function = this.columnFunctions.get(column);
-
-            if (function != null) {
-                value = function.apply(value);
-            }
+            value = this.columnValueConverter.apply(column, value);
         }
 
         return value;

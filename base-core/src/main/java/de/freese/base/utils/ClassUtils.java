@@ -337,6 +337,7 @@ public final class ClassUtils {
     /**
      * Register the given common classes with the ClassUtils cache.
      */
+    @SafeVarargs
     private static void registerCommonClasses(final Class<?>... commonClasses) {
         for (Class<?> clazz : commonClasses) {
             COMMON_CLASS_CACHE.put(clazz.getName(), clazz);

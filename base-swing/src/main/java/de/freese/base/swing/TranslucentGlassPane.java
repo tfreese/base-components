@@ -113,18 +113,18 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
      * @param alpha must be a value between 0 and 1 inclusive.
      */
     public void setAlpha(final double alpha) {
-        if (this.alpha != alpha) {
+        if (Double.compare(this.alpha, alpha) != 0) {
             final double oldAlpha = this.alpha;
             this.alpha = alpha;
 
             if ((alpha > 0D) && (alpha < 1D)) {
-                if (oldAlpha == 1D) {
+                if (Double.compare(oldAlpha, 1D) == 0) {
                     // it used to be 1, but now is not. Save the oldOpaque
                     this.oldOpaque = isOpaque();
                     setOpaque(false);
                 }
             }
-            else if (alpha == 1D) {
+            else if (Double.compare(alpha, 1D) == 0) {
                 // restore the oldOpaque if it was true (since opaque is false now)
                 if (this.oldOpaque) {
                     setOpaque(true);

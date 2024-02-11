@@ -14,9 +14,8 @@ import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 
 /**
- * Basis-Implementierung des {@link Crypto}-Interfaces.<br/>
- * {@link Cipher} ist nicht ThreadSafe.<br/>
- * {@link MessageDigest} ist nicht ThreadSafe.
+ * {@link Cipher} is not ThreadSafe.<br/>
+ * {@link MessageDigest} is not ThreadSafe.
  *
  * @author Thomas Freese
  */
@@ -31,7 +30,7 @@ abstract class AbstractCrypto implements Crypto {
 
         this.config = Objects.requireNonNull(cryptoConfig, "cryptoConfig required");
 
-        // SecureRandom ist ThreadSafe.
+        // SecureRandom is ThreadSafe.
         this.secureRandom = SecureRandom.getInstance(this.config.getAlgorithmSecureRandom(), this.config.getProviderSecureRandom());
     }
 
@@ -146,7 +145,7 @@ abstract class AbstractCrypto implements Crypto {
     }
 
     /**
-     * @param in {@link InputStream}, Verschlüsselt
+     * @param in {@link InputStream}, Encrypted
      */
     protected void sign(final Signature signature, final InputStream in, final OutputStream out) throws Exception {
         final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
@@ -156,7 +155,7 @@ abstract class AbstractCrypto implements Crypto {
             signature.update(buffer, 0, numRead);
         }
 
-        // Bei einer RSA KeySize von 4096 wird die BlockSize 512 betragen (4096/8).
+        // For a RSA KeySize with 4096 the BlockSize is 512 (4096/8).
         final byte[] sig = signature.sign();
         out.write(sig);
 
@@ -164,7 +163,7 @@ abstract class AbstractCrypto implements Crypto {
     }
 
     /**
-     * @param in {@link InputStream}; Verschlüsselt
+     * @param in {@link InputStream}; Encrypted
      */
     protected boolean verify(final Signature signature, final InputStream in, final InputStream signIn) throws Exception {
         final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];

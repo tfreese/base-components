@@ -11,19 +11,19 @@ import java.util.List;
  */
 public interface ExcelImporter {
 
-    static List<ExcelSheet> ofPoiXls(Path filePath) throws Exception {
+    static List<ExcelSheet> ofPoiXls(final Path filePath) throws Exception {
         final ExcelImporter excelImporter = new ExcelImporterPoiXls();
 
         return excelImporter.readSheets(filePath);
     }
 
-    static List<ExcelSheet> ofPoiXlsx(InputStream inputStream) throws Exception {
+    static List<ExcelSheet> ofPoiXlsx(final InputStream inputStream) throws Exception {
         final ExcelImporter excelImporter = new ExcelImporterPoiXlsx();
 
         return excelImporter.readSheets(inputStream);
     }
 
-    static List<ExcelSheet> ofPoiXlsx(Path filePath) throws Exception {
+    static List<ExcelSheet> ofPoiXlsx(final Path filePath) throws Exception {
         final ExcelImporter excelImporter = new ExcelImporterPoiXlsx();
 
         return excelImporter.readSheets(filePath);
@@ -31,7 +31,7 @@ public interface ExcelImporter {
 
     List<ExcelSheet> readSheets(InputStream inputStream) throws Exception;
 
-    default List<ExcelSheet> readSheets(Path filePath) throws Exception {
+    default List<ExcelSheet> readSheets(final Path filePath) throws Exception {
         try (InputStream inputStream = Files.newInputStream(filePath)) {
             return readSheets(inputStream);
         }

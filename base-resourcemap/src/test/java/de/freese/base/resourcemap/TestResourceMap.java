@@ -69,28 +69,32 @@ class TestResourceMap {
 
     @Test
     void testBoolean() {
-        final Boolean value = resourceMap.getBoolean("test.boolean");
-
+        Boolean value = resourceMap.getBoolean("test.boolean");
         assertNotNull(value);
         assertEquals(Boolean.FALSE, value);
+
+        value = resourceMap.getBoolean("test.booleann", Boolean.TRUE);
+        assertNotNull(value);
+        assertEquals(Boolean.TRUE, value);
     }
 
     @Test
     void testByte() {
-        final Byte value = resourceMap.getByte("test.byte");
-
+        Byte value = resourceMap.getByte("test.byte");
         assertNotNull(value);
         assertEquals(Byte.decode("1"), value);
+
+        value = resourceMap.getByte("test.bytee", Byte.decode("-1"));
+        assertNotNull(value);
+        assertEquals(Byte.decode("-1"), value);
     }
 
     @Test
     void testColor() {
         final Color value = resourceMap.getColor("test.color");
 
-        final Color ref = new Color(200, 200, 200);
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new Color(200, 200, 200), value);
     }
 
     @Test
@@ -110,40 +114,34 @@ class TestResourceMap {
     void testColorHex() {
         final Color value = resourceMap.getColor("test.colorHex");
 
-        final Color ref = Color.decode("#101010");
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(Color.decode("#101010"), value);
     }
 
     @Test
     void testDimension() {
         final Dimension value = resourceMap.getDimension("test.dimension");
 
-        final Dimension ref = new Dimension(100, 200);
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new Dimension(100, 200), value);
     }
 
     @Test
     void testDouble() {
-        final Double value = resourceMap.getDouble("test.double");
-
-        final Double ref = 99.99D;
-
+        Double value = resourceMap.getDouble("test.double");
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(99.99D, value);
+
+        value = resourceMap.getDouble("test.doublee", -1D);
+        assertEquals(-1D, value);
     }
 
     @Test
     void testEmptyBorder() {
         final EmptyBorder value = resourceMap.getEmptyBorder("test.emptyborder");
 
-        final EmptyBorder ref = new EmptyBorder(5, 5, 5, 5);
-
         assertNotNull(value);
-        assertEquals(ref.getBorderInsets(), value.getBorderInsets());
+        assertEquals(new EmptyBorder(5, 5, 5, 5).getBorderInsets(), value.getBorderInsets());
     }
 
     /**
@@ -207,22 +205,21 @@ class TestResourceMap {
 
     @Test
     void testFloat() {
-        final Float value = resourceMap.getFloat("test.float");
-
-        final Float ref = 99.99F;
-
+        Float value = resourceMap.getFloat("test.float");
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(99.99F, value);
+
+        value = resourceMap.getFloat("test.floatt", -1F);
+        assertNotNull(value);
+        assertEquals(-1F, value);
     }
 
     @Test
     void testFont() {
         final Font value = resourceMap.getFont("test.font");
 
-        final Font ref = Font.decode("Arial-PLAIN-12");
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(Font.decode("Arial-PLAIN-12"), value);
     }
 
     @Test
@@ -264,50 +261,46 @@ class TestResourceMap {
     void testInsets() {
         final Insets value = resourceMap.getInsets("test.insets");
 
-        final Insets ref = new Insets(5, 5, 5, 5);
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new Insets(5, 5, 5, 5), value);
     }
 
     @Test
     void testInteger() {
-        final Integer value = resourceMap.getInteger("test.integer");
-
-        final Integer ref = 1;
-
+        Integer value = resourceMap.getInteger("test.integer");
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(1, value);
+
+        value = resourceMap.getInteger("test.integerr", -1);
+        assertNotNull(value);
+        assertEquals(-1, value);
     }
 
     @Test
     void testKeyCode() {
         final Integer value = resourceMap.getKeyCode("test.keycode");
 
-        final Integer ref = KeyStroke.getKeyStroke("control T").getKeyCode();
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(KeyStroke.getKeyStroke("control T").getKeyCode(), value);
     }
 
     @Test
     void testKeyStroke() {
         final KeyStroke value = resourceMap.getKeyStroke("test.keystroke");
 
-        final KeyStroke ref = KeyStroke.getKeyStroke("control T");
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(KeyStroke.getKeyStroke("control T"), value);
     }
 
     @Test
     void testLong() {
-        final Long value = resourceMap.getLong("test.long");
-
-        final Long ref = 1L;
-
+        Long value = resourceMap.getLong("test.long");
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(1L, value);
+
+        value = resourceMap.getLong("test.longg", -1L);
+        assertNotNull(value);
+        assertEquals(-1L, value);
     }
 
     @Test
@@ -329,20 +322,16 @@ class TestResourceMap {
     void testPoint() {
         final Point value = resourceMap.getPoint("test.point");
 
-        final Point ref = new Point(100, 200);
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new Point(100, 200), value);
     }
 
     @Test
     void testRectangle() {
         final Rectangle value = resourceMap.getRectangle("test.rectangle");
 
-        final Rectangle ref = new Rectangle(5, 5, 5, 5);
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new Rectangle(5, 5, 5, 5), value);
     }
 
     @Test
@@ -357,81 +346,68 @@ class TestResourceMap {
 
     @Test
     void testShort() {
-        final Short value = resourceMap.getShort("test.short");
-
-        final Short ref = 1;
-
+        Short value = resourceMap.getShort("test.short");
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals((short) 1, value);
+
+        value = resourceMap.getShort("test.shortt", (short) -1);
+        assertNotNull(value);
+        assertEquals((short) -1, value);
     }
 
     @Test
     void testString1() {
         final String value = resourceMap.getString("test.string.1");
 
-        final String ref = "Taeschtd";
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals("Taeschtd", value);
     }
 
     @Test
     void testString2() {
         final String value = resourceMap.getString("test.string.2", "ist", "Test");
 
-        final String ref = "Dies ist ein Test.";
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals("Dies ist ein Test.", value);
     }
 
     @Test
     void testString3() {
         final String value = resourceMap.getString("test.string.3", "ist", "Test");
 
-        final String ref = "Dies ist ein Test.";
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals("Dies ist ein Test.", value);
     }
 
     @Test
     void testString4() {
         final String value = resourceMap.getString("test.string.4");
 
-        final String ref = "Dies ist ein Taeschtd.";
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals("Dies ist ein Taeschtd.", value);
     }
 
     @Test
     void testStringEmpty() {
         final String value = resourceMap.getString("test.string.empty");
 
-        final String ref = "";
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals("", value);
     }
 
     @Test
     void testUri() throws Exception {
         final URI value = resourceMap.getURI("test.uri");
 
-        final URI ref = new URI("http://www.google.de");
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new URI("http://www.google.de"), value);
     }
 
     @Test
     void testUrl() throws Exception {
         final URL value = resourceMap.getURL("test.url");
 
-        final URL ref = new URI("http://www.google.de").toURL();
-
         assertNotNull(value);
-        assertEquals(ref, value);
+        assertEquals(new URI("http://www.google.de").toURL(), value);
     }
 }

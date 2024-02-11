@@ -1,32 +1,14 @@
 // Created: 29.05.2021
 package de.freese.base.security.crypto;
 
-import java.security.KeyPairGenerator;
-import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.security.Signature;
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-
 /**
- * Builder für die Konfiguration einer Verschlüsselung der "java.security"-API.
- *
- * @param <T> Type
- *
  * @author Thomas Freese
  */
 public abstract class CryptoConfig<T extends CryptoConfig<T>> {
-    /**
-     * Builder einer asymmetrischen Public- / Private-Key Verschlüsselung der "java.security"-API.
-     */
     public static CryptoConfigAsymetric asymetric() {
         return new CryptoConfigAsymetric();
     }
 
-    /**
-     * Builder einer symmetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
-     */
     public static CryptoConfigSymetric symetric() {
         return new CryptoConfigSymetric();
     }
@@ -65,10 +47,6 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
         return getThis();
     }
 
-    /**
-     * Algorithmus als Default.<br>
-     * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
-     */
     public T algorithmDefault(final String algorithmDefault) {
         this.algorithmDefault = algorithmDefault;
 
@@ -85,7 +63,6 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
     }
 
     /**
-     * Algorithmus für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
      * Default: {@link #algorithmDefault(String)}
      */
     public T algorithmKeyGenerator(final String algorithmKeyGenerator) {
@@ -96,7 +73,6 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
 
     /**
      * Default: {@link #algorithmDefault(String)}<br>
-     * Beispiel: "NativePRNG", "SHA1PRNG", {@link SecureRandom#getInstanceStrong()}
      */
     public T algorithmSecureRandom(final String algorithmSecureRandom) {
         this.algorithmSecureRandom = algorithmSecureRandom;
@@ -149,10 +125,6 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
         return getThis();
     }
 
-    /**
-     * Provider als Default.<br>
-     * {@link Cipher}, {@link KeyGenerator}, {@link KeyPairGenerator}, {@link MessageDigest}, {@link Signature}, {@link SecureRandom}
-     */
     public T providerDefault(final String providerDefault) {
         this.providerDefault = providerDefault;
 
@@ -169,7 +141,6 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
     }
 
     /**
-     * Provider für {@link KeyGenerator} oder {@link KeyPairGenerator}.<br>
      * Default: {@link #providerDefault(String)}
      */
     public T providerKeyGenerator(final String providerKeyGenerator) {
@@ -180,7 +151,6 @@ public abstract class CryptoConfig<T extends CryptoConfig<T>> {
 
     /**
      * Default: {@link #providerDefault(String)}<br>
-     * Beispiel: "SUN"
      */
     public T providerSecureRandom(final String providerSecureRandom) {
         this.providerSecureRandom = providerSecureRandom;

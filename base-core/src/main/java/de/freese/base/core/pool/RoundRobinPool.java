@@ -13,7 +13,6 @@ import java.util.function.Supplier;
  */
 public final class RoundRobinPool<T> implements AutoCloseable {
 
-    @SuppressWarnings("rawtypes")
     private static final AtomicIntegerFieldUpdater<RoundRobinPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(RoundRobinPool.class, "nextIndex");
 
     private final Consumer<T> doOnClose;

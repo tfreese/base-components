@@ -92,6 +92,6 @@ public final class LookupException extends RuntimeException {
     private String truncate(final String s) {
         final int n = s.length();
 
-        return (n < 128) ? s : s.substring(0, 128) + "...[" + (n - 128) + " more characters]";
+        return (n < 128) ? s : (s.substring(0, 128) + "...[" + (n - 128) + " more characters]");
     }
 }

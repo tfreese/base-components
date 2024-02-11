@@ -9,6 +9,7 @@ public class BooleanResourceConverter extends AbstractResourceConverter<Boolean>
     /**
      * @param trueStrings String, zb. true, on, yes, 1
      */
+    @SuppressWarnings("varargs")
     public BooleanResourceConverter(final String... trueStrings) {
         super();
 

@@ -1,10 +1,12 @@
 package de.freese.base.swing.components.filechooser;
 
+import java.util.Set;
+
 /**
  * @author Thomas Freese
  */
 public class CsvFileFilter extends GenericFileFilter {
     public CsvFileFilter() {
-        super(true, ".csv");
+        super(true, Set.of(".csv"));
     }
 }

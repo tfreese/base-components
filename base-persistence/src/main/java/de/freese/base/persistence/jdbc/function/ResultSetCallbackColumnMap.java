@@ -26,7 +26,7 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
         final List<Map<String, Object>> list = new ArrayList<>();
 
         while (resultSet.next()) {
-            final Map<String, Object> map = new LinkedHashMap<>(this.columnNames.length);
+            final Map<String, Object> map = LinkedHashMap.newLinkedHashMap(this.columnNames.length);
 
             for (int i = 1; i <= this.columnNames.length; i++) {
                 final String columnName = this.columnNames[i - 1];
@@ -44,7 +44,7 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
     protected String getColumnName(final ResultSetMetaData resultSetMetaData, final int index) throws SQLException {
         String name = resultSetMetaData.getColumnLabel(index);
 
-        if ((name == null) || (name.length() < 1)) {
+        if ((name == null) || name.isEmpty()) {
             name = resultSetMetaData.getColumnName(index);
         }
 

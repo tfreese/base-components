@@ -14,7 +14,6 @@
 package de.freese.base.core.concurrent.accumulative;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
@@ -72,9 +71,7 @@ import javax.swing.SwingUtilities;
 public abstract class AccumulativeRunnable<T> implements Runnable {
     private List<T> arguments;
 
-    @SafeVarargs
-    @SuppressWarnings("varargs")
-    public final synchronized void add(final T... args) {
+    public final synchronized void add(final T arg) {
         boolean isSubmitted = true;
 
         if (this.arguments == null) {
@@ -82,7 +79,7 @@ public abstract class AccumulativeRunnable<T> implements Runnable {
             this.arguments = new ArrayList<>();
         }
 
-        Collections.addAll(this.arguments, args);
+        this.arguments.add(arg);
 
         if (!isSubmitted) {
             submit();

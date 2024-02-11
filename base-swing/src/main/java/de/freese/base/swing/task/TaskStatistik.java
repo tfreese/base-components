@@ -2,7 +2,7 @@ package de.freese.base.swing.task;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -19,7 +19,7 @@ public class TaskStatistik implements Serializable {
      */
     private final transient Queue<Long> durations = new ConcurrentLinkedQueue<>();
 
-    private Date lastAccess = new Date();
+    private LocalDateTime lastAccess = LocalDateTime.now();
     private String taskName = "";
 
     public long getAvg() {
@@ -34,7 +34,7 @@ public class TaskStatistik implements Serializable {
         return summe > 0 ? summe / anzahl : 0;
     }
 
-    public Date getLastAccess() {
+    public LocalDateTime getLastAccess() {
         return this.lastAccess;
     }
 
@@ -66,11 +66,11 @@ public class TaskStatistik implements Serializable {
         final long avg = getAvg();
 
         // Add new Times only when they >= 10% of the average.
-        if (duration >= (avg * 0.1F)) {
+        if (duration >= (avg * 0.1D)) {
             appendDuration(duration);
         }
 
-        this.lastAccess = new Date();
+        this.lastAccess = LocalDateTime.now();
     }
 
     public void setDurations(final long[] durations) {
@@ -79,7 +79,7 @@ public class TaskStatistik implements Serializable {
         }
     }
 
-    public void setLastAccess(final Date lastAccess) {
+    public void setLastAccess(final LocalDateTime lastAccess) {
         this.lastAccess = lastAccess;
     }
 
@@ -96,9 +96,7 @@ public class TaskStatistik implements Serializable {
         builder.append("; Max=").append(getMax());
         builder.append("; Avg=").append(getAvg());
         builder.append("; Size=").append(this.durations.size());
-
-        final String format = "%1$td.%1$tm.%1$tY %1$tT";
-        builder.append("; Datum=").append(String.format(format, getLastAccess()));
+        builder.append("; Datum=").append(getLastAccess());
 
         return builder.toString();
     }

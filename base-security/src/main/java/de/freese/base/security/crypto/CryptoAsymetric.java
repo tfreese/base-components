@@ -4,15 +4,11 @@ package de.freese.base.security.crypto;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.Signature;
 
 import javax.crypto.Cipher;
 
 /**
- * Implementierung für asymetrische Verschlüsselungen von {@link Crypto}.
- *
  * @author Thomas Freese
  */
 public class CryptoAsymetric extends AbstractCrypto {
@@ -29,9 +25,6 @@ public class CryptoAsymetric extends AbstractCrypto {
         sign(signature, in, out);
     }
 
-    /**
-     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
-     */
     @Override
     public boolean verify(final InputStream in, final InputStream signIn) throws Exception {
         final Signature signature = createSignatureVerify();

@@ -72,7 +72,8 @@ import org.bouncycastle.util.encoders.Hex;
 class PgpCryptoBc {
     private static final int DEFAULT_BUFFER_SIZE = 4096;
     private static final int KEY_FLAGS = 27;
-    private static final int[] MASTER_KEY_CERTIFICATION_TYPES = {PGPSignature.POSITIVE_CERTIFICATION, PGPSignature.CASUAL_CERTIFICATION, PGPSignature.NO_CERTIFICATION, PGPSignature.DEFAULT_CERTIFICATION};
+    private static final int[] MASTER_KEY_CERTIFICATION_TYPES =
+            {PGPSignature.POSITIVE_CERTIFICATION, PGPSignature.CASUAL_CERTIFICATION, PGPSignature.NO_CERTIFICATION, PGPSignature.DEFAULT_CERTIFICATION};
 
     public static String getAlgorithm(final int algorithm) {
         return switch (algorithm) {
@@ -363,7 +364,8 @@ class PgpCryptoBc {
      * I didn't think it was worth having to import a 4meg lib for three methods.
      */
     public boolean isForEncryption(final PGPPublicKey key) {
-        if ((key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_SIGN) || (key.getAlgorithm() == PublicKeyAlgorithmTags.DSA) || (key.getAlgorithm() == PublicKeyAlgorithmTags.ECDH) || (key.getAlgorithm() == PublicKeyAlgorithmTags.ECDSA)) {
+        if ((key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_SIGN) || (key.getAlgorithm() == PublicKeyAlgorithmTags.DSA) || (key.getAlgorithm() == PublicKeyAlgorithmTags.ECDH) ||
+                (key.getAlgorithm() == PublicKeyAlgorithmTags.ECDSA)) {
             return false;
         }
 
@@ -518,7 +520,7 @@ class PgpCryptoBc {
     private boolean hasKeyFlags(final PGPPublicKey encKey, final int keyUsage) {
         if (encKey.isMasterKey()) {
             for (int certType : MASTER_KEY_CERTIFICATION_TYPES) {
-                for (Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(certType); iterator.hasNext(); ) {
+                for (final Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(certType); iterator.hasNext(); ) {
                     final PGPSignature sig = iterator.next();
 
                     if (!isMatchingUsage(sig, keyUsage)) {
@@ -528,7 +530,7 @@ class PgpCryptoBc {
             }
         }
         else {
-            for (Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(PGPSignature.SUBKEY_BINDING); iterator.hasNext(); ) {
+            for (final Iterator<PGPSignature> iterator = encKey.getSignaturesOfType(PGPSignature.SUBKEY_BINDING); iterator.hasNext(); ) {
                 final PGPSignature sig = iterator.next();
 
                 if (!isMatchingUsage(sig, keyUsage)) {
@@ -558,17 +560,14 @@ class PgpCryptoBc {
     }
 
     // @Override
-    // public byte[] encrypt(final byte[] bytes) throws GeneralSecurityException
-    // {
+    // public byte[] encrypt(final byte[] bytes) throws GeneralSecurityException {
     // final ByteArrayInputStream in = new ByteArrayInputStream(bytes);
     // final ByteArrayOutputStream out = new ByteArrayOutputStream();
     //
-    // try
-    // {
+    // try {
     // encrypt(in, out);
     // }
-    // catch (IOException ex)
-    // {
+    // catch (IOException ex) {
     // throw new GeneralSecurityException(ex);
     // }
     //

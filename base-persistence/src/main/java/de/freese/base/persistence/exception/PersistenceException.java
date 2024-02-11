@@ -6,7 +6,7 @@ import java.io.Serial;
 /**
  * @author Thomas Freese
  */
-class PersistenceException extends Exception {
+class PersistenceException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = -4679691790131023241L;
 

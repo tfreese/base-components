@@ -53,8 +53,8 @@ public class ExcelSheetPanel extends JPanel {
     private void initialize() {
         final GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1.0;
-        gbc.weightx = 1.0;
+        gbc.weighty = 1.0D;
+        gbc.weightx = 1.0D;
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(800, 600));
         add(getScrollPane(), gbc);

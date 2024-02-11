@@ -65,7 +65,7 @@ public final class ResourceMapBuilder {
     public ResourceMap build() {
         Objects.requireNonNull(this.bundleName, "bundleName required");
 
-        if (this.bundleName.length() == 0) {
+        if (this.bundleName.isEmpty()) {
             throw new IllegalArgumentException("bundleName is empty");
         }
 

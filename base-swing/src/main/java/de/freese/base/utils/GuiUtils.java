@@ -13,7 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.Serial;
 import java.util.Objects;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -60,7 +59,7 @@ public final class GuiUtils {
     /**
      * Liefert die Breite eines Strings in der übergebenen Komponente.
      */
-    public static int calcTextWidth(final JComponent component, final String text) {
+    public static int calcTextWidth(final Component component, final String text) {
         return component.getFontMetrics(component.getFont()).stringWidth(text);
     }
 
@@ -98,7 +97,7 @@ public final class GuiUtils {
 
         if (dataSource instanceof ByteArrayDataSource b) {
             String fileName = "screenshot";
-            fileName += c.getName() != null ? "_" + c.getName() : "";
+            fileName += c.getName() != null ? ("_" + c.getName()) : "";
             fileName += "_" + System.currentTimeMillis();
             fileName += ".png";
 

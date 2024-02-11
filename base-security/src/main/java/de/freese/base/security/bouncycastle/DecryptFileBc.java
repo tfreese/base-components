@@ -173,7 +173,7 @@ public class DecryptFileBc {
         // and display the contents.
         LOGGER.info("Before for loop.");
 
-        for (Enumeration<String> e = ks.aliases(); e.hasMoreElements(); ) {
+        for (final Enumeration<String> e = ks.aliases(); e.hasMoreElements(); ) {
             final String alias = e.nextElement();
             LOGGER.info("--- Entry Alias: \"{}\" ---", alias);
 

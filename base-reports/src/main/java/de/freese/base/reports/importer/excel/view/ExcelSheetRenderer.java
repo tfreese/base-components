@@ -38,7 +38,7 @@ public class ExcelSheetRenderer extends DefaultTableCellRenderer {
             // Empty;
         }
 
-        if ((num != null) && (((num.intValue()) - num) == 0.0D)) {
+        if ((num != null) && Double.compare(num.intValue() - num, 0.0D) == 0) {
             setText("" + num.intValue());
         }
         else {

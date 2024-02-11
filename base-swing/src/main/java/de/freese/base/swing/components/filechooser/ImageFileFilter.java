@@ -1,5 +1,7 @@
 package de.freese.base.swing.components.filechooser;
 
+import java.util.Set;
+
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -9,6 +11,6 @@ import javax.swing.filechooser.FileFilter;
  */
 public class ImageFileFilter extends GenericFileFilter {
     public ImageFileFilter() {
-        super(true, ".jpeg", ".jpg", ".gif", ".png", ".bmp");
+        super(true, Set.of(".jpeg", ".jpg", ".gif", ".png", ".bmp"));
     }
 }

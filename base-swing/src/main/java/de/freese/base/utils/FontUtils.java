@@ -17,7 +17,11 @@ public final class FontUtils {
                 symbolFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             }
             catch (Exception ex) {
-                ex.printStackTrace();
+                if (ex instanceof RuntimeException re) {
+                    throw re;
+                }
+
+                throw new RuntimeException(ex);
             }
         }
 

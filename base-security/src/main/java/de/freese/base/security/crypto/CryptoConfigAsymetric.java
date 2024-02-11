@@ -5,8 +5,6 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
 /**
- * Builder einer asymetrischen Public- / Private-Key Verschlüsselung der "java.security"-API.
- *
  * @author Thomas Freese
  */
 public class CryptoConfigAsymetric extends CryptoConfig<CryptoConfigAsymetric> {

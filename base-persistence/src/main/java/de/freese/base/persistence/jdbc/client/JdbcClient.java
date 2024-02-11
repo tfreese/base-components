@@ -48,7 +48,7 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 public class JdbcClient {
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
 
-    interface DeleteSpec {
+    public interface DeleteSpec {
         int execute();
 
         DeleteSpec statementConfigurer(StatementConfigurer statementConfigurer);
@@ -56,7 +56,7 @@ public class JdbcClient {
         DeleteSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
     }
 
-    interface InsertSpec {
+    public interface InsertSpec {
         int execute(PreparedStatementSetter preparedStatementSetter);
 
         int execute(LongConsumer generatedKeysConsumer, PreparedStatementSetter preparedStatementSetter);
@@ -66,7 +66,7 @@ public class JdbcClient {
         InsertSpec statementConfigurer(StatementConfigurer statementConfigurer);
     }
 
-    interface SelectSpec {
+    public interface SelectSpec {
         <T> T execute(ResultSetCallback<T> resultSetCallback);
 
         /**
@@ -121,7 +121,7 @@ public class JdbcClient {
         SelectSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
     }
 
-    interface UpdateSpec {
+    public interface UpdateSpec {
         int execute(PreparedStatementSetter preparedStatementSetter);
 
         <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);

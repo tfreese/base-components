@@ -6,7 +6,7 @@ package de.freese.base.core.logging.generic;
  */
 @FunctionalInterface
 interface LoggerProvider {
-    default Logger createLogger(Class<?> clazz) {
+    default Logger createLogger(final Class<?> clazz) {
         return createLogger(clazz.getName());
     }
 

@@ -69,7 +69,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
 
             if (this.connection.isClosed()) {
                 throw new SQLException(
-                        "Connection was closed in SingleConnectionDataSource. Check that user code checks " + "shouldClose() before closing Connections, or set 'suppressClose' to 'true'");
+                        "Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections, or set 'suppressClose' to 'true'");
             }
         }
         finally {
@@ -134,7 +134,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     public void setConnectionProperties(final Properties connectionProperties) {
         Objects.requireNonNull(connectionProperties);
 
-        this.connectionProperties = connectionProperties;
+        this.connectionProperties = new Properties(connectionProperties);
     }
 
     public void setDriverClassName(final String driverClassName) {

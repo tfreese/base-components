@@ -9,7 +9,7 @@ import de.freese.base.resourcemap.ResourceMap;
 
 /**
  * {@link ResourceCache} for a single {@link ResourceMap}.<br>
- * The bundeName-Parameter is ignored.
+ * The bundleName-Parameter is ignored.
  *
  * @author Thomas Freese
  */
@@ -36,7 +36,6 @@ public class SingleResourceCache implements ResourceCache {
     @SuppressWarnings("unchecked")
     @Override
     public <T> Map<String, T> getValues(final String bundleName, final Locale locale, final Class<T> type) {
-        // bundeName wird ignoriert.
         final Map<Class<?>, Map<String, ?>> byType = this.cache.computeIfAbsent(locale, k -> new HashMap<>());
         final Map<String, ?> byKey = byType.computeIfAbsent(type, k -> new HashMap<>());
 

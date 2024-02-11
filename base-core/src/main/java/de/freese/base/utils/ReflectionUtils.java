@@ -242,6 +242,7 @@ public final class ReflectionUtils {
      * @param target the target object to invoke the method on
      * @param args the invocation arguments (maybe {@code null})
      */
+    @SuppressWarnings("varargs")
     public static Object invokeMethod(final Method method, final Object target, final Object... args) {
         try {
             return method.invoke(target, args);
@@ -259,8 +260,8 @@ public final class ReflectionUtils {
      */
     @SuppressWarnings("deprecation")  // on JDK 9
     public static void makeAccessible(final Field field) {
-        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(
-                field.getModifiers())) && !field.isAccessible()) {
+        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers())) &&
+                !field.isAccessible()) {
             field.setAccessible(true);
         }
     }

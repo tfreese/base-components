@@ -34,10 +34,7 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void> {
 
         setSubTitle(this.resourceMap.getString("fibonacci.start"));
 
-        final long operations = this.controller.getOperationCount(this.value);
-        // System.out.println(this.operations);
-
-        final long result = this.controller.fibonacci(this.value, v -> setProgress(v, 0, operations));
+        final long result = this.controller.fibonacci(this.value);
 
         setSubTitle(this.resourceMap.getString("fibonacci.finished"));
 

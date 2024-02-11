@@ -18,8 +18,6 @@ import javax.crypto.spec.PBEParameterSpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
- * Implementierung für symetrische Verschlüsselungen von {@link Crypto}.
- *
  * @author Thomas Freese
  */
 public class CryptoSymetric extends AbstractCrypto {
@@ -30,7 +28,7 @@ public class CryptoSymetric extends AbstractCrypto {
     }
 
     /**
-     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
+     * Symmetric encryption can not use {@link Signature}, because we need a {@link PublicKey} and {@link PrivateKey} for that.
      */
     @Override
     public void sign(final InputStream in, final OutputStream out) throws Exception {
@@ -40,7 +38,7 @@ public class CryptoSymetric extends AbstractCrypto {
     }
 
     /**
-     * Symetrische Verschlüsselung kann nicht mit {@link Signature} arbeiten, weil dafür {@link PublicKey} und {@link PrivateKey} benötigt werden.
+     * Symmetric encryption can not use {@link Signature}, because we need a {@link PublicKey} and {@link PrivateKey} for that.
      */
     @Override
     public boolean verify(final InputStream in, final InputStream signIn) throws Exception {

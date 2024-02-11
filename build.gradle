@@ -190,6 +190,7 @@ project("base-swing-demo") {
     dependencies {
         implementation(project(":base-swing"))
 
+        runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
         runtimeOnly("org.slf4j:slf4j-simple")
     }
 }

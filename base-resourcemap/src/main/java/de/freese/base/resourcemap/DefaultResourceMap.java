@@ -122,6 +122,7 @@ class DefaultResourceMap implements ResourceMap {
         return value;
     }
 
+    @SuppressWarnings("varargs")
     @Override
     public final String getString(final String key, final Object... args) {
         String value = getResource(key);
@@ -270,7 +271,7 @@ class DefaultResourceMap implements ResourceMap {
     protected final void substitutePlaceholder(final Map<String, String> resources) {
         final List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).collect(Collectors.toList());
 
-        for (Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); ) {
+        for (final Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); ) {
             final Entry<String, String> entry = iterator.next();
             String expression = entry.getValue();
 

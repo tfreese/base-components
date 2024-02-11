@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Freese
  */
 public abstract class AbstractPoiExcelImporter implements ExcelImporter {
-
     private final Map<Short, Format> cacheFormat = new HashMap<>();
     private final DataFormatter dataFormatter = new DataFormatter();
     private final Logger logger = LoggerFactory.getLogger(getClass());

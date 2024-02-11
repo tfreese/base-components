@@ -91,13 +91,11 @@ public final class HibernateUtils {
     /**
      * Liefert die Klasse des Objektes hinter dem {@link HibernateProxy}.
      */
-    @SuppressWarnings("unchecked")
     public static <T> Class<T> getClassFromProxy(final Object maybeProxy) {
         // HibernateProxyHelper
         return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
-    @SuppressWarnings("deprecation")
     public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw, final Logger logger) {
         logInfo(logger, String.format("Read PersistenceStatistics: %s", sessionFactory.getSessionFactoryOptions().getSessionFactoryName()));
 

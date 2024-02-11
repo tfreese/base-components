@@ -7,8 +7,6 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Builder einer symmetrischen PasswordBasedEncryption (PBE) der "java.security"-API.
- *
  * @author Thomas Freese
  */
 public class CryptoConfigSymetric extends CryptoConfig<CryptoConfigSymetric> {

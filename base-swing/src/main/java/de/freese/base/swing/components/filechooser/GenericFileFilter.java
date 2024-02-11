@@ -1,23 +1,23 @@
 package de.freese.base.swing.components.filechooser;
 
 import java.io.File;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.filechooser.FileFilter;
 
 /**
- * {@link FileFilter} für bestimmte DatenTypen.
- *
  * @author Thomas Freese
  */
 public class GenericFileFilter extends FileFilter implements java.io.FileFilter {
     private final boolean includeDirectories;
 
-    private final String[] types;
+    private final Set<String> types;
 
     /**
-     * @param types String[] Dateitypen, .csv, .xls usw
+     * @param types List;  Filetypes like .csv, .xls, .pdf
      */
-    public GenericFileFilter(final boolean includeDirectories, final String... types) {
+    public GenericFileFilter(final boolean includeDirectories, final Set<String> types) {
         super();
 
         this.types = types;
@@ -43,16 +43,6 @@ public class GenericFileFilter extends FileFilter implements java.io.FileFilter 
 
     @Override
     public String getDescription() {
-        final StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < this.types.length; i++) {
-            sb.append("*").append(this.types[i]);
-
-            if (i < (this.types.length - 1)) {
-                sb.append(",");
-            }
-        }
-
-        return sb.toString();
+        return types.stream().map(type -> "*" + type).collect(Collectors.joining(","));
     }
 }

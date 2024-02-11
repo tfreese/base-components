@@ -251,7 +251,7 @@ public class BusyMozillaLabel extends JLabel {
         for (int t = 0; t < getTrail(); t++) {
             if (index == (((this.circleIndex - t) + getMaxCircles()) % getMaxCircles())) {
                 // Faktor für interpolation
-                final float terp = 1 - (((float) (getTrail() - t)) / (float) getTrail());
+                final float terp = 1F - (((float) (getTrail() - t)) / (float) getTrail());
 
                 // Farbe interpolieren
                 return interpolate(getHighlightColor(), getBaseColor(), terp);

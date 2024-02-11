@@ -3,8 +3,6 @@ package de.freese.base.demo.fibonacci.task;
 
 import java.io.Serial;
 import java.util.concurrent.RecursiveTask;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.LongConsumer;
 
 import de.freese.base.demo.fibonacci.FibonacciController;
 
@@ -15,21 +13,16 @@ import de.freese.base.demo.fibonacci.FibonacciController;
  */
 public class FibonacciForkJoinTask extends RecursiveTask<Long> {
     private static final int THRESHOLD = 10;
-
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
-
+    
     private final boolean enableCache;
     private final int n;
-    private final transient LongConsumer operationConsumer;
-    private final AtomicLong operationCount;
 
-    public FibonacciForkJoinTask(final int n, final LongConsumer operationConsumer, final AtomicLong operationCount, final boolean enableCache) {
+    public FibonacciForkJoinTask(final int n, final boolean enableCache) {
         super();
 
         this.n = n;
-        this.operationConsumer = operationConsumer;
-        this.operationCount = operationCount;
         this.enableCache = enableCache;
     }
 
@@ -41,17 +34,14 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
             return value;
         }
 
-        long result = 0L;
+        final long result;
 
         if (this.n < THRESHOLD) {
             result = fibonacci(this.n);
-
-            this.operationCount.addAndGet(THRESHOLD / 2);
-            this.operationConsumer.accept(this.operationCount.get());
         }
         else {
-            final FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(this.n - 1, this.operationConsumer, this.operationCount, this.enableCache);
-            final FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.operationConsumer, this.operationCount, this.enableCache);
+            final FibonacciForkJoinTask task1 = new FibonacciForkJoinTask(this.n - 1, this.enableCache);
+            final FibonacciForkJoinTask task2 = new FibonacciForkJoinTask(this.n - 2, this.enableCache);
             task2.fork();
 
             result = task1.compute() + task2.join();

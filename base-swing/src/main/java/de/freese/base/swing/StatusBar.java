@@ -32,6 +32,7 @@ public class StatusBar extends JPanel implements PropertyChangeListener {
     private final transient Icon idleIcon;
     private final Timer messageTimer;
     private final Insets zeroInsets = new Insets(0, 0, 0, 0);
+    
     private int busyIconIndex;
     private JLabel messageLabel;
     private JProgressBar progressBar;

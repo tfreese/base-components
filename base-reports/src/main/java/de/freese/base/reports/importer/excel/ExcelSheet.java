@@ -27,7 +27,7 @@ public class ExcelSheet implements Serializable {
             return 0;
         }
 
-        return this.rowValues.get(0).length;
+        return this.rowValues.getFirst().length;
     }
 
     public int getRowCount() {

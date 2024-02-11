@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.function.UnaryOperator;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -43,16 +42,22 @@ class TestExcelToCsv {
         final ExcelToCsv toCsv = new ExcelToCsv();
         toCsv.setParseableColumns(List.of(0, 1, 2, 3, 4));
 
-        // Format date: 1/1/16 -> 2016-01-01
-        toCsv.setConvertFunction(1, value -> {
-            final String[] date = value.split("/");
-            return "20" + date[2] + "-" + date[1] + "-" + date[0];
-        });
+        toCsv.setColumnValueConverter((column, value) -> {
+            if (column == 1) {
+                // Format date: 1/1/16 -> 2016-01-01
+                final String[] date = value.split("/");
 
-        // Format numbers: 0,1 -> 0.1
-        final UnaryOperator<String> toNumberFunction = value -> value.replace(',', '.');
-        toCsv.setConvertFunction(2, toNumberFunction);
-        toCsv.setConvertFunction(4, toNumberFunction);
+                return "20" + date[2] + "-" + date[1] + "-" + date[0];
+
+            }
+
+            if (column == 2 || column == 4) {
+                // Format numbers: 0,1 -> 0.1
+                return value.replace(',', '.');
+            }
+
+            return value;
+        });
 
         // toCsv.convert(excelSource, csvDest);
         toCsv.convert(excelSource, new PrintWriter(PRINT_STREAM, true));

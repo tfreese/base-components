@@ -2,11 +2,14 @@ package de.freese.base.reports.jfreechart;
 
 import java.io.Serial;
 import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 
 import org.jfree.chart.axis.NumberTickUnit;
 
 /**
- * {@link NumberTickUnit} die den Text ausblenden kann, je nach angegebenen Excludes ( {@link #setExcludes(String...)}).
+ * {@link NumberTickUnit} to disable Text for defined Ticks ({@link #setExcludes(Set<String>)}).
  *
  * @author Thomas Freese
  */
@@ -14,7 +17,7 @@ public class ExtNumberTickUnit extends NumberTickUnit {
     @Serial
     private static final long serialVersionUID = 8151941607328082952L;
 
-    private String[] excludes;
+    private Set<String> excludes = Collections.emptySet();
 
     public ExtNumberTickUnit(final double size) {
         super(size);
@@ -28,8 +31,8 @@ public class ExtNumberTickUnit extends NumberTickUnit {
         super(size, formatter, minorTickCount);
     }
 
-    public void setExcludes(final String... excludes) {
-        this.excludes = excludes;
+    public void setExcludes(final Set<String> excludes) {
+        this.excludes = Objects.requireNonNull(excludes, "excludes required");
     }
 
     @Override
