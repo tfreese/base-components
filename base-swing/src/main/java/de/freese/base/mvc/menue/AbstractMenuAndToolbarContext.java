@@ -99,6 +99,10 @@ public abstract class AbstractMenuAndToolbarContext {
         node.setEnabled(true);
     }
 
+    public void setState(final Node parentNode, final String name, final ComponentState state) {
+
+    }
+
     protected void addMenu(final String nameParent, final String name, final Consumer<Node> configurer) {
         final Node parent = getNode(getRoot(), nameParent);
         final Node node = new Node(NodeType.MENU, name);
@@ -184,6 +188,30 @@ public abstract class AbstractMenuAndToolbarContext {
         }
     }
 
+    protected void setState(final String nameParent, final String name, final ComponentState state) {
+        final Node parent = getNode(getRoot(), nameParent);
+        final Node node = parent.getChild(name);
+
+        if (node == null) {
+            throw new IllegalStateException("Node not found: %s".formatted(name));
+        }
+
+        switch (state) {
+            case VISIBLE_ENABLED -> {
+                node.setVisible(true);
+                node.setEnabled(true);
+            }
+            case VISIBLE_DISABLED -> {
+                node.setVisible(true);
+                node.setEnabled(false);
+            }
+            default -> {
+                node.setVisible(false);
+                node.setEnabled(false);
+            }
+        }
+    }
+
     private void generateMenuBar(final JMenuBar menuBar, final Node parent) {
         for (Node child : parent.getChildren()) {
             if (NodeType.MENU.equals(child.getNodeType())) {
@@ -251,29 +279,6 @@ public abstract class AbstractMenuAndToolbarContext {
             }
 
             generateToolBar(toolBar, child);
-        }
-    }
-
-    private void setState(final Node parentNode, final String name, final ComponentState state) {
-        final Node node = parentNode.getChild(name);
-
-        if (node == null) {
-            throw new IllegalStateException("Node not found: %s".formatted(name));
-        }
-
-        switch (state) {
-            case VISIBLE_ENABLED -> {
-                node.setVisible(true);
-                node.setEnabled(true);
-            }
-            case VISIBLE_DISABLED -> {
-                node.setVisible(true);
-                node.setEnabled(false);
-            }
-            default -> {
-                node.setVisible(false);
-                node.setEnabled(false);
-            }
         }
     }
 }

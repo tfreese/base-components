@@ -2,6 +2,7 @@
 package de.freese.base.mvc.menue;
 
 import java.awt.BorderLayout;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -28,16 +29,42 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(menuAndToolbarContext.generateToolBar(), BorderLayout.NORTH);
-        panel.add(new JLabel("DemoMenuAndToolbarContext"), BorderLayout.CENTER);
+
+        final JLabel label = new JLabel("DemoMenuAndToolbarContext");
+        panel.add(label, BorderLayout.CENTER);
         frame.setContentPane(panel);
 
         frame.setVisible(true);
 
         SwingUtilities.invokeLater(() -> {
             menuAndToolbarContext.resetDefaults();
-            menuAndToolbarContext.setActionListener("FILE", "SAVE", event -> System.out.println("FILE.SAFE"));
-            menuAndToolbarContext.setActionListener(ROOT_NAME, "EXIT", event -> System.exit(-1));
+            menuAndToolbarContext.setActionListener("FILE", "SAVE", event -> actionFileSave(menuAndToolbarContext, label));
         });
+    }
+
+    private static void actionApplicationExit(final JLabel label) {
+        System.out.println("Application - Exit");
+        label.setText("Application - Exit");
+
+        SwingUtilities.invokeLater(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            }
+            catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            System.exit(-1);
+        });
+    }
+
+    private static void actionFileSave(final AbstractMenuAndToolbarContext menuAndToolbarContext, final JLabel label) {
+        System.out.println("File - Save");
+        label.setText("File - Save");
+
+        menuAndToolbarContext.setState("FILE", "SAVE", ComponentState.VISIBLE_DISABLED);
+
+        menuAndToolbarContext.setActionListener("APPLICATION", "EXIT", event -> actionApplicationExit(label));
     }
 
     @Override
@@ -53,20 +80,11 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
 
         addSeparator(ROOT_NAME);
 
-        addMenu(ROOT_NAME, "EXPORT", node -> {
-            node.setTextSupplier(() -> "Export");
+        addMenu(ROOT_NAME, "APPLICATION", node -> {
+            node.setTextSupplier(() -> "Application");
         });
-        addMenuAndToolbarItem("EXPORT", "AS_TEXT", node -> {
-            node.setTextSupplier(() -> "As Text");
-        });
-
-        addToolbarItem(ROOT_NAME, "EXIT", node -> {
+        addMenuAndToolbarItem("APPLICATION", "EXIT", node -> {
             node.setTextSupplier(() -> "Exit");
-            node.setIcon(new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("icons/schleimmann.gif")));
         });
-        // addMenu(ROOT_NAME, "EXIT", node -> {
-        //     node.setTextSupplier(() -> "Exit");
-        //     node.setIcon(new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("icons/schleimmann.gif")));
-        // });
     }
 }
