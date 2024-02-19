@@ -2,9 +2,7 @@
 package de.freese.base.reports.exporter;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -85,7 +83,7 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
         contentByte.endText();
     }
 
-    protected void drawTextFooter(final Document document, final PdfWriter writer, final String text, final Font font) throws DocumentException, IOException {
+    protected void drawTextFooter(final Document document, final PdfWriter writer, final String text, final Font font) throws DocumentException {
         drawText(writer, text, getMaxX(document), getMinY(document), font.getSize(), PdfContentByte.ALIGN_RIGHT, font.getBaseFont());
     }
 
@@ -153,13 +151,21 @@ public abstract class AbstractPdfExporter<T> extends AbstractExporter<T> {
      * Secure with Password and limit rights.<br>
      * Must be called before opening the Document.
      *
-     * @param userPassword String, null = No Question during opening
-     * @param ownerPassword String, null = No Question during changes
+     * @param userPassword byte[], null = No Question during opening
+     * @param ownerPassword byte[], null = No Question during changes
      */
-    protected void secure(final PdfWriter writer, final String userPassword, final String ownerPassword) throws DocumentException {
-        final byte[] userPwd = userPassword != null ? userPassword.getBytes(StandardCharsets.UTF_8) : null;
-        final byte[] ownerPwd = ownerPassword != null ? ownerPassword.getBytes(StandardCharsets.UTF_8) : null;
+    protected void secure(final PdfWriter writer, final byte[] userPassword, final byte[] ownerPassword, final int permissions) throws DocumentException {
+        writer.setEncryption(userPassword, ownerPassword, permissions, PdfWriter.ENCRYPTION_AES_128);
+    }
 
-        writer.setEncryption(userPwd, ownerPwd, PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS, PdfWriter.ENCRYPTION_AES_128);
+    /**
+     * Secure with Password and read only rights (PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS).<br>
+     * Must be called before opening the Document.
+     *
+     * @param userPassword byte[], null = No Question during opening
+     * @param ownerPassword byte[], null = No Question during changes
+     */
+    protected void secureReadOnly(final PdfWriter writer, final byte[] userPassword, final byte[] ownerPassword) throws DocumentException {
+        secure(writer, userPassword, ownerPassword, PdfWriter.ALLOW_PRINTING | PdfWriter.ALLOW_SCREENREADERS);
     }
 }

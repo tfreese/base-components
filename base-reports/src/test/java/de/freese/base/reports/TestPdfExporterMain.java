@@ -4,6 +4,7 @@ package de.freese.base.reports;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -38,7 +39,7 @@ public final class TestPdfExporterMain {
             @Override
             public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception {
                 // Must be called before opening the Document.
-                // secure(writer, "test", null);
+                // secureReadOnly(writer, "test".getBytes(StandardCharsets.UTF_8), null);
 
                 document.open();
 
@@ -92,7 +93,7 @@ public final class TestPdfExporterMain {
                 Desktop.getDesktop().open(filePath.toFile());
             }
             catch (IOException ex) {
-                ex.printStackTrace();
+                throw new UncheckedIOException(ex);
             }
         };
 

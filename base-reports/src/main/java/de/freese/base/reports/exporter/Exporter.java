@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public interface Exporter<T> {
     void export(OutputStream outputStream, T model) throws Exception;
 
-    default void export(Path filePath, T model) throws Exception {
+    default void export(final Path filePath, final T model) throws Exception {
         try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(filePath))) {
             export(outputStream, model);
 
