@@ -52,7 +52,10 @@ subprojects {
     }
 
     afterEvaluate { project ->
-        if (project.plugins.hasPlugin("java") || project.plugins.hasPlugin("java-library") || project.plugins.hasPlugin("application")) {
+        if (project.plugins.hasPlugin("java")
+                || project.plugins.hasPlugin("java-library")
+                || project.plugins.hasPlugin("application")
+                || project.plugins.hasPlugin("war"){
             dependencies {
                 testImplementation("org.awaitility:awaitility")
                 testImplementation("org.junit.jupiter:junit-jupiter")
