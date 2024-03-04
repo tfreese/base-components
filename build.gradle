@@ -33,13 +33,12 @@ subprojects {
                 entry "bcmail-jdk18on"
             }
 
-            dependency("org.apache.commons:commons-collections4:$version_commonsCollections")
             dependency("org.apache.poi:poi-ooxml:$version_poi")
             dependency("org.apache.sshd:sshd-core:$version_sshd")
 
             dependency("org.jfree:jfreechart:$version_jfreechart") {
-                exclude "com.lowagie:itext"
-                exclude "xml-apis:xml-apis"
+                // exclude "com.lowagie:itext"
+                // exclude "xml-apis:xml-apis"
             }
 
             dependencySet(group: "org.openjdk.jmh", version: "$version_jmh") {
