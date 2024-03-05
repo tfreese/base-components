@@ -60,7 +60,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
+                <version>${version_spring-cloud}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
