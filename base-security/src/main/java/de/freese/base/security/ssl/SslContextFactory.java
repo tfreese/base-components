@@ -112,25 +112,25 @@ public final class SslContextFactory {
         for (int i = 0; i < trustManagers.length; i++) {
             final TrustManager tm = trustManagers[i];
 
-            if (tm instanceof X509TrustManager) {
+            if (tm instanceof X509TrustManager x509TrustManager) {
                 trustManagers[i] = new X509TrustManager() {
                     @Override
                     public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
                         if (!trustLocalHost) {
-                            ((X509TrustManager) tm).checkClientTrusted(chain, authType);
+                            x509TrustManager.checkClientTrusted(chain, authType);
                         }
                     }
 
                     @Override
                     public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
                         if (!trustLocalHost) {
-                            ((X509TrustManager) tm).checkServerTrusted(chain, authType);
+                            x509TrustManager.checkServerTrusted(chain, authType);
                         }
                     }
 
                     @Override
                     public X509Certificate[] getAcceptedIssuers() {
-                        return trustLocalHost ? null : ((X509TrustManager) tm).getAcceptedIssuers();
+                        return trustLocalHost ? null : x509TrustManager.getAcceptedIssuers();
                     }
                 };
             }

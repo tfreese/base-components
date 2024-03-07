@@ -9,15 +9,25 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Test;
@@ -28,6 +38,7 @@ import de.freese.base.security.crypto.Crypto;
 import de.freese.base.security.crypto.CryptoAsymetric;
 import de.freese.base.security.crypto.CryptoConfig;
 import de.freese.base.security.crypto.CryptoConfigSymetric;
+import de.freese.base.utils.Encoding;
 
 /**
  * @author Thomas Freese
@@ -200,6 +211,40 @@ class TestCrypto {
 
         testCodec(crypto);
         testSignAndVerify(crypto);
+    }
+
+    @Test
+    void textAsymetricCrypto() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(512, SecureRandom.getInstanceStrong());
+
+        final KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        final AsymetricCrypto crypto = new AsymetricCrypto(keyPair.getPublic(), keyPair.getPrivate());
+
+        for (Encoding encoding : Encoding.values()) {
+            final String encrypted = crypto.encrypt(SOURCE, encoding);
+            System.out.println(encrypted);
+
+            assertEquals(SOURCE, crypto.decrypt(encrypted, encoding));
+        }
+    }
+
+    @Test
+    void textSymetricCrypto() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException,
+            InvalidAlgorithmParameterException {
+        // final byte[] salt = new byte[]{0};
+
+        final PBEKeySpec pbeKeySpec = new PBEKeySpec("password".toCharArray());
+
+        final SymetricCrypto crypto = new SymetricCrypto(pbeKeySpec);
+
+        for (Encoding encoding : Encoding.values()) {
+            final String encrypted = crypto.encrypt(SOURCE, encoding);
+            System.out.println(encrypted);
+
+            assertEquals(SOURCE, crypto.decrypt(encrypted, encoding));
+        }
     }
 
     private void testCodec(final Crypto crypto) throws Exception {
