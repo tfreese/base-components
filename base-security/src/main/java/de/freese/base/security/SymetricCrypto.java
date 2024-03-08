@@ -1,66 +1,119 @@
 // Created: 07.03.24
 package de.freese.base.security;
 
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
-import javax.crypto.interfaces.PBEKey;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * <a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html">Java Security Standard Algorithm Names</a>
  *
  * @author Thomas Freese
  */
-public class SymetricCrypto extends AbstractCrypto {
+public final class SymetricCrypto {
+    private static final int ITERATIONS = 100;
+    private static final int KEY_LENGTH = 256;
     /**
-     * PBKDF2WithHmacSHA256<br>
-     * PBEWithHmacSHA256AndAES_128<br>
-     * PBEWithMD5AndTripleDES<br>
-     * PBEWithMD5AndDES
+     * Must be 8 Bites long.
+     * <pre>{@code
+     * byte[] salt = new byte[8];
+     * SecureRandom.getInstanceStrong().nextBytes(salt);
+     * }</pre>
      */
-    public static final String ALGORITHM = "PBEWithMD5AndTripleDES";
+    private static final byte[] SALT = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
 
-    private static Cipher createCipher(final int mode, final SecretKey secretKey)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
-        final byte[] salt = new byte[8];
-        // final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
-        // secureRandom.nextBytes(salt);
+    public enum Algorithm {
+        PBE_WITH_HMAC_SHA512_AND_AES256("PBEWithHmacSHA512AndAES_256"),
+        PBE_WITH_HMAC_SHA256_AND_AES128("PBEWithHmacSHA256AndAES_128"),
+        /**
+         * Needs BouncyCastleProvider
+         */
+        PBE_WITH_SHA256_AND_256BIT_AES_CBC_BC("PBEWITHSHA256AND256BITAES-CBC-BC"),
+        PBE_WITH_MD5_AND_TRIPLEDES("PBEWithMD5AndTripleDES"),
+        PBE_WITH_MD5_AND_DES("PBEWithMD5AndDES");
 
-        final PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(salt, 8);
+        private final String algorithmName;
 
-        final Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(mode, secretKey, pbeParameterSpec);
+        Algorithm(final String algorithmName) {
+            this.algorithmName = algorithmName;
+        }
 
-        return cipher;
+        public String getAlgorithmName() {
+            return algorithmName;
+        }
     }
 
-    /**
-     * See {@link PBEKeySpec}, {@link PBEKey}<br>
-     */
-    public SymetricCrypto(final PBEKeySpec pbeKeySpec)
-            throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidAlgorithmParameterException {
-        this(SecretKeyFactory.getInstance(ALGORITHM).generateSecret(pbeKeySpec));
-
-        // byte[] salt = new byte[8];
-        // Random random = new Random();
-        // random.nextBytes(salt);
-
-        // PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(salt, 100)
-        // cipher.init(Cipher.ENCRYPT_MODE, secretKey, pbeParameterSpec);
+    public static Crypter create(final String password, final Algorithm algorithm)
+            throws InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
+        return create(password, algorithm.getAlgorithmName());
     }
 
-    /**
-     * See {@link PBEKeySpec}, {@link PBEKey}
-     */
-    public SymetricCrypto(final SecretKey secretKey) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException {
-        super(createCipher(Cipher.ENCRYPT_MODE, secretKey), createCipher(Cipher.DECRYPT_MODE, secretKey));
+    public static Crypter create(final String password, final String algorithm)
+            throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        return create(password, algorithm, algorithm);
+    }
+
+    public static Crypter create(final String password, final String algorithmKeyFactory, final String algorithmCipher)
+            throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException {
+        final PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray(), SALT, ITERATIONS, KEY_LENGTH);
+        final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(algorithmKeyFactory);
+        final SecretKey secretKey = secretKeyFactory.generateSecret(pbeKeySpec);
+
+        // final byte[] iv = new byte[16];
+        // SecureRandom.getInstanceStrong().nextBytes(iv);
+        // final IvParameterSpec ivParamSpec = new IvParameterSpec(iv);
+        // final PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(pbeKeySpec.getSalt(), pbeKeySpec.getIterationCount(), ivParamSpec);
+        final PBEParameterSpec pbeParameterSpec = new PBEParameterSpec(pbeKeySpec.getSalt(), pbeKeySpec.getIterationCount());
+
+        final Cipher encryptCipher = Cipher.getInstance(algorithmCipher);
+        encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey, pbeParameterSpec);
+
+        final Cipher decryptCipher = Cipher.getInstance(algorithmCipher);
+        decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, encryptCipher.getParameters());
+
+        return new Crypter(encryptCipher, decryptCipher);
+    }
+
+    public static Crypter createAesCbc(final String password) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        // final byte[] key = Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), 32);
+        // SecretKey secretKey = new SecretKeySpec(key, "AES");
+
+        // String pw = password;
+        //
+        // while (pw.length() < 33) {
+        //     pw += password;
+        // }
+
+        // char[] pwChars = pw.toCharArray();
+        // pwChars = Arrays.copyOf(pwChars, 32);
+        //
+        // final PBEKeySpec pbeKeySpec = new PBEKeySpec(pwChars, SALT, ITERATIONS, KEY_LENGTH);
+        // final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(Algorithm.PBE_WITH_HMAC_SHA512_AND_AES256.getAlgorithmName());
+        // final SecretKey secret = secretKeyFactory.generateSecret(pbeKeySpec);
+        //
+        // final SecretKey secretKey = new SecretKeySpec(secret.getEncoded(), "AES");
+
+        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), 32), "AES");
+
+        // final IvParameterSpec ivParameterSpec = new IvParameterSpec(Arrays.copyOf(SALT, 16));
+
+        final Cipher encryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+        final Cipher decryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, encryptCipher.getParameters());
+
+        return new Crypter(encryptCipher, decryptCipher);
     }
 }

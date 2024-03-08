@@ -25,7 +25,7 @@ import de.freese.base.utils.CryptoUtils;
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestCryptoUtils {
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     @BeforeAll
     static void beforeAll() {

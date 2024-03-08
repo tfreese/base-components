@@ -13,7 +13,7 @@ import javax.crypto.NoSuchPaddingException;
  *
  * @author Thomas Freese
  */
-public class AsymetricCrypto extends AbstractCrypto {
+public class AsymetricCrypto extends Crypter {
     /**
      * @param publicKey {@link PublicKey}; required for encryption
      * @param privateKey {@link PrivateKey; required for decryption

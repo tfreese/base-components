@@ -17,9 +17,9 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.Security;
+import java.security.spec.AlgorithmParameterSpec;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
-import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -27,7 +27,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Test;
@@ -38,9 +37,12 @@ import de.freese.base.security.crypto.Crypto;
 import de.freese.base.security.crypto.CryptoAsymetric;
 import de.freese.base.security.crypto.CryptoConfig;
 import de.freese.base.security.crypto.CryptoConfigSymetric;
+import de.freese.base.utils.CryptoUtils;
 import de.freese.base.utils.Encoding;
 
 /**
+ * <a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html">Java Security Standard Algorithm Names</a>
+ *
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
@@ -92,93 +94,48 @@ class TestCrypto {
 
     @Test
     void testSymetricAesCbc() throws Exception {
-        // @formatter:off
-        final Crypto crypto = CryptoConfig.symetric()
-            //.providerDefault("SunJCE")
-            .algorithmDefault("AES")
-            .algorithmCipher("AES/CBC/PKCS5Padding") // AES/GCM/NoPadding, "AES/GCM/PKCS5Padding"
-            .initVector(Arrays.copyOf(CryptoConfigSymetric.DEFAULT_INIT_VECTOR, 16))
-            .keySize(256)
-            .build()
-            ;
-        // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
+        testCrypter(SymetricCrypto.createAesCbc("password"));
     }
 
-    @Test
-    void testSymetricAesCbcBC() throws Exception {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            Security.addProvider(new BouncyCastleProvider());
-        }
-
-        // @formatter:off
-        final Crypto crypto = CryptoConfig.symetric()
-            .providerDefault(BouncyCastleProvider.PROVIDER_NAME)
-            .algorithmDefault("PBEWITHSHA256AND256BITAES-CBC-BC")
-            .algorithmKeyGenerator("AES")
-            .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
-            .keySize(4096)
-//            .keyPassword("gehaim")
-            .build()
-            ;
-        // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
-    @Test
-    void testSymetricAesGcm() throws Exception {
-        // @formatter:off
-        final Crypto crypto = CryptoConfig.symetric()
-             .algorithmDefault("AES")
-             .algorithmCipher("AES/GCM/NoPadding") // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
-             .initVector(CryptoConfigSymetric.DEFAULT_INIT_VECTOR)
-             .keySize(256)
-             .build()
-             ;
-         // @formatter:on
-
-        testCodec(crypto);
-        testSignAndVerify(crypto);
-    }
-
+    /**
+     * AES-GCM Cipher can not be reused !
+     */
     @Test
     void testSymetricAesGcmPlain() throws Exception {
         // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
-        final String cipherTransformation = "AES/GCM/NoPadding";
+        final String algorithm = "AES/GCM/NoPadding";
 
-        final byte[] initVector = new byte[512];
-
-        // Password/Key erstellen
         // final SecureRandom random = SecureRandom.getInstanceStrong();
         // final SecureRandom random = SecureRandom.getInstance("SHA1PRNG", "SUN");
         final SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
-        final KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(256, secureRandom);
 
+        final byte[] initVector = new byte[512];
         secureRandom.nextBytes(initVector);
-        final Key key = keyGen.generateKey();
 
-        // Verschlüsseln
-        final Cipher encodeCipher = Cipher.getInstance(cipherTransformation);
-        encodeCipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
+        final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(256, secureRandom);
 
-        final byte[] encrypted = encodeCipher.doFinal(SOURCE_BYTES);
-        final String encryptedString = Base64.getEncoder().encodeToString(encrypted);
-        System.out.println(encryptedString);
+        final Key key = keyGenerator.generateKey();
 
-        // Entschlüsseln
-        final Cipher decodeCipher = Cipher.getInstance(cipherTransformation);
-        decodeCipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, initVector), secureRandom);
+        final AlgorithmParameterSpec parameterSpec = new GCMParameterSpec(128, initVector);
 
-        final byte[] decrypted = decodeCipher.doFinal(encrypted);
-        final String decryptedString = new String(decrypted, CHARSET);
-        System.out.println(decryptedString);
+        final Cipher encryptCipher = Cipher.getInstance(algorithm);
+        encryptCipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec, secureRandom);
 
-        assertEquals(SOURCE, decryptedString);
+        final Cipher decryptCipher = Cipher.getInstance(algorithm);
+        decryptCipher.init(Cipher.DECRYPT_MODE, key, parameterSpec, secureRandom);
+
+        // AES-GCM Cipher can not be reused !
+        // testCrypter(new Crypter(encryptCipher, decryptCipher));
+
+        final byte[] encrypted = encryptCipher.doFinal(SOURCE_BYTES);
+
+        for (Encoding encoding : Encoding.values()) {
+            System.out.printf("%6s: %s%n", encoding, CryptoUtils.encode(encoding, encrypted));
+        }
+
+        final byte[] decrypted = decryptCipher.doFinal(encrypted);
+        assertEquals(SOURCE, new String(decrypted, CHARSET));
     }
 
     @Test
@@ -233,17 +190,16 @@ class TestCrypto {
     @Test
     void textSymetricCrypto() throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException,
             InvalidAlgorithmParameterException {
-        // final byte[] salt = new byte[]{0};
 
-        final PBEKeySpec pbeKeySpec = new PBEKeySpec("password".toCharArray());
+        // Required by PBEWITHSHA256AND256BITAES-CBC-BC
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
 
-        final SymetricCrypto crypto = new SymetricCrypto(pbeKeySpec);
+        for (SymetricCrypto.Algorithm algorithm : SymetricCrypto.Algorithm.values()) {
+            System.out.println(algorithm);
 
-        for (Encoding encoding : Encoding.values()) {
-            final String encrypted = crypto.encrypt(SOURCE, encoding);
-            System.out.println(encrypted);
-
-            assertEquals(SOURCE, crypto.decrypt(encrypted, encoding));
+            testCrypter(SymetricCrypto.create("password", algorithm));
         }
     }
 
@@ -277,6 +233,15 @@ class TestCrypto {
         }
 
         assertArrayEquals(SOURCE_BYTES, decrypted);
+    }
+
+    private void testCrypter(final Crypter crypter) throws IllegalBlockSizeException, BadPaddingException {
+        for (Encoding encoding : Encoding.values()) {
+            final String encrypted = crypter.encrypt(SOURCE, encoding);
+            System.out.printf("%6s: %s%n", encoding, encrypted);
+
+            assertEquals(SOURCE, crypter.decrypt(encrypted, encoding));
+        }
     }
 
     private void testSignAndVerify(final Crypto crypto) throws Exception {

@@ -28,49 +28,49 @@ import de.freese.base.utils.Encoding;
  *
  * @author Thomas Freese
  */
-abstract class AbstractCrypto {
+public class Crypter {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    private final Cipher decodeCipher;
-    private final Cipher encodeCipher;
+    private final Cipher decryptCipher;
+    private final Cipher encryptCipher;
 
     /**
      * @param publicKey {@link PublicKey}; required for encryption
      * @param privateKey {@link PrivateKey; required for decryption
      */
-    protected AbstractCrypto(final Key publicKey, final Key privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
+    public Crypter(final Key publicKey, final Key privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException {
         super();
 
         if (publicKey != null) {
-            encodeCipher = Cipher.getInstance(publicKey.getAlgorithm());
-            encodeCipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            encryptCipher = Cipher.getInstance(publicKey.getAlgorithm());
+            encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey);
         }
         else {
-            encodeCipher = null;
+            encryptCipher = null;
         }
 
         if (privateKey != null) {
-            decodeCipher = Cipher.getInstance(privateKey.getAlgorithm());
-            decodeCipher.init(Cipher.DECRYPT_MODE, privateKey);
+            decryptCipher = Cipher.getInstance(privateKey.getAlgorithm());
+            decryptCipher.init(Cipher.DECRYPT_MODE, privateKey);
         }
         else {
-            decodeCipher = null;
+            decryptCipher = null;
         }
     }
 
-    protected AbstractCrypto(final Cipher encodeCipher, final Cipher decodeCipher) {
+    public Crypter(final Cipher encryptCipher, final Cipher decryptCipher) {
         super();
 
-        this.encodeCipher = Objects.requireNonNull(encodeCipher, "encodeCipher required");
-        this.decodeCipher = Objects.requireNonNull(decodeCipher, "decodeCipher required");
+        this.encryptCipher = Objects.requireNonNull(encryptCipher, "encryptCipher required");
+        this.decryptCipher = Objects.requireNonNull(decryptCipher, "decryptCipher required");
     }
 
     public InputStream decorateInputStream(final InputStream inputStream) {
-        return new CipherInputStream(inputStream, getDecodeCipher());
+        return new CipherInputStream(inputStream, getDecryptCipher());
     }
 
     public OutputStream decorateOutputStream(final OutputStream outputStream) {
-        return new CipherOutputStream(outputStream, getEncodeCipher());
+        return new CipherOutputStream(outputStream, getEncryptCipher());
     }
 
     public String decrypt(final String value, final Encoding encoding) throws IllegalBlockSizeException, BadPaddingException {
@@ -78,7 +78,7 @@ abstract class AbstractCrypto {
     }
 
     public String decrypt(final byte[] decoded) throws IllegalBlockSizeException, BadPaddingException {
-        final byte[] decypted = getDecodeCipher().doFinal(decoded);
+        final byte[] decypted = getDecryptCipher().doFinal(decoded);
 
         return new String(decypted, CHARSET);
     }
@@ -90,18 +90,18 @@ abstract class AbstractCrypto {
     }
 
     public byte[] encrypt(final String value) throws IllegalBlockSizeException, BadPaddingException {
-        return getEncodeCipher().doFinal(value.getBytes(CHARSET));
+        return getEncryptCipher().doFinal(value.getBytes(CHARSET));
     }
 
-    private Cipher getDecodeCipher() {
-        Objects.requireNonNull(decodeCipher, "decodeCipher required");
+    private Cipher getDecryptCipher() {
+        Objects.requireNonNull(decryptCipher, "decryptCipher required");
 
-        return decodeCipher;
+        return decryptCipher;
     }
 
-    private Cipher getEncodeCipher() {
-        Objects.requireNonNull(encodeCipher, "encodeCipher required");
+    private Cipher getEncryptCipher() {
+        Objects.requireNonNull(encryptCipher, "encryptCipher required");
 
-        return encodeCipher;
+        return encryptCipher;
     }
 }
