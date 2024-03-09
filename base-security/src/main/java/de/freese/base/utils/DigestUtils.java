@@ -24,30 +24,32 @@ public final class DigestUtils {
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
     private static final HexFormat HEX_FORMAT = HexFormat.of().withUpperCase();
 
-    /**
-     * MD2<br>
-     * MD5<br>
-     * SHA-1<br>
-     * SHA-224<br>
-     * SHA-256<br>
-     * SHA-384<br>
-     * SHA-512<br>
-     */
-    public static MessageDigest createMessageDigest(final String algorithm) {
+    public enum Algorithm {
+        MD5("MD5"),
+        SHA_1("SHA-1"),
+        SHA_256("SHA-256"),
+        SHA_512("SHA-512"),
+        SHA3_256("SHA3-256"),
+        SHA3_512("SHA3-512");
+
+        private final String algorithmName;
+
+        Algorithm(final String algorithmName) {
+            this.algorithmName = algorithmName;
+        }
+
+        public String getAlgorithmName() {
+            return algorithmName;
+        }
+    }
+
+    public static MessageDigest createMessageDigest(final Algorithm algorithm) {
         try {
-            return MessageDigest.getInstance(algorithm);
+            return MessageDigest.getInstance(algorithm.getAlgorithmName());
         }
         catch (final NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    public static MessageDigest createSha1Digest() {
-        return createMessageDigest("SHA-1");
-    }
-
-    public static MessageDigest createSha512Digest() {
-        return createMessageDigest("SHA-512");
     }
 
     public static DigestInputStream decorateInputStream(final MessageDigest digest, final InputStream inputStream) {
@@ -108,25 +110,10 @@ public final class DigestUtils {
         return bytes;
     }
 
-    public static String digestAsHex(final MessageDigest digest) {
+    public static String encodeDigest(final MessageDigest digest, final Encoding encoding) {
         final byte[] bytes = digest.digest();
 
-        return HEX_FORMAT.formatHex(bytes);
-    }
-
-    /**
-     * Der {@link InputStream} wird NICHT geschlossen !
-     */
-    public static String digestAsHex(final MessageDigest digest, final InputStream inputStream) throws IOException {
-        final byte[] bytes = digest(digest, inputStream);
-
-        return HEX_FORMAT.formatHex(bytes);
-    }
-
-    public static String digestAsHex(final MessageDigest digest, final Path file) throws IOException {
-        final byte[] bytes = digest(digest, file);
-
-        return HEX_FORMAT.formatHex(bytes);
+        return CryptoUtils.encode(encoding, bytes);
     }
 
     private DigestUtils() {

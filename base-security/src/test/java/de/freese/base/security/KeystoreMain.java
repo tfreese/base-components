@@ -9,12 +9,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.cert.Certificate;
 import java.util.Base64;
 import java.util.Collections;
 
@@ -82,22 +81,17 @@ public final class KeystoreMain {
         decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
         testCrypt(encryptCipher, decryptCipher);
 
-        // Certificate cert = keyStore.getCertificate(alias);
-        // PublicKey publicKey = cert.getPublicKey();
-        // PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias, aliasPSW);
-        final KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "SunRsaSign");
-        kpg.initialize(1024, secureRandom);
-        final KeyPair keyPair = kpg.generateKeyPair();
-
-        final PublicKey publicKey = keyPair.getPublic();
-        final PrivateKey privateKey = keyPair.getPrivate();
+        final Certificate cert = keyStore.getCertificate(alias);
+        final PublicKey publicKey = cert.getPublicKey();
+        final PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias, aliasPSW);
 
         // "RSA/ECB/PKCS1Padding"
         encryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", provider);
-        decryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", provider);
-
         encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey, secureRandom);
+
+        decryptCipher = Cipher.getInstance("RSA/ECB/NoPadding", provider);
         decryptCipher.init(Cipher.DECRYPT_MODE, privateKey, secureRandom);
+
         testCrypt(encryptCipher, decryptCipher);
 
         // Stream
