@@ -21,7 +21,7 @@ import de.freese.base.utils.Encoding;
  * @author Thomas Freese
  */
 @Execution(ExecutionMode.CONCURRENT)
-class TestCrypto {
+class TestCrypter {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
@@ -84,21 +84,4 @@ class TestCrypto {
         }
     }
 
-    // private void testSignAndVerify(final Crypto crypto) throws Exception {
-    //     try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES)) {
-    //         byte[] sig = null;
-    //
-    //         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-    //             crypto.sign(bais, baos);
-    //             sig = baos.toByteArray();
-    //         }
-    //
-    //         bais.reset();
-    //
-    //         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig)) {
-    //             final boolean verified = crypto.verify(bais, inputStream);
-    //             assertTrue(verified, "Wrong Signature");
-    //         }
-    //     }
-    // }
 }

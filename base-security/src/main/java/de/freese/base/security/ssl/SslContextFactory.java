@@ -2,8 +2,11 @@
 package de.freese.base.security.ssl;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.security.KeyStore;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -21,7 +24,7 @@ import javax.net.ssl.X509TrustManager;
  * @author Thomas Freese
  */
 public final class SslContextFactory {
-    public static final TrustManager[] X509_TRUST_ALL_MANAGER = {new X509TrustManager() {
+    private static final TrustManager[] X509_TRUST_ALL_MANAGER = {new X509TrustManager() {
         @Override
         public void checkClientTrusted(final X509Certificate[] certs, final String authType) {
             // Empty
@@ -34,31 +37,29 @@ public final class SslContextFactory {
 
         @Override
         public X509Certificate[] getAcceptedIssuers() {
-            return null;
+            return new X509Certificate[]{};
         }
     }};
 
-    // public static SSLContext createDefault()
-    // throws NoSuchAlgorithmException, KeyManagementException, NoSuchProviderException
-    // {
-    // // System.setProperty("javax.net.debug", "ssl");
-    // // System.setProperty("https.protocols", "TLSv1");
-    //
-    // SSLContext sslContext = SSLContext.getDefault();
-    // // SSLContext sslContext = SSLContext.getInstance("SSL");
-    // // SSLContext sslContext = SSLContext.getInstance("TLSv1", "SunJSSE");
-    // // sslContext.init(null, X509_TRUST_ALL_Manager, null);
-    //
-    // // HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-    //
-    // return sslContext;
-    // }
+    public static SSLContext createDefault() throws GeneralSecurityException {
+        // System.setProperty("javax.net.debug", "ssl");
+        // System.setProperty("https.protocols", "SSL");
+
+        // final SSLContext sslContext = SSLContext.getDefault();
+        final SSLContext sslContext = SSLContext.getInstance("SSL"); // TLS
+        sslContext.init(null, X509_TRUST_ALL_MANAGER, SecureRandom.getInstanceStrong());
+
+        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+        HttpsURLConnection.setDefaultHostnameVerifier(createHostnameVerifier());
+
+        return sslContext;
+    }
 
     /**
      * HttpsURLConnection.setDefaultHostnameVerifier<br>
      * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())
      */
-    public static HostnameVerifier createHostnameVerifier1() {
+    public static HostnameVerifier createHostnameVerifier() {
         final String invokeHost = "remotehost";
         final boolean trustLocalHost = true;
 
@@ -75,17 +76,16 @@ public final class SslContextFactory {
     }
 
     /**
-     * KeyStore = Chain der Root-Authority und das eigene Zertifikat mit Private-Key.<br>
-     * TrustStore = Public-Keys angeschlossener Systeme <br>
+     * KeyStore = Chain of the Root-Authority and the own Certificate with Private-Key.<br>
+     * TrustStore = Public-Keys trusted Systems<br>
      * <br>
      * SSLContext.setDefault(sslContext);<br>
      * HttpsURLConnection.setDefaultSSLSocketFactory(SSLContext.getDefault().getSocketFactory());<br>
      * ClientBuilder.newBuilder().sslContext(createSslContext()).hostnameVerifier(createHostnameVerifier())<br>
      */
     public static SSLContext createSslContext(final String keyStoreFile, final char[] keyStorePassword, final String trustStoreFile, final char[] trustStorePassword,
-                                              final char[] certPassword) throws Exception {
-        // KeyStore.getInstance("JKS", "SUN")
-        final KeyStore keyStore = KeyStore.getInstance("JKS");
+                                              final char[] certPassword) throws GeneralSecurityException, IOException {
+        final KeyStore keyStore = KeyStore.getInstance("PKCS12"); // PKCS12, JKS
 
         try (InputStream inputStream = new FileInputStream(keyStoreFile)) {
             keyStore.load(inputStream, keyStorePassword);
@@ -95,7 +95,7 @@ public final class SslContextFactory {
         final KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         keyManagerFactory.init(keyStore, certPassword);
 
-        final KeyStore trustStore = KeyStore.getInstance("JKS");
+        final KeyStore trustStore = KeyStore.getInstance("PKCS12"); // // PKCS12, JKS
 
         try (InputStream inputStream = new FileInputStream(trustStoreFile)) {
             trustStore.load(inputStream, trustStorePassword);
@@ -105,7 +105,7 @@ public final class SslContextFactory {
         final TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         trustManagerFactory.init(trustStore);
 
-        // Localhost immer vertrauen
+        // Trust Localhost.
         final boolean trustLocalHost = true;
         final TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
 
@@ -130,15 +130,17 @@ public final class SslContextFactory {
 
                     @Override
                     public X509Certificate[] getAcceptedIssuers() {
-                        return trustLocalHost ? null : x509TrustManager.getAcceptedIssuers();
+                        return trustLocalHost ? new X509Certificate[]{} : x509TrustManager.getAcceptedIssuers();
                     }
                 };
             }
         }
 
-        // SSLContext.getInstance("TLSv1.3", "SunJSSE")
         final SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
         sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
+
+        HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+        HttpsURLConnection.setDefaultHostnameVerifier(createHostnameVerifier());
 
         return sslContext;
     }

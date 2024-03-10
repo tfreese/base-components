@@ -81,6 +81,9 @@ public class Crypter {
 
     public byte[] decrypt(final byte[] encrypted) throws GeneralSecurityException {
         return getDecryptCipher().doFinal(encrypted);
+
+        // getDecryptCipher().update(encrypted);
+        // return getDecryptCipher().doFinal();
     }
 
     public String decryptAsString(final byte[] decoded) throws GeneralSecurityException {
@@ -95,6 +98,9 @@ public class Crypter {
 
     public byte[] encrypt(final byte[] data) throws GeneralSecurityException {
         return getEncryptCipher().doFinal(data);
+
+        // getEncryptCipher().update(data);
+        // return getEncryptCipher().doFinal();
     }
 
     public byte[] encrypt(final String value) throws GeneralSecurityException {

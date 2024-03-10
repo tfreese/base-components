@@ -7,13 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigInteger;
 import java.security.KeyPair;
-import java.security.Security;
 import java.security.interfaces.RSAPublicKey;
 
 import javax.crypto.Cipher;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -26,13 +23,6 @@ import de.freese.base.utils.CryptoUtils;
 @Execution(ExecutionMode.CONCURRENT)
 class TestCryptoUtils {
     private static final boolean DEBUG = true;
-
-    @BeforeAll
-    static void beforeAll() {
-        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
-            Security.addProvider(new BouncyCastleProvider());
-        }
-    }
 
     @Test
     void testCipher() {

@@ -20,17 +20,6 @@ import javax.crypto.spec.IvParameterSpec;
  * @author Thomas Freese
  */
 public final class AsymetricCrypto {
-    // public static void createCertificate() throws GeneralSecurityException {
-    //     final CertAndKeyGen keyGen = new CertAndKeyGen("RSA", "SHA-512", null);
-    //     keyGen.generate(1024);
-    //
-    //     // Generate self signed certificate
-    //     final X509Certificate[] chain = new X509Certificate[1];
-    //     chain[0] = keyGen.getSelfCertificate(new X500Name("CN=ROOT"), 365L * 24 * 3600);
-    //
-    //     System.out.println("Certificate : " + chain[0].toString());
-    // }
-
     /**
      * Needs BouncyCastleProvider<br>
      * <pre>{@code

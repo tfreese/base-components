@@ -29,8 +29,19 @@
 // *
 // * @author Thomas Freese
 // */
-// public class Misc
+// public class CreateCertificate
 // {
+// public static void createCertificate() throws GeneralSecurityException {
+//     final CertAndKeyGen keyGen = new CertAndKeyGen("RSA", "SHA-512", null);
+//     keyGen.generate(1024);
+//
+//     // Generate self signed certificate
+//     final X509Certificate[] chain = new X509Certificate[1];
+//     chain[0] = keyGen.getSelfCertificate(new X500Name("CN=ROOT"), 365L * 24 * 3600);
+//
+//     System.out.println("Certificate : " + chain[0].toString());
+// }
+//
 // /**
 // * Geklaut von io.netty.handler.ssl.util.SelfSignedCertificate.
 // */
