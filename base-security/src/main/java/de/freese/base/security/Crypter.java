@@ -86,14 +86,12 @@ public class Crypter {
         // return getDecryptCipher().doFinal();
     }
 
-    public String decryptAsString(final byte[] decoded) throws GeneralSecurityException {
-        final byte[] decypted = decrypt(decoded);
+    public String decrypt(final String encodedEncrypted, final Encoding encoding) throws GeneralSecurityException {
+        final byte[] encrypted = CryptoUtils.decode(encoding, encodedEncrypted);
 
-        return new String(decypted, CHARSET);
-    }
+        final byte[] decrypted = decrypt(encrypted);
 
-    public String decryptAsString(final String value, final Encoding encoding) throws GeneralSecurityException {
-        return decryptAsString(CryptoUtils.decode(encoding, value));
+        return new String(decrypted, CHARSET);
     }
 
     public byte[] encrypt(final byte[] data) throws GeneralSecurityException {
@@ -103,12 +101,8 @@ public class Crypter {
         // return getEncryptCipher().doFinal();
     }
 
-    public byte[] encrypt(final String value) throws GeneralSecurityException {
-        return encrypt(value.getBytes(CHARSET));
-    }
-
-    public String encryptAsString(final String value, final Encoding encoding) throws GeneralSecurityException {
-        final byte[] encrypted = encrypt(value);
+    public String encrypt(final String value, final Encoding encoding) throws GeneralSecurityException {
+        final byte[] encrypted = encrypt(value.getBytes(CHARSET));
 
         return CryptoUtils.encode(encoding, encrypted);
     }

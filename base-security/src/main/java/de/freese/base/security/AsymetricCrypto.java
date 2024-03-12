@@ -80,17 +80,18 @@ public final class AsymetricCrypto {
         keyPairGenerator.initialize(keySize, secureRandom);
         final KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-        // return new Crypter(keyPair.getPublic(), keyPair.getPrivate());
+        return new Crypter(keyPair.getPublic(), keyPair.getPrivate());
 
-        final String cipherAlgorithm = "RSA/ECB/PKCS1Padding";
-
-        final Cipher encryptCipher = Cipher.getInstance(cipherAlgorithm);
-        encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic(), secureRandom);
-
-        final Cipher decryptCipher = Cipher.getInstance(cipherAlgorithm);
-        decryptCipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate(), secureRandom);
-
-        return new Crypter(encryptCipher, decryptCipher);
+        // final String cipherAlgorithm = "RSA/ECB/PKCS1Padding";
+        // // final String cipherAlgorithm = "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING";
+        //
+        // final Cipher encryptCipher = Cipher.getInstance(cipherAlgorithm);
+        // encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic(), secureRandom);
+        //
+        // final Cipher decryptCipher = Cipher.getInstance(cipherAlgorithm);
+        // decryptCipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate(), secureRandom);
+        //
+        // return new Crypter(encryptCipher, decryptCipher);
 
         // final Supplier<Cipher> encryptCipherSupplier = () -> {
         //     try {

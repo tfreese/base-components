@@ -77,10 +77,10 @@ class TestCrypter {
 
     private void testCrypter(final Crypter crypter) throws GeneralSecurityException {
         for (Encoding encoding : Encoding.values()) {
-            final String encrypted = crypter.encryptAsString(SOURCE, encoding);
+            final String encrypted = crypter.encrypt(SOURCE, encoding);
             System.out.printf("%6s: %s%n", encoding, encrypted);
 
-            assertEquals(SOURCE, crypter.decryptAsString(encrypted, encoding));
+            assertEquals(SOURCE, crypter.decrypt(encrypted, encoding));
         }
     }
 

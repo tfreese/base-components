@@ -3,7 +3,6 @@ package de.freese.base.security;
 
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
-import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -125,8 +124,8 @@ public final class SymetricCrypto {
         // "AES/GCM/NoPadding", "AES/GCM/PKCS5Padding"
         final String algorithm = "AES/GCM/NoPadding";
 
-        // final SecureRandom random = SecureRandom.getInstanceStrong();
-        final SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
+        // final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+        // final SecureRandom secureRandom = SecureRandom.getInstance("NativePRNG", "SUN");
 
         // final byte[] initVector = secureRandom.generateSeed(256);
         final byte[] initVector = SALT;
@@ -141,7 +140,7 @@ public final class SymetricCrypto {
         final Supplier<Cipher> encryptCipherSupplier = () -> {
             try {
                 final Cipher encryptCipher = Cipher.getInstance(algorithm);
-                encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey, parameterSpec, secureRandom);
+                encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey, parameterSpec); // , secureRandom
                 return encryptCipher;
             }
             catch (GeneralSecurityException ex) {
@@ -152,7 +151,7 @@ public final class SymetricCrypto {
         final Supplier<Cipher> decryptCipherSupplier = () -> {
             try {
                 final Cipher decryptCipher = Cipher.getInstance(algorithm);
-                decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, parameterSpec, secureRandom);
+                decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, parameterSpec); // , secureRandom
                 return decryptCipher;
             }
             catch (GeneralSecurityException ex) {

@@ -21,7 +21,8 @@ public final class Signer {
 
     public enum Algorithm {
         SHA1_WITH_RSA("SHA1withRSA"),
-        SHA512_WITH_RSA("SHA512withRSA");
+        SHA512_WITH_RSA("SHA512withRSA"),
+        SHA3_512_WITH_RSA("SHA3-512withRSA");
 
         private final String algorithmName;
 
@@ -43,8 +44,8 @@ public final class Signer {
         return signature.sign();
     }
 
-    public static String sign(final String message, final PrivateKey privateKey, final Algorithm algorithm, final Encoding encoding) throws GeneralSecurityException {
-        final byte[] messageBytes = CryptoUtils.decode(encoding, message);
+    public static String sign(final String encoded, final PrivateKey privateKey, final Algorithm algorithm, final Encoding encoding) throws GeneralSecurityException {
+        final byte[] messageBytes = CryptoUtils.decode(encoding, encoded);
 
         final byte[] signature = sign(messageBytes, privateKey, algorithm);
 
@@ -52,7 +53,7 @@ public final class Signer {
     }
 
     /**
-     * @param in {@link InputStream}; Encrypted
+     * @param in {@link InputStream}; Signed
      */
     public static void sign(final InputStream in, final OutputStream out, final PrivateKey privateKey, final Algorithm algorithm) throws GeneralSecurityException, IOException {
         final Signature signature = Signature.getInstance(algorithm.getAlgorithmName());
@@ -81,16 +82,17 @@ public final class Signer {
         return signature.verify(signedMessage);
     }
 
-    public static boolean verify(final String message, final String signedMessage, final PublicKey publicKey, final Algorithm algorithm, final Encoding encoding)
+    public static boolean verify(final String encoded, final String signedMessage, final PublicKey publicKey, final Algorithm algorithm, final Encoding encoding)
             throws GeneralSecurityException {
-        final byte[] messageBytes = CryptoUtils.decode(encoding, message);
+        final byte[] messageBytes = CryptoUtils.decode(encoding, encoded);
+
         final byte[] signedMessageBytes = CryptoUtils.decode(encoding, signedMessage);
 
         return verify(messageBytes, signedMessageBytes, publicKey, algorithm);
     }
 
     /**
-     * @param in {@link InputStream}; Encrypted
+     * @param in {@link InputStream}; Signed
      */
     public static boolean verify(final InputStream in, final InputStream signIn, final PublicKey publicKey, final Algorithm algorithm)
             throws GeneralSecurityException, IOException {
