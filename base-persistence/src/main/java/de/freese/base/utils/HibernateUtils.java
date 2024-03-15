@@ -5,18 +5,16 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-
-import jakarta.persistence.metamodel.Metamodel;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.hibernate.Cache;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
-import org.hibernate.stat.CacheRegionStatistics;
-import org.hibernate.stat.EntityStatistics;
 import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 
@@ -96,152 +94,172 @@ public final class HibernateUtils {
         return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
-    public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw, final Logger logger) {
-        logInfo(logger, String.format("Read PersistenceStatistics: %s", sessionFactory.getSessionFactoryOptions().getSessionFactoryName()));
+    public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw) {
+        Object jdbcUrl = null;
+
+        for (String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
+            jdbcUrl = sessionFactory.getProperties().get(key);
+
+            if (jdbcUrl != null) {
+                break;
+            }
+        }
 
         pw.println("----------------------------------------------");
-        pw.println(String.format("PersistenceStatistics: %s", sessionFactory.getSessionFactoryOptions().getSessionFactoryName()));
+        pw.printf("PersistenceStatistics: %s%n", jdbcUrl);
         pw.println("----------------------------------------------");
         pw.println();
 
-        try {
-            final Statistics stats = sessionFactory.getStatistics();
+        final Statistics stats = sessionFactory.getStatistics();
 
-            pw.println("Statistics enabled......: " + stats.isStatisticsEnabled());
-            pw.println();
+        pw.println("Statistics enabled......: " + stats.isStatisticsEnabled());
+        pw.println();
 
-            final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        pw.println("Start Date..............: " + stats.getStart());
+        pw.println("Current Date............: " + LocalDateTime.now());
+        pw.println();
+        pw.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
+        pw.println("Session open Count......: " + stats.getSessionOpenCount());
+        pw.println("Session close Count.....: " + stats.getSuccessfulTransactionCount());
+        pw.println("Begin Transaction Count : " + stats.getTransactionCount());
+        pw.println("Commit Transaction Count: " + stats.getSuccessfulTransactionCount());
 
-            // Allgemeine Statistiken
-            pw.println("Start Date..............: " + DATE_TIME_FORMATTER.format(stats.getStart()));
-            pw.println("Current Date............: " + DATE_TIME_FORMATTER.format(LocalDateTime.now()));
-            pw.println();
-            pw.println("PreparedStatement Count : " + stats.getPrepareStatementCount());
-            pw.println("Session open Count......: " + stats.getSessionOpenCount());
-            pw.println("Session close Count.....: " + stats.getSessionCloseCount());
+        pw.println();
+        pw.println("Query Cache");
+        long hitCount = stats.getQueryCacheHitCount();
+        long missCount = stats.getQueryCacheMissCount();
+        double hitRatio = (double) hitCount / (double) (hitCount + missCount);
 
-            long txCount = stats.getTransactionCount();
-            final long successfulTxCount = stats.getSuccessfulTransactionCount();
-
-            // Hibernate Bug: Wenn der TxManager kein JTA TransactionManager ist,
-            // werden die Tx doppelt gezählt (txCount = 2 * successfulTxCount).
-            if (txCount >= (2 * successfulTxCount)) {
-                txCount -= successfulTxCount;
-            }
-
-            pw.println("Begin SimpleTransaction Count : " + txCount);
-            pw.println("Commit SimpleTransaction Count: " + successfulTxCount);
-            pw.println();
-
-            double hitCount = 0D;
-            double missCount = 0D;
-            double hitRatio = 0D;
-
-            try {
-                // Globaler 2nd lvl Cache
-                hitCount = stats.getSecondLevelCacheHitCount();
-                missCount = stats.getSecondLevelCacheMissCount();
-                hitRatio = hitCount / (hitCount + missCount);
-
-                pw.println("Second Cache Hit Count...: " + hitCount);
-                pw.println("Second Cache Miss Count..: " + missCount);
-                pw.println("Second Cache Hit ratio[%]: " + round(hitRatio * 100D, 3));
-                pw.println();
-            }
-            catch (Exception ex) {
-                logErr(logger, ex);
-                pw.println();
-                ex.printStackTrace(pw);
-            }
-
-            try {
-                // Globaler Query Cache
-                hitCount = stats.getQueryCacheHitCount();
-                missCount = stats.getQueryCacheMissCount();
-                hitRatio = hitCount / (hitCount + missCount);
-
-                pw.println("SQL Query Hit Count...: " + hitCount);
-                pw.println("SQL Query Miss Count..: " + missCount);
-                pw.println("SQL Query Hit ratio[%]: " + round(hitRatio * 100D, 3));
-                pw.println();
-            }
-            catch (Exception ex) {
-                logErr(logger, ex);
-                pw.println();
-                ex.printStackTrace(pw);
-            }
-
-            try {
-                // Cache-Regionen
-                final String[] cacheRegions = stats.getSecondLevelCacheRegionNames();
-
-                Arrays.sort(cacheRegions);
-
-                for (String cacheRegion : cacheRegions) {
-                    final CacheRegionStatistics cacheStatistics = stats.getDomainDataRegionStatistics(cacheRegion);
-
-                    hitCount = cacheStatistics.getHitCount();
-                    missCount = cacheStatistics.getMissCount();
-                    hitRatio = hitCount / (hitCount + missCount);
-
-                    pw.println("Cache Region.........: " + cacheRegion);
-                    pw.println("Objects in Memory....: " + cacheStatistics.getElementCountInMemory());
-                    pw.println("Objects in Memory[MB]: " + round(cacheStatistics.getSizeInMemory() / 1024D / 1024D, 3));
-                    pw.println("Hit Count............: " + hitCount);
-                    pw.println("Miss Count...........: " + missCount);
-                    pw.println("Hit ratio[%].........: " + round(hitRatio * 100D, 3));
-                    pw.println();
-                }
-            }
-            catch (Exception ex) {
-                logErr(logger, ex);
-                pw.println();
-                ex.printStackTrace(pw);
-            }
-
-            if (stats.isStatisticsEnabled()) {
-                // Objektspezifische Statistiken
-                // Map<String, ?> metaData = sessionFactory.getAllClassMetadata();
-                // .collect(Collectors.toCollection(TreeSet::new))
-                final Metamodel metamodel = sessionFactory.getMetamodel();
-
-                // @formatter:off
-                metamodel.getEntities().stream()
-                    .map(entityType -> entityType.getJavaType().getName())
-                    .sorted()
-                    .forEach(className -> {
-                    try {
-                        final EntityStatistics entityStats = stats.getEntityStatistics(className);
-
-                        final long inserts = entityStats.getInsertCount();
-                        final long updates = entityStats.getUpdateCount();
-                        final long deletes = entityStats.getDeleteCount();
-                        final long fetches = entityStats.getFetchCount();
-                        final long loads = entityStats.getLoadCount();
-                        final long changes = inserts + updates + deletes;
-
-                        pw.println(className + " fetches " + fetches + " times");
-                        pw.println(className + " loads   " + loads + " times");
-                        pw.println(className + " inserts " + inserts + " times");
-                        pw.println(className + " updates " + updates + " times");
-                        pw.println(className + " deletes " + deletes + " times");
-                        pw.println(className + " changed " + changes + " times");
-                        pw.println();
-                    }
-                    catch (Exception ex) {
-                        logErr(logger, ex);
-                        pw.println();
-                        ex.printStackTrace(pw);
-                    }
-                });
-                // @formatter:on
-            }
+        if (Double.isNaN(hitRatio) || Double.isInfinite(hitRatio)) {
+            hitRatio = 0D;
         }
-        catch (Exception ex) {
-            logErr(logger, ex);
-            pw.println();
-            ex.printStackTrace(pw);
+
+        pw.println("SQL Query Hit Count..: " + hitCount);
+        pw.println("SQL Query Miss Count.: " + missCount);
+        pw.println("SQL Query Hit ratio %: " + BigDecimal.valueOf(hitRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+
+        pw.println();
+        pw.println("2nd Level Cache");
+        hitCount = stats.getSecondLevelCacheHitCount();
+        missCount = stats.getSecondLevelCacheMissCount();
+        hitRatio = (double) hitCount / (double) (hitCount + missCount);
+
+        if (Double.isNaN(hitRatio) || Double.isInfinite(hitRatio)) {
+            hitRatio = 0D;
         }
+
+        pw.println("2nd Level Cache Hit Count...: " + hitCount);
+        pw.println("2nd Level Cache Miss Count..: " + missCount);
+        pw.println("2nd Level Cache Hit ratio[%]: " + BigDecimal.valueOf(hitRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+
+        pw.println();
+        pw.println("2nd Level Cache-Regions");
+        Stream.of(stats.getSecondLevelCacheRegionNames()).sorted().map(stats::getDomainDataRegionStatistics).filter(Objects::nonNull).forEach(cacheStatistics -> {
+            final long hCount = cacheStatistics.getHitCount();
+            final long mCount = cacheStatistics.getMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
+
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region.........: " + cacheStatistics.getRegionName());
+            pw.println("Objects in Memory....: " + cacheStatistics.getElementCountInMemory());
+            pw.println("Objects in Memory[MB]: " + BigDecimal.valueOf(cacheStatistics.getSizeInMemory() / 1024D / 1024D).setScale(3, RoundingMode.HALF_UP));
+            pw.println("Hit Count............: " + hCount);
+            pw.println("Miss Count...........: " + mCount);
+            pw.println("Hit ratio[%].........: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+            pw.println();
+        });
+
+        pw.println();
+        pw.println("CollectionStatistics");
+        Stream.of(stats.getCollectionRoleNames()).sorted().map(stats::getCollectionStatistics).filter(Objects::nonNull).forEach(collectionStatistics -> {
+            final long hCount = collectionStatistics.getCacheHitCount();
+            final long mCount = collectionStatistics.getCacheMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
+
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region: " + collectionStatistics.getCacheRegionName());
+
+            pw.println("Hit Count...: " + hCount);
+            pw.println("Miss Count..: " + mCount);
+            pw.println("Hit ratio[%]: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+
+            pw.println("Puts...: " + collectionStatistics.getCachePutCount());
+            pw.println("Fetches: " + collectionStatistics.getFetchCount());
+            pw.println("Loads..: " + collectionStatistics.getLoadCount());
+            pw.println("Updates: " + collectionStatistics.getUpdateCount());
+            pw.println();
+        });
+
+        pw.println();
+        pw.println("QueryRegionStatistics");
+        Stream.of(stats.getQueries()).sorted().map(stats::getQueryRegionStatistics).filter(Objects::nonNull).forEach(cacheRegionStatistics -> {
+            final long hCount = cacheRegionStatistics.getHitCount();
+            final long mCount = cacheRegionStatistics.getMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
+
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region.........: " + cacheRegionStatistics.getRegionName());
+            pw.println("Objects in Memory....: " + cacheRegionStatistics.getElementCountInMemory());
+            pw.println("Objects in Memory[MB]: " + (cacheRegionStatistics.getSizeInMemory() / 1024D / 1024D));
+            pw.println("Hit Count............: " + hCount);
+            pw.println("Miss Count...........: " + mCount);
+            pw.println("Hit ratio[%].........: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+            pw.println();
+        });
+
+        pw.println();
+        pw.println("EntityStatistics");
+        Stream.of(stats.getEntityNames()).sorted().map(stats::getEntityStatistics).filter(Objects::nonNull).forEach(entityStatistics -> {
+            final long hCount = entityStatistics.getCacheHitCount();
+            final long mCount = entityStatistics.getCacheMissCount();
+            double hRatio = (double) hCount / (double) (hCount + mCount);
+
+            if (Double.isNaN(hRatio) || Double.isInfinite(hRatio)) {
+                hRatio = 0D;
+            }
+
+            pw.println("Cache Region: " + entityStatistics.getCacheRegionName());
+            pw.println("Hit Count...: " + hCount);
+            pw.println("Miss Count..: " + mCount);
+            pw.println("Hit ratio[%]: " + BigDecimal.valueOf(hRatio * 100D).setScale(3, RoundingMode.HALF_UP));
+            pw.println("Fetches: " + entityStatistics.getFetchCount());
+            pw.println("Loads..: " + entityStatistics.getLoadCount());
+            pw.println("Inserts: " + entityStatistics.getInsertCount());
+            pw.println("Updates: " + entityStatistics.getUpdateCount());
+            pw.println("Deletes: " + entityStatistics.getDeleteCount());
+            pw.println();
+        });
+
+        // final Metamodel metamodel = sessionFactory.getMetamodel();
+        // final Metamodel metamodel = ((SessionFactoryImplementor) sessionFactory).getMetamodel();
+        // final Map<String, ClassMetadata> classMetadata = sessionFactory.getAllClassMetadata();
+        //
+        // Sort by Class name.
+        // classMetadata.values().stream()
+        //     .map(cmd -> cmd.getEntityName())
+
+        // metamodel.getEntities().stream()
+        //     .map(entityType -> entityType.getJavaType().getName())
+        //     .sorted()
+        //     .forEach(className -> {
+
+        //        final Cache cache = sessionFactory.getCache();
+        //        final CacheImplementor cacheImplementor = (CacheImplementor) cache;
+        //        final RegionFactory regionFactory = cacheImplementor.getRegionFactory();
+        //        final JCacheRegionFactory jCacheRegionFactory = (JCacheRegionFactory) regionFactory;
+        //        final CacheManager cacheManager = jCacheRegionFactory.getCacheManager();
+
+        pw.println();
+        pw.flush();
     }
 
     /**
@@ -293,22 +311,6 @@ public final class HibernateUtils {
         if (logger != null) {
             logger.warn(null, th);
         }
-    }
-
-    /**
-     * Rundet ein Double Wert auf eine bestimmte Anzahl Nachkommastellen.<br>
-     * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
-     *
-     * @param scale int Anzahl Nachkommastellen
-     */
-    private static double round(final double value, final int scale) {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {
-            return 0.0D;
-        }
-
-        final BigDecimal bigDecimal = BigDecimal.valueOf(value).setScale(scale, RoundingMode.HALF_UP);
-
-        return bigDecimal.doubleValue();
     }
 
     private HibernateUtils() {
