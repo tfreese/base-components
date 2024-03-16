@@ -68,8 +68,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
             }
 
             if (this.connection.isClosed()) {
-                throw new SQLException(
-                        "Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections, or set 'suppressClose' to 'true'");
+                throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections," +
+                        " or set 'suppressClose' to 'true'");
             }
         }
         finally {

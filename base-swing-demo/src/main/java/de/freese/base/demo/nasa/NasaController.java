@@ -29,7 +29,17 @@ import de.freese.base.mvc.storage.LocalStorage;
 public class NasaController extends AbstractController {
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
 
-    private final String[] imageNames = {"PIA03623.jpg", "PIA03171.jpg", "PIA02652.jpg", "PIA05108.jpg", "PIA02696.jpg", "PIA05049.jpg", "PIA05460.jpg", "PIA07327.jpg", "PIA05117.jpg", "PIA05199.jpg", "PIA05990.jpg"};
+    private final String[] imageNames = {"PIA03623.jpg"
+            , "PIA03171.jpg"
+            , "PIA02652.jpg"
+            , "PIA05108.jpg"
+            , "PIA02696.jpg"
+            , "PIA05049.jpg"
+            , "PIA05460.jpg"
+            , "PIA07327.jpg"
+            , "PIA05117.jpg"
+            , "PIA05199.jpg"
+            , "PIA05990.jpg"};
     private final Random random = new Random();
     private final List<URI> uriHistory = new ArrayList<>();
 

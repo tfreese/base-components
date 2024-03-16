@@ -14,7 +14,7 @@ import java.util.Set;
  * Nach Ablauf des Timeouts werden die Elemente beim nächsten Zugriff gelöscht.
  *
  * @author Thomas Freese
- * <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java">https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java</a>
+ * <a href="https://github.com/apache/commons-collections/blob/master/src/main/java/org/apache/commons/collections4/map/PassiveExpiringMap.java">PassiveExpiringMap.java</a>
  */
 public final class TimeoutMap<K, V> extends AbstractMapDecorator<K, V> {
 

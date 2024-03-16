@@ -48,7 +48,10 @@ public class ArrowIcon implements Icon {
         this.direction = direction;
         this.foreground = foreground;
 
-        if ((this.direction != SwingConstants.NORTH) && (this.direction != SwingConstants.SOUTH) && (this.direction != SwingConstants.EAST) && (this.direction != SwingConstants.WEST)) {
+        if ((this.direction != SwingConstants.NORTH)
+                && (this.direction != SwingConstants.SOUTH)
+                && (this.direction != SwingConstants.EAST)
+                && (this.direction != SwingConstants.WEST)) {
             throw new IllegalArgumentException("Only SwingConstants.NORTH, SOUTH, EAST, WEST supported !");
         }
 
