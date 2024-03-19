@@ -13,7 +13,6 @@ import java.security.DigestInputStream;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HexFormat;
 
 /**
  * <a href="https://docs.oracle.com/en/java/javase/11/docs/specs/security/standard-names.html">Java Security Standard Algorithm Names</a>
@@ -22,7 +21,6 @@ import java.util.HexFormat;
  */
 public final class DigestUtils {
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
-    private static final HexFormat HEX_FORMAT = HexFormat.of().withUpperCase();
 
     public enum Algorithm {
         MD5("MD5"),
@@ -43,13 +41,8 @@ public final class DigestUtils {
         }
     }
 
-    public static MessageDigest createMessageDigest(final Algorithm algorithm) {
-        try {
-            return MessageDigest.getInstance(algorithm.getAlgorithmName());
-        }
-        catch (final NoSuchAlgorithmException ex) {
-            throw new RuntimeException(ex);
-        }
+    public static MessageDigest createMessageDigest(final Algorithm algorithm) throws NoSuchAlgorithmException {
+        return MessageDigest.getInstance(algorithm.getAlgorithmName());
     }
 
     public static DigestInputStream decorateInputStream(final MessageDigest digest, final InputStream inputStream) {

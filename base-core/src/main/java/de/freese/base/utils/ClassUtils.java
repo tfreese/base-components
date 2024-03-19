@@ -37,7 +37,7 @@ public final class ClassUtils {
     /**
      * Map with common Java language class name as key and corresponding Class as value. Primarily for efficient deserialization of remote invocations.
      */
-    private static final Map<String, Class<?>> COMMON_CLASS_CACHE = new HashMap<>(64);
+    private static final Map<String, Class<?>> COMMON_CLASS_CACHE = HashMap.newHashMap(64);
     /**
      * The inner class separator character: {@code '$'}.
      */
@@ -61,7 +61,7 @@ public final class ClassUtils {
     /**
      * Map with primitive type name as key and corresponding primitive type as value, for example: "int" -> "int.class".
      */
-    private static final Map<String, Class<?>> PRIMITIVE_TYPE_NAME_MAP = new HashMap<>(32);
+    private static final Map<String, Class<?>> PRIMITIVE_TYPE_NAME_MAP = HashMap.newHashMap(32);
     /**
      * Map with primitive type as key and corresponding wrapper type as value, for example: int.class -> Integer.class.
      */
@@ -88,7 +88,7 @@ public final class ClassUtils {
             registerCommonClasses(entry.getKey());
         }
 
-        final Set<Class<?>> primitiveTypes = new HashSet<>(32);
+        final Set<Class<?>> primitiveTypes = HashSet.newHashSet(32);
         primitiveTypes.addAll(PRIMITIVE_WRAPPER_TYPE_MAP.values());
         Collections.addAll(primitiveTypes, boolean[].class, byte[].class, char[].class, double[].class, float[].class, int[].class, long[].class, short[].class);
         primitiveTypes.add(void.class);

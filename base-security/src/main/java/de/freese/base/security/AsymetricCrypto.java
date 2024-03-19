@@ -28,11 +28,36 @@ public final class AsymetricCrypto {
      * }
      * }</pre>
      */
-    public static Crypter createEllipticCurve() throws GeneralSecurityException {
+    public static Crypter createEcda() throws GeneralSecurityException {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
         final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDH"); // , BouncyCastleProvider.PROVIDER_NAME
-        keyPairGenerator.initialize(new ECGenParameterSpec("secp256r1"));
+        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // KeyLength = 384
+
+        final KeyPair keyPair = keyPairGenerator.genKeyPair();
+
+        final Cipher encryptCipher = Cipher.getInstance("ECIES");
+        encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+
+        final Cipher decryptCipher = Cipher.getInstance("ECIES");
+        decryptCipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+
+        return new Crypter(encryptCipher, decryptCipher);
+    }
+
+    /**
+     * Needs BouncyCastleProvider<br>
+     * <pre>{@code
+     * if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+     *      Security.addProvider(new BouncyCastleProvider());
+     * }
+     * }</pre>
+     */
+    public static Crypter createEcdhForAes() throws GeneralSecurityException {
+        final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+
+        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDH"); // , BouncyCastleProvider.PROVIDER_NAME
+        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // secp256r1
         // keyPairGenerator.initialize(ECNamedCurveTable.getParameterSpec("prime192v1"));
         final KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
@@ -71,6 +96,31 @@ public final class AsymetricCrypto {
         };
 
         return new Crypter(encryptCipherSupplier, decryptCipherSupplier);
+    }
+
+    /**
+     * Needs BouncyCastleProvider<br>
+     * <pre>{@code
+     * if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+     *      Security.addProvider(new BouncyCastleProvider());
+     * }
+     * }</pre>
+     */
+    public static Crypter createEcdsa() throws GeneralSecurityException {
+        final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+
+        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDSA", "BC");
+        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // KeyLength = 384
+
+        final KeyPair keyPair = keyPairGenerator.genKeyPair();
+
+        final Cipher encryptCipher = Cipher.getInstance("ECIES");
+        encryptCipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
+
+        final Cipher decryptCipher = Cipher.getInstance("ECIES");
+        decryptCipher.init(Cipher.DECRYPT_MODE, keyPair.getPrivate());
+
+        return new Crypter(encryptCipher, decryptCipher);
     }
 
     public static Crypter createRsa(final int keySize) throws GeneralSecurityException {

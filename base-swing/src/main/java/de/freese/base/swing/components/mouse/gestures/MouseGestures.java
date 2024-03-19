@@ -22,6 +22,7 @@ package de.freese.base.swing.components.mouse.gestures;
 import java.awt.AWTEvent;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,7 @@ public class MouseGestures {
      * or <code>MouseEvent.BUTTON3_DOWN_MASK</code>.
      * The default is <code>MouseEvent.BUTTON3_DOWN_MASK</code> (right mouse button).
      */
-    private int mouseButton = MouseEvent.BUTTON3_DOWN_MASK;
+    private int mouseButton = InputEvent.BUTTON3_DOWN_MASK;
     /**
      * Responsible for monitoring mouse gestures.
      */

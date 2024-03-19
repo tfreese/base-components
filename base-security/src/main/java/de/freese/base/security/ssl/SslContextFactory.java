@@ -46,7 +46,7 @@ public final class SslContextFactory {
         // System.setProperty("https.protocols", "SSL");
 
         // final SSLContext sslContext = SSLContext.getDefault();
-        final SSLContext sslContext = SSLContext.getInstance("SSL"); // TLS
+        final SSLContext sslContext = SSLContext.getInstance("TLS"); // SSL, TLS
         sslContext.init(null, X509_TRUST_ALL_MANAGER, SecureRandom.getInstanceStrong());
 
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());

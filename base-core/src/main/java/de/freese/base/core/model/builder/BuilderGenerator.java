@@ -59,9 +59,7 @@ public class BuilderGenerator {
         printStream.println("{");
 
         // Fields
-        fields.values().forEach(field -> {
-            printStream.printf("%sprivate %s %s;%n", INDENT, field.getType().getSimpleName(), field.getName());
-        });
+        fields.values().forEach(field -> printStream.printf("%sprivate %s %s;%n", INDENT, field.getType().getSimpleName(), field.getName()));
 
         printStream.println();
         printStream.println(INDENT + "/**");

@@ -24,7 +24,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
+import java.awt.event.InputEvent;
 import java.io.Serial;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -67,13 +67,13 @@ public final class TestFrameMain extends JFrame {
 
     private void initControls() {
         final JCheckBox jCheckBoxButton1 = new JCheckBox("Right button");
-        jCheckBoxButton1.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON3_DOWN_MASK));
+        jCheckBoxButton1.addActionListener(event -> mouseGestures.setMouseButton(InputEvent.BUTTON3_DOWN_MASK));
 
         final JCheckBox jCheckBoxButton2 = new JCheckBox("Middle button");
-        jCheckBoxButton2.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON2_DOWN_MASK));
+        jCheckBoxButton2.addActionListener(event -> mouseGestures.setMouseButton(InputEvent.BUTTON2_DOWN_MASK));
 
         final JCheckBox jCheckBoxButton3 = new JCheckBox("Left button");
-        jCheckBoxButton3.addActionListener(event -> mouseGestures.setMouseButton(MouseEvent.BUTTON1_DOWN_MASK));
+        jCheckBoxButton3.addActionListener(event -> mouseGestures.setMouseButton(InputEvent.BUTTON1_DOWN_MASK));
 
         final ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(jCheckBoxButton1);

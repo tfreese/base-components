@@ -103,7 +103,7 @@ public final class ObjectTable {
      * Der Stream wird nicht geschlossen.
      */
     public void writeStringTable(final OutputStream outputStream, final char separatorHeader, final char separatorData, final Function<Object, String> dataFunction) {
-        final PrintStream printStream = outputStream instanceof PrintStream ? (PrintStream) outputStream : new PrintStream(outputStream);
+        final PrintStream printStream = outputStream instanceof PrintStream ps ? ps : new PrintStream(outputStream);
 
         final int[] columnWidths = new int[getColumnCount()];
         Arrays.fill(columnWidths, 0);

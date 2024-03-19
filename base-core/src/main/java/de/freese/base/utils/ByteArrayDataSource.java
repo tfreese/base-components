@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serial;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -79,6 +78,7 @@ public class ByteArrayDataSource implements DataSource, Serializable {
     }
 
     private final byte[] data;
+    
     private String mimeType = MIMETYPE_APPLICATION_OCTET_STREAM;
     private String name = "";
 
@@ -114,11 +114,11 @@ public class ByteArrayDataSource implements DataSource, Serializable {
         this.data = baos.toByteArray();
     }
 
-    public ByteArrayDataSource(final Serializable object) throws IOException {
+    public ByteArrayDataSource(final Serializable object) {
         this(ByteUtils.serializeObject(object), MIMETYPE_APPLICATION_OCTET_STREAM);
     }
 
-    public ByteArrayDataSource(final String value, final String mimeType) throws UnsupportedEncodingException {
+    public ByteArrayDataSource(final String value, final String mimeType) {
         super();
 
         if (value != null) {

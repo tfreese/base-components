@@ -69,10 +69,7 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
 
     @Override
     public void configure() {
-        addMenu(ROOT_NAME, "FILE", node -> {
-            node.setTextSupplier(() -> "File");
-
-        });
+        addMenu(ROOT_NAME, "FILE", node -> node.setTextSupplier(() -> "File"));
         addMenuAndToolbarItem("FILE", "SAVE", node -> {
             node.setTextSupplier(() -> "Save");
             node.setIcon(new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("icons/busy/idle.png")));
@@ -80,11 +77,7 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
 
         addSeparator(ROOT_NAME);
 
-        addMenu(ROOT_NAME, "APPLICATION", node -> {
-            node.setTextSupplier(() -> "Application");
-        });
-        addMenuAndToolbarItem("APPLICATION", "EXIT", node -> {
-            node.setTextSupplier(() -> "Exit");
-        });
+        addMenu(ROOT_NAME, "APPLICATION", node -> node.setTextSupplier(() -> "Application"));
+        addMenuAndToolbarItem("APPLICATION", "EXIT", node -> node.setTextSupplier(() -> "Exit"));
     }
 }

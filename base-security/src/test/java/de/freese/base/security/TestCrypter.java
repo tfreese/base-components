@@ -27,18 +27,38 @@ class TestCrypter {
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
     @Test
-    void testAsymetricEllipticCurve() throws GeneralSecurityException {
+    void testAsymetricEcda() throws GeneralSecurityException {
+        // Required by ECDSA
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        testCrypter(AsymetricCrypto.createEcda());
+    }
+
+    @Test
+    void testAsymetricEcdhForAes() throws GeneralSecurityException {
         // Required by ECDH
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
 
-        testCrypter(AsymetricCrypto.createEllipticCurve());
+        testCrypter(AsymetricCrypto.createEcdhForAes());
+    }
+
+    @Test
+    void testAsymetricEcdsa() throws GeneralSecurityException {
+        // Required by ECDSA
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        testCrypter(AsymetricCrypto.createEcdsa());
     }
 
     @Test
     void testAsymetricRsa() throws GeneralSecurityException {
-        testCrypter(AsymetricCrypto.createRsa(512));
+        testCrypter(AsymetricCrypto.createRsa(512)); // 512, 1024, 4096, 16384
     }
 
     @Test
@@ -83,5 +103,4 @@ class TestCrypter {
             assertEquals(SOURCE, crypter.decrypt(encrypted, encoding));
         }
     }
-
 }
