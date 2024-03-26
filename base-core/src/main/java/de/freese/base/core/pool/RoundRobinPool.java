@@ -21,8 +21,8 @@ public final class RoundRobinPool<T> implements AutoCloseable {
     private volatile int nextIndex;
 
     public RoundRobinPool(final int size, final Supplier<T> creator) {
-        this(size, creator, Objects::nonNull);
-
+        this(size, creator, v -> {
+        });
     }
 
     public RoundRobinPool(final int size, final Supplier<T> creator, final Consumer<T> doOnClose) {
@@ -50,13 +50,13 @@ public final class RoundRobinPool<T> implements AutoCloseable {
     }
 
     public T get() {
+        if (NEXT_INDEX.get(this) == queue.size()) {
+            NEXT_INDEX.set(this, 0);
+        }
+
         final T object = this.queue.get(NEXT_INDEX.get(this));
 
         NEXT_INDEX.incrementAndGet(this);
-
-        if (this.nextIndex == queue.size()) {
-            NEXT_INDEX.set(this, 0);
-        }
 
         return object;
     }
