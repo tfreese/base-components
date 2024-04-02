@@ -30,7 +30,7 @@ public class FibonacciController extends AbstractController {
 
         final Long value = FIBONACCI_CACHE.get(n);
 
-        if ((value != null) && (value > 0)) {
+        if (value != null && value > 0L) {
             return value;
         }
 

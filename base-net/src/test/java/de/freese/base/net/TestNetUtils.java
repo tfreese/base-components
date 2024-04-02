@@ -116,7 +116,7 @@ class TestNetUtils {
                 while (addresses.hasMoreElements()) {
                     final InetAddress address = addresses.nextElement();
 
-                    if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
+                    if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
                         System.out.printf("NetworkInterface IPv4: %s%n", hostName);

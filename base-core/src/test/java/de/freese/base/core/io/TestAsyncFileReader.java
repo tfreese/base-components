@@ -34,8 +34,7 @@ class TestAsyncFileReader {
         //        reader.setExecutorService(ForkJoinPool.commonPool());
 
         //@formatter:off
-        final AsyncFileReader<StringBuilder> reader = GenericBuilder.
-                of(AsyncFileReader<StringBuilder>::new)
+        final AsyncFileReader<StringBuilder> reader = GenericBuilder.of(AsyncFileReader<StringBuilder>::new)
                 .with(AsyncFileReader::setByteBufferSize, 1024)
                 .with(r -> r.setContentHolderSupplier(contentHolderSupplier))
                 .with(r -> r.setDataConsumer(dataConsumer))

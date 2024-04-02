@@ -15,7 +15,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
     private static final int THRESHOLD = 10;
     @Serial
     private static final long serialVersionUID = 67781993370162624L;
-    
+
     private final boolean enableCache;
     private final int n;
 
@@ -30,7 +30,7 @@ public class FibonacciForkJoinTask extends RecursiveTask<Long> {
     protected Long compute() {
         final Long value = FibonacciController.FIBONACCI_CACHE.get(this.n);
 
-        if ((value != null) && (value > 0)) {
+        if (value != null && value > 0L) {
             return value;
         }
 

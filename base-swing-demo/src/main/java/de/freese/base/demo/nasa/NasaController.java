@@ -29,17 +29,18 @@ import de.freese.base.mvc.storage.LocalStorage;
 public class NasaController extends AbstractController {
     private static final String IMAGE_DIR = "https://photojournal.jpl.nasa.gov/jpeg/";
 
-    private final String[] imageNames = {"PIA03623.jpg"
-            , "PIA03171.jpg"
-            , "PIA02652.jpg"
-            , "PIA05108.jpg"
-            , "PIA02696.jpg"
-            , "PIA05049.jpg"
-            , "PIA05460.jpg"
-            , "PIA07327.jpg"
-            , "PIA05117.jpg"
-            , "PIA05199.jpg"
-            , "PIA05990.jpg"};
+    private final String[] imageNames = {
+            "PIA03623.jpg",
+            "PIA03171.jpg",
+            "PIA02652.jpg",
+            "PIA05108.jpg",
+            "PIA02696.jpg",
+            "PIA05049.jpg",
+            "PIA05460.jpg",
+            "PIA07327.jpg",
+            "PIA05117.jpg",
+            "PIA05199.jpg",
+            "PIA05990.jpg"};
     private final Random random = new Random();
     private final List<URI> uriHistory = new ArrayList<>();
 
@@ -129,7 +130,7 @@ public class NasaController extends AbstractController {
         try (ImageInputStream iis = ImageIO.createImageInputStream(inputStream)) {
             final Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
 
-            if ((readers != null) && readers.hasNext()) {
+            if (readers != null && readers.hasNext()) {
                 reader = readers.next();
             }
             else {
@@ -152,7 +153,7 @@ public class NasaController extends AbstractController {
             }
         }
 
-        if ((image != null) && !cacheFileExist) {
+        if (image != null && !cacheFileExist) {
             try (OutputStream outputStream = localStorage.getOutputStream(cachedFileName)) {
                 ImageIO.write(image, extension, outputStream);
 
@@ -194,7 +195,7 @@ public class NasaController extends AbstractController {
             uriString = IMAGE_DIR + this.imageNames[index];
         }
         else {
-            uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, (this.random.nextInt(12196) + 1));
+            uriString = String.format("%sPIA%05d.jpg", IMAGE_DIR, this.random.nextInt(12196) + 1);
         }
 
         getLogger().info("URI: {}", uriString);

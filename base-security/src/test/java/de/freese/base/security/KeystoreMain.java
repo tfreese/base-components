@@ -30,7 +30,7 @@ import javax.crypto.spec.GCMParameterSpec;
  */
 public final class KeystoreMain {
     public static void main(final String[] args) throws Exception {
-        final String provider = "SunJCE";// "SUN";
+        final String provider = "SunJCE"; // "SUN";
 
         final char[] keystorePSW = "gehaim".toCharArray();
 

@@ -261,7 +261,7 @@ public class DemoApplication {
 
         final int option = JOptionPane.showConfirmDialog(applicationContext.getMainFrame(), "Really Exit ?", "Exit", JOptionPane.YES_NO_OPTION);
 
-        if ((option != JOptionPane.YES_OPTION) && (option != JOptionPane.OK_OPTION)) {
+        if (option != JOptionPane.YES_OPTION && option != JOptionPane.OK_OPTION) {
             getLogger().info("Release aborted");
 
             return;

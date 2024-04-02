@@ -58,9 +58,9 @@ class TestResourceCache {
                 Arguments.of("FileCache - Local File", CACHE_FILE, urlLocalFile),
                 Arguments.of("FileCache - HTTP Image", CACHE_FILE, urlHttpImage),
                 Arguments.of("MemoryCache - Local File", CACHE_MEMORY, urlLocalFile),
-                Arguments.of("MemoryCache - HTTP Image", CACHE_MEMORY,urlHttpImage),
+                Arguments.of("MemoryCache - HTTP Image", CACHE_MEMORY, urlHttpImage),
                 Arguments.of("CaffeineCache - Local File", CACHE_CAFFEINE, urlLocalFile),
-                Arguments.of("CaffeineCache - HTTP Image", CACHE_CAFFEINE,urlHttpImage)
+                Arguments.of("CaffeineCache - HTTP Image", CACHE_CAFFEINE, urlHttpImage)
                 );
         // @formatter:on
     }

@@ -103,7 +103,7 @@ public final class FeiertagsManager {
         so = ((5 * jahr) / 4) - ksj - 10;
         epakte = (((11 * gz) + 20 + korr) - ksj) % 30;
 
-        if (((epakte == 25) && (gz > 11)) || (epakte == 24)) {
+        if (epakte == 25 && gz > 11 || epakte == 24) {
             epakte++;
         }
 
@@ -114,7 +114,7 @@ public final class FeiertagsManager {
         }
 
         n = (n + 7) - ((so + n) % 7);
-        n += ((((jahr % 4) == 0) && (((jahr % 100) != 0) || ((jahr % 400) == 0))) ? 1 : 0);
+        n += ((jahr % 4) == 0 && ((jahr % 100) != 0 || (jahr % 400) == 0)) ? 1 : 0;
 
         final int osterTag = n + 59;
 
@@ -177,7 +177,7 @@ public final class FeiertagsManager {
         }
 
         if (tdj > (59 + a)) {
-            tdj += (2 - a);
+            tdj += 2 - a;
         }
 
         tdj += 91;
@@ -201,7 +201,7 @@ public final class FeiertagsManager {
         }
 
         if (dtj > (59 + a)) {
-            dtj += (2 - a);
+            dtj += 2 - a;
         }
 
         dtj += 91;
@@ -211,6 +211,6 @@ public final class FeiertagsManager {
     }
 
     private boolean isSchaltJahr(final int jahr) {
-        return ((jahr % 4) == 0) && (((jahr % 100) != 0) || ((jahr % 400) == 0));
+        return (jahr % 4) == 0 && ((jahr % 100) != 0 || (jahr % 400) == 0);
     }
 }

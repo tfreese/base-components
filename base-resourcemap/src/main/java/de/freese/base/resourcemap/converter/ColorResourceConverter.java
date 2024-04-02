@@ -31,7 +31,7 @@ public class ColorResourceConverter extends AbstractResourceConverter<Color> {
         else {
             final String[] parts = value.split(",");
 
-            if ((parts.length < 3) || (parts.length > 4)) {
+            if (parts.length < 3 || parts.length > 4) {
                 throwException(key, value, "invalid R, G, B[, A] color string");
             }
 

@@ -234,7 +234,7 @@ class DefaultResourceMap implements ResourceMap {
     protected String getResource(final String key) {
         String resource = this.resources.get(getLocale()).get(key);
 
-        if ((resource == null) && (getParent() != null)) {
+        if (resource == null && getParent() != null) {
             resource = getParent().getResource(key);
         }
 
