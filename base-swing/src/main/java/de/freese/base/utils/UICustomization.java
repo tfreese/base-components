@@ -163,8 +163,10 @@ public final class UICustomization {
         defaults.put("TaskPaneContainer.backgroundPainter",
                 new MattePainter(new GradientPaint(0, 0, UIManager.getColor("Panel.background"), 0, 1, UIManager.getColor("Panel.background")), true));
 
-        defaults.put("JXTitledPanel.titlePainter", new MattePainter(
-                new GradientPaint(0, 0, UIManager.getColor("TaskPane.titleBackgroundGradientStart"), 0, 1, UIManager.getColor("TaskPane.titleBackgroundGradientEnd")), true));
+        defaults.put("JXTitledPanel.titlePainter", new MattePainter(new GradientPaint(0, 0,
+                UIManager.getColor("TaskPane.titleBackgroundGradientStart"),
+                0, 1,
+                UIManager.getColor("TaskPane.titleBackgroundGradientEnd")), true));
 
         // Wizard
         defaults.put("nb.errorColor", Color.RED);

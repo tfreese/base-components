@@ -51,7 +51,7 @@ public final class GuiUtils {
     public static void adjustFrame(final JFrame frame) {
         final Dimension screenSize = GuiUtils.getScreenSize();
 
-        if ((frame.getWidth() > screenSize.width) || (frame.getHeight() > screenSize.height)) {
+        if (frame.getWidth() > screenSize.width || frame.getHeight() > screenSize.height) {
             frame.setSize(screenSize);
         }
     }
@@ -158,7 +158,7 @@ public final class GuiUtils {
 
         Component found = null;
 
-        if ((compName != null) && compName.equals(name)) {
+        if (compName != null && compName.equals(name)) {
             found = comp;
         }
         else if (comp instanceof Container c) {
@@ -188,7 +188,7 @@ public final class GuiUtils {
         }
 
         // Fallback: Erstes Frame nehmen
-        if ((activeFrame == null) && (frames.length > 0)) {
+        if (activeFrame == null && frames.length > 0) {
             activeFrame = frames[0];
         }
 

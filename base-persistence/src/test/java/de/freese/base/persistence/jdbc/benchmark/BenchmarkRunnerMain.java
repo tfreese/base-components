@@ -19,7 +19,6 @@ public final class BenchmarkRunnerMain {
     public static void main(final String[] args) throws Exception {
         // Builder overwrites the Class-Annotations.
         // Needs filled target\classes\META-INF\BenchmarkList -> Rebuild bevor execute
-        // @formatter:off
         final Options options = new OptionsBuilder()
                 .include(StatementBenchmarks.class.getSimpleName())
                 .include(StagedResultSizeBenchmarks.class.getSimpleName())
@@ -32,15 +31,13 @@ public final class BenchmarkRunnerMain {
                 //.jvmArgs("-disablesystemassertions")
                 //.threads(1) // Anzahl paralleler Ausführungen
                 //.verbosity(VerboseMode.SILENT) // Ohne Ausgaben
-//                .forks(0).warmupForks(0) // Zum Debuggen
-//                .warmupIterations(0).warmupTime(TimeValue.milliseconds(500))
-//                .measurementIterations(1).measurementTime(TimeValue.milliseconds(1000))
+                // .forks(0).warmupForks(0) // Zum Debuggen
+                // .warmupIterations(0).warmupTime(TimeValue.milliseconds(500))
+                // .measurementIterations(1).measurementTime(TimeValue.milliseconds(1000))
                 //.resultFormat(ResultFormatType.TEXT)
                 //.resultFormat(ResultFormatType.CSV).result("benchmark.csv") // .result("/dev/null")
                 //.output("result.log")
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         new Runner(options).run();
         // Collection<RunResult> results = new Runner(options).run();

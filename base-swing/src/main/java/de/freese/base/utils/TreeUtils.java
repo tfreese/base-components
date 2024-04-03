@@ -139,7 +139,7 @@ public final class TreeUtils {
     public static Object getFirstSelectedObject(final JTree tree) {
         final Object[] obj = getSelectedObjects(tree);
 
-        if ((obj != null) && (obj.length > 0)) {
+        if (obj != null && obj.length > 0) {
             return obj[0];
         }
 
@@ -272,7 +272,7 @@ public final class TreeUtils {
     }
 
     public static void selectNode(final JTree tree, final DefaultMutableTreeNode node) {
-        if ((tree == null) || (node == null)) {
+        if (tree == null || node == null) {
             return;
         }
 
@@ -286,7 +286,7 @@ public final class TreeUtils {
     }
 
     public static void selectNode(final JTree tree, final MouseEvent event) {
-        if ((tree == null) || (event == null)) {
+        if (tree == null || event == null) {
             return;
         }
 

@@ -195,7 +195,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
             else if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
                 final JButton button = getButtonFor(event.getX(), event.getY());
 
-                if ((button != null) && !event.isPopupTrigger()) {
+                if (button != null && !event.isPopupTrigger()) {
                     button.doClick();
                 }
             }
@@ -303,7 +303,7 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
         SwingUtilities.invokeLater(() -> {
             final String text = button.getToolTipText();
 
-            if ((text != null) && (text.length() > 0)) {
+            if (text != null && !text.isEmpty()) {
                 final Rectangle rectangle = getRectangleFor(button);
                 final Graphics2D g2 = (Graphics2D) ExtWindowsClassicTaskPaneUI.this.group.getGraphics();
 

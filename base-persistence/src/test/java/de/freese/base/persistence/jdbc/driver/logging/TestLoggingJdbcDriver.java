@@ -208,8 +208,7 @@ class TestLoggingJdbcDriver {
     // * </pre>
     // * </code>
     // */
-    // static Stream<ConnectionPool> getPools()
-    // {
+    // static Stream<ConnectionPool> getPools() {
     // return POOLS.stream();
     // }
 
@@ -240,20 +239,13 @@ class TestLoggingJdbcDriver {
 
     @TestFactory
     Stream<DynamicNode> testConnectionPools() {
-        // @formatter:off
         return POOLS.stream()
                 .map(cp -> dynamicContainer(cp.getClass().getSimpleName(),
-                        Stream.of(
-                                dynamicTest("Test Driver", () -> driver(cp)),
-                                dynamicTest("Close Pool", () -> close(cp))
-//                                dynamicContainer("Close",
-//                                        Stream.of(dynamicTest("Close Pool", () -> test020Close(cp))
-//                                        )
-//                                )
+                                Stream.of(
+                                        dynamicTest("Test Driver", () -> driver(cp)),
+                                        dynamicTest("Close Pool", () -> close(cp))
+                                )
                         )
-                    )
-                )
-                ;
-        // @formatter:on
+                );
     }
 }
