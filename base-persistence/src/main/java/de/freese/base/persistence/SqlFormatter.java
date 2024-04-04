@@ -32,6 +32,6 @@ public class SqlFormatter {
     }
 
     public boolean isEnabled() {
-        return (this.formatStyle != FormatStyle.NONE);
+        return this.formatStyle != FormatStyle.NONE;
     }
 }

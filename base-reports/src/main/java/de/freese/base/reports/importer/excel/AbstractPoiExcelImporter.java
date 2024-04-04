@@ -96,7 +96,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         for (int i = 0; i < numRows; i++) {
             final Row r = sheet.getRow(i);
 
-            if ((r != null) && (maxCol < r.getLastCellNum())) {
+            if (r != null && maxCol < r.getLastCellNum()) {
                 maxCol = r.getLastCellNum();
             }
         }

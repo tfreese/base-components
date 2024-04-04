@@ -17,7 +17,7 @@ public class ComboBoxGroup implements ItemListener {
     private final List<JComboBox<?>> boxes = Collections.synchronizedList(new ArrayList<>());
 
     public void add(final JComboBox<?> comboBox) {
-        if ((comboBox == null) || this.boxes.contains(comboBox)) {
+        if (comboBox == null || this.boxes.contains(comboBox)) {
             return;
         }
 

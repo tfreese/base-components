@@ -98,7 +98,7 @@ public class DatabasePopulator {
             }
         }
 
-        if ((fileLines == null) && (scriptUrl != null)) {
+        if (fileLines == null && scriptUrl != null) {
             // InputStream inputStream = getClass().getClassLoader().getResourceAsStream(script);
             try (InputStream inputStream = scriptUrl.openStream();
                  InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);

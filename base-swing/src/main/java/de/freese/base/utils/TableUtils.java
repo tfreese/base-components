@@ -93,7 +93,7 @@ public final class TableUtils {
     public static Object getFirstSelectedObject(final JTable table) {
         final Object[] obj = getSelectedObjects(table);
 
-        if ((obj != null) && (obj.length > 0)) {
+        if (obj != null && obj.length > 0) {
             return obj[0];
         }
 
@@ -218,11 +218,11 @@ public final class TableUtils {
 
         width += 2 * mMargin;
 
-        if ((min > 0) && (width < min)) {
+        if (min > 0 && width < min) {
             width = min;
         }
 
-        if ((max > 0) && (width > max)) {
+        if (max > 0 && width > max) {
             width = max;
         }
 

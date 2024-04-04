@@ -106,7 +106,7 @@ public class ExtDialog {
     }
 
     public boolean isYesOrOK() {
-        return (this.optionClicked == JOptionPane.OK_OPTION) || (this.optionClicked == JOptionPane.YES_OPTION);
+        return this.optionClicked == JOptionPane.OK_OPTION || this.optionClicked == JOptionPane.YES_OPTION;
     }
 
     public void setLocationRelativeTo(final Component component) {
@@ -314,7 +314,7 @@ public class ExtDialog {
      * Returns the icon to use for the passed in type.
      */
     private Icon getIconForType(final int messageType) {
-        if ((messageType < 0) || (messageType > 3)) {
+        if (messageType < 0 || messageType > 3) {
             // -1 = PLAIN_MESSAGE
             // 3 = QUESTION_MESSAGE
             return null;

@@ -65,16 +65,16 @@ public final class ExcelToolkit {
 
         int column = 0;
 
-        if (((c2 >= (short) 'a') && (c2 <= (short) 'z'))) {
-            if (((c1 >= (short) 'a') && (c1 <= (short) 'z'))) {
+        if (c2 >= (short) 'a' && c2 <= (short) 'z') {
+            if (c1 >= (short) 'a' && c1 <= (short) 'z') {
                 column = getColumnNumber(c1 - 'a', c2 - 'a');
             }
             else {
                 column = getColumnNumber(c1 - 'A', c2 - 'a');
             }
         }
-        else if ((c2 >= 'A') && (c2 <= 'Z')) {
-            if (((c1 >= 'a') && (c1 <= 'z'))) {
+        else if (c2 >= 'A' && c2 <= 'Z') {
+            if (c1 >= 'a' && c1 <= 'z') {
                 column = getColumnNumber(c1 - 'a', c2 - 'A');
             }
             else {
@@ -82,7 +82,7 @@ public final class ExcelToolkit {
             }
         }
         else {
-            if (((c1 >= 'a') && (c1 <= 'z'))) {
+            if (c1 >= 'a' && c1 <= 'z') {
                 column = c1 - 'a';
             }
             else {
@@ -97,7 +97,7 @@ public final class ExcelToolkit {
         final int[] selectedColumns = table.getSelectedColumns();
         final int[] selectedRows = table.getSelectedRows();
 
-        if ((selectedColumns.length > 0) && (selectedRows.length > 0)) {
+        if (selectedColumns.length > 0 && selectedRows.length > 0) {
             final String col1 = getColumnName(selectedColumns[0]);
             final String col2 = getColumnName(selectedColumns[selectedColumns.length - 1]);
             final String row1 = Integer.toString(selectedRows[0] + 1);
@@ -142,7 +142,7 @@ public final class ExcelToolkit {
 
         int row = 0;
 
-        if (((c2 >= 'a') && (c2 <= 'z')) || ((c2 >= 'A') && (c2 <= 'Z'))) {
+        if (c2 >= 'a' && c2 <= 'z' || c2 >= 'A' && c2 <= 'Z') {
             final String strRow = cellName.substring(2);
             row = Integer.parseInt(strRow);
         }
@@ -187,11 +187,11 @@ public final class ExcelToolkit {
         final String rowEnd = rowBuf.toString();
         final String colEnd = colBuf.toString();
 
-        return (!rowStart.equals(rowEnd)) && (!colStart.equals(colEnd));
+        return !rowStart.equals(rowEnd) && !colStart.equals(colEnd);
     }
 
     public static boolean isRangeOk(final String range, final int numValues) {
-        if ((range == null) || (range.indexOf(':') == -1)) {
+        if (range == null || range.indexOf(':') == -1) {
             return true;
         }
 
@@ -214,14 +214,14 @@ public final class ExcelToolkit {
 
             // Linear
             if (startCol == endCol) {
-                numRangeValues += (endRow - startRow);
+                numRangeValues += endRow - startRow;
             }
 
             // Otherwise it's a block
             else {
                 final int numCols = endCol - startCol;
                 final int numRows = endRow - startRow;
-                numRangeValues += (numCols * numRows);
+                numRangeValues += numCols * numRows;
             }
         }
 

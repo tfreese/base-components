@@ -154,8 +154,8 @@ public final class ErrorPane extends JPanel {
 
             this.buttonClose.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyPressed(final KeyEvent e) {
-                    if ((e.getKeyCode() == KeyEvent.VK_ENTER)) {
+                public void keyPressed(final KeyEvent event) {
+                    if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                         ErrorPane.this.buttonClose.doClick();
                     }
                 }
@@ -182,8 +182,8 @@ public final class ErrorPane extends JPanel {
 
             this.buttonDetails.addKeyListener(new KeyAdapter() {
                 @Override
-                public void keyPressed(final KeyEvent e) {
-                    if ((e.getKeyCode() == KeyEvent.VK_ENTER)) {
+                public void keyPressed(final KeyEvent event) {
+                    if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                         ErrorPane.this.buttonDetails.doClick();
                     }
                 }
@@ -418,7 +418,7 @@ public final class ErrorPane extends JPanel {
     private Component getOwner() {
         if (this.owner == null) {
             for (Component p = this; p != null; p = p.getParent()) {
-                if ((p instanceof Dialog) || (p instanceof Window)) {
+                if (p instanceof Dialog || p instanceof Window) {
                     return p;
                 }
             }

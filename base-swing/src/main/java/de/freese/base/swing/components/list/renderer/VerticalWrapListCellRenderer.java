@@ -34,13 +34,13 @@ public class VerticalWrapListCellRenderer<T> implements ListCellRenderer<T> {
 
         // 16 <=> see JList#getPreferredScrollableViewportSize()
         final int fixedCellHeight = list.getFixedCellHeight() <= 0 ? 16 : list.getFixedCellHeight();
-        final int visibleRowCount = Math.max(1, (list.getHeight() / fixedCellHeight));
+        final int visibleRowCount = Math.max(1, list.getHeight() / fixedCellHeight);
 
-        if (!isSelected && ((index % (2 * visibleRowCount)) >= visibleRowCount)) {
+        if (!isSelected && (index % (2 * visibleRowCount)) >= visibleRowCount) {
             component.setBackground(UIManager.getColor("Table.alternateRowColor"));
         }
 
-        if ((index >= visibleRowCount) && (component instanceof JComponent jComponent)) {
+        if (index >= visibleRowCount && component instanceof JComponent jComponent) {
             final Border compoundBorder = BorderFactory.createCompoundBorder(this.matteBorder, jComponent.getBorder());
             jComponent.setBorder(compoundBorder);
         }

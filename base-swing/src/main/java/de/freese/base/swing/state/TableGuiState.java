@@ -103,7 +103,7 @@ public class TableGuiState extends AbstractGuiState {
 
         final JTable table = (JTable) component;
 
-        if ((this.selectedRows != null) && (this.selectedRows.length > 0)) {
+        if (this.selectedRows != null && this.selectedRows.length > 0) {
             // With SINGLE_SELECTION must setColumnSelectionAllowed(false) be called to do this working.
             try {
                 for (int row : this.selectedRows) {
@@ -118,7 +118,7 @@ public class TableGuiState extends AbstractGuiState {
             }
         }
 
-        if ((this.columnStates != null) && (this.columnStates.length > 0)) {
+        if (this.columnStates != null && this.columnStates.length > 0) {
             final List<TableColumn> columns = getColumns(table);
 
             for (int i = 0; i < columns.size(); i++) {

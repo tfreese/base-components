@@ -34,7 +34,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
                     final int[] rowsSelected = getTable().getSelectedRows();
                     final int[] colsSelected = getTable().getSelectedColumns();
 
-                    if ((rowsSelected.length > 0) && (colsSelected.length > 0)) {
+                    if (rowsSelected.length > 0 && colsSelected.length > 0) {
                         if (getTable().isEnabled()) {
                             popupMenu.show(event.getComponent(), event.getX(), event.getY());
                         }
@@ -68,7 +68,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         final int[] rowsSelected = getTable().getSelectedRows();
         final int[] colsSelected = getTable().getSelectedColumns();
 
-        if ((rowsSelected.length == 0) && (colsSelected.length == 0)) {
+        if (rowsSelected.length == 0 && colsSelected.length == 0) {
             Toolkit.getDefaultToolkit().beep();
 
             JOptionPane.showMessageDialog(null, "Invalid Copy Selection", "Invalid Copy Selection", JOptionPane.ERROR_MESSAGE);
@@ -114,7 +114,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
         final int[] rowsSelected = getTable().getSelectedRows();
         final int[] colsSelected = getTable().getSelectedColumns();
 
-        if ((rowsSelected.length == 0) && (colsSelected.length == 0)) {
+        if (rowsSelected.length == 0 && colsSelected.length == 0) {
             Toolkit.getDefaultToolkit().beep();
 
             JOptionPane.showMessageDialog(null, "Invalid Paste Selection", "Invalid Paste Selection", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +149,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
                 final int currentColumn = startCol + col;
                 final int currentRow = startRow + row;
 
-                if ((currentRow < getTable().getRowCount()) && (currentColumn < getTable().getColumnCount())) {
+                if (currentRow < getTable().getRowCount() && currentColumn < getTable().getColumnCount()) {
                     final Class<?> clazz = getTable().getColumnClass(currentColumn);
                     final ClipboardConverter converter = getConverter(clazz);
                     Object value = null;
@@ -162,7 +162,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
                         value = converter.fromClipboard(stringValue);
                     }
 
-                    if ((value != null) && getTable().isCellEditable(currentRow, currentColumn)) {
+                    if (value != null && getTable().isCellEditable(currentRow, currentColumn)) {
                         getTable().setValueAt(value, currentRow, currentColumn);
 
                         points.add(new Point(row, col));
@@ -176,7 +176,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
             final int rowIndex = startRow + (int) point.getX();
             final int columnIndex = startCol + (int) point.getY();
 
-            if ((getTable().getRowCount() > rowIndex) && (getTable().getColumnCount() > columnIndex)) {
+            if (getTable().getRowCount() > rowIndex && getTable().getColumnCount() > columnIndex) {
                 getTable().addRowSelectionInterval(rowIndex, rowIndex);
                 getTable().addColumnSelectionInterval(columnIndex, columnIndex);
             }

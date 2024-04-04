@@ -30,15 +30,12 @@ public class LineInputStream extends FilterInputStream {
      * </p>
      */
     public String readLine() throws IOException {
-        InputStream in = this.in;
-        char[] buf = this.lineBuffer;
-
-        if (buf == null) {
-            buf = this.lineBuffer = new char[128];
+        if (lineBuffer == null) {
+            lineBuffer = new char[128];
         }
 
         int c1;
-        int room = buf.length;
+        int room = lineBuffer.length;
         int offset = 0;
 
         while ((c1 = in.read()) != -1) {
@@ -58,7 +55,7 @@ public class LineInputStream extends FilterInputStream {
                 if (c2 != '\n') {
                     // If not NL, push it back
                     if (!(in instanceof PushbackInputStream)) {
-                        in = this.in = new PushbackInputStream(in);
+                        in = new PushbackInputStream(in);
                     }
 
                     ((PushbackInputStream) in).unread(c2);
@@ -71,19 +68,19 @@ public class LineInputStream extends FilterInputStream {
             // .. Insert the byte into our byte buffer
             if (--room < 0) {
                 // No room, need to grow.
-                buf = new char[offset + 128];
-                room = buf.length - offset - 1;
-                System.arraycopy(this.lineBuffer, 0, buf, 0, offset);
-                this.lineBuffer = buf;
+                lineBuffer = new char[offset + 128];
+                room = lineBuffer.length - offset - 1;
+                System.arraycopy(this.lineBuffer, 0, lineBuffer, 0, offset);
+                this.lineBuffer = lineBuffer;
             }
 
-            buf[offset++] = (char) c1;
+            lineBuffer[offset++] = (char) c1;
         }
 
-        if ((c1 == -1) && (offset == 0)) {
+        if (c1 == -1 && offset == 0) {
             return null;
         }
 
-        return String.copyValueOf(buf, 0, offset);
+        return String.copyValueOf(lineBuffer, 0, offset);
     }
 }

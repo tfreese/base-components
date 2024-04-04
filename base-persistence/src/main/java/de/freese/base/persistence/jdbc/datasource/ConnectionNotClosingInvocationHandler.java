@@ -25,7 +25,7 @@ public class ConnectionNotClosingInvocationHandler implements InvocationHandler 
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         switch (method.getName()) {
             case "equals":
-                return (proxy == args[0]);
+                return proxy == args[0];
             case "hashCode":
                 return System.identityHashCode(proxy);
             case "unwrap":

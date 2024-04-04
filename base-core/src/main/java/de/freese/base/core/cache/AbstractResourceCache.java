@@ -90,7 +90,9 @@ public abstract class AbstractResourceCache implements ResourceCache {
             boolean redirect = false;
             final int status = httpURLConnection.getResponseCode();
 
-            if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER)) {
+            if (status == HttpURLConnection.HTTP_MOVED_TEMP
+                    || status == HttpURLConnection.HTTP_MOVED_PERM
+                    || status == HttpURLConnection.HTTP_SEE_OTHER) {
                 redirect = true;
             }
 
@@ -131,7 +133,9 @@ public abstract class AbstractResourceCache implements ResourceCache {
 
                 final int status = httpURLConnection.getResponseCode();
 
-                if ((status == HttpURLConnection.HTTP_MOVED_TEMP) || (status == HttpURLConnection.HTTP_MOVED_PERM) || (status == HttpURLConnection.HTTP_SEE_OTHER)) {
+                if (status == HttpURLConnection.HTTP_MOVED_TEMP
+                        || status == HttpURLConnection.HTTP_MOVED_PERM
+                        || status == HttpURLConnection.HTTP_SEE_OTHER) {
                     // get redirect url from "location" header field
                     final String newUrl = httpURLConnection.getHeaderField("Location");
 

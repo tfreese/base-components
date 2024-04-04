@@ -123,7 +123,7 @@ class MouseGesturesRecognizer {
         final int absDeltaX = Math.abs(deltaX);
         final int absDeltaY = Math.abs(deltaY);
 
-        if ((absDeltaX < gridSize) && (absDeltaY < gridSize)) {
+        if (absDeltaX < gridSize && absDeltaY < gridSize) {
             return;
         }
 
@@ -173,7 +173,7 @@ class MouseGesturesRecognizer {
      */
     private void saveMove(final String move) {
         // should not store two equal moves in succession
-        if ((gesture.length() > 0) && (gesture.charAt(gesture.length() - 1) == move.charAt(0))) {
+        if (!gesture.isEmpty() && gesture.charAt(gesture.length() - 1) == move.charAt(0)) {
             return;
         }
 

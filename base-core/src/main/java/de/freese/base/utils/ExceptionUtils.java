@@ -79,7 +79,7 @@ public final class ExceptionUtils {
         Throwable th = throwable;
         final List<Throwable> list = new ArrayList<>();
 
-        while ((th != null) && !list.contains(th)) {
+        while (th != null && !list.contains(th)) {
             list.add(th);
             th = th.getCause();
         }

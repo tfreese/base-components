@@ -163,7 +163,7 @@ public final class Segment7 extends Canvas {
         if (event.getID() == KeyEvent.KEY_PRESSED) {
             final char key = event.getKeyChar();
 
-            if ((key >= '0') && (key <= '9')) {
+            if (key >= '0' && key <= '9') {
                 setValue(key - '0');
             }
             else if (key == '+') {

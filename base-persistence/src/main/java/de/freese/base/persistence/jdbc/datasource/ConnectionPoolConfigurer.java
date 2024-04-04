@@ -45,7 +45,7 @@ public final class ConnectionPoolConfigurer {
         basicDataSource.setDefaultAutoCommit(Boolean.FALSE);
         basicDataSource.setDefaultReadOnly(Boolean.FALSE);
 
-        if ((validationQuery != null) && !validationQuery.isBlank()) {
+        if (validationQuery != null && !validationQuery.isBlank()) {
             basicDataSource.setValidationQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
@@ -112,7 +112,7 @@ public final class ConnectionPoolConfigurer {
         config.setAutoCommit(false);
         config.setReadOnly(false);
 
-        if ((validationQuery != null) && !validationQuery.isBlank()) {
+        if (validationQuery != null && !validationQuery.isBlank()) {
             config.setConnectionTestQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.
@@ -170,7 +170,7 @@ public final class ConnectionPoolConfigurer {
         poolProperties.setDefaultAutoCommit(Boolean.FALSE);
         poolProperties.setDefaultReadOnly(Boolean.FALSE);
 
-        if ((validationQuery != null) && !validationQuery.isBlank()) {
+        if (validationQuery != null && !validationQuery.isBlank()) {
             poolProperties.setValidationQuery(validationQuery);
 
             // Nach 3 Sekunden wird die ValidationQuery als ungültig interpretiert.

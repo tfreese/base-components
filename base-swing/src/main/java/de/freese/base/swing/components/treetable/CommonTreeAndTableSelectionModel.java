@@ -130,7 +130,7 @@ public class CommonTreeAndTableSelectionModel extends DefaultTreeSelectionModel 
 
                 clearSelection();
 
-                if ((min != -1) && (max != -1)) {
+                if (min != -1 && max != -1) {
                     for (int counter = min; counter <= max; counter++) {
                         if (this.listSelectionModel.isSelectedIndex(counter)) {
                             final TreePath selPath = this.tree.getPathForRow(counter);

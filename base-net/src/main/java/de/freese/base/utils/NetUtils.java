@@ -73,7 +73,7 @@ public final class NetUtils {
                     while (addresses.hasMoreElements()) {
                         final InetAddress address = addresses.nextElement();
 
-                        if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
+                        if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                             // IPv4
                             hostName = address.getHostName();
                             break;

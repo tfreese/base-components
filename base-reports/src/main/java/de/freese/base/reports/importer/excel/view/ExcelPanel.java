@@ -40,7 +40,7 @@ public class ExcelPanel extends JPanel {
     }
 
     public void selectSheet(final String sheetName) {
-        if ((sheetName == null) || sheetName.isEmpty()) {
+        if (sheetName == null || sheetName.isEmpty()) {
             return;
         }
 

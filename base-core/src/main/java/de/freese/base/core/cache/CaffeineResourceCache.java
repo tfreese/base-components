@@ -38,7 +38,7 @@ public class CaffeineResourceCache extends FileResourceCache {
     public InputStream getResource(final URI uri) throws Exception {
         final byte[] content = this.cache.get(uri);
 
-        if ((content == null) || (content.length == 0)) {
+        if (content == null || content.length == 0) {
             return null;
         }
 
@@ -69,14 +69,12 @@ public class CaffeineResourceCache extends FileResourceCache {
             return content;
         };
 
-        // @formatter:off
         return Caffeine.newBuilder()
                 .maximumWeight(keepBytesInMemory)
                 .weigher(weigher)
-                .evictionListener((key,  value,  cause) -> getLogger().info("Eviction: {} - {} - {}kB",  cause, key, value.length / 1024))
-                .removalListener((key,  value,  cause) -> getLogger().info("Removal: {} - {} - {}kB",  cause, key,value.length / 1024))
+                .evictionListener((key, value, cause) -> getLogger().info("Eviction: {} - {} - {}kB", cause, key, value.length / 1024))
+                .removalListener((key, value, cause) -> getLogger().info("Removal: {} - {} - {}kB", cause, key, value.length / 1024))
                 .build(cacheLoader)
                 ;
-        // @formatter:on
     }
 }

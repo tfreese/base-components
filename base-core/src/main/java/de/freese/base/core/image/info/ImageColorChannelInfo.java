@@ -163,7 +163,7 @@ public class ImageColorChannelInfo {
             this.histogramm[color]++;
         }
 
-        this.mittlererFarbwert /= (width * height);
+        this.mittlererFarbwert /= width * height;
 
         // Weitere Parameter
         this.entropie = 0.0D;
@@ -179,14 +179,14 @@ public class ImageColorChannelInfo {
                 final double d = (double) x - y;
 
                 if (Double.compare(c, 0.0D) != 0) {
-                    this.entropie += (c * Math.log(c));
+                    this.entropie += c * Math.log(c);
                 }
 
-                this.uniformitaet += (c * c);
+                this.uniformitaet += c * c;
                 this.unaehnlichkeit += c * Math.abs(d);
-                this.inverseDifferenz += (c / (1.0 + Math.abs(d)));
-                this.inversesDifferenzMoment += (c / (1.0 + (d * d)));
-                this.kontrast += (c * (d * d));
+                this.inverseDifferenz += c / (1.0D + Math.abs(d));
+                this.inversesDifferenzMoment += c / (1.0D + (d * d));
+                this.kontrast += c * d * d;
             }
         }
     }

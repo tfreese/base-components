@@ -47,7 +47,7 @@ public class SplitPdf {
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
      */
     public void split(final String[] ranges, final OutputStream outStream) throws Exception {
-        if ((ranges == null) || (outStream == null)) {
+        if (ranges == null || outStream == null) {
             throw new IllegalArgumentException("Parameter is NULL !!!");
         }
 
@@ -78,7 +78,7 @@ public class SplitPdf {
             final int startPage = Integer.parseInt(splits[0]);
             final int endPage = Integer.parseInt(splits[1]);
 
-            if ((startPage > pages) || (endPage > pages)) {
+            if (startPage > pages || endPage > pages) {
                 LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", range, pages);
 
                 continue;
@@ -103,7 +103,7 @@ public class SplitPdf {
                 final int rotation = pdfReader.getPageRotation(i);
 
                 // Seiteninhalt des Originals importieren.
-                if ((rotation == 90) || (rotation == 270)) {
+                if (rotation == 90 || rotation == 270) {
                     pdfContentByte.addTemplate(pdfimportedpage, 0.0F, -1F, 1.0F, 0.0F, 0.0F, pdfReader.getPageSizeWithRotation(i).getHeight());
                 }
                 else {
@@ -125,7 +125,7 @@ public class SplitPdf {
      * @param ranges StringArray mit dem Format 2-4, 5-7 ...
      */
     public void split(final String[] ranges, final OutputStream[] outStreams) throws Exception {
-        if ((ranges == null) || (outStreams == null)) {
+        if (ranges == null || outStreams == null) {
             throw new IllegalArgumentException("Parameter is NULL !!!");
         }
 
@@ -148,7 +148,7 @@ public class SplitPdf {
             final int startPage = Integer.parseInt(splits[0]);
             final int endPage = Integer.parseInt(splits[1]);
 
-            if ((startPage > pages) || (endPage > pages)) {
+            if (startPage > pages || endPage > pages) {
                 LOGGER.error("Start-/Endpage {} reaches total page size {}, skip splitting.", ranges[r], pages);
 
                 continue;
@@ -187,7 +187,7 @@ public class SplitPdf {
                 final int rotation = pdfReader.getPageRotation(i);
 
                 // Seiteninhalt des Originals importieren
-                if ((rotation == 90) || (rotation == 270)) {
+                if (rotation == 90 || rotation == 270) {
                     pdfContentByte.addTemplate(pdfimportedpage, 0.0F, -1F, 1.0F, 0.0F, 0.0F, pdfReader.getPageSizeWithRotation(i).getHeight());
                 }
                 else {

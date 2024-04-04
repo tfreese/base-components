@@ -36,7 +36,7 @@ class StreamSubscription<T> implements Subscription {
 
     @Override
     public void request(final long n) {
-        if ((n <= 0) && !terminate()) {
+        if (n <= 0 && !terminate()) {
             getExecutor().execute(() -> this.subscriber.onError(new IllegalArgumentException("negative subscription request")));
 
             return;
@@ -65,7 +65,7 @@ class StreamSubscription<T> implements Subscription {
             }
         }
 
-        for (; (this.demand.get() > 0) && this.iterator.hasNext() && !isTerminated(); this.demand.decrementAndGet()) {
+        for (; this.demand.get() > 0 && this.iterator.hasNext() && !isTerminated(); this.demand.decrementAndGet()) {
             try {
                 getExecutor().execute(() -> this.subscriber.onNext(this.iterator.next()));
             }
@@ -84,7 +84,7 @@ class StreamSubscription<T> implements Subscription {
     void doOnSubscribed() {
         final Throwable throwable = this.error.get();
 
-        if ((throwable != null) && !terminate()) {
+        if (throwable != null && !terminate()) {
             getExecutor().execute(() -> this.subscriber.onError(throwable));
         }
     }

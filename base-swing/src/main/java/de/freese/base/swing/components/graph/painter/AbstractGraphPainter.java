@@ -43,7 +43,7 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
         // GradientPaint translucentPaint = new GradientPaint(0, 0, new Color(R, G, B, 0), 0, height, new Color(R, G, B, 150));
         // g.setPaint(translucentPaint);
 
-        if ((parent instanceof AbstractGraphComponent agc) && agc.isUseBufferedImage()) {
+        if (parent instanceof AbstractGraphComponent agc && agc.isUseBufferedImage()) {
             // Für transparenten Background bei BufferedImage.
             g.setComposite(AlphaComposite.Clear);
             g.fillRect(0, 0, width, height);

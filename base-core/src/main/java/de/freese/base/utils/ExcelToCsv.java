@@ -228,7 +228,7 @@ public class ExcelToCsv {
             value = null;
         }
 
-        if ((value != null) && (row.getRowNum() != this.headerRow)) {
+        if (value != null && row.getRowNum() != this.headerRow) {
             value = this.columnValueConverter.apply(column, value);
         }
 

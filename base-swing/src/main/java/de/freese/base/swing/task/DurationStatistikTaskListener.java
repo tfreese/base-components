@@ -37,7 +37,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
             final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
-            if ((taskName == null) || (taskName.length() == 0)) {
+            if (taskName == null || taskName.isEmpty()) {
                 LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
                 taskName = task.getClass().getName();
             }
@@ -50,7 +50,7 @@ public final class DurationStatistikTaskListener implements PropertyChangeListen
             final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
             String taskName = task.getName();
 
-            if ((taskName == null) || (taskName.length() == 0)) {
+            if (taskName == null || taskName.isEmpty()) {
                 LOGGER.warn("\"{}\" has no TaskName !", task.getClass().getName());
                 taskName = task.getClass().getName();
             }

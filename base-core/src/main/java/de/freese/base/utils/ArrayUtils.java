@@ -33,7 +33,7 @@ public final class ArrayUtils {
         boolean zero = true;
 
         for (double value : values) {
-            zero = (Double.compare(value, 0.0D) == 0);
+            zero = Double.compare(value, 0.0D) == 0;
 
             if (!zero) {
                 break;
@@ -48,19 +48,19 @@ public final class ArrayUtils {
     }
 
     public static boolean isEmpty(final double[] array) {
-        return (array == null) || (array.length == 0);
+        return array == null || array.length == 0;
     }
 
     public static boolean isEmpty(final int[] array) {
-        return (array == null) || (array.length == 0);
+        return array == null || array.length == 0;
     }
 
     public static boolean isEmpty(final long[] array) {
-        return (array == null) || (array.length == 0);
+        return array == null || array.length == 0;
     }
 
     public static boolean isEmpty(final Object[] array) {
-        return (array == null) || (array.length == 0);
+        return array == null || array.length == 0;
     }
 
     public static boolean isNotEmpty(final double[] array) {

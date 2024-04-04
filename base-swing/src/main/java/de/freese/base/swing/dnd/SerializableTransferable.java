@@ -36,6 +36,6 @@ public class SerializableTransferable implements Transferable {
 
     @Override
     public boolean isDataFlavorSupported(final DataFlavor flavor) {
-        return (flavor.getRepresentationClass().isAssignableFrom(Serializable[].class));
+        return flavor.getRepresentationClass().isAssignableFrom(Serializable[].class);
     }
 }

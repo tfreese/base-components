@@ -25,8 +25,8 @@ public final class ExtMath {
      *     carray[j] = i; // A - Z
      * </pre>
      */
-    private static final char[] CHAR_ARRAY = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-            , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    private static final char[] CHAR_ARRAY = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
     public static long ackermann(final long n, final long m) {
         if (n == 0) {
@@ -47,15 +47,15 @@ public final class ExtMath {
      * @param base The Base of the Value
      */
     public static long base2Dec(final String number, final int base) {
-        if ((base <= 1) || (base > 36)) {
+        if (base <= 1 || base > 36) {
             return -1;
         }
 
         final char[] numArray = number.strip().toCharArray();
-        long result = 0;
+        long result = 0L;
 
         for (int i = 0; i < numArray.length; i++) {
-            result += (Arrays.binarySearch(CHAR_ARRAY, numArray[numArray.length - 1 - i]) * Math.pow(base, i));
+            result += Arrays.binarySearch(CHAR_ARRAY, numArray[numArray.length - 1 - i]) * Math.pow(base, i);
         }
 
         return result;
@@ -79,7 +79,7 @@ public final class ExtMath {
      * @param base the new Base of the Value
      */
     public static String dec2Base(final long value, final int base) {
-        if ((base <= 1) || (base > 36)) {
+        if (base <= 1 || base > 36) {
             return null;
         }
 
@@ -87,7 +87,7 @@ public final class ExtMath {
         double tmp;
         long number = value;
 
-        while (number != 0) {
+        while (number != 0L) {
             tmp = ((double) number) / ((double) base);
             number = (long) tmp;
             tmp -= number;
@@ -148,18 +148,16 @@ public final class ExtMath {
         int value = 0;
 
         for (int i = chars.length - 1; i >= 0; i--) {
-            switch (chars[i]) {
-                case 'I' -> value += ((lastChar == 'X') || (lastChar == 'V')) ? -1 : 1;
-                case 'V' -> value += 5;
-                case 'X' -> value += ((lastChar == 'C') || (lastChar == 'L')) ? -10 : 10;
-                case 'L' -> value += 50;
-                case 'C' -> value += ((lastChar == 'M') || (lastChar == 'D')) ? -100 : 100;
-                case 'D' -> value += 500;
-                case 'M' -> value += 1000;
-                default -> {
-                    // Empty
-                }
-            }
+            value += switch (chars[i]) {
+                case 'I' -> lastChar == 'X' || lastChar == 'V' ? -1 : 1;
+                case 'V' -> 5;
+                case 'X' -> lastChar == 'C' || lastChar == 'L' ? -10 : 10;
+                case 'L' -> 50;
+                case 'C' -> lastChar == 'M' || lastChar == 'D' ? -100 : 100;
+                case 'D' -> 500;
+                case 'M' -> 1000;
+                default -> 0;
+            };
 
             lastChar = chars[i];
         }
@@ -171,7 +169,7 @@ public final class ExtMath {
      * Liefert die übergebene Zahl als römische Zahl zurück.
      */
     public static String getRomanNumber(final int value) {
-        if ((value < 1) || (value > 3999)) {
+        if (value < 1 || value > 3999) {
             throw new IllegalArgumentException("Die eingegebene Zahl muss zwischen 1 und 3999 liegen!");
         }
 
@@ -254,7 +252,7 @@ public final class ExtMath {
             return false;
         }
 
-        return (value > Math.floor(value)) && (value < Math.ceil(value));
+        return value > Math.floor(value) && value < Math.ceil(value);
     }
 
     /**
@@ -419,7 +417,7 @@ public final class ExtMath {
      * @param scale int Anzahl Nachkommastellen
      */
     public static double round(final double value, final int scale, final RoundingMode roundingMode) {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {
+        if (Double.isNaN(value) || Double.isInfinite(value) || Double.compare(value, 0.0D) == 0) {
             return 0.0D;
         }
 
@@ -434,7 +432,7 @@ public final class ExtMath {
      * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      */
     public static int roundDown(final double value) {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {
+        if (Double.isNaN(value) || Double.isInfinite(value) || Double.compare(value, 0.0D) == 0) {
             return 0;
         }
 
@@ -458,7 +456,7 @@ public final class ExtMath {
      * Ist der Wert NaN oder Infinite, wird 0.0D geliefert.
      */
     public static int roundUp(final double value) {
-        if (Double.isNaN(value) || Double.isInfinite(value) || (Double.compare(value, 0.0D) == 0)) {
+        if (Double.isNaN(value) || Double.isInfinite(value) || Double.compare(value, 0.0D) == 0) {
             return 0;
         }
 
@@ -472,14 +470,14 @@ public final class ExtMath {
      * Calculates the smallest common multiple.
      */
     public static long scm(final long a, final long b) {
-        return ((a * b) / lcd(a, b));
+        return (a * b) / lcd(a, b);
     }
 
     /**
      * Subtrahiert (a-b) zwei Double (NULL safe). Sind beide NULL, wird NULL geliefert.
      */
     public static Double sub(final Double a, final Double b) {
-        if ((a == null) && (b == null)) {
+        if (a == null && b == null) {
             return null;
         }
 
@@ -493,7 +491,7 @@ public final class ExtMath {
      * Subtrahiert (a-b) zwei Integers (NULL safe). Sind beide NULL, wird NULL geliefert.
      */
     public static Integer sub(final Integer a, final Integer b) {
-        if ((a == null) && (b == null)) {
+        if (a == null && b == null) {
             return null;
         }
 
@@ -507,7 +505,7 @@ public final class ExtMath {
      * Subtrahiert (a-b) zwei Longs (NULL safe). Sind beide NULL, wird NULL geliefert.
      */
     public static Long sub(final Long a, final Long b) {
-        if ((a == null) && (b == null)) {
+        if (a == null && b == null) {
             return null;
         }
 
@@ -538,7 +536,7 @@ public final class ExtMath {
      * Summiert (a+b) zwei Integers (NULL safe). Sind beide NULL, wird NULL geliefert.
      */
     public static Integer sum(final Integer a, final Integer b) {
-        if ((a == null) && (b == null)) {
+        if (a == null && b == null) {
             return null;
         }
 
@@ -552,7 +550,7 @@ public final class ExtMath {
      * Summiert (a+b) zwei Longs (NULL safe). Sind beide NULL, wird NULL geliefert.
      */
     public static Long sum(final Long a, final Long b) {
-        if ((a == null) && (b == null)) {
+        if (a == null && b == null) {
             return null;
         }
 

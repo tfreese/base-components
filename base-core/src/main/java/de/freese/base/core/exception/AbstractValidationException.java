@@ -44,7 +44,7 @@ public abstract class AbstractValidationException extends Exception {
     public String translate(final Translator translatorAdapter) {
         final StringBuilder sb = new StringBuilder();
 
-        if ((getParameters() != null) && (getParameters().length > 0)) {
+        if (getParameters() != null && getParameters().length > 0) {
             sb.append(translatorAdapter.translate(getMessage(), (Object[]) getParameters()));
         }
         else {

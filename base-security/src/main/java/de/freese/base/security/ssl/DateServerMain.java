@@ -44,7 +44,7 @@ public final class DateServerMain extends Thread {
 
         @Override
         public void run() {
-            if (this.clientSocket.isClosed() || (this.outputStream == null)) {
+            if (this.clientSocket.isClosed() || this.outputStream == null) {
                 return;
             }
 

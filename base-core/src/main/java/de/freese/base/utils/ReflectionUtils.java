@@ -20,7 +20,7 @@ public final class ReflectionUtils {
     /**
      * Pre-built MethodFilter that matches all non-bridge non-synthetic methods which are not declared on {@code java.lang.Object}.
      */
-    public static final Predicate<Method> USER_DECLARED_METHODS = (method -> !method.isBridge() && !method.isSynthetic());
+    public static final Predicate<Method> USER_DECLARED_METHODS = method -> !method.isBridge() && !method.isSynthetic();
     private static final Object[] EMPTY_OBJECT_ARRAY = {};
 
     /**
@@ -97,7 +97,7 @@ public final class ReflectionUtils {
             final Field[] fields = getDeclaredFields(targetClass);
 
             for (Field field : fields) {
-                if ((fieldFilter != null) && !fieldFilter.test(field)) {
+                if (fieldFilter != null && !fieldFilter.test(field)) {
                     continue;
                 }
 
@@ -111,7 +111,7 @@ public final class ReflectionUtils {
 
             targetClass = targetClass.getSuperclass();
         }
-        while ((targetClass != null) && (targetClass != Object.class));
+        while (targetClass != null && targetClass != Object.class);
     }
 
     /**
@@ -161,7 +161,7 @@ public final class ReflectionUtils {
         final Method[] methods = getDeclaredMethods(clazz);
 
         for (Method method : methods) {
-            if ((methodFilter != null) && !methodFilter.test(method)) {
+            if (methodFilter != null && !methodFilter.test(method)) {
                 continue;
             }
 
@@ -173,7 +173,7 @@ public final class ReflectionUtils {
             }
         }
 
-        if ((clazz.getSuperclass() != null) && ((methodFilter != USER_DECLARED_METHODS) || (clazz.getSuperclass() != Object.class))) {
+        if (clazz.getSuperclass() != null && (methodFilter != USER_DECLARED_METHODS || clazz.getSuperclass() != Object.class)) {
             doWithMethods(clazz.getSuperclass(), mc, methodFilter);
         }
         else if (clazz.isInterface()) {
@@ -260,8 +260,8 @@ public final class ReflectionUtils {
      */
     @SuppressWarnings("deprecation")  // on JDK 9
     public static void makeAccessible(final Field field) {
-        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers())) &&
-                !field.isAccessible()) {
+        if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers()))
+                && !field.isAccessible()) {
             field.setAccessible(true);
         }
     }

@@ -80,7 +80,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Je nach Länge der Collection kann die effektive Anzahl an Partitionen kleiner als gefordert sein.
      */
     private static <T> List<List<T>> getPartitionsByCount(final List<T> origin, final int partitionCount) {
-        if ((origin == null) || origin.isEmpty()) {
+        if (origin == null || origin.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -137,7 +137,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Je nach Länge der Collection kann die effektive Anzahl an Partitionen kleiner als gefordert sein.
      */
     private static <T> List<List<T>> getPartitionsByCountModulo(final List<T> origin, final int partitionCount) {
-        if ((origin == null) || origin.isEmpty()) {
+        if (origin == null || origin.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -159,7 +159,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
      * Die letzte Partition kann kleiner als die anderen sein.
      */
     private static <T> List<List<T>> getPartitionsByLength(final List<T> origin, final int partitionLength) {
-        if ((origin == null) || origin.isEmpty()) {
+        if (origin == null || origin.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -194,7 +194,7 @@ public final class PartitionIterable<T> implements Iterable<List<T>> {
     @Override
     public Iterator<List<T>> iterator() {
         return new Iterator<>() {
-            private int index = 0;
+            private int index;
 
             @Override
             public boolean hasNext() {

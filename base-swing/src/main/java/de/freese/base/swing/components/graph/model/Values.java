@@ -31,42 +31,34 @@ public final class Values<T extends Comparable<?>> {
         if (lastValues != null) {
             // Neue Werte hinzufügen.
             for (T value : lastValues) {
-                getValues().add(value);
+                valueList.add(value);
             }
         }
 
         // Alte Werte entfernen.
-        final int n = Math.min(count, getValues().size());
+        final int n = Math.min(count, valueList.size());
 
-        while (getValues().size() > n) {
-            final T oldValue = getValues().removeFirst();
+        while (valueList.size() > n) {
+            final T oldValue = valueList.removeFirst();
 
-            getTreeSet().remove(oldValue);
+            treeSet.remove(oldValue);
         }
 
         if (lastValues != null) {
             // Neue Werte für min.-/max. hinzufügen.
             for (T value : lastValues) {
-                getTreeSet().add(value);
+                treeSet.add(value);
             }
         }
 
-        return getValues();
+        return valueList;
     }
 
     public T getMaxValue() {
-        return getTreeSet().last();
+        return treeSet.last();
     }
 
     public T getMinValue() {
-        return getTreeSet().first();
-    }
-
-    private TreeSet<T> getTreeSet() {
-        return this.treeSet;
-    }
-
-    private LinkedList<T> getValues() {
-        return this.valueList;
+        return treeSet.first();
     }
 }

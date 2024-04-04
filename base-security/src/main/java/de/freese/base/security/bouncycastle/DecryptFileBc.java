@@ -215,7 +215,7 @@ public class DecryptFileBc {
      * Laden des {@link PrivateKey}s.
      */
     private PrivateKey getPrivateKey(final String zertifikatFile, final char[] password) throws Exception {
-        final KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
+        final KeyStore ks = KeyStore.getInstance("PKCS12"); // , BouncyCastleProvider.PROVIDER_NAME);
 
         try (InputStream inputStream = new FileInputStream(zertifikatFile)) {
             ks.load(inputStream, password);
@@ -232,7 +232,7 @@ public class DecryptFileBc {
             final List<String> keyExtensions = c.getExtendedKeyUsage();
             LOGGER.debug("Key Extension= {}", keyExtensions);
 
-            if ((keyExtensions != null) && keyExtensions.contains("1.3.6.1.4.1.311.10.3.4")) {
+            if (keyExtensions != null && keyExtensions.contains("1.3.6.1.4.1.311.10.3.4")) {
                 if (LOGGER.isDebugEnabled()) {
                     LOGGER.debug(keyExtensions.toString());
                 }
@@ -248,7 +248,7 @@ public class DecryptFileBc {
      * Laden des {@link PrivateKey}s.
      */
     private PrivateKey getPrivateKey(final String keystoreFile, final char[] keyStorePassword, final String alias, final char[] aliasPassword) throws Exception {
-        final KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
+        final KeyStore ks = KeyStore.getInstance("PKCS12"); // , BouncyCastleProvider.PROVIDER_NAME);
 
         try (InputStream inputStream = new FileInputStream(keystoreFile)) {
             ks.load(inputStream, keyStorePassword);

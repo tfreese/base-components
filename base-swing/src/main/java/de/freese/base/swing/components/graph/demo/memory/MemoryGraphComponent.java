@@ -36,7 +36,7 @@ public class MemoryGraphComponent extends AbstractGraphComponent {
     }
 
     public void stop() {
-        if ((this.scheduledFuture != null)) {
+        if (this.scheduledFuture != null) {
             this.scheduledFuture.cancel(false);
             this.scheduledFuture = null;
         }

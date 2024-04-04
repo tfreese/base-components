@@ -30,7 +30,7 @@ public class TreeGuiState extends AbstractGuiState {
     }
 
     public boolean hasSelectedRows() {
-        return (this.selectedRows != null) && (this.selectedRows.length > 0);
+        return this.selectedRows != null && this.selectedRows.length > 0;
     }
 
     @Override

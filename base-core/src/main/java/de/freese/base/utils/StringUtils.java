@@ -53,9 +53,9 @@ public final class StringUtils {
             return;
         }
 
-        final String sep = (separator == null) || separator.isBlank() ? "|" : separator;
+        final String sep = separator == null || separator.isBlank() ? "|" : separator;
 
-        final int columnCount = rows.get(0).length;
+        final int columnCount = rows.getFirst().length;
 
         // Trenner zwischen Header und Daten.
         // final T[] row = (T[]) Array.newInstance(String.class, getColumnCount);
@@ -64,7 +64,7 @@ public final class StringUtils {
         final String[] row = new String[columnCount];
 
         for (int column = 0; column < columnCount; column++) {
-            row[column] = sep.repeat(rows.get(0)[column].length());
+            row[column] = sep.repeat(rows.getFirst()[column].length());
         }
 
         rows.add(1, row);
@@ -90,7 +90,7 @@ public final class StringUtils {
             return;
         }
 
-        final int columnCount = list.get(0).length;
+        final int columnCount = list.getFirst().length;
 
         list.stream().parallel().forEach(r -> {
             for (int column = 0; column < columnCount; column++) {
@@ -117,23 +117,20 @@ public final class StringUtils {
             return new int[0];
         }
 
-        final int columnCount = list.get(0).length;
+        final int columnCount = list.getFirst().length;
 
         final int[] columnWidths = new int[columnCount];
         Arrays.fill(columnWidths, 0);
 
-        // @formatter:off
-        IntStream.range(0, columnCount).forEach(column
-                ->
-                    columnWidths[column]  = list.stream()
-                            .parallel()
-                            .map(d -> d[column])
-                            .filter(Objects::nonNull)
-                            .mapToInt(CharSequence::length)
-                            .max()
-                            .orElse(0)
-                );
-        // @formatter:on
+        IntStream.range(0, columnCount).forEach(column ->
+                columnWidths[column] = list.stream()
+                        .parallel()
+                        .map(d -> d[column])
+                        .filter(Objects::nonNull)
+                        .mapToInt(CharSequence::length)
+                        .max()
+                        .orElse(0)
+        );
 
         return columnWidths;
     }
@@ -183,11 +180,11 @@ public final class StringUtils {
     public static boolean isBlank(final CharSequence cs) {
         // return org.apache.commons.lang3.StringUtils.isBlank(cs);
 
-        final int strLen;
-
-        if ((cs == null) || ((strLen = cs.length()) == 0)) {
+        if (cs == null || cs.isEmpty()) {
             return true;
         }
+
+        final int strLen = cs.length();
 
         for (int i = 0; i < strLen; i++) {
             if (!Character.isWhitespace(cs.charAt(i))) {
@@ -450,7 +447,7 @@ public final class StringUtils {
             final char c = mText.charAt(i);
             sb.append(c);
 
-            if ((Character.isLowerCase(c) && Character.isUpperCase(mText.charAt(i + 1)))) {
+            if (Character.isLowerCase(c) && Character.isUpperCase(mText.charAt(i + 1))) {
                 sb.append(" ");
             }
         }
@@ -556,7 +553,7 @@ public final class StringUtils {
      * @since 2.3
      */
     public static String[] substringsBetween(final String str, final String open, final String close) {
-        if ((str == null) || isEmpty(open) || isEmpty(close)) {
+        if (str == null || isEmpty(open) || isEmpty(close)) {
             return null;
         }
 
@@ -607,16 +604,14 @@ public final class StringUtils {
 
         return text.lines().map(String::strip).collect(Collectors.joining(SPACE));
 
-        //        // @formatter:off
-//        return Stream.of(text)
-//                .map(t -> t.replace("\n", SPACE)) // Keine Zeilenumbrüche
-//                .map(t -> t.replace("\t", SPACE)) // Keine Tabulatoren
-//                .map(t -> t.split(SPACE))
-//                .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
-//                //.peek(System.out::println)
-//                .filter(StringUtils::isNotBlank) // leere Strings filtern
-//                .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
-//        // @formatter:on
+        // return Stream.of(text)
+        //         .map(t -> t.replace("\n", SPACE)) // Keine Zeilenumbrüche
+        //         .map(t -> t.replace("\t", SPACE)) // Keine Tabulatoren
+        //         .map(t -> t.split(SPACE))
+        //         .flatMap(Arrays::stream) // Stream<String[]> in Stream<String> konvertieren
+        //         //.peek(System.out::println)
+        //         .filter(StringUtils::isNotBlank) // leere Strings filtern
+        //         .collect(Collectors.joining(SPACE));  // Strings wieder zusammenführen
     }
 
     public static String unicodeToHexString(final CharSequence cs) {

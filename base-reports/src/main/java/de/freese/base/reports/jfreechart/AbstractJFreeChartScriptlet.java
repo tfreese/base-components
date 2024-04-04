@@ -113,7 +113,7 @@ public abstract class AbstractJFreeChartScriptlet<T> {
      */
     @SuppressWarnings("checkstyle:IllegalCatch")
     protected double calculateTick(final double yMaxValue, final int maxTickUnits, final double upperTickMargin, final boolean fractionDigits) {
-        if ((upperTickMargin < 0) || (upperTickMargin > 1)) {
+        if (upperTickMargin < 0 || upperTickMargin > 1) {
             throw new IllegalArgumentException("upperTickMargin must be between 0 and 1 !");
         }
 

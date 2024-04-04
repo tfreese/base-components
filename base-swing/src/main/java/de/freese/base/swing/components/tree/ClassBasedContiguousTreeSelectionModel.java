@@ -52,7 +52,7 @@ public class ClassBasedContiguousTreeSelectionModel extends DefaultTreeSelection
 
     @Override
     public void addSelectionPath(final TreePath path) {
-        if ((path == null) || (path.getLastPathComponent() == null)) {
+        if (path == null || path.getLastPathComponent() == null) {
             super.addSelectionPath(path);
 
             return;

@@ -80,7 +80,7 @@ public class AutoCompleteableTextField extends JTextField {
         addFocusListener(new FocusAdapter() {
             @Override
             public void focusLost(final FocusEvent event) {
-                if ((AutoCompleteableTextField.this.prevSearchMenu == null) || !AutoCompleteableTextField.this.prevSearchMenu.isVisible()) {
+                if (AutoCompleteableTextField.this.prevSearchMenu == null || !AutoCompleteableTextField.this.prevSearchMenu.isVisible()) {
                     saveLastSearch();
                 }
             }
@@ -89,11 +89,11 @@ public class AutoCompleteableTextField extends JTextField {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(final KeyEvent event) {
-                if ((event.getKeyCode() == KeyEvent.VK_ENTER) || (event.getKeyCode() == KeyEvent.VK_TAB)) {
+                if (event.getKeyCode() == KeyEvent.VK_ENTER || event.getKeyCode() == KeyEvent.VK_TAB) {
                     final JPopupMenu popupMenu = AutoCompleteableTextField.this.prevSearchMenu;
 
                     // Wenn das PopupMenu geöffnet ist, das selektierte MenuItem ausführen.
-                    if ((popupMenu != null) && popupMenu.isVisible()) {
+                    if (popupMenu != null && popupMenu.isVisible()) {
                         final MenuElement[] path = MenuSelectionManager.defaultManager().getSelectedPath();
 
                         if (path.length > 0) {
@@ -124,7 +124,7 @@ public class AutoCompleteableTextField extends JTextField {
             this.prevSearchMenu = null;
         }
 
-        if ((!this.prevSearches.isEmpty()) && (getText().strip().length() > 0)) {
+        if (!this.prevSearches.isEmpty() && !getText().isBlank()) {
             this.prevSearchMenu = new JPopupMenu();
 
             final Iterator<String> it = this.prevSearches.iterator();
@@ -167,7 +167,7 @@ public class AutoCompleteableTextField extends JTextField {
     private void saveLastSearch() {
         final String search = getText().strip();
 
-        if ((search != null) && (search.length() > 1) && !this.prevSearches.contains(search)) {
+        if (search != null && search.length() > 1 && !this.prevSearches.contains(search)) {
             // System.out.println("AutoCompleteableTextField.saveLastSearch(): " + search);
             this.prevSearches.addFirst(search);
 

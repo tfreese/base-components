@@ -48,7 +48,7 @@ public abstract class AbstractGraphComponent extends Component {
     public void paint(final Graphics g) {
         // super.paint(g);
 
-        if (isUseBufferedImage() && (getBufferedImage() != null)) {
+        if (isUseBufferedImage() && getBufferedImage() != null) {
             getPainter().paint(getBufferedImageGraphics2d(), this, getWidth(), getHeight());
 
             g.drawImage(getBufferedImage(), 0, 0, this);

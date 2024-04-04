@@ -13,7 +13,7 @@ public class DoubleToIntAdapter extends XmlAdapter<String, Integer> {
 
     @Override
     public Integer unmarshal(final String arg0) throws Exception {
-        if ((arg0 == null) || (arg0.length() == 0)) {
+        if (arg0 == null || arg0.isEmpty()) {
             return null;
         }
 

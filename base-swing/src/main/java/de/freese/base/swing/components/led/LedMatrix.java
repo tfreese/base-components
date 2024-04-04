@@ -170,7 +170,7 @@ public class LedMatrix implements Painter<LedConfig> {
             for (int row = 0; row < ledDots.length; row++) {
                 final byte b = ledDots[row][col];
 
-                mask |= (b << row);
+                mask |= b << row;
             }
 
             bitMask[col] = mask;
@@ -268,7 +268,7 @@ public class LedMatrix implements Painter<LedConfig> {
             }
         }
 
-        transformedX += (tokenGap * (hGap + dotWidth));
+        transformedX += tokenGap * (hGap + dotWidth);
 
         return transformedX;
     }
@@ -285,7 +285,7 @@ public class LedMatrix implements Painter<LedConfig> {
         for (byte mask : bitMask) {
             for (int row = 0; row < 7; row++) {
                 if (((mask & 0xFF) & (1 << row)) != 0) {
-                    final int y = ((row + topInset) * (dotHeight + vGap));
+                    final int y = (row + topInset) * (dotHeight + vGap);
 
                     g.fillRect(x, y, dotWidth, dotHeight);
                 }

@@ -50,7 +50,7 @@ public class ExcelSheetTableModel extends AbstractTableModel {
             return rowIndex + 1;
         }
 
-        if ((columnIndex < getColumnCount()) && (rowIndex < getRowCount())) {
+        if (columnIndex < getColumnCount() && rowIndex < getRowCount()) {
             return this.excelSheet.getValueAt(rowIndex, columnIndex - 1);
         }
 

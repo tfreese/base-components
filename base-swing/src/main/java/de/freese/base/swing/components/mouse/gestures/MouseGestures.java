@@ -126,7 +126,7 @@ public class MouseGestures {
                         mouseGesturesRecognizer.processMouseEvent(mouseEvent);
                     }
 
-                    if (((mouseEvent.getID() == MouseEvent.MOUSE_RELEASED) || (mouseEvent.getID() == MouseEvent.MOUSE_CLICKED))
+                    if ((mouseEvent.getID() == MouseEvent.MOUSE_RELEASED || mouseEvent.getID() == MouseEvent.MOUSE_CLICKED)
                             && (mouseEvent.getModifiersEx() & mouseButton) == mouseButton) {
                         if (mouseGesturesRecognizer.isGestureRecognized()) {
                             // prevents displaying popup menu and so on

@@ -97,8 +97,8 @@ public final class SocketUtils {
 
             do {
                 if (searchCounter > portRange) {
-                    throw new IllegalStateException(
-                            String.format("Could not find an available %s port in the range [%d, %d] after %d attempts", name(), minPort, maxPort, searchCounter));
+                    final String message = String.format("Could not find an available %s port in the range [%d, %d] after %d attempts", name(), minPort, maxPort, searchCounter);
+                    throw new IllegalStateException(message);
                 }
 
                 candidatePort = findRandomPort(minPort, maxPort);
@@ -131,7 +131,7 @@ public final class SocketUtils {
             final SortedSet<Integer> availablePorts = new TreeSet<>();
             int attemptCount = 0;
 
-            while ((++attemptCount <= numRequested + 100) && availablePorts.size() < numRequested) {
+            while (++attemptCount <= numRequested + 100 && availablePorts.size() < numRequested) {
                 availablePorts.add(findAvailablePort(minPort, maxPort));
             }
 

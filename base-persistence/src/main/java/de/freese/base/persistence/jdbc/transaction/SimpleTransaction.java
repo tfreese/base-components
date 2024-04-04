@@ -48,7 +48,7 @@ public final class SimpleTransaction implements Transaction {
         LOGGER.debug("close connection");
 
         try {
-            if ((connection == null) || connection.isClosed()) {
+            if (connection == null || connection.isClosed()) {
                 return;
             }
 

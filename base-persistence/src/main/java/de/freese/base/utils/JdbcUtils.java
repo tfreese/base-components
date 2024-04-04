@@ -38,7 +38,7 @@ public final class JdbcUtils {
         // DataSourceUtils.releaseConnection(connection, getDataSource());
         // JdbcUtils.closeConnection(connection)
 
-        if ((connection == null) || connection.isClosed()) {
+        if (connection == null || connection.isClosed()) {
             return;
         }
 
@@ -49,7 +49,7 @@ public final class JdbcUtils {
         // Spring-Variante
         // JdbcUtils.closeResultSet(resultSet);
 
-        if ((resultSet == null) || resultSet.isClosed()) {
+        if (resultSet == null || resultSet.isClosed()) {
             return;
         }
 
@@ -60,7 +60,7 @@ public final class JdbcUtils {
         // Spring-Variante
         // JdbcUtils.closeStatement(statement);
 
-        if ((statement == null) || statement.isClosed()) {
+        if (statement == null || statement.isClosed()) {
             return;
         }
 
@@ -269,7 +269,7 @@ public final class JdbcUtils {
     public static StringBuilder parameterAsString(final Iterable<String> values, final char separator) {
         final StringBuilder builder = new StringBuilder();
 
-        for (Iterator<String> iter = values.iterator(); iter.hasNext(); ) {
+        for (final Iterator<String> iter = values.iterator(); iter.hasNext(); ) {
             builder.append(iter.next());
 
             if (iter.hasNext()) {
@@ -442,7 +442,7 @@ public final class JdbcUtils {
     private static void createInOrNotInClause(final String column, final StringBuilder sql, final Set<? extends Number> elements, final String inOrNotIn) {
         sql.append(column).append(" ").append(inOrNotIn).append(" (");
 
-        if ((elements == null) || elements.isEmpty()) {
+        if (elements == null || elements.isEmpty()) {
             sql.append("-1)");
 
             return;
@@ -458,7 +458,7 @@ public final class JdbcUtils {
             sql.append(number);
             i++;
 
-            if (((i % 1000) == 0) && iterator.hasNext()) {
+            if ((i % 1000) == 0 && iterator.hasNext()) {
                 // Neuen Block anfangen,
                 sql.append(") or ").append(column).append(" ").append(inOrNotIn).append(" (");
             }

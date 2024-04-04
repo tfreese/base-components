@@ -68,8 +68,8 @@ public class SingleDataSource implements DataSource, AutoCloseable {
             }
 
             if (this.connection.isClosed()) {
-                throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections," +
-                        " or set 'suppressClose' to 'true'");
+                throw new SQLException("Connection was closed in SingleConnectionDataSource. Check that user code checks shouldClose() before closing Connections,"
+                        + " or set 'suppressClose' to 'true'");
             }
         }
         finally {
@@ -272,16 +272,16 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     private void prepareConnection(final Connection con) throws SQLException {
-        final Boolean _readOnly = getReadOnlyValue();
+        final Boolean ro = getReadOnlyValue();
 
-        if ((_readOnly != null) && (con.isReadOnly() != _readOnly)) {
-            con.setReadOnly(_readOnly);
+        if (ro != null && con.isReadOnly() != ro) {
+            con.setReadOnly(ro);
         }
 
-        final Boolean _autoCommit = getAutoCommitValue();
+        final Boolean ac = getAutoCommitValue();
 
-        if ((_autoCommit != null) && (con.getAutoCommit() != _autoCommit)) {
-            con.setAutoCommit(_autoCommit);
+        if (ac != null && con.getAutoCommit() != ac) {
+            con.setAutoCommit(ac);
         }
     }
 }

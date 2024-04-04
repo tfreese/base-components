@@ -188,7 +188,7 @@ public class JdbcClient {
         getLogger().debug("close connection");
 
         try {
-            if ((connection == null) || connection.isClosed()) {
+            if (connection == null || connection.isClosed()) {
                 return;
             }
 
@@ -204,7 +204,7 @@ public class JdbcClient {
         getLogger().debug("close resultSet");
 
         try {
-            if ((resultSet == null) || resultSet.isClosed()) {
+            if (resultSet == null || resultSet.isClosed()) {
                 return;
             }
 
@@ -219,7 +219,7 @@ public class JdbcClient {
         getLogger().debug("close statement");
 
         try {
-            if ((statement == null) || statement.isClosed()) {
+            if (statement == null || statement.isClosed()) {
                 return;
             }
 
@@ -361,7 +361,7 @@ public class JdbcClient {
                 if (supportsBatch) {
                     stmt.addBatch();
 
-                    if (((n % batchSize) == 0) || (n == batchArgs.size())) {
+                    if ((n % batchSize) == 0 || n == batchArgs.size()) {
                         if (logger.isDebugEnabled()) {
                             final int batchIndex = ((n % batchSize) == 0) ? (n / batchSize) : ((n / batchSize) + 1);
                             final int items = n - ((((n % batchSize) == 0) ? ((n / batchSize) - 1) : (n / batchSize)) * batchSize);

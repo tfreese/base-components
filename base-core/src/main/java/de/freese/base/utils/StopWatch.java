@@ -41,16 +41,14 @@ public class StopWatch {
         }
 
         protected void printSummary(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit) {
-            // @formatter:off
-            printStream.printf("StopWatch '%s': running time = %,d %s = %,d %s"
-                    , sw.getId()
-                    , sw.getTotalTimeNanos()
-                    , TimeUnit.NANOSECONDS.toChronoUnit()
-                    , timeUnit.convert(sw.getTotalTimeNanos(), TimeUnit.NANOSECONDS)
-                    , timeUnit.toChronoUnit()
-                    )
-                    ;
-            // @formatter:on
+            printStream.printf("StopWatch '%s': running time = %,d %s = %,d %s",
+                    sw.getId(),
+                    sw.getTotalTimeNanos(),
+                    TimeUnit.NANOSECONDS.toChronoUnit(),
+                    timeUnit.convert(sw.getTotalTimeNanos(), TimeUnit.NANOSECONDS),
+                    timeUnit.toChronoUnit()
+            )
+            ;
         }
 
         protected void printTasks(final StopWatch sw, final PrintStream printStream, final TimeUnit timeUnit) {
@@ -63,14 +61,12 @@ public class StopWatch {
                 for (TaskInfo task : sw.getTaskList()) {
                     final long nanos = task.getTime(TimeUnit.NANOSECONDS);
 
-                    // @formatter:off
-                    printStream.printf("%,15d | %,9d | %3.0f | %s%n"
-                            , nanos
-                            , timeUnit.convert(nanos, TimeUnit.NANOSECONDS)
-                            , ((double) nanos / sw.getTotalTimeNanos()) * 100D
-                            , task.taskName)
-                            ;
-                    // @formatter:on
+                    printStream.printf("%,15d | %,9d | %3.0f | %s%n",
+                            nanos,
+                            timeUnit.convert(nanos, TimeUnit.NANOSECONDS),
+                            ((double) nanos / sw.getTotalTimeNanos()) * 100D,
+                            task.taskName)
+                    ;
                 }
             }
         }

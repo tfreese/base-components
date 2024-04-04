@@ -37,7 +37,7 @@ public class ContainerGuiState extends AbstractGuiState {
 
         final Container container = (Container) component;
 
-        if ((this.width == 0) && (this.height == 0)) {
+        if (this.width == 0 && this.height == 0) {
             // Configuration not saved before.
             return;
         }

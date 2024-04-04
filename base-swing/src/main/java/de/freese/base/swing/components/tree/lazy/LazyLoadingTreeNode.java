@@ -13,7 +13,7 @@ public class LazyLoadingTreeNode extends DefaultMutableTreeNode {
     @Serial
     private static final long serialVersionUID = -8434762605446347104L;
 
-    private boolean childrenLoaded = false;
+    private boolean childrenLoaded;
 
     public LazyLoadingTreeNode(final Object userObject) {
         super(userObject);

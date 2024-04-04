@@ -70,7 +70,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
 
     @Override
     public boolean isLeaf(final Object node) {
-        return ((getChildren(node) == null) || (getChildren(node).isEmpty()));
+        return getChildren(node) == null || getChildren(node).isEmpty();
     }
 
     /**
@@ -78,7 +78,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
      */
     public void nodeChanged(final Object node) {
         synchronized (this.eventListenerList) {
-            if ((this.eventListenerList != null) && (node != null)) {
+            if (this.eventListenerList != null && node != null) {
                 final Object parent = getParentFor(node);
 
                 if (parent != null) {
@@ -196,7 +196,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
      */
     public void nodesWereInserted(final Object node, final int[] childIndices) {
         synchronized (this.eventListenerList) {
-            if ((this.eventListenerList != null) && (node != null) && (childIndices != null) && (childIndices.length > 0)) {
+            if (this.eventListenerList != null && node != null && childIndices != null && childIndices.length > 0) {
                 final int cCount = childIndices.length;
                 final Object[] newChildren = new Object[cCount];
 
@@ -215,7 +215,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
      * And removedChildren should be the array of the children objects that were removed.
      */
     public void nodesWereRemoved(final Object node, final int[] childIndices, final Object[] removedChildren) {
-        if ((node != null) && (childIndices != null)) {
+        if (node != null && childIndices != null) {
             fireTreeNodesRemoved(this, getPathToRoot(node), childIndices, removedChildren);
         }
     }

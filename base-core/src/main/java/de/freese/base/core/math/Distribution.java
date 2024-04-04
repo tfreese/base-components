@@ -43,7 +43,7 @@ public final class Distribution {
         final double[] daten = new double[faktoren.length];
         Arrays.fill(daten, 0.0D);
 
-        if (Double.isNaN(mWert) || Double.isInfinite(mWert) || (Double.compare(mWert, 0.0D) == 0)) {
+        if (Double.isNaN(mWert) || Double.isInfinite(mWert) || Double.compare(mWert, 0.0D) == 0) {
             return daten;
         }
 

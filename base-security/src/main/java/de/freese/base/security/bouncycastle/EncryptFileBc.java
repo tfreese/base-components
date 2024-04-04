@@ -154,7 +154,7 @@ public class EncryptFileBc {
      * Laden des {@link X509Certificate}s.
      */
     private X509Certificate getCertificate(final String keystoreFile, final char[] keyStorePassword, final String alias) throws Exception {
-        final KeyStore ks = KeyStore.getInstance("PKCS12");// , BouncyCastleProvider.PROVIDER_NAME);
+        final KeyStore ks = KeyStore.getInstance("PKCS12"); // , BouncyCastleProvider.PROVIDER_NAME);
 
         try (FileInputStream fis = new FileInputStream(keystoreFile)) {
             ks.load(fis, keyStorePassword);

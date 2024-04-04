@@ -105,7 +105,7 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
         long w = width;
 
         final TableColumnModel columnModel = this.header.getColumnModel();
-        w += ((long) columnModel.getColumnMargin() * columnModel.getColumnCount());
+        w += (long) columnModel.getColumnMargin() * columnModel.getColumnCount();
 
         if (w > Integer.MAX_VALUE) {
             w = Integer.MAX_VALUE;

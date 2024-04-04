@@ -205,7 +205,7 @@ class PgpCryptoBc {
             }
         }
 
-        if ((privateKey == null) || (encryptedData == null)) {
+        if (privateKey == null || encryptedData == null) {
             throw new IllegalArgumentException("Private key for message not found.");
         }
 
@@ -352,7 +352,7 @@ class PgpCryptoBc {
             }
         }
 
-        if ((publicKey != null) && !isForEncryption(publicKey)) {
+        if (publicKey != null && !isForEncryption(publicKey)) {
             throw new IllegalArgumentException("KeyID " + publicKey.getKeyID() + " not flagged for encryption.");
         }
 
@@ -364,8 +364,10 @@ class PgpCryptoBc {
      * I didn't think it was worth having to import a 4meg lib for three methods.
      */
     public boolean isForEncryption(final PGPPublicKey key) {
-        if ((key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_SIGN) || (key.getAlgorithm() == PublicKeyAlgorithmTags.DSA) || (key.getAlgorithm() == PublicKeyAlgorithmTags.ECDH) ||
-                (key.getAlgorithm() == PublicKeyAlgorithmTags.ECDSA)) {
+        if (key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_SIGN
+                || key.getAlgorithm() == PublicKeyAlgorithmTags.DSA
+                || key.getAlgorithm() == PublicKeyAlgorithmTags.ECDH
+                || key.getAlgorithm() == PublicKeyAlgorithmTags.ECDSA) {
             return false;
         }
 
@@ -383,11 +385,11 @@ class PgpCryptoBc {
             // In the real world you would probably want to be a bit smarter about this.
             final Iterator<PGPSecretKeyRing> rIt = keyRingCollection.getKeyRings();
 
-            while ((secretKey == null) && rIt.hasNext()) {
+            while (secretKey == null && rIt.hasNext()) {
                 final PGPSecretKeyRing keyRing = rIt.next();
                 final Iterator<PGPSecretKey> kIt = keyRing.getSecretKeys();
 
-                while ((secretKey == null) && kIt.hasNext()) {
+                while (secretKey == null && kIt.hasNext()) {
                     final PGPSecretKey key = kIt.next();
 
                     if (key.isSigningKey()) {
@@ -552,7 +554,7 @@ class PgpCryptoBc {
 
             if (sv.hasSubpacket(KEY_FLAGS)) {
                 // code fix suggested by kzt (see comments)
-                return (sv.getKeyFlags() != 0) || (keyUsage != 0);
+                return sv.getKeyFlags() != 0 || keyUsage != 0;
             }
         }
 

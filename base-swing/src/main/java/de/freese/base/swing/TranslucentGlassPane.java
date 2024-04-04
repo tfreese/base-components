@@ -117,7 +117,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             final double oldAlpha = this.alpha;
             this.alpha = alpha;
 
-            if ((alpha > 0D) && (alpha < 1D)) {
+            if (alpha > 0D && alpha < 1D) {
                 if (Double.compare(oldAlpha, 1D) == 0) {
                     // it used to be 1, but now is not. Save the oldOpaque
                     this.oldOpaque = isOpaque();
@@ -187,11 +187,11 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         // final Graphics2D g2d = (Graphics2D) g;
         // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
         // getAlpha()));
-        if (!this.animateTimer.isRunning() && (getAlpha() < this.alphaEnd)) {
+        if (!this.animateTimer.isRunning() && getAlpha() < this.alphaEnd) {
             this.animateTimer.start();
         }
 
-        if (this.animateTimer.isRunning() && (getAlpha() >= this.alphaEnd)) {
+        if (this.animateTimer.isRunning() && getAlpha() >= this.alphaEnd) {
             this.animateTimer.stop();
         }
 
@@ -242,7 +242,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             // Find out exactly which component it's over.
             final Component component = SwingUtilities.getDeepestComponentAt(getParent(), containerPoint.x, containerPoint.y);
 
-            if ((component != null) && this.dispatchComponents.contains(component)) {
+            if (component != null && this.dispatchComponents.contains(component)) {
                 // Forward events over the component.
                 final Point componentPoint = SwingUtilities.convertPoint(this, glassPanePoint, component);
                 component.dispatchEvent(new MouseEvent(component, event.getID(), event.getWhen(), event.getModifiersEx(), componentPoint.x, componentPoint.y, event.getClickCount(),

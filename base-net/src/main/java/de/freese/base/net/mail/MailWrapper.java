@@ -164,11 +164,11 @@ public class MailWrapper {
             throw new NullPointerException("key");
         }
 
-        if (key.strip().length() == 0) {
+        if (key.isBlank()) {
             throw new IllegalArgumentException("key is empty");
         }
 
-        if ((value == null) || (value.strip().length() == 0)) {
+        if (value == null || value.isBlank()) {
             this.additionalHeaderProperties.remove(key);
             return;
         }

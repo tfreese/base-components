@@ -44,7 +44,7 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
     protected String getColumnName(final ResultSetMetaData resultSetMetaData, final int index) throws SQLException {
         String name = resultSetMetaData.getColumnLabel(index);
 
-        if ((name == null) || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             name = resultSetMetaData.getColumnName(index);
         }
 
@@ -83,7 +83,7 @@ public class ResultSetCallbackColumnMap implements ResultSetCallback<List<Map<St
         else if ("oracle.sql.TIMESTAMP".equals(className) || "oracle.sql.TIMESTAMPTZ".equals(className)) {
             obj = rs.getTimestamp(index);
         }
-        else if ((className != null) && className.startsWith("oracle.sql.DATE")) {
+        else if (className != null && className.startsWith("oracle.sql.DATE")) {
             final String metaDataClassName = rs.getMetaData().getColumnClassName(index);
 
             if ("java.sql.Timestamp".equals(metaDataClassName) || "oracle.sql.TIMESTAMP".equals(metaDataClassName)) {

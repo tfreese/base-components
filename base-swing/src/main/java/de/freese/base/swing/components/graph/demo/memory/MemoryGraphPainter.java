@@ -96,8 +96,8 @@ public class MemoryGraphPainter extends AbstractGraphPainter {
         final float strokeWidth = 1F;
         xOffset += strokeWidth;
         yOffset += strokeWidth;
-        graphWidth -= (strokeWidth * 2F);
-        graphHeight -= (strokeWidth * 2F);
+        graphWidth -= strokeWidth * 2F;
+        graphHeight -= strokeWidth * 2F;
 
         // Raster
         g.translate(xOffset, yOffset);

@@ -39,7 +39,8 @@ public final class SslContextFactory {
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[]{};
         }
-    }};
+    }
+    };
 
     public static SSLContext createDefault() throws GeneralSecurityException {
         // System.setProperty("javax.net.debug", "ssl");
@@ -67,7 +68,7 @@ public final class SslContextFactory {
 
         return (hostname, session) -> {
             // Localhost immer vertrauen
-            if ((trustLocalHost && hostname.contains("localhost")) || hostname.contains(invokeHost)) {
+            if (trustLocalHost && hostname.contains("localhost") || hostname.contains(invokeHost)) {
                 return true;
             }
 

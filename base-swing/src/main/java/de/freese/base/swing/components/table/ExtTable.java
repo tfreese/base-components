@@ -100,7 +100,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
             if (gp instanceof JScrollPane scrollPane) {
                 final JViewport viewport = scrollPane.getViewport();
 
-                if ((viewport == null) || (viewport.getView() != this)) {
+                if (viewport == null || viewport.getView() != this) {
                     return;
                 }
 
@@ -261,7 +261,7 @@ public class ExtTable extends JTable implements ExtTableColumnModelListener {
             if (gp instanceof JScrollPane scrollPane) {
                 final Border border = scrollPane.getBorder();
 
-                if ((border == null) || (border instanceof UIResource)) {
+                if (border == null || border instanceof UIResource) {
                     scrollPane.setBorder(UIManager.getBorder("Table.scrollPaneBorder"));
                 }
             }

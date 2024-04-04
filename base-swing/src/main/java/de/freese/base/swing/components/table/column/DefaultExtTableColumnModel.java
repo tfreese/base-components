@@ -121,7 +121,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
     @Override
     public ExtTableColumn getColumnExt(final Object identifier) {
         for (TableColumn column : this.initialColumns) {
-            if ((column instanceof ExtTableColumn c) && (identifier.equals(column.getIdentifier()))) {
+            if (column instanceof ExtTableColumn c && identifier.equals(column.getIdentifier())) {
                 return c;
             }
         }
@@ -167,7 +167,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
      * @return true if the column was moved to invisible
      */
     public boolean isRemovedToInvisibleEvent(final int oldIndex) {
-        if ((oldIndex >= this.currentColumns.size()) || !(this.currentColumns.get(oldIndex) instanceof ExtTableColumn)) {
+        if (oldIndex >= this.currentColumns.size() || !(this.currentColumns.get(oldIndex) instanceof ExtTableColumn)) {
             return false;
         }
 

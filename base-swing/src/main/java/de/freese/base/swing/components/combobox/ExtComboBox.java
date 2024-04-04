@@ -149,7 +149,7 @@ public class ExtComboBox<T> extends JComboBox<T> {
         this.selectedItemReminder = this.dataModel.getSelectedItem();
 
         // Fire Event even if Object = NULL
-        if ((this.selectedItemReminder != null) || ((this.selectedItemReminder == null) && isFireOnNull())) {
+        if (this.selectedItemReminder != null || isFireOnNull()) {
             fireItemStateChanged(new ItemEvent(this, ItemEvent.ITEM_STATE_CHANGED, this.selectedItemReminder, ItemEvent.SELECTED));
         }
     }

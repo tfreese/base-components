@@ -38,7 +38,9 @@ public class SerialExecutor implements Executor {
     }
 
     private synchronized void scheduleNext() {
-        if ((this.active = this.queue.poll()) != null) {
+        this.active = this.queue.poll();
+
+        if (this.active != null) {
             this.delegate.execute(this.active);
         }
     }

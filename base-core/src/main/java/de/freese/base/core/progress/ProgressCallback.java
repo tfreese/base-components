@@ -11,7 +11,7 @@ public interface ProgressCallback extends BiConsumer<Integer, Integer> {
     };
 
     @Override
-    default void accept(Integer value, Integer max) {
+    default void accept(final Integer value, final Integer max) {
         setProgress(value, max);
     }
 
@@ -25,7 +25,7 @@ public interface ProgressCallback extends BiConsumer<Integer, Integer> {
     }
 
     default void setProgress(final long value, final long max) {
-        if ((value <= 0) || (value > max)) {
+        if (value <= 0L || value > max) {
             throw new IllegalArgumentException("invalid value: " + value);
         }
 

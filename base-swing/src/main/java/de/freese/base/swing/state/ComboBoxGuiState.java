@@ -37,7 +37,7 @@ public class ComboBoxGuiState extends AbstractGuiState {
 
         // Try to find the object by name.
         try {
-            if ((this.selectedName != null) && (this.selectedName.length() > 0)) {
+            if (this.selectedName != null && !this.selectedName.isEmpty()) {
                 final ListCellRenderer<? super Object> renderer = comboBox.getRenderer();
                 final JList<Object> dummy = new JList<>();
 

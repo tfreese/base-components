@@ -7,7 +7,7 @@ package de.freese.base.swing.clipboard.converter;
 public class StringClipboardConverter extends AbstractClipboardConverter {
     @Override
     public Object fromClipboard(final String value) {
-        if ((value == null) || value.isBlank()) {
+        if (value == null || value.isBlank()) {
             return null;
         }
 

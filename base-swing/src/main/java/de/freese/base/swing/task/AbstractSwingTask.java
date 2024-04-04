@@ -293,7 +293,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
      * @param percentage a value in the range 0.0 ... 1.0 inclusive
      */
     protected final void setProgress(final float percentage) {
-        if ((percentage < 0.0) || (percentage > 1.0)) {
+        if (percentage < 0.0F || percentage > 1.0F) {
             throw new IllegalArgumentException("invalid percentage");
         }
 
@@ -316,7 +316,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid range: min >= max");
         }
 
-        if ((value < min) || (value > max)) {
+        if (value < min || value > max) {
             throw new IllegalArgumentException("invalid value");
         }
 
@@ -340,7 +340,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid range: min >= max");
         }
 
-        if ((value < min) || (value > max)) {
+        if (value < min || value > max) {
             throw new IllegalArgumentException("invalid value");
         }
 
@@ -364,7 +364,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
             throw new IllegalArgumentException("invalid range: min >= max");
         }
 
-        if ((value < min) || (value > max)) {
+        if (value < min || value > max) {
             throw new IllegalArgumentException("invalid value");
         }
 

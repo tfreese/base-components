@@ -85,7 +85,7 @@ public class Pop3Protocol extends AbstractProtocol {
             final int challStart = response.getData().indexOf('<'); // start of challenge
             final int challEnd = response.getData().indexOf('>', challStart); // end of challenge
 
-            if ((challStart != -1) && (challEnd != -1)) {
+            if (challStart != -1 && challEnd != -1) {
                 this.apopChallenge = response.getData().substring(challStart, challEnd + 1);
             }
 
@@ -122,7 +122,7 @@ public class Pop3Protocol extends AbstractProtocol {
         final Pop3Response r = simpleCommand(Pop3Command.LIST + " " + messageNumber);
         int size = -1;
 
-        if (r.isOk() && (r.getData() != null)) {
+        if (r.isOk() && r.getData() != null) {
             try {
                 final StringTokenizer st = new StringTokenizer(r.getData());
                 st.nextToken(); // skip message number
@@ -147,7 +147,7 @@ public class Pop3Protocol extends AbstractProtocol {
             dpw = getDigest(password);
         }
 
-        if ((this.apopChallenge != null) && (dpw != null)) {
+        if (this.apopChallenge != null && dpw != null) {
             r = simpleCommand(Pop3Command.APOP + " " + user + " " + dpw);
         }
         else {
@@ -238,7 +238,7 @@ public class Pop3Protocol extends AbstractProtocol {
         final Pop3Response r = simpleCommand(Pop3Command.STAT);
         final int[] result = new int[2];
 
-        if (r.isOk() && (r.getData() != null)) {
+        if (r.isOk() && r.getData() != null) {
             try {
                 final StringTokenizer st = new StringTokenizer(r.getData());
 
@@ -297,13 +297,13 @@ public class Pop3Protocol extends AbstractProtocol {
             while ((line = lis.readLine()) != null) {
                 final int i = line.indexOf(' ');
 
-                if ((i < 1) || (i >= line.length())) {
+                if (i < 1 || i >= line.length()) {
                     continue;
                 }
 
                 final int n = Integer.parseInt(line.substring(0, i));
 
-                if ((n > 0) && (n <= uids.length)) {
+                if (n > 0 && n <= uids.length) {
                     uids[n - 1] = line.substring(i + 1);
                 }
             }
@@ -324,7 +324,7 @@ public class Pop3Protocol extends AbstractProtocol {
         final Pop3Response r = simpleCommand(cmd);
 
         if (!r.isOk()) {
-            return (r);
+            return r;
         }
 
         try (SharedByteArrayOutputStream buf = new SharedByteArrayOutputStream(size)) {
@@ -332,7 +332,7 @@ public class Pop3Protocol extends AbstractProtocol {
             int lastb = '\n';
 
             while ((b = this.inputReader.read()) >= 0) {
-                if ((lastb == '\n') && (b == '.')) {
+                if (lastb == '\n' && b == '.') {
                     b = this.inputReader.read();
 
                     if (b == '\r') {
@@ -398,11 +398,11 @@ public class Pop3Protocol extends AbstractProtocol {
             throw new IOException("Unexpected response: " + line);
         }
 
-        final int i;
+        final int index = line.indexOf(' ');
 
-        if ((i = line.indexOf(' ')) >= 0) {
+        if (index >= 0) {
             // +OK/-ERR abschneiden
-            r.setData(line.substring(i + 1));
+            r.setData(line.substring(index + 1));
         }
 
         return r;

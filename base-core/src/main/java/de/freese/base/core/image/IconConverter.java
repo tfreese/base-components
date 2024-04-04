@@ -23,19 +23,23 @@ public final class IconConverter {
     }
 
     public static void convert(final InputStream iconInputStream, final Writer javaWriter) throws IOException {
-        int i = 0;
-
         javaWriter.write("return new ImageIcon(new byte[] {");
 
-        if ((i = iconInputStream.read()) != -1) {
+        int i = iconInputStream.read();
+
+        if (i != -1) {
             javaWriter.write(i);
-            //            javaWriter.write(Byte.toString((byte) i));
+            // javaWriter.write(Byte.toString((byte) i));
         }
 
-        while ((i = iconInputStream.read()) != -1) {
+        i = iconInputStream.read();
+        
+        while (i != -1) {
             javaWriter.write(",");
             javaWriter.write(i);
-            //            javaWriter.write(Byte.toString((byte) i));
+            // javaWriter.write(Byte.toString((byte) i));
+
+            i = iconInputStream.read();
         }
 
         javaWriter.write("});");

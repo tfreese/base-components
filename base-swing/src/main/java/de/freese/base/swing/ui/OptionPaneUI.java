@@ -71,7 +71,8 @@ public class OptionPaneUI extends BasicOptionPaneUI {
         body.setLayout(new GridBagLayout());
 
         final GridBagConstraints cons = new GridBagConstraints();
-        cons.gridx = cons.gridy = 0;
+        cons.gridx = 0;
+        cons.gridy = 0;
         cons.gridwidth = GridBagConstraints.REMAINDER;
         cons.gridheight = 1;
         cons.anchor = GridBagConstraints.LINE_START;

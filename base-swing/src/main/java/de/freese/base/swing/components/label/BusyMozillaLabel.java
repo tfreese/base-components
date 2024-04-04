@@ -111,7 +111,7 @@ public class BusyMozillaLabel extends JLabel {
         final Dimension d = super.getPreferredSize();
 
         d.height = getHeight();
-        d.width += (getCircleRadius() + 5);
+        d.width += getCircleRadius() + 5;
 
         return d;
     }
@@ -196,7 +196,7 @@ public class BusyMozillaLabel extends JLabel {
         g.setColor(getBaseColor());
 
         // Zentrum des Kreises setzen
-        g.translate(-(getCircleRadius() / 2) - 5, (getCircleRadius() / 2));
+        g.translate(-(getCircleRadius() / 2) - 5, getCircleRadius() / 2);
 
         final double theta = (Math.PI * 2.0) / getMaxCircles();
 

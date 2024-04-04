@@ -58,7 +58,7 @@ public class ColumnControlWindow implements AWTEventListener {
 
     @Override
     public void eventDispatched(final AWTEvent event) {
-        if ((event.getID() == MouseEvent.MOUSE_EXITED)) {
+        if (event.getID() == MouseEvent.MOUSE_EXITED) {
             final Component source = (Component) event.getSource();
 
             if (!isChild(source, getWindow()) && !(event.getSource() instanceof JWindow) && !event.getSource().equals(this.controlButton)) {

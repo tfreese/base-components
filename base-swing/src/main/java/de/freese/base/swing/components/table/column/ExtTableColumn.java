@@ -53,12 +53,12 @@ public class ExtTableColumn extends TableColumn {
      * @return Object containing value of client property or <code>null</code>
      */
     public Object getClientProperty(final Object key) {
-        return ((key == null) || (this.clientProperties == null)) ? null : this.clientProperties.get(key);
+        return (key == null || this.clientProperties == null) ? null : this.clientProperties.get(key);
     }
 
     @Override
     public boolean getResizable() {
-        return super.getResizable() && (getMinWidth() < getMaxWidth());
+        return super.getResizable() && getMinWidth() < getMaxWidth();
     }
 
     public Sort getSort() {
@@ -105,7 +105,7 @@ public class ExtTableColumn extends TableColumn {
             throw new IllegalArgumentException("null key");
         }
 
-        if ((value == null) && (getClientProperty(key) == null)) {
+        if (value == null && getClientProperty(key) == null) {
             return;
         }
 
@@ -167,10 +167,10 @@ public class ExtTableColumn extends TableColumn {
      * @param newValue new value of changed property
      */
     protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
-        if (((oldValue != null) && !oldValue.equals(newValue)) || ((oldValue == null) && (newValue != null))) {
+        if (oldValue != null && !oldValue.equals(newValue) || oldValue == null && newValue != null) {
             final PropertyChangeListener[] pcl = getPropertyChangeListeners();
 
-            if ((pcl != null) && (pcl.length != 0)) {
+            if (pcl != null && pcl.length != 0) {
                 final PropertyChangeEvent pce = new PropertyChangeEvent(this, propertyName, oldValue, newValue);
 
                 for (PropertyChangeListener element : pcl) {
