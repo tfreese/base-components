@@ -111,7 +111,6 @@ public class DatabasePopulator {
             throw new IllegalStateException("no SQLs found");
         }
 
-        // @formatter:off
         return fileLines.stream()
                 .filter(Objects::nonNull)
                 .filter(l -> !l.isEmpty())
@@ -121,6 +120,5 @@ public class DatabasePopulator {
                 .filter(l -> !l.isEmpty())
                 .collect(Collectors.joining(" "))
                 ;
-        // @formatter:on
     }
 }

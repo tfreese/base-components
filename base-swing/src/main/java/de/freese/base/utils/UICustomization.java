@@ -117,18 +117,16 @@ public final class UICustomization {
 
             final String format = "%1$s \t %2$s \n";
 
-            // @formatter:off
             uiDefaults.entrySet().stream()
-                .sorted(Comparator.comparing(e -> e.getKey().toString()))
-                .forEach(entry -> {
-                    final String key = entry.getKey().toString();
-                    final String value = Objects.toString(entry.getValue(), "NULL");
+                    .sorted(Comparator.comparing(e -> e.getKey().toString()))
+                    .forEach(entry -> {
+                        final String key = entry.getKey().toString();
+                        final String value = Objects.toString(entry.getValue(), "NULL");
 
-                    formatterConsole.format(format, key, value);
-                    formatterFile.format(format, key, value);
-                })
-                ;
-            // @formatter:on
+                        formatterConsole.format(format, key, value);
+                        formatterFile.format(format, key, value);
+                    })
+            ;
 
             formatterConsole.flush();
             formatterFile.flush();

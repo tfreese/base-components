@@ -33,14 +33,11 @@ class TestAsyncFileReader {
         //        reader.setByteBufferSize(1024);
         //        reader.setExecutorService(ForkJoinPool.commonPool());
 
-        //@formatter:off
         final AsyncFileReader<StringBuilder> reader = GenericBuilder.of(AsyncFileReader<StringBuilder>::new)
                 .with(AsyncFileReader::setByteBufferSize, 1024)
                 .with(r -> r.setContentHolderSupplier(contentHolderSupplier))
                 .with(r -> r.setDataConsumer(dataConsumer))
-                .build()
-                ;
-        //@formatter:on
+                .build();
 
         final Path path = Paths.get(System.getProperty("user.dir"), "pom.xml");
         System.out.printf("Reading file: %s%n", path);

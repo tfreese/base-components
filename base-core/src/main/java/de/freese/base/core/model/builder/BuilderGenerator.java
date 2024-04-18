@@ -41,14 +41,12 @@ public class BuilderGenerator {
 
         printStream.printf("import %s;%n", Builder.class.getName());
 
-        // @formatter:off
         fields.values().stream()
                 .filter(field -> !field.getType().isPrimitive())
                 .map(field -> field.getType().getName())
                 .distinct()
                 .forEach(fieldType -> printStream.printf("import %s;%n", fieldType))
         ;
-        // @formatter:on
 
         printStream.println();
 

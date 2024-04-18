@@ -285,16 +285,13 @@ public final class ByteUtils {
     }
 
     public static int toInt(final byte[] value) {
-        // @formatter:off
         return ((value[0] & 0xFF) << 24)
                 + ((value[1] & 0xFF) << 16)
                 + ((value[2] & 0xFF) << 8)
                 + (value[3] & 0xFF);
-        // @formatter:on
     }
 
     public static long toLong(final byte[] value) {
-        // @formatter:off
         return ((long) (value[0] & 0xFF) << 56)
                 + ((long) (value[1] & 0xFF) << 48)
                 + ((long) (value[2] & 0xFF) << 40)
@@ -303,7 +300,6 @@ public final class ByteUtils {
                 + ((long) (value[5] & 0xFF) << 16)
                 + ((long) (value[6] & 0xFF) << 8)
                 + ((long) value[7] & 0xFF);
-        // @formatter:on
     }
 
     public static short toShort(final byte[] value) {

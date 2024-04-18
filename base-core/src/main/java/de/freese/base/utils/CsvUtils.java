@@ -46,14 +46,12 @@ public final class CsvUtils {
             bufferedReader = new BufferedReader(reader);
         }
 
-        // @formatter:off
         return bufferedReader.lines()
                 .filter(Objects::nonNull)
                 .filter(line -> !line.strip().isBlank())
                 .map(CsvUtils::parseCsvRow)
                 .toList()
                 ;
-        // @formatter:on
     }
 
     public static List<String[]> parseCsv(final Path path) throws IOException {

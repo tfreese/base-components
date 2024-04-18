@@ -45,13 +45,11 @@ class TestBoundedExecutor {
     }
 
     static Stream<Arguments> createTestData() {
-        // @formatter:off
         return Stream.of(
                 Arguments.of("1 Thread", 1),
                 Arguments.of("2 Threads", 2),
                 Arguments.of("4 Threads", 4)
-                );
-        // @formatter:on
+        );
     }
 
     private static void sleep() {
@@ -109,12 +107,10 @@ class TestBoundedExecutor {
             sleep();
         };
 
-        // @formatter::off
         final List<FutureTask<Object>> futures = IntStream.range(0, 10).mapToObj(i -> new FutureTask<>(task, null)).map(futureTask -> {
             executor.execute(futureTask);
             return futureTask;
         }).toList();
-        // @formatter::on
 
         assertEquals(10, futures.size());
 

@@ -145,7 +145,6 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
             final Statement statement = resultSet.getStatement();
             final Connection connection = statement.getConnection();
 
-            // @formatter:off
             final Spliterator<T> spliterator = new ResultSetSpliterator<>(resultSet, rowMapper);
 
             return StreamSupport.stream(spliterator, false)
@@ -156,7 +155,6 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
                         jdbcClient.close(statement);
                         jdbcClient.close(connection);
                     });
-            // @formatter:on
         };
 
         return jdbcClient.execute(sql, statementConfigurer, preparedStatementSetter, resultSetCallback, false);

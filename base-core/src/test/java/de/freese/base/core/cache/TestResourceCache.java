@@ -53,7 +53,6 @@ class TestResourceCache {
         final URI urlLocalFile = Paths.get("pom.xml").toUri();
         final URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
 
-        // @formatter:off
         return Stream.of(
                 Arguments.of("FileCache - Local File", CACHE_FILE, urlLocalFile),
                 Arguments.of("FileCache - HTTP Image", CACHE_FILE, urlHttpImage),
@@ -61,8 +60,7 @@ class TestResourceCache {
                 Arguments.of("MemoryCache - HTTP Image", CACHE_MEMORY, urlHttpImage),
                 Arguments.of("CaffeineCache - Local File", CACHE_CAFFEINE, urlLocalFile),
                 Arguments.of("CaffeineCache - HTTP Image", CACHE_CAFFEINE, urlHttpImage)
-                );
-        // @formatter:on
+        );
     }
 
     @AfterEach

@@ -39,7 +39,6 @@ class TestTimeoutMap {
     private static final Duration DURATION_SLEEP = DURATION_DEFAULT.plusMillis(50);
 
     static Stream<Arguments> createArguments() throws Exception {
-        // @formatter:off
         return Stream.of(
                 Arguments.of("HashMap", new HashMap<>()),
                 Arguments.of("TreeMap", new TreeMap<>()),
@@ -50,7 +49,6 @@ class TestTimeoutMap {
                 Arguments.of("Hashtable", new Hashtable<>()),
                 Arguments.of("Properties", new Properties())
         );
-        // @formatter:on
     }
 
     @ParameterizedTest(name = "{index} -> {0}")

@@ -19,13 +19,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 class TestThrottler // extends AbstractIoTest
 {
     static Stream<Arguments> createThrottler() {
-        // @formatter:off
         return Stream.of(
                 Arguments.of("SimpleThrottler", (Function<Integer, Throttler>) SimpleThrottler::create),
                 Arguments.of("Failsafe", (Function<Integer, Throttler>) FailsafeThrottlerAdapter::create),
                 Arguments.of("Resilience4J", (Function<Integer, Throttler>) Resilience4JThrottlerAdapter::create)
-                );
-        // @formatter:on
+        );
     }
 
     @ParameterizedTest(name = "{index} -> {0}")

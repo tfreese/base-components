@@ -14,7 +14,6 @@ import org.openjdk.jmh.runner.options.TimeValue;
  * @author Thomas Freese
  */
 class TestBenchmark {
-    // @formatter:off
     private static final Options DEFAULT_OPTIONS = new OptionsBuilder()
             .shouldFailOnError(true)
             .warmupIterations(0)
@@ -22,19 +21,14 @@ class TestBenchmark {
             .measurementIterations(1)
             .measurementTime(TimeValue.milliseconds(200))
             .forks(0)
-            .build()
-            ;
-    // @formatter:on
+            .build();
 
     @Test
     void testStagedResultSizeBenchmarks() throws Exception {
-        // @formatter:off
         final Options options = new OptionsBuilder()
                 .parent(DEFAULT_OPTIONS)
                 .include(StagedResultSizeBenchmarks.class.getSimpleName())
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         new Runner(options).run();
 
@@ -43,13 +37,10 @@ class TestBenchmark {
 
     @Test
     void testStatementBenchmarks() throws Exception {
-        // @formatter:off
         final Options options = new OptionsBuilder()
                 .parent(DEFAULT_OPTIONS)
                 .include(StatementBenchmarks.class.getSimpleName())
-                .build()
-                ;
-        // @formatter:on
+                .build();
 
         new Runner(options).run();
 

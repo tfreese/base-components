@@ -95,12 +95,9 @@ public final class FileUtils {
         // Specials: '(' 40; ')' 41; '-' 45; '.' 46;  '_' 95
         final Predicate<Character> specialCharsPredicate = c -> c == 40 || c == 41 || c == 45 || c == 46 || c == 95;
 
-        // @formatter:off
         final Predicate<Character> fileNameCompatible = digitsPredicate.or(upperCaseLettersPredicate)
                 .or(lowerCaseLettersPredicate)
-                .or(specialCharsPredicate)
-                ;
-        // @formatter:on
+                .or(specialCharsPredicate);
 
         return StringUtils.replaceChars(fileName, fileNameCompatible, c -> "_");
     }
