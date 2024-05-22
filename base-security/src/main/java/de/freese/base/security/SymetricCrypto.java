@@ -106,7 +106,15 @@ public final class SymetricCrypto {
         //
         // final SecretKey secretKey = new SecretKeySpec(secret.getEncoded(), "AES");
 
-        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), 32), "AES");
+        final byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+        int passwordLength = Integer.highestOneBit(passwordBytes.length) << 1;
+
+        // Min. 16 Bit, must be a power of 2.
+        while (passwordLength < 16) {
+            passwordLength = passwordLength << 1;
+        }
+
+        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(passwordBytes, passwordLength), "AES");
 
         final Cipher encryptCipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -133,7 +141,10 @@ public final class SymetricCrypto {
         // final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         // keyGenerator.init(256, secureRandom);
         // final SecretKey secretKey = keyGenerator.generateKey();
-        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), 32), "AES");
+
+        final byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+
+        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(passwordBytes, 32), "AES");
 
         final AlgorithmParameterSpec parameterSpec = new GCMParameterSpec(128, initVector);
 
@@ -167,7 +178,9 @@ public final class SymetricCrypto {
         // keyGenerator.init(448, SecureRandom.getInstanceStrong());
         // final SecretKey secretKey = keyGenerator.generateKey();
 
-        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), 56), "Blowfish");
+        final byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+
+        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(passwordBytes, 56), "Blowfish");
 
         final Cipher encryptCipher = Cipher.getInstance("Blowfish/CBC/PKCS5Padding");
         encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -183,7 +196,9 @@ public final class SymetricCrypto {
         // keyGenerator.init(56, SecureRandom.getInstanceStrong());
         // final SecretKey secretKey = keyGenerator.generateKey();
 
-        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), 8), "DES");
+        final byte[] passwordBytes = password.getBytes(StandardCharsets.UTF_8);
+
+        final SecretKey secretKey = new SecretKeySpec(Arrays.copyOf(passwordBytes, 8), "DES");
 
         final Cipher encryptCipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
         encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey);
