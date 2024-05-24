@@ -2,6 +2,7 @@
 package de.freese.base.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -62,23 +63,55 @@ class TestCrypter {
     }
 
     @Test
-    void testSymetricAesCbc() throws GeneralSecurityException {
-        testCrypter(SymetricCrypto.createAesCbc("password"));
+    void testSymetricAesCbc() throws Exception {
+        final String password = "password";
+
+        final String cipherText1 = CryptoAesCbc.encrypt(password, SOURCE);
+        final String cipherText2 = CryptoAesCbc.encrypt(password, SOURCE);
+
+        assertNotEquals(cipherText1, cipherText2);
+
+        assertEquals(SOURCE, CryptoAesCbc.decrypt(password, cipherText1));
+        assertEquals(SOURCE, CryptoAesCbc.decrypt(password, cipherText2));
     }
 
     @Test
-    void testSymetricAesGcm() throws GeneralSecurityException {
-        testCrypter(SymetricCrypto.createAesGcm("password"));
+    void testSymetricAesGcm() throws Exception {
+        final String password = "password";
+
+        final String cipherText1 = CryptoAesGcm.encrypt(password, SOURCE);
+        final String cipherText2 = CryptoAesGcm.encrypt(password, SOURCE);
+
+        assertNotEquals(cipherText1, cipherText2);
+
+        assertEquals(SOURCE, CryptoAesGcm.decrypt(password, cipherText1));
+        assertEquals(SOURCE, CryptoAesGcm.decrypt(password, cipherText2));
     }
 
     @Test
-    void testSymetricBlowfish() throws GeneralSecurityException {
-        testCrypter(SymetricCrypto.createBlowfish("password"));
+    void testSymetricBlowfish() throws Exception {
+        final String password = "password";
+
+        final String cipherText1 = CryptoBlowFish.encrypt(password, SOURCE);
+        final String cipherText2 = CryptoBlowFish.encrypt(password, SOURCE);
+
+        assertNotEquals(cipherText1, cipherText2);
+
+        assertEquals(SOURCE, CryptoBlowFish.decrypt(password, cipherText1));
+        assertEquals(SOURCE, CryptoBlowFish.decrypt(password, cipherText2));
     }
 
     @Test
-    void testSymetricDes() throws GeneralSecurityException {
-        testCrypter(SymetricCrypto.createDes("password"));
+    void testSymetricDes() throws Exception {
+        final String password = "password";
+
+        final String cipherText1 = CryptoDes.encrypt(password, SOURCE);
+        final String cipherText2 = CryptoDes.encrypt(password, SOURCE);
+
+        assertNotEquals(cipherText1, cipherText2);
+
+        assertEquals(SOURCE, CryptoDes.decrypt(password, cipherText1));
+        assertEquals(SOURCE, CryptoDes.decrypt(password, cipherText2));
     }
 
     @Test
@@ -88,7 +121,7 @@ class TestCrypter {
             Security.addProvider(new BouncyCastleProvider());
         }
 
-        for (SymetricCrypto.Algorithm algorithm : SymetricCrypto.Algorithm.values()) {
+        for (SymetricAlgorithm algorithm : SymetricAlgorithm.values()) {
             System.out.println(algorithm);
 
             testCrypter(SymetricCrypto.create("password", algorithm));

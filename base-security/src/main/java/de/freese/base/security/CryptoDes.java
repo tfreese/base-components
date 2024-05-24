@@ -9,30 +9,27 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @author Thomas Freese
  */
-public final class CryptoAesCbc {
+public final class CryptoDes {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
-    private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5PADDING";
-    private static final String ENCRYPTION_ALGORITHM = "AES";
+    private static final String CIPHER_ALGORITHM = "DES/CBC/PKCS5Padding";
+    private static final String ENCRYPTION_ALGORITHM = "DES";
     private static final String FACTORY_ALGORITHM = "PBKDF2WithHmacSHA256";
     private static final int ITERATION_COUNT = 65536;
-    private static final int IV_LENGTH = 16;
+    private static final int IV_LENGTH = 8;
     private static final int KEY_LENGTH = 256;
-    private static final int SALT_LENGTH = 16;
+    private static final int SALT_LENGTH = 0;
 
     public static String decrypt(final String password, final String encrypted) throws Exception {
         final byte[] decoded = Base64.getDecoder().decode(encrypted);
@@ -50,6 +47,7 @@ public final class CryptoAesCbc {
 
     public static String encrypt(final String password, final String message) throws Exception {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
+        // final byte[] salt = new byte[0];
         final SecretKey secret = getSecretKey(password, salt);
 
         final byte[] iv = generateRandomBytes(IV_LENGTH);
@@ -86,14 +84,15 @@ public final class CryptoAesCbc {
     }
 
     private static SecretKey getSecretKey(final String password, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        final KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH);
-        final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(FACTORY_ALGORITHM);
-        final SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
-
-        return new SecretKeySpec(secretKey.getEncoded(), ENCRYPTION_ALGORITHM);
+        // final KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH);
+        // final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(FACTORY_ALGORITHM);
+        // final SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);
+        //
+        // return new SecretKeySpec(Arrays.copyOf(secretKey.getEncoded(), 8), ENCRYPTION_ALGORITHM);
+        return new SecretKeySpec(Arrays.copyOf(password.getBytes(CHARSET), 8), ENCRYPTION_ALGORITHM);
 
         // final KeyGenerator keyGenerator = KeyGenerator.getInstance(ENCRYPTION_ALGORITHM);
-        // keyGenerator.init(256, SecureRandom.getInstanceStrong());
+        // keyGenerator.init(56, SecureRandom.getInstanceStrong());
         // final SecretKey secretKey = keyGenerator.generateKey();
     }
 
@@ -105,7 +104,7 @@ public final class CryptoAesCbc {
         return cipher;
     }
 
-    private CryptoAesCbc() {
+    private CryptoDes() {
         super();
     }
 }
