@@ -18,7 +18,6 @@ import java.security.SecureRandom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.freese.base.utils.CryptoUtils;
 import de.freese.base.utils.Encoding;
 
 /**
@@ -51,7 +50,7 @@ class TestSigner {
 
             for (Encoding encoding : Encoding.values()) {
                 final byte[] signedMessage = Signer.sign(SOURCE_BYTES, privateKey, Signer.Algorithm.SHA512_WITH_RSA);
-                System.out.printf("%6s: %s%n", encoding, CryptoUtils.encode(encoding, signedMessage));
+                System.out.printf("%6s: %s%n", encoding, encoding.encode(signedMessage));
 
                 assertTrue(Signer.verify(SOURCE_BYTES, signedMessage, publicKey, Signer.Algorithm.SHA512_WITH_RSA));
             }
@@ -74,7 +73,7 @@ class TestSigner {
                 bais.reset();
 
                 for (Encoding encoding : Encoding.values()) {
-                    System.out.printf("%6s: %s%n", encoding, CryptoUtils.encode(encoding, sig));
+                    System.out.printf("%6s: %s%n", encoding, encoding.encode(sig));
                 }
 
                 try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig)) {

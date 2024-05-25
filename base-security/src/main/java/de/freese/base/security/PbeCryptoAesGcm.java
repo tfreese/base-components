@@ -12,6 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Objects;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
@@ -21,10 +22,12 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import de.freese.base.utils.Encoding;
+
 /**
  * @author Thomas Freese
  */
-public final class CryptoAesGcm {
+public final class PbeCryptoAesGcm implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final String CIPHER_ALGORITHM = "AES/GCM/NoPadding";
     private static final String ENCRYPTION_ALGORITHM = "AES";
@@ -34,68 +37,6 @@ public final class CryptoAesGcm {
     private static final int KEY_LENGTH = 256;
     private static final int SALT_LENGTH = 16;
     private static final int TAG_LENGTH_BIT = 128;
-
-    public static String decrypt(final String password, final String encrypted) throws Exception {
-        final byte[] decoded = Base64.getDecoder().decode(encrypted.getBytes(CHARSET));
-        final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
-        final byte[] salt = Arrays.copyOfRange(decoded, IV_LENGTH, IV_LENGTH + SALT_LENGTH);
-        final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH + SALT_LENGTH, decoded.length);
-
-        // final ByteBuffer byteBuffer = ByteBuffer.wrap(decoded);
-        //
-        // final byte[] iv = new byte[IV_LENGTH];
-        // byteBuffer.get(iv);
-        //
-        // final byte[] salt = new byte[SALT_LENGTH];
-        // byteBuffer.get(salt);
-        //
-        // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
-        // byteBuffer.get(encryptedBytes);
-
-        final SecretKey secretKey = getSecretKey(password, salt);
-        final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
-
-        final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
-
-        return new String(decryptedBytes, CHARSET);
-    }
-
-    public static String encrypt(final String password, final String message) throws Exception {
-        final byte[] salt = generateRandomBytes(SALT_LENGTH);
-        final SecretKey secretKey = getSecretKey(password, salt);
-
-        final byte[] iv = generateRandomBytes(IV_LENGTH);
-        final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
-
-        final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
-
-        // prefix IV and Salt
-        final byte[] cipherBytes = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
-                .put(iv)
-                .put(salt)
-                .put(encryptedBytes)
-                .array();
-
-        return new String(Base64.getEncoder().encode(cipherBytes), CHARSET);
-    }
-
-    public static void main(final String[] args) throws Exception {
-        final String password = "yourSecretKey";
-        final String outputFormat = "%-25s:%s%n";
-        final String message = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
-
-        final String cipherText1 = encrypt(password, message);
-        final String cipherText2 = encrypt(password, message);
-
-        System.out.println("------ AES-GCM Encryption ------");
-        System.out.printf(outputFormat, "encryption input", message);
-        System.out.printf(outputFormat, "encryption output", cipherText1);
-        System.out.printf(outputFormat, "encryption output", cipherText2);
-
-        System.out.println("\n------ AES-GCM Decryption ------");
-        System.out.printf(outputFormat, "decryption output", decrypt(password, cipherText1));
-        System.out.printf(outputFormat, "decryption output", decrypt(password, cipherText2));
-    }
 
     private static byte[] generateRandomBytes(final int length) throws NoSuchAlgorithmException {
         return SecureRandom.getInstanceStrong().generateSeed(length);
@@ -123,8 +64,58 @@ public final class CryptoAesGcm {
 
         return cipher;
     }
+    
+    private final String password;
 
-    private CryptoAesGcm() {
+    public PbeCryptoAesGcm(final String password) {
         super();
+
+        this.password = Objects.requireNonNull(password, "password required");
+    }
+
+    @Override
+    public String decrypt(final String encrypted) throws Exception {
+        final byte[] decoded = Base64.getDecoder().decode(encrypted.getBytes(CHARSET));
+        final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
+        final byte[] salt = Arrays.copyOfRange(decoded, IV_LENGTH, IV_LENGTH + SALT_LENGTH);
+        final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH + SALT_LENGTH, decoded.length);
+
+        // final ByteBuffer byteBuffer = ByteBuffer.wrap(decoded);
+        //
+        // final byte[] iv = new byte[IV_LENGTH];
+        // byteBuffer.get(iv);
+        //
+        // final byte[] salt = new byte[SALT_LENGTH];
+        // byteBuffer.get(salt);
+        //
+        // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
+        // byteBuffer.get(encryptedBytes);
+
+        final SecretKey secretKey = getSecretKey(password, salt);
+        final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
+
+        final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+
+        return new String(decryptedBytes, CHARSET);
+    }
+
+    @Override
+    public String encrypt(final String message) throws Exception {
+        final byte[] salt = generateRandomBytes(SALT_LENGTH);
+        final SecretKey secretKey = getSecretKey(password, salt);
+
+        final byte[] iv = generateRandomBytes(IV_LENGTH);
+        final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
+
+        final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
+
+        // prefix IV and Salt
+        final byte[] cipherBytes = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
+                .put(iv)
+                .put(salt)
+                .put(encryptedBytes)
+                .array();
+
+        return Encoding.BASE64.encode(cipherBytes);
     }
 }

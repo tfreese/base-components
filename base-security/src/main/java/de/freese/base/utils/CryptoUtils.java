@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.KeyFactory;
@@ -20,8 +19,6 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-import java.util.HexFormat;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -62,20 +59,6 @@ public final class CryptoUtils {
 
         return new KeyPair(factory.generatePublic(publicSpec), factory.generatePrivate(privateSpec));
 
-    }
-
-    public static byte[] decode(final Encoding encoding, final String value) {
-        return switch (encoding) {
-            case HEX -> HexFormat.of().parseHex(value);
-            default -> Base64.getDecoder().decode(value.getBytes(StandardCharsets.UTF_8));
-        };
-    }
-
-    public static String encode(final Encoding encoding, final byte[] data) {
-        return switch (encoding) {
-            case HEX -> HexFormat.of().withUpperCase().formatHex(data);
-            default -> new String(Base64.getEncoder().encode(data), StandardCharsets.UTF_8);
-        };
     }
 
     /**

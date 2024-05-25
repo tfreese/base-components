@@ -106,7 +106,7 @@ public final class DigestUtils {
     public static String encodeDigest(final MessageDigest digest, final Encoding encoding) {
         final byte[] bytes = digest.digest();
 
-        return CryptoUtils.encode(encoding, bytes);
+        return encoding.encode(bytes);
     }
 
     private DigestUtils() {

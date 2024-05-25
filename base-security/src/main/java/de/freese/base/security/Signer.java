@@ -10,7 +10,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 
-import de.freese.base.utils.CryptoUtils;
 import de.freese.base.utils.Encoding;
 
 /**
@@ -45,11 +44,11 @@ public final class Signer {
     }
 
     public static String sign(final String encoded, final PrivateKey privateKey, final Algorithm algorithm, final Encoding encoding) throws GeneralSecurityException {
-        final byte[] messageBytes = CryptoUtils.decode(encoding, encoded);
+        final byte[] messageBytes = encoding.decode(encoded);
 
         final byte[] signature = sign(messageBytes, privateKey, algorithm);
 
-        return CryptoUtils.encode(encoding, signature);
+        return encoding.encode(signature);
     }
 
     /**
@@ -84,9 +83,9 @@ public final class Signer {
 
     public static boolean verify(final String encoded, final String signedMessage, final PublicKey publicKey, final Algorithm algorithm, final Encoding encoding)
             throws GeneralSecurityException {
-        final byte[] messageBytes = CryptoUtils.decode(encoding, encoded);
+        final byte[] messageBytes = encoding.decode(encoded);
 
-        final byte[] signedMessageBytes = CryptoUtils.decode(encoding, signedMessage);
+        final byte[] signedMessageBytes = encoding.decode(signedMessage);
 
         return verify(messageBytes, signedMessageBytes, publicKey, algorithm);
     }
