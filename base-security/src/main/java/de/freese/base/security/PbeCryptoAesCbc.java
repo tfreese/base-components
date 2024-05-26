@@ -4,8 +4,6 @@ package de.freese.base.security;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -14,7 +12,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
@@ -52,8 +49,7 @@ public final class PbeCryptoAesCbc implements Crypto {
         // final SecretKey secretKey = keyGenerator.generateKey();
     }
 
-    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
+    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv) throws Exception {
         final Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(mode, secretKey, new IvParameterSpec(iv));
 
@@ -94,12 +90,12 @@ public final class PbeCryptoAesCbc implements Crypto {
         final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
 
         // prefix IV and Salt
-        final byte[] cipherTextWithIv = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
+        final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
                 .put(iv)
                 .put(salt)
                 .put(encryptedBytes)
                 .array();
 
-        return Encoding.BASE64.encode(cipherTextWithIv);
+        return Encoding.BASE64.encode(encryptedBytesWithIv);
     }
 }

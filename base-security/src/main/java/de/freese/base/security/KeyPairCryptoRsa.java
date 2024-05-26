@@ -38,7 +38,7 @@ public final class KeyPairCryptoRsa implements CryptoKeyPair {
     }
 
     private static Cipher initCipher(final int mode, final Key key) throws Exception {
-        final Cipher cipher = Cipher.getInstance(key.getAlgorithm());
+        final Cipher cipher = Cipher.getInstance(key.getAlgorithm()); // "RSA"
         cipher.init(mode, key);
 
         return cipher;

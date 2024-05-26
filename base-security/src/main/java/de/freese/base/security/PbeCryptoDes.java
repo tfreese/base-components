@@ -88,12 +88,12 @@ public final class PbeCryptoDes implements Crypto {
         final byte[] encryptedBytes = cipher.doFinal(message.getBytes());
 
         // prefix IV and Salt
-        final byte[] cipherTextWithIv = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
+        final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
                 .put(iv)
                 .put(salt)
                 .put(encryptedBytes)
                 .array();
 
-        return Encoding.BASE64.encode(cipherTextWithIv);
+        return Encoding.BASE64.encode(encryptedBytesWithIv);
     }
 }

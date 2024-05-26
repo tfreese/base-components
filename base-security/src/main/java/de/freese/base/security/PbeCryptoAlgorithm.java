@@ -4,8 +4,6 @@ package de.freese.base.security;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -14,7 +12,6 @@ import java.util.Base64;
 import java.util.Objects;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -70,8 +67,7 @@ public final class PbeCryptoAlgorithm implements Crypto {
         return secretKeyFactory.generateSecret(pbeKeySpec);
     }
 
-    private static Cipher initCipher(final Algorithm algorithm, final int mode, final SecretKey secretKey, final byte[] salt)
-            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException {
+    private static Cipher initCipher(final Algorithm algorithm, final int mode, final SecretKey secretKey, final byte[] salt) throws Exception {
         final Cipher cipher = Cipher.getInstance(algorithm.getAlgorithmName());
 
         cipher.init(mode, secretKey, new PBEParameterSpec(salt, ITERATION_COUNT));
@@ -88,7 +84,7 @@ public final class PbeCryptoAlgorithm implements Crypto {
 
         return cipher;
     }
-    
+
     private final Algorithm algorithm;
     private final String password;
 
@@ -126,12 +122,12 @@ public final class PbeCryptoAlgorithm implements Crypto {
         final byte[] encryptedBytes = cipher.doFinal(message.getBytes());
 
         // prefix IV and Salt
-        final byte[] cipherTextWithIv = ByteBuffer.allocate(salt.length + encryptedBytes.length)
+        final byte[] encryptedBytesWithIv = ByteBuffer.allocate(salt.length + encryptedBytes.length)
                 // .put(iv)
                 .put(salt)
                 .put(encryptedBytes)
                 .array();
 
-        return Encoding.BASE64.encode(cipherTextWithIv);
+        return Encoding.BASE64.encode(encryptedBytesWithIv);
     }
 }

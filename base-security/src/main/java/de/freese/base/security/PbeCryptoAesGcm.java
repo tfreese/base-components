@@ -4,8 +4,6 @@ package de.freese.base.security;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -15,7 +13,6 @@ import java.util.Base64;
 import java.util.Objects;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
@@ -57,14 +54,13 @@ public final class PbeCryptoAesGcm implements Crypto {
     /**
      * AES-GCM Cipher can not be reused !
      */
-    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv)
-            throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchPaddingException, NoSuchAlgorithmException {
+    private static Cipher initCipher(final int mode, final SecretKey secretKey, final byte[] iv) throws Exception {
         final Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(mode, secretKey, new GCMParameterSpec(TAG_LENGTH_BIT, iv));
 
         return cipher;
     }
-    
+
     private final String password;
 
     public PbeCryptoAesGcm(final String password) {
@@ -79,17 +75,6 @@ public final class PbeCryptoAesGcm implements Crypto {
         final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
         final byte[] salt = Arrays.copyOfRange(decoded, IV_LENGTH, IV_LENGTH + SALT_LENGTH);
         final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH + SALT_LENGTH, decoded.length);
-
-        // final ByteBuffer byteBuffer = ByteBuffer.wrap(decoded);
-        //
-        // final byte[] iv = new byte[IV_LENGTH];
-        // byteBuffer.get(iv);
-        //
-        // final byte[] salt = new byte[SALT_LENGTH];
-        // byteBuffer.get(salt);
-        //
-        // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
-        // byteBuffer.get(encryptedBytes);
 
         final SecretKey secretKey = getSecretKey(password, salt);
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
@@ -110,12 +95,12 @@ public final class PbeCryptoAesGcm implements Crypto {
         final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
 
         // prefix IV and Salt
-        final byte[] cipherBytes = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
+        final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + salt.length + encryptedBytes.length)
                 .put(iv)
                 .put(salt)
                 .put(encryptedBytes)
                 .array();
 
-        return Encoding.BASE64.encode(cipherBytes);
+        return Encoding.BASE64.encode(encryptedBytesWithIv);
     }
 }

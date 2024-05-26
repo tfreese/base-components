@@ -8,10 +8,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.security.SecureRandom;
 import java.security.Security;
+import java.util.Arrays;
 
+import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.KeyGenerator;
+import javax.crypto.spec.GCMParameterSpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Test;
@@ -31,6 +37,67 @@ class TestCrypto {
     private static final String PASSWORD = "password";
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
+
+    @Test
+    void testAes() throws Exception {
+        // final Key key = new SecretKeySpec(SecureRandom.getInstanceStrong().generateSeed(256 / 8), "AES");
+
+        final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(256, SecureRandom.getInstanceStrong());
+        final Key key = keyGenerator.generateKey();
+
+        final Crypto cryptoAes = new Crypto() {
+            @Override
+            public String decrypt(final String encrypted) throws Exception {
+                final byte[] decoded = Encoding.BASE64.decode(encrypted);
+                final byte[] iv = Arrays.copyOfRange(decoded, 0, 16);
+                final byte[] encryptedBytes = Arrays.copyOfRange(decoded, 16, decoded.length);
+
+                // final ByteBuffer byteBuffer = ByteBuffer.wrap(decoded);
+                //
+                // final byte[] iv = new byte[16];
+                // byteBuffer.get(iv);
+                //
+                // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
+                // byteBuffer.get(encryptedBytes);
+
+                final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, key, iv);
+                final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+
+                return new String(decryptedBytes, CHARSET);
+            }
+
+            @Override
+            public String encrypt(final String message) throws Exception {
+                final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(16);
+                final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, key, iv);
+                final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
+
+                final byte[] encryptedBytesWithIv = new byte[iv.length + encryptedBytes.length];
+                System.arraycopy(iv, 0, encryptedBytesWithIv, 0, iv.length);
+                System.arraycopy(encryptedBytes, 0, encryptedBytesWithIv, iv.length, encryptedBytes.length);
+                
+                // final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + encryptedBytes.length)
+                //         .put(iv)
+                //         .put(encryptedBytes)
+                //         .array();
+
+                return Encoding.BASE64.encode(encryptedBytesWithIv);
+            }
+
+            private Cipher initCipher(final int mode, final Key key, final byte[] iv) throws Exception {
+                // final Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+                // cipher.init(mode, key, new IvParameterSpec(iv));
+
+                final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+                cipher.init(mode, key, new GCMParameterSpec(128, iv));
+
+                return cipher;
+            }
+        };
+
+        testCrypto(cryptoAes);
+    }
 
     @Test
     void testAsymetricEcda() throws Exception {
