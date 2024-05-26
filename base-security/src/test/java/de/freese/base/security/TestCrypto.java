@@ -47,11 +47,13 @@ class TestCrypto {
         final Key key = keyGenerator.generateKey();
 
         final Crypto cryptoAes = new Crypto() {
+            private static final int IV_LENGTH = 16;
+
             @Override
             public String decrypt(final String encrypted) throws Exception {
                 final byte[] decoded = Encoding.BASE64.decode(encrypted);
-                final byte[] iv = Arrays.copyOfRange(decoded, 0, 16);
-                final byte[] encryptedBytes = Arrays.copyOfRange(decoded, 16, decoded.length);
+                final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
+                final byte[] encryptedBytes = Arrays.copyOfRange(decoded, IV_LENGTH, decoded.length);
 
                 // final ByteBuffer byteBuffer = ByteBuffer.wrap(decoded);
                 //
@@ -69,14 +71,14 @@ class TestCrypto {
 
             @Override
             public String encrypt(final String message) throws Exception {
-                final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(16);
+                final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(IV_LENGTH);
                 final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, key, iv);
                 final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
 
                 final byte[] encryptedBytesWithIv = new byte[iv.length + encryptedBytes.length];
                 System.arraycopy(iv, 0, encryptedBytesWithIv, 0, iv.length);
                 System.arraycopy(encryptedBytes, 0, encryptedBytesWithIv, iv.length, encryptedBytes.length);
-                
+
                 // final byte[] encryptedBytesWithIv = ByteBuffer.allocate(iv.length + encryptedBytes.length)
                 //         .put(iv)
                 //         .put(encryptedBytes)

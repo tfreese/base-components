@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -20,7 +21,6 @@ import java.util.Collections;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 
 /**
@@ -47,8 +47,8 @@ public final class KeystoreMain {
             keyStore.load(null, keystorePSW);
         }
 
-        final SecureRandom secureRandom = new SecureRandom();
-        SecretKey secretKey = null;
+        final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
+        Key key = null;
 
         // Keys erzeugen, wenn nicht vorhanden.
         final String alias = "test-AES-256";
@@ -57,9 +57,9 @@ public final class KeystoreMain {
         if (!keyStore.containsAlias(alias)) {
             final KeyGenerator kg = KeyGenerator.getInstance("AES", provider);
             kg.init(256, secureRandom);
-            secretKey = kg.generateKey();
+            key = kg.generateKey();
 
-            keyStore.setKeyEntry(alias, secretKey, aliasPSW, null);
+            keyStore.setKeyEntry(alias, key, aliasPSW, null);
 
             try (OutputStream outputStream = Files.newOutputStream(keystorePath)) {
                 keyStore.store(outputStream, keystorePSW);
@@ -68,7 +68,7 @@ public final class KeystoreMain {
 
         Collections.list(keyStore.aliases()).forEach(a -> System.out.println("Alias: " + a));
 
-        secretKey = (SecretKey) keyStore.getKey(alias, aliasPSW);
+        key = keyStore.getKey(alias, aliasPSW);
 
         Cipher encryptCipher = Cipher.getInstance("AES/GCM/NoPadding", provider);
         Cipher decryptCipher = Cipher.getInstance("AES/GCM/NoPadding", provider);
@@ -77,8 +77,8 @@ public final class KeystoreMain {
         // secureRandom.nextBytes(iv);
         final byte[] iv = secureRandom.generateSeed(16);
 
-        encryptCipher.init(Cipher.ENCRYPT_MODE, secretKey, new GCMParameterSpec(128, iv)); // IvParameterSpec(iv)
-        decryptCipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
+        encryptCipher.init(Cipher.ENCRYPT_MODE, key, new GCMParameterSpec(128, iv)); // IvParameterSpec(iv)
+        decryptCipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, iv));
         testCrypt(encryptCipher, decryptCipher);
 
         final Certificate cert = keyStore.getCertificate(alias);
