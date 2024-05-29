@@ -81,21 +81,17 @@ echo "Create the KeyStores.";
 echo "####################################################################################################";
 # Combine Certificates for Chain.
 cat openssl/ca.crt openssl/server.crt > openssl/server-all.crts;
-#openssl pkcs12 -export -in openssl/server-all.crts -inkey openssl/server.key -name my_server -passin pass:"$PW" -passout pass:"$PW" -out openssl/server_keystore.p12;
-openssl pkcs12 -export -chain -CAfile openssl/server-all.crts -in openssl/server.crt -inkey openssl/server.key -name myServer -passin pass:"$PW" -passout pass:"$PW" -out openssl/server_keystore.p12;
+openssl pkcs12 -export -in openssl/server-all.crts -inkey openssl/server.key -name my_server -passin pass:"$PW" -passout pass:"$PW" -out openssl/server_keystore.p12;
+#openssl pkcs12 -export -chain -CAfile openssl/server-all.crts -in openssl/server.crt -inkey openssl/server.key -name myServer -passin pass:"$PW" -passout pass:"$PW" -out openssl/server_keystore.p12;
 
+# Combine Certificates for Chain.
 cat openssl/ca.crt openssl/client.crt > openssl/client-all.crts;
-#openssl pkcs12 -export -in openssl/client-all.crts -inkey openssl/client.key -name my_client -passin pass:"$PW" -passout pass:"$PW" -out openssl/client_keystore.p12;
-openssl pkcs12 -export -chain -CAfile openssl/client-all.crts -in openssl/client.crt -inkey openssl/client.key -name myClient -passin pass:"$PW" -passout pass:"$PW" -out openssl/client_keystore.p12;
+openssl pkcs12 -export -in openssl/client-all.crts -inkey openssl/client.key -name my_client -passin pass:"$PW" -passout pass:"$PW" -out openssl/client_keystore.p12;
+#openssl pkcs12 -export -chain -CAfile openssl/client-all.crts -in openssl/client.crt -inkey openssl/client.key -name myClient -passin pass:"$PW" -passout pass:"$PW" -out openssl/client_keystore.p12;
 
 # Import CA Certificate
-keytool -importcert -keystore openssl/server_keystore.p12 -alias ca -file openssl/ca.crt -storepass "$PW" << EOF
-ja
-EOF
-
-keytool -importcert -keystore openssl/client_keystore.p12 -alias ca -file openssl/ca.crt -storepass "$PW" << EOF
-ja
-EOF
+keytool -importcert -keystore openssl/server_keystore.p12 -alias ca -noprompt -file openssl/ca.crt -storepass "$PW";
+keytool -importcert -keystore openssl/client_keystore.p12 -alias ca -noprompt -file openssl/ca.crt -storepass "$PW";
 
 #keytool -importkeystore -srckeystore openssl/server_keystore.p12 -srcstoretype PKCS12 -srcstorepass "$PW" \
 #    -destkeystore openssl/server_keystore.jks -deststoretype JKS -deststorepass "$PW";
@@ -108,50 +104,29 @@ echo;
 echo "####################################################################################################";
 echo "Create the TrustStores.";
 echo "####################################################################################################";
-keytool -importcert -keystore openssl/server_truststore.p12 -alias ca -file openssl/ca.crt -storepass "$PW" << EOF
-ja
-EOF
-
-keytool -importcert -keystore openssl/server_truststore.p12 -alias myClient -file openssl/client.crt -storepass "$PW" << EOF
-ja
-EOF
-
-keytool -importcert -keystore openssl/client_truststore.p12 -alias ca -file openssl/ca.crt -storepass "$PW" << EOF
-ja
-EOF
-
-keytool -importcert -keystore openssl/client_truststore.p12 -alias myServer -file openssl/server.crt -storepass "$PW" << EOF
-ja
-EOF
+keytool -importcert -keystore openssl/server_truststore.p12 -alias myClient -noprompt -file openssl/client.crt -storepass "$PW";
+keytool -importcert -keystore openssl/client_truststore.p12 -alias myServer -noprompt -file openssl/server.crt -storepass "$PW";
 
 #echo;
 #echo "####################################################################################################";
 #echo "Content of Server-Keystore";
 #echo "####################################################################################################";
-#openssl pkcs12 -nokeys -info \
-#    -in openssl/server_keystore.p12 \
-#    -passin pass:"$PW";
+#openssl pkcs12 -nokeys -info -in openssl/server_keystore.p12 -passin pass:"$PW";
 #
 #echo;
 #echo "####################################################################################################";
 #echo "Content of Client-Keystore";
 #echo "####################################################################################################";
-#openssl pkcs12 -nokeys -info \
-#    -in openssl/client_keystore.p12 \
-#    -passin pass:"$PW";
+#openssl pkcs12 -nokeys -info -in openssl/client_keystore.p12 -passin pass:"$PW";
 #
 #echo;
 #echo "####################################################################################################";
 #echo "Content of Server TrustStore";
 #echo "####################################################################################################";
-#openssl pkcs12 -nokeys -info \
-#    -in openssl/server_truststore.p12 \
-#    -passin pass:"$PW";
+#openssl pkcs12 -nokeys -info -in openssl/server_truststore.p12 -passin pass:"$PW";
 #
 #echo;
 #echo "####################################################################################################";
 #echo "Content of Client TrustStore";
 #echo "####################################################################################################";
-#openssl pkcs12 -nokeys -info \
-#    -in openssl/client_truststore.p12 \
-#    -passin pass:"$PW";
+#openssl pkcs12 -nokeys -info -in openssl/client_truststore.p12 -passin pass:"$PW";
