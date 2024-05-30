@@ -34,7 +34,7 @@ keytool -genseckey -v \
     -storetype PKCS12 \
     -keystore demo/aes_keystore.p12 \
     -storepass "$PW" \
-    -alias my_aes_key \
+    -alias myAesKey \
     -keyalg AES \
     -keysize 256;
 
@@ -46,8 +46,8 @@ keytool -genkey -v \
     -storetype PKCS12 \
     -keystore demo/server_keystore.p12 \
     -storepass "$PW" \
-    -alias my_server \
-    -dname "CN=server,$DNAME" \
+    -alias myServer \
+    -dname "CN=myServer,$DNAME" \
     -keyalg RSA \
     -keysize 4096 \
     -validity 36500;
@@ -56,8 +56,8 @@ keytool -genkey -v \
     -storetype PKCS12 \
     -keystore demo/client_keystore.p12 \
     -storepass "$PW" \
-    -alias my_client \
-    -dname "CN=client,$DNAME" \
+    -alias myClient \
+    -dname "CN=myClient,$DNAME" \
     -keyalg RSA \
     -keysize 4096 \
     -validity 36500;
@@ -70,7 +70,7 @@ keytool -export -v \
     -storetype PKCS12 \
     -keystore demo/server_keystore.p12 \
     -storepass "$PW" \
-    -alias my_server \
+    -alias myServer \
     -file demo/server.crt -rfc; # Text
     #-file demo/server.crt; # Binary
 
@@ -78,7 +78,7 @@ keytool -export -v \
     -storetype PKCS12 \
     -keystore demo/client_keystore.p12 \
     -storepass "$PW" \
-    -alias my_client \
+    -alias myClient \
     -file demo/client.crt -rfc; # Text
     #-file demo/client.crt; # Binary
 
@@ -106,7 +106,7 @@ keytool -import -v \
     -storetype PKCS12 \
     -keystore demo/server_truststore.p12 \
     -storepass "$PW" \
-    -alias client_public \
+    -alias myClient \
     -file demo/client.crt << EOF
 ja
 EOF
@@ -116,7 +116,7 @@ keytool -import -v \
     -keystore demo/client_truststore.p12 \
     -storepass "$PW" \
     -noprompt \
-    -alias server_public \
+    -alias myServer \
     -file demo/server.crt;
 
 echo;

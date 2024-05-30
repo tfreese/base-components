@@ -122,7 +122,7 @@ keytool -gencert -v \
 
 echo;
 echo "####################################################################################################";
-echo "Import Certificate into the TrustStores.";
+echo "Create the TrustStores.";
 echo "####################################################################################################";
 keytool -import -v \
     -keystore keytool/server_truststore.p12 \
@@ -142,7 +142,7 @@ echo;
 echo "####################################################################################################";
 echo "Create the KeyStores.";
 echo "####################################################################################################";
-# Root CA Public Certificate
+# CA Certificate
 keytool -import -v \
     -keystore keytool/server_keystore.p12 \
     -storepass "$PW" \
@@ -158,7 +158,7 @@ keytool -import -v \
     -alias myServer \
     -file keytool/server.crt;
 
-# Root CA Public Certificate
+# CA Certificate
 keytool -import -v \
     -keystore keytool/client_keystore.p12 \
     -storepass "$PW" \

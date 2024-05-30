@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -17,6 +19,7 @@ import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -44,10 +47,20 @@ class TestCrypto {
 
         final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(256, SecureRandom.getInstanceStrong());
-        final Key key = keyGenerator.generateKey();
+        final SecretKey secretKey = keyGenerator.generateKey();
 
         final Crypto cryptoAes = new Crypto() {
             private static final int IV_LENGTH = 16;
+
+            @Override
+            public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+                final byte[] iv = new byte[IV_LENGTH];
+                inputStream.read(iv);
+
+                final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
+
+                return new CipherInputStream(inputStream, cipher);
+            }
 
             @Override
             public String decrypt(final String encrypted) throws Exception {
@@ -63,16 +76,27 @@ class TestCrypto {
                 // final byte[] encryptedBytes = new byte[byteBuffer.remaining()];
                 // byteBuffer.get(encryptedBytes);
 
-                final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, key, iv);
+                final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
                 final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
 
                 return new String(decryptedBytes, CHARSET);
             }
 
             @Override
+            public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+                final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(IV_LENGTH);
+                final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
+
+                // prefix IV
+                outputStream.write(iv);
+
+                return new CipherOutputStream(outputStream, cipher);
+            }
+
+            @Override
             public String encrypt(final String message) throws Exception {
                 final byte[] iv = SecureRandom.getInstanceStrong().generateSeed(IV_LENGTH);
-                final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, key, iv);
+                final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
                 final byte[] encryptedBytes = cipher.doFinal(message.getBytes(CHARSET));
 
                 final byte[] encryptedBytesWithIv = new byte[iv.length + encryptedBytes.length];
@@ -171,8 +195,8 @@ class TestCrypto {
     }
 
     private void testCrypto(final Crypto crypto) throws Exception {
-        final String cipherText1 = crypto.encrypt(SOURCE);
-        final String cipherText2 = crypto.encrypt(SOURCE);
+        String cipherText1 = crypto.encrypt(SOURCE);
+        String cipherText2 = crypto.encrypt(SOURCE);
 
         if (!(crypto instanceof KeyPairCryptoEcdhForAes)) {
             assertNotEquals(cipherText1, cipherText2);
@@ -180,18 +204,11 @@ class TestCrypto {
 
         assertEquals(SOURCE, crypto.decrypt(cipherText1));
         assertEquals(SOURCE, crypto.decrypt(cipherText2));
-    }
-
-    private void testCrypto(final CryptoKeyPair cryptoKeyPair) throws Exception {
-        testCrypto((Crypto) cryptoKeyPair);
-
-        final String cipherText1;
-        final String cipherText2;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         // {@link CipherOutputStream#close()} is the Trigger for {@link Cipher#doFinal()}.
-        try (CipherOutputStream cipherOutputStream = cryptoKeyPair.encrypt(baos)) {
+        try (CipherOutputStream cipherOutputStream = crypto.encrypt(baos)) {
             cipherOutputStream.write(SOURCE_BYTES);
             cipherOutputStream.flush();
         }
@@ -201,25 +218,25 @@ class TestCrypto {
         baos = new ByteArrayOutputStream();
 
         // {@link CipherOutputStream#close()} is the Trigger for {@link Cipher#doFinal()}.
-        try (CipherOutputStream cipherOutputStream = cryptoKeyPair.encrypt(baos)) {
+        try (CipherOutputStream cipherOutputStream = crypto.encrypt(baos)) {
             cipherOutputStream.write(SOURCE_BYTES);
             cipherOutputStream.flush();
         }
 
         cipherText2 = Encoding.BASE64.encode(baos.toByteArray());
 
-        if (!(cryptoKeyPair instanceof KeyPairCryptoEcdhForAes)) {
+        if (!(crypto instanceof KeyPairCryptoEcdhForAes)) {
             assertNotEquals(cipherText1, cipherText2);
         }
 
         try (ByteArrayInputStream bais = new ByteArrayInputStream(Encoding.BASE64.decode(cipherText1));
-             CipherInputStream cipherInputStream = cryptoKeyPair.decrypt(bais)) {
+             CipherInputStream cipherInputStream = crypto.decrypt(bais)) {
             final String decrypted = new String(cipherInputStream.readAllBytes(), CHARSET);
             assertEquals(SOURCE, decrypted);
         }
 
         try (ByteArrayInputStream bais = new ByteArrayInputStream(Encoding.BASE64.decode(cipherText2));
-             CipherInputStream cipherInputStream = cryptoKeyPair.decrypt(bais)) {
+             CipherInputStream cipherInputStream = crypto.decrypt(bais)) {
             final String decrypted = new String(cipherInputStream.readAllBytes(), CHARSET);
             assertEquals(SOURCE, decrypted);
         }

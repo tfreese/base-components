@@ -23,10 +23,10 @@ import de.freese.base.utils.Encoding;
 /**
  * @author Thomas Freese
  */
-public final class KeyPairCryptoRsa implements CryptoKeyPair {
+public final class KeyPairCryptoRsa implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public static CryptoKeyPair create(final int keySize) throws GeneralSecurityException {
+    public static Crypto create(final int keySize) throws GeneralSecurityException {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
         final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");

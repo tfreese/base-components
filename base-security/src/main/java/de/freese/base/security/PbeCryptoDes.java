@@ -1,6 +1,8 @@
 // Created: 23 Mai 2024
 package de.freese.base.security;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +13,8 @@ import java.util.Base64;
 import java.util.Objects;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -63,6 +67,20 @@ public final class PbeCryptoDes implements Crypto {
     }
 
     @Override
+    public CipherInputStream decrypt(final InputStream inputStream) throws Exception {
+        final byte[] iv = new byte[IV_LENGTH];
+        inputStream.read(iv);
+
+        final byte[] salt = new byte[SALT_LENGTH];
+        inputStream.read(salt);
+
+        final SecretKey secret = getSecretKey(password, salt);
+        final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secret, iv);
+
+        return new CipherInputStream(inputStream, cipher);
+    }
+
+    @Override
     public String decrypt(final String encrypted) throws Exception {
         final byte[] decoded = Base64.getDecoder().decode(encrypted);
         final byte[] iv = Arrays.copyOfRange(decoded, 0, IV_LENGTH);
@@ -77,6 +95,21 @@ public final class PbeCryptoDes implements Crypto {
         return new String(decryptedBytes, CHARSET);
     }
 
+    @Override
+    public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
+        final byte[] salt = generateRandomBytes(SALT_LENGTH);
+        final SecretKey secret = getSecretKey(password, salt);
+
+        final byte[] iv = generateRandomBytes(IV_LENGTH);
+        final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secret, iv);
+
+        // prefix IV and Salt
+        outputStream.write(iv);
+        outputStream.write(salt);
+
+        return new CipherOutputStream(outputStream, cipher);
+    }
+    
     @Override
     public String encrypt(final String message) throws Exception {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);

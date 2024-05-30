@@ -31,10 +31,10 @@ import de.freese.base.utils.Encoding;
  *
  * @author Thomas Freese
  */
-public final class KeyPairCryptoEcda implements CryptoKeyPair {
+public final class KeyPairCryptoEcda implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public static CryptoKeyPair create() throws GeneralSecurityException {
+    public static Crypto create() throws GeneralSecurityException {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
         final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDH"); // , BouncyCastleProvider.PROVIDER_NAME
