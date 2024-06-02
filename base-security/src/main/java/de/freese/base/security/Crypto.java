@@ -12,17 +12,17 @@ import javax.crypto.CipherOutputStream;
  * @author Thomas Freese
  */
 public interface Crypto {
-    String decrypt(final String encrypted) throws Exception;
+    String decrypt(String encrypted) throws Exception;
 
     /**
      * {@link CipherInputStream#close()} is the Trigger for {@link Cipher#doFinal()}.
      */
-    CipherInputStream decrypt(final InputStream inputStream) throws Exception;
+    CipherInputStream decrypt(InputStream inputStream) throws Exception;
 
-    String encrypt(final String message) throws Exception;
+    String encrypt(String message) throws Exception;
 
     /**
      * {@link CipherOutputStream#close()} is the Trigger for {@link Cipher#doFinal()}.
      */
-    CipherOutputStream encrypt(final OutputStream outputStream) throws Exception;
+    CipherOutputStream encrypt(OutputStream outputStream) throws Exception;
 }

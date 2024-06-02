@@ -4,7 +4,6 @@ package de.freese.base.core.pool;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -13,7 +12,7 @@ import java.util.function.Supplier;
  */
 public final class RoundRobinPool<T> implements AutoCloseable {
 
-    private static final AtomicIntegerFieldUpdater<RoundRobinPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(RoundRobinPool.class, "nextIndex");
+    // private static final AtomicIntegerFieldUpdater<RoundRobinPool> NEXT_INDEX = AtomicIntegerFieldUpdater.newUpdater(RoundRobinPool.class, "nextIndex");
 
     private final Consumer<T> doOnClose;
     private final List<T> queue;
@@ -49,14 +48,22 @@ public final class RoundRobinPool<T> implements AutoCloseable {
         queue.clear();
     }
 
-    public T get() {
-        if (NEXT_INDEX.get(this) == queue.size()) {
-            NEXT_INDEX.set(this, 0);
+    public synchronized T get() {
+        // if (NEXT_INDEX.get(this) == queue.size()) {
+        //     NEXT_INDEX.set(this, 0);
+        // }
+        //
+        // final T object = this.queue.get(NEXT_INDEX.get(this));
+        //
+        // NEXT_INDEX.incrementAndGet(this);
+
+        if (nextIndex == queue.size()) {
+            nextIndex = 0;
         }
 
-        final T object = this.queue.get(NEXT_INDEX.get(this));
+        final T object = this.queue.get(nextIndex);
 
-        NEXT_INDEX.incrementAndGet(this);
+        nextIndex += 1;
 
         return object;
     }
