@@ -28,7 +28,7 @@ public class UncheckedSqlException extends RuntimeException {
     }
 
     @Override
-    public SQLException getCause() {
+    public synchronized SQLException getCause() {
         return (SQLException) super.getCause();
     }
 

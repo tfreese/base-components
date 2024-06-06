@@ -28,23 +28,23 @@ class TestThrottler // extends AbstractIoTest
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits2000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception {
+    void testPermits2000(final String name, final Function<Integer, Throttler> throttleFunction) {
         doTest(name, 2000, throttleFunction);
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits4000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception {
+    void testPermits4000(final String name, final Function<Integer, Throttler> throttleFunction) {
         doTest(name, 4000, throttleFunction);
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createThrottler")
-    void testPermits6000(final String name, final Function<Integer, Throttler> throttleFunction) throws Exception {
+    void testPermits6000(final String name, final Function<Integer, Throttler> throttleFunction) {
         doTest(name, 6000, throttleFunction);
     }
 
-    private void doTest(final String name, final int permits, final Function<Integer, Throttler> throttleFunction) throws Exception {
+    private void doTest(final String name, final int permits, final Function<Integer, Throttler> throttleFunction) {
         final Throttler throttler = throttleFunction.apply(permits);
 
         // Warmup...sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.

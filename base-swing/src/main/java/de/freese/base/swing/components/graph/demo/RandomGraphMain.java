@@ -100,29 +100,24 @@ public final class RandomGraphMain {
             frame.setBackground(Color.BLACK);
         }
 
-        // if (frame.getGraphicsConfiguration().getBufferCapabilities().isPageFlipping())
-        // {
-        // try
-        // { // no PageFlipping available with opengl
+        // if (frame.getGraphicsConfiguration().getBufferCapabilities().isPageFlipping()) {
+        // try { // no PageFlipping available with opengl
         // final BufferCapabilities cap =
         // new BufferCapabilities(new ImageCapabilities(true), new ImageCapabilities(true), BufferCapabilities.FlipContents.BACKGROUND);
         // // ExtendedBufferCapabilities is supposed to do a vsync
         // final ExtendedBufferCapabilities ebc = new ExtendedBufferCapabilities(cap, ExtendedBufferCapabilities.VSyncType.VSYNC_ON);
         //
-        // if (!VSyncedBSManager.vsyncAllowed(ebc))
-        // {
+        // if (!VSyncedBSManager.vsyncAllowed(ebc)) {
         // ebc = ebc.derive(ExtendedBufferCapabilities.VSyncType.VSYNC_DEFAULT);
         // }
         //
         // frame.createBufferStrategy(2, ebc);
         // }
-        // catch (AWTException ex)
-        // {
+        // catch (AWTException ex) {
         // ex.printStackTrace();
         // }
         // }
-        // else
-        // {
+        // else {
         // frame.createBufferStrategy(2);
         // }
 

@@ -20,7 +20,7 @@ import de.freese.base.core.model.builder.GenericBuilder;
  */
 class TestAsyncFileReader {
     @Test
-    void testAsyncFileReader() throws Exception {
+    void testAsyncFileReader() {
         final Supplier<StringBuilder> contentHolderSupplier = () -> new StringBuilder(4096);
         final BiConsumer<StringBuilder, byte[]> dataConsumer = (sb, data) -> {
             System.out.printf("[%s] Read completed%n", Thread.currentThread().getName());

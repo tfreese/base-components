@@ -35,7 +35,7 @@ class TestBoundedExecutor {
     private static ExecutorService executorService;
 
     @AfterAll
-    static void afterAll() throws Exception {
+    static void afterAll() {
         ExecutorUtils.shutdown(executorService);
     }
 

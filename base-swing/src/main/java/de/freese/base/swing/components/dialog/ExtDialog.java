@@ -279,7 +279,7 @@ public class ExtDialog {
     private void configureMessage(final JDialog dialog, final ExtDialogConfig config) {
         Component messageComponent = null;
 
-        if (config.getMessage() instanceof String) {
+        if (config.getMessage() instanceof String message) {
             final JEditorPane editorPane = new JEditorPane();
             editorPane.setEditable(false);
             editorPane.setOpaque(false);
@@ -290,7 +290,7 @@ public class ExtDialog {
             final Font font = UIManager.getFont("OptionPane.messageFont");
             editorPane.setFont(font);
 
-            editorPane.setText((String) config.getMessage());
+            editorPane.setText(message);
 
             messageComponent = editorPane;
         }

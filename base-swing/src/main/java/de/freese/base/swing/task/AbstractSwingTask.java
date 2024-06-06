@@ -247,19 +247,22 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
                     firePropertyChange(PROPERTY_SUCCEEDED, null, result);
                     succeeded(result);
                 }
-                // catch (InterruptedException ex)
-                // {
+                // catch (InterruptedException ex) {
                 // firePropertyChange(PROPERTY_INTERRUPTED, null, ex);
                 // interrupted(ex);
                 // }
                 catch (InterruptedException | ExecutionException ex) {
+                    if (ex instanceof InterruptedException) {
+                        // Restore interrupted state.
+                        Thread.currentThread().interrupt();
+                    }
+
                     firePropertyChange(PROPERTY_FAILED, null, ex);
                     failed(ex.getCause());
                 }
             }
             // }
-            // finally
-            // {
+            // finally {
             // firePropertyChange(PROPERTY_FINISHED, null, true);
             // finished();
             // }

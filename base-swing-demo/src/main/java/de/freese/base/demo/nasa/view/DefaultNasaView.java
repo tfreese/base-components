@@ -25,8 +25,6 @@ import de.freese.base.swing.task.inputblocker.DefaultGlassPaneInputBlocker;
  * @author Thomas Freese
  */
 public class DefaultNasaView extends AbstractView implements NasaView {
-    private NasaController controller;
-
     @Override
     public NasaPanel getComponent() {
         return (NasaPanel) super.getComponent();
@@ -47,7 +45,7 @@ public class DefaultNasaView extends AbstractView implements NasaView {
         decorate(getComponent().getButtonNext(), resourceMap, "nasa.button.next");
         decorate(getComponent().getButtonCancel(), resourceMap, "nasa.button.cancel");
 
-        controller = new NasaController(this);
+        final NasaController controller = new NasaController(this);
 
         nasaPanel.getButtonPrevious().addActionListener(event -> {
             final NasaImageTask task = new NasaImageTask(controller, controller::getPreviousUri, this, getResourceMap());

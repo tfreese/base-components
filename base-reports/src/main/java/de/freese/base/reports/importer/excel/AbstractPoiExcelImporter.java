@@ -61,7 +61,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
                 final Row row = selectRow(sheet, rowIndex);
 
                 for (int columnIndex = 0; columnIndex < numColumns; columnIndex++) {
-                    final String value = getValueAt(row, rowIndex, columnIndex);
+                    final String value = getValueAt(row, columnIndex);
 
                     rowValue[columnIndex] = value;
                 }
@@ -116,7 +116,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
         return workbook.getNumberOfSheets();
     }
 
-    protected String getValueAt(final Row row, final int rowIndex, final int columnIndex) {
+    protected String getValueAt(final Row row, final int columnIndex) {
         String value = null;
 
         if (row != null) {
@@ -130,8 +130,7 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
                     // this.formulaEvaluator.evaluate(cell).getNumberValue();
                     value = this.dataFormatter.formatCellValue(cell, this.formulaEvaluator);
                 }
-                // switch (cell.getCellTypeEnum())
-                // {
+                // switch (cell.getCellTypeEnum()) {
                 // case STRING:
                 // value = cell.getRichStringCellValue().getString();
                 //
@@ -142,15 +141,13 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
                 // short format = cell.getCellStyle().getDataFormat();
                 //
                 // if (DateUtil.isCellDateFormatted(cell) || (format == 165) || (format == 167) || (format == 168) || (format == 169)
-                // || (format == 170) || (format == 171) || (format == 191) || (format == 201))
-                // {
+                // || (format == 170) || (format == 171) || (format == 191) || (format == 201)) {
                 // Format formatter = getDateFormatter(format);
                 // String date = formatter.format(cell.getDateCellValue());
                 //
                 // value = date;
                 // }
-                // else
-                // {
+                // else {
                 // value = Double.toString(cell.getNumericCellValue());
                 // }
                 //
@@ -161,18 +158,15 @@ public abstract class AbstractPoiExcelImporter implements ExcelImporter {
                 // // Lieferte ArrayIndexOutOfBoundsException
                 // // return cell.getCellFormula();
                 //
-                // try
-                // {
+                // try {
                 // value = Double.toString(cell.getNumericCellValue());
                 // }
-                // catch (IllegalStateException ex)
-                // {
+                // catch (IllegalStateException ex) {
                 // // Nimm einfach den String aus der Zelle...
                 // value = cell.getRichStringCellValue().getString();
                 // }
                 //
-                // if (value.equals("NaN"))
-                // {
+                // if (value.equals("NaN")) {
                 // value = cell.getRichStringCellValue().getString();
                 // }
                 //

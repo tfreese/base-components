@@ -38,7 +38,7 @@ class TestTimeoutMap {
     private static final Duration DURATION_DEFAULT = Duration.ofMillis(200);
     private static final Duration DURATION_SLEEP = DURATION_DEFAULT.plusMillis(50);
 
-    static Stream<Arguments> createArguments() throws Exception {
+    static Stream<Arguments> createArguments() {
         return Stream.of(
                 Arguments.of("HashMap", new HashMap<>()),
                 Arguments.of("TreeMap", new TreeMap<>()),
@@ -53,7 +53,7 @@ class TestTimeoutMap {
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
-    void testCompute(final String name, final Map<String, Integer> decorated) throws Exception {
+    void testCompute(final String name, final Map<String, Integer> decorated) {
         final Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.compute("a", (key, value) -> value == null ? 1 : 1 + value);
@@ -82,7 +82,7 @@ class TestTimeoutMap {
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
-    void testComputeIfAbsent(final String name, final Map<String, List<Integer>> decorated) throws Exception {
+    void testComputeIfAbsent(final String name, final Map<String, List<Integer>> decorated) {
         final Map<String, List<Integer>> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.computeIfAbsent("a", key -> new ArrayList<>()).add(1);
@@ -110,7 +110,7 @@ class TestTimeoutMap {
 
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("createArguments")
-    void testGet(final String name, final Map<String, Integer> decorated) throws Exception {
+    void testGet(final String name, final Map<String, Integer> decorated) {
         final Map<String, Integer> map = new TimeoutMap<>(DURATION_DEFAULT, decorated);
 
         map.put("a", 1);

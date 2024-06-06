@@ -107,7 +107,8 @@ public final class TestFrameMain extends JFrame {
                     TimeUnit.MILLISECONDS.sleep(200);
                 }
                 catch (InterruptedException ex) {
-                    // Empty
+                    // Restore interrupted state.
+                    Thread.currentThread().interrupt();
                 }
 
                 setGestureString("");

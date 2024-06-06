@@ -40,7 +40,7 @@ class TestResourceCache {
     }
 
     @BeforeAll
-    static void beforeAll() throws Exception {
+    static void beforeAll() {
         // JUL-Logger ausschalten.
         // LogManager.getLogManager().reset();
 
@@ -49,7 +49,7 @@ class TestResourceCache {
         SLF4JBridgeHandler.install();
     }
 
-    static Stream<Arguments> createArgumentes() throws Exception {
+    static Stream<Arguments> createArgumentes() {
         final URI urlLocalFile = Paths.get("pom.xml").toUri();
         final URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
 

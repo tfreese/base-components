@@ -433,47 +433,51 @@ class PgpCryptoBc {
 
             // Initialize compressed data generator
             final PGPCompressedDataGenerator compressedDataGenerator = new PGPCompressedDataGenerator(CompressionAlgorithmTags.ZIP);
-            final OutputStream compressedOut = compressedDataGenerator.open(encryptedOut, new byte[DEFAULT_BUFFER_SIZE]);
 
-            // Initialize signature generator
-            final PGPPrivateKey privateKey = findPrivateKey(secretKey, password);
+            try (OutputStream compressedOut = compressedDataGenerator.open(encryptedOut, new byte[DEFAULT_BUFFER_SIZE])) {
+                // Initialize signature generator
+                final PGPPrivateKey privateKey = findPrivateKey(secretKey, password);
 
-            final PGPContentSignerBuilder signerBuilder = new BcPGPContentSignerBuilder(secretKey.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA1);
+                final PGPContentSignerBuilder signerBuilder = new BcPGPContentSignerBuilder(secretKey.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA1);
 
-            final PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(signerBuilder);
-            signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
+                final PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(signerBuilder);
+                signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
 
-            boolean firstTime = true;
-            final Iterator<String> it = secretKey.getPublicKey().getUserIDs();
+                boolean firstTime = true;
+                final Iterator<String> it = secretKey.getPublicKey().getUserIDs();
 
-            while (it.hasNext() && firstTime) {
-                final PGPSignatureSubpacketGenerator spGen = new PGPSignatureSubpacketGenerator();
-                spGen.addSignerUserID(false, it.next());
-                signatureGenerator.setHashedSubpackets(spGen.generate());
-                // Exit the loop after the first iteration
-                firstTime = false;
-            }
-
-            signatureGenerator.generateOnePassVersion(false).encode(compressedOut);
-
-            // Initialize literal data generator
-            final PGPLiteralDataGenerator literalDataGenerator = new PGPLiteralDataGenerator();
-            final OutputStream literalOut = literalDataGenerator.open(compressedOut, PGPLiteralData.BINARY, fileName, new Date(), new byte[DEFAULT_BUFFER_SIZE]);
-
-            // Main loop - read the "in" stream, compress, encrypt and write to the "out" stream
-            try (FileInputStream in = new FileInputStream(fileName)) {
-                final byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
-                int len;
-
-                while ((len = in.read(buf)) > 0) {
-                    literalOut.write(buf, 0, len);
-                    signatureGenerator.update(buf, 0, len);
+                while (it.hasNext() && firstTime) {
+                    final PGPSignatureSubpacketGenerator spGen = new PGPSignatureSubpacketGenerator();
+                    spGen.addSignerUserID(false, it.next());
+                    signatureGenerator.setHashedSubpackets(spGen.generate());
+                    // Exit the loop after the first iteration
+                    firstTime = false;
                 }
+
+                signatureGenerator.generateOnePassVersion(false).encode(compressedOut);
+
+                // Initialize literal data generator
+                final PGPLiteralDataGenerator literalDataGenerator = new PGPLiteralDataGenerator();
+
+                try (OutputStream literalOut = literalDataGenerator.open(compressedOut, PGPLiteralData.BINARY, fileName, new Date(), new byte[DEFAULT_BUFFER_SIZE])) {
+
+                    // Main loop - read the "in" stream, compress, encrypt and write to the "out" stream
+                    try (FileInputStream in = new FileInputStream(fileName)) {
+                        final byte[] buf = new byte[DEFAULT_BUFFER_SIZE];
+                        int len;
+
+                        while ((len = in.read(buf)) > 0) {
+                            literalOut.write(buf, 0, len);
+                            signatureGenerator.update(buf, 0, len);
+                        }
+                    }
+                }
+
+                literalDataGenerator.close();
+                // Generate the signature, compress, encrypt and write to the "out" stream
+                signatureGenerator.generate().encode(compressedOut);
             }
 
-            literalDataGenerator.close();
-            // Generate the signature, compress, encrypt and write to the "out" stream
-            signatureGenerator.generate().encode(compressedOut);
             compressedDataGenerator.close();
             encryptedDataGenerator.close();
         }

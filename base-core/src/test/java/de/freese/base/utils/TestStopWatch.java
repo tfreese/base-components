@@ -28,7 +28,7 @@ class TestStopWatch {
     }
 
     @Test
-    void testPrettyPrint() throws InterruptedException {
+    void testPrettyPrint() {
         final StopWatch stopWatch = new StopWatch();
         assertEquals("StopWatch-1", stopWatch.getId());
 

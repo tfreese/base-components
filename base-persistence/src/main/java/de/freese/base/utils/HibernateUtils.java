@@ -23,39 +23,36 @@ import org.slf4j.Logger;
  */
 public final class HibernateUtils {
     public static void clearCache(final SessionFactory sessionFactory, final String name, final Logger logger) {
-        logInfo(logger, String.format("Clear Cache: %s", name));
+        logger.info("Clear Cache: {}", name);
 
         final Cache cache = sessionFactory.getCache();
 
         try {
-            logInfo(logger, "evictDefaultQueryRegion");
+            logger.info("evictDefaultQueryRegion");
             cache.evictDefaultQueryRegion();
 
-            logInfo(logger, "evictEntityData");
+            logger.info("evictEntityData");
             cache.evictEntityData();
 
-            logInfo(logger, "evictCollectionData");
+            logger.info("evictCollectionData");
             cache.evictCollectionData();
 
-            logInfo(logger, "evictNaturalIdData");
+            logger.info("evictNaturalIdData");
             cache.evictNaturalIdData();
 
             try {
-                logInfo(logger, "evict QueryRegions");
+                logger.info("evict QueryRegions");
                 cache.evictQueryRegions();
             }
-            catch (NullPointerException ex) {
-                logWarn(logger, "evict QueryRegions: NullPointerException");
-            }
             catch (Exception ex) {
-                logWarn(logger, ex.getMessage());
+                logger.warn(ex.getMessage());
             }
 
-            logInfo(logger, "evict Statistics");
+            logger.info("evict Statistics");
             sessionFactory.getStatistics().clear();
         }
         catch (Exception ex) {
-            logWarn(logger, ex);
+            logger.warn(ex.getMessage());
         }
     }
 
@@ -286,30 +283,6 @@ public final class HibernateUtils {
         }
         else {
             return object.getClass();
-        }
-    }
-
-    private static void logErr(final Logger logger, final Throwable th) {
-        if (logger != null) {
-            logger.error(th.getMessage(), th);
-        }
-    }
-
-    private static void logInfo(final Logger logger, final String message) {
-        if (logger != null) {
-            logger.info(message);
-        }
-    }
-
-    private static void logWarn(final Logger logger, final String message) {
-        if (logger != null) {
-            logger.warn(message);
-        }
-    }
-
-    private static void logWarn(final Logger logger, final Throwable th) {
-        if (logger != null) {
-            logger.warn(null, th);
         }
     }
 

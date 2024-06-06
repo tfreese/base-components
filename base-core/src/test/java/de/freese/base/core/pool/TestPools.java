@@ -23,7 +23,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class TestPools {
 
     @Test
-    void testAbstractObjectPool() throws Exception {
+    void testAbstractObjectPool() {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
 
         final AbstractObjectPool<Integer> pool = new AbstractObjectPool<>() {
@@ -55,7 +55,7 @@ class TestPools {
     }
 
     @Test
-    void testObjectPool() throws Exception {
+    void testObjectPool() {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
         final List<Integer> onCloseList = new ArrayList<>();
 
@@ -91,7 +91,7 @@ class TestPools {
     }
 
     @Test
-    void testObjectPoolExpiry() throws Exception {
+    void testObjectPoolExpiry() {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
         final List<Integer> onCloseList = new ArrayList<>();
 
@@ -127,7 +127,7 @@ class TestPools {
     }
 
     @Test
-    void testRoundRobinPool() throws Exception {
+    void testRoundRobinPool() {
         final AtomicInteger atomicInteger = new AtomicInteger(0);
         final List<Integer> onCloseList = new ArrayList<>();
 

@@ -124,7 +124,7 @@ class TestStreamPublisher {
     }
 
     @AfterAll
-    static void afterAll() throws Exception {
+    static void afterAll() {
         await().pollDelay(Duration.ofMillis(500)).until(() -> true);
 
         if (EXECUTOR instanceof ExecutorService) {

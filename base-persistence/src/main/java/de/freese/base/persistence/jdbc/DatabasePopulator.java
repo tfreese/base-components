@@ -49,12 +49,15 @@ public class DatabasePopulator {
                         LOGGER.debug(sql);
                     }
 
-                    statement.execute(sql);
+                    // statement.execute(sql);
+                    statement.addBatch(sql);
 
                     // int rowsAffected = statement.getUpdateCount();
                     //
                     // LOGGER.info("{}: Rows affected = {}", sql, rowsAffected);
                 }
+
+                statement.executeBatch();
             }
         }
     }

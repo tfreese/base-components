@@ -117,6 +117,12 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
 
                     node.setChildrenLoaded(true);
                 }
+                catch (InterruptedException ex) {
+                    getLogger().error(ex.getMessage(), ex);
+
+                    // Restore interrupted state.
+                    Thread.currentThread().interrupt();
+                }
                 catch (Exception ex) {
                     getLogger().error(ex.getMessage(), ex);
                 }

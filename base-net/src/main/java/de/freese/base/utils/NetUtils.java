@@ -101,19 +101,12 @@ public final class NetUtils {
 
     public static LocalDateTime getNtpTime(final String host, final int port) throws IOException {
         final InetAddress inetAddress = InetAddress.getByName(host);
-        NTPUDPClient timeClient = null;
 
-        try {
-            timeClient = new NTPUDPClient();
+        try (NTPUDPClient timeClient = new NTPUDPClient()) {
             final TimeInfo timeInfo = timeClient.getTime(inetAddress, port);
             final long timeStamp = timeInfo.getMessage().getTransmitTimeStamp().getTime();
 
             return LocalDateTime.ofInstant(Instant.ofEpochMilli(timeStamp), ZoneId.systemDefault());
-        }
-        finally {
-            if (timeClient != null) {
-                timeClient.close();
-            }
         }
     }
 

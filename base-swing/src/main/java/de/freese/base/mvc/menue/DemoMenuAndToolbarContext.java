@@ -51,6 +51,9 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
                 TimeUnit.SECONDS.sleep(1);
             }
             catch (InterruptedException ex) {
+                // Restore interrupted state.
+                Thread.currentThread().interrupt();
+                
                 throw new RuntimeException(ex);
             }
 
