@@ -38,7 +38,7 @@ class TestJdbcClient {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("testDelete")
-    void testDelete(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+    void testDelete(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
         final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
@@ -66,7 +66,7 @@ class TestJdbcClient {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("testInsertBatch")
-    void testInsertBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+    void testInsertBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
         final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
@@ -91,7 +91,7 @@ class TestJdbcClient {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("testInsertWithKeyConsumer")
-    void testInsertWithKeyConsumer(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+    void testInsertWithKeyConsumer(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
         final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
@@ -145,7 +145,7 @@ class TestJdbcClient {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("testUpdate")
-    void testUpdate(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+    void testUpdate(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
         final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
@@ -173,7 +173,7 @@ class TestJdbcClient {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getDatabases")
     @DisplayName("testUpdateBatch")
-    void testUpdateBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
+    void testUpdateBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
         final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
         jdbcClient.execute(createTableSql(databaseType));
 
