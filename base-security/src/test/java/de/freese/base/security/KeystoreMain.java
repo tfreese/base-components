@@ -95,7 +95,7 @@ public final class KeystoreMain {
         testCrypt(encryptCipher, decryptCipher);
 
         // Stream
-        try (InputStream in = new FileInputStream("pom.xml");
+        try (InputStream in = new FileInputStream("build.gradle");
              CipherOutputStream cipherOutputStream = new CipherOutputStream(new FileOutputStream("/tmp/pom-crypt.dat"), encryptCipher)) {
             // OutputStream out = new ByteArrayOutputStream();
             final byte[] buffer = new byte[1024];

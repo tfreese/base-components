@@ -50,7 +50,7 @@ class TestResourceCache {
     }
 
     static Stream<Arguments> createArgumentes() {
-        final URI urlLocalFile = Paths.get("pom.xml").toUri();
+        final URI urlLocalFile = Paths.get("build.gradle").toUri();
         final URI urlHttpImage = URI.create("http://avatars.githubusercontent.com/u/1973918?v=4"); // Redirect -> https
 
         return Stream.of(

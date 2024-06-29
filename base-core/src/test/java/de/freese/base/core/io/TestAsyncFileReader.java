@@ -39,7 +39,7 @@ class TestAsyncFileReader {
                 .with(r -> r.setDataConsumer(dataConsumer))
                 .build();
 
-        final Path path = Paths.get(System.getProperty("user.dir"), "pom.xml");
+        final Path path = Paths.get(System.getProperty("user.dir"), "build.gradle");
         System.out.printf("Reading file: %s%n", path);
 
         // 2x parallel auslesen.
