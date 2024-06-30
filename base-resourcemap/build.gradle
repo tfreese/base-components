@@ -1,0 +1,14 @@
+plugins {
+    id "java-library"
+}
+
+description = "ResourceMaps to use hierarchical ResourceBundles."
+
+dependencies {
+    api(project(":base-core"))
+
+    implementation("org.slf4j:slf4j-api")
+
+    testImplementation("org.slf4j:jcl-over-slf4j")
+    testImplementation("org.springframework:spring-core")
+}

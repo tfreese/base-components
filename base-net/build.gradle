@@ -1,0 +1,14 @@
+plugins {
+    id "java-library"
+}
+
+description = "Common Protocols and Classes for the Network Layer."
+
+dependencies {
+    api(project(":base-core"))
+
+    implementation("org.apache.sshd:sshd-core")
+    implementation("org.eclipse.angus:jakarta.mail")
+    implementation("commons-net:commons-net")
+    // implementation("org.slf4j:slf4j-api")
+}

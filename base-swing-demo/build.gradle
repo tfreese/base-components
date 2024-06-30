@@ -1,0 +1,12 @@
+plugins {
+    id "java"
+}
+
+description = "Demo for the Swing Components."
+
+dependencies {
+    implementation(project(":base-swing"))
+
+    runtimeOnly("org.glassfish.jaxb:jaxb-runtime")
+    runtimeOnly("org.slf4j:slf4j-simple")
+}
