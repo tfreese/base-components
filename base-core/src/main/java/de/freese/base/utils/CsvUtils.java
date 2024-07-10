@@ -61,13 +61,13 @@ public final class CsvUtils {
     }
 
     /**
-     * @param columnCount {@link OutputStream}; The Stream is not closed, can or should be a {@link PrintStream}.
+     * @param outputStream {@link OutputStream}; The Stream is not closed, can or should be a {@link PrintStream}.
      * @param headerFunction {@link IntFunction}; row -> value
-     * @param dataFunction {@link BiFunction}; row, column -> value
+     * @param valueFunction {@link BiFunction}; row, column -> value
      * @param finishPredicate {@link IntPredicate}; row -> true/false
      */
     public static void writeCsv(final OutputStream outputStream, final int columnCount, final IntFunction<String> headerFunction,
-                                final BiFunction<Integer, Integer, String> dataFunction, final IntPredicate finishPredicate) {
+                                final BiFunction<Integer, Integer, String> valueFunction, final IntPredicate finishPredicate) {
         final PrintStream printStream;
 
         if (outputStream instanceof PrintStream ps) {
@@ -101,24 +101,24 @@ public final class CsvUtils {
         // Header
         StringJoiner stringJoiner = new StringJoiner(",");
 
-        for (int column = 0; column < columnCount; column++) {
-            stringJoiner.add(csvFormatFunction.apply(headerFunction.apply(column)));
+        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+            stringJoiner.add(csvFormatFunction.apply(headerFunction.apply(columnIndex)));
         }
 
         printStream.println(stringJoiner);
 
         // Data
-        int row = 0;
+        int rowIndex = 0;
 
-        while (finishPredicate.test(row)) {
+        while (finishPredicate.test(rowIndex)) {
             stringJoiner = new StringJoiner(",");
 
-            for (int column = 0; column < columnCount; column++) {
-                stringJoiner.add(csvFormatFunction.apply(dataFunction.apply(row, column)));
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                stringJoiner.add(csvFormatFunction.apply(valueFunction.apply(rowIndex, columnIndex)));
             }
 
             printStream.println(stringJoiner);
-            row++;
+            rowIndex++;
         }
 
         printStream.flush();
