@@ -70,8 +70,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(2), map.values());
 
-        //        await().pollDelay(DURATION_SLEEP).until(() -> true);
-        await().atMost(DURATION_SLEEP).until(map::isEmpty);
+        await().pollDelay(DURATION_SLEEP).until(map::isEmpty);
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
@@ -99,7 +98,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(List.of(1, 1)), map.values());
 
-        await().atMost(DURATION_SLEEP).until(map::isEmpty);
+        await().pollDelay(DURATION_SLEEP).until(map::isEmpty);
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
@@ -120,7 +119,7 @@ class TestTimeoutMap {
         assertIterableEquals(Set.of("a"), map.keySet());
         assertIterableEquals(Set.of(1), map.values());
 
-        await().atMost(DURATION_SLEEP).until(map::isEmpty);
+        await().pollDelay(DURATION_SLEEP).until(map::isEmpty);
 
         assertEquals(0, map.size());
         assertNull(map.get("a"));
