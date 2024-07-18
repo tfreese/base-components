@@ -13,9 +13,8 @@ public class PersonRowMapper implements RowMapper<Person> {
     @Override
     public Person mapRow(final ResultSet rs) throws SQLException {
         final long id = rs.getLong("ID");
-        final String nachname = rs.getString("LAST_NAME");
-        final String vorname = rs.getString("FIRST_NAME");
+        final String name = rs.getString("NAME");
 
-        return new Person(id, nachname, vorname);
+        return new Person(id, name);
     }
 }

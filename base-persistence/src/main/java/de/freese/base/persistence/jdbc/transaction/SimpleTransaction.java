@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.persistence.exception.UncheckedSqlException;
+import de.freese.base.persistence.exception.PersistenceException;
 
 /**
  * @author Thomas Freese
@@ -28,7 +28,7 @@ public final class SimpleTransaction implements Transaction {
             this.connection = Objects.requireNonNull(dataSource, "dataSource required").getConnection();
         }
         catch (SQLException ex) {
-            throw new UncheckedSqlException(ex);
+            throw new PersistenceException(ex);
         }
     }
 
@@ -39,7 +39,7 @@ public final class SimpleTransaction implements Transaction {
             getConnection().setAutoCommit(false);
         }
         catch (SQLException ex) {
-            throw new UncheckedSqlException(ex);
+            throw new PersistenceException(ex);
         }
     }
 
@@ -56,7 +56,7 @@ public final class SimpleTransaction implements Transaction {
             connection = null;
         }
         catch (SQLException ex) {
-            throw new UncheckedSqlException(ex);
+            throw new PersistenceException(ex);
         }
     }
 
@@ -67,7 +67,7 @@ public final class SimpleTransaction implements Transaction {
             getConnection().commit();
         }
         catch (SQLException ex) {
-            throw new UncheckedSqlException(ex);
+            throw new PersistenceException(ex);
         }
     }
 
@@ -83,7 +83,7 @@ public final class SimpleTransaction implements Transaction {
             getConnection().rollback();
         }
         catch (SQLException ex) {
-            throw new UncheckedSqlException(ex);
+            throw new PersistenceException(ex);
         }
     }
 

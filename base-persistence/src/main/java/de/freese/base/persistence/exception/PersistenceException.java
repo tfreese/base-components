@@ -6,23 +6,23 @@ import java.io.Serial;
 /**
  * @author Thomas Freese
  */
-class PersistenceException extends RuntimeException {
+public class PersistenceException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = -4679691790131023241L;
 
-    PersistenceException(final String message) {
+    public PersistenceException() {
+        super();
+    }
+
+    public PersistenceException(final String message) {
         super(message);
     }
 
-    PersistenceException(final String message, final Throwable cause) {
-        super(message, cause);
-    }
-
-    PersistenceException(final Throwable cause) {
+    public PersistenceException(final Throwable cause) {
         super(cause);
     }
 
-    PersistenceException() {
-        super();
+    public PersistenceException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 }

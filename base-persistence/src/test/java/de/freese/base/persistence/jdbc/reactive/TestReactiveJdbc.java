@@ -256,11 +256,9 @@ class TestReactiveJdbc {
         assertEquals(2, result.size());
 
         assertEquals(1, result.get(0).id());
-        assertEquals("LastName1", result.get(0).lastName());
-        assertEquals("FirstName1", result.get(0).firstName());
+        assertEquals("Name1", result.get(0).name());
 
         assertEquals(2, result.get(1).id());
-        assertEquals("LastName2", result.get(1).lastName());
-        assertEquals("FirstName2", result.get(1).firstName());
+        assertEquals("Name2", result.get(1).name());
     }
 }

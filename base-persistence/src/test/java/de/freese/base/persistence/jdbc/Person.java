@@ -4,14 +4,13 @@ package de.freese.base.persistence.jdbc;
 /**
  * @author Thomas Freese
  */
-public record Person(long id, String lastName, String firstName) {
+public record Person(long id, String name) {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append("Person [");
-        builder.append("id=").append(this.id);
-        builder.append(", lastName=").append(this.lastName);
-        builder.append(", firstName=").append(this.firstName);
+        builder.append("id=").append(id());
+        builder.append(", name=").append(name());
         builder.append("]");
 
         return builder.toString();

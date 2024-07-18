@@ -27,7 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
-import de.freese.base.persistence.exception.UncheckedSqlException;
+import de.freese.base.persistence.exception.PersistenceException;
 import de.freese.base.persistence.jdbc.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
@@ -422,7 +422,7 @@ public class JdbcClient {
             return getDataSource().getConnection();
         }
         catch (SQLException ex) {
-            throw new UncheckedSqlException(ex);
+            throw new PersistenceException(ex);
         }
     }
 

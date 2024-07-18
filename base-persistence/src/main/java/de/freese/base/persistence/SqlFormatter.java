@@ -1,8 +1,6 @@
 // Created: 20.07.2010
 package de.freese.base.persistence;
 
-import java.util.Objects;
-
 import org.hibernate.engine.jdbc.internal.FormatStyle;
 
 /**
@@ -10,28 +8,20 @@ import org.hibernate.engine.jdbc.internal.FormatStyle;
  *
  * @author Thomas Freese
  */
-public class SqlFormatter {
-    private FormatStyle formatStyle = FormatStyle.NONE;
-
-    public SqlFormatter disableFormatter() {
-        return formatStyle(FormatStyle.NONE);
+public final class SqlFormatter {
+    public static String formatDDL(final String value) {
+        return FormatStyle.DDL.getFormatter().format(value);
     }
 
-    public SqlFormatter enableFormatter() {
-        return formatStyle(FormatStyle.BASIC);
+    public static String formatNone(final String value) {
+        return FormatStyle.NONE.getFormatter().format(value);
     }
 
-    public String format(final String sql) {
-        return this.formatStyle.getFormatter().format(sql);
+    public static String formatSQL(final String value) {
+        return FormatStyle.DDL.getFormatter().format(value);
     }
 
-    public SqlFormatter formatStyle(final FormatStyle formatStyle) {
-        this.formatStyle = Objects.requireNonNull(formatStyle, "formatStyle required");
-
-        return this;
-    }
-
-    public boolean isEnabled() {
-        return this.formatStyle != FormatStyle.NONE;
+    private SqlFormatter() {
+        super();
     }
 }
