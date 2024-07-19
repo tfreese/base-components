@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
+import org.hibernate.engine.jdbc.internal.FormatStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -319,6 +320,8 @@ public class JdbcClient {
      */
     <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback,
                   final boolean closeResources) {
+        logSql(sql);
+
         final StatementCreator<PreparedStatement> statementCreator = con -> createPreparedStatement(con, sql, statementConfigurer);
         final StatementCallback<PreparedStatement, T> statementCallback = stmt -> {
             ResultSet resultSet = null;
@@ -390,6 +393,33 @@ public class JdbcClient {
         final DatabaseMetaData metaData = connection.getMetaData();
 
         return metaData.supportsBatchUpdates();
+    }
+
+    protected void logSql(final CharSequence sql) {
+        if (getLogger().isDebugEnabled()) {
+            String value = sql.toString();
+            value = value.replace(System.lineSeparator(), " ");
+            value = value.replace("( ", "(").replace(" )", ")");
+
+            value = value.replaceAll("\\s{2,}", " ");
+            // final Pattern pattern = Pattern.compile("\\s{2,}");
+            // final Matcher matcher = pattern.matcher(value);
+            // StringBuilder sb = new StringBuilder();
+            // while (matcher.find()) {
+            //     matcher.appendReplacement(sb, " ");
+            // }
+            // matcher.appendTail(sb);
+            // value = sb.toString();
+
+            final String valueLowerCase = value.toLowerCase();
+
+            if (valueLowerCase.startsWith("create") || valueLowerCase.startsWith("drop") || valueLowerCase.startsWith("alter")) {
+                getLogger().debug("Executing DDL: {}", FormatStyle.DDL.getFormatter().format(value));
+            }
+            else {
+                getLogger().debug("Executing SQL: {}", FormatStyle.BASIC.getFormatter().format(value));
+            }
+        }
     }
 
     private RuntimeException convertException(final Exception ex) {
