@@ -5,42 +5,32 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.Flow;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SynchronousSink;
 
-import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 import de.freese.base.persistence.jdbc.function.ResultSetCallbackColumnMap;
 import de.freese.base.persistence.jdbc.function.RowMapper;
-import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.reactive.ResultSetSpliterator;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetPublisher;
 
 /**
  * @author Thomas Freese
  */
-class DefaultSelectSpec implements JdbcClient.SelectSpec {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultSelectSpec.class);
-
+class DefaultSelectSpec extends AbstractStatementSpec<JdbcClient.SelectSpec> implements JdbcClient.SelectSpec {
     private final JdbcClient jdbcClient;
     private final CharSequence sql;
-
-    private PreparedStatementSetter preparedStatementSetter;
-    private StatementConfigurer statementConfigurer;
 
     DefaultSelectSpec(final CharSequence sql, final JdbcClient jdbcClient) {
         super();
@@ -51,7 +41,22 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
     @Override
     public <T> T execute(final ResultSetCallback<T> resultSetCallback) {
-        return jdbcClient.execute(sql, statementConfigurer, preparedStatementSetter, resultSetCallback, true);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, true);
+    }
+
+    @Override
+    public <T, C extends Collection<T>> C execute(final Supplier<C> collectionFactory, final RowMapper<T> rowMapper) {
+        final ResultSetCallback<C> resultSetCallback = rs -> {
+            final C results = collectionFactory.get();
+
+            while (rs.next()) {
+                results.add(rowMapper.mapRow(rs));
+            }
+
+            return results;
+        };
+
+        return execute(resultSetCallback);
     }
 
     @Override
@@ -73,7 +78,7 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
                     sink.error(ex);
                 }
             }).doFinally(state -> {
-                LOGGER.debug("close jdbc flux");
+                getLogger().debug("close jdbc flux");
 
                 jdbcClient.close(resultSet);
                 jdbcClient.close(statement);
@@ -81,22 +86,7 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
             });
         };
 
-        return jdbcClient.execute(sql, statementConfigurer, preparedStatementSetter, resultSetCallback, false);
-    }
-
-    @Override
-    public <T> List<T> executeAsList(final RowMapper<T> rowMapper) {
-        final ResultSetCallback<List<T>> resultSetCallback = rs -> {
-            final List<T> results = new ArrayList<>();
-
-            while (rs.next()) {
-                results.add(rowMapper.mapRow(rs));
-            }
-
-            return results;
-        };
-
-        return execute(resultSetCallback);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
     }
 
     @Override
@@ -111,7 +101,7 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
             final Connection connection = statement.getConnection();
 
             final Consumer<ResultSet> doOnClose = rs -> {
-                LOGGER.debug("close jdbc publisher");
+                getLogger().debug("close jdbc publisher");
 
                 jdbcClient.close(rs);
                 jdbcClient.close(statement);
@@ -121,22 +111,7 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
             return new ResultSetPublisher<>(resultSet, rowMapper, doOnClose);
         };
 
-        return jdbcClient.execute(sql, statementConfigurer, preparedStatementSetter, resultSetCallback, false);
-    }
-
-    @Override
-    public <T> Set<T> executeAsSet(final RowMapper<T> rowMapper) {
-        final ResultSetCallback<Set<T>> resultSetCallback = rs -> {
-            final Set<T> results = new LinkedHashSet<>();
-
-            while (rs.next()) {
-                results.add(rowMapper.mapRow(rs));
-            }
-
-            return results;
-        };
-
-        return execute(resultSetCallback);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
     }
 
     @Override
@@ -149,7 +124,7 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
 
             return StreamSupport.stream(spliterator, false)
                     .onClose(() -> {
-                        LOGGER.debug("close jdbc stream");
+                        getLogger().debug("close jdbc stream");
 
                         jdbcClient.close(resultSet);
                         jdbcClient.close(statement);
@@ -157,20 +132,11 @@ class DefaultSelectSpec implements JdbcClient.SelectSpec {
                     });
         };
 
-        return jdbcClient.execute(sql, statementConfigurer, preparedStatementSetter, resultSetCallback, false);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
     }
 
     @Override
-    public JdbcClient.SelectSpec statementConfigurer(final StatementConfigurer statementConfigurer) {
-        this.statementConfigurer = statementConfigurer;
-
-        return this;
-    }
-
-    @Override
-    public JdbcClient.SelectSpec statementSetter(final PreparedStatementSetter preparedStatementSetter) {
-        this.preparedStatementSetter = preparedStatementSetter;
-
+    protected DefaultSelectSpec self() {
         return this;
     }
 }

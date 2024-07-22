@@ -7,25 +7,16 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.function.LongConsumer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.StatementCallback;
-import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementCreator;
 
 /**
  * @author Thomas Freese
  */
-class DefaultInsertSpec implements JdbcClient.InsertSpec {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultInsertSpec.class);
-
+class DefaultInsertSpec extends AbstractStatementSpec<JdbcClient.InsertSpec> implements JdbcClient.InsertSpec {
     private final JdbcClient jdbcClient;
     private final CharSequence sql;
-
-    private StatementConfigurer statementConfigurer;
 
     DefaultInsertSpec(final CharSequence sql, final JdbcClient jdbcClient) {
         super();
@@ -35,11 +26,11 @@ class DefaultInsertSpec implements JdbcClient.InsertSpec {
     }
 
     @Override
-    public int execute(final LongConsumer generatedKeysConsumer, final PreparedStatementSetter preparedStatementSetter) {
-        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatementForInsert(con, sql, statementConfigurer);
+    public int execute(final LongConsumer generatedKeysConsumer) {
+        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatementForInsert(con, sql, getStatementConfigurer());
         final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
-            if (preparedStatementSetter != null) {
-                preparedStatementSetter.setValues(stmt);
+            if (getPreparedStatementSetter() != null) {
+                getPreparedStatementSetter().setValues(stmt);
             }
 
             final int affectedRows = stmt.executeUpdate();
@@ -59,21 +50,19 @@ class DefaultInsertSpec implements JdbcClient.InsertSpec {
     }
 
     @Override
-    public int execute(final PreparedStatementSetter preparedStatementSetter) {
-        return execute(null, preparedStatementSetter);
+    public int execute() {
+        return execute(null);
     }
 
     @Override
     public <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
-        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatementForInsert(con, sql, statementConfigurer);
+        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatementForInsert(con, sql, getStatementConfigurer());
 
-        return this.jdbcClient.executeBatch(batchArgs, ppss, batchSize, statementCreator, LOGGER);
+        return this.jdbcClient.executeBatch(batchArgs, ppss, batchSize, statementCreator, getLogger());
     }
 
     @Override
-    public JdbcClient.InsertSpec statementConfigurer(final StatementConfigurer statementConfigurer) {
-        this.statementConfigurer = statementConfigurer;
-
+    protected DefaultInsertSpec self() {
         return this;
     }
 }

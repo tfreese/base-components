@@ -5,25 +5,16 @@ import java.sql.PreparedStatement;
 import java.util.Collection;
 import java.util.Objects;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.StatementCallback;
-import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementCreator;
 
 /**
  * @author Thomas Freese
  */
-class DefaultUpdateSpec implements JdbcClient.UpdateSpec {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUpdateSpec.class);
-
+class DefaultUpdateSpec extends AbstractStatementSpec<JdbcClient.UpdateSpec> implements JdbcClient.UpdateSpec {
     private final JdbcClient jdbcClient;
     private final CharSequence sql;
-
-    private StatementConfigurer statementConfigurer;
 
     DefaultUpdateSpec(final CharSequence sql, final JdbcClient jdbcClient) {
         super();
@@ -33,11 +24,11 @@ class DefaultUpdateSpec implements JdbcClient.UpdateSpec {
     }
 
     @Override
-    public int execute(final PreparedStatementSetter preparedStatementSetter) {
-        final StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
+    public int execute() {
+        final StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, getStatementConfigurer());
         final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
-            if (preparedStatementSetter != null) {
-                preparedStatementSetter.setValues(stmt);
+            if (getPreparedStatementSetter() != null) {
+                getPreparedStatementSetter().setValues(stmt);
             }
 
             return stmt.executeUpdate();
@@ -48,15 +39,13 @@ class DefaultUpdateSpec implements JdbcClient.UpdateSpec {
 
     @Override
     public <T> int executeBatch(final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> ppss, final int batchSize) {
-        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatement(con, sql, statementConfigurer);
+        final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatement(con, sql, getStatementConfigurer());
 
-        return this.jdbcClient.executeBatch(batchArgs, ppss, batchSize, statementCreator, LOGGER);
+        return this.jdbcClient.executeBatch(batchArgs, ppss, batchSize, statementCreator, getLogger());
     }
 
     @Override
-    public JdbcClient.UpdateSpec statementConfigurer(final StatementConfigurer statementConfigurer) {
-        this.statementConfigurer = statementConfigurer;
-
+    protected JdbcClient.UpdateSpec self() {
         return this;
     }
 }

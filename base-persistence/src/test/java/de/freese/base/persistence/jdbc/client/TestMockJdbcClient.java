@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Flow;
@@ -90,7 +91,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        final List<Object> result = jdbcClient.select("select configurer").statementConfigurer(st -> st.setFetchSize(4)).executeAsList(rs -> rs.getObject(1));
+        final List<Object> result = jdbcClient.select("select configurer").statementConfigurer(st -> st.setFetchSize(4)).execute(ArrayList::new, rs -> rs.getObject(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -134,7 +135,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        final List<Object> result = jdbcClient.select("select list").executeAsList(rs -> rs.getObject(1));
+        final List<Object> result = jdbcClient.select("select list").execute(ArrayList::new, rs -> rs.getObject(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -155,7 +156,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        final List<Object> result = jdbcClient.select("select parameter").statementSetter(ps -> ps.setInt(1, 1)).executeAsList(rs -> rs.getObject(1));
+        final List<Object> result = jdbcClient.select("select parameter").statementSetter(ps -> ps.setInt(1, 1)).execute(ArrayList::new, rs -> rs.getObject(1));
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -212,7 +213,7 @@ class TestMockJdbcClient {
         when(resultSet.next()).thenReturn(true, true, false);
         when(resultSet.getObject(1)).thenReturn(11, 22);
 
-        final Set<Object> result = jdbcClient.select("select set").executeAsSet(rs -> rs.getObject(1));
+        final Set<Object> result = jdbcClient.select("select set").execute(LinkedHashSet::new, rs -> rs.getObject(1));
 
         final List<Object> resultList = new ArrayList<>(result);
 

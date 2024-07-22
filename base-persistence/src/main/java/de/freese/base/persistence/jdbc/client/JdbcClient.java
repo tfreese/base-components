@@ -14,10 +14,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.Flow;
 import java.util.function.Function;
 import java.util.function.LongConsumer;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -49,41 +49,40 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 public class JdbcClient {
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
 
-    public interface DeleteSpec {
+    public interface DeleteSpec extends StatementSpec<DeleteSpec> {
+        int execute();
+    }
+
+    public interface InsertSpec extends StatementSpec<InsertSpec> {
         int execute();
 
-        DeleteSpec statementConfigurer(StatementConfigurer statementConfigurer);
-
-        DeleteSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
-    }
-
-    public interface InsertSpec {
-        int execute(PreparedStatementSetter preparedStatementSetter);
-
-        int execute(LongConsumer generatedKeysConsumer, PreparedStatementSetter preparedStatementSetter);
+        int execute(LongConsumer generatedKeysConsumer);
 
         <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
-
-        InsertSpec statementConfigurer(StatementConfigurer statementConfigurer);
     }
 
-    public interface SelectSpec {
+    public interface SelectSpec extends StatementSpec<SelectSpec> {
+        /**
+         * <pre>{@code
+         * List<?> results = execute(ArrayList::new, rowMapper)
+         * Set<?> results = execute(LinkedHashSet::new, rowMapper)
+         * }</pre>
+         */
+        <T, C extends Collection<T>> C execute(Supplier<C> collectionFactory, RowMapper<T> rowMapper);
+
         <T> T execute(ResultSetCallback<T> resultSetCallback);
 
         /**
          * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link Flux#doFinally}-Method.<br>
          * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
          * Reuse is not possible, because the Resources are closed after first usage.<br>
-         * Example: <code>
-         * <pre>
-         * Flux&lt;Entity&gt; flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
+         * Example:<br>
+         * <pre>{@code
+         * Flux<Entity> flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
          * flux.subscribe(System.out::println);
-         * </pre>
-         * </code>
+         * }</pre>
          */
         <T> Flux<T> executeAsFlux(RowMapper<T> rowMapper);
-
-        <T> List<T> executeAsList(RowMapper<T> rowMapper);
 
         List<Map<String, Object>> executeAsMap();
 
@@ -91,43 +90,41 @@ public class JdbcClient {
          * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in {@link ResultSetSubscription}<br>
          * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
          * Reuse is not possible, because the Resources are closed after first usage.<br>
-         * Example: <code>
-         * <pre>
-         * Publisher&lt;Entity&gt; publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
+         * Example:<br>
+         * <pre>{@code
+         * Publisher<Entity> publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
          * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
-         * </pre>
-         * </code>
+         * }</pre>
          */
         <T> Flow.Publisher<T> executeAsPublisher(RowMapper<T> rowMapper);
-
-        <T> Set<T> executeAsSet(RowMapper<T> rowMapper);
 
         /**
          * Closing of the Resources ({@link ResultSet}, {@link Statement}, {@link Connection}) happens in  {@link Stream#onClose}-Method.<br>
          * {@link Stream#close}-Method MUST be called (try-resource).<br>
          * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
-         * Example: <code>
-         * <pre>
-         * try (Stream&lt;Entity&gt; stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter))
-         * {
+         * Example:<br>
+         * <pre>{@code
+         * try (Stream<Entity> stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter)) {
          *     stream.forEach(System.out::println);
          * }
-         * </pre>
-         * </code>
+         * }</pre>
          */
         <T> Stream<T> executeAsStream(RowMapper<T> rowMapper);
-
-        SelectSpec statementConfigurer(StatementConfigurer statementConfigurer);
-
-        SelectSpec statementSetter(PreparedStatementSetter preparedStatementSetter);
     }
 
-    public interface UpdateSpec {
-        int execute(PreparedStatementSetter preparedStatementSetter);
+    public interface StatementSpec<S extends StatementSpec<?>> {
+        S statementConfigurer(StatementConfigurer statementConfigurer);
+
+        /**
+         * Not for Batch-Execution.
+         */
+        S statementSetter(PreparedStatementSetter preparedStatementSetter);
+    }
+
+    public interface UpdateSpec extends StatementSpec<UpdateSpec> {
+        int execute();
 
         <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
-
-        UpdateSpec statementConfigurer(StatementConfigurer statementConfigurer);
     }
 
     private final DataSource dataSource;
@@ -154,6 +151,8 @@ public class JdbcClient {
     }
 
     public boolean execute(final CharSequence sql) {
+        logSql(sql);
+
         final StatementCreator<Statement> sc = con -> createStatement(con, null);
         final StatementCallback<Statement, Boolean> action = stmt -> stmt.execute(sql.toString());
 
@@ -397,19 +396,14 @@ public class JdbcClient {
 
     protected void logSql(final CharSequence sql) {
         if (getLogger().isDebugEnabled()) {
-            String value = sql.toString();
-            value = value.replace(System.lineSeparator(), " ");
-            value = value.replace("( ", "(").replace(" )", ")");
+            final String value = sql.toString()
+                    .replaceAll("(\\r\\n|\\r|\\n)", " ")
+                    .replaceAll("\\s{2,}", " ")
+                    .replace("( ", "(")
+                    .replace(" )", ")");
 
-            value = value.replaceAll("\\s{2,}", " ");
-            // final Pattern pattern = Pattern.compile("\\s{2,}");
-            // final Matcher matcher = pattern.matcher(value);
-            // StringBuilder sb = new StringBuilder();
-            // while (matcher.find()) {
-            //     matcher.appendReplacement(sb, " ");
-            // }
-            // matcher.appendTail(sb);
-            // value = sb.toString();
+            // final Pattern pattern = Pattern.compile("(\r\n|\r|\n)");
+            // pattern.matcher(value).replaceAll(" ");
 
             final String valueLowerCase = value.toLowerCase();
 
