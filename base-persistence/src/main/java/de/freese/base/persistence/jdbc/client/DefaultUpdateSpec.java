@@ -27,8 +27,8 @@ class DefaultUpdateSpec extends AbstractStatementSpec<JdbcClient.UpdateSpec> imp
     public int execute() {
         final StatementCreator<PreparedStatement> statementCreator = con -> jdbcClient.createPreparedStatement(con, sql, getStatementConfigurer());
         final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
-            if (getPreparedStatementSetter() != null) {
-                getPreparedStatementSetter().setValues(stmt);
+            if (getStatementSetter() != null) {
+                getStatementSetter().setParameter(stmt);
             }
 
             return stmt.executeUpdate();

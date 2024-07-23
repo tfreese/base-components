@@ -41,7 +41,7 @@ class DefaultSelectSpec extends AbstractStatementSpec<JdbcClient.SelectSpec> imp
 
     @Override
     public <T> T execute(final ResultSetCallback<T> resultSetCallback) {
-        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, true);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getStatementSetter(), resultSetCallback, true);
     }
 
     @Override
@@ -86,7 +86,7 @@ class DefaultSelectSpec extends AbstractStatementSpec<JdbcClient.SelectSpec> imp
             });
         };
 
-        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getStatementSetter(), resultSetCallback, false);
     }
 
     @Override
@@ -111,7 +111,7 @@ class DefaultSelectSpec extends AbstractStatementSpec<JdbcClient.SelectSpec> imp
             return new ResultSetPublisher<>(resultSet, rowMapper, doOnClose);
         };
 
-        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getStatementSetter(), resultSetCallback, false);
     }
 
     @Override
@@ -132,7 +132,7 @@ class DefaultSelectSpec extends AbstractStatementSpec<JdbcClient.SelectSpec> imp
                     });
         };
 
-        return jdbcClient.execute(sql, getStatementConfigurer(), getPreparedStatementSetter(), resultSetCallback, false);
+        return jdbcClient.execute(sql, getStatementConfigurer(), getStatementSetter(), resultSetCallback, false);
     }
 
     @Override

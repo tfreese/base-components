@@ -29,8 +29,8 @@ class DefaultInsertSpec extends AbstractStatementSpec<JdbcClient.InsertSpec> imp
     public int execute(final LongConsumer generatedKeysConsumer) {
         final StatementCreator<PreparedStatement> statementCreator = con -> this.jdbcClient.createPreparedStatementForInsert(con, sql, getStatementConfigurer());
         final StatementCallback<PreparedStatement, Integer> statementCallback = stmt -> {
-            if (getPreparedStatementSetter() != null) {
-                getPreparedStatementSetter().setValues(stmt);
+            if (getStatementSetter() != null) {
+                getStatementSetter().setParameter(stmt);
             }
 
             final int affectedRows = stmt.executeUpdate();

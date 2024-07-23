@@ -1,8 +1,8 @@
 // Created: 12.01.2017
 package de.freese.base.persistence.jdbc.function;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Inspired by org.springframework.jdbc.core<br>
@@ -10,6 +10,6 @@ import java.sql.SQLException;
  * @author Thomas Freese
  */
 @FunctionalInterface
-public interface PreparedStatementSetter {
-    void setValues(PreparedStatement preparedStatement) throws SQLException;
+public interface StatementSetter<S extends Statement> {
+    void setParameter(S stmt) throws SQLException;
 }

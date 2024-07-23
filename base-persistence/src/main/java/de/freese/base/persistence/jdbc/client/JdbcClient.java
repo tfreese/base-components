@@ -3,17 +3,14 @@ package de.freese.base.persistence.jdbc.client;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.Flow;
 import java.util.function.Function;
 import java.util.function.LongConsumer;
@@ -23,20 +20,17 @@ import java.util.stream.Stream;
 
 import javax.sql.DataSource;
 
-import org.hibernate.engine.jdbc.internal.FormatStyle;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
-import de.freese.base.persistence.exception.PersistenceException;
 import de.freese.base.persistence.jdbc.function.ConnectionCallback;
 import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
-import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 import de.freese.base.persistence.jdbc.function.RowMapper;
 import de.freese.base.persistence.jdbc.function.StatementCallback;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
 import de.freese.base.persistence.jdbc.function.StatementCreator;
+import de.freese.base.persistence.jdbc.function.StatementSetter;
 import de.freese.base.persistence.jdbc.reactive.flow.ResultSetSubscription;
 import de.freese.base.persistence.jdbc.transaction.SimpleTransaction;
 import de.freese.base.persistence.jdbc.transaction.Transaction;
@@ -46,9 +40,7 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
  *
  * @author Thomas Freese
  */
-public class JdbcClient {
-    public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
-
+public class JdbcClient extends AbstractJdbcClient {
     public interface DeleteSpec extends StatementSpec<DeleteSpec> {
         int execute();
     }
@@ -78,7 +70,7 @@ public class JdbcClient {
          * Reuse is not possible, because the Resources are closed after first usage.<br>
          * Example:<br>
          * <pre>{@code
-         * Flux<Entity> flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, PreparedStatementSetter));
+         * Flux<Entity> flux = jdbcTemplate.queryAsFlux(Sql, RowMapper, StatementSetter));
          * flux.subscribe(System.out::println);
          * }</pre>
          */
@@ -92,7 +84,7 @@ public class JdbcClient {
          * Reuse is not possible, because the Resources are closed after first usage.<br>
          * Example:<br>
          * <pre>{@code
-         * Publisher<Entity> publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, PreparedStatementSetter));
+         * Publisher<Entity> publisher = jdbcTemplate.queryAsPublisher(Sql, RowMapper, StatementSetter));
          * publisher.subscribe(new java.util.concurrent.Flow.Subscriber);
          * }</pre>
          */
@@ -104,7 +96,7 @@ public class JdbcClient {
          * <b>The JDBC-Treiber must support ResultSet-Streaming(setFetchSize(int)) !</b><br>
          * Example:<br>
          * <pre>{@code
-         * try (Stream<Entity> stream = jdbcTemplate.queryAsStream(Sql, RowMapper, PreparedStatementSetter)) {
+         * try (Stream<Entity> stream = jdbcTemplate.queryAsStream(Sql, RowMapper, StatementSetter)) {
          *     stream.forEach(System.out::println);
          * }
          * }</pre>
@@ -118,7 +110,7 @@ public class JdbcClient {
         /**
          * Not for Batch-Execution.
          */
-        S statementSetter(PreparedStatementSetter preparedStatementSetter);
+        S statementSetter(StatementSetter<PreparedStatement> statementSetter);
     }
 
     public interface UpdateSpec extends StatementSpec<UpdateSpec> {
@@ -127,23 +119,12 @@ public class JdbcClient {
         <T> int executeBatch(Collection<T> batchArgs, ParameterizedPreparedStatementSetter<T> ppss, int batchSize);
     }
 
-    private final DataSource dataSource;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final Function<DataSource, Transaction> transactionHandler;
-
     public JdbcClient(final DataSource dataSource) {
         this(dataSource, SimpleTransaction::new);
     }
 
     public JdbcClient(final DataSource dataSource, final Function<DataSource, Transaction> transactionHandler) {
-        super();
-
-        this.dataSource = Objects.requireNonNull(dataSource, "dataSource required");
-        this.transactionHandler = Objects.requireNonNull(transactionHandler, "transactionHandler required");
-    }
-
-    public Transaction createTransaction() {
-        return transactionHandler.apply(getDataSource());
+        super(dataSource, transactionHandler);
     }
 
     public DeleteSpec delete(final CharSequence sql) {
@@ -163,41 +144,12 @@ public class JdbcClient {
         return new DefaultInsertSpec(sql, this);
     }
 
-    public boolean isBatchSupported() {
-        final ConnectionCallback<Boolean> action = this::isBatchSupported;
-
-        return execute(action, true);
-    }
-
     public SelectSpec select(final CharSequence sql) {
         return new DefaultSelectSpec(sql, this);
     }
 
     public UpdateSpec update(final CharSequence sql) {
         return new DefaultUpdateSpec(sql, this);
-    }
-
-    void close(final Connection connection) {
-        final Transaction transaction = TRANSACTION.orElse(null);
-
-        if (transaction != null) {
-            // Closed by Transaction#close.
-            return;
-        }
-
-        getLogger().debug("close connection");
-
-        try {
-            if (connection == null || connection.isClosed()) {
-                return;
-            }
-
-            connection.close();
-        }
-        catch (Exception ex) {
-            //            throw new UncheckedSqlException(ex);
-            getLogger().error("Could not close JDBC Connection", ex);
-        }
     }
 
     void close(final ResultSet resultSet) {
@@ -270,24 +222,6 @@ public class JdbcClient {
         return statement;
     }
 
-    <T> T execute(final ConnectionCallback<T> connectionCallback, final boolean closeResources) {
-        Connection connection = null;
-
-        try {
-            connection = getConnection();
-
-            return connectionCallback.doInConnection(connection);
-        }
-        catch (SQLException ex) {
-            throw convertException(ex);
-        }
-        finally {
-            if (closeResources) {
-                close(connection);
-            }
-        }
-    }
-
     <S extends Statement, T> T execute(final StatementCreator<S> statementCreator, final StatementCallback<S, T> statementCallback, final boolean closeResources) {
         final ConnectionCallback<T> connectionCallback = con -> {
             S stmt = null;
@@ -315,9 +249,9 @@ public class JdbcClient {
     }
 
     /**
-     * @param pss {@link PreparedStatementSetter}; optional
+     * @param pss {@link StatementSetter}; optional
      */
-    <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final PreparedStatementSetter pss, final ResultSetCallback<T> resultSetCallback,
+    <T> T execute(final CharSequence sql, final StatementConfigurer statementConfigurer, final StatementSetter<PreparedStatement> pss, final ResultSetCallback<T> resultSetCallback,
                   final boolean closeResources) {
         logSql(sql);
 
@@ -327,7 +261,7 @@ public class JdbcClient {
 
             try {
                 if (pss != null) {
-                    pss.setValues(stmt);
+                    pss.setParameter(stmt);
                 }
 
                 resultSet = stmt.executeQuery();
@@ -357,7 +291,7 @@ public class JdbcClient {
 
             for (T arg : batchArgs) {
                 stmt.clearParameters();
-                ppss.setValues(stmt, arg);
+                ppss.setParameter(stmt, arg);
                 n++;
 
                 if (supportsBatch) {
@@ -371,12 +305,14 @@ public class JdbcClient {
                         }
 
                         affectedRows.add(stmt.executeBatch());
+                        handleWarnings(stmt);
                         stmt.clearBatch();
                     }
                 }
                 else {
                     // Batch not possible -> direct execution.
                     final int affectedRow = stmt.executeUpdate();
+                    handleWarnings(stmt);
 
                     affectedRows.add(new int[]{affectedRow});
                 }
@@ -386,87 +322,5 @@ public class JdbcClient {
         };
 
         return execute(statementCreator, statementCallback, true);
-    }
-
-    boolean isBatchSupported(final Connection connection) throws SQLException {
-        final DatabaseMetaData metaData = connection.getMetaData();
-
-        return metaData.supportsBatchUpdates();
-    }
-
-    protected void logSql(final CharSequence sql) {
-        if (getLogger().isDebugEnabled()) {
-            final String value = sql.toString()
-                    .replaceAll("(\\r\\n|\\r|\\n)", " ")
-                    .replaceAll("\\s{2,}", " ")
-                    .replace("( ", "(")
-                    .replace(" )", ")");
-
-            // final Pattern pattern = Pattern.compile("(\r\n|\r|\n)");
-            // pattern.matcher(value).replaceAll(" ");
-
-            final String valueLowerCase = value.toLowerCase();
-
-            if (valueLowerCase.startsWith("create") || valueLowerCase.startsWith("drop") || valueLowerCase.startsWith("alter")) {
-                getLogger().debug("Executing DDL: {}", FormatStyle.DDL.getFormatter().format(value));
-            }
-            else {
-                getLogger().debug("Executing SQL: {}", FormatStyle.BASIC.getFormatter().format(value));
-            }
-        }
-    }
-
-    private RuntimeException convertException(final Exception ex) {
-        Throwable th = ex;
-
-        if (th instanceof RuntimeException re) {
-            throw re;
-        }
-
-        if (th.getCause() instanceof SQLException) {
-            th = th.getCause();
-        }
-
-        // while (!(th instanceof SQLException))
-        // {
-        // th = th.getCause();
-        // }
-
-        return new RuntimeException(th);
-    }
-
-    private Connection getConnection() {
-        final Transaction transaction = TRANSACTION.orElse(null);
-
-        if (transaction != null) {
-            return transaction.getConnection();
-        }
-
-        try {
-            return getDataSource().getConnection();
-        }
-        catch (SQLException ex) {
-            throw new PersistenceException(ex);
-        }
-    }
-
-    private DataSource getDataSource() {
-        return dataSource;
-    }
-
-    private Logger getLogger() {
-        return logger;
-    }
-
-    private void handleWarnings(final Statement stmt) throws SQLException {
-        if (getLogger().isDebugEnabled()) {
-            SQLWarning warning = stmt.getWarnings();
-
-            while (warning != null) {
-                getLogger().debug("SQLWarning ignored: SQL state '{}', error code '{}', message [{}]", warning.getSQLState(), warning.getErrorCode(), warning.getMessage());
-
-                warning = warning.getNextWarning();
-            }
-        }
     }
 }

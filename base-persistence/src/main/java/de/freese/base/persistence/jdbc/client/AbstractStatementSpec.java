@@ -1,20 +1,22 @@
 // Created: 22 Juli 2024
 package de.freese.base.persistence.jdbc.client;
 
+import java.sql.PreparedStatement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.freese.base.persistence.jdbc.function.PreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.StatementConfigurer;
+import de.freese.base.persistence.jdbc.function.StatementSetter;
 
 /**
  * @author Thomas Freese
  */
 abstract class AbstractStatementSpec<S extends JdbcClient.StatementSpec<?>> implements JdbcClient.StatementSpec<S> {
     private final Logger logger = LoggerFactory.getLogger(DefaultUpdateSpec.class);
-
-    private PreparedStatementSetter preparedStatementSetter;
+    
     private StatementConfigurer statementConfigurer;
+    private StatementSetter<PreparedStatement> statementSetter;
 
     @Override
     public S statementConfigurer(final StatementConfigurer statementConfigurer) {
@@ -24,8 +26,8 @@ abstract class AbstractStatementSpec<S extends JdbcClient.StatementSpec<?>> impl
     }
 
     @Override
-    public S statementSetter(final PreparedStatementSetter preparedStatementSetter) {
-        this.preparedStatementSetter = preparedStatementSetter;
+    public S statementSetter(final StatementSetter<PreparedStatement> statementSetter) {
+        this.statementSetter = statementSetter;
 
         return self();
     }
@@ -34,12 +36,12 @@ abstract class AbstractStatementSpec<S extends JdbcClient.StatementSpec<?>> impl
         return logger;
     }
 
-    protected PreparedStatementSetter getPreparedStatementSetter() {
-        return preparedStatementSetter;
-    }
-
     protected StatementConfigurer getStatementConfigurer() {
         return statementConfigurer;
+    }
+
+    protected StatementSetter<PreparedStatement> getStatementSetter() {
+        return statementSetter;
     }
 
     protected abstract S self();
