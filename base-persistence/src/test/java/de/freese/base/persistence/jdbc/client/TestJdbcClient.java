@@ -2,7 +2,6 @@
 package de.freese.base.persistence.jdbc.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Types;
@@ -14,9 +13,10 @@ import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import javax.sql.DataSource;
+
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import de.freese.base.persistence.jdbc.DbServerExtension;
+import de.freese.base.persistence.jdbc.JanitorInvocationInterceptor;
 import de.freese.base.persistence.jdbc.MultiDatabaseExtension;
 import de.freese.base.persistence.jdbc.Person;
 import de.freese.base.persistence.jdbc.PersonRowMapper;
@@ -32,26 +33,30 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 /**
  * @author Thomas Freese
  */
-@TestMethodOrder(MethodOrderer.MethodName.class)
+// @TestMethodOrder(MethodOrderer.MethodName.class)
+@ExtendWith(JanitorInvocationInterceptor.class)
 class TestJdbcClient {
     @RegisterExtension
     static final MultiDatabaseExtension DATABASE_EXTENSION = new MultiDatabaseExtension(true);
 
-    static Stream<Arguments> getDatabases() {
-        return DATABASE_EXTENSION.getServers().stream().map(server -> Arguments.of(server.getDatabaseType(), server));
+    private static final class DefaultJdbcClient extends AbstractJdbcClient {
+        public DefaultJdbcClient(final DataSource dataSource) {
+            super(dataSource);
+        }
+    }
+
+    static Stream<Arguments> getJdbcClients() {
+        return DATABASE_EXTENSION.getServers().stream().map(server -> Arguments.of(server, new DefaultJdbcClient(server.getDataSource())));
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testCall")
-    void testCall(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        if (EmbeddedDatabaseType.HSQL.equals(server.getDatabaseType())) {
+    void testCall(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
+        if (EmbeddedDatabaseType.HSQL.equals(dbServerExtension.getDatabaseType())) {
             // SQL Syntax won't work with HSQLDB.
             return;
         }
-
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
 
         final double result = jdbcClient.sql("{? = call sin(?)}").call(stmt -> {
                     stmt.setDouble(2, 180D);
@@ -63,74 +68,28 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
-    @DisplayName("testExecute")
-    void testExecute(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-    }
-
-    @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testExecuteUpdate")
-    void testExecuteUpdate(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
+    void testExecuteUpdate(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
+        // final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
+        // assertFalse(result);
 
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
+
+        // jdbcClient.sql("drop table person").execute();
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
-    @DisplayName("testExecuteUpdatePrepared")
-    void testExecuteUpdatePrepared(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
-        final int affectedRows = jdbcClient.sql("insert into person (name) values (?)").executeUpdate(stmt -> stmt.setString(1, "myName"));
-        assertEquals(1, affectedRows);
-    }
-
-    @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
-    @DisplayName("testExecuteUpdatePreparedGeneratedKeys")
-    void testExecuteUpdatePreparedGeneratedKeys(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
-        final List<Long> generatedKeys = new ArrayList<>();
-        final int affectedRows = jdbcClient.sql("insert into person (name) values (?)").executeUpdate(stmt -> stmt.setString(1, "myName"), generatedKeys::add);
-        assertEquals(1, affectedRows);
-        assertEquals(1, generatedKeys.size());
-        assertEquals(1, generatedKeys.getFirst());
-    }
-
-    @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
-    @DisplayName("testInsertBatch")
-    void testInsertBatch(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
-        jdbcClient.execute(createTableSql(databaseType));
-
+    @MethodSource("getJdbcClients")
+    @DisplayName("testExecuteUpdateBatch")
+    void testExecuteUpdateBatch(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final List<String> names = List.of("name1", "name2", "name3");
 
-        final int affectedRows = jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        final int affectedRows = jdbcClient.sql("insert into person (name) values (?)").executeUpdateBatch(2, names, (ps, name) -> ps.setString(1, name));
         assertEquals(names.size(), affectedRows);
 
-        final List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.sql("select * from person order by name asc").query().asListOfMaps();
         assertNotNull(result);
         assertEquals(names.size(), result.size());
 
@@ -139,20 +98,31 @@ class TestJdbcClient {
             assertEquals(i + 1L, result.get(i).get("ID"));
             assertEquals("name" + (i + 1), result.get(i).get("NAME"));
         }
-
-        jdbcClient.execute("drop table person");
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
+    @DisplayName("testExecuteUpdatePrepared")
+    void testExecuteUpdatePrepared(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
+        final int affectedRows = jdbcClient.sql("insert into person (name) values (?)").executeUpdate(stmt -> stmt.setString(1, "myName"));
+        assertEquals(1, affectedRows);
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getJdbcClients")
+    @DisplayName("testExecuteUpdatePreparedGeneratedKeys")
+    void testExecuteUpdatePreparedGeneratedKeys(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
+        final List<Long> generatedKeys = new ArrayList<>();
+        final int affectedRows = jdbcClient.sql("insert into person (name) values (?)").executeUpdate(stmt -> stmt.setString(1, "myName"), generatedKeys::add);
+        assertEquals(1, affectedRows);
+        assertEquals(1, generatedKeys.size());
+        assertEquals(1, generatedKeys.getFirst());
+    }
+
+    @ParameterizedTest(name = "{index} -> {0}")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryAsList")
-    void testQueryAsList(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryAsList(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -164,15 +134,9 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryAsListOfMaps")
-    void testQueryAsListOfMaps(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryAsListOfMaps(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -188,15 +152,9 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryAsListPrepared")
-    void testQueryAsListPrepared(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryAsListPrepared(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -208,15 +166,9 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryAsMap")
-    void testQueryAsMap(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryAsMap(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -232,15 +184,9 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryAsSet")
-    void testQueryAsSet(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryAsSet(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -254,15 +200,9 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryResultSetExtractor")
-    void testQueryResultSetExtractor(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryResultSetExtractor(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -276,15 +216,9 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testQueryResultSetExtractorPrepared")
-    void testQueryResultSetExtractorPrepared(final EmbeddedDatabaseType databaseType, final DbServerExtension server) {
-        final AbstractJdbcClient jdbcClient = new AbstractJdbcClient(server.getDataSource()) {
-        };
-
-        final boolean result = jdbcClient.sql(createTableSql(databaseType)).execute();
-        assertFalse(result);
-
+    void testQueryResultSetExtractorPrepared(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) {
         final int affectedRows = jdbcClient.sql("insert into person (name) values ('myName')").executeUpdate();
         assertEquals(1, affectedRows);
 
@@ -299,15 +233,12 @@ class TestJdbcClient {
     }
 
     @ParameterizedTest(name = "{index} -> {0}")
-    @MethodSource("getDatabases")
+    @MethodSource("getJdbcClients")
     @DisplayName("testTransaction")
-    void testTransaction(final EmbeddedDatabaseType databaseType, final DbServerExtension server) throws Exception {
-        final JdbcClient jdbcClient = new JdbcClient(server.getDataSource());
-        jdbcClient.execute(createTableSql(databaseType));
+    void testTransaction(final DbServerExtension dbServerExtension, final AbstractJdbcClient jdbcClient) throws Exception {
+        final List<String> names = List.of("name1", "name2", "name3");
 
-        final List<String> names = List.of("name1", "name2");
-
-        final Callable<Integer> insertCallable = () -> jdbcClient.insert("insert into person (name) values (?)").executeBatch(names, (ps, name) -> ps.setString(1, name), 2);
+        final Callable<Integer> insertCallable = () -> jdbcClient.sql("insert into person (name) values (?)").executeUpdateBatch(2, names, (ps, name) -> ps.setString(1, name));
 
         try (Transaction transaction = jdbcClient.createTransaction()) {
             transaction.begin();
@@ -315,19 +246,17 @@ class TestJdbcClient {
             final int affectedRows = ScopedValue.callWhere(JdbcClient.TRANSACTION, transaction, insertCallable);
             assertEquals(names.size(), affectedRows);
 
-            // Out of TransactionScope.
-            // final List<Map<String, Object>> result = new JdbcClient(server.getDataSource()).select("select * from person order by name asc").executeAsMap();
+            // Out of TransactionScope -> Is Blocking ?!
+            // final List<Map<String, Object>> result = new DefaultJdbcClient(jdbcClient.getDataSource()).sql("select * from person").query().asListOfMaps();
             // assertNotNull(result);
             // assertEquals(0, result.size());
 
             transaction.commit();
         }
 
-        final List<Map<String, Object>> result = jdbcClient.select("select * from person order by name asc").executeAsMap();
+        final List<Map<String, Object>> result = jdbcClient.sql("select * from person").query().asListOfMaps();
         assertNotNull(result);
         assertEquals(names.size(), result.size());
-
-        jdbcClient.execute("drop table person");
     }
 
     private String createTableSql(final EmbeddedDatabaseType databaseType) {

@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import de.freese.base.persistence.exception.PersistenceException;
 import de.freese.base.persistence.jdbc.function.CallableStatementMapper;
 import de.freese.base.persistence.jdbc.function.ConnectionCallback;
+import de.freese.base.persistence.jdbc.function.ParameterizedPreparedStatementSetter;
 import de.freese.base.persistence.jdbc.function.ResultSetCallback;
 import de.freese.base.persistence.jdbc.function.ResultSetCallbackColumnMap;
 import de.freese.base.persistence.jdbc.function.RowMapper;
@@ -52,6 +53,8 @@ public abstract class AbstractJdbcClient {
 
         /**
          * Execute the SQL with {@link Statement#executeQuery(String)}.
+         *
+         * @param statementSetter Nullable
          */
         <T> T as(final ResultSetCallback<T> resultSetCallback, StatementSetter<PreparedStatement> statementSetter);
 
@@ -64,6 +67,8 @@ public abstract class AbstractJdbcClient {
 
         /**
          * Execute the SQL with {@link Statement#executeQuery(String)}.
+         *
+         * @param statementSetter Nullable
          */
         <T, C extends Collection<T>> C asCollection(final Supplier<C> collectionFactory, final RowMapper<T> rowMapper, StatementSetter<PreparedStatement> statementSetter);
 
@@ -76,6 +81,8 @@ public abstract class AbstractJdbcClient {
 
         /**
          * Execute the SQL with {@link Statement#executeQuery(String)}.
+         *
+         * @param statementSetter Nullable
          */
         default <T> List<T> asList(final RowMapper<T> rowMapper, final StatementSetter<PreparedStatement> statementSetter) {
             return asCollection(ArrayList::new, rowMapper, statementSetter);
@@ -85,11 +92,13 @@ public abstract class AbstractJdbcClient {
          * Execute the SQL with {@link Statement#executeQuery(String)}.
          */
         default List<Map<String, Object>> asListOfMaps() {
-            return as(new ResultSetCallbackColumnMap());
+            return asListOfMaps(null);
         }
 
         /**
          * Execute the SQL with {@link Statement#executeQuery(String)}.
+         *
+         * @param statementSetter Nullable
          */
         default List<Map<String, Object>> asListOfMaps(final StatementSetter<PreparedStatement> statementSetter) {
             return as(new ResultSetCallbackColumnMap(), statementSetter);
@@ -109,6 +118,8 @@ public abstract class AbstractJdbcClient {
 
         /**
          * Execute the SQL with {@link Statement#executeQuery(String)}.
+         *
+         * @param statementSetter Nullable
          */
         default <T> Set<T> asSet(final RowMapper<T> rowMapper, final StatementSetter<PreparedStatement> statementSetter) {
             return asCollection(LinkedHashSet::new, rowMapper, statementSetter);
@@ -123,23 +134,45 @@ public abstract class AbstractJdbcClient {
 
         /**
          * Execute the SQL with {@link Statement#execute(String)}.
+         *
+         * @return true if the first result is a ResultSet object; false if it is an update count or there are no results
          */
         boolean execute();
 
         /**
          * Execute the SQL with {@link Statement#executeUpdate(String)}.
+         *
+         * @return int affectedRows
          */
-        int executeUpdate();
+        default int executeUpdate() {
+            return executeUpdate(null);
+        }
 
         /**
          * Execute the SQL with {@link Statement#executeUpdate(String)}.
+         *
+         * @param statementSetter Nullable
+         *
+         * @return int affectedRows
          */
         int executeUpdate(StatementSetter<PreparedStatement> statementSetter);
 
         /**
          * Execute the SQL with {@link Statement#executeUpdate(String)}.
+         *
+         * @param statementSetter Nullable
+         * @param generatedKeysConsumer Nullable
+         *
+         * @return int affectedRows
          */
         int executeUpdate(StatementSetter<PreparedStatement> statementSetter, LongConsumer generatedKeysConsumer);
+
+        /**
+         * Execute the SQL with {@link Statement#executeBatch()}.
+         *
+         * @return int affectedRows
+         */
+        <T> int executeUpdateBatch(final int batchSize, final Collection<T> batchArgs, final ParameterizedPreparedStatementSetter<T> parameterizedPreparedStatementSetter);
 
         QuerySpec query();
 

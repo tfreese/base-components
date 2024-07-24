@@ -68,7 +68,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         super();
 
         this.databaseType = Objects.requireNonNull(databaseType, "databaseType required");
-        this.autoCommit = Objects.requireNonNull(autoCommit, "autoCommit required");
+        this.autoCommit = autoCommit;
     }
 
     @Override
@@ -78,11 +78,12 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
             final HikariPoolMXBean poolMXBean = this.dataSource.getHikariPoolMXBean();
 
-            LOGGER.debug("{} - Connections: idle={}, active={}, total={}",
+            LOGGER.debug("{} - Connections: idle={}, active={}, total={}, waitingThreads={}",
                     this.databaseType,
                     poolMXBean.getIdleConnections(),
                     poolMXBean.getActiveConnections(),
-                    poolMXBean.getTotalConnections());
+                    poolMXBean.getTotalConnections(),
+                    poolMXBean.getThreadsAwaitingConnection());
         }
 
         LOGGER.debug("{} - close datasource", this.databaseType);
@@ -231,6 +232,11 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
 
     public String getUsername() {
         return this.dataSource.getUsername();
+    }
+
+    @Override
+    public String toString() {
+        return databaseType.toString();
     }
 
     /**

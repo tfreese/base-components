@@ -49,7 +49,11 @@ class DefaultQuerySpec implements AbstractJdbcClient.QuerySpec {
                 }
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    return resultSetCallback.doInResultSet(resultSet);
+                    final T result = resultSetCallback.doInResultSet(resultSet);
+
+                    jdbcClient.handleWarnings(preparedStatement);
+
+                    return result;
                 }
             }
         };
