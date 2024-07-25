@@ -184,6 +184,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         config.setMaximumPoolSize(8);
         config.setAutoCommit(this.autoCommit);
         config.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
+        // config.setTransactionIsolation("TRANSACTION_REPEATABLE_READ");
         config.setConnectionTimeout(getSqlTimeout().toMillis());
 
         this.dataSource = new HikariDataSource(config);

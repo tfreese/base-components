@@ -1,5 +1,5 @@
 // Created: 15.11.2020
-package de.freese.base.swing.components.graph.demo;
+package de.freese.base.swing.components.graph;
 
 import java.awt.Color;
 import java.awt.GraphicsDevice;
@@ -15,14 +15,14 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-import de.freese.base.swing.components.graph.DefaultGraphComponent;
+import de.freese.base.swing.components.graph.model.SinusValueSupplier;
 import de.freese.base.swing.components.graph.painter.BarGraphPainter;
 import de.freese.base.swing.components.graph.painter.LineGraphPainter;
 
 /**
  * @author Thomas Freese
  */
-public final class RandomGraphMain {
+public final class RandomGraphDemo {
     public static void main(final String[] args) {
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -130,7 +130,7 @@ public final class RandomGraphMain {
         SwingUtilities.invokeLater(() -> frame.setVisible(true));
     }
 
-    private RandomGraphMain() {
+    private RandomGraphDemo() {
         super();
     }
 }

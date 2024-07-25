@@ -1,5 +1,5 @@
 // Created: 21.11.2020
-package de.freese.base.swing.components.graph.demo.memory;
+package de.freese.base.swing.components.graph.memory;
 
 import java.awt.Color;
 import java.awt.Component;

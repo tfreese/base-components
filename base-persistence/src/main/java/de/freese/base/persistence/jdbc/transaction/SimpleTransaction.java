@@ -65,6 +65,7 @@ public final class SimpleTransaction implements Transaction {
         try {
             validateConnection();
             getConnection().commit();
+            close();
         }
         catch (SQLException ex) {
             throw new PersistenceException(ex);
@@ -81,6 +82,7 @@ public final class SimpleTransaction implements Transaction {
         try {
             validateConnection();
             getConnection().rollback();
+            close();
         }
         catch (SQLException ex) {
             throw new PersistenceException(ex);

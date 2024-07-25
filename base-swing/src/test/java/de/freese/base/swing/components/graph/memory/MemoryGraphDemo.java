@@ -1,5 +1,5 @@
 // Created: 15.11.2020
-package de.freese.base.swing.components.graph.demo.memory;
+package de.freese.base.swing.components.graph.memory;
 
 import java.awt.Color;
 import java.net.URL;
@@ -13,7 +13,7 @@ import javax.swing.WindowConstants;
 /**
  * @author Thomas Freese
  */
-public final class MemoryGraphMain {
+public final class MemoryGraphDemo {
     public static void main(final String[] args) {
         final MemoryGraphComponent memoryGraph = new MemoryGraphComponent(new MemoryGraphPainter(), Executors.newScheduledThreadPool(2));
 
@@ -49,7 +49,7 @@ public final class MemoryGraphMain {
         });
     }
 
-    private MemoryGraphMain() {
+    private MemoryGraphDemo() {
         super();
     }
 }

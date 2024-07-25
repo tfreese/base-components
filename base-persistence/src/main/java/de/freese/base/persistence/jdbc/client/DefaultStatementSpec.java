@@ -21,13 +21,14 @@ import de.freese.base.persistence.jdbc.function.StatementSetter;
 /**
  * @author Thomas Freese
  */
-class DefaultStatementSpec implements AbstractJdbcClient.StatementSpec {
-    private final AbstractJdbcClient jdbcClient;
+class DefaultStatementSpec implements StatementSpec {
+    private final JdbcClient jdbcClient;
     private final CharSequence sql;
 
     private StatementConfigurer statementConfigurer;
+    private StatementSetter<PreparedStatement> statementSetter;
 
-    DefaultStatementSpec(final CharSequence sql, final AbstractJdbcClient jdbcClient) {
+    DefaultStatementSpec(final CharSequence sql, final JdbcClient jdbcClient) {
         super();
 
         this.sql = Objects.requireNonNull(sql, "sql required");
@@ -74,7 +75,7 @@ class DefaultStatementSpec implements AbstractJdbcClient.StatementSpec {
     }
 
     @Override
-    public int executeUpdate(final StatementSetter<PreparedStatement> statementSetter) {
+    public int executeUpdate() {
         jdbcClient.logSql(sql);
 
         final ConnectionCallback<Integer> connectionCallback = connection -> {
@@ -99,7 +100,7 @@ class DefaultStatementSpec implements AbstractJdbcClient.StatementSpec {
     }
 
     @Override
-    public int executeUpdate(final StatementSetter<PreparedStatement> statementSetter, final LongConsumer generatedKeysConsumer) {
+    public int executeUpdate(final LongConsumer generatedKeysConsumer) {
         jdbcClient.logSql(sql);
 
         // connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS): funktioniert bei HSQLDB nicht !
@@ -181,13 +182,20 @@ class DefaultStatementSpec implements AbstractJdbcClient.StatementSpec {
     }
 
     @Override
-    public AbstractJdbcClient.QuerySpec query() {
-        return new DefaultQuerySpec(sql, jdbcClient, statementConfigurer);
+    public QuerySpec query() {
+        return new DefaultQuerySpec(sql, jdbcClient, statementConfigurer, statementSetter);
     }
 
     @Override
-    public AbstractJdbcClient.StatementSpec statementConfigurer(final StatementConfigurer statementConfigurer) {
+    public StatementSpec statementConfigurer(final StatementConfigurer statementConfigurer) {
         this.statementConfigurer = statementConfigurer;
+
+        return this;
+    }
+
+    @Override
+    public StatementSpec statementSetter(final StatementSetter<PreparedStatement> statementSetter) {
+        this.statementSetter = statementSetter;
 
         return this;
     }
