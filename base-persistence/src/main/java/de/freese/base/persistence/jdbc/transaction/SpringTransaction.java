@@ -34,11 +34,6 @@ public class SpringTransaction implements Transaction {
     }
 
     @Override
-    public void close() {
-        DataSourceUtils.releaseConnection(getConnection(), dataSource);
-    }
-
-    @Override
     public void commit() {
         // Handled by Spring-TransactionManager.
     }
@@ -51,5 +46,9 @@ public class SpringTransaction implements Transaction {
     @Override
     public void rollback() {
         // Handled by Spring-TransactionManager.
+    }
+
+    private void close() {
+        DataSourceUtils.releaseConnection(getConnection(), dataSource);
     }
 }

@@ -344,7 +344,10 @@ class TestJdbcClient {
 
         final Callable<Integer> insertCallable = () -> jdbcClient.sql("insert into person (name) values (?)").executeUpdateBatch(2, names, (ps, name) -> ps.setString(1, name));
 
-        try (Transaction transaction = jdbcClient.createTransaction()) {
+        Transaction transaction = null;
+
+        try {
+            transaction = jdbcClient.createTransaction();
             transaction.begin();
 
             final int affectedRows = ScopedValue.callWhere(JdbcClient.TRANSACTION, transaction, insertCallable);
@@ -358,6 +361,11 @@ class TestJdbcClient {
             }
 
             transaction.commit();
+        }
+        catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
 
         final List<Map<String, Object>> result = jdbcClient.sql("select * from person")

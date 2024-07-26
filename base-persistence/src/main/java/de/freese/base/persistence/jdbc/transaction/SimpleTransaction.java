@@ -44,23 +44,6 @@ public final class SimpleTransaction implements Transaction {
     }
 
     @Override
-    public void close() {
-        LOGGER.debug("close connection");
-
-        try {
-            if (connection == null || connection.isClosed()) {
-                return;
-            }
-
-            connection.close();
-            connection = null;
-        }
-        catch (SQLException ex) {
-            throw new PersistenceException(ex);
-        }
-    }
-
-    @Override
     public void commit() {
         try {
             validateConnection();
@@ -83,6 +66,22 @@ public final class SimpleTransaction implements Transaction {
             validateConnection();
             getConnection().rollback();
             close();
+        }
+        catch (SQLException ex) {
+            throw new PersistenceException(ex);
+        }
+    }
+
+    private void close() {
+        LOGGER.debug("close connection");
+
+        try {
+            if (connection == null || connection.isClosed()) {
+                return;
+            }
+
+            connection.close();
+            connection = null;
         }
         catch (SQLException ex) {
             throw new PersistenceException(ex);

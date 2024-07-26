@@ -9,6 +9,7 @@ import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
@@ -27,7 +28,8 @@ import de.freese.base.persistence.jdbc.transaction.Transaction;
 @SuppressWarnings({"preview", "unused"})
 public class JdbcClient {
     public static final ScopedValue<Transaction> TRANSACTION = ScopedValue.newInstance();
-
+    private static final Pattern PATTERN_LINE_BREAKS = Pattern.compile("(\\r\\n|\\r|\\n)");
+    private static final Pattern PATTERN_SPACES = Pattern.compile("\\s{2,}");
     private final DataSource dataSource;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Function<DataSource, Transaction> transactionHandler;
@@ -189,14 +191,12 @@ public class JdbcClient {
 
     protected void logSql(final CharSequence sql) {
         if (getLogger().isDebugEnabled()) {
-            final String value = sql.toString()
-                    .replaceAll("(\\r\\n|\\r|\\n)", " ")
-                    .replaceAll("\\s{2,}", " ")
+            String value = sql.toString();
+            value = PATTERN_LINE_BREAKS.matcher(value).replaceAll(" ");
+            value = PATTERN_SPACES.matcher(value).replaceAll(" ");
+            value = value
                     .replace("( ", "(")
                     .replace(" )", ")");
-
-            // final Pattern pattern = Pattern.compile("(\r\n|\r|\n)");
-            // pattern.matcher(value).replaceAll(" ");
 
             final String valueLowerCase = value.toLowerCase();
 

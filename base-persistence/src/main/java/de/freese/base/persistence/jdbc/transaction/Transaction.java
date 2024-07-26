@@ -6,10 +6,10 @@ import java.sql.Connection;
 /**
  * @author Thomas Freese
  */
-public interface Transaction extends AutoCloseable {
+public interface Transaction { // extends AutoCloseable {
     void begin();
 
-    void close();
+    // void close();
 
     void commit();
 
