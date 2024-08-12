@@ -83,15 +83,7 @@ public final class HibernateUtils {
         return baseClass.cast(maybeProxy);
     }
 
-    /**
-     * Liefert die Klasse des Objektes hinter dem {@link HibernateProxy}.
-     */
-    public static <T> Class<T> getClassFromProxy(final Object maybeProxy) {
-        // HibernateProxyHelper
-        return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
-    }
-
-    public static void getPersistenceStatistics(final SessionFactory sessionFactory, final PrintWriter pw) {
+    public static void dumpStatistics(final PrintWriter pw, final SessionFactory sessionFactory) {
         Object jdbcUrl = null;
 
         for (String key : List.of(JdbcSettings.JAKARTA_JDBC_URL, JdbcSettings.JAKARTA_JTA_DATASOURCE, JdbcSettings.JAKARTA_NON_JTA_DATASOURCE)) {
@@ -151,7 +143,7 @@ public final class HibernateUtils {
 
         pw.println();
         pw.println("2nd Level Cache-Regions");
-        Stream.of(stats.getSecondLevelCacheRegionNames()).sorted().map(stats::getDomainDataRegionStatistics).filter(Objects::nonNull).forEach(cacheStatistics -> {
+        Stream.of(stats.getSecondLevelCacheRegionNames()).sorted().map(stats::getCacheRegionStatistics).filter(Objects::nonNull).forEach(cacheStatistics -> {
             final long hCount = cacheStatistics.getHitCount();
             final long mCount = cacheStatistics.getMissCount();
             double hRatio = (double) hCount / (double) (hCount + mCount);
@@ -257,6 +249,14 @@ public final class HibernateUtils {
 
         pw.println();
         pw.flush();
+    }
+
+    /**
+     * Liefert die Klasse des Objektes hinter dem {@link HibernateProxy}.
+     */
+    public static <T> Class<T> getClassFromProxy(final Object maybeProxy) {
+        // HibernateProxyHelper
+        return (Class<T>) getClassWithoutInitializingProxy(maybeProxy);
     }
 
     /**

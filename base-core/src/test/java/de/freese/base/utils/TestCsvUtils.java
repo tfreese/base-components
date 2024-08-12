@@ -51,7 +51,7 @@ class TestCsvUtils {
         byte[] data = null;
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            CsvUtils.writeCsv(baos, 3, headerFunction, dataFunction, finishPredicate);
+            CsvUtils.writeCsv(baos, 3, finishPredicate, headerFunction, dataFunction);
 
             data = baos.toByteArray();
         }

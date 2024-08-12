@@ -3,13 +3,16 @@ package de.freese.base.utils;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
+import java.util.Date;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.IntFunction;
 import java.util.function.IntPredicate;
 
 import javax.swing.table.TableModel;
 
+import org.apache.poi.ooxml.POIXMLDocument;
+import org.apache.poi.ooxml.POIXMLProperties;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
@@ -29,23 +32,23 @@ public final class ExcelUtils {
         export(outputStream,
                 sheetName,
                 tableModel.getColumnCount(),
+                row -> row < tableModel.getRowCount(),
                 tableModel::getColumnName,
-                tableModel::getValueAt,
-                row -> row < tableModel.getRowCount());
+                tableModel::getValueAt);
     }
 
     /**
-     * @param outputStream {@link OutputStream}; The Stream is not closed, can or should be a {@link PrintStream}.
+     * @param outputStream {@link OutputStream}; The Stream is not closed.
+     * @param rowFinishPredicate {@link IntPredicate}; row -> true/false
      * @param headerFunction {@link IntFunction}; row -> value
      * @param valueFunction {@link BiFunction}; row, column -> value
-     * @param finishPredicate {@link IntPredicate}; row -> true/false
      */
     public static void export(final OutputStream outputStream,
                               final String sheetName,
                               final int columnCount,
+                              final IntPredicate rowFinishPredicate,
                               final IntFunction<String> headerFunction,
-                              final BiFunction<Integer, Integer, Object> valueFunction,
-                              final IntPredicate finishPredicate) throws IOException {
+                              final BiFunction<Integer, Integer, Object> valueFunction) throws IOException {
 
         try (Workbook workbook = new SXSSFWorkbook()) {
             final Sheet sheet = workbook.createSheet(sheetName);
@@ -70,12 +73,16 @@ public final class ExcelUtils {
                 final Cell cell = row.createCell(columnIndex);
                 cell.setCellStyle(cellStyleHeader);
                 cell.setCellValue(headerFunction.apply(columnIndex));
+
+                if (sheet instanceof SXSSFSheet s) {
+                    s.trackColumnForAutoSizing(columnIndex);
+                }
             }
 
             // Values
             int rowIndex = 0;
 
-            while (finishPredicate.test(rowIndex)) {
+            while (rowFinishPredicate.test(rowIndex)) {
                 row = sheet.createRow(rowIndex + 1);
 
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
@@ -100,7 +107,29 @@ public final class ExcelUtils {
             }
 
             workbook.write(outputStream);
+
+            writeMetaData(workbook);
+
             outputStream.flush();
+        }
+    }
+
+    private static void writeMetaData(final Workbook workbook) {
+        Workbook wb = workbook;
+
+        if (workbook instanceof SXSSFWorkbook sxssfWorkbook) {
+            wb = sxssfWorkbook.getXSSFWorkbook();
+        }
+
+        if (wb instanceof POIXMLDocument poixmlDocument) {
+            final Date today = new Date();
+
+            final POIXMLProperties.CoreProperties properties = poixmlDocument.getProperties().getCoreProperties();
+            properties.setTitle("Title");
+            properties.setCreator(System.getProperty("user.name"));
+            properties.setLastModifiedByUser(System.getProperty("user.name"));
+            properties.setCreated(Optional.of(today));
+            properties.setModified(Optional.of(today));
         }
     }
 

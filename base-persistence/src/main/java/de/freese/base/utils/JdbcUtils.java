@@ -426,7 +426,7 @@ public final class JdbcUtils {
             }
         };
 
-        CsvUtils.writeCsv(outputStream, columnCount, headerFunction, dataFunction, finishPredicate);
+        CsvUtils.writeCsv(outputStream, columnCount, finishPredicate, headerFunction, dataFunction);
 
         // Reset ResultSet.
         if (resultSet.getType() != ResultSet.TYPE_FORWARD_ONLY) {

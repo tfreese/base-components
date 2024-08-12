@@ -61,13 +61,13 @@ public final class CsvUtils {
     }
 
     /**
-     * @param outputStream {@link OutputStream}; The Stream is not closed, can or should be a {@link PrintStream}.
+     * @param outputStream {@link OutputStream}; The Stream is not closed.
+     * @param rowFinishPredicate {@link IntPredicate}; row -> true/false
      * @param headerFunction {@link IntFunction}; row -> value
      * @param valueFunction {@link BiFunction}; row, column -> value
-     * @param finishPredicate {@link IntPredicate}; row -> true/false
      */
-    public static void writeCsv(final OutputStream outputStream, final int columnCount, final IntFunction<String> headerFunction,
-                                final BiFunction<Integer, Integer, String> valueFunction, final IntPredicate finishPredicate) {
+    public static void writeCsv(final OutputStream outputStream, final int columnCount, final IntPredicate rowFinishPredicate, final IntFunction<String> headerFunction,
+                                final BiFunction<Integer, Integer, String> valueFunction) {
         final PrintStream printStream;
 
         if (outputStream instanceof PrintStream ps) {
@@ -110,7 +110,7 @@ public final class CsvUtils {
         // Data
         int rowIndex = 0;
 
-        while (finishPredicate.test(rowIndex)) {
+        while (rowFinishPredicate.test(rowIndex)) {
             stringJoiner = new StringJoiner(",");
 
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {

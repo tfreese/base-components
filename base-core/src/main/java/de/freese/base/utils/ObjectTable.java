@@ -87,7 +87,7 @@ public final class ObjectTable {
         final BiFunction<Integer, Integer, String> dataFunction = (row, column) -> Objects.toString(data.get(row)[column], null);
         final IntPredicate finishPredicate = row -> row < getRowCount();
 
-        CsvUtils.writeCsv(outputStream, getColumnCount(), headerFunction, dataFunction, finishPredicate);
+        CsvUtils.writeCsv(outputStream, getColumnCount(), finishPredicate, headerFunction, dataFunction);
     }
 
     /**
