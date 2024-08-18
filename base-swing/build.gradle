@@ -9,12 +9,6 @@ dependencies {
     api(project(":base-net"))
     api(project(":base-resourcemap"))
 
-    // javafx {
-    //     version = "$version_javafx"
-    //     modules = ["javafx.base"]
-    //     configuration = "implementation"
-    // }
-
     javafx {
         version = "$version_javafx"
         modules = ["javafx.controls"]
