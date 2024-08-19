@@ -1,7 +1,6 @@
-// Created: 25 Juli 2024
+// Created: 27.11.2020
 package de.freese.base.swing.components.graph.javafx;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -16,79 +15,123 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.freese.base.swing.components.graph.javafx.painter.AbstractFxGraphPainter;
+import de.freese.base.swing.components.graph.javafx.painter.BarFxGraphPainter;
+import de.freese.base.swing.components.graph.javafx.painter.LineFxGraphPainter;
 import de.freese.base.swing.components.graph.model.SinusValueSupplier;
-import de.freese.base.swing.components.graph.model.Values;
 
 /**
+ * <ol>
+ * <li>Konstruktor muss public empty-arg sein oder nicht vorhanden sein.</li>
+ * <li>VM-Parameter: --add-modules javafx.controls</li>
+ * <li>Module-Classpath: OpenJFX die jeweils 2 Jars für javafx-base, javafx-controls und javafx-graphics hinzufügen</li>s
+ * </ol>
+ *
  * @author Thomas Freese
  */
 public final class JavaFxGraphApplication extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaFxGraphApplication.class);
 
-    private final Values<Float> values = new Values<>();
+    /**
+     * @author Thomas Freese
+     */
+    private static final class CompositeGraphPainter extends AbstractFxGraphPainter {
+        private final BarFxGraphPainter barPainter = new BarFxGraphPainter();
+        private final LineFxGraphPainter linePainter = new LineFxGraphPainter();
+
+        public synchronized void addValue(final float value) {
+            this.linePainter.getValues().addValue(value);
+            this.barPainter.getValues().addValue(value);
+        }
+
+        @Override
+        public void paintGraph(final GraphicsContext gc, final double width, final double height) {
+            final double halfHeight = height / 2D;
+
+            this.linePainter.paintGraph(gc, width, halfHeight);
+
+            gc.translate(0D, halfHeight);
+            this.barPainter.paintGraph(gc, width, halfHeight);
+            gc.translate(0D, -halfHeight);
+
+            final double fontSize = 11D;
+            final Font font = new Font("Arial", fontSize);
+            // final FontMetrics metrics = Toolkit.getToolkit().getFontLoader().getFontMetrics(font);
+            // float charHeight = metrics.getLineHeight();
+
+            gc.setFont(font);
+
+            gc.setStroke(Color.MAGENTA);
+            gc.strokeText("strokeText", 10D, fontSize); // Bold
+
+            gc.setFill(Color.MAGENTA);
+            gc.fillText("fillText", 10D, fontSize * 2D);
+        }
+    }
 
     private GraphicsContext gc;
     private ScheduledExecutorService scheduledExecutorService;
+    private Supplier<Float> valueSupplier;
 
-    /**
-     * Public Constructor required by JavaFX.
-     */
-    public JavaFxGraphApplication() {
-        super();
+    @Override
+    public void init() {
+        getLogger().info("init");
     }
 
     @Override
-    public void init() throws Exception {
-        LOGGER.info("init");
-    }
+    public void start(final Stage primaryStage) {
+        // gc.beginPath();
+        // gc.moveTo(xOffset, yLast);
+        // gc.lineTo(x, y);
+        // gc.closePath();
+        // gc.stroke();
 
-    @Override
-    public void start(final Stage primaryStage) throws Exception {
-        LOGGER.info("start");
+        getLogger().info("start");
+
+        this.valueSupplier = new SinusValueSupplier();
 
         final Canvas canvas = new Canvas();
         this.gc = canvas.getGraphicsContext2D();
 
-        final Group group = new Group();
-        group.getChildren().add(canvas);
+        final Group pane = new Group();
+        pane.getChildren().add(canvas);
+
+        // final GridPane pane = new GridPane();
+        // pane.add(canvas, 0, 0);
 
         // Scene
-        final Scene scene = new Scene(group, 1280, 768, true, SceneAntialiasing.BALANCED);
+        final Scene scene = new Scene(pane, 335D, 1060D, true, SceneAntialiasing.BALANCED);
 
         // Bind canvas size to scene size.
         canvas.widthProperty().bind(scene.widthProperty());
         canvas.heightProperty().bind(scene.heightProperty());
 
-        LOGGER.info("Anti-Aliasing: {}", scene.getAntiAliasing());
+        getLogger().info("Antialiasing: {}", scene.getAntiAliasing());
 
         // Transparenz
         final boolean isTransparentSupported = Platform.isSupported(ConditionalFeature.TRANSPARENT_WINDOW);
-
-        // Decorated Frame
-        //        isTransparentSupported = false;
+        // isTransparentSupported = false;
 
         if (isTransparentSupported) {
-            // Das Fenster wird hierbei undecorated, aber der Graph wird normal gezeichnet.
+            // Fenster wird hierbei undecorated, aber der Graph wird normal gezeichnet.
 
             // For Stage
             primaryStage.initStyle(StageStyle.TRANSPARENT);
 
             // For Scene
             // scene.setFill(Color.TRANSPARENT);
-            scene.setFill(new Color(0D, 0D, 0D, 0.3D));
+            scene.setFill(new Color(0D, 0D, 0D, 0.5D));
 
             // For Containers
             // pane.setBackground(Background.EMPTY);
-            // group.setStyle("-fx-background-color: rgba(0, 0, 0, 0.3);");
+            // pane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
             // pane.setStyle("-fx-background-color: transparent;");
 
             // Das gesamte Fenster wird transparent, inklusive Titelleiste und Graph.
@@ -98,100 +141,54 @@ public final class JavaFxGraphApplication extends Application {
             scene.setFill(Color.BLACK);
         }
 
-        final Supplier<Float> valueSupplier = new SinusValueSupplier();
+        final CompositeGraphPainter graphPainter = new CompositeGraphPainter();
 
         this.scheduledExecutorService = Executors.newScheduledThreadPool(2);
         this.scheduledExecutorService.scheduleWithFixedDelay(() -> {
-            this.values.addValue(valueSupplier.get());
+            final float value = this.valueSupplier.get();
+            graphPainter.addValue(value);
 
-            final double width = this.gc.getCanvas().getWidth();
-            final double height = this.gc.getCanvas().getHeight();
-
-            Platform.runLater(() -> paintGraph(width, height));
+            if (Platform.isFxApplicationThread()) {
+                graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight());
+            }
+            else {
+                Platform.runLater(() -> graphPainter.paint(this.gc, canvas.getWidth(), canvas.getHeight()));
+            }
         }, 500L, 40L, TimeUnit.MILLISECONDS);
 
-        primaryStage.setTitle("JavaFX Graph Monitor");
+        primaryStage.setTitle("Graph Monitor");
         primaryStage.setScene(scene);
+
+        // Auf dem 2. Monitor
+        // final List<Screen> screens = Screen.getScreens();
+        // final Screen screen = screens.get(screens.size() - 1);
+        // primaryStage.setX(screen.getVisualBounds().getMinX() + 1200);
+        // primaryStage.setY(10D);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                stop();
+            }
+            catch (Exception ex) {
+                // Ignore
+            }
+        }, "ShutdownHook"));
+
         primaryStage.show();
     }
 
     @Override
     public void stop() throws Exception {
-        LOGGER.info("stop");
+        getLogger().info("stop");
 
-        this.scheduledExecutorService.shutdown();
+        this.scheduledExecutorService.close();
 
-        System.exit(0);
+        this.scheduledExecutorService.awaitTermination(3L, TimeUnit.SECONDS);
+
+        // System.exit(0); // Blockiert, wegen ShutdownHook.
     }
 
-    private void paintGraph(final double width, final double height) {
-        // this.gc.fillRect(75D, 75D, 100D, 100D);
-
-        this.gc.clearRect(0D, 0D, width, height);
-
-        // Rahmen
-        this.gc.setStroke(Color.RED);
-        this.gc.strokeRect(0D, 0D, width, height);
-
-        // this.gc.setFill(Color.BLACK);
-        // // this.gc.strokeText(Float.toString(this.valueSupplier.get()), 100D, 80D); // Bold
-        // this.gc.fillText(Float.toString(this.valueSupplier.get()), 100D, 100D); // Normal
-
-        final List<Float> valueList = this.values.getLastValues((int) width);
-
-        if (valueList.isEmpty()) {
-            return;
-        }
-
-        final double xOffset = width - valueList.size(); // Diagramm von rechts aufbauen.
-        // float xOffset = 0F; // Diagramm von links aufbauen.
-
-        final Stop[] stops = new Stop[]{new Stop(0D, Color.RED), new Stop(1D, Color.GREEN)};
-
-        // Für Balken
-        this.gc.setFill(new LinearGradient(0D, 0D, 0D, height, false, CycleMethod.NO_CYCLE, stops));
-
-        // Für Linien
-        this.gc.setStroke(new LinearGradient(0D, 0D, 0D, height, false, CycleMethod.NO_CYCLE, stops));
-
-        double yLast = valueList.getFirst();
-
-        // Sinus: x-Achse auf halber Höhe
-        final double middle = height / 2D;
-
-        yLast = (yLast * middle) + middle;
-
-        final boolean useBars = true;
-
-        for (int i = 1; i < valueList.size(); i++) {
-            final double value = valueList.get(i);
-
-            final double x = i + xOffset;
-            final double y;
-
-            if (useBars) {
-                y = Math.abs(value * middle);
-                // y = middle - (value * middle);
-                // this.gc.fillRect(x, middle, 1D, y);
-
-                if (value > 0D) {
-                    this.gc.fillRect(x, middle - y, 1D, y);
-                }
-                else {
-                    this.gc.fillRect(x, middle, 1D, y);
-                }
-            }
-            else {
-                y = middle - (value * middle);
-                this.gc.strokeLine(x - 1D, yLast, x, y);
-                yLast = y;
-            }
-        }
-
-        // this.gc.beginPath();
-        // this.gc.moveTo(xOffset, yLast);
-        // this.gc.lineTo(x, y); // gc.beginPath();gc.stroke()
-        // this.gc.closePath();
-        // this.gc.stroke();
+    private Logger getLogger() {
+        return LOGGER;
     }
 }

@@ -30,9 +30,7 @@ public final class Values<T extends Comparable<?>> {
 
         if (lastValues != null) {
             // Neue Werte hinzufügen.
-            for (T value : lastValues) {
-                valueList.add(value);
-            }
+            valueList.addAll(lastValues);
         }
 
         // Alte Werte entfernen.
@@ -46,9 +44,7 @@ public final class Values<T extends Comparable<?>> {
 
         if (lastValues != null) {
             // Neue Werte für min.-/max. hinzufügen.
-            for (T value : lastValues) {
-                treeSet.add(value);
-            }
+            treeSet.addAll(lastValues);
         }
 
         return valueList;

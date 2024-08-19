@@ -78,11 +78,10 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
 // GeneralPath path = new GeneralPath(Path2D.WIND_NON_ZERO, model.size());
 // path.moveTo(xStart, model.getYKoordinate(0, height));
 //
-// for (int i = 1; i < model.size(); i++)
-// {
-// float yValue = model.getYKoordinate(i, height);
+// for (int i = 1; i < model.size(); i++) {
+//      float yValue = model.getYKoordinate(i, height);
 //
-// path.lineTo(xStart + i, yValue);
+//      path.lineTo(xStart + i, yValue);
 // }
 //
 // // path.closePath();
@@ -92,10 +91,9 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
 // int[] x = new int[model.size()];
 // int[] y = new int[model.size()];
 //
-// for (int i = 0; i < model.size(); i++)
-// {
-// x[i] = xStart + i;
-// y[i] = (int) model.getYKoordinate(i, height);
+// for (int i = 0; i < model.size(); i++) {
+//      x[i] = xStart + i;
+//      y[i] = (int) model.getYKoordinate(i, height);
 // }
 //
 // Polygon polygon = new Polygon(x, y, model.size());

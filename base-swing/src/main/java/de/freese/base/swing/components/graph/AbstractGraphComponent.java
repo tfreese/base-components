@@ -118,18 +118,15 @@ public abstract class AbstractGraphComponent extends Component {
     // * Nur verwenden wenn Klasse von JComponent vererbt !!!
     // */
     // @Override
-    // protected void paintComponent(final Graphics g)
-    // {
+    // protected void paintComponent(final Graphics g) {
     // // super.paintComponent(g);
     //
-    // if (this.bufferedImage != null)
-    // {
+    // if (this.bufferedImage != null) {
     // getPainter().paint(this.bufferedImageGraphics2d, this, getWidth(), getHeight());
     //
     // g.drawImage(this.bufferedImage, 0, 0, this);
     // }
-    // else
-    // {
+    // else {
     // Graphics2D g2d = (Graphics2D) g;
     //
     // getPainter().paint(g2d, this, getWidth(), getHeight());

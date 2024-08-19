@@ -29,7 +29,7 @@ public class LineGraphPainter extends AbstractGraphPainter {
 
         // Sinus: x-Achse auf halber Höhe
         final float middle = height / 2F;
-        float yLast = middle - (values.get(0) * middle);
+        float yLast = middle - (values.getFirst() * middle);
 
         for (int i = 1; i < values.size(); i++) {
             final float value = values.get(i);
