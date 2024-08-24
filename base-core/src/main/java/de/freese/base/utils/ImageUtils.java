@@ -630,6 +630,10 @@ public final class ImageUtils {
         return Toolkit.getDefaultToolkit().createImage(prod);
     }
 
+    public static Icon toImageIcon(final Image image) {
+        return new ImageIcon(image);
+    }
+
     /**
      * Liefert das geschärfte Bild.
      */
