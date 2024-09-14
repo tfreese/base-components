@@ -4,6 +4,7 @@ package de.freese.base.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -16,6 +17,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,6 +28,30 @@ import java.util.stream.Stream;
  * @author Thomas Freese
  */
 public final class ClassUtils {
+
+    /**
+     * Returns all Resources find by the ClassLoader in this Path, non-recursive.
+     */
+    public static List<Path> findResources(final String path) throws IOException, URISyntaxException {
+        final List<Path> resources = new ArrayList<>();
+
+        final Enumeration<URL> enumeration = Thread.currentThread().getContextClassLoader().getResources(path);
+
+        while (enumeration.hasMoreElements()) {
+            final URL url = enumeration.nextElement();
+
+            try (FileSystem fileSystem = FileSystems.newFileSystem(url.toURI(), Map.of())) {
+                final Path pathImages = fileSystem.getPath("images");
+
+                try (Stream<Path> stream = Files.walk(pathImages, 1)) {
+                    stream.forEach(resources::add);
+                }
+            }
+        }
+
+        return resources;
+    }
+
     /**
      * Liefert alle Klassen im Package und Sub-Packages.<br>
      * Funktioniert nicht bei Runtime-Packages.
