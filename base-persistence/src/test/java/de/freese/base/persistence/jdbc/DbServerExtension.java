@@ -91,7 +91,8 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
         switch (getDatabaseType()) {
             case HSQL:
             case H2:
-                // Handled already by hsql with 'shutdown=true'.
+                // Handled already by hsql with ';shutdown=true'.
+                // Handled already by h2 with ';DB_CLOSE_ON_EXIT=FALSE'.
                 //                try (Connection connection = this.dataSource.getConnection();
                 //                     Statement statement = connection.createStatement()) {
                 //                    statement.execute("SHUTDOWN COMPACT");
