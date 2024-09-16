@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.concurrent.ForkJoinPool;
 
@@ -53,7 +54,7 @@ public final class DateServerMain extends Thread {
                 this.outputStream.write(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
                 this.outputStream.flush();
 
-                // close streams and connections
+                // Close streams and connections.
                 this.outputStream.close();
                 this.clientSocket.close();
             }
@@ -63,7 +64,7 @@ public final class DateServerMain extends Thread {
         }
     }
 
-    public static void main(final String[] argv) throws Exception {
+    public static void main(final String[] args) throws Exception {
         final DateServerMain server = new DateServerMain();
         server.start();
     }
@@ -73,14 +74,27 @@ public final class DateServerMain extends Thread {
     private DateServerMain() throws Exception {
         super();
 
-        final boolean isSSL = true;
+        final boolean useSSL = false;
         final ServerSocketFactory serverSocketFactory;
 
-        if (isSSL) {
+        if (useSSL) {
             // final SSLContext sslContext = SslContextFactory.createDefault();
-            final SSLContext sslContext =
-                    SslContextFactory.createSslContext("CA/openssl/server_keystore.p12", "password".toCharArray(), "CA/openssl/client_truststore.p12", "password".toCharArray(),
-                            "password".toCharArray());
+            Path basePath = Path.of(System.getProperty("user.dir"));
+
+            while (basePath != null && !basePath.endsWith("base-components")) {
+                basePath = basePath.getParent();
+            }
+
+            basePath = basePath.resolve("base-security").resolve("CA").resolve("keytool");
+
+            final SSLContext sslContext = new SslContextBuilder()
+                    .keyStorePath(basePath.resolve("server_keystore.p12"))
+                    .keyStorePassword("password".toCharArray())
+                    .trustStorePath(basePath.resolve("client_truststore.p12"))
+                    .trustStorePassword("password".toCharArray())
+                    .certPassword("password".toCharArray())
+                    .trustLocalHost(true)
+                    .build();
 
             serverSocketFactory = sslContext.getServerSocketFactory();
         }
@@ -88,7 +102,7 @@ public final class DateServerMain extends Thread {
             serverSocketFactory = ServerSocketFactory.getDefault();
         }
 
-        this.serverSocket = serverSocketFactory.createServerSocket(3000);
+        this.serverSocket = serverSocketFactory.createServerSocket(3333);
 
         if (this.serverSocket instanceof SSLServerSocket sslServerSocket) {
             sslServerSocket.setNeedClientAuth(true);

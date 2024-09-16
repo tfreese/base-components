@@ -4,6 +4,7 @@ package de.freese.base.security.ssl;
 import java.io.InputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
@@ -14,16 +15,29 @@ import javax.net.ssl.SSLSocket;
  * @author Thomas Freese
  */
 public final class DateClientMain {
-    public static void main(final String[] argv) {
+    public static void main(final String[] args) {
         try {
-            final boolean isSSL = true;
+            final boolean useSSL = false;
             final SocketFactory socketFactory;
 
-            if (isSSL) {
+            if (useSSL) {
                 // final SSLContext sslContext = SslContextFactory.createDefault();
-                final SSLContext sslContext =
-                        SslContextFactory.createSslContext("CA/openssl/client_keystore.p12", "password".toCharArray(), "CA/openssl/server_truststore.p12", "password".toCharArray(),
-                                "password".toCharArray());
+                Path basePath = Path.of(System.getProperty("user.dir"));
+
+                while (basePath != null && !basePath.endsWith("base-components")) {
+                    basePath = basePath.getParent();
+                }
+
+                basePath = basePath.resolve("base-security").resolve("CA").resolve("keytool");
+
+                final SSLContext sslContext = new SslContextBuilder()
+                        .keyStorePath(basePath.resolve("client_keystore.p12"))
+                        .keyStorePassword("password".toCharArray())
+                        .trustStorePath(basePath.resolve("server_truststore.p12"))
+                        .trustStorePassword("password".toCharArray())
+                        .certPassword("password".toCharArray())
+                        .trustLocalHost(true)
+                        .build();
 
                 socketFactory = sslContext.getSocketFactory();
             }
@@ -31,7 +45,7 @@ public final class DateClientMain {
                 socketFactory = SocketFactory.getDefault();
             }
 
-            try (Socket socket = socketFactory.createSocket("localhost", 3000)) {
+            try (Socket socket = socketFactory.createSocket("localhost", 3333)) {
                 if (socket instanceof SSLSocket sslSocket) {
                     sslSocket.startHandshake();
 
