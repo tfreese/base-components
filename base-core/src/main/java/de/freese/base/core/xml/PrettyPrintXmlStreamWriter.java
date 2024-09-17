@@ -47,7 +47,7 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
 
         this.delegate = delegate;
 
-        this.lineSeparator = System.getProperty("line.separator");
+        this.lineSeparator = System.lineSeparator();
     }
 
     @Override

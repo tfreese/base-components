@@ -25,7 +25,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
 
         this.target = target;
 
-        this.lineSeparator = System.getProperty("line.separator");
+        this.lineSeparator = System.lineSeparator();
     }
 
     @Override
