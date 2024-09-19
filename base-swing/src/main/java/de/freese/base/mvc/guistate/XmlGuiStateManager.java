@@ -2,6 +2,7 @@ package de.freese.base.mvc.guistate;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
@@ -56,6 +57,7 @@ public final class XmlGuiStateManager extends AbstractGuiStateManager {
 
             this.marshaller = jaxbContext.createMarshaller();
             this.marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            this.marshaller.setProperty(Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.name());
 
             this.unMarshaller = jaxbContext.createUnmarshaller();
         }

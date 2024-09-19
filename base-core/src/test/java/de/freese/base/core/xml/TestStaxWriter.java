@@ -4,7 +4,6 @@ package de.freese.base.core.xml;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 import javax.xml.stream.XMLStreamWriter;
@@ -21,24 +20,19 @@ class TestStaxWriter {
 
         // System.setProperty("javax.xml.stream.XMLOutputFactory", value) ;
 
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final String xml;
 
-        try (OutputStream os = baos) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             // OutputStream os1 = new ByteArrayOutputStream();
 
             // XMLOutputFactory factory = XMLOutputFactory.newInstance();
             // factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
-            // XMLStreamWriter writer = factory.createXMLStreamWriter(os, encoding);
-            final XMLStreamWriter writer = new PrettyPrintXmlStreamWriter(os, encoding);
+            // XMLStreamWriter writer = factory.createXMLStreamWriter(outputStream, encoding);
+            final XMLStreamWriter writer = new PrettyPrintXmlStreamWriter(outputStream, encoding);
 
             // PrettyPrint per Proxy
-            // StaxPrettyPrintHandler handler = new StaxPrettyPrintHandler(writer);
-            // writer =
-            // (XMLStreamWriter) Proxy.newProxyInstance(XMLStreamWriter.class.getClassLoader(),
-            // new Class[]
-            // {
-            // XMLStreamWriter.class
-            // }, handler);
+            // final StaxPrettyPrintHandler handler = new StaxPrettyPrintHandler(writer);
+            // writer = (XMLStreamWriter) Proxy.newProxyInstance(XMLStreamWriter.class.getClassLoader(), new Class[]{XMLStreamWriter.class}, handler);
 
             writer.writeStartDocument(encoding, "1.0");
 
@@ -69,6 +63,8 @@ class TestStaxWriter {
 
             writer.flush();
             writer.close();
+
+            xml = outputStream.toString(StandardCharsets.UTF_8);
         }
 
         // Transformation, PrettyPrint
@@ -84,7 +80,6 @@ class TestStaxWriter {
         // xmlInput.getInputStream().close();
         // xmlOutput.getOutputStream().close();
 
-        final String xml = baos.toString(StandardCharsets.UTF_8);
         System.out.println(xml);
 
         assertTrue(true);
