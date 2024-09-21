@@ -44,6 +44,12 @@ public final class UICustomization {
         installDefaults();
     }
 
+    public static void main(final String[] args) throws Exception {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+        writeUIDefaults(System.out);
+    }
+
     public static void setDefaultFont(final Font font) {
         for (Entry<Object, Object> entry : UIManager.getDefaults().entrySet()) {
             final Object key = entry.getKey();
@@ -108,28 +114,20 @@ public final class UICustomization {
     }
 
     public static void writeUIDefaults(final OutputStream outputStream) {
-        // TeeOutputStream os = new TeeOutputStream(outputStream, System.out);
-        // Formatter formatter = new Formatter(os);
-
-        try (Formatter formatterConsole = new Formatter(System.out);
-             Formatter formatterFile = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN)) {
+        try (Formatter formatter = new Formatter(outputStream, StandardCharsets.UTF_8, Locale.GERMAN)) {
             final UIDefaults uiDefaults = UIManager.getLookAndFeelDefaults();
 
-            final String format = "%1$s \t %2$s \n";
-
             uiDefaults.entrySet().stream()
-                    .sorted(Comparator.comparing(e -> e.getKey().toString()))
+                    .sorted(Comparator.comparing(entry -> entry.getKey().toString()))
                     .forEach(entry -> {
                         final String key = entry.getKey().toString();
                         final String value = Objects.toString(entry.getValue(), "NULL");
 
-                        formatterConsole.format(format, key, value);
-                        formatterFile.format(format, key, value);
+                        formatter.format("%1$s \t %2$s %n", key, value);
                     })
             ;
 
-            formatterConsole.flush();
-            formatterFile.flush();
+            formatter.flush();
         }
     }
 

@@ -169,7 +169,7 @@ public final class XmlUtils {
             return jaxbContext;
         }
 
-        jaxbContext = JAXBContext.newInstance(clazzes.toArray(new Class[0]));
+        jaxbContext = JAXBContext.newInstance(clazzes.toArray(new Class<?>[0]));
 
         JAXB_CONTEXT_CACHE.put(key, jaxbContext);
 
