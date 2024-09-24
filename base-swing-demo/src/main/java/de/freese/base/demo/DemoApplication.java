@@ -185,7 +185,7 @@ public class DemoApplication {
             getLogger().error(ex.getMessage(), ex);
         }
 
-        UIManager.getLookAndFeelDefaults().put("ToolTip.background", Color.WHITE);
+        UIManager.put("ToolTip.background", Color.WHITE);
 
         if (System.getProperty("os.name").contains("Mac OS X")) {
             // When using the Aqua look and feel, this property puts Swing menus in the Mac OS X
