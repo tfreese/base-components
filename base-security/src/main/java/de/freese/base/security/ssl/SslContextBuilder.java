@@ -70,7 +70,7 @@ public final class SslContextBuilder {
         final HostnameVerifier defaultHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
 
         return (hostname, session) -> {
-            if ((trustLocalHost && hostname.contains("localhost")) || hostname.contains("remotehost")) {
+            if (trustLocalHost && hostname.contains("localhost") || hostname.contains("remotehost")) {
                 return true;
             }
 

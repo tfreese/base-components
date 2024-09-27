@@ -47,7 +47,7 @@ public final class XmlUtils {
     private static final Map<String, JAXBContext> JAXB_CONTEXT_CACHE = new HashMap<>();
     private static final Map<Class<?>, Schema> SCHEMA_CACHE = new HashMap<>();
 
-    private static class XmlValidationErrorHandler implements ErrorHandler {
+    private static final class XmlValidationErrorHandler implements ErrorHandler {
         private static final Logger LOGGER = LoggerFactory.getLogger(XmlValidationErrorHandler.class);
 
         private final Set<String> messages = new HashSet<>();
