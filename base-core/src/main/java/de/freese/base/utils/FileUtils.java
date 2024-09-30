@@ -41,17 +41,13 @@ public final class FileUtils {
     }
 
     public static void deleteDirectoryRecursive(final File file) throws IOException {
-        if (file == null) {
-            throw new NullPointerException("file required");
-        }
+        Objects.requireNonNull(file, "file required");
 
         deleteDirectoryRecursive(file.toPath());
     }
 
     public static void deleteDirectoryRecursive(final Path path) throws IOException {
-        if (path == null) {
-            throw new NullPointerException("path required");
-        }
+        Objects.requireNonNull(path, "path required");
 
         if (!Files.exists(path)) {
             return;

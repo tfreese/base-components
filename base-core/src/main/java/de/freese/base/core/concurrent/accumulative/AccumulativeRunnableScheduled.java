@@ -11,11 +11,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
- * Time-Controlled {@link AccumulativeRunnable}.
+ * Time-Controlled {@link AbstractAccumulativeRunnable}.
  *
  * @author Thomas Freese
  */
-public class AccumulativeRunnableScheduled<T> extends AccumulativeRunnable<T> {
+public class AccumulativeRunnableScheduled<T> extends AbstractAccumulativeRunnable<T> {
     private final Duration delay;
     private final ScheduledExecutorService scheduledExecutor;
 

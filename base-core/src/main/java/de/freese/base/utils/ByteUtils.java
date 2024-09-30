@@ -144,7 +144,7 @@ public final class ByteUtils {
         return oid;
     }
 
-    public static byte[] hexToBytes(final CharSequence hexString) throws Exception {
+    public static byte[] hexToBytes(final CharSequence hexString) {
         return HexFormat.of().parseHex(hexString);
         //        if ((hexString.length() % 2) == 1)
         //        {
@@ -285,10 +285,31 @@ public final class ByteUtils {
     }
 
     public static int toInt(final byte[] value) {
-        return ((value[0] & 0xFF) << 24)
-                + ((value[1] & 0xFF) << 16)
-                + ((value[2] & 0xFF) << 8)
-                + (value[3] & 0xFF);
+        return toInt(value, true);
+    }
+
+    public static int toInt(final byte[] value, final boolean bigEndian) {
+        if (bigEndian) {
+            return ((value[0] & 0xFF) << 24)
+                    + ((value[1] & 0xFF) << 16)
+                    + ((value[2] & 0xFF) << 8)
+                    + (value[3] & 0xFF);
+        }
+
+        return ((value[3] & 0xFF) << 24)
+                + ((value[2] & 0xFF) << 16)
+                + ((value[1] & 0xFF) << 8)
+                + (value[0] & 0xFF);
+    }
+
+    public static int toIntFromUnsigned(final byte[] value) {
+        int result = 0;
+
+        for (final byte b : value) {
+            result = (result * 10) + (b & 0xFF);
+        }
+
+        return result;
     }
 
     public static long toLong(final byte[] value) {

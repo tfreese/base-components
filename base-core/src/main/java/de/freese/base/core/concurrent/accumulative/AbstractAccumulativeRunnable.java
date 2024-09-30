@@ -28,11 +28,11 @@ import javax.swing.SwingUtilities;
  * JLabel.setText is called rapidly many times off the EDT we will get many updates on the EDT but only the last one is important. (Every next updates overrides
  * the previous one.) We might want to implement this {@code setText} in a way that only the last update is delivered.<br>
  * <br>
- * Here is how one can do this using {@code AccumulativeRunnable}:
+ * Here is how one can do this using {@code AbstractAccumulativeRunnable}:
  *
  * <pre>
- * {@code AccumulativeRunnable<String> doSetTextImpl =
- *  new  AccumulativeRunnable<String>()} {
+ * {@code AbstractAccumulativeRunnable<String> doSetTextImpl =
+ *  new  AbstractAccumulativeRunnable<String>()} {
  *    {@literal @Override}
  *    {@code protected void run(List<String> args)} {
  *         //set to the last string being passed
@@ -48,11 +48,11 @@ import javax.swing.SwingUtilities;
  * Say we want to implement addDirtyRegion(Rectangle rect) which sends this region to the {@code handleDirtyRegions(List<Rect> regions)} on the EDT.
  * addDirtyRegions better be accumulated before handling on the EDT.<br>
  * <br>
- * Here is how it can be implemented using AccumulativeRunnable:
+ * Here is how it can be implemented using AbstractAccumulativeRunnable:
  *
  * <pre>
- * {@code AccumulativeRunnable<Rectangle> doHandleDirtyRegions =}
- *    {@code new AccumulativeRunnable<Rectangle>()} {
+ * {@code AbstractAccumulativeRunnable<Rectangle> doHandleDirtyRegions =}
+ *    {@code new AbstractAccumulativeRunnable<Rectangle>()} {
  *        {@literal @Override}
  *        {@code protected void run(List<Rectangle> args)} {
  *             handleDirtyRegions(args);
@@ -68,7 +68,7 @@ import javax.swing.SwingUtilities;
  * @see "sun.swing.AccumulativeRunnable"
  * @since 1.6
  */
-public abstract class AccumulativeRunnable<T> implements Runnable {
+public abstract class AbstractAccumulativeRunnable<T> implements Runnable {
     private List<T> arguments;
 
     public final synchronized void add(final T arg) {

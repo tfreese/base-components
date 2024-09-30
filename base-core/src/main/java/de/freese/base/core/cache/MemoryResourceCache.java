@@ -40,8 +40,7 @@ public class MemoryResourceCache extends AbstractResourceCache {
                 // // long count = 0;
                 // int n = 0;
                 //
-                // while ((n = inputStream.read(buffer)) != -1)
-                // {
+                // while ((n = inputStream.read(buffer)) != -1) {
                 // baos.write(buffer, 0, n);
                 // // count += n;
                 // }

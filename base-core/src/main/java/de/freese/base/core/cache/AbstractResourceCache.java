@@ -22,12 +22,12 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractResourceCache implements ResourceCache {
     private final HexFormat hexFormat;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final MessageDigest messageDigest;
+
+    private MessageDigest messageDigest;
 
     protected AbstractResourceCache() {
         super();
 
-        this.messageDigest = createMessageDigest();
         this.hexFormat = HexFormat.of().withUpperCase();
     }
 
@@ -60,18 +60,17 @@ public abstract class AbstractResourceCache implements ResourceCache {
 
         return getHexFormat().formatHex(digest);
 
-        //        uriString = uriString.replace(':', '/');
-        //        uriString = uriString.replace('?', '/');
-        //        uriString = uriString.replace('&', '/');
-        //        uriString = uriString.replace(' ', '_');
-        //        uriString = uriString.replace("%20", "_");
+        // uriString = uriString.replace(':', '/');
+        // uriString = uriString.replace('?', '/');
+        // uriString = uriString.replace('&', '/');
+        // uriString = uriString.replace(' ', '_');
+        // uriString = uriString.replace("%20", "_");
         //
-        //        while (uriString.contains("//"))
-        //        {
-        //            uriString = uriString.replace("//", "/");
-        //        }
+        // while (uriString.contains("//")) {
+        //     uriString = uriString.replace("//", "/");
+        // }
         //
-        //        return uriString;
+        // return uriString;
     }
 
     protected long getContentLength(final URI uri) throws IOException {
@@ -120,6 +119,10 @@ public abstract class AbstractResourceCache implements ResourceCache {
     }
 
     protected MessageDigest getMessageDigest() {
+        if (messageDigest == null) {
+            messageDigest = createMessageDigest();
+        }
+
         return this.messageDigest;
     }
 
