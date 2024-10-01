@@ -81,8 +81,8 @@ public final class PbeCryptoAesGcm implements Crypto {
         final byte[] salt = new byte[SALT_LENGTH];
         inputStream.read(salt);
 
-        final SecretKey secret = getSecretKey(password, salt);
-        final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secret, iv);
+        final SecretKey secretKey = getSecretKey(password, salt);
+        final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, iv);
 
         return new CipherInputStream(inputStream, cipher);
     }
@@ -105,10 +105,10 @@ public final class PbeCryptoAesGcm implements Crypto {
     @Override
     public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
-        final SecretKey secret = getSecretKey(password, salt);
+        final SecretKey secretKey = getSecretKey(password, salt);
 
         final byte[] iv = generateRandomBytes(IV_LENGTH);
-        final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secret, iv);
+        final Cipher cipher = initCipher(Cipher.ENCRYPT_MODE, secretKey, iv);
 
         // prefix IV and Salt
         outputStream.write(iv);

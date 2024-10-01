@@ -81,6 +81,7 @@ public final class KeyPairCryptoEcdhForAes implements Crypto {
         final byte[] decoded = Encoding.BASE64.decode(encrypted);
 
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, secretKey, initVector);
+
         final byte[] decrypted = cipher.doFinal(decoded);
 
         return new String(decrypted, CHARSET);

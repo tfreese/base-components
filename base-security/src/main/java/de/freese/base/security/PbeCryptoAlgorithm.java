@@ -107,8 +107,8 @@ public final class PbeCryptoAlgorithm implements Crypto {
         final byte[] salt = new byte[SALT_LENGTH];
         inputStream.read(salt);
 
-        final SecretKey secret = getSecretKey(algorithm, password, salt);
-        final Cipher cipher = initCipher(algorithm, Cipher.DECRYPT_MODE, secret, salt);
+        final SecretKey secretKey = getSecretKey(algorithm, password, salt);
+        final Cipher cipher = initCipher(algorithm, Cipher.DECRYPT_MODE, secretKey, salt);
 
         return new CipherInputStream(inputStream, cipher);
     }
@@ -120,8 +120,8 @@ public final class PbeCryptoAlgorithm implements Crypto {
         final byte[] salt = Arrays.copyOfRange(decoded, 0, SALT_LENGTH);
         final byte[] encryptedBytes = Arrays.copyOfRange(decoded, SALT_LENGTH, decoded.length);
 
-        final SecretKey secret = getSecretKey(algorithm, password, salt);
-        final Cipher cipher = initCipher(algorithm, Cipher.DECRYPT_MODE, secret, salt);
+        final SecretKey secretKey = getSecretKey(algorithm, password, salt);
+        final Cipher cipher = initCipher(algorithm, Cipher.DECRYPT_MODE, secretKey, salt);
 
         final byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
 
@@ -131,10 +131,11 @@ public final class PbeCryptoAlgorithm implements Crypto {
     @Override
     public CipherOutputStream encrypt(final OutputStream outputStream) throws Exception {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
-        final SecretKey secret = getSecretKey(algorithm, password, salt);
+        final SecretKey secretKey = getSecretKey(algorithm, password, salt);
 
         final byte[] iv = generateRandomBytes(IV_LENGTH);
-        final Cipher cipher = initCipher(algorithm, Cipher.ENCRYPT_MODE, secret, salt);
+
+        final Cipher cipher = initCipher(algorithm, Cipher.ENCRYPT_MODE, secretKey, salt);
 
         // prefix IV and Salt
         outputStream.write(iv);
@@ -147,10 +148,10 @@ public final class PbeCryptoAlgorithm implements Crypto {
     public String encrypt(final String message) throws Exception {
         final byte[] salt = generateRandomBytes(SALT_LENGTH);
         // final byte[] salt = new byte[0];
-        final SecretKey secret = getSecretKey(algorithm, password, salt);
+        final SecretKey secretKey = getSecretKey(algorithm, password, salt);
 
         // final byte[] iv = generateRandomBytes(IV_LENGTH);
-        final Cipher cipher = initCipher(algorithm, Cipher.ENCRYPT_MODE, secret, salt);
+        final Cipher cipher = initCipher(algorithm, Cipher.ENCRYPT_MODE, secretKey, salt);
 
         final byte[] encryptedBytes = cipher.doFinal(message.getBytes());
 

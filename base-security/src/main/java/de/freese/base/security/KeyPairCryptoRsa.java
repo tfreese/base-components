@@ -67,6 +67,7 @@ public final class KeyPairCryptoRsa implements Crypto {
         final byte[] decoded = Encoding.BASE64.decode(encrypted);
 
         final Cipher cipher = initCipher(Cipher.DECRYPT_MODE, privateKey);
+
         final byte[] decrypted = cipher.doFinal(decoded);
 
         return new String(decrypted, CHARSET);
