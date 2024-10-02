@@ -5,7 +5,7 @@ plugins {
     id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
     id "org.springframework.boot" version "$version_springBoot" apply false
 
-    id "name.remal.sonarlint" version "$version_nameRemalSonarlint" apply false
+    id "name.remal.sonarlint" version "$version_nameRemalSonarlintPlugin" apply false
     id "de.freese.gradle.sonarlint-conventions" version "$version_myConventionPlugin" apply false
 }
 
