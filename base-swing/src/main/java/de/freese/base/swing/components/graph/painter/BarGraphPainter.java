@@ -25,7 +25,7 @@ public class BarGraphPainter extends AbstractGraphPainter {
         final float xOffset = width - values.size(); // Diagramm von rechts aufbauen.
         // float xOffset = 0F; // Diagramm von links aufbauen.
 
-        g.setPaint(new GradientPaint(0, 0, Color.RED, 0, height, Color.GREEN));
+        g.setPaint(new GradientPaint(0F, 0F, Color.RED, 0F, height, Color.GREEN));
 
         // Sinus: x-Achse auf halber Höhe
         final float middle = height / 2F;

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -79,12 +80,12 @@ public final class ButtonFactory {
         return createToolbarButton(16);
     }
 
-    public static void decorateMoveButton(final JButton button, final ArrowDirection direction, final int fontSize) {
+    public static void decorateMoveButton(final AbstractButton button, final ArrowDirection direction, final int fontSize) {
         button.setFont(FontUtils.getSymbolFont().deriveFont(Font.PLAIN, fontSize));
         button.setText(direction.getText());
     }
 
-    public static void decorateToHTMLButton(final JButton button, final Color rolloverColor) {
+    public static void decorateToHTMLButton(final AbstractButton button, final Color rolloverColor) {
         button.setUI(new HtmlTextButtonUI(rolloverColor));
         button.setBorderPainted(false);
         button.setBorder(null);
