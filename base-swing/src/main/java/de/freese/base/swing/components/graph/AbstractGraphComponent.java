@@ -42,7 +42,7 @@ public abstract class AbstractGraphComponent extends Component {
     }
 
     /**
-     * Nur verwenden, wenn Klasse von Component vererbt !!!
+     * Nur verwenden, wenn Klasse von Component vererbt!
      */
     @Override
     public void paint(final Graphics g) {
@@ -107,16 +107,25 @@ public abstract class AbstractGraphComponent extends Component {
     }
 
     protected void onComponentResized(final ComponentEvent event) {
-        // this.bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-        this.bufferedImage = getGraphicsConfiguration().createCompatibleImage(getWidth(), getHeight(), Transparency.TRANSLUCENT);
-        // this.bufferedImage = (BufferedImage) createImage(getWidth(), getHeight());
+        // bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+        bufferedImage = getGraphicsConfiguration().createCompatibleImage(getWidth(), getHeight(), Transparency.TRANSLUCENT);
+        // bufferedImage = (BufferedImage) createImage(getWidth(), getHeight());
 
-        this.bufferedImageGraphics2d = this.bufferedImage.createGraphics();
+        bufferedImageGraphics2d = bufferedImage.createGraphics();
+    }
+
+    protected void onMouseClicked(final MouseEvent event) {
+        // Empty
     }
 
     // /**
-    // * Nur verwenden wenn Klasse von JComponent vererbt !!!
+    // * Nur verwenden wenn Klasse von JComponent vererbt!
     // */
+    // @Override
+    // protected void printChildren(final Graphics g) {
+    // // There are no Children.
+    // // super.paintChildren(g);
+    // }
     // @Override
     // protected void paintComponent(final Graphics g) {
     // // super.paintComponent(g);
@@ -132,8 +141,4 @@ public abstract class AbstractGraphComponent extends Component {
     // getPainter().paint(g2d, this, getWidth(), getHeight());
     // }
     // }
-
-    protected void onMouseClicked(final MouseEvent event) {
-        // Empty
-    }
 }

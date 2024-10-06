@@ -64,13 +64,13 @@ public abstract class AbstractGraphPainter extends AbstractPainterModel implemen
     }
 
     /**
-     * Koordinatenursprung von oben links nach unten links verlegen.
+     * Translate the Coordinate-Origin from upper left to lower left.
      */
     protected void translateCoordinates(final Graphics2D g, final int height) {
-        // Kippt die y-Achse nach oben.
+        // Swap the y-Axis to above.
         g.scale(1.0D, -1.0D);
 
-        // Verschiebt die 0-0 Koordinate nach unten.
+        // Translate the 0-0 Coordinate downward.
         g.translate(0, -height);
     }
 }
