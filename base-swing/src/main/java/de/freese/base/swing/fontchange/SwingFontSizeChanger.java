@@ -110,14 +110,10 @@ public final class SwingFontSizeChanger {
 
     public void register(final Object object) {
         final PropertyChangeListener fontListener = event -> {
-            if (object instanceof JComponent c) {
-                updateFontForComponent(getFont(), c);
-            }
-            else if (object instanceof Container c) {
-                updateFontForContainer(getFont(), c);
-            }
-            else {
-                updateFontForObject(getFont(), object);
+            switch (object) {
+                case JComponent c -> updateFontForComponent(getFont(), c);
+                case Container c -> updateFontForContainer(getFont(), c);
+                default -> updateFontForObject(getFont(), object);
             }
         };
 
@@ -138,7 +134,7 @@ public final class SwingFontSizeChanger {
     }
 
     public void setFontSize(final float fontSize) {
-        if (getFontSize() == fontSize) {
+        if (getFontSize() == (int) fontSize) {
             return;
         }
 
@@ -161,14 +157,10 @@ public final class SwingFontSizeChanger {
         final Component[] components = container.getComponents();
 
         for (Component comp : components) {
-            if (comp instanceof JComponent c) {
-                updateFontForComponent(newFont, c);
-            }
-            else if (comp instanceof Container c) {
-                updateFontForContainer(newFont, c);
-            }
-            else {
-                updateFontForObject(newFont, comp);
+            switch (comp) {
+                case JComponent c -> updateFontForComponent(newFont, c);
+                case Container c -> updateFontForContainer(newFont, c);
+                default -> updateFontForObject(newFont, comp);
             }
         }
     }

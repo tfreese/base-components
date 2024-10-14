@@ -73,17 +73,11 @@ public class RendererKeySelectionManager implements KeySelectionManager {
 
         final Component rendererComponent = this.comboBox.getRenderer().getListCellRendererComponent(this.list, value, row, false, false);
 
-        String text = null;
-
-        if (rendererComponent instanceof JLabel l) {
-            text = l.getText();
-        }
-        else if (rendererComponent instanceof JTextComponent tc) {
-            text = tc.getText();
-        }
-        else {
-            text = value.toString();
-        }
+        final String text = switch (rendererComponent) {
+            case JLabel l -> l.getText();
+            case JTextComponent tc -> tc.getText();
+            default -> value.toString();
+        };
 
         return text.toLowerCase();
     }

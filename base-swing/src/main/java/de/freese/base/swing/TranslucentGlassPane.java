@@ -135,7 +135,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
             repaint();
         }
 
-        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / (getShowDelayMillies() / getTimerIncrementMillies());
+        this.alphaIncrement = (this.alphaEnd - this.alphaStart) / ((double) getShowDelayMillies() / getTimerIncrementMillies());
     }
 
     /**

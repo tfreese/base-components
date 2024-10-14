@@ -193,13 +193,7 @@ public class LedMatrix implements Painter<LedConfig> {
     }
 
     public void paintElement(final Graphics2D g, final LedConfig config, final int width, final int height) {
-        final int leftInset = config.getDotWidth() + config.getHgap();
-        int x = leftInset;
-
-        // TODO Hier Ansetzen für das Scrolling.
-        // LinkedList<byte[]> des gesamten Elements.
-        // byte[] mask = linkedList.remove(0);
-        // linkedList.add(mask);
+        int x = config.getDotWidth() + config.getHgap();
 
         for (Token<?> token : config.getTokens()) {
             x = paintToken(g, config, width, height, token, x);
@@ -239,10 +233,8 @@ public class LedMatrix implements Painter<LedConfig> {
         // g.fillRect(0, 0, width, height);
         // g.setColor(config.getColorBackgroundDot());
         //
-        // for (int x = 0; x < width; x += dotWidth + hGap)
-        // {
-        // for (int y = 0; y < height; y += dotHeight + vGap)
-        // {
+        // for (int x = 0; x < width; x += dotWidth + hGap) {
+        // for (int y = 0; y < height; y += dotHeight + vGap) {
         // g.fillRect(x, y, dotWidth, dotHeight);
         // // g.fillOval(x, y, dotWidth, dotHeight);
         // // g.fillArc(x, y, dotWidth, dotHeight, 0, 360);

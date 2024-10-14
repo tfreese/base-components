@@ -227,9 +227,6 @@ public final class ErrorPane extends JPanel {
             }
 
             this.buttonSend.addActionListener(event -> {
-                // TODO Still in progress
-                // String userID = Context.getUser().getUserId();
-
                 try {
                     final Component x = getOwner();
                     Component ownerParent = SwingUtilities.getAncestorOfClass(Dialog.class, x);
@@ -249,8 +246,7 @@ public final class ErrorPane extends JPanel {
                     // mailWrapper.setSubject("Exception (" + userID + ")");
                     mailWrapper.setAdditionalHeader("System-Category", "EXCEPTION");
 
-                    // for (String recipient : recipients)
-                    // {
+                    // for (String recipient : recipients) {
                     // mailWrapper.addTO(recipient);
                     // }
 
@@ -269,18 +265,15 @@ public final class ErrorPane extends JPanel {
                     // helper.setFrom("system@mail.de");
                     // helper.setSubject("Exception");
                     //
-                    // for (String recipient : recipients)
-                    // {
+                    // for (String recipient : recipients) {
                     // helper.addTo(recipient);
                     // }
                     //
                     // helper.setText(getDetailsAsHTML(getErrorInfo()), true);
                     //
-                    // Resource resource = new InputStreamResource(dataSource.getInputStream())
-                    // {
+                    // Resource resource = new InputStreamResource(dataSource.getInputStream()) {
                     // @Override
-                    // public boolean isOpen()
-                    // {
+                    // public boolean isOpen() {
                     // return false;
                     // }
                     // };
@@ -418,7 +411,7 @@ public final class ErrorPane extends JPanel {
     private Component getOwner() {
         if (this.owner == null) {
             for (Component p = this; p != null; p = p.getParent()) {
-                if (p instanceof Dialog || p instanceof Window) {
+                if (p instanceof Window) {
                     return p;
                 }
             }

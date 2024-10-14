@@ -118,14 +118,14 @@ public class ExtTableColumn extends TableColumn {
             getClientProperties().put(key, value);
         }
 
-        firePropertyChange(key.toString(), old, value);
+        firePropChange(key.toString(), old, value);
     }
 
     public void setSort(final Sort sort) {
         final Sort oldSort = this.sort;
         this.sort = sort;
 
-        firePropertyChange("sort", oldSort, sort);
+        firePropChange("sort", oldSort, sort);
     }
 
     public void setSortable(final boolean sortable) {
@@ -145,14 +145,14 @@ public class ExtTableColumn extends TableColumn {
         final boolean oldVisible = this.visible;
         this.visible = visible;
 
-        firePropertyChange("visible", oldVisible, visible);
+        firePropChange("visible", oldVisible, visible);
     }
 
     public void setVisibleChange(final boolean visibleChange) {
         final boolean oldVisibleChange = this.visibleChange;
         this.visibleChange = visibleChange;
 
-        firePropertyChange("visible_change", oldVisibleChange, visibleChange);
+        firePropChange("visible_change", oldVisibleChange, visibleChange);
     }
 
     /**
@@ -166,7 +166,7 @@ public class ExtTableColumn extends TableColumn {
      * @param oldValue old value of changed property
      * @param newValue new value of changed property
      */
-    protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {
+    protected void firePropChange(final String propertyName, final Object oldValue, final Object newValue) {
         if (oldValue != null && !oldValue.equals(newValue) || oldValue == null && newValue != null) {
             final PropertyChangeListener[] pcl = getPropertyChangeListeners();
 

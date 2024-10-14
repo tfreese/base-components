@@ -3,14 +3,41 @@ plugins {
     id "de.freese.gradle.conventions" version "$version_myConventionPlugin" apply false
     id "io.spring.dependency-management" version "$version_springDependencyManagement" apply false
     id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
+
+    // owasp dependency-check/dependencyCheckAggregate
+    id("org.owasp.dependencycheck") version "${version_dependencyCheckPlugin}"
+
+    // verification/sonar
+    id("org.sonarqube") version "${version_sonarQubePlugin}"
+
     id "org.springframework.boot" version "$version_springBoot" apply false
 
     id "name.remal.sonarlint" version "$version_nameRemalSonarlintPlugin" apply false
     id "de.freese.gradle.sonarlint-conventions" version "$version_myConventionPlugin" apply false
 }
 
-subprojects {
+allprojects {
     apply plugin: "base"
+
+    clean {
+        doFirst {
+            def dirs = ["target", "bin"]
+
+            dirs.each(dir -> {
+                Directory directory = layout.projectDirectory.dir(dir)
+
+                if (directory.getAsFile().exists()) {
+                    // println("delete: " + directory)
+                    logger.lifecycle("delete: {}", directory)
+                    // delete fileTree(directory).include("**/*")
+                    delete directory
+                }
+            })
+        }
+    }
+}
+
+subprojects {
     apply plugin: "de.freese.gradle.conventions"
     apply plugin: "io.spring.dependency-management"
     // apply plugin: "name.remal.sonarlint"
@@ -62,6 +89,55 @@ subprojects {
         }
     }
 }
+
+dependencyCheck {
+    skip = false
+    autoUpdate = true
+    formats = ["HTML", "JSON"]
+    // scanConfigurations = ["runtimeClasspath"]
+    // scanProjects = [":core"]
+    // skipProjects = [":core"]
+    // outputDirectory = "build/security-report"
+}
+
+// --info -Psonar_token=TOKEN
+sonar {
+    skipProject = false
+
+    properties {
+        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.token", "sqp_463a5e10518ecf572cbb5fdff9d52103f0c7bd44")
+        // property("sonar.login", sonar_token)
+        // property("sonar.password", sonar_password)
+        property("sonar.projectName", "base-components")
+        property("sonar.projectKey", "base-components")
+
+        //property("sonar.language", "java")
+        // property("sonar.exclusions", "src/test/**")
+
+        // Default: ~/.sonar
+        // Must be an absolute Path.
+        // As Environment Variable: SONAR_USER_HOME=...
+        // As VM Variable: -Dsonar.userHome=...
+        //property("sonar.userHome", "ABSOLUTE-PATH")
+
+        //property("sonar.log.level", "INFO")
+        //property("sonar.verbose", "false")
+
+        property("sonar.log.level", "TRACE")
+        property("sonar.verbose", "true")
+
+        // layout.buildDirectory.get().toString(), project.getRootDir().toString()
+        property("sonar.dependencyCheck.htmlReportPath", "build/reports/dependency-check-report.html")
+        property("sonar.dependencyCheck.jsonReportPath", "build/reports/dependency-check-report.json")
+    }
+}
+
+// project(":base-calendar") {
+//     sonar {
+//         skipProject = true
+//     }
+// }
 
 // For Composite Build.
 tasks.register("cleanAll", GradleBuild) {

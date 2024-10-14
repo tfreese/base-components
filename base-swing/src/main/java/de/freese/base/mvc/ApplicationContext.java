@@ -46,7 +46,7 @@ public final class ApplicationContext extends AbstractServiceRegistry {
         this.resourceMapRoot = resourceMapRoot;
     }
 
-    public void setUserId(final String userIDd) {
+    public void setUserId(final String userId) {
         this.userId = userId;
     }
 }

@@ -82,10 +82,8 @@ public class RowSorterHeaderRenderer implements TableCellRenderer// , PropertyCh
         return this.tableCellRenderer;
     }
 
-    // public void propertyChange(final PropertyChangeEvent evt)
-    // {
-    // if (evt.getPropertyName().equals("ROWSORTER_ORDER_CHANGED"))
-    // {
+    // public void propertyChange(final PropertyChangeEvent evt) {
+    // if (evt.getPropertyName().equals("ROWSORTER_ORDER_CHANGED")) {
     // if (this.tableCellRenderer instanceof Component)
     // {
     // ((Component) this.tableCellRenderer).repaint();

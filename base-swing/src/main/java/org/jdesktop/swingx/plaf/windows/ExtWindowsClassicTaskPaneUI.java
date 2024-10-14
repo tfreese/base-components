@@ -85,6 +85,10 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
             for (JButton button : ExtWindowsClassicTaskPaneUI.this.titleButtons) {
                 final Rectangle rectangle = getRectangleFor(button);
 
+                if (rectangle == null) {
+                    continue;
+                }
+
                 if (button.getIcon() == null) {
                     button.setIcon(ImageUtils.createMissingIcon());
                 }
@@ -100,8 +104,8 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
             }
 
             if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
-                // Herausfinden, ob unter Courser ein Button liegt, dann Tooltip malen
-                // Alternativ im ToggleListener.mouseMoved malen lassen
+                // Herausfinden, ob unter Courser ein Button liegt, dann Tooltip malen.
+                // Alternativ im ToggleListener.mouseMoved malen lassen.
                 final PointerInfo pointerInfo = MouseInfo.getPointerInfo();
                 final Point point = new Point(pointerInfo.getLocation());
                 SwingUtilities.convertPointFromScreen(point, ExtWindowsClassicTaskPaneUI.this.group);
@@ -109,7 +113,6 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
                 final JButton button = getButtonFor(point.x, point.y);
 
                 if (button != null) {
-                    // TODO ToolTipManager verwenden
                     paintToolTip(button);
                 }
             }
@@ -123,20 +126,26 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
      */
     private final class ToggleListener extends MouseInputAdapter {
         @Override
-        public void mouseEntered(final MouseEvent e) {
-            if (isInBorder(e)) {
-                e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        public void mouseEntered(final MouseEvent event) {
+            if (isInBorder(event)) {
+                event.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             }
             else {
                 ExtWindowsClassicTaskPaneUI.this.mouseOver = false;
                 ExtWindowsClassicTaskPaneUI.this.group.repaint();
 
                 if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
-                    final JButton button = getButtonFor(e.getX(), e.getY());
+                    final JButton button = getButtonFor(event.getX(), event.getY());
 
                     if (button != null) {
-                        final MouseEvent evt = new MouseEvent(button, MouseEvent.MOUSE_ENTERED, e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(),
-                                e.isPopupTrigger());
+                        final MouseEvent evt = new MouseEvent(button,
+                                MouseEvent.MOUSE_ENTERED,
+                                event.getWhen(),
+                                event.getModifiersEx(),
+                                event.getX(),
+                                event.getY(),
+                                event.getClickCount(),
+                                event.isPopupTrigger());
                         button.dispatchEvent(evt);
                     }
                 }
@@ -162,28 +171,25 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
                 ExtWindowsClassicTaskPaneUI.this.mouseOver = false;
                 ExtWindowsClassicTaskPaneUI.this.group.repaint();
 
-                //                if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed())
-                //                {
-                //                    final JButton button = getButtonFor(e.getX(), e.getY());
+                // if (!ExtWindowsClassicTaskPaneUI.this.group.isCollapsed()) {
+                //     final JButton button = getButtonFor(e.getX(), e.getY());
                 //
-                //                    if (button != null)
-                //                    {
-                //                        // Für den Tooltip
-                //                        // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierarchie
-                //                        // hängt, sondern nur gerendert wird.
-                //                        // final MouseEvent evt =
-                //                        // new MouseEvent(
-                //                        // button, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(),
-                //                        // event.getModifiers(),
-                //                        // TITLE_ICON_SIZE - 1, TITLE_ICON_SIZE - 1, e.getClickCount(),
-                //                        // event.isPopupTrigger()
-                //                        // );
-                //                        //
-                //                        // button.dispatchEvent(evt);
-                //                        //
-                //                        // paintToolTip(button);
-                //                    }
-                //                }
+                //     if (button != null) {
+                //         // Für den Tooltip
+                //         // TODO Funktioniert so nicht, da der Button in keiner Komponenten-Hierarchie hängt, sondern nur gerendert wird.
+                //         // final MouseEvent evt =
+                //         // new MouseEvent(
+                //         // button, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(),
+                //         // event.getModifiers(),
+                //         // TITLE_ICON_SIZE - 1, TITLE_ICON_SIZE - 1, e.getClickCount(),
+                //         // event.isPopupTrigger()
+                //         // );
+                //         //
+                //         // button.dispatchEvent(evt);
+                //         //
+                //         // paintToolTip(button);
+                //     }
+                // }
             }
         }
 
@@ -299,7 +305,6 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
             return;
         }
 
-        // TODO ToolTipManager verwenden
         SwingUtilities.invokeLater(() -> {
             final String text = button.getToolTipText();
 
@@ -337,6 +342,10 @@ public class ExtWindowsClassicTaskPaneUI extends WindowsClassicTaskPaneUI {
     private JButton getButtonFor(final int x, final int y) {
         for (JButton button : this.titleButtons) {
             final Rectangle rect = getRectangleFor(button);
+
+            if (rect == null) {
+                continue;
+            }
 
             if (rect.contains(x, y)) {
                 return button;

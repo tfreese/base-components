@@ -24,10 +24,14 @@ import javax.swing.tree.TreeCellRenderer;
 public class TransparentRenderer extends JLabel implements ListCellRenderer<Object>, TreeCellRenderer, TableCellRenderer {
     @Serial
     private static final long serialVersionUID = 2387759630865685848L;
+
     private final Color background;
+
     @SuppressWarnings("unused")
     private final Color focusBackground;
+
     private final transient Border focusBorder;
+
     @SuppressWarnings("unused")
     private final Color focusForeground;
     private final Color foreground;
@@ -79,11 +83,9 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
     public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
         generalSetup(table, isSelected, hasFocus, row);
 
-        if (hasFocus) {
-            if (table.isCellEditable(row, column)) {
-                super.setForeground(UIManager.getColor("Table.focusCellForeground"));
-                super.setBackground(UIManager.getColor("Table.focusCellBackground"));
-            }
+        if (hasFocus && table.isCellEditable(row, column)) {
+            super.setForeground(UIManager.getColor("Table.focusCellForeground"));
+            super.setBackground(UIManager.getColor("Table.focusCellBackground"));
         }
 
         setText((value == null) ? "" : value.toString());
@@ -98,10 +100,30 @@ public class TransparentRenderer extends JLabel implements ListCellRenderer<Obje
         setText(tree.convertValueToText(value, isSelected, isExpanded, isLeaf, row, hasFocus));
 
         if (tree.isEnabled()) {
-            setIcon(isLeaf ? UIManager.getIcon("Tree.leafIcon") : (isExpanded ? UIManager.getIcon("Tree.openIcon") : UIManager.getIcon("Tree.closedIcon")));
+            if (isLeaf) {
+                setIcon(UIManager.getIcon("Tree.leafIcon"));
+            }
+            else {
+                if (isExpanded) {
+                    setIcon(UIManager.getIcon("Tree.openIcon"));
+                }
+                else {
+                    setIcon(UIManager.getIcon("Tree.closedIcon"));
+                }
+            }
         }
         else {
-            setDisabledIcon(isLeaf ? UIManager.getIcon("Tree.leafIcon") : (isExpanded ? UIManager.getIcon("Tree.openIcon") : UIManager.getIcon("Tree.closedIcon")));
+            if (isLeaf) {
+                setDisabledIcon(UIManager.getIcon("Tree.leafIcon"));
+            }
+            else {
+                if (isExpanded) {
+                    setDisabledIcon(UIManager.getIcon("Tree.openIcon"));
+                }
+                else {
+                    setDisabledIcon(UIManager.getIcon("Tree.closedIcon"));
+                }
+            }
         }
 
         return this;

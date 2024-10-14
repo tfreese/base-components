@@ -35,8 +35,7 @@ public final class MdiDesktopPane extends JDesktopPane {
         cascadeFrames(100, getTitleHeight());
     }
 
-    // public Component add(final JInternalFrame frame)
-    // {
+    // public Component add(final JInternalFrame frame) {
     // final JInternalFrame[] allFrames = getAllFrames();
     // Point p = null;
     // int w = 0;
@@ -46,31 +45,26 @@ public final class MdiDesktopPane extends JDesktopPane {
     //
     // checkDesktopSize();
     //
-    // if (allFrames.length > 0)
-    // {
+    // if (allFrames.length > 0) {
     // p = allFrames[0].getLocation();
     // p.x = p.x + FRAME_OFFSET;
     // p.y = p.y + FRAME_OFFSET;
     // }
-    // else
-    // {
+    // else {
     // p = new Point(0, 0);
     // }
     //
     // frame.setLocation(p.x, p.y);
     //
-    // if (frame.isResizable())
-    // {
+    // if (frame.isResizable()) {
     // w = getWidth() - (getWidth() / 3);
     // h = getHeight() - (getHeight() / 3);
     //
-    // if (w < frame.getMinimumSize().getWidth())
-    // {
+    // if (w < frame.getMinimumSize().getWidth()) {
     // w = (int) frame.getMinimumSize().getWidth();
     // }
     //
-    // if (h < frame.getMinimumSize().getHeight())
-    // {
+    // if (h < frame.getMinimumSize().getHeight()) {
     // h = (int) frame.getMinimumSize().getHeight();
     // }
     //
@@ -80,12 +74,10 @@ public final class MdiDesktopPane extends JDesktopPane {
     // moveToFront(frame);
     // frame.setVisible(true);
     //
-    // try
-    // {
+    // try {
     // frame.setSelected(true);
     // }
-    // catch (PropertyVetoException ex)
-    // {
+    // catch (PropertyVetoException ex) {
     // frame.toBack();
     // }
     //
@@ -96,6 +88,10 @@ public final class MdiDesktopPane extends JDesktopPane {
         try {
             for (JInternalFrame frame : getAllFrames()) {
                 final Dimension dimension = ((BasicInternalFrameUI) frame.getUI()).getNorthPane().getPreferredSize();
+
+                if (dimension == null) {
+                    continue;
+                }
 
                 return dimension.height;
             }

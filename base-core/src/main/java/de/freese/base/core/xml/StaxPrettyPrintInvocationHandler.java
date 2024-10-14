@@ -32,8 +32,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         final String m = method.getName();
 
-        // if (true)
-        // {
+        // if (true) {
         // System.out.println("StaxPrettyPrintHandler.invoke(): " + m);
         // }
 
@@ -51,7 +50,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
             case "writeEndElement" -> {
                 this.depth--;
 
-                if (this.hasChildElement.get(this.depth)) {
+                if (this.hasChildElement.getOrDefault(this.depth, false)) {
                     this.target.writeCharacters(this.lineSeparator);
                     this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
                 }
@@ -65,6 +64,7 @@ public class StaxPrettyPrintInvocationHandler implements InvocationHandler {
                 this.target.writeCharacters(indent(this.depth, INDENT_CHAR));
             }
             default -> {
+                // Empty
             }
         }
 

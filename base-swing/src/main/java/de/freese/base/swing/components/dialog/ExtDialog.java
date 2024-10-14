@@ -51,15 +51,11 @@ public class ExtDialog {
     public void configure(final ExtDialogConfig config) {
         final Window window = (Window) SwingUtilities.getAncestorOfClass(Window.class, config.getOwner());
 
-        if (window instanceof Frame f) {
-            this.dialog = new JDialog(f, config.isModal());
-        }
-        else if (window instanceof Dialog d) {
-            this.dialog = new JDialog(d, config.isModal());
-        }
-        else {
-            this.dialog = new JDialog((Frame) null, config.isModal());
-        }
+        this.dialog = switch (window) {
+            case Frame f -> new JDialog(f, config.isModal());
+            case Dialog d -> new JDialog(d, config.isModal());
+            default -> new JDialog((Frame) null, config.isModal());
+        };
 
         this.dialog.setLayout(new GridBagLayout());
         this.dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);

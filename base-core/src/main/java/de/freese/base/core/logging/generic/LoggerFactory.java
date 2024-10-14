@@ -44,6 +44,10 @@ public final class LoggerFactory {
             final ServiceLoader<LoggerProvider> loader = ServiceLoader.load(LoggerProvider.class, classLoader);
 
             for (LoggerProvider loggerProvider : loader) {
+                if (loggerProvider == null) {
+                    continue;
+                }
+
                 logProvider(loggerProvider, "service loader");
 
                 return loggerProvider;

@@ -257,7 +257,7 @@ public class PrettyPrintXmlStreamWriter implements XMLStreamWriter {
     protected void handleWriteEndElement() throws XMLStreamException {
         this.depth--;
 
-        if (getNodeStates().get(getDepth())) {
+        if (getNodeStates().getOrDefault(getDepth(), false)) {
             getDelegate().writeCharacters(getLineSeparator());
             getDelegate().writeCharacters(indent(getDepth(), getIndentAmount()));
         }
