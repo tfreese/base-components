@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Flow;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -342,7 +341,8 @@ class TestJdbcClient {
     void testTransaction(final DbServerExtension dbServerExtension, final JdbcClient jdbcClient) throws Exception {
         final List<String> names = List.of("name1", "name2", "name3");
 
-        final Callable<Integer> insertCallable = () -> jdbcClient.sql("insert into person (name) values (?)").executeUpdateBatch(2, names, (ps, name) -> ps.setString(1, name));
+        final ScopedValue.CallableOp<Integer, Exception> insertCallable =
+                () -> jdbcClient.sql("insert into person (name) values (?)").executeUpdateBatch(2, names, (ps, name) -> ps.setString(1, name));
 
         Transaction transaction = null;
 

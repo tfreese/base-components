@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -268,7 +269,9 @@ class DefaultResourceMap implements ResourceMap {
      * Value of ${null} is null.
      */
     protected final void substitutePlaceholder(final Map<String, String> resources) {
-        final List<Entry<String, String>> entries = resources.entrySet().stream().filter(entry -> entry.getValue().contains("${")).toList();
+        final List<Entry<String, String>> entries = resources.entrySet().stream()
+                .filter(entry -> entry.getValue().contains("${"))
+                .collect(Collectors.toList());
 
         for (final Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); ) {
             final Entry<String, String> entry = iterator.next();
