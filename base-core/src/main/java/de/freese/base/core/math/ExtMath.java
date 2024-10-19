@@ -102,6 +102,14 @@ public final class ExtMath {
     }
 
     /**
+     * Denormalize a Value (Wikipedia).<br>
+     * x * (max(x) - min(x)) + min(x)
+     */
+    public static double denormalize(final double normalized, final double min, final double max) {
+        return normalized * (max - min) + min;
+    }
+
+    /**
      * Returns a String-Vector of Factors.
      */
     public static List<String> factors(final BigInteger bi) {
@@ -344,9 +352,10 @@ public final class ExtMath {
     }
 
     /**
-     * Normalisiert einen Wert (Wikipedia).
+     * Normalise a Value (Wikipedia).<br>
+     * (x - min(x)) / (max(x) - min(x))
      */
-    public static double normalize(final double value, final double max, final double min) {
+    public static double normalize(final double value, final double min, final double max) {
         return (value - min) / (max - min);
     }
 
@@ -387,16 +396,16 @@ public final class ExtMath {
     }
 
     /**
-     * Skaliert einen Wert (Wikipedia).<br>
+     * Scales a Value (Wikipedia).<br>
      *
-     * @param value double, aktueller Wert
-     * @param min double; min. aller Werte
-     * @param max double; max. Wert aller Werte
-     * @param minNorm double; neuer min. Wert
-     * @param maxNorm double; neuer max. Wert
+     * @param value double
+     * @param minOld double
+     * @param maxOld double
+     * @param minNew double
+     * @param maxNew double
      */
-    public static double reScale(final double value, final double min, final double max, final double minNorm, final double maxNorm) {
-        return minNorm + (((value - min) * (maxNorm - minNorm)) / (max - min));
+    public static double rescale(final double value, final double minOld, final double maxOld, final double minNew, final double maxNew) {
+        return minNew + (((value - minOld) * (maxNew - minNew)) / (maxOld - minOld));
     }
 
     /**
