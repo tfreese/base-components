@@ -21,7 +21,7 @@ allprojects {
 
     clean {
         doFirst {
-            def dirs = ["target", "bin"]
+            def dirs = ["bin", "logs", "out", "target"]
 
             dirs.each(dir -> {
                 Directory directory = layout.projectDirectory.dir(dir)
@@ -35,6 +35,12 @@ allprojects {
             })
         }
     }
+
+    ant.lifecycleLogLevel = "INFO"
+
+    // repositories {
+    //
+    // }
 }
 
 subprojects {
