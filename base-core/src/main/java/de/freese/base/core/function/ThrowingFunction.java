@@ -5,12 +5,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * Interface einer {@link Function} mit einer Exception.<br>
- *
- * @param <T> Konkreter Parameter-Typ
- * @param <R> Konkreter Ergebnis-Typ
- * @param <E> Konkreter Exception-Typ
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

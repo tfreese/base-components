@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
@@ -22,6 +24,10 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -59,6 +65,14 @@ public final class CryptoUtils {
 
         return new KeyPair(factory.generatePublic(publicSpec), factory.generatePrivate(privateSpec));
 
+    }
+
+    public static byte[] encryptAesKeyWithRsa(final Key aesKey, final PublicKey publicKey)
+            throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        final Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+
+        return cipher.doFinal(aesKey.getEncoded());
     }
 
     /**

@@ -26,7 +26,9 @@ import de.freese.base.utils.Encoding;
 
 /**
  * @author Thomas Freese
+ * @deprecated Use GCM instead
  */
+@Deprecated(since = "now")
 public final class PbeCryptoAesCbc implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5PADDING";

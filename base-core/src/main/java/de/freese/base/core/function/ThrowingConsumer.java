@@ -2,14 +2,8 @@
 package de.freese.base.core.function;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
- * Interface eines {@link Consumer} mit einer Exception.<br>
- *
- * @param <T> Konkreter Parameter-Typ
- * @param <E> Konkreter Exception-Typ
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

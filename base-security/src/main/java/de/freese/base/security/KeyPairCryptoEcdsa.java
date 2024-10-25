@@ -38,7 +38,7 @@ public final class KeyPairCryptoEcdsa implements Crypto {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
         final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDSA", "BC"); // , BouncyCastleProvider.PROVIDER_NAME
-        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // KeyLength = 384, secp256r1
+        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // secp384r1, secp256r1
 
         final KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
@@ -46,7 +46,7 @@ public final class KeyPairCryptoEcdsa implements Crypto {
     }
 
     private static Cipher initCipher(final int mode, final Key key) throws Exception {
-        final Cipher cipher = Cipher.getInstance("ECIES");
+        final Cipher cipher = Cipher.getInstance("ECIES/None/NoPadding");
         cipher.init(mode, key);
 
         return cipher;

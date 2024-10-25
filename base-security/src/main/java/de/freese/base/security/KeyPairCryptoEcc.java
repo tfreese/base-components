@@ -12,7 +12,6 @@ import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
-import java.security.spec.ECGenParameterSpec;
 import java.util.Objects;
 
 import javax.crypto.Cipher;
@@ -31,18 +30,22 @@ import de.freese.base.utils.Encoding;
  *
  * @author Thomas Freese
  */
-public final class KeyPairCryptoEcda implements Crypto {
+public final class KeyPairCryptoEcc implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public static Crypto create() throws GeneralSecurityException {
+    /**
+     * @param keySize; ECC: 256, 384, 521
+     */
+    public static Crypto create(final int keySize) throws GeneralSecurityException {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
-        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDH"); // , BouncyCastleProvider.PROVIDER_NAME
-        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // secp384r1, secp256r1
+        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("EC"); // , BouncyCastleProvider.PROVIDER_NAME
+        keyPairGenerator.initialize(keySize, secureRandom);
+        // keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // secp384r1, secp256r1
 
         final KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-        return new KeyPairCryptoEcda(keyPair.getPublic(), keyPair.getPrivate());
+        return new KeyPairCryptoEcc(keyPair.getPublic(), keyPair.getPrivate());
     }
 
     private static Cipher initCipher(final int mode, final Key key) throws Exception {
@@ -55,7 +58,7 @@ public final class KeyPairCryptoEcda implements Crypto {
     private final PrivateKey privateKey;
     private final PublicKey publicKey;
 
-    public KeyPairCryptoEcda(final PublicKey publicKey, final PrivateKey privateKey) {
+    public KeyPairCryptoEcc(final PublicKey publicKey, final PrivateKey privateKey) {
         super();
 
         this.publicKey = Objects.requireNonNull(publicKey, "publicKey required");

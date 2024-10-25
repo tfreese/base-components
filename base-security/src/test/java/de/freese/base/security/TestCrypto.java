@@ -126,6 +126,16 @@ class TestCrypto {
     }
 
     @Test
+    void testAsymetricEcc() throws Exception {
+        // Required by EC
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        testCrypto(KeyPairCryptoEcc.create(384));
+    }
+
+    @Test
     void testAsymetricEcda() throws Exception {
         // Required by ECDSA
         if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
@@ -166,6 +176,11 @@ class TestCrypto {
     }
 
     @Test
+    void testSymetricAesEcb() throws Exception {
+        testCrypto(KeyCryptoAesEcb.create(256));
+    }
+
+    @Test
     void testSymetricAesGcm() throws Exception {
         testCrypto(new PbeCryptoAesGcm(PASSWORD));
     }
@@ -198,7 +213,10 @@ class TestCrypto {
         String cipherText1 = crypto.encrypt(SOURCE);
         String cipherText2 = crypto.encrypt(SOURCE);
 
-        if (!(crypto instanceof KeyPairCryptoEcdhForAes)) {
+        if (crypto instanceof KeyCryptoAesEcb) {
+            assertEquals(cipherText1, cipherText2);
+        }
+        else if (!(crypto instanceof KeyPairCryptoEcdhForAes)) {
             assertNotEquals(cipherText1, cipherText2);
         }
 
@@ -225,7 +243,10 @@ class TestCrypto {
 
         cipherText2 = Encoding.BASE64.encode(baos.toByteArray());
 
-        if (!(crypto instanceof KeyPairCryptoEcdhForAes)) {
+        if (crypto instanceof KeyCryptoAesEcb) {
+            assertEquals(cipherText1, cipherText2);
+        }
+        else if (!(crypto instanceof KeyPairCryptoEcdhForAes)) {
             assertNotEquals(cipherText1, cipherText2);
         }
 

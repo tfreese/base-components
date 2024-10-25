@@ -2,15 +2,8 @@
 package de.freese.base.core.function;
 
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 /**
- * Interface eines {@link BiConsumer} mit einer Exception.<br>
- *
- * @param <T> Konkreter Parameter-Typ
- * @param <U> Konkreter Parameter-Typ
- * @param <E> Konkreter Exception-Typ
- *
  * @author Thomas Freese
  */
 @FunctionalInterface

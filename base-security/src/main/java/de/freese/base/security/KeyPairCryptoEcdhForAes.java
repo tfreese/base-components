@@ -38,7 +38,7 @@ public final class KeyPairCryptoEcdhForAes implements Crypto {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();
 
         final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("ECDH"); // , BouncyCastleProvider.PROVIDER_NAME
-        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // KeyLength = 384, secp256r1
+        keyPairGenerator.initialize(new ECGenParameterSpec("secp384r1"), secureRandom); // secp384r1, secp256r1
         // keyPairGenerator.initialize(ECNamedCurveTable.getParameterSpec("prime192v1"));
 
         final KeyPair keyPair = keyPairGenerator.generateKeyPair();

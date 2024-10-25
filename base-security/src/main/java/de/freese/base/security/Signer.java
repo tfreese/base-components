@@ -21,7 +21,12 @@ public final class Signer {
     public enum Algorithm {
         SHA1_WITH_RSA("SHA1withRSA"),
         SHA512_WITH_RSA("SHA512withRSA"),
-        SHA3_512_WITH_RSA("SHA3-512withRSA");
+        SHA3_512_WITH_RSA("SHA3-512withRSA"),
+
+        /**
+         * Needs BouncyCastleProvider
+         */
+        SHA256_WITH_ECDSA("SHA256withECDSA");
 
         private final String algorithmName;
 

@@ -11,10 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Security;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,17 +30,23 @@ class TestSigner {
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
-    private PrivateKey privateKey;
-    private PublicKey publicKey;
+    private KeyPair keyPairEcc;
+    private KeyPair keyPairRsa;
 
     @BeforeEach
     void beforeEach() throws GeneralSecurityException {
-        final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(1024, SecureRandom.getInstanceStrong());
-        final KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        keyPairRsa = keyPairGenerator.generateKeyPair();
 
-        publicKey = keyPair.getPublic();
-        privateKey = keyPair.getPrivate();
+        // Required by ECDSA
+        if (Security.getProvider(BouncyCastleProvider.PROVIDER_NAME) == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+
+        keyPairGenerator = KeyPairGenerator.getInstance("EC");
+        keyPairGenerator.initialize(256); // ECC: 256, 384, 521
+        keyPairEcc = keyPairGenerator.generateKeyPair();
     }
 
     @Test
@@ -48,11 +54,17 @@ class TestSigner {
         for (Signer.Algorithm algorithm : Signer.Algorithm.values()) {
             System.out.println(algorithm);
 
+            KeyPair keyPair = keyPairRsa;
+
+            if (Signer.Algorithm.SHA256_WITH_ECDSA.equals(algorithm)) {
+                keyPair = keyPairEcc;
+            }
+
             for (Encoding encoding : Encoding.values()) {
-                final byte[] signedMessage = Signer.sign(SOURCE_BYTES, privateKey, Signer.Algorithm.SHA512_WITH_RSA);
+                final byte[] signedMessage = Signer.sign(SOURCE_BYTES, keyPair.getPrivate(), algorithm);
                 System.out.printf("%6s: %s%n", encoding, encoding.encode(signedMessage));
 
-                assertTrue(Signer.verify(SOURCE_BYTES, signedMessage, publicKey, Signer.Algorithm.SHA512_WITH_RSA));
+                assertTrue(Signer.verify(SOURCE_BYTES, signedMessage, keyPair.getPublic(), algorithm));
             }
         }
     }
@@ -62,11 +74,17 @@ class TestSigner {
         for (Signer.Algorithm algorithm : Signer.Algorithm.values()) {
             System.out.println(algorithm);
 
+            KeyPair keyPair = keyPairRsa;
+
+            if (Signer.Algorithm.SHA256_WITH_ECDSA.equals(algorithm)) {
+                keyPair = keyPairEcc;
+            }
+
             try (ByteArrayInputStream bais = new ByteArrayInputStream(SOURCE_BYTES)) {
                 byte[] sig = null;
 
                 try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                    Signer.sign(bais, baos, privateKey, algorithm);
+                    Signer.sign(bais, baos, keyPair.getPrivate(), algorithm);
                     sig = baos.toByteArray();
                 }
 
@@ -77,7 +95,7 @@ class TestSigner {
                 }
 
                 try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig)) {
-                    final boolean verified = Signer.verify(bais, inputStream, publicKey, algorithm);
+                    final boolean verified = Signer.verify(bais, inputStream, keyPair.getPublic(), algorithm);
                     assertTrue(verified);
                 }
             }

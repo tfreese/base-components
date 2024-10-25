@@ -38,10 +38,14 @@ public final class KeyPairCryptoRsa implements Crypto {
     }
 
     private static Cipher initCipher(final int mode, final Key key) throws Exception {
-        // String cipherAlgorithm = "RSA/None/OAEPWITHSHA-256ANDMGF1PADDING";
-        // String cipherAlgorithm = "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING";
-        // String cipherAlgorithm = "RSA/ECB/PKCS1Padding";
-        final Cipher cipher = Cipher.getInstance(key.getAlgorithm()); // "RSA"
+        final String cipherAlgorithm = key.getAlgorithm(); // "RSA"
+        // final String cipherAlgorithm = "RSA/None/OAEPWITHSHA-1ANDMGF1PADDING";
+        // final String cipherAlgorithm = "RSA/None/OAEPWITHSHA-256ANDMGF1PADDING";
+        // final String cipherAlgorithm = "RSA/ECB/OAEPWithSHA-1AndMGF1Padding";
+        // final String cipherAlgorithm = "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING";
+        // final String cipherAlgorithm = "RSA/ECB/PKCS1Padding";
+
+        final Cipher cipher = Cipher.getInstance(cipherAlgorithm);
         cipher.init(mode, key);
 
         return cipher;
