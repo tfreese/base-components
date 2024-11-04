@@ -1,14 +1,19 @@
 package de.freese.base.swing.components.label;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.Serial;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JToggleButton;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 
 /**
  * Label mit einer drehenden Sanduhr.
@@ -19,13 +24,39 @@ public class BusySanduhrLabel extends JLabel {
     @Serial
     private static final long serialVersionUID = -1861610997435401369L;
 
+    public static void main(final String[] args) {
+        final JFrame frame = new JFrame(BusySanduhrLabel.class.getSimpleName());
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.setSize(new Dimension(400, 400));
+
+        final BusySanduhrLabel busyLabel = new BusySanduhrLabel("BusyLabel");
+        // busyLabel.setIcon(ImageUtils.createEmptyIcon());
+
+        final JToggleButton jToggleButton = new JToggleButton("Start/Stop");
+        jToggleButton.addActionListener(event -> busyLabel.setBusy(jToggleButton.isSelected()));
+
+        frame.getContentPane().add(jToggleButton, BorderLayout.NORTH);
+        frame.getContentPane().add(busyLabel, BorderLayout.CENTER);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(final WindowEvent event) {
+                // Otherwise the Timer is still running and the JRE won't exit.
+                busyLabel.setBusy(false);
+            }
+        });
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
     private final Timer animateTimer;
     private final ImageIcon[] icons;
 
     private int imageIndex;
 
     public BusySanduhrLabel() {
-        this("");
+        this(null);
     }
 
     public BusySanduhrLabel(final String text) {
@@ -35,52 +66,45 @@ public class BusySanduhrLabel extends JLabel {
     public BusySanduhrLabel(final String text, final ImageIcon[] icons) {
         super(text);
 
-        this.icons = icons;
+        this.icons = Arrays.copyOf(icons, icons.length);
 
-        this.animateTimer = new Timer(150, event -> {
-            BusySanduhrLabel.this.imageIndex++;
-
-            if (BusySanduhrLabel.this.imageIndex == BusySanduhrLabel.this.icons.length) {
-                BusySanduhrLabel.this.imageIndex = 0;
-            }
-
-            setIcon(BusySanduhrLabel.this.icons[BusySanduhrLabel.this.imageIndex]);
-
-            // System.out.println(imageIndex);
-            if (!isVisible()) {
-                BusySanduhrLabel.this.animateTimer.stop();
-            }
-            else {
-                repaint();
-
-                // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
-                // Without this line, the animation might not be smooth on Linux.
-                Toolkit.getDefaultToolkit().sync();
-            }
-        });
+        this.animateTimer = new Timer(150, event -> performAnimation());
     }
 
-    @Override
-    public void setVisible(final boolean visible) {
-        super.setVisible(visible);
+    public boolean isRunning() {
+        return animateTimer.isRunning();
+    }
 
-        if (visible && !this.animateTimer.isRunning()) {
-            this.animateTimer.start();
+    public void setBusy(final boolean busy) {
+        if (busy && !isRunning()) {
+            animateTimer.start();
         }
-        else if (!visible) {
-            this.animateTimer.stop();
+        else if (!busy) {
+            animateTimer.stop();
+            setIcon(null);
+            repaint();
         }
     }
 
-    @Override
-    protected void paintComponent(final Graphics g) {
-        super.paintComponent(g);
+    protected void performAnimation() {
+        if (!isVisible()) {
+            animateTimer.stop();
 
-        final Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (!this.animateTimer.isRunning() && isVisible()) {
-            this.animateTimer.start();
+            return;
         }
+
+        imageIndex++;
+
+        if (imageIndex == icons.length) {
+            imageIndex = 0;
+        }
+
+        setIcon(icons[imageIndex]);
+
+        repaint();
+
+        // The Toolkit.getDefaultToolkit().sync() synchronises the painting on systems that buffer graphics events.
+        // Without this line, the animation might not be smooth on Linux.
+        Toolkit.getDefaultToolkit().sync();
     }
 }
