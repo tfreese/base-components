@@ -1,6 +1,11 @@
 package de.freese.base.swing.ui;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JColorChooser;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicColorChooserUI;
@@ -13,6 +18,19 @@ import org.jdesktop.swingx.color.EyeDropperColorChooserPanel;
 public class ColorChooserUI extends BasicColorChooserUI {
     public static ComponentUI createUI(final JComponent c) {
         return new ColorChooserUI();
+    }
+
+    public static void main(final String[] args) {
+        final JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        final JColorChooser colorChooser = new JColorChooser();
+        colorChooser.addChooserPanel(new EyeDropperColorChooserPanel());
+
+        frame.getContentPane().add(BorderLayout.CENTER, colorChooser);
+        frame.setSize(300, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     @Override
