@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implementierung analog der org.springframework.jdbc.datasource.SingleConnectionDataSource<br>
- * jedoch ohne die Abhängigkeiten zum Spring-Framework.<br>
+ * jedoch ohne die Abhängigkeiten zum springframework.<br>
  * Die Connection wird in einem Proxy verpackt, der die close-Methode nicht ausführt.
  *
  * @author Thomas Freese

@@ -64,8 +64,8 @@ public class LineInputStream extends FilterInputStream {
                 break;
             }
 
-            // Not CR, NL or CR-NL ...
-            // .. Insert the byte into our byte buffer
+            // Not CR, NL or CR-NL.
+            // Insert the byte into our byte buffer.
             if (--room < 0) {
                 // No room, need to grow.
                 lineBuffer = new char[offset + 128];

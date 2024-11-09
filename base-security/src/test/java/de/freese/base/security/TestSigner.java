@@ -17,6 +17,8 @@ import java.security.Security;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.utils.Encoding;
 
@@ -27,6 +29,7 @@ import de.freese.base.utils.Encoding;
  */
 class TestSigner {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestSigner.class);
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
 
@@ -52,7 +55,7 @@ class TestSigner {
     @Test
     void testSigner() throws GeneralSecurityException {
         for (Signer.Algorithm algorithm : Signer.Algorithm.values()) {
-            System.out.println(algorithm);
+            LOGGER.info("{}", algorithm);
 
             KeyPair keyPair = keyPairRsa;
 
@@ -62,7 +65,7 @@ class TestSigner {
 
             for (Encoding encoding : Encoding.values()) {
                 final byte[] signedMessage = Signer.sign(SOURCE_BYTES, keyPair.getPrivate(), algorithm);
-                System.out.printf("%6s: %s%n", encoding, encoding.encode(signedMessage));
+                LOGGER.info("{}", "%6s: %s%n".formatted(encoding, encoding.encode(signedMessage)));
 
                 assertTrue(Signer.verify(SOURCE_BYTES, signedMessage, keyPair.getPublic(), algorithm));
             }
@@ -72,7 +75,7 @@ class TestSigner {
     @Test
     void testSignerStream() throws GeneralSecurityException, IOException {
         for (Signer.Algorithm algorithm : Signer.Algorithm.values()) {
-            System.out.println(algorithm);
+            LOGGER.info("{}", algorithm);
 
             KeyPair keyPair = keyPairRsa;
 
@@ -91,7 +94,7 @@ class TestSigner {
                 bais.reset();
 
                 for (Encoding encoding : Encoding.values()) {
-                    System.out.printf("%6s: %s%n", encoding, encoding.encode(sig));
+                    LOGGER.info("{}", "%6s: %s%n".formatted(encoding, encoding.encode(sig)));
                 }
 
                 try (ByteArrayInputStream inputStream = new ByteArrayInputStream(sig)) {

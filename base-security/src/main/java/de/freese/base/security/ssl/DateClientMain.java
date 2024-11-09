@@ -11,10 +11,15 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class DateClientMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DateClientMain.class);
+
     public static void main(final String[] args) {
         try {
             final boolean useSSL = false;
@@ -50,19 +55,19 @@ public final class DateClientMain {
                     sslSocket.startHandshake();
 
                     final SSLSession session = sslSocket.getSession();
-                    System.out.println("Cipher suite in use is " + session.getCipherSuite());
-                    System.out.println("Protocol is " + session.getProtocol());
+                    LOGGER.info("Cipher suite in use is {}", session.getCipherSuite());
+                    LOGGER.info("Protocol is {}", session.getProtocol());
                 }
 
                 // get the input and output streams from the SSL connection
                 try (InputStream inputStream = socket.getInputStream()) {
                     final String response = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-                    System.out.print("The response is: " + response);
+                    LOGGER.info("The response is: {}", response);
                 }
             }
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            LOGGER.error(ex.getMessage(), ex);
             System.exit(-1);
         }
 

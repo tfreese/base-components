@@ -15,6 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.freese.base.swing.components.graph.model.SinusValueSupplier;
 import de.freese.base.swing.components.graph.painter.BarGraphPainter;
 import de.freese.base.swing.components.graph.painter.LineGraphPainter;
@@ -23,6 +26,8 @@ import de.freese.base.swing.components.graph.painter.LineGraphPainter;
  * @author Thomas Freese
  */
 public final class RandomGraphDemo {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RandomGraphDemo.class);
+
     public static void main(final String[] args) {
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
@@ -32,7 +37,7 @@ public final class RandomGraphDemo {
             final boolean isPerPixelTranslucencySupported = gd.isWindowTranslucencySupported(WindowTranslucency.PERPIXEL_TRANSLUCENT);
 
             if (!isPerPixelTranslucencySupported) {
-                System.out.println("Per-pixel translucency is not supported on device " + gd.getIDstring());
+                LOGGER.warn("Per-pixel translucency is not supported on device {}", gd.getIDstring());
                 System.exit(0);
             }
         }

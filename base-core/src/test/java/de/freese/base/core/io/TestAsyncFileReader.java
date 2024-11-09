@@ -12,6 +12,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.core.model.builder.GenericBuilder;
 
@@ -19,19 +21,21 @@ import de.freese.base.core.model.builder.GenericBuilder;
  * @author Thomas Freese
  */
 class TestAsyncFileReader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestAsyncFileReader.class);
+
     @Test
     void testAsyncFileReader() {
         final Supplier<StringBuilder> contentHolderSupplier = () -> new StringBuilder(4096);
         final BiConsumer<StringBuilder, byte[]> dataConsumer = (sb, data) -> {
-            System.out.printf("[%s] Read completed%n", Thread.currentThread().getName());
+            LOGGER.info("[{}] Read completed", Thread.currentThread().getName());
             sb.append(new String(data, StandardCharsets.UTF_8));
         };
 
-        //        final AsyncFileReader<StringBuilder> reader = new AsyncFileReader<>();
-        //        reader.setContentHolderSupplier(contentHolderSupplier);
-        //        reader.setDataConsumer(dataConsumer);
-        //        reader.setByteBufferSize(1024);
-        //        reader.setExecutorService(ForkJoinPool.commonPool());
+        // final AsyncFileReader<StringBuilder> reader = new AsyncFileReader<>();
+        // reader.setContentHolderSupplier(contentHolderSupplier);
+        // reader.setDataConsumer(dataConsumer);
+        // reader.setByteBufferSize(1024);
+        // reader.setExecutorService(ForkJoinPool.commonPool());
 
         final AsyncFileReader<StringBuilder> reader = GenericBuilder.of(AsyncFileReader<StringBuilder>::new)
                 .with(AsyncFileReader::setByteBufferSize, 1024)
@@ -40,7 +44,7 @@ class TestAsyncFileReader {
                 .build();
 
         final Path path = Paths.get(System.getProperty("user.dir"), "build.gradle");
-        System.out.printf("Reading file: %s%n", path);
+        LOGGER.info("Reading file: {}", path);
 
         // 2x parallel auslesen.
         final long startTime1 = System.currentTimeMillis();
@@ -49,12 +53,12 @@ class TestAsyncFileReader {
         final long startTime2 = System.currentTimeMillis();
         final CompletableFuture<StringBuilder> future2 = reader.readFile(path);
 
-        System.out.println("Read in progress...");
+        LOGGER.info("Read in progress...");
 
         final BiConsumer<Long, CharSequence> printer = (startTime, cs) -> {
             final long duration = System.currentTimeMillis() - startTime;
 
-            System.out.printf("[%s] Read %d bytes in %d ms.%n", Thread.currentThread().getName(), cs.length(), duration);
+            LOGGER.info("[{}] Read {} bytes in {} ms", Thread.currentThread().getName(), cs.length(), duration);
         };
 
         future1.thenAcceptAsync(cs -> printer.accept(startTime1, cs));

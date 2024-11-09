@@ -17,6 +17,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509TrustManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Bogus {@link TrustManagerFactorySpi} which accepts any certificate even if it is invalid.
  *
@@ -31,14 +34,14 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
             // You should do something in the real world.
             // You will reach here only if you enabled client certificate auth,
             // as described in SecureChatSslContextFactory.
-            System.err.println("UNKNOWN CLIENT CERTIFICATE: " + chain[0].getSubjectX500Principal());
+            LOGGER.error("UNKNOWN CLIENT CERTIFICATE: {}", chain[0].getSubjectX500Principal());
         }
 
         @Override
         public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
             // Always trust - it is an example.
             // You should do something in the real world.
-            System.err.println("UNKNOWN SERVER CERTIFICATE: " + chain[0].getSubjectX500Principal());
+            LOGGER.error("UNKNOWN SERVER CERTIFICATE: {}", chain[0].getSubjectX500Principal());
         }
 
         @Override
@@ -46,6 +49,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
             return new X509Certificate[0];
         }
     };
+    private static final Logger LOGGER = LoggerFactory.getLogger(BogusSSLTrustManagerFactory.class);
 
     public static TrustManager[] getTrustManagers() {
         return new TrustManager[]{DUMMY_TRUST_MANAGER};

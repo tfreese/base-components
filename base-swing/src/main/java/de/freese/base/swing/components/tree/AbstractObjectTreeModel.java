@@ -61,7 +61,7 @@ public abstract class AbstractObjectTreeModel implements TreeModel {
         Object parent = getParentFor(object);
 
         while (parent != null) {
-            list.add(0, parent);
+            list.addFirst(parent);
             parent = getParentFor(parent);
         }
 

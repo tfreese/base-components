@@ -1,30 +1,3 @@
-//// Created: 16.06.2021
-// package de.freese.base.security;
-//
-// import java.math.BigInteger;
-// import java.security.KeyPair;
-// import java.security.KeyPairGenerator;
-// import java.security.PrivateKey;
-// import java.security.SecureRandom;
-// import java.security.cert.CertificateException;
-// import java.time.LocalDate;
-// import java.time.ZoneId;
-// import java.util.Base64;
-// import java.util.Date;
-//
-// import sun.security.x509.AlgorithmId;
-// import sun.security.x509.CertificateAlgorithmId;
-// import sun.security.x509.CertificateIssuerName;
-// import sun.security.x509.CertificateSerialNumber;
-// import sun.security.x509.CertificateSubjectName;
-// import sun.security.x509.CertificateValidity;
-// import sun.security.x509.CertificateVersion;
-// import sun.security.x509.CertificateX509Key;
-// import sun.security.x509.X500Name;
-// import sun.security.x509.X509CertImpl;
-// import sun.security.x509.X509CertInfo;
-//
-/// **
 // * Siehe maven-compiler-plugin in pom.xml
 // *
 // * @author Thomas Freese

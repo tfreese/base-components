@@ -19,6 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <a href="https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html">trans_shaped_windows</a><br>
  * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
@@ -29,6 +32,8 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class GradientTranslucentWindowMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GradientTranslucentWindowMain.class);
+
     public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -38,7 +43,7 @@ public final class GradientTranslucentWindowMain {
 
         // If translucent windows aren't supported, exit.
         if (!isPerPixelTranslucencySupported) {
-            System.out.println("Per-pixel translucency is not supported");
+            LOGGER.warn("Per-pixel translucency is not supported on device {}", gd.getIDstring());
             System.exit(0);
         }
 

@@ -14,6 +14,8 @@ import javax.crypto.Cipher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.utils.CryptoUtils;
 
@@ -23,6 +25,7 @@ import de.freese.base.utils.CryptoUtils;
 @Execution(ExecutionMode.CONCURRENT)
 class TestCryptoUtils {
     private static final boolean DEBUG = true;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestCryptoUtils.class);
 
     @Test
     void testCipher() {
@@ -36,10 +39,10 @@ class TestCryptoUtils {
 
         for (String value : values) {
             try {
-                System.out.println(value + ": MaxAllowedKeyLength=" + Cipher.getMaxAllowedKeyLength(value));
+                LOGGER.info("{}: MaxAllowedKeyLength={}", value, Cipher.getMaxAllowedKeyLength(value));
             }
             catch (Exception ex) {
-                System.err.println(value + ": " + ex.getMessage());
+                LOGGER.error("{}: {}", value, ex.getMessage());
             }
         }
     }
@@ -55,17 +58,15 @@ class TestCryptoUtils {
 
         final KeyPair keyPair = CryptoUtils.createDefaultKeyPair();
 
-        System.out.println("Public key " + keyPair.getPublic());
-        System.out.println();
-        System.out.println("Private key " + keyPair.getPrivate());
+        LOGGER.info("Public key {}", keyPair.getPublic());
+        LOGGER.info("Private key {}", keyPair.getPrivate());
 
         final RSAPublicKey rsaPub = (RSAPublicKey) keyPair.getPublic();
         final BigInteger publicKeyModulus = rsaPub.getModulus();
         final BigInteger publicKeyExponent = rsaPub.getPublicExponent();
 
-        System.out.println();
-        System.out.println("publicKeyModulus: " + publicKeyModulus);
-        System.out.println("publicKeyExponent: " + publicKeyExponent);
+        LOGGER.info("publicKeyModulus: {}", publicKeyModulus);
+        LOGGER.info("publicKeyExponent: {}", publicKeyExponent);
 
         assertTrue(true);
     }
@@ -81,7 +82,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -96,7 +97,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -111,7 +112,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -126,7 +127,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -141,7 +142,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -156,7 +157,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -171,7 +172,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 
@@ -186,7 +187,7 @@ class TestCryptoUtils {
         }
 
         for (String value : values) {
-            System.out.println(value);
+            LOGGER.info(value);
         }
     }
 }

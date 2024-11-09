@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 class TestSshExec {
     private static final String HOST = "remote";
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestSshExec.class);
     private static final String PASSWORD = "pass";
     private static final String USER = "user";
 
@@ -28,7 +31,7 @@ class TestSshExec {
         assertNotNull(result);
         assertFalse(result.isEmpty());
 
-        System.out.println(result);
+        LOGGER.info(result);
 
         sshExec.disconnect();
     }
@@ -43,7 +46,7 @@ class TestSshExec {
         assertNotNull(result);
         assertFalse(result.isEmpty());
 
-        System.out.println(result);
+        LOGGER.info(result);
 
         sshExec.disconnect();
     }

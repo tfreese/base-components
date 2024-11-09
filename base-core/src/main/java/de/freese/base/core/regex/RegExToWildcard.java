@@ -64,12 +64,12 @@ public final class RegExToWildcard implements RegExTransformer {
     public String wildcardToRegEx(final String wildcard) {
         String expression = wildcard;
 
-        // .* als default IST NICHT ZULÄSSIG !!!
+        // .* als default IST NICHT ZULÄSSIG!
         if (expression == null) {
             return null;
         }
 
-        // .* als default IST NICHT ZULÄSSIG !!!
+        // .* als default IST NICHT ZULÄSSIG!
         if (expression.isBlank()) {
             return "";
         }

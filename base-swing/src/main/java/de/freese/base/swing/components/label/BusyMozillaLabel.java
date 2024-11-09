@@ -200,12 +200,7 @@ public class BusyMozillaLabel extends JLabel {
      * Max.: circleCount
      */
     public void setTrailCount(final int trailCount) {
-        if (trailCount > getCircleCount()) {
-            this.trailCount = getCircleCount();
-        }
-        else {
-            this.trailCount = trailCount;
-        }
+        this.trailCount = Math.min(trailCount, getCircleCount());
     }
 
     /**

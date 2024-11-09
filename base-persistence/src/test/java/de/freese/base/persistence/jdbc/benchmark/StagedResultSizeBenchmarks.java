@@ -44,6 +44,8 @@ public class StagedResultSizeBenchmarks extends BenchmarkSettings {
         private int resultSize;
 
         public ConnectionHolder() {
+            super();
+
             try {
                 this.derby = DriverManager.getConnection("jdbc:derby:memory:jmh;create=true", "sa", "");
                 this.h2 = DriverManager.getConnection("jdbc:h2:mem:jmh;DB_CLOSE_DELAY=-1", "sa", "");

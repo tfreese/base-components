@@ -164,8 +164,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         }
     }
 
-    // protected void paintChildren(Graphics g)
-    // {
+    // protected void paintChildren(Graphics g) {
     // // Die Children werden in der transparenz der Glass-pane gezeichnet,
     // deswegen
     // // wird paintChildren(Graphics) am Ende der paintComponent(Graphics)
@@ -196,8 +195,7 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         }
 
         // Composite-Wert auf default für Children
-        // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-        // 1));
+        // g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
         // super.paintChildren(g);
     }
 
@@ -219,24 +217,21 @@ public class TranslucentGlassPane extends JComponent implements MouseListener {
         final Point glassPanePoint = event.getPoint();
         final Point containerPoint = SwingUtilities.convertPoint(this, glassPanePoint, getParent());
 
-        //        if (containerPoint.y < 0)
-        //        {
-        //            // we're not in the content pane
-        //            final JMenuBar menuBar = getJMenuBar();
+        // if (containerPoint.y < 0) {
+        //     // we're not in the content pane
+        //     final JMenuBar menuBar = getJMenuBar();
         //
-        //            if ((menuBar != null) && ((containerPoint.y + menuBar.getHeight()) >= 0))
-        //            {
-        //                // The mouse event is over the menu bar.
-        //                // Could handle specially.
-        //            }
-        //            else
-        //            {
-        //                // The mouse event is over non-system window
-        //                // decorations, such as the ones provided by
-        //                // the Java look and feel.
-        //                // Could handle specially.
-        //            }
-        //        }
+        //     if ((menuBar != null) && ((containerPoint.y + menuBar.getHeight()) >= 0)) {
+        //         // The mouse event is over the menu bar.
+        //         // Could handle specially.
+        //     }
+        //     else {
+        //         // The mouse event is over non-system window
+        //         // decorations, such as the ones provided by
+        //         // the Java look and feel.
+        //         // Could handle specially.
+        //     }
+        // }
         if (containerPoint.y >= 0) {
             // The mouse event is probably over the content pane.
             // Find out exactly which component it's over.

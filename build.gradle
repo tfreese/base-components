@@ -1,6 +1,8 @@
 // Execute Tasks in SubModule: gradle MODUL:clean build
 plugins {
     id "de.freese.gradle.java.conventions" version "$version_myJavaConventionPlugin" apply false
+    id "de.freese.gradle.sonarlint-conventions" version "$version_myJavaConventionPlugin" apply false
+
     id "io.spring.dependency-management" version "$version_springDependencyManagement" apply false
     id "org.openjfx.javafxplugin" version "$version_javafxPlugin" apply false
 
@@ -11,9 +13,7 @@ plugins {
     id("org.sonarqube") version "${version_sonarQubePlugin}"
 
     id "org.springframework.boot" version "$version_springBoot" apply false
-
     id "name.remal.sonarlint" version "$version_nameRemalSonarlintPlugin" apply false
-    id "de.freese.gradle.sonarlint-conventions" version "$version_myJavaConventionPlugin" apply false
 }
 
 allprojects {

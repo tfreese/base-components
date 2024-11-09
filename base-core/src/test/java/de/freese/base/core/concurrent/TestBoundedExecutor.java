@@ -24,6 +24,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.utils.ExecutorUtils;
 
@@ -32,6 +34,8 @@ import de.freese.base.utils.ExecutorUtils;
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestBoundedExecutor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestBoundedExecutor.class);
+
     private static ExecutorService executorService;
 
     @AfterAll
@@ -53,13 +57,13 @@ class TestBoundedExecutor {
     }
 
     private static void sleep() {
-        //        try {
-        //            TimeUnit.MILLISECONDS.sleep(300);
-        //        }
-        //        catch (InterruptedException ex) {
-        //            // Restore interrupted state.
-        //            Thread.currentThread().interrupt();
-        //        }
+        // try {
+        //     TimeUnit.MILLISECONDS.sleep(300);
+        // }
+        // catch (InterruptedException ex) {
+        //     // Restore interrupted state.
+        //     Thread.currentThread().interrupt();
+        // }
 
         await().pollDelay(Duration.ofMillis(300)).until(() -> true);
     }
@@ -94,14 +98,12 @@ class TestBoundedExecutor {
     }
 
     private void execute(final Executor executor, final Supplier<Integer> queueSizeSupplier) {
-        System.out.println();
-
         final Runnable task = () -> {
             if (queueSizeSupplier == null) {
-                System.out.printf("%s%n", Thread.currentThread().getName());
+                LOGGER.info(Thread.currentThread().getName());
             }
             else {
-                System.out.printf("%s: QueueSize=%d%n", Thread.currentThread().getName(), queueSizeSupplier.get());
+                LOGGER.info("{}: QueueSize={}", Thread.currentThread().getName(), queueSizeSupplier.get());
             }
 
             sleep();

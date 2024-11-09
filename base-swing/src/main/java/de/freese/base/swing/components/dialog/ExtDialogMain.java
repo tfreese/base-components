@@ -5,10 +5,15 @@ import java.awt.Toolkit;
 
 import javax.swing.JOptionPane;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class ExtDialogMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExtDialogMain.class);
+
     public static void main(final String[] args) {
         final ExtDialogConfig config = new ExtDialogConfig();
         config.setTitle("Test");
@@ -19,7 +24,7 @@ public final class ExtDialogMain {
         config.setOwner(null);
         // config.setModal(true);
         config.setButtonActionListener(0, event -> {
-            System.out.println("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
+            LOGGER.info("ExtDialog.main(...).new ActionListener() {...}.actionPerformed()");
             Toolkit.getDefaultToolkit().beep();
         });
 
@@ -27,7 +32,7 @@ public final class ExtDialogMain {
         dialog.configure(config);
         dialog.setVisible(true);
 
-        System.out.println(dialog.isYesOrOK());
+        LOGGER.info("{}", dialog.isYesOrOK());
     }
 
     private ExtDialogMain() {

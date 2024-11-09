@@ -34,7 +34,7 @@ public final class KeyPairCryptoEcc implements Crypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
-     * @param keySize; ECC: 256, 384, 521
+     * @param keySize int ECC: 256, 384, 521
      */
     public static Crypto create(final int keySize) throws GeneralSecurityException {
         final SecureRandom secureRandom = SecureRandom.getInstanceStrong();

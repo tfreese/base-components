@@ -14,6 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <a href="https://docs.oracle.com/javase/tutorial/uiswing/misc/trans_shaped_windows.html">trans_shaped_windows</a><br>
  * TRANSLUCENT – The underlying platform supports windows with uniform translucency, where each pixel has the same alpha value.<br>
@@ -24,6 +27,8 @@ import javax.swing.WindowConstants;
  * @author Thomas Freese
  */
 public final class ShapedWindowMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShapedWindowMain.class);
+
     public static void main(final String[] args) {
         // Determine what the GraphicsDevice can support.
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -34,14 +39,14 @@ public final class ShapedWindowMain {
 
         // If shaped windows aren't supported, exit.
         if (!isPerPixelTranslucencySupported) {
-            System.err.println("Shaped windows are not supported");
+            LOGGER.warn("Per-pixel translucency is not supported on device {}", gd.getIDstring());
             System.exit(0);
         }
 
         // If translucent windows aren't supported,
         // create an opaque window.
         if (!isTranslucencySupported) {
-            System.out.println("Translucency is not supported, creating an opaque window");
+            LOGGER.warn("Translucency is not supported, creating an opaque window");
         }
 
         // Create the GUI on the event-dispatching thread

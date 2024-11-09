@@ -10,7 +10,7 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 public class ColorAdapter extends XmlAdapter<String, Color> {
     @Override
     public String marshal(final Color arg0) throws Exception {
-        // zB. ff00ff00 -> Grün
+        // z.B. ff00ff00 -> Grün
         String hex = "#" + Integer.toHexString(arg0.getRGB());
 
         // Die ersten beiden FFs abschneiden, ist der Alphawert

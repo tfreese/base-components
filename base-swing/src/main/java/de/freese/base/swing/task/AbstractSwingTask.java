@@ -304,7 +304,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * A convenience method that sets the {@code progress} property to the following ratio normalized to 0 .. 100.
+     * A convenience method that sets the {@code progress} property to the following ratio normalized to 0 - 100.
      *
      * <pre>
      * value - min / max - min
@@ -328,7 +328,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * A convenience method that sets the {@code progress} property to the following ratio normalized to 0 .. 100.
+     * A convenience method that sets the {@code progress} property to the following ratio normalized to 0 - 100.
      *
      * <pre>
      * value - min / max - min
@@ -352,7 +352,7 @@ public abstract class AbstractSwingTask<T, V> extends SwingWorker<T, V> implemen
     }
 
     /**
-     * A convenience method that sets the {@code progress} property to the following ratio normalized to 0 .. 100.
+     * A convenience method that sets the {@code progress} property to the following ratio normalized to 0 - 100.
      *
      * <pre>
      * value - min / max - min

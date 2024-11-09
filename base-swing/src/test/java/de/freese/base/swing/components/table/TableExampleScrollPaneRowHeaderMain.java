@@ -55,7 +55,7 @@ public final class TableExampleScrollPaneRowHeaderMain {
         }
 
         // ViewPort
-        final MyTableModel tableModelData = new MyTableModel(new ArrayList<>(list.get(0).keySet()));
+        final MyTableModel tableModelData = new MyTableModel(new ArrayList<>(list.getFirst().keySet()));
         tableModelData.addAll(list);
 
         final JTable tableData = new JTable(tableModelData);

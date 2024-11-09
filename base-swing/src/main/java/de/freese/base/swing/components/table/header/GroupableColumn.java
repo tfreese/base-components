@@ -31,6 +31,8 @@ public class GroupableColumn {
     }
 
     public GroupableColumn(final TableCellRenderer renderer, final String text) {
+        super();
+        
         if (renderer == null) {
             this.renderer = new DefaultTableCellRenderer() {
                 @Serial

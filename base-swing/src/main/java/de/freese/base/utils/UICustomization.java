@@ -61,8 +61,7 @@ public final class UICustomization {
                 UIManager.put(key, font);
             }
             // Nicht alle Fonts werden als Font-Objekte geladen
-            // if (value instanceof Font)
-            // {
+            // if (value instanceof Font) {
             // UIManager.put(key, font);
             // }
         }

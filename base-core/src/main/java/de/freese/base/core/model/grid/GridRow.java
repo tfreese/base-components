@@ -9,7 +9,7 @@ import java.util.List;
 @FunctionalInterface
 public interface GridRow {
 
-    static GridRow of(List<?> list) {
+    static GridRow of(final List<?> list) {
         return columnIndex -> {
             if (columnIndex > list.size()) {
                 return null;
@@ -19,7 +19,7 @@ public interface GridRow {
         };
     }
 
-    static GridRow of(Object[] objectArray) {
+    static GridRow of(final Object[] objectArray) {
         return columnIndex -> {
             if (columnIndex > objectArray.length) {
                 return null;

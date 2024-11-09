@@ -102,7 +102,7 @@ class MouseGesturesRecognizer {
      * @return <code>true</code> if there are recognized movements; <code>false</code> otherwise
      */
     boolean isGestureRecognized() {
-        return gesture.length() > 0;
+        return !gesture.isEmpty();
     }
 
     void processMouseEvent(final MouseEvent event) {

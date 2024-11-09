@@ -11,6 +11,8 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Thomas Freese
@@ -18,6 +20,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 @Execution(ExecutionMode.CONCURRENT)
 class TestThrottler // extends AbstractIoTest
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestThrottler.class);
+
     static Stream<Arguments> createThrottler() {
         return Stream.of(
                 Arguments.of("SimpleThrottler", (Function<Integer, Throttler>) SimpleThrottler::create),
@@ -47,7 +51,7 @@ class TestThrottler // extends AbstractIoTest
     private void doTest(final String name, final int permits, final Function<Integer, Throttler> throttleFunction) {
         final Throttler throttler = throttleFunction.apply(permits);
 
-        // Warmup...sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.
+        // Warmup: sonst stimmen komischerweise bei Failsafe und Resilience4J die Raten nicht.
         throttler.acquirePermit();
 
         final int size = 12_000;
@@ -64,7 +68,8 @@ class TestThrottler // extends AbstractIoTest
         final double timeMillis = (double) elapsed / 1_000_000D;
         final double delta = Math.abs(rate - permits);
 
-        System.out.printf("%-20s; Time = %9.3f ms; Permits = %d; Rate = %8.3f 1/s; Delta = %8.3f%n", name, timeMillis, permits, rate, delta);
+        final String message = "%-20s; Time = %9.3f ms; Permits = %d; Rate = %8.3f 1/s; Delta = %8.3f%n".formatted(name, timeMillis, permits, rate, delta);
+        LOGGER.info(message);
 
         assertEquals(permits, rate, permits * 0.01D); // Max. 1 % Abweichung
     }

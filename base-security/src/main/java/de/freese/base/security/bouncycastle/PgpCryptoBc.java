@@ -17,6 +17,7 @@ import java.util.Iterator;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.bcpg.CompressionAlgorithmTags;
 import org.bouncycastle.bcpg.HashAlgorithmTags;
+import org.bouncycastle.bcpg.KeyIdentifier;
 import org.bouncycastle.bcpg.PublicKeyAlgorithmTags;
 import org.bouncycastle.bcpg.SymmetricKeyAlgorithmTags;
 import org.bouncycastle.bcpg.sig.KeyFlags;
@@ -57,6 +58,8 @@ import org.bouncycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
 import org.bouncycastle.openpgp.operator.bc.BcPublicKeyDataDecryptorFactory;
 import org.bouncycastle.openpgp.operator.bc.BcPublicKeyKeyEncryptionMethodGenerator;
 import org.bouncycastle.util.encoders.Hex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Links:<br>
@@ -72,19 +75,17 @@ import org.bouncycastle.util.encoders.Hex;
 class PgpCryptoBc {
     private static final int DEFAULT_BUFFER_SIZE = 4096;
     private static final int KEY_FLAGS = 27;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PgpCryptoBc.class);
     private static final int[] MASTER_KEY_CERTIFICATION_TYPES =
             {PGPSignature.POSITIVE_CERTIFICATION, PGPSignature.CASUAL_CERTIFICATION, PGPSignature.NO_CERTIFICATION, PGPSignature.DEFAULT_CERTIFICATION};
 
     public static String getAlgorithm(final int algorithm) {
         return switch (algorithm) {
             case PublicKeyAlgorithmTags.RSA_GENERAL -> "RSA_GENERAL";
-            case PublicKeyAlgorithmTags.RSA_ENCRYPT -> "RSA_ENCRYPT";
-            case PublicKeyAlgorithmTags.RSA_SIGN -> "RSA_SIGN";
             case PublicKeyAlgorithmTags.ELGAMAL_ENCRYPT -> "ELGAMAL_ENCRYPT";
             case PublicKeyAlgorithmTags.DSA -> "DSA";
             case PublicKeyAlgorithmTags.ECDH -> "ECDH";
             case PublicKeyAlgorithmTags.ECDSA -> "ECDSA";
-            case PublicKeyAlgorithmTags.ELGAMAL_GENERAL -> "ELGAMAL_GENERAL";
             case PublicKeyAlgorithmTags.DIFFIE_HELLMAN -> "DIFFIE_HELLMAN";
 
             default -> "unknown";
@@ -105,7 +106,7 @@ class PgpCryptoBc {
                     pgpPub.getPublicKey();
                 }
                 catch (Exception ex) {
-                    ex.printStackTrace();
+                    LOGGER.error(ex.getMessage(), ex);
                     continue;
                 }
 
@@ -116,32 +117,25 @@ class PgpCryptoBc {
                     final PGPPublicKey pgpKey = it.next();
 
                     if (first) {
-                        System.out.printf("Key ID: %d, HEX: %s%n", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
+                        LOGGER.info("Key ID: {}, HEX: {}", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
                         first = false;
                     }
                     else {
-                        System.out.printf("Subkey ID: %d, HEX: %s%n", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
+                        LOGGER.info("Subkey ID: {}, HEX: {}", pgpKey.getKeyID(), Long.toHexString(pgpKey.getKeyID()).toUpperCase());
                     }
 
-                    System.out.printf("\tAlgorithm: %s%n", getAlgorithm(pgpKey.getAlgorithm()));
-                    System.out.printf("\tFingerprint: %s%n", new String(Hex.encode(pgpKey.getFingerprint()), StandardCharsets.UTF_8).toUpperCase());
+                    LOGGER.info("\tAlgorithm: {}", getAlgorithm(pgpKey.getAlgorithm()));
+                    LOGGER.info("\tFingerprint: {}", new String(Hex.encode(pgpKey.getFingerprint()), StandardCharsets.UTF_8).toUpperCase());
 
                     final Iterator<String> userIDs = pgpKey.getUserIDs();
 
                     while (userIDs.hasNext()) {
-                        System.out.printf("\tUserID: %s%n", userIDs.next());
+                        LOGGER.info("\tUserID: {}", userIDs.next());
                     }
                 }
             }
         }
     }
-
-    // @Override
-    // public void setKeyPair(final KeyPair keyPair)
-    // {
-    // setPublicKey(keyPair.getPublic());
-    // setPrivateKey(keyPair.getPrivate());
-    // }
 
     PgpCryptoBc() {
         super();
@@ -152,17 +146,20 @@ class PgpCryptoBc {
     }
 
     // @Override
-    // public byte[] decrypt(final byte[] bytes) throws GeneralSecurityException
-    // {
+    // public void setKeyPair(final KeyPair keyPair) {
+    // setPublicKey(keyPair.getPublic());
+    // setPrivateKey(keyPair.getPrivate());
+    // }
+    //
+    // @Override
+    // public byte[] decrypt(final byte[] bytes) throws GeneralSecurityException {
     // final ByteArrayInputStream in = new ByteArrayInputStream(bytes);
     // final ByteArrayOutputStream out = new ByteArrayOutputStream();
     //
-    // try
-    // {
+    // try {
     // decrypt(in, out);
     // }
-    // catch (IOException ex)
-    // {
+    // catch (IOException ex) {
     // throw new GeneralSecurityException(ex);
     // }
     //
@@ -179,9 +176,7 @@ class PgpCryptoBc {
         final Object object = objectFactory.nextObject();
         PGPEncryptedDataList encryptedDataList = null;
 
-        //
         // the first object might be a PGP marker packet.
-        //
         if (object instanceof PGPEncryptedDataList obj) {
             encryptedDataList = obj;
         }
@@ -189,16 +184,14 @@ class PgpCryptoBc {
             encryptedDataList = (PGPEncryptedDataList) objectFactory.nextObject();
         }
 
-        //
         // find the secret key
-        //
         final Iterator<PGPEncryptedData> it = encryptedDataList.getEncryptedDataObjects();
         PGPPublicKeyEncryptedData encryptedData = null;
         PGPPrivateKey privateKey = null;
 
         while (it.hasNext()) {
             encryptedData = (PGPPublicKeyEncryptedData) it.next();
-            privateKey = findPrivateKey(keyIn, encryptedData.getKeyID(), password);
+            privateKey = findPrivateKey(keyIn, encryptedData.getKeyIdentifier(), password);
 
             if (privateKey != null) {
                 break;
@@ -238,10 +231,8 @@ class PgpCryptoBc {
             throw new PGPException("Message is not a simple encrypted file - type unknown.");
         }
 
-        if (encryptedData.isIntegrityProtected()) {
-            if (!encryptedData.verify()) {
-                throw new PGPException("Message failed integrity check");
-            }
+        if (encryptedData.isIntegrityProtected() && !encryptedData.verify()) {
+            throw new PGPException("Message failed integrity check");
         }
     }
 
@@ -279,11 +270,11 @@ class PgpCryptoBc {
     /**
      * Load a secret key ring collection from keyIn and find the private key corresponding to keyID if it exists.
      */
-    public PGPPrivateKey findPrivateKey(final InputStream keyIn, final long keyID, final char[] pass) throws Exception {
+    public PGPPrivateKey findPrivateKey(final InputStream keyIn, final KeyIdentifier keyIdentifier, final char[] pass) throws Exception {
         try (InputStream decoderInputStream = PGPUtil.getDecoderStream(keyIn)) {
             final PGPSecretKeyRingCollection keyRingCollection = new PGPSecretKeyRingCollection(decoderInputStream, new BcKeyFingerprintCalculator());
 
-            return findPrivateKey(keyRingCollection.getSecretKey(keyID), pass);
+            return findPrivateKey(keyRingCollection.getSecretKey(keyIdentifier.getKeyId()), pass);
         }
     }
 
@@ -297,18 +288,15 @@ class PgpCryptoBc {
         }
 
         // // Validate secret key
-        // if (!secretKey.isSigningKey())
-        // {
+        // if (!secretKey.isSigningKey()) {
         // throw new IllegalArgumentException("Private key does not allow signing.");
         // }
         //
-        // if (secretKey.getPublicKey().isRevoked())
-        // {
+        // if (secretKey.getPublicKey().isRevoked()) {
         // throw new IllegalArgumentException("Private key has been revoked.");
         // }
         //
-        // if (!hasKeyFlags(secretKey.getPublicKey(), KeyFlags.SIGN_DATA))
-        // {
+        // if (!hasKeyFlags(secretKey.getPublicKey(), KeyFlags.SIGN_DATA)) {
         // throw new IllegalArgumentException("Key cannot be used for signing.");
         // }
 
@@ -364,7 +352,7 @@ class PgpCryptoBc {
      * I didn't think it was worth having to import a 4meg lib for three methods.
      */
     public boolean isForEncryption(final PGPPublicKey key) {
-        if (key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_SIGN
+        if (key.getAlgorithm() == PublicKeyAlgorithmTags.RSA_GENERAL
                 || key.getAlgorithm() == PublicKeyAlgorithmTags.DSA
                 || key.getAlgorithm() == PublicKeyAlgorithmTags.ECDH
                 || key.getAlgorithm() == PublicKeyAlgorithmTags.ECDSA) {
@@ -440,7 +428,7 @@ class PgpCryptoBc {
 
                 final PGPContentSignerBuilder signerBuilder = new BcPGPContentSignerBuilder(secretKey.getPublicKey().getAlgorithm(), HashAlgorithmTags.SHA1);
 
-                final PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(signerBuilder);
+                final PGPSignatureGenerator signatureGenerator = new PGPSignatureGenerator(signerBuilder, secretKey.getPublicKey());
                 signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
 
                 boolean firstTime = true;

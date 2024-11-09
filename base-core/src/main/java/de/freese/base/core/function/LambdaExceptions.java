@@ -301,7 +301,7 @@ public final class LambdaExceptions {
 
     /**
      * Erweitert einen {@link Supplier} mit ExceptionHandling.<br>
-     * Exceptions werden als {@link RuntimeException} geworfen..
+     * Exceptions werden als {@link RuntimeException} geworfen.
      */
     public static <R> Supplier<R> wrapSupplier(final Supplier<R> supplier) {
         return wrapSupplier(supplier, THROW_RUNTIME_EXCEPTION_HANDLER);

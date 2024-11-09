@@ -18,13 +18,13 @@ public class ThrowableTracker {
     }
 
     public Throwable getFirstThrowable() {
-        return getThrowables().get(0);
+        return getThrowables().getFirst();
     }
 
     public Throwable getLastThrowable() {
         final List<Throwable> ths = getThrowables();
 
-        return ths.get(ths.size() - 1);
+        return ths.getLast();
     }
 
     public List<Throwable> getThrowables() {

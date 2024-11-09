@@ -94,7 +94,7 @@ public class LedPanel extends Component implements LedConfig {
     }
 
     /**
-     * Nur verwenden, wenn Klasse von Component vererbt !!!
+     * Nur verwenden, wenn Klasse von Component vererbt!
      */
     @Override
     public void paint(final Graphics g) {
@@ -110,7 +110,7 @@ public class LedPanel extends Component implements LedConfig {
             return;
         }
 
-        this.tokens.remove(0);
+        this.tokens.removeFirst();
     }
 
     public void setColorBackground(final Color colorBackground) {

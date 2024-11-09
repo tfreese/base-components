@@ -54,8 +54,7 @@ public final class TableUtils {
         int centerX = (viewRect.width - rect.width) / 2;
         int centerY = (viewRect.height - rect.height) / 2;
 
-        // Fake the location of the cell so that scrollRectToVisible will move the cell to the
-        // center
+        // Fake the location of the cell so that scrollRectToVisible will move the cell to the center.
         if (rect.x < centerX) {
             centerX = -centerX;
         }

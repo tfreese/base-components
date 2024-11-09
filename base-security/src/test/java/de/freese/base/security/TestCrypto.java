@@ -26,6 +26,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.utils.Encoding;
 
@@ -37,6 +39,7 @@ import de.freese.base.utils.Encoding;
 @Execution(ExecutionMode.CONCURRENT)
 class TestCrypto {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestCrypto.class);
     private static final String PASSWORD = "password";
     private static final String SOURCE = "abcABC123,.;:-_ÖÄÜöäü*'#+`?ß´987/()=?";
     private static final byte[] SOURCE_BYTES = SOURCE.getBytes(CHARSET);
@@ -203,7 +206,7 @@ class TestCrypto {
         }
 
         for (PbeCryptoAlgorithm.Algorithm algorithm : PbeCryptoAlgorithm.Algorithm.values()) {
-            System.out.println(algorithm);
+            LOGGER.info("{}", algorithm);
 
             testCrypto(new PbeCryptoAlgorithm(PASSWORD, algorithm));
         }

@@ -13,10 +13,15 @@ import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public final class DateServerMain extends Thread {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DateServerMain.class);
+
     /**
      * @author Thomas Freese
      */
@@ -38,7 +43,7 @@ public final class DateServerMain extends Thread {
                     this.clientSocket.close();
                 }
                 catch (Exception ex1) {
-                    ex.printStackTrace();
+                    LOGGER.error(ex.getMessage(), ex);
                 }
             }
         }
@@ -50,7 +55,7 @@ public final class DateServerMain extends Thread {
             }
 
             try {
-                System.out.println("DateServerMain.Connect.run()");
+                LOGGER.info("DateServerMain.Connect.run()");
                 this.outputStream.write(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
                 this.outputStream.flush();
 
@@ -59,7 +64,7 @@ public final class DateServerMain extends Thread {
                 this.clientSocket.close();
             }
             catch (Exception ex) {
-                ex.printStackTrace();
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
     }
@@ -108,23 +113,23 @@ public final class DateServerMain extends Thread {
             sslServerSocket.setNeedClientAuth(true);
         }
 
-        System.out.println("Server listening on port 3000.");
+        LOGGER.info("Server listening on port 3000.");
     }
 
     @Override
     public void run() {
         while (true) {
-            System.out.println("Waiting for connections.");
+            LOGGER.info("Waiting for connections.");
 
             try {
                 final Socket clientSocket = this.serverSocket.accept();
-                System.out.println("Accepted a connection from: " + clientSocket.getInetAddress());
+                LOGGER.info("Accepted a connection from: {}", clientSocket.getInetAddress());
 
                 final Runnable connect = new Connect(clientSocket);
                 ForkJoinPool.commonPool().execute(connect);
             }
             catch (Exception ex) {
-                ex.printStackTrace();
+                LOGGER.error(ex.getMessage(), ex);
             }
         }
     }

@@ -24,7 +24,7 @@ public class LoggerProgressCallback implements ProgressCallback {
     @Override
     public void setProgress(final double percentage) {
         if (this.logger.isInfoEnabled()) {
-            this.logger.info(String.format("%1$3.2f %%", percentage * 100D));
+            this.logger.info("{}", "%1$3.2f %%".formatted(percentage * 100D));
         }
     }
 }

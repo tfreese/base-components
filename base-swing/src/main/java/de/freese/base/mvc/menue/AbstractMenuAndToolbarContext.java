@@ -100,7 +100,7 @@ public abstract class AbstractMenuAndToolbarContext {
     }
 
     public void setState(final Node parentNode, final String name, final ComponentState state) {
-
+        // Empty
     }
 
     protected void addMenu(final String nameParent, final String name, final Consumer<Node> configurer) {

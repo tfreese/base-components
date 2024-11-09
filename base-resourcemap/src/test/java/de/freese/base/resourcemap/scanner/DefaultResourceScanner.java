@@ -29,7 +29,7 @@ public class DefaultResourceScanner implements ResourceScanner {
     public Set<String> scanResources(final String basePath) {
         String searchPath = basePath == null ? "" : basePath;
 
-        if (searchPath.length() > 0) {
+        if (!searchPath.isEmpty()) {
             // Package kann durch / oder \ getrennt sein
             searchPath = searchPath.replace("/", "[/\\\\]");
             searchPath = "(" + searchPath + ")";
@@ -42,7 +42,7 @@ public class DefaultResourceScanner implements ResourceScanner {
         final String propertyRegex = ".[^/\\\\]+(_[a-z]{2})?(_[A-Z]{2})?\\.properties$";
 
         // Nach dem Package darf kein / oder \ Zeichen kommen
-        final String pathRegex = searchPath.length() > 0 ? searchPath + "[/\\\\]" : searchPath;
+        final String pathRegex = !searchPath.isEmpty() ? searchPath + "[/\\\\]" : searchPath;
 
         // Alles zusammenbauen
         final String resourceRegex = folderRegex + pathRegex + propertyRegex;

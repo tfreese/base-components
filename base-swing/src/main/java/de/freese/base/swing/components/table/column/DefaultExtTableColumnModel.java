@@ -80,7 +80,7 @@ public class DefaultExtTableColumnModel extends DefaultTableColumnModel implemen
         this.currentColumns.add(aColumn);
         this.initialColumns.add(aColumn);
 
-        // let super handle the event notification, super.book-keeping
+        // let super handle the event notification.
         super.addColumn(aColumn);
 
         if (aColumn instanceof ExtTableColumn c) {

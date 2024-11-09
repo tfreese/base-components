@@ -24,9 +24,7 @@ public class TaskManager {
             final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             switch (event.getPropertyName()) {
-                case SwingTask.PROPERTY_CANCELLED, SwingTask.PROPERTY_FAILED, SwingTask.PROPERTY_SUCCEEDED -> {
-                    removeForegroundTask(task);
-                }
+                case SwingTask.PROPERTY_CANCELLED, SwingTask.PROPERTY_FAILED, SwingTask.PROPERTY_SUCCEEDED -> removeForegroundTask(task);
                 default -> {
                     // Empty
                 }
@@ -43,9 +41,7 @@ public class TaskManager {
             final AbstractSwingTask<?, ?> task = (AbstractSwingTask<?, ?>) event.getSource();
 
             switch (event.getPropertyName()) {
-                case SwingTask.PROPERTY_STARTED, SwingTask.PROPERTY_PROGRESS -> {
-                    setForegroundTask(task);
-                }
+                case SwingTask.PROPERTY_STARTED, SwingTask.PROPERTY_PROGRESS -> setForegroundTask(task);
                 default -> {
                     // Empty
                 }

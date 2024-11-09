@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.utils.NetUtils;
 
@@ -24,6 +26,8 @@ import de.freese.base.utils.NetUtils;
  */
 @Execution(ExecutionMode.CONCURRENT)
 class TestNetUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestNetUtils.class);
+
     @BeforeAll
     static void beforeAll() {
         // enableProxy();
@@ -66,11 +70,9 @@ class TestNetUtils {
         // System.setProperty("https.proxyPassword", "...");
         // System.setProperty("https.auth.ntlm.domain", "DOMAIN");
         // System.setProperty("https.nonProxyHosts", "localhost|host1|host2");
-        // java.net.Authenticator.setDefault(new java.net.Authenticator()
-        // {
+        // java.net.Authenticator.setDefault(new java.net.Authenticator() {
         // @Override
-        // protected PasswordAuthentication getPasswordAuthentication()
-        // {
+        // protected PasswordAuthentication getPasswordAuthentication() {
         // return new PasswordAuthentication("USER", "PASSWORD".toCharArray());
         // }
         // });
@@ -83,22 +85,21 @@ class TestNetUtils {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
             assertNotNull(hostName);
-            System.out.printf("InetAddress.getLocalHost: %s%n", hostName);
+            LOGGER.info("InetAddress.getLocalHost: {}", hostName);
         }
         catch (Exception ex) {
             // Bei Betriebssystemen ohne DNS-Konfiguration funktioniert InetAddress.getLocalHost nicht !
-            System.out.printf("InetAddress.getLocalHost: %s%n", ex.getMessage());
+            LOGGER.info("InetAddress.getLocalHost: {}", ex.getMessage());
         }
 
         // Cross Platform (Windows, Linux, Unix, Mac)
         try (BufferedReader br = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(new String[]{"hostname"}).getInputStream()))) {
             hostName = br.readLine();
             assertNotNull(hostName);
-            System.out.printf("CMD 'hostname': %s%n", hostName);
+            LOGGER.info("CMD 'hostname': {}", hostName);
         }
         catch (Exception ex) {
-            // Ignore
-            System.out.printf("CMD 'hostname': %s%n", ex.getMessage());
+            LOGGER.error("CMD 'hostname': {}", ex.getMessage());
         }
 
         try {
@@ -119,17 +120,17 @@ class TestNetUtils {
                     if (!address.isLoopbackAddress() && address instanceof Inet4Address) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
-                        System.out.printf("NetworkInterface IPv4: %s%n", hostName);
+                        LOGGER.info("NetworkInterface IPv4: {}", hostName);
                     }
                     else if (!address.isLoopbackAddress() && !address.isLinkLocalAddress()) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
-                        System.out.printf("NetworkInterface IPv6: %s%n", hostName);
+                        LOGGER.info("NetworkInterface IPv6: {}", hostName);
                     }
                     else if (!address.isLoopbackAddress()) {
                         hostName = address.getHostName();
                         assertNotNull(hostName);
-                        System.out.printf("NetworkInterface IPv6 Link: %s%n", hostName);
+                        LOGGER.info("NetworkInterface IPv6 Link: {}", hostName);
                     }
                 }
             }

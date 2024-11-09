@@ -11,10 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Thomas Freese
  */
 public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DemoMenuAndToolbarContext.class);
+
     public static void main(final String[] args) {
         final DemoMenuAndToolbarContext menuAndToolbarContext = new DemoMenuAndToolbarContext();
         menuAndToolbarContext.configure();
@@ -43,7 +48,7 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
     }
 
     private static void actionApplicationExit(final JLabel label) {
-        System.out.println("Application - Exit");
+        LOGGER.info("Application - Exit");
         label.setText("Application - Exit");
 
         SwingUtilities.invokeLater(() -> {
@@ -53,7 +58,7 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
             catch (InterruptedException ex) {
                 // Restore interrupted state.
                 Thread.currentThread().interrupt();
-                
+
                 throw new RuntimeException(ex);
             }
 
@@ -62,7 +67,7 @@ public class DemoMenuAndToolbarContext extends AbstractMenuAndToolbarContext {
     }
 
     private static void actionFileSave(final AbstractMenuAndToolbarContext menuAndToolbarContext, final JLabel label) {
-        System.out.println("File - Save");
+        LOGGER.info("File - Save");
         label.setText("File - Save");
 
         menuAndToolbarContext.setState("FILE", "SAVE", ComponentState.VISIBLE_DISABLED);

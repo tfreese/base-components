@@ -23,12 +23,17 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.GCMParameterSpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Beispiele für JCE-API.
  *
  * @author Thomas Freese see base-security/keystore.txt
  */
 public final class KeystoreMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(KeystoreMain.class);
+
     public static void main(final String[] args) throws Exception {
         final String provider = "SunJCE"; // "SUN";
 
@@ -66,7 +71,7 @@ public final class KeystoreMain {
             }
         }
 
-        Collections.list(keyStore.aliases()).forEach(a -> System.out.println("Alias: " + a));
+        Collections.list(keyStore.aliases()).forEach(a -> LOGGER.info("Alias: {}", a));
 
         key = keyStore.getKey(alias, aliasPSW);
 
@@ -114,16 +119,14 @@ public final class KeystoreMain {
 
     private static void testCrypt(final Cipher encryptCipher, final Cipher decryptCipher) throws Exception {
         final String message = "abcABC123";
-        System.out.println("Message: " + message);
+        LOGGER.info("Message: {}", message);
 
         final byte[] encryptedBytes = encryptCipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
-        System.out.println("Encrypted Bytes: " + new String(encryptedBytes, StandardCharsets.UTF_8));
-        System.out.println("Encrypted Base64: " + Base64.getEncoder().encodeToString(encryptedBytes));
+        LOGGER.info("Encrypted Bytes: {}", new String(encryptedBytes, StandardCharsets.UTF_8));
+        LOGGER.info("Encrypted Base64: {}", Base64.getEncoder().encodeToString(encryptedBytes));
 
         final byte[] decryptedBytes = decryptCipher.doFinal(encryptedBytes);
-        System.out.println("Decrypted Message: " + new String(decryptedBytes, StandardCharsets.UTF_8));
-
-        System.out.println();
+        LOGGER.info("Decrypted Message: {}", new String(decryptedBytes, StandardCharsets.UTF_8));
     }
 
     private KeystoreMain() {

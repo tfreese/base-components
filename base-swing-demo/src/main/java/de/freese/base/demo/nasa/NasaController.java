@@ -86,7 +86,7 @@ public class NasaController extends AbstractController {
         }
         else {
             uri = generateUri();
-            this.uriHistory.add(0, uri);
+            this.uriHistory.addFirst(uri);
             this.uriHistoryCurrentIndex = 0;
         }
 

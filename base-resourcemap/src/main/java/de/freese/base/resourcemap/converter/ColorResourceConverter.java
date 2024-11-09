@@ -15,12 +15,11 @@ public class ColorResourceConverter extends AbstractResourceConverter<Color> {
 
         if (value.startsWith("#")) {
             switch (value.length()) {
-                case 7 -> {
-                    // RGB/hex color
-                    color = Color.decode(value);
-                }
+                // RGB/hex color
+                case 7 -> color = Color.decode(value);
+
+                // ARGB/hex color
                 case 9 -> {
-                    // ARGB/hex color
                     final int alpha = Integer.decode(value.substring(0, 3));
                     final int rgb = Integer.decode("#" + value.substring(3));
                     color = new Color((alpha << 24) | rgb, true);

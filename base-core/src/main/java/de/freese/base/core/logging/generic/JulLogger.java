@@ -10,6 +10,8 @@ class JulLogger implements Logger {
     private final java.util.logging.Logger logger;
 
     JulLogger(final String name) {
+        super();
+        
         this.logger = java.util.logging.Logger.getLogger(name);
     }
 

@@ -14,7 +14,7 @@ import javax.swing.table.TableColumnModel;
 /**
  * Delegator für ein {@link TableColumnModel}. Damit wird sichergestellt, dass die Spaltenbreiten dieselben sind, wie die Tabelle mit dem übergebenden
  * {@link TableColumnModel}. Zusätzlich wird verhindert, das beide ColumnModels das gleiche SelectionModel haben.<br>
- * Achtung!!!: Die Methoden removeColumn(), getSelectedColumns(), getSelectedColumnCount()<br>
+ * Achtung!: Die Methoden removeColumn(), getSelectedColumns(), getSelectedColumnCount()<br>
  * und moveColumn() müssen angepasst werden, wenn das SelectionModel richtig funktionieren soll.
  *
  * @author Thomas Freese

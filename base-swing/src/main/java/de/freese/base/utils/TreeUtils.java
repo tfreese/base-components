@@ -82,11 +82,9 @@ public final class TreeUtils {
     public static void expand(final JTree tree, final TreePath path, final int level) {
         // tree.expandPath(path);
         // final DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-        // for (int i = 0; i < node.getChildCount(); i++)
-        // {
+        // for (int i = 0; i < node.getChildCount(); i++) {
         // final DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getChildAt(i);
-        // if (child.getLevel() < level)
-        // {
+        // if (child.getLevel() < level) {
         // final TreePath childPath = new TreePath(child.getPath());
         // expandTreeToLevel(tree, childPath, level);
         // }
@@ -122,8 +120,7 @@ public final class TreeUtils {
         // final TreePath rootPath = new TreePath(treeModel.getRoot());
         // final Enumeration<TreePath> expandedEnum = tree.getExpandedDescendants(rootPath);
         //
-        // if (expandedEnum != null)
-        // {
+        // if (expandedEnum != null) {
         // expanded = Collections.list(expandedEnum);
         // }
 
@@ -198,7 +195,7 @@ public final class TreeUtils {
         Object parent = getParentFor(treeModel, object);
 
         while (parent != null) {
-            list.add(0, parent);
+            list.addFirst(parent);
             parent = getParentFor(treeModel, parent);
         }
 

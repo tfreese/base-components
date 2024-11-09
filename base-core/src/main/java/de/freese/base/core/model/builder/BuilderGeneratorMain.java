@@ -11,6 +11,7 @@ public final class BuilderGeneratorMain {
         final BuilderGenerator generator = new BuilderGenerator(fields -> {
             fields.remove("serialVersionUID");
             fields.remove("valueB");
+            
             return fields;
         });
         generator.createBuilder(Tupel3.class, true, System.out);

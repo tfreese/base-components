@@ -22,6 +22,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <a href="https://medium.com/@olehdokuka/mastering-own-reactive-streams-implementation-part-1-publisher-e8eaf928a78c">mastering-own-reactive-streams</a>
@@ -32,6 +34,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 class TestStreamPublisher {
     static final Executor EXECUTOR = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     static final Supplier<Stream<? extends Integer>> STREAM_SUPPLIER = () -> Stream.of(1, 2, 3, 4, 5, 6);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestStreamPublisher.class);
 
     /**
      * @author Thomas Freese
@@ -41,24 +44,24 @@ class TestStreamPublisher {
 
         @Override
         public void onComplete() {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onComplete");
+            LOGGER.info("{}: {}#onComplete", Thread.currentThread().getName(), getClass().getSimpleName());
         }
 
         @Override
         public void onError(final Throwable t) {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onError: " + t.getMessage());
+            LOGGER.info("{}: {}#onError", Thread.currentThread().getName(), getClass().getSimpleName());
         }
 
         @Override
         public void onNext(final T item) {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onNext: " + item);
+            LOGGER.info("{}: {}#onNext", Thread.currentThread().getName(), getClass().getSimpleName());
 
             this.subscription.request(1); // Nächstes Element anfordern.
         }
 
         @Override
         public void onSubscribe(final Subscription subscription) {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe");
+            LOGGER.info("{}: {}#onSubscribe", Thread.currentThread().getName(), getClass().getSimpleName());
 
             this.subscription = subscription;
             this.subscription.request(1); // Erstes Element anfordern.
@@ -93,21 +96,21 @@ class TestStreamPublisher {
 
         @Override
         public void onComplete() {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onComplete");
+            LOGGER.info("{}: {}#onComplete", Thread.currentThread().getName(), getClass().getSimpleName());
 
             close();
         }
 
         @Override
         public void onError(final Throwable throwable) {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onError: " + throwable.getMessage());
+            LOGGER.info("{}: {}#onError", Thread.currentThread().getName(), getClass().getSimpleName());
 
             closeExceptionally(throwable);
         }
 
         @Override
         public void onNext(final T item) {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe: " + item);
+            LOGGER.info("{}: {}#onNext", Thread.currentThread().getName(), getClass().getSimpleName());
 
             submit(this.function.apply(item)); // Dieses Element verarbeiten.
             this.subscription.request(1); // Nächstes Element anfordern.
@@ -115,7 +118,7 @@ class TestStreamPublisher {
 
         @Override
         public void onSubscribe(final Subscription subscription) {
-            System.out.println(Thread.currentThread().getName() + ": " + getClass().getSimpleName() + "#onSubscribe");
+            LOGGER.info("{}: {}#onSubscribe", Thread.currentThread().getName(), getClass().getSimpleName());
 
             this.subscription = subscription;
             this.subscription.request(1); // Erstes Element anfordern.
@@ -138,8 +141,6 @@ class TestStreamPublisher {
         // Publisher<Integer> publisher = new StreamPublisher<>(streamSupplier);
         publisher.subscribe(new MyTestSubscriber<>());
 
-        System.out.println();
-
         assertTrue(true);
     }
 
@@ -159,8 +160,6 @@ class TestStreamPublisher {
             // publisher.close();
         }
 
-        System.out.println();
-
         assertTrue(true);
     }
 
@@ -175,8 +174,6 @@ class TestStreamPublisher {
 
             // publisher.close();
         }
-
-        System.out.println();
 
         assertTrue(true);
     }

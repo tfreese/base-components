@@ -8,6 +8,8 @@ class Slf4jLogger implements Logger {
     private final org.slf4j.Logger logger;
 
     Slf4jLogger(final String name) {
+        super();
+
         this.logger = org.slf4j.LoggerFactory.getLogger(name);
     }
 

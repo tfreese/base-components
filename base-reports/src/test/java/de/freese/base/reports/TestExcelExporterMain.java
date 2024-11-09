@@ -20,6 +20,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.freese.base.reports.exporter.AbstractExcelExporter;
 import de.freese.base.reports.exporter.Exporter;
@@ -28,6 +30,8 @@ import de.freese.base.reports.exporter.Exporter;
  * @author Thomas Freese
  */
 public final class TestExcelExporterMain {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestExcelExporterMain.class);
+
     private static CellStyle cellStyleDefault;
     private static CellStyle cellStyleDefaultBackground;
 
@@ -62,8 +66,7 @@ public final class TestExcelExporterMain {
                     cell.setCellStyle(getCellStyleDefault(workbook));
                 }
 
-                final CellRangeAddress cellRangeAddress = new CellRangeAddress(0, dataCount, 0, 1);
-                sheet.setAutoFilter(cellRangeAddress);
+                sheet.setAutoFilter(new CellRangeAddress(0, dataCount, 0, 1));
                 sheet.createFreezePane(0, 1);
 
                 for (int c = 0; c < 2; c++) {
@@ -80,7 +83,7 @@ public final class TestExcelExporterMain {
                 Desktop.getDesktop().open(filePath.toFile());
             }
             catch (IOException ex) {
-                ex.printStackTrace();
+                LOGGER.error(ex.getMessage(), ex);
             }
         };
 

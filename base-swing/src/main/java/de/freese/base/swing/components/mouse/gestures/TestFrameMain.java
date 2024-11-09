@@ -54,6 +54,8 @@ public final class TestFrameMain extends JFrame {
     private transient MouseGestures mouseGestures = new MouseGestures();
 
     private TestFrameMain() {
+        super();
+        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Mouse Gestures Test Frame");
         getContentPane().setLayout(new BorderLayout());
