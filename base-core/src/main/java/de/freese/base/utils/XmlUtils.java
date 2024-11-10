@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -53,12 +52,12 @@ public final class XmlUtils {
         private final Set<String> messages = new HashSet<>();
 
         @Override
-        public void error(final SAXParseException exception) throws SAXException {
+        public void error(final SAXParseException exception) {
             messages.add(exception.toString());
         }
 
         @Override
-        public void fatalError(final SAXParseException exception) throws SAXException {
+        public void fatalError(final SAXParseException exception) {
             messages.add(exception.toString());
         }
 
@@ -67,7 +66,7 @@ public final class XmlUtils {
         }
 
         @Override
-        public void warning(final SAXParseException exception) throws SAXException {
+        public void warning(final SAXParseException exception) {
             messages.add(exception.toString());
         }
     }

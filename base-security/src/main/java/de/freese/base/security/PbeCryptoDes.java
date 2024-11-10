@@ -38,7 +38,7 @@ public final class PbeCryptoDes implements Crypto {
         return SecureRandom.getInstanceStrong().generateSeed(length);
     }
 
-    private static SecretKey getSecretKey(final String password, final byte[] salt) throws Exception {
+    private static SecretKey getSecretKey(final String password, final byte[] salt) {
         // final KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH);
         // final SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(FACTORY_ALGORITHM);
         // final SecretKey secretKey = secretKeyFactory.generateSecret(keySpec);

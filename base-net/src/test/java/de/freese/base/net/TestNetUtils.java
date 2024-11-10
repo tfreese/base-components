@@ -79,7 +79,7 @@ class TestNetUtils {
     }
 
     @Test
-    void testLocalHost() throws Exception {
+    void testLocalHost() {
         String hostName = null;
 
         try {
@@ -149,7 +149,7 @@ class TestNetUtils {
     }
 
     @Test
-    void testValidHost() throws Exception {
+    void testValidHost() {
         final boolean validHost = NetUtils.isValidHost("ptbtime1.ptb.de");
         assertTrue(validHost);
     }

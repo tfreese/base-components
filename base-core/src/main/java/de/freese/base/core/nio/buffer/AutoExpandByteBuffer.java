@@ -1,7 +1,6 @@
 // Created: 03.11.2016
 package de.freese.base.core.nio.buffer;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.Buffer;
@@ -46,7 +45,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     public InputStream asInputStream() {
         return new InputStream() {
             @Override
-            public int available() throws IOException {
+            public int available() {
                 return AutoExpandByteBuffer.this.remaining();
             }
 
@@ -61,7 +60,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
             }
 
             @Override
-            public int read() throws IOException {
+            public int read() {
                 if (AutoExpandByteBuffer.this.hasRemaining()) {
                     return AutoExpandByteBuffer.this.get() & 0xff;
                 }
@@ -70,7 +69,7 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
             }
 
             @Override
-            public int read(final byte[] b, final int off, final int len) throws IOException {
+            public int read(final byte[] b, final int off, final int len) {
                 final int remaining = AutoExpandByteBuffer.this.remaining();
 
                 if (remaining > 0) {
@@ -84,12 +83,12 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
             }
 
             @Override
-            public synchronized void reset() throws IOException {
+            public synchronized void reset() {
                 AutoExpandByteBuffer.this.reset();
             }
 
             @Override
-            public long skip(final long n) throws IOException {
+            public long skip(final long n) {
                 final int bytes;
 
                 if (n > Integer.MAX_VALUE) {
@@ -109,12 +108,12 @@ public final class AutoExpandByteBuffer extends AbstractAutoExpandBuffer<ByteBuf
     public OutputStream asOutputStream() {
         return new OutputStream() {
             @Override
-            public void write(final byte[] b, final int off, final int len) throws IOException {
+            public void write(final byte[] b, final int off, final int len) {
                 AutoExpandByteBuffer.this.put(b, off, len);
             }
 
             @Override
-            public void write(final int b) throws IOException {
+            public void write(final int b) {
                 AutoExpandByteBuffer.this.put((byte) b);
             }
         };

@@ -57,7 +57,7 @@ public abstract class AbstractIoTest {
      * Verzeichnis-Struktur zum Testen löschen.
      */
     @AfterAll
-    protected static void afterAll() throws Exception {
+    protected static void afterAll() {
         // Würde auch die Dateien andere IO-Tests löschen.
         // deleteDirectoryRecursive(PATH_TEST);
     }

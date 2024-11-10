@@ -37,7 +37,7 @@ public final class TestPdfExporterMain {
     public static void main(final String[] args) throws Exception {
         final Exporter<List<String>> exporter = new AbstractPdfExporter<>() {
             @Override
-            public void export(final Document document, final PdfWriter writer, final List<String> model) throws Exception {
+            public void export(final Document document, final PdfWriter writer, final List<String> model) {
                 // Must be called before opening the Document.
                 // secureReadOnly(writer, "test".getBytes(StandardCharsets.UTF_8), null);
 

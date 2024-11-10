@@ -101,7 +101,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
                 }
             }
 
-            sb.append("\n");
+            sb.append(System.lineSeparator());
         }
 
         final StringSelection selection = new StringSelection(sb.toString());
@@ -230,7 +230,7 @@ public class TableClipboardAdapter extends AbstractClipboardAdapter {
      * Liefert ein 2 dim String Array für die Paste Action.
      */
     private String[][] getPasteMatrix(final String clipboardString) {
-        final String[] rows = clipboardString.split("\n");
+        final String[] rows = clipboardString.split(System.lineSeparator());
 
         // 1. max. Anzahl an Spalten ermitteln
         int maxCols = Integer.MIN_VALUE;

@@ -51,7 +51,7 @@ public abstract class AbstractValidationException extends Exception {
             sb.append(translatorAdapter.translate(getMessage()));
         }
 
-        sb.append("\n\n");
+        sb.append(System.lineSeparator()).append(System.lineSeparator());
         sb.append(getAppendMessage());
 
         return sb.toString();

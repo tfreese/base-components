@@ -38,7 +38,7 @@ public final class TestExcelExporterMain {
     public static void main(final String[] args) throws Exception {
         final Exporter<Integer> exporter = new AbstractExcelExporter<>() {
             @Override
-            public void export(final Workbook workbook, final Integer dataCount) throws Exception {
+            public void export(final Workbook workbook, final Integer dataCount) {
                 final Sheet sheet = workbook.createSheet("SHEET_NAME");
                 sheet.setZoom(100);
 

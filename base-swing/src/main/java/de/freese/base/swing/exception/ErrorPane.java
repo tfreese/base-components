@@ -324,7 +324,7 @@ public final class ErrorPane extends JPanel {
             html.append("<div></div>");
             html.append("<b>Message:</b>");
             html.append("<pre>");
-            html.append("    ").append(escapeXml(errorInfo.getBasicErrorMessage())).append("\n\n");
+            html.append("    ").append(escapeXml(errorInfo.getBasicErrorMessage())).append(System.lineSeparator()).append(System.lineSeparator());
             html.append("    ").append(escapeXml(errorInfo.getErrorException().toString()));
             html.append("</pre>");
             html.append("<br>");
@@ -343,7 +343,7 @@ public final class ErrorPane extends JPanel {
 
                 for (int i = 0; i < ex.getStackTrace().length; i++) {
                     final StackTraceElement el = ex.getStackTrace()[i];
-                    html.append("    ").append(el.toString().replace("<init>", "&lt;init&gt;")).append("\n");
+                    html.append("    ").append(el.toString().replace("<init>", "&lt;init&gt;")).append(System.lineSeparator());
                 }
 
                 html.append("</pre>");

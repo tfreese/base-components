@@ -3,7 +3,6 @@ package de.freese.base.swing.dnd;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -21,7 +20,7 @@ public class SerializableTransferable implements Transferable {
     }
 
     @Override
-    public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+    public Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException {
         if (isDataFlavorSupported(flavor)) {
             return this.objects;
         }

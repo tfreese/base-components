@@ -76,7 +76,7 @@ class TestLoggingJdbcDriver {
 
     private static final class DriverManagerConnectionPool implements ConnectionPool {
         @Override
-        public void close() throws SQLException {
+        public void close() {
             // Empty
         }
 
@@ -103,7 +103,7 @@ class TestLoggingJdbcDriver {
         }
 
         @Override
-        public void close() throws SQLException {
+        public void close() {
             this.dataSource.close();
         }
 
@@ -131,7 +131,7 @@ class TestLoggingJdbcDriver {
         }
 
         @Override
-        public void close() throws SQLException {
+        public void close() {
             this.dataSource.destroy();
         }
 
@@ -158,7 +158,7 @@ class TestLoggingJdbcDriver {
         }
 
         @Override
-        public void close() throws SQLException {
+        public void close() {
             this.dataSource.close();
         }
 

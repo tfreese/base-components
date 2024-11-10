@@ -17,7 +17,7 @@ public final class AutoExpandCharBufferCrLf extends AutoExpandCharBuffer {
      * Default: CRLF = "\r\n"
      */
     public static AutoExpandCharBufferCrLf of(final int capacity) {
-        return of(capacity, "\r\n");
+        return of(capacity, System.lineSeparator());
     }
 
     public static AutoExpandCharBufferCrLf of(final int capacity, final String crlf) {

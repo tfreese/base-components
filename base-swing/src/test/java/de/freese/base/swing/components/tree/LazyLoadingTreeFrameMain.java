@@ -87,7 +87,7 @@ public final class LazyLoadingTreeFrameMain extends JFrame {
 
             final SwingWorker<Void, TreePath> testWorker = new SwingWorker<>() {
                 @Override
-                protected Void doInBackground() throws Exception {
+                protected Void doInBackground() {
                     final int[] expansionIndices = new int[]{0, 1, 2};
 
                     Object parent = tree.getModel().getRoot();

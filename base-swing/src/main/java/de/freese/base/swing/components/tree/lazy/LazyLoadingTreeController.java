@@ -12,7 +12,6 @@ import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
@@ -58,12 +57,12 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
     }
 
     @Override
-    public void treeWillCollapse(final TreeExpansionEvent event) throws ExpandVetoException {
+    public void treeWillCollapse(final TreeExpansionEvent event) {
         // Empty
     }
 
     @Override
-    public void treeWillExpand(final TreeExpansionEvent event) throws ExpandVetoException {
+    public void treeWillExpand(final TreeExpansionEvent event) {
         final DefaultTreeModel treeModel = (DefaultTreeModel) ((JTree) event.getSource()).getModel();
         final TreePath path = event.getPath();
         final Object lastPathComponent = path.getLastPathComponent();
@@ -100,7 +99,7 @@ public class LazyLoadingTreeController implements TreeWillExpandListener {
 
         final SwingWorker<List<MutableTreeNode>, Void> worker = new SwingWorker<>() {
             @Override
-            protected List<MutableTreeNode> doInBackground() throws Exception {
+            protected List<MutableTreeNode> doInBackground() {
                 getLogger().debug("Loading children for {}", node);
 
                 return loadFunction.apply(node);

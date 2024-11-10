@@ -6,10 +6,7 @@
  */
 package de.freese.base.net.ssl.bogus;
 
-import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.ManagerFactoryParameters;
@@ -29,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
     private static final TrustManager DUMMY_TRUST_MANAGER = new X509TrustManager() {
         @Override
-        public void checkClientTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType) {
             // Always trust - it is an example.
             // You should do something in the real world.
             // You will reach here only if you enabled client certificate auth,
@@ -38,7 +35,7 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
         }
 
         @Override
-        public void checkServerTrusted(final X509Certificate[] chain, final String authType) throws CertificateException {
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType) {
             // Always trust - it is an example.
             // You should do something in the real world.
             LOGGER.error("UNKNOWN SERVER CERTIFICATE: {}", chain[0].getSubjectX500Principal());
@@ -61,12 +58,12 @@ public class BogusSSLTrustManagerFactory extends TrustManagerFactorySpi {
     }
 
     @Override
-    protected void engineInit(final KeyStore keystore) throws KeyStoreException {
+    protected void engineInit(final KeyStore keystore) {
         // Unused
     }
 
     @Override
-    protected void engineInit(final ManagerFactoryParameters managerFactoryParameters) throws InvalidAlgorithmParameterException {
+    protected void engineInit(final ManagerFactoryParameters managerFactoryParameters) {
         // Unused
     }
 }

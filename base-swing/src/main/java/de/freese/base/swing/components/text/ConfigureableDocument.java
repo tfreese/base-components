@@ -37,7 +37,7 @@ public class ConfigureableDocument extends PlainDocument {
         }
 
         @Override
-        public void execute(final DocumentContext context) throws Exception {
+        public void execute(final DocumentContext context) {
             final String fullText = context.fullText;
 
             String regex = "[-]?[0-9]+";
@@ -139,7 +139,7 @@ public class ConfigureableDocument extends PlainDocument {
         }
 
         @Override
-        public void execute(final DocumentContext context) throws Exception {
+        public void execute(final DocumentContext context) {
             final String fullText = context.fullText;
 
             if (fullText.length() > this.maxLength) {
@@ -163,7 +163,7 @@ public class ConfigureableDocument extends PlainDocument {
         }
 
         @Override
-        public void execute(final DocumentContext context) throws Exception {
+        public void execute(final DocumentContext context) {
             context.newText = context.newText.toUpperCase();
         }
     }

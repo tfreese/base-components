@@ -44,7 +44,7 @@ class TestSqLite {
     private static SQLiteDataSource dataSource;
 
     @AfterAll
-    protected static void afterAll() throws Exception {
+    protected static void afterAll() {
         // Would delete files from other tests.
         // deleteDirectoryRecursive(PATH_TEST);
     }
@@ -129,7 +129,7 @@ class TestSqLite {
     }
 
     @Test
-    void testSqliteSpring() throws Exception {
+    void testSqliteSpring() {
         // final SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         // dataSource.setDriverClassName("org.sqlite.JDBC");
         // dataSource.setUrl("jdbc:sqlite:" + PATH_TEST.toString() + "/sqlite.db");

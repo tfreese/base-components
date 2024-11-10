@@ -24,7 +24,7 @@ public class DateAdapter extends XmlAdapter<String, Date> {
     }
 
     @Override
-    public String marshal(final Date date) throws Exception {
+    public String marshal(final Date date) {
         return this.formatter.format(date);
     }
 

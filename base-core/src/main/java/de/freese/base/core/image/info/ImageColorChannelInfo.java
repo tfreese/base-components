@@ -100,16 +100,16 @@ public class ImageColorChannelInfo {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("ChannelInfo: ").append(getColorChannel()).append("\n");
-        sb.append("Minimaler Farbwert: ").append(getMinimalerFarbwert()).append("\n");
-        sb.append("Maximaler Farbwert: ").append(getMaximalerFarbwert()).append("\n");
-        sb.append("Mittlerer Farbwert: ").append(getMittlererFarbwert()).append("\n");
-        sb.append("Entropie: ").append(getEntropie()).append("\n");
-        sb.append("Uniformität: ").append(getUniformitaet()).append("\n");
-        sb.append("Unähnlichkeit: ").append(getUnaehnlichkeit()).append("\n");
-        sb.append("Inverse Differenz: ").append(getInverseDifferenz()).append("\n");
-        sb.append("Inverses Differenz Moment: ").append(getInversesDifferenzMoment()).append("\n");
-        sb.append("Kontrast: ").append(getKontrast()).append("\n");
+        sb.append("ChannelInfo: ").append(getColorChannel()).append(System.lineSeparator());
+        sb.append("Minimaler Farbwert: ").append(getMinimalerFarbwert()).append(System.lineSeparator());
+        sb.append("Maximaler Farbwert: ").append(getMaximalerFarbwert()).append(System.lineSeparator());
+        sb.append("Mittlerer Farbwert: ").append(getMittlererFarbwert()).append(System.lineSeparator());
+        sb.append("Entropie: ").append(getEntropie()).append(System.lineSeparator());
+        sb.append("Uniformität: ").append(getUniformitaet()).append(System.lineSeparator());
+        sb.append("Unähnlichkeit: ").append(getUnaehnlichkeit()).append(System.lineSeparator());
+        sb.append("Inverse Differenz: ").append(getInverseDifferenz()).append(System.lineSeparator());
+        sb.append("Inverses Differenz Moment: ").append(getInversesDifferenzMoment()).append(System.lineSeparator());
+        sb.append("Kontrast: ").append(getKontrast()).append(System.lineSeparator());
 
         return sb.toString();
     }

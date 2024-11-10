@@ -31,12 +31,12 @@ public final class SslContextBuilder {
         }
 
         @Override
-        public void checkClientTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) throws CertificateException {
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) {
             checkClientTrusted(chain, authType);
         }
 
         @Override
-        public void checkClientTrusted(final X509Certificate[] chain, final String authType, final Socket socket) throws CertificateException {
+        public void checkClientTrusted(final X509Certificate[] chain, final String authType, final Socket socket) {
             checkClientTrusted(chain, authType);
         }
 
@@ -46,12 +46,12 @@ public final class SslContextBuilder {
         }
 
         @Override
-        public void checkServerTrusted(final X509Certificate[] chain, final String authType, final Socket socket) throws CertificateException {
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType, final Socket socket) {
             checkServerTrusted(chain, authType);
         }
 
         @Override
-        public void checkServerTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) throws CertificateException {
+        public void checkServerTrusted(final X509Certificate[] chain, final String authType, final SSLEngine engine) {
             checkServerTrusted(chain, authType);
         }
 

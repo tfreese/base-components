@@ -60,7 +60,7 @@ public final class TableExampleObservableListMain {
 
         final SwingWorker<Void, int[]> swingWorker = new SwingWorker<>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
                 for (int i = 1; i < 6; i++) {
                     publish(new int[]{i, 2, 3, 4, 5});
 

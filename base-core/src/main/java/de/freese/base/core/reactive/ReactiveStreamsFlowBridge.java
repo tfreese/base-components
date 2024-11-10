@@ -246,7 +246,7 @@ public final class ReactiveStreamsFlowBridge {
 
         ReactiveToFlowSubscription(final Flow.Subscription flow) {
             super();
-            
+
             this.flow = flow;
         }
 
@@ -362,6 +362,8 @@ public final class ReactiveStreamsFlowBridge {
     }
 
     private ReactiveStreamsFlowBridge() {
+        super();
+
         throw new IllegalStateException("No instances!");
     }
 }

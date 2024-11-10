@@ -25,7 +25,7 @@ public class FibonacciTask extends AbstractSwingTask<Long, Void> {
     }
 
     @Override
-    protected Long doInBackground() throws Exception {
+    protected Long doInBackground() {
         if (this.value > 50) {
             throw new IllegalArgumentException("Wert > 50");
         }

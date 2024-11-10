@@ -6,7 +6,6 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantLock;
@@ -93,17 +92,17 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     @Override
-    public PrintWriter getLogWriter() throws SQLException {
+    public PrintWriter getLogWriter() {
         throw new UnsupportedOperationException("getLogWriter");
     }
 
     @Override
-    public int getLoginTimeout() throws SQLException {
+    public int getLoginTimeout() {
         return 0;
     }
 
     @Override
-    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    public Logger getParentLogger() {
         return Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
         // return null;
@@ -123,7 +122,7 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     @Override
-    public boolean isWrapperFor(final Class<?> iface) throws SQLException {
+    public boolean isWrapperFor(final Class<?> iface) {
         return iface.isInstance(this);
     }
 
@@ -155,12 +154,12 @@ public class SingleDataSource implements DataSource, AutoCloseable {
     }
 
     @Override
-    public void setLogWriter(final PrintWriter out) throws SQLException {
+    public void setLogWriter(final PrintWriter out) {
         throw new UnsupportedOperationException("setLogWriter");
     }
 
     @Override
-    public void setLoginTimeout(final int seconds) throws SQLException {
+    public void setLoginTimeout(final int seconds) {
         throw new UnsupportedOperationException("setLoginTimeout");
     }
 

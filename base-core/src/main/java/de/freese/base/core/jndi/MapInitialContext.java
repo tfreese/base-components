@@ -42,12 +42,12 @@ public final class MapInitialContext extends InitialContext {
     }
 
     @Override
-    public Object lookup(final String key) throws NamingException {
+    public Object lookup(final String key) {
         return cache.get(key);
     }
 
     @Override
-    public void rebind(final String name, final Object obj) throws NamingException {
+    public void rebind(final String name, final Object obj) {
         bind(name, obj);
     }
 
@@ -59,7 +59,7 @@ public final class MapInitialContext extends InitialContext {
     }
 
     @Override
-    public void unbind(final String name) throws NamingException {
+    public void unbind(final String name) {
         cache.remove(name);
     }
 }

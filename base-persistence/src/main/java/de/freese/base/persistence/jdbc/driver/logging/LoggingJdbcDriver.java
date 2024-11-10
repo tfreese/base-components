@@ -66,7 +66,7 @@ public class LoggingJdbcDriver implements Driver {
     }
 
     @Override
-    public boolean acceptsURL(final String url) throws SQLException {
+    public boolean acceptsURL(final String url) {
         return url.startsWith(PREFIX);
     }
 

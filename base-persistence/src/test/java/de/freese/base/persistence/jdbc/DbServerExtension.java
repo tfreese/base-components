@@ -72,7 +72,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void afterAll(final ExtensionContext context) throws Exception {
+    public void afterAll(final ExtensionContext context) {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("{} - afterAll", this.databaseType);
 
@@ -131,7 +131,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void afterTestExecution(final ExtensionContext context) throws Exception {
+    public void afterTestExecution(final ExtensionContext context) {
         // final Method testMethod = context.getRequiredTestMethod();
         // final long startTime = getStoreForMethod(context).get("start-time", long.class);
         // final long duration = System.currentTimeMillis() - startTime;
@@ -141,7 +141,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void beforeAll(final ExtensionContext context) throws Exception {
+    public void beforeAll(final ExtensionContext context) {
         LOGGER.debug("{} - beforeAll", this.databaseType);
 
         getStoreForGlobal(context).put("start-time", System.currentTimeMillis());
@@ -204,7 +204,7 @@ public final class DbServerExtension implements BeforeAllCallback, BeforeTestExe
     }
 
     @Override
-    public void beforeTestExecution(final ExtensionContext context) throws Exception {
+    public void beforeTestExecution(final ExtensionContext context) {
         getStoreForMethod(context).put("start-time", System.currentTimeMillis());
     }
 

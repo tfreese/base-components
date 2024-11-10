@@ -338,7 +338,7 @@ class TestJdbcClient {
     @ParameterizedTest(name = "{index} -> {0}")
     @MethodSource("getJdbcClients")
     @DisplayName("testTransaction")
-    void testTransaction(final DbServerExtension dbServerExtension, final JdbcClient jdbcClient) throws Exception {
+    void testTransaction(final DbServerExtension dbServerExtension, final JdbcClient jdbcClient) {
         final List<String> names = List.of("name1", "name2", "name3");
 
         final ScopedValue.CallableOp<Integer, Exception> insertCallable =

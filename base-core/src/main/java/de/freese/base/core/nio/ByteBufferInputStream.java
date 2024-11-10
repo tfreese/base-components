@@ -62,7 +62,7 @@ public class ByteBufferInputStream extends InputStream {
     }
 
     @Override
-    public long skip(final long n) throws IOException {
+    public long skip(final long n) {
         final int bytes;
 
         if (n > Integer.MAX_VALUE) {

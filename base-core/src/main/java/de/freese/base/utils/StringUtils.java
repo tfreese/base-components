@@ -149,7 +149,7 @@ public final class StringUtils {
         return getWidths(list);
     }
 
-    public static String hexStringToUnicode(final CharSequence cs) throws Exception {
+    public static String hexStringToUnicode(final CharSequence cs) {
         if (isBlank(cs)) {
             return EMPTY;
         }
