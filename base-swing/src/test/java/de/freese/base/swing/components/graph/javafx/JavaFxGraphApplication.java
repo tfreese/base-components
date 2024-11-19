@@ -100,8 +100,8 @@ public final class JavaFxGraphApplication extends Application {
         final Canvas canvas = new Canvas();
         this.gc = canvas.getGraphicsContext2D();
 
-        final Group pane = new Group();
-        pane.getChildren().add(canvas);
+        final Group pane = new Group(canvas);
+        // pane.getChildren().add(canvas);
 
         // final GridPane pane = new GridPane();
         // pane.add(canvas, 0, 0);
