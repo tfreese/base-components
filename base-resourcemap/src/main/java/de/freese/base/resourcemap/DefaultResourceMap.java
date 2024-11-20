@@ -4,13 +4,10 @@ package de.freese.base.resourcemap;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -257,54 +254,19 @@ class DefaultResourceMap implements ResourceMap {
         return this.resourceProvider;
     }
 
-    /**
-     * Replace the placeholders:
-     *
-     * <pre>
-     *  hello = Hello
-     *  world = World
-     *  place = ${hello} ${world}
-     * </pre>
-     *
-     * Value of ${null} is null.
-     */
     protected final void substitutePlaceholder(final Map<String, String> resources) {
-        final List<Entry<String, String>> entries = resources.entrySet().stream()
-                .filter(entry -> entry.getValue().contains("${"))
-                .collect(Collectors.toList());
+        PropertySubstitution.replacePlaceHolder(resources, key -> {
+            String value = getResource(key);
 
-        for (final Iterator<Entry<String, String>> iterator = entries.iterator(); iterator.hasNext(); ) {
-            final Entry<String, String> entry = iterator.next();
-            String expression = entry.getValue();
-
-            final List<String> keys = new ArrayList<>();
-            int startIndex = 0;
-            int lastEndIndex = 0;
-
-            while ((startIndex = expression.indexOf("${", lastEndIndex)) != -1) {
-                final int endIndex = expression.indexOf('}', startIndex);
-
-                if (endIndex != -1) {
-                    final String key = expression.substring(startIndex + 2, endIndex);
-                    keys.add(key);
-
-                    lastEndIndex = endIndex;
-                }
+            if (value == null) {
+                value = System.getProperty(key);
             }
 
-            for (String key : keys) {
-                final String value = getResource(key);
-
-                if (value == null) {
-                    continue;
-                }
-
-                expression = expression.replace("${" + key + "}", value);
+            if (value == null) {
+                value = System.getenv(key);
             }
 
-            resources.put(entry.getKey(), expression);
-
-            iterator.remove();
-        }
+            return value;
+        });
     }
 }
