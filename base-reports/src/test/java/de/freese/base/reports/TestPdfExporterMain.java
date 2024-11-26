@@ -99,15 +99,15 @@ public final class TestPdfExporterMain {
 
         task.run();
 
-        //        Thread.startVirtualThread(task);
+        // Thread.startVirtualThread(task);
         //
-        //        ForkJoinPool.commonPool().execute(task);
+        // ForkJoinPool.commonPool().execute(task);
         //
-        //        final Thread thread = new Thread(task);
-        //        thread.setDaemon(true);
-        //        thread.start();
+        // final Thread thread = new Thread(task);
+        // thread.setDaemon(true);
+        // thread.start();
         //
-        //        TimeUnit.SECONDS.sleep(5);
+        // await().pollDelay(Duration.ofSeconds(5)).until(() -> true);
     }
 
     private static PdfPCell createCell(final String text, final Font font) {

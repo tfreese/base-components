@@ -109,7 +109,8 @@ class TestBoundedExecutor {
             sleep();
         };
 
-        final List<FutureTask<Object>> futures = IntStream.range(0, 10).mapToObj(i -> new FutureTask<>(task, null)).map(futureTask -> {
+        final List<FutureTask<Object>> futures = IntStream.range(0, 10).mapToObj(i -> {
+            final FutureTask<Object> futureTask = new FutureTask<>(task, null);
             executor.execute(futureTask);
             return futureTask;
         }).toList();
